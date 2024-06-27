@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.nav-link {
+    color: #000;
+}
+
+.nav-link:hover {
+    color: #555;
+}
+
+.tab-content > div {
+    margin: 20px 0;
+}

@@ -9,7 +9,9 @@
 </head>
 <body>
   <div class="container">
-
+	<h1>Voir son propre dex</h1>
+  <form id="redirectForm"> <label for="platform">Platform:</label> <select id="platform" name="platform"> <option value="twitch">Twitch</option> <option value="youtube">YouTube</option> <option value="tiktok">TikTok</option> </select> <br> <label for="pseudo">Pseudo:</label> <input type="text" id="pseudo" name="pseudo"> <br> <input type="submit" value="Submit"> </form> <script> document.getElementById('redirectForm').onsubmit = function(event) { event.preventDefault(); var platform = document.getElementById('platform').value; var pseudo = document.getElementById('pseudo').value; var currentUrl = window.location.href; var newUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/")) + '/' + platform + '/' + pseudo + '.html'; window.location.href = newUrl; } </script>
+  
     <h1 class="mt-5">Stats globales de la chaîne</h1>
   <div class="row">
     <div class="col-12 col-md-6">

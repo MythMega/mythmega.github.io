@@ -1,0 +1,2793 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Capture Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .table-dark th, .table-dark td {
+            background-color: #3c3c3c;
+        }
+        .table thead th {
+            background-color: #343a40;
+            color: #ffcb05;
+        }
+        .table tbody td img {
+            height: 64px;
+            width: auto;
+        }
+        .count {font-size: 20px;
+        }
+        /* Noir et blanc */
+        .black-and-white {filter: grayscale(100%);
+          -webkit-filter: grayscale(100%);
+        }
+
+        /* Tout noir (seulement la forme) */
+        .all-black {filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+
+        /* Texte plus grand dans <td> */
+        .large-text td {font - size: 20px; }
+
+
+    </style>
+</head>
+<body>
+
+    <table class="table table-dark table-bordered">
+        <thead>
+            <tr>
+                <th>Pokémon</th>
+                <th>Sprite Normal</th>
+                <th>Capturé(s)</th>
+                <th>Sprite Shiny</th>
+                <th>Capturé(s)</th>
+                <th>Disponibilités</th>
+            </tr>
+        </thead>
+        <tbody>
+<tr>
+                <td>Bulbizarre</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/bulbasaur.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bulbasaur.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Herbizarre</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/ivysaur.gif" alt="Normal Sprite"></td>
+                <td class="count">8</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ivysaur.gif" alt="Shiny Sprite"></td>
+                <td class="count">5</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Florizarre</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/venusaur.gif" alt="Normal Sprite"></td>
+                <td class="count">14</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/venusaur.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Salamèche</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/charmander.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charmander.gif" alt="Shiny Sprite"></td>
+                <td class="count">5</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Reptincel</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/charmeleon.gif" alt="Normal Sprite"></td>
+                <td class="count">5</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charmeleon.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Dracaufeu</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/charizard.gif" alt="Normal Sprite"></td>
+                <td class="count">11</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charizard.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Carapuce</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/squirtle.gif" alt="Normal Sprite"></td>
+                <td class="count">5</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/squirtle.gif" alt="Shiny Sprite"></td>
+                <td class="count">7</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Carabaffe</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/wartortle.gif" alt="Normal Sprite"></td>
+                <td class="count">4</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wartortle.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Tortank</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/blastoise.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/blastoise.gif" alt="Shiny Sprite"></td>
+                <td class="count">5</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Chenipan</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/caterpie.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/caterpie.gif" alt="Shiny Sprite"></td>
+                <td class="count">4</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Chrysacier</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/metapod.gif" alt="Normal Sprite"></td>
+                <td class="count">8</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/metapod.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Papilusion</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/butterfree.gif" alt="Normal Sprite"></td>
+                <td class="count">8</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/butterfree.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Aspicot</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/weedle.gif" alt="Normal Sprite"></td>
+                <td class="count">4</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/weedle.gif" alt="Shiny Sprite"></td>
+                <td class="count">4</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Coconfort</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/kakuna.gif" alt="Normal Sprite"></td>
+                <td class="count">7</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kakuna.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Dardargnan</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/beedrill.gif" alt="Normal Sprite"></td>
+                <td class="count">8</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/beedrill.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Roucool</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/pidgey.gif" alt="Normal Sprite"></td>
+                <td class="count">15</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pidgey.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Roucoups</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/pidgeotto.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pidgeotto.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Roucarnage</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/pidgeot.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pidgeot.gif" alt="Shiny Sprite"></td>
+                <td class="count">4</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Rattata</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/rattata.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rattata.gif" alt="Shiny Sprite"></td>
+                <td class="count">5</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Rattatac</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/raticate.gif" alt="Normal Sprite"></td>
+                <td class="count">5</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raticate.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Piafabec</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/spearow.gif" alt="Normal Sprite"></td>
+                <td class="count">7</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/spearow.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Rapasdepic</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/fearow.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/fearow.gif" alt="Shiny Sprite"></td>
+                <td class="count">10</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Abo</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/ekans.gif" alt="Normal Sprite"></td>
+                <td class="count">8</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ekans.gif" alt="Shiny Sprite"></td>
+                <td class="count">6</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Arbok</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/arbok.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/arbok.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Pikachu</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/pikachu.gif" alt="Normal Sprite"></td>
+                <td class="count">7</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pikachu.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Raichu</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/raichu.gif" alt="Normal Sprite"></td>
+                <td class="count">10</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raichu.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Sabelette</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/sandshrew.gif" alt="Normal Sprite"></td>
+                <td class="count">8</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sandshrew.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Sablaireau</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/sandslash.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sandslash.gif" alt="Shiny Sprite"></td>
+                <td class="count">4</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Nidoran♀</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoran♀.gif" alt="Normal Sprite"></td>
+                <td class="count">8</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoran♀.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Nidorina</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidorina.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidorina.gif" alt="Shiny Sprite"></td>
+                <td class="count">4</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Nidoqueen</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoqueen.gif" alt="Normal Sprite"></td>
+                <td class="count">10</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoqueen.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Nidoran♂</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoran♂.gif" alt="Normal Sprite"></td>
+                <td class="count">8</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoran♂.gif" alt="Shiny Sprite"></td>
+                <td class="count">7</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Nidorino</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidorino.gif" alt="Normal Sprite"></td>
+                <td class="count">6</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidorino.gif" alt="Shiny Sprite"></td>
+                <td class="count">4</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Nidoking</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoking.gif" alt="Normal Sprite"></td>
+                <td class="count">7</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoking.gif" alt="Shiny Sprite"></td>
+                <td class="count">6</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Mélofée</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/clefairy.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/clefairy.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mélodelfe</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/clefable.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/clefable.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Goupix</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/vulpix.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/vulpix.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Feunard</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ninetales.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ninetales.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Rondoudou</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/jigglypuff.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/jigglypuff.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Grodoudou</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/wigglytuff.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wigglytuff.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Nosferapti</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/zubat.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/zubat.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Nosferalto</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/golbat.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/golbat.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mystherbe</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/oddish.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/oddish.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ortide</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gloom.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gloom.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Rafflesia</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/vileplume.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/vileplume.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Paras</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/paras.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/paras.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Parasect</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/parasect.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/parasect.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mimitoss</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/venonat.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/venonat.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Aéromite</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/venomoth.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/venomoth.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Taupiqueur</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/diglett.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/diglett.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Triopikeur</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dugtrio.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dugtrio.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Miaouss</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/meowth.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/meowth.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Persian</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/persian.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/persian.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Psykokwak</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/psyduck.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/psyduck.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Akwakwak</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/golduck.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/golduck.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Férosinge</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mankey.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mankey.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Colossinge</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/primeape.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/primeape.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Caninos</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/growlithe.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/growlithe.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Arcanin</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/arcanine.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/arcanine.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ptitard</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/poliwag.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/poliwag.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Têtarte</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/poliwhirl.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/poliwhirl.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tartard</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/poliwrath.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/poliwrath.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Abra</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/abra.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/abra.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Kadabra</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kadabra.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kadabra.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Alakazam</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/alakazam.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/alakazam.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Machoc</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/machop.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/machop.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Machopeur</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/machoke.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/machoke.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mackogneur</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/machamp.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/machamp.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Chétiflor</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/bellsprout.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bellsprout.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Boustiflor</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/weepinbell.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/weepinbell.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Empiflor</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/victreebel.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/victreebel.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tentacool</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tentacool.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tentacool.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tentacruel</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tentacruel.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tentacruel.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Racaillou</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/geodude.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/geodude.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Gravalanch</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/graveler.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/graveler.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Grolem</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/golem.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/golem.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ponyta</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ponyta.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ponyta.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Galopa</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/rapidash.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rapidash.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ramoloss</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/slowpoke.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/slowpoke.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Flagadoss</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/slowbro.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/slowbro.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Magnéti</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magnemite.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magnemite.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Magnéton</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magneton.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magneton.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Canarticho</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/farfetch'd.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/farfetch'd.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Doduo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/doduo.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/doduo.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Dodrio</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dodrio.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dodrio.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Otaria</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/seel.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/seel.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Lamantine</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dewgong.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dewgong.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tadmorv</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/grimer.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/grimer.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Grotadmorv</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/muk.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/muk.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Kokiyas</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/shellder.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/shellder.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Crustabri</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/cloyster.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cloyster.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Fantominus</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/gastly.gif" alt="Normal Sprite"></td>
+                <td class="count">4</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gastly.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Spectrum</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/haunter.gif" alt="Normal Sprite"></td>
+                <td class="count">7</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/haunter.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Ectoplasma</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/gengar.gif" alt="Normal Sprite"></td>
+                <td class="count">4</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gengar.gif" alt="Shiny Sprite"></td>
+                <td class="count">3</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Onix</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/onix.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/onix.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Soporifik</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/drowzee.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/drowzee.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Hypnomade</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hypno.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hypno.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Krabby</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/krabby.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/krabby.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Krabboss</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kingler.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kingler.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Voltorbe</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/voltorb.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/voltorb.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Electrode</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/electrode.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/electrode.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Noeunoeuf</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/exeggcute.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/exeggcute.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Noadkoko</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/exeggutor.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/exeggutor.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Osselait</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/cubone.gif" alt="Normal Sprite"></td>
+                <td class="count">4</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cubone.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Ossatueur</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/marowak.gif" alt="Normal Sprite"></td>
+                <td class="count">3</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/marowak.gif" alt="Shiny Sprite"></td>
+                <td class="count">4</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Kicklee</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hitmonlee.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hitmonlee.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tygnon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hitmonchan.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hitmonchan.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Excelangue</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lickitung.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lickitung.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Smogo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/koffing.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/koffing.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Smogogo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/weezing.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/weezing.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Rhinocorne</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/rhyhorn.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rhyhorn.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Rhinoféros</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/rhydon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rhydon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Leveinard</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/chansey.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/chansey.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Saquedeneu</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tangela.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tangela.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Kangourex</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/kangaskhan.gif" alt="Normal Sprite"></td>
+                <td class="count">5</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kangaskhan.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Hypotrempe</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/horsea.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/horsea.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Hypocean</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/seadra.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/seadra.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Poissirène</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/goldeen.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/goldeen.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Poissoroy</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/seaking.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/seaking.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Stari</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/staryu.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/staryu.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Staross</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/starmie.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/starmie.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>M. Mime</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mr. mime.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mr. mime.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Insecateur</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/scyther.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/scyther.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Lippoutou</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/jynx.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/jynx.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Elektek</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/electabuzz.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/electabuzz.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Magmar</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magmar.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magmar.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Scarabrute</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pinsir.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pinsir.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tauros</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tauros.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tauros.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Magicarpe</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magikarp.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magikarp.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Léviator</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gyarados.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gyarados.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Lokhlass</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lapras.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lapras.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Métamorph</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ditto.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ditto.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Evoli</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/eevee.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/eevee.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Aquali</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/vaporeon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/vaporeon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Voltali</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/jolteon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/jolteon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Pyroli</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/flareon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/flareon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Porygon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/porygon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/porygon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Amonita</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/omanyte.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/omanyte.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Amonistar</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/omastar.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/omastar.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Kabuto</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kabuto.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kabuto.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Kabutops</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kabutops.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kabutops.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ptéra</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/aerodactyl.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/aerodactyl.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ronflex</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/snorlax.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/snorlax.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Artikodin</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/articuno.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/articuno.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Électhor</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/zapdos.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/zapdos.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Sulfura</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/moltres.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/moltres.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Minidraco</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dratini.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dratini.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Draco</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dragonair.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dragonair.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Dracolosse</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dragonite.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dragonite.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mewtwo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mewtwo.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mewtwo.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mew</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mew.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mew.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Germignon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/chikorita.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/chikorita.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Macronium</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/bayleef.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bayleef.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Meganium</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/meganium.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/meganium.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Héricendre</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/cyndaquil.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cyndaquil.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Feurisson</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/quilava.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/quilava.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Typhlosion</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/typhlosion.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/typhlosion.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Kaiminus</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/totodile.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/totodile.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Crocrodil</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/croconaw.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/croconaw.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Aligatueur</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/feraligatr.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/feraligatr.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Fouinette</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sentret.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sentret.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Fouinar</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/furret.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/furret.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Hoothoot</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hoothoot.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hoothoot.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Noarfang</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/noctowl.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/noctowl.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Coxy</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ledyba.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ledyba.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Coxyclaque</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ledian.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ledian.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mimigal</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/spinarak.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/spinarak.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Migalos</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ariados.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ariados.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Nostenfer</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/crobat.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/crobat.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Loupio</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/chinchou.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/chinchou.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Lanturn</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lanturn.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lanturn.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Pichu</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pichu.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pichu.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mélo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/cleffa.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cleffa.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Toudoudou</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/igglybuff.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/igglybuff.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Togepi</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/togepi.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/togepi.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Togetic</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/togetic.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/togetic.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Natu</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/natu.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/natu.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Xatu</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/xatu.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/xatu.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Wattouat</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mareep.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mareep.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Lainergie</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/flaaffy.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/flaaffy.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Pharamp</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ampharos.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ampharos.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Joliflor</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/bellossom.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bellossom.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Marill</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/marill.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/marill.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Azumarill</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/azumarill.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/azumarill.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Simularbre</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sudowoodo.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sudowoodo.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tarpaud</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/politoed.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/politoed.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Granivol</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hoppip.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hoppip.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Floravol</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/skiploom.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/skiploom.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Cotovol</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/jumpluff.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/jumpluff.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Capumain</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/aipom.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/aipom.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tournegrin</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sunkern.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sunkern.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Héliatronc</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sunflora.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sunflora.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Yanma</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/yanma.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/yanma.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Axoloto</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/wooper.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wooper.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Maraiste</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/quagsire.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/quagsire.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Mentali</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/espeon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/espeon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Noctali</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/umbreon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/umbreon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Cornèbre</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/murkrow.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/murkrow.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Roigada</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/slowking.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/slowking.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Feuforêve</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/misdreavus.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/misdreavus.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Zarbi</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/unown.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/unown.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Qulbutoké</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/wobbuffet.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wobbuffet.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Girafarig</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/girafarig.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/girafarig.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Pomdepik</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pineco.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pineco.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Foretress</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/forretress.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/forretress.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Insolourdo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dunsparce.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dunsparce.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Scorplane</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gligar.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gligar.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Steelix</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/steelix.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/steelix.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Snubbull</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/snubbull.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/snubbull.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Granbull</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/granbull.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/granbull.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Qwilfish</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/qwilfish.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/qwilfish.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Cizayox</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/scizor.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/scizor.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Caratroc</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/shuckle.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/shuckle.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Scarhino</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/heracross.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/heracross.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Farfuret</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sneasel.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sneasel.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Teddiursa</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/teddiursa.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/teddiursa.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ursaring</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ursaring.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ursaring.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Limagma</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/slugma.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/slugma.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Volcaropod</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magcargo.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magcargo.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Marcacrin</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/swinub.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/swinub.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Cochignon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/piloswine.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/piloswine.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Corayon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/corsola.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/corsola.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Rémoraid</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/remoraid.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/remoraid.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Octillery</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/octillery.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/octillery.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Cadoizo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/delibird.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/delibird.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Démanta</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mantine.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mantine.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Airmure</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/skarmory.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/skarmory.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Malosse</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/houndour.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/houndour.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Démolosse</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/houndoom.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/houndoom.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Hyporoi</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kingdra.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kingdra.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Phanpy</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/phanpy.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/phanpy.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Donphan</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/donphan.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/donphan.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Porygon2</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/porygon2.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/porygon2.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Cerfrousse</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/stantler.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/stantler.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Queulorior</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/smeargle.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/smeargle.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Debugant</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tyrogue.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tyrogue.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Kapoera</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hitmontop.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hitmontop.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Lippouti</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/smoochum.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/smoochum.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Elekid</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/elekid.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/elekid.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Magby</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magby.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magby.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Écrémeuh</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/miltank.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/miltank.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Leuphorie</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/blissey.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/blissey.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Raikou</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/raikou.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raikou.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Entei</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/entei.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/entei.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Suicune</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/suicune.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/suicune.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Embrylex</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/larvitar.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/larvitar.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ymphect</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pupitar.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pupitar.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tyranocif</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tyranitar.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tyranitar.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Lugia</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lugia.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lugia.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ho-Oh</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ho-oh.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ho-oh.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Celebi</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/celebi.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/celebi.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Arcko</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/treecko.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/treecko.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Massko</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/grovyle.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/grovyle.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Jungko</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sceptile.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sceptile.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Poussifeu</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/torchic.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/torchic.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Galifeu</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/combusken.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/combusken.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Braségali</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/blaziken.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/blaziken.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Gobou</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mudkip.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mudkip.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Flobio</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/marshtomp.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/marshtomp.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Laggron</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/swampert.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/swampert.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Medhyèna</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/poochyena.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/poochyena.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Grahyèna</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mightyena.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mightyena.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Zigzaton</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/zigzagoon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/zigzagoon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Linéon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/linoone.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/linoone.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Chenipotte</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/wurmple.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wurmple.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Armulys</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/silcoon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/silcoon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Charmillon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/beautifly.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/beautifly.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Blindalys</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/cascoon.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cascoon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Papinox</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dustox.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dustox.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Nénupiot</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lotad.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lotad.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Lombre</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lombre.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lombre.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ludicolo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ludicolo.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ludicolo.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Grainipiot</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/seedot.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/seedot.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Pifeuil</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nuzleaf.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nuzleaf.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tengalice</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/shiftry.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/shiftry.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Nirondelle</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/taillow.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/taillow.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Hélédelle</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/swellow.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/swellow.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Goélise</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/wingull.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wingull.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Bekipan</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pelipper.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pelipper.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Tarsal</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ralts.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ralts.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Kirlia</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kirlia.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kirlia.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Gardevoir</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gardevoir.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gardevoir.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Arakdo</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/surskit.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/surskit.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Maskadra</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/masquerain.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/masquerain.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Balignon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/shroomish.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/shroomish.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Chapignon</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/breloom.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/breloom.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Parecool</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/slakoth.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/slakoth.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Vigoroth</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/vigoroth.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/vigoroth.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Monaflèmit</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/slaking.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/slaking.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ningale</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nincada.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nincada.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ninjask</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ninjask.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ninjask.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Munja</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/shedinja.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/shedinja.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Chuchmur</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/whismur.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/whismur.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ramboum</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/loudred.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/loudred.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Brouhabam</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/exploud.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/exploud.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Makuhita</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/makuhita.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/makuhita.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Hariyama</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hariyama.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hariyama.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Azurill</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/azurill.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/azurill.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Ossatueur d'Alola</td>
+                <td><img src="https://img.pokemondb.net/sprites/home/normal/marowak-alolan.png" alt="Normal Sprite"></td>
+                <td class="count">3</td>
+                <td><img src="https://img.pokemondb.net/sprites/home/shiny/marowak-alolan.png" alt="Shiny Sprite"></td>
+                <td class="count">5</td>
+                <td>Enabled : fully available</td>
+            </tr>
+
+<tr>
+                <td>Pikachu Surfeur</td>
+                <td><img class = "all-black" src="https://i.ibb.co/8dfjn4V/surf-0.png" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img src="https://i.ibb.co/Y7L6mPK/surf-1.png" alt="Shiny Sprite"></td>
+                <td class="count">21</td>
+                <td>Enabled : only under distribution.</td>
+            </tr>
+
+<tr>
+                <td>Fantôme mère d'Osselait</td>
+                <td><img src="https://i.ibb.co/CvwFb7k/Cubone-Mom-normal.png" alt="Normal Sprite"></td>
+                <td class="count">11</td>
+                <td><img src="https://i.ibb.co/bK10HpL/Cubone-Mom-shiny.png" alt="Shiny Sprite"></td>
+                <td class="count">16</td>
+                <td>Enabled : only under distribution.</td>
+            </tr>
+
+<tr>
+                <td>Onyx de crystal</td>
+                <td><img class = "all-black" src="https://i.ibb.co/8dfjn4V/surf-0.png" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img class = "all-black" src="https://i.ibb.co/Y7L6mPK/surf-1.png" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+
+<tr>
+                <td>Munja bonbon Violette</td>
+                <td><img src="https://i.ibb.co/HHXtvFL/shedinja.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img src="https://i.ibb.co/yFdh3Sh/shedinja.gif" alt="Shiny Sprite"></td>
+                <td class="count">2</td>
+                <td>Enabled : Not available at all.</td>
+            </tr>
+</tbody>
+    </table>
+<br><br>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

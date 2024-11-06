@@ -18,18 +18,14 @@
             color: #ffffff;
             padding: 20px;
         }
-        .table-dark th, .table-dark td {
-            background-color: #3c3c3c;
-        }
-        .table thead th {
-            background-color: #343a40;
-            color: #ffcb05;
+        .pokename {
+        font-size: 30px;
         }
         .table tbody td img {
             height: 64px;
             width: auto;
         }
-        .count {font-size: 20px;
+        .count {font-size: 40px;
         }
         /* Noir et blanc */
         .black-and-white {filter: grayscale(100%);
@@ -43,14 +39,16 @@
         /* Texte plus grand dans <td> */
         .large-text td {font - size: 20px; }
 
+        th, td { text-align: center; border: 1px solid black; padding: 10px; /* Ajuste la marge interne des cellules selon tes besoins */ }
+
 
     </style>
 </head>
 <body>
     <h1>Pokédex hugoentz - chez mythmega</h1>
-    <p>Pokédex de hugoentz [de twitch] au 2024-11-06_00-59-50, sur le stream de mythmega.</p>
-    <table class="table table-dark table-bordered">
-        <thead>
+    <p>Pokédex de hugoentz [de twitch] au 2024-11-06_22-48-15, sur le stream de mythmega.</p>
+    <table class="table table-dark table-bordered table-striped">
+        <thead class="thead-light">
             <tr>
                 <th>Pokémon</th>
                 <th>Sprite Normal</th>
@@ -62,7 +60,7 @@
         </thead>
         <tbody>
 <tr>
-                <td>Bulbizarre</td>
+                <td class="pokename">Bulbizarre</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/bulbasaur.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bulbasaur.gif" alt="Shiny Sprite"></td>
@@ -71,7 +69,7 @@
             </tr>
 
 <tr>
-                <td>Herbizarre</td>
+                <td class="pokename">Herbizarre</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ivysaur.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ivysaur.gif" alt="Shiny Sprite"></td>
@@ -80,7 +78,7 @@
             </tr>
 
 <tr>
-                <td>Florizarre</td>
+                <td class="pokename">Florizarre</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/venusaur.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/venusaur.gif" alt="Shiny Sprite"></td>
@@ -89,7 +87,7 @@
             </tr>
 
 <tr>
-                <td>Salamèche</td>
+                <td class="pokename">Salamèche</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/charmander.gif" alt="Normal Sprite"></td>
                 <td class="count">1</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charmander.gif" alt="Shiny Sprite"></td>
@@ -98,7 +96,7 @@
             </tr>
 
 <tr>
-                <td>Reptincel</td>
+                <td class="pokename">Reptincel</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/charmeleon.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charmeleon.gif" alt="Shiny Sprite"></td>
@@ -107,7 +105,7 @@
             </tr>
 
 <tr>
-                <td>Carabaffe</td>
+                <td class="pokename">Carabaffe</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/wartortle.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wartortle.gif" alt="Shiny Sprite"></td>
@@ -116,7 +114,7 @@
             </tr>
 
 <tr>
-                <td>Tortank</td>
+                <td class="pokename">Tortank</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/blastoise.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/blastoise.gif" alt="Shiny Sprite"></td>
@@ -125,7 +123,7 @@
             </tr>
 
 <tr>
-                <td>Chenipan</td>
+                <td class="pokename">Chenipan</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/caterpie.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/caterpie.gif" alt="Shiny Sprite"></td>
@@ -134,7 +132,7 @@
             </tr>
 
 <tr>
-                <td>Chrysacier</td>
+                <td class="pokename">Chrysacier</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/metapod.gif" alt="Normal Sprite"></td>
                 <td class="count">1</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/metapod.gif" alt="Shiny Sprite"></td>
@@ -143,7 +141,7 @@
             </tr>
 
 <tr>
-                <td>Aspicot</td>
+                <td class="pokename">Aspicot</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/weedle.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/weedle.gif" alt="Shiny Sprite"></td>
@@ -152,7 +150,7 @@
             </tr>
 
 <tr>
-                <td>Roucarnage</td>
+                <td class="pokename">Roucarnage</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pidgeot.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pidgeot.gif" alt="Shiny Sprite"></td>
@@ -161,7 +159,7 @@
             </tr>
 
 <tr>
-                <td>Rattata</td>
+                <td class="pokename">Rattata</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/rattata.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rattata.gif" alt="Shiny Sprite"></td>
@@ -170,7 +168,7 @@
             </tr>
 
 <tr>
-                <td>Rattatac</td>
+                <td class="pokename">Rattatac</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/raticate.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raticate.gif" alt="Shiny Sprite"></td>
@@ -179,7 +177,7 @@
             </tr>
 
 <tr>
-                <td>Rapasdepic</td>
+                <td class="pokename">Rapasdepic</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/fearow.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/fearow.gif" alt="Shiny Sprite"></td>
@@ -188,7 +186,7 @@
             </tr>
 
 <tr>
-                <td>Abo</td>
+                <td class="pokename">Abo</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ekans.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ekans.gif" alt="Shiny Sprite"></td>
@@ -197,7 +195,7 @@
             </tr>
 
 <tr>
-                <td>Pikachu</td>
+                <td class="pokename">Pikachu</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pikachu.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pikachu.gif" alt="Shiny Sprite"></td>
@@ -206,7 +204,7 @@
             </tr>
 
 <tr>
-                <td>Raichu</td>
+                <td class="pokename">Raichu</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/raichu.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raichu.gif" alt="Shiny Sprite"></td>
@@ -215,7 +213,7 @@
             </tr>
 
 <tr>
-                <td>Sablaireau</td>
+                <td class="pokename">Sablaireau</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sandslash.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sandslash.gif" alt="Shiny Sprite"></td>
@@ -224,7 +222,7 @@
             </tr>
 
 <tr>
-                <td>Nidoran♀</td>
+                <td class="pokename">Nidoran♀</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoran-f.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoran-f.gif" alt="Shiny Sprite"></td>
@@ -233,7 +231,7 @@
             </tr>
 
 <tr>
-                <td>Nidorina</td>
+                <td class="pokename">Nidorina</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidorina.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidorina.gif" alt="Shiny Sprite"></td>
@@ -242,7 +240,7 @@
             </tr>
 
 <tr>
-                <td>Nidoran♂</td>
+                <td class="pokename">Nidoran♂</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoran-m.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoran-m.gif" alt="Shiny Sprite"></td>
@@ -251,7 +249,7 @@
             </tr>
 
 <tr>
-                <td>Mimitoss</td>
+                <td class="pokename">Mimitoss</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/venonat.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/venonat.gif" alt="Shiny Sprite"></td>
@@ -260,7 +258,7 @@
             </tr>
 
 <tr>
-                <td>Kadabra</td>
+                <td class="pokename">Kadabra</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kadabra.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kadabra.gif" alt="Shiny Sprite"></td>
@@ -269,7 +267,7 @@
             </tr>
 
 <tr>
-                <td>Alakazam</td>
+                <td class="pokename">Alakazam</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/alakazam.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/alakazam.gif" alt="Shiny Sprite"></td>
@@ -278,7 +276,7 @@
             </tr>
 
 <tr>
-                <td>Spectrum</td>
+                <td class="pokename">Spectrum</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/haunter.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/haunter.gif" alt="Shiny Sprite"></td>
@@ -287,7 +285,7 @@
             </tr>
 
 <tr>
-                <td>Ectoplasma</td>
+                <td class="pokename">Ectoplasma</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gengar.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gengar.gif" alt="Shiny Sprite"></td>
@@ -296,7 +294,7 @@
             </tr>
 
 <tr>
-                <td>Ossatueur</td>
+                <td class="pokename">Ossatueur</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/marowak.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/marowak.gif" alt="Shiny Sprite"></td>
@@ -305,7 +303,7 @@
             </tr>
 
 <tr>
-                <td>Kangourex</td>
+                <td class="pokename">Kangourex</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/kangaskhan.gif" alt="Normal Sprite"></td>
                 <td class="count">1</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kangaskhan.gif" alt="Shiny Sprite"></td>
@@ -314,7 +312,7 @@
             </tr>
 
 <tr>
-                <td>Ossatueur d'Alola</td>
+                <td class="pokename">Ossatueur d'Alola</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/home/normal/marowak-alolan.png" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/home/shiny/marowak-alolan.png" alt="Shiny Sprite"></td>
@@ -323,7 +321,7 @@
             </tr>
 
 <tr>
-                <td>Fantôme mère d'Osselait</td>
+                <td class="pokename">Fantôme mère d'Osselait</td>
                 <td><img src="https://i.ibb.co/CvwFb7k/Cubone-Mom-normal.png" alt="Normal Sprite"></td>
                 <td class="count">1</td>
                 <td><img src="https://i.ibb.co/bK10HpL/Cubone-Mom-shiny.png" alt="Shiny Sprite"></td>
@@ -338,7 +336,7 @@
   <div class="progress-bar" role="progressbar" style="width: 44%;" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100">44%</div>
 </div><p>Nombre d'espèce shiny enregistrée : 30</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 44%;" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100">44%</div>
-</div><br><p>Total argent dépensé : 110575</p><p>Total de ball lancées : 47</p><br><p>Nombre de pokémon non shiny capturé : 4</p><p>Nombre de pokémon shiny capturé : 47</p><p>Total de pokémon attrapé : 51</p><p>Pokémon le plus attrapé : Ossatueur d'Alola</p><p>Dresseur depuis : 31/10/2024 21:03:54 (depuis 5 jours.)</p>
+</div><br><p>Total argent dépensé : 110575</p><p>Total de ball lancées : 47</p><br><p>Nombre de pokémon non shiny capturé : 4</p><p>Nombre de pokémon shiny capturé : 47</p><p>Total de pokémon attrapé : 51</p><p>Pokémon le plus attrapé : Ossatueur d'Alola</p><p>Dresseur depuis : 31/10/2024 21:03:54 (depuis 6 jours.)</p>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

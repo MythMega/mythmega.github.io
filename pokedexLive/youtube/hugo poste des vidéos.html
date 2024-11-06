@@ -18,18 +18,14 @@
             color: #ffffff;
             padding: 20px;
         }
-        .table-dark th, .table-dark td {
-            background-color: #3c3c3c;
-        }
-        .table thead th {
-            background-color: #343a40;
-            color: #ffcb05;
+        .pokename {
+        font-size: 30px;
         }
         .table tbody td img {
             height: 64px;
             width: auto;
         }
-        .count {font-size: 20px;
+        .count {font-size: 40px;
         }
         /* Noir et blanc */
         .black-and-white {filter: grayscale(100%);
@@ -43,14 +39,16 @@
         /* Texte plus grand dans <td> */
         .large-text td {font - size: 20px; }
 
+        th, td { text-align: center; border: 1px solid black; padding: 10px; /* Ajuste la marge interne des cellules selon tes besoins */ }
+
 
     </style>
 </head>
 <body>
     <h1>Pokédex Hugo poste des vidéos - chez mythmega</h1>
-    <p>Pokédex de Hugo poste des vidéos [de youtube] au 2024-11-06_00-59-50, sur le stream de mythmega.</p>
-    <table class="table table-dark table-bordered">
-        <thead>
+    <p>Pokédex de Hugo poste des vidéos [de youtube] au 2024-11-06_22-48-15, sur le stream de mythmega.</p>
+    <table class="table table-dark table-bordered table-striped">
+        <thead class="thead-light">
             <tr>
                 <th>Pokémon</th>
                 <th>Sprite Normal</th>
@@ -62,7 +60,7 @@
         </thead>
         <tbody>
 <tr>
-                <td>Salamèche</td>
+                <td class="pokename">Salamèche</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/charmander.gif" alt="Normal Sprite"></td>
                 <td class="count">1</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charmander.gif" alt="Shiny Sprite"></td>
@@ -71,7 +69,7 @@
             </tr>
 
 <tr>
-                <td>Carapuce</td>
+                <td class="pokename">Carapuce</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/squirtle.gif" alt="Normal Sprite"></td>
                 <td class="count">1</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/squirtle.gif" alt="Shiny Sprite"></td>
@@ -80,7 +78,7 @@
             </tr>
 
 <tr>
-                <td>Nostenfer</td>
+                <td class="pokename">Nostenfer</td>
                 <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/crobat.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/crobat.gif" alt="Shiny Sprite"></td>
@@ -89,7 +87,7 @@
             </tr>
 
 <tr>
-                <td>Pikachu Surfeur</td>
+                <td class="pokename">Pikachu Surfeur</td>
                 <td><img class = "all-black" src="https://i.ibb.co/8dfjn4V/surf-0.png" alt="Normal Sprite"></td>
                 <td class="count">0</td>
                 <td><img src="https://i.ibb.co/Y7L6mPK/surf-1.png" alt="Shiny Sprite"></td>
@@ -104,7 +102,7 @@
   <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100">5%</div>
 </div><p>Nombre d'espèce shiny enregistrée : 2</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 2%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">2%</div>
-</div><br><p>Total argent dépensé : 0</p><p>Total de ball lancées : 3</p><br><p>Nombre de pokémon non shiny capturé : 2</p><p>Nombre de pokémon shiny capturé : 2</p><p>Total de pokémon attrapé : 4</p><p>Pokémon le plus attrapé : Pikachu Surfeur</p><p>Dresseur depuis : 30/10/2024 22:29:04 (depuis 6 jours.)</p>
+</div><br><p>Total argent dépensé : 0</p><p>Total de ball lancées : 3</p><br><p>Nombre de pokémon non shiny capturé : 2</p><p>Nombre de pokémon shiny capturé : 2</p><p>Total de pokémon attrapé : 4</p><p>Pokémon le plus attrapé : Pikachu Surfeur</p><p>Dresseur depuis : 30/10/2024 22:29:04 (depuis 7 jours.)</p>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

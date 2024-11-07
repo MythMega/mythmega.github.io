@@ -13,11 +13,24 @@
             .navbar {
                 margin-bottom: 20px;
             }
+            .twitch-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            }
+            .twitch-video, .twitch-chat {
+                width: 50%;
+                height: 600px;
+            }
+            .twitch-video iframe, .twitch-chat iframe {
+                width: 100%;
+                height: 100%;
+            }
         </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">MonSite</a>
+            <a class="navbar-brand" href="#">JMDV</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -115,6 +128,17 @@
             <h1>Page en cours de construction</h1>
             <p>Mes petites mains sont en cours de travail pour écrire ces pages web, pourquoi ne prendriez vous pas un p'tit cafio en attendant ?</p>
         </div>
+        
+        <div class="container twitch-container">
+            <div class="twitch-video">
+                <iframe src="https://player.twitch.tv/?channel=mythmega&parent=web.jmdev.fr" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+            </div>
+            <div class="twitch-chat">
+                <iframe src="https://www.twitch.tv/embed/mythmega/chat?parent=web.jmdev.fr" frameborder="0" scrolling="no"></iframe>
+            </div>
+        </div>
+        
+    
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Capture Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+  AOS.init();
+    </script>
+    <style>
+        body {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .pokename {
+        font-size: 30px;
+        }
+        .table tbody td img {
+            height: 64px;
+            width: auto;
+        }
+        .count {font-size: 40px;
+        }
+        /* Noir et blanc */
+        .black-and-white {filter: grayscale(100%);
+          -webkit-filter: grayscale(100%);
+        }
+
+        /* Tout noir (seulement la forme) */
+        .all-black {filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+        /* Texte plus grand dans <td> */
+        .large-text td {font - size: 20px; }
+
+        
+        .container-badge {max - width: 500px;
+        
+            }
+
+        .trophy-True {
+            height: 64px;
+            width: 64px;
+        }
+
+        .trophy-False {
+            height: 64px;
+            width: 64px;
+            filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+
+        .uncommon {box-shadow: inset 0 0 4px lime;
+        }
+
+        .rare {box-shadow: inset 0 0 8px aqua;
+        }
+
+        .epic {box-shadow: inset 0 0 12px #7D0DC3;
+        }
+
+        .legendary {box-shadow: inset 0 0 16px gold;
+        }
+
+        .exotic {box-shadow: inset 0 0 20px pink;
+        }
+
+
+        th, td { text-align: center; border: 1px solid black; padding: 10px; /* Ajuste la marge interne des cellules selon tes besoins */ }
+
+    </style>
+</head>
+<body>
+    <h1>Pokédex Toto Bdt - chez mythmega</h1>
+    <p>Pokédex de Toto Bdt [de youtube] au 2024-12-08_00-22-30, sur le stream de mythmega.</p>
+    <table class="table table-dark table-bordered table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Pokémon</th>
+                <th>Sprite Normal</th>
+                <th>Capturé(s)</th>
+                <th>Sprite Shiny</th>
+                <th>Capturé(s)</th>
+                <th>Première capture(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+<tr>
+                <td class="pokename">Papilusion</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/butterfree.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/butterfree.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>07/12/2024 22:58:19</td>
+            </tr>
+</tbody>
+    </table>
+<br><br>
+<p>Stats :</p><br>
+<p>Nombre d'espèce enregistrée : 1 / 131</p><div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+</div><p>Nombre d'espèce shiny enregistrée : 0</p><div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+</div><br><p>Total argent dépensé : 0</p><p>Total de ball lancées : 7</p><br><p>Nombre de pokémon non shiny capturé : 1</p><p>Nombre de pokémon shiny capturé : 0</p><p>Total de pokémon attrapé : 1</p><p>Pokémon le plus attrapé : Papilusion</p><p>Dresseur depuis : 07/12/2024 22:58:19 (depuis 0 jours.)</p>
+<p>Badges :</p><br>
+<p>Level 1</p><br><p>58 XP/250 XP</p><br><p>58 XP Totale</p><br><div class="row">
+<div class="col-4">
+    <div class="card common" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-True" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Tuto capture.</h5>
+        <p class="card-text">1 ball lancé. [+50XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card uncommon" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Ball à zéro.</h5>
+        <p class="card-text">???? [+100XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card rare" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">ball-ognaise.</h5>
+        <p class="card-text">???? [+200XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card epic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">punching-ball.</h5>
+        <p class="card-text">???? [+500XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card legendary" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Magne-ball.</h5>
+        <p class="card-text">???? [+1000XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card exotic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Pool-ball.</h5>
+        <p class="card-text">???? [+2500XP]</p>
+      </div>
+    </div>
+</div></div><div class="row">
+<div class="col-4">
+    <div class="card common" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Dresseur débutant.</h5>
+        <p class="card-text">???? [+50XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card uncommon" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Dresseur aguerri.</h5>
+        <p class="card-text">???? [+100XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card rare" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Top-Dresseur.</h5>
+        <p class="card-text">???? [+200XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card epic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Dresseur légendaire.</h5>
+        <p class="card-text">???? [+500XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card legendary" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Dresseur divin.</h5>
+        <p class="card-text">???? [+1000XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card legendary" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Dresseur tueur de dieux.</h5>
+        <p class="card-text">???? [+1000XP]</p>
+      </div>
+    </div>
+</div></div><div class="row">
+<div class="col-4">
+    <div class="card uncommon" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">La brillance.</h5>
+        <p class="card-text">???? [+10XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card rare" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Disco-ball.</h5>
+        <p class="card-text">???? [+50XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card epic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Etoile-ball.</h5>
+        <p class="card-text">???? [+100XP]</p>
+      </div>
+    </div>
+</div></div><div class="row">
+<div class="col-4">
+    <div class="card rare" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Blue.</h5>
+        <p class="card-text">???? [+500XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card epic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Red.</h5>
+        <p class="card-text">???? [+1510XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card legendary" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Ash.</h5>
+        <p class="card-text">???? [+3650XP]</p>
+      </div>
+    </div>
+</div></div><div class="row">
+<div class="col-4">
+    <div class="card uncommon" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">lumière rouge.</h5>
+        <p class="card-text">???? [+10XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card uncommon" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">lumière verte.</h5>
+        <p class="card-text">???? [+10XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card uncommon" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">lumière bleue.</h5>
+        <p class="card-text">???? [+10XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card epic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Flamboyant.</h5>
+        <p class="card-text">???? [+200XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card epic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Givrant.</h5>
+        <p class="card-text">???? [+200XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card epic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Foudroyant.</h5>
+        <p class="card-text">???? [+200XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card exotic" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Agent Rocket.</h5>
+        <p class="card-text">???? [+300XP]</p>
+      </div>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card legendary" style="background-color: #222222;">
+      <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..."></center>
+      <div class="card-body">
+        <h5 class="card-title">Soldat Rocket.</h5>
+        <p class="card-text">???? [+300XP]</p>
+      </div>
+    </div>
+</div></div>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html>

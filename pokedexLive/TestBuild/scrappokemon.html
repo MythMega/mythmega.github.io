@@ -1,0 +1,1815 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Capture Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .table tbody td img {
+            height: 64px;
+            width: auto;
+        }
+        .NotAvailable {
+            color: #2fa432;
+        }
+        .AvailableForGiveaway {
+            color: #c1a518;
+        }
+        .NotAvailable {
+            color: #ad1e1e;
+        }
+        .count {font-size: 30px;
+        }
+        /* Noir et blanc */
+        .black-and-white {filter: grayscale(100%);
+          -webkit-filter: grayscale(100%);
+        }
+
+        /* Tout noir (seulement la forme) */
+        .all-black {filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+
+        /* Texte plus grand dans <td> */
+        .large-text td {font - size: 20px; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
+      <form class="form-inline">
+        <a class="btn btn-sm btn-outline-secondary" href="main.html" style="color: white;">Accueil Pokédex</a>
+        <a class="btn btn-sm btn-outline-secondary" href="availablepokemon.html" style="color: white;">Pokédex Infos</a>
+        <a class="btn btn-sm btn-outline-secondary" href="pokestats.html" style="color: white;">Classements</a>
+        <a class="btn btn-sm btn-outline-secondary" href="BuyPokemon.html" style="color: white;">Acheter Pokémon</a>
+        <a class="btn btn-sm btn-outline-secondary" href="ScrapPokemon.html" style="color: white;">Scrap Pokémon</a>
+      </form>
+    </nav><br><br><table class="table table-dark table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Pokémon</th>
+                <th>Sprite Normal</th>
+                <th>Valeur Normal</th>
+                <th>Scrap Normal</th>
+                <th>Sprite Shiny</th>
+                <th>Valeur Shiny</th>
+                <th>Scrap Shiny</th>
+            </tr>
+        </thead>
+        <tbody>
+<tr>
+                <td>Bulbizarre</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/bulbasaur.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap bulbizarre normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bulbasaur.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap bulbizarre shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Herbizarre</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ivysaur.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap herbizarre normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ivysaur.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap herbizarre shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Florizarre</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/venusaur.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap florizarre normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/venusaur.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap florizarre shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Salamèche</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/charmander.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap salamèche normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charmander.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap salamèche shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Reptincel</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/charmeleon.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap reptincel normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charmeleon.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap reptincel shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Dracaufeu</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/charizard.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap dracaufeu normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/charizard.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap dracaufeu shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Carapuce</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/squirtle.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap carapuce normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/squirtle.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap carapuce shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Carabaffe</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/wartortle.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap carabaffe normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wartortle.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap carabaffe shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Tortank</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/blastoise.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap tortank normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/blastoise.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap tortank shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Chenipan</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/caterpie.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap chenipan normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/caterpie.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap chenipan shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Chrysacier</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/metapod.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap chrysacier normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/metapod.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap chrysacier shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Papilusion</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/butterfree.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap papilusion normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/butterfree.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap papilusion shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Aspicot</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/weedle.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap aspicot normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/weedle.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap aspicot shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Coconfort</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kakuna.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap coconfort normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kakuna.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap coconfort shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Dardargnan</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/beedrill.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap dardargnan normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/beedrill.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap dardargnan shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Roucool</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pidgey.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap roucool normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pidgey.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap roucool shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Roucoups</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pidgeotto.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap roucoups normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pidgeotto.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap roucoups shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Roucarnage</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pidgeot.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap roucarnage normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pidgeot.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap roucarnage shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Rattata</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/rattata.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap rattata normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rattata.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap rattata shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Rattatac</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/raticate.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap rattatac normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raticate.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap rattatac shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Piafabec</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/spearow.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap piafabec normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/spearow.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap piafabec shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Rapasdepic</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/fearow.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap rapasdepic normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/fearow.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap rapasdepic shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Abo</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ekans.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap abo normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ekans.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap abo shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Arbok</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/arbok.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap arbok normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/arbok.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap arbok shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Pikachu</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pikachu.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap pikachu normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pikachu.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap pikachu shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Raichu</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/raichu.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap raichu normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raichu.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap raichu shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Sabelette</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sandshrew.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap sabelette normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sandshrew.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap sabelette shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Sablaireau</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sandslash.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap sablaireau normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sandslash.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap sablaireau shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nidoran♀</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoran-f.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nidoran-f normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoran-f.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nidoran-f shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nidorina</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidorina.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nidorina normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidorina.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nidorina shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nidoqueen</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoqueen.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nidoqueen normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoqueen.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nidoqueen shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nidoran♂</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoran-m.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nidoran-m normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoran-m.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nidoran-m shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nidorino</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidorino.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nidorino normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidorino.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nidorino shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nidoking</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoking.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nidoking normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoking.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nidoking shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mélofée</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/clefairy.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap mélofée normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/clefairy.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap mélofée shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mélodelfe</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/clefable.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap mélodelfe normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/clefable.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap mélodelfe shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Goupix</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/vulpix.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap goupix normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/vulpix.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap goupix shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Feunard</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ninetales.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap feunard normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ninetales.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap feunard shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Rondoudou</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/jigglypuff.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap rondoudou normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/jigglypuff.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap rondoudou shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Grodoudou</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/wigglytuff.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap grodoudou normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/wigglytuff.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap grodoudou shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nosferapti</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/zubat.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nosferapti normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/zubat.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nosferapti shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nosferalto</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/golbat.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nosferalto normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/golbat.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nosferalto shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mystherbe</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/oddish.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap mystherbe normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/oddish.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap mystherbe shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ortide</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gloom.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ortide normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gloom.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ortide shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Rafflesia</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/vileplume.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap rafflesia normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/vileplume.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap rafflesia shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Paras</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/paras.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap paras normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/paras.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap paras shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Parasect</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/parasect.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap parasect normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/parasect.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap parasect shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mimitoss</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/venonat.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap mimitoss normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/venonat.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap mimitoss shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Aéromite</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/venomoth.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap aéromite normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/venomoth.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap aéromite shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Taupiqueur</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/diglett.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap taupiqueur normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/diglett.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap taupiqueur shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Triopikeur</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dugtrio.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap triopikeur normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dugtrio.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap triopikeur shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Miaouss</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/meowth.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap miaouss normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/meowth.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap miaouss shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Persian</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/persian.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap persian normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/persian.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap persian shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Psykokwak</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/psyduck.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap psykokwak normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/psyduck.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap psykokwak shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Akwakwak</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/golduck.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap akwakwak normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/golduck.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap akwakwak shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Férosinge</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mankey.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap férosinge normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mankey.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap férosinge shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Colossinge</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/primeape.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap colossinge normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/primeape.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap colossinge shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Caninos</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/growlithe.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap caninos normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/growlithe.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap caninos shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Arcanin</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/arcanine.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap arcanin normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/arcanine.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap arcanin shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ptitard</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/poliwag.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ptitard normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/poliwag.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ptitard shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Têtarte</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/poliwhirl.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap têtarte normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/poliwhirl.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap têtarte shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Tartard</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/poliwrath.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap tartard normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/poliwrath.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap tartard shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Abra</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/abra.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap abra normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/abra.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap abra shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Kadabra</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kadabra.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap kadabra normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kadabra.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap kadabra shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Alakazam</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/alakazam.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap alakazam normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/alakazam.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap alakazam shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Machoc</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/machop.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap machoc normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/machop.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap machoc shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Machopeur</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/machoke.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap machopeur normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/machoke.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap machopeur shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mackogneur</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/machamp.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap mackogneur normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/machamp.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap mackogneur shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Chétiflor</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/bellsprout.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap chétiflor normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bellsprout.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap chétiflor shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Boustiflor</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/weepinbell.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap boustiflor normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/weepinbell.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap boustiflor shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Empiflor</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/victreebel.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap empiflor normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/victreebel.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap empiflor shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Tentacool</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tentacool.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap tentacool normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tentacool.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap tentacool shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Tentacruel</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tentacruel.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap tentacruel normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tentacruel.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap tentacruel shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Racaillou</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/geodude.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap racaillou normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/geodude.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap racaillou shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Gravalanch</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/graveler.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap gravalanch normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/graveler.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap gravalanch shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Grolem</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/golem.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap grolem normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/golem.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap grolem shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ponyta</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ponyta.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ponyta normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ponyta.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ponyta shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Galopa</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/rapidash.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap galopa normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rapidash.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap galopa shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ramoloss</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/slowpoke.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ramoloss normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/slowpoke.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ramoloss shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Flagadoss</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/slowbro.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap flagadoss normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/slowbro.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap flagadoss shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Magnéti</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magnemite.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap magnéti normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magnemite.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap magnéti shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Magnéton</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magneton.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap magnéton normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magneton.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap magnéton shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Canarticho</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/farfetchd.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap canarticho normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/farfetchd.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap canarticho shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Doduo</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/doduo.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap doduo normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/doduo.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap doduo shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Dodrio</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dodrio.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap dodrio normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dodrio.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap dodrio shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Otaria</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/seel.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap otaria normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/seel.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap otaria shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Lamantine</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dewgong.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap lamantine normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dewgong.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap lamantine shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Tadmorv</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/grimer.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap tadmorv normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/grimer.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap tadmorv shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Grotadmorv</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/muk.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap grotadmorv normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/muk.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap grotadmorv shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Kokiyas</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/shellder.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap kokiyas normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/shellder.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap kokiyas shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Crustabri</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/cloyster.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap crustabri normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cloyster.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap crustabri shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Fantominus</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gastly.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap fantominus normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gastly.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap fantominus shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Spectrum</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/haunter.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap spectrum normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/haunter.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap spectrum shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ectoplasma</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gengar.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ectoplasma normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gengar.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ectoplasma shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Onix</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/onix.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap onix normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/onix.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap onix shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Soporifik</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/drowzee.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap soporifik normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/drowzee.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap soporifik shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Hypnomade</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hypno.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap hypnomade normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hypno.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap hypnomade shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Krabby</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/krabby.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap krabby normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/krabby.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap krabby shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Krabboss</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kingler.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap krabboss normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kingler.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap krabboss shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Voltorbe</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/voltorb.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap voltorbe normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/voltorb.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap voltorbe shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Electrode</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/electrode.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap electrode normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/electrode.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap electrode shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Noeunoeuf</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/exeggcute.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap noeunoeuf normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/exeggcute.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap noeunoeuf shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Noadkoko</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/exeggutor.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap noadkoko normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/exeggutor.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap noadkoko shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Osselait</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/cubone.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap osselait normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cubone.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap osselait shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ossatueur</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/marowak.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ossatueur normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/marowak.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ossatueur shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Kicklee</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hitmonlee.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap kicklee normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hitmonlee.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap kicklee shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Tygnon</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hitmonchan.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap tygnon normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hitmonchan.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap tygnon shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Excelangue</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lickitung.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap excelangue normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lickitung.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap excelangue shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Smogo</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/koffing.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap smogo normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/koffing.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap smogo shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Smogogo</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/weezing.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap smogogo normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/weezing.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap smogogo shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Rhinocorne</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/rhyhorn.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap rhinocorne normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rhyhorn.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap rhinocorne shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Rhinoféros</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/rhydon.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap rhinoféros normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/rhydon.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap rhinoféros shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Leveinard</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/chansey.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap leveinard normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/chansey.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap leveinard shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Saquedeneu</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tangela.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap saquedeneu normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tangela.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap saquedeneu shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Kangourex</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kangaskhan.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap kangourex normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kangaskhan.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap kangourex shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Hypotrempe</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/horsea.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap hypotrempe normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/horsea.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap hypotrempe shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Hypocean</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/seadra.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap hypocean normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/seadra.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap hypocean shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Poissirène</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/goldeen.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap poissirène normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/goldeen.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap poissirène shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Poissoroy</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/seaking.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap poissoroy normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/seaking.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap poissoroy shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Stari</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/staryu.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap stari normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/staryu.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap stari shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Staross</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/starmie.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap staross normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/starmie.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap staross shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>M. Mime</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mr-mime.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap m._mime normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mr-mime.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap m._mime shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Insecateur</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/scyther.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap insecateur normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/scyther.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap insecateur shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Lippoutou</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/jynx.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap lippoutou normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/jynx.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap lippoutou shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Elektek</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/electabuzz.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap elektek normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/electabuzz.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap elektek shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Magmar</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magmar.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap magmar normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magmar.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap magmar shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Scarabrute</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pinsir.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap scarabrute normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pinsir.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap scarabrute shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Tauros</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/tauros.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap tauros normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tauros.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap tauros shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Magicarpe</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/magikarp.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap magicarpe normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/magikarp.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap magicarpe shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Léviator</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/gyarados.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap léviator normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/gyarados.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap léviator shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Lokhlass</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lapras.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap lokhlass normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lapras.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap lokhlass shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Métamorph</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ditto.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap métamorph normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ditto.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap métamorph shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Evoli</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/eevee.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap evoli normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/eevee.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap evoli shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Aquali</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/vaporeon.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap aquali normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/vaporeon.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap aquali shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Voltali</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/jolteon.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap voltali normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/jolteon.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap voltali shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Pyroli</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/flareon.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap pyroli normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/flareon.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap pyroli shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Porygon</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/porygon.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap porygon normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/porygon.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap porygon shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Amonita</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/omanyte.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap amonita normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/omanyte.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap amonita shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Amonistar</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/omastar.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap amonistar normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/omastar.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap amonistar shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Kabuto</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kabuto.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap kabuto normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kabuto.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap kabuto shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Kabutops</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/kabutops.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap kabutops normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/kabutops.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap kabutops shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ptéra</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/aerodactyl.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ptéra normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/aerodactyl.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ptéra shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ronflex</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/snorlax.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ronflex normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/snorlax.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ronflex shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Artikodin</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/articuno.gif" alt="Normal Sprite"></td>
+                <td>80</td>
+                <td><button data-copy="!scrap artikodin normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/articuno.gif" alt="Shiny Sprite"></td>
+                <td>400</td>
+                <td><button data-copy="!scrap artikodin shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Électhor</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/zapdos.gif" alt="Normal Sprite"></td>
+                <td>80</td>
+                <td><button data-copy="!scrap électhor normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/zapdos.gif" alt="Shiny Sprite"></td>
+                <td>400</td>
+                <td><button data-copy="!scrap électhor shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Sulfura</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/moltres.gif" alt="Normal Sprite"></td>
+                <td>80</td>
+                <td><button data-copy="!scrap sulfura normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/moltres.gif" alt="Shiny Sprite"></td>
+                <td>400</td>
+                <td><button data-copy="!scrap sulfura shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Minidraco</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dratini.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap minidraco normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dratini.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap minidraco shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Draco</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dragonair.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap draco normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dragonair.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap draco shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Dracolosse</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/dragonite.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap dracolosse normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dragonite.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap dracolosse shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mewtwo</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mewtwo.gif" alt="Normal Sprite"></td>
+                <td>80</td>
+                <td><button data-copy="!scrap mewtwo normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mewtwo.gif" alt="Shiny Sprite"></td>
+                <td>400</td>
+                <td><button data-copy="!scrap mewtwo shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mew</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/mew.gif" alt="Normal Sprite"></td>
+                <td>80</td>
+                <td><button data-copy="!scrap mew normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mew.gif" alt="Shiny Sprite"></td>
+                <td>400</td>
+                <td><button data-copy="!scrap mew shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Germignon</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/chikorita.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap germignon normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/chikorita.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap germignon shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Macronium</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/bayleef.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap macronium normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bayleef.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap macronium shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Meganium</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/meganium.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap meganium normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/meganium.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap meganium shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Héricendre</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/cyndaquil.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap héricendre normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cyndaquil.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap héricendre shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Feurisson</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/quilava.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap feurisson normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/quilava.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap feurisson shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Typhlosion</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/typhlosion.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap typhlosion normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/typhlosion.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap typhlosion shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Kaiminus</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/totodile.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap kaiminus normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/totodile.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap kaiminus shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Crocrodil</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/croconaw.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap crocrodil normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/croconaw.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap crocrodil shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Aligatueur</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/feraligatr.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap aligatueur normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/feraligatr.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap aligatueur shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Fouinette</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/sentret.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap fouinette normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/sentret.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap fouinette shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Fouinar</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/furret.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap fouinar normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/furret.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap fouinar shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Hoothoot</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/hoothoot.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap hoothoot normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/hoothoot.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap hoothoot shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Noarfang</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/noctowl.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap noarfang normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/noctowl.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap noarfang shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mimigal</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/spinarak.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap mimigal normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/spinarak.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap mimigal shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Migalos</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/ariados.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap migalos normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ariados.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap migalos shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Nostenfer</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/crobat.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap nostenfer normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/crobat.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap nostenfer shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Loupio</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/chinchou.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap loupio normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/chinchou.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap loupio shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Lanturn</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/lanturn.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap lanturn normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/lanturn.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap lanturn shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Pichu</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/pichu.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap pichu normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pichu.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap pichu shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mélo</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/cleffa.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap mélo normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/cleffa.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap mélo shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Toudoudou</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/igglybuff.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap toudoudou normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/igglybuff.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap toudoudou shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Togepi</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/togepi.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap togepi normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/togepi.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap togepi shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Cadoizo</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/normal/delibird.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap cadoizo normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/delibird.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap cadoizo shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ossatueur d'Alola</td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/home/normal/marowak-alolan.png" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ossatueur_d'alola normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://img.pokemondb.net/sprites/home/shiny/marowak-alolan.png" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ossatueur_d'alola shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Pikachu Surfeur</td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/8dfjn4V/surf-0.png" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap pikachu_surfeur normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/Y7L6mPK/surf-1.png" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap pikachu_surfeur shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Fantôme mère d'Osselait</td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/CvwFb7k/Cubone-Mom-normal.png" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap fantôme_mère_d'osselait normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/bK10HpL/Cubone-Mom-shiny.png" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap fantôme_mère_d'osselait shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Onyx de crystal</td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/VpnjJkg/Onix-cystal-normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap onyx_de_crystal normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/zRz2Q2d/Onix-cystal-shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap onyx_de_crystal shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Munja bonbon Violette</td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/HHXtvFL/shedinja.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap munja_bonbon_violette normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/yFdh3Sh/shedinja.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap munja_bonbon_violette shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Chenipan de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_caterpie_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap chenipan_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_caterpie_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap chenipan_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Évoli de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_eevee_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap évoli_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_eevee_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap évoli_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Canarticho de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_farfetchd_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap canarticho_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_farfetchd_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap canarticho_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Machoc de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_machop_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap machoc_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_machop_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap machoc_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Pikachu de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_pikachu_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap pikachu_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_pikachu_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap pikachu_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Magicarpe de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_magikarp_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap magicarpe_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_magikarp_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap magicarpe_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Miaouss de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_meotwh_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap miaouss_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_meotwh_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap miaouss_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Ramoloss de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_slowpoke_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap ramoloss_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_slowpoke_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap ramoloss_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Psykokwak de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_psyduck_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap psykokwak_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_psyduck_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap psykokwak_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Caninos de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_growlithe_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap caninos_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_growlithe_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap caninos_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Mystherbe de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_oddish_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap mystherbe_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_oddish_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap mystherbe_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Tentacool de guimauve</td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_tentacool_normal.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap tentacool_de_guimauve normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/marshmallow/marshmallow_tentacool_shiny.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap tentacool_de_guimauve shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr>
+<tr>
+                <td>Carpe-et-Dième</td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/8xx3RyP/Carpe-et-di-me.gif" alt="Normal Sprite"></td>
+                <td>2</td>
+                <td><button data-copy="!scrap carpe-et-dième normal" onclick="copyToClipboard(this)" type="button" class="btn btn-primary">Copier commande</button></td>
+                <td><img style="height: 96px; width: auto;" src="https://i.ibb.co/KqZpWd5/Carpe-et-di-me-normal.gif" alt="Shiny Sprite"></td>
+                <td>10</td>
+                <td><button data-copy="!scrap carpe-et-dième shiny" onclick="copyToClipboard(this)" type="button" class="btn btn-warning">Copier commande</button></td>
+</tr></table><br>
+
+<script>
+        function copyToClipboard(button) {
+            const textToCopy = button.getAttribute("data-copy");
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Texte copié : " + textToCopy);
+            }).catch(err => {
+                alert("Erreur lors de la copie dans le presse-papiers : " + err);
+            });
+        }
+    </script>
+
+<br><br>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -168,13 +168,31 @@
 
 <script>
         function copyToClipboard(button) {
-            const textToCopy = button.getAttribute("data-copy");
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("Texte copié : " + textToCopy);
-            }).catch(err => {
-                alert("Erreur lors de la copie dans le presse-papiers : " + err);
-            });
+    const textToCopy = button.getAttribute("data-copy");
+
+    if (!navigator.clipboard) {
+        // Fallback for browsers that don't support the Clipboard API
+        const textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand("copy");
+            alert("Texte copié : " + textToCopy);
+        } catch (err) {
+            alert("Erreur lors de la copie dans le presse-papiers : " + err);
         }
+        document.body.removeChild(textArea);
+        return;
+    }
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        alert("Texte copié : " + textToCopy);
+    }).catch(err => {
+        alert("Erreur lors de la copie dans le presse-papiers : " + err);
+    });
+}
     </script>
 
 <br><br>

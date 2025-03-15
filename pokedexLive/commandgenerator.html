@@ -1,0 +1,1040 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Générateur par onglet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    /* Styles personnalisés */
+    .error {
+      border: 2px solid red;
+    }
+    .error-message {
+      color: red;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container my-4">
+  <h1>Générateur de commande StreamDex</h1>
+
+  <!-- Navigation par onglets -->
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-buy-tab" data-bs-toggle="tab" data-bs-target="#tab-buy" type="button" role="tab" aria-controls="tab-buy" aria-selected="true">Buy</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-scrap-tab" data-bs-toggle="tab" data-bs-target="#tab-scrap" type="button" role="tab" aria-controls="tab-scrap" aria-selected="true">Scrap</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-trade-tab" data-bs-toggle="tab" data-bs-target="#tab-trade" type="button" role="tab" aria-controls="tab-trade" aria-selected="false">Trade</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-badge-tab" data-bs-toggle="tab" data-bs-target="#tab-badge" type="button" role="tab" aria-controls="tab-badge" aria-selected="false">Badges</button>
+    </li>
+  </ul>
+<div class="tab-content" id="myTabContent">
+  <!-- Onglet Buy -->
+  <div class="tab-pane fade show p-3" id="tab-buy" role="tabpanel" aria-labelledby="tab-buy-tab">
+    <h3>Générateur Buy</h3>
+
+    <!-- Choix du Pokémon via datalist -->
+    <div class="mb-3">
+      <label for="pokemonBuy" class="form-label">Choisissez un Pokémon</label>
+      <input type="text" class="form-control" id="pokemonBuy" list="pokemonListBuy" autocomplete="off">
+      <datalist id="pokemonListBuy">
+        <option value="Florizarre">Florizarre</option>
+<option value="Dracaufeu">Dracaufeu</option>
+<option value="Tortank">Tortank</option>
+<option value="Nidorina">Nidorina</option>
+<option value="Nidorino">Nidorino</option>
+<option value="Mélofée">Mélofée</option>
+<option value="Abra">Abra</option>
+<option value="Insecateur">Insecateur</option>
+<option value="Scarabrute">Scarabrute</option>
+<option value="Porygon">Porygon</option>
+<option value="Mewtwo">Mewtwo</option>
+<option value="Cornèbre">Cornèbre</option>
+<option value="Scarhino">Scarhino</option>
+<option value="Embrylex">Embrylex</option>
+<option value="Vespeol">Vespeol</option>
+<option value="Aubeon">Aubeon</option>
+
+      </datalist>
+      <div class="error-message" id="errorPokemonBuy"></div>
+    </div>
+
+    <!-- Sélection de la version (Normal ou Shiny) -->
+    <div class="mb-3">
+      <label for="variantBuy" class="form-label">Version</label>
+      <select class="form-select" id="variantBuy">
+        <option value="normal" selected>Normal</option>
+        <option value="shiny">Shiny</option>
+      </select>
+    </div>
+
+    <!-- Bouton générer et affichage de la commande -->
+    <button class="btn btn-primary" id="generateBtn_buy">Générer</button>
+    <div class="mt-3">
+      <textarea class="form-control" id="resultBox_buy" rows="3" readonly></textarea>
+    </div>
+    <button class="btn btn-secondary mt-2" id="copyBtn_buy" disabled>Copier commande</button>
+  </div>
+
+  <!-- Script pour le générateur Buy -->
+  <script>
+    document.getElementById('generateBtn_buy').addEventListener('click', function() {
+      var pokemonValue = document.getElementById('pokemonBuy').value.trim();
+      var variantValue = document.getElementById('variantBuy').value;
+      
+      // Vérifier que l'utilisateur a sélectionné un Pokémon
+      if (!pokemonValue) {
+        document.getElementById('errorPokemonBuy').textContent = 'Veuillez choisir un Pokémon.';
+        return;
+      } else {
+        document.getElementById('errorPokemonBuy').textContent = '';
+      }
+      
+      // Mettre en majuscule la première lettre de la variante
+      var variantText = variantValue.charAt(0).toUpperCase() + variantValue.slice(1);
+      var command = '!buy ' + pokemonValue + ' ' + variantText;
+      
+      // Afficher la commande et activer le bouton copier
+      document.getElementById('resultBox_buy').value = command;
+      document.getElementById('copyBtn_buy').disabled = false;
+    });
+
+    document.getElementById('copyBtn_buy').addEventListener('click', function() {
+      var resultBox = document.getElementById('resultBox_buy');
+      resultBox.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.error('Erreur lors de la copie :', err);
+      }
+    });
+  </script>
+</div>
+
+<!-- Onglet Scrap -->
+<div class="tab-pane fade p-3" id="tab-scrap" role="tabpanel" aria-labelledby="tab-scrap-tab">
+  <h3>Générateur Scrap</h3>
+  
+  <!-- Combobox : Mode de scrap -->
+  <div class="mb-3">
+    <label for="scrapMode_scrap" class="form-label">Mode de scrap</label>
+    <select class="form-select" id="scrapMode_scrap">
+      <option value="fullscrap">Full Scrap (Scrap tous le pokédex normal & shiny)</option>
+      <option value="complete" selected>Complete (scrap tous les poké normal et shiny du pokémon choisi)</option>
+      <option value="fullnormal">Fullnormal (scrap tout les normaux du poké choisi)</option>
+      <option value="fullshiny">Fullshiny (scrap tous les shiny du poké choisi)</option>
+      <option value="normal">Normal (scrap 1 poke normal du poke choisi)</option>
+      <option value="shiny">Shiny (scrap 1 poke shiny du poke choisi)</option>
+    </select>
+  </div>
+  
+  <!-- Combobox : Liste de Pokémons -->
+  <div class="mb-3">
+    <label for="pokemonScrap" class="form-label">Choisissez un Pokémon</label>
+    <input type="text" class="form-control" id="pokemonScrap" list="pokemonList_scrap" autocomplete="off">
+    <datalist id="pokemonList_scrap">
+      <option value="Bulbizarre">Bulbizarre</option>
+<option value="Herbizarre">Herbizarre</option>
+<option value="Florizarre">Florizarre</option>
+<option value="Mega_Florizarre">Mega Florizarre</option>
+<option value="Salamèche">Salamèche</option>
+<option value="Reptincel">Reptincel</option>
+<option value="Dracaufeu">Dracaufeu</option>
+<option value="Mega_Dracaufeu_X">Mega Dracaufeu X</option>
+<option value="Mega_Dracaufeu_Y">Mega Dracaufeu Y</option>
+<option value="Carapuce">Carapuce</option>
+<option value="Carabaffe">Carabaffe</option>
+<option value="Tortank">Tortank</option>
+<option value="Mega_Tortank">Mega Tortank</option>
+<option value="Chenipan">Chenipan</option>
+<option value="Chrysacier">Chrysacier</option>
+<option value="Papilusion">Papilusion</option>
+<option value="Aspicot">Aspicot</option>
+<option value="Coconfort">Coconfort</option>
+<option value="Dardargnan">Dardargnan</option>
+<option value="Roucool">Roucool</option>
+<option value="Roucoups">Roucoups</option>
+<option value="Roucarnage">Roucarnage</option>
+<option value="Rattata">Rattata</option>
+<option value="Rattatac">Rattatac</option>
+<option value="Piafabec">Piafabec</option>
+<option value="Rapasdepic">Rapasdepic</option>
+<option value="Abo">Abo</option>
+<option value="Arbok">Arbok</option>
+<option value="Pikachu">Pikachu</option>
+<option value="Raichu">Raichu</option>
+<option value="Sabelette">Sabelette</option>
+<option value="Sablaireau">Sablaireau</option>
+<option value="Nidoran-f">Nidoran♀</option>
+<option value="Nidorina">Nidorina</option>
+<option value="Nidoqueen">Nidoqueen</option>
+<option value="Nidoran-m">Nidoran♂</option>
+<option value="Nidorino">Nidorino</option>
+<option value="Nidoking">Nidoking</option>
+<option value="Mélofée">Mélofée</option>
+<option value="Mélodelfe">Mélodelfe</option>
+<option value="Goupix">Goupix</option>
+<option value="Feunard">Feunard</option>
+<option value="Rondoudou">Rondoudou</option>
+<option value="Grodoudou">Grodoudou</option>
+<option value="Nosferapti">Nosferapti</option>
+<option value="Nosferalto">Nosferalto</option>
+<option value="Mystherbe">Mystherbe</option>
+<option value="Ortide">Ortide</option>
+<option value="Rafflesia">Rafflesia</option>
+<option value="Paras">Paras</option>
+<option value="Parasect">Parasect</option>
+<option value="Mimitoss">Mimitoss</option>
+<option value="Aéromite">Aéromite</option>
+<option value="Taupiqueur">Taupiqueur</option>
+<option value="Triopikeur">Triopikeur</option>
+<option value="Miaouss">Miaouss</option>
+<option value="Persian">Persian</option>
+<option value="Psykokwak">Psykokwak</option>
+<option value="Akwakwak">Akwakwak</option>
+<option value="Férosinge">Férosinge</option>
+<option value="Colossinge">Colossinge</option>
+<option value="Caninos">Caninos</option>
+<option value="Arcanin">Arcanin</option>
+<option value="Ptitard">Ptitard</option>
+<option value="Têtarte">Têtarte</option>
+<option value="Tartard">Tartard</option>
+<option value="Abra">Abra</option>
+<option value="Kadabra">Kadabra</option>
+<option value="Alakazam">Alakazam</option>
+<option value="Machoc">Machoc</option>
+<option value="Machopeur">Machopeur</option>
+<option value="Mackogneur">Mackogneur</option>
+<option value="Chétiflor">Chétiflor</option>
+<option value="Boustiflor">Boustiflor</option>
+<option value="Empiflor">Empiflor</option>
+<option value="Tentacool">Tentacool</option>
+<option value="Tentacruel">Tentacruel</option>
+<option value="Racaillou">Racaillou</option>
+<option value="Gravalanch">Gravalanch</option>
+<option value="Grolem">Grolem</option>
+<option value="Ponyta">Ponyta</option>
+<option value="Galopa">Galopa</option>
+<option value="Ramoloss">Ramoloss</option>
+<option value="Flagadoss">Flagadoss</option>
+<option value="Magnéti">Magnéti</option>
+<option value="Magnéton">Magnéton</option>
+<option value="Canarticho">Canarticho</option>
+<option value="Doduo">Doduo</option>
+<option value="Dodrio">Dodrio</option>
+<option value="Otaria">Otaria</option>
+<option value="Lamantine">Lamantine</option>
+<option value="Tadmorv">Tadmorv</option>
+<option value="Grotadmorv">Grotadmorv</option>
+<option value="Kokiyas">Kokiyas</option>
+<option value="Crustabri">Crustabri</option>
+<option value="Fantominus">Fantominus</option>
+<option value="Spectrum">Spectrum</option>
+<option value="Ectoplasma">Ectoplasma</option>
+<option value="Onix">Onix</option>
+<option value="Soporifik">Soporifik</option>
+<option value="Hypnomade">Hypnomade</option>
+<option value="Krabby">Krabby</option>
+<option value="Krabboss">Krabboss</option>
+<option value="Voltorbe">Voltorbe</option>
+<option value="Electrode">Electrode</option>
+<option value="Noeunoeuf">Noeunoeuf</option>
+<option value="Noadkoko">Noadkoko</option>
+<option value="Osselait">Osselait</option>
+<option value="Ossatueur">Ossatueur</option>
+<option value="Kicklee">Kicklee</option>
+<option value="Tygnon">Tygnon</option>
+<option value="Excelangue">Excelangue</option>
+<option value="Smogo">Smogo</option>
+<option value="Smogogo">Smogogo</option>
+<option value="Rhinocorne">Rhinocorne</option>
+<option value="Rhinoféros">Rhinoféros</option>
+<option value="Leveinard">Leveinard</option>
+<option value="Saquedeneu">Saquedeneu</option>
+<option value="Kangourex">Kangourex</option>
+<option value="Hypotrempe">Hypotrempe</option>
+<option value="Hypocean">Hypocean</option>
+<option value="Poissirène">Poissirène</option>
+<option value="Poissoroy">Poissoroy</option>
+<option value="Stari">Stari</option>
+<option value="Staross">Staross</option>
+<option value="M._Mime">M. Mime</option>
+<option value="Insecateur">Insecateur</option>
+<option value="Lippoutou">Lippoutou</option>
+<option value="Elektek">Elektek</option>
+<option value="Magmar">Magmar</option>
+<option value="Scarabrute">Scarabrute</option>
+<option value="Tauros">Tauros</option>
+<option value="Magicarpe">Magicarpe</option>
+<option value="Léviator">Léviator</option>
+<option value="Lokhlass">Lokhlass</option>
+<option value="Métamorph">Métamorph</option>
+<option value="Evoli">Evoli</option>
+<option value="Aquali">Aquali</option>
+<option value="Voltali">Voltali</option>
+<option value="Pyroli">Pyroli</option>
+<option value="Porygon">Porygon</option>
+<option value="Amonita">Amonita</option>
+<option value="Amonistar">Amonistar</option>
+<option value="Kabuto">Kabuto</option>
+<option value="Kabutops">Kabutops</option>
+<option value="Ptéra">Ptéra</option>
+<option value="Ronflex">Ronflex</option>
+<option value="Artikodin">Artikodin</option>
+<option value="Électhor">Électhor</option>
+<option value="Sulfura">Sulfura</option>
+<option value="Minidraco">Minidraco</option>
+<option value="Draco">Draco</option>
+<option value="Dracolosse">Dracolosse</option>
+<option value="Mewtwo">Mewtwo</option>
+<option value="Mew">Mew</option>
+<option value="Germignon">Germignon</option>
+<option value="Macronium">Macronium</option>
+<option value="Meganium">Meganium</option>
+<option value="Héricendre">Héricendre</option>
+<option value="Feurisson">Feurisson</option>
+<option value="Typhlosion">Typhlosion</option>
+<option value="Kaiminus">Kaiminus</option>
+<option value="Crocrodil">Crocrodil</option>
+<option value="Aligatueur">Aligatueur</option>
+<option value="Fouinette">Fouinette</option>
+<option value="Fouinar">Fouinar</option>
+<option value="Hoothoot">Hoothoot</option>
+<option value="Noarfang">Noarfang</option>
+<option value="Coxy">Coxy</option>
+<option value="Coxyclaque">Coxyclaque</option>
+<option value="Mimigal">Mimigal</option>
+<option value="Migalos">Migalos</option>
+<option value="Nostenfer">Nostenfer</option>
+<option value="Loupio">Loupio</option>
+<option value="Lanturn">Lanturn</option>
+<option value="Pichu">Pichu</option>
+<option value="Mélo">Mélo</option>
+<option value="Toudoudou">Toudoudou</option>
+<option value="Togepi">Togepi</option>
+<option value="Togetic">Togetic</option>
+<option value="Natu">Natu</option>
+<option value="Xatu">Xatu</option>
+<option value="Wattouat">Wattouat</option>
+<option value="Lainergie">Lainergie</option>
+<option value="Pharamp">Pharamp</option>
+<option value="Joliflor">Joliflor</option>
+<option value="Marill">Marill</option>
+<option value="Azumarill">Azumarill</option>
+<option value="Simularbre">Simularbre</option>
+<option value="Tarpaud">Tarpaud</option>
+<option value="Granivol">Granivol</option>
+<option value="Floravol">Floravol</option>
+<option value="Cotovol">Cotovol</option>
+<option value="Capumain">Capumain</option>
+<option value="Tournegrin">Tournegrin</option>
+<option value="Héliatronc">Héliatronc</option>
+<option value="Yanma">Yanma</option>
+<option value="Axoloto">Axoloto</option>
+<option value="Maraiste">Maraiste</option>
+<option value="Mentali">Mentali</option>
+<option value="Noctali">Noctali</option>
+<option value="Cornèbre">Cornèbre</option>
+<option value="Roigada">Roigada</option>
+<option value="Qulbutoké">Qulbutoké</option>
+<option value="Girafarig">Girafarig</option>
+<option value="Pomdepik">Pomdepik</option>
+<option value="Foretress">Foretress</option>
+<option value="Insolourdo">Insolourdo</option>
+<option value="Snubbull">Snubbull</option>
+<option value="Granbull">Granbull</option>
+<option value="Scarhino">Scarhino</option>
+<option value="Farfuret">Farfuret</option>
+<option value="Cadoizo">Cadoizo</option>
+<option value="Airmure">Airmure</option>
+<option value="Malosse">Malosse</option>
+<option value="Démolosse">Démolosse</option>
+<option value="Hyporoi">Hyporoi</option>
+<option value="Raikou">Raikou</option>
+<option value="Entei">Entei</option>
+<option value="Suicune">Suicune</option>
+<option value="Embrylex">Embrylex</option>
+<option value="Lugia">Lugia</option>
+<option value="Ossatueur_d'Alola">Ossatueur d'Alola</option>
+<option value="Pikachu_Surfeur">Pikachu Surfeur</option>
+<option value="Fantôme_mère_d'Osselait">Fantôme mère d'Osselait</option>
+<option value="Onyx_de_crystal">Onyx de crystal</option>
+<option value="Munja_bonbon_Violette">Munja bonbon Violette</option>
+<option value="Chenipan_de_guimauve">Chenipan de guimauve</option>
+<option value="Évoli_de_guimauve">Évoli de guimauve</option>
+<option value="Canarticho_de_guimauve">Canarticho de guimauve</option>
+<option value="Machoc_de_guimauve">Machoc de guimauve</option>
+<option value="Pikachu_de_guimauve">Pikachu de guimauve</option>
+<option value="Magicarpe_de_guimauve">Magicarpe de guimauve</option>
+<option value="Miaouss_de_guimauve">Miaouss de guimauve</option>
+<option value="Ramoloss_de_guimauve">Ramoloss de guimauve</option>
+<option value="Psykokwak_de_guimauve">Psykokwak de guimauve</option>
+<option value="Caninos_de_guimauve">Caninos de guimauve</option>
+<option value="Mystherbe_de_guimauve">Mystherbe de guimauve</option>
+<option value="Tentacool_de_guimauve">Tentacool de guimauve</option>
+<option value="Carpe-et-Dième">Carpe-et-Dième</option>
+<option value="Maxence-Radiateur">Maxence-Radiateur</option>
+<option value="Patrik-Sismik">Patrik-Sismik</option>
+<option value="Patrik-Tektonik">Patrik-Tektonik</option>
+<option value="Clément-Poilu">Clément-Poilu</option>
+<option value="Clément-Velu">Clément-Velu</option>
+<option value="Clément-Barbu">Clément-Barbu</option>
+<option value="Michelle-Plumes">Michelle-Plumes</option>
+<option value="Michelle-Voile">Michelle-Voile</option>
+<option value="Michelle-Ailes">Michelle-Ailes</option>
+<option value="Michelle-Mach5">Michelle-Mach5</option>
+<option value="Fear-Spook">Fear-Spook</option>
+<option value="Fear-Phantom">Fear-Phantom</option>
+<option value="Fear-Apparition">Fear-Apparition</option>
+<option value="Fear-Shade">Fear-Shade</option>
+<option value="Fear-Death">Fear-Death</option>
+<option value="Chandelombre">Chandelombre</option>
+<option value="Gabriel-Ange">Gabriel-Ange</option>
+<option value="Spérigem">Spérigem</option>
+<option value="Vespeol">Vespeol</option>
+<option value="Aubeon">Aubeon</option>
+<option value="Mewtwo_en_Armure">Mewtwo en Armure</option>
+
+    </datalist>
+    <div class="error-message" id="errorPokemonScrap"></div>
+  </div>
+  
+  <!-- Bouton générer et zone d'affichage de la commande -->
+  <button class="btn btn-primary" id="generateBtn_scrap">Générer</button>
+  <div class="mt-3">
+    <textarea class="form-control" id="resultBox_scrap" rows="3" readonly></textarea>
+  </div>
+  <button class="btn btn-secondary mt-2" id="copyBtn_scrap" disabled>Copier commande</button>
+  
+  <!-- Script pour le générateur Scrap -->
+  <script>
+    // Active ou désactive la combobox des Pokémons selon le mode choisi
+    document.getElementById('scrapMode_scrap').addEventListener('change', function() {
+      var mode = this.value;
+      var pokemonInput = document.getElementById('pokemonScrap');
+      if (mode === 'fullscrap') {
+        pokemonInput.value = '';
+        pokemonInput.disabled = true;
+      } else {
+        pokemonInput.disabled = false;
+      }
+    });
+    
+    document.getElementById('generateBtn_scrap').addEventListener('click', function() {
+      var mode = document.getElementById('scrapMode_scrap').value;
+      var pokemonValue = document.getElementById('pokemonScrap').value.trim();
+      var command = '';
+      
+      if (mode === 'fullscrap') {
+        // Pour le mode fullscrap, la commande est fixe et la liste des Pokémons est ignorée
+        command = '!scrap full fulldex';
+      } else {
+        // Vérifier que l'utilisateur a sélectionné un Pokémon
+        if (!pokemonValue) {
+          document.getElementById('errorPokemonScrap').textContent = 'Veuillez choisir un Pokémon.';
+          return;
+        } else {
+          document.getElementById('errorPokemonScrap').textContent = '';
+        }
+        command = '!scrap ' + pokemonValue + ' ' + mode;
+      }
+      
+      document.getElementById('resultBox_scrap').value = command;
+      document.getElementById('copyBtn_scrap').disabled = false;
+    });
+    
+    document.getElementById('copyBtn_scrap').addEventListener('click', function() {
+      var resultBox = document.getElementById('resultBox_scrap');
+      resultBox.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.error('Erreur lors de la copie :', err);
+      }
+    });
+  </script>
+</div>
+
+    <!-- onglet TRADE -->
+<div class="tab-pane fade p-3" id="tab-trade" role="tabpanel" aria-labelledby="tab-trade-tab">
+  <h3>Générateur de Trade</h3>
+  
+  <!-- Pokémon envoyé -->
+  <div class="mb-3">
+    <label for="pokeEnvoye_trade" class="form-label">Pokémon Envoyé</label>
+    <input
+      type="text"
+      class="form-control"
+      id="pokeEnvoye_trade"
+      list="pokeList_trade"
+      autocomplete="off">
+    <datalist id="pokeList_trade">
+      <option value="Bulbizarre">Bulbizarre</option>
+<option value="Herbizarre">Herbizarre</option>
+<option value="Florizarre">Florizarre</option>
+<option value="Mega_Florizarre">Mega Florizarre</option>
+<option value="Salamèche">Salamèche</option>
+<option value="Reptincel">Reptincel</option>
+<option value="Dracaufeu">Dracaufeu</option>
+<option value="Mega_Dracaufeu_X">Mega Dracaufeu X</option>
+<option value="Mega_Dracaufeu_Y">Mega Dracaufeu Y</option>
+<option value="Carapuce">Carapuce</option>
+<option value="Carabaffe">Carabaffe</option>
+<option value="Tortank">Tortank</option>
+<option value="Mega_Tortank">Mega Tortank</option>
+<option value="Chenipan">Chenipan</option>
+<option value="Chrysacier">Chrysacier</option>
+<option value="Papilusion">Papilusion</option>
+<option value="Aspicot">Aspicot</option>
+<option value="Coconfort">Coconfort</option>
+<option value="Dardargnan">Dardargnan</option>
+<option value="Roucool">Roucool</option>
+<option value="Roucoups">Roucoups</option>
+<option value="Roucarnage">Roucarnage</option>
+<option value="Rattata">Rattata</option>
+<option value="Rattatac">Rattatac</option>
+<option value="Piafabec">Piafabec</option>
+<option value="Rapasdepic">Rapasdepic</option>
+<option value="Abo">Abo</option>
+<option value="Arbok">Arbok</option>
+<option value="Pikachu">Pikachu</option>
+<option value="Raichu">Raichu</option>
+<option value="Sabelette">Sabelette</option>
+<option value="Sablaireau">Sablaireau</option>
+<option value="Nidoran-f">Nidoran♀</option>
+<option value="Nidorina">Nidorina</option>
+<option value="Nidoqueen">Nidoqueen</option>
+<option value="Nidoran-m">Nidoran♂</option>
+<option value="Nidorino">Nidorino</option>
+<option value="Nidoking">Nidoking</option>
+<option value="Mélofée">Mélofée</option>
+<option value="Mélodelfe">Mélodelfe</option>
+<option value="Goupix">Goupix</option>
+<option value="Feunard">Feunard</option>
+<option value="Rondoudou">Rondoudou</option>
+<option value="Grodoudou">Grodoudou</option>
+<option value="Nosferapti">Nosferapti</option>
+<option value="Nosferalto">Nosferalto</option>
+<option value="Mystherbe">Mystherbe</option>
+<option value="Ortide">Ortide</option>
+<option value="Rafflesia">Rafflesia</option>
+<option value="Paras">Paras</option>
+<option value="Parasect">Parasect</option>
+<option value="Mimitoss">Mimitoss</option>
+<option value="Aéromite">Aéromite</option>
+<option value="Taupiqueur">Taupiqueur</option>
+<option value="Triopikeur">Triopikeur</option>
+<option value="Miaouss">Miaouss</option>
+<option value="Persian">Persian</option>
+<option value="Psykokwak">Psykokwak</option>
+<option value="Akwakwak">Akwakwak</option>
+<option value="Férosinge">Férosinge</option>
+<option value="Colossinge">Colossinge</option>
+<option value="Caninos">Caninos</option>
+<option value="Arcanin">Arcanin</option>
+<option value="Ptitard">Ptitard</option>
+<option value="Têtarte">Têtarte</option>
+<option value="Tartard">Tartard</option>
+<option value="Abra">Abra</option>
+<option value="Kadabra">Kadabra</option>
+<option value="Alakazam">Alakazam</option>
+<option value="Machoc">Machoc</option>
+<option value="Machopeur">Machopeur</option>
+<option value="Mackogneur">Mackogneur</option>
+<option value="Chétiflor">Chétiflor</option>
+<option value="Boustiflor">Boustiflor</option>
+<option value="Empiflor">Empiflor</option>
+<option value="Tentacool">Tentacool</option>
+<option value="Tentacruel">Tentacruel</option>
+<option value="Racaillou">Racaillou</option>
+<option value="Gravalanch">Gravalanch</option>
+<option value="Grolem">Grolem</option>
+<option value="Ponyta">Ponyta</option>
+<option value="Galopa">Galopa</option>
+<option value="Ramoloss">Ramoloss</option>
+<option value="Flagadoss">Flagadoss</option>
+<option value="Magnéti">Magnéti</option>
+<option value="Magnéton">Magnéton</option>
+<option value="Canarticho">Canarticho</option>
+<option value="Doduo">Doduo</option>
+<option value="Dodrio">Dodrio</option>
+<option value="Otaria">Otaria</option>
+<option value="Lamantine">Lamantine</option>
+<option value="Tadmorv">Tadmorv</option>
+<option value="Grotadmorv">Grotadmorv</option>
+<option value="Kokiyas">Kokiyas</option>
+<option value="Crustabri">Crustabri</option>
+<option value="Fantominus">Fantominus</option>
+<option value="Spectrum">Spectrum</option>
+<option value="Ectoplasma">Ectoplasma</option>
+<option value="Onix">Onix</option>
+<option value="Soporifik">Soporifik</option>
+<option value="Hypnomade">Hypnomade</option>
+<option value="Krabby">Krabby</option>
+<option value="Krabboss">Krabboss</option>
+<option value="Voltorbe">Voltorbe</option>
+<option value="Electrode">Electrode</option>
+<option value="Noeunoeuf">Noeunoeuf</option>
+<option value="Noadkoko">Noadkoko</option>
+<option value="Osselait">Osselait</option>
+<option value="Ossatueur">Ossatueur</option>
+<option value="Kicklee">Kicklee</option>
+<option value="Tygnon">Tygnon</option>
+<option value="Excelangue">Excelangue</option>
+<option value="Smogo">Smogo</option>
+<option value="Smogogo">Smogogo</option>
+<option value="Rhinocorne">Rhinocorne</option>
+<option value="Rhinoféros">Rhinoféros</option>
+<option value="Leveinard">Leveinard</option>
+<option value="Saquedeneu">Saquedeneu</option>
+<option value="Kangourex">Kangourex</option>
+<option value="Hypotrempe">Hypotrempe</option>
+<option value="Hypocean">Hypocean</option>
+<option value="Poissirène">Poissirène</option>
+<option value="Poissoroy">Poissoroy</option>
+<option value="Stari">Stari</option>
+<option value="Staross">Staross</option>
+<option value="M._Mime">M. Mime</option>
+<option value="Insecateur">Insecateur</option>
+<option value="Lippoutou">Lippoutou</option>
+<option value="Elektek">Elektek</option>
+<option value="Magmar">Magmar</option>
+<option value="Scarabrute">Scarabrute</option>
+<option value="Tauros">Tauros</option>
+<option value="Magicarpe">Magicarpe</option>
+<option value="Léviator">Léviator</option>
+<option value="Lokhlass">Lokhlass</option>
+<option value="Métamorph">Métamorph</option>
+<option value="Evoli">Evoli</option>
+<option value="Aquali">Aquali</option>
+<option value="Voltali">Voltali</option>
+<option value="Pyroli">Pyroli</option>
+<option value="Porygon">Porygon</option>
+<option value="Amonita">Amonita</option>
+<option value="Amonistar">Amonistar</option>
+<option value="Kabuto">Kabuto</option>
+<option value="Kabutops">Kabutops</option>
+<option value="Ptéra">Ptéra</option>
+<option value="Ronflex">Ronflex</option>
+<option value="Artikodin">Artikodin</option>
+<option value="Électhor">Électhor</option>
+<option value="Sulfura">Sulfura</option>
+<option value="Minidraco">Minidraco</option>
+<option value="Draco">Draco</option>
+<option value="Dracolosse">Dracolosse</option>
+<option value="Mewtwo">Mewtwo</option>
+<option value="Mew">Mew</option>
+<option value="Germignon">Germignon</option>
+<option value="Macronium">Macronium</option>
+<option value="Meganium">Meganium</option>
+<option value="Héricendre">Héricendre</option>
+<option value="Feurisson">Feurisson</option>
+<option value="Typhlosion">Typhlosion</option>
+<option value="Kaiminus">Kaiminus</option>
+<option value="Crocrodil">Crocrodil</option>
+<option value="Aligatueur">Aligatueur</option>
+<option value="Fouinette">Fouinette</option>
+<option value="Fouinar">Fouinar</option>
+<option value="Hoothoot">Hoothoot</option>
+<option value="Noarfang">Noarfang</option>
+<option value="Coxy">Coxy</option>
+<option value="Coxyclaque">Coxyclaque</option>
+<option value="Mimigal">Mimigal</option>
+<option value="Migalos">Migalos</option>
+<option value="Nostenfer">Nostenfer</option>
+<option value="Loupio">Loupio</option>
+<option value="Lanturn">Lanturn</option>
+<option value="Pichu">Pichu</option>
+<option value="Mélo">Mélo</option>
+<option value="Toudoudou">Toudoudou</option>
+<option value="Togepi">Togepi</option>
+<option value="Togetic">Togetic</option>
+<option value="Natu">Natu</option>
+<option value="Xatu">Xatu</option>
+<option value="Wattouat">Wattouat</option>
+<option value="Lainergie">Lainergie</option>
+<option value="Pharamp">Pharamp</option>
+<option value="Joliflor">Joliflor</option>
+<option value="Marill">Marill</option>
+<option value="Azumarill">Azumarill</option>
+<option value="Simularbre">Simularbre</option>
+<option value="Tarpaud">Tarpaud</option>
+<option value="Granivol">Granivol</option>
+<option value="Floravol">Floravol</option>
+<option value="Cotovol">Cotovol</option>
+<option value="Capumain">Capumain</option>
+<option value="Tournegrin">Tournegrin</option>
+<option value="Héliatronc">Héliatronc</option>
+<option value="Yanma">Yanma</option>
+<option value="Axoloto">Axoloto</option>
+<option value="Maraiste">Maraiste</option>
+<option value="Mentali">Mentali</option>
+<option value="Noctali">Noctali</option>
+<option value="Cornèbre">Cornèbre</option>
+<option value="Roigada">Roigada</option>
+<option value="Qulbutoké">Qulbutoké</option>
+<option value="Girafarig">Girafarig</option>
+<option value="Pomdepik">Pomdepik</option>
+<option value="Foretress">Foretress</option>
+<option value="Insolourdo">Insolourdo</option>
+<option value="Snubbull">Snubbull</option>
+<option value="Granbull">Granbull</option>
+<option value="Scarhino">Scarhino</option>
+<option value="Farfuret">Farfuret</option>
+<option value="Cadoizo">Cadoizo</option>
+<option value="Airmure">Airmure</option>
+<option value="Malosse">Malosse</option>
+<option value="Démolosse">Démolosse</option>
+<option value="Hyporoi">Hyporoi</option>
+<option value="Raikou">Raikou</option>
+<option value="Entei">Entei</option>
+<option value="Suicune">Suicune</option>
+<option value="Embrylex">Embrylex</option>
+<option value="Lugia">Lugia</option>
+<option value="Ossatueur_d'Alola">Ossatueur d'Alola</option>
+<option value="Pikachu_Surfeur">Pikachu Surfeur</option>
+<option value="Fantôme_mère_d'Osselait">Fantôme mère d'Osselait</option>
+<option value="Onyx_de_crystal">Onyx de crystal</option>
+<option value="Munja_bonbon_Violette">Munja bonbon Violette</option>
+<option value="Chenipan_de_guimauve">Chenipan de guimauve</option>
+<option value="Évoli_de_guimauve">Évoli de guimauve</option>
+<option value="Canarticho_de_guimauve">Canarticho de guimauve</option>
+<option value="Machoc_de_guimauve">Machoc de guimauve</option>
+<option value="Pikachu_de_guimauve">Pikachu de guimauve</option>
+<option value="Magicarpe_de_guimauve">Magicarpe de guimauve</option>
+<option value="Miaouss_de_guimauve">Miaouss de guimauve</option>
+<option value="Ramoloss_de_guimauve">Ramoloss de guimauve</option>
+<option value="Psykokwak_de_guimauve">Psykokwak de guimauve</option>
+<option value="Caninos_de_guimauve">Caninos de guimauve</option>
+<option value="Mystherbe_de_guimauve">Mystherbe de guimauve</option>
+<option value="Tentacool_de_guimauve">Tentacool de guimauve</option>
+<option value="Carpe-et-Dième">Carpe-et-Dième</option>
+<option value="Maxence-Radiateur">Maxence-Radiateur</option>
+<option value="Patrik-Sismik">Patrik-Sismik</option>
+<option value="Patrik-Tektonik">Patrik-Tektonik</option>
+<option value="Clément-Poilu">Clément-Poilu</option>
+<option value="Clément-Velu">Clément-Velu</option>
+<option value="Clément-Barbu">Clément-Barbu</option>
+<option value="Michelle-Plumes">Michelle-Plumes</option>
+<option value="Michelle-Voile">Michelle-Voile</option>
+<option value="Michelle-Ailes">Michelle-Ailes</option>
+<option value="Michelle-Mach5">Michelle-Mach5</option>
+<option value="Fear-Spook">Fear-Spook</option>
+<option value="Fear-Phantom">Fear-Phantom</option>
+<option value="Fear-Apparition">Fear-Apparition</option>
+<option value="Fear-Shade">Fear-Shade</option>
+<option value="Fear-Death">Fear-Death</option>
+<option value="Chandelombre">Chandelombre</option>
+<option value="Gabriel-Ange">Gabriel-Ange</option>
+<option value="Spérigem">Spérigem</option>
+<option value="Vespeol">Vespeol</option>
+<option value="Aubeon">Aubeon</option>
+<option value="Mewtwo_en_Armure">Mewtwo en Armure</option>
+
+    </datalist>
+    <div class="error-message" id="error_pokeEnvoye_trade"></div>
+  </div>
+  
+  <!-- Statut du Pokémon envoyé -->
+  <div class="mb-3">
+    <label for="statusEnvoye_trade" class="form-label">Statut (Envoyé)</label>
+    <select class="form-select" id="statusEnvoye_trade">
+      <option value="Normal" selected>Normal</option>
+      <option value="Shiny">Shiny</option>
+    </select>
+  </div>
+  
+  <!-- Pokémon demandé -->
+  <div class="mb-3">
+    <label for="pokeDemande_trade" class="form-label">Pokémon Demandé</label>
+    <input
+      type="text"
+      class="form-control"
+      id="pokeDemande_trade"
+      list="pokeList_trade"
+      autocomplete="off">
+    <div class="error-message" id="error_pokeDemande_trade"></div>
+  </div>
+  
+  <!-- Statut du Pokémon demandé -->
+  <div class="mb-3">
+    <label for="statusDemande_trade" class="form-label">Statut (Demandé)</label>
+    <select class="form-select" id="statusDemande_trade">
+      <option value="Normal" selected>Normal</option>
+      <option value="Shiny">Shiny</option>
+    </select>
+  </div>
+  
+  <!-- Bouton générer la commande -->
+  <button class="btn btn-primary" id="generate_trade">Générer</button>
+  
+  <!-- Zone d'affichage de la commande générée -->
+  <div class="mt-3">
+    <textarea class="form-control" id="result_trade" rows="5" readonly></textarea>
+  </div>
+  
+  <!-- Bouton pour copier la commande -->
+  <button class="btn btn-secondary mt-2" id="copy_trade" disabled>Copier commande</button>
+</div>
+
+<script>
+  // Génération de la commande !trade
+  document.getElementById("generate_trade").addEventListener("click", function() {
+    var pokeEnvoye = document.getElementById("pokeEnvoye_trade").value.trim();
+    var statutEnvoye = document.getElementById("statusEnvoye_trade").value;
+    var pokeDemande = document.getElementById("pokeDemande_trade").value.trim();
+    var statutDemande = document.getElementById("statusDemande_trade").value;
+  
+    if (pokeEnvoye === "" || pokeDemande === "") {
+      alert("Veuillez remplir tous les champs.");
+      return;
+    }
+  
+    var commande = "!trade " + pokeEnvoye + " " + statutEnvoye + " " + pokeDemande + " " + statutDemande;
+    document.getElementById("result_trade").value = commande;
+    document.getElementById("copy_trade").disabled = false;
+  });
+  
+  // Copie de la commande générée dans le presse-papier
+  document.getElementById("copy_trade").addEventListener("click", function() {
+    var commande = document.getElementById("result_trade").value;
+    navigator.clipboard.writeText(commande).then(function() {
+      alert("Commande copiée !");
+    });
+  });
+</script>
+
+
+    <!-- Onglet 3 -->
+    <div class="tab-pane fade p-3" id="tab-badge" role="tabpanel" aria-labelledby="tab-badge-tab">
+      <h3>Générateur 3</h3>
+
+      <!-- Combobox 1 -->
+      <div class="mb-3">
+        <label for="combobox1_tab-badge" class="form-label">Combobox 1</label>
+        <input type="text" class="form-control" id="combobox1_tab-badge" list="list1_tab-badge" autocomplete="off">
+        <datalist id="list1_tab-badge">
+          <option value="Red"></option>
+          <option value="Green"></option>
+          <option value="Blue"></option>
+        </datalist>
+        <div class="error-message" id="error1_tab-badge"></div>
+      </div>
+
+      <!-- Combobox 2 -->
+      <div class="mb-3">
+        <label for="combobox2_tab-badge" class="form-label">Combobox 2</label>
+        <input type="text" class="form-control" id="combobox2_tab-badge" list="list2_tab-badge" autocomplete="off">
+        <datalist id="list2_tab-badge">
+          <option value="Cyan"></option>
+          <option value="Magenta"></option>
+          <option value="Yellow"></option>
+        </datalist>
+        <div class="error-message" id="error2_tab-badge"></div>
+      </div>
+
+      <!-- Combobox 3 -->
+      <div class="mb-3">
+        <label for="combobox3_tab-badge" class="form-label">Combobox 3</label>
+        <input type="text" class="form-control" id="combobox3_tab-badge" list="list3_tab-badge" autocomplete="off">
+        <datalist id="list3_tab-badge">
+          <option value="Black"></option>
+          <option value="White"></option>
+          <option value="Gray"></option>
+        </datalist>
+        <div class="error-message" id="error3_tab-badge"></div>
+      </div>
+
+      <!-- Boutons générer et copier, zone de texte -->
+      <button class="btn btn-primary" id="generateBtn_tab-badge">Générer</button>
+      <div class="mt-3">
+        <textarea class="form-control" id="resultBox_tab-badge" rows="5" readonly></textarea>
+      </div>
+      <button class="btn btn-secondary mt-2" id="copyBtn_tab-badge" data-copy="" disabled>Copier commande</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Bootstrap 5.3.3 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+/*
+  Déclaration des mappages :
+  Chaque combobox possède une valeur affichée et sa valeur « cachée » associée.
+  L'objet "mappings" est indexé par l'identifiant de l'onglet et regroupe,
+  pour chacun, les mappages des trois combobox.
+*/
+const mappings = {{
+  tab1: {{
+    combobox1_tab1: {{
+      "Option A1": "hiddenA1",
+      "Option B1": "hiddenB1",
+      "Option C1": "hiddenC1"
+    }},
+    combobox2_tab1: {{
+      "Option A2": "hiddenA2",
+      "Option B2": "hiddenB2",
+      "Option C2": "hiddenC2"
+    }},
+    combobox3_tab1: {{
+      "Option A3": "hiddenA3",
+      "Option B3": "hiddenB3",
+      "Option C3": "hiddenC3"
+    }}
+  }},
+  tab-trade: {{
+    combobox1_tab-trade: {{
+      "Alpha": "hiddenAlpha",
+      "Bravo": "hiddenBravo",
+      "Charlie": "hiddenCharlie"
+    }},
+    combobox2_tab-trade: {{
+      "Delta": "hiddenDelta",
+      "Echo": "hiddenEcho",
+      "Foxtrot": "hiddenFoxtrot"
+    }},
+    combobox3_tab-trade: {{
+      "Golf": "hiddenGolf",
+      "Hotel": "hiddenHotel",
+      "India": "hiddenIndia"
+    }}
+  }},
+  tab-badge: {{
+    combobox1_tab-badge: {{
+      "Red": "hiddenRed",
+      "Green": "hiddenGreen",
+      "Blue": "hiddenBlue"
+    }},
+    combobox2_tab-badge: {{
+      "Cyan": "hiddenCyan",
+      "Magenta": "hiddenMagenta",
+      "Yellow": "hiddenYellow"
+    }},
+    combobox3_tab-badge: {{
+      "Black": "hiddenBlack",
+      "White": "hiddenWhite",
+      "Gray": "hiddenGray"
+    }}
+  }}
+}};
+
+/*
+  Validation générique :
+  Vérifie que la valeur saisie dans l'input correspond bien à
+  l'un des éléments proposés dans le mapping.
+  On se sert d'une convention : l'id de l'élément d'erreur est obtenu en remplaçant "combobox" par "error" dans l'id de l'input.
+*/
+function validateInput(inputElement, mapping) {{
+  const value = inputElement.value.trim();
+  const errorElementId = inputElement.id.replace("combobox", "error");
+  const errorElement = document.getElementById(errorElementId);
+  if (value === "" || !(value in mapping)) {{
+    inputElement.classList.add("error");
+    errorElement.textContent = "Sélection invalide.";
+    return false;
+  }} else {{
+    inputElement.classList.remove("error");
+    errorElement.textContent = "";
+    return true;
+  }}
+}}
+
+/*
+  Fonction d'initialisation d'un générateur pour un onglet.
+  Elle attache les écouteurs aux inputs, au bouton de génération et au bouton de copie.
+*/
+function setupGenerator(tabId) {{
+  const currentMappings = mappings[tabId];
+  const comboboxIds = Object.keys(currentMappings);
+
+  // Validation lors de la saisie dans chaque combobox
+  comboboxIds.forEach(id => {{
+    document.getElementById(id).addEventListener("input", function() {{
+      validateInput(this, currentMappings[id]);
+    }});
+  }});
+
+  // Génération du contenu lors du clic sur le bouton "Générer"
+  const generateBtn = document.getElementById("generateBtn_" + tabId);
+  generateBtn.addEventListener("click", function() {{
+    let allValid = true;
+    comboboxIds.forEach(id => {{
+      const inputEl = document.getElementById(id);
+      if (!validateInput(inputEl, currentMappings[id])) {{
+        allValid = false;
+      }}
+    }});
+    if (!allValid) {{
+      alert("Veuillez sélectionner des valeurs valides dans tous les champs.");
+      return;
+    }}
+
+    // Concaténation des valeurs « cachées » issues de chaque combobox (séparées par un espace)
+    let resultText = "";
+    comboboxIds.forEach(id => {{
+      const inputEl = document.getElementById(id);
+      resultText += currentMappings[id][inputEl.value.trim()] + " ";
+    }});
+    resultText = resultText.trim();
+
+    // Mise à jour du textarea et configuration du bouton copier
+    document.getElementById("resultBox_" + tabId).value = resultText;
+    const copyBtn = document.getElementById("copyBtn_" + tabId);
+    copyBtn.setAttribute("data-copy", resultText);
+    copyBtn.disabled = false;
+  }});
+
+  // Attachement de l'action de copie pour le bouton "Copier commande"
+  const copyBtn = document.getElementById("copyBtn_" + tabId);
+  copyBtn.addEventListener("click", function() {{
+    copyToClipboard(this);
+  }});
+}}
+
+/*
+  Fonction générique pour copier le texte dans le presse-papiers (avec fallback pour les anciens navigateurs).
+*/
+function copyToClipboard(button) {{
+  const textToCopy = button.getAttribute("data-copy");
+  if (!navigator.clipboard) {{
+    const textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {{
+      document.execCommand("copy");
+      alert("Texte copié : " + textToCopy);
+    }} catch (err) {{
+      alert("Erreur lors de la copie dans le presse-papiers : " + err);
+    }}
+    document.body.removeChild(textArea);
+    return;
+  }}
+  navigator.clipboard.writeText(textToCopy).then(() => {{
+    alert("Texte copié : " + textToCopy);
+  }}).catch(err => {{
+    alert("Erreur lors de la copie dans le presse-papiers : " + err);
+  }});
+}}
+
+// Initialisation de chacun des générateurs au chargement du document
+document.addEventListener("DOMContentLoaded", function() {{
+  setupGenerator("tab1");
+  setupGenerator("tab-trade");
+  setupGenerator("tab-badge");
+}});
+</script>
+</body>
+</html>
+

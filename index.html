@@ -7,12 +7,44 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <style>
             body {
-                background-color: #2a2a2a;
-                color: white;
+            background-color: #2a2a2a;
+            color: white;
+            text-align: center;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .button-item {
+            margin-bottom: 40px;
+            flex: 1 1 calc(33.333% - 20px); /* 3 colonnes par ligne (horizontale) */
+            max-width: calc(33.333% - 20px);
+        }
+        @media (max-width: 768px) {
+            .button-item {
+                flex: 1 1 calc(50% - 20px); /* 2 colonnes par ligne (verticale) */
+                max-width: calc(50% - 20px);
             }
-            .navbar {
-                margin-bottom: 20px;
-            }
+        }
+        .button-item img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .button-item p {
+        font-size: 1.5em; /* Augmentez cette valeur selon la taille désirée */
+        font-weight: bold; /* Optionnel : rend le texte plus épais */
+    }
+
         </style>
     </head>
     <body>
@@ -104,10 +136,66 @@
                 </ul>
             </div>
         </nav>
-
+<br>
         <div class="container">
-            <h1>Page en cours de construction</h1>
-            <p>Mes petites mains sont en cours de travail pour écrire ces pages web, pourquoi ne prendriez vous pas un p'tit cafio en attendant ?</p>
+            <h1>Accés rapides :</h1>
+            <p>Pour accéder a plus d'élements, utiliser le menu pour naviguer</p>
+			<div class="buttons-container">
+            <div class="button-item">
+                <p>Pokedex</p>
+                <a href="./pokedexLive/main.html">
+                    <img src="./assets/pokeball.png" alt="Pokedex">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Suite MCCare</p>
+                <a href="./soft_MCCare.html">
+                    <img src="./assets/MCSC.png" alt="Placeholder 1">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Planning</p>
+                <a href="./planning.html">
+                    <img src="./assets/calendar.png" alt="Placeholder 2">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Build It</p>
+                <a href="./mc_buildit.html">
+                    <img src="./assets/buildit.png" alt="Placeholder 3">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Musiques</p>
+                <a href="https://music.youtube.com/channel/UC1t79TP9wTVFP8ph3hOpuuQ">
+                    <img src="./assets/music.png" alt="Placeholder 4">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Portfolio</p>
+                <a href="./porfolio.html">
+                    <img src="./assets/portfolio.png" alt="Placeholder 5">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Journey</p>
+                <a href="https://www.planetminecraft.com/project/journey-no-destination/">
+                    <img src="./assets/journey.png" alt="Placeholder 5">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Spideryde</p>
+                <a href="https://www.youtube.com/watch?v=C1geLR_cYpo">
+                    <img src="./assets/spideryde.png" alt="Placeholder 5">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Lives</p>
+                <a href="https://www.twitch.tv/mythmega">
+                    <img src="./assets/twitch.png" alt="Placeholder 5">
+                </a>
+            </div>
+        </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>

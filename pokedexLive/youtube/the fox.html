@@ -82,7 +82,7 @@
       </form>
     </nav><br><br>
     <h1>Pokédex THE FOX - chez mythmega</h1>
-    <p>Pokédex de THE FOX [de youtube] au 2025-03-16_02-35-46, sur le stream de mythmega.</p>
+    <p>Pokédex de THE FOX [de youtube] au 2025-03-16_05-30-54, sur le stream de mythmega.</p>
     <table class="table table-dark table-bordered table-striped">
         <thead class="thead-light">
             <tr>
@@ -289,6 +289,34 @@
       border-radius: 10px;
       background: linear-gradient(to bottom, #0b0b2b, #1b2735 70%, #090a0f);
     }
+    .img-badge {
+      position: relative;
+      display: inline-block;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .img-badge-common {
+      filter: drop-shadow(0 0 10px white) drop-shadow(0 0 20px white);
+    }
+    .img-badge-uncommon {
+      filter: drop-shadow(0 0 10px green) drop-shadow(0 0 20px green);
+    }
+    .img-badge-rare {
+      filter: drop-shadow(0 0 10px blue) drop-shadow(0 0 20px blue);
+    }
+    .img-badge-epic {
+      filter: drop-shadow(0 0 10px purple) drop-shadow(0 0 20px purple);
+    }
+    .img-badge-legendary {
+      filter: drop-shadow(0 0 10px yellow) drop-shadow(0 0 20px yellow);
+    }
+    .img-badge-exotic {
+      filter: drop-shadow(0 0 10px pink) drop-shadow(0 0 20px pink);
+    }
+
+    .img-badge:hover {transform: scale(1.1);
+    }
+
     #downloadBtn {
       margin-top: 35px;
       font-size: large;
@@ -357,7 +385,7 @@
         <div class="col">
           <h6>Creature Favorite :</h6>
           <p></p>
-          <img src="" class="img-thumbnail" alt="userprofile fav creature" style="width: 128px;">
+          <img src="" alt="userprofile fav creature" style="width: 128px;">
         </div>
       </div>
     </div>
@@ -366,37 +394,50 @@
       <div class="row">
         
 <div class="col">
-          <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/red.png" alt="Badge 1" style="height: 48px; width: 48px;">
-            <p style="font-size: 12px; margin-top: 4px">Red.</p>
-        </div>
+    <img 
+        src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/giant-stone.png" 
+        alt="Badge 1" 
+        style="height: 48px; width: 48px;" 
+        class="img-badge img-badge-uncommon" 
+        title="1 shiny attrapé.">
+    <p style="font-size: 12px; margin-top: 4px">La brillance.</p>
+</div>
 <div class="col">
-          <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/mew.png" alt="Badge 2" style="height: 48px; width: 48px;">
-            <p style="font-size: 12px; margin-top: 4px">Agent Rocket.</p>
-        </div>
+    <img 
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/blue_by_OrangeWaker.png" 
+        alt="Badge 2" 
+        style="height: 48px; width: 48px;" 
+        class="img-badge img-badge-uncommon" 
+        title="Dresseur depuis 1 mois.">
+    <p style="font-size: 12px; margin-top: 4px">Blue.</p>
+</div>
 <div class="col">
-          <img src="https://www.serebii.net/tcgpocket/emblems/articunozapdosmoltresemblem.png" alt="Badge 3" style="height: 48px; width: 48px;">
-            <p style="font-size: 12px; margin-top: 4px">Oiseaux légendaires.</p>
-        </div>
+    <img 
+        src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" 
+        alt="Badge 3" 
+        style="height: 48px; width: 48px;" 
+        class="img-badge img-badge-common" 
+        title="10 balls lancés.">
+    <p style="font-size: 12px; margin-top: 4px">Tuto capture.</p>
+</div>
 <div class="col">
-          <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/raid-Go-badge/diamond.png" alt="Badge 4" style="height: 48px; width: 48px;">
-            <p style="font-size: 12px; margin-top: 4px">Prédateur surpuissant.</p>
-        </div>
+    <img 
+        src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/love.png" 
+        alt="Badge 4" 
+        style="height: 48px; width: 48px;" 
+        class="img-badge img-badge-common" 
+        title="5 pokémons attrapés.">
+    <p style="font-size: 12px; margin-top: 4px">Dresseur débutant.</p>
+</div>
 <div class="col">
-          <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/attack-go-badge/level6.png" alt="Badge 5" style="height: 48px; width: 48px;">
-            <p style="font-size: 12px; margin-top: 4px">Tireur légendaire.</p>
-        </div>
-<div class="col">
-          <img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/giant-stone.png" alt="Badge 6" style="height: 48px; width: 48px;">
-            <p style="font-size: 12px; margin-top: 4px">La brillance.</p>
-        </div>
-<div class="col">
-          <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/blue_by_OrangeWaker.png" alt="Badge 7" style="height: 48px; width: 48px;">
-            <p style="font-size: 12px; margin-top: 4px">Blue.</p>
-        </div>
-<div class="col">
-          <img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" alt="Badge 8" style="height: 48px; width: 48px;">
-            <p style="font-size: 12px; margin-top: 4px">Tuto capture.</p>
-        </div>
+    <img 
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/4796216f7c25efd7915233abdb4839e5-removebg-preview.png" 
+        alt="Badge 5" 
+        style="height: 48px; width: 48px;" 
+        class="img-badge img-badge-common" 
+        title="Dresseur depuis 1 semaine.">
+    <p style="font-size: 12px; margin-top: 4px">Regis.</p>
+</div>
       </div>
     </div>
   </div>
@@ -424,13 +465,13 @@
 
 <br><br>
 <p>Stats :</p><br>
-<p>Nombre d'espèce enregistrée : 20 / 261</p><div class="progress">
+<p>Nombre d'espèce enregistrée : 20 / 268</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 7%;" aria-valuenow="7" aria-valuemin="0" aria-valuemax="100">7%</div>
 </div><p>Nombre d'espèce shiny enregistrée : 8</p><div class="progress">
-  <div class="progress-bar" role="progressbar" style="width: 3%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100">3%</div>
-</div><br><p>Total argent dépensé : 2920</p><p>Total de ball lancées : 73</p><br><p>Nombre de pokémon non shiny capturé : 12</p><p>Nombre de pokémon shiny capturé : 6</p><p>Total de pokémon attrapé : 18</p><p>Pokémon le plus attrapé : </p><p>Dresseur depuis : 25/12/2024 02:51:06 (depuis 80 jours.)</p>
+  <div class="progress-bar" role="progressbar" style="width: 2%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">2%</div>
+</div><br><p>Total argent dépensé : 2920</p><p>Total de ball lancées : 73</p><br><p>Nombre de pokémon non shiny capturé : 12</p><p>Nombre de pokémon shiny capturé : 6</p><p>Total de pokémon attrapé : 18</p><p>Pokémon le plus attrapé : </p><p>Dresseur depuis : 25/12/2024 02:51:06 (depuis 81 jours.)</p>
 <p>Badges :</p><br>
-<p>Level 4</p><br><p>43 XP/487 XP</p><br><p>995 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [5/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [1/4]</b></h4>   <div class="row">
+<p>Level 4</p><br><p>45 XP/487 XP</p><br><p>997 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [5/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [1/4]</b></h4>   <div class="row">
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card common" style="background-color: #222222;  height: 220px;">
                                   <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>

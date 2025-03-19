@@ -36,6 +36,9 @@
     <li class="nav-item" role="presentation">
       <button class="nav-link" id="tab-badge-tab" data-bs-toggle="tab" data-bs-target="#tab-badge" type="button" role="tab" aria-controls="tab-badge" aria-selected="false">Badges</button>
     </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-background-tab" data-bs-toggle="tab" data-bs-target="#tab-background" type="button" role="tab" aria-controls="tab-background" aria-selected="false">Fond Carte</button>
+    </li>
   </ul>
 <div class="tab-content" id="myTabContent">
   <!-- Onglet Buy -->
@@ -914,14 +917,577 @@
         </datalist>
         <div class="error-message" id="error3_tab-badge"></div>
       </div>
-
-      <!-- Boutons générer et copier, zone de texte -->
-      <button class="btn btn-primary" id="generateBtn_tab-badge">Générer</button>
-      <div class="mt-3">
-        <textarea class="form-control" id="resultBox_tab-badge" rows="5" readonly></textarea>
-      </div>
-      <button class="btn btn-secondary mt-2" id="copyBtn_tab-badge" data-copy="" disabled>Copier commande</button>
     </div>
+  </div>
+<!-- Onglet Background -->
+<div class="tab-pane fade p-3" id="tab-background" role="tabpanel" aria-labelledby="tab-background-tab">
+  <h3>Générateur 3</h3>
+
+  <!-- Combobox 1 : Sélection du groupe -->
+  <div class="mb-3">
+    <label for="combobox1_tab-background" class="form-label">Groupe</label>
+    <select class="form-select" id="combobox1_tab-background">
+      <option selected disabled>Choisissez une option</option>
+      <option value="Base">Base</option>
+<option value="Base plus">Base plus</option>
+<option value="Spécial">Spécial</option>
+
+    </select>
+    <div class="error-message" id="error1_tab-background"></div>
+  </div>
+
+  <!-- Zone destinée à accueillir la grille de backgrounds -->
+  <div id="background-grid" class="row row-cols-1 row-cols-md-4 g-3">
+    <!-- Les images filtrées apparaîtront ici -->
+  </div>
+</div>
+
+<script>
+// On convertit le JSON généré côté serveur en objet JavaScript.
+const trainerBackgroundsList = JSON.parse(`[
+  {
+    "requirements": [],
+    "Name": "Base Card (classic)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (blue)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_blue.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (blue_cyan)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_blue_cyan.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (blue_violet)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_blue_violet.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (chartreuse)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_chartreuse.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (cyan)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_cyan.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (fuchsia)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_fuchsia.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (green)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_green.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (hot pink)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_hot_pink.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (magenta)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_magenta.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (orange)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_orange.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (pink)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_pink.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (purple)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_purple.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (red)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_red.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (red orange)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_red_orange.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (teal)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_teal.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (turquoise)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_turquoise.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (violet)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_violet.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (yellow)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_yellow.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Base Card (yellow orange)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/base/base_card_yellow_orange.jpg",
+    "Exclusive": false,
+    "Group": "Base",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 50
+      }
+    ],
+    "Name": "Base Plus (Mud)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_mud.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 50
+      }
+    ],
+    "Name": "Base Plus (Deepsea)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_deepsea.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 69
+      }
+    ],
+    "Name": "Base Plus (Froggy)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_worst_card2.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 69
+      }
+    ],
+    "Name": "Base Plus (PINGU)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_worst_card.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 100
+      }
+    ],
+    "Name": "Base Plus (Blue Pink)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_bluepink.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 100
+      }
+    ],
+    "Name": "Base Plus (Midnight)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_midnight.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 150
+      }
+    ],
+    "Name": "Base Plus (Milk)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_milk.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 150
+      }
+    ],
+    "Name": "Base Plus (RainbowDesatu)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_rainbowdesatu.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 200
+      }
+    ],
+    "Name": "Base Plus (Teal)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_teal.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 200
+      }
+    ],
+    "Name": "Base Plus (StarSurface)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_starsurface.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 225
+      }
+    ],
+    "Name": "Base Plus (Iron)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_iron.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 225
+      }
+    ],
+    "Name": "Base Plus (Ice)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_ice.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 250
+      }
+    ],
+    "Name": "Base Plus (Fire)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_fire.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 250
+      }
+    ],
+    "Name": "Base Plus (Pyramid)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_wave_pyramid.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 275
+      }
+    ],
+    "Name": "Base Plus (Waves)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_waves.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 275
+      }
+    ],
+    "Name": "Base Plus (Thunder)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_thunder.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 300
+      }
+    ],
+    "Name": "Base Plus (Pixelmoon)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_pixelmoon.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 300
+      }
+    ],
+    "Name": "Base Plus (Pyrawave)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_wave_pyramid2.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 300
+      }
+    ],
+    "Name": "Base Plus (Wavemoon)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_wave_moon.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRegistered",
+        "Value": 300
+      }
+    ],
+    "Name": "Base Plus (Urbanwave)",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_wave_unban.png",
+    "Exclusive": false,
+    "Group": "Base plus",
+    "Usercodes": []
+  },
+  {
+    "requirements": [],
+    "Name": "Gold Card",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_gold.png",
+    "Exclusive": true,
+    "Group": "Spécial",
+    "Usercodes": [
+      "157090915"
+    ]
+  },
+  {
+    "requirements": [],
+    "Name": "Twitch Partner",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/card_twitchelement.png",
+    "Exclusive": true,
+    "Group": "Spécial",
+    "Usercodes": [
+      "157090915",
+      "495923644",
+      "578820898",
+      "136269075"
+    ]
+  }
+]`);
+
+// Fonction qui se charge d'afficher les backgrounds correspondant au groupe sélectionné.
+function displayBackgroundsByGroup(selectedGroup) {
+  const container = document.getElementById('background-grid');
+  container.innerHTML = ''; // Réinitialise la zone d'affichage.
+
+  // Filtre des backgrounds correspondant au groupe choisi.
+  const matchingBackgrounds = trainerBackgroundsList.filter(bg => bg.Group === selectedGroup);
+
+  if (matchingBackgrounds.length === 0) {
+    container.innerHTML = '<p>Aucun background trouvé pour ce groupe.</p>';
+    return;
+  }
+
+  // Pour chacun des backgrounds filtrés, on crée une colonne contenant une card.
+  matchingBackgrounds.forEach(bg => {
+    const col = document.createElement('div');
+    col.className = 'col';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    // Ajout de l'image
+    const img = document.createElement('img');
+    img.className = 'card-img-top';
+    img.src = bg.Url; // On utilise la propriété Url pour obtenir l'image.
+    img.alt = bg.Group;
+    card.appendChild(img);
+
+    // Création d'un container pour le contenu textuel de la card
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    // Titre h4 avec le nom de la carte (bg.Name)
+    const nameHeading = document.createElement('h4');
+    nameHeading.textContent = bg.Name;
+    cardBody.appendChild(nameHeading);
+
+    // Titre h5 "Requirements :"
+    const reqHeading = document.createElement('h5');
+    reqHeading.textContent = 'Requirements :';
+    cardBody.appendChild(reqHeading);
+
+    // Création d'une liste des requirements
+    const reqList = document.createElement('ul');
+    if (bg.requirements && bg.requirements.length > 0) {
+      bg.requirements.forEach(req => {
+        const reqItem = document.createElement('li');
+        reqItem.textContent = req.Type + ': ' + req.Value;
+        reqList.appendChild(reqItem);
+      });
+    } else {
+      // Au cas où il n'y aurait pas de requirements
+      const emptyItem = document.createElement('li');
+      emptyItem.textContent = 'Aucun requirement défini.';
+      reqList.appendChild(emptyItem);
+    }
+    cardBody.appendChild(reqList);
+
+    // Création du bouton pour copier la commande
+    const copyButton = document.createElement('button');
+    copyButton.className = 'btn btn-secondary mt-2';
+    copyButton.textContent = 'Copier la commande';
+
+    // Préparation de la commande à copier
+    // Remplacement des espaces par des underscores dans le nom.
+    const commandText = "!changeCard " + bg.Name.replace(/ /g, "_");
+
+    // Ajout de l'événement qui copie le texte dans le presse-papiers lors du clic.
+    copyButton.addEventListener('click', function() {
+      navigator.clipboard.writeText(commandText)
+        .then(() => {
+          // Vous pouvez afficher un message temporaire pour l'utilisateur si nécessaire.
+          alert("Commande copiée : " + commandText);
+        })
+        .catch(err => {
+          console.error('Erreur lors de la copie de la commande:', err);
+        });
+    });
+
+    cardBody.appendChild(copyButton);
+
+    // Ajout du container textuel à la card
+    card.appendChild(cardBody);
+    col.appendChild(card);
+    container.appendChild(col);
+  });
+}
+
+// Ajout d'un écouteur sur le select afin de détecter le changement de groupe.
+document.getElementById('combobox1_tab-background').addEventListener('change', function() {
+  const selectedGroup = this.value;
+  displayBackgroundsByGroup(selectedGroup);
+});
+displayBackgroundsByGroup(selectedGroup);
+</script>
+
+
+
 
   </div>
 </div>

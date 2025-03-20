@@ -921,7 +921,7 @@
   </div>
 <!-- Onglet Background -->
 <div class="tab-pane fade p-3" id="tab-background" role="tabpanel" aria-labelledby="tab-background-tab">
-  <h3>Générateur 3</h3>
+  <h3>Fond Carte de dresseur</h3>
 
   <!-- Combobox 1 : Sélection du groupe -->
   <div class="mb-3">
@@ -930,7 +930,10 @@
       <option selected disabled>Choisissez une option</option>
       <option value="Base">Base</option>
 <option value="Base plus">Base plus</option>
+<option value="Shinydex">Shinydex</option>
+<option value="Raider">Raider</option>
 <option value="Spécial">Spécial</option>
+<option value="Évent">Évent</option>
 
     </select>
     <div class="error-message" id="error1_tab-background"></div>
@@ -1366,9 +1369,261 @@ const trainerBackgroundsList = JSON.parse(`[
     "Usercodes": []
   },
   {
+    "requirements": [
+      {
+        "Type": "ShinyRegistered",
+        "Value": 10
+      }
+    ],
+    "Name": "Bronze Shiny",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/shinydex/bronze.png",
+    "Exclusive": false,
+    "Group": "Shinydex",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "ShinyRegistered",
+        "Value": 25
+      }
+    ],
+    "Name": "Silver Shiny",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/shinydex/silver.png",
+    "Exclusive": false,
+    "Group": "Shinydex",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "ShinyRegistered",
+        "Value": 100
+      }
+    ],
+    "Name": "Gold Shiny",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/shinydex/gold.png",
+    "Exclusive": false,
+    "Group": "Shinydex",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "ShinyRegistered",
+        "Value": 250
+      }
+    ],
+    "Name": "Ruby Shiny",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/shinydex/ruby.png",
+    "Exclusive": false,
+    "Group": "Shinydex",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "ShinyRegistered",
+        "Value": 500
+      }
+    ],
+    "Name": "Emerald Shiny",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/shinydex/emerald.png",
+    "Exclusive": false,
+    "Group": "Shinydex",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "ShinyRegistered",
+        "Value": 1000
+      }
+    ],
+    "Name": "Platin Shiny",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/shinydex/platin.png",
+    "Exclusive": false,
+    "Group": "Shinydex",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRaid",
+        "Value": 5
+      }
+    ],
+    "Name": "Bronze Raider",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/raids/bronze.png",
+    "Exclusive": false,
+    "Group": "Raider",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRaid",
+        "Value": 10
+      }
+    ],
+    "Name": "Silver Raider",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/raids/silver.png",
+    "Exclusive": false,
+    "Group": "Raider",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRaid",
+        "Value": 25
+      }
+    ],
+    "Name": "Gold Raider",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/raids/gold.png",
+    "Exclusive": false,
+    "Group": "Raider",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRaid",
+        "Value": 50
+      }
+    ],
+    "Name": "Ruby Raider",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/raids/ruby.png",
+    "Exclusive": false,
+    "Group": "Raider",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRaid",
+        "Value": 100
+      }
+    ],
+    "Name": "Emerald Raider",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/raids/emerald.png",
+    "Exclusive": false,
+    "Group": "Raider",
+    "Usercodes": []
+  },
+  {
+    "requirements": [
+      {
+        "Type": "TotalRaid",
+        "Value": 250
+      }
+    ],
+    "Name": "Platin Raider",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/progress/raids/platin.png",
+    "Exclusive": false,
+    "Group": "Raider",
+    "Usercodes": []
+  },
+  {
     "requirements": [],
     "Name": "Gold Card",
     "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_gold.png",
+    "Exclusive": true,
+    "Group": "Spécial",
+    "Usercodes": [
+      "157090915"
+    ]
+  },
+  {
+    "requirements": [],
+    "Name": "Marshmallos",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/event/marshmallow.png",
+    "Exclusive": true,
+    "Group": "Évent",
+    "Usercodes": [
+      "UCARkof-whZfim1dG4Zn3-vQ",
+      "1094882609",
+      "894289268",
+      "UCqwGTTCNLZGhD6Y2Rxz9xyA",
+      "UClKq383yOKOHr2indMU9j3w",
+      "UC4uXwUxgaNUbzAe-YFSCfkw",
+      "151211973",
+      "UCIErjUBVka8O6knBqKsT99w",
+      "UCqwGPplh7_8em6K-_YjBayg",
+      "1224497282",
+      "UCPFjGXQrdF-pRDvpAcCMuCg",
+      "157090915",
+      "777996821",
+      "UCjHdqTN1mW6J2kugwFP4YbA",
+      "1180919886",
+      "UCPjSqSARWwmu4uMq9zsjU1A",
+      "578820898",
+      "UCHM6rlTFRO9-jhIiDhb54GA",
+      "UC9hsfL0J1f1ohSCUtBtARTQ",
+      "UC1DEkn0vSlMdDDFG9m0SCFw",
+      "452420066",
+      "1130065683",
+      "UCKnt-1GA33YcNgqMTS-FVUw",
+      "834311156",
+      "712028194",
+      "UCn-1JYN2dJ-xEeRaQlHkO2Q",
+      "495923644",
+      "1222090767",
+      "UCCN9lZn5x1AXns-_lnH3emw",
+      "UCHXfLcZlBfNUv-hGzPL903A",
+      "611566094",
+      "UClMMbJ1Ln02XdEs1d8aWP4Q",
+      "1223837315",
+      "1166334415",
+      "1002182056",
+      "47643853",
+      "171760388",
+      "627782919",
+      "790816450",
+      "UC5JOMxQptjeT-a8INBat2mA",
+      "1128614149",
+      "1230624384",
+      "UClNXFUJiguTSU4VjOVuWPqQ",
+      "UC5jj4_rKsa-3ZjI-qPUxdRQ",
+      "472329035",
+      "1018364488",
+      "UCH2A2_lc_Hd_18mc7b3YbvA",
+      "UCkErAixvZdfTRAI3oF2iiKg",
+      "UCQlxwLsIPL99yhoNP0CFo1A"
+    ]
+  },
+  {
+    "requirements": [],
+    "Name": "Morphos",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/event/morph.png",
+    "Exclusive": true,
+    "Group": "Évent",
+    "Usercodes": [
+      "1094882609",
+      "1180919886",
+      "UCrZlINwgBqJBeG-e6QT7rRg",
+      "157090915",
+      "627782919",
+      "171760388",
+      "UCQlxwLsIPL99yhoNP0CFo1A",
+      "136269075",
+      "578820898",
+      "894289268",
+      "UCdC9bsgmphvLWCav0Pzkm0Q",
+      "151211973",
+      "UCARkof-whZfim1dG4Zn3-vQ",
+      "1097843148",
+      "UCwKjXiWIsyAgrTLQWyOh3aQ",
+      "UCJ5JaxcGZ22kv6ktKRzjbQw",
+      "1251537316",
+      "1276951641",
+      "1135908238"
+    ]
+  },
+  {
+    "requirements": [],
+    "Name": "Tocos",
+    "Url": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/event/tocos.jpg",
     "Exclusive": true,
     "Group": "Spécial",
     "Usercodes": [
@@ -1485,7 +1740,6 @@ document.getElementById('combobox1_tab-background').addEventListener('change', f
 });
 displayBackgroundsByGroup(selectedGroup);
 </script>
-
 
 
 

@@ -1645,6 +1645,34 @@ const trainerBackgroundsList = JSON.parse(`[
   }
 ]`);
 
+// Fonction de copie dans le presse-papiers avec fallback.
+function copyToClipboard(button) {
+  const textToCopy = button.getAttribute("data-copy");
+
+  if (!navigator.clipboard) {
+    // Fallback pour les navigateurs qui ne supportent pas l'API Clipboard.
+    const textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      alert("Texte copié : " + textToCopy);
+    } catch (err) {
+      alert("Erreur lors de la copie dans le presse-papiers : " + err);
+    }
+    document.body.removeChild(textArea);
+    return;
+  }
+
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    alert("Texte copié : " + textToCopy);
+  }).catch(err => {
+    alert("Erreur lors de la copie dans le presse-papiers : " + err);
+  });
+}
+
 // Fonction qui se charge d'afficher les backgrounds correspondant au groupe sélectionné.
 function displayBackgroundsByGroup(selectedGroup) {
   const container = document.getElementById('background-grid');
@@ -1673,21 +1701,21 @@ function displayBackgroundsByGroup(selectedGroup) {
     img.alt = bg.Group;
     card.appendChild(img);
 
-    // Création d'un container pour le contenu textuel de la card
+    // Création d'un container pour le contenu textuel de la card.
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body';
 
-    // Titre h4 avec le nom de la carte (bg.Name)
+    // Titre h4 avec le nom de la carte (bg.Name).
     const nameHeading = document.createElement('h4');
     nameHeading.textContent = bg.Name;
     cardBody.appendChild(nameHeading);
 
-    // Titre h5 "Requirements :"
+    // Titre h5 "Requirements :".
     const reqHeading = document.createElement('h5');
     reqHeading.textContent = 'Requirements :';
     cardBody.appendChild(reqHeading);
 
-    // Création d'une liste des requirements
+    // Création d'une liste des requirements.
     const reqList = document.createElement('ul');
     if (bg.requirements && bg.requirements.length > 0) {
       bg.requirements.forEach(req => {
@@ -1696,37 +1724,33 @@ function displayBackgroundsByGroup(selectedGroup) {
         reqList.appendChild(reqItem);
       });
     } else {
-      // Au cas où il n'y aurait pas de requirements
+      // Au cas où il n'y aurait pas de requirements.
       const emptyItem = document.createElement('li');
       emptyItem.textContent = 'Aucun requirement défini.';
       reqList.appendChild(emptyItem);
     }
     cardBody.appendChild(reqList);
 
-    // Création du bouton pour copier la commande
+    // Création du bouton pour copier la commande.
     const copyButton = document.createElement('button');
     copyButton.className = 'btn btn-secondary mt-2';
     copyButton.textContent = 'Copier la commande';
 
-    // Préparation de la commande à copier
+    // Préparation de la commande à copier.
     // Remplacement des espaces par des underscores dans le nom.
     const commandText = "!changeCard " + bg.Name.replace(/ /g, "_");
 
+    // Ajout de l'attribut data-copy contenant la commande.
+    copyButton.setAttribute("data-copy", commandText);
+
     // Ajout de l'événement qui copie le texte dans le presse-papiers lors du clic.
     copyButton.addEventListener('click', function() {
-      navigator.clipboard.writeText(commandText)
-        .then(() => {
-          // Vous pouvez afficher un message temporaire pour l'utilisateur si nécessaire.
-          alert("Commande copiée : " + commandText);
-        })
-        .catch(err => {
-          console.error('Erreur lors de la copie de la commande:', err);
-        });
+      copyToClipboard(this);
     });
 
     cardBody.appendChild(copyButton);
 
-    // Ajout du container textuel à la card
+    // Ajout du container textuel à la card.
     card.appendChild(cardBody);
     col.appendChild(card);
     container.appendChild(col);
@@ -1738,9 +1762,11 @@ document.getElementById('combobox1_tab-background').addEventListener('change', f
   const selectedGroup = this.value;
   displayBackgroundsByGroup(selectedGroup);
 });
+
+// Appel initial de la fonction.
+// Attention : Assurez-vous que la variable selectedGroup est définie ou récupérée au préalable.
 displayBackgroundsByGroup(selectedGroup);
 </script>
-
 
 
   </div>

@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Statistiques Raid - Thème Sombre et AOS</title>
+  <title>Statistiques Raid - Granivol</title>
   <!-- Bootstrap 5 CSS avec thème sombre de Bootswatch (Darkly) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/darkly/bootstrap.min.css">
   <!-- AOS CSS -->
@@ -16,7 +17,7 @@
   <!-- Styles personnalisés pour affiner le thème sombre -->
   <style>
     body {
-      background-color: #121212;
+      background -color: #121212;
       color: #e0e0e0;
     }
     .table {
@@ -38,8 +39,9 @@
 </head>
 <body>
   <div class="container my-4" data-aos="fade-up">
-    <h1 class="text-center mb-4" data-aos="fade-down">Statistiques Raid</h1>
-
+    <h1 class="text-center mb-4" data-aos="fade-down">Statistiques Raid</h1><br>
+    <img style="width=480px; height=auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hoppip_normal.gif" class="text-center mb-4" data-aos="fade-down"></img><br>
+    <h2 class="text-center mb-4" data-aos="fade-down">Granivol (75000) - 21/03/2025 21:02</h2><br>
     <!-- Section Tableau -->
     <div class="row mb-5" data-aos="fade-right">
       <div class="col-12">
@@ -69,19 +71,234 @@
         <h2>Somme de dégât par plateforme</h2>
         <canvas id="chartPlatform"></canvas>
       </div>
-      <div class="col-md-6 mb-4" data-aos="fade-up">
-        <h2>Dégâts par pseudo</h2>
+      <div class="col-md-12 mb-4" data-aos="fade-up">
+        <h2>Dégâts par personne</h2>
         <canvas id="chartDamage"></canvas>
       </div>
       <div class="col-md-6 mb-4" data-aos="fade-up">
-        <h2>Base Damage par pseudo</h2>
+        <h2>Dommage de base par personne</h2>
         <canvas id="chartBaseDmg"></canvas>
       </div>
       <div class="col-md-6 mb-4" data-aos="fade-up">
-        <h2>Nombre d'Attaques par pseudo</h2>
+        <h2>Nombre d'Attaques par personne</h2>
         <canvas id="chartAtkCount"></canvas>
       </div>
     </div>
+    <div class="row">
+      <div class="col-12" data-aos="fade-up">
+        <h2>Leader du Raid : batgo_</h2><br><br>
+        
+<style>
+    .generatedCard {
+      color: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      width: 856px;
+      height: 540px;
+      border-radius: 10px;
+      background-image: url("https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_worst_card2.png");
+    }
+    .img-badge {
+      position: relative;
+      display: inline-block;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .img-badge-common {filter: drop-shadow(0 0 10px white) drop-shadow(0 0 20px white);
+            }
+.img-badge-uncommon {filter: drop-shadow(0 0 10px green) drop-shadow(0 0 20px green);
+            }
+.img-badge-rare
+            {filter: drop-shadow(0 0 10px blue) drop-shadow(0 0 20px blue);
+}
+.img-badge-epic
+            {filter: drop-shadow(0 0 10px purple) drop-shadow(0 0 20px purple);
+            }
+.img-badge-legendary {filter: drop-shadow(0 0 10px yellow) drop-shadow(0 0 20px yellow);
+}
+.img-badge-exotic {filter: drop-shadow(0 0 10px pink) drop-shadow(0 0 20px pink);
+}
+
+    .img-badge:hover {transform: scale(1.25) rotate(360deg);
+    }
+
+    #downloadBtn {
+      margin-top: 35px;
+      font-size: large;
+      border-radius: 3px;
+      border: 5px;
+      padding: 15px;
+      box-shadow: 0px 0px 38px 0px rgba(0,0,0,0.5);
+-webkit-box-shadow: 0px 0px 38px 0px rgba(0,0,0,0.5);
+-moz-box-shadow: 0px 0px 38px 0px rgba(0,0,0,0.5);
+    }
+    .textShadow { text-shadow: 0px 0px 11px #000, 0px 0px 11px #000, 0px 0px 20px #000;
+font-weight: bolder;
+            }
+    .stars {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  background: white;
+  box-shadow: 2vw 5vh 2px white, 10vw 8vh 2px white, 15vw 15vh 1px white,
+    22vw 22vh 1px white, 28vw 12vh 2px white, 32vw 32vh 1px white,
+    38vw 18vh 2px white, 42vw 35vh 1px white, 48vw 25vh 2px white,
+    53vw 42vh 1px white, 58vw 15vh 2px white, 63vw 38vh 1px white,
+    68vw 28vh 2px white, 73vw 45vh 1px white, 78vw 32vh 2px white,
+    83vw 48vh 1px white, 88vw 20vh 2px white, 93vw 52vh 1px white,
+    98vw 35vh 2px white, 5vw 60vh 1px white, 12vw 65vh 2px white,
+    18vw 72vh 1px white, 25vw 78vh 2px white, 30vw 85vh 1px white,
+    35vw 68vh 2px white, 40vw 82vh 1px white, 45vw 92vh 2px white,
+    50vw 75vh 1px white, 55vw 88vh 2px white, 60vw 95vh 1px white,
+    65vw 72vh 2px white, 70vw 85vh 1px white, 75vw 78vh 2px white,
+    80vw 92vh 1px white, 85vw 82vh 2px white, 90vw 88vh 1px white,
+    95vw 75vh 2px white;
+  animation: twinkle 8s infinite linear;
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+  </style>
+</head>
+<body>
+  <center>
+  <div class="generatedCard" style="background-color: rgba(0, 0, 0, 0.5);">
+  <!-- Partie titre -->
+    <div class="stars"></div>
+    <h1 class="textShadow">Dresseur : batgo_</h1>
+    <h3 class="textShadow" style="margin-bottom: 50px;">ID : 1180919886</h3>
+    <!-- Partie Corp -->
+    <div class="container">
+      <!-- Photo -->
+      <div class="row">
+        <div class="col">
+          <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/94d9416d-fb54-4922-b739-30e8bee877ac-profile_image-300x300.jpeg" class="img-thumbnail" alt="userprofile picture" style="width: 192px;" crossorigin="anonymous">
+        </div>
+        <!-- Stats -->
+        <div class="col">
+            <div>
+          <p class="textShadow">Global dex : 258</p>
+          <p class="textShadow">Shiny dex : 180</p>
+          <p class="textShadow">Trainer since : 6 Nov. 24</p>
+          <p class="textShadow">Platform : twitch <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/twitch.png" style="height: 16px; width: 16px;"></p>
+          <p class="textShadow">Level : 14</p>
+          <p class="textShadow">Captures : 1571</p>
+            </div>
+        </div>
+        <!-- Favorite creature -->
+        <div class="col">
+          <h6 class="textShadow">Creature Favorite :</h6>
+          <p class="textShadow">Pika-morph</p>
+          <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Pikachu_firefallon.gif" alt="userprofile fav creature" style="width: 128px;">
+        </div>
+      </div>
+    </div>
+    <!-- Badges -->
+    <div class="container">
+      <div class="row">
+        
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/ptcgp/ptcgp_MEW.png"
+        alt="Badge 1"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-exotic"
+        title="Mew attrapé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Agent Rocket.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/ptcgp/ptcgp_FIRE_THUNDER_FREEZER.png"
+        alt="Badge 2"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-exotic"
+        title="Trois oiseaux capturés.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Oiseaux légendaires.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/ptcgp/ptcgp_MEWTWO.png"
+        alt="Badge 3"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-legendary"
+        title="Mewtwo attrapé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Soldat Rocket.</p>
+</div>
+<div class="col">
+    <img
+        src="https://cdn-icons-png.flaticon.com/512/1998/1998627.png"
+        alt="Badge 4"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-legendary"
+        title="Le trio de chiens légendaire de Johto capturé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Trio de chiens légendaires.</p>
+</div>
+<div class="col">
+    <img
+        src="https://cdn-icons-png.flaticon.com/512/1092/1092446.png"
+        alt="Badge 5"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-legendary"
+        title="Lugia & Ho-oh capturés.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Ciel de Johto.</p>
+</div>
+<div class="col">
+    <img
+        src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/master.png"
+        alt="Badge 6"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-epic"
+        title="1000 balls lancés.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">punching-ball.</p>
+</div>
+<div class="col">
+    <img
+        src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/heavy.png"
+        alt="Badge 7"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-epic"
+        title="500 Pokémons attrapés.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Dresseur légendaire.</p>
+</div>
+<div class="col">
+    <img
+        src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/gold.png"
+        alt="Badge 8"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-epic"
+        title="50 shiny attrapé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">étoile filante.</p>
+</div>
+      </div>
+    </div>
+  </div>
+
+  <button id="downloadBtn">Télécharger sa carte</button>
+</center>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<script>
+  document.getElementById("downloadBtn").addEventListener("click", function(){
+    var cardElement = document.querySelector(".generatedCard");
+    domtoimage.toPng(cardElement)
+      .then(function(dataUrl){
+        var downloadLink = document.createElement('a');
+        downloadLink.href = dataUrl;
+        downloadLink.download = 'ma-carte.png';
+        downloadLink.click();
+      })
+      .catch(function(error) {
+        console.error("Une erreur est survenue :", error);
+      });
+  });
+</script>
+
+      </div>
   </div>
 
   <!-- Script de chargement et d'affichage des données -->
@@ -89,8 +306,8 @@
     document.addEventListener("DOMContentLoaded", function() {
       // Initialisation de AOS (animate on scroll)
       AOS.init({
-        duration: 1000, // Durée de l'animation en ms
-        once: true      // L'animation se déclenche qu'une seule fois
+        duration: 3000, // Durée de l'animation en ms
+        once: false      // L'animation se déclenche qu'une seule fois
       });
 
       // Chargement du fichier CSV avec Papa Parse
@@ -312,3 +529,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 </body>
 </html>
+

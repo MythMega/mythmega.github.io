@@ -71,7 +71,7 @@
                 <th>Artist</th>
             </tr>
         </thead>
-        <tbody>  id="recordsTable"
+        <tbody id="recordsTable">
 <tr>
                 <td>Bulbizarre</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bulbasaur_normal.gif" alt="Normal Sprite"></td>
@@ -3089,7 +3089,7 @@
         document.getElementById('searchInput').addEventListener('keyup', function() {
             const searchValue = this.value.toLowerCase(); // Texte saisi
             const tableRows = document.querySelectorAll('#recordsTable tr'); // Toutes les lignes du tableau
-            
+
             tableRows.forEach(row => {
                 const pokémon = row.cells[0].textContent.toLowerCase(); // Colonne Pokémon
                 const dispo = row.cells[5].textContent.toLowerCase(); // Colonne Statut

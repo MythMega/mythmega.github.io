@@ -40,7 +40,7 @@
         }
 
         /* Texte plus grand dans <td> */
-        .large-text td {font - size: 20px; }
+        .large-text td {font-size: 20px; }
 
     </style>
 </head>
@@ -55,9 +55,10 @@
         <a class="btn btn-sm btn-outline-secondary" href="pokestats.html" style="color: white;">Classements</a>
         <a class="btn btn-sm btn-outline-secondary" href="buypokemon.html" style="color: white;">Acheter Pokémon</a>
         <a class="btn btn-sm btn-outline-secondary" href="scrappokemon.html" style="color: white;">Scrap Pokémon</a>
+        <a class="btn btn-sm btn-outline-secondary" href="records.html" style="color: white;">Enregistrements</a>
       </form>
     </nav><br><br>
-
+<input type="text" id="searchInput" placeholder="Rechercher Pokémon ou Statut" class="form-control" style="margin-bottom: 20px; max-width: 300px;">
     <table class="table table-dark table-bordered table-striped">
         <thead>
             <tr>
@@ -70,7 +71,7 @@
                 <th>Artist</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody>  id="recordsTable"
 <tr>
                 <td>Bulbizarre</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bulbasaur_normal.gif" alt="Normal Sprite"></td>
@@ -1204,7 +1205,7 @@
 <tr>
                 <td>Smogogo</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Weezing_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">22</td>
+                <td class="count">23</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Weezing_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">38</td>
                 <td class="FullAvailable">Dispo : fully available</td>
@@ -1607,7 +1608,7 @@
                 <td class="count">29</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mewtwo_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">5</td>
-                <td class="FullAvailable">Dispo : fully available</td>
+                <td class="FullAvailable">Dispo : fully available (shiny locked)</td>
                 <td>/</td>
             </tr>
 
@@ -2397,7 +2398,7 @@
                 <td class="count">14</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Raikou_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
-                <td class="FullAvailable">Dispo : fully available</td>
+                <td class="FullAvailable">Dispo : fully available (shiny locked)</td>
                 <td>/</td>
             </tr>
 
@@ -2407,7 +2408,7 @@
                 <td class="count">13</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Entei_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
-                <td class="FullAvailable">Dispo : fully available</td>
+                <td class="FullAvailable">Dispo : fully available (shiny locked)</td>
                 <td>/</td>
             </tr>
 
@@ -2417,7 +2418,7 @@
                 <td class="count">9</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Suicune_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
-                <td class="FullAvailable">Dispo : fully available</td>
+                <td class="FullAvailable">Dispo : fully available (shiny locked)</td>
                 <td>/</td>
             </tr>
 
@@ -2974,7 +2975,7 @@
 <tr>
                 <td>M-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Mr.Mime_firefallon.gif" alt="Normal Sprite"></td>
-                <td class="count">13</td>
+                <td class="count">28</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Mr.Mime_shiny_firefallon.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
@@ -3083,6 +3084,25 @@
 </tbody>
     </table>
 <br><br>
+    <script>
+        // Fonction pour filtrer les résultats
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase(); // Texte saisi
+            const tableRows = document.querySelectorAll('#recordsTable tr'); // Toutes les lignes du tableau
+            
+            tableRows.forEach(row => {
+                const pokémon = row.cells[0].textContent.toLowerCase(); // Colonne Pokémon
+                const dispo = row.cells[5].textContent.toLowerCase(); // Colonne Statut
+                const artist = row.cells[6].textContent.toLowerCase(); // Colonne Statut
+
+                if (pokémon.includes(searchValue) || dispo.includes(searchValue) || artist.includes(searchValue)) {
+                    row.style.display = ''; // Montrer la ligne
+                } else {
+                    row.style.display = 'none'; // Cacher la ligne
+                }
+            });
+        });
+    </script>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -72,14 +72,17 @@
     <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
       <form class="form-inline">
         <a class="btn btn-sm btn-outline-secondary" href="../main.html" style="color: white;">Accueil Pokédex</a>
-        <a class="btn btn-sm btn-outline-secondary" href="commandgenerator.html" style="color: white;">Command Generator</a>
-        <a class="btn btn-sm btn-outline-secondary" href="raid.html" style="color: white;">Raid Result</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../commandgenerator.html" style="color: white;">Command Generator</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../raid.html" style="color: white;">Raid Result</a>
         <a class="btn btn-sm btn-outline-secondary" href="../availablepokemon.html" style="color: white;">Pokédex Infos</a>
         <a class="btn btn-sm btn-outline-secondary" href="../pokestats.html" style="color: white;">Classements</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../records.html" style="color: white;">Enregistrements</a>
       </form>
     </nav><br><br>
     <h1>Pokédex MythMega - chez mythmega</h1>
-    <p>Pokédex de MythMega [de tiktok] au 2025-03-24_23-20-14, sur le stream de mythmega.</p>
+    <p>Pokédex de MythMega [de tiktok] au 2025-03-25_18-49-24, sur le stream de mythmega.</p>
+    
+    <input type="text" id="searchInput" placeholder="Rechercher Pokémon ou Statut" class="form-control" style="margin-bottom: 20px; max-width: 300px;">
     <table class="table table-dark table-bordered table-striped">
         <thead class="thead-light">
             <tr>
@@ -91,7 +94,16 @@
                 <th>Première capture(s)</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="recordsTable">
+<tr>
+                <td class="pokename">Smogogo</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Weezing_normal.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Weezing_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>24/03/2025 23:24:51</td>
+            </tr>
+
 <tr>
                 <td class="pokename">Corayon</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Corsola_normal.gif" alt="Normal Sprite"></td>
@@ -204,17 +216,17 @@ font-weight: bolder;
       <!-- Photo -->
       <div class="row">
         <div class="col">
-          <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/910fb8a345d765ba1d0322afff83a5ac~tplv-tiktokx-cropcenter:100:100.webp?dr=10399&refresh_token=940fa27d&x-expires=1742929200&x-signature=1pSTrlgVKh1Mi8QxYE7MM%2F%2FFaIk%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=useast2a" class="img-thumbnail" alt="userprofile picture" style="width: 192px;" crossorigin="anonymous">
+          <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/910fb8a345d765ba1d0322afff83a5ac~tplv-tiktokx-cropcenter:100:100.webp?dr=10399&refresh_token=b5eebb9e&x-expires=1743026400&x-signature=DAYvTjzboQnuALifilMzFtXPeLs%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=useast2a" class="img-thumbnail" alt="userprofile picture" style="width: 192px;" crossorigin="anonymous">
         </div>
         <!-- Stats -->
         <div class="col">
             <div>
-          <p class="textShadow">Global dex : 2</p>
+          <p class="textShadow">Global dex : 3</p>
           <p class="textShadow">Shiny dex : 1</p>
           <p class="textShadow">Trainer since : 23 Mar. 25</p>
           <p class="textShadow">Platform : tiktok <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/tiktok.png" style="height: 16px; width: 16px;"></p>
           <p class="textShadow">Level : 1</p>
-          <p class="textShadow">Captures : 2</p>
+          <p class="textShadow">Captures : 3</p>
             </div>
         </div>
         <!-- Favorite creature -->
@@ -254,13 +266,13 @@ font-weight: bolder;
 
 <br><br>
 <p>Stats :</p><br>
-<p>Nombre d'espèce enregistrée : 2 / 301</p><div class="progress">
+<p>Nombre d'espèce enregistrée : 3 / 301</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
 </div><p>Nombre d'espèce shiny enregistrée : 1</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-</div><br><p>Total argent dépensé : 0</p><p>Total de ball lancées : 1</p><br><p>Nombre de pokémon non shiny capturé : 0</p><p>Nombre de pokémon shiny capturé : 0</p><p>Total de pokémon attrapé : 0</p><p>Pokémon le plus attrapé : </p><p>Dresseur depuis : 23/03/2025 22:51:27 (depuis 1 jours.)</p>
+</div><br><p>Total argent dépensé : 40</p><p>Total de ball lancées : 3</p><br><p>Nombre de pokémon non shiny capturé : 1</p><p>Nombre de pokémon shiny capturé : 0</p><p>Total de pokémon attrapé : 1</p><p>Pokémon le plus attrapé : </p><p>Dresseur depuis : 23/03/2025 22:51:27 (depuis 1 jours.)</p>
 <p>Badges :</p><br>
-<p>Level 1</p><br><p>9 XP/250 XP</p><br><p>9 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [0/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [0/4]</b></h4>   <div class="row">
+<p>Level 1</p><br><p>12 XP/250 XP</p><br><p>12 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [0/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [0/4]</b></h4>   <div class="row">
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card common" style="background-color: #222222;  height: 220px;">
                                   <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
@@ -639,6 +651,24 @@ font-weight: bolder;
                                   </div>
                                 </div>
                             </div>   </div></div>
+
+    <script>
+        // Fonction pour filtrer les résultats
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase(); // Texte saisi
+            const tableRows = document.querySelectorAll('#recordsTable tr'); // Toutes les lignes du tableau
+            
+            tableRows.forEach(row => {
+                const pokémon = row.cells[0].textContent.toLowerCase(); // Colonne Pokémon
+
+                if (pokémon.includes(searchValue)) {
+                    row.style.display = ''; // Montrer la ligne
+                } else {
+                    row.style.display = 'none'; // Cacher la ligne
+                }
+            });
+        });
+    </script>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

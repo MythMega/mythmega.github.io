@@ -72,14 +72,17 @@
     <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
       <form class="form-inline">
         <a class="btn btn-sm btn-outline-secondary" href="../main.html" style="color: white;">Accueil Pokédex</a>
-        <a class="btn btn-sm btn-outline-secondary" href="commandgenerator.html" style="color: white;">Command Generator</a>
-        <a class="btn btn-sm btn-outline-secondary" href="raid.html" style="color: white;">Raid Result</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../commandgenerator.html" style="color: white;">Command Generator</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../raid.html" style="color: white;">Raid Result</a>
         <a class="btn btn-sm btn-outline-secondary" href="../availablepokemon.html" style="color: white;">Pokédex Infos</a>
         <a class="btn btn-sm btn-outline-secondary" href="../pokestats.html" style="color: white;">Classements</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../records.html" style="color: white;">Enregistrements</a>
       </form>
     </nav><br><br>
     <h1>Pokédex Nolhan - chez mythmega</h1>
-    <p>Pokédex de Nolhan [de youtube] au 2025-03-24_23-20-13, sur le stream de mythmega.</p>
+    <p>Pokédex de Nolhan [de youtube] au 2025-03-25_18-49-23, sur le stream de mythmega.</p>
+    
+    <input type="text" id="searchInput" placeholder="Rechercher Pokémon ou Statut" class="form-control" style="margin-bottom: 20px; max-width: 300px;">
     <table class="table table-dark table-bordered table-striped">
         <thead class="thead-light">
             <tr>
@@ -91,7 +94,7 @@
                 <th>Première capture(s)</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="recordsTable">
 <tr>
                 <td class="pokename">Bulbizarre</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bulbasaur_normal.gif" alt="Normal Sprite"></td>
@@ -1569,6 +1572,15 @@
             </tr>
 
 <tr>
+                <td class="pokename">M-Morph</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Mr.Mime_firefallon.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Mr.Mime_shiny_firefallon.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>24/03/2025 23:22:29</td>
+            </tr>
+
+<tr>
                 <td class="pokename">Evo-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Eevee_firefallon.gif" alt="Normal Sprite"></td>
                 <td class="count">1</td>
@@ -1712,12 +1724,12 @@ font-weight: bolder;
         <!-- Stats -->
         <div class="col">
             <div>
-          <p class="textShadow">Global dex : 169</p>
+          <p class="textShadow">Global dex : 170</p>
           <p class="textShadow">Shiny dex : 70</p>
           <p class="textShadow">Trainer since : 14 Jan. 25</p>
           <p class="textShadow">Platform : youtube <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/youtube.png" style="height: 16px; width: 16px;"></p>
           <p class="textShadow">Level : 8</p>
-          <p class="textShadow">Captures : 283</p>
+          <p class="textShadow">Captures : 284</p>
             </div>
         </div>
         <!-- Favorite creature -->
@@ -1829,13 +1841,13 @@ font-weight: bolder;
 
 <br><br>
 <p>Stats :</p><br>
-<p>Nombre d'espèce enregistrée : 169 / 301</p><div class="progress">
+<p>Nombre d'espèce enregistrée : 170 / 301</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 56%;" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100">56%</div>
 </div><p>Nombre d'espèce shiny enregistrée : 70</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 23%;" aria-valuenow="23" aria-valuemin="0" aria-valuemax="100">23%</div>
 </div><br><p>Total argent dépensé : 32540</p><p>Total de ball lancées : 365</p><br><p>Nombre de pokémon non shiny capturé : 166</p><p>Nombre de pokémon shiny capturé : 43</p><p>Total de pokémon attrapé : 209</p><p>Pokémon le plus attrapé : électo-morph#n</p><p>Dresseur depuis : 14/01/2025 21:36:23 (depuis 69 jours.)</p>
 <p>Badges :</p><br>
-<p>Level 8</p><br><p>635 XP/1187 XP</p><br><p>4392 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [13/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [3/4]</b></h4>   <div class="row">
+<p>Level 8</p><br><p>636 XP/1187 XP</p><br><p>4393 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [13/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [3/4]</b></h4>   <div class="row">
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card common" style="background-color: #222222;  height: 220px;">
                                   <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
@@ -2214,6 +2226,24 @@ font-weight: bolder;
                                   </div>
                                 </div>
                             </div>   </div></div>
+
+    <script>
+        // Fonction pour filtrer les résultats
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase(); // Texte saisi
+            const tableRows = document.querySelectorAll('#recordsTable tr'); // Toutes les lignes du tableau
+            
+            tableRows.forEach(row => {
+                const pokémon = row.cells[0].textContent.toLowerCase(); // Colonne Pokémon
+
+                if (pokémon.includes(searchValue)) {
+                    row.style.display = ''; // Montrer la ligne
+                } else {
+                    row.style.display = 'none'; // Cacher la ligne
+                }
+            });
+        });
+    </script>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -1,186 +1,217 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Records List</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-      body {
-          background-color: #2a2a2a;
-          color: #ffffff;
-          padding: 20px;
-      }
-      .pokename { font-size: 30px; }
-      .table tbody td img { height: 64px; width: auto; }
-      .count { font-size: 40px; }
-      /* Noir et blanc */
-      .black-and-white { filter: grayscale(100%); -webkit-filter: grayscale(100%); }
-      /* Tout noir (seulement la forme) */
-      .all-black { filter: brightness(0%); -webkit-filter: brightness(0%); }
-      /* Texte plus grand dans <td> */
-      .large-text td { font-size: 20px; }
-      .container-badge { max-width: 500px; }
-      .trophy-True { height: 64px; width: 64px; }
-      .trophy-False { height: 64px; width: 64px; filter: brightness(0%); -webkit-filter: brightness(0%); }
-      .uncommon { box-shadow: inset 0 0 4px lime; }
-      .rare { box-shadow: inset 0 0 8px aqua; }
-      .epic { box-shadow: inset 0 0 12px #7D0DC3; }
-      .legendary { box-shadow: inset 0 0 16px gold; }
-      .exotic { box-shadow: inset 0 0 20px pink; }
-      th, td { text-align: center; border: 1px solid black; padding: 10px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Records List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .pokename {
+        font-size: 30px;
+        }
+        .table tbody td img {
+            height: 64px;
+            width: auto;
+        }
+        .count {font-size: 40px;
+        }
+        /* Noir et blanc */
+        .black-and-white {filter: grayscale(100%);
+          -webkit-filter: grayscale(100%);
+        }
+
+        /* Tout noir (seulement la forme) */
+        .all-black {filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+        /* Texte plus grand dans <td> */
+        .large-text td {font - size: 20px; }
+
+        .container-badge {max - width: 500px;
+            }
+
+        .trophy-True {
+            height: 64px;
+            width: 64px;
+        }
+
+        .trophy-False {
+            height: 64px;
+            width: 64px;
+            filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+
+        .uncommon {box-shadow: inset 0 0 4px lime;
+        }
+
+        .rare {box-shadow: inset 0 0 8px aqua;
+        }
+
+        .epic {box-shadow: inset 0 0 12px #7D0DC3;
+        }
+
+        .legendary {box-shadow: inset 0 0 16px gold;
+        }
+
+        .exotic {box-shadow: inset 0 0 20px pink;
+        }
+
+        th, td { text-align: center; border: 1px solid black; padding: 10px; }
+
+    </style>
 </head>
 <body>
-  <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
-    <form class="form-inline">
-      <a class="btn btn-sm btn-outline-secondary" href="./main.html" style="color: white;">Accueil Pokédex</a>
-      <a class="btn btn-sm btn-outline-secondary" href="./commandgenerator.html" style="color: white;">Command Generator</a>
-      <a class="btn btn-sm btn-outline-secondary" href="./raid.html" style="color: white;">Raid Result</a>
-      <a class="btn btn-sm btn-outline-secondary" href="./availablepokemon.html" style="color: white;">Pokédex Infos</a>
-      <a class="btn btn-sm btn-outline-secondary" href="./pokestats.html" style="color: white;">Classements</a>
-      <a class="btn btn-sm btn-outline-secondary" href="./records.html" style="color: white;">Enregistrements</a>
-    </form>
-  </nav>
-  <br><br>
-  <h1>Records</h1>
-  <div class="d-flex align-items-center" style="max-width: 480px;">
-    <!-- Input recherche avec max-width -->
+    <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
+      <form class="form-inline">
+        <a class="btn btn-sm btn-outline-secondary" href="./main.html" style="color: white;">Accueil Pokédex</a>
+        <a class="btn btn-sm btn-outline-secondary" href="./commandgenerator.html" style="color: white;">Command Generator</a>
+        <a class="btn btn-sm btn-outline-secondary" href="./raid.html" style="color: white;">Raid Result</a>
+        <a class="btn btn-sm btn-outline-secondary" href="./availablepokemon.html" style="color: white;">Pokédex Infos</a>
+        <a class="btn btn-sm btn-outline-secondary" href="./pokestats.html" style="color: white;">Classements</a>
+        <a class="btn btn-sm btn-outline-secondary" href="./records.html" style="color: white;">Enregistrements</a>
+      </form>
+    </nav><br><br>
+    <h1>Records</h1>
     <input type="text" id="searchInput" placeholder="Rechercher Pokémon ou Statut" class="form-control" style="margin-bottom: 20px; max-width: 300px;">
-    <!-- Compteur -->
-    <span id="rowCount" style="margin-left: 10px; font-size: 16px;">0 résultat(s)</span>
-  </div>
-  <p>2025-03-27_01-05-03.</p>
-  <table class="table table-dark table-bordered table-striped">
-    <thead class="thead-light">
-      <tr>
-        <th>Pokémon</th>
-        <th>Sprite</th>
-        <th>Statut</th>
-        <th>Type</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody id="recordsTable">
-      <tr>
-        <td class="pokename"> Artiko-Morph</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Articuno_typhloquil.gif" alt="Sprite"></td>
-        <td>normal</td>
-        <td>Giveaway MythMega [twitch] (1)</td>
-        <td>25/03/2025 19:01:13</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Electo-Morph</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Zapdos_basstezi.gif" alt="Sprite"></td>
-        <td>normal</td>
-        <td>Giveaway MythMega [twitch] (1)</td>
-        <td>25/03/2025 19:01:22</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Sulfu-Morph</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Moltres_edgiontg.gif" alt="Sprite"></td>
-        <td>normal</td>
-        <td>Giveaway MythMega [twitch] (1)</td>
-        <td>25/03/2025 19:01:24</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Rhinocorne</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyhorn_shiny.gif" alt="Sprite"></td>
-        <td>shiny</td>
-        <td>Raid (8 users)</td>
-        <td>25/03/2025 21:13:11</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Empiflor</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Victreebel_shiny.gif" alt="Sprite"></td>
-        <td>shiny</td>
-        <td>Raid (7 users)</td>
-        <td>25/03/2025 21:46:20</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Volcaropod</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magcargo_shiny.gif" alt="Sprite"></td>
-        <td>shiny</td>
-        <td>Giveaway everyone here (17)</td>
-        <td>26/03/2025 00:54:34</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Raca-Morph</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Geodude_firefallon.gif" alt="Sprite"></td>
-        <td>normal</td>
-        <td>Giveaway everyone here (17)</td>
-        <td>26/03/2025 01:03:00</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Volto-Morph</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Voltorb_firefallon.gif" alt="Sprite"></td>
-        <td>normal</td>
-        <td>Giveaway everyone here (17)</td>
-        <td>26/03/2025 01:03:12</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Tentacruel</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacruel_shiny.gif" alt="Sprite"></td>
-        <td>shiny</td>
-        <td>Raid (13 users)</td>
-        <td>26/03/2025 21:37:08</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Mélodelfe</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clefable_shiny.gif" alt="Sprite"></td>
-        <td>shiny</td>
-        <td>Raid (15 users)</td>
-        <td>26/03/2025 22:34:51</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Evo-Morph</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Eevee_firefallon.gif" alt="Sprite"></td>
-        <td>normal</td>
-        <td>Giveaway everyone here (19)</td>
-        <td>27/03/2025 00:47:38</td>
-      </tr>
-      <tr>
-        <td class="pokename"> Aéromite</td>
-        <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venomoth_shiny.gif" alt="Sprite"></td>
-        <td>shiny</td>
-        <td>Giveaway everyone here (8)</td>
-        <td>27/03/2025 01:05:03</td>
-      </tr>
-    </tbody>
-  </table>
+    <p>2025-03-27_20-53-43.</p>
+    <table class="table table-dark table-bordered table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Pokémon</th>
+                <th>Sprite</th>
+                <th>Statut</th>
+                <th>Type</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="recordsTable">
 
-  <script>
-    function filterTable() {
-      const searchValue = document.getElementById('searchInput').value.toLowerCase();
-      const tableRows = document.querySelectorAll('#recordsTable tr');
-      let visibleCount = 0;
-      
-      tableRows.forEach(row => {
-        const pokemon = row.cells[0].textContent.toLowerCase();
-        const statut = row.cells[2].textContent.toLowerCase();
-        
-        if (pokemon.includes(searchValue) || statut.includes(searchValue)) {
-          row.style.display = '';
-          visibleCount++;
-        } else {
-          row.style.display = 'none';
-        }
-      });
-      
-      document.getElementById('rowCount').textContent = visibleCount + " résultat(s)";
-    }
-    
-    // Ajoute l'événement keyup
-    document.getElementById('searchInput').addEventListener('keyup', filterTable);
-    
-    // Mise à jour du compteur dès le chargement de la page
-    document.addEventListener('DOMContentLoaded', filterTable);
-  </script>
+<tr>
+                <td class="pokename"> Artiko-Morph</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Articuno_typhloquil.gif" alt="Sprite"></td>
+                <td>normal</td>
+                <td>Giveaway MythMega [twitch] (1)</td>
+                <td>25/03/2025 19:01:13</td>
+            </tr>
+<tr>
+                <td class="pokename"> Electo-Morph</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Zapdos_basstezi.gif" alt="Sprite"></td>
+                <td>normal</td>
+                <td>Giveaway MythMega [twitch] (1)</td>
+                <td>25/03/2025 19:01:22</td>
+            </tr>
+<tr>
+                <td class="pokename"> Sulfu-Morph</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Moltres_edgiontg.gif" alt="Sprite"></td>
+                <td>normal</td>
+                <td>Giveaway MythMega [twitch] (1)</td>
+                <td>25/03/2025 19:01:24</td>
+            </tr>
+<tr>
+                <td class="pokename"> Rhinocorne</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyhorn_shiny.gif" alt="Sprite"></td>
+                <td>shiny</td>
+                <td>Raid (8 users)</td>
+                <td>25/03/2025 21:13:11</td>
+            </tr>
+<tr>
+                <td class="pokename"> Empiflor</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Victreebel_shiny.gif" alt="Sprite"></td>
+                <td>shiny</td>
+                <td>Raid (7 users)</td>
+                <td>25/03/2025 21:46:20</td>
+            </tr>
+<tr>
+                <td class="pokename"> Volcaropod</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magcargo_shiny.gif" alt="Sprite"></td>
+                <td>shiny</td>
+                <td>Giveaway everyone here (17)</td>
+                <td>26/03/2025 00:54:34</td>
+            </tr>
+<tr>
+                <td class="pokename"> Raca-Morph</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Geodude_firefallon.gif" alt="Sprite"></td>
+                <td>normal</td>
+                <td>Giveaway everyone here (17)</td>
+                <td>26/03/2025 01:03:00</td>
+            </tr>
+<tr>
+                <td class="pokename"> Volto-Morph</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Voltorb_firefallon.gif" alt="Sprite"></td>
+                <td>normal</td>
+                <td>Giveaway everyone here (17)</td>
+                <td>26/03/2025 01:03:12</td>
+            </tr>
+<tr>
+                <td class="pokename"> Tentacruel</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacruel_shiny.gif" alt="Sprite"></td>
+                <td>shiny</td>
+                <td>Raid (13 users)</td>
+                <td>26/03/2025 21:37:08</td>
+            </tr>
+<tr>
+                <td class="pokename"> Mélodelfe</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clefable_shiny.gif" alt="Sprite"></td>
+                <td>shiny</td>
+                <td>Raid (15 users)</td>
+                <td>26/03/2025 22:34:51</td>
+            </tr>
+<tr>
+                <td class="pokename"> Evo-Morph</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Eevee_firefallon.gif" alt="Sprite"></td>
+                <td>normal</td>
+                <td>Giveaway everyone here (19)</td>
+                <td>27/03/2025 00:47:38</td>
+            </tr>
+<tr>
+                <td class="pokename"> Aéromite</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venomoth_shiny.gif" alt="Sprite"></td>
+                <td>shiny</td>
+                <td>Giveaway everyone here (8)</td>
+                <td>27/03/2025 01:05:03</td>
+            </tr>
+<tr>
+                <td class="pokename"> Mimichu</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/modo/mimichu_shiny.gif" alt="Sprite"></td>
+                <td>shiny</td>
+                <td>Raid (16 users)</td>
+                <td>27/03/2025 20:53:43</td>
+            </tr>
 
-  <!-- Bootstrap JS, Popper.js, and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</tbody>
+    </table>
+
+    <script>
+        // Fonction pour filtrer les résultats
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase(); // Texte saisi
+            const tableRows = document.querySelectorAll('#recordsTable tr'); // Toutes les lignes du tableau
+            
+            tableRows.forEach(row => {
+                const pokémon = row.cells[0].textContent.toLowerCase(); // Colonne Pokémon
+                const statut = row.cells[2].textContent.toLowerCase(); // Colonne Statut
+
+                if (pokémon.includes(searchValue) || statut.includes(searchValue)) {
+                    row.style.display = ''; // Montrer la ligne
+                } else {
+                    row.style.display = 'none'; // Cacher la ligne
+                }
+            });
+        });
+    </script>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

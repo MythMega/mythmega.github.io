@@ -58,7 +58,13 @@
         <a class="btn btn-sm btn-outline-secondary" href="records.html" style="color: white;">Enregistrements</a>
       </form>
     </nav><br><br>
-<input type="text" id="searchInput" placeholder="Rechercher Pokémon ou Statut" class="form-control" style="margin-bottom: 20px; max-width: 300px;">
+
+  <div class="d-flex align-items-center" style="max-width: 480px;">
+    <!-- Input recherche avec max-width -->
+    <input type="text" id="searchInput" placeholder="Rechercher Pokémon ou Statut" class="form-control" style="margin-bottom: 20px; max-width: 300px;">
+    <!-- Compteur -->
+    <span id="rowCount" style="margin-left: 10px; font-size: 16px;">0 résultat(s)</span>
+  </div>
     <table class="table table-dark table-bordered table-striped">
         <thead>
             <tr>
@@ -69,6 +75,7 @@
                 <th>Capturé(s)</th>
                 <th>Disponibilité</th>
                 <th>Artist</th>
+                <th class="d-none">Tag</th>
             </tr>
         </thead>
         <tbody id="recordsTable">
@@ -80,6 +87,7 @@
                 <td class="count">37</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -90,6 +98,7 @@
                 <td class="count">62</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -97,9 +106,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venusaur_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">157</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venusaur_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">84</td>
+                <td class="count">83</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -110,6 +120,7 @@
                 <td class="count">2</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">fire ; dragon ; Kanto</td>
             </tr>
 
 <tr>
@@ -120,6 +131,7 @@
                 <td class="count">60</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
@@ -130,6 +142,7 @@
                 <td class="count">32</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
@@ -137,9 +150,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Charizard_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">159</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Charizard_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">83</td>
+                <td class="count">81</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -150,6 +164,7 @@
                 <td class="count">1</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">fire ; dragon ; Kanto</td>
             </tr>
 
 <tr>
@@ -160,6 +175,7 @@
                 <td class="count">1</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">fire ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -170,6 +186,7 @@
                 <td class="count">31</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -177,9 +194,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wartortle_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">64</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wartortle_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">37</td>
+                <td class="count">36</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -187,9 +205,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blastoise_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">146</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blastoise_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">109</td>
+                <td class="count">108</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -200,36 +219,40 @@
                 <td class="count">0</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Chenipan</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Caterpie_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">70</td>
+                <td class="count">71</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Caterpie_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">50</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Chrysacier</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Metapod_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">60</td>
+                <td class="count">59</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Metapod_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">16</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Papilusion</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Butterfree_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">65</td>
+                <td class="count">66</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Butterfree_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">29</td>
+                <td class="count">28</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -240,16 +263,18 @@
                 <td class="count">52</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; poison ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Coconfort</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kakuna_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">63</td>
+                <td class="count">64</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kakuna_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">38</td>
+                <td class="count">37</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -260,6 +285,7 @@
                 <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -267,19 +293,21 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgey_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">100</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgey_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">26</td>
+                <td class="count">24</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Roucoups</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgeotto_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">76</td>
+                <td class="count">74</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgeotto_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">22</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -287,19 +315,21 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgeot_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">81</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgeot_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">18</td>
+                <td class="count">17</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Rattata</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rattata_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">82</td>
+                <td class="count">84</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rattata_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">45</td>
+                <td class="count">44</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
@@ -310,16 +340,18 @@
                 <td class="count">18</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Piafabec</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Spearow_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">60</td>
+                <td class="count">59</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Spearow_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">21</td>
+                <td class="count">20</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -327,19 +359,21 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Fearow_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">94</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Fearow_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">23</td>
+                <td class="count">22</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Abo</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ekans_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">85</td>
+                <td class="count">86</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ekans_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">17</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -350,6 +384,7 @@
                 <td class="count">47</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -360,16 +395,18 @@
                 <td class="count">65</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Raichu</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Raichu_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">77</td>
+                <td class="count">76</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Raichu_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">55</td>
+                <td class="count">54</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Kanto</td>
             </tr>
 
 <tr>
@@ -380,6 +417,7 @@
                 <td class="count">35</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; Kanto</td>
             </tr>
 
 <tr>
@@ -387,9 +425,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandslash_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">68</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandslash_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">19</td>
+                <td class="count">18</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; Kanto</td>
             </tr>
 
 <tr>
@@ -397,9 +436,10 @@
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoran-f.gif" alt="Normal Sprite"></td>
                 <td class="count">57</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoran-f.gif" alt="Shiny Sprite"></td>
-                <td class="count">18</td>
+                <td class="count">17</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -407,9 +447,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidorina_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">67</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidorina_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">33</td>
+                <td class="count">32</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -420,16 +461,18 @@
                 <td class="count">38</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; ground ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Nidoran♂</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/nidoran-m.gif" alt="Normal Sprite"></td>
-                <td class="count">63</td>
+                <td class="count">64</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/nidoran-m.gif" alt="Shiny Sprite"></td>
                 <td class="count">19</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -437,9 +480,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidorino_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">71</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidorino_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">50</td>
+                <td class="count">48</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -447,9 +491,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidoking_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">81</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidoking_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">17</td>
+                <td class="count">16</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; ground ; Kanto</td>
             </tr>
 
 <tr>
@@ -460,6 +505,7 @@
                 <td class="count">44</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fairy ; Kanto</td>
             </tr>
 
 <tr>
@@ -467,19 +513,21 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clefable_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">75</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clefable_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">81</td>
+                <td class="count">80</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fairy ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Goupix</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vulpix_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">71</td>
+                <td class="count">70</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vulpix_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">57</td>
+                <td class="count">56</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
@@ -490,26 +538,29 @@
                 <td class="count">18</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Rondoudou</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jigglypuff_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">90</td>
+                <td class="count">89</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jigglypuff_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">51</td>
+                <td class="count">50</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; fairy ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Grodoudou</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wigglytuff_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">104</td>
+                <td class="count">103</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wigglytuff_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">43</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; fairy ; Kanto</td>
             </tr>
 
 <tr>
@@ -520,6 +571,7 @@
                 <td class="count">21</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -530,6 +582,7 @@
                 <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -540,6 +593,7 @@
                 <td class="count">64</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -550,6 +604,7 @@
                 <td class="count">15</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -560,6 +615,7 @@
                 <td class="count">26</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -570,6 +626,7 @@
                 <td class="count">50</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; grass ; Kanto</td>
             </tr>
 
 <tr>
@@ -580,6 +637,7 @@
                 <td class="count">36</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; grass ; Kanto</td>
             </tr>
 
 <tr>
@@ -590,6 +648,7 @@
                 <td class="count">40</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -597,19 +656,21 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venomoth_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">61</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venomoth_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">39</td>
+                <td class="count">36</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; poison ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Taupiqueur</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Diglett_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">42</td>
+                <td class="count">43</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Diglett_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">33</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; Kanto</td>
             </tr>
 
 <tr>
@@ -620,6 +681,7 @@
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; Kanto</td>
             </tr>
 
 <tr>
@@ -630,16 +692,18 @@
                 <td class="count">25</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Persian</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Persian_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">54</td>
+                <td class="count">55</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Persian_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">15</td>
+                <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
@@ -650,6 +714,7 @@
                 <td class="count">15</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -660,6 +725,7 @@
                 <td class="count">16</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -670,36 +736,40 @@
                 <td class="count">12</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fighting ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Colossinge</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Primeape_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">49</td>
+                <td class="count">47</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Primeape_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">4</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fighting ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Caninos</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Growlithe_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">50</td>
+                <td class="count">51</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Growlithe_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">64</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Arcanin</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Arcanine_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">54</td>
+                <td class="count">55</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Arcanine_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">42</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
@@ -710,6 +780,7 @@
                 <td class="count">10</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -720,6 +791,7 @@
                 <td class="count">54</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -730,6 +802,7 @@
                 <td class="count">8</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; fighting ; Kanto</td>
             </tr>
 
 <tr>
@@ -737,29 +810,32 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Abra_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">56</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Abra_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">33</td>
+                <td class="count">32</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Kadabra</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kadabra_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">57</td>
+                <td class="count">56</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kadabra_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Alakazam</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Alakazam_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">59</td>
+                <td class="count">60</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Alakazam_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; Kanto</td>
             </tr>
 
 <tr>
@@ -770,6 +846,7 @@
                 <td class="count">60</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fighting ; Kanto</td>
             </tr>
 
 <tr>
@@ -780,16 +857,18 @@
                 <td class="count">7</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fighting ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Mackogneur</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Machamp_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">41</td>
+                <td class="count">42</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Machamp_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">8</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fighting ; Kanto</td>
             </tr>
 
 <tr>
@@ -800,6 +879,7 @@
                 <td class="count">20</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -810,16 +890,18 @@
                 <td class="count">15</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Empiflor</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Victreebel_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">49</td>
+                <td class="count">48</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Victreebel_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">22</td>
+                <td class="count">21</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -827,9 +909,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacool_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">44</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacool_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">12</td>
+                <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -837,9 +920,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacruel_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">55</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacruel_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">26</td>
+                <td class="count">25</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -850,6 +934,7 @@
                 <td class="count">51</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; ground ; Kanto</td>
             </tr>
 
 <tr>
@@ -860,6 +945,7 @@
                 <td class="count">24</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; ground ; Kanto</td>
             </tr>
 
 <tr>
@@ -870,16 +956,18 @@
                 <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; ground ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Ponyta</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ponyta_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">49</td>
+                <td class="count">50</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ponyta_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">15</td>
+                <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
@@ -890,6 +978,7 @@
                 <td class="count">11</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
@@ -900,6 +989,7 @@
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; psychic ; Kanto</td>
             </tr>
 
 <tr>
@@ -910,16 +1000,18 @@
                 <td class="count">21</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; psychic ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Magnéti</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magnemite_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">71</td>
+                <td class="count">72</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magnemite_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">46</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; steel ; Kanto</td>
             </tr>
 
 <tr>
@@ -927,9 +1019,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magneton_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">56</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magneton_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">29</td>
+                <td class="count">28</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; steel ; Kanto</td>
             </tr>
 
 <tr>
@@ -940,6 +1033,7 @@
                 <td class="count">48</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -950,16 +1044,18 @@
                 <td class="count">34</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Dodrio</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dodrio_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">52</td>
+                <td class="count">50</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dodrio_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -970,6 +1066,7 @@
                 <td class="count">12</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -980,6 +1077,7 @@
                 <td class="count">12</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; ice ; Kanto</td>
             </tr>
 
 <tr>
@@ -990,6 +1088,7 @@
                 <td class="count">9</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -1000,6 +1099,7 @@
                 <td class="count">34</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -1010,6 +1110,7 @@
                 <td class="count">35</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1017,9 +1118,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cloyster_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">37</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cloyster_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">19</td>
+                <td class="count">18</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; ice ; Kanto</td>
             </tr>
 
 <tr>
@@ -1030,6 +1132,7 @@
                 <td class="count">15</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ghost ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -1037,9 +1140,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Haunter_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">70</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Haunter_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">76</td>
+                <td class="count">75</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ghost ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -1047,9 +1151,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gengar_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">66</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gengar_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">61</td>
+                <td class="count">78</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ghost ; poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -1060,26 +1165,29 @@
                 <td class="count">15</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; ground ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Soporifik</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drowzee_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">30</td>
+                <td class="count">31</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drowzee_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">10</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Hypnomade</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hypno_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">36</td>
+                <td class="count">37</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hypno_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">8</td>
+                <td class="count">9</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; Kanto</td>
             </tr>
 
 <tr>
@@ -1087,19 +1195,21 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Krabby_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">40</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Krabby_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">48</td>
+                <td class="count">47</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Krabboss</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingler_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">42</td>
+                <td class="count">41</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingler_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">11</td>
+                <td class="count">10</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1110,16 +1220,18 @@
                 <td class="count">75</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Electrode</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Electrode_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">43</td>
+                <td class="count">44</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Electrode_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">51</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Kanto</td>
             </tr>
 
 <tr>
@@ -1130,6 +1242,7 @@
                 <td class="count">37</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; psychic ; Kanto</td>
             </tr>
 
 <tr>
@@ -1137,9 +1250,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Exeggutor_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">32</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Exeggutor_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">39</td>
+                <td class="count">38</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; psychic ; Kanto</td>
             </tr>
 
 <tr>
@@ -1147,19 +1261,21 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cubone_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">58</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cubone_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">37</td>
+                <td class="count">35</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Ossatueur</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Marowak_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">73</td>
+                <td class="count">72</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Marowak_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">35</td>
+                <td class="count">33</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; Kanto</td>
             </tr>
 
 <tr>
@@ -1167,29 +1283,32 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmonlee_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">29</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmonlee_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">14</td>
+                <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fighting ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Tygnon</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmonchan_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">19</td>
+                <td class="count">20</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmonchan_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">32</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fighting ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Excelangue</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lickitung_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">27</td>
+                <td class="count">30</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lickitung_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">30</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
@@ -1200,6 +1319,7 @@
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -1210,6 +1330,7 @@
                 <td class="count">38</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; Kanto</td>
             </tr>
 
 <tr>
@@ -1217,9 +1338,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyhorn_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">33</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyhorn_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">20</td>
+                <td class="count">19</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; rock ; Kanto</td>
             </tr>
 
 <tr>
@@ -1230,16 +1352,18 @@
                 <td class="count">11</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; rock ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Leveinard</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Chansey_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">42</td>
+                <td class="count">41</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Chansey_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">6</td>
+                <td class="count">7</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
@@ -1250,16 +1374,18 @@
                 <td class="count">8</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Kangourex</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kangaskhan_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">76</td>
+                <td class="count">77</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kangaskhan_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">56</td>
+                <td class="count">55</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
@@ -1270,6 +1396,7 @@
                 <td class="count">34</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1280,6 +1407,7 @@
                 <td class="count">11</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1290,6 +1418,7 @@
                 <td class="count">10</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1300,6 +1429,7 @@
                 <td class="count">11</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1310,6 +1440,7 @@
                 <td class="count">60</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1320,26 +1451,29 @@
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; psychic ; Kanto</td>
             </tr>
 
 <tr>
                 <td>M. Mime</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/mr-mime.gif" alt="Normal Sprite"></td>
-                <td class="count">61</td>
+                <td class="count">62</td>
                 <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mr-mime.gif" alt="Shiny Sprite"></td>
-                <td class="count">11</td>
+                <td class="count">12</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; fairy ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Insecateur</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scyther_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">34</td>
+                <td class="count">37</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scyther_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -1350,6 +1484,7 @@
                 <td class="count">8</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ice ; psychic ; Kanto</td>
             </tr>
 
 <tr>
@@ -1360,6 +1495,7 @@
                 <td class="count">25</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Kanto</td>
             </tr>
 
 <tr>
@@ -1370,6 +1506,7 @@
                 <td class="count">22</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
@@ -1380,46 +1517,51 @@
                 <td class="count">33</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Tauros</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tauros_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">30</td>
+                <td class="count">29</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tauros_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">46</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Magicarpe</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magikarp_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">43</td>
+                <td class="count">44</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magikarp_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">5</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Léviator</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gyarados_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">72</td>
+                <td class="count">73</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gyarados_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">25</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; flying ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Lokhlass</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lapras_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">39</td>
+                <td class="count">40</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lapras_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">25</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; ice ; Kanto</td>
             </tr>
 
 <tr>
@@ -1430,6 +1572,7 @@
                 <td class="count">73</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
@@ -1440,26 +1583,29 @@
                 <td class="count">80</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Aquali</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vaporeon_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">33</td>
+                <td class="count">34</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vaporeon_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">16</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Voltali</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jolteon_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">32</td>
+                <td class="count">30</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jolteon_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">18</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Kanto</td>
             </tr>
 
 <tr>
@@ -1470,16 +1616,18 @@
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Porygon</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Porygon_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">40</td>
+                <td class="count">38</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Porygon_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">17</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
@@ -1490,6 +1638,7 @@
                 <td class="count">6</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1500,6 +1649,7 @@
                 <td class="count">12</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1510,6 +1660,7 @@
                 <td class="count">34</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1520,6 +1671,7 @@
                 <td class="count">8</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; water ; Kanto</td>
             </tr>
 
 <tr>
@@ -1530,16 +1682,18 @@
                 <td class="count">17</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; flying ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Ronflex</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Snorlax_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">35</td>
+                <td class="count">37</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Snorlax_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">40</td>
+                <td class="count">38</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Kanto</td>
             </tr>
 
 <tr>
@@ -1550,6 +1704,7 @@
                 <td class="count">18</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">légendaire legendaire legendary ; ice ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -1560,6 +1715,7 @@
                 <td class="count">14</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">légendaire legendaire legendary ; electric ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -1570,6 +1726,7 @@
                 <td class="count">22</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">légendaire legendaire legendary ; fire ; flying ; Kanto</td>
             </tr>
 
 <tr>
@@ -1580,6 +1737,7 @@
                 <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">dragon ; Kanto</td>
             </tr>
 
 <tr>
@@ -1590,6 +1748,7 @@
                 <td class="count">4</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">dragon ; Kanto</td>
             </tr>
 
 <tr>
@@ -1600,16 +1759,18 @@
                 <td class="count">28</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">dragon ; flying ; Kanto</td>
             </tr>
 
 <tr>
                 <td>Mewtwo</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mewtwo_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">29</td>
+                <td class="count">28</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mewtwo_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">5</td>
+                <td class="count">6</td>
                 <td class="FullAvailable">Dispo : fully available (shiny locked)</td>
                 <td>/</td>
+                <td class="d-none">légendaire legendaire legendary ; psychic ; Kanto</td>
             </tr>
 
 <tr>
@@ -1620,6 +1781,7 @@
                 <td class="count">17</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">légendaire legendaire legendary ; psychic ; Kanto</td>
             </tr>
 
 <tr>
@@ -1630,6 +1792,7 @@
                 <td class="count">4</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; Johto</td>
             </tr>
 
 <tr>
@@ -1640,6 +1803,7 @@
                 <td class="count">6</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; Johto</td>
             </tr>
 
 <tr>
@@ -1650,6 +1814,7 @@
                 <td class="count">4</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; Johto</td>
             </tr>
 
 <tr>
@@ -1660,6 +1825,7 @@
                 <td class="count">41</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Johto</td>
             </tr>
 
 <tr>
@@ -1670,6 +1836,7 @@
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Johto</td>
             </tr>
 
 <tr>
@@ -1680,26 +1847,29 @@
                 <td class="count">10</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Johto</td>
             </tr>
 
 <tr>
                 <td>Kaiminus</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Totodile_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">35</td>
+                <td class="count">36</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Totodile_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">6</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Johto</td>
             </tr>
 
 <tr>
                 <td>Crocrodil</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Croconaw_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">34</td>
+                <td class="count">35</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Croconaw_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">31</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Johto</td>
             </tr>
 
 <tr>
@@ -1710,46 +1880,51 @@
                 <td class="count">9</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Johto</td>
             </tr>
 
 <tr>
                 <td>Fouinette</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sentret_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">25</td>
+                <td class="count">26</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sentret_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">4</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Johto</td>
             </tr>
 
 <tr>
                 <td>Fouinar</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Furret_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">38</td>
+                <td class="count">34</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Furret_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Johto</td>
             </tr>
 
 <tr>
                 <td>Hoothoot</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hoothoot_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">47</td>
+                <td class="count">44</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hoothoot_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">16</td>
+                <td class="count">15</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Johto</td>
             </tr>
 
 <tr>
                 <td>Noarfang</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Noctowl_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">37</td>
+                <td class="count">38</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Noctowl_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">6</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -1760,6 +1935,7 @@
                 <td class="count">9</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">bug ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -1770,6 +1946,7 @@
                 <td class="count">0</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">bug ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -1780,6 +1957,7 @@
                 <td class="count">11</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; poison ; Johto</td>
             </tr>
 
 <tr>
@@ -1790,6 +1968,7 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; poison ; Johto</td>
             </tr>
 
 <tr>
@@ -1800,6 +1979,7 @@
                 <td class="count">35</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">poison ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -1810,6 +1990,7 @@
                 <td class="count">7</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; electric ; Johto</td>
             </tr>
 
 <tr>
@@ -1820,16 +2001,18 @@
                 <td class="count">9</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; electric ; Johto</td>
             </tr>
 
 <tr>
                 <td>Pichu</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pichu_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">50</td>
+                <td class="count">49</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pichu_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">43</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Johto</td>
             </tr>
 
 <tr>
@@ -1840,26 +2023,29 @@
                 <td class="count">25</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fairy ; Johto</td>
             </tr>
 
 <tr>
                 <td>Toudoudou</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Igglybuff_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">84</td>
+                <td class="count">83</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Igglybuff_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">17</td>
+                <td class="count">18</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; fairy ; Johto</td>
             </tr>
 
 <tr>
                 <td>Togepi</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Togepi_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">23</td>
+                <td class="count">24</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Togepi_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fairy ; Johto</td>
             </tr>
 
 <tr>
@@ -1870,16 +2056,18 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fairy ; flying ; Johto</td>
             </tr>
 
 <tr>
                 <td>Natu</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Natu_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">7</td>
-                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Natu_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">0</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Natu_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">7</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -1890,6 +2078,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -1900,6 +2089,7 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Johto</td>
             </tr>
 
 <tr>
@@ -1910,6 +2100,7 @@
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Johto</td>
             </tr>
 
 <tr>
@@ -1920,16 +2111,18 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">electric ; Johto</td>
             </tr>
 
 <tr>
                 <td>Joliflor</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bellossom_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">9</td>
+                <td class="count">8</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bellossom_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">11</td>
+                <td class="count">12</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; Johto</td>
             </tr>
 
 <tr>
@@ -1940,26 +2133,29 @@
                 <td class="count">8</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; fairy ; Johto</td>
             </tr>
 
 <tr>
                 <td>Azumarill</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Azumarill_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">12</td>
+                <td class="count">13</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Azumarill_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; fairy ; Johto</td>
             </tr>
 
 <tr>
                 <td>Simularbre</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sudowoodo_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">3</td>
+                <td class="count">4</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sudowoodo_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">rock ; Johto</td>
             </tr>
 
 <tr>
@@ -1970,6 +2166,7 @@
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Johto</td>
             </tr>
 
 <tr>
@@ -1980,6 +2177,7 @@
                 <td class="count">11</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -1987,9 +2185,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skiploom_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">10</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skiploom_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">1</td>
+                <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -2000,6 +2199,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -2010,16 +2210,18 @@
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Johto</td>
             </tr>
 
 <tr>
                 <td>Tournegrin</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sunkern_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">5</td>
+                <td class="count">6</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sunkern_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">16</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; Johto</td>
             </tr>
 
 <tr>
@@ -2027,9 +2229,10 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sunflora_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">8</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sunflora_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">4</td>
+                <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">grass ; Johto</td>
             </tr>
 
 <tr>
@@ -2040,16 +2243,18 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; flying ; Johto</td>
             </tr>
 
 <tr>
                 <td>Axoloto</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wooper_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">22</td>
+                <td class="count">23</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wooper_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; ground ; Johto</td>
             </tr>
 
 <tr>
@@ -2060,6 +2265,7 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; ground ; Johto</td>
             </tr>
 
 <tr>
@@ -2070,6 +2276,7 @@
                 <td class="count">0</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">psychic ; Johto</td>
             </tr>
 
 <tr>
@@ -2080,6 +2287,7 @@
                 <td class="count">0</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">dark ; Johto</td>
             </tr>
 
 <tr>
@@ -2090,6 +2298,7 @@
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">dark ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -2097,19 +2306,21 @@
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slowking_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">9</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slowking_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">27</td>
+                <td class="count">26</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; psychic ; Johto</td>
             </tr>
 
 <tr>
                 <td>Feuforêve</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Misdreavus_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">8</td>
+                <td class="count">9</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Misdreavus_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ghost ; Johto</td>
             </tr>
 
 <tr>
@@ -2120,26 +2331,29 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">psychic ; Johto</td>
             </tr>
 
 <tr>
                 <td>Girafarig</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Girafarig_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">10</td>
+                <td class="count">9</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Girafarig_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; psychic ; Johto</td>
             </tr>
 
 <tr>
                 <td>Pomdepik</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pineco_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">4</td>
+                <td class="count">5</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pineco_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; Johto</td>
             </tr>
 
 <tr>
@@ -2150,16 +2364,18 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; steel ; Johto</td>
             </tr>
 
 <tr>
                 <td>Insolourdo</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dunsparce_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">18</td>
+                <td class="count">20</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dunsparce_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Johto</td>
             </tr>
 
 <tr>
@@ -2170,16 +2386,18 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ground ; flying ; Johto</td>
             </tr>
 
 <tr>
                 <td>Steelix</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Steelix_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">3</td>
+                <td class="count">4</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Steelix_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">steel ; ground ; Johto</td>
             </tr>
 
 <tr>
@@ -2190,6 +2408,7 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fairy ; Johto</td>
             </tr>
 
 <tr>
@@ -2200,26 +2419,29 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fairy ; Johto</td>
             </tr>
 
 <tr>
                 <td>Qwilfish</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Qwilfish_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">3</td>
+                <td class="count">4</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Qwilfish_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; poison ; Johto</td>
             </tr>
 
 <tr>
                 <td>Cizayox</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scizor_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">3</td>
+                <td class="count">4</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scizor_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; steel ; Johto</td>
             </tr>
 
 <tr>
@@ -2230,6 +2452,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">bug ; rock ; Johto</td>
             </tr>
 
 <tr>
@@ -2240,6 +2463,7 @@
                 <td class="count">4</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">bug ; fighting ; Johto</td>
             </tr>
 
 <tr>
@@ -2250,6 +2474,7 @@
                 <td class="count">8</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">dark ; ice ; Johto</td>
             </tr>
 
 <tr>
@@ -2260,6 +2485,7 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Johto</td>
             </tr>
 
 <tr>
@@ -2270,16 +2496,18 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">normal ; Johto</td>
             </tr>
 
 <tr>
                 <td>Limagma</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slugma_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
-                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slugma_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">0</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slugma_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; Johto</td>
             </tr>
 
 <tr>
@@ -2290,6 +2518,7 @@
                 <td class="count">17</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">fire ; rock ; Johto</td>
             </tr>
 
 <tr>
@@ -2300,6 +2529,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ice ; ground ; Johto</td>
             </tr>
 
 <tr>
@@ -2310,36 +2540,40 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ice ; ground ; Johto</td>
             </tr>
 
 <tr>
                 <td>Corayon</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Corsola_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">2</td>
+                <td class="count">3</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Corsola_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">19</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; rock ; Johto</td>
             </tr>
 
 <tr>
                 <td>Rémoraid</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Remoraid_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">3</td>
+                <td class="count">4</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Remoraid_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Johto</td>
             </tr>
 
 <tr>
                 <td>Octillery</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Octillery_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
-                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Octillery_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">0</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Octillery_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; Johto</td>
             </tr>
 
 <tr>
@@ -2350,6 +2584,7 @@
                 <td class="count">47</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">ice ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -2360,6 +2595,7 @@
                 <td class="count">9</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">steel ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -2370,6 +2606,7 @@
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">dark ; fire ; Johto</td>
             </tr>
 
 <tr>
@@ -2380,16 +2617,18 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">dark ; fire ; Johto</td>
             </tr>
 
 <tr>
                 <td>Hyporoi</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingdra_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">4</td>
+                <td class="count">5</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingdra_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">water ; dragon ; Johto</td>
             </tr>
 
 <tr>
@@ -2400,6 +2639,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available (shiny locked)</td>
                 <td>/</td>
+                <td class="d-none">légendaire legendaire legendary ; electric ; Johto</td>
             </tr>
 
 <tr>
@@ -2410,16 +2650,18 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available (shiny locked)</td>
                 <td>/</td>
+                <td class="d-none">légendaire legendaire legendary ; fire ; Johto</td>
             </tr>
 
 <tr>
                 <td>Suicune</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Suicune_normal.gif" alt="Normal Sprite"></td>
-                <td class="count">10</td>
+                <td class="count">9</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Suicune_shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available (shiny locked)</td>
                 <td>/</td>
+                <td class="d-none">légendaire legendaire legendary ; water ; Johto</td>
             </tr>
 
 <tr>
@@ -2430,6 +2672,7 @@
                 <td class="count">5</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">rock ; ground ; Johto</td>
             </tr>
 
 <tr>
@@ -2440,6 +2683,7 @@
                 <td class="count">0</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">psychic ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -2450,6 +2694,7 @@
                 <td class="count">0</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td>/</td>
+                <td class="d-none">fire ; flying ; Johto</td>
             </tr>
 
 <tr>
@@ -2460,26 +2705,29 @@
                 <td class="count">23</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">ghost ; fairy ; Alola</td>
             </tr>
 
 <tr>
                 <td>Pikachu Surfeur</td>
                 <td><img src="https://i.ibb.co/8dfjn4V/surf-0.png" alt="Normal Sprite"></td>
-                <td class="count">93</td>
+                <td class="count">92</td>
                 <td><img src="https://i.ibb.co/Y7L6mPK/surf-1.png" alt="Shiny Sprite"></td>
-                <td class="count">58</td>
+                <td class="count">57</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; electric ; water ; Secret</td>
             </tr>
 
 <tr>
                 <td>Fantôme mère d'Osselait</td>
                 <td><img src="https://i.ibb.co/CvwFb7k/Cubone-Mom-normal.png" alt="Normal Sprite"></td>
-                <td class="count">53</td>
+                <td class="count">54</td>
                 <td><img src="https://i.ibb.co/bK10HpL/Cubone-Mom-shiny.png" alt="Shiny Sprite"></td>
                 <td class="count">32</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; electric ; water ; Secret</td>
             </tr>
 
 <tr>
@@ -2490,26 +2738,29 @@
                 <td class="count">74</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; rock ; ice ; Anime</td>
             </tr>
 
 <tr>
                 <td>Munja bonbon Violette</td>
                 <td><img src="https://i.ibb.co/HHXtvFL/shedinja.gif" alt="Normal Sprite"></td>
-                <td class="count">53</td>
+                <td class="count">54</td>
                 <td><img src="https://i.ibb.co/yFdh3Sh/shedinja.gif" alt="Shiny Sprite"></td>
                 <td class="count">53</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Design); <a href="https://www.twitch.tv/lagameboxstudio">Alexciel</a> (Direction); </td>
+                <td class="d-none">custom ; ghost ; fairy ; Modo</td>
             </tr>
 
 <tr>
                 <td>Mimichu</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/modo/mimichu_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
-                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/modo/mimichu_shiny.gif" alt="Shiny Sprite"></td>
-                <td class="count">0</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/modo/mimichu_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">16</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="https://www.fusiondex.org/artists/naspyta/">naspyta</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Editing, Sprite Shiny, Animation); <a href="https://www.twitch.tv/chatdhow">Chatdhow</a> (Direction); </td>
+                <td class="d-none">custom ; ghost ; electric ; Modo</td>
             </tr>
 
 <tr>
@@ -2520,6 +2771,7 @@
                 <td class="count">5</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; bug ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2530,6 +2782,7 @@
                 <td class="count">50</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; normal ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2540,6 +2793,7 @@
                 <td class="count">2</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; flying ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2550,6 +2804,7 @@
                 <td class="count">4</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; fighting ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2560,6 +2815,7 @@
                 <td class="count">43</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; electric ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2570,6 +2826,7 @@
                 <td class="count">1</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; water ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2580,6 +2837,7 @@
                 <td class="count">2</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; steel ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2590,6 +2848,7 @@
                 <td class="count">3</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; ghost ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2600,6 +2859,7 @@
                 <td class="count">4</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; psychic ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2610,6 +2870,7 @@
                 <td class="count">4</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; fire ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2620,6 +2881,7 @@
                 <td class="count">4</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; grass ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2630,6 +2892,7 @@
                 <td class="count">5</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; poison ; fairy ; Guimauve</td>
             </tr>
 
 <tr>
@@ -2640,6 +2903,7 @@
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="#">Unknown</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; water ; fairy ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2650,6 +2914,7 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; ground ; flying ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2660,16 +2925,18 @@
                 <td class="count">10</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; water ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
                 <td>Patrik-Tektonik</td>
                 <td><img src="https://i.ibb.co/0F0JpkD/Normal-evolved.png" alt="Normal Sprite"></td>
-                <td class="count">26</td>
+                <td class="count">27</td>
                 <td><img src="https://i.ibb.co/D5Lm17V/Shiny-evolved.png" alt="Shiny Sprite"></td>
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; water ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2680,16 +2947,18 @@
                 <td class="count">8</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; electric ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
                 <td>Clément-Velu</td>
                 <td><img src="https://i.ibb.co/qMwyrx1S/clement-velu.gif" alt="Normal Sprite"></td>
-                <td class="count">20</td>
+                <td class="count">19</td>
                 <td><img src="https://i.ibb.co/kgT7FT2X/clement-velu-shiny.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; electric ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2700,6 +2969,7 @@
                 <td class="count">6</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; electric ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2710,6 +2980,7 @@
                 <td class="count">9</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; electric ; flying ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2720,16 +2991,18 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; electric ; flying ; Infinite Fusion</td>
             </tr>
 
 <tr>
                 <td>Michelle-Ailes</td>
                 <td><img src="https://i.ibb.co/bRrpgMjN/michel-ailes.png" alt="Normal Sprite"></td>
-                <td class="count">15</td>
+                <td class="count">16</td>
                 <td><img src="https://i.ibb.co/bRmSZ8Ly/michel-ailes-s.png" alt="Shiny Sprite"></td>
                 <td class="count">15</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; electric ; flying ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2740,6 +3013,7 @@
                 <td class="count">15</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; electric ; flying ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2750,6 +3024,7 @@
                 <td class="count">10</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; ghost ; psychic ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2760,16 +3035,18 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; ghost ; psychic ; Infinite Fusion</td>
             </tr>
 
 <tr>
                 <td>Fear-Apparition</td>
                 <td><img src="https://i.ibb.co/fGN22TpF/Fear-Apparition.png" alt="Normal Sprite"></td>
-                <td class="count">5</td>
+                <td class="count">7</td>
                 <td><img class = "all-black" src="https://i.ibb.co/4gF5vwrf/Fear-Apparition-s.png" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; ghost ; psychic ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2780,6 +3057,7 @@
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; ghost ; psychic ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2790,6 +3068,7 @@
                 <td class="count">16</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; ghost ; psychic ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2800,6 +3079,7 @@
                 <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td>/</td>
+                <td class="d-none">custom ; grass ; flying ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2810,6 +3090,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/themaniacidk/">Themaniacidk</a> (Original sprite); </td>
+                <td class="d-none">custom ; ghost ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2820,6 +3101,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/bumblesnap/">Bumblesnap</a> (Original sprite); <a href="https://www.fusiondex.org/artists/howlingstarr/">Howlingstarr</a> (Original sprite); </td>
+                <td class="d-none">custom ; ghost ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2830,6 +3112,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/voxposs/">Voxposs</a> (Original sprite); </td>
+                <td class="d-none">custom ; ghost ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2840,6 +3123,7 @@
                 <td class="count">13</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/bluefire181/">bluefire181</a> (Original sprite); <a href="https://www.fusiondex.org/artists/themaniacidk/">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; ghost ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2850,6 +3134,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/kiwikelly/">kiwikelly</a>; </td>
+                <td class="d-none">custom ; ghost ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2860,6 +3145,7 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/kiwikelly/">kiwikelly</a>; </td>
+                <td class="d-none">custom ; ghost ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2870,6 +3156,7 @@
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://japeal.com/">Japeal</a> (Sprite fusion generator); </td>
+                <td class="d-none">custom ; ghost ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2880,6 +3167,7 @@
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/moon_tah/">Moon_tah</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; ghost ; fire ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2890,6 +3178,7 @@
                 <td class="count">2</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="https://www.fusiondex.org/artists/gasmaskblacky/">Gasmaskblacky</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; dark ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2900,6 +3189,7 @@
                 <td class="count">1</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="https://www.fusiondex.org/artists/vampvixen/">Bampvixen</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; dark ; Infinite Fusion</td>
             </tr>
 
 <tr>
@@ -2910,6 +3200,7 @@
                 <td class="count">0</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; psychic ; steel ; Secret</td>
             </tr>
 
 <tr>
@@ -2920,36 +3211,40 @@
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/firefallon/">Firefallon</a>; </td>
+                <td class="d-none">custom ; normal ; grass ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Cara-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Squirtle_firefallon.gif" alt="Normal Sprite"></td>
-                <td class="count">34</td>
+                <td class="count">32</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Squirtle_shiny_firefallon_mythmega.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/firefallon/">Firefallon</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; water ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Sala-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Charmander_milchik_mythmega.gif" alt="Normal Sprite"></td>
-                <td class="count">27</td>
+                <td class="count">28</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Charmander_shiny_milchik_mythmega.gif" alt="Shiny Sprite"></td>
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/firefallon/">Firefallon</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Retexturing, Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; fire ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Rou-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Pidgey_fishythemedic_mythmega.gif" alt="Normal Sprite"></td>
-                <td class="count">26</td>
+                <td class="count">27</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Pidgey_mythmega_fishythemedic_mythmega.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/fishythemedic/">Fishythemedic</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Retexturing, Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; flying ; Pokemorph</td>
             </tr>
 
 <tr>
@@ -2960,46 +3255,51 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/firefallon/">Firefallon</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Retexturing, Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; electric ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Raca-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Geodude_firefallon.gif" alt="Normal Sprite"></td>
-                <td class="count">29</td>
+                <td class="count">26</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Geodude_shiny_firefallon.gif" alt="Shiny Sprite"></td>
                 <td class="count">14</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/firefallon/">Firefallon</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; rock ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Abo-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Ekans_mythmega.gif" alt="Normal Sprite"></td>
-                <td class="count">28</td>
+                <td class="count">25</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Ekans_shiny_mythmega.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Retexturing, Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; poison ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>M-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Mr.Mime_firefallon.gif" alt="Normal Sprite"></td>
-                <td class="count">30</td>
+                <td class="count">27</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Mr.Mime_shiny_firefallon.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/firefallon/">Firefallon</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; psychic ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Volto-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Voltorb_firefallon.gif" alt="Normal Sprite"></td>
-                <td class="count">31</td>
+                <td class="count">29</td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Voltorb_shiny_firefallon.gif" alt="Shiny Sprite"></td>
                 <td class="count">0</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/firefallon/">Firefallon</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; electric ; Pokemorph</td>
             </tr>
 
 <tr>
@@ -3010,16 +3310,18 @@
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/firefallon/">Firefallon</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Kaimi-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Totodile_shiny_typhloquil_mythmega.gif" alt="Normal Sprite"></td>
-                <td class="count">17</td>
+                <td class="count">31</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Totodile_typhloquil_mythmega.gif" alt="Shiny Sprite"></td>
                 <td class="count">3</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/typhloquil/">Typhloquil</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Retexturing, Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; water ; Pokemorph</td>
             </tr>
 
 <tr>
@@ -3030,46 +3332,51 @@
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="http://web.jmdev.fr/porfolio.html">MythMega</a>; </td>
+                <td class="d-none">custom ; normal ; water ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Héri-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Cyndaquil_normal_typhloquil_mythmega.gif" alt="Normal Sprite"></td>
-                <td class="count">18</td>
+                <td class="count">15</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Cyndaquil_typhloquil_mythmega.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/typhloquil/">Typhloquil</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Retexturing, Shiny sprite, Animation); </td>
+                <td class="d-none">custom ; normal ; fire ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Artiko-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Articuno_typhloquil.gif" alt="Normal Sprite"></td>
-                <td class="count">15</td>
+                <td class="count">14</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Articuno_shiny_typhloquil.gif" alt="Shiny Sprite"></td>
                 <td class="count">1</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/typhloquil/">Typhloquil</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; normal ; ice ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Electo-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Zapdos_basstezi.gif" alt="Normal Sprite"></td>
-                <td class="count">14</td>
+                <td class="count">15</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Zapdos_shiny_basstezi.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/basstezi/">Basstezi</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; normal ; electric ; Pokemorph</td>
             </tr>
 
 <tr>
                 <td>Sulfu-Morph</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Moltres_edgiontg.gif" alt="Normal Sprite"></td>
-                <td class="count">21</td>
+                <td class="count">19</td>
                 <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/ditto/gifs/Moltres_shiny_edgiontg.gif" alt="Shiny Sprite"></td>
                 <td class="count">2</td>
                 <td class="FullAvailable">Dispo : fully available</td>
                 <td><a href="https://www.fusiondex.org/artists/edgiontg/">Edgiontg</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; normal ; fire ; Pokemorph</td>
             </tr>
 
 <tr>
@@ -3080,6 +3387,7 @@
                 <td class="count">0</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="https://www.fusiondex.org/artists/dick.o/">Dick.o</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Retexturing, Shiny sprite, Animation); </td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; normal ; psychic ; Pokemorph</td>
             </tr>
 
 <tr>
@@ -3090,29 +3398,56 @@
                 <td class="count">10</td>
                 <td class="AvailableForGiveaway">Dispo : only under distribution / events.</td>
                 <td><a href="https://www.fusiondex.org/artists/toad900/">Toad900</a> (Original sprite); <a href="http://web.jmdev.fr/porfolio.html">MythMega</a> (Shiny sprite, Animation); </td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; normal ; psychic ; Pokemorph</td>
             </tr>
 </tbody>
     </table>
 <br><br>
     <script>
-        // Fonction pour filtrer les résultats
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            const searchValue = this.value.toLowerCase(); // Texte saisi
-            const tableRows = document.querySelectorAll('#recordsTable tr'); // Toutes les lignes du tableau
+  // Fonction qui normalise le texte en supprimant les accents et en le convertissant en minuscules
+  function normalizeText(text) {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  }
 
-            tableRows.forEach(row => {
-                const pokémon = row.cells[0].textContent.toLowerCase(); // Colonne Pokémon
-                const dispo = row.cells[5].textContent.toLowerCase(); // Colonne Statut
-                const artist = row.cells[6].textContent.toLowerCase(); // Colonne Statut
+  function filterTable() {
+    // Récupère et normalise le texte de recherche
+    const searchValue = normalizeText(document.getElementById('searchInput').value);
+    // Découpe le texte en tokens et retire les espaces inutiles
+    const tokens = searchValue.split(' ').filter(token => token.trim() !== '');
+    const tableRows = document.querySelectorAll('#recordsTable tr');
+    let visibleCount = 0;
 
-                if (pokémon.includes(searchValue) || dispo.includes(searchValue) || artist.includes(searchValue)) {
-                    row.style.display = ''; // Montrer la ligne
-                } else {
-                    row.style.display = 'none'; // Cacher la ligne
-                }
-            });
-        });
-    </script>
+    tableRows.forEach(row => {
+      // Extraction et normalisation des contenus de chaque colonne recherchée
+      const pokemon = normalizeText(row.cells[0].textContent); // Colonne Pokémon
+      const dispo   = normalizeText(row.cells[5].textContent);   // Colonne dispo (statut ou autre)
+      const artist  = normalizeText(row.cells[6].textContent);   // Colonne artist
+      const tags    = normalizeText(row.cells[7].textContent);   // Colonne tags
+
+      // Pour chaque token, vérifie qu'il se retrouve dans au moins un des champs
+      const isMatch = tokens.every(token =>
+        pokemon.includes(token) || dispo.includes(token) || artist.includes(token) || tags.includes(token)
+      );
+
+      // Affiche la ligne si tous les tokens sont trouvés (ou s'il n'y a aucun token)
+      if (isMatch || tokens.length === 0) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    document.getElementById('rowCount').textContent = visibleCount + " résultat(s)";
+  }
+
+  // Ajout de l'événement pour lancer le filtrage à la saisie
+  document.getElementById('searchInput').addEventListener('keyup', filterTable);
+
+  // Mise à jour du filtrage dès le chargement de la page
+  document.addEventListener('DOMContentLoaded', filterTable);
+</script>
+
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -80,8 +80,14 @@
       </form>
     </nav><br><br>
     <h1>Records</h1>
+
+  <div class="d-flex align-items-center" style="max-width: 480px;">
+    <!-- Input recherche avec max-width -->
     <input type="text" id="searchInput" placeholder="Rechercher Pokémon ou Statut" class="form-control" style="margin-bottom: 20px; max-width: 300px;">
-    <p>2025-03-28_01-23-56.</p>
+    <!-- Compteur -->
+    <span id="rowCount" style="margin-left: 10px; font-size: 16px;">0 résultat(s)</span>
+  </div>
+    <p>2025-03-28_20-33-38.</p>
     <table class="table table-dark table-bordered table-striped">
         <thead class="thead-light">
             <tr>
@@ -90,6 +96,7 @@
                 <th>Statut</th>
                 <th>Type</th>
                 <th>Date</th>
+                <th class="d-none">Tags</th>
             </tr>
         </thead>
         <tbody id="recordsTable">
@@ -100,6 +107,7 @@
                 <td>normal</td>
                 <td>Giveaway MythMega [twitch] (1)</td>
                 <td>25/03/2025 19:01:13</td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; normal ; ice ; Pokemorph</td>
             </tr>
 <tr>
                 <td class="pokename"> Electo-Morph</td>
@@ -107,6 +115,7 @@
                 <td>normal</td>
                 <td>Giveaway MythMega [twitch] (1)</td>
                 <td>25/03/2025 19:01:22</td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; normal ; electric ; Pokemorph</td>
             </tr>
 <tr>
                 <td class="pokename"> Sulfu-Morph</td>
@@ -114,6 +123,7 @@
                 <td>normal</td>
                 <td>Giveaway MythMega [twitch] (1)</td>
                 <td>25/03/2025 19:01:24</td>
+                <td class="d-none">légendaire legendaire legendary ; custom ; normal ; fire ; Pokemorph</td>
             </tr>
 <tr>
                 <td class="pokename"> Rhinocorne</td>
@@ -121,6 +131,7 @@
                 <td>shiny</td>
                 <td>Raid (8 users)</td>
                 <td>25/03/2025 21:13:11</td>
+                <td class="d-none">ground ; rock ; Kanto</td>
             </tr>
 <tr>
                 <td class="pokename"> Empiflor</td>
@@ -128,6 +139,7 @@
                 <td>shiny</td>
                 <td>Raid (7 users)</td>
                 <td>25/03/2025 21:46:20</td>
+                <td class="d-none">grass ; poison ; Kanto</td>
             </tr>
 <tr>
                 <td class="pokename"> Volcaropod</td>
@@ -135,6 +147,7 @@
                 <td>shiny</td>
                 <td>Giveaway everyone here (17)</td>
                 <td>26/03/2025 00:54:34</td>
+                <td class="d-none">fire ; rock ; Johto</td>
             </tr>
 <tr>
                 <td class="pokename"> Raca-Morph</td>
@@ -142,6 +155,7 @@
                 <td>normal</td>
                 <td>Giveaway everyone here (17)</td>
                 <td>26/03/2025 01:03:00</td>
+                <td class="d-none">custom ; normal ; rock ; Pokemorph</td>
             </tr>
 <tr>
                 <td class="pokename"> Volto-Morph</td>
@@ -149,6 +163,7 @@
                 <td>normal</td>
                 <td>Giveaway everyone here (17)</td>
                 <td>26/03/2025 01:03:12</td>
+                <td class="d-none">custom ; normal ; electric ; Pokemorph</td>
             </tr>
 <tr>
                 <td class="pokename"> Tentacruel</td>
@@ -156,6 +171,7 @@
                 <td>shiny</td>
                 <td>Raid (13 users)</td>
                 <td>26/03/2025 21:37:08</td>
+                <td class="d-none">water ; poison ; Kanto</td>
             </tr>
 <tr>
                 <td class="pokename"> Mélodelfe</td>
@@ -163,6 +179,7 @@
                 <td>shiny</td>
                 <td>Raid (15 users)</td>
                 <td>26/03/2025 22:34:51</td>
+                <td class="d-none">fairy ; Kanto</td>
             </tr>
 <tr>
                 <td class="pokename"> Evo-Morph</td>
@@ -170,6 +187,7 @@
                 <td>normal</td>
                 <td>Giveaway everyone here (19)</td>
                 <td>27/03/2025 00:47:38</td>
+                <td class="d-none">custom ; normal ; Pokemorph</td>
             </tr>
 <tr>
                 <td class="pokename"> Aéromite</td>
@@ -177,6 +195,7 @@
                 <td>shiny</td>
                 <td>Giveaway everyone here (8)</td>
                 <td>27/03/2025 01:05:03</td>
+                <td class="d-none">bug ; poison ; Kanto</td>
             </tr>
 <tr>
                 <td class="pokename"> Mimichu</td>
@@ -184,6 +203,7 @@
                 <td>shiny</td>
                 <td>Raid (16 users)</td>
                 <td>27/03/2025 20:53:43</td>
+                <td class="d-none">custom ; ghost ; electric ; Modo</td>
             </tr>
 <tr>
                 <td class="pokename"> Natu</td>
@@ -191,6 +211,7 @@
                 <td>shiny</td>
                 <td>Raid (7 users)</td>
                 <td>27/03/2025 22:14:13</td>
+                <td class="d-none">psychic ; flying ; Johto</td>
             </tr>
 <tr>
                 <td class="pokename"> Ectoplasma</td>
@@ -198,6 +219,7 @@
                 <td>shiny</td>
                 <td>Giveaway everyone here (17)</td>
                 <td>28/03/2025 01:22:52</td>
+                <td class="d-none">ghost ; poison ; Kanto</td>
             </tr>
 <tr>
                 <td class="pokename"> Kaimi-Morph</td>
@@ -205,6 +227,15 @@
                 <td>normal</td>
                 <td>Giveaway everyone here (17)</td>
                 <td>28/03/2025 01:23:56</td>
+                <td class="d-none">custom ; normal ; water ; Pokemorph</td>
+            </tr>
+<tr>
+                <td class="pokename"> Hyporoi</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingdra_shiny.gif" alt="Sprite"></td>
+                <td>shiny</td>
+                <td>Raid (8 users)</td>
+                <td>28/03/2025 20:33:38</td>
+                <td class="d-none">water ; dragon ; Johto</td>
             </tr>
 
 
@@ -212,23 +243,40 @@
     </table>
 
     <script>
-        // Fonction pour filtrer les résultats
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            const searchValue = this.value.toLowerCase(); // Texte saisi
-            const tableRows = document.querySelectorAll('#recordsTable tr'); // Toutes les lignes du tableau
-            
-            tableRows.forEach(row => {
-                const pokémon = row.cells[0].textContent.toLowerCase(); // Colonne Pokémon
-                const statut = row.cells[2].textContent.toLowerCase(); // Colonne Statut
+  function filterTable() {
+    const searchValue = document.getElementById('searchInput').value.toLowerCase();
+    // Découpe la recherche en tokens en supprimant les espaces inutiles
+    const tokens = searchValue.split(' ').filter(token => token.trim() !== '');
 
-                if (pokémon.includes(searchValue) || statut.includes(searchValue)) {
-                    row.style.display = ''; // Montrer la ligne
-                } else {
-                    row.style.display = 'none'; // Cacher la ligne
-                }
-            });
-        });
-    </script>
+    const tableRows = document.querySelectorAll('#recordsTable tr');
+    let visibleCount = 0;
+
+    tableRows.forEach(row => {
+      // Extraction en minuscules des trois colonnes recherchées
+      const pokemon = row.cells[0].textContent.toLowerCase();
+      const statut  = row.cells[2].textContent.toLowerCase();
+      const tags    = row.cells[5].textContent.toLowerCase();
+
+      // Pour chaque token, on vérifie qu'il se retrouve dans l'un des champs
+      const isMatch = tokens.every(token =>
+        pokemon.includes(token) || statut.includes(token) || tags.includes(token)
+      );
+
+      if (isMatch || tokens.length === 0) {  // Si aucun token, on affiche toutes les lignes
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    document.getElementById('rowCount').textContent = visibleCount + " résultat(s)";
+  }
+
+  // Met à jour le filtrage lors de la saisie
+  document.getElementById('searchInput').addEventListener('keyup', filterTable);
+  document.addEventListener('DOMContentLoaded', filterTable);
+</script>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,0 +1,576 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Capture Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+  AOS.init();
+    </script>
+    <style>
+        body {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .pokename {
+        font-size: 30px;
+        }
+        .table tbody td img {
+            height: 64px;
+            width: auto;
+        }
+        .count {font-size: 40px;
+        }
+        /* Noir et blanc */
+        .black-and-white {filter: grayscale(100%);
+          -webkit-filter: grayscale(100%);
+        }
+
+        /* Tout noir (seulement la forme) */
+        .all-black {filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+        /* Texte plus grand dans <td> */
+        .large-text td {font - size: 20px; }
+
+        
+        .container-badge {max - width: 500px;
+        
+            }
+
+        .trophy-True {
+            height: 64px;
+            width: 64px;
+        }
+
+        .trophy-False {
+            height: 64px;
+            width: 64px;
+            filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+
+        .uncommon {box-shadow: inset 0 0 4px lime;
+        }
+
+        .rare {box-shadow: inset 0 0 8px aqua;
+        }
+
+        .epic {box-shadow: inset 0 0 12px #7D0DC3;
+        }
+
+        .legendary {box-shadow: inset 0 0 16px gold;
+        }
+
+        .exotic {box-shadow: inset 0 0 20px pink;
+        }
+
+
+        th, td { text-align: center; border: 1px solid black; padding: 10px; }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
+      <form class="form-inline">
+        <a class="btn btn-sm btn-outline-secondary" href="../main.html" style="color: white;">Accueil Pokédex</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../availablepokemon.html" style="color: white;">Pokédex Infos</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../pokestats.html" style="color: white;">Classements</a>
+      </form>
+    </nav><br><br>
+    <h1>Pokédex La_petite_Frenchy - chez mythmega</h1>
+    <p>Pokédex de La_petite_Frenchy [de twitch] au 2025-01-08_16-53-34, sur le stream de mythmega.</p>
+    <table class="table table-dark table-bordered table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Pokémon</th>
+                <th>Sprite Normal</th>
+                <th>Capturé(s)</th>
+                <th>Sprite Shiny</th>
+                <th>Capturé(s)</th>
+                <th>Première capture(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+<tr>
+                <td class="pokename">Bulbizarre</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/bulbasaur.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bulbasaur.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>17/12/2024 17:28:57</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Aspicot</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/weedle.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/weedle.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>19/12/2024 16:42:13</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Roucoups</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/pidgeotto.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/pidgeotto.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>19/12/2024 17:15:17</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Rattatac</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/raticate.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raticate.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>03/12/2024 18:13:26</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Raichu</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/raichu.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/raichu.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>19/12/2024 16:28:45</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Mélofée</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/clefairy.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/clefairy.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>19/12/2024 14:18:33</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Feunard</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/ninetales.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/ninetales.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>20/12/2024 17:58:02</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Nosferapti</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/zubat.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/zubat.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>22/12/2024 18:47:57</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Mystherbe</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/oddish.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/oddish.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>19/12/2024 14:19:41</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Rafflesia</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/vileplume.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/vileplume.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>22/12/2024 18:00:41</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Arcanin</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/arcanine.gif" alt="Normal Sprite"></td>
+                <td class="count">2</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/arcanine.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>19/12/2024 14:18:16</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Abra</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/abra.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/abra.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>22/12/2024 18:58:21</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Chétiflor</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/bellsprout.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/bellsprout.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>17/12/2024 17:28:44</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Dodrio</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/dodrio.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/dodrio.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>20/12/2024 18:08:42</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Krabby</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/krabby.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/krabby.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>02/12/2024 13:51:10</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Voltorbe</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/voltorb.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/voltorb.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>19/12/2024 18:14:08</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Noeunoeuf</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/exeggcute.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/exeggcute.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>22/12/2024 18:07:12</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Noadkoko</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/exeggutor.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/exeggutor.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>18/12/2024 18:06:24</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Hypocean</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/normal/seadra.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/seadra.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>19/12/2024 18:19:10</td>
+            </tr>
+
+<tr>
+                <td class="pokename">M. Mime</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/mr-mime.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mr-mime.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>20/12/2024 17:58:41</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Tauros</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/tauros.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/tauros.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>03/12/2024 14:59:35</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Artikodin</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/articuno.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/articuno.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>19/12/2024 14:51:47</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Electhor</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/zapdos.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/zapdos.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>19/12/2024 15:04:36</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Mewtwo</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/mewtwo.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://img.pokemondb.net/sprites/black-white/anim/shiny/mewtwo.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>20/12/2024 17:59:19</td>
+            </tr>
+
+<tr>
+                <td class="pokename">Cadoizo</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/normal/delibird.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img src="https://img.pokemondb.net/sprites/black-white/anim/shiny/delibird.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>20/12/2024 18:18:13</td>
+            </tr>
+</tbody>
+    </table>
+<br><br>
+<p>Stats :</p><br>
+<p>Nombre d'espèce enregistrée : 25 / 207</p><div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 12%;" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">12%</div>
+</div><p>Nombre d'espèce shiny enregistrée : 8</p><div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: 3%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100">3%</div>
+</div><br><p>Total argent dépensé : 4683</p><p>Total de ball lancées : 30</p><br><p>Nombre de pokémon non shiny capturé : 20</p><p>Nombre de pokémon shiny capturé : 5</p><p>Total de pokémon attrapé : 25</p><p>Pokémon le plus attrapé : Krabby</p><p>Dresseur depuis : 02/12/2024 13:51:10 (depuis 37 jours.)</p>
+<p>Badges :</p><br>
+<p>Level 7</p><br><p>125 XP/250 XP</p><br><p>1625 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [5/16]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [1/4]</b></h4>   <div class="row">
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card common" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://s3.pokeos.com/forgotten-dex/pokeball/poke.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Tuto capture.</h5>
+                                    <p class="card-text">10 balls lancés. [+50XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card uncommon" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://s3.pokeos.com/forgotten-dex/pokeball/great.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Ball à zéro.</h5>
+                                    <p class="card-text">???? [+100XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card rare" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://s3.pokeos.com/forgotten-dex/pokeball/ultra.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">ball-ognaise.</h5>
+                                    <p class="card-text">???? [+200XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card epic" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://s3.pokeos.com/forgotten-dex/pokeball/master.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">punching-ball.</h5>
+                                    <p class="card-text">???? [+500XP]</p>
+                                  </div>
+                                </div>
+                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Attrapez les tous ! [1/5]</b></h4>   <div class="row">
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card common" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Dresseur débutant.</h5>
+                                    <p class="card-text">5 pokémons attrapés. [+50XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card uncommon" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Dresseur aguerri.</h5>
+                                    <p class="card-text">???? [+100XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card rare" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Top-Dresseur.</h5>
+                                    <p class="card-text">???? [+200XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card epic" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Dresseur légendaire.</h5>
+                                    <p class="card-text">???? [+500XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card legendary" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Dresseur divin.</h5>
+                                    <p class="card-text">???? [+1000XP]</p>
+                                  </div>
+                                </div>
+                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Shiny Hunting [1/3]</b></h4>   <div class="row">
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card uncommon" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">La brillance.</h5>
+                                    <p class="card-text">1 shiny attrapé. [+10XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card rare" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Disco-ball.</h5>
+                                    <p class="card-text">???? [+50XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card epic" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Disco-ball.</h5>
+                                    <p class="card-text">???? [+100XP]</p>
+                                  </div>
+                                </div>
+                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Experience as Trainer [2/4]</b></h4>   <div class="row">
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card common" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Regis.</h5>
+                                    <p class="card-text">Dresseur depuis 1 semaine. [+100XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card uncommon" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Blue.</h5>
+                                    <p class="card-text">Dresseur depuis 1 mois. [+500XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card epic" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Sacha.</h5>
+                                    <p class="card-text">???? [+750XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card exotic" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Red.</h5>
+                                    <p class="card-text">???? [+1510XP]</p>
+                                  </div>
+                                </div>
+                            </div>   </div></div><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Kanto [1/5]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Dex Of Kanto [0/2]</b></h4>   <div class="row">
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card uncommon" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Starters 1G.</h5>
+                                    <p class="card-text">???? [+500XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card rare" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Casino de Céladopole.</h5>
+                                    <p class="card-text">???? [+350XP]</p>
+                                  </div>
+                                </div>
+                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Legends Of Kanto [1/3]</b></h4>   <div class="row">
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card exotic" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/mew.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Agent Rocket.</h5>
+                                    <p class="card-text">???? [+500XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card legendary" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/mewtwo.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Soldat Rocket.</h5>
+                                    <p class="card-text">Mewtwo attrapé. [+750XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card exotic" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Oiseaux légendaires.</h5>
+                                    <p class="card-text">???? [+1000XP]</p>
+                                  </div>
+                                </div>
+                            </div>   </div></div><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Johto [0/5]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Dex Of Johto [0/2]</b></h4>   <div class="row">
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card uncommon" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Starters 2G..</h5>
+                                    <p class="card-text">???? [+1000XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card rare" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Casino de Doublonville.</h5>
+                                    <p class="card-text">???? [+350XP]</p>
+                                  </div>
+                                </div>
+                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Legends Of Johto [0/3]</b></h4>   <div class="row">
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card legendary" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Trio de chiens légendaires.</h5>
+                                    <p class="card-text">???? [+700XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card legendary" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Ciel de Johto.</h5>
+                                    <p class="card-text">???? [+1000XP]</p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
+                                <div class="card legendary" style="background-color: #222222;  height: 220px;">
+                                  <center><br><img src="https://cdn-icons-png.flaticon.com/512/8348/8348232.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <div class="card-body">
+                                    <h5 class="card-title">Maitre du temps.</h5>
+                                    <p class="card-text">???? [+1000XP]</p>
+                                  </div>
+                                </div>
+                            </div>   </div></div>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html>

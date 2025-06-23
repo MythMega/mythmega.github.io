@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cocotine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212; /* Fond sombre */
+            color: white;
+        }
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .info-container {
+            flex: 1;
+            padding: 20px;
+        }
+        .sprite {
+            width: 100%; /* Prend toute la largeur du conteneur */
+            height: auto;
+            image-rendering: pixelated;          /* Pour Chrome, Edge, etc. */
+            image-rendering: -moz-crisp-edges;     /* Pour Firefox */
+            image-rendering: crisp-edges;          /* Alternative pour certains navigateurs */
+            -ms-interpolation-mode: nearest-neighbor; /* Pour IE */
+        }
+        .type {
+            max-height: 20px;
+            width: auto;
+        }
+        a {
+            textDecoration = 'none';
+        }
+        .icon {
+            max-height: 16px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 image-container">
+                <img class="sprite" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Aromatisse_normal.gif" alt="Image">
+            </div>
+            <div class="col-md-8 info-container">
+                <h2>Informations</h2>
+                <ul class="list-group">
+                    <li class="list-group-item bg-dark text-white"><strong>Nom :</strong> Cocotine</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Name :</strong> Aromatisse</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Type :</strong> <img class="type" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/type/banner/sv/140px-FairyIC_SV.png"></li>
+                    <li class="list-group-item bg-dark text-white"><strong>Spawn :</strong> ????????</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Availability :</strong> Not available at all.</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Artist :</strong> </li>
+                    <li class="list-group-item bg-dark text-white"><strong>Infos :</strong> <Série : Kalos;> </li>
+                    <li class="list-group-item bg-dark text-white"><strong>Buy Price / Prix d'achat :</strong> <br>Normal <img class="icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/others/notshiny.png"> : N/A <br> Shiny <img class="icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/others/isshiny.png"> : N/A</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Value / Valeur :</strong> <br>Normal <img class="icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/others/notshiny.png"> : 2 <br> Shiny <img class="icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/others/isshiny.png"> : 10</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

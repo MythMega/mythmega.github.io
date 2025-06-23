@@ -1,0 +1,14 @@
+[
+  {
+    "Filename": "custom_example1.txt",
+    "Content": "This is an example without variables"
+  },
+  {
+    "Filename": "custom_example2.txt",
+    "Content": "This is an example with a lot of variables, like for example do you know that $userCount on the dex have to get $allPokemonCount different creatures ($allPokemonLegendaryCount lengendaries) to get $allBadgesCount Badges. Today they got $sessionCatchCount caughts, the last one was caught by $lastCatchTrainerPseudo on $lastCatchTrainerPlatform. he got a creature named $lastCatchPokemonCaughtNameEN in english, $lastCatchPokemonCaughtNameFR in french, with a $lastCatchPokeballUsedName and its color is $lastCatchPokemonCaughtIsShiny, he had $lastCatchPokeballUsedCatchRate percent chance to catch and $lastCatchPokeballUsedShinyRate to have a shiny. It was $lastCatchDateTime (so the date is $lastCatchDate and the time $lastCatchTime). Today there\u0027s $sessionNewTrainerCount new trainers, the last who joined is $sessionNewTrainerLastName (on $sessionNewTrainerLastPlatform)\u0027"
+  },
+  {
+    "Filename": "custom_dernierecapture.txt",
+    "Content": "$lastCatchTrainerPseudo a captur\u00E9 un $lastCatchPokemonCaughtNameFR"
+  }
+]

@@ -16,6 +16,15 @@
       color: red;
       font-size: 0.9rem;
     }
+    body {
+        background-color: #2a2a2a;
+        color: #ffffff;
+    }
+    .nav-tabs .nav-link {
+    background-color: #6a6a6a;
+    text-decoration: none;
+    color: white;
+}
   </style>
 </head>
 <body>
@@ -47,6 +56,9 @@
       <button class="nav-link" id="tab-badge-tab" data-bs-toggle="tab" data-bs-target="#tab-badge" type="button" role="tab" aria-controls="tab-badge" aria-selected="false">Badges</button>
     </li>
     <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-Zone-tab" data-bs-toggle="tab" data-bs-target="#tab-Zone" type="button" role="tab" aria-controls="tab-Zone" aria-selected="false">Zone</button>
+    </li>
+    <li class="nav-item" role="presentation">
       <button class="nav-link" id="tab-background-tab" data-bs-toggle="tab" data-bs-target="#tab-background" type="button" role="tab" aria-controls="tab-background" aria-selected="false">Fond Carte</button>
     </li>
   </ul>
@@ -70,10 +82,21 @@
 <option value="Insecateur">Insecateur</option>
 <option value="Scarabrute">Scarabrute</option>
 <option value="Porygon">Porygon</option>
+<option value="Amonita">Amonita</option>
+<option value="Amonistar">Amonistar</option>
+<option value="Kabuto">Kabuto</option>
+<option value="Kabutops">Kabutops</option>
+<option value="Ptéra">Ptéra</option>
 <option value="Mewtwo">Mewtwo</option>
 <option value="Cornèbre">Cornèbre</option>
 <option value="Scarhino">Scarhino</option>
+<option value="Porygon2">Porygon2</option>
+<option value="Queulorior">Queulorior</option>
+<option value="Debugant">Debugant</option>
+<option value="Kapoera">Kapoera</option>
 <option value="Embrylex">Embrylex</option>
+<option value="Celebi">Celebi</option>
+<option value="Vacilys">Vacilys</option>
 <option value="Vespeol">Vespeol</option>
 <option value="Aubeon">Aubeon</option>
 
@@ -382,22 +405,146 @@
 <option value="Rémoraid">Rémoraid</option>
 <option value="Octillery">Octillery</option>
 <option value="Cadoizo">Cadoizo</option>
+<option value="Démanta">Démanta</option>
 <option value="Airmure">Airmure</option>
 <option value="Malosse">Malosse</option>
 <option value="Démolosse">Démolosse</option>
 <option value="Hyporoi">Hyporoi</option>
+<option value="Phanpy">Phanpy</option>
+<option value="Donphan">Donphan</option>
+<option value="Porygon2">Porygon2</option>
+<option value="Cerfrousse">Cerfrousse</option>
+<option value="Queulorior">Queulorior</option>
+<option value="Debugant">Debugant</option>
+<option value="Kapoera">Kapoera</option>
+<option value="Lippouti">Lippouti</option>
+<option value="Elekid">Elekid</option>
+<option value="Magby">Magby</option>
+<option value="Écrémeuh">Écrémeuh</option>
+<option value="Leuphorie">Leuphorie</option>
 <option value="Raikou">Raikou</option>
 <option value="Entei">Entei</option>
 <option value="Suicune">Suicune</option>
 <option value="Embrylex">Embrylex</option>
+<option value="Ymphect">Ymphect</option>
+<option value="Tyranocif">Tyranocif</option>
 <option value="Lugia">Lugia</option>
 <option value="Ho-Oh">Ho-Oh</option>
+<option value="Celebi">Celebi</option>
+<option value="Arcko">Arcko</option>
+<option value="Massko">Massko</option>
+<option value="Jungko">Jungko</option>
+<option value="Poussifeu">Poussifeu</option>
+<option value="Galifeu">Galifeu</option>
+<option value="Braségali">Braségali</option>
+<option value="Gobou">Gobou</option>
+<option value="Flobio">Flobio</option>
+<option value="Laggron">Laggron</option>
+<option value="Medhyèna">Medhyèna</option>
+<option value="Grahyèna">Grahyèna</option>
+<option value="Zigzaton">Zigzaton</option>
+<option value="Linéon">Linéon</option>
+<option value="Chenipotte">Chenipotte</option>
+<option value="Armulys">Armulys</option>
+<option value="Charmillon">Charmillon</option>
+<option value="Blindalys">Blindalys</option>
+<option value="Papinox">Papinox</option>
+<option value="Nénupiot">Nénupiot</option>
+<option value="Lombre">Lombre</option>
+<option value="Ludicolo">Ludicolo</option>
+<option value="Grainipiot">Grainipiot</option>
+<option value="Pifeuil">Pifeuil</option>
+<option value="Tengalice">Tengalice</option>
+<option value="Nirondelle">Nirondelle</option>
+<option value="Hélédelle">Hélédelle</option>
+<option value="Goélise">Goélise</option>
+<option value="Bekipan">Bekipan</option>
+<option value="Tarsal">Tarsal</option>
+<option value="Kirlia">Kirlia</option>
+<option value="Gardevoir">Gardevoir</option>
+<option value="Arakdo">Arakdo</option>
+<option value="Maskadra">Maskadra</option>
+<option value="Balignon">Balignon</option>
+<option value="Chapignon">Chapignon</option>
+<option value="Parecool">Parecool</option>
+<option value="Vigoroth">Vigoroth</option>
+<option value="Monaflèmit">Monaflèmit</option>
+<option value="Rosélia">Rosélia</option>
+<option value="Cacnea">Cacnea</option>
+<option value="Cacturne">Cacturne</option>
+<option value="Vacilys">Vacilys</option>
+<option value="Tropius">Tropius</option>
+<option value="Jirachi">Jirachi</option>
+<option value="Tortipouss">Tortipouss</option>
+<option value="Boskara">Boskara</option>
+<option value="Torterra">Torterra</option>
+<option value="Ouisticram">Ouisticram</option>
+<option value="Chimpenfeu">Chimpenfeu</option>
+<option value="Simiabraz">Simiabraz</option>
+<option value="Tiplouf">Tiplouf</option>
+<option value="Prinplouf">Prinplouf</option>
+<option value="Pingoléon">Pingoléon</option>
+<option value="Étourmi">Étourmi</option>
+<option value="Étourvol">Étourvol</option>
+<option value="Étouraptor">Étouraptor</option>
+<option value="Keunotor">Keunotor</option>
+<option value="Castorno">Castorno</option>
+<option value="Crikzik">Crikzik</option>
+<option value="Mélokrik">Mélokrik</option>
+<option value="Lixy">Lixy</option>
+<option value="Luxio">Luxio</option>
+<option value="Luxray">Luxray</option>
+<option value="Pijako">Pijako</option>
+<option value="Vipélierre">Vipélierre</option>
+<option value="Lianaja">Lianaja</option>
+<option value="Majaspic">Majaspic</option>
+<option value="Gruikui">Gruikui</option>
+<option value="Grotichon">Grotichon</option>
+<option value="Roitiflam">Roitiflam</option>
+<option value="Moustillon">Moustillon</option>
+<option value="Mateloutre">Mateloutre</option>
+<option value="Clamiral">Clamiral</option>
+<option value="Ratentif">Ratentif</option>
+<option value="Miradar">Miradar</option>
+<option value="Ponchiot">Ponchiot</option>
+<option value="Ponchien">Ponchien</option>
+<option value="Mastouffe">Mastouffe</option>
+<option value="Feuillajou">Feuillajou</option>
+<option value="Feuiloutan">Feuiloutan</option>
+<option value="Flamajou">Flamajou</option>
+<option value="Flamoutan">Flamoutan</option>
+<option value="Flotajou">Flotajou</option>
+<option value="Poichigeon">Poichigeon</option>
+<option value="Colombeau">Colombeau</option>
+<option value="Déflaisan">Déflaisan</option>
+<option value="Vivaldaim">Vivaldaim</option>
+<option value="Haydaim">Haydaim</option>
+<option value="Emolga">Emolga</option>
+<option value="Marisson">Marisson</option>
+<option value="Boguérisse">Boguérisse</option>
+<option value="Blindépique">Blindépique</option>
+<option value="Feunnec">Feunnec</option>
+<option value="Roussil">Roussil</option>
+<option value="Goupelin">Goupelin</option>
+<option value="Grenousse">Grenousse</option>
+<option value="Croâporal">Croâporal</option>
+<option value="Amphinobi">Amphinobi</option>
+<option value="Sapereau">Sapereau</option>
+<option value="Excavarenne">Excavarenne</option>
+<option value="Passerouge">Passerouge</option>
+<option value="Braisillon">Braisillon</option>
+<option value="Flambusard">Flambusard</option>
+<option value="Cabriolaine">Cabriolaine</option>
+<option value="Chevroum">Chevroum</option>
+<option value="Couafarel">Couafarel</option>
 <option value="Ossatueur_d'Alola">Ossatueur d'Alola</option>
+<option value="Miaouss_d'Alola">Miaouss d'Alola</option>
 <option value="Pikachu_Surfeur">Pikachu Surfeur</option>
 <option value="Fantôme_mère_d'Osselait">Fantôme mère d'Osselait</option>
 <option value="Onyx_de_crystal">Onyx de crystal</option>
 <option value="Munja_bonbon_Violette">Munja bonbon Violette</option>
 <option value="Mimichu">Mimichu</option>
+<option value="Scranèbre">Scranèbre</option>
 <option value="Chenipan_de_guimauve">Chenipan de guimauve</option>
 <option value="Évoli_de_guimauve">Évoli de guimauve</option>
 <option value="Canarticho_de_guimauve">Canarticho de guimauve</option>
@@ -456,6 +603,27 @@
 <option value="Sulfu-Morph">Sulfu-Morph</option>
 <option value="Mew-Morph">Mew-Morph</option>
 <option value="Mewtwo-Morph">Mewtwo-Morph</option>
+<option value="Arcko_Fleuri">Arcko Fleuri</option>
+<option value="Gobou_Fleuri">Gobou Fleuri</option>
+<option value="Poussifeu_Fleuri">Poussifeu Fleuri</option>
+<option value="Pikachu_Fleuri">Pikachu Fleuri</option>
+<option value="Évoli_Fleuri">Évoli Fleuri</option>
+<option value="Otaria_Fleuri">Otaria Fleuri</option>
+<option value="Psykokwak_Fleuri">Psykokwak Fleuri</option>
+<option value="Axoloto_Fleuri">Axoloto Fleuri</option>
+<option value="Marill_Fleuri">Marill Fleuri</option>
+<option value="Chamallot_Fleuri">Chamallot Fleuri</option>
+<option value="Roselia_Fleuri">Roselia Fleuri</option>
+<option value="Obali_Fleuri">Obali Fleuri</option>
+<option value="Tarsal_Fleuri">Tarsal Fleuri</option>
+<option value="Tylton_Fleuri">Tylton Fleuri</option>
+<option value="Spoink_Fleuri">Spoink Fleuri</option>
+<option value="Milobellus_Fleuri">Milobellus Fleuri</option>
+<option value="Écrapince_Fleuri">Écrapince Fleuri</option>
+<option value="Jirachi_Fleuri">Jirachi Fleuri</option>
+<option value="Latios_Fleuri">Latios Fleuri</option>
+<option value="Latias_Fleuri">Latias Fleuri</option>
+<option value="Pikachu_Tocos">Pikachu Tocos</option>
 
     </datalist>
     <div class="error-message" id="errorPokemonScrap"></div>
@@ -759,22 +927,146 @@
 <option value="Rémoraid">Rémoraid</option>
 <option value="Octillery">Octillery</option>
 <option value="Cadoizo">Cadoizo</option>
+<option value="Démanta">Démanta</option>
 <option value="Airmure">Airmure</option>
 <option value="Malosse">Malosse</option>
 <option value="Démolosse">Démolosse</option>
 <option value="Hyporoi">Hyporoi</option>
+<option value="Phanpy">Phanpy</option>
+<option value="Donphan">Donphan</option>
+<option value="Porygon2">Porygon2</option>
+<option value="Cerfrousse">Cerfrousse</option>
+<option value="Queulorior">Queulorior</option>
+<option value="Debugant">Debugant</option>
+<option value="Kapoera">Kapoera</option>
+<option value="Lippouti">Lippouti</option>
+<option value="Elekid">Elekid</option>
+<option value="Magby">Magby</option>
+<option value="Écrémeuh">Écrémeuh</option>
+<option value="Leuphorie">Leuphorie</option>
 <option value="Raikou">Raikou</option>
 <option value="Entei">Entei</option>
 <option value="Suicune">Suicune</option>
 <option value="Embrylex">Embrylex</option>
+<option value="Ymphect">Ymphect</option>
+<option value="Tyranocif">Tyranocif</option>
 <option value="Lugia">Lugia</option>
 <option value="Ho-Oh">Ho-Oh</option>
+<option value="Celebi">Celebi</option>
+<option value="Arcko">Arcko</option>
+<option value="Massko">Massko</option>
+<option value="Jungko">Jungko</option>
+<option value="Poussifeu">Poussifeu</option>
+<option value="Galifeu">Galifeu</option>
+<option value="Braségali">Braségali</option>
+<option value="Gobou">Gobou</option>
+<option value="Flobio">Flobio</option>
+<option value="Laggron">Laggron</option>
+<option value="Medhyèna">Medhyèna</option>
+<option value="Grahyèna">Grahyèna</option>
+<option value="Zigzaton">Zigzaton</option>
+<option value="Linéon">Linéon</option>
+<option value="Chenipotte">Chenipotte</option>
+<option value="Armulys">Armulys</option>
+<option value="Charmillon">Charmillon</option>
+<option value="Blindalys">Blindalys</option>
+<option value="Papinox">Papinox</option>
+<option value="Nénupiot">Nénupiot</option>
+<option value="Lombre">Lombre</option>
+<option value="Ludicolo">Ludicolo</option>
+<option value="Grainipiot">Grainipiot</option>
+<option value="Pifeuil">Pifeuil</option>
+<option value="Tengalice">Tengalice</option>
+<option value="Nirondelle">Nirondelle</option>
+<option value="Hélédelle">Hélédelle</option>
+<option value="Goélise">Goélise</option>
+<option value="Bekipan">Bekipan</option>
+<option value="Tarsal">Tarsal</option>
+<option value="Kirlia">Kirlia</option>
+<option value="Gardevoir">Gardevoir</option>
+<option value="Arakdo">Arakdo</option>
+<option value="Maskadra">Maskadra</option>
+<option value="Balignon">Balignon</option>
+<option value="Chapignon">Chapignon</option>
+<option value="Parecool">Parecool</option>
+<option value="Vigoroth">Vigoroth</option>
+<option value="Monaflèmit">Monaflèmit</option>
+<option value="Rosélia">Rosélia</option>
+<option value="Cacnea">Cacnea</option>
+<option value="Cacturne">Cacturne</option>
+<option value="Vacilys">Vacilys</option>
+<option value="Tropius">Tropius</option>
+<option value="Jirachi">Jirachi</option>
+<option value="Tortipouss">Tortipouss</option>
+<option value="Boskara">Boskara</option>
+<option value="Torterra">Torterra</option>
+<option value="Ouisticram">Ouisticram</option>
+<option value="Chimpenfeu">Chimpenfeu</option>
+<option value="Simiabraz">Simiabraz</option>
+<option value="Tiplouf">Tiplouf</option>
+<option value="Prinplouf">Prinplouf</option>
+<option value="Pingoléon">Pingoléon</option>
+<option value="Étourmi">Étourmi</option>
+<option value="Étourvol">Étourvol</option>
+<option value="Étouraptor">Étouraptor</option>
+<option value="Keunotor">Keunotor</option>
+<option value="Castorno">Castorno</option>
+<option value="Crikzik">Crikzik</option>
+<option value="Mélokrik">Mélokrik</option>
+<option value="Lixy">Lixy</option>
+<option value="Luxio">Luxio</option>
+<option value="Luxray">Luxray</option>
+<option value="Pijako">Pijako</option>
+<option value="Vipélierre">Vipélierre</option>
+<option value="Lianaja">Lianaja</option>
+<option value="Majaspic">Majaspic</option>
+<option value="Gruikui">Gruikui</option>
+<option value="Grotichon">Grotichon</option>
+<option value="Roitiflam">Roitiflam</option>
+<option value="Moustillon">Moustillon</option>
+<option value="Mateloutre">Mateloutre</option>
+<option value="Clamiral">Clamiral</option>
+<option value="Ratentif">Ratentif</option>
+<option value="Miradar">Miradar</option>
+<option value="Ponchiot">Ponchiot</option>
+<option value="Ponchien">Ponchien</option>
+<option value="Mastouffe">Mastouffe</option>
+<option value="Feuillajou">Feuillajou</option>
+<option value="Feuiloutan">Feuiloutan</option>
+<option value="Flamajou">Flamajou</option>
+<option value="Flamoutan">Flamoutan</option>
+<option value="Flotajou">Flotajou</option>
+<option value="Poichigeon">Poichigeon</option>
+<option value="Colombeau">Colombeau</option>
+<option value="Déflaisan">Déflaisan</option>
+<option value="Vivaldaim">Vivaldaim</option>
+<option value="Haydaim">Haydaim</option>
+<option value="Emolga">Emolga</option>
+<option value="Marisson">Marisson</option>
+<option value="Boguérisse">Boguérisse</option>
+<option value="Blindépique">Blindépique</option>
+<option value="Feunnec">Feunnec</option>
+<option value="Roussil">Roussil</option>
+<option value="Goupelin">Goupelin</option>
+<option value="Grenousse">Grenousse</option>
+<option value="Croâporal">Croâporal</option>
+<option value="Amphinobi">Amphinobi</option>
+<option value="Sapereau">Sapereau</option>
+<option value="Excavarenne">Excavarenne</option>
+<option value="Passerouge">Passerouge</option>
+<option value="Braisillon">Braisillon</option>
+<option value="Flambusard">Flambusard</option>
+<option value="Cabriolaine">Cabriolaine</option>
+<option value="Chevroum">Chevroum</option>
+<option value="Couafarel">Couafarel</option>
 <option value="Ossatueur_d'Alola">Ossatueur d'Alola</option>
+<option value="Miaouss_d'Alola">Miaouss d'Alola</option>
 <option value="Pikachu_Surfeur">Pikachu Surfeur</option>
 <option value="Fantôme_mère_d'Osselait">Fantôme mère d'Osselait</option>
 <option value="Onyx_de_crystal">Onyx de crystal</option>
 <option value="Munja_bonbon_Violette">Munja bonbon Violette</option>
 <option value="Mimichu">Mimichu</option>
+<option value="Scranèbre">Scranèbre</option>
 <option value="Chenipan_de_guimauve">Chenipan de guimauve</option>
 <option value="Évoli_de_guimauve">Évoli de guimauve</option>
 <option value="Canarticho_de_guimauve">Canarticho de guimauve</option>
@@ -833,6 +1125,27 @@
 <option value="Sulfu-Morph">Sulfu-Morph</option>
 <option value="Mew-Morph">Mew-Morph</option>
 <option value="Mewtwo-Morph">Mewtwo-Morph</option>
+<option value="Arcko_Fleuri">Arcko Fleuri</option>
+<option value="Gobou_Fleuri">Gobou Fleuri</option>
+<option value="Poussifeu_Fleuri">Poussifeu Fleuri</option>
+<option value="Pikachu_Fleuri">Pikachu Fleuri</option>
+<option value="Évoli_Fleuri">Évoli Fleuri</option>
+<option value="Otaria_Fleuri">Otaria Fleuri</option>
+<option value="Psykokwak_Fleuri">Psykokwak Fleuri</option>
+<option value="Axoloto_Fleuri">Axoloto Fleuri</option>
+<option value="Marill_Fleuri">Marill Fleuri</option>
+<option value="Chamallot_Fleuri">Chamallot Fleuri</option>
+<option value="Roselia_Fleuri">Roselia Fleuri</option>
+<option value="Obali_Fleuri">Obali Fleuri</option>
+<option value="Tarsal_Fleuri">Tarsal Fleuri</option>
+<option value="Tylton_Fleuri">Tylton Fleuri</option>
+<option value="Spoink_Fleuri">Spoink Fleuri</option>
+<option value="Milobellus_Fleuri">Milobellus Fleuri</option>
+<option value="Écrapince_Fleuri">Écrapince Fleuri</option>
+<option value="Jirachi_Fleuri">Jirachi Fleuri</option>
+<option value="Latios_Fleuri">Latios Fleuri</option>
+<option value="Latias_Fleuri">Latias Fleuri</option>
+<option value="Pikachu_Tocos">Pikachu Tocos</option>
 
     </datalist>
     <div class="error-message" id="error_pokeEnvoye_trade"></div>
@@ -905,6 +1218,637 @@
       alert("Commande copiée !");
     });
   });
+</script>
+
+<!-- Onglet Zones -->
+<div class="tab-pane fade p-3" id="tab-Zone" role="tabpanel" aria-labelledby="tab-Zone-tab">
+  <h3>Zones</h3>
+
+  <!-- Styles personnalisés -->
+  <style>
+    .zone-image {
+      height: 180px;
+      width: auto;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .card {
+      height: 520px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .card-body {
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+  </style>
+
+  <!-- Combobox : Sélection de la région -->
+  <div class="mb-3">
+    <label for="combobox1_tab-zone" class="form-label">Région</label>
+    <select class="form-select" id="combobox1_tab-zone">
+      <option selected disabled>Choisissez une région</option>
+      <option value="none">none</option>
+<option value="Special">Special</option>
+<option value="Kanto">Kanto</option>
+<option value="Johto">Johto</option>
+<option value="Hoenn">Hoenn</option>
+<option value="Sinnoh">Sinnoh</option>
+<option value="Unys">Unys</option>
+<option value="Kalos">Kalos</option>
+<option value="Alola">Alola</option>
+<option value="Galar">Galar</option>
+<option value="Hisui">Hisui</option>
+<option value="Paldea">Paldea</option>
+<option value="New Kalos">New Kalos</option>
+
+    </select>
+    <div class="error-message" id="error1_tab-zone"></div>
+  </div>
+
+  <!-- Zone destinée à accueillir la grille des zones -->
+  <div id="zone-grid" class="row row-cols-1 row-cols-md-4 g-3">
+    <!-- Les zones filtrées apparaîtront ici -->
+  </div>
+</div>
+
+<script>
+const zonesList = JSON.parse(`[
+  {
+    "Name": "<void>",
+    "Description": "Zone de base, sans description. Aucune condition requise pour y accéder.",
+    "LevelRequirement": 0,
+    "DexRequirement": 0,
+    "Image": "https://archives.bulbagarden.net/media/upload/thumb/b/bc/Vermilion_Forest.png/1200px-Vermilion_Forest.png",
+    "Region": "none"
+  },
+  {
+    "Name": "Marshmallow Mountain",
+    "Description": "Une montagne sucrée où les Pokémon aiment se rassembler pour des batailles amicales.",
+    "LevelRequirement": 1,
+    "DexRequirement": 1000,
+    "Image": "https://images.radio-canada.ca/q_auto,w_1250/v1/ici-info/16x9/mario-kart-cite-sorbet.jpg",
+    "Region": "Special"
+  },
+  {
+    "Name": "Morphing Forest",
+    "Description": "Le repaire des Pokémon aux formes changeantes.",
+    "LevelRequirement": 1,
+    "DexRequirement": 1000,
+    "Image": "https://thumbs.dreamstime.com/b/spiral-forest-illusion-created-dense-green-trees-forming-tunnel-effect-optical-art-nature-harmony-concept-ai-generated-363782782.jpg",
+    "Region": "Special"
+  },
+  {
+    "Name": "Petal Garden",
+    "Description": "Ici les pokémon fleurissent, même s'ils n'étaient pas prédisposés à le faire.",
+    "LevelRequirement": 1,
+    "DexRequirement": 1000,
+    "Image": "https://i.ytimg.com/vi/NAftDQN4SNg/sddefault.jpg",
+    "Region": "Special"
+  },
+  {
+    "Name": "Fuzion City",
+    "Description": "Au cœur de Sinnoh, la Forêt Vestigion se déploie avec ses arbres centenaires et ses clairières secrètes, offrant aux dresseurs un univers mystique où la nature révèle ses trésors cachés.",
+    "LevelRequirement": 0,
+    "DexRequirement": 0,
+    "Image": "https://www.pokepedia.fr/images/thumb/9/95/For%C3%AAt_de_Vestigion_DEPS.png/450px-For%C3%AAt_de_Vestigion_DEPS.png",
+    "Region": "Special"
+  },
+  {
+    "Name": "Moderator's Meadow",
+    "Description": "A la suite d'expériences de la part des modérateurs, cette zone a été créée artificiellement pour contenir des Pokémon spéciaux.",
+    "LevelRequirement": 0,
+    "DexRequirement": 0,
+    "Image": "https://www.pokepedia.fr/images/thumb/9/95/For%C3%AAt_de_Vestigion_DEPS.png/450px-For%C3%AAt_de_Vestigion_DEPS.png",
+    "Region": "Special"
+  },
+  {
+    "Name": "Forêts de Jade (Kanto)",
+    "Description": "Cette forêt luxuriante abrite principalement des Pokémon de type Plante, Insecte et Vol – des espèces rapides et discrètes telles que Caterpie, Weedle ou Pidgey se faufilent entre les hautes fougères et les cimes verdoyantes. L’ambiance tropicale favorise l’apparition de Pokémon qui se fondent dans le décor naturel.",
+    "LevelRequirement": 0,
+    "DexRequirement": 0,
+    "Image": "https://www.pokepedia.fr/images/2/26/For%C3%AAt_de_Jade_LGPE.png?20210521193605",
+    "Region": "Kanto"
+  },
+  {
+    "Name": "Mont Sélénite (Kanto)",
+    "Description": "Au cœur de cette montagne mystérieuse, on retrouve des Pokémon de type Roche, Sol et Poison – comme Zubat, Geodude et Paras –, reflétant l’atmosphère austère et parfois inquiétante du lieu. La pénombre des grottes et la fraîcheur de l’altitude en font un habitat idéal pour des espèces résilientes.",
+    "LevelRequirement": 1,
+    "DexRequirement": 0,
+    "Image": "https://www.pokepedia.fr/images/f/ff/Mont_S%C3%A9l%C3%A9nite_LGPE.png",
+    "Region": "Kanto"
+  },
+  {
+    "Name": "Parc Safari (Kanto)",
+    "Description": "Dans cette réserve sauvage, l’on découvre une grande diversité de Pokémon atypiques et souvent rares. Vous pourrez notamment y rencontrer des Pokémon de type Normal, Insecte ou même quelques espèces plus insolites (tauros, Kangaskhan, etc.) qui ne se trouvent nulle part ailleurs dans la région. Cette zone offre une expérience de capture unique grâce à la répartition inhabituelle des espèces. ",
+    "LevelRequirement": 2,
+    "DexRequirement": 20,
+    "Image": "https://www.pokepedia.fr/images/9/9e/Parc_Safari_RFVF.png?20090201010710",
+    "Region": "Kanto"
+  },
+  {
+    "Name": "Ïles Écumes (Kanto)",
+    "Description": "Ces îles isolées, baignées par les flots du Chenal, proposent un habitat marin particulier où se côtoient des Pokémon de type Eau et Glace. Outre des espèces courantes comme Shellder et Cloyster, c’est également le royaume du légendaire Artikodin, dont la présence majestueuse domine l’arrière-plan glacé.",
+    "LevelRequirement": 3,
+    "DexRequirement": 20,
+    "Image": "https://www.pokepedia.fr/images/c/cd/%C3%8Eles_%C3%89cume_LGPE.png?20210521194751",
+    "Region": "Kanto"
+  },
+  {
+    "Name": "Manoir Pokémon (Kanto)",
+    "Description": "Effrayant manoir.",
+    "LevelRequirement": 4,
+    "DexRequirement": 90,
+    "Image": "https://www.pokepedia.fr/images/5/5c/Manoir_Pok%C3%A9mon_LGPE.png?20190414141123",
+    "Region": "Kanto"
+  },
+  {
+    "Name": "Lac Colère (Johto)",
+    "Description": "Le Lac Colère est situé au nord de la Route 43, il est constitué, à l'est, d'un lac et d'une rive où l'on trouve de la maison du Maître Pêcheur et à l'ouest d'un labyrinthe d'arbres amenant à une maison recluse au nord-ouest du lac.",
+    "LevelRequirement": 4,
+    "DexRequirement": 125,
+    "Image": "https://www.pokebip.com/pages/jeuxvideo/oac/cristal/guide_des_lieux/maps/lac-colere.png",
+    "Region": "Johto"
+  },
+  {
+    "Name": "Mont Creuset (Johto)",
+    "Description": "Dominant l'horizon par ses sentiers escarpés et sa brume persistante, ce mont austère héberge des Pokémon de type Roche, Sol et Spectre. L'ambiance mystérieuse des hauteurs permet de croiser des créatures robustes qui se fondent dans le décor naturel.",
+    "LevelRequirement": 5,
+    "DexRequirement": 150,
+    "Image": "https://www.pokepedia.fr/images/4/49/Mont_Creuset_jour_HGSS.png?20091121233258",
+    "Region": "Johto"
+  },
+  {
+    "Name": "Parc Naturel (Johto)",
+    "Description": "Ce vaste espace naturel offre une grande diversité de Pokémon allant du type Normal à des espèces plus rares et atypiques. L'environnement préservé du parc permet aux dresseurs de vivre une expérience unique en observant et capturant des créatures qui se démarquent par leur singularité.",
+    "LevelRequirement": 6,
+    "DexRequirement": 175,
+    "Image": "https://www.pokepedia.fr/images/0/0f/Parc_Naturel_jour_HGSS.png",
+    "Region": "Johto"
+  },
+  {
+    "Name": "Tourb'Îles (Johto)",
+    "Description": "Les Tourb'Îles sont un petit archipel de quatre îles situé sur le Chenal 41 entre Irisia et le reste du continent de Johto. Elles forment une grotte sous-marine commune. Ces Îles sont appelés comme cela d'après les tourbillons dangereux qui les entourent.",
+    "LevelRequirement": 7,
+    "DexRequirement": 200,
+    "Image": "https://www.pokepedia.fr/images/8/81/Tourb%27Iles_jour_HGSS.png",
+    "Region": "Johto"
+  },
+  {
+    "Name": "Bois Clémenti (Hoenn)",
+    "Description": "Le Bois Clémenti se distingue par ses sentiers sinueux, ses clairières ensoleillées et une biodiversité impressionnante, invitant les dresseurs à explorer un univers de calme et de mystère.",
+    "LevelRequirement": 7,
+    "DexRequirement": 200,
+    "Image": "https://www.pokepedia.fr/images/0/00/Bois_Cl%C3%A9menti_ROSA.png?20190801190003",
+    "Region": "Hoenn"
+  },
+  {
+    "Name": "Mont Chimnée (Hoenn)",
+    "Description": "Dominant l'horizon par ses sentiers escarpés et sa brume persistante, ce mont austère héberge des Pokémon de type Roche, Sol et Spectre, offrant aux dresseurs une expérience vertigineuse en altitude.",
+    "LevelRequirement": 8,
+    "DexRequirement": 220,
+    "Image": "https://www.pokepedia.fr/images/5/59/Mont_Chimn%C3%A9e_CT59_ROSA.png?20250117175600",
+    "Region": "Hoenn"
+  },
+  {
+    "Name": "Désert (Hoenn)",
+    "Description": "Le Désert de Hoenn est une vaste étendue aride parsemée de dunes mouvantes et de mirages, où seuls les Pokémon les plus résistants parviennent à s'adapter à la chaleur implacable.",
+    "LevelRequirement": 9,
+    "DexRequirement": 240,
+    "Image": "https://www.pokepedia.fr/images/d/dc/Ruines_D%C3%A9sert_ROSA.png?20141129125208",
+    "Region": "Hoenn"
+  },
+  {
+    "Name": "Parc Safari (Hoenn)",
+    "Description": "Le Parc Safari de Hoenn est une réserve naturelle aux paysages variés où les dresseurs peuvent observer une multitude de Pokémon évoluer en toute liberté dans leur habitat d'origine.",
+    "LevelRequirement": 10,
+    "DexRequirement": 260,
+    "Image": "https://www.pokepedia.fr/images/4/44/Parc_Safari_CT53_ROSA.png?20250123120400",
+    "Region": "Hoenn"
+  },
+  {
+    "Name": "Épave (Hoenn)",
+    "Description": "L'Épave de Hoenn est le vestige mystérieux d'un ancien navire, échoué sur une plage battue par les vagues, qui abrite des Pokémon aquatiques et des traces du passé.",
+    "LevelRequirement": 11,
+    "DexRequirement": 280,
+    "Image": "https://www.pokepedia.fr/images/4/49/%C3%89pave.png?20100821182040",
+    "Region": "Hoenn"
+  },
+  {
+    "Name": "Pilier Céleste (Hoenn)",
+    "Description": "Le Pilier Céleste s'élève comme un monument sacré au cœur de Hoenn, où les légendes se mêlent au présent et offrent aux dresseurs l'occasion de découvrir des Pokémon d'une rare puissance.",
+    "LevelRequirement": 12,
+    "DexRequirement": 315,
+    "Image": "https://www.pokepedia.fr/images/d/da/Pilier_C%C3%A9leste_sommet_ROSA.png?20141129170032",
+    "Region": "Hoenn"
+  },
+  {
+    "Name": "Plaines Obsidiennes (Hisui)",
+    "Description": "Les Plaines Obsidiennes de Hisui s'étendent comme un tapis de pierres noires étincelantes, façonnées par d'anciennes forces terrestres. Ce vaste territoire volcanique offre aux dresseurs un décor austère et énigmatique, où chaque fissure raconte une légende oubliée.",
+    "LevelRequirement": 21,
+    "DexRequirement": 880,
+    "Image": "https://www.pokepedia.fr/images/thumb/4/49/Plaines_Obsidiennes_LPA.png/1200px-Plaines_Obsidiennes_LPA.png?20220314205623",
+    "Region": "Hisui"
+  },
+  {
+    "Name": "Marais Carmin (Hisui)",
+    "Description": "Au cœur des Marais Carmin de Hisui, des eaux aux reflets pourpres se mêlent à une végétation luxuriante et mystérieuse. Ce marécage envoûtant offre aux dresseurs un sanctuaire vibrant, où la vie se déploie en secret dans un écrin de couleurs intenses.",
+    "LevelRequirement": 21,
+    "DexRequirement": 885,
+    "Image": "https://www.pokepedia.fr/images/thumb/1/16/Marais_Carmin_LPA.png/1200px-Marais_Carmin_LPA.png?20220314205710",
+    "Region": "Hisui"
+  },
+  {
+    "Name": "Côte Lazuli (Hisui)",
+    "Description": "La Côte Lazuli de Hisui s'étend le long d'un littoral aux rivages étincelants et aux falaises parées de reflets azur. L'union harmonieuse de la mer et des minéraux précieux offre un paysage marin fascinant qui invite les dresseurs à une exploration empreinte de poésie.",
+    "LevelRequirement": 21,
+    "DexRequirement": 890,
+    "Image": "https://www.pokepedia.fr/images/thumb/5/57/C%C3%B4te_Lazuli_LPA.png/1200px-C%C3%B4te_Lazuli_LPA.png?20220314205907",
+    "Region": "Hisui"
+  },
+  {
+    "Name": "Contrefort Couronné (Hisui)",
+    "Description": "Le Contrefort Couronné de Hisui se dresse fièrement avec ses crêtes sculptées par le temps, offrant des panoramas impressionnants et des sentiers sinueux. Ce relief antique met au défi les dresseurs de percer les mystères de ses hauteurs stellaires et de ses ombres ancestrales.",
+    "LevelRequirement": 21,
+    "DexRequirement": 895,
+    "Image": "https://www.pokepedia.fr/images/thumb/a/aa/Contrefort_Couronn%C3%A9_LPA.png/1200px-Contrefort_Couronn%C3%A9_LPA.png?20220314210037",
+    "Region": "Hisui"
+  },
+  {
+    "Name": "Terres Immaculées (Hisui)",
+    "Description": "Les Terres Immaculées de Hisui se déploient en un écrin vierge, où la nature se pare de ses teintes les plus pures. Ce domaine préservé invite les dresseurs à découvrir un havre de tranquillité, un paysage intact où chaque recoin célèbre la beauté intemporelle de l'environnement.",
+    "LevelRequirement": 21,
+    "DexRequirement": 900,
+    "Image": "https://www.pokepedia.fr/images/thumb/7/7b/Terres_Immacul%C3%A9es_LPA.png/1200px-Terres_Immacul%C3%A9es_LPA.png?20220314210238",
+    "Region": "Hisui"
+  },
+  {
+    "Name": "Forêt Vestigion (Sinnoh)",
+    "Description": "Au cœur de Sinnoh, la Forêt Vestigion se déploie avec ses arbres centenaires et ses clairières secrètes, offrant aux dresseurs un univers mystique où la nature révèle ses trésors cachés.",
+    "LevelRequirement": 12,
+    "DexRequirement": 375,
+    "Image": "https://www.pokepedia.fr/images/thumb/9/95/For%C3%AAt_de_Vestigion_DEPS.png/450px-For%C3%AAt_de_Vestigion_DEPS.png",
+    "Region": "Sinnoh"
+  },
+  {
+    "Name": "Lacs Courage, Savoir & Vérité (Sinnoh)",
+    "Description": "Ces trois lacs symboliques forment un ensemble unique en Sinnoh : le Lac Courage inspire la bravoure, le Lac Savoir est une source d'intelligence, et le Lac Vérité incarne l'honnêteté, invitant les dresseurs à une quête introspective.",
+    "LevelRequirement": 12,
+    "DexRequirement": 375,
+    "Image": "https://www.pokepedia.fr/images/thumb/2/2e/Lac_Courage_DEPS.png/450px-Lac_Courage_DEPS.png",
+    "Region": "Sinnoh"
+  },
+  {
+    "Name": "Mont Couronné (Sinnoh)",
+    "Description": "Dominant l'horizon sinnohien, le Mont Couronné se distingue par ses sommets majestueux et ses sentiers escarpés. Ce lieu mythique défie les dresseurs et récompense leur persévérance par des panoramas inoubliables.",
+    "LevelRequirement": 13,
+    "DexRequirement": 400,
+    "Image": "https://www.pokepedia.fr/images/thumb/3/31/Mont_Couronn%C3%A9_Rappel_4_DEPS.png/1200px-Mont_Couronn%C3%A9_Rappel_4_DEPS.png?20230626134805",
+    "Region": "Sinnoh"
+  },
+  {
+    "Name": "Paradis Fleuri (Sinnoh)",
+    "Description": "Le Paradis Fleuri s'impose comme un havre de paix en Sinnoh, où les jardins luxuriants et les champs de fleurs colorées créent une ambiance enchanteresse, invitant les dresseurs à la détente et à la découverte sereine de Pokémon rares.",
+    "LevelRequirement": 14,
+    "DexRequirement": 425,
+    "Image": "https://www.pokepedia.fr/images/thumb/e/e8/Paradis_Fleuri_DEPS.png/450px-Paradis_Fleuri_DEPS.png",
+    "Region": "Sinnoh"
+  },
+  {
+    "Name": "Monde Distorsion (Sinnoh)",
+    "Description": "Plongé dans une atmosphère surréaliste, le Monde Distorsion est un espace énigmatique où réalité et illusion se confondent. Les dresseurs y découvrent un paysage en perpétuel changement, peuplé de phénomènes étranges et fascinants.",
+    "LevelRequirement": 15,
+    "DexRequirement": 450,
+    "Image": "https://eternia.fr/public/media//platine/screens/283.jpg",
+    "Region": "Sinnoh"
+  },
+  {
+    "Name": "Bois des Illusions (Unys)",
+    "Description": "Au cœur d'Unys, le Bois des Illusions se transforme en un théâtre de mirages. Les arbres centenaires et la brume capricieuse jouent avec les perceptions, créant un labyrinthe visuel où réalité et illusion se confondent, invitant les dresseurs à explorer l'inattendu.",
+    "LevelRequirement": 15,
+    "DexRequirement": 475,
+    "Image": "https://www.pokepedia.fr/images/thumb/f/fc/Bois_des_Illusions_N2B2.png/450px-Bois_des_Illusions_N2B2.png",
+    "Region": "Unys"
+  },
+  {
+    "Name": "Désert Délassant (Unys)",
+    "Description": "S'étendant sous un ciel infini, le Désert Délassant d'Unys offre un havre de quiétude. Les dunes ondulent doucement, enveloppées d'une chaleur apaisante, incitant les dresseurs à ralentir le pas et à se ressourcer dans cette immensité paisible.",
+    "LevelRequirement": 16,
+    "DexRequirement": 500,
+    "Image": "https://www.pokepedia.fr/images/3/33/D%C3%A9sert_D%C3%A9lassant.png",
+    "Region": "Unys"
+  },
+  {
+    "Name": "Mont Foré (Unys)",
+    "Description": "Dominant l'horizon, le Mont Foré dévoile une dense couverture forestière parcourue de sentiers sinueux. Ses pentes verdoyantes abritent une biodiversité foisonnante et offrent aux dresseurs des panoramas grandioses, témoignant d'une nature sauvage et préservée.",
+    "LevelRequirement": 16,
+    "DexRequirement": 525,
+    "Image": "https://www.pokepedia.fr/images/7/7f/Mont_For%C3%A9.png",
+    "Region": "Unys"
+  },
+  {
+    "Name": "Ruines des Abysses (Unys)",
+    "Description": "Plongées dans les profondeurs d'Unys, les Ruines des Abysses évoquent le souvenir d'une civilisation disparue. Ces vestiges énigmatiques, façonnés par le temps, abritent d'anciens secrets et offrent aux dresseurs l'opportunité de découvrir des Pokémon rares au cœur d'un mystère ancestral.",
+    "LevelRequirement": 17,
+    "DexRequirement": 550,
+    "Image": "https://www.pokepedia.fr/images/thumb/4/45/Ruines_des_Abysses_RDC.png/450px-Ruines_des_Abysses_RDC.png",
+    "Region": "Unys"
+  },
+  {
+    "Name": "Réserve Naturelle (Unys)",
+    "Description": "La Réserve Naturelle d'Unys est un véritable sanctuaire où la faune et la flore cohabitent en parfaite harmonie. Entre sentiers ombragés et clairières luxuriantes, les dresseurs peuvent se plonger dans une aventure paisible au cœur d'une nature authentique et préservée.",
+    "LevelRequirement": 17,
+    "DexRequirement": 575,
+    "Image": "https://www.pokepedia.fr/images/c/c2/Route_16_NB.png",
+    "Region": "Unys"
+  },
+  {
+    "Name": "Forêt de Neuvartault (Kalos)",
+    "Description": "Au cœur de Kalos, la Forêt de Neuvartault s'éveille dans un murmure d'anciens secrets. Ses arbres majestueux et ses clairières isolées tissent une atmosphère mystique, invitant les dresseurs à explorer un sanctuaire naturel empli de légendes.",
+    "LevelRequirement": 17,
+    "DexRequirement": 600,
+    "Image": "https://www.pokepedia.fr/images/b/b7/For%C3%AAt_de_Neuvartault_XY.png",
+    "Region": "Kalos"
+  },
+  {
+    "Name": "Baie Azur (Kalos)",
+    "Description": "Baie Azur, joyau côtier de Kalos, déploie ses eaux d'un bleu profond sur des rivages baignés de lumière. Ce panorama maritime idyllique invite les dresseurs à flâner le long de ses plages et à s'imprégner de la douceur océanique de la région.",
+    "LevelRequirement": 18,
+    "DexRequirement": 625,
+    "Image": "https://www.pokepedia.fr/images/4/48/Baie_Azur.png",
+    "Region": "Kalos"
+  },
+  {
+    "Name": "Grotte Étincelante (Kalos)",
+    "Description": "Niché sous les terres kalosiennes, la Grotte Étincelante révèle ses merveilles souterraines. Parsemée de cristaux lumineux et de formations fascinantes, ce sanctuaire secret offre aux dresseurs une aventure scintillante au cœur de mystères anciens.",
+    "LevelRequirement": 18,
+    "DexRequirement": 650,
+    "Image": "https://www.pokepedia.fr/images/f/f2/Grotte_Etincelante.png",
+    "Region": "Kalos"
+  },
+  {
+    "Name": "Village Pokémon (Kalos)",
+    "Description": "Au cœur de Kalos se déploie le Village Pokémon, un havre de convivialité où traditions et modernité se rencontrent. Ses ruelles pittoresques et ses maisons aux façades colorées invitent les dresseurs à partager récits et aventures dans une ambiance chaleureuse et authentique.",
+    "LevelRequirement": 18,
+    "DexRequirement": 675,
+    "Image": "https://www.pokepedia.fr/images/0/0a/Village_Pok%C3%A9mon_XY.png",
+    "Region": "Kalos"
+  },
+  {
+    "Name": "Mele-Mele (Alola)",
+    "Description": "Au cœur d'Alola, Mele-Mele s'épanouit comme une forêt enchantée. Les arbres vibrants et les clairières dissimulées se parent de couleurs tropicales, invitant les dresseurs à explorer la magie et les secrets d'une nature enchanteresse.",
+    "LevelRequirement": 19,
+    "DexRequirement": 675,
+    "Image": "https://www.pokepedia.fr/images/0/04/Mele-Mele_-_SL.png?20160713093243",
+    "Region": "Alola"
+  },
+  {
+    "Name": "Akala (Alola)",
+    "Description": "Akala rassemble l'essence d'Alola à travers ses étendues aquatiques légendaires. Les lacs symbolisant le Courage, le Savoir et la Vérité se fondent dans un paysage tropical vibrant, insufflant force et sagesse aux dresseurs en quête d'aventure.",
+    "LevelRequirement": 19,
+    "DexRequirement": 700,
+    "Image": "https://www.pokepedia.fr/images/thumb/b/b1/Akala_-_SL.png/1067px-Akala_-_SL.png?20160821083810",
+    "Region": "Alola"
+  },
+  {
+    "Name": "Ula-Ula (Alola)",
+    "Description": "Se dressant fièrement sur l'horizon, Ula-Ula est un mont légendaire aux sentiers escarpés et aux panoramas époustouflants. Celui-ci met au défi les dresseurs de gravir ses pentes pour atteindre des sommets où la beauté sauvage d'Alola se révèle dans toute sa splendeur.",
+    "LevelRequirement": 19,
+    "DexRequirement": 725,
+    "Image": "https://www.pokepedia.fr/images/4/40/Ula-Ula_-_SL.png?20161027194455",
+    "Region": "Alola"
+  },
+  {
+    "Name": "Poni (Alola)",
+    "Description": "Poni offre un havre de paix où jardins luxuriants et prairies éclatantes se dévoilent sous le soleil d'Alola. Ce refuge idyllique invite les dresseurs à s'immerger dans une atmosphère sereine et à découvrir, au détour des sentiers, des Pokémon aux apparences rares et fascinantes.",
+    "LevelRequirement": 19,
+    "DexRequirement": 750,
+    "Image": "https://www.pokepedia.fr/images/5/54/Poni_-_SL.png?20161027194947",
+    "Region": "Alola"
+  },
+  {
+    "Name": "Paradis Æther (Alola)",
+    "Description": "Le Paradis Æther incarne un rêve éveillé en Alola, où la frontière entre la réalité et l'imaginaire se dissout. Ce paysage irréel, animé par un jeu subtil de lumière et d'ombre, invite les dresseurs à explorer des contrées mystiques et à vivre une aventure sensorielle hors du commun.",
+    "LevelRequirement": 20,
+    "DexRequirement": 775,
+    "Image": "https://www.pokepedia.fr/images/e/e5/Paradis_%C3%86ther_-_SL.png?20160914194003",
+    "Region": "Alola"
+  },
+  {
+    "Name": "Forêt de Sleepwood (Galar)",
+    "Description": "Au cœur de Galar, la Forêt de Sleepwood se pare d'un voile mystique où des arbres centenaires aux reflets oniriques bordent des sentiers oubliés. Ce refuge envoûtant invite les dresseurs à explorer la magie silencieuse d'une nature ancestrale.",
+    "LevelRequirement": 20,
+    "DexRequirement": 775,
+    "Image": "https://www.pokepedia.fr/images/thumb/6/63/For%C3%AAt_de_Sleepwood_EB.png/450px-For%C3%AAt_de_Sleepwood_EB.png",
+    "Region": "Galar"
+  },
+  {
+    "Name": "Terres Sauvages (Galar)",
+    "Description": "S'étendant à perte de vue, les Terres Sauvages de Galar dévoilent un paysage brute et indompté où la nature règne en maître. Ici, les dresseurs se retrouvent face à une aventure authentique, riche en défis et en légendes ancestrales.",
+    "LevelRequirement": 20,
+    "DexRequirement": 800,
+    "Image": "https://www.pokepedia.fr/images/thumb/2/29/Terres_Sauvages.png/450px-Terres_Sauvages.png",
+    "Region": "Galar"
+  },
+  {
+    "Name": "Mine de Galar (Galar)",
+    "Description": "Plongée dans l'obscurité des entrailles terrestres, la Mine de Galar révèle un réseau de galeries ornées de cristaux étincelants. Les échos des anciens secrets murmurent à ceux qui osent s'aventurer dans ces profondeurs mystérieuses.",
+    "LevelRequirement": 20,
+    "DexRequirement": 825,
+    "Image": "https://www.pokepedia.fr/images/thumb/3/35/Mine_de_Galar_EB.png/450px-Mine_de_Galar_EB.png",
+    "Region": "Galar"
+  },
+  {
+    "Name": "Forêt de Lumirinth (Galar)",
+    "Description": "Dans la Forêt de Lumirinth, la lumière se fait poésie. Les feuillages étincelants et les clairières enchantées créent un décor féerique, transportant les dresseurs au cœur d'un rêve éveillé où chaque rayon dévoile une part de magie.",
+    "LevelRequirement": 20,
+    "DexRequirement": 825,
+    "Image": "https://www.pokepedia.fr/images/thumb/b/bf/For%C3%AAt_de_Lumirinth.jpg/450px-For%C3%AAt_de_Lumirinth.jpg",
+    "Region": "Galar"
+  },
+  {
+    "Name": "Isolarmure (Galar)",
+    "Description": "Se dressant tel un bastion oublié, Isolarmure émerge dans Galar comme un sanctuaire isolé. Enveloppé de formations rocheuses imposantes, ce havre mystérieux recèle des trésors cachés et des récits légendaires, invitant les dresseurs à une exploration hors du temps.",
+    "LevelRequirement": 20,
+    "DexRequirement": 850,
+    "Image": "https://www.pokepedia.fr/images/thumb/1/1b/Isolarmure_EB.png/450px-Isolarmure_EB.png",
+    "Region": "Galar"
+  },
+  {
+    "Name": "Couronneige (Galar)",
+    "Description": "Couronnée d'un manteau de neige éternelle, Couronneige incarne le royaume hivernal de Galar. Ses paysages glacés et ses panoramas féériques offrent aux dresseurs une aventure mythique où l'hiver dévoile ses plus beaux secrets.",
+    "LevelRequirement": 20,
+    "DexRequirement": 875,
+    "Image": "https://www.pokepedia.fr/images/thumb/5/58/Couronneige_EB.png/450px-Couronneige_EB.png",
+    "Region": "Galar"
+  },
+  {
+    "Name": "Illumis (Pokmon ZA)",
+    "Description": "Cette zone n'est pas encore connue...",
+    "LevelRequirement": 50,
+    "DexRequirement": 1500,
+    "Image": "https://www.media.pokekalos.fr/img/jeux/lpza/illumis3.jpg",
+    "Region": "New Kalos"
+  },
+  {
+    "Name": "Plato Real (Paldea)",
+    "Description": "Plato Real est une charmante ville nichée au pied de collines verdoyantes, où l'authenticité se mêle à la modernité. Ses ruelles pavées, ses maisons en pierre et son ambiance conviviale invitent les dresseurs à s'immerger dans un patrimoine culturel riche et vivant.",
+    "LevelRequirement": 22,
+    "DexRequirement": 901,
+    "Image": "https://www.pokepedia.fr/images/thumb/d/d3/Plato_Real_EV.png/450px-Plato_Real_EV.png",
+    "Region": "Paldea"
+  },
+  {
+    "Name": "Désert Rôtissable (Paldea)",
+    "Description": "Dominé par un soleil de plomb, le Désert Rôtissable s'étend en un océan de sable incandescent. Entre dunes ondulantes et formations rocheuses sculptées par les vents, ce paysage aride met au défi les dresseurs avec ses températures extrêmes et ses rares apparitions de Pokémon adaptés à ce climat brûlant.",
+    "LevelRequirement": 23,
+    "DexRequirement": 910,
+    "Image": "https://www.pokepedia.fr/images/thumb/4/4d/D%C3%A9sert_R%C3%B4tissable_EV.png/450px-D%C3%A9sert_R%C3%B4tissable_EV.png",
+    "Region": "Paldea"
+  },
+  {
+    "Name": "Bosquet Tagué (Paldea)",
+    "Description": "Mystérieux et empreint de traditions, le Bosquet Tagué présente des arbres aux troncs marqués de symboles énigmatiques. Ce refuge forestier, où l'art local se conjugue avec la nature sauvage, offre aux dresseurs un havre d'inspiration et de calme, propice à l'exploration de légendes oubliées.",
+    "LevelRequirement": 23,
+    "DexRequirement": 920,
+    "Image": "https://www.pokepedia.fr/images/thumb/3/30/Bosquet_Tagu%C3%A9_EV.png/450px-Bosquet_Tagu%C3%A9_EV.png",
+    "Region": "Paldea"
+  },
+  {
+    "Name": "Lac Asrol (Paldea)",
+    "Description": "Le Lac Asrol étend ses eaux cristallines au cœur d'un décor naturel spectaculaire. Encadré par des falaises escarpées et une végétation luxuriante, ce vaste plan d'eau paisible invite à la contemplation et offre un écrin parfait pour observer la faune et se ressourcer dans un cadre enchanteur.",
+    "LevelRequirement": 24,
+    "DexRequirement": 930,
+    "Image": "https://www.pokepedia.fr/images/thumb/6/61/Lac_Asrol_EV.png/450px-Lac_Asrol_EV.png",
+    "Region": "Paldea"
+  },
+  {
+    "Name": "Grotte d'Alforneira (Paldea)",
+    "Description": "La Grotte d'Alforneira est un réseau souterrain mystérieux aux allures de labyrinthe. Ses corridors ombragés, parsemés de cristaux scintillants et d'anciens vestiges, invitent les dresseurs à explorer ses secrets enfouis et à découvrir un univers géologique et historique d'une rare intensité.",
+    "LevelRequirement": 24,
+    "DexRequirement": 940,
+    "Image": "https://www.pokepedia.fr/images/thumb/f/f2/Grotte_d%27Alforneira_EV.png/450px-Grotte_d%27Alforneira_EV.png",
+    "Region": "Paldea"
+  },
+  {
+    "Name": "Cratère de Paldea (Paldea)",
+    "Description": "Vaste et imposant, le Cratère de Paldea est le résultat d'anciennes éruptions qui ont sculpté une dépression mystérieuse. Entouré de montagnes escarpées et enveloppé d'une brume persistante, ce lieu central et mythique défie les dresseurs de percer ses secrets et d'affronter les forces légendaires qui y résident.",
+    "LevelRequirement": 24,
+    "DexRequirement": 950,
+    "Image": "https://www.pokepedia.fr/images/thumb/d/d8/Zone_Z%C3%A9ro_EV.png/450px-Zone_Z%C3%A9ro_EV.png",
+    "Region": "Paldea"
+  },
+  {
+    "Name": "Septentria (Paldea)",
+    "Description": "Septentria est une contrée bucolique où la nature s'épanouit en un festival de couleurs et de douceur. Entre vastes prairies fleuries, vergers soignés et paysages pastoraux, ce refuge idyllique offre aux dresseurs un havre de paix, propice à la détente et à la rencontre de Pokémon rares dans un cadre enchanteur.",
+    "LevelRequirement": 25,
+    "DexRequirement": 960,
+    "Image": "https://www.pokepedia.fr/images/thumb/a/aa/Route_de_Septentria_EV.png/1200px-Route_de_Septentria_EV.png",
+    "Region": "Paldea"
+  },
+  {
+    "Name": "Institut Myrtille (Paldea)",
+    "Description": "Situé sur une île artificielle et doté d'installations ultramodernes, l'Institut Myrtille est le centre de formation de pointe de Paldea. Orienté vers l'innovation en matière de combats Pokémon et d'entraînement stratégique, cet établissement dynamique offre aux futurs dresseurs des infrastructures high-tech et un Terra-Dôme riche en écosystèmes variés, favorisant l'apprentissage et l'expérimentation.",
+    "LevelRequirement": 25,
+    "DexRequirement": 970,
+    "Image": "https://www.media.pokekalos.fr/img/jeux/dlcpev/guide/institut-myrtille.jpg",
+    "Region": "Paldea"
+  }
+]`);
+
+function copyToClipboard(button) {
+  const textToCopy = button.getAttribute('data-copy');
+  if (!navigator.clipboard) {
+    const textArea = document.createElement('textarea');
+    textArea.value = textToCopy;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      alert('Texte copié : ' + textToCopy);
+    } catch (err) {
+      alert('Erreur lors de la copie dans le presse-papiers : ' + err);
+    }
+    document.body.removeChild(textArea);
+    return;
+  }
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    alert('Texte copié : ' + textToCopy);
+  }).catch(err => {
+    alert('Erreur lors de la copie dans le presse-papiers : ' + err);
+  });
+}
+
+function displayZonesByRegion(selectedRegion) {
+  const container = document.getElementById('zone-grid');
+  container.innerHTML = '';
+
+  const matchingZones = zonesList.filter(zone => zone.Region === selectedRegion);
+
+  if (matchingZones.length === 0) {
+    container.innerHTML = '<p>Aucune zone trouvée pour cette région.</p>';
+    return;
+  }
+
+  matchingZones.forEach(zone => {
+    const col = document.createElement('div');
+    col.className = 'col';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const img = document.createElement('img');
+    img.className = 'card-img-top zone-image';
+    img.src = zone.Image;
+    img.alt = zone.Name;
+    card.appendChild(img);
+
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    const nameHeading = document.createElement('h4');
+    const titleLink = document.createElement('a');
+    titleLink.href = './Zone/' + zone.Name.replace(/[<>:"\/\\|?*]+/g, '_') + '.html';
+    titleLink.textContent = zone.Name;
+    nameHeading.appendChild(titleLink);
+    cardBody.appendChild(nameHeading);
+
+    const requirementsDiv = document.createElement('div');
+    requirementsDiv.innerHTML = `<p>Level requis : ${zone.LevelRequirement}</p>
+                                 <p>Pokémon minimum : ${zone.DexRequirement}</p>`;
+    cardBody.appendChild(requirementsDiv);
+
+    const copyButton = document.createElement('button');
+    copyButton.className = 'btn btn-secondary mt-2';
+    copyButton.textContent = 'Copier la commande';
+    const commandText = '!changeZone ' + zone.Name.replace(/ /g, '_');
+    copyButton.setAttribute('data-copy', commandText);
+    copyButton.addEventListener('click', function() {
+      copyToClipboard(this);
+    });
+    cardBody.appendChild(copyButton);
+
+    if (zone.Description) {
+      const descriptionParagraph = document.createElement('p');
+      descriptionParagraph.textContent = "<br>" + zone.Description;
+      cardBody.appendChild(descriptionParagraph);
+    }
+
+    card.appendChild(cardBody);
+    col.appendChild(card);
+    container.appendChild(col);
+  });
+}
+
+document.getElementById('combobox1_tab-zone').addEventListener('change', function() {
+  const selectedRegion = this.value;
+  displayZonesByRegion(selectedRegion);
+});
 </script>
 
 

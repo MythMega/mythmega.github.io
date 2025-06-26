@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Statistiques Raid - Bekipan</title>
+  <!-- Bootstrap 5 CSS avec thème sombre de Bootswatch (Darkly) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/darkly/bootstrap.min.css">
+  <!-- AOS CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Papa Parse pour le parsing du CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+  <!-- Styles personnalisés pour affiner le thème sombre -->
+  <style>
+    body {
+      background -color: #121212;
+      color: #e0e0e0;
+    }
+    .table {
+      background-color: #1e1e1e;
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    .table-striped tbody tr:nth-of-type(even) {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    th, td {
+      border-color: #555;
+    }
+    h1, h2 {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
+      <form class="form-inline">
+        <a class="btn btn-sm btn-outline-secondary" href="/main.html" style="color: white;">Accueil Pokédex</a>
+        <a class="btn btn-sm btn-outline-secondary" href="/commandgenerator.html" style="color: white;">Command Generator</a>
+        <a class="btn btn-sm btn-outline-secondary" href="/raid.html" style="color: white;">Raid Result</a>
+        <a class="btn btn-sm btn-outline-secondary" href="/availablepokemon.html" style="color: white;">Pokédex Infos</a>
+        <a class="btn btn-sm btn-outline-secondary" href="/pokestats.html" style="color: white;">Classements</a>
+        <a class="btn btn-sm btn-outline-secondary" href="/records.html" style="color: white;">Enregistrements</a>
+      </form>
+    </nav><br><br>
+  <div class="container my-4" data-aos="fade-up">
+    <h1 class="text-center mb-4" data-aos="fade-down">Statistiques Raid</h1><br>
+    <img style="width=480px; height=auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pelipper_normal.gif" class="text-center mb-4" data-aos="fade-down"></img><br>
+    <h2 class="text-center mb-4" data-aos="fade-down">Bekipan (500000) - 27/06/2025 00:50</h2><br>
+    <!-- Section Tableau -->
+    <div class="row mb-5" data-aos="fade-right">
+      <div class="col-12">
+        <h2>Tableau des données</h2>
+        <table id="dataTable" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Pseudo</th>
+              <th>Damage</th>
+              <th>CountAtk</th>
+              <th>BaseDmg</th>
+              <th>Level</th>
+              <th>RaidCount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Les lignes seront insérées ici par JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section Graphiques -->
+    <div class="row">
+      <div class="col-md-6 mb-4" data-aos="fade-up">
+        <h2>Somme de dégât par plateforme</h2>
+        <canvas id="chartPlatform"></canvas>
+      </div>
+      <div class="col-md-12 mb-4" data-aos="fade-up">
+        <h2>Dégâts par personne</h2>
+        <canvas id="chartDamage"></canvas>
+      </div>
+      <div class="col-md-6 mb-4" data-aos="fade-up">
+        <h2>Dommage de base par personne</h2>
+        <canvas id="chartBaseDmg"></canvas>
+      </div>
+      <div class="col-md-6 mb-4" data-aos="fade-up">
+        <h2>Nombre d'Attaques par personne</h2>
+        <canvas id="chartAtkCount"></canvas>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12" data-aos="fade-up">
+        <h2>Leader du Raid : pampagruel</h2><br><br>
+        
+<style>
+    .generatedCard {
+      color: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      width: 856px;
+      height: 540px;
+      border-radius: 10px;
+      background-image: url("https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/background/cards/baseplus/base_plus_card_milk.png");
+    }
+    .img-badge {
+      position: relative;
+      display: inline-block;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .img-badge-common {filter: drop-shadow(0 0 10px white) drop-shadow(0 0 20px white);
+            }
+.img-badge-uncommon {filter: drop-shadow(0 0 10px green) drop-shadow(0 0 20px green);
+            }
+.img-badge-rare
+            {filter: drop-shadow(0 0 10px blue) drop-shadow(0 0 20px blue);
+}
+.img-badge-epic
+            {filter: drop-shadow(0 0 10px purple) drop-shadow(0 0 20px purple);
+            }
+.img-badge-legendary {filter: drop-shadow(0 0 10px yellow) drop-shadow(0 0 20px yellow);
+}
+.img-badge-exotic {filter: drop-shadow(0 0 10px pink) drop-shadow(0 0 20px pink);
+}
+
+    .img-badge:hover {transform: scale(1.25) rotate(360deg);
+    }
+
+    #downloadBtn {
+      margin-top: 35px;
+      font-size: large;
+      border-radius: 3px;
+      border: 5px;
+      padding: 15px;
+      box-shadow: 0px 0px 38px 0px rgba(0,0,0,0.5);
+-webkit-box-shadow: 0px 0px 38px 0px rgba(0,0,0,0.5);
+-moz-box-shadow: 0px 0px 38px 0px rgba(0,0,0,0.5);
+    }
+    .textShadow { text-shadow: 0px 0px 11px #000, 0px 0px 11px #000, 0px 0px 20px #000;
+font-weight: bolder;
+            }
+    .stars {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  background: white;
+  box-shadow: 2vw 5vh 2px white, 10vw 8vh 2px white, 15vw 15vh 1px white,
+    22vw 22vh 1px white, 28vw 12vh 2px white, 32vw 32vh 1px white,
+    38vw 18vh 2px white, 42vw 35vh 1px white, 48vw 25vh 2px white,
+    53vw 42vh 1px white, 58vw 15vh 2px white, 63vw 38vh 1px white,
+    68vw 28vh 2px white, 73vw 45vh 1px white, 78vw 32vh 2px white,
+    83vw 48vh 1px white, 88vw 20vh 2px white, 93vw 52vh 1px white,
+    98vw 35vh 2px white, 5vw 60vh 1px white, 12vw 65vh 2px white,
+    18vw 72vh 1px white, 25vw 78vh 2px white, 30vw 85vh 1px white,
+    35vw 68vh 2px white, 40vw 82vh 1px white, 45vw 92vh 2px white,
+    50vw 75vh 1px white, 55vw 88vh 2px white, 60vw 95vh 1px white,
+    65vw 72vh 2px white, 70vw 85vh 1px white, 75vw 78vh 2px white,
+    80vw 92vh 1px white, 85vw 82vh 2px white, 90vw 88vh 1px white,
+    95vw 75vh 2px white;
+  animation: twinkle 8s infinite linear;
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+  </style>
+</head>
+<body>
+  <center>
+  <div class="generatedCard" style="background-color: rgba(0, 0, 0, 0.5);">
+  <!-- Partie titre -->
+    <div class="stars"></div>
+    <h1 class="textShadow">Dresseur : pampagruel</h1>
+    <h3 class="textShadow" style="margin-bottom: 50px;">ID : 151211973</h3>
+    <!-- Partie Corp -->
+    <div class="container">
+      <!-- Photo -->
+      <div class="row">
+        <div class="col">
+          <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/b8203e0c-a42a-4678-b0c1-91cc9717779d-profile_image-300x300.png" class="img-thumbnail" alt="userprofile picture" style="width: 192px;" crossorigin="anonymous">
+        </div>
+        <!-- Stats -->
+        <div class="col">
+            <div>
+          <p class="textShadow">Global dex : 343</p>
+          <p class="textShadow">Shiny dex : 223</p>
+          <p class="textShadow">Trainer since : 1 Nov. 24</p>
+          <p class="textShadow">Platform : twitch <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/twitch.png" style="height: 16px; width: 16px;"></p>
+          <p class="textShadow">Level : 18</p>
+          <p class="textShadow">Captures : 2092</p>
+            </div>
+        </div>
+        <!-- Favorite creature -->
+        <div class="col">
+          <h6 class="textShadow">Creature Favorite :</h6>
+          <p class="textShadow">Héliatronc</p>
+          <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sunflora_shiny.gif" alt="userprofile fav creature" style="width: 128px;">
+        </div>
+      </div>
+    </div>
+    <!-- Badges -->
+    <div class="container">
+      <div class="row">
+        
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/ptcgp/ptcgp_MEW.png"
+        alt="Badge 1"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-exotic"
+        title="Mew attrapé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Agent Rocket.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/ptcgp/ptcgp_FIRE_THUNDER_FREEZER.png"
+        alt="Badge 2"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-exotic"
+        title="Trois oiseaux capturés.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Oiseaux légendaires.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/regionalSerie/Kanto.png"
+        alt="Badge 3"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-exotic"
+        title="A enregistré tous le pokédex de Kanto.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Full Pokédex 1G.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/regionalSerie/Johto.png"
+        alt="Badge 4"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-exotic"
+        title="A enregistré tous le pokédex de Johyo.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Full Pokédex 2G.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/ptcgp/ptcgp_MEWTWO.png"
+        alt="Badge 5"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-legendary"
+        title="Mewtwo attrapé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Soldat Rocket.</p>
+</div>
+<div class="col">
+    <img
+        src="https://cdn-icons-png.flaticon.com/512/1998/1998627.png"
+        alt="Badge 6"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-legendary"
+        title="Le trio de chiens légendaire de Johto capturé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Trio de chiens légendaires.</p>
+</div>
+<div class="col">
+    <img
+        src="https://cdn-icons-png.flaticon.com/512/1092/1092446.png"
+        alt="Badge 7"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-legendary"
+        title="Lugia & Ho-oh capturés.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Ciel de Johto.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/ptcgp/ptcgp_CELEBI.png"
+        alt="Badge 8"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-legendary"
+        title="Celebi attrapé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Maitre du temps.</p>
+</div>
+      </div>
+    </div>
+  </div>
+
+  <button id="downloadBtn">Télécharger sa carte</button>
+</center>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<script>
+  document.getElementById("downloadBtn").addEventListener("click", function(){
+    var cardElement = document.querySelector(".generatedCard");
+    domtoimage.toPng(cardElement)
+      .then(function(dataUrl){
+        var downloadLink = document.createElement('a');
+        downloadLink.href = dataUrl;
+        downloadLink.download = 'ma-carte.png';
+        downloadLink.click();
+      })
+      .catch(function(error) {
+        console.error("Une erreur est survenue :", error);
+      });
+  });
+</script>
+
+      </div>
+    </div>
+    <div class="row">
+    <br><br><h2>Stats de raids</h2><br><br>
+      <div class="col-12" data-aos="fade-up">
+        <h3>Le plus chanceux : pampagruel avec un ratio de 2,560661.</h3><br><br>
+      </div>
+      <div class="col-12" data-aos="fade-up">
+        <h3>Le moins chanceux : baeltan_movies avec un ratio de 1.</h3><br><br>
+      </div>
+      <div class="col-12" data-aos="fade-up">
+        <h3>Le plus ancien : batgo_ avec un total de 78 raids.</h3><br><br>
+      </div>
+      <div class="col-12" data-aos="fade-up">
+        <h3>Un rookie : baeltan_movies avec un total de 5 raids.</h3><br><br>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script de chargement et d'affichage des données -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Initialisation de AOS (animate on scroll)
+      AOS.init({
+        duration: 1500, // Durée de l'animation en ms
+        once: false      // L'animation se déclenche qu'une seule fois
+      });
+
+      // Chargement du fichier CSV avec Papa Parse
+      Papa.parse("assets/data/RaidStats.csv", {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const data = results.data;
+          console.log("Données chargées :", data);
+
+          // Objets de regroupement pour les graphiques
+          const platformTotals = {};
+          const pseudoDamage    = {};
+          const pseudoBaseDmg   = {};
+          const pseudoAtkCount  = {};
+
+          const tableBody = document.querySelector("#dataTable tbody");
+
+          // Parcourir chaque ligne du CSV
+          data.forEach(row => {
+            // Ignorer les lignes vides ou incomplètes
+            if (!row.platform || !row.pseudo) return;
+
+            // Insertion de la ligne dans le tableau HTML
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${row.platform}</td>
+              <td>${row.pseudo}</td>
+              <td>${row.damage}</td>
+              <td>${row.countAtk}</td>
+              <td>${row.baseDmg}</td>
+              <td>${row.level}</td>
+              <td>${row.raidCount}</td>
+            `;
+            tableBody.appendChild(tr);
+
+            // Conversion en nombre
+            const damage   = parseFloat(row.damage)   || 0;
+            const baseDmg  = parseFloat(row.baseDmg)  || 0;
+            const countAtk = parseFloat(row.countAtk) || 0;
+
+            // Regroupement par plateforme pour la somme des dégâts
+            if (platformTotals[row.platform]) {
+              platformTotals[row.platform] += damage;
+            } else {
+              platformTotals[row.platform] = damage;
+            }
+
+            // Regroupement par pseudo pour les dégâts
+            if (pseudoDamage[row.pseudo]) {
+              pseudoDamage[row.pseudo] += damage;
+            } else {
+              pseudoDamage[row.pseudo] = damage;
+            }
+
+            // Regroupement par pseudo pour le Base Damage
+            if (pseudoBaseDmg[row.pseudo]) {
+              pseudoBaseDmg[row.pseudo] += baseDmg;
+            } else {
+              pseudoBaseDmg[row.pseudo] = baseDmg;
+            }
+
+            // Regroupement par pseudo pour le nombre d'attaques
+            if (pseudoAtkCount[row.pseudo]) {
+              pseudoAtkCount[row.pseudo] += countAtk;
+            } else {
+              pseudoAtkCount[row.pseudo] = countAtk;
+            }
+          });
+
+          // Préparation des données pour Chart.js
+          const platformLabels     = Object.keys(platformTotals);
+          const platformData       = Object.values(platformTotals);
+          const pseudoLabelsDamage = Object.keys(pseudoDamage);
+          const damageData         = Object.values(pseudoDamage);
+          const pseudoLabelsBase   = Object.keys(pseudoBaseDmg);
+          const baseDmgData        = Object.values(pseudoBaseDmg);
+          const pseudoLabelsAtk    = Object.keys(pseudoAtkCount);
+          const atkCountData       = Object.values(pseudoAtkCount);
+
+          // Graphique 1 : Camembert pour la somme des dégâts par plateforme
+          new Chart(document.getElementById("chartPlatform"), {
+            type: "pie",
+            data: {
+              labels: platformLabels,
+              datasets: [{
+                label: "Somme des dégâts",
+                data: platformData,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.6)",
+                  "rgba(54, 162, 235, 0.6)",
+                  "rgba(255, 206, 86, 0.6)",
+                  "rgba(75, 192, 192, 0.6)",
+                  "rgba(153, 102, 255, 0.6)",
+                  "rgba(255, 159, 64, 0.6)"
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      const label = context.label || "";
+                      const value = context.parsed;
+                      return label + ": " + value;
+                    }
+                  }
+                }
+              }
+            }
+          });
+
+          // Graphique 2 : Diagramme à barres pour les dégâts par pseudo
+          new Chart(document.getElementById("chartDamage"), {
+            type: "bar",
+            data: {
+              labels: pseudoLabelsDamage,
+              datasets: [{
+                label: "Dégâts",
+                data: damageData,
+                backgroundColor: "rgba(54, 162, 235, 0.6)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      return context.label + ": " + context.parsed.y;
+                    }
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+          // Graphique 3 : Diagramme à barres pour le Base Damage par pseudo
+          new Chart(document.getElementById("chartBaseDmg"), {
+            type: "bar",
+            data: {
+              labels: pseudoLabelsBase,
+              datasets: [{
+                label: "Base Damage",
+                data: baseDmgData,
+                backgroundColor: "rgba(255, 206, 86, 0.6)",
+                borderColor: "rgba(255, 206, 86, 1)",
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      return context.label + ": " + context.parsed.y;
+                    }
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+          // Graphique 4 : Diagramme à barres pour le nombre d'attaques par pseudo
+          new Chart(document.getElementById("chartAtkCount"), {
+            type: "bar",
+            data: {
+              labels: pseudoLabelsAtk,
+              datasets: [{
+                label: "Nombre d'Attaques",
+                data: atkCountData,
+                backgroundColor: "rgba(75, 192, 192, 0.6)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      return context.label + ": " + context.parsed.y;
+                    }
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+      });
+    });
+  </script>
+
+  <!-- Bootstrap Bundle JS (inclut Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</body>
+</html>
+

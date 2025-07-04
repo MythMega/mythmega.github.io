@@ -554,7 +554,7 @@
     if (!navigator.clipboard) {
         // Fallback for browsers that don't support the Clipboard API
         const textArea = document.createElement("textarea");
-        textArea.value = textToCopy;
+        textArea.value = textToCopy.replace(" ","_");
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();

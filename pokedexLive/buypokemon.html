@@ -560,7 +560,7 @@
         textArea.select();
         try {
             document.execCommand("copy");
-            alert("Texte copié : " + textToCopy);
+            alert("Texte copié : " + textToCopy.replace(" ","_"));
         } catch (err) {
             alert("Erreur lors de la copie dans le presse-papiers : " + err);
         }
@@ -568,8 +568,8 @@
         return;
     }
 
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("Texte copié : " + textToCopy);
+    navigator.clipboard.writeText(textToCopy.replace(" ","_")).then(() => {
+        alert("Texte copié : " + textToCopy.replace(" ","_"));
     }).catch(err => {
         alert("Erreur lors de la copie dans le presse-papiers : " + err);
     });

@@ -549,18 +549,18 @@
 
 <script>
         function copyToClipboard(button) {
-    const textToCopy = button.getAttribute("data-copy");
+    const textToCopy = button.getAttribute("data-copy").replace(" ","_");
 
     if (!navigator.clipboard) {
         // Fallback for browsers that don't support the Clipboard API
         const textArea = document.createElement("textarea");
-        textArea.value = textToCopy.replace(" ","_");
+        textArea.value = textToCopy;
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
         try {
             document.execCommand("copy");
-            alert("Texte copié : " + textToCopy.replace(" ","_"));
+            alert("Texte copié : " + textToCopy);
         } catch (err) {
             alert("Erreur lors de la copie dans le presse-papiers : " + err);
         }
@@ -568,8 +568,8 @@
         return;
     }
 
-    navigator.clipboard.writeText(textToCopy.replace(" ","_")).then(() => {
-        alert("Texte copié : " + textToCopy.replace(" ","_"));
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        alert("Texte copié : " + textToCopy);
     }).catch(err => {
         alert("Erreur lors de la copie dans le presse-papiers : " + err);
     });

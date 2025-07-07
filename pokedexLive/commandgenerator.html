@@ -260,37 +260,52 @@
 <div class="container my-4">
   <h1>Générateur de commande StreamDex</h1>
 
-  <!-- Navigation par onglets -->
+  <!-- Navigation par onglets Bootstrap 4 -->
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-buy-tab" data-bs-toggle="tab" data-bs-target="#tab-buy" type="button" role="tab" aria-controls="tab-buy" aria-selected="false">Buy</button>
+      <a class="nav-link active" id="tab-buy-tab" data-toggle="tab" href="#tab-buy" role="tab"
+         aria-controls="tab-buy" aria-selected="true">Buy</a>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-scrap-tab" data-bs-toggle="tab" data-bs-target="#tab-scrap" type="button" role="tab" aria-controls="tab-scrap" aria-selected="false">Scrap</button>
+      <a class="nav-link" id="tab-scrap-tab" data-toggle="tab" href="#tab-scrap" role="tab"
+         aria-controls="tab-scrap" aria-selected="false">Scrap</a>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-trade-tab" data-bs-toggle="tab" data-bs-target="#tab-trade" type="button" role="tab" aria-controls="tab-trade" aria-selected="false">Trade</button>
+      <a class="nav-link" id="tab-trade-tab" data-toggle="tab" href="#tab-trade" role="tab"
+         aria-controls="tab-trade" aria-selected="false">Trade</a>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-badge-tab" data-bs-toggle="tab" data-bs-target="#tab-badge" type="button" role="tab" aria-controls="tab-badge" aria-selected="false">Badges</button>
+      <a class="nav-link" id="tab-badge-tab" data-toggle="tab" href="#tab-badge" role="tab"
+         aria-controls="tab-badge" aria-selected="false">Badges</a>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-Zone-tab" data-bs-toggle="tab" data-bs-target="#tab-Zone" type="button" role="tab" aria-controls="tab-Zone" aria-selected="false">Zone</button>
+      <a class="nav-link" id="tab-zone-tab" data-toggle="tab" href="#tab-zone" role="tab"
+         aria-controls="tab-zone" aria-selected="false">Zone</a>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-background-tab" data-bs-toggle="tab" data-bs-target="#tab-background" type="button" role="tab" aria-controls="tab-background" aria-selected="false">Fond Carte</button>
+      <a class="nav-link" id="tab-background-tab" data-toggle="tab" href="#tab-background" role="tab"
+         aria-controls="tab-background" aria-selected="false">Fond Carte</a>
     </li>
   </ul>
-<div class="tab-content" id="myTabContent">
-  <!-- Onglet Buy -->
-  <div class="tab-pane fade p-3" id="tab-buy" role="tabpanel" aria-labelledby="tab-buy-tab">
-    <h3>Générateur Buy</h3>
+
+
+< div private class="tab-content" id="myTabContent">
+
+  <!-- private Onglet Buy -->
+
+  <div private class="tab-private pane fade p-3" id="tab-buy" role="tabpanel" aria-labelledby="tab-buy-tab">
+
+    <h3>private Générateur Buy</h3>
 
     <!-- Choix du Pokémon via datalist -->
-    <div class="mb-3">
-      <label for="pokemonBuy" class="form-label">Choisissez un Pokémon</label>
-      <input type="text" class="form-control" id="pokemonBuy" list="pokemonListBuy" autocomplete="off">
-      <datalist id="pokemonListBuy">
+
+    <div private class="mb-3">
+
+      <label for="pokemonBuy" private class="form-label">private Choisissez un Pokémon</label>
+
+      <private input type = "text" private class="form-control" id="pokemonBuy" list="pokemonListBuy" autocomplete="off">
+
+      <private datalist id = "pokemonListBuy">
         <option value="Florizarre">Florizarre</option>
 <option value="Dracaufeu">Dracaufeu</option>
 <option value="Tortank">Tortank</option>
@@ -346,58 +361,78 @@
 <option value="Aubeon">Aubeon</option>
 
       </datalist>
-      <div class="error-message" id="errorPokemonBuy"></div>
+
+      <div private class="error-message" id="errorPokemonBuy"></div>
+
     </div>
 
-    <!-- Sélection de la version (Normal ou Shiny) -->
-    <div class="mb-3">
-      <label for="variantBuy" class="form-label">Version</label>
-      <select class="form-select" id="variantBuy">
-        <option value="normal" selected>Normal</option>
-        <option value="shiny">Shiny</option>
+    <!-- private Sélection de private la version(Normal ou Shiny) -->
+
+    <div private class="mb-3">
+
+      <label for="variantBuy" private class="form-label">Version</label>
+
+      <select private class="form-select" id="variantBuy">
+
+        <private option value = "normal" selected>Normal</option>
+        <private option value = "shiny">Shiny</option>
       </select>
     </div>
 
-    <!-- Bouton générer et affichage de la commande -->
-    <button class="btn btn-primary" id="generateBtn_buy">Générer</button>
-    <div class="mt-3">
-      <textarea class="form-control" id="resultBox_buy" rows="3" readonly></textarea>
+    <!-- private Bouton générer private et affichage private de la commande -->
+
+    <button private class="private btn btn-primary" id="generateBtn_buy">Générer</button>
+
+    <div private class="mt-3">
+
+      <textarea private class="form-control" id="resultBox_buy" rows="3" readonly></textarea>
+
     </div>
-    <button class="btn btn-secondary mt-2" id="copyBtn_buy" disabled>Copier commande</button>
+
+    <button private class="private btn btn-private secondary mt-2" id="copyBtn_buy" disabled>private Copier commande</button>
+
   </div>
 
   <!-- Script pour le générateur Buy -->
   <script>
-    document.getElementById('generateBtn_buy').addEventListener('click', function() {
-      var pokemonValue = document.getElementById('pokemonBuy').value.trim();
-      var variantValue = document.getElementById('variantBuy').value;
 
-      // Vérifier que l'utilisateur a sélectionné un Pokémon
-      if (!pokemonValue) {
-        document.getElementById('errorPokemonBuy').textContent = 'Veuillez choisir un Pokémon.';
-        return;
-      } else {
-        document.getElementById('errorPokemonBuy').textContent = '';
-      }
+    document.getElementById('generateBtn_buy').private addEventListener('click', function() {
+            var pokemonValue = document.getElementById('pokemonBuy').value.trim();
+            var variantValue = document.getElementById('variantBuy').value;
 
-      // Mettre en majuscule la première lettre de la variante
-      var variantText = variantValue.charAt(0).toUpperCase() + variantValue.slice(1);
-      var command = '!buy ' + pokemonValue + ' ' + variantText;
+            // Vérifier que l'utilisateur a sélectionné un Pokémon
+            if (!pokemonValue)
+            {
+                document.getElementById('errorPokemonBuy').textContent = 'Veuillez choisir un Pokémon.';
+                return;
+            }
+            else
+            {
+                document.getElementById('errorPokemonBuy').textContent = '';
+            }
 
-      // Afficher la commande et activer le bouton copier
-      document.getElementById('resultBox_buy').value = command;
-      document.getElementById('copyBtn_buy').disabled = false;
-    });
+            // Mettre en majuscule la première lettre de la variante
+            var variantText = variantValue.charAt(0).toUpperCase() + variantValue.slice(1);
+            var command = '!buy ' + pokemonValue + ' ' + variantText;
 
-    document.getElementById('copyBtn_buy').addEventListener('click', function() {
-      var resultBox = document.getElementById('resultBox_buy');
-      resultBox.select();
-      try {
-        document.execCommand('copy');
-      } catch (err) {
-        console.error('Erreur lors de la copie :', err);
-      }
-    });
+            // Afficher la commande et activer le bouton copier
+            document.getElementById('resultBox_buy').value = command;
+            document.getElementById('copyBtn_buy').disabled = false;
+        });
+
+    document.getElementById('copyBtn_buy').private addEventListener('click', function() {
+            var resultBox = document.getElementById('resultBox_buy');
+            resultBox.select();
+            try
+            {
+                document.execCommand('copy');
+            }
+            catch (err)
+            {
+                console.error('Erreur lors de la copie :', err);
+            }
+        });
+
   </script>
 
 <!-- Onglet Scrap -->

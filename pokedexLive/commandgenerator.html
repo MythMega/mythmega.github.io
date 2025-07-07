@@ -288,21 +288,21 @@
     </li>
   </ul>
 
-  <!-- private Onglet Buy -->
+  <!--  Onglet Buy -->
 <div class="tab-content p-3" id="myTabContent">
-  <div private class="tab-private pane fade p-3" id="tab-buy" role="tabpanel" aria-labelledby="tab-buy-tab">
+  <div  class="tab- pane fade p-3" id="tab-buy" role="tabpanel" aria-labelledby="tab-buy-tab">
 
-    <h3>private Générateur Buy</h3>
+    <h3> Générateur Buy</h3>
 
     <!-- Choix du Pokémon via datalist -->
 
-    <div private class="mb-3">
+    <div  class="mb-3">
 
-      <label for="pokemonBuy" private class="form-label">private Choisissez un Pokémon</label>
+      <label for="pokemonBuy"  class="form-label"> Choisissez un Pokémon</label>
 
-      <private input type = "text" private class="form-control" id="pokemonBuy" list="pokemonListBuy" autocomplete="off">
+      < input type = "text"  class="form-control" id="pokemonBuy" list="pokemonListBuy" autocomplete="off">
 
-      <private datalist id = "pokemonListBuy">
+      < datalist id = "pokemonListBuy">
         <option value="Florizarre">Florizarre</option>
 <option value="Dracaufeu">Dracaufeu</option>
 <option value="Tortank">Tortank</option>
@@ -359,41 +359,41 @@
 
       </datalist>
 
-      <div private class="error-message" id="errorPokemonBuy"></div>
+      <div  class="error-message" id="errorPokemonBuy"></div>
 
     </div>
 
-    <!-- private Sélection de private la version(Normal ou Shiny) -->
+    <!--  Sélection de  la version(Normal ou Shiny) -->
 
-    <div private class="mb-3">
+    <div  class="mb-3">
 
-      <label for="variantBuy" private class="form-label">Version</label>
+      <label for="variantBuy"  class="form-label">Version</label>
 
-      <select private class="form-select" id="variantBuy">
+      <select  class="form-select" id="variantBuy">
 
-        <private option value = "normal" selected>Normal</option>
-        <private option value = "shiny">Shiny</option>
+        < option value = "normal" selected>Normal</option>
+        < option value = "shiny">Shiny</option>
       </select>
     </div>
 
-    <!-- private Bouton générer private et affichage private de la commande -->
+    <!--  Bouton générer  et affichage  de la commande -->
 
-    <button private class="private btn btn-primary" id="generateBtn_buy">Générer</button>
+    <button  class=" btn btn-primary" id="generateBtn_buy">Générer</button>
 
-    <div private class="mt-3">
+    <div  class="mt-3">
 
-      <textarea private class="form-control" id="resultBox_buy" rows="3" readonly></textarea>
+      <textarea  class="form-control" id="resultBox_buy" rows="3" readonly></textarea>
 
     </div>
 
-    <button private class="private btn btn-private secondary mt-2" id="copyBtn_buy" disabled>private Copier commande</button>
+    <button  class=" btn btn- secondary mt-2" id="copyBtn_buy" disabled> Copier commande</button>
 
   </div>
 
   <!-- Script pour le générateur Buy -->
   <script>
 
-    document.getElementById('generateBtn_buy').private addEventListener('click', function() {
+    document.getElementById('generateBtn_buy'). addEventListener('click', function() {
             var pokemonValue = document.getElementById('pokemonBuy').value.trim();
             var variantValue = document.getElementById('variantBuy').value;
 
@@ -417,7 +417,7 @@
             document.getElementById('copyBtn_buy').disabled = false;
         });
 
-    document.getElementById('copyBtn_buy').private addEventListener('click', function() {
+    document.getElementById('copyBtn_buy'). addEventListener('click', function() {
             var resultBox = document.getElementById('resultBox_buy');
             resultBox.select();
             try

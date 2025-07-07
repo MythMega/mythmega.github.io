@@ -13,7 +13,31 @@
             color: #ffffff;
             padding: 20px;
         }
-        .pokename {
+        .table tbody td img {
+            height: 64px;
+            width: auto;
+        }
+        .NotAvailable {
+            color: #2fa432;
+        }
+        .AvailableForGiveaway {
+            color: #c1a518;
+        }
+        .NotAvailable {
+            color: #ad1e1e;
+        }
+        .count {font-size: 30px;
+        }
+        /* Noir et blanc */
+        .black-and-white {filter: grayscale(100%);
+          -webkit-filter: grayscale(100%);
+        }
+
+        /* Tout noir (seulement la forme) */
+        .all-black {filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+.pokename {
         font-size: 30px;
         }
         .table tbody td img {
@@ -66,9 +90,92 @@
 
         th, td { text-align: center; border: 1px solid black; padding: 10px; }
 
+        /* Texte plus grand dans <td> */
+        .large-text td {font - size: 20px; }
+
+        /* Bannière zoomée pour l'image de la zone */
+        .zone-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .sprite-container {
+            height: 256px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        h5 {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+        .icon {
+            max-height: 16px;
+            width: auto;
+        }
+        .sprite-container img {
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.9);
+        }
+        /* Style pour les cartes de pokémon exclusifs : effet doré */
+        .card-exclusive {
+            border: 2px solid #d4af37;
+            box-shadow: 0 0 10px #ffd700;
+            background-color: #212529;
+            text-align: center;
+        }
+        /* Style pour les cartes de pokémon exclusifs : effet doré */
+        .card-common {
+            border: 2px solid #000000;
+            box-shadow: 0 0 5px #000000;
+            background-color: #212529;
+            text-align: center;
+        }
+        /* Style pour les cartes de pokémon dispo partout : effet blanc */
+        .card-not-everywhere {
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 5px #ccc;
+            background-color: #212529;
+            text-align: center;
+        }
+        /* Style pour les cartes de pokémon légendaires : effet inner shadow multicolore */
+        .card-legendary {
+            border: 2px solid #e0e0ff;
+            background: radial-gradient(circle at center, #121212, #e0e0ff);
+            box-shadow: inset 0 0 20px red, inset 0 0 40px blue, inset 0 0 60px green;
+            text-align: center;
+        }
+        .progress-bar-twitch {
+            background-color: #6441A5;
+        }
+        .progress-bar-youtube {
+            background-color: #FF0000;
+        }
+        .progress-bar-tiktok {
+            background-color: #E4E4E4;
+        }
+        .progress-bar span {
+            text-align: center;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
+
     <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
       <form class="form-inline">
         <a class="btn btn-sm btn-outline-secondary" href="../main.html" style="color: white;">Accueil Pokédex</a>
@@ -76,11 +183,13 @@
         <a class="btn btn-sm btn-outline-secondary" href="../raid.html" style="color: white;">Raid Result</a>
         <a class="btn btn-sm btn-outline-secondary" href="../availablepokemon.html" style="color: white;">Pokédex Infos</a>
         <a class="btn btn-sm btn-outline-secondary" href="../pokestats.html" style="color: white;">Classements</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../buypokemon.html" style="color: white;">Acheter Pokémon</a>
+        <a class="btn btn-sm btn-outline-secondary" href="../scrappokemon.html" style="color: white;">Scrap Pokémon</a>
         <a class="btn btn-sm btn-outline-secondary" href="../records.html" style="color: white;">Enregistrements</a>
       </form>
     </nav><br><br>
     <h1>Pokédex cham2004g - chez mythmega</h1>
-    <p>Pokédex de cham2004g [de twitch] au 2025-07-06_04-06-20</p>
+    <p>Pokédex de cham2004g [de twitch] au 2025-07-07_12-27-20</p>
 
   <div class="d-flex align-items-center" style="max-width: 480px;">
     <!-- Input recherche avec max-width -->
@@ -2977,13 +3086,13 @@ font-weight: bolder;
 
 <br><br>
 <p>Stats :</p><br>
-<p>Nombre d'espèce enregistrée : 266 / 1229</p><div class="progress">
+<p>Nombre d'espèce enregistrée : 266 / 1231</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 21%;" aria-valuenow="21" aria-valuemin="0" aria-valuemax="100">21%</div>
 </div><p>Nombre d'espèce shiny enregistrée : 160</p><div class="progress">
-  <div class="progress-bar" role="progressbar" style="width: 13%;" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100">13%</div>
-</div><br><p>Total argent dépensé : 210463</p><p>Total de ball lancées : 1896</p><br><p>Nombre de pokémon non shiny capturé : 944</p><p>Nombre de pokémon shiny capturé : 154</p><p>Total de pokémon attrapé : 1098</p><p>Pokémon le plus attrapé : </p><p>Dresseur depuis : 30/10/2024 21:08:37 (depuis 248 jours.)</p>
+  <div class="progress-bar" role="progressbar" style="width: 12%;" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">12%</div>
+</div><br><p>Total argent dépensé : 210463</p><p>Total de ball lancées : 1896</p><br><p>Nombre de pokémon non shiny capturé : 944</p><p>Nombre de pokémon shiny capturé : 154</p><p>Total de pokémon attrapé : 1098</p><p>Pokémon le plus attrapé : </p><p>Dresseur depuis : 30/10/2024 21:08:37 (depuis 249 jours.)</p>
 <p>Badges :</p><br>
-<p>Level 13</p><br><p>3340 XP/3618 XP</p><br><p>16831 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [19/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [4/4]</b></h4>   <div class="row">
+<p>Level 13</p><br><p>3342 XP/3618 XP</p><br><p>16833 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [19/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [4/4]</b></h4>   <div class="row">
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card common" style="background-color: #222222;  height: 220px;">
                                   <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>

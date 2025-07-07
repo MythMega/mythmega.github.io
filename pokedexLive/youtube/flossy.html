@@ -172,24 +172,66 @@
             color: white;
         }
 
-    </style>
+    </style>">
 </head>
 <body>
 
-    <nav class="navbar navbar-dark bg-dark" style="justify-content: center; background-color: #2a2a2a;">
-      <form class="form-inline">
-        <a class="btn btn-sm btn-outline-secondary" href="../main.html" style="color: white;">Accueil Pokédex</a>
-        <a class="btn btn-sm btn-outline-secondary" href="../commandgenerator.html" style="color: white;">Command Generator</a>
-        <a class="btn btn-sm btn-outline-secondary" href="../raid.html" style="color: white;">Raid Result</a>
-        <a class="btn btn-sm btn-outline-secondary" href="../availablepokemon.html" style="color: white;">Pokédex Infos</a>
-        <a class="btn btn-sm btn-outline-secondary" href="../pokestats.html" style="color: white;">Classements</a>
-        <a class="btn btn-sm btn-outline-secondary" href="../buypokemon.html" style="color: white;">Acheter Pokémon</a>
-        <a class="btn btn-sm btn-outline-secondary" href="../scrappokemon.html" style="color: white;">Scrap Pokémon</a>
-        <a class="btn btn-sm btn-outline-secondary" href="../records.html" style="color: white;">Enregistrements</a>
-      </form>
-    </nav><br><br>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #2a2a2a;">
+        <a class="navbar-brand" href="../main.html">Pokémon Tracker</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mx-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../main.html">Accueil Pokédex</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../commandgenerator.html">Command Generator</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="statsDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Stats
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="statsDropdown">
+                        <a class="dropdown-item" href="../raid.html">Raid Résultats</a>
+                        <a class="dropdown-item" href="../pokestats.html">Classements</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../availablepokemon.html">Pokédex Infos</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="scrapBuyDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Scrap/Buy
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="scrapBuyDropdown">
+                        <a class="dropdown-item" href="../buypokemon.html">Acheter Pokémon</a>
+                        <a class="dropdown-item" href="../scrappokemon.html">Scrap Pokémon</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../records.html">Enregistrements</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <br><br>
+";
     <h1>Pokédex Flossy - chez mythmega</h1>
-    <p>Pokédex de Flossy [de youtube] au 2025-07-07_12-27-20</p>
+    <p>Pokédex de Flossy [de youtube] au 2025-07-07_14-56-44</p>
 
   <div class="d-flex align-items-center" style="max-width: 480px;">
     <!-- Input recherche avec max-width -->

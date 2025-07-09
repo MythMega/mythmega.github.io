@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokémon Capture Tracker</title>
+    <title>DEX lapstars_twt</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
+                body {
             background-color: #2a2a2a;
             color: #ffffff;
             padding: 20px;
@@ -130,12 +130,19 @@
             color: inherit;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.9);
         }
+        .card {
+            border: 2px solid #d4af37;
+            background-color: #212529;
+            text-align: center;
+        margin-bottom: 20px;
+        }
         /* Style pour les cartes de pokémon exclusifs : effet doré */
         .card-exclusive {
             border: 2px solid #d4af37;
             box-shadow: 0 0 10px #ffd700;
             background-color: #212529;
             text-align: center;
+        margin-bottom: 20px;
         }
         /* Style pour les cartes de pokémon exclusifs : effet doré */
         .card-common {
@@ -143,6 +150,7 @@
             box-shadow: 0 0 5px #000000;
             background-color: #212529;
             text-align: center;
+        margin-bottom: 20px;
         }
         /* Style pour les cartes de pokémon dispo partout : effet blanc */
         .card-not-everywhere {
@@ -150,6 +158,7 @@
             box-shadow: 0 0 5px #ccc;
             background-color: #212529;
             text-align: center;
+        margin-bottom: 20px;
         }
         /* Style pour les cartes de pokémon légendaires : effet inner shadow multicolore */
         .card-legendary {
@@ -157,6 +166,10 @@
             background: radial-gradient(circle at center, #121212, #e0e0ff);
             box-shadow: inset 0 0 20px red, inset 0 0 40px blue, inset 0 0 60px green;
             text-align: center;
+        margin-bottom: 20px;
+        }
+        .col{
+        margin-bottom: 20px;
         }
         .progress-bar-twitch {
             background-color: #6441A5;
@@ -171,8 +184,7 @@
             text-align: center;
             color: white;
         }
-
-    </style>">
+    </style>
 </head>
 <body>
 
@@ -204,9 +216,17 @@
                         <a class="dropdown-item" href="../pokestats.html">Classements</a>
                     </div>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="../availablepokemon.html">Pokédex Infos</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="statsDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Infos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="statsDropdown">
+                        <a class="dropdown-item" href="../availablepokemon.html">Pokédex</a>
+                        <a class="dropdown-item" href="../balldex.html">BallDex</a>
+                        <a class="dropdown-item" href="../zonedex.html">ZoneDex</a>
+                        <a class="dropdown-item" href="../pokestats.html">Classements</a>
+                    </div>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -229,9 +249,9 @@
     </nav>
 
     <br><br>
-";
+
     <h1>Pokédex lapstars_twt - chez mythmega</h1>
-    <p>Pokédex de lapstars_twt [de twitch] au 2025-07-07_14-56-45</p>
+    <p>Pokédex de lapstars_twt [de twitch] au 2025-07-09_20-13-57</p>
 
   <div class="d-flex align-items-center" style="max-width: 480px;">
     <!-- Input recherche avec max-width -->
@@ -253,6 +273,26 @@
         </thead>
         <tbody id="recordsTable">
 <tr>
+                <td class="pokename"><a href="../Creature/Ptitard.html">Ptitard</a></td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Poliwag_normal.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Poliwag_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>08/03/2025 21:28:07</td>
+                <td class="d-none">common ; commun ; water ; eau ; Kanto</td>
+            </tr>
+
+<tr>
+                <td class="pokename"><a href="../Creature/Voltorbe.html">Voltorbe</a></td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Voltorb_normal.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Voltorb_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>08/03/2025 21:18:07</td>
+                <td class="d-none">common ; commun ; electric ; elektrik ; Kanto</td>
+            </tr>
+
+<tr>
                 <td class="pokename"><a href="../Creature/Limagma.html">Limagma</a></td>
                 <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slugma_normal.gif" alt="Normal Sprite"></td>
                 <td class="count">0</td>
@@ -260,6 +300,36 @@
                 <td class="count">1</td>
                 <td>05/07/2025 22:23:43</td>
                 <td class="d-none">common ; commun ; fire ; feu ; Johto</td>
+            </tr>
+
+<tr>
+                <td class="pokename"><a href="../Creature/Cadoizo.html">Cadoizo</a></td>
+                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Delibird_normal.gif" alt="Normal Sprite"></td>
+                <td class="count">0</td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Delibird_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">1</td>
+                <td>25/12/2024 04:06:12</td>
+                <td class="d-none">common ; commun ; ice ; glace ; flying ; vol ; Johto</td>
+            </tr>
+
+<tr>
+                <td class="pokename"><a href="../Creature/Lugia.html">Lugia</a></td>
+                <td><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lugia_normal.gif" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lugia_shiny.gif" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>08/03/2025 21:56:56</td>
+                <td class="d-none">legendary ; legendaire ; psychic ; psy ; flying ; vol ; Johto</td>
+            </tr>
+
+<tr>
+                <td class="pokename"><a href="../Creature/Clément-Poilu.html">Clément-Poilu</a></td>
+                <td><img src="https://i.ibb.co/nqLcrywy/388-58.png" alt="Normal Sprite"></td>
+                <td class="count">1</td>
+                <td><img class = "all-black" src="https://i.ibb.co/Zp4BJvjz/388-58-shiny.png" alt="Shiny Sprite"></td>
+                <td class="count">0</td>
+                <td>08/03/2025 21:24:16</td>
+                <td class="d-none">common ; commun ; custom ; electric ; elektrik ; fire ; feu ; Infinite Fusion</td>
             </tr>
 </tbody>
     </table>
@@ -361,12 +431,12 @@ font-weight: bolder;
         <!-- Stats -->
         <div class="col">
             <div>
-          <p class="textShadow">Global dex : 1</p>
-          <p class="textShadow">Shiny dex : 1</p>
-          <p class="textShadow">Trainer since : 5 Jul. 25</p>
+          <p class="textShadow">Global dex : 6</p>
+          <p class="textShadow">Shiny dex : 2</p>
+          <p class="textShadow">Trainer since : 25 Dec. 24</p>
           <p class="textShadow">Platform : twitch <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/twitch.png" style="height: 16px; width: 16px;"></p>
-          <p class="textShadow">Level : 1</p>
-          <p class="textShadow">Captures : 1</p>
+          <p class="textShadow">Level : 5</p>
+          <p class="textShadow">Captures : 6</p>
             </div>
         </div>
         <!-- Favorite creature -->
@@ -383,8 +453,53 @@ font-weight: bolder;
         
 <div class="col">
     <img
-        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/raid-Go-badge/level1.png"
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/dB8kv_2ZGu4nI0MBXQBAB9C7uCMUi0rkDPwgZRSHqZo.webp"
         alt="Badge 1"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-epic"
+        title="Dresseur depuis 3 mois.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Sacha.</p>
+</div>
+<div class="col">
+    <img
+        src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/giant-stone.png"
+        alt="Badge 2"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-uncommon"
+        title="1 shiny attrapé.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">La brillance.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/blue_by_OrangeWaker.png"
+        alt="Badge 3"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-uncommon"
+        title="Dresseur depuis 1 mois.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Blue.</p>
+</div>
+<div class="col">
+    <img
+        src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/love.png"
+        alt="Badge 4"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-common"
+        title="5 pokémons attrapés.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Dresseur débutant.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/4796216f7c25efd7915233abdb4839e5-removebg-preview.png"
+        alt="Badge 5"
+        style="height: 48px; width: 48px;"
+        class="img-badge img-badge-common"
+        title="Dresseur depuis 1 semaine.">
+    <p style="font-size: 12px; margin-top: 4px" class="textShadow">Regis.</p>
+</div>
+<div class="col">
+    <img
+        src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/raid-Go-badge/level1.png"
+        alt="Badge 6"
         style="height: 48px; width: 48px;"
         class="img-badge img-badge-common"
         title="A fait son 1er Raid.">
@@ -415,13 +530,13 @@ font-weight: bolder;
 
 <br><br>
 <p>Stats :</p><br>
-<p>Nombre d'espèce enregistrée : 1 / 1231</p><div class="progress">
+<p>Nombre d'espèce enregistrée : 6 / 1228</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-</div><p>Nombre d'espèce shiny enregistrée : 1</p><div class="progress">
+</div><p>Nombre d'espèce shiny enregistrée : 2</p><div class="progress">
   <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-</div><br><p>Total argent dépensé : 861</p><p>Total de ball lancées : 5</p><br><p>Nombre de pokémon non shiny capturé : 0</p><p>Nombre de pokémon shiny capturé : 0</p><p>Total de pokémon attrapé : 0</p><p>Pokémon le plus attrapé : </p><p>Dresseur depuis : 05/07/2025 22:23:43 (depuis 1 jours.)</p>
+</div><br><p>Total argent dépensé : 861</p><p>Total de ball lancées : 5</p><br><p>Nombre de pokémon non shiny capturé : 4</p><p>Nombre de pokémon shiny capturé : 1</p><p>Total de pokémon attrapé : 5</p><p>Pokémon le plus attrapé : </p><p>Dresseur depuis : 25/12/2024 04:06:12 (depuis 196 jours.)</p>
 <p>Badges :</p><br>
-<p>Level 1</p><br><p>112 XP/250 XP</p><br><p>112 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [1/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [0/4]</b></h4>   <div class="row">
+<p>Level 5</p><br><p>482 XP/608 XP</p><br><p>1921 XP Totale</p><br><br><br><br><h2 class="col-12" style="margin-top:25px"><b>Global [6/32]</b></h2><div class="row">  <br><br><h4 class="col-12" style="margin-top:15px"><b>Envoyer des balls ! [0/4]</b></h4>   <div class="row">
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card common" style="background-color: #222222;  height: 220px;">
                                   <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
@@ -457,13 +572,13 @@ font-weight: bolder;
                                     <p class="card-text">???? [+500XP]</p>
                                   </div>
                                 </div>
-                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Attrapez les tous ! [0/5]</b></h4>   <div class="row">
+                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Attrapez les tous ! [1/5]</b></h4>   <div class="row">
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card common" style="background-color: #222222;  height: 220px;">
-                                  <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/love.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/love.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
                                   <div class="card-body">
                                     <h5 class="card-title">Dresseur débutant.</h5>
-                                    <p class="card-text">???? [+50XP]</p>
+                                    <p class="card-text">5 pokémons attrapés. [+50XP]</p>
                                   </div>
                                 </div>
                             </div>
@@ -502,13 +617,13 @@ font-weight: bolder;
                                     <p class="card-text">???? [+1000XP]</p>
                                   </div>
                                 </div>
-                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Shiny Hunting [0/5]</b></h4>   <div class="row">
+                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Shiny Hunting [1/5]</b></h4>   <div class="row">
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card uncommon" style="background-color: #222222;  height: 220px;">
-                                  <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/giant-stone.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <center><br><img src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/giant-stone.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
                                   <div class="card-body">
                                     <h5 class="card-title">La brillance.</h5>
-                                    <p class="card-text">???? [+10XP]</p>
+                                    <p class="card-text">1 shiny attrapé. [+10XP]</p>
                                   </div>
                                 </div>
                             </div>
@@ -547,31 +662,31 @@ font-weight: bolder;
                                     <p class="card-text">???? [+1000XP]</p>
                                   </div>
                                 </div>
-                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Experience as Trainer [0/4]</b></h4>   <div class="row">
+                            </div>   </div>  <br><br><h4 class="col-12" style="margin-top:15px"><b>Experience as Trainer [3/4]</b></h4>   <div class="row">
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card common" style="background-color: #222222;  height: 220px;">
-                                  <center><br><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/4796216f7c25efd7915233abdb4839e5-removebg-preview.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <center><br><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/4796216f7c25efd7915233abdb4839e5-removebg-preview.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
                                   <div class="card-body">
                                     <h5 class="card-title">Regis.</h5>
-                                    <p class="card-text">???? [+100XP]</p>
+                                    <p class="card-text">Dresseur depuis 1 semaine. [+100XP]</p>
                                   </div>
                                 </div>
                             </div>
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card uncommon" style="background-color: #222222;  height: 220px;">
-                                  <center><br><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/blue_by_OrangeWaker.png" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <center><br><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/blue_by_OrangeWaker.png" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
                                   <div class="card-body">
                                     <h5 class="card-title">Blue.</h5>
-                                    <p class="card-text">???? [+500XP]</p>
+                                    <p class="card-text">Dresseur depuis 1 mois. [+500XP]</p>
                                   </div>
                                 </div>
                             </div>
                             <div style="width: 29vw;  margin-left: 1vw; margin-bottom: 15px;">
                                 <div class="card epic" style="background-color: #222222;  height: 220px;">
-                                  <center><br><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/dB8kv_2ZGu4nI0MBXQBAB9C7uCMUi0rkDPwgZRSHqZo.webp" class="card-img-top trophy-False" alt="..." style="height: 96px; width: auto;"></center>
+                                  <center><br><img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/badge/custom/dB8kv_2ZGu4nI0MBXQBAB9C7uCMUi0rkDPwgZRSHqZo.webp" class="card-img-top trophy-True" alt="..." style="height: 96px; width: auto;"></center>
                                   <div class="card-body">
                                     <h5 class="card-title">Sacha.</h5>
-                                    <p class="card-text">???? [+750XP]</p>
+                                    <p class="card-text">Dresseur depuis 3 mois. [+750XP]</p>
                                   </div>
                                 </div>
                             </div>

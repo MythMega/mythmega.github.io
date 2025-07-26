@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JMDev</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+            background-color: #2a2a2a;
+            color: white;
+            text-align: center;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        img {
+            height: 50vh;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .button-item {
+            margin-bottom: 40px;
+            flex: 1 1 calc(33.333% - 20px); /* 3 colonnes par ligne (horizontale) */
+            max-width: calc(33.333% - 20px);
+        }
+        @media (max-width: 768px) {
+            .button-item {
+                flex: 1 1 calc(50% - 20px); /* 2 colonnes par ligne (verticale) */
+                max-width: calc(50% - 20px);
+            }
+        }
+        .button-item img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        p {
+            text-shadow: black 0px 0px 5px, black 0px 0px 10px;
+        }
+        h5 {
+            text-shadow: black 0px 0px 10px, black 0px 0px 20px;
+        }
+
+        .button-item p {
+        font-size: 1.5em; /* Augmentez cette valeur selon la taille désirée */
+        font-weight: bold; /* Optionnel : rend le texte plus épais */
+    }
+
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">JMDV</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            En live
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://www.twitch.tv/mythmega">Twitch</a>
+                            <a class="dropdown-item" href="https://www.youtube.com/@MythMega-VOD/live/">Youtube</a>
+                            <a class="dropdown-item" href="twitch_integrated.html">Twitch (integrated)</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="planning.html">Planning</a>
+                            <a class="dropdown-item" href="config.html">Config PC</a>
+                            <a class="dropdown-item" href="./pokedexLive/main.html">Pokedex</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Minecraft
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://www.planetminecraft.com/member/mythmega/submissions/projects/">Maps</a>
+                            <a class="dropdown-item" href="https://www.planetminecraft.com/member/mythmega/submissions/data-packs/">Datapacks</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="mc_javarock.html">Serveur JavaRock</a>
+                            <a class="dropdown-item" href="mc_buildit.html">Serveur Build It</a>
+                            <a class="dropdown-item" href="mc_hyperlapse.html">Hyperlapses</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Logiciels
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="soft_MCCare.html">Suite MinecraftCare</a>
+                            <a class="dropdown-item" href="soft_AutoVodMaker.html">AutoVODMaker</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="https://github.com/MythMega/">Github</a>
+                            <a class="dropdown-item" href="cv.html">CV</a>
+                            <a class="dropdown-item" href="porfolio.html">Porfolio</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Musiques
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_kR3lTx6WyYRMPXns1EZAxs1nXLKTXMJnc">Journey No Destinations</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_mvzBxia7UzxeHokmEQYUVO1kLvuUEU_uI">Pile ou Face</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_mhnqdcrLNM7KA55dX_mH23k4hffxwWm78">Under The Wave</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="https://open.spotify.com/intl-fr/artist/5oGXhBpWfuYZ5wQ6iRFZsp">Spotify</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/channel/UC1t79TP9wTVFP8ph3hOpuuQ">Youtube Musique</a>
+                            <a class="dropdown-item" href="https://music.apple.com/fr/artist/mythmega/1649554649">Apple Musique</a>
+                            <a class="dropdown-item" href="music_platforms.html">Autres platrformes</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Reseaux
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="social_youtube.html">Youtube</a>
+                            <a class="dropdown-item" href="social_discord.html">Discord</a>
+                            <a class="dropdown-item" href="social_bluesky.html">Bluesky</a>
+                            <a class="dropdown-item" href="social_instagram.html">Instagram</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Blogs/Voyage/Photos
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">(coming soon)</a>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+<br>
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="4"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="5"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="6"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="7"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="8"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="9"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="10"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="11"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="12"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="13"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="14"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="15"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="16"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="17"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="18"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="19"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="20"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="21"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="22"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="23"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="24"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="25"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="26"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="27"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="28"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="29"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="30"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="31"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="32"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="./assets/javadrock/s1/carousel-1.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>16/11/2024</h5>
+                    <p>Pampagruel et Pheki.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-2.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>08/12/2024</h5>
+                    <p>Pampagruel et Pheki.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-3.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>19/12/2024</h5>
+                    <p>Damian, Riridu_10 , Zisfire , Myth & williamsvs1.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-4.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>21/12/2024</h5>
+                    <p>Zisfire, wondovince, Riridu_10, Myth, Batgo_, williamsvs1, Damian & Dulia.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-5.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>22/12/2024</h5>
+                    <p>en haut - Damian, Zisfire (version moche), williamsvs1; en bas - Riridu_10, Myth, Batgo_, Duulia & WindAtomic.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-6.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>23/12/2024</h5>
+                    <p>williamsvs1 Etokali_gaming , @Batgo_, Riridu_10, Myth, Zisfire, ???, Damian.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-7.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>24/12/2024</h5>
+                    <p>en haut - Damian, Zisfire (version moche), williamsvs1; en bas - Riridu_10, Myth, Batgo_, Duulia & WindAtomic.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-8.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>25/12/2024</h5>
+                    <p>Duulia WindAtomic , ???, Damian, Myth, williamsvs1 & Etokali_gaming.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-9.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>26/12/2024</h5>
+                    <p>???, Myth, Riridu_10, windatomic, Damian, duulia.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-10.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>29/12/2024</h5>
+                    <p>Myth, Zisfire, Riridu_10, Damian, williamsvs1.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-11.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>30/12/2024</h5>
+                    <p>en haut : Zisfire & Riridu_10: au millieu : Myth; au premier plan : williamsvs1 & Damian.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-12.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>31/12/2024</h5>
+                    <p>Duulia , ZrkAzerty Zisfire & Myth.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-13.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>01/01/2025</h5>
+                    <p>Damian williamsvs1 Zisfire Riridu_10 Myth.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-14.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>02/01/2025</h5>
+                    <p>Bateau : Riridu_10 , williamsvs1 Zisfire & WindAtomic.</p>
+                    <p>Dans l'eau : Shyro Myth Damian ZrkAzerty</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-15.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>03/01/2025</h5>
+                    <p>Zisfire, Duulia, WindAtomic, williamsvs1, Damian, Myth, Batgo_, & Bivrox.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-16.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>04/01/2025</h5>
+                    <p>devant gauche : Etokali gaming , XZN400.</p>
+                    <p>derrière gauche : zeilrox , Raize_ , JuJu_44444.</p>
+                    <p>tout au fond seul : Myth</p>
+                    <p>derrière droit : WindAtomic, Duulia, Artemiisaa, Batgo_ .</p>
+                    <p>williamsvs1 (par l'esprit), Zisfire , Riridu_10 , Pampagruel , Damian.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-17.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>05/01/2025</h5>
+                    <p>Myth williamsvs1, Zisfire, Damian, Duulia, WindAtomic.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-18.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>08/01/2025</h5>
+                    <p>petite balade dans la dimension custom avec saphir1425, Pampagruel, Myth, Martim, Zisfire & Damian.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-19.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>09/01/2025</h5>
+                    <p>petite pause au bord de l'eau avec Pampagruel williamsvs1 Myth , Aroro WindAtomic Duulia , Riridu_10 , Zisfire , Batgo_ & Damian.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-20.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>11/01/2025</h5>
+                    <p>petit passage au restau Krabs avec Batgo_. depuis les cuisines, Pampagruel , Duulia , Damian, Riridu_10, Myth, ?????, Yokuz00.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-21.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>22/01/2025</h5>
+                    <p>du gauche a droite sur la table principale : Riridu_10 , williamsvs1 , GrassyFish, Myth, Pampagruel, Damian, Phekifleck</p>
+                    <p>et en solo a une autre table : Batgo.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-22.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>23/01/2025</h5>
+                    <p>Pampagruel, MythMega & Batgo.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-23.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>24/01/2025</h5>
+                    <p>Batgo_, Zisfire, Myth Bux saphir1425 ????? Pampagruel Sansanhijab Riridu_10.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-24.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>25/01/2025</h5>
+                    <p>Myth Pampagruel Batgo_ Zarlo.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-25.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>26/01/2025</h5>
+                    <p>Riridu_10 Batgo_ Zarlo Pampagruel Myth Kevin.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-26.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>29/01/2025</h5>
+                    <p>Myth Pampagruel Zarlo ????? Riridu_10 Batgo_.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-27.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>30/01/2025</h5>
+                    <p>Myth Pampagruel Redwally Phekifleck Etokali_gaming Zarlo Zisfire Riridu_10 .</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-28.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>31/01/2025</h5>
+                    <p>Myth Pampagruel Phekifleck Zarlo Riridu_10.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-29.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>05/02/2025</h5>
+                    <p>Myth Pampagruel Batgo_ Zarlo Riridu_10</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-30.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>07/02/2025</h5>
+                    <p>Artemiisaa visite son assassin en prison : Batgo_.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-31.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>08/02/2025</h5>
+                    <p>Myth, ?????, Riridu_10, Phekifleck Pampagruel Batgo_ Artemisaaaa et Zarlo.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-32.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>11/02/2025</h5>
+                    <p>Zisfire Myth Kevin Pampagruel Batgo_ Zarlo.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s1/carousel-33.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>12/02/2025</h5>
+                    <p>Myth TheFlockers Phekifleck Pampagruel Batgo_.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Précédente</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Suivante</span>
+        </a>
+    </div>
+    <br><br>
+        <div class="container">
+            <h1>Saison 1 :</h1>
+            <p>La saison est terminée, choppez un backup tant qu'il est toujours temps</p>
+			<div class="buttons-container">
+            <div class="button-item">
+                <p>Java</p>
+                <a href="https://drive.google.com/file/d/16GigTD2Y8fkw_an5HxRZRGb9QIUXNclx/view?usp=sharing">
+                    <img src="./assets/minecraft java.png" alt="MC JAVA">
+                </a>
+            </div>
+            <div class="button-item">
+                <p>Bedrock</p>
+                <a href="https://drive.google.com/file/d/1lR_b0c_KSXWzFNs_3ea-L7aqGE9YirSy/view?usp=drive_link">
+                    <img src="./assets/Minecraft_Bedrock_2023.webp" alt="MC BEDROCK">
+                </a>
+            </div>
+        </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JMDev</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+            background-color: #2a2a2a;
+            color: white;
+            text-align: center;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        img {
+            height: 50vh;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .button-item {
+            margin-bottom: 40px;
+            flex: 1 1 calc(33.333% - 20px); /* 3 colonnes par ligne (horizontale) */
+            max-width: calc(33.333% - 20px);
+        }
+        @media (max-width: 768px) {
+            .button-item {
+                flex: 1 1 calc(50% - 20px); /* 2 colonnes par ligne (verticale) */
+                max-width: calc(50% - 20px);
+            }
+        }
+        .button-item img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        p {
+            text-shadow: black 0px 0px 5px, black 0px 0px 10px;
+        }
+        h5 {
+            text-shadow: black 0px 0px 10px, black 0px 0px 20px;
+        }
+
+        .button-item p {
+        font-size: 1.5em; /* Augmentez cette valeur selon la taille désirée */
+        font-weight: bold; /* Optionnel : rend le texte plus épais */
+    }
+
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">JMDV</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            En live
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://www.twitch.tv/mythmega">Twitch</a>
+                            <a class="dropdown-item" href="https://www.youtube.com/@MythMega-VOD/live/">Youtube</a>
+                            <a class="dropdown-item" href="twitch_integrated.html">Twitch (integrated)</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="planning.html">Planning</a>
+                            <a class="dropdown-item" href="config.html">Config PC</a>
+                            <a class="dropdown-item" href="./pokedexLive/main.html">Pokedex</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Minecraft
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://www.planetminecraft.com/member/mythmega/submissions/projects/">Maps</a>
+                            <a class="dropdown-item" href="https://www.planetminecraft.com/member/mythmega/submissions/data-packs/">Datapacks</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="mc_javarock.html">Serveur JavaRock</a>
+                            <a class="dropdown-item" href="mc_buildit.html">Serveur Build It</a>
+                            <a class="dropdown-item" href="mc_hyperlapse.html">Hyperlapses</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Logiciels
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="soft_MCCare.html">Suite MinecraftCare</a>
+                            <a class="dropdown-item" href="soft_AutoVodMaker.html">AutoVODMaker</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="https://github.com/MythMega/">Github</a>
+                            <a class="dropdown-item" href="cv.html">CV</a>
+                            <a class="dropdown-item" href="porfolio.html">Porfolio</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Musiques
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_kR3lTx6WyYRMPXns1EZAxs1nXLKTXMJnc">Journey No Destinations</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_mvzBxia7UzxeHokmEQYUVO1kLvuUEU_uI">Pile ou Face</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_mhnqdcrLNM7KA55dX_mH23k4hffxwWm78">Under The Wave</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="https://open.spotify.com/intl-fr/artist/5oGXhBpWfuYZ5wQ6iRFZsp">Spotify</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/channel/UC1t79TP9wTVFP8ph3hOpuuQ">Youtube Musique</a>
+                            <a class="dropdown-item" href="https://music.apple.com/fr/artist/mythmega/1649554649">Apple Musique</a>
+                            <a class="dropdown-item" href="music_platforms.html">Autres platrformes</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Reseaux
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="social_youtube.html">Youtube</a>
+                            <a class="dropdown-item" href="social_discord.html">Discord</a>
+                            <a class="dropdown-item" href="social_bluesky.html">Bluesky</a>
+                            <a class="dropdown-item" href="social_instagram.html">Instagram</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Blogs/Voyage/Photos
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">(coming soon)</a>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+<br>
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="./assets/javadrock/s2/carousel-1.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>20/07/2025</h5>
+                    <p>Biome Bluemoon</p>
+                    <p>Zisfire Batgo_ Bux Azur_Bleugeo Myth Artemisaaaa Pissenlit Leptitmars</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s2/carousel-2.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>22/07/2025</h5>
+                    <p>Biome Candyland</p>
+                    <p>Batgo_ , Glue_BGFR, AptFoil, Myth Azur_Bleugeo , LePissenlit, Clemcaux, Artemisaaaa.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./assets/javadrock/s2/carousel-3.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>19/12/2024</h5>
+                    <p>Biome Azaleadise</p>
+                    <p>AptFoil Glue_BGFR Azur_Bleugeo Pissenlit Etokali_gaming Myth WiserQuil Artemisaaaa Batgo_ Pampagruel.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Précédente</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Suivante</span>
+        </a>
+    </div>
+    <br><br>
+        <div class="container">
+            <h1>Saison 2 :</h1>
+            <p>La saison est encore en cours !</p>
+            <h2>Pour rejoindre :</p>
+            <h3>Java :</h3>
+            <p>Il faut juste avoir un compte premium, indiquez votre pseudo sur le chat du live et préciser que vous êtes sur Java.</p>
+            <h3>Bedrock</h3>
+            <h4>Téléphone & PC</h2>
+            <p>Pour rejoindre sur Téléphone ou PC, il vous suffit d'avoir la dernière version (mettez a jour votre jeu)</p>
+            <p>Ensuite allez dans Jouer > Serveurs > Nouveaux serveur</p>
+            <p>Nom du serveur : Mettez ce que vous voulez, vous pouvez mettre " <b>Javadrock</b> " par exemple.</p>
+            <p>Adresse du serveur : Mettez exactement " <b>mc.jmdev.fr</b> ". <u>Pas d'espace, ni de majuscule !</u></p>
+            <p>Port : Mettez exactement " <b>25565</b> ".</p>
+            <h4>Nintendo Switch, XBox, Playstation</h2>
+            <h6>Etape 1</h6>
+            <p><i>Vous pouvez suivre ce tuto : <a href="https://youtu.be/U-KM46iSOvA">cliquez ici</a></i></p>
+            <p>Nom du serveur : Mettez ce que vous voulez, vous pouvez mettre " <b>Javadrock</b> " par exemple.</p>
+            <p>Adresse du serveur : Mettez exactement " <b>mc.jmdev.fr</b> ". <u>Pas d'espace, ni de majuscule !</u></p>
+            <p>Port : Mettez exactement " <b>25565</b> ".</p>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+</html>

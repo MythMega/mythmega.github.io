@@ -56,22 +56,15 @@
           -webkit-filter: brightness(0%);
         }
         /* Texte plus grand dans <td> */
-        .large-text td {font-size: 20px; }
+        .large-text td {font - size: 20px; }
 
-        .container-badge {max-width: 500px;
+        .container-badge {max - width: 500px;
             }
 
         .trophy-True {
             height: 64px;
             width: 64px;
         }
-        
-    .imgSprite {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;    /* scales up or down to fit, letter‐boxing if aspect differs */
-        object-position: center;/* center the image in the box */
-    }
 
         .trophy-False {
             height: 64px;
@@ -98,7 +91,7 @@
         th, td { text-align: center; border: 1px solid black; padding: 10px; }
 
         /* Texte plus grand dans <td> */
-        .large-text td {font-size: 20px; }
+        .large-text td {font - size: 20px; }
 
         /* Bannière zoomée pour l'image de la zone */
         .zone-image {
@@ -269,7 +262,6 @@
     }
     th, td {
       border-color: #555;
-      color: #F0F8FF;
     }
     h1, h2 {
       color: #fff;
@@ -277,7 +269,7 @@
   </style>
   <div class="container my-4" data-aos="fade-up">
     <h1 class="text-center mb-4" data-aos="fade-down">Statistiques Raid</h1><br>
-    <img style="max-width: 30vh; max-height: 256px;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gardevoir_normal.gif" class="text-center mb-4 imgSprite" data-aos="fade-down"></img><br>
+    <img style="width=480px; height=auto;" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gardevoir_normal.gif" class="text-center mb-4" data-aos="fade-down"></img><br>
     <h2 class="text-center mb-4" data-aos="fade-down">Gardevoir (1000000) - 27/07/2025 21:52</h2><br>
     <!-- Section Tableau -->
     <div class="row mb-5" data-aos="fade-right">
@@ -574,12 +566,6 @@ font-weight: bolder;
 
     </div>
   </div>
-
-<!-- Avant votre script qui utilise Papa.parse -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-
 
   <!-- Script de chargement et d'affichage des données -->
   <script>

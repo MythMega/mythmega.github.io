@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamDex > BallDex</title>
+    <title>StreamDex > Ball Pile ou Face</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -189,7 +189,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #2a2a2a;">
-        <a class="navbar-brand" href="./main.html">Pokémon Tracker</a>
+        <a class="navbar-brand" href="../main.html">Pokémon Tracker</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -199,11 +199,11 @@
             <ul class="navbar-nav mx-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./main.html">Accueil Pokédex</a>
+                    <a class="nav-link" href="../main.html">Accueil Pokédex</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./commandgenerator.html">Command Generator</a>
+                    <a class="nav-link" href="../commandgenerator.html">Command Generator</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -212,8 +212,8 @@
                         Stats
                     </a>
                     <div class="dropdown-menu" aria-labelledby="statsDropdown">
-                        <a class="dropdown-item" href="./raid.html">Raid Résultats</a>
-                        <a class="dropdown-item" href="./pokestats.html">Classements</a>
+                        <a class="dropdown-item" href="../raid.html">Raid Résultats</a>
+                        <a class="dropdown-item" href="../pokestats.html">Classements</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -222,10 +222,10 @@
                         Infos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="statsDropdown">
-                        <a class="dropdown-item" href="./availablepokemon.html">Pokédex</a>
-                        <a class="dropdown-item" href="./balldex.html">BallDex</a>
-                        <a class="dropdown-item" href="./zonedex.html">ZoneDex</a>
-                        <a class="dropdown-item" href="./pokestats.html">Classements</a>
+                        <a class="dropdown-item" href="../availablepokemon.html">Pokédex</a>
+                        <a class="dropdown-item" href="../balldex.html">BallDex</a>
+                        <a class="dropdown-item" href="../zonedex.html">ZoneDex</a>
+                        <a class="dropdown-item" href="../pokestats.html">Classements</a>
                     </div>
                 </li>
 
@@ -235,13 +235,13 @@
                         Scrap/Buy
                     </a>
                     <div class="dropdown-menu" aria-labelledby="scrapBuyDropdown">
-                        <a class="dropdown-item" href="./buypokemon.html">Acheter Pokémon</a>
-                        <a class="dropdown-item" href="./scrappokemon.html">Scrap Pokémon</a>
+                        <a class="dropdown-item" href="../buypokemon.html">Acheter Pokémon</a>
+                        <a class="dropdown-item" href="../scrappokemon.html">Scrap Pokémon</a>
                     </div>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./records.html">Enregistrements</a>
+                    <a class="nav-link" href="../records.html">Enregistrements</a>
                 </li>
 
             </ul>
@@ -251,136 +251,57 @@
     <br><br>
 
 <style>
-        .table tbody td img {
-            height: 64px;
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .info-container {
+            flex: 1;
+            padding: 20px;
+        }
+        .sprite {
+            width: 100%; /* Prend toute la largeur du conteneur */
+            height: auto;
+            image-rendering: pixelated;          /* Pour Chrome, Edge, etc. */
+            image-rendering: -moz-crisp-edges;     /* Pour Firefox */
+            image-rendering: crisp-edges;          /* Alternative pour certains navigateurs */
+            -ms-interpolation-mode: nearest-neighbor; /* Pour IE */
+        }
+        .type {
+            max-height: 20px;
             width: auto;
-        }
-        .NotAvailable {
-            color: #2fa432;
-        }
-        .count {font-size: 30px;
-        }
-
-        /* Tout noir (seulement la forme) */
-        .all-black {filter: brightness(0%);
-          -webkit-filter: brightness(0%);
         }
         a {
             textDecoration = 'none';
         }
-
-        /* Texte plus grand dans <td> */
-        .large-text td {font-size: 20px; }
-
+        .icon {
+            max-height: 16px;
+            width: auto;
+        }
     </style>
-  <div class="d-flex align-items-center" style="max-width: 480px;">
-    <!-- Input recherche avec max-width -->
-    <input type="text" id="searchInput" placeholder="Rechercher Pokémon ou Statut" class="form-control" style="margin-bottom: 20px; max-width: 300px;">
-    <!-- Compteur -->
-    <span id="rowCount" style="margin-left: 10px; font-size: 16px;">0 résultat(s)</span>
-  </div>
-    <table class="table table-dark table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Sprite</th>
-                <th>Ball</th>
-                <th>Infos</th>
-                <th>Plus d'info</th>
-            </tr>
-        </thead>
-        <tbody id="recordsTable">
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Pokeball.html">Pokeball</a></td>
-                <td class="count">Catchrate : 33 | Shinyrate : 4</td>
-                <td><a href="./Ball/Pokeball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/great.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Super Ball.html">Super Ball</a></td>
-                <td class="count">Catchrate : 50 | Shinyrate : 4</td>
-                <td><a href="./Ball/Super Ball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/ultra.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Hyper Ball.html">Hyper Ball</a></td>
-                <td class="count">Catchrate : 80 | Shinyrate : 5</td>
-                <td><a href="./Ball/Hyper Ball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/dusk.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Sombre Ball.html">Sombre Ball</a></td>
-                <td class="count">Catchrate : 20 | Shinyrate : 3</td>
-                <td><a href="./Ball/Sombre Ball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/repeat.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Bis Ball.html">Bis Ball</a></td>
-                <td class="count">Catchrate : 33 | Shinyrate : 7</td>
-                <td><a href="./Ball/Bis Ball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/pester.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Dex Ball.html">Dex Ball</a></td>
-                <td class="count">Catchrate : 81 | Shinyrate : 1</td>
-                <td><a href="./Ball/Dex Ball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/master.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Master Ball.html">Master Ball</a></td>
-                <td class="count">Catchrate : 100 | Shinyrate : 100</td>
-                <td><a href="./Ball/Master Ball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/park-anime.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Season Ball.html">Season Ball</a></td>
-                <td class="count">Catchrate : 65 | Shinyrate : 6</td>
-                <td><a href="./Ball/Season Ball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/ball/FlowerBall/300.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Flower Ball.html">Flower Ball</a></td>
-                <td class="count">Catchrate : 51 | Shinyrate : 5</td>
-                <td><a href="./Ball/Flower Ball.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-
-<tr>
-                <td><img  src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" style="height:64px; width:auto;"alt="Normal Sprite"></td>
-                <td style="font-size: 1.2em;"><a href="./Ball/Ball Pile ou Face.html">Ball Pile ou Face</a></td>
-                <td class="count">Catchrate : 50 | Shinyrate : 50</td>
-                <td><a href="./Ball/Ball Pile ou Face.html"><button>
-            Plus d'infos
-        </button></a></td>
-</tr>
-</tbody>
-    </table>
-<br><br>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 image-container">
+                <img class="sprite" src="https://s3.pokeos.com/pokeos-uploads/forgotten-dex/pokeball/poke.png" alt="Image">
+            </div>
+            <div class="col-md-8 info-container">
+                <h2>Informations</h2>
+                <ul class="list-group">
+                    <li class="list-group-item bg-dark text-white"><strong>Nom :</strong> Ball Pile ou Face</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Taux de capture de base :</strong> 50%</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Taux de shiny de base :</strong> 50%</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Taux de capture bonus / 100 poke dans le dex :</strong> +0%</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Taux de shiny bonus / 100 poke dans le dex :</strong> +0%</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Reroll pour le dex :</strong> +0%</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Série de pokémon exclusif :</strong> Non.</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Type exclusif :</strong> Non.</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Zone forcée :</strong> Non.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
 <br><br>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

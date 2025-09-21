@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shop Azur_Bleugo - Javadrock S2</title>
+  <style>
+    body{font-family:sans-serif;background:#0f1724;color:#e6eef6;margin:0;padding:20px}
+    .container{max-width:1300px;margin:0 auto}
+    h1{text-align:center;margin-bottom:20px}
+    h2{margin-top:30px;color:#f59e0b}
+    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+    .product{background:#182235;padding:10px;border-radius:12px;text-align:center;box-shadow:0 6px 12px rgba(0,0,0,0.4)}
+    .product h3{margin:6px 0 6px;font-size:14px}
+    .product img{width:70px;height:70px;object-fit:contain;margin-bottom:6px}
+    .price{font-size:13px;font-weight:bold;color:#f59e0b}
+    .stock{font-size:12px;color:#10b981}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Azur_Shop <span style="color:#9aa4b2;font-size:16px">(JavaDrock)</span></h1>
+    <b>Le code de cette page est géré par Azur et n\'est pas affilié à MythMega ou la Javadrock</b>
+    <p style="text-align:center;color:#9aa4b2">Chaque item coûte <strong>1 diamant</strong> (sauf indication spéciale)</p>
+
+    <h2>Stuff</h2>
+    <div class="products">
+      <div class="product">
+        <img src="https://fr.minecraft.wiki/images/thumb/Porte-armure_(Armure_en_fer).png/150px-Porte-armure_(Armure_en_fer).png?a4648" alt="Armure fer" />
+        <h3>Armure en fer (full set)</h3>
+        <p class="price">2 diamants</p>
+        <p class="stock">Stock : 8</p>
+      </div>
+      <div class="product">
+        <img src="https://de.minecraft.wiki/images/thumb/R%C3%BCstungsst%C3%A4nder_Gold.png/320px-R%C3%BCstungsst%C3%A4nder_Gold.png?4b3a3" alt="Armure or" />
+        <h3>Armure en or (full set)</h3>
+        <p class="price">1 diamant</p>
+        <p class="stock">Stock : 6</p>
+      </div>
+      <div class="product">
+        <img src="https://gamepedia.cursecdn.com/minecraft_de_gamepedia/thumb/6/6a/R%C3%BCstungsst%C3%A4nder_Leder.png/320px-R%C3%BCstungsst%C3%A4nder_Leder.png?version=26b7423051ba57556c9831627c958b95" alt="Armure cuir" />
+        <h3>Armure en cuir (full set)</h3>
+        <p class="price">1 diamant</p>
+        <p class="stock">Stock : 12</p>
+      </div>
+    </div>
+
+    <h2>Blocs de construction</h2>
+    <div class="products">
+      <div class="product"><img src="https://www.thecommandbrick.net/wp-content/uploads/2020/02/Cobblestone.png" alt="Pierre"/><h3>Pierre</h3><p class="price">1 diamant</p><p class="stock">Stock : 64</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d4/Cobblestone_JE3.png" alt="Cobblestone"/><h3>Cobblestone</h3><p class="price">1 diamant</p><p class="stock">Stock : 64</p></div>
+      <div class="product"><img src="https://gamepedia.cursecdn.com/minecraft_fr_gamepedia/5/5f/B%C3%BBche_de_ch%C3%AAne.png" alt="buche de Bois "/><h3>buche de bois</h3><p class="price">1 diamant</p><p class="stock">Stock : 64</p></div>
+      <div class="product"><img src="https://th.bing.com/th/id/R.96689c53ced638a395e6d718f108452c?rik=rhXDGmox0qfEoQ&pid=ImgRaw&r=0&sres=1&sresct=1" alt="Briques"/><h3>Briques</h3><p class="price">1 diamant</p><p class="stock">Stock : 32</p></div>
+      <div class="product"><img src="https://gamepedia.cursecdn.com/minecraft_fr_gamepedia/a/a8/Sable.png" alt="Sable"/><h3>Sable</h3><p class="price">1 diamant</p><p class="stock">Stock : 64</p></div>
+      <div class="product"><img src="https://gamepedia.cursecdn.com/minecraft_fr_gamepedia/1/14/Verre.png" alt="Verre"/><h3>Verre</h3><p class="price">1 diamant</p><p class="stock">Stock : 32</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/9b/Sandstone_JE2_BE2.png" alt="Sandstone"/><h3>Sandstone</h3><p class="price">1 diamant</p><p class="stock">Stock : 32</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/56/Red_Sandstone_JE2.png" alt="Red Sandstone"/><h3>Red Sandstone</h3><p class="price">1 diamant</p><p class="stock">Stock : 32</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/5b/Stone_Brick_JE3.png" alt="Stone Brick"/><h3>Stone Brick</h3><p class="price">1 diamant</p><p class="stock">Stock : 32</p></div>
+    </div>
+
+    <h2>Végétation</h2>
+    <div class="products">
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7d/Oak_Sapling_JE6.png" alt="Pousse de chêne"/><h3>Pousse de chêne</h3><p class="price">1 diamant</p><p class="stock">Stock : 10</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/02/Birch_Sapling_JE2.png" alt="Pousse bouleau"/><h3>Pousse de bouleau</h3><p class="price">1 diamant</p><p class="stock">Stock : 15</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/08/Spruce_Sapling_JE2.png" alt="Pousse sapin"/><h3>Pousse de sapin</h3><p class="price">1 diamant</p><p class="stock">Stock : 15</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/95/Wheat_JE3_BE3.png" alt="Blé"/><h3>Blé</h3><p class="price">1 diamant</p><p class="stock">Stock : 20</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/22/Poppy_JE2_BE2.png" alt="Fleur rouge"/><h3>Fleur rouge</h3><p class="price">1 diamant</p><p class="stock">Stock : 12</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/b1/Melon_JE2_BE2.png" alt="Melon"/><h3>Melon</h3><p class="price">1 diamant</p><p class="stock">Stock : 8</p></div>
+    </div>
+
+    <h2>Têtes de joueurs</h2>
+    <div class="products">
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Player_Head_%28Steve%29_JE2.png" alt="Tête Steve"/><h3>Tête Steve</h3><p class="price">1 diamant</p><p class="stock">Stock : 2</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/99/Player_Head_%28Alex%29_JE2.png" alt="Tête Alex"/><h3>Tête Alex</h3><p class="price">1 diamant</p><p class="stock">Stock : 2</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d1/Creeper_Head_JE2_BE2.png" alt="Tête Creeper"/><h3>Tête Creeper</h3><p class="price">1 diamant</p><p class="stock">Stock : 1</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/74/Zombie_Head_JE2.png" alt="Tête Zombie"/><h3>Tête Zombie</h3><p class="price">1 diamant</p><p class="stock">Stock : 3</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/f2/Skeleton_Head_JE2.png" alt="Tête Skeleton"/><h3>Tête Skeleton</h3><p class="price">1 diamant</p><p class="stock">Stock : 2</p></div>
+      <div class="product"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/1/1d/Enderman_Head_JE2.png" alt="Tête Enderman"/><h3>Tête Enderman</h3><p class="price">1 diamant</p><p class="stock">Stock : 1</p></div>
+    </div>
+  </div

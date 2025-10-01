@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JMDev</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+                background-color: #2a2a2a;
+                color: white;
+            }
+            .navbar {
+                margin-bottom: 20px;
+            }
+            .cardimg {
+                align-self: center;
+                width: 192px;
+                height: 192px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">JMDV</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            En live
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://www.twitch.tv/mythmega">Twitch</a>
+                            <a class="dropdown-item" href="https://www.youtube.com/@MythMega-VOD/live/">Youtube</a>
+                            <a class="dropdown-item" href="twitch_integrated.html">Twitch (integrated)</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="planning.html">Planning</a>
+                            <a class="dropdown-item" href="config.html">Config PC</a>
+                            <a class="dropdown-item" href="./pokedexLive/main.html">Pokedex</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Minecraft
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://www.planetminecraft.com/member/mythmega/submissions/projects/">Maps</a>
+                            <a class="dropdown-item" href="https://www.planetminecraft.com/member/mythmega/submissions/data-packs/">Datapacks</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="mc_javarock.html">Serveur JavaRock</a>
+                            <a class="dropdown-item" href="mc_buildit.html">Serveur Build It</a>
+                            <a class="dropdown-item" href="mc_hyperlapse.html">Hyperlapses</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Logiciels
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="soft_MCCare.html">Suite MinecraftCare</a>
+                            <a class="dropdown-item" href="soft_AutoVodMaker.html">AutoVODMaker</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="https://github.com/MythMega/">Github</a>
+                            <a class="dropdown-item" href="cv.html">CV</a>
+                            <a class="dropdown-item" href="porfolio.html">Porfolio</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Musiques
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_kR3lTx6WyYRMPXns1EZAxs1nXLKTXMJnc">Journey No Destinations</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_mvzBxia7UzxeHokmEQYUVO1kLvuUEU_uI">Pile ou Face</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_mhnqdcrLNM7KA55dX_mH23k4hffxwWm78">Under The Wave</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="https://open.spotify.com/intl-fr/artist/5oGXhBpWfuYZ5wQ6iRFZsp">Spotify</a>
+                            <a class="dropdown-item" href="https://music.youtube.com/channel/UC1t79TP9wTVFP8ph3hOpuuQ">Youtube Musique</a>
+                            <a class="dropdown-item" href="https://music.apple.com/fr/artist/mythmega/1649554649">Apple Musique</a>
+                            <a class="dropdown-item" href="music_platforms.html">Autres platrformes</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Reseaux
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="social_youtube.html">Youtube</a>
+                            <a class="dropdown-item" href="social_discord.html">Discord</a>
+                            <a class="dropdown-item" href="social_bluesky.html">Bluesky</a>
+                            <a class="dropdown-item" href="social_instagram.html">Instagram</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Blogs/Voyage/Photos
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">(coming soon)</a>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <h1>Page en cours de construction</h1>
+            <div class="container mt-4">
+                <div class="row">
+                    <!-- Section PC -->
+                    <div class="col-12 mb-4">
+                    <h2>Configuration PC</h2>
+                    </div>
+
+                    <!-- Boîtier -->
+                    <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/boitier.png" class="cardimg" alt="Boîtier">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Boîtier</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">MSI MAG FORGE 111R</h6>
+                        <a href="https://fr.msi.com/PC-Case/MAG-FORGE-111R" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Carte Mère -->
+                    <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/carte-mere.png" class="cardimg" alt="Carte Mère">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Carte Mère</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">MSI MAG X670E TOMAHAWK WIFI</h6>
+                        <a href="https://fr.msi.com/Motherboard/MAG-X670E-TOMAHAWK-WIFI" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Carte Graphique -->
+                    <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/carte-graphique.png" class="cardimg" alt="Carte Graphique">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Carte Graphique</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">MSI GeForce RTX 4070 Ti SUPER GAMING X SLIM</h6>
+                        <a href="https://fr.msi.com/Graphics-Card/GeForce-RTX-4070-Ti-SUPER-16G-GAMING-X-SLIM" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Stockage -->
+                    <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/ssd.png" class="cardimg" alt="Stockage">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Stockage</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Kingston KC3000 2 To (SSD)</h6>
+                        <a href="https://www.kingston.com/fr/ssd/kc3000-nvme-m2-solid-state-drive" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Processeur -->
+                    <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/proc.png" class="cardimg" alt="Processeur">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Processeur</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Ryzen 9 9900X</h6>
+                        <a href="https://www.amd.com/fr/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9900x.html" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Refroidissement -->
+                    <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/cooler.webp" class="cardimg" alt="Refroidissement">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Refroidissement</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Arctic Freezer 34 eSports DUO</h6>
+                        <a href="https://www.amazon.fr/ARCTIC-Freezer-eSports-DUO-Refroidisseur/dp/B07MJGNJB3" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Section Périphériques -->
+                    <div class="col-12 mt-5 mb-4">
+                    <h2>Périphériques</h2>
+                    </div>
+
+                    <!-- Nintendo Switch -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/switch.png" class="cardimg" alt="Nintendo Switch">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Nintendo Switch</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Nintendo Switch, 1er modèle</h6>
+                        <a href="https://store.nintendo.fr/fr/nintendo-switch-avec-manettes-joy-con-bleu-neonrouge-neon-000000000010002207" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Nintendo Switch 2 -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/switch2.png" class="cardimg" alt="Nintendo Switch 2">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Nintendo Switch 2</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Nintendo Switch 2, 1er modèle</h6>
+                        <a href="https://store.nintendo.fr/fr/nintendo-switch-2-000000000010015151" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Souris -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/souris.png" class="cardimg" alt="Souris">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Souris</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Logitech G502</h6>
+                        <a href="https://www.logitechg.com/fr-ch/products/gaming-mice/g502-hero-gaming-mouse.910-005470.html" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Clavier -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/clavier.png" class="cardimg" alt="Clavier">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Clavier</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Logitech K270</h6>
+                        <a href="https://www.logitech.com/fr-ch/shop/p/k270-unifying-wireless" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Manette -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/manetteswitch.png" class="cardimg" alt="Manette">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Manette</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Manette Nintendo Switch Pro</h6>
+                        <a href="https://store.nintendo.fr/fr/manette-nintendo-switch-pro-000000000002510466" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Caméra -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/camera.png" class="cardimg" alt="Caméra">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Caméra</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Logitech StreamCam</h6>
+                        <a href="https://www.logitech.com/fr-ch/shop/p/streamcam" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Carte Son -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/goxlr.png" class="cardimg" alt="Carte Son">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Carte Son</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">TC HELICON GO XLR</h6>
+                        <a href="https://www.tc-helicon.com/product.html?modelCode=0803-AAA" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Boitier capture -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/elgatogamecapture.webp" class="cardimg" alt="Boitier capture">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Boitier Capture</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Elgato Game Capture HD60s</h6>
+                        <a href="https://www.amazon.fr/Elgato-Game-Capture-HD60-dacquisition/dp/B07XB6VNLJ/" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Micro -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/mic.avif" class="cardimg" alt="Microphone">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Micro</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Shure MV7X</h6>
+                        <a href="https://www.shure.com/fr-FR/produits/microphones/mv7x?variant=MV7X" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Écran Latéraux -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/ecranlateraux.png" class="cardimg" alt="Écrans Latéraux">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Écrans Latéraux</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Asus VS228NE x2 (1080p 60fps)</h6>
+                        <a href="https://www.asus.com/fr/displays-desktops/monitors/eye-care/vs228ne/" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Écran Principal -->
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/config/ecranmain.png" class="cardimg" alt="Écran Principal">
+                        <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Écran Principal</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">MSI G2712</h6>
+                        <a href="https://fr.msi.com/Monitor/G2712" class="btn btn-primary mt-auto">Voir</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+</html>

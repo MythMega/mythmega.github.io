@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamDex > Florges de AZ</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+                body {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .table tbody td img {
+            height: 64px;
+            width: auto;
+        }
+        .NotAvailable {
+            color: #2fa432;
+        }
+        .AvailableForGiveaway {
+            color: #c1a518;
+        }
+        .NotAvailable {
+            color: #ad1e1e;
+        }
+        .count {font-size: 30px;
+        }
+        /* Noir et blanc */
+        .black-and-white {filter: grayscale(100%);
+          -webkit-filter: grayscale(100%);
+        }
+
+        /* Tout noir (seulement la forme) */
+        .all-black {filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+.pokename {
+        font-size: 30px;
+        }
+        .table tbody td img {
+            height: 64px;
+            width: auto;
+        }
+        .count {font-size: 40px;
+        }
+        /* Noir et blanc */
+        .black-and-white {filter: grayscale(100%);
+          -webkit-filter: grayscale(100%);
+        }
+
+        /* Tout noir (seulement la forme) */
+        .all-black {filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+        /* Texte plus grand dans <td> */
+        .large-text td {font - size: 20px; }
+
+        .container-badge {max - width: 500px;
+            }
+
+        .trophy-True {
+            height: 64px;
+            width: 64px;
+        }
+
+        .trophy-False {
+            height: 64px;
+            width: 64px;
+            filter: brightness(0%);
+          -webkit-filter: brightness(0%);
+        }
+
+        .uncommon {box-shadow: inset 0 0 4px lime;
+        }
+
+        .rare {box-shadow: inset 0 0 8px aqua;
+        }
+
+        .epic {box-shadow: inset 0 0 12px #7D0DC3;
+        }
+
+        .legendary {box-shadow: inset 0 0 16px gold;
+        }
+
+        .exotic {box-shadow: inset 0 0 20px pink;
+        }
+
+        th, td { text-align: center; border: 1px solid black; padding: 10px; }
+
+        /* Texte plus grand dans <td> */
+        .large-text td {font - size: 20px; }
+
+        /* Bannière zoomée pour l'image de la zone */
+        .zone-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .sprite-container {
+            height: 256px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        h5 {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+        .icon {
+            max-height: 16px;
+            width: auto;
+        }
+        .sprite-container img {
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+        .card {
+            border: 2px solid #d4af37;
+            background-color: #212529;
+            text-align: center;
+        margin-bottom: 20px;
+        }
+        /* Style pour les cartes de pokémon exclusifs : effet doré */
+        .card-exclusive {
+            border: 2px solid #d4af37;
+            box-shadow: 0 0 10px #ffd700;
+            background-color: #212529;
+            text-align: center;
+        margin-bottom: 20px;
+        }
+        /* Style pour les cartes de pokémon exclusifs : effet doré */
+        .card-common {
+            border: 2px solid #000000;
+            box-shadow: 0 0 5px #000000;
+            background-color: #212529;
+            text-align: center;
+        margin-bottom: 20px;
+        }
+        /* Style pour les cartes de pokémon dispo partout : effet blanc */
+        .card-not-everywhere {
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 5px #ccc;
+            background-color: #212529;
+            text-align: center;
+        margin-bottom: 20px;
+        }
+        /* Style pour les cartes de pokémon légendaires : effet inner shadow multicolore */
+        .card-legendary {
+            border: 2px solid #e0e0ff;
+            background: radial-gradient(circle at center, #121212, #e0e0ff);
+            box-shadow: inset 0 0 20px red, inset 0 0 40px blue, inset 0 0 60px green;
+            text-align: center;
+        margin-bottom: 20px;
+        }
+        .col{
+        margin-bottom: 20px;
+        }
+        .progress-bar-twitch {
+            background-color: #6441A5;
+        }
+        .progress-bar-youtube {
+            background-color: #FF0000;
+        }
+        .progress-bar-tiktok {
+            background-color: #E4E4E4;
+        }
+        .progress-bar span {
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #2a2a2a;">
+        <a class="navbar-brand" href="../main.html">Pokémon Tracker</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mx-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../main.html">Accueil Pokédex</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../commandgenerator.html">Command Generator</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="statsDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Stats
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="statsDropdown">
+                        <a class="dropdown-item" href="../raid.html">Raid Résultats</a>
+                        <a class="dropdown-item" href="../pokestats.html">Classements</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="statsDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Infos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="statsDropdown">
+                        <a class="dropdown-item" href="../availablepokemon.html">Pokédex</a>
+                        <a class="dropdown-item" href="../balldex.html">BallDex</a>
+                        <a class="dropdown-item" href="../zonedex.html">ZoneDex</a>
+                        <a class="dropdown-item" href="../pokestats.html">Classements</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="scrapBuyDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Scrap/Buy
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="scrapBuyDropdown">
+                        <a class="dropdown-item" href="../buypokemon.html">Acheter Pokémon</a>
+                        <a class="dropdown-item" href="../scrappokemon.html">Scrap Pokémon</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="../records.html">Enregistrements</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <br><br>
+
+    <style>
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .info-container {
+            flex: 1;
+            padding: 20px;
+        }
+        .sprite {
+            width: 100%; /* Prend toute la largeur du conteneur */
+            height: auto;
+            image-rendering: pixelated;          /* Pour Chrome, Edge, etc. */
+            image-rendering: -moz-crisp-edges;     /* Pour Firefox */
+            image-rendering: crisp-edges;          /* Alternative pour certains navigateurs */
+            -ms-interpolation-mode: nearest-neighbor; /* Pour IE */
+        }
+        .type {
+            max-height: 20px;
+            width: auto;
+        }
+        a {
+            textDecoration = 'none';
+        }
+        .icon {
+            max-height: 16px;
+            width: auto;
+        }
+    </style>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 image-container">
+                <img class="sprite" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/custom/custom/florges_az_normal.png" alt="Image">
+            </div>
+            <div class="col-md-8 info-container">
+                <h2>Informations</h2>
+                <ul class="list-group">
+                    <li class="list-group-item bg-dark text-white"><strong>Nom :</strong> Florges de AZ</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Name :</strong> AZ Florges</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Type :</strong> <img class="type" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/type/banner/sv/140px-FairyIC_SV.png"><img class="type" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/type/banner/sv/140px-DarkIC_SV.png"></li>
+                    <li class="list-group-item bg-dark text-white"><strong>Spawn :</strong> ????????</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Availability :</strong> Not available at all.</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Artist :</strong> <a href="https://www.reddit.com/user/AmongUsPokemon/"> Greninja The One</a></li>
+                    <li class="list-group-item bg-dark text-white"><strong>Infos :</strong> Custom; <Série : AZ;> </li>
+                    <li class="list-group-item bg-dark text-white"><strong>Buy Price / Prix d'achat :</strong> <br>Normal <img class="icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/others/notshiny.png"> : N/A <br> Shiny <img class="icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/others/isshiny.png"> : N/A</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Value / Valeur :</strong> <br>Normal <img class="icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/others/notshiny.png"> : 2 <br> Shiny <img class="icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/others/isshiny.png"> : 10</li>
+                    <li class="list-group-item bg-dark text-white"><strong>Rareté :</strong> <img src=https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/rarity/legendary.png style='width:64px; height:16px;'></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<br><br>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap 4 bundle (inclut Popper) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -90,3 +90,19 @@ button:disabled{opacity:.5;cursor:not-allowed}
   box-shadow:0 8px 24px rgba(2,8,20,0.6);
   background:linear-gradient(180deg,#0b1220,#081224);
 }
+
+button#generate{
+  background:#3dbf7f;
+  border:none;
+  color:white;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+  margin-left:6px;
+}
+button#generate:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+

@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentDexFile = selectedFile;
       setArtworkToPokeball();
       loadData(currentDexFile);
+      currentDataset = correspondances[dexSelector.value];
     }
   });
   
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const GENERATE_URL = 'https://www.twitch.tv/berichandev';
   const generateBtn = document.getElementById('generate');
 
-  let correspondances = [];         // contenu de correspondance.json
+  let correspondances = {};         // contenu de correspondance.json
   let currentDataset = null;        // entrée de correspondance correspondant à la liste en cours
   let lastSelectedPokeName = null;  // nom du pokémon actuellement sélectionné (update à la fin du spin)
   let pokes = [];
@@ -40,12 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('correspondance.json', { cache: "no-store" });
       if (!res.ok) throw new Error('correspondance.json not loaded');
       const options = await res.json();
-      correspondances = await res.json();
       options.forEach(opt => {
         const option = document.createElement('option');
         option.value = opt.File;
         option.textContent = opt.Name;
         selector.appendChild(option);
+        correspondances[opt.Name] = opt.GenerateCMD;
       });
 
       selector.disabled = false;

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Picker Vue du Haut — Pokémon Hisui</title>
+  <link rel="stylesheet" href="wheel.css">
+  <link rel="icon" type="image/x-icon" href="./icon.ico">
+</head>
+<body>
+  <main class="app">
+    <h1>Poke Randomizer</h1>
+
+    <div class="controls">
+      <select id="dexSelector" disabled>
+        <option value="" selected disabled>Choisir un Pokédex...</option>
+      </select>
+
+      <label class="chk"><input id="legendary" type="checkbox"> Legendary only</label>
+      <button id="launch">Launch</button>
+    </div>
+
+    <div class="picker-wrap" aria-live="polite">
+      <div class="viewport" id="viewport" role="listbox" aria-label="Sélection Pokémon">
+        <!-- 5 visible slots: 2 above, 1 center, 2 below -->
+        <div class="slot" data-pos="-2"></div>
+        <div class="slot" data-pos="-1"></div>
+        <div class="slot center" data-pos="0" id="centerSlot"></div>
+        <div class="slot" data-pos="1"></div>
+        <div class="slot" data-pos="2"></div>
+      </div>
+    </div>
+
+    <div class="art-wrap">
+    <img id="pokeArt"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1026px-Pok%C3%A9_Ball_icon.svg.png"
+        width="128" height="128" alt="Artwork Pokémon">
+    </div>
+
+
+    <div class="result" id="result">
+      <div class="dot" id="legendDot"></div>
+      <div class="texts">
+        <div id="resultName">Prêt</div>
+        <div id="resultIndex"></div>
+      </div>
+    </div>
+  </main>
+<i>/Code par Jordan M <a href="https://web.jmdev.fr/">(jdmev)</a></i>
+  <script src="wheel.js"></script>
+</body>
+</html>

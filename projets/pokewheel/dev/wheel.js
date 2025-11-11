@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedFile = dexSelector.value;
     if (selectedFile) {
       currentDexFile = selectedFile;
+      setArtworkToPokeball();
       loadData(currentDexFile);
+      currentDataset = correspondances[dexSelector.value];
     }
   });
   
@@ -20,8 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const pokeArt = document.getElementById('pokeArt');
   const POKEBALL_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1026px-Pok%C3%A9_Ball_icon.svg.png';
   const POKEDB_BASE = 'https://img.pokemondb.net/artwork/large/';
+  const GENERATE_URL = 'https://www.twitch.tv/berichandev';
+  const generateBtn = document.getElementById('generate');
 
-
+  let correspondances = {};         // contenu de correspondance.json
+  let currentDataset = null;        // entrée de correspondance correspondant à la liste en cours
+  let lastSelectedPokeName = null;  // nom du pokémon actuellement sélectionné (update à la fin du spin)
   let pokes = [];
   let filtered = [];
   let currentDexFile = null;
@@ -29,25 +35,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const SLOT_H = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--slot-h')) || 72;
 
   async function loadDexOptions() {
-  const selector = document.getElementById('dexSelector');
-  try {
-    const res = await fetch('correspondance.json', { cache: "no-store" });
-    if (!res.ok) throw new Error('correspondance.json not loaded');
-    const options = await res.json();
+    const selector = document.getElementById('dexSelector');
 
-    options.forEach(opt => {
-      const option = document.createElement('option');
-      option.value = opt.File;
-      option.textContent = opt.Name;
-      selector.appendChild(option);
-    });
+    try {
+      const res = await fetch('correspondance.json', { cache: "no-store" });
+      if (!res.ok) throw new Error('correspondance.json not loaded');
+      const options = await res.json();
+      options.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt.File;
+        option.textContent = opt.Name;
+        selector.appendChild(option);
+        correspondances[opt.Name] = opt.GenerateCMD;
+      });
 
-    selector.disabled = false;
-  } catch (e) {
-    alert('Erreur lors du chargement de correspondance.json');
-    console.error(e);
+      selector.disabled = false;
+    } catch (e) {
+      alert('Erreur lors du chargement de correspondance.json');
+      console.error(e);
+    }
   }
-}
 
   async function loadData(file) {
   try {
@@ -199,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   checkbox.addEventListener('change', () => {
+    setArtworkToPokeball();
     applyFilter();
   });
 

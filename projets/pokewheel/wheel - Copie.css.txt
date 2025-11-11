@@ -1,0 +1,92 @@
+:root{
+  --bg:#071027;
+  --panel:#0c1630;
+  --accent:#2b6cff;
+  --text:#eaf3ff;
+  --slot-h:72px;
+  --width:320px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center;padding:20px}
+.app{width:100%;max-width:520px;text-align:center}
+h1{font-size:18px;margin:6px 0 14px}
+.controls{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:12px}
+.chk{display:inline-flex;gap:8px;align-items:center;cursor:pointer;font-size:14px}
+button{background:var(--accent);border:none;color:white;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+button:disabled{opacity:.5;cursor:not-allowed}
+
+.picker-wrap{display:flex;justify-content:center;margin:12px 0}
+.viewport{
+  width:var(--width);
+  background:linear-gradient(180deg,#0c1730, #071026);
+  border-radius:12px;
+  padding:12px;
+  box-shadow:0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  overflow:hidden;
+  position:relative;
+  height: calc(var(--slot-h) * 5);
+  display:flex;
+  justify-content:center;
+  flex-direction: column;     /* important : empilement vertical */
+  align-items: stretch;       /* chaque slot prendra toute la largeur */
+}
+
+/* container that will be translated vertically */
+.slot{
+  display: flex;              /* contenu interne en ligne (dot + label) */
+  flex: 0 0 var(--slot-h);    /* fixe la hauteur du slot (empêche shrink/grow) */
+  height:var(--slot-h);
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  padding:10px 14px;
+  color:var(--text);
+  font-weight:600;
+  font-size:15px;
+  border-radius:8px;
+  transform-origin:center;
+  width:100%;
+  box-sizing:border-box;
+  transition: transform 80ms linear, opacity 80ms linear;
+}
+
+/* visual style for non-center slots */
+.slot:not(.center){
+  opacity:0.65;
+  transform: scale(0.94);
+  color:#dceefd;
+}
+
+/* center slot emphasized */
+.center{
+  background:linear-gradient(180deg,#10243d,#0f2a45);
+  box-shadow:0 8px 20px rgba(2,8,20,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+  transform:scale(1.03);
+  font-size:17px;
+  justify-content:center;
+}
+
+/* small colored dot to show legendary state */
+.dot{
+  width:12px;height:12px;border-radius:50%;
+  background:#999;margin-right:10px;flex:0 0 12px;border:2px solid rgba(255,255,255,0.06)
+}
+
+.result{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:10px;color:#bcd6f2}
+.result .texts{line-height:1}
+.hint{font-size:12px;color:#93afda;margin-top:10px}
+
+.art-wrap{
+  display:flex;
+  justify-content:center;
+  margin:12px 0;
+}
+.art-wrap img{
+  width:128px;
+  height:128px;
+  object-fit:cover;
+  border-radius:8px;
+  box-shadow:0 8px 24px rgba(2,8,20,0.6);
+  background:linear-gradient(180deg,#0b1220,#081224);
+}

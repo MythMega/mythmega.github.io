@@ -1,0 +1,3130 @@
+[
+  {
+    "Index": "1",
+    "Name": "Bulbasaur",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "2",
+    "Name": "Ivysaur",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "3",
+    "Name": "Venusaur",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "4",
+    "Name": "Charmander",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "5",
+    "Name": "Charmeleon",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "6",
+    "Name": "Charizard",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "7",
+    "Name": "Squirtle",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "8",
+    "Name": "Wartortle",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "9",
+    "Name": "Blastoise",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "10",
+    "Name": "Caterpie",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "11",
+    "Name": "Metapod",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "12",
+    "Name": "Butterfree",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "13",
+    "Name": "Weedle",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "14",
+    "Name": "Kakuna",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "15",
+    "Name": "Beedrill",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "16",
+    "Name": "Pidgey",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "17",
+    "Name": "Pidgeotto",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "18",
+    "Name": "Pidgeot",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "19",
+    "Name": "Rattata",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "20",
+    "Name": "Raticate",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "21",
+    "Name": "Spearow",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "22",
+    "Name": "Fearow",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "23",
+    "Name": "Ekans",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "24",
+    "Name": "Arbok",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "25",
+    "Name": "Pikachu",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "26",
+    "Name": "Raichu",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "27",
+    "Name": "Sandshrew",
+    "Generation": 1,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "28",
+    "Name": "Sandslash",
+    "Generation": 1,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "29",
+    "Name": "Nidoran♀",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "30",
+    "Name": "Nidorina",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "31",
+    "Name": "Nidoqueen",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "32",
+    "Name": "Nidoran♂",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "33",
+    "Name": "Nidorino",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "34",
+    "Name": "Nidoking",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "35",
+    "Name": "Clefairy",
+    "Generation": 1,
+    "Type1": "Fairy",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "36",
+    "Name": "Clefable",
+    "Generation": 1,
+    "Type1": "Fairy",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "37",
+    "Name": "Vulpix",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "38",
+    "Name": "Ninetales",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "39",
+    "Name": "Jigglypuff",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "40",
+    "Name": "Wigglytuff",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "41",
+    "Name": "Zubat",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "42",
+    "Name": "Golbat",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "43",
+    "Name": "Oddish",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "44",
+    "Name": "Gloom",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "45",
+    "Name": "Vileplume",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "46",
+    "Name": "Paras",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Grass",
+    "Legendary": false
+  },
+  {
+    "Index": "47",
+    "Name": "Parasect",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Grass",
+    "Legendary": false
+  },
+  {
+    "Index": "48",
+    "Name": "Venonat",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "49",
+    "Name": "Venomoth",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "50",
+    "Name": "Diglett",
+    "Generation": 1,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "51",
+    "Name": "Dugtrio",
+    "Generation": 1,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "52",
+    "Name": "Meowth",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "53",
+    "Name": "Persian",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "54",
+    "Name": "Psyduck",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "55",
+    "Name": "Golduck",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "56",
+    "Name": "Mankey",
+    "Generation": 1,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "57",
+    "Name": "Primeape",
+    "Generation": 1,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "58",
+    "Name": "Growlithe",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "59",
+    "Name": "Arcanine",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "60",
+    "Name": "Poliwag",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "61",
+    "Name": "Poliwhirl",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "62",
+    "Name": "Poliwrath",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "63",
+    "Name": "Abra",
+    "Generation": 1,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "64",
+    "Name": "Kadabra",
+    "Generation": 1,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "65",
+    "Name": "Alakazam",
+    "Generation": 1,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "66",
+    "Name": "Machop",
+    "Generation": 1,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "67",
+    "Name": "Machoke",
+    "Generation": 1,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "68",
+    "Name": "Machamp",
+    "Generation": 1,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "69",
+    "Name": "Bellsprout",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "70",
+    "Name": "Weepinbell",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "71",
+    "Name": "Victreebel",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "72",
+    "Name": "Tentacool",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "73",
+    "Name": "Tentacruel",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "74",
+    "Name": "Geodude",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "75",
+    "Name": "Graveler",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "76",
+    "Name": "Golem",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "77",
+    "Name": "Ponyta",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "78",
+    "Name": "Rapidash",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "79",
+    "Name": "Slowpoke",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "80",
+    "Name": "Slowbro",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "81",
+    "Name": "Magnemite",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": "Steel",
+    "Legendary": false
+  },
+  {
+    "Index": "82",
+    "Name": "Magneton",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": "Steel",
+    "Legendary": false
+  },
+  {
+    "Index": "83",
+    "Name": "Farfetch'd",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "84",
+    "Name": "Doduo",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "85",
+    "Name": "Dodrio",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "86",
+    "Name": "Seel",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "87",
+    "Name": "Dewgong",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Ice",
+    "Legendary": false
+  },
+  {
+    "Index": "88",
+    "Name": "Grimer",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "89",
+    "Name": "Muk",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "90",
+    "Name": "Shellder",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "91",
+    "Name": "Cloyster",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Ice",
+    "Legendary": false
+  },
+  {
+    "Index": "92",
+    "Name": "Gastly",
+    "Generation": 1,
+    "Type1": "Ghost",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "93",
+    "Name": "Haunter",
+    "Generation": 1,
+    "Type1": "Ghost",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "94",
+    "Name": "Gengar",
+    "Generation": 1,
+    "Type1": "Ghost",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "95",
+    "Name": "Onix",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "96",
+    "Name": "Drowzee",
+    "Generation": 1,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "97",
+    "Name": "Hypno",
+    "Generation": 1,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "98",
+    "Name": "Krabby",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "99",
+    "Name": "Kingler",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "100",
+    "Name": "Voltorb",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "101",
+    "Name": "Electrode",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "102",
+    "Name": "Exeggcute",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "103",
+    "Name": "Exeggutor",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "104",
+    "Name": "Cubone",
+    "Generation": 1,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "105",
+    "Name": "Marowak",
+    "Generation": 1,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "106",
+    "Name": "Hitmonlee",
+    "Generation": 1,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "107",
+    "Name": "Hitmonchan",
+    "Generation": 1,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "108",
+    "Name": "Lickitung",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "109",
+    "Name": "Koffing",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "110",
+    "Name": "Weezing",
+    "Generation": 1,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "111",
+    "Name": "Rhyhorn",
+    "Generation": 1,
+    "Type1": "Ground",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "112",
+    "Name": "Rhydon",
+    "Generation": 1,
+    "Type1": "Ground",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "113",
+    "Name": "Chansey",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "114",
+    "Name": "Tangela",
+    "Generation": 1,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "115",
+    "Name": "Kangaskhan",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "116",
+    "Name": "Horsea",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "117",
+    "Name": "Seadra",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "118",
+    "Name": "Goldeen",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "119",
+    "Name": "Seaking",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "120",
+    "Name": "Staryu",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "121",
+    "Name": "Starmie",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "122",
+    "Name": "Mr. Mime",
+    "Generation": 1,
+    "Type1": "Psychic",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "123",
+    "Name": "Scyther",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "124",
+    "Name": "Jynx",
+    "Generation": 1,
+    "Type1": "Ice",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "125",
+    "Name": "Electabuzz",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "126",
+    "Name": "Magmar",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "127",
+    "Name": "Pinsir",
+    "Generation": 1,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "128",
+    "Name": "Tauros",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "129",
+    "Name": "Magikarp",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "130",
+    "Name": "Gyarados",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "131",
+    "Name": "Lapras",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": "Ice",
+    "Legendary": false
+  },
+  {
+    "Index": "132",
+    "Name": "Ditto",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "133",
+    "Name": "Eevee",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "134",
+    "Name": "Vaporeon",
+    "Generation": 1,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "135",
+    "Name": "Jolteon",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "136",
+    "Name": "Flareon",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "137",
+    "Name": "Porygon",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "138",
+    "Name": "Omanyte",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Water",
+    "Legendary": false
+  },
+  {
+    "Index": "139",
+    "Name": "Omastar",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Water",
+    "Legendary": false
+  },
+  {
+    "Index": "140",
+    "Name": "Kabuto",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Water",
+    "Legendary": false
+  },
+  {
+    "Index": "141",
+    "Name": "Kabutops",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Water",
+    "Legendary": false
+  },
+  {
+    "Index": "142",
+    "Name": "Aerodactyl",
+    "Generation": 1,
+    "Type1": "Rock",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "143",
+    "Name": "Snorlax",
+    "Generation": 1,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "144",
+    "Name": "Articuno",
+    "Generation": 1,
+    "Type1": "Ice",
+    "Type2": "Flying",
+    "Legendary": true
+  },
+  {
+    "Index": "145",
+    "Name": "Zapdos",
+    "Generation": 1,
+    "Type1": "Electric",
+    "Type2": "Flying",
+    "Legendary": true
+  },
+  {
+    "Index": "146",
+    "Name": "Moltres",
+    "Generation": 1,
+    "Type1": "Fire",
+    "Type2": "Flying",
+    "Legendary": true
+  },
+  {
+    "Index": "147",
+    "Name": "Dratini",
+    "Generation": 1,
+    "Type1": "Dragon",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "148",
+    "Name": "Dragonair",
+    "Generation": 1,
+    "Type1": "Dragon",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "149",
+    "Name": "Dragonite",
+    "Generation": 1,
+    "Type1": "Dragon",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "150",
+    "Name": "Mewtwo",
+    "Generation": 1,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "151",
+    "Name": "Mew",
+    "Generation": 1,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "152",
+    "Name": "Chikorita",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "153",
+    "Name": "Bayleef",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "154",
+    "Name": "Meganium",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "155",
+    "Name": "Cyndaquil",
+    "Generation": 2,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "156",
+    "Name": "Quilava",
+    "Generation": 2,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "157",
+    "Name": "Typhlosion",
+    "Generation": 2,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "158",
+    "Name": "Totodile",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "159",
+    "Name": "Croconaw",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "160",
+    "Name": "Feraligatr",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "161",
+    "Name": "Sentret",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "162",
+    "Name": "Furret",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "163",
+    "Name": "Hoothoot",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "164",
+    "Name": "Noctowl",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "165",
+    "Name": "Ledyba",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "166",
+    "Name": "Ledian",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "167",
+    "Name": "Spinarak",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "168",
+    "Name": "Ariados",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "169",
+    "Name": "Crobat",
+    "Generation": 2,
+    "Type1": "Poison",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "170",
+    "Name": "Chinchou",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Electric",
+    "Legendary": false
+  },
+  {
+    "Index": "171",
+    "Name": "Lanturn",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Electric",
+    "Legendary": false
+  },
+  {
+    "Index": "172",
+    "Name": "Pichu",
+    "Generation": 2,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "173",
+    "Name": "Cleffa",
+    "Generation": 2,
+    "Type1": "Fairy",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "174",
+    "Name": "Igglybuff",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "175",
+    "Name": "Togepi",
+    "Generation": 2,
+    "Type1": "Fairy",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "176",
+    "Name": "Togetic",
+    "Generation": 2,
+    "Type1": "Fairy",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "177",
+    "Name": "Natu",
+    "Generation": 2,
+    "Type1": "Psychic",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "178",
+    "Name": "Xatu",
+    "Generation": 2,
+    "Type1": "Psychic",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "179",
+    "Name": "Mareep",
+    "Generation": 2,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "180",
+    "Name": "Flaaffy",
+    "Generation": 2,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "181",
+    "Name": "Ampharos",
+    "Generation": 2,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "182",
+    "Name": "Bellossom",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "183",
+    "Name": "Marill",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "184",
+    "Name": "Azumarill",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "185",
+    "Name": "Sudowoodo",
+    "Generation": 2,
+    "Type1": "Rock",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "186",
+    "Name": "Politoed",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "187",
+    "Name": "Hoppip",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "188",
+    "Name": "Skiploom",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "189",
+    "Name": "Jumpluff",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "190",
+    "Name": "Aipom",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "191",
+    "Name": "Sunkern",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "192",
+    "Name": "Sunflora",
+    "Generation": 2,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "193",
+    "Name": "Yanma",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "194",
+    "Name": "Wooper",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "195",
+    "Name": "Quagsire",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "196",
+    "Name": "Espeon",
+    "Generation": 2,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "197",
+    "Name": "Umbreon",
+    "Generation": 2,
+    "Type1": "Dark",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "198",
+    "Name": "Murkrow",
+    "Generation": 2,
+    "Type1": "Dark",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "199",
+    "Name": "Slowking",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "200",
+    "Name": "Misdreavus",
+    "Generation": 2,
+    "Type1": "Ghost",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "201",
+    "Name": "Unown",
+    "Generation": 2,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "202",
+    "Name": "Wobbuffet",
+    "Generation": 2,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "203",
+    "Name": "Girafarig",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "204",
+    "Name": "Pineco",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "205",
+    "Name": "Forretress",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Steel",
+    "Legendary": false
+  },
+  {
+    "Index": "206",
+    "Name": "Dunsparce",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "207",
+    "Name": "Gligar",
+    "Generation": 2,
+    "Type1": "Ground",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "208",
+    "Name": "Steelix",
+    "Generation": 2,
+    "Type1": "Steel",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "209",
+    "Name": "Snubbull",
+    "Generation": 2,
+    "Type1": "Fairy",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "210",
+    "Name": "Granbull",
+    "Generation": 2,
+    "Type1": "Fairy",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "211",
+    "Name": "Qwilfish",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "212",
+    "Name": "Scizor",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Steel",
+    "Legendary": false
+  },
+  {
+    "Index": "213",
+    "Name": "Shuckle",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "214",
+    "Name": "Heracross",
+    "Generation": 2,
+    "Type1": "Bug",
+    "Type2": "Fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "215",
+    "Name": "Sneasel",
+    "Generation": 2,
+    "Type1": "Dark",
+    "Type2": "Ice",
+    "Legendary": false
+  },
+  {
+    "Index": "216",
+    "Name": "Teddiursa",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "217",
+    "Name": "Ursaring",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "218",
+    "Name": "Slugma",
+    "Generation": 2,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "219",
+    "Name": "Magcargo",
+    "Generation": 2,
+    "Type1": "Fire",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "220",
+    "Name": "Swinub",
+    "Generation": 2,
+    "Type1": "Ice",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "221",
+    "Name": "Piloswine",
+    "Generation": 2,
+    "Type1": "Ice",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "222",
+    "Name": "Corsola",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "223",
+    "Name": "Remoraid",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "224",
+    "Name": "Octillery",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "225",
+    "Name": "Delibird",
+    "Generation": 2,
+    "Type1": "Ice",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "226",
+    "Name": "Mantine",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "227",
+    "Name": "Skarmory",
+    "Generation": 2,
+    "Type1": "Steel",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "228",
+    "Name": "Houndour",
+    "Generation": 2,
+    "Type1": "Dark",
+    "Type2": "Fire",
+    "Legendary": false
+  },
+  {
+    "Index": "229",
+    "Name": "Houndoom",
+    "Generation": 2,
+    "Type1": "Dark",
+    "Type2": "Fire",
+    "Legendary": false
+  },
+  {
+    "Index": "230",
+    "Name": "Kingdra",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": "Dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "231",
+    "Name": "Phanpy",
+    "Generation": 2,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "232",
+    "Name": "Donphan",
+    "Generation": 2,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "233",
+    "Name": "Porygon2",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "234",
+    "Name": "Stantler",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "235",
+    "Name": "Smeargle",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "236",
+    "Name": "Tyrogue",
+    "Generation": 2,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "237",
+    "Name": "Hitmontop",
+    "Generation": 2,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "238",
+    "Name": "Smoochum",
+    "Generation": 2,
+    "Type1": "Ice",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "239",
+    "Name": "Elekid",
+    "Generation": 2,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "240",
+    "Name": "Magby",
+    "Generation": 2,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "241",
+    "Name": "Miltank",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "242",
+    "Name": "Blissey",
+    "Generation": 2,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "243",
+    "Name": "Raikou",
+    "Generation": 2,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "244",
+    "Name": "Entei",
+    "Generation": 2,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "245",
+    "Name": "Suicune",
+    "Generation": 2,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "246",
+    "Name": "Larvitar",
+    "Generation": 2,
+    "Type1": "Rock",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "247",
+    "Name": "Pupitar",
+    "Generation": 2,
+    "Type1": "Rock",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "248",
+    "Name": "Tyranitar",
+    "Generation": 2,
+    "Type1": "Rock",
+    "Type2": "Dark",
+    "Legendary": false
+  },
+  {
+    "Index": "249",
+    "Name": "Lugia",
+    "Generation": 2,
+    "Type1": "Psychic",
+    "Type2": "Flying",
+    "Legendary": true
+  },
+  {
+    "Index": "250",
+    "Name": "Ho-oh",
+    "Generation": 2,
+    "Type1": "Fire",
+    "Type2": "Flying",
+    "Legendary": true
+  },
+  {
+    "Index": "251",
+    "Name": "Celebi",
+    "Generation": 2,
+    "Type1": "Psychic",
+    "Type2": "Grass",
+    "Legendary": false
+  },
+  {
+    "Index": "252",
+    "Name": "Treecko",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "253",
+    "Name": "Grovyle",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "254",
+    "Name": "Sceptile",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "255",
+    "Name": "Torchic",
+    "Generation": 3,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "256",
+    "Name": "Combusken",
+    "Generation": 3,
+    "Type1": "Fire",
+    "Type2": "Fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "257",
+    "Name": "Blaziken",
+    "Generation": 3,
+    "Type1": "Fire",
+    "Type2": "Fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "258",
+    "Name": "Mudkip",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "259",
+    "Name": "Marshtomp",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "260",
+    "Name": "Swampert",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "261",
+    "Name": "Poochyena",
+    "Generation": 3,
+    "Type1": "Dark",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "262",
+    "Name": "Mightyena",
+    "Generation": 3,
+    "Type1": "Dark",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "263",
+    "Name": "Zigzagoon",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "264",
+    "Name": "Linoone",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "265",
+    "Name": "Wurmple",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "266",
+    "Name": "Silcoon",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "267",
+    "Name": "Beautifly",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "268",
+    "Name": "Cascoon",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "269",
+    "Name": "Dustox",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "270",
+    "Name": "Lotad",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Grass",
+    "Legendary": false
+  },
+  {
+    "Index": "271",
+    "Name": "Lombre",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Grass",
+    "Legendary": false
+  },
+  {
+    "Index": "272",
+    "Name": "Ludicolo",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Grass",
+    "Legendary": false
+  },
+  {
+    "Index": "273",
+    "Name": "Seedot",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "274",
+    "Name": "Nuzleaf",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": "Dark",
+    "Legendary": false
+  },
+  {
+    "Index": "275",
+    "Name": "Shiftry",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": "Dark",
+    "Legendary": false
+  },
+  {
+    "Index": "276",
+    "Name": "Taillow",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "277",
+    "Name": "Swellow",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "278",
+    "Name": "Wingull",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "279",
+    "Name": "Pelipper",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "280",
+    "Name": "Ralts",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "281",
+    "Name": "Kirlia",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "282",
+    "Name": "Gardevoir",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "283",
+    "Name": "Surskit",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": "Water",
+    "Legendary": false
+  },
+  {
+    "Index": "284",
+    "Name": "Masquerain",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "285",
+    "Name": "Shroomish",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "286",
+    "Name": "Breloom",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": "Fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "287",
+    "Name": "Slakoth",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "288",
+    "Name": "Vigoroth",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "289",
+    "Name": "Slaking",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "290",
+    "Name": "Nincada",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "291",
+    "Name": "Ninjask",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "292",
+    "Name": "Shedinja",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": "Ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "293",
+    "Name": "Whismur",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "294",
+    "Name": "Loudred",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "295",
+    "Name": "Exploud",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "296",
+    "Name": "Makuhita",
+    "Generation": 3,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "297",
+    "Name": "Hariyama",
+    "Generation": 3,
+    "Type1": "Fighting",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "298",
+    "Name": "Azurill",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "299",
+    "Name": "Nosepass",
+    "Generation": 3,
+    "Type1": "Rock",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "300",
+    "Name": "Skitty",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "301",
+    "Name": "Delcatty",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "302",
+    "Name": "Sableye",
+    "Generation": 3,
+    "Type1": "Dark",
+    "Type2": "Ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "303",
+    "Name": "Mawile",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": "Fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "304",
+    "Name": "Aron",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "305",
+    "Name": "Lairon",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "306",
+    "Name": "Aggron",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "307",
+    "Name": "Meditite",
+    "Generation": 3,
+    "Type1": "Fighting",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "308",
+    "Name": "Medicham",
+    "Generation": 3,
+    "Type1": "Fighting",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "309",
+    "Name": "Electrike",
+    "Generation": 3,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "310",
+    "Name": "Manectric",
+    "Generation": 3,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "311",
+    "Name": "Plusle",
+    "Generation": 3,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "312",
+    "Name": "Minun",
+    "Generation": 3,
+    "Type1": "Electric",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "313",
+    "Name": "Volbeat",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "314",
+    "Name": "Illumise",
+    "Generation": 3,
+    "Type1": "Bug",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "315",
+    "Name": "Roselia",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": "Poison",
+    "Legendary": false
+  },
+  {
+    "Index": "316",
+    "Name": "Gulpin",
+    "Generation": 3,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "317",
+    "Name": "Swalot",
+    "Generation": 3,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "318",
+    "Name": "Carvanha",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Dark",
+    "Legendary": false
+  },
+  {
+    "Index": "319",
+    "Name": "Sharpedo",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Dark",
+    "Legendary": false
+  },
+  {
+    "Index": "320",
+    "Name": "Wailmer",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "321",
+    "Name": "Wailord",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "322",
+    "Name": "Numel",
+    "Generation": 3,
+    "Type1": "Fire",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "323",
+    "Name": "Camerupt",
+    "Generation": 3,
+    "Type1": "Fire",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "324",
+    "Name": "Torkoal",
+    "Generation": 3,
+    "Type1": "Fire",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "325",
+    "Name": "Spoink",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "326",
+    "Name": "Grumpig",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "327",
+    "Name": "Spinda",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "328",
+    "Name": "Trapinch",
+    "Generation": 3,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "329",
+    "Name": "Vibrava",
+    "Generation": 3,
+    "Type1": "Ground",
+    "Type2": "Dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "330",
+    "Name": "Flygon",
+    "Generation": 3,
+    "Type1": "Ground",
+    "Type2": "Dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "331",
+    "Name": "Cacnea",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "332",
+    "Name": "Cacturne",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": "Dark",
+    "Legendary": false
+  },
+  {
+    "Index": "333",
+    "Name": "Swablu",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "334",
+    "Name": "Altaria",
+    "Generation": 3,
+    "Type1": "Dragon",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "335",
+    "Name": "Zangoose",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "336",
+    "Name": "Seviper",
+    "Generation": 3,
+    "Type1": "Poison",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "337",
+    "Name": "Lunatone",
+    "Generation": 3,
+    "Type1": "Rock",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "338",
+    "Name": "Solrock",
+    "Generation": 3,
+    "Type1": "Rock",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "339",
+    "Name": "Barboach",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "340",
+    "Name": "Whiscash",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Ground",
+    "Legendary": false
+  },
+  {
+    "Index": "341",
+    "Name": "Corphish",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "342",
+    "Name": "Crawdaunt",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Dark",
+    "Legendary": false
+  },
+  {
+    "Index": "343",
+    "Name": "Baltoy",
+    "Generation": 3,
+    "Type1": "Ground",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "344",
+    "Name": "Claydol",
+    "Generation": 3,
+    "Type1": "Ground",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "345",
+    "Name": "Lileep",
+    "Generation": 3,
+    "Type1": "Rock",
+    "Type2": "Grass",
+    "Legendary": false
+  },
+  {
+    "Index": "346",
+    "Name": "Cradily",
+    "Generation": 3,
+    "Type1": "Rock",
+    "Type2": "Grass",
+    "Legendary": false
+  },
+  {
+    "Index": "347",
+    "Name": "Anorith",
+    "Generation": 3,
+    "Type1": "Rock",
+    "Type2": "Bug",
+    "Legendary": false
+  },
+  {
+    "Index": "348",
+    "Name": "Armaldo",
+    "Generation": 3,
+    "Type1": "Rock",
+    "Type2": "Bug",
+    "Legendary": false
+  },
+  {
+    "Index": "349",
+    "Name": "Feebas",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "350",
+    "Name": "Milotic",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "351",
+    "Name": "Castform",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "352",
+    "Name": "Kecleon",
+    "Generation": 3,
+    "Type1": "Normal",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "353",
+    "Name": "Shuppet",
+    "Generation": 3,
+    "Type1": "Ghost",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "354",
+    "Name": "Banette",
+    "Generation": 3,
+    "Type1": "Ghost",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "355",
+    "Name": "Duskull",
+    "Generation": 3,
+    "Type1": "Ghost",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "356",
+    "Name": "Dusclops",
+    "Generation": 3,
+    "Type1": "Ghost",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "357",
+    "Name": "Tropius",
+    "Generation": 3,
+    "Type1": "Grass",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "358",
+    "Name": "Chimecho",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "359",
+    "Name": "Absol",
+    "Generation": 3,
+    "Type1": "Dark",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "360",
+    "Name": "Wynaut",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "361",
+    "Name": "Snorunt",
+    "Generation": 3,
+    "Type1": "Ice",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "362",
+    "Name": "Glalie",
+    "Generation": 3,
+    "Type1": "Ice",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "363",
+    "Name": "Spheal",
+    "Generation": 3,
+    "Type1": "Ice",
+    "Type2": "Water",
+    "Legendary": false
+  },
+  {
+    "Index": "364",
+    "Name": "Sealeo",
+    "Generation": 3,
+    "Type1": "Ice",
+    "Type2": "Water",
+    "Legendary": false
+  },
+  {
+    "Index": "365",
+    "Name": "Walrein",
+    "Generation": 3,
+    "Type1": "Ice",
+    "Type2": "Water",
+    "Legendary": false
+  },
+  {
+    "Index": "366",
+    "Name": "Clamperl",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "367",
+    "Name": "Huntail",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "368",
+    "Name": "Gorebyss",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "369",
+    "Name": "Relicanth",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": "Rock",
+    "Legendary": false
+  },
+  {
+    "Index": "370",
+    "Name": "Luvdisc",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "371",
+    "Name": "Bagon",
+    "Generation": 3,
+    "Type1": "Dragon",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "372",
+    "Name": "Shelgon",
+    "Generation": 3,
+    "Type1": "Dragon",
+    "Type2": null,
+    "Legendary": false
+  },
+  {
+    "Index": "373",
+    "Name": "Salamence",
+    "Generation": 3,
+    "Type1": "Dragon",
+    "Type2": "Flying",
+    "Legendary": false
+  },
+  {
+    "Index": "374",
+    "Name": "Beldum",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "375",
+    "Name": "Metang",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "376",
+    "Name": "Metagross",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": "Psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "377",
+    "Name": "Regirock",
+    "Generation": 3,
+    "Type1": "Rock",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "378",
+    "Name": "Regice",
+    "Generation": 3,
+    "Type1": "Ice",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "379",
+    "Name": "Registeel",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "380",
+    "Name": "Latias",
+    "Generation": 3,
+    "Type1": "Dragon",
+    "Type2": "Psychic",
+    "Legendary": true
+  },
+  {
+    "Index": "381",
+    "Name": "Latios",
+    "Generation": 3,
+    "Type1": "Dragon",
+    "Type2": "Psychic",
+    "Legendary": true
+  },
+  {
+    "Index": "382",
+    "Name": "Kyogre",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "382",
+    "Name": "KyogrePrimal Kyogre",
+    "Generation": 3,
+    "Type1": "Water",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "383",
+    "Name": "Groudon",
+    "Generation": 3,
+    "Type1": "Ground",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "383",
+    "Name": "GroudonPrimal Groudon",
+    "Generation": 3,
+    "Type1": "Ground",
+    "Type2": "Fire",
+    "Legendary": true
+  },
+  {
+    "Index": "384",
+    "Name": "Rayquaza",
+    "Generation": 3,
+    "Type1": "Dragon",
+    "Type2": "Flying",
+    "Legendary": true
+  },
+  {
+    "Index": "385",
+    "Name": "Jirachi",
+    "Generation": 3,
+    "Type1": "Steel",
+    "Type2": "Psychic",
+    "Legendary": true
+  },
+  {
+    "Index": "386",
+    "Name": "DeoxysNormal Forme",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "386",
+    "Name": "DeoxysAttack Forme",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "386",
+    "Name": "DeoxysDefense Forme",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": true
+  },
+  {
+    "Index": "386",
+    "Name": "DeoxysSpeed Forme",
+    "Generation": 3,
+    "Type1": "Psychic",
+    "Type2": null,
+    "Legendary": true
+  }
+]

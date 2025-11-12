@@ -15,7 +15,10 @@ h1{font-size:18px;margin:6px 0 14px}
 .chk{display:inline-flex;gap:8px;align-items:center;cursor:pointer;font-size:14px}
 button{background:var(--accent);border:none;color:white;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600}
 button:disabled{opacity:.5;cursor:not-allowed}
-
+.masqued-link {
+  text-decoration: none;
+  color: var(--text);
+}
 .picker-wrap{display:flex;justify-content:center;margin:12px 0}
 .viewport{
   width:var(--width);

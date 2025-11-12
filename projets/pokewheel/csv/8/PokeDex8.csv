@@ -1,0 +1,401 @@
+No.,Name,Ability1,Ability2,Hidden_Ability,Type1,Type2,HP,Att,Def,S.Att,S.Def,Spd,Weight_kg,Height_m,Weight_lbs,Height_ft,Cap_Rate,Egg_Steps,Classification
+1,Grookey,Overgrow,NaN,Grassy Surge,grass,NaN,50,65,50,40,40,65,5.0,0.3,11.0,1.0,45.0,5120.0,Chimp Pokémon
+2,Thwackey,Overgrow,NaN,Grassy Surge,grass,NaN,70,85,70,55,60,80,14.0,0.7,30.9,2.333,45.0,5120.0,Beat Pokémon
+3,Rillaboom,Overgrow,NaN,Grassy Surge,grass,NaN,100,125,90,60,70,85,90.0,2.1,198.4,6.917,45.0,5120.0,Drummer Pokémon
+4,Scorbunny,Blaze,NaN,Libero,fire,NaN,50,71,40,40,40,69,4.5,0.3,9.9,1.0,45.0,5120.0,Rabbit Pokémon
+5,Raboot,Blaze,NaN,Libero,fire,NaN,65,86,60,55,60,94,9.0,0.6,19.8,2.0,45.0,5120.0,Rabbit Pokémon
+6,Cinderace,Blaze,NaN,Libero,fire,NaN,80,116,75,65,75,119,33.0,1.4,72.8,4.583,45.0,5120.0,Striker Pokémon
+7,Sobble,Torrent,NaN,Sniper,water,NaN,50,40,40,70,40,70,4.0,0.3,8.8,1.0,45.0,5120.0,Water Lizard Pokémon
+8,Drizzile,Torrent,NaN,Sniper,water,NaN,65,60,55,95,55,90,11.5,0.7,25.4,2.333,45.0,5120.0,Water Lizard Pokémon
+9,Inteleon,Torrent,NaN,Sniper,water,NaN,70,85,65,125,65,120,45.2,1.9,99.6,6.25,45.0,5120.0,Secret Agent Pokémon
+10,Blipbug,Swarm,Compoundeyes,Telepathy,bug,NaN,25,20,20,25,45,45,8.0,0.4,17.6,1.333,255.0,3840.0,Larva Pokémon
+11,Dottler,Swarm,Compoundeyes,Telepathy,bug,psychic,50,35,80,50,90,30,19.5,0.4,43.0,1.333,120.0,3840.0,Radome Pokémon
+12,Orbeetle,Swarm,Frisk,Telepathy,bug,psychic,60,45,110,80,120,90,40.8,0.4,89.9,1.333,45.0,3840.0,Seven Spot Pokémon
+13,Caterpie,Shield Dust,NaN,Run Away,bug,NaN,45,30,35,20,20,45,2.9,0.3,6.4,1.0,255.0,3840.0,Worm Pokémon
+14,Metapod,Shed Skin,NaN,NaN,bug,NaN,50,20,55,25,25,30,9.9,0.7,21.8,2.333,120.0,3840.0,Cocoon Pokémon
+15,Butterfree,Compoundeyes,NaN,Tinted Lens,bug,flying,60,45,50,90,80,70,32.0,1.1,70.5,3.583,45.0,3840.0,Butterfly Pokémon
+16,Grubbin,Swarm,NaN,NaN,bug,NaN,47,62,45,55,45,46,4.4,0.4,9.7,1.333,255.0,3840.0,Larva Pokémon
+17,Charjabug,Battery,NaN,NaN,bug,electric,57,82,95,55,75,36,10.5,0.5,23.1,1.667,120.0,3840.0,Battery Pokémon
+18,Vikavolt,Levitate,NaN,NaN,bug,electric,77,70,90,145,75,43,45.0,1.5,99.2,4.917,45.0,3840.0,Stag Beetle Pokémon
+19,Hoothoot,Insomnia,Keen Eye,Tinted Lens,normal,flying,60,30,30,36,56,50,21.2,0.7,46.7,2.333,255.0,3840.0,Owl Pokémon
+20,Noctowl,Insomnia,Keen Eye,Tinted Lens,normal,flying,100,50,50,86,96,70,40.8,1.6,89.9,5.25,90.0,3840.0,Owl Pokémon
+21,Rookidee,Keen Eye,Unnerve,Big Pecks,flying,NaN,38,47,35,33,35,57,1.8,0.2,4.0,0.667,255.0,3840.0,Tiny Bird Pokémon
+22,Corvisquire,Keen Eye,Unnerve,Big Pecks,flying,NaN,68,67,55,43,55,77,16.0,0.8,35.3,2.583,120.0,3840.0,Raven Pokémon
+23,Corviknight,Pressure,Unnerve,Mirror Armor,flying,steel,98,87,105,53,85,67,75.0,2.2,165.3,7.25,45.0,3840.0,Raven Pokémon
+24,Skwovet,Cheek Pouch,NaN,Gluttony,normal,NaN,70,55,55,35,35,25,2.5,0.3,5.5,1.0,255.0,5120.0,Cheeky Pokémon
+25,Greedent,Cheek Pouch,NaN,Gluttony,normal,NaN,120,95,95,55,75,20,6.0,0.6,13.2,2.0,90.0,5120.0,Greedy Pokémon
+26,Pidove,Big Pecks,Super Luck,Rivalry,normal,flying,50,55,50,36,30,43,2.1,0.3,4.6,1.0,255.0,3840.0,Tiny Pigeon Pokémon
+27,Tranquill,Big Pecks,Super Luck,Rivalry,normal,flying,62,77,62,50,42,65,15.0,0.6,33.1,2.0,120.0,3840.0,Wild Pigeon Pokémon
+28,Unfezant,Big Pecks,Super Luck,Rivalry,normal,flying,80,115,80,65,55,93,29.0,1.2,63.9,3.917,45.0,3840.0,Proud Pokémon
+29,Nickit,Run Away,Unburden,Stakeout,dark,NaN,40,28,28,47,52,50,8.9,0.6,19.6,2.0,255.0,3840.0,Fox Pokémon
+30,Thievul,Run Away,Unburden,Stakeout,dark,NaN,70,58,58,87,92,90,19.9,1.2,43.9,3.917,127.0,3840.0,Fox Pokémon
+31,Zigzagoon,Pickup,Gluttony,Quick Feet,dark,normal,38,30,41,30,41,60,17.5,0.4,38.6,1.333,255.0,3840.0,Tiny Racoon Pokémon
+32,Linoone,Pickup,Gluttony,Quick Feet,dark,normal,78,70,61,50,61,100,32.5,0.5,71.6,1.667,90.0,3840.0,Rush Pokémon
+33,Obstagoon,Reckless,Guts,Defiant,dark,normal,93,90,101,60,81,95,46.0,1.6,101.4,5.25,45.0,3840.0,Blocking Pokémon
+34,Wooloo,Fluffy,Run Away,Bulletproof,normal,NaN,42,40,55,40,45,48,6.0,0.6,13.2,2.0,255.0,3840.0,Sheep Pokémon
+35,Dubwool,Fluffy,Steadfast,Bulletproof,normal,NaN,72,80,100,60,90,88,43.0,1.3,94.8,4.25,127.0,3840.0,Sheep Pokémon
+36,Lotad,Swift Swim,Rain Dish,Own Tempo,water,grass,40,30,30,40,50,30,2.6,0.5,5.7,1.667,255.0,3840.0,Water Weed Pokémon
+37,Lombre,Swift Swim,Rain Dish,Own Tempo,water,grass,60,50,50,60,70,50,32.5,1.2,71.6,3.917,120.0,3840.0,Jolly Pokémon
+38,Ludicolo,Swift Swim,Rain Dish,Own Tempo,water,grass,80,70,70,90,100,70,55.0,1.5,121.3,4.917,45.0,3840.0,Carefree Pokémon
+39,Seedot,Chlorophyll,Early Bird,Pickpocket,grass,NaN,40,40,50,30,30,30,4.0,0.5,8.8,1.667,255.0,3840.0,Acorn Pokémon
+40,Nuzleaf,Chlorophyll,Early Bird,Pickpocket,grass,dark,70,70,40,60,40,60,28.0,1.0,61.7,3.25,120.0,3840.0,Wily Pokémon
+41,Shiftry,Chlorophyll,Early Bird,Pickpocket,grass,dark,90,100,60,90,60,80,59.6,1.3,131.4,4.25,45.0,3840.0,Wickid Pokémon
+42,Chewtle,Strong Jaw,Shell Armor,Swift Swim,water,NaN,50,64,50,38,38,44,8.5,0.3,18.7,1.0,255.0,5120.0,Snapping Pokémon
+43,Drednaw,Strong Jaw,Shell Armor,Swift Swim,water,rock,90,115,90,48,68,74,115.5,1.0,254.6,3.25,75.0,5120.0,Bite Pokémon
+44,Purrloin,Limber,Unburden,Prankster,dark,NaN,41,50,37,50,37,66,10.1,0.4,22.3,1.333,255.0,5120.0,Devious Pokémon
+45,Liepard,Limber,Unburden,Prankster,dark,NaN,64,88,50,88,50,106,37.5,1.1,82.7,3.583,90.0,5120.0,Cruel Pokémon
+46,Yamper,Ball Fetch,NaN,Rattled,electric,NaN,59,45,50,40,50,26,13.5,0.3,29.8,1.0,255.0,5120.0,Puppy Pokémon
+47,Boltund,Strong Jaw,NaN,Competitive,electric,NaN,69,90,60,90,60,121,34.0,1.0,75.0,3.25,45.0,5120.0,Dog Pokémon
+48,Bunnelby,Pickup,Cheek Pouch,Huge Power,normal,NaN,38,36,38,32,36,57,5.0,0.4,11.0,1.333,255.0,3840.0,Digging Pokémon
+49,Diggersby,Pickup,Cheek Pouch,Huge Power,normal,ground,85,56,77,50,77,78,42.4,1.0,93.5,3.25,127.0,3840.0,Digging Pokémon
+50,Minccino,Cute Charm,Technician,Skill Link,normal,NaN,55,50,40,40,40,75,5.8,0.4,12.8,1.333,255.0,3840.0,Chinchilla Pokémon
+51,Cinccino,Cute Charm,Technician,Skill Link,normal,NaN,75,95,60,65,60,115,7.5,0.5,16.5,1.667,60.0,3840.0,Scarf Pokémon
+52,Bounsweet,Leaf Guard,Oblivious,Sweet Veil,grass,NaN,42,30,38,30,38,32,3.2,0.3,7.1,1.0,235.0,5120.0,Fruit Pokémon
+53,Steenee,Leaf Guard,Oblivious,Sweet Veil,grass,NaN,52,40,48,40,48,62,8.2,0.7,18.1,2.333,120.0,5120.0,Fruit Pokémon
+54,Tsareena,Leaf Guard,Queenly Majesty,Sweet Veil,grass,NaN,72,120,98,50,98,72,21.4,1.2,47.2,3.917,45.0,5120.0,Fruit Pokémon
+55,Oddish,Chlorophyll,NaN,Run Away,grass,poison,45,50,55,75,65,30,5.4,0.5,11.9,1.667,255.0,5120.0,Weed Pokémon
+56,Gloom,Chlorophyll,NaN,Stench,grass,poison,60,65,70,85,75,40,8.6,0.8,19.0,2.583,120.0,5120.0,Weed Pokémon
+57,Vileplume,Chlorophyll,NaN,Effect Spore,grass,poison,75,80,85,110,90,50,18.6,1.2,41.0,3.917,45.0,5120.0,Flower Pokémon
+58,Bellossom,Chlorophyll,NaN,Healer,grass,NaN,75,80,95,90,100,50,5.8,0.4,12.8,1.333,45.0,5120.0,Flower Pokémon
+59,Budew,Natural Cure,Poison Point,Leaf Guard,grass,poison,40,30,35,50,70,55,1.2,0.2,2.6,0.667,255.0,5120.0,Bud Pokémon
+60,Roselia,Natural Cure,Poison Point,Leaf Guard,grass,poison,50,60,45,100,80,65,2.0,0.3,4.4,1.0,150.0,5120.0,Thorn Pokémon
+61,Roserade,Natural Cure,Poison Point,Technician,grass,poison,60,70,65,125,105,90,14.5,0.9,32.0,2.917,75.0,5120.0,Bouquet Pokémon
+62,Wingull,Keen Eye,Hydration,Rain Dish,water,flying,40,30,30,55,30,85,9.5,0.6,20.9,2.0,190.0,5120.0,Seagull Pokémon
+63,Pelipper,Keen Eye,Drizzle,Rain Dish,water,flying,60,50,100,95,70,65,28.0,1.2,61.7,3.917,45.0,5120.0,Water Bird Pokémon
+64,Joltik,Compoundeyes,Unnerve,Swarm,bug,electric,50,47,50,57,50,65,0.6,0.1,1.3,0.333,190.0,5120.0,Attaching Pokémon
+65,Galvantula,Compoundeyes,Unnerve,Swarm,bug,electric,70,77,60,97,60,108,14.3,0.8,31.5,2.583,75.0,5120.0,EleSpider Pokémon
+66,Electrike,Static,Lightning Rod,Minus,electric,NaN,40,45,40,65,40,65,15.2,0.6,33.5,2.0,120.0,5120.0,Lightning Pokémon
+67,Manectric,Static,Lightning Rod,Minus,electric,NaN,70,75,60,105,60,105,40.2,1.5,88.6,4.917,45.0,5120.0,Discharge Pokémon
+68,Vulpix,Flash Fire,NaN,Drought,fire,NaN,38,41,40,50,65,65,9.9,0.6,21.8,2.0,190.0,5120.0,Fox Pokémon
+69,Ninetales,Flash Fire,NaN,Drought,fire,NaN,73,76,75,81,100,100,19.9,1.1,43.9,3.583,75.0,5120.0,Fox Pokémon
+70,Growlithe,Intimidate,Flash Fire,Justified,fire,NaN,55,70,45,70,50,60,19.0,0.7,41.9,2.333,190.0,5120.0,Puppy Pokémon
+71,Arcanine,Intimidate,Flash Fire,Justified,fire,NaN,90,110,80,100,80,95,155.0,1.9,341.7,6.25,75.0,5120.0,Legendary Pokémon
+72,Vanillite,Ice Body,Snow Cloak,Weak Armor,ice,NaN,36,50,50,65,60,44,5.7,0.4,12.6,1.333,255.0,5120.0,Fresh Snow Pokémon
+73,Vanillish,Ice Body,Snow Cloak,Weak Armor,ice,NaN,51,65,65,80,75,59,41.0,1.1,90.4,3.583,120.0,5120.0,Icy Snow Pokémon
+74,Vanilluxe,Ice Body,Snow Warning,Weak Armor,ice,NaN,71,95,85,110,95,79,57.5,1.3,126.8,4.25,45.0,5120.0,Snowstorm Pokémon
+75,Swinub,Oblivious,Snow Cloak,Thick Fat,ice,ground,50,50,40,30,30,50,6.5,0.4,14.3,1.333,225.0,5120.0,Pig Pokémon
+76,Piloswine,Oblivious,Snow Cloak,Thick Fat,ice,ground,100,100,80,60,60,50,55.8,1.1,123.0,3.583,75.0,5120.0,Swine Pokémon
+77,Mamoswine,Oblivious,Snow Cloak,Thick Fat,ice,ground,110,130,80,70,60,80,291.0,2.5,641.5,8.167,50.0,5120.0,Twin Tusk Pokémon
+78,Delibird,Vital Spirit,Hustle,Insomnia,ice,flying,45,55,45,65,45,75,16.0,0.9,35.3,2.917,45.0,5120.0,Delivery Pokémon
+79,Snorunt,Inner Focus,Ice Body,Moody,ice,NaN,50,50,50,50,50,50,16.8,0.7,37.0,2.333,190.0,5120.0,Snow Hat Pokémon
+80,Glalie,Inner Focus,Ice Body,Moody,ice,NaN,80,80,80,80,80,80,256.5,1.5,565.5,4.917,75.0,5120.0,Face Pokémon
+81,Froslass,Snow Cloak,NaN,Cursed Body,ice,ghost,70,80,70,80,70,110,26.6,1.3,58.6,4.25,75.0,5120.0,Snow Land Pokémon
+82,Baltoy,Levitate,NaN,NaN,ground,psychic,40,40,55,40,70,55,21.5,0.5,47.4,1.667,255.0,5120.0,Clay Doll Pokémon
+83,Claydol,Levitate,NaN,NaN,ground,psychic,60,70,105,70,120,75,108.0,1.5,238.1,4.917,90.0,5120.0,Clay Doll Pokémon
+84,Mudbray,Own Tempo,Stamina,Inner Focus,ground,NaN,70,100,70,45,55,45,110.0,1.0,242.5,3.25,190.0,5120.0,Donkey Pokémon
+85,Mudsdale,Own Tempo,Stamina,Inner Focus,ground,NaN,100,125,100,55,85,35,920.0,2.5,2028.2,8.167,60.0,5120.0,Draft Horse Pokémon
+86,Dwebble,Sturdy,Shell Armor,Weak Armor,bug,rock,50,65,85,35,35,55,14.5,0.3,32.0,1.0,190.0,5120.0,Rock Inn Pokémon
+87,Crustle,Sturdy,Shell Armor,Weak Armor,bug,rock,70,105,125,65,75,45,200.0,1.4,440.9,4.583,75.0,5120.0,Stone Home Pokémon
+88,Golett,Iron Fist,Klutz,No Guard,ground,ghost,59,74,50,35,50,35,92.0,1.0,202.8,3.25,190.0,6400.0,Automaton Pokémon
+89,Golurk,Iron Fist,Klutz,No Guard,ground,ghost,89,124,80,55,80,55,330.0,2.8,727.5,9.167,90.0,6400.0,Automaton Pokémon
+90,Munna,Forewarn,Synchronize,Telepathy,psychic,NaN,76,25,45,67,55,24,23.3,0.6,51.4,2.0,190.0,2560.0,Dream Eater Pokémon
+91,Musharna,Forewarn,Synchronize,Telepathy,psychic,NaN,116,55,85,107,95,29,60.5,1.1,133.4,3.583,75.0,2560.0,Drowsing Pokémon
+92,Natu,Synchronize,Early Bird,Magic Bounce,psychic,flying,40,50,45,70,45,70,2.0,0.2,4.4,0.667,190.0,5120.0,Little Bird Pokémon
+93,Xatu,Synchronize,Early Bird,Magic Bounce,psychic,flying,65,75,70,95,70,95,15.0,1.5,33.1,4.917,75.0,5120.0,Mystic Pokémon
+94,Stufful,Fluffy,Klutz,Cute Charm,normal,fighting,70,75,50,45,50,50,6.8,0.5,15.0,1.667,140.0,3840.0,Flailing Pokémon
+95,Bewear,Fluffy,Klutz,Unnerve,normal,fighting,120,125,80,55,60,60,135.0,2.1,297.6,6.917,70.0,3840.0,Strong Arm Pokémon
+96,Snover,Snow Warning,NaN,Soundproof,grass,ice,60,62,50,62,60,40,50.5,1.0,111.3,3.25,120.0,5120.0,Frosted Tree Pokémon
+97,Abomasnow,Snow Warning,NaN,Soundproof,grass,ice,90,92,75,92,85,60,135.5,2.2,298.7,7.25,60.0,5120.0,Frosted Tree Pokémon
+98,Krabby,Hyper Cutter,Shell Armor,Sheer Force,water,NaN,30,105,90,25,25,50,6.5,0.4,14.3,1.333,225.0,5120.0,River Crab Pokémon
+99,Kingler,Hyper Cutter,Shell Armor,Sheer Force,water,NaN,55,130,115,50,50,75,60.0,1.3,132.3,4.25,60.0,5120.0,Pincer Pokémon
+100,Wooper,Damp,Water Absorb,Unaware,water,ground,55,45,45,25,25,15,8.5,0.4,18.7,1.333,255.0,5120.0,Water Fish Pokémon
+101,Quagsire,Damp,Water Absorb,Unaware,water,ground,95,85,85,65,65,35,75.0,1.4,165.3,4.583,90.0,5120.0,Water Fish Pokémon
+102,Corphish,Hyper Cutter,Shell Armor,Adaptability,water,NaN,43,80,65,50,35,35,11.5,0.6,25.4,2.0,205.0,3840.0,Ruffian Pokémon
+103,Crawdaunt,Hyper Cutter,Shell Armor,Adaptability,water,dark,63,120,85,90,55,55,32.8,1.1,72.3,3.583,155.0,3840.0,Rogue Pokémon
+104,Nincada,Compoundeyes,NaN,Run Away,bug,ground,31,45,90,30,30,40,5.5,0.5,12.1,1.667,255.0,3840.0,Trainee Pokémon
+105,Ninjask,Speed Boost,NaN,Infiltrator,bug,flying,61,90,45,50,50,160,12.0,0.8,26.5,2.583,120.0,3840.0,Ninja Pokémon
+106,Shedinja,Wonder Guard,NaN,NaN,bug,ghost,1,90,45,30,30,40,1.2,0.8,2.6,2.583,45.0,3840.0,Shed Pokémon
+107,Tyrogue,Guts,Steadfast,Vital Spirit,fighting,NaN,35,35,35,35,35,35,21.0,0.7,46.3,2.333,75.0,6400.0,Scuffle Pokémon
+108,Hitmonlee,Limber,Reckless,Unburden,fighting,NaN,50,120,53,35,110,87,49.8,1.5,109.8,4.917,45.0,6400.0,Kicking Pokémon
+109,Hitmonchan,Keen Eye,Iron Fist,Inner Focus,fighting,NaN,50,105,79,35,110,76,50.2,1.4,110.7,4.583,45.0,6400.0,Punching Pokémon
+110,Hitmontop,Intimidate,Technician,Steadfast,fighting,NaN,50,95,95,35,110,70,48.0,1.4,105.8,4.583,45.0,6400.0,Handstand Pokémon
+111,Pancham,Iron Fist,Mold Breaker,Scrappy,fighting,NaN,67,82,62,46,48,43,8.0,0.6,17.6,2.0,220.0,6400.0,Playful Pokémon
+112,Pangoro,Iron Fist,Mold Breaker,Scrappy,fighting,dark,95,124,78,69,71,58,136.0,2.1,299.8,6.917,65.0,6400.0,Daunting Pokémon
+113,Klink,Plus,Minus,Clear Body,steel,NaN,40,55,70,45,60,30,21.0,0.3,46.3,1.0,130.0,5120.0,Gear Pokémon
+114,Klang,Plus,Minus,Clear Body,steel,NaN,60,80,95,70,85,50,51.0,0.6,112.4,2.0,60.0,5120.0,Gear Pokémon
+115,Klinklang,Plus,Minus,Clear Body,steel,NaN,60,100,115,70,85,90,81.0,0.6,178.6,2.0,30.0,5120.0,Gear Pokémon
+116,Combee,Honey Gather,NaN,Hustle,bug,flying,30,30,42,30,42,70,5.5,0.3,12.1,1.0,120.0,3840.0,Tiny Bee Pokémon
+117,Vespiquen,Pressure,NaN,Unnerve,bug,flying,70,80,102,80,102,40,38.5,1.2,84.9,3.917,45.0,3840.0,Beehive Pokémon
+118,Bronzor,Levitate,Heatproof,Heavy Metal,steel,psychic,57,24,86,24,86,23,60.5,0.5,133.4,1.667,255.0,5120.0,Bronze Pokémon
+119,Bronzong,Levitate,Heatproof,Heavy Metal,steel,psychic,67,89,116,79,116,33,187.0,1.3,412.3,4.25,90.0,5120.0,Bronze Bell Pokémon
+120,Ralts,Synchronize,Trace,Telepathy,psychic,fairy,28,25,25,45,35,40,6.6,0.4,14.6,1.333,235.0,5120.0,Feeling Pokémon
+121,Kirlia,Synchronize,Trace,Telepathy,psychic,fairy,38,35,35,65,55,50,20.2,0.8,44.5,2.583,120.0,5120.0,Emotion Pokémon
+122,Gardevoir,Synchronize,Trace,Telepathy,psychic,fairy,68,65,65,125,115,80,48.4,1.6,106.7,5.25,45.0,5120.0,Embrace Pokémon
+123,Gallade,Steadfast,NaN,Justified,psychic,fighting,68,125,65,65,115,80,52.0,1.6,114.6,5.25,45.0,5120.0,Blade Pokémon
+124,Drifloon,Aftermath,Unburden,Flare Boost,ghost,flying,90,50,34,60,44,70,1.2,0.4,2.6,1.333,125.0,7680.0,Balloon Pokémon
+125,Drifblim,Aftermath,Unburden,Flare Boost,ghost,flying,150,80,44,90,54,80,15.0,1.2,33.1,3.917,60.0,7680.0,Blimp Pokémon
+126,Gossifleur,Cotton Down,Regenerator,Effect Spore,grass,NaN,40,40,60,40,60,10,2.2,0.4,4.9,1.333,190.0,5120.0,Flowering Pokémon
+127,Eldegoss,Cotton Down,Regenerator,Effect Spore,grass,NaN,60,50,90,80,120,60,2.5,0.5,5.5,1.667,75.0,5120.0,Cotton Bloom Pokémon
+128,Cherubi,Chlorophyll,NaN,NaN,grass,NaN,45,35,45,62,53,35,3.3,0.4,7.3,1.333,190.0,5120.0,Cherry Pokémon
+129,Cherrim,Flower Gift,NaN,NaN,grass,NaN,70,60,70,87,78,85,9.3,0.5,20.5,1.667,75.0,5120.0,Blossom Pokémon
+130,Stunky,Stench,Aftermath,Keen Eye,poison,dark,63,63,47,41,41,74,19.2,0.4,42.3,1.333,225.0,5120.0,Skunk Pokémon
+131,Skuntank,Stench,Aftermath,Keen Eye,poison,dark,103,93,67,71,61,84,38.0,1.0,83.8,3.25,60.0,5120.0,Skunk Pokémon
+132,Tympole,Swift Swim,Hydration,Water Absorb,water,NaN,50,50,40,50,40,64,4.5,0.5,9.9,1.667,255.0,5120.0,Tadpole Pokémon
+133,Palpitoad,Swift Swim,Hydration,Water Absorb,water,ground,75,65,55,65,55,69,17.0,0.8,37.5,2.583,120.0,5120.0,Vibration Pokémon
+134,Seismitoad,Swift Swim,Poison Touch,Water Absorb,water,ground,105,95,75,85,75,74,62.0,1.5,136.7,4.917,45.0,5120.0,Vibration Pokémon
+135,Duskull,Levitate,NaN,Frisk,ghost,NaN,20,40,90,30,90,25,15.0,0.8,33.1,2.583,190.0,6400.0,Requiem Pokémon
+136,Dusclops,Pressure,NaN,Frisk,ghost,NaN,40,70,130,60,130,25,30.6,1.6,67.5,5.25,90.0,6400.0,Beckon Pokémon
+137,Dusknoir,Pressure,NaN,Frisk,ghost,NaN,45,100,135,65,135,45,106.6,2.2,235.0,7.25,45.0,6400.0,Gripper Pokémon
+138,Machop,Guts,No Guard,Steadfast,fighting,NaN,70,80,50,35,35,35,19.5,0.8,43.0,2.583,180.0,5120.0,Superpower Pokémon
+139,Machoke,Guts,No Guard,Steadfast,fighting,NaN,80,100,70,50,60,45,70.5,1.5,155.4,4.917,90.0,5120.0,Superpower Pokémon
+140,Machamp,Guts,No Guard,Steadfast,fighting,NaN,90,130,80,65,85,55,130.0,1.6,286.6,5.25,45.0,5120.0,Superpower Pokémon
+141,Gastly,Levitate,NaN,NaN,ghost,poison,30,35,30,100,35,80,0.1,1.3,0.2,4.25,190.0,5120.0,Gas Pokémon
+142,Haunter,Levitate,NaN,NaN,ghost,poison,45,50,45,115,55,95,0.1,1.6,0.2,5.25,90.0,5120.0,Gas Pokémon
+143,Gengar,Cursed Body,NaN,NaN,ghost,poison,60,65,60,130,75,110,40.5,1.5,89.3,4.917,45.0,5120.0,Shadow Pokémon
+144,Magikarp,Swift Swim,NaN,Rattled,water,NaN,20,10,55,15,20,80,10.0,0.9,22.0,2.917,255.0,1280.0,Fish Pokémon
+145,Gyarados,Intimidate,NaN,Moxie,water,flying,95,125,79,60,100,81,235.0,6.5,518.1,21.333,45.0,1280.0,Atrocious Pokémon
+146,Goldeen,Swift Swim,Water Veil,Lightning Rod,water,NaN,45,67,60,35,50,63,15.0,0.6,33.1,2.0,225.0,5120.0,Goldfish Pokémon
+147,Seaking,Swift Swim,Water Veil,Lightning Rod,water,NaN,80,92,65,65,80,68,39.0,1.3,86.0,4.25,60.0,5120.0,Goldfish Pokémon
+148,Remoraid,Hustle,Sniper,Moody,water,NaN,35,65,35,65,35,65,12.0,0.6,26.5,2.0,190.0,5120.0,Jet Pokémon
+149,Octillery,Suction Cups,Sniper,Moody,water,NaN,75,105,75,105,75,45,28.5,0.9,62.8,2.917,75.0,5120.0,Jet Pokémon
+150,Shellder,Shell Armor,Skill Link,Overcoat,water,NaN,30,65,100,45,25,40,4.0,0.3,8.8,1.0,190.0,5120.0,Bivalve Pokémon
+151,Cloyster,Shell Armor,Skill Link,Overcoat,water,ice,50,95,180,85,45,70,132.5,1.5,292.1,4.917,60.0,5120.0,Bivalve Pokémon
+152,Feebas,Swift Swim,Oblivious,Adaptability,water,NaN,20,15,20,10,55,80,7.4,0.6,16.3,2.0,255.0,5120.0,Fish Pokémon
+153,Milotic,Marvel Scale,Competitive,Cute Charm,water,NaN,95,60,79,100,125,81,162.0,6.2,357.1,20.333,60.0,5120.0,Tender Pokémon
+154,Basculin,Reckless,Adaptability,Mold Breaker,water,NaN,70,92,65,80,55,98,18.0,1.0,39.7,3.25,25.0,10240.0,Hostile Pokémon
+155,Wishiwashi,Schooling,NaN,NaN,water,NaN,45,20,20,25,25,40,0.3,0.2,0.7,0.667,60.0,3840.0,Small Fry Pokémon
+156,Pyukumuku,Innards Out,NaN,Unaware,water,NaN,55,60,130,30,130,5,1.2,0.3,2.6,1.0,60.0,3840.0,Sea Cucumber Pokémon
+157,Trubbish,Stench,Sticky Hold,Aftermath,poison,NaN,50,50,62,40,62,65,31.0,0.6,68.3,2.0,190.0,5120.0,Trash Bag Pokémon
+158,Garbodor,Stench,Weak Armor,Aftermath,poison,NaN,80,95,82,60,82,75,107.3,1.9,236.6,6.25,60.0,5120.0,Trash Heap Pokémon
+159,Sizzlipede,Flash Fire,White Smoke,Flame Body,fire,bug,50,65,45,50,50,45,1.0,0.7,2.2,2.333,190.0,5120.0,Radiator Pokémon
+160,Centiskorch,Flash Fire,White Smoke,Flame Body,fire,bug,100,115,65,90,90,65,120.0,3.0,264.6,9.833,75.0,5120.0,Radiator Pokémon
+161,Rolycoly,Steam Engine,Heatproof,Flash Fire,rock,NaN,30,40,50,40,50,30,12.0,0.3,26.5,1.0,255.0,3840.0,Coal Pokémon
+162,Carkol,Steam Engine,Flame Body,Flash Fire,rock,fire,80,60,90,60,70,50,78.0,1.1,172.0,3.583,120.0,3840.0,Coal Pokémon
+163,Coalossal,Steam Engine,Flame Body,Flash Fire,rock,fire,110,80,120,80,90,30,310.5,2.8,684.5,9.167,45.0,3840.0,Coal Pokémon
+164,Diglett,Sand Veil,Arena Trap,Sand Force,ground,NaN,10,55,25,35,45,95,0.8,0.2,1.8,0.667,255.0,5120.0,Mole Pokémon
+165,Dugtrio,Sand Veil,Arena Trap,Sand Force,ground,NaN,35,100,50,50,70,120,33.3,0.7,73.4,2.333,50.0,5120.0,Mole Pokémon
+166,Drilbur,Sand Rush,Sand Force,Mold Breaker,ground,NaN,60,85,40,30,45,68,8.5,0.3,18.7,1.0,120.0,5120.0,Mole Pokémon
+167,Excadrill,Sand Rush,Sand Force,Mold Breaker,ground,steel,110,135,60,50,65,88,40.4,0.7,89.1,2.333,60.0,5120.0,Subterrene Pokémon
+168,Roggenrola,Sturdy,Weak Armor,Sand Force,rock,NaN,55,75,85,25,25,15,18.0,0.4,39.7,1.333,255.0,3840.0,Mantle Pokémon
+169,Boldore,Sturdy,Weak Armor,Sand Force,rock,NaN,70,105,105,50,40,20,102.0,0.9,224.9,2.917,120.0,3840.0,Ore Pokémon
+170,Gigalith,Sturdy,Sand Stream,Sand Force,rock,NaN,85,135,130,60,80,25,260.0,1.7,573.2,5.583,45.0,3840.0,Compressed Pokémon
+171,Timburr,Guts,Sheer Force,Iron Fist,fighting,NaN,75,80,55,25,35,35,12.5,0.6,27.6,2.0,180.0,5120.0,Muscular Pokémon
+172,Gurdurr,Guts,Sheer Force,Iron Fist,fighting,NaN,85,105,85,40,50,40,40.0,1.2,88.2,3.917,90.0,5120.0,Muscular Pokémon
+173,Conkeldurr,Guts,Sheer Force,Iron Fist,fighting,NaN,105,140,95,55,65,45,87.0,1.4,191.8,4.583,45.0,5120.0,Muscular Pokémon
+174,Woobat,Unaware,Klutz,Simple,psychic,flying,65,45,43,55,43,72,2.1,0.4,4.6,1.333,190.0,3840.0,Bat Pokémon
+175,Swoobat,Unaware,Klutz,Simple,psychic,flying,67,57,55,77,55,114,10.5,0.9,23.1,2.917,45.0,3840.0,Courting Pokémon
+176,Noibat,Frisk,Infiltrator,Telepathy,flying,dragon,40,30,35,45,40,55,8.0,0.5,17.6,1.667,190.0,5120.0,Sound Wave Pokémon
+177,Noivern,Frisk,Infiltrator,Telepathy,flying,dragon,85,70,80,97,80,123,85.0,1.5,187.4,4.917,45.0,5120.0,Sound Wave Pokémon
+178,Onix,Rock Head,Sturdy,Weak Armor,rock,ground,35,45,160,30,45,70,210.0,8.8,463.0,28.833,45.0,6400.0,Rock Snake Pokémon
+179,Steelix,Rock Head,Sturdy,Sheer Force,steel,ground,75,85,200,55,65,30,400.0,9.2,881.8,30.167,25.0,6400.0,Iron Snake Pokémon
+180,Arrokuda,Swift Swim,NaN,Propeller Tail,water,NaN,41,63,40,40,30,66,1.0,0.5,2.2,1.667,255.0,5120.0,Rush Pokémon
+181,Barraskewda,Swift Swim,NaN,Propeller Tail,water,NaN,61,123,60,60,50,136,30.0,1.3,66.1,4.25,60.0,5120.0,Skewer Pokémon
+182,Meowth,Pickup,Tough Claws,Unnerve,steel,NaN,50,65,55,40,40,40,4.2,0.4,9.3,1.333,255.0,5120.0,Scratch Cat Pokémon
+183,Perrserker,Battle Armor,Tough Claws,Steely Spirit,steel,NaN,70,110,100,50,60,50,28.0,0.8,61.7,2.583,90.0,5120.0,Viking Pokémon
+184,Persian,Limber,Technician,Unnerve,normal,NaN,65,70,60,65,65,115,32.0,1.0,70.5,3.25,90.0,5120.0,Classy Cat Pokémon
+185,Milcery,Sweet Veil,NaN,Aroma Veil,fairy,NaN,45,40,40,50,61,34,0.3,0.2,0.7,0.667,200.0,5120.0,Cream Pokémon
+186,Alcremie,Sweet Veil,NaN,Aroma Veil,fairy,NaN,65,60,75,110,121,64,0.5,0.3,1.1,1.0,100.0,5120.0,Cream Pokémon
+187,Cutiefly,Honey Gather,Shield Dust,Sweet Veil,bug,fairy,40,45,40,55,40,84,0.2,0.1,0.4,0.333,190.0,5120.0,Bee Fly Pokémon
+188,Ribombee,Honey Gather,Shield Dust,Sweet Veil,bug,fairy,60,55,60,95,70,124,0.5,0.2,1.1,0.667,75.0,5120.0,Bee Fly Pokémon
+189,Ferroseed,Iron Barbs,NaN,NaN,grass,steel,44,50,91,24,86,10,18.8,0.6,41.4,2.0,255.0,5120.0,Thorn Seed Pokémon
+190,Ferrothorn,Iron Barbs,NaN,Anticipation,grass,steel,74,94,131,54,116,20,110.0,1.0,242.5,3.25,90.0,5120.0,Thorn Pod Pokémon
+191,Pumpkaboo,Pickup,Frisk,Insomnia,ghost,grass,49,66,70,44,55,51,5.0,0.4,11.0,1.333,120.0,5120.0,Pumpkin Pokémon
+192,Gourgeist,Pickup,Frisk,Insomnia,ghost,grass,65,90,122,58,75,84,12.5,0.9,27.6,2.917,60.0,5120.0,Pumpkin Pokémon
+193,Pichu,Static,NaN,Lightning Rod,electric,NaN,20,40,15,35,35,60,2.0,0.3,4.4,1.0,190.0,2560.0,Tiny Mouse Pokémon
+194,Pikachu,Static,NaN,Lightning Rod,electric,NaN,35,55,40,50,50,90,6.0,0.4,13.2,1.333,190.0,2560.0,Mouse Pokémon
+195,Raichu,Static,NaN,Lightning Rod,electric,NaN,60,90,55,90,80,110,30.0,0.8,66.1,2.583,75.0,2560.0,Mouse Pokémon
+196,Eevee,Run Away,Adaptability,Anticipation,normal,NaN,55,55,50,45,65,55,6.5,0.3,14.3,1.0,45.0,8960.0,Evolution Pokémon
+197,Vaporeon,Water Absorb,NaN,Hydration,water,NaN,130,65,60,110,95,65,29.0,1.0,63.9,3.25,45.0,8960.0,Bubble Jet Pokémon
+198,Jolteon,Volt Absorb,NaN,Quick Feet,electric,NaN,65,65,60,110,95,130,24.5,0.8,54.0,2.583,45.0,8960.0,Lightning Pokémon
+199,Flareon,Flash Fire,NaN,Guts,fire,NaN,65,130,60,95,110,65,25.0,0.9,55.1,2.917,45.0,8960.0,Flame Pokémon
+200,Espeon,Synchronize,NaN,Magic Bounce,psychic,NaN,65,65,60,130,95,110,26.5,0.9,58.4,2.917,45.0,8960.0,Sun Pokémon
+201,Umbreon,Synchronize,NaN,Inner Focus,dark,NaN,95,65,110,60,130,65,27.0,1.0,59.5,3.25,45.0,8960.0,Moonlight Pokémon
+202,Leafeon,Leaf Guard,NaN,Chlorophyll,grass,NaN,65,110,130,60,65,95,25.5,1.0,56.2,3.25,45.0,8960.0,Verdant Pokémon
+203,Glaceon,Snow Cloak,NaN,Ice Body,ice,NaN,65,60,110,130,95,65,25.9,0.8,57.1,2.583,45.0,8960.0,Fresh Snow Pokémon
+204,Sylveon,Cute Charm,NaN,Pixilate,fairy,NaN,95,65,65,110,130,60,23.5,1.0,51.8,3.25,45.0,8960.0,Intertwining Pokémon
+205,Applin,Ripen,Gluttony,Bulletproof,grass,dragon,40,40,80,40,40,20,0.5,0.2,1.1,0.667,255.0,5120.0,Apple Core Pokémon
+206,Flapple,Ripen,Gluttony,Hustle,grass,dragon,70,110,80,95,60,70,1.0,0.3,2.2,1.0,45.0,5120.0,Apple Wing Pokémon
+207,Appletun,Ripen,Gluttony,Thick Fat,grass,dragon,110,85,80,100,80,30,13.0,0.4,28.7,1.333,45.0,5120.0,Apple Nectar Pokémon
+208,Espurr,Keen Eye,Infiltrator,Own Tempo,psychic,NaN,62,48,54,63,60,68,3.5,0.3,7.7,1.0,190.0,5120.0,Restraint Pokémon
+209,Meowstic,Keen Eye,Infiltrator,Prankster,psychic,NaN,74,48,76,83,81,104,8.5,0.6,18.7,2.0,75.0,5120.0,Constraint Pokémon
+210,Swirlix,Sweet Veil,NaN,Unburden,fairy,NaN,62,48,66,59,57,49,3.5,0.4,7.7,1.333,200.0,5120.0,Cotton Candy Pokémon
+211,Slurpuff,Sweet Veil,NaN,Unburden,fairy,NaN,82,80,86,85,75,72,5.0,0.8,11.0,2.583,140.0,5120.0,Meringue Pokémon
+212,Spritzee,Healer,NaN,Aroma Veil,fairy,NaN,78,52,60,63,65,23,0.5,0.2,1.1,0.667,200.0,5120.0,Perfume Pokémon
+213,Aromatisse,Healer,NaN,Aroma Veil,fairy,NaN,101,72,72,99,89,29,15.5,0.8,34.2,2.583,140.0,5120.0,Fragrance Pokémon
+214,Dewpider,Water Bubble,NaN,Water Absorb,water,bug,38,40,52,40,72,27,4.0,0.3,8.8,1.0,200.0,3840.0,Water Bubble Pokémon
+215,Araquanid,Water Bubble,NaN,Water Absorb,water,bug,68,70,92,50,132,42,82.0,1.8,180.8,5.917,100.0,3840.0,Water Bubble Pokémon
+216,Wynaut,Shadow Tag,NaN,Telepathy,psychic,NaN,95,23,48,23,48,23,14.0,0.6,30.9,2.0,125.0,5120.0,Bright Pokémon
+217,Wobbuffet,Shadow Tag,NaN,Telepathy,psychic,NaN,190,33,58,33,58,33,28.5,1.3,62.8,4.25,45.0,5120.0,Patient Pokémon
+218,Farfetchd,Steadfast,NaN,Scrappy,fighting,NaN,52,95,55,58,62,55,15.0,0.8,33.1,2.583,45.0,5120.0,Wild Duck Pokémon
+219,Sirfetchd,Steadfast,NaN,Scrappy,fighting,NaN,62,135,95,68,82,65,117.0,0.8,257.9,2.583,45.0,5120.0,Wild Duck Pokémon
+220,Chinchou,Volt Absorb,Illuminate,Water Absorb,water,electric,75,38,38,56,56,67,12.0,0.5,26.5,1.667,190.0,5120.0,Angler Pokémon
+221,Lanturn,Volt Absorb,Illuminate,Water Absorb,water,electric,125,58,58,76,76,67,22.5,1.2,49.6,3.917,75.0,5120.0,Light Pokémon
+222,Croagunk,Anticipation,Dry Skin,Poison Touch,poison,fighting,48,61,40,61,40,50,23.0,0.7,50.7,2.333,140.0,2560.0,Toxic Mouth Pokémon
+223,Toxicroak,Anticipation,Dry Skin,Poison Touch,poison,fighting,83,106,65,86,65,85,44.4,1.3,97.9,4.25,75.0,5120.0,Toxic Mouth Pokémon
+224,Scraggy,Shed Skin,Moxie,Intimidate,dark,fighting,50,75,70,35,70,48,11.8,0.6,26.0,2.0,180.0,3840.0,Shedding Pokémon
+225,Scrafty,Shed Skin,Moxie,Intimidate,dark,fighting,65,90,115,45,115,58,30.0,1.1,66.1,3.583,90.0,3840.0,Hoodlum Pokémon
+226,Stunfisk,Mimicry,NaN,NaN,ground,steel,109,81,99,66,84,32,11.0,0.7,24.3,2.333,75.0,5120.0,Trap Pokémon
+227,Shuckle,Sturdy,Gluttony,Contrary,bug,rock,20,10,230,10,230,5,20.5,0.6,45.2,2.0,190.0,5120.0,Mold Pokémon
+228,Barboach,Oblivious,Anticipation,Hydration,water,ground,50,48,43,46,41,60,1.9,0.4,4.2,1.333,190.0,5120.0,Whiskers Pokémon
+229,Whiscash,Oblivious,Anticipation,Hydration,water,ground,110,78,73,76,71,60,23.6,0.9,52.0,2.917,75.0,5120.0,Whiskers Pokémon
+230,Shellos,Sticky Hold,Storm Drain,Sand Force,water,NaN,76,48,48,57,62,34,6.3,0.3,13.9,1.0,190.0,5120.0,Sea Slug Pokémon
+231,Gastrodon,Sticky Hold,Storm Drain,Sand Force,water,ground,111,83,68,92,82,39,29.9,0.9,65.9,2.917,75.0,5120.0,Sea Slug Pokémon
+232,Wimpod,Wimp Out,NaN,NaN,bug,water,25,35,40,20,30,80,12.0,0.5,26.5,1.667,90.0,5120.0,Turn Tail Pokémon
+233,Golisopod,Emergency Exit,NaN,NaN,bug,water,75,125,140,60,90,40,108.0,2.0,238.1,6.583,45.0,5120.0,Hard Scale Pokémon
+234,Binacle,Tough Claws,Sniper,Pickpocket,rock,water,42,52,67,39,56,50,31.0,0.5,68.3,1.667,120.0,5120.0,Two-Handed Pokémon
+235,Barbaracle,Tough Claws,Sniper,Pickpocket,rock,water,72,105,115,54,86,68,96.0,1.3,211.6,4.25,45.0,5120.0,Collective Pokémon
+236,Corsola,Weak Armor,NaN,Cursed Body,ghost,NaN,60,55,100,65,100,30,5.0,0.6,11.0,2.0,60.0,5120.0,Coral Pokémon
+237,Cursola,Weak Armor,NaN,Perish Body,ghost,NaN,60,95,50,145,130,30,0.4,1.0,0.9,3.25,30.0,5120.0,Coral Pokémon
+238,Impidimp,Prankster,Frisk,Pickpocket,dark,fairy,45,45,30,55,40,50,5.5,0.4,12.1,1.333,255.0,5120.0,Wily Pokémon
+239,Morgrem,Prankster,Frisk,Pickpocket,dark,fairy,65,60,45,75,55,70,12.5,0.8,27.6,2.583,120.0,5120.0,Devious Pokémon
+240,Grimmsnarl,Prankster,Frisk,Pickpocket,dark,fairy,95,120,65,95,75,60,61.0,1.5,134.5,4.917,45.0,5120.0,Bulk Up Pokémon
+241,Hatenna,Healer,Anticipation,Magic Bounce,psychic,NaN,42,30,45,56,53,39,3.4,0.4,7.5,1.333,235.0,5120.0,Calm Pokémon
+242,Hattrem,Healer,Anticipation,Magic Bounce,psychic,NaN,57,40,65,86,73,49,4.8,0.6,10.6,2.0,120.0,5120.0,Serene Pokémon
+243,Hatterene,Healer,Anticipation,Magic Bounce,psychic,fairy,57,90,95,136,103,29,5.1,2.1,11.2,6.917,45.0,5120.0,Silent Pokémon
+244,Salandit,Corrosion,NaN,Oblivious,poison,fire,48,44,40,71,40,77,4.8,0.6,10.6,2.0,120.0,5120.0,Toxic Lizard Pokémon
+245,Salazzle,Corrosion,NaN,Oblivious,poison,fire,68,64,60,111,60,117,22.2,1.2,48.9,3.917,45.0,5120.0,Toxic Lizard Pokémon
+246,Pawniard,Defiant,Inner Focus,Pressure,dark,steel,45,85,70,40,40,60,10.2,0.5,22.5,1.667,120.0,5120.0,Sharp Blade Pokémon
+247,Bisharp,Defiant,Inner Focus,Pressure,dark,steel,65,125,100,60,70,70,70.0,1.6,154.3,5.25,45.0,5120.0,Sword Blade Pokémon
+248,Throh,Guts,Inner Focus,Mold Breaker,fighting,NaN,120,100,85,30,85,45,55.5,1.3,122.4,4.25,45.0,5120.0,Judo Pokémon
+249,Sawk,Sturdy,Inner Focus,Mold Breaker,fighting,NaN,75,125,75,30,75,85,51.0,1.4,112.4,4.583,45.0,5120.0,Karate Pokémon
+250,Koffing,Levitate,Neutralizing Gas,Stench,poison,NaN,40,65,95,60,45,35,1.0,0.6,2.2,2.0,190.0,5120.0,Poison Gas Pokémon
+251,Weezing,Levitate,Neutralizing Gas,Misty Surge,poison,fairy,65,90,120,85,70,60,9.5,1.2,20.9,3.917,60.0,5120.0,Poison Gas Pokémon
+252,Bonsly,Sturdy,Rock Head,Rattled,rock,NaN,50,80,95,10,45,10,15.0,0.5,33.1,1.667,255.0,5120.0,Bonsai Pokémon
+253,Sudowoodo,Sturdy,Rock Head,Rattled,rock,NaN,70,100,115,30,65,30,38.0,1.2,83.8,3.917,65.0,5120.0,Imitation Pokémon
+254,Cleffa,Cute Charm,Magic Guard,Friend Guard,fairy,NaN,50,25,28,45,55,15,3.0,0.3,6.6,1.0,150.0,2560.0,Star Shape Pokémon
+255,Clefairy,Cute Charm,Magic Guard,Friend Guard,fairy,NaN,70,45,48,60,65,35,7.5,0.6,16.5,2.0,150.0,2560.0,Fairy Pokémon
+256,Clefable,Cute Charm,Magic Guard,Unaware,fairy,NaN,95,70,73,95,90,60,40.0,1.3,88.2,4.25,25.0,2560.0,Fairy Pokémon
+257,Togepi,Hustle,Serene Grace,Super Luck,fairy,NaN,35,20,65,40,65,20,1.5,0.3,3.3,1.0,190.0,2560.0,Spike Ball Pokémon
+258,Togetic,Hustle,Serene Grace,Super Luck,fairy,flying,55,40,85,80,105,40,3.2,0.6,7.1,2.0,75.0,2560.0,Happiness Pokémon
+259,Togekiss,Hustle,Serene Grace,Super Luck,fairy,flying,85,50,95,120,115,80,38.0,1.5,83.8,4.917,30.0,2560.0,Jubilee Pokémon
+260,Munchlax,Pickup,Thick Fat,Gluttony,normal,NaN,135,85,40,40,85,5,105.0,0.6,231.5,2.0,50.0,10240.0,Big Eater Pokémon
+261,Snorlax,Immunity,Thick Fat,Gluttony,normal,NaN,160,110,65,65,110,30,460.0,2.1,1014.1,6.917,25.0,10240.0,Sleeping Pokémon
+262,Cottonee,Prankster,Infiltrator,Chlorophyll,grass,fairy,40,27,60,37,50,66,0.6,0.3,1.3,1.0,190.0,5120.0,Cotton Puff Pokémon
+263,Whimsicott,Prankster,Infiltrator,Chlorophyll,grass,fairy,60,67,85,77,75,116,6.6,0.7,14.6,2.333,75.0,5120.0,Windveiled Pokémon
+264,Rhyhorn,Lightning Rod,Rock Head,Reckless,ground,rock,80,85,95,30,30,25,115.0,1.0,253.5,3.25,120.0,5120.0,Spikes Pokémon
+265,Rhydon,Lightning Rod,Rock Head,Reckless,ground,rock,105,130,120,45,45,40,120.0,1.9,264.6,6.25,60.0,5120.0,Drill Pokémon
+266,Rhyperior,Lightning Rod,Solid Rock,Reckless,ground,rock,115,140,130,55,55,40,282.8,2.4,623.5,7.833,30.0,5120.0,Drill Pokémon
+267,Gothita,Frisk,Competitive,Shadow Tag,psychic,NaN,45,30,50,55,65,45,5.8,0.4,12.8,1.333,200.0,5120.0,Fixation Pokémon
+268,Gothorita,Frisk,Competitive,Shadow Tag,psychic,NaN,60,45,70,75,85,55,18.0,0.7,39.7,2.333,100.0,5120.0,Manipulate Pokémon
+269,Gothitelle,Frisk,Competitive,Shadow Tag,psychic,NaN,70,55,95,95,110,65,44.0,1.5,97.0,4.917,50.0,5120.0,Astral Body Pokémon
+270,Solosis,Overcoat,Magic Guard,Regenerator,psychic,NaN,45,30,40,105,50,20,1.0,0.3,2.2,1.0,200.0,5120.0,Cell Pokémon
+271,Duosion,Overcoat,Magic Guard,Regenerator,psychic,NaN,65,40,50,125,60,30,8.0,0.6,17.6,2.0,100.0,5120.0,Mitosis Pokémon
+272,Reuniclus,Overcoat,Magic Guard,Regenerator,psychic,NaN,110,65,75,125,85,30,20.1,1.0,44.3,3.25,50.0,5120.0,Multiplying Pokémon
+273,Karrablast,Swarm,Shed Skin,No Guard,bug,NaN,50,75,45,40,45,60,5.9,0.5,13.0,1.667,200.0,3840.0,Clamping Pokémon
+274,Escavalier,Swarm,Shell Armor,Overcoat,bug,steel,70,135,105,60,105,20,33.0,1.0,72.8,3.25,75.0,3840.0,Cavalry Pokémon
+275,Shelmet,Hydration,Shell Armor,Overcoat,bug,NaN,50,40,85,40,65,25,7.7,0.4,17.0,1.333,200.0,3840.0,Snail Pokémon
+276,Accelgor,Hydration,Sticky Hold,Unburden,bug,NaN,80,70,40,100,60,145,25.3,0.8,55.8,2.583,75.0,3840.0,Shell Out Pokémon
+277,Elgyem,Telepathy,Synchronize,Analytic,psychic,NaN,55,55,55,85,55,30,9.0,0.5,19.8,1.667,255.0,5120.0,Cerebral Pokémon
+278,Beheeyem,Telepathy,Synchronize,Analytic,psychic,NaN,75,75,75,125,95,40,34.5,1.0,76.1,3.25,90.0,5120.0,Cerebral Pokémon
+279,Cubchoo,Snow Cloak,Slush Rush,Rattled,ice,NaN,55,70,40,60,40,40,8.5,0.5,18.7,1.667,120.0,5120.0,Chill Pokémon
+280,Beartic,Snow Cloak,Slush Rush,Swift Swim,ice,NaN,95,130,80,70,80,50,260.0,2.6,573.2,8.5,60.0,5120.0,Freezing Pokémon
+281,Rufflet,Keen Eye,Sheer Force,Hustle,normal,flying,70,83,50,37,50,60,10.5,0.5,23.1,1.667,190.0,5120.0,Eaglet Pokémon
+282,Braviary,Keen Eye,Sheer Force,Defiant,normal,flying,100,123,75,57,75,80,41.0,1.5,90.4,4.917,60.0,5120.0,Valiant Pokémon
+283,Vullaby,Big Pecks,Overcoat,Weak Armor,dark,flying,70,55,75,45,65,60,9.0,0.5,19.8,1.667,190.0,5120.0,Diapered Pokémon
+284,Mandibuzz,Big Pecks,Overcoat,Weak Armor,dark,flying,110,65,105,55,95,80,39.5,1.2,87.1,3.917,60.0,5120.0,Bone Vulture Pokémon
+285,Skorupi,Battle Armor,Sniper,Keen Eye,poison,bug,40,50,90,30,55,65,12.0,0.8,26.5,2.583,120.0,5120.0,Scorpion Pokémon
+286,Drapion,Battle Armor,Sniper,Keen Eye,poison,dark,70,90,110,60,75,95,61.5,1.3,135.6,4.25,45.0,5120.0,Ogre Scorp Pokémon
+287,Litwick,Flash Fire,Flame Body,Infiltrator,ghost,fire,50,30,55,65,55,20,3.1,0.3,6.8,1.0,190.0,5120.0,Candle Pokémon
+288,Lampent,Flash Fire,Flame Body,Infiltrator,ghost,fire,60,40,60,95,60,55,13.0,0.6,28.7,2.0,90.0,5120.0,Lamp Pokémon
+289,Chandelure,Flash Fire,Flame Body,Infiltrator,ghost,fire,60,55,90,145,90,80,34.3,1.0,75.6,3.25,45.0,5120.0,Luring Pokémon
+290,Inkay,Contrary,Suction Cups,Infiltrator,dark,psychic,53,54,53,37,46,45,3.5,0.4,7.7,1.333,190.0,5120.0,Revolving Pokémon
+291,Malamar,Contrary,Suction Cups,Infiltrator,dark,psychic,86,92,88,68,75,73,47.0,1.5,103.6,4.917,80.0,5120.0,Overturning Pokémon
+292,Sneasel,Inner Focus,Keen Eye,Pickpocket,dark,ice,55,95,55,35,75,115,28.0,0.9,61.7,2.917,60.0,5120.0,Sharp Claw Pokémon
+293,Weavile,Pressure,NaN,Pickpocket,dark,ice,70,120,65,45,85,125,34.0,1.1,75.0,3.583,45.0,5120.0,Sharp Claw Pokémon
+294,Sableye,Keen Eye,Stall,Prankster,dark,ghost,50,75,75,65,65,50,11.0,0.5,24.3,1.667,45.0,6400.0,Darkness Pokémon
+295,Mawile,Hyper Cutter,Intimidate,Sheer Force,steel,fairy,50,85,85,55,55,50,11.5,0.6,25.4,2.0,45.0,5120.0,Deceiver Pokémon
+296,Maractus,Water Absorb,Chlorophyll,Storm Drain,grass,NaN,75,86,67,106,67,60,28.0,1.0,61.7,3.25,255.0,5120.0,Cactus Pokémon
+297,Sigilyph,Wonder Skin ,Magic Guard,Tinted Lens,psychic,flying,72,58,80,103,80,97,14.0,1.4,30.9,4.583,45.0,5120.0,Avianoid Pokémon
+298,Riolu,Steadfast,Inner Focus,Prankster,fighting,NaN,40,70,40,35,40,60,20.2,0.7,44.5,2.333,75.0,6400.0,Emanation Pokémon
+299,Lucario,Steadfast,Inner Focus,Justified,fighting,steel,70,110,70,115,70,90,54.0,1.2,119.0,3.917,45.0,6400.0,Aura Pokémon
+300,Torkoal,White Smoke,Drought,Shell Armor,fire,NaN,70,85,140,85,70,20,80.4,0.5,177.2,1.667,90.0,5120.0,Coal Pokémon
+301,Mimikyu,Disguise,NaN,NaN,ghost,fairy,55,90,80,50,105,96,0.7,0.2,1.5,0.667,45.0,5120.0,Disguise Pokémon
+302,Cufant,Sheer Force,NaN,Heavy Metal,steel,NaN,72,80,49,40,49,40,100.0,1.2,220.5,3.917,190.0,6400.0,Copperderm Pokémon
+303,Copperajah,Sheer Force,NaN,Heavy Metal,steel,NaN,122,130,69,80,69,30,650.0,3.0,1433.0,9.833,90.0,6400.0,Copperderm Pokémon
+304,Qwilfish,Poison Point,Swift Swim,Intimidate,water,poison,65,95,85,55,55,85,3.9,0.5,8.6,1.667,45.0,5120.0,Balloon Pokémon
+305,Frillish,Water Absorb,Cursed Body,Damp,water,ghost,55,40,50,65,85,40,33.0,1.2,72.8,3.917,190.0,5120.0,Floating Pokémon
+306,Jellicent,Water Absorb,Cursed Body,Damp,water,ghost,100,60,70,85,105,60,135.0,2.2,297.6,7.25,60.0,5120.0,Floating Pokémon
+307,Mareanie,Merciless,Limber,Regenerator,poison,water,50,53,62,43,52,45,8.0,0.4,17.6,1.333,190.0,5120.0,Brutal Star Pokémon
+308,Toxapex,Merciless,Limber,Regenerator,poison,water,50,63,152,53,142,35,14.5,0.7,32.0,2.333,75.0,5120.0,Brutal Star Pokémon
+309,Cramorant,Gulp Missile,NaN,NaN,flying,water,70,85,55,85,95,85,18.0,0.8,39.7,2.583,45.0,5120.0,Gulp Pokémon
+310,Toxel,Rattled,Static,Klutz,electric,poison,40,38,35,54,35,40,11.0,0.4,24.3,1.333,75.0,6400.0,Baby Pokémon
+311,Toxtricity,Punk Rock,Plus,Technician,electric,poison,75,98,70,114,70,75,40.0,1.6,88.2,5.25,45.0,6400.0,Punk Pokémon
+312,Silicobra,Sand Spit,Shed Skin,Sand Veil,ground,NaN,52,57,75,35,50,46,7.6,2.2,16.8,7.25,255.0,5120.0,Sand Snake Pokémon
+313,Sandaconda,Sand Spit,Shed Skin,Sand Veil,ground,NaN,72,107,125,65,70,71,65.5,3.8,144.4,12.5,120.0,5120.0,Sand Snake Pokémon
+314,Hippopotas,Sand Stream,NaN,Sand Force,ground,NaN,68,72,78,38,42,32,49.5,0.8,109.1,2.583,140.0,7680.0,Hippo Pokémon
+315,Hippowdon,Sand Stream,NaN,Sand Force,ground,NaN,108,112,118,68,72,47,300.0,2.0,661.4,6.583,60.0,7680.0,Heavyweight Pokémon
+316,Durant,Swarm,Hustle,Truant,bug,steel,58,109,112,48,48,109,33.0,0.3,72.8,1.0,90.0,5120.0,Iron Ant Pokémon
+317,Heatmor,Gluttony,Flash Fire,White Smoke,fire,NaN,85,97,66,105,66,65,58.0,1.4,127.9,4.583,90.0,5120.0,Anteater Pokémon
+318,Helioptile,Dry Skin,Sand Veil,Solar Power,electric,normal,44,38,33,61,43,70,6.0,0.5,13.2,1.667,190.0,5120.0,Generator Pokémon
+319,Heliolisk,Dry Skin,Sand Veil,Solar Power,electric,normal,62,55,52,109,94,109,21.0,1.0,46.3,3.25,75.0,5120.0,Generator Pokémon
+320,Hawlucha,Limber,Unburden,Mold Breaker,fighting,flying,78,92,75,74,63,118,21.5,0.8,47.4,2.583,100.0,5120.0,Wrestling Pokémon
+321,Trapinch,Hyper Cutter,Arena Trap,Sheer Force,ground,NaN,45,100,45,45,45,10,15.0,0.7,33.1,2.333,255.0,5120.0,Ant Pit Pokémon
+322,Vibrava,Levitate,NaN,NaN,ground,dragon,50,70,50,50,50,70,15.3,1.1,33.7,3.583,120.0,5120.0,Vibration Pokémon
+323,Flygon,Levitate,NaN,NaN,ground,dragon,80,100,80,80,80,100,82.0,2.0,180.8,6.583,45.0,5120.0,Mystic Pokémon
+324,Axew,Rivalry,Mold Breaker,Unnerve,dragon,NaN,46,87,60,30,40,57,18.0,0.6,39.7,2.0,75.0,10240.0,Tusk Pokémon
+325,Fraxure,Rivalry,Mold Breaker,Unnerve,dragon,NaN,66,117,70,40,50,67,36.0,1.0,79.4,3.25,60.0,10240.0,Axe Jaw Pokémon
+326,Haxorus,Rivalry,Mold Breaker,Unnerve,dragon,NaN,76,147,90,60,70,97,105.5,1.8,232.6,5.917,45.0,10240.0,Axe Jaw Pokémon
+327,Yamask,Wandering Spirit,NaN,NaN,ground,ghost,38,55,85,30,65,30,1.5,0.5,3.3,1.667,190.0,6400.0,Spirit Pokémon
+328,Runerigus,Wandering Spirit,NaN,NaN,ground,ghost,58,95,145,50,105,30,66.6,1.6,146.8,5.25,90.0,6400.0,Grudge Pokémon
+329,Cofagrigus,Mummy,NaN,NaN,ghost,NaN,58,50,145,95,105,30,76.5,1.7,168.7,5.583,90.0,6400.0,Coffin Pokémon
+330,Honedge,No Guard,NaN,NaN,steel,ghost,45,80,100,35,37,28,2.0,0.8,4.4,2.583,180.0,5120.0,Sword Pokémon
+331,Doublade,No Guard,NaN,NaN,steel,ghost,59,110,150,45,49,35,4.5,0.8,9.9,2.583,90.0,5120.0,Sword Pokémon
+332,Aegislash,Stance Change,NaN,NaN,steel,ghost,60,50,140,50,140,60,53.0,1.7,116.8,5.583,45.0,5120.0,Royal Sword Pokémon
+333,Ponyta,Run Away,Pastel Veil,Anticipation,psychic,NaN,50,85,55,65,65,90,30.0,1.0,66.1,3.25,190.0,5120.0,Fire Horse Pokémon (Kantonian)Unique Horn Pokémonn (Galarian)
+334,Rapidash,Run Away,Pastel Veil,Anticipation,psychic,fairy,65,100,70,80,80,105,95.0,1.7,209.4,5.583,60.0,5120.0,Fire Horse Pokémon (Kantonian)Unique Horn Pokémonn (Galarian)
+335,Sinistea,Weak Armor,NaN,Cursed Body,ghost,NaN,40,45,45,74,54,50,0.2,0.1,0.4,0.333,120.0,5120.0,Black Tea Pokémon
+336,Polteageist,Weak Armor,NaN,Cursed Body,ghost,NaN,60,65,65,134,114,70,0.4,0.2,0.9,0.667,60.0,5120.0,Black Tea Pokémon
+337,Indeedee,Inner Focus,Synchronize,Psychic Surge,psychic,normal,60,65,55,105,95,95,28.0,0.9,61.7,2.917,30.0,10240.0,Emotion Pokémon
+338,Phantump,Natural Cure,Frisk,Harvest,ghost,grass,43,70,48,50,60,38,7.0,0.4,15.4,1.333,120.0,5120.0,Stump Pokémon
+339,Trevenant,Natural Cure,Frisk,Harvest,ghost,grass,85,110,76,65,82,56,71.0,1.5,156.5,4.917,60.0,5120.0,Elder Tree Pokémon
+340,Morelull,Illuminate,Effect Spore,Rain Dish,grass,fairy,40,35,55,65,75,15,1.5,0.2,3.3,0.667,190.0,5120.0,Illuminating Pokémon
+341,Shiinotic,Illuminate,Effect Spore,Rain Dish,grass,fairy,60,45,80,90,100,30,11.5,1.0,25.4,3.25,75.0,5120.0,Illuminating Pokémon
+342,Oranguru,Inner Focus,Telepathy,Symbiosis,normal,psychic,90,60,80,90,110,60,76.0,1.5,167.5,4.917,45.0,5120.0,Sage Pokémon
+343,Passimian,Receiver,NaN,Defiant,fighting,NaN,100,120,90,40,60,80,82.8,2.0,182.5,6.583,45.0,5120.0,Teamwork Pokémon
+344,Morpeko,Hunger Switch,NaN,NaN,electric,dark,58,95,58,70,58,97,3.0,0.3,6.6,1.0,180.0,2560.0,Two-Sided Pokémon
+345,Falinks,Battle Armor,NaN,Defiant,fighting,NaN,65,100,100,70,60,75,62.0,3.0,136.7,9.833,45.0,6400.0,Formation Pokémon
+346,Drampa,Berserk,Sap Sipper,Cloud Nine,normal,dragon,78,60,85,135,91,36,185.0,3.0,407.8,9.833,70.0,5120.0,Placid Pokémon
+347,Turtonator,Shell Armor,NaN,NaN,fire,dragon,60,78,135,91,85,36,212.0,2.0,467.4,6.583,70.0,5120.0,Blast Turtle Pokémon
+348,Togedemaru,Iron Barbs,Lightning Rod,Sturdy,electric,steel,65,98,63,40,73,96,3.3,0.3,7.3,1.0,180.0,2560.0,Roly-Poly Pokémon
+349,Snom,Shield Dust,NaN,Ice Scales,ice,bug,30,25,35,45,30,20,3.8,0.3,8.4,1.0,190.0,5120.0,Worm Pokémon
+350,Frosmoth,Shield Dust,NaN,Ice Scales,ice,bug,70,65,60,125,90,65,42.0,1.3,92.6,4.25,75.0,5120.0,Frost Moth Pokémon
+351,Clobbopus,Limber,NaN,Technician,fighting,NaN,50,68,60,50,50,32,4.0,0.6,8.8,2.0,180.0,6400.0,Tantrum Pokémon
+352,Grapploct,Limber,NaN,Technician,fighting,NaN,80,118,90,70,80,42,39.0,1.6,86.0,5.25,45.0,6400.0,Jujitsu Pokémon
+353,Pincurchin,Lightning Rod,NaN,Electric Surge,electric,NaN,48,101,95,91,85,15,1.0,0.3,2.2,1.0,75.0,5120.0,Sea Urchin Pokémon
+354,Mantyke,Swift Swim,Water Absorb,Water Veil,water,flying,45,20,50,60,120,50,65.0,1.0,143.3,3.25,25.0,6400.0,Kite Pokémon
+355,Mantine,Swift Swim,Water Absorb,Water Veil,water,flying,85,40,70,80,140,70,220.0,2.1,485.0,6.917,25.0,6400.0,Kite Pokémon
+356,Wailmer,Water Veil,Oblivious,Pressure,water,NaN,130,70,35,70,35,60,130.0,2.0,286.6,6.583,125.0,10240.0,Ball Whale Pokémon
+357,Wailord,Water Veil,Oblivious,Pressure,water,NaN,170,90,45,90,45,60,398.0,14.5,877.4,47.583,60.0,10240.0,Float Whale Pokémon
+358,Bergmite,Own Tempo,Ice Body,Sturdy,ice,NaN,55,69,85,32,35,28,99.5,1.0,219.4,3.25,190.0,5120.0,Ice Chunk Pokémon
+359,Avalugg,Own Tempo,Ice Body,Sturdy,ice,NaN,95,117,184,44,46,28,505.0,2.0,1113.3,6.583,55.0,5120.0,Iceberg Pokémon
+360,Dhelmise,Steelworker,NaN,NaN,ghost,grass,70,131,100,86,90,40,210.0,3.9,463.0,12.833,25.0,6400.0,Sea Creeper Pokémon
+361,Lapras,Water Absorb,Shell Armor,Hydration,water,ice,130,85,80,85,95,60,220.0,2.5,485.0,8.167,45.0,10240.0,Transport Pokémon
+362,Lunatone,Levitate,NaN,NaN,rock,psychic,90,55,65,95,85,70,168.0,1.0,370.4,3.25,45.0,6400.0,Meteorite Pokémon
+363,Solrock,Levitate,NaN,NaN,rock,psychic,90,95,85,55,65,70,154.0,1.2,339.5,3.917,45.0,6400.0,Meteorite Pokémon
+364,MimeJr,Soundproof,Filter,Technician,psychic,fairy,20,25,45,70,90,60,13.0,0.6,28.7,2.0,145.0,6400.0,Mime Pokémon
+365,MrMime,Vital Spirit,Screen Cleaner,Ice Body,ice,psychic,50,65,65,90,90,100,54.5,1.3,120.2,4.25,45.0,6400.0,Barrier Pokémon
+366,MrRime,Tangled Feet,Screen Cleaner,Ice Body,ice,psychic,80,85,75,110,100,70,58.2,1.5,128.3,4.917,45.0,6400.0,Comedian Pokémon
+367,Darumaka,Hustle,NaN,Inner Focus,ice,NaN,70,90,45,15,45,50,37.5,0.6,82.7,2.0,120.0,5120.0,Zen Charm Pokémon (Unovan)Zen Charm Pokémonn (Galarian)
+368,Darmanitan,Gorilla Tactics,NaN,Zen Mode,ice,NaN,105,140,55,30,55,95,92.9,1.3,204.8,4.25,60.0,5120.0,Blazing Pokémon (Unovan)Zen Charm Pokémonn (Galarian)
+369,Stonjourner,Power Spot,NaN,NaN,rock,NaN,100,125,135,20,20,70,520.0,2.5,1146.4,8.167,60.0,6400.0,Big Rock Pokémon
+370,Eiscue,Ice Face,NaN,NaN,ice,NaN,75,80,110,65,90,50,89.0,1.4,196.2,4.583,60.0,6400.0,Penguin Pokémon
+371,Duraludon,Light Metal,Heavy Metal,Stalwart,steel,dragon,70,95,115,120,50,85,40.0,1.8,88.2,5.917,45.0,7680.0,Alloy Pokémon
+372,Rotom,Levitate,NaN,NaN,electric,ghost,50,50,77,95,77,91,0.3,0.3,0.7,1.0,45.0,5120.0,Plasma Pokémon
+373,Ditto,Limber,NaN,Imposter,normal,NaN,48,48,48,48,48,48,4.0,0.3,8.8,1.0,35.0,5120.0,Transform Pokémon
+374,Dracozolt,Volt Absorb,Hustle,Sand Rush,electric,dragon,90,100,90,80,70,75,190.0,1.8,418.9,5.917,45.0,8960.0,Fossil Pokémon
+375,Arctozolt,Volt Absorb,Static,Slush Rush,electric,ice,90,100,90,90,80,55,150.0,2.3,330.7,7.583,45.0,8960.0,Fossil Pokémon
+376,Dracovish,Water Absorb,Strong Jaw,Sand Rush,water,dragon,90,90,100,70,80,75,215.0,2.3,474.0,7.583,45.0,8960.0,Fossil Pokémon
+377,Arctovish,Water Absorb,Ice Body,Slush Rush,water,ice,90,90,100,80,90,55,175.0,2.0,385.8,6.583,45.0,8960.0,Fossil Pokémon
+378,Charmander,Blaze,NaN,Solar Power,fire,NaN,39,52,43,60,50,65,8.5,0.6,18.7,2.0,45.0,5120.0,Lizard Pokémon
+379,Charmeleon,Blaze,NaN,Solar Power,fire,NaN,58,64,58,80,65,80,19.0,1.1,41.9,3.583,45.0,5120.0,Flame Pokémon
+380,Charizard,Blaze,NaN,Solar Power,fire,flying,78,84,78,109,85,100,90.5,1.7,199.5,5.583,45.0,5120.0,Flame Pokémon
+381,TypeNull,Battle Armor,NaN,NaN,normal,NaN,95,95,95,95,95,59,120.5,1.9,265.7,6.25,3.0,30720.0,Synthetic Pokémon
+382,Silvally,RKS System,NaN,NaN,normal,NaN,95,95,95,95,95,95,100.5,2.3,221.6,7.583,3.0,30720.0,Synthetic Pokémon
+383,Larvitar,Guts,NaN,Sand Veil,rock,ground,50,64,50,45,50,41,72.0,0.6,158.7,2.0,45.0,10240.0,Rock Skin Pokémon
+384,Pupitar,Shed Skin,NaN,NaN,rock,ground,70,84,70,65,70,51,152.0,1.2,335.1,3.917,45.0,10240.0,Hard Shell Pokémon
+385,Tyranitar,Sand Stream,NaN,Unnerve,rock,dark,100,134,110,95,100,61,202.0,2.0,445.3,6.583,45.0,10240.0,Armor Pokémon
+386,Deino,Hustle,NaN,NaN,dark,dragon,52,65,50,45,50,38,17.3,0.8,38.1,2.583,45.0,10240.0,Irate Pokémon
+387,Zweilous,Hustle,NaN,NaN,dark,dragon,72,85,70,65,70,58,50.0,1.4,110.2,4.583,45.0,10240.0,Hostile Pokémon
+388,Hydreigon,Levitate,NaN,NaN,dark,dragon,92,105,90,125,90,98,160.0,1.8,352.7,5.917,45.0,10240.0,Brutal Pokémon
+389,Goomy,Sap Sipper,Hydration,Gooey,dragon,NaN,45,50,35,55,75,40,2.8,0.3,6.2,1.0,45.0,10240.0,Soft Tissue Pokémon
+390,Sliggoo,Sap Sipper,Hydration,Gooey,dragon,NaN,68,75,53,83,113,60,17.5,0.8,38.6,2.583,45.0,10240.0,Soft Tissue Pokémon
+391,Goodra,Sap Sipper,Hydration,Gooey,dragon,NaN,90,100,70,110,150,80,150.5,2.0,331.8,6.583,45.0,10240.0,Dragon Pokémon
+392,Jangmoo,Bulletproof,Soundproof,Overcoat,dragon,NaN,45,55,65,45,45,45,29.7,0.6,65.5,2.0,45.0,10240.0,Scaly Pokémon
+393,Hakamoo,Bulletproof,Soundproof,Overcoat,dragon,fighting,55,75,90,65,70,65,47.0,1.2,103.6,3.917,45.0,10240.0,Scaly Pokémon
+394,Kommoo,Bulletproof,Soundproof,Overcoat,dragon,fighting,75,110,125,100,105,85,78.2,1.6,172.4,5.25,45.0,10240.0,Scaly Pokémon
+395,Dreepy,Clear Body,Infiltrator,Cursed Body,dragon,ghost,28,60,30,40,30,82,2.0,0.5,4.4,1.667,45.0,10240.0,Lingering Pokémon
+396,Drakloak,Clear Body,Infiltrator,Cursed Body,dragon,ghost,68,80,50,60,50,102,11.0,1.4,24.3,4.583,45.0,10240.0,Caretaker Pokémon
+397,Dragapult,Clear Body,Infiltrator,Cursed Body,dragon,ghost,88,120,75,100,75,142,50.0,3.0,110.2,9.833,45.0,10240.0,Stealth Pokémon
+398,Zacian,Intrepid Sword,NaN,NaN,fairy,NaN,92,130,115,80,115,138,110.0,2.8,242.5,9.167,10.0,30720.0,Warrior Pokémon
+399,Zamazenta,Dauntless Shield,NaN,NaN,fighting,NaN,92,130,115,80,115,138,210.0,2.9,463.0,9.5,10.0,30720.0,Warrior Pokémon
+400,Eternatus,Pressure,NaN,NaN,poison,dragon,140,85,95,145,95,130,950.0,20.0,2094.4,65.583,255.0,30720.0,Gigantic Pokémon

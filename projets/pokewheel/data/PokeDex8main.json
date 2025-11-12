@@ -1,0 +1,3202 @@
+[
+  {
+    "Index": "1",
+    "Name": "Grookey",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "2",
+    "Name": "Thwackey",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "3",
+    "Name": "Rillaboom",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "4",
+    "Name": "Scorbunny",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "5",
+    "Name": "Raboot",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "6",
+    "Name": "Cinderace",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "7",
+    "Name": "Sobble",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "8",
+    "Name": "Drizzile",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "9",
+    "Name": "Inteleon",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "10",
+    "Name": "Blipbug",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "11",
+    "Name": "Dottler",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "12",
+    "Name": "Orbeetle",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "13",
+    "Name": "Caterpie",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "14",
+    "Name": "Metapod",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "15",
+    "Name": "Butterfree",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "16",
+    "Name": "Grubbin",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "17",
+    "Name": "Charjabug",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "electric",
+    "Legendary": false
+  },
+  {
+    "Index": "18",
+    "Name": "Vikavolt",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "electric",
+    "Legendary": false
+  },
+  {
+    "Index": "19",
+    "Name": "Hoothoot",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "20",
+    "Name": "Noctowl",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "21",
+    "Name": "Rookidee",
+    "Generation": 8,
+    "Type1": "flying",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "22",
+    "Name": "Corvisquire",
+    "Generation": 8,
+    "Type1": "flying",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "23",
+    "Name": "Corviknight",
+    "Generation": 8,
+    "Type1": "flying",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "24",
+    "Name": "Skwovet",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "25",
+    "Name": "Greedent",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "26",
+    "Name": "Pidove",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "27",
+    "Name": "Tranquill",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "28",
+    "Name": "Unfezant",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "29",
+    "Name": "Nickit",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "30",
+    "Name": "Thievul",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "31",
+    "Name": "Zigzagoon",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "normal",
+    "Legendary": false
+  },
+  {
+    "Index": "32",
+    "Name": "Linoone",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "normal",
+    "Legendary": false
+  },
+  {
+    "Index": "33",
+    "Name": "Obstagoon",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "normal",
+    "Legendary": false
+  },
+  {
+    "Index": "34",
+    "Name": "Wooloo",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "35",
+    "Name": "Dubwool",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "36",
+    "Name": "Lotad",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "grass",
+    "Legendary": false
+  },
+  {
+    "Index": "37",
+    "Name": "Lombre",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "grass",
+    "Legendary": false
+  },
+  {
+    "Index": "38",
+    "Name": "Ludicolo",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "grass",
+    "Legendary": false
+  },
+  {
+    "Index": "39",
+    "Name": "Seedot",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "40",
+    "Name": "Nuzleaf",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "41",
+    "Name": "Shiftry",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "42",
+    "Name": "Chewtle",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "43",
+    "Name": "Drednaw",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "rock",
+    "Legendary": false
+  },
+  {
+    "Index": "44",
+    "Name": "Purrloin",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "45",
+    "Name": "Liepard",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "46",
+    "Name": "Yamper",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "47",
+    "Name": "Boltund",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "48",
+    "Name": "Bunnelby",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "49",
+    "Name": "Diggersby",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "50",
+    "Name": "Minccino",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "51",
+    "Name": "Cinccino",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "52",
+    "Name": "Bounsweet",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "53",
+    "Name": "Steenee",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "54",
+    "Name": "Tsareena",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "55",
+    "Name": "Oddish",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "56",
+    "Name": "Gloom",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "57",
+    "Name": "Vileplume",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "58",
+    "Name": "Bellossom",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "59",
+    "Name": "Budew",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "60",
+    "Name": "Roselia",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "61",
+    "Name": "Roserade",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "62",
+    "Name": "Wingull",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "63",
+    "Name": "Pelipper",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "64",
+    "Name": "Joltik",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "electric",
+    "Legendary": false
+  },
+  {
+    "Index": "65",
+    "Name": "Galvantula",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "electric",
+    "Legendary": false
+  },
+  {
+    "Index": "66",
+    "Name": "Electrike",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "67",
+    "Name": "Manectric",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "68",
+    "Name": "Vulpix",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "69",
+    "Name": "Ninetales",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "70",
+    "Name": "Growlithe",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "71",
+    "Name": "Arcanine",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "72",
+    "Name": "Vanillite",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "73",
+    "Name": "Vanillish",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "74",
+    "Name": "Vanilluxe",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "75",
+    "Name": "Swinub",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "76",
+    "Name": "Piloswine",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "77",
+    "Name": "Mamoswine",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "78",
+    "Name": "Delibird",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "79",
+    "Name": "Snorunt",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "80",
+    "Name": "Glalie",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "81",
+    "Name": "Froslass",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "82",
+    "Name": "Baltoy",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "83",
+    "Name": "Claydol",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "84",
+    "Name": "Mudbray",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "85",
+    "Name": "Mudsdale",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "86",
+    "Name": "Dwebble",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "rock",
+    "Legendary": false
+  },
+  {
+    "Index": "87",
+    "Name": "Crustle",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "rock",
+    "Legendary": false
+  },
+  {
+    "Index": "88",
+    "Name": "Golett",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "89",
+    "Name": "Golurk",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "90",
+    "Name": "Munna",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "91",
+    "Name": "Musharna",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "92",
+    "Name": "Natu",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "93",
+    "Name": "Xatu",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "94",
+    "Name": "Stufful",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "95",
+    "Name": "Bewear",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "96",
+    "Name": "Snover",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "ice",
+    "Legendary": false
+  },
+  {
+    "Index": "97",
+    "Name": "Abomasnow",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "ice",
+    "Legendary": false
+  },
+  {
+    "Index": "98",
+    "Name": "Krabby",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "99",
+    "Name": "Kingler",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "100",
+    "Name": "Wooper",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "101",
+    "Name": "Quagsire",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "102",
+    "Name": "Corphish",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "103",
+    "Name": "Crawdaunt",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "104",
+    "Name": "Nincada",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "105",
+    "Name": "Ninjask",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "106",
+    "Name": "Shedinja",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "107",
+    "Name": "Tyrogue",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "108",
+    "Name": "Hitmonlee",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "109",
+    "Name": "Hitmonchan",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "110",
+    "Name": "Hitmontop",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "111",
+    "Name": "Pancham",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "112",
+    "Name": "Pangoro",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "113",
+    "Name": "Klink",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "114",
+    "Name": "Klang",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "115",
+    "Name": "Klinklang",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "116",
+    "Name": "Combee",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "117",
+    "Name": "Vespiquen",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "118",
+    "Name": "Bronzor",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "119",
+    "Name": "Bronzong",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "120",
+    "Name": "Ralts",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "121",
+    "Name": "Kirlia",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "122",
+    "Name": "Gardevoir",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "123",
+    "Name": "Gallade",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "124",
+    "Name": "Drifloon",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "125",
+    "Name": "Drifblim",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "126",
+    "Name": "Gossifleur",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "127",
+    "Name": "Eldegoss",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "128",
+    "Name": "Cherubi",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "129",
+    "Name": "Cherrim",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "130",
+    "Name": "Stunky",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "131",
+    "Name": "Skuntank",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "132",
+    "Name": "Tympole",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "133",
+    "Name": "Palpitoad",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "134",
+    "Name": "Seismitoad",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "135",
+    "Name": "Duskull",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "136",
+    "Name": "Dusclops",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "137",
+    "Name": "Dusknoir",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "138",
+    "Name": "Machop",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "139",
+    "Name": "Machoke",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "140",
+    "Name": "Machamp",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "141",
+    "Name": "Gastly",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "142",
+    "Name": "Haunter",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "143",
+    "Name": "Gengar",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "144",
+    "Name": "Magikarp",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "145",
+    "Name": "Gyarados",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "146",
+    "Name": "Goldeen",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "147",
+    "Name": "Seaking",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "148",
+    "Name": "Remoraid",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "149",
+    "Name": "Octillery",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "150",
+    "Name": "Shellder",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "151",
+    "Name": "Cloyster",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ice",
+    "Legendary": false
+  },
+  {
+    "Index": "152",
+    "Name": "Feebas",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "153",
+    "Name": "Milotic",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "154",
+    "Name": "Basculin",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "155",
+    "Name": "Wishiwashi",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "156",
+    "Name": "Pyukumuku",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "157",
+    "Name": "Trubbish",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "158",
+    "Name": "Garbodor",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "159",
+    "Name": "Sizzlipede",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "bug",
+    "Legendary": false
+  },
+  {
+    "Index": "160",
+    "Name": "Centiskorch",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "bug",
+    "Legendary": false
+  },
+  {
+    "Index": "161",
+    "Name": "Rolycoly",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "162",
+    "Name": "Carkol",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "fire",
+    "Legendary": false
+  },
+  {
+    "Index": "163",
+    "Name": "Coalossal",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "fire",
+    "Legendary": false
+  },
+  {
+    "Index": "164",
+    "Name": "Diglett",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "165",
+    "Name": "Dugtrio",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "166",
+    "Name": "Drilbur",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "167",
+    "Name": "Excadrill",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "168",
+    "Name": "Roggenrola",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "169",
+    "Name": "Boldore",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "170",
+    "Name": "Gigalith",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "171",
+    "Name": "Timburr",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "172",
+    "Name": "Gurdurr",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "173",
+    "Name": "Conkeldurr",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "174",
+    "Name": "Woobat",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "175",
+    "Name": "Swoobat",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "176",
+    "Name": "Noibat",
+    "Generation": 8,
+    "Type1": "flying",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "177",
+    "Name": "Noivern",
+    "Generation": 8,
+    "Type1": "flying",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "178",
+    "Name": "Onix",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "179",
+    "Name": "Steelix",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "180",
+    "Name": "Arrokuda",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "181",
+    "Name": "Barraskewda",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "182",
+    "Name": "Meowth",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "183",
+    "Name": "Perrserker",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "184",
+    "Name": "Persian",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "185",
+    "Name": "Milcery",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "186",
+    "Name": "Alcremie",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "187",
+    "Name": "Cutiefly",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "188",
+    "Name": "Ribombee",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "189",
+    "Name": "Ferroseed",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "190",
+    "Name": "Ferrothorn",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "191",
+    "Name": "Pumpkaboo",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "grass",
+    "Legendary": false
+  },
+  {
+    "Index": "192",
+    "Name": "Gourgeist",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "grass",
+    "Legendary": false
+  },
+  {
+    "Index": "193",
+    "Name": "Pichu",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "194",
+    "Name": "Pikachu",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "195",
+    "Name": "Raichu",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "196",
+    "Name": "Eevee",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "197",
+    "Name": "Vaporeon",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "198",
+    "Name": "Jolteon",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "199",
+    "Name": "Flareon",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "200",
+    "Name": "Espeon",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "201",
+    "Name": "Umbreon",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "202",
+    "Name": "Leafeon",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "203",
+    "Name": "Glaceon",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "204",
+    "Name": "Sylveon",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "205",
+    "Name": "Applin",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "206",
+    "Name": "Flapple",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "207",
+    "Name": "Appletun",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "208",
+    "Name": "Espurr",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "209",
+    "Name": "Meowstic",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "210",
+    "Name": "Swirlix",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "211",
+    "Name": "Slurpuff",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "212",
+    "Name": "Spritzee",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "213",
+    "Name": "Aromatisse",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "214",
+    "Name": "Dewpider",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "bug",
+    "Legendary": false
+  },
+  {
+    "Index": "215",
+    "Name": "Araquanid",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "bug",
+    "Legendary": false
+  },
+  {
+    "Index": "216",
+    "Name": "Wynaut",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "217",
+    "Name": "Wobbuffet",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "218",
+    "Name": "Farfetchd",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "219",
+    "Name": "Sirfetchd",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "220",
+    "Name": "Chinchou",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "electric",
+    "Legendary": false
+  },
+  {
+    "Index": "221",
+    "Name": "Lanturn",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "electric",
+    "Legendary": false
+  },
+  {
+    "Index": "222",
+    "Name": "Croagunk",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "223",
+    "Name": "Toxicroak",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "224",
+    "Name": "Scraggy",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "225",
+    "Name": "Scrafty",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "226",
+    "Name": "Stunfisk",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "227",
+    "Name": "Shuckle",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "rock",
+    "Legendary": false
+  },
+  {
+    "Index": "228",
+    "Name": "Barboach",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "229",
+    "Name": "Whiscash",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "230",
+    "Name": "Shellos",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "231",
+    "Name": "Gastrodon",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "232",
+    "Name": "Wimpod",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "water",
+    "Legendary": false
+  },
+  {
+    "Index": "233",
+    "Name": "Golisopod",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "water",
+    "Legendary": false
+  },
+  {
+    "Index": "234",
+    "Name": "Binacle",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "water",
+    "Legendary": false
+  },
+  {
+    "Index": "235",
+    "Name": "Barbaracle",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "water",
+    "Legendary": false
+  },
+  {
+    "Index": "236",
+    "Name": "Corsola",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "237",
+    "Name": "Cursola",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "238",
+    "Name": "Impidimp",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "239",
+    "Name": "Morgrem",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "240",
+    "Name": "Grimmsnarl",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "241",
+    "Name": "Hatenna",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "242",
+    "Name": "Hattrem",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "243",
+    "Name": "Hatterene",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "244",
+    "Name": "Salandit",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "fire",
+    "Legendary": false
+  },
+  {
+    "Index": "245",
+    "Name": "Salazzle",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "fire",
+    "Legendary": false
+  },
+  {
+    "Index": "246",
+    "Name": "Pawniard",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "247",
+    "Name": "Bisharp",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "248",
+    "Name": "Throh",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "249",
+    "Name": "Sawk",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "250",
+    "Name": "Koffing",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "251",
+    "Name": "Weezing",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "252",
+    "Name": "Bonsly",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "253",
+    "Name": "Sudowoodo",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "254",
+    "Name": "Cleffa",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "255",
+    "Name": "Clefairy",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "256",
+    "Name": "Clefable",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "257",
+    "Name": "Togepi",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "258",
+    "Name": "Togetic",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "259",
+    "Name": "Togekiss",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "260",
+    "Name": "Munchlax",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "261",
+    "Name": "Snorlax",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "262",
+    "Name": "Cottonee",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "263",
+    "Name": "Whimsicott",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "264",
+    "Name": "Rhyhorn",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "rock",
+    "Legendary": false
+  },
+  {
+    "Index": "265",
+    "Name": "Rhydon",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "rock",
+    "Legendary": false
+  },
+  {
+    "Index": "266",
+    "Name": "Rhyperior",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "rock",
+    "Legendary": false
+  },
+  {
+    "Index": "267",
+    "Name": "Gothita",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "268",
+    "Name": "Gothorita",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "269",
+    "Name": "Gothitelle",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "270",
+    "Name": "Solosis",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "271",
+    "Name": "Duosion",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "272",
+    "Name": "Reuniclus",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "273",
+    "Name": "Karrablast",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "274",
+    "Name": "Escavalier",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "275",
+    "Name": "Shelmet",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "276",
+    "Name": "Accelgor",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "277",
+    "Name": "Elgyem",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "278",
+    "Name": "Beheeyem",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "279",
+    "Name": "Cubchoo",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "280",
+    "Name": "Beartic",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "281",
+    "Name": "Rufflet",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "282",
+    "Name": "Braviary",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "283",
+    "Name": "Vullaby",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "284",
+    "Name": "Mandibuzz",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "285",
+    "Name": "Skorupi",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "bug",
+    "Legendary": false
+  },
+  {
+    "Index": "286",
+    "Name": "Drapion",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "287",
+    "Name": "Litwick",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "fire",
+    "Legendary": false
+  },
+  {
+    "Index": "288",
+    "Name": "Lampent",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "fire",
+    "Legendary": false
+  },
+  {
+    "Index": "289",
+    "Name": "Chandelure",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "fire",
+    "Legendary": false
+  },
+  {
+    "Index": "290",
+    "Name": "Inkay",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "291",
+    "Name": "Malamar",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "292",
+    "Name": "Sneasel",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "ice",
+    "Legendary": false
+  },
+  {
+    "Index": "293",
+    "Name": "Weavile",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "ice",
+    "Legendary": false
+  },
+  {
+    "Index": "294",
+    "Name": "Sableye",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "295",
+    "Name": "Mawile",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "296",
+    "Name": "Maractus",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "297",
+    "Name": "Sigilyph",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "298",
+    "Name": "Riolu",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "299",
+    "Name": "Lucario",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "300",
+    "Name": "Torkoal",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "301",
+    "Name": "Mimikyu",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "302",
+    "Name": "Cufant",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "303",
+    "Name": "Copperajah",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "304",
+    "Name": "Qwilfish",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "305",
+    "Name": "Frillish",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "306",
+    "Name": "Jellicent",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "307",
+    "Name": "Mareanie",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "water",
+    "Legendary": false
+  },
+  {
+    "Index": "308",
+    "Name": "Toxapex",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "water",
+    "Legendary": false
+  },
+  {
+    "Index": "309",
+    "Name": "Cramorant",
+    "Generation": 8,
+    "Type1": "flying",
+    "Type2": "water",
+    "Legendary": false
+  },
+  {
+    "Index": "310",
+    "Name": "Toxel",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "311",
+    "Name": "Toxtricity",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "poison",
+    "Legendary": false
+  },
+  {
+    "Index": "312",
+    "Name": "Silicobra",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "313",
+    "Name": "Sandaconda",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "314",
+    "Name": "Hippopotas",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "315",
+    "Name": "Hippowdon",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "316",
+    "Name": "Durant",
+    "Generation": 8,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "317",
+    "Name": "Heatmor",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "318",
+    "Name": "Helioptile",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "normal",
+    "Legendary": false
+  },
+  {
+    "Index": "319",
+    "Name": "Heliolisk",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "normal",
+    "Legendary": false
+  },
+  {
+    "Index": "320",
+    "Name": "Hawlucha",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "321",
+    "Name": "Trapinch",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "322",
+    "Name": "Vibrava",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "323",
+    "Name": "Flygon",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "324",
+    "Name": "Axew",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "325",
+    "Name": "Fraxure",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "326",
+    "Name": "Haxorus",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "327",
+    "Name": "Yamask",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "328",
+    "Name": "Runerigus",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "329",
+    "Name": "Cofagrigus",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "330",
+    "Name": "Honedge",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "331",
+    "Name": "Doublade",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "332",
+    "Name": "Aegislash",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "333",
+    "Name": "Ponyta",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "334",
+    "Name": "Rapidash",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "335",
+    "Name": "Sinistea",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "336",
+    "Name": "Polteageist",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "337",
+    "Name": "Indeedee",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "normal",
+    "Legendary": false
+  },
+  {
+    "Index": "338",
+    "Name": "Phantump",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "grass",
+    "Legendary": false
+  },
+  {
+    "Index": "339",
+    "Name": "Trevenant",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "grass",
+    "Legendary": false
+  },
+  {
+    "Index": "340",
+    "Name": "Morelull",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "341",
+    "Name": "Shiinotic",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "342",
+    "Name": "Oranguru",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "343",
+    "Name": "Passimian",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "344",
+    "Name": "Morpeko",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "345",
+    "Name": "Falinks",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "346",
+    "Name": "Drampa",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "347",
+    "Name": "Turtonator",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "348",
+    "Name": "Togedemaru",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "steel",
+    "Legendary": false
+  },
+  {
+    "Index": "349",
+    "Name": "Snom",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "bug",
+    "Legendary": false
+  },
+  {
+    "Index": "350",
+    "Name": "Frosmoth",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "bug",
+    "Legendary": false
+  },
+  {
+    "Index": "351",
+    "Name": "Clobbopus",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "352",
+    "Name": "Grapploct",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "353",
+    "Name": "Pincurchin",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "354",
+    "Name": "Mantyke",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "355",
+    "Name": "Mantine",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "356",
+    "Name": "Wailmer",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "357",
+    "Name": "Wailord",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "358",
+    "Name": "Bergmite",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "359",
+    "Name": "Avalugg",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "360",
+    "Name": "Dhelmise",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": "grass",
+    "Legendary": false
+  },
+  {
+    "Index": "361",
+    "Name": "Lapras",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ice",
+    "Legendary": false
+  },
+  {
+    "Index": "362",
+    "Name": "Lunatone",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "363",
+    "Name": "Solrock",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "364",
+    "Name": "MimeJr",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Legendary": false
+  },
+  {
+    "Index": "365",
+    "Name": "MrMime",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "366",
+    "Name": "MrRime",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "psychic",
+    "Legendary": false
+  },
+  {
+    "Index": "367",
+    "Name": "Darumaka",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "368",
+    "Name": "Darmanitan",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "369",
+    "Name": "Stonjourner",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "370",
+    "Name": "Eiscue",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "371",
+    "Name": "Duraludon",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "372",
+    "Name": "Rotom",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "373",
+    "Name": "Ditto",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "374",
+    "Name": "Dracozolt",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "375",
+    "Name": "Arctozolt",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "ice",
+    "Legendary": false
+  },
+  {
+    "Index": "376",
+    "Name": "Dracovish",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "377",
+    "Name": "Arctovish",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "ice",
+    "Legendary": false
+  },
+  {
+    "Index": "378",
+    "Name": "Charmander",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "379",
+    "Name": "Charmeleon",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "380",
+    "Name": "Charizard",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "flying",
+    "Legendary": false
+  },
+  {
+    "Index": "381",
+    "Name": "TypeNull",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "382",
+    "Name": "Silvally",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "383",
+    "Name": "Larvitar",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "384",
+    "Name": "Pupitar",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Legendary": false
+  },
+  {
+    "Index": "385",
+    "Name": "Tyranitar",
+    "Generation": 8,
+    "Type1": "rock",
+    "Type2": "dark",
+    "Legendary": false
+  },
+  {
+    "Index": "386",
+    "Name": "Deino",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "387",
+    "Name": "Zweilous",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "388",
+    "Name": "Hydreigon",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "dragon",
+    "Legendary": false
+  },
+  {
+    "Index": "389",
+    "Name": "Goomy",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "390",
+    "Name": "Sliggoo",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "391",
+    "Name": "Goodra",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "392",
+    "Name": "Jangmoo",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "393",
+    "Name": "Hakamoo",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "394",
+    "Name": "Kommoo",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "fighting",
+    "Legendary": false
+  },
+  {
+    "Index": "395",
+    "Name": "Dreepy",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "396",
+    "Name": "Drakloak",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "397",
+    "Name": "Dragapult",
+    "Generation": 8,
+    "Type1": "dragon",
+    "Type2": "ghost",
+    "Legendary": false
+  },
+  {
+    "Index": "398",
+    "Name": "Zacian",
+    "Generation": 8,
+    "Type1": "fairy",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "399",
+    "Name": "Zamazenta",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "NaN",
+    "Legendary": false
+  },
+  {
+    "Index": "400",
+    "Name": "Eternatus",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "dragon",
+    "Legendary": false
+  }
+]

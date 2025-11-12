@@ -1,0 +1,22 @@
+[
+	{
+		"Name": "Pokémon Legends: Arceus",
+		"File": "la.json",
+		"GenerateCMD": "!requestPLA"
+	},
+	{
+		"Name": "Pokémon Red/Blue",
+		"File": "pokemon1g.json",
+		"GenerateCMD": null
+	},
+	{
+		"Name": "Pokémon Gold/Silver/Crystal (National Dex)",
+		"File": "pokemon2gnational.json",
+		"GenerateCMD": null
+	},
+	{
+		"Name": "Pokémon Ruby/Saphyr/Emerald (National Dex)",
+		"File": "pokemon3gnational.json",
+		"GenerateCMD": null
+	}
+]

@@ -2,15 +2,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   const dexSelector = document.getElementById('dexSelector');
-  dexSelector.addEventListener('change', () => {
-    const selectedFile = dexSelector.value;
-    if (selectedFile) {
-      currentDexFile = selectedFile;
-      setArtworkToPokeball();
-      loadData(currentDexFile);
-      currentDataset = correspondances[dexSelector.value];
-    }
-  });
   
   const checkbox = document.getElementById('legendary');
   const launchBtn = document.getElementById('launch');
@@ -23,10 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const POKEBALL_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/1026px-Pok%C3%A9_Ball_icon.svg.png';
   const POKEDB_BASE = 'https://img.pokemondb.net/artwork/large/';
   const GENERATE_URL = 'https://www.twitch.tv/berichandev';
-  const generateBtn = document.getElementById('generate');
+  const generateBtn = document.getElementById('generate');// attacher listener
+  if (generateBtn) generateBtn.addEventListener('click', onGenerateClick);
 
   let correspondances = {};         // contenu de correspondance.json
-  let currentDataset = null;        // entrée de correspondance correspondant à la liste en cours
+  let currentDataCMD = null;        // entrée de correspondance correspondant à la liste en cours
   let lastSelectedPokeName = null;  // nom du pokémon actuellement sélectionné (update à la fin du spin)
   let pokes = [];
   let filtered = [];
@@ -46,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         option.value = opt.File;
         option.textContent = opt.Name;
         selector.appendChild(option);
-        correspondances[opt.Name] = opt.GenerateCMD;
+        correspondances[opt.File] = opt.GenerateCMD;
       });
 
       selector.disabled = false;
@@ -99,6 +91,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const n = filtered.length;
     return ((i % n) + n) % n;
   }
+
+  async function onGenerateClick(){
+    console.log("jepassela");
+    console.log(lastSelectedPokeName);
+  if (!currentDataCMD || !lastSelectedPokeName) return;
+  const command = `${currentDataCMD} ${lastSelectedPokeName}`;
+  try {
+    await navigator.clipboard.writeText(command);
+  } catch (e) {
+    // fallback
+    const tmp = document.createElement('textarea');
+    tmp.value = command;
+    document.body.appendChild(tmp);
+    tmp.select();
+    try { document.execCommand('copy'); } catch (err) { /* ignore */ }
+    document.body.removeChild(tmp);
+  }
+  // open twitch in new tab
+  window.open(GENERATE_URL, '_blank', 'noopener');
+}
+
+  dexSelector.addEventListener('change', () => {
+    const selectedFile = dexSelector.value;
+    if (selectedFile) {
+      currentDexFile = selectedFile;
+      setArtworkToPokeball();
+      loadData(currentDexFile);
+      console.log(dexSelector.value);
+      console.log(correspondances);
+      currentDataCMD = correspondances[dexSelector.value];
+      console.log(currentDataCMD);
+    }
+  });
 
   function renderVisible(centerIndex){
     if (!filtered.length) { clearSlots(); return; }
@@ -154,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!filtered.length) return;
     launchBtn.disabled = true;
     checkbox.disabled = true;
+    generateBtn.disabled = true;
 
     const target = Math.floor(Math.random() * filtered.length);
     const extraCycles = 3 + Math.floor(Math.random() * 3); // 3..5
@@ -199,6 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setArtworkForPoke(chosen.Name);
         launchBtn.disabled = false;
         checkbox.disabled = false;
+        console.log(currentDataCMD);
+        if(currentDataCMD != undefined && currentDataCMD != null) {
+          generateBtn.disabled = false;
+          lastSelectedPokeName = chosen.Name;
+        }
       }
     }
 

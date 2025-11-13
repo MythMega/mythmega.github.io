@@ -73,5 +73,10 @@
 		"Name": "[8G] Pokémon Legends: Arceus",
 		"File": "./data/la.json",
 		"GenerateCMD": "!requestPLA"
+	},
+	{
+		"Name": "[9G] Pokémon Legends: Z-A",
+		"File": "./data/za_main.json",
+		"GenerateCMD": "!requestPLZ"
 	}
 ]

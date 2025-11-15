@@ -1,0 +1,2618 @@
+[
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/001-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/1.png",
+    "Index": "1",
+    "NameEN": "Bulbasaur",
+    "NameFR": "Bulbizarre",
+    "Type1": "grass",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/002-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/2.png",
+    "Index": "2",
+    "NameEN": "Ivysaur",
+    "NameFR": "Herbizarre",
+    "Type1": "grass",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/003-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/3.png",
+    "Index": "3",
+    "NameEN": "Venusaur",
+    "NameFR": "Florizarre",
+    "Type1": "grass",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/004-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/4.png",
+    "Index": "4",
+    "NameEN": "Charmander",
+    "NameFR": "Salamèche",
+    "Type1": "fire",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/005-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/5.png",
+    "Index": "5",
+    "NameEN": "Charmeleon",
+    "NameFR": "Reptincel",
+    "Type1": "fire",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/006-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/6.png",
+    "Index": "6",
+    "NameEN": "Charizard",
+    "NameFR": "Dracaufeu",
+    "Type1": "fire",
+    "Type2": "flying"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/007-a.png",
+    "Index": "7",
+    "NameEN": "Squirtle",
+    "NameFR": "Carapuce",
+    "Type1": "water",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/008-a.png",
+    "Index": "8",
+    "NameEN": "Wartortle",
+    "NameFR": "Carabaffe",
+    "Type1": "water",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/009-a.png",
+    "Index": "9",
+    "NameEN": "Blastoise",
+    "NameFR": "Tortank",
+    "Type1": "water",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/010-a.png",
+    "Index": "10",
+    "NameEN": "Caterpie",
+    "NameFR": "Chenipan",
+    "Type1": "bug",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/011-a.png",
+    "Index": "11",
+    "NameEN": "Metapod",
+    "NameFR": "Chrysacier",
+    "Type1": "bug",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/012-a.png",
+    "Index": "12",
+    "NameEN": "Butterfree",
+    "NameFR": "Papilusion",
+    "Type1": "bug",
+    "Type2": "flying"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/013-a.png",
+    "Index": "13",
+    "NameEN": "Weedle",
+    "NameFR": "Aspicot",
+    "Type1": "bug",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/014-a.png",
+    "Index": "14",
+    "NameEN": "Kakuna",
+    "NameFR": "Coconfort",
+    "Type1": "bug",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/015-a.png",
+    "Index": "15",
+    "NameEN": "Beedrill",
+    "NameFR": "Dardargnan",
+    "Type1": "bug",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/016-a.png",
+    "Index": "16",
+    "NameEN": "Pidgey",
+    "NameFR": "Roucool",
+    "Type1": "normal",
+    "Type2": "flying"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/017-a.png",
+    "Index": "17",
+    "NameEN": "Pidgeotto",
+    "NameFR": "Roucoups",
+    "Type1": "normal",
+    "Type2": "flying"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/018-a.png",
+    "Index": "18",
+    "NameEN": "Pidgeot",
+    "NameFR": "Roucarnage",
+    "Type1": "normal",
+    "Type2": "flying"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/019-a.png",
+    "Index": "19",
+    "NameEN": "Rattata",
+    "NameFR": "Rattata",
+    "Type1": "normal",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/020-a.png",
+    "Index": "20",
+    "NameEN": "Raticate",
+    "NameFR": "Rattatac",
+    "Type1": "normal",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/021-a.png",
+    "Index": "21",
+    "NameEN": "Spearow",
+    "NameFR": "Piafabec",
+    "Type1": "normal",
+    "Type2": "flying"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/022-a.png",
+    "Index": "22",
+    "NameEN": "Fearow",
+    "NameFR": "Rapasdepic",
+    "Type1": "normal",
+    "Type2": "flying"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/023-a.png",
+    "Index": "23",
+    "NameEN": "Ekans",
+    "NameFR": "Abo",
+    "Type1": "poison",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/024-a.png",
+    "Index": "24",
+    "NameEN": "Arbok",
+    "NameFR": "Arbok",
+    "Type1": "poison",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/025-a.png",
+    "Index": "25",
+    "NameEN": "Pikachu",
+    "NameFR": "Pikachu",
+    "Type1": "electric",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/026-a.png",
+    "Index": "26",
+    "NameEN": "Raichu",
+    "NameFR": "Raichu",
+    "Type1": "electric",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/027-a.png",
+    "Index": "27",
+    "NameEN": "Sandshrew",
+    "NameFR": "Sabelette",
+    "Type1": "ground",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/028-a.png",
+    "Index": "28",
+    "NameEN": "Sandslash",
+    "NameFR": "Sablaireau",
+    "Type1": "ground",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/029-a.png",
+    "Index": "29",
+    "NameEN": "Nidoran Female",
+    "NameFR": "Nidoran femelle",
+    "Type1": "poison",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/030-a.png",
+    "Index": "30",
+    "NameEN": "Nidorina",
+    "NameFR": "Nidorina",
+    "Type1": "poison",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/031-a.png",
+    "Index": "31",
+    "NameEN": "Nidoqueen",
+    "NameFR": "Nidoqueen",
+    "Type1": "poison",
+    "Type2": "ground"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/032-a.png",
+    "Index": "32",
+    "NameEN": "Nidoran Male",
+    "NameFR": "Nidoran mâle",
+    "Type1": "poison",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/033-a.png",
+    "Index": "33",
+    "NameEN": "Nidorino",
+    "NameFR": "Nidorino",
+    "Type1": "poison",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/034-a.png",
+    "Index": "34",
+    "NameEN": "Nidoking",
+    "NameFR": "Nidoking",
+    "Type1": "poison",
+    "Type2": "ground"
+  },
+  {
+    "Index": "35",
+    "NameEN": "Clefairy",
+    "NameFR": "Mélofée",
+    "Generation": 1,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/1-151/035-a.png"
+  },
+  {
+    "Index": "36",
+    "NameEN": "Clefable",
+    "NameFR": "Mélodelfe",
+    "Generation": 1,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/1-151/036-a.png"
+  },
+  {
+    "Index": "37",
+    "NameEN": "Vulpix",
+    "NameFR": "Goupix",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/037-a.png"
+  },
+  {
+    "Index": "38",
+    "NameEN": "Ninetales",
+    "NameFR": "Feunard",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/038-a.png"
+  },
+  {
+    "Index": "39",
+    "NameEN": "Jigglypuff",
+    "NameFR": "Rondoudou",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "fairy",
+    "Image": "./img/1-151/039-a.png"
+  },
+  {
+    "Index": "40",
+    "NameEN": "Wigglytuff",
+    "NameFR": "Grodoudou",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "fairy",
+    "Image": "./img/1-151/040-a.png"
+  },
+  {
+    "Index": "41",
+    "NameEN": "Zubat",
+    "NameFR": "Nosferapti",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": "flying",
+    "Image": "./img/1-151/041-a.png"
+  },
+  {
+    "Index": "42",
+    "NameEN": "Golbat",
+    "NameFR": "Nosferalto",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": "flying",
+    "Image": "./img/1-151/042-a.png"
+  },
+  {
+    "Index": "43",
+    "NameEN": "Oddish",
+    "NameFR": "Mystherbe",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/043-a.png"
+  },
+  {
+    "Index": "44",
+    "NameEN": "Gloom",
+    "NameFR": "Ortide",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/044-a.png"
+  },
+  {
+    "Index": "45",
+    "NameEN": "Vileplume",
+    "NameFR": "Rafflesia",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/045-a.png"
+  },
+  {
+    "Index": "46",
+    "NameEN": "Paras",
+    "NameFR": "Paras",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "grass",
+    "Image": "./img/1-151/046-a.png"
+  },
+  {
+    "Index": "47",
+    "NameEN": "Parasect",
+    "NameFR": "Parasect",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "grass",
+    "Image": "./img/1-151/047-a.png"
+  },
+  {
+    "Index": "48",
+    "NameEN": "Venonat",
+    "NameFR": "Mimitoss",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/1-151/048-a.png"
+  },
+  {
+    "Index": "49",
+    "NameEN": "Venomoth",
+    "NameFR": "Aéromite",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/1-151/049-a.png"
+  },
+  {
+    "Index": "50",
+    "NameEN": "Diglett",
+    "NameFR": "Taupiqueur",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/1-151/050-a.png"
+  },
+  {
+    "Index": "51",
+    "NameEN": "Dugtrio",
+    "NameFR": "Triopikeur",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/1-151/051-a.png"
+  },
+  {
+    "Index": "52",
+    "NameEN": "Meowth",
+    "NameFR": "Miaouss",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/052-a.png"
+  },
+  {
+    "Index": "53",
+    "NameEN": "Persian",
+    "NameFR": "Persian",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/053-a.png"
+  },
+  {
+    "Index": "54",
+    "NameEN": "Psyduck",
+    "NameFR": "Psykokwak",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/054-a.png"
+  },
+  {
+    "Index": "55",
+    "NameEN": "Golduck",
+    "NameFR": "Akwakwak",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/055-a.png"
+  },
+  {
+    "Index": "56",
+    "NameEN": "Mankey",
+    "NameFR": "Férosinge",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/056-a.png"
+  },
+  {
+    "Index": "57",
+    "NameEN": "Primeape",
+    "NameFR": "Colossinge",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/057-a.png"
+  },
+  {
+    "Index": "58",
+    "NameEN": "Growlithe",
+    "NameFR": "Caninos",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/058-a.png"
+  },
+  {
+    "Index": "59",
+    "NameEN": "Arcanine",
+    "NameFR": "Arcanin",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/059-a.png"
+  },
+  {
+    "Index": "60",
+    "NameEN": "Poliwag",
+    "NameFR": "Ptitard",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/060-a.png"
+  },
+  {
+    "Index": "61",
+    "NameEN": "Poliwhirl",
+    "NameFR": "Têtarte",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/061-a.png"
+  },
+  {
+    "Index": "62",
+    "NameEN": "Poliwrath",
+    "NameFR": "Tartard",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "fighting",
+    "Image": "./img/1-151/062-a.png"
+  },
+  {
+    "Index": "63",
+    "NameEN": "Abra",
+    "NameFR": "Abra",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/063-a.png"
+  },
+  {
+    "Index": "64",
+    "NameEN": "Kadabra",
+    "NameFR": "Kadabra",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/064-a.png"
+  },
+  {
+    "Index": "65",
+    "NameEN": "Alakazam",
+    "NameFR": "Alakazam",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/065-a.png"
+  },
+  {
+    "Index": "66",
+    "NameEN": "Machop",
+    "NameFR": "Machoc",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/066-a.png"
+  },
+  {
+    "Index": "67",
+    "NameEN": "Machoke",
+    "NameFR": "Machopeur",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/067-a.png"
+  },
+  {
+    "Index": "68",
+    "NameEN": "Machamp",
+    "NameFR": "Mackogneur",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/068-a.png"
+  },
+  {
+    "Index": "69",
+    "NameEN": "Bellsprout",
+    "NameFR": "Chétiflor",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/069-a.png"
+  },
+  {
+    "Index": "70",
+    "NameEN": "Weepinbell",
+    "NameFR": "Boustiflor",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/070-a.png"
+  },
+  {
+    "Index": "71",
+    "NameEN": "Victreebel",
+    "NameFR": "Empiflor",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/071-a.png"
+  },
+  {
+    "Index": "72",
+    "NameEN": "Tentacool",
+    "NameFR": "Tentacool",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "poison",
+    "Image": "./img/1-151/072-a.png"
+  },
+  {
+    "Index": "73",
+    "NameEN": "Tentacruel",
+    "NameFR": "Tentacruel",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "poison",
+    "Image": "./img/1-151/073-a.png"
+  },
+  {
+    "Index": "74",
+    "NameEN": "Geodude",
+    "NameFR": "Racaillou",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/1-151/074-a.png"
+  },
+  {
+    "Index": "75",
+    "NameEN": "Graveler",
+    "NameFR": "Gravalanch",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/1-151/075-a.png"
+  },
+  {
+    "Index": "76",
+    "NameEN": "Golem",
+    "NameFR": "Grolem",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/1-151/076-a.png"
+  },
+  {
+    "Index": "77",
+    "NameEN": "Ponyta",
+    "NameFR": "Ponyta",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/077-a.png"
+  },
+  {
+    "Index": "78",
+    "NameEN": "Rapidash",
+    "NameFR": "Galopa",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/078-a.png"
+  },
+  {
+    "Index": "79",
+    "NameEN": "Slowpoke",
+    "NameFR": "Ramoloss",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/1-151/079-a.png"
+  },
+  {
+    "Index": "80",
+    "NameEN": "Slowbro",
+    "NameFR": "Flagadoss",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/1-151/080-a.png"
+  },
+  {
+    "Index": "81",
+    "NameEN": "Magnemite",
+    "NameFR": "Magnéti",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": "steel",
+    "Image": "./img/1-151/081-a.png"
+  },
+  {
+    "Index": "82",
+    "NameEN": "Magneton",
+    "NameFR": "Magneton",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": "steel",
+    "Image": "./img/1-151/082-a.png"
+  },
+  {
+    "Index": "83",
+    "NameEN": "Farfetchd",
+    "NameFR": "Canarticho",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/1-151/083-a.png"
+  },
+  {
+    "Index": "84",
+    "NameEN": "Doduo",
+    "NameFR": "Doduo",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/1-151/084-a.png"
+  },
+  {
+    "Index": "85",
+    "NameEN": "Dodrio",
+    "NameFR": "Dodrio",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/1-151/085-a.png"
+  },
+  {
+    "Index": "86",
+    "NameEN": "Seel",
+    "NameFR": "Otaria",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/086-a.png"
+  },
+  {
+    "Index": "87",
+    "NameEN": "Dewgong",
+    "NameFR": "Lamantine",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "ice",
+    "Image": "./img/1-151/087-a.png"
+  },
+  {
+    "Index": "88",
+    "NameEN": "Grimer",
+    "NameFR": "Tadmorv",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/1-151/088-a.png"
+  },
+  {
+    "Index": "89",
+    "NameEN": "Muk",
+    "NameFR": "Grotadmorv",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/1-151/089-a.png"
+  },
+  {
+    "Index": "90",
+    "NameEN": "Shellder",
+    "NameFR": "Kokiyas",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/090-a.png"
+  },
+  {
+    "Index": "91",
+    "NameEN": "Cloyster",
+    "NameFR": "Crustabri",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "ice",
+    "Image": "./img/1-151/091-a.png"
+  },
+  {
+    "Index": "92",
+    "NameEN": "Gastly",
+    "NameFR": "Fantominus",
+    "Generation": 1,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Image": "./img/1-151/092-a.png"
+  },
+  {
+    "Index": "93",
+    "NameEN": "Haunter",
+    "NameFR": "Spectrum",
+    "Generation": 1,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Image": "./img/1-151/093-a.png"
+  },
+  {
+    "Index": "94",
+    "NameEN": "Gengar",
+    "NameFR": "Ectoplasma",
+    "Generation": 1,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Image": "./img/1-151/094-a.png"
+  },
+  {
+    "Index": "95",
+    "NameEN": "Onix",
+    "NameFR": "Onix",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/1-151/095-a.png"
+  },
+  {
+    "Index": "96",
+    "NameEN": "Drowzee",
+    "NameFR": "Soporifik",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/096-a.png"
+  },
+  {
+    "Index": "97",
+    "NameEN": "Hypno",
+    "NameFR": "Hypnomade",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/097-a.png"
+  },
+  {
+    "Index": "98",
+    "NameEN": "Krabby",
+    "NameFR": "Krabby",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/098-a.png"
+  },
+  {
+    "Index": "99",
+    "NameEN": "Kingler",
+    "NameFR": "Krabboss",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/099-a.png"
+  },
+  {
+    "Index": "100",
+    "NameEN": "Voltorb",
+    "NameFR": "Voltorbe",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/1-151/100-a.png"
+  },
+  {
+    "Index": "101",
+    "NameEN": "Electrode",
+    "NameFR": "Électrode",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/1-151/101-a.png"
+  },
+  {
+    "Index": "102",
+    "NameEN": "Exeggcute",
+    "NameFR": "Noeunoeuf",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "psychic",
+    "Image": "./img/1-151/102-a.png"
+  },
+  {
+    "Index": "103",
+    "NameEN": "Exeggutor",
+    "NameFR": "Noadkoko",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "psychic",
+    "Image": "./img/1-151/103-a.png"
+  },
+  {
+    "Index": "104",
+    "NameEN": "Cubone",
+    "NameFR": "Osselait",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/1-151/104-a.png"
+  },
+  {
+    "Index": "105",
+    "NameEN": "Marowak",
+    "NameFR": "Ossatueur",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/1-151/105-a.png"
+  },
+  {
+    "Index": "106",
+    "NameEN": "Hitmonlee",
+    "NameFR": "Kicklee",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/106-a.png"
+  },
+  {
+    "Index": "107",
+    "NameEN": "Hitmonchan",
+    "NameFR": "Tygnon",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/107-a.png"
+  },
+  {
+    "Index": "108",
+    "NameEN": "Lickitung",
+    "NameFR": "Excelangue",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/108-a.png"
+  },
+  {
+    "Index": "109",
+    "NameEN": "Koffing",
+    "NameFR": "Smogo",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/1-151/109-a.png"
+  },
+  {
+    "Index": "110",
+    "NameEN": "Weezing",
+    "NameFR": "Smogogo",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/1-151/110-a.png"
+  },
+  {
+    "Index": "111",
+    "NameEN": "Rhyhorn",
+    "NameFR": "Rhinocorne",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": "rock",
+    "Image": "./img/1-151/111-a.png"
+  },
+  {
+    "Index": "112",
+    "NameEN": "Rhydon",
+    "NameFR": "Rhinoféros",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": "rock",
+    "Image": "./img/1-151/112-a.png"
+  },
+  {
+    "Index": "113",
+    "NameEN": "Chansey",
+    "NameFR": "Leveinard",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/113-a.png"
+  },
+  {
+    "Index": "114",
+    "NameEN": "Tangela",
+    "NameFR": "Saquedeneu",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/1-151/114-a.png"
+  },
+  {
+    "Index": "115",
+    "NameEN": "Kangaskhan",
+    "NameFR": "Kangourex",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/115-a.png"
+  },
+  {
+    "Index": "116",
+    "NameEN": "Horsea",
+    "NameFR": "Hypotrempe",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/116-a.png"
+  },
+  {
+    "Index": "117",
+    "NameEN": "Seadra",
+    "NameFR": "Hypocéan",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/117-a.png"
+  },
+  {
+    "Index": "118",
+    "NameEN": "Goldeen",
+    "NameFR": "Poissirène",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/118-a.png"
+  },
+  {
+    "Index": "119",
+    "NameEN": "Seaking",
+    "NameFR": "Poissoroy",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/119-a.png"
+  },
+  {
+    "Index": "120",
+    "NameEN": "Staryu",
+    "NameFR": "Stari",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/120-a.png"
+  },
+  {
+    "Index": "121",
+    "NameEN": "Starmie",
+    "NameFR": "Staross",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/1-151/121-a.png"
+  },
+  {
+    "Index": "122",
+    "NameEN": "Mr. Mime",
+    "NameFR": "M. Mime",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Image": "./img/1-151/122-a.png"
+  },
+  {
+    "Index": "123",
+    "NameEN": "Scyther",
+    "NameFR": "Insécateur",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Image": "./img/1-151/123-a.png"
+  },
+  {
+    "Index": "124",
+    "NameEN": "Jynx",
+    "NameFR": "Lippoutou",
+    "Generation": 1,
+    "Type1": "ice",
+    "Type2": "psychic",
+    "Image": "./img/1-151/124-a.png"
+  },
+  {
+    "Index": "125",
+    "NameEN": "Electabuzz",
+    "NameFR": "Élektek",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/1-151/125-a.png"
+  },
+  {
+    "Index": "126",
+    "NameEN": "Magmar",
+    "NameFR": "Magmar",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/126-a.png"
+  },
+  {
+    "Index": "127",
+    "NameEN": "Pinsir",
+    "NameFR": "Scarabrute",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/1-151/127-a.png"
+  },
+  {
+    "Index": "128",
+    "NameEN": "Tauros",
+    "NameFR": "Tauros",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/128-a.png"
+  },
+  {
+    "Index": "129",
+    "NameEN": "Magikarp",
+    "NameFR": "Magicarpe",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/129-a.png"
+  },
+  {
+    "Index": "130",
+    "NameEN": "Gyarados",
+    "NameFR": "Léviator",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/1-151/130-a.png"
+  },
+  {
+    "Index": "131",
+    "NameEN": "Lapras",
+    "NameFR": "Lokhlass",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "ice",
+    "Image": "./img/1-151/131-a.png"
+  },
+  {
+    "Index": "132",
+    "NameEN": "Ditto",
+    "NameFR": "Métamorph",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/132-a.png"
+  },
+  {
+    "Index": "133",
+    "NameEN": "Eevee",
+    "NameFR": "Évoli",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/133-a.png"
+  },
+  {
+    "Index": "134",
+    "NameEN": "Vaporeon",
+    "NameFR": "Aquali",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/134-a.png"
+  },
+  {
+    "Index": "135",
+    "NameEN": "Jolteon",
+    "NameFR": "Voltali",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/1-151/135-a.png"
+  },
+  {
+    "Index": "136",
+    "NameEN": "Flareon",
+    "NameFR": "Pyroli",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/136-a.png"
+  },
+  {
+    "Index": "137",
+    "NameEN": "Porygon",
+    "NameFR": "Porygon",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/137-a.png"
+  },
+  {
+    "Index": "138",
+    "NameEN": "Omanyte",
+    "NameFR": "Amonita",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "water",
+    "Image": "./img/1-151/138-a.png"
+  },
+  {
+    "Index": "139",
+    "NameEN": "Omastar",
+    "NameFR": "Amonistar",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "water",
+    "Image": "./img/1-151/139-a.png"
+  },
+  {
+    "Index": "140",
+    "NameEN": "Kabuto",
+    "NameFR": "Kabuto",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "water",
+    "Image": "./img/1-151/140-a.png"
+  },
+  {
+    "Index": "141",
+    "NameEN": "Kabutops",
+    "NameFR": "Kabutops",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "water",
+    "Image": "./img/1-151/141-a.png"
+  },
+  {
+    "Index": "142",
+    "NameEN": "Aerodactyl",
+    "NameFR": "Ptéra",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "flying",
+    "Image": "./img/1-151/142-a.png"
+  },
+  {
+    "Index": "143",
+    "NameEN": "Snorlax",
+    "NameFR": "Ronflex",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/143-a.png"
+  },
+  {
+    "Index": "144",
+    "NameEN": "Articuno",
+    "NameFR": "Artikodin",
+    "Generation": 1,
+    "Type1": "ice",
+    "Type2": "flying",
+    "Image": "./img/1-151/144-a.png"
+  },
+  {
+    "Index": "145",
+    "NameEN": "Zapdos",
+    "NameFR": "Électhor",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": "flying",
+    "Image": "./img/1-151/145-a.png"
+  },
+  {
+    "Index": "146",
+    "NameEN": "Moltres",
+    "NameFR": "Sulfura",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": "flying",
+    "Image": "./img/1-151/146-a.png"
+  },
+  {
+    "Index": "147",
+    "NameEN": "Dratini",
+    "NameFR": "Minidraco",
+    "Generation": 1,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/1-151/147-a.png"
+  },
+  {
+    "Index": "148",
+    "NameEN": "Dragonair",
+    "NameFR": "Draco",
+    "Generation": 1,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/1-151/148-a.png"
+  },
+  {
+    "Index": "149",
+    "NameEN": "Dragonite",
+    "NameFR": "Dracolosse",
+    "Generation": 1,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/1-151/149-a.png"
+  },
+  {
+    "Index": "150",
+    "NameEN": "Mewtwo",
+    "NameFR": "Mewtwo",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/150-a.png"
+  },
+  {
+    "Index": "151",
+    "NameEN": "Mew",
+    "NameFR": "Mew",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/151-a.png"
+  },
+  {
+    "Index": "19-B",
+    "NameEN": "Alolan Raticate",
+    "NameFR": "Rattata d'Alola",
+    "Generation": 7,
+    "Type1": "dark",
+    "Type2": "normal",
+    "Image": "./img/1-151/19b-a.png"
+  },
+  {
+    "Index": "20-B",
+    "NameEN": "Alolan Raticate",
+    "NameFR": "Rattatac d'Alola",
+    "Generation": 7,
+    "Type1": "dark",
+    "Type2": "normal",
+    "Image": "./img/1-151/20b-a.png"
+  },
+  {
+    "Generation": 7,
+    "Image": "./img/1-151/026b-a.png",
+    "Index": "26-B",
+    "NameEN": "Alolan Raichu",
+    "NameFR": "Raichu d'Alola",
+    "Type1": "electric",
+    "Type2": "psychic"
+  },
+  {
+    "Index": "027-B",
+    "NameEN": "Alolan Sandshrew",
+    "NameFR": "Sabelette d'Alola",
+    "Generation": 7,
+    "Type1": "ice",
+    "Type2": "steel",
+    "Image": "./img/1-151/027b-a.png"
+  },
+  {
+    "Index": "028-B",
+    "NameEN": "Alolan Sandslash",
+    "NameFR": "Sablaireau d'Alola",
+    "Generation": 7,
+    "Type1": "ice",
+    "Type2": "steel",
+    "Image": "./img/1-151/028b-a.png"
+  },
+  {
+    "Index": "037-B",
+    "NameEN": "Alolan Vulpix",
+    "NameFR": "Goupix d'Alola",
+    "Generation": 7,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/1-151/037b-a.png"
+  },
+  {
+    "Index": "038-B",
+    "NameEN": "Alolan Ninetales",
+    "NameFR": "Feunard d'Alola",
+    "Generation": 7,
+    "Type1": "ice",
+    "Type2": "fairy",
+    "Image": "./img/1-151/038b-a.png"
+  },
+  {
+    "Index": "050-B",
+    "NameEN": "Alolan Diglett",
+    "NameFR": "Taupiqueur d'Alola",
+    "Generation": 7,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Image": "./img/1-151/050b-a.png"
+  },
+  {
+    "Index": "051-B",
+    "NameEN": "Alolan Dugtrio",
+    "NameFR": "Triopikeur d'Alola",
+    "Generation": 7,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Image": "./img/1-151/051b-a.png"
+  },
+  {
+    "Index": "052-B",
+    "NameEN": "Alolan Meowth",
+    "NameFR": "Miaouss d'Alola",
+    "Generation": 7,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/1-151/052b-a.png"
+  },
+  {
+    "Index": "053-B",
+    "NameEN": "Alolan Persian",
+    "NameFR": "Persian d'Alola",
+    "Generation": 7,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/1-151/053b-a.png"
+  },
+  {
+    "Index": "052-C",
+    "NameEN": "Galarian Meowth",
+    "NameFR": "Miaouss de Galar",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": null,
+    "Image": "./img/1-151/052c-a.png"
+  },
+  {
+    "Index": "058-B",
+    "NameEN": "Hisuian Growlithe",
+    "NameFR": "Caninos d'Hisui",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "rock",
+    "Image": "./img/1-151/058b-a.png"
+  },
+  {
+    "Index": "059-B",
+    "NameEN": "Hisuian Arcanine",
+    "NameFR": "Arcanin d'Hisui",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "rock",
+    "Image": "./img/1-151/059b-a.png"
+  },
+  {
+    "Index": "074-B",
+    "NameEN": "Alolan Geodude",
+    "NameFR": "Racaillou d'Alola",
+    "Generation": 7,
+    "Type1": "rock",
+    "Type2": "electric",
+    "Image": "./img/1-151/074b-a.png"
+  },
+  {
+    "Index": "075-B",
+    "NameEN": "Alolan Graveler",
+    "NameFR": "Gravalanch d'Alola",
+    "Generation": 7,
+    "Type1": "rock",
+    "Type2": "electric",
+    "Image": "./img/1-151/075b-a.png"
+  },
+  {
+    "Index": "076-B",
+    "NameEN": "Alolan Golem",
+    "NameFR": "Grolem d'Alola",
+    "Generation": 7,
+    "Type1": "rock",
+    "Type2": "electric",
+    "Image": "./img/1-151/076b-a.png"
+  },
+  {
+    "Index": "077-B",
+    "NameEN": "Galarian Ponyta",
+    "NameFR": "Ponyta de Galar",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/077b-a.png"
+  },
+  {
+    "Index": "078-B",
+    "NameEN": "Galarian Rapidash",
+    "NameFR": "Galopa de Galar",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Image": "./img/1-151/078b-a.png"
+  },
+  {
+    "Index": "079-B",
+    "NameEN": "Galarian Slowpoke",
+    "NameFR": "Ramoloss de Galar",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/079b-a.png"
+  },
+  {
+    "Index": "080-B",
+    "NameEN": "Galarian Slowbro",
+    "NameFR": "Flagadoss de Galar",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "psychic",
+    "Image": "./img/1-151/080b-a.png"
+  },
+  {
+    "Index": "083-B",
+    "NameEN": "Galarian Farfetchd",
+    "NameFR": "Canarticho de Galar",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/083b-a.png"
+  },
+  {
+    "Index": "088-B",
+    "NameEN": "Alolan Grimer",
+    "NameFR": "Tadmorv d'Alola",
+    "Generation": 7,
+    "Type1": "poison",
+    "Type2": "dark",
+    "Image": "./img/1-151/088b-a.png"
+  },
+  {
+    "Index": "089-B",
+    "NameEN": "Alolan Muk",
+    "NameFR": "Grotadmorv d'Alola",
+    "Generation": 7,
+    "Type1": "poison",
+    "Type2": "dark",
+    "Image": "./img/1-151/089b-a.png"
+  },
+  {
+    "Index": "100-B",
+    "NameEN": "Hisuian Voltorb",
+    "NameFR": "Voltorb d'Hisui",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "grass",
+    "Image": "./img/1-151/100b-a.png"
+  },
+  {
+    "Index": "101-B",
+    "NameEN": "Hisuian Electrode",
+    "NameFR": "Électrode d'Hisui",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "grass",
+    "Image": "./img/1-151/101b-a.png"
+  },
+  {
+    "Index": "103-B",
+    "NameEN": "Alolan Exeggutor",
+    "NameFR": "Noadkoko d'Alola",
+    "Generation": 7,
+    "Type1": "grass",
+    "Type2": "dragon",
+    "Image": "./img/1-151/103b-a.png"
+  },
+  {
+    "Index": "105-B",
+    "NameEN": "Alolan Marowak",
+    "NameFR": "Ossatueur d'Alola",
+    "Generation": 7,
+    "Type1": "fire",
+    "Type2": "ghost",
+    "Image": "./img/1-151/105b-a.png"
+  },
+  {
+    "Index": "110-B",
+    "NameEN": "Galarian Weezing",
+    "NameFR": "Smogogo de Galar",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "fairy",
+    "Image": "./img/1-151/110b-a.png"
+  },
+  {
+    "Index": "122-B",
+    "NameEN": "Galarian Mr. Mime",
+    "NameFR": "M. Mime de Galar",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "psychic",
+    "Image": "./img/1-151/122b-a.png"
+  },
+  {
+    "Index": "128-B",
+    "NameEN": "Paldean Tauros",
+    "NameFR": "Tauros de Paldea",
+    "Generation": 9,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/128b-a.png"
+  },
+  {
+    "Index": "144-B",
+    "NameEN": "Galarian Articuno",
+    "NameFR": "Artikodin de Galar",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Image": "./img/1-151/144b-a.png"
+  },
+  {
+    "Index": "145-B",
+    "NameEN": "Galarian Zapdos",
+    "NameFR": "Électhor de Galar",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "flying",
+    "Image": "./img/1-151/145b-a.png"
+  },
+  {
+    "Index": "146-B",
+    "NameEN": "Galarian Moltres",
+    "NameFR": "Sulfura de Galar",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "flying",
+    "Image": "./img/1-151/146b-a.png"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/152-a.png",
+      "Index": "152",
+      "NameEN": "Chikorita",
+      "NameFR": "Germignon",
+      "Type1": "grass",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/153-a.png",
+      "Index": "153",
+      "NameEN": "Bayleef",
+      "NameFR": "Macronium",
+      "Type1": "grass",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/154-a.png",
+      "Index": "154",
+      "NameEN": "Meganium",
+      "NameFR": "Méganium",
+      "Type1": "grass",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/155-a.png",
+      "Index": "155",
+      "NameEN": "Cyndaquil",
+      "NameFR": "Héricendre",
+      "Type1": "fire",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/156-a.png",
+      "Index": "156",
+      "NameEN": "Quilava",
+      "NameFR": "Feurisson",
+      "Type1": "fire",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/157-a.png",
+      "Index": "157",
+      "NameEN": "Typhlosion",
+      "NameFR": "Typhlosion",
+      "Type1": "fire",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/158-a.png",
+      "Index": "158",
+      "NameEN": "Totodile",
+      "NameFR": "Kaiminus",
+      "Type1": "water",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/159-a.png",
+      "Index": "159",
+      "NameEN": "Croconaw",
+      "NameFR": "Crocrodil",
+      "Type1": "water",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/160-a.png",
+      "Index": "160",
+      "NameEN": "Feraligatr",
+      "NameFR": "Aligatueur",
+      "Type1": "water",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/161-a.png",
+      "Index": "161",
+      "NameEN": "Sentret",
+      "NameFR": "Fouinette",
+      "Type1": "normal",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/162-a.png",
+      "Index": "162",
+      "NameEN": "Furret",
+      "NameFR": "Fouinar",
+      "Type1": "normal",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/163-a.png",
+      "Index": "163",
+      "NameEN": "Hoothoot",
+      "NameFR": "Hoothoot",
+      "Type1": "normal",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/164-a.png",
+      "Index": "164",
+      "NameEN": "Noctowl",
+      "NameFR": "Noarfang",
+      "Type1": "normal",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/165-a.png",
+      "Index": "165",
+      "NameEN": "Ledyba",
+      "NameFR": "Coxy",
+      "Type1": "bug",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/166-a.png",
+      "Index": "166",
+      "NameEN": "Ledian",
+      "NameFR": "Coxyclaque",
+      "Type1": "bug",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/167-a.png",
+      "Index": "167",
+      "NameEN": "Spinarak",
+      "NameFR": "Mimigal",
+      "Type1": "bug",
+      "Type2": "poison"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/168-a.png",
+      "Index": "168",
+      "NameEN": "Ariados",
+      "NameFR": "Migalos",
+      "Type1": "bug",
+      "Type2": "poison"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/169-a.png",
+      "Index": "169",
+      "NameEN": "Crobat",
+      "NameFR": "Nostenfer",
+      "Type1": "poison",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/170-a.png",
+      "Index": "170",
+      "NameEN": "Chinchou",
+      "NameFR": "Loupio",
+      "Type1": "water",
+      "Type2": "electric"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/171-a.png",
+      "Index": "171",
+      "NameEN": "Lanturn",
+      "NameFR": "Lanturn",
+      "Type1": "water",
+      "Type2": "electric"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/172-a.png",
+      "Index": "172",
+      "NameEN": "Pichu",
+      "NameFR": "Pichu",
+      "Type1": "electric",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/173-a.png",
+      "Index": "173",
+      "NameEN": "Cleffa",
+      "NameFR": "Mélo",
+      "Type1": "fairy",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/174-a.png",
+      "Index": "174",
+      "NameEN": "Igglybuff",
+      "NameFR": "Toudoudou",
+      "Type1": "normal",
+      "Type2": "fairy"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/175-a.png",
+      "Index": "175",
+      "NameEN": "Togepi",
+      "NameFR": "Togepi",
+      "Type1": "fairy",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/176-a.png",
+      "Index": "176",
+      "NameEN": "Togetic",
+      "NameFR": "Togetic",
+      "Type1": "fairy",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/177-a.png",
+      "Index": "177",
+      "NameEN": "Natu",
+      "NameFR": "Natu",
+      "Type1": "psychic",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/178-a.png",
+      "Index": "178",
+      "NameEN": "Xatu",
+      "NameFR": "Xatu",
+      "Type1": "psychic",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/179-a.png",
+      "Index": "179",
+      "NameEN": "Mareep",
+      "NameFR": "Wattouat",
+      "Type1": "electric",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/180-a.png",
+      "Index": "180",
+      "NameEN": "Flaaffy",
+      "NameFR": "Lainergie",
+      "Type1": "electric",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/181-a.png",
+      "Index": "181",
+      "NameEN": "Ampharos",
+      "NameFR": "Pharamp",
+      "Type1": "electric",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/182-a.png",
+      "Index": "182",
+      "NameEN": "Bellossom",
+      "NameFR": "Joliflor",
+      "Type1": "grass",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/183-a.png",
+      "Index": "183",
+      "NameEN": "Marill",
+      "NameFR": "Marill",
+      "Type1": "water",
+      "Type2": "fairy"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/184-a.png",
+      "Index": "184",
+      "NameEN": "Azumarill",
+      "NameFR": "Azumarill",
+      "Type1": "water",
+      "Type2": "fairy"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/185-a.png",
+      "Index": "185",
+      "NameEN": "Sudowoodo",
+      "NameFR": "Simularbre",
+      "Type1": "rock",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/186-a.png",
+      "Index": "186",
+      "NameEN": "Politoed",
+      "NameFR": "Tarpaud",
+      "Type1": "water",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/187-a.png",
+      "Index": "187",
+      "NameEN": "Hoppip",
+      "NameFR": "Granivol",
+      "Type1": "grass",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/188-a.png",
+      "Index": "188",
+      "NameEN": "Skiploom",
+      "NameFR": "Floravol",
+      "Type1": "grass",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/189-a.png",
+      "Index": "189",
+      "NameEN": "Jumpluff",
+      "NameFR": "Cotovol",
+      "Type1": "grass",
+      "Type2": "flying"
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/190-a.png",
+      "Index": "190",
+      "NameEN": "Aipom",
+      "NameFR": "Capumain",
+      "Type1": "normal",
+      "Type2": null
+  },
+  {
+      "Generation": 2,
+      "Image": "./img/152-250/191-a.png",
+      "Index": "191",
+      "NameEN": "Sunkern",
+      "NameFR": "Tournegrin",
+      "Type1": "grass",
+      "Type2": null
+  },
+  {
+    "Index": "192",
+    "NameEN": "Sunflora",
+    "NameFR": "Héliatronc",
+    "Generation": 2,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/152-250/192-a.png"
+  },
+  {
+    "Index": "193",
+    "NameEN": "Yanma",
+    "NameFR": "Yanma",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Image": "./img/152-250/193-a.png"
+  },
+  {
+    "Index": "194",
+    "NameEN": "Wooper",
+    "NameFR": "Axoloto",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/152-250/194-a.png"
+  },
+  {
+    "Index": "195",
+    "NameEN": "Quagsire",
+    "NameFR": "Maraiste",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/152-250/195-a.png"
+  },
+  {
+    "Index": "196",
+    "NameEN": "Espeon",
+    "NameFR": "Mentali",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/152-250/196-a.png"
+  },
+  {
+    "Index": "197",
+    "NameEN": "Umbreon",
+    "NameFR": "Noctali",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/152-250/197-a.png"
+  },
+  {
+    "Index": "198",
+    "NameEN": "Murkrow",
+    "NameFR": "Cornèbre",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": "flying",
+    "Image": "./img/152-250/198-a.png"
+  },
+  {
+    "Index": "199",
+    "NameEN": "Slowking",
+    "NameFR": "Roigada",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/152-250/199-a.png"
+  },
+  {
+    "Index": "200",
+    "NameEN": "Misdreavus",
+    "NameFR": "Feuforêve",
+    "Generation": 2,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/152-250/200-a.png"
+  },
+  {
+    "Index": "201",
+    "NameEN": "Unown",
+    "NameFR": "Zarbi",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/152-250/201-a.png"
+  },
+  {
+    "Index": "202",
+    "NameEN": "Wobbuffet",
+    "NameFR": "Qulbutoké",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/152-250/202-a.png"
+  },
+  {
+    "Index": "203",
+    "NameEN": "Girafarig",
+    "NameFR": "Girafarig",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": "psychic",
+    "Image": "./img/152-250/203-a.png"
+  },
+  {
+    "Index": "204",
+    "NameEN": "Pineco",
+    "NameFR": "Pomdepik",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/152-250/204-a.png"
+  },
+  {
+    "Index": "205",
+    "NameEN": "Forretress",
+    "NameFR": "Foretress",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Image": "./img/152-250/205-a.png"
+  },
+  {
+    "Index": "206",
+    "NameEN": "Dunsparce",
+    "NameFR": "Insolourdo",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/206-a.png"
+  },
+  {
+    "Index": "207",
+    "NameEN": "Gligar",
+    "NameFR": "Scorplane",
+    "Generation": 2,
+    "Type1": "ground",
+    "Type2": "flying",
+    "Image": "./img/152-250/207-a.png"
+  },
+  {
+    "Index": "208",
+    "NameEN": "Steelix",
+    "NameFR": "Steelix",
+    "Generation": 2,
+    "Type1": "steel",
+    "Type2": "ground",
+    "Image": "./img/152-250/208-a.png"
+  },
+  {
+    "Index": "209",
+    "NameEN": "Snubbull",
+    "NameFR": "Snubbull",
+    "Generation": 2,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/152-250/209-a.png"
+  },
+  {
+    "Index": "210",
+    "NameEN": "Granbull",
+    "NameFR": "Granbull",
+    "Generation": 2,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/152-250/210-a.png"
+  },
+  {
+    "Index": "211",
+    "NameEN": "Qwilfish",
+    "NameFR": "Qwilfish",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "poison",
+    "Image": "./img/152-250/211-a.png"
+  },
+  {
+    "Index": "212",
+    "NameEN": "Scizor",
+    "NameFR": "Cizayox",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Image": "./img/152-250/212-a.png"
+  },
+  {
+    "Index": "213",
+    "NameEN": "Shuckle",
+    "NameFR": "Caratroc",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "rock",
+    "Image": "./img/152-250/213-a.png"
+  },
+  {
+    "Index": "214",
+    "NameEN": "Heracross",
+    "NameFR": "Scarhino",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "fighting",
+    "Image": "./img/152-250/214-a.png"
+  },
+  {
+    "Index": "215",
+    "NameEN": "Sneasel",
+    "NameFR": "Farfuret",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": "ice",
+    "Image": "./img/152-250/215-a.png"
+  },
+  {
+    "Index": "216",
+    "NameEN": "Teddiursa",
+    "NameFR": "Teddiursa",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/216-a.png"
+  },
+  {
+    "Index": "217",
+    "NameEN": "Ursaring",
+    "NameFR": "Ursaring",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/217-a.png"
+  },
+  {
+    "Index": "218",
+    "NameEN": "Slugma",
+    "NameFR": "Limagma",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/152-250/218-a.png"
+  },
+  {
+    "Index": "219",
+    "NameEN": "Magcargo",
+    "NameFR": "Volcaropod",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": "rock",
+    "Image": "./img/152-250/219-a.png"
+  },
+  {
+    "Index": "220",
+    "NameEN": "Swinub",
+    "NameFR": "Marcacrin",
+    "Generation": 2,
+    "Type1": "ice",
+    "Type2": "ground",
+    "Image": "./img/152-250/220-a.png"
+  },
+  {
+    "Index": "221",
+    "NameEN": "Piloswine",
+    "NameFR": "Cochignon",
+    "Generation": 2,
+    "Type1": "ice",
+    "Type2": "ground",
+    "Image": "./img/152-250/221-a.png"
+  },
+  {
+    "Index": "222",
+    "NameEN": "Corsola",
+    "NameFR": "Corayon",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "rock",
+    "Image": "./img/152-250/222-a.png"
+  },
+  {
+    "Index": "223",
+    "NameEN": "Remoraid",
+    "NameFR": "Rémoraid",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/152-250/223-a.png"
+  },
+  {
+    "Index": "224",
+    "NameEN": "Octillery",
+    "NameFR": "Octillery",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/152-250/224-a.png"
+  },
+  {
+    "Index": "225",
+    "NameEN": "Delibird",
+    "NameFR": "Cadoizo",
+    "Generation": 2,
+    "Type1": "ice",
+    "Type2": "flying",
+    "Image": "./img/152-250/225-a.png"
+  },
+  {
+    "Index": "226",
+    "NameEN": "Mantine",
+    "NameFR": "Démanta",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/152-250/226-a.png"
+  },
+  {
+    "Index": "227",
+    "NameEN": "Skarmory",
+    "NameFR": "Airmure",
+    "Generation": 2,
+    "Type1": "steel",
+    "Type2": "flying",
+    "Image": "./img/152-250/227-a.png"
+  },
+  {
+    "Index": "228",
+    "NameEN": "Houndour",
+    "NameFR": "Malosse",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": "fire",
+    "Image": "./img/152-250/228-a.png"
+  },
+  {
+    "Index": "229",
+    "NameEN": "Houndoom",
+    "NameFR": "Démolosse",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": "fire",
+    "Image": "./img/152-250/229-a.png"
+  },
+  {
+    "Index": "230",
+    "NameEN": "Kingdra",
+    "NameFR": "Hyporoi",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "dragon",
+    "Image": "./img/152-250/230-a.png"
+  },
+  {
+    "Index": "231",
+    "NameEN": "Phanpy",
+    "NameFR": "Phanpy",
+    "Generation": 2,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/152-250/231-a.png"
+  },
+  {
+    "Index": "232",
+    "NameEN": "Donphan",
+    "NameFR": "Donphan",
+    "Generation": 2,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/152-250/232-a.png"
+  },
+  {
+    "Index": "233",
+    "NameEN": "Porygon2",
+    "NameFR": "Porygon2",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/233-a.png"
+  },
+  {
+    "Index": "234",
+    "NameEN": "Stantler",
+    "NameFR": "Cerfrousse",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/234-a.png"
+  },
+  {
+    "Index": "235",
+    "NameEN": "Smeargle",
+    "NameFR": "Kangourex",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/235-a.png"
+  },
+  {
+    "Index": "236",
+    "NameEN": "Tyrogue",
+    "NameFR": "Debugant",
+    "Generation": 2,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/152-250/236-a.png"
+  },
+  {
+    "Index": "237",
+    "NameEN": "Hitmontop",
+    "NameFR": "Kapoera",
+    "Generation": 2,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/152-250/237-a.png"
+  },
+  {
+    "Index": "238",
+    "NameEN": "Smoochum",
+    "NameFR": "Lippouti",
+    "Generation": 2,
+    "Type1": "ice",
+    "Type2": "psychic",
+    "Image": "./img/152-250/238-a.png"
+  },
+  {
+    "Index": "239",
+    "NameEN": "Elekid",
+    "NameFR": "Élekid",
+    "Generation": 2,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/152-250/239-a.png"
+  },
+  {
+    "Index": "240",
+    "NameEN": "Magby",
+    "NameFR": "Magby",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/152-250/240-a.png"
+  },
+  {
+    "Index": "241",
+    "NameEN": "Miltank",
+    "NameFR": "Écrémeuh",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/241-a.png"
+  },
+  {
+    "Index": "242",
+    "NameEN": "Blissey",
+    "NameFR": "Leuphorie",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/242-a.png"
+  },
+  {
+    "Index": "243",
+    "NameEN": "Raikou",
+    "NameFR": "Raikou",
+    "Generation": 2,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/152-250/243-a.png"
+  },
+  {
+    "Index": "244",
+    "NameEN": "Entei",
+    "NameFR": "Entei",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/152-250/244-a.png"
+  },
+  {
+    "Index": "245",
+    "NameEN": "Suicune",
+    "NameFR": "Suicune",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/152-250/245-a.png"
+  },
+  {
+    "Index": "246",
+    "NameEN": "Larvitar",
+    "NameFR": "Embrylex",
+    "Generation": 2,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/152-250/246-a.png"
+  },
+  {
+    "Index": "247",
+    "NameEN": "Pupitar",
+    "NameFR": "Ymphect",
+    "Generation": 2,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/152-250/247-a.png"
+  },
+  {
+    "Index": "248",
+    "NameEN": "Tyranitar",
+    "NameFR": "Tyranocif",
+    "Generation": 2,
+    "Type1": "rock",
+    "Type2": "dark",
+    "Image": "./img/152-250/248-a.png"
+  },
+  {
+    "Index": "249",
+    "NameEN": "Lugia",
+    "NameFR": "Lugia",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Image": "./img/152-250/249-a.png"
+  },
+  {
+    "Index": "250",
+    "NameEN": "Ho-Oh",
+    "NameFR": "Ho-Oh",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": "flying",
+    "Image": "./img/152-250/250-a.png"
+  },
+  {
+    "Index": "251",
+    "NameEN": "Celebi",
+    "NameFR": "Celebi",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": "grass",
+    "Image": "./img/152-250/251-a.png"
+  },
+  {
+    "Index": "157-B",
+    "NameEN": "Hisuian Typhlosion",
+    "NameFR": "Typhlosion de Hisui",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "ghost",
+    "Image": "./img/152-250/157b-a.png"
+  },
+  {
+    "Index": "199-B",
+    "NameEN": "Galarian Slowking",
+    "NameFR": "Roigada de Galar",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "psy",
+    "Image": "./img/152-250/199b-a.png"
+  },
+  {
+    "Index": "211-B",
+    "NameEN": "Hisuian Qwilfish",
+    "NameFR": "Qwilfish de Hisui",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "poison",
+    "Image": "./img/152-250/211b-a.png"
+  },
+  {
+    "Index": "215-B",
+    "NameEN": "Hisuian Sneasel",
+    "NameFR": "Farfuret de Hisui",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "poison",
+    "Image": "./img/152-250/211b-a.png"
+  },
+  {
+    "Index": "222-B",
+    "NameEN": "Galarian Corsola",
+    "NameFR": "Corayon de Galar",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/152-250/199b-a.png"
+  }
+]

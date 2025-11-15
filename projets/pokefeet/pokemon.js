@@ -8,7 +8,8 @@ class Pokemon {
     this.Generation = data.Generation;
     this.Type1 = data.Type1;
     this.Type2 = data.Type2 ?? null;
-    this.Image = data.Image ?? data.image ?? ""; // lien optionnel vers l'image
+    this.Image = data.Image ?? data.image ?? ""; // lien optionnel vers l'image partielle
+    this.FullImage = data.FullImage ?? data.FullImage ?? ""; // lien optionnel vers l'image complète
   }
 
   matchesName(name) {

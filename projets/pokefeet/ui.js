@@ -2,6 +2,7 @@
 // Fonctions responsables des mises à jour visuelles
 const UI = (function () {
   const scoreEl = document.getElementById('score');
+  const streakEl = document.getElementById('streak');
   const bestEl = document.getElementById('bestScore');
   const imgEl = document.getElementById('pokeImg');
   const hintsList = document.getElementById('hintsList');
@@ -16,18 +17,26 @@ const UI = (function () {
   const submitBtn = document.getElementById('submitBtn');
 
   function populateNamesList(pokemons) {
-    // Remplit le datalist avec noms FR et EN
-    namesDatalist.innerHTML = '';
-    const used = new Set();
+    // Récupère tous les noms FR/EN uniques
+    const namesSet = new Set();
     pokemons.forEach(p => {
-      const fr = p.NameFR || '';
-      const en = p.NameEN || '';
-      if (fr && !used.has(fr)) {
-        const o = document.createElement('option'); o.value = fr; namesDatalist.appendChild(o); used.add(fr);
-      }
-      if (en && !used.has(en)) {
-        const o2 = document.createElement('option'); o2.value = en; namesDatalist.appendChild(o2); used.add(en);
-      }
+      if (p.NameFR) namesSet.add(p.NameFR);
+      if (p.NameEN) namesSet.add(p.NameEN);
+    });
+
+    // Transforme en tableau puis mélange (Fisher‑Yates)
+    const names = Array.from(namesSet);
+    for (let i = names.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [names[i], names[j]] = [names[j], names[i]];
+    }
+
+    // Vide et remplit le datalist
+    namesDatalist.innerHTML = '';
+    names.forEach(n => {
+      const o = document.createElement('option');
+      o.value = n;
+      namesDatalist.appendChild(o);
     });
   }
 
@@ -39,6 +48,10 @@ const UI = (function () {
 
   function setScore(s) {
     scoreEl.textContent = s;
+  }
+
+  function setStreak(s) {
+    streakEl.textContent = s;
   }
 
   function setBest(b) {
@@ -116,6 +129,7 @@ const UI = (function () {
     populateNamesList,
     showPokemonImage,
     setScore,
+    setStreak,
     setBest,
     addHint,
     clearHints,

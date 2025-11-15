@@ -3,9 +3,11 @@
 const Game = (function () {
   // variables privées
   let pokemons = [];
+  let PossiblePokemons = [];
   let current = null;
   let attempts = 0; // 0 = première tentative
   let score = 0;
+  let streak = 0;
   const basePoints = 10;
   const hintPenalty = 2; // chaque indice retire 2 points
   const maxAttempts = 5;
@@ -24,8 +26,19 @@ const Game = (function () {
   // selection aléatoire
   function pickRandom() {
     if (!pokemons.length) return null;
-    const idx = Math.floor(Math.random() * pokemons.length);
-    return pokemons[idx];
+    return takeRandomAndRemove();
+  }
+
+  function takeRandomAndRemove() {
+    // mélange Fisher‑Yates in-place
+    for (let i = PossiblePokemons.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [PossiblePokemons[i], PossiblePokemons[j]] = [PossiblePokemons[j], PossiblePokemons[i]];
+    }
+
+    // prends et retire le premier élément
+    const selected = PossiblePokemons.shift(); // ou arr.splice(0,1)[0]
+    return selected;
   }
 
   // points pour la tentative courante selon le nombre d'indices déjà affichés (attempts)
@@ -42,6 +55,7 @@ const Game = (function () {
       const res = await fetch('data/pokemons.json');
       const arr = await res.json();
       pokemons = arr.map(p => new Pokemon(p));
+      PossiblePokemons = pokemons.slice();
     } catch (e) {
       // fallback : quelques pokémons d'exemple pour que l'app fonctionne sans fetch
       pokemons = [
@@ -85,6 +99,7 @@ const Game = (function () {
     UI.clearHints();
     UI.hideRevealInfo();
     UI.setScore(score);
+    UI.setStreak(streak);
     UI.clearInput();
   }
 
@@ -100,6 +115,7 @@ const Game = (function () {
   function revealAllAndResetScore() {
     UI.showRevealInfo(current);
     score = 0;
+    streak = 0;
     UI.setScore(score);
     UI.showNotification('Révélé ! Score remis à 0', 'fail');
     saveBestIfNeeded();
@@ -113,12 +129,16 @@ const Game = (function () {
       // correct
       const points = pointsForAttempt(attempts);
       score += points;
+      streak += 1;
       UI.setScore(score);
+      UI.setStreak(streak);
       UI.showNotification('+' + points + ' points', 'success');
       UI.showRevealInfo(current); // afficher infos
       saveBestIfNeeded();
       UI.enableSuivantBtn(true);
       UI.enableInput(false);
+      UI.showPokemonImage(current ? current.FullImage : '');
+      console.log(PossiblePokemons.length);
     } else {
       // incorrect
       attempts++;
@@ -126,10 +146,11 @@ const Game = (function () {
         // échoué complètement
         UI.enableSuivantBtn(true);
         revealAllAndResetScore();
+        PossiblePokemons = [...pokemons];
       } else {
         // afficher indice correspondant
         showHintForAttempt(attempts);
-        UI.showNotification('-0 points (indice affiché)', 'hint');
+        UI.showNotification('-2 points (indice affiché)', 'hint');
       }
     }
   }

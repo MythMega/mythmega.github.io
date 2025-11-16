@@ -1,0 +1,4252 @@
+[
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/001-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/1.png",
+    "Index": "1",
+    "NameEN": "Bulbasaur",
+    "NameFR": "Bulbizarre",
+    "Type1": "grass",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/002-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/2.png",
+    "Index": "2",
+    "NameEN": "Ivysaur",
+    "NameFR": "Herbizarre",
+    "Type1": "grass",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/003-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/3.png",
+    "Index": "3",
+    "NameEN": "Venusaur",
+    "NameFR": "Florizarre",
+    "Type1": "grass",
+    "Type2": "poison"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/004-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/4.png",
+    "Index": "4",
+    "NameEN": "Charmander",
+    "NameFR": "Salamèche",
+    "Type1": "fire",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/005-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/5.png",
+    "Index": "5",
+    "NameEN": "Charmeleon",
+    "NameFR": "Reptincel",
+    "Type1": "fire",
+    "Type2": null
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/006-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/6.png",
+    "Index": "6",
+    "NameEN": "Charizard",
+    "NameFR": "Dracaufeu",
+    "Type1": "fire",
+    "Type2": "flying"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/007-a.png",
+    "Index": "7",
+    "NameEN": "Squirtle",
+    "NameFR": "Carapuce",
+    "Type1": "water",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/7.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/008-a.png",
+    "Index": "8",
+    "NameEN": "Wartortle",
+    "NameFR": "Carabaffe",
+    "Type1": "water",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/8.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/009-a.png",
+    "Index": "9",
+    "NameEN": "Blastoise",
+    "NameFR": "Tortank",
+    "Type1": "water",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/9.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/010-a.png",
+    "Index": "10",
+    "NameEN": "Caterpie",
+    "NameFR": "Chenipan",
+    "Type1": "bug",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/10.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/011-a.png",
+    "Index": "11",
+    "NameEN": "Metapod",
+    "NameFR": "Chrysacier",
+    "Type1": "bug",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/11.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/012-a.png",
+    "Index": "12",
+    "NameEN": "Butterfree",
+    "NameFR": "Papilusion",
+    "Type1": "bug",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/12.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/013-a.png",
+    "Index": "13",
+    "NameEN": "Weedle",
+    "NameFR": "Aspicot",
+    "Type1": "bug",
+    "Type2": "poison",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/13.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/014-a.png",
+    "Index": "14",
+    "NameEN": "Kakuna",
+    "NameFR": "Coconfort",
+    "Type1": "bug",
+    "Type2": "poison",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/14.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/015-a.png",
+    "Index": "15",
+    "NameEN": "Beedrill",
+    "NameFR": "Dardargnan",
+    "Type1": "bug",
+    "Type2": "poison",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/15.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/016-a.png",
+    "Index": "16",
+    "NameEN": "Pidgey",
+    "NameFR": "Roucool",
+    "Type1": "normal",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/16.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/017-a.png",
+    "Index": "17",
+    "NameEN": "Pidgeotto",
+    "NameFR": "Roucoups",
+    "Type1": "normal",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/17.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/018-a.png",
+    "Index": "18",
+    "NameEN": "Pidgeot",
+    "NameFR": "Roucarnage",
+    "Type1": "normal",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/18.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/019-a.png",
+    "Index": "19",
+    "NameEN": "Rattata",
+    "NameFR": "Rattata",
+    "Type1": "normal",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/19.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/020-a.png",
+    "Index": "20",
+    "NameEN": "Raticate",
+    "NameFR": "Rattatac",
+    "Type1": "normal",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/20.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/021-a.png",
+    "Index": "21",
+    "NameEN": "Spearow",
+    "NameFR": "Piafabec",
+    "Type1": "normal",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/21.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/022-a.png",
+    "Index": "22",
+    "NameEN": "Fearow",
+    "NameFR": "Rapasdepic",
+    "Type1": "normal",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/22.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/023-a.png",
+    "Index": "23",
+    "NameEN": "Ekans",
+    "NameFR": "Abo",
+    "Type1": "poison",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/23.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/024-a.png",
+    "Index": "24",
+    "NameEN": "Arbok",
+    "NameFR": "Arbok",
+    "Type1": "poison",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/24.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/025-a.png",
+    "Index": "25",
+    "NameEN": "Pikachu",
+    "NameFR": "Pikachu",
+    "Type1": "electric",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/25.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/026-a.png",
+    "Index": "26",
+    "NameEN": "Raichu",
+    "NameFR": "Raichu",
+    "Type1": "electric",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/26.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/027-a.png",
+    "Index": "27",
+    "NameEN": "Sandshrew",
+    "NameFR": "Sabelette",
+    "Type1": "ground",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/27.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/028-a.png",
+    "Index": "28",
+    "NameEN": "Sandslash",
+    "NameFR": "Sablaireau",
+    "Type1": "ground",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/28.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/029-a.png",
+    "Index": "29",
+    "NameEN": "Nidoran Female",
+    "NameFR": "Nidoran femelle",
+    "Type1": "poison",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/29.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/030-a.png",
+    "Index": "30",
+    "NameEN": "Nidorina",
+    "NameFR": "Nidorina",
+    "Type1": "poison",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/30.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/031-a.png",
+    "Index": "31",
+    "NameEN": "Nidoqueen",
+    "NameFR": "Nidoqueen",
+    "Type1": "poison",
+    "Type2": "ground",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/31.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/032-a.png",
+    "Index": "32",
+    "NameEN": "Nidoran Male",
+    "NameFR": "Nidoran mâle",
+    "Type1": "poison",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/32.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/033-a.png",
+    "Index": "33",
+    "NameEN": "Nidorino",
+    "NameFR": "Nidorino",
+    "Type1": "poison",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/33.png"
+  },
+  {
+    "Generation": 1,
+    "Image": "./img/1-151/034-a.png",
+    "Index": "34",
+    "NameEN": "Nidoking",
+    "NameFR": "Nidoking",
+    "Type1": "poison",
+    "Type2": "ground",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/34.png"
+  },
+  {
+    "Index": "35",
+    "NameEN": "Clefairy",
+    "NameFR": "Mélofée",
+    "Generation": 1,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/1-151/035-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/35.png"
+  },
+  {
+    "Index": "36",
+    "NameEN": "Clefable",
+    "NameFR": "Mélodelfe",
+    "Generation": 1,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/1-151/036-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/36.png"
+  },
+  {
+    "Index": "37",
+    "NameEN": "Vulpix",
+    "NameFR": "Goupix",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/037-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/37.png"
+  },
+  {
+    "Index": "38",
+    "NameEN": "Ninetales",
+    "NameFR": "Feunard",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/038-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/38.png"
+  },
+  {
+    "Index": "39",
+    "NameEN": "Jigglypuff",
+    "NameFR": "Rondoudou",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "fairy",
+    "Image": "./img/1-151/039-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/39.png"
+  },
+  {
+    "Index": "40",
+    "NameEN": "Wigglytuff",
+    "NameFR": "Grodoudou",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "fairy",
+    "Image": "./img/1-151/040-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/40.png"
+  },
+  {
+    "Index": "41",
+    "NameEN": "Zubat",
+    "NameFR": "Nosferapti",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": "flying",
+    "Image": "./img/1-151/041-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/41.png"
+  },
+  {
+    "Index": "42",
+    "NameEN": "Golbat",
+    "NameFR": "Nosferalto",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": "flying",
+    "Image": "./img/1-151/042-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/42.png"
+  },
+  {
+    "Index": "43",
+    "NameEN": "Oddish",
+    "NameFR": "Mystherbe",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/043-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/43.png"
+  },
+  {
+    "Index": "44",
+    "NameEN": "Gloom",
+    "NameFR": "Ortide",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/044-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/44.png"
+  },
+  {
+    "Index": "45",
+    "NameEN": "Vileplume",
+    "NameFR": "Rafflesia",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/045-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/45.png"
+  },
+  {
+    "Index": "46",
+    "NameEN": "Paras",
+    "NameFR": "Paras",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "grass",
+    "Image": "./img/1-151/046-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/46.png"
+  },
+  {
+    "Index": "47",
+    "NameEN": "Parasect",
+    "NameFR": "Parasect",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "grass",
+    "Image": "./img/1-151/047-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/47.png"
+  },
+  {
+    "Index": "48",
+    "NameEN": "Venonat",
+    "NameFR": "Mimitoss",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/1-151/048-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/48.png"
+  },
+  {
+    "Index": "49",
+    "NameEN": "Venomoth",
+    "NameFR": "Aéromite",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/1-151/049-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/49.png"
+  },
+  {
+    "Index": "50",
+    "NameEN": "Diglett",
+    "NameFR": "Taupiqueur",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/1-151/050-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/50.png"
+  },
+  {
+    "Index": "51",
+    "NameEN": "Dugtrio",
+    "NameFR": "Triopikeur",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/1-151/051-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/51.png"
+  },
+  {
+    "Index": "52",
+    "NameEN": "Meowth",
+    "NameFR": "Miaouss",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/052-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/52.png"
+  },
+  {
+    "Index": "53",
+    "NameEN": "Persian",
+    "NameFR": "Persian",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/053-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/53.png"
+  },
+  {
+    "Index": "54",
+    "NameEN": "Psyduck",
+    "NameFR": "Psykokwak",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/054-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/54.png"
+  },
+  {
+    "Index": "55",
+    "NameEN": "Golduck",
+    "NameFR": "Akwakwak",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/055-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/55.png"
+  },
+  {
+    "Index": "56",
+    "NameEN": "Mankey",
+    "NameFR": "Férosinge",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/056-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/56.png"
+  },
+  {
+    "Index": "57",
+    "NameEN": "Primeape",
+    "NameFR": "Colossinge",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/057-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/57.png"
+  },
+  {
+    "Index": "58",
+    "NameEN": "Growlithe",
+    "NameFR": "Caninos",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/058-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/58.png"
+  },
+  {
+    "Index": "59",
+    "NameEN": "Arcanine",
+    "NameFR": "Arcanin",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/059-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/59.png"
+  },
+  {
+    "Index": "60",
+    "NameEN": "Poliwag",
+    "NameFR": "Ptitard",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/060-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/60.png"
+  },
+  {
+    "Index": "61",
+    "NameEN": "Poliwhirl",
+    "NameFR": "Têtarte",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/061-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/61.png"
+  },
+  {
+    "Index": "62",
+    "NameEN": "Poliwrath",
+    "NameFR": "Tartard",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "fighting",
+    "Image": "./img/1-151/062-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/62.png"
+  },
+  {
+    "Index": "63",
+    "NameEN": "Abra",
+    "NameFR": "Abra",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/063-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/63.png"
+  },
+  {
+    "Index": "64",
+    "NameEN": "Kadabra",
+    "NameFR": "Kadabra",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/064-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/64.png"
+  },
+  {
+    "Index": "65",
+    "NameEN": "Alakazam",
+    "NameFR": "Alakazam",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/065-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/65.png"
+  },
+  {
+    "Index": "66",
+    "NameEN": "Machop",
+    "NameFR": "Machoc",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/066-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/66.png"
+  },
+  {
+    "Index": "67",
+    "NameEN": "Machoke",
+    "NameFR": "Machopeur",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/067-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/67.png"
+  },
+  {
+    "Index": "68",
+    "NameEN": "Machamp",
+    "NameFR": "Mackogneur",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/068-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/68.png"
+  },
+  {
+    "Index": "69",
+    "NameEN": "Bellsprout",
+    "NameFR": "Chétiflor",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/069-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/69.png"
+  },
+  {
+    "Index": "70",
+    "NameEN": "Weepinbell",
+    "NameFR": "Boustiflor",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/070-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/70.png"
+  },
+  {
+    "Index": "71",
+    "NameEN": "Victreebel",
+    "NameFR": "Empiflor",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/1-151/071-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/71.png"
+  },
+  {
+    "Index": "72",
+    "NameEN": "Tentacool",
+    "NameFR": "Tentacool",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "poison",
+    "Image": "./img/1-151/072-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/72.png"
+  },
+  {
+    "Index": "73",
+    "NameEN": "Tentacruel",
+    "NameFR": "Tentacruel",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "poison",
+    "Image": "./img/1-151/073-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/73.png"
+  },
+  {
+    "Index": "74",
+    "NameEN": "Geodude",
+    "NameFR": "Racaillou",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/1-151/074-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/74.png"
+  },
+  {
+    "Index": "75",
+    "NameEN": "Graveler",
+    "NameFR": "Gravalanch",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/1-151/075-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/75.png"
+  },
+  {
+    "Index": "76",
+    "NameEN": "Golem",
+    "NameFR": "Grolem",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/1-151/076-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/76.png"
+  },
+  {
+    "Index": "77",
+    "NameEN": "Ponyta",
+    "NameFR": "Ponyta",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/077-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/77.png"
+  },
+  {
+    "Index": "78",
+    "NameEN": "Rapidash",
+    "NameFR": "Galopa",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/078-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/78.png"
+  },
+  {
+    "Index": "79",
+    "NameEN": "Slowpoke",
+    "NameFR": "Ramoloss",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/1-151/079-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/79.png"
+  },
+  {
+    "Index": "80",
+    "NameEN": "Slowbro",
+    "NameFR": "Flagadoss",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/1-151/080-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/80.png"
+  },
+  {
+    "Index": "81",
+    "NameEN": "Magnemite",
+    "NameFR": "Magnéti",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": "steel",
+    "Image": "./img/1-151/081-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/81.png"
+  },
+  {
+    "Index": "82",
+    "NameEN": "Magneton",
+    "NameFR": "Magneton",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": "steel",
+    "Image": "./img/1-151/082-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/82.png"
+  },
+  {
+    "Index": "83",
+    "NameEN": "Farfetchd",
+    "NameFR": "Canarticho",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/1-151/083-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/83.png"
+  },
+  {
+    "Index": "84",
+    "NameEN": "Doduo",
+    "NameFR": "Doduo",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/1-151/084-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/84.png"
+  },
+  {
+    "Index": "85",
+    "NameEN": "Dodrio",
+    "NameFR": "Dodrio",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/1-151/085-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/85.png"
+  },
+  {
+    "Index": "86",
+    "NameEN": "Seel",
+    "NameFR": "Otaria",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/086-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/86.png"
+  },
+  {
+    "Index": "87",
+    "NameEN": "Dewgong",
+    "NameFR": "Lamantine",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "ice",
+    "Image": "./img/1-151/087-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/87.png"
+  },
+  {
+    "Index": "88",
+    "NameEN": "Grimer",
+    "NameFR": "Tadmorv",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/1-151/088-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/88.png"
+  },
+  {
+    "Index": "89",
+    "NameEN": "Muk",
+    "NameFR": "Grotadmorv",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/1-151/089-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/89.png"
+  },
+  {
+    "Index": "90",
+    "NameEN": "Shellder",
+    "NameFR": "Kokiyas",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/090-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/90.png"
+  },
+  {
+    "Index": "91",
+    "NameEN": "Cloyster",
+    "NameFR": "Crustabri",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "ice",
+    "Image": "./img/1-151/091-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/91.png"
+  },
+  {
+    "Index": "92",
+    "NameEN": "Gastly",
+    "NameFR": "Fantominus",
+    "Generation": 1,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Image": "./img/1-151/092-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/92.png"
+  },
+  {
+    "Index": "93",
+    "NameEN": "Haunter",
+    "NameFR": "Spectrum",
+    "Generation": 1,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Image": "./img/1-151/093-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/93.png"
+  },
+  {
+    "Index": "94",
+    "NameEN": "Gengar",
+    "NameFR": "Ectoplasma",
+    "Generation": 1,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Image": "./img/1-151/094-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/94.png"
+  },
+  {
+    "Index": "95",
+    "NameEN": "Onix",
+    "NameFR": "Onix",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/1-151/095-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/95.png"
+  },
+  {
+    "Index": "96",
+    "NameEN": "Drowzee",
+    "NameFR": "Soporifik",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/096-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/96.png"
+  },
+  {
+    "Index": "97",
+    "NameEN": "Hypno",
+    "NameFR": "Hypnomade",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/097-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/97.png"
+  },
+  {
+    "Index": "98",
+    "NameEN": "Krabby",
+    "NameFR": "Krabby",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/098-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/98.png"
+  },
+  {
+    "Index": "99",
+    "NameEN": "Kingler",
+    "NameFR": "Krabboss",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/099-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/99.png"
+  },
+  {
+    "Index": "100",
+    "NameEN": "Voltorb",
+    "NameFR": "Voltorbe",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/1-151/100-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/100.png"
+  },
+  {
+    "Index": "101",
+    "NameEN": "Electrode",
+    "NameFR": "Électrode",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/1-151/101-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/101.png"
+  },
+  {
+    "Index": "102",
+    "NameEN": "Exeggcute",
+    "NameFR": "Noeunoeuf",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "psychic",
+    "Image": "./img/1-151/102-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/102.png"
+  },
+  {
+    "Index": "103",
+    "NameEN": "Exeggutor",
+    "NameFR": "Noadkoko",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": "psychic",
+    "Image": "./img/1-151/103-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/103.png"
+  },
+  {
+    "Index": "104",
+    "NameEN": "Cubone",
+    "NameFR": "Osselait",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/1-151/104-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/104.png"
+  },
+  {
+    "Index": "105",
+    "NameEN": "Marowak",
+    "NameFR": "Ossatueur",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/1-151/105-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/105.png"
+  },
+  {
+    "Index": "106",
+    "NameEN": "Hitmonlee",
+    "NameFR": "Kicklee",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/106-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/106.png"
+  },
+  {
+    "Index": "107",
+    "NameEN": "Hitmonchan",
+    "NameFR": "Tygnon",
+    "Generation": 1,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/107-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/107.png"
+  },
+  {
+    "Index": "108",
+    "NameEN": "Lickitung",
+    "NameFR": "Excelangue",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/108-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/108.png"
+  },
+  {
+    "Index": "109",
+    "NameEN": "Koffing",
+    "NameFR": "Smogo",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/1-151/109-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/109.png"
+  },
+  {
+    "Index": "110",
+    "NameEN": "Weezing",
+    "NameFR": "Smogogo",
+    "Generation": 1,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/1-151/110-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/110.png"
+  },
+  {
+    "Index": "111",
+    "NameEN": "Rhyhorn",
+    "NameFR": "Rhinocorne",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": "rock",
+    "Image": "./img/1-151/111-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/111.png"
+  },
+  {
+    "Index": "112",
+    "NameEN": "Rhydon",
+    "NameFR": "Rhinoféros",
+    "Generation": 1,
+    "Type1": "ground",
+    "Type2": "rock",
+    "Image": "./img/1-151/112-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/112.png"
+  },
+  {
+    "Index": "113",
+    "NameEN": "Chansey",
+    "NameFR": "Leveinard",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/113-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/113.png"
+  },
+  {
+    "Index": "114",
+    "NameEN": "Tangela",
+    "NameFR": "Saquedeneu",
+    "Generation": 1,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/1-151/114-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/114.png"
+  },
+  {
+    "Index": "115",
+    "NameEN": "Kangaskhan",
+    "NameFR": "Kangourex",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/115-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/115.png"
+  },
+  {
+    "Index": "116",
+    "NameEN": "Horsea",
+    "NameFR": "Hypotrempe",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/116-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/116.png"
+  },
+  {
+    "Index": "117",
+    "NameEN": "Seadra",
+    "NameFR": "Hypocéan",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/117-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/117.png"
+  },
+  {
+    "Index": "118",
+    "NameEN": "Goldeen",
+    "NameFR": "Poissirène",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/118-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/118.png"
+  },
+  {
+    "Index": "119",
+    "NameEN": "Seaking",
+    "NameFR": "Poissoroy",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/119-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/119.png"
+  },
+  {
+    "Index": "120",
+    "NameEN": "Staryu",
+    "NameFR": "Stari",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/120-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/120.png"
+  },
+  {
+    "Index": "121",
+    "NameEN": "Starmie",
+    "NameFR": "Staross",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/1-151/121-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/121.png"
+  },
+  {
+    "Index": "122",
+    "NameEN": "Mr. Mime",
+    "NameFR": "M. Mime",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Image": "./img/1-151/122-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/122.png"
+  },
+  {
+    "Index": "123",
+    "NameEN": "Scyther",
+    "NameFR": "Insécateur",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Image": "./img/1-151/123-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/123.png"
+  },
+  {
+    "Index": "124",
+    "NameEN": "Jynx",
+    "NameFR": "Lippoutou",
+    "Generation": 1,
+    "Type1": "ice",
+    "Type2": "psychic",
+    "Image": "./img/1-151/124-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/124.png"
+  },
+  {
+    "Index": "125",
+    "NameEN": "Electabuzz",
+    "NameFR": "Élektek",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/1-151/125-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/125.png"
+  },
+  {
+    "Index": "126",
+    "NameEN": "Magmar",
+    "NameFR": "Magmar",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/126-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/126.png"
+  },
+  {
+    "Index": "127",
+    "NameEN": "Pinsir",
+    "NameFR": "Scarabrute",
+    "Generation": 1,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/1-151/127-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/127.png"
+  },
+  {
+    "Index": "128",
+    "NameEN": "Tauros",
+    "NameFR": "Tauros",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/128-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/128.png"
+  },
+  {
+    "Index": "129",
+    "NameEN": "Magikarp",
+    "NameFR": "Magicarpe",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/129-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/129.png"
+  },
+  {
+    "Index": "130",
+    "NameEN": "Gyarados",
+    "NameFR": "Léviator",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/1-151/130-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/130.png"
+  },
+  {
+    "Index": "131",
+    "NameEN": "Lapras",
+    "NameFR": "Lokhlass",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": "ice",
+    "Image": "./img/1-151/131-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/131.png"
+  },
+  {
+    "Index": "132",
+    "NameEN": "Ditto",
+    "NameFR": "Métamorph",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/132-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/132.png"
+  },
+  {
+    "Index": "133",
+    "NameEN": "Eevee",
+    "NameFR": "Évoli",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/133-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/133.png"
+  },
+  {
+    "Index": "134",
+    "NameEN": "Vaporeon",
+    "NameFR": "Aquali",
+    "Generation": 1,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/1-151/134-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/134.png"
+  },
+  {
+    "Index": "135",
+    "NameEN": "Jolteon",
+    "NameFR": "Voltali",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/1-151/135-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/135.png"
+  },
+  {
+    "Index": "136",
+    "NameEN": "Flareon",
+    "NameFR": "Pyroli",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/1-151/136-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/136.png"
+  },
+  {
+    "Index": "137",
+    "NameEN": "Porygon",
+    "NameFR": "Porygon",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/137-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/137.png"
+  },
+  {
+    "Index": "138",
+    "NameEN": "Omanyte",
+    "NameFR": "Amonita",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "water",
+    "Image": "./img/1-151/138-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/138.png"
+  },
+  {
+    "Index": "139",
+    "NameEN": "Omastar",
+    "NameFR": "Amonistar",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "water",
+    "Image": "./img/1-151/139-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/139.png"
+  },
+  {
+    "Index": "140",
+    "NameEN": "Kabuto",
+    "NameFR": "Kabuto",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "water",
+    "Image": "./img/1-151/140-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/140.png"
+  },
+  {
+    "Index": "141",
+    "NameEN": "Kabutops",
+    "NameFR": "Kabutops",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "water",
+    "Image": "./img/1-151/141-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/141.png"
+  },
+  {
+    "Index": "142",
+    "NameEN": "Aerodactyl",
+    "NameFR": "Ptéra",
+    "Generation": 1,
+    "Type1": "rock",
+    "Type2": "flying",
+    "Image": "./img/1-151/142-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/142.png"
+  },
+  {
+    "Index": "143",
+    "NameEN": "Snorlax",
+    "NameFR": "Ronflex",
+    "Generation": 1,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/1-151/143-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/143.png"
+  },
+  {
+    "Index": "144",
+    "NameEN": "Articuno",
+    "NameFR": "Artikodin",
+    "Generation": 1,
+    "Type1": "ice",
+    "Type2": "flying",
+    "Image": "./img/1-151/144-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/144.png"
+  },
+  {
+    "Index": "145",
+    "NameEN": "Zapdos",
+    "NameFR": "Électhor",
+    "Generation": 1,
+    "Type1": "electric",
+    "Type2": "flying",
+    "Image": "./img/1-151/145-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/145.png"
+  },
+  {
+    "Index": "146",
+    "NameEN": "Moltres",
+    "NameFR": "Sulfura",
+    "Generation": 1,
+    "Type1": "fire",
+    "Type2": "flying",
+    "Image": "./img/1-151/146-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/146.png"
+  },
+  {
+    "Index": "147",
+    "NameEN": "Dratini",
+    "NameFR": "Minidraco",
+    "Generation": 1,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/1-151/147-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/147.png"
+  },
+  {
+    "Index": "148",
+    "NameEN": "Dragonair",
+    "NameFR": "Draco",
+    "Generation": 1,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/1-151/148-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/148.png"
+  },
+  {
+    "Index": "149",
+    "NameEN": "Dragonite",
+    "NameFR": "Dracolosse",
+    "Generation": 1,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/1-151/149-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/149.png"
+  },
+  {
+    "Index": "150",
+    "NameEN": "Mewtwo",
+    "NameFR": "Mewtwo",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/150-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/150.png"
+  },
+  {
+    "Index": "151",
+    "NameEN": "Mew",
+    "NameFR": "Mew",
+    "Generation": 1,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/151-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/151.png"
+  },
+  {
+    "Index": "19-B",
+    "NameEN": "Alolan Raticate",
+    "NameFR": "Rattata d'Alola",
+    "Generation": 7,
+    "Type1": "dark",
+    "Type2": "normal",
+    "Image": "./img/1-151/019b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/19-regional-a.png"
+  },
+  {
+    "Index": "20-B",
+    "NameEN": "Alolan Raticate",
+    "NameFR": "Rattatac d'Alola",
+    "Generation": 7,
+    "Type1": "dark",
+    "Type2": "normal",
+    "Image": "./img/1-151/020b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/20-regional-a.png"
+  },
+  {
+    "Generation": 7,
+    "Image": "./img/1-151/026b-a.png",
+    "Index": "26-B",
+    "NameEN": "Alolan Raichu",
+    "NameFR": "Raichu d'Alola",
+    "Type1": "electric",
+    "Type2": "psychic",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/26-regional-a.png"
+  },
+  {
+    "Index": "027-B",
+    "NameEN": "Alolan Sandshrew",
+    "NameFR": "Sabelette d'Alola",
+    "Generation": 7,
+    "Type1": "ice",
+    "Type2": "steel",
+    "Image": "./img/1-151/027b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/27-regional-a.png"
+  },
+  {
+    "Index": "028-B",
+    "NameEN": "Alolan Sandslash",
+    "NameFR": "Sablaireau d'Alola",
+    "Generation": 7,
+    "Type1": "ice",
+    "Type2": "steel",
+    "Image": "./img/1-151/028b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/27-regional-a.png"
+  },
+  {
+    "Index": "037-B",
+    "NameEN": "Alolan Vulpix",
+    "NameFR": "Goupix d'Alola",
+    "Generation": 7,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/1-151/037b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/37-regional-a.png"
+  },
+  {
+    "Index": "038-B",
+    "NameEN": "Alolan Ninetales",
+    "NameFR": "Feunard d'Alola",
+    "Generation": 7,
+    "Type1": "ice",
+    "Type2": "fairy",
+    "Image": "./img/1-151/038b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/38-regional-a.png"
+  },
+  {
+    "Index": "050-B",
+    "NameEN": "Alolan Diglett",
+    "NameFR": "Taupiqueur d'Alola",
+    "Generation": 7,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Image": "./img/1-151/050b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/50-regional-a.png"
+  },
+  {
+    "Index": "051-B",
+    "NameEN": "Alolan Dugtrio",
+    "NameFR": "Triopikeur d'Alola",
+    "Generation": 7,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Image": "./img/1-151/051b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/51-regional-a.png"
+  },
+  {
+    "Index": "052-B",
+    "NameEN": "Alolan Meowth",
+    "NameFR": "Miaouss d'Alola",
+    "Generation": 7,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/1-151/052b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/52-regional-a.png"
+  },
+  {
+    "Index": "053-B",
+    "NameEN": "Alolan Persian",
+    "NameFR": "Persian d'Alola",
+    "Generation": 7,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/1-151/053b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/53-regional-a.png"
+  },
+  {
+    "Index": "052-C",
+    "NameEN": "Galarian Meowth",
+    "NameFR": "Miaouss de Galar",
+    "Generation": 8,
+    "Type1": "steel",
+    "Type2": null,
+    "Image": "./img/1-151/052c-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/52-regional-g.png"
+  },
+  {
+    "Index": "058-B",
+    "NameEN": "Hisuian Growlithe",
+    "NameFR": "Caninos d'Hisui",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "rock",
+    "Image": "./img/1-151/058b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/58-regional-h.png"
+  },
+  {
+    "Index": "059-B",
+    "NameEN": "Hisuian Arcanine",
+    "NameFR": "Arcanin d'Hisui",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "rock",
+    "Image": "./img/1-151/059b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/58-regional-h.png"
+  },
+  {
+    "Index": "074-B",
+    "NameEN": "Alolan Geodude",
+    "NameFR": "Racaillou d'Alola",
+    "Generation": 7,
+    "Type1": "rock",
+    "Type2": "electric",
+    "Image": "./img/1-151/074b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/74-regional-a.png"
+  },
+  {
+    "Index": "075-B",
+    "NameEN": "Alolan Graveler",
+    "NameFR": "Gravalanch d'Alola",
+    "Generation": 7,
+    "Type1": "rock",
+    "Type2": "electric",
+    "Image": "./img/1-151/075b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/75-regional-a.png"
+  },
+  {
+    "Index": "076-B",
+    "NameEN": "Alolan Golem",
+    "NameFR": "Grolem d'Alola",
+    "Generation": 7,
+    "Type1": "rock",
+    "Type2": "electric",
+    "Image": "./img/1-151/076b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/76-regional-a.png"
+  },
+  {
+    "Index": "077-B",
+    "NameEN": "Galarian Ponyta",
+    "NameFR": "Ponyta de Galar",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/077b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/77-regional-g.png"
+  },
+  {
+    "Index": "078-B",
+    "NameEN": "Galarian Rapidash",
+    "NameFR": "Galopa de Galar",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Image": "./img/1-151/078b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/78-regional-g.png"
+  },
+  {
+    "Index": "079-B",
+    "NameEN": "Galarian Slowpoke",
+    "NameFR": "Ramoloss de Galar",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/1-151/079b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/79-regional-g.png"
+  },
+  {
+    "Index": "080-B",
+    "NameEN": "Galarian Slowbro",
+    "NameFR": "Flagadoss de Galar",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "psychic",
+    "Image": "./img/1-151/080b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/80-regional-g.png"
+  },
+  {
+    "Index": "083-B",
+    "NameEN": "Galarian Farfetchd",
+    "NameFR": "Canarticho de Galar",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/083b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/83-regional-g.png"
+  },
+  {
+    "Index": "088-B",
+    "NameEN": "Alolan Grimer",
+    "NameFR": "Tadmorv d'Alola",
+    "Generation": 7,
+    "Type1": "poison",
+    "Type2": "dark",
+    "Image": "./img/1-151/088b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/88-regional-a.png"
+  },
+  {
+    "Index": "089-B",
+    "NameEN": "Alolan Muk",
+    "NameFR": "Grotadmorv d'Alola",
+    "Generation": 7,
+    "Type1": "poison",
+    "Type2": "dark",
+    "Image": "./img/1-151/089b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/89-regional-a.png"
+  },
+  {
+    "Index": "100-B",
+    "NameEN": "Hisuian Voltorb",
+    "NameFR": "Voltorb d'Hisui",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "grass",
+    "Image": "./img/1-151/100b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/100-regional-h.png"
+  },
+  {
+    "Index": "101-B",
+    "NameEN": "Hisuian Electrode",
+    "NameFR": "Électrode d'Hisui",
+    "Generation": 8,
+    "Type1": "electric",
+    "Type2": "grass",
+    "Image": "./img/1-151/101b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/101-regional-h.png"
+  },
+  {
+    "Index": "103-B",
+    "NameEN": "Alolan Exeggutor",
+    "NameFR": "Noadkoko d'Alola",
+    "Generation": 7,
+    "Type1": "grass",
+    "Type2": "dragon",
+    "Image": "./img/1-151/103b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/103-regional-a.png"
+  },
+  {
+    "Index": "105-B",
+    "NameEN": "Alolan Marowak",
+    "NameFR": "Ossatueur d'Alola",
+    "Generation": 7,
+    "Type1": "fire",
+    "Type2": "ghost",
+    "Image": "./img/1-151/105b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/105-regional-a.png"
+  },
+  {
+    "Index": "110-B",
+    "NameEN": "Galarian Weezing",
+    "NameFR": "Smogogo de Galar",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "fairy",
+    "Image": "./img/1-151/110b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/110-regional-g.png"
+  },
+  {
+    "Index": "122-B",
+    "NameEN": "Galarian Mr. Mime",
+    "NameFR": "M. Mime de Galar",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": "psychic",
+    "Image": "./img/1-151/122b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/122-regional-g.png"
+  },
+  {
+    "Index": "128-B",
+    "NameEN": "Paldean Tauros",
+    "NameFR": "Tauros de Paldea",
+    "Generation": 9,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/1-151/128b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/128-regional-p-combat.png"
+  },
+  {
+    "Index": "144-B",
+    "NameEN": "Galarian Articuno",
+    "NameFR": "Artikodin de Galar",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Image": "./img/1-151/144b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/144-regional-g.png"
+  },
+  {
+    "Index": "145-B",
+    "NameEN": "Galarian Zapdos",
+    "NameFR": "Électhor de Galar",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "flying",
+    "Image": "./img/1-151/145b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/145-regional-g.png"
+  },
+  {
+    "Index": "146-B",
+    "NameEN": "Galarian Moltres",
+    "NameFR": "Sulfura de Galar",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "flying",
+    "Image": "./img/1-151/146b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/146-regional-g.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/152-a.png",
+    "Index": "152",
+    "NameEN": "Chikorita",
+    "NameFR": "Germignon",
+    "Type1": "grass",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/152.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/153-a.png",
+    "Index": "153",
+    "NameEN": "Bayleef",
+    "NameFR": "Macronium",
+    "Type1": "grass",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/153.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/154-a.png",
+    "Index": "154",
+    "NameEN": "Meganium",
+    "NameFR": "Méganium",
+    "Type1": "grass",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/154.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/155-a.png",
+    "Index": "155",
+    "NameEN": "Cyndaquil",
+    "NameFR": "Héricendre",
+    "Type1": "fire",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/155.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/156-a.png",
+    "Index": "156",
+    "NameEN": "Quilava",
+    "NameFR": "Feurisson",
+    "Type1": "fire",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/156.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/157-a.png",
+    "Index": "157",
+    "NameEN": "Typhlosion",
+    "NameFR": "Typhlosion",
+    "Type1": "fire",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/157.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/158-a.png",
+    "Index": "158",
+    "NameEN": "Totodile",
+    "NameFR": "Kaiminus",
+    "Type1": "water",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/158.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/159-a.png",
+    "Index": "159",
+    "NameEN": "Croconaw",
+    "NameFR": "Crocrodil",
+    "Type1": "water",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/159.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/160-a.png",
+    "Index": "160",
+    "NameEN": "Feraligatr",
+    "NameFR": "Aligatueur",
+    "Type1": "water",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/160.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/161-a.png",
+    "Index": "161",
+    "NameEN": "Sentret",
+    "NameFR": "Fouinette",
+    "Type1": "normal",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/161.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/162-a.png",
+    "Index": "162",
+    "NameEN": "Furret",
+    "NameFR": "Fouinar",
+    "Type1": "normal",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/162.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/163-a.png",
+    "Index": "163",
+    "NameEN": "Hoothoot",
+    "NameFR": "Hoothoot",
+    "Type1": "normal",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/163.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/164-a.png",
+    "Index": "164",
+    "NameEN": "Noctowl",
+    "NameFR": "Noarfang",
+    "Type1": "normal",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/164.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/165-a.png",
+    "Index": "165",
+    "NameEN": "Ledyba",
+    "NameFR": "Coxy",
+    "Type1": "bug",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/165.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/166-a.png",
+    "Index": "166",
+    "NameEN": "Ledian",
+    "NameFR": "Coxyclaque",
+    "Type1": "bug",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/166.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/167-a.png",
+    "Index": "167",
+    "NameEN": "Spinarak",
+    "NameFR": "Mimigal",
+    "Type1": "bug",
+    "Type2": "poison",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/167.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/168-a.png",
+    "Index": "168",
+    "NameEN": "Ariados",
+    "NameFR": "Migalos",
+    "Type1": "bug",
+    "Type2": "poison",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/168.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/169-a.png",
+    "Index": "169",
+    "NameEN": "Crobat",
+    "NameFR": "Nostenfer",
+    "Type1": "poison",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/169.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/170-a.png",
+    "Index": "170",
+    "NameEN": "Chinchou",
+    "NameFR": "Loupio",
+    "Type1": "water",
+    "Type2": "electric",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/170.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/171-a.png",
+    "Index": "171",
+    "NameEN": "Lanturn",
+    "NameFR": "Lanturn",
+    "Type1": "water",
+    "Type2": "electric",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/171.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/172-a.png",
+    "Index": "172",
+    "NameEN": "Pichu",
+    "NameFR": "Pichu",
+    "Type1": "electric",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/172.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/173-a.png",
+    "Index": "173",
+    "NameEN": "Cleffa",
+    "NameFR": "Mélo",
+    "Type1": "fairy",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/173.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/174-a.png",
+    "Index": "174",
+    "NameEN": "Igglybuff",
+    "NameFR": "Toudoudou",
+    "Type1": "normal",
+    "Type2": "fairy",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/174.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/175-a.png",
+    "Index": "175",
+    "NameEN": "Togepi",
+    "NameFR": "Togepi",
+    "Type1": "fairy",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/175.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/176-a.png",
+    "Index": "176",
+    "NameEN": "Togetic",
+    "NameFR": "Togetic",
+    "Type1": "fairy",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/176.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/177-a.png",
+    "Index": "177",
+    "NameEN": "Natu",
+    "NameFR": "Natu",
+    "Type1": "psychic",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/177.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/178-a.png",
+    "Index": "178",
+    "NameEN": "Xatu",
+    "NameFR": "Xatu",
+    "Type1": "psychic",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/178.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/179-a.png",
+    "Index": "179",
+    "NameEN": "Mareep",
+    "NameFR": "Wattouat",
+    "Type1": "electric",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/179.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/180-a.png",
+    "Index": "180",
+    "NameEN": "Flaaffy",
+    "NameFR": "Lainergie",
+    "Type1": "electric",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/180.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/181-a.png",
+    "Index": "181",
+    "NameEN": "Ampharos",
+    "NameFR": "Pharamp",
+    "Type1": "electric",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/181.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/182-a.png",
+    "Index": "182",
+    "NameEN": "Bellossom",
+    "NameFR": "Joliflor",
+    "Type1": "grass",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/182.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/183-a.png",
+    "Index": "183",
+    "NameEN": "Marill",
+    "NameFR": "Marill",
+    "Type1": "water",
+    "Type2": "fairy",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/183.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/184-a.png",
+    "Index": "184",
+    "NameEN": "Azumarill",
+    "NameFR": "Azumarill",
+    "Type1": "water",
+    "Type2": "fairy",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/184.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/185-a.png",
+    "Index": "185",
+    "NameEN": "Sudowoodo",
+    "NameFR": "Simularbre",
+    "Type1": "rock",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/185.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/186-a.png",
+    "Index": "186",
+    "NameEN": "Politoed",
+    "NameFR": "Tarpaud",
+    "Type1": "water",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/186.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/187-a.png",
+    "Index": "187",
+    "NameEN": "Hoppip",
+    "NameFR": "Granivol",
+    "Type1": "grass",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/187.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/188-a.png",
+    "Index": "188",
+    "NameEN": "Skiploom",
+    "NameFR": "Floravol",
+    "Type1": "grass",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/188.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/189-a.png",
+    "Index": "189",
+    "NameEN": "Jumpluff",
+    "NameFR": "Cotovol",
+    "Type1": "grass",
+    "Type2": "flying",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/189.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/190-a.png",
+    "Index": "190",
+    "NameEN": "Aipom",
+    "NameFR": "Capumain",
+    "Type1": "normal",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/190.png"
+  },
+  {
+    "Generation": 2,
+    "Image": "./img/152-250/191-a.png",
+    "Index": "191",
+    "NameEN": "Sunkern",
+    "NameFR": "Tournegrin",
+    "Type1": "grass",
+    "Type2": null,
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/191.png"
+  },
+  {
+    "Index": "192",
+    "NameEN": "Sunflora",
+    "NameFR": "Héliatronc",
+    "Generation": 2,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/152-250/192-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/192.png"
+  },
+  {
+    "Index": "193",
+    "NameEN": "Yanma",
+    "NameFR": "Yanma",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Image": "./img/152-250/193-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/193.png"
+  },
+  {
+    "Index": "194",
+    "NameEN": "Wooper",
+    "NameFR": "Axoloto",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/152-250/194-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/194.png"
+  },
+  {
+    "Index": "195",
+    "NameEN": "Quagsire",
+    "NameFR": "Maraiste",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/152-250/195-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/195.png"
+  },
+  {
+    "Index": "196",
+    "NameEN": "Espeon",
+    "NameFR": "Mentali",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/152-250/196-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/196.png"
+  },
+  {
+    "Index": "197",
+    "NameEN": "Umbreon",
+    "NameFR": "Noctali",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/152-250/197-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/197.png"
+  },
+  {
+    "Index": "198",
+    "NameEN": "Murkrow",
+    "NameFR": "Cornèbre",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": "flying",
+    "Image": "./img/152-250/198-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/198.png"
+  },
+  {
+    "Index": "199",
+    "NameEN": "Slowking",
+    "NameFR": "Roigada",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/152-250/199-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/199.png"
+  },
+  {
+    "Index": "200",
+    "NameEN": "Misdreavus",
+    "NameFR": "Feuforêve",
+    "Generation": 2,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/152-250/200-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/200.png"
+  },
+  {
+    "Index": "201",
+    "NameEN": "Unown",
+    "NameFR": "Zarbi",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/152-250/201-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/201.png"
+  },
+  {
+    "Index": "202",
+    "NameEN": "Wobbuffet",
+    "NameFR": "Qulbutoké",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/152-250/202-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/202.png"
+  },
+  {
+    "Index": "203",
+    "NameEN": "Girafarig",
+    "NameFR": "Girafarig",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": "psychic",
+    "Image": "./img/152-250/203-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/203.png"
+  },
+  {
+    "Index": "204",
+    "NameEN": "Pineco",
+    "NameFR": "Pomdepik",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/152-250/204-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/204.png"
+  },
+  {
+    "Index": "205",
+    "NameEN": "Forretress",
+    "NameFR": "Foretress",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Image": "./img/152-250/205-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/205.png"
+  },
+  {
+    "Index": "206",
+    "NameEN": "Dunsparce",
+    "NameFR": "Insolourdo",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/206-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/206.png"
+  },
+  {
+    "Index": "207",
+    "NameEN": "Gligar",
+    "NameFR": "Scorplane",
+    "Generation": 2,
+    "Type1": "ground",
+    "Type2": "flying",
+    "Image": "./img/152-250/207-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/207.png"
+  },
+  {
+    "Index": "208",
+    "NameEN": "Steelix",
+    "NameFR": "Steelix",
+    "Generation": 2,
+    "Type1": "steel",
+    "Type2": "ground",
+    "Image": "./img/152-250/208-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/208.png"
+  },
+  {
+    "Index": "209",
+    "NameEN": "Snubbull",
+    "NameFR": "Snubbull",
+    "Generation": 2,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/152-250/209-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/209.png"
+  },
+  {
+    "Index": "210",
+    "NameEN": "Granbull",
+    "NameFR": "Granbull",
+    "Generation": 2,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/152-250/210-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/210.png"
+  },
+  {
+    "Index": "211",
+    "NameEN": "Qwilfish",
+    "NameFR": "Qwilfish",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "poison",
+    "Image": "./img/152-250/211-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/211.png"
+  },
+  {
+    "Index": "212",
+    "NameEN": "Scizor",
+    "NameFR": "Cizayox",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Image": "./img/152-250/212-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/212.png"
+  },
+  {
+    "Index": "213",
+    "NameEN": "Shuckle",
+    "NameFR": "Caratroc",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "rock",
+    "Image": "./img/152-250/213-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/213.png"
+  },
+  {
+    "Index": "214",
+    "NameEN": "Heracross",
+    "NameFR": "Scarhino",
+    "Generation": 2,
+    "Type1": "bug",
+    "Type2": "fighting",
+    "Image": "./img/152-250/214-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/214.png"
+  },
+  {
+    "Index": "215",
+    "NameEN": "Sneasel",
+    "NameFR": "Farfuret",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": "ice",
+    "Image": "./img/152-250/215-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/215.png"
+  },
+  {
+    "Index": "216",
+    "NameEN": "Teddiursa",
+    "NameFR": "Teddiursa",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/216-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/216.png"
+  },
+  {
+    "Index": "217",
+    "NameEN": "Ursaring",
+    "NameFR": "Ursaring",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/217-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/217.png"
+  },
+  {
+    "Index": "218",
+    "NameEN": "Slugma",
+    "NameFR": "Limagma",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/152-250/218-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/218.png"
+  },
+  {
+    "Index": "219",
+    "NameEN": "Magcargo",
+    "NameFR": "Volcaropod",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": "rock",
+    "Image": "./img/152-250/219-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/219.png"
+  },
+  {
+    "Index": "220",
+    "NameEN": "Swinub",
+    "NameFR": "Marcacrin",
+    "Generation": 2,
+    "Type1": "ice",
+    "Type2": "ground",
+    "Image": "./img/152-250/220-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/220.png"
+  },
+  {
+    "Index": "221",
+    "NameEN": "Piloswine",
+    "NameFR": "Cochignon",
+    "Generation": 2,
+    "Type1": "ice",
+    "Type2": "ground",
+    "Image": "./img/152-250/221-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/221.png"
+  },
+  {
+    "Index": "222",
+    "NameEN": "Corsola",
+    "NameFR": "Corayon",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "rock",
+    "Image": "./img/152-250/222-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/222.png"
+  },
+  {
+    "Index": "223",
+    "NameEN": "Remoraid",
+    "NameFR": "Rémoraid",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/152-250/223-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/223.png"
+  },
+  {
+    "Index": "224",
+    "NameEN": "Octillery",
+    "NameFR": "Octillery",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/152-250/224-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/224.png"
+  },
+  {
+    "Index": "225",
+    "NameEN": "Delibird",
+    "NameFR": "Cadoizo",
+    "Generation": 2,
+    "Type1": "ice",
+    "Type2": "flying",
+    "Image": "./img/152-250/225-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/225.png"
+  },
+  {
+    "Index": "226",
+    "NameEN": "Mantine",
+    "NameFR": "Démanta",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/152-250/226-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/226.png"
+  },
+  {
+    "Index": "227",
+    "NameEN": "Skarmory",
+    "NameFR": "Airmure",
+    "Generation": 2,
+    "Type1": "steel",
+    "Type2": "flying",
+    "Image": "./img/152-250/227-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/227.png"
+  },
+  {
+    "Index": "228",
+    "NameEN": "Houndour",
+    "NameFR": "Malosse",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": "fire",
+    "Image": "./img/152-250/228-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/228.png"
+  },
+  {
+    "Index": "229",
+    "NameEN": "Houndoom",
+    "NameFR": "Démolosse",
+    "Generation": 2,
+    "Type1": "dark",
+    "Type2": "fire",
+    "Image": "./img/152-250/229-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/229.png"
+  },
+  {
+    "Index": "230",
+    "NameEN": "Kingdra",
+    "NameFR": "Hyporoi",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": "dragon",
+    "Image": "./img/152-250/230-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/230.png"
+  },
+  {
+    "Index": "231",
+    "NameEN": "Phanpy",
+    "NameFR": "Phanpy",
+    "Generation": 2,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/152-250/231-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/231.png"
+  },
+  {
+    "Index": "232",
+    "NameEN": "Donphan",
+    "NameFR": "Donphan",
+    "Generation": 2,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/152-250/232-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/232.png"
+  },
+  {
+    "Index": "233",
+    "NameEN": "Porygon2",
+    "NameFR": "Porygon2",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/233-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/233.png"
+  },
+  {
+    "Index": "234",
+    "NameEN": "Stantler",
+    "NameFR": "Cerfrousse",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/234-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/234.png"
+  },
+  {
+    "Index": "235",
+    "NameEN": "Smeargle",
+    "NameFR": "Kangourex",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/235-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/235.png"
+  },
+  {
+    "Index": "236",
+    "NameEN": "Tyrogue",
+    "NameFR": "Debugant",
+    "Generation": 2,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/152-250/236-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/236.png"
+  },
+  {
+    "Index": "237",
+    "NameEN": "Hitmontop",
+    "NameFR": "Kapoera",
+    "Generation": 2,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/152-250/237-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/237.png"
+  },
+  {
+    "Index": "238",
+    "NameEN": "Smoochum",
+    "NameFR": "Lippouti",
+    "Generation": 2,
+    "Type1": "ice",
+    "Type2": "psychic",
+    "Image": "./img/152-250/238-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/238.png"
+  },
+  {
+    "Index": "239",
+    "NameEN": "Elekid",
+    "NameFR": "Élekid",
+    "Generation": 2,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/152-250/239-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/239.png"
+  },
+  {
+    "Index": "240",
+    "NameEN": "Magby",
+    "NameFR": "Magby",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/152-250/240-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/240.png"
+  },
+  {
+    "Index": "241",
+    "NameEN": "Miltank",
+    "NameFR": "Écrémeuh",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/241-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/241.png"
+  },
+  {
+    "Index": "242",
+    "NameEN": "Blissey",
+    "NameFR": "Leuphorie",
+    "Generation": 2,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/152-250/242-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/242.png"
+  },
+  {
+    "Index": "243",
+    "NameEN": "Raikou",
+    "NameFR": "Raikou",
+    "Generation": 2,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/152-250/243-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/243.png"
+  },
+  {
+    "Index": "244",
+    "NameEN": "Entei",
+    "NameFR": "Entei",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/152-250/244-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/244.png"
+  },
+  {
+    "Index": "245",
+    "NameEN": "Suicune",
+    "NameFR": "Suicune",
+    "Generation": 2,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/152-250/245-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/245.png"
+  },
+  {
+    "Index": "246",
+    "NameEN": "Larvitar",
+    "NameFR": "Embrylex",
+    "Generation": 2,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/152-250/246-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/246.png"
+  },
+  {
+    "Index": "247",
+    "NameEN": "Pupitar",
+    "NameFR": "Ymphect",
+    "Generation": 2,
+    "Type1": "rock",
+    "Type2": "ground",
+    "Image": "./img/152-250/247-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/247.png"
+  },
+  {
+    "Index": "248",
+    "NameEN": "Tyranitar",
+    "NameFR": "Tyranocif",
+    "Generation": 2,
+    "Type1": "rock",
+    "Type2": "dark",
+    "Image": "./img/152-250/248-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/248.png"
+  },
+  {
+    "Index": "249",
+    "NameEN": "Lugia",
+    "NameFR": "Lugia",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Image": "./img/152-250/249-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/249.png"
+  },
+  {
+    "Index": "250",
+    "NameEN": "Ho-Oh",
+    "NameFR": "Ho-Oh",
+    "Generation": 2,
+    "Type1": "fire",
+    "Type2": "flying",
+    "Image": "./img/152-250/250-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/250.png"
+  },
+  {
+    "Index": "251",
+    "NameEN": "Celebi",
+    "NameFR": "Celebi",
+    "Generation": 2,
+    "Type1": "psychic",
+    "Type2": "grass",
+    "Image": "./img/152-250/251-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/251.png"
+  },
+  {
+    "Index": "157-B",
+    "NameEN": "Hisuian Typhlosion",
+    "NameFR": "Typhlosion de Hisui",
+    "Generation": 8,
+    "Type1": "fire",
+    "Type2": "ghost",
+    "Image": "./img/152-250/157b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/157-regional-h.png"
+  },
+  {
+    "Index": "199-B",
+    "NameEN": "Galarian Slowking",
+    "NameFR": "Roigada de Galar",
+    "Generation": 8,
+    "Type1": "poison",
+    "Type2": "psy",
+    "Image": "./img/152-250/199b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/199-regional-g.png"
+  },
+  {
+    "Index": "211-B",
+    "NameEN": "Hisuian Qwilfish",
+    "NameFR": "Qwilfish de Hisui",
+    "Generation": 8,
+    "Type1": "dark",
+    "Type2": "poison",
+    "Image": "./img/152-250/211b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/211-regional-h.png"
+  },
+  {
+    "Index": "215-B",
+    "NameEN": "Hisuian Sneasel",
+    "NameFR": "Farfuret de Hisui",
+    "Generation": 8,
+    "Type1": "fighting",
+    "Type2": "poison",
+    "Image": "./img/152-250/211b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/215-regional-h.png"
+  },
+  {
+    "Index": "222-B",
+    "NameEN": "Galarian Corsola",
+    "NameFR": "Corayon de Galar",
+    "Generation": 8,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/152-250/199b-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/222-regional-g.png"
+  },
+  {
+    "Index": "252",
+    "NameEN": "Treecko",
+    "NameFR": "Arcko",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/251-386/252-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/252.png"
+  },
+  {
+    "Index": "253",
+    "NameEN": "Grovyle",
+    "NameFR": "Massko",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/251-386/253-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/253.png"
+  },
+  {
+    "Index": "254",
+    "NameEN": "Sceptile",
+    "NameFR": "Jungko",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/251-386/254-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/254.png"
+  },
+  {
+    "Index": "255",
+    "NameEN": "Torchic",
+    "NameFR": "Poussifeu",
+    "Generation": 3,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/251-386/255-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/255.png"
+  },
+  {
+    "Index": "256",
+    "NameEN": "Combusken",
+    "NameFR": "Galifeu",
+    "Generation": 3,
+    "Type1": "fire",
+    "Type2": "fighting",
+    "Image": "./img/251-386/256-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/256.png"
+  },
+  {
+    "Index": "257",
+    "NameEN": "Blaziken",
+    "NameFR": "Braségali",
+    "Generation": 3,
+    "Type1": "fire",
+    "Type2": "fighting",
+    "Image": "./img/251-386/257-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/257.png"
+  },
+  {
+    "Index": "258",
+    "NameEN": "Mudkip",
+    "NameFR": "Gobou",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/258-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/258.png"
+  },
+  {
+    "Index": "259",
+    "NameEN": "Marshtomp",
+    "NameFR": "Flobio",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/251-386/259-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/259.png"
+  },
+  {
+    "Index": "260",
+    "NameEN": "Swampert",
+    "NameFR": "Laggron",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/251-386/260-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/260.png"
+  },
+  {
+    "Index": "261",
+    "NameEN": "Poochyena",
+    "NameFR": "Medhyèna",
+    "Generation": 3,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/251-386/261-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/261.png"
+  },
+  {
+    "Index": "262",
+    "NameEN": "Mightyena",
+    "NameFR": "Grahyèna",
+    "Generation": 3,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/251-386/262-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/262.png"
+  },
+  {
+    "Index": "263",
+    "NameEN": "Zigzagoon",
+    "NameFR": "Zigzaton",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/263-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/263.png"
+  },
+  {
+    "Index": "264",
+    "NameEN": "Linoone",
+    "NameFR": "Linéon",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/264-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/264.png"
+  },
+  {
+    "Index": "265",
+    "NameEN": "Wurmple",
+    "NameFR": "Chenipotte",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/251-386/265-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/265.png"
+  },
+  {
+    "Index": "266",
+    "NameEN": "Silcoon",
+    "NameFR": "Armulys",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/251-386/266-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/266.png"
+  },
+  {
+    "Index": "267",
+    "NameEN": "Beautifly",
+    "NameFR": "Charmillon",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Image": "./img/251-386/267-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/267.png"
+  },
+  {
+    "Index": "268",
+    "NameEN": "Cascoon",
+    "NameFR": "Blindalys",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/251-386/268-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/268.png"
+  },
+  {
+    "Index": "269",
+    "NameEN": "Dustox",
+    "NameFR": "Papinox",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/251-386/269-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/269.png"
+  },
+  {
+    "Index": "270",
+    "NameEN": "Lotad",
+    "NameFR": "Nénupiot",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "grass",
+    "Image": "./img/251-386/270-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/270.png"
+  },
+  {
+    "Index": "271",
+    "NameEN": "Lombre",
+    "NameFR": "Lombre",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "grass",
+    "Image": "./img/251-386/271-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/271.png"
+  },
+  {
+    "Index": "272",
+    "NameEN": "Ludicolo",
+    "NameFR": "Ludicolo",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "grass",
+    "Image": "./img/251-386/272-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/272.png"
+  },
+  {
+    "Index": "273",
+    "NameEN": "Seedot",
+    "NameFR": "Grainipiot",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/251-386/273-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/273.png"
+  },
+  {
+    "Index": "274",
+    "NameEN": "Nuzleaf",
+    "NameFR": "Pifeuil",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": "dark",
+    "Image": "./img/251-386/274-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/274.png"
+  },
+  {
+    "Index": "275",
+    "NameEN": "Shiftry",
+    "NameFR": "Tengalice",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": "dark",
+    "Image": "./img/251-386/275-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/275.png"
+  },
+  {
+    "Index": "276",
+    "NameEN": "Taillow",
+    "NameFR": "Nirondelle",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/251-386/276-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/276.png"
+  },
+  {
+    "Index": "277",
+    "NameEN": "Swellow",
+    "NameFR": "Hélédelle",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/251-386/277-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/277.png"
+  },
+  {
+    "Index": "278",
+    "NameEN": "Wingull",
+    "NameFR": "Goélise",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/251-386/278-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/278.png"
+  },
+  {
+    "Index": "279",
+    "NameEN": "Pelipper",
+    "NameFR": "Bekipan",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/251-386/279-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/279.png"
+  },
+  {
+    "Index": "280",
+    "NameEN": "Ralts",
+    "NameFR": "Tarsal",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Image": "./img/251-386/280-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/280.png"
+  },
+  {
+    "Index": "281",
+    "NameEN": "Kirlia",
+    "NameFR": "Kirlia",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Image": "./img/251-386/281-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/281.png"
+  },
+  {
+    "Index": "282",
+    "NameEN": "Gardevoir",
+    "NameFR": "Gardevoir",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Image": "./img/251-386/282-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/282.png"
+  },
+  {
+    "Index": "283",
+    "NameEN": "Surskit",
+    "NameFR": "Arakdo",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": "water",
+    "Image": "./img/251-386/283-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/283.png"
+  },
+  {
+    "Index": "284",
+    "NameEN": "Masquerain",
+    "NameFR": "Maskadra",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Image": "./img/251-386/284-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/284.png"
+  },
+  {
+    "Index": "285",
+    "NameEN": "Shroomish",
+    "NameFR": "Balignon",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/251-386/285-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/285.png"
+  },
+  {
+    "Index": "286",
+    "NameEN": "Breloom",
+    "NameFR": "Chapignon",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": "fighting",
+    "Image": "./img/251-386/286-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/286.png"
+  },
+  {
+    "Index": "287",
+    "NameEN": "Slakoth",
+    "NameFR": "Parecool",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/287-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/287.png"
+  },
+  {
+    "Index": "288",
+    "NameEN": "Vigoroth",
+    "NameFR": "Vigoroth",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/288-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/288.png"
+  },
+  {
+    "Index": "289",
+    "NameEN": "Slaking",
+    "NameFR": "Monaflèmit",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/289-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/289.png"
+  },
+  {
+    "Index": "290",
+    "NameEN": "Nincada",
+    "NameFR": "Ningale",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": "ground",
+    "Image": "./img/251-386/290-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/290.png"
+  },
+  {
+    "Index": "291",
+    "NameEN": "Ninjask",
+    "NameFR": "Ninjask",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": "flying",
+    "Image": "./img/251-386/291-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/291.png"
+  },
+  {
+    "Index": "292",
+    "NameEN": "Shedinja",
+    "NameFR": "Munja",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": "ghost",
+    "Image": "./img/251-386/292-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/292.png"
+  },
+  {
+    "Index": "293",
+    "NameEN": "Whismur",
+    "NameFR": "Chuchmur",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/293-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/293.png"
+  },
+  {
+    "Index": "294",
+    "NameEN": "Loudred",
+    "NameFR": "Ramboum",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/294-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/294.png"
+  },
+  {
+    "Index": "295",
+    "NameEN": "Exploud",
+    "NameFR": "Brouhabam",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/295-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/295.png"
+  },
+  {
+    "Index": "296",
+    "NameEN": "Makuhita",
+    "NameFR": "Makuhita",
+    "Generation": 3,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/251-386/296-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/296.png"
+  },
+  {
+    "Index": "297",
+    "NameEN": "Hariyama",
+    "NameFR": "Hariyama",
+    "Generation": 3,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/251-386/297-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/297.png"
+  },
+  {
+    "Index": "298",
+    "NameEN": "Azurill",
+    "NameFR": "Azurill",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": "fairy",
+    "Image": "./img/251-386/298-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/298.png"
+  },
+  {
+    "Index": "299",
+    "NameEN": "Nosepass",
+    "NameFR": "Tarinor",
+    "Generation": 3,
+    "Type1": "rock",
+    "Type2": null,
+    "Image": "./img/251-386/299-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/299.png"
+  },
+  {
+    "Index": "300",
+    "NameEN": "Skitty",
+    "NameFR": "Skitty",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/300-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/300.png"
+  },
+  {
+    "Index": "301",
+    "NameEN": "Delcatty",
+    "NameFR": "Delcatty",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/301-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/301.png"
+  },
+  {
+    "Index": "302",
+    "NameEN": "Sableye",
+    "NameFR": "Ténéfix",
+    "Generation": 3,
+    "Type1": "dark",
+    "Type2": "ghost",
+    "Image": "./img/251-386/302-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/302.png"
+  },
+  {
+    "Index": "303",
+    "NameEN": "Mawile",
+    "NameFR": "Mysdibule",
+    "Generation": 3,
+    "Type1": "steel",
+    "Type2": "fairy",
+    "Image": "./img/251-386/303-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/303.png"
+  },
+  {
+    "Index": "304",
+    "NameEN": "Aron",
+    "NameFR": "Galekid",
+    "Generation": 3,
+    "Type1": "steel",
+    "Type2": "rock",
+    "Image": "./img/251-386/304-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/304.png"
+  },
+  {
+    "Index": "305",
+    "NameEN": "Lairon",
+    "NameFR": "Galegon",
+    "Generation": 3,
+    "Type1": "steel",
+    "Type2": "rock",
+    "Image": "./img/251-386/305-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/305.png"
+  },
+  {
+    "Index": "306",
+    "NameEN": "Aggron",
+    "NameFR": "Galeking",
+    "Generation": 3,
+    "Type1": "steel",
+    "Type2": "rock",
+    "Image": "./img/251-386/306-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/306.png"
+  },
+  {
+    "Index": "307",
+    "NameEN": "Meditite",
+    "NameFR": "Meditikka",
+    "Generation": 3,
+    "Type1": "fighting",
+    "Type2": "psychic",
+    "Image": "./img/251-386/307-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/307.png"
+  },
+  {
+    "Index": "308",
+    "NameEN": "Medicham",
+    "NameFR": "Charmina",
+    "Generation": 3,
+    "Type1": "fighting",
+    "Type2": "psychic",
+    "Image": "./img/251-386/308-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/308.png"
+  },
+  {
+    "Index": "309",
+    "NameEN": "Electrike",
+    "NameFR": "Dynavolt",
+    "Generation": 3,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/251-386/309-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/309.png"
+  },
+  {
+    "Index": "310",
+    "NameEN": "Manectric",
+    "NameFR": "Élecsprint",
+    "Generation": 3,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/251-386/310-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/310.png"
+  },
+  {
+    "Index": "311",
+    "NameEN": "Plusle",
+    "NameFR": "Posipi",
+    "Generation": 3,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/251-386/311-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/311.png"
+  },
+  {
+    "Index": "312",
+    "NameEN": "Minun",
+    "NameFR": "Négapi",
+    "Generation": 3,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/251-386/312-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/312.png"
+  },
+  {
+    "Index": "313",
+    "NameEN": "Volbeat",
+    "NameFR": "Muciole",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/251-386/313-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/313.png"
+  },
+  {
+    "Index": "314",
+    "NameEN": "Illumise",
+    "NameFR": "Lumivole",
+    "Generation": 3,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/251-386/314-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/314.png"
+  },
+  {
+    "Index": "315",
+    "NameEN": "Roselia",
+    "NameFR": "Roselia",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/251-386/315-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/315.png"
+  },
+  {
+    "Index": "316",
+    "NameEN": "Gulpin",
+    "NameFR": "Gloupti",
+    "Generation": 3,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/251-386/316-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/316.png"
+  },
+  {
+    "Index": "317",
+    "NameEN": "Swalot",
+    "NameFR": "Avaltout",
+    "Generation": 3,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/251-386/317-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/317.png"
+  },
+  {
+    "Index": "318",
+    "NameEN": "Carvanha",
+    "NameFR": "Carvanha",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "dark",
+    "Image": "./img/251-386/318-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/318.png"
+  },
+  {
+    "Index": "319",
+    "NameEN": "Sharpedo",
+    "NameFR": "Sharpedo",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "dark",
+    "Image": "./img/251-386/319-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/319.png"
+  },
+  {
+    "Index": "320",
+    "NameEN": "Wailmer",
+    "NameFR": "Wailmer",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/320-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/320.png"
+  },
+  {
+    "Index": "321",
+    "NameEN": "Wailord",
+    "NameFR": "Wailord",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/321-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/321.png"
+  },
+  {
+    "Index": "322",
+    "NameEN": "Numel",
+    "NameFR": "Chamallot",
+    "Generation": 3,
+    "Type1": "fire",
+    "Type2": "ground",
+    "Image": "./img/251-386/322-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/322.png"
+  },
+  {
+    "Index": "323",
+    "NameEN": "Camerupt",
+    "NameFR": "Camérupt",
+    "Generation": 3,
+    "Type1": "fire",
+    "Type2": "ground",
+    "Image": "./img/251-386/323-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/323.png"
+  },
+  {
+    "Index": "324",
+    "NameEN": "Torkoal",
+    "NameFR": "Chartor",
+    "Generation": 3,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/251-386/324-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/324.png"
+  },
+  {
+    "Index": "325",
+    "NameEN": "Spoink",
+    "NameFR": "Spoink",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/251-386/325-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/325.png"
+  },
+  {
+    "Index": "326",
+    "NameEN": "Grumpig",
+    "NameFR": "Groret",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/251-386/326-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/326.png"
+  },
+  {
+    "Index": "327",
+    "NameEN": "Spinda",
+    "NameFR": "Spinda",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/327-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/327.png"
+  },
+  {
+    "Index": "328",
+    "NameEN": "Trapinch",
+    "NameFR": "Kraknoix",
+    "Generation": 3,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/251-386/328-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/328.png"
+  },
+  {
+    "Index": "329",
+    "NameEN": "Vibrava",
+    "NameFR": "Vibraninf",
+    "Generation": 3,
+    "Type1": "ground",
+    "Type2": "dragon",
+    "Image": "./img/251-386/329-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/329.png"
+  },
+  {
+    "Index": "330",
+    "NameEN": "Flygon",
+    "NameFR": "Libégon",
+    "Generation": 3,
+    "Type1": "ground",
+    "Type2": "dragon",
+    "Image": "./img/251-386/330-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/330.png"
+  },
+  {
+    "Index": "331",
+    "NameEN": "Cacnea",
+    "NameFR": "Cacnea",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/251-386/331-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/331.png"
+  },
+  {
+    "Index": "332",
+    "NameEN": "Cacturne",
+    "NameFR": "Cacturne",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": "dark",
+    "Image": "./img/251-386/332-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/332.png"
+  },
+  {
+    "Index": "333",
+    "NameEN": "Swablu",
+    "NameFR": "Tylton",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/251-386/333-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/333.png"
+  },
+  {
+    "Index": "334",
+    "NameEN": "Altaria",
+    "NameFR": "Altaria",
+    "Generation": 3,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/251-386/334-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/334.png"
+  },
+  {
+    "Index": "335",
+    "NameEN": "Zangoose",
+    "NameFR": "Mangriff",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/335-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/335.png"
+  },
+  {
+    "Index": "336",
+    "NameEN": "Seviper",
+    "NameFR": "Seviper",
+    "Generation": 3,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/251-386/336-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/336.png"
+  },
+  {
+    "Index": "337",
+    "NameEN": "Lunatone",
+    "NameFR": "Séléroc",
+    "Generation": 3,
+    "Type1": "rock",
+    "Type2": "psychic",
+    "Image": "./img/251-386/337-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/337.png"
+  },
+  {
+    "Index": "338",
+    "NameEN": "Solrock",
+    "NameFR": "Solaroc",
+    "Generation": 3,
+    "Type1": "rock",
+    "Type2": "psychic",
+    "Image": "./img/251-386/338-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/338.png"
+  },
+  {
+    "Index": "339",
+    "NameEN": "Barboach",
+    "NameFR": "Barloche",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/251-386/339-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/339.png"
+  },
+  {
+    "Index": "340",
+    "NameEN": "Whiscash",
+    "NameFR": "Barbicha",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/251-386/340-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/340.png"
+  },
+  {
+    "Index": "341",
+    "NameEN": "Corphish",
+    "NameFR": "Écrapince",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/341-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/341.png"
+  },
+  {
+    "Index": "342",
+    "NameEN": "Crawdaunt",
+    "NameFR": "Colhomard",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "dark",
+    "Image": "./img/251-386/342-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/342.png"
+  },
+  {
+    "Index": "343",
+    "NameEN": "Baltoy",
+    "NameFR": "Balbuto",
+    "Generation": 3,
+    "Type1": "ground",
+    "Type2": "psychic",
+    "Image": "./img/251-386/343-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/343.png"
+  },
+  {
+    "Index": "344",
+    "NameEN": "Claydol",
+    "NameFR": "Kaorine",
+    "Generation": 3,
+    "Type1": "ground",
+    "Type2": "psychic",
+    "Image": "./img/251-386/344-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/344.png"
+  },
+  {
+    "Index": "345",
+    "NameEN": "Lileep",
+    "NameFR": "Lilia",
+    "Generation": 3,
+    "Type1": "rock",
+    "Type2": "grass",
+    "Image": "./img/251-386/345-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/345.png"
+  },
+  {
+    "Index": "346",
+    "NameEN": "Cradily",
+    "NameFR": "Vacilys",
+    "Generation": 3,
+    "Type1": "rock",
+    "Type2": "grass",
+    "Image": "./img/251-386/346-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/346.png"
+  },
+  {
+    "Index": "347",
+    "NameEN": "Anorith",
+    "NameFR": "Anorith",
+    "Generation": 3,
+    "Type1": "rock",
+    "Type2": "bug",
+    "Image": "./img/251-386/347-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/347.png"
+  },
+  {
+    "Index": "348",
+    "NameEN": "Armaldo",
+    "NameFR": "Armaldo",
+    "Generation": 3,
+    "Type1": "rock",
+    "Type2": "bug",
+    "Image": "./img/251-386/348-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/348.png"
+  },
+  {
+    "Index": "349",
+    "NameEN": "Feebas",
+    "NameFR": "Barpau",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/349-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/349.png"
+  },
+  {
+    "Index": "350",
+    "NameEN": "Milotic",
+    "NameFR": "Milobellus",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/350-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/350.png"
+  },
+  {
+    "Index": "351",
+    "NameEN": "Castform",
+    "NameFR": "Morphéo",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/351-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/351.png"
+  },
+  {
+    "Index": "352",
+    "NameEN": "Kecleon",
+    "NameFR": "Kecleon",
+    "Generation": 3,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/251-386/352-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/352.png"
+  },
+  {
+    "Index": "353",
+    "NameEN": "Shuppet",
+    "NameFR": "Polichombr",
+    "Generation": 3,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/251-386/353-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/353.png"
+  },
+  {
+    "Index": "354",
+    "NameEN": "Banette",
+    "NameFR": "Branette",
+    "Generation": 3,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/251-386/354-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/354.png"
+  },
+  {
+    "Index": "355",
+    "NameEN": "Duskull",
+    "NameFR": "Skelénox",
+    "Generation": 3,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/251-386/355-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/355.png"
+  },
+  {
+    "Index": "356",
+    "NameEN": "Dusclops",
+    "NameFR": "Téraclope",
+    "Generation": 3,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/251-386/356-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/356.png"
+  },
+  {
+    "Index": "357",
+    "NameEN": "Tropius",
+    "NameFR": "Tropius",
+    "Generation": 3,
+    "Type1": "grass",
+    "Type2": "flying",
+    "Image": "./img/251-386/357-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/357.png"
+  },
+  {
+    "Index": "358",
+    "NameEN": "Chimecho",
+    "NameFR": "Éoko",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/251-386/358-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/358.png"
+  },
+  {
+    "Index": "359",
+    "NameEN": "Absol",
+    "NameFR": "Absol",
+    "Generation": 3,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/251-386/359-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/359.png"
+  },
+  {
+    "Index": "360",
+    "NameEN": "Wynaut",
+    "NameFR": "Okéoké",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/251-386/360-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/360.png"
+  },
+  {
+    "Index": "361",
+    "NameEN": "Snorunt",
+    "NameFR": "Stalgamin",
+    "Generation": 3,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/251-386/361-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/361.png"
+  },
+  {
+    "Index": "362",
+    "NameEN": "Glalie",
+    "NameFR": "Oniglali",
+    "Generation": 3,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/251-386/362-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/362.png"
+  },
+  {
+    "Index": "363",
+    "NameEN": "Spheal",
+    "NameFR": "Obalie",
+    "Generation": 3,
+    "Type1": "ice",
+    "Type2": "water",
+    "Image": "./img/251-386/363-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/363.png"
+  },
+  {
+    "Index": "364",
+    "NameEN": "Sealeo",
+    "NameFR": "Phogleur",
+    "Generation": 3,
+    "Type1": "ice",
+    "Type2": "water",
+    "Image": "./img/251-386/364-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/364.png"
+  },
+  {
+    "Index": "365",
+    "NameEN": "Walrein",
+    "NameFR": "Kaimorse",
+    "Generation": 3,
+    "Type1": "ice",
+    "Type2": "water",
+    "Image": "./img/251-386/365-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/365.png"
+  },
+  {
+    "Index": "366",
+    "NameEN": "Clamperl",
+    "NameFR": "Coquiperl",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/366-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/366.png"
+  },
+  {
+    "Index": "367",
+    "NameEN": "Huntail",
+    "NameFR": "Serpang",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/367-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/367.png"
+  },
+  {
+    "Index": "368",
+    "NameEN": "Gorebyss",
+    "NameFR": "Rosabyss",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/368-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/368.png"
+  },
+  {
+    "Index": "369",
+    "NameEN": "Relicanth",
+    "NameFR": "Relicanth",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": "rock",
+    "Image": "./img/251-386/369-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/369.png"
+  },
+  {
+    "Index": "370",
+    "NameEN": "Luvdisc",
+    "NameFR": "Lovdisc",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/370-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/370.png"
+  },
+  {
+    "Index": "371",
+    "NameEN": "Bagon",
+    "NameFR": "Draby",
+    "Generation": 3,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/251-386/371-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/371.png"
+  },
+  {
+    "Index": "372",
+    "NameEN": "Shelgon",
+    "NameFR": "Drackhaus",
+    "Generation": 3,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/251-386/372-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/372.png"
+  },
+  {
+    "Index": "373",
+    "NameEN": "Salamence",
+    "NameFR": "Drattak",
+    "Generation": 3,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/251-386/373-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/373.png"
+  },
+  {
+    "Index": "374",
+    "NameEN": "Beldum",
+    "NameFR": "Terhal",
+    "Generation": 3,
+    "Type1": "steel",
+    "Type2": "psychic",
+    "Image": "./img/251-386/374-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/374.png"
+  },
+  {
+    "Index": "375",
+    "NameEN": "Metang",
+    "NameFR": "Métang",
+    "Generation": 3,
+    "Type1": "steel",
+    "Type2": "psychic",
+    "Image": "./img/251-386/375-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/375.png"
+  },
+  {
+    "Index": "376",
+    "NameEN": "Metagross",
+    "NameFR": "Métalosse",
+    "Generation": 3,
+    "Type1": "steel",
+    "Type2": "psychic",
+    "Image": "./img/251-386/376-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/376.png"
+  },
+  {
+    "Index": "377",
+    "NameEN": "Regirock",
+    "NameFR": "Regirock",
+    "Generation": 3,
+    "Type1": "rock",
+    "Type2": null,
+    "Image": "./img/251-386/377-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/377.png"
+  },
+  {
+    "Index": "378",
+    "NameEN": "Regice",
+    "NameFR": "Regice",
+    "Generation": 3,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/251-386/378-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/378.png"
+  },
+  {
+    "Index": "379",
+    "NameEN": "Registeel",
+    "NameFR": "Registeel",
+    "Generation": 3,
+    "Type1": "steel",
+    "Type2": null,
+    "Image": "./img/251-386/379-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/379.png"
+  },
+  {
+    "Index": "380",
+    "NameEN": "Latias",
+    "NameFR": "Latias",
+    "Generation": 3,
+    "Type1": "dragon",
+    "Type2": "psychic",
+    "Image": "./img/251-386/380-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/380.png"
+  },
+  {
+    "Index": "381",
+    "NameEN": "Latios",
+    "NameFR": "Latios",
+    "Generation": 3,
+    "Type1": "dragon",
+    "Type2": "psychic",
+    "Image": "./img/251-386/381-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/381.png"
+  },
+  {
+    "Index": "382",
+    "NameEN": "Kyogre",
+    "NameFR": "Kyogre",
+    "Generation": 3,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/251-386/382-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/382.png"
+  },
+  {
+    "Index": "383",
+    "NameEN": "Groudon",
+    "NameFR": "Groudon",
+    "Generation": 3,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/251-386/383-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/383.png"
+  },
+  {
+    "Index": "384",
+    "NameEN": "Rayquaza",
+    "NameFR": "Rayquaza",
+    "Generation": 3,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/251-386/384-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/384.png"
+  },
+  {
+    "Index": "385",
+    "NameEN": "Jirachi",
+    "NameFR": "Jirachi",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": "steel",
+    "Image": "./img/251-386/385-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/385.png"
+  },
+  {
+    "Index": "386",
+    "NameEN": "Deoxys",
+    "NameFR": "Deoxys",
+    "Generation": 3,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/251-386/386-a.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/386.png"
+  }
+]

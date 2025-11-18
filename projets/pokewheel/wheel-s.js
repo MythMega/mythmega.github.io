@@ -93,10 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function onGenerateClick(){
-    console.log("jepassela");
-    console.log(lastSelectedPokeName);
   if (!currentDataCMD || !lastSelectedPokeName) return;
-  const command = `${currentDataCMD} ${lastSelectedPokeName}`;
+  const command = `${currentDataCMD} ${lastSelectedPokeName} Shiny: No Level: 20`;
   try {
     await navigator.clipboard.writeText(command);
   } catch (e) {

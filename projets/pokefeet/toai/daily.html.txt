@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Poké-feet Daily</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>PokéPied Daily</h1>
+      <i>Inclut pokémon 1G, 2G, 3G et leurs formes régionales</i>
+      <div class="scoreboard">
+        <div>Progression : <span id="progress">0 / 5</span></div>
+        <div>Score : <span id="dailyScore">0</span></div>
+      </div>
+    </header>
+
+    <section class="game-area">
+      <div class="center-card">
+        <div class="pokemon-image">
+          <img id="dailyImg" src="" alt="Pokémon" />
+        </div>
+
+        <div class="info-below">
+          <div id="dailyReveal" class="hidden">
+            <div>Génération : <span id="dGen"></span></div>
+            <div>Index : <span id="dIndex"></span></div>
+            <div>Type 1 : <span id="dT1"></span></div>
+            <div>Type 2 : <span id="dT2"></span></div>
+          </div>
+        </div>
+
+        <div class="guess-area">
+          <input id="dailyInput" type="text" autocomplete="off" placeholder="Tapez le nom FR ou EN" list="namesListDaily" />
+          <datalist id="namesListDaily"></datalist>
+          <button id="dailySubmit">Valider</button>
+          <button id="dailySkip" class="secondary">Passer</button>
+        </div>
+
+        <div id="afterDone" class="hidden" style="margin-top:12px; text-align:left;">
+          <h3>Partie terminée</h3>
+          <div id="shareTextArea" style="white-space:pre-wrap; font-family:monospace; background:rgba(255,255,255,0.03); padding:8px; border-radius:8px;"></div>
+          <button id="copyShare">Copier</button>
+          <button id="viewDetails">Voir détails</button>
+        </div>
+      </div>
+    </section>
+
+    <aside id="hints">
+      <h3>Indices</h3>
+      <ul id="dailyHints"></ul>
+    </aside>
+
+    <div id="notifications" aria-live="polite"></div>
+  </main>
+
+  <script src="pokemon.js"></script>
+  <script src="daily.js"></script>
+</body>
+</html>

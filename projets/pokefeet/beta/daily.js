@@ -33,7 +33,7 @@ const Daily = (function () {
   const shareArea = document.getElementById('shareTextArea');
 
   // cookie helpers
-  function setCookie(name, value, days = 365) {
+  function setCookie(name, value, days = 3650) {
     const d = new Date();
     d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
     document.cookie = `${name}=${encodeURIComponent(value)};expires=${d.toUTCString()};path=/`;
@@ -150,18 +150,51 @@ const Daily = (function () {
     return Math.max(basePoints - a * hintPenalty, 0);
   }
 
-  // daily cookie payload: { date: "YYYY-MM-DD", results: [{outcome, attempts}], score }
-  function saveDailyCookie(payload) {
-    setCookie(cookieName, JSON.stringify(payload), 7);
+  // stocke l'objet history complet dans le cookie
+  function saveDailyCookie(historyObj) {
+    try {
+      setCookie(cookieName, JSON.stringify(historyObj), 3650);
+    } catch (e) {
+      console.error('Impossible de sauvegarder l\'historique daily', e);
+    }
   }
 
+  // renvoie l'objet history (map date -> { score, results }) ou null
   function loadDailyCookie() {
     const raw = getCookie(cookieName);
     if (!raw) return null;
     try {
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      // sécurité: s'assurer que c'est un objet
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
+      return null;
     } catch (e) { return null; }
   }
+  
+  // helper pour sauvegarder le résultat du jour dans l'historique
+  function saveResultForToday(payload) {
+    const dateKey = payload.date;
+    const history = loadDailyCookie() || {};
+    history[dateKey] = {
+      score: payload.score,
+      results: payload.results
+    };
+    saveDailyCookie(history);
+  }
+
+  // build emoji line helper (utile aussi pour history page)
+  function resultToEmojiLine(resArr) {
+    // pour chaque slot: win attempts==0 => 🟩, win attempts>0 => 🟧, fail => 🟥
+    return resArr.map(r => {
+      if (!r) return '🟥';
+      if (r.outcome === 'fail') return '🟥';
+      if (r.outcome === 'win') {
+        return (r.attempts === 0) ? '🟩' : '🟧';
+      }
+      return '🟥';
+    }).join('');
+  }
+
 
   // build emoji share text
   function buildShareText(resArr, dateStr, totalScore) {
@@ -200,14 +233,17 @@ const Daily = (function () {
     updateProgressUI();
   }
 
+  // --- Adapter finishDaily pour utiliser l'historique ---
   function finishDaily() {
-    // persist results
+    // persist results into history map
     const payload = { date: dateSeedStr(), results, score };
-    saveDailyCookie(payload);
+    saveResultForToday(payload);
+
     // prepare share text
     const share = buildShareText(results, payload.date, score);
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
+
     // disable controls
     input().disabled = true;
     document.getElementById('dailySubmit').disabled = true;

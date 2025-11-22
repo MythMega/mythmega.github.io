@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PokéPied Daily — Historique</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>Historique — PokéPied Daily</h1>
+      <div class="scoreboard">
+        <div>Total jours : <span id="totalDays">0</span></div>
+      </div>
+    </header>
+
+    <section class="game-area">
+      <div class="center-card" style="text-align:left;">
+        <div id="historyList">
+          <!-- lignes d'historique injectées ici -->
+        </div>
+
+        <div style="margin-top:12px;">
+          <a href="index.html"><button class="secondary">Retour au Daily</button></a>
+        </div>
+      </div>
+    </section>
+
+    <div id="notifications" aria-live="polite"></div>
+  </main>
+
+  <script src="history.js"></script>
+</body>
+</html>

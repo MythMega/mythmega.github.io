@@ -129,6 +129,7 @@ const Daily = (function () {
     dIdx.textContent = p.Index;
     dT1.textContent = p.Type1;
     dT2.textContent = p.getDisplayType2();
+    img().src = p.FullImage;
   }
 
   function hideReveal() {

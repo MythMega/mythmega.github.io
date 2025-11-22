@@ -6,7 +6,7 @@ const Daily = (function () {
   // config
   const COUNT = 5;
   const maxAttempts = 5; // 0..4 attempts allowed, 5th fail = complete fail
-  const cookieName = 'pk_daily_result_v1';
+  const cookieName = 'pk_daily_result_v2';
 
   // state
   let pokemons = [];
@@ -311,11 +311,11 @@ const Daily = (function () {
   }
 
   // UI when daily already played
-  function renderFinishedFromCookie(payload) {
-    // payload.results array length may be <= COUNT
-    const date = payload.date || dateSeedStr();
-    const saved = payload;
-    const share = buildShareText(saved.results, date, saved.score || 0);
+  function renderFinishedFromCookie(payload, dateStr) {
+    // payload: { score, results }
+    const date = dateStr || dateSeedStr();
+    const saved = payload || { score: 0, results: [] };
+    const share = buildShareText(saved.results || [], date, saved.score || 0);
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
     // show summary on top
@@ -326,6 +326,11 @@ const Daily = (function () {
     document.getElementById('dailySubmit').disabled = true;
     document.getElementById('dailySkip').disabled = true;
     showImage(''); // keep blank or show last if desired
+
+    // set module state so viewDetails and autres fonctionnent
+    results = saved.results ? saved.results.slice(0, COUNT) : [];
+    score = saved.score || 0;
+    index = COUNT; // mark finished
   }
 
   // show current pokemon (partial image)
@@ -352,15 +357,16 @@ const Daily = (function () {
     }
 
     // check cookie: if there is a saved daily and date matches today => render finished
-    const saved = loadDailyCookie();
+    const savedHistory = loadDailyCookie();
     const today = dateSeedStr();
-    if (saved && saved.date === today) {
+    if (savedHistory && savedHistory[today]) {
       // already played today
       populateNamesList();
-      renderFinishedFromCookie(saved);
+      renderFinishedFromCookie(savedHistory[today], today);
       bindButtons(); // still allow copy
       return;
     }
+
 
     // create deterministic list 5 using date seed
     const seed = stringToSeed(dateSeedStr());

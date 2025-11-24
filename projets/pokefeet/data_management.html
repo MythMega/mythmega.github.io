@@ -33,6 +33,23 @@
 
           <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
 
+          <div style="margin-bottom:10px;">
+            <h4 style="margin:6px 0 8px 0;">Importer un Daily (coller le texte)</h4>
+            <p class="info-below" style="margin-bottom:8px;">Collez le bloc texte d'un Daily (format emoji ou :green_square:). Exemple :<br/>
+              <code style="font-family:monospace;color:#dbeafe;">PokéPied Daily — 2025-11-24 — score 38</code> suivi de 5 lignes d'emoji.</p>
+
+            <textarea id="dailyImportArea" placeholder="Collez ici le texte du Daily..." style="width:100%;min-height:140px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
+
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <button id="importDailyBtn" class="btn-export" style="padding:10px 12px;">Importer un jour</button>
+              <button id="clearDailyArea" class="secondary" style="padding:10px 12px;">Effacer</button>
+            </div>
+
+            <div id="dailyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+          </div>
+
+          <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
+
           <div id="dataPreview" style="max-height:260px;overflow:auto;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;font-family:monospace;font-size:13px;color:#dbeafe;display: none;"></div>
 
         </div>

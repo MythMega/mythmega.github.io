@@ -47,6 +47,32 @@ const Game = (function () {
     return Math.max(basePoints - a * hintPenalty, 0);
   }
 
+    // --- nouvelle fonction : vérifie si le nom entré existe dans la liste (FR ou EN) ---
+  function isValidName(val) {
+    if (!val) return false;
+    const v = val.trim().toLowerCase();
+    for (let i = 0; i < pokemons.length; i++) {
+      const p = pokemons[i];
+      if ((p.NameFR && p.NameFR.toLowerCase() === v) || (p.NameEN && p.NameEN.toLowerCase() === v)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // animation "shake" sur input pour nom invalide
+  function triggerInvalidInput() {
+    const el = document.getElementById('guessInput');
+    if (!el) return;
+    el.classList.remove('shake');
+    // reflow pour relancer l'animation si déjà présente
+    void el.offsetWidth;
+    el.classList.add('shake');
+    UI.showNotification('Nom invalide', 'fail');
+    // retirer la classe après l'animation
+    setTimeout(() => el.classList.remove('shake'), 500);
+  }
+
   // démarrer une partie / charger les données
   async function init() {
     // charge le JSON embarqué (on peut remplacer par fetch si placé en fichier séparé)
@@ -125,6 +151,13 @@ const Game = (function () {
   function onSubmit() {
     const input = document.getElementById('guessInput').value.trim();
     if (!current || !input) return;
+
+    // validation : si le nom n'est pas dans la liste possible, on secoue et on affiche une erreur
+    if (!isValidName(input)) {
+      triggerInvalidInput();
+      return; // ne compte pas comme tentative
+    }
+
     if (current.matchesName(input)) {
       // correct
       const points = pointsForAttempt(attempts);
@@ -188,3 +221,10 @@ const Game = (function () {
     _getState: () => ({current, attempts, score})
   };
 })();
+
+
+
+
+//////////////////////////////
+////////////////////////////// si tu vois ça, bien joué, tu es un malin
+//////////////////////////////

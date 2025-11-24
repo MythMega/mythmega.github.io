@@ -4,10 +4,6 @@ const DataManager = (function () {
   const COOKIE_DAILY = 'pk_daily_result_v2';
   const COOKIE_BEST = 'pk_best';
   const EXPORT_VERSION = 'v1';
-  const COUNT = 5;
-  const basePoints = 10;
-  const hintPenalty = 2;
-  const maxAttempts = 5; // used for fail marker when importing (consistent with daily.js)
 
   // --- cookie helpers (compatible avec le reste du projet) ---
   function setCookie(name, value, days = 3650) {
@@ -41,6 +37,7 @@ const DataManager = (function () {
         if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) daily = parsed;
       }
     } catch (e) {
+      // ignore parse errors, keep empty
       daily = {};
     }
 
@@ -113,25 +110,7 @@ const DataManager = (function () {
     }, 2200);
   }
 
-  // --- daily cookie helpers (same semantics as daily.js) ---
-  function saveDailyCookie(historyObj) {
-    try {
-      setCookie(COOKIE_DAILY, JSON.stringify(historyObj), 3650);
-    } catch (e) {
-      console.error('Impossible de sauvegarder l\'historique daily', e);
-    }
-  }
-  function loadDailyCookie() {
-    const raw = getCookie(COOKIE_DAILY);
-    if (!raw) return null;
-    try {
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
-      return null;
-    } catch (e) { return null; }
-  }
-
-  // --- merge logic for full-file import (existing behaviour) ---
+  // --- merge logic ---
   async function mergePayloadIntoCookies(payload) {
     // payload: { daily: {...}, best: number|null }
     const existingDailyRaw = getCookie(COOKIE_DAILY);
@@ -157,6 +136,7 @@ const DataManager = (function () {
         existingDaily[date] = fileEntry;
       } else {
         // conflict: both exist
+        // compare score and results; if identical, ignore; else push conflict
         const same = JSON.stringify(cookieEntry) === JSON.stringify(fileEntry);
         if (!same) {
           conflicts.push({ date, fileEntry, cookieEntry });
@@ -167,6 +147,7 @@ const DataManager = (function () {
     // resolve conflicts with confirm dialogs (one by one)
     for (let i = 0; i < conflicts.length; i++) {
       const c = conflicts[i];
+      // build message
       const msg = `Conflit pour la date ${c.date}:\nFichier -> score: ${c.fileEntry.score}\nCookie -> score: ${c.cookieEntry.score}\n\nCliquer OK pour garder la valeur du FICHIER (écraser), Annuler pour garder la valeur du COOKIE.`;
       const keepFile = confirm(msg);
       if (keepFile) {
@@ -210,7 +191,7 @@ const DataManager = (function () {
     return true;
   }
 
-  // --- public handlers for full-file export/import ---
+  // --- public handlers ---
   function onExportClick() {
     const text = createExportText();
     const now = new Date();
@@ -240,6 +221,7 @@ const DataManager = (function () {
       const ok = await mergePayloadIntoCookies(parsed.payload);
       if (ok) {
         notify('Import terminé et fusionné', 'success');
+        // update preview area
         renderCurrentCookiesPreview();
       } else {
         notify('Import échoué', 'fail');
@@ -256,134 +238,7 @@ const DataManager = (function () {
     const preview = document.getElementById('dataPreview');
     const payload = buildPayloadObj();
     const pretty = JSON.stringify(payload, null, 2);
-    if (preview) {
-      preview.style.display = 'block';
-      preview.textContent = pretty;
-    }
-  }
-
-  // --- parse a pasted Daily text (emoji or :code:) ---
-  function normalizeLineToEmoji(line) {
-    if (!line) return '';
-    // replace colon codes by emoji
-    let s = line.replace(/:green_square:/gi, '🟩')
-                .replace(/:orange_square:/gi, '🟧')
-                .replace(/:red_square:/gi, '🟥')
-                .replace(/:green:/gi, '🟩')
-                .replace(/:orange:/gi, '🟧')
-                .replace(/:red:/gi, '🟥');
-    // also accept textual words (green_square etc)
-    s = s.replace(/green_square/gi, '🟩')
-         .replace(/orange_square/gi, '🟧')
-         .replace(/red_square/gi, '🟥');
-    return s;
-  }
-
-  function parseDailyText(text) {
-    if (!text || typeof text !== 'string') return { error: 'Texte vide' };
-    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
-    if (lines.length < 6) return { error: 'Format invalide : attendu header + 5 lignes d\'emoji' };
-
-    // header: try to extract date and score
-    // accept "PokéPied Daily — 2025-11-24 — score 38" with dash or em-dash
-    const header = lines[0];
-    const headerRegex = /Pok[eé]Pied Daily\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
-    const m = header.match(headerRegex);
-    if (!m) return { error: 'En-tête invalide. Format attendu : "PokéPied Daily — YYYY-MM-DD — score N"' };
-    const dateStr = m[1];
-    const declaredScore = parseInt(m[2], 10);
-
-    // next 5 lines are the emoji rows (we accept more but take first 5)
-    const rows = lines.slice(1, 1 + COUNT);
-    if (rows.length < COUNT) return { error: 'Il faut 5 lignes d\'emoji après l\'en-tête' };
-
-    const results = [];
-    let computedScore = 0;
-
-    for (let i = 0; i < COUNT; i++) {
-      const raw = rows[i];
-      const normalized = normalizeLineToEmoji(raw);
-      // count occurrences
-      const greens = (normalized.match(/🟩/g) || []).length;
-      const oranges = (normalized.match(/🟧/g) || []).length;
-      const reds = (normalized.match(/🟥/g) || []).length;
-
-      // validation: each line should contain exactly 5 squares (sum)
-      if (greens + oranges + reds !== 5) {
-        return { error: `Ligne ${i+1} invalide : attendu 5 carrés (ligne: "${raw}")` };
-      }
-
-      if (reds === 5) {
-        // fail
-        results.push({ outcome: 'fail', attempts: maxAttempts });
-        // no points
-      } else {
-        // win: number of oranges equals number of failed attempts before success
-        const attempts = oranges; // 0..4
-        results.push({ outcome: 'win', attempts });
-        const pts = Math.max(basePoints - attempts * hintPenalty, 0);
-        computedScore += pts;
-      }
-    }
-
-    // optional: compare computedScore with declaredScore; if mismatch, warn but still allow
-    const scoreMismatch = (computedScore !== declaredScore);
-
-    return { date: dateStr, score: computedScore, declaredScore, scoreMismatch, results };
-  }
-
-  // --- import daily from textarea ---
-  function onImportDailyClick() {
-    const area = document.getElementById('dailyImportArea');
-    const out = document.getElementById('dailyImportResult');
-    if (!area) return;
-    const txt = area.value.trim();
-    if (!txt) {
-      out.textContent = 'Aucun texte collé.';
-      return;
-    }
-    const parsed = parseDailyText(txt);
-    if (parsed.error) {
-      out.textContent = parsed.error;
-      notify(parsed.error, 'fail');
-      return;
-    }
-
-    const dateKey = parsed.date;
-    // check existing cookie
-    const history = loadDailyCookie() || {};
-    if (history[dateKey]) {
-      const msg = `Jour ${dateKey} déjà en sauvegarde. Import annulé.`;
-      out.textContent = msg;
-      notify(msg, 'fail');
-      return;
-    }
-
-    // save new entry
-    history[dateKey] = {
-      score: parsed.score,
-      results: parsed.results
-    };
-    try {
-      saveDailyCookie(history);
-      const msg = `Jour ${dateKey} importé (score calculé: ${parsed.score}${parsed.scoreMismatch ? ' — attention : score déclaré différent' : ''}).`;
-      out.textContent = msg;
-      notify(msg, 'success');
-      // update preview
-      renderCurrentCookiesPreview();
-    } catch (e) {
-      const err = 'Impossible de sauvegarder le daily importé';
-      out.textContent = err;
-      notify(err, 'fail');
-    }
-  }
-
-  // --- clear daily textarea ---
-  function onClearDailyArea() {
-    const area = document.getElementById('dailyImportArea');
-    const out = document.getElementById('dailyImportResult');
-    if (area) area.value = '';
-    if (out) out.textContent = '';
+    if (preview) preview.textContent = pretty;
   }
 
   // --- init bindings ---
@@ -391,24 +246,21 @@ const DataManager = (function () {
     const exportBtn = document.getElementById('exportBtn');
     const importFile = document.getElementById('importFile');
     const previewBtn = document.getElementById('previewBtn');
-    const importDailyBtn = document.getElementById('importDailyBtn');
-    const clearDailyBtn = document.getElementById('clearDailyArea');
 
     if (exportBtn) exportBtn.addEventListener('click', onExportClick);
     if (importFile) {
       importFile.addEventListener('change', (e) => {
         const f = e.target.files && e.target.files[0];
         if (f) onFileSelected(f);
+        // reset input so same file can be reselected later
         importFile.value = '';
       });
     }
-    if (previewBtn) previewBtn.addEventListener('click', renderCurrentCookiesPreview);
-    if (importDailyBtn) importDailyBtn.addEventListener('click', onImportDailyClick);
-    if (clearDailyBtn) clearDailyBtn.addEventListener('click', onClearDailyArea);
 
-    // initial preview hidden until user asks
-    const preview = document.getElementById('dataPreview');
-    if (preview) preview.style.display = 'none';
+    if (previewBtn) previewBtn.addEventListener('click', renderCurrentCookiesPreview);
+
+    // initial preview
+    renderCurrentCookiesPreview();
   }
 
   return {

@@ -6,7 +6,7 @@ const Daily = (function () {
   // config
   const COUNT = 5;
   const maxAttempts = 5; // 0..4 attempts allowed, 5th fail = complete fail
-  const cookieName = 'pk_daily_result_v1';
+  const cookieName = 'pk_daily_result_v2';
 
   // state
   let pokemons = [];
@@ -33,7 +33,7 @@ const Daily = (function () {
   const shareArea = document.getElementById('shareTextArea');
 
   // cookie helpers
-  function setCookie(name, value, days = 365) {
+  function setCookie(name, value, days = 3650) {
     const d = new Date();
     d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
     document.cookie = `${name}=${encodeURIComponent(value)};expires=${d.toUTCString()};path=/`;
@@ -129,6 +129,7 @@ const Daily = (function () {
     dIdx.textContent = p.Index;
     dT1.textContent = p.Type1;
     dT2.textContent = p.getDisplayType2();
+    img().src = p.FullImage;
   }
 
   function hideReveal() {
@@ -150,18 +151,51 @@ const Daily = (function () {
     return Math.max(basePoints - a * hintPenalty, 0);
   }
 
-  // daily cookie payload: { date: "YYYY-MM-DD", results: [{outcome, attempts}], score }
-  function saveDailyCookie(payload) {
-    setCookie(cookieName, JSON.stringify(payload), 7);
+  // stocke l'objet history complet dans le cookie
+  function saveDailyCookie(historyObj) {
+    try {
+      setCookie(cookieName, JSON.stringify(historyObj), 3650);
+    } catch (e) {
+      console.error('Impossible de sauvegarder l\'historique daily', e);
+    }
   }
 
+  // renvoie l'objet history (map date -> { score, results }) ou null
   function loadDailyCookie() {
     const raw = getCookie(cookieName);
     if (!raw) return null;
     try {
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      // sécurité: s'assurer que c'est un objet
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
+      return null;
     } catch (e) { return null; }
   }
+  
+  // helper pour sauvegarder le résultat du jour dans l'historique
+  function saveResultForToday(payload) {
+    const dateKey = payload.date;
+    const history = loadDailyCookie() || {};
+    history[dateKey] = {
+      score: payload.score,
+      results: payload.results
+    };
+    saveDailyCookie(history);
+  }
+
+  // build emoji line helper (utile aussi pour history page)
+  function resultToEmojiLine(resArr) {
+    // pour chaque slot: win attempts==0 => 🟩, win attempts>0 => 🟧, fail => 🟥
+    return resArr.map(r => {
+      if (!r) return '🟥';
+      if (r.outcome === 'fail') return '🟥';
+      if (r.outcome === 'win') {
+        return (r.attempts === 0) ? '🟩' : '🟧';
+      }
+      return '🟥';
+    }).join('');
+  }
+
 
   // build emoji share text
   function buildShareText(resArr, dateStr, totalScore) {
@@ -200,14 +234,17 @@ const Daily = (function () {
     updateProgressUI();
   }
 
+  // --- Adapter finishDaily pour utiliser l'historique ---
   function finishDaily() {
-    // persist results
+    // persist results into history map
     const payload = { date: dateSeedStr(), results, score };
-    saveDailyCookie(payload);
+    saveResultForToday(payload);
+
     // prepare share text
     const share = buildShareText(results, payload.date, score);
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
+
     // disable controls
     input().disabled = true;
     document.getElementById('dailySubmit').disabled = true;
@@ -275,11 +312,11 @@ const Daily = (function () {
   }
 
   // UI when daily already played
-  function renderFinishedFromCookie(payload) {
-    // payload.results array length may be <= COUNT
-    const date = payload.date || dateSeedStr();
-    const saved = payload;
-    const share = buildShareText(saved.results, date, saved.score || 0);
+  function renderFinishedFromCookie(payload, dateStr) {
+    // payload: { score, results }
+    const date = dateStr || dateSeedStr();
+    const saved = payload || { score: 0, results: [] };
+    const share = buildShareText(saved.results || [], date, saved.score || 0);
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
     // show summary on top
@@ -290,6 +327,11 @@ const Daily = (function () {
     document.getElementById('dailySubmit').disabled = true;
     document.getElementById('dailySkip').disabled = true;
     showImage(''); // keep blank or show last if desired
+
+    // set module state so viewDetails and autres fonctionnent
+    results = saved.results ? saved.results.slice(0, COUNT) : [];
+    score = saved.score || 0;
+    index = COUNT; // mark finished
   }
 
   // show current pokemon (partial image)
@@ -316,15 +358,16 @@ const Daily = (function () {
     }
 
     // check cookie: if there is a saved daily and date matches today => render finished
-    const saved = loadDailyCookie();
+    const savedHistory = loadDailyCookie();
     const today = dateSeedStr();
-    if (saved && saved.date === today) {
+    if (savedHistory && savedHistory[today]) {
       // already played today
       populateNamesList();
-      renderFinishedFromCookie(saved);
+      renderFinishedFromCookie(savedHistory[today], today);
       bindButtons(); // still allow copy
       return;
     }
+
 
     // create deterministic list 5 using date seed
     const seed = stringToSeed(dateSeedStr());

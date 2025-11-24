@@ -9,13 +9,30 @@
 *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;}
 
 html,body,#app{height:100%;margin:0;background:linear-gradient(180deg,#071029 0%, #0b1220 100%);color:#e6eef8;}
-main{max-width:980px;margin:28px auto;padding:16px;}
+
+/* Centrage global de la page (horizontal + vertical) */
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:28px;
+}
+
+main{
+  max-width:980px;
+  width:100%;
+  margin:0;
+  padding:16px;
+}
+
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
 h1{font-size:20px;margin:0;color:#fff;}
 .scoreboard{display:flex;gap:14px;font-weight:600;color:var(--muted);}
 
 .game-area{display:flex;justify-content:center;}
 .center-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:480px;text-align:center;}
+.center-card-history{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:800px;text-align:center;}
 .pokemon-image{height:260px;display:flex;align-items:center;justify-content:center;background:var(--glass);border-radius:10px;margin-bottom:12px;}
 .pokemon-image img{max-height:240px;max-width:100%;image-rendering:auto;}
 
@@ -38,6 +55,21 @@ aside#hints{margin-top:14px;color:var(--muted);max-width:480px;margin-left:auto;
   animation: pop 400ms ease-out;
 }
 @keyframes pop{from{transform:translateY(-8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+
+/* Shake animation pour input invalide */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); }
+}
+.shake {
+  animation: shake 420ms ease;
+  border-color: #ff6b6b !important;
+  box-shadow: 0 0 0 3px rgba(255,107,107,0.06);
+}
 
 .info-below{color:var(--muted);font-size:14px;margin-bottom:8px;text-align:left;}
 .info-below div{margin:4px 0;}

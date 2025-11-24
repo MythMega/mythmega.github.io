@@ -78,5 +78,10 @@
 		"Name": "[9G] Pokémon Legends: Z-A",
 		"File": "./data/za_main.json",
 		"GenerateCMD": "!requestPLZ"
+	},
+	{
+		"Name": "[SPECIAL] Pokémon Legends: Arceus - Nuzlock",
+		"File": "./data/la_myth.json",
+		"GenerateCMD": "!requestPLA"
 	}
 ]

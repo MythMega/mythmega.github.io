@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PokéPied — Gestion des données</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>Gestion des données — PokéPied</h1>
+      <div class="scoreboard">
+        <div>Export / Import</div>
+      </div>
+    </header>
+
+    <section class="game-area">
+      <div class="center-card" style="max-width:760px;">
+        <h3>Sauvegarder ou restaurer vos données</h3>
+
+        <div class="data-controls" style="margin-top:12px;">
+          <p class="info-below">Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.</p>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button id="exportBtn" class="btn-export">Exporter les données</button>
+            <label for="importFile" class="btn secondary" style="cursor:pointer;">Importer un fichier</label>
+            <input id="importFile" type="file" accept=".txt" class="hidden file-input" />
+            <button id="previewBtn" class="secondary" title="Voir le contenu du cookie actuel">Aperçu cookie actuel</button>
+          </div>
+
+          <div id="importSummary" style="margin-top:12px;color:var(--muted);font-size:13px;"></div>
+
+          <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
+
+          <div id="dataPreview" style="max-height:260px;overflow:auto;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;font-family:monospace;font-size:13px;color:#dbeafe;"></div>
+
+        </div>
+      </div>
+    </section>
+
+    <div id="notifications" aria-live="polite"></div>
+  </main>
+
+  <script src="data.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      DataManager.init();
+    });
+  </script>
+</body>
+</html>

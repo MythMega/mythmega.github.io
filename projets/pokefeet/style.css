@@ -73,3 +73,10 @@ aside#hints{margin-top:14px;color:var(--muted);max-width:480px;margin-left:auto;
 
 .info-below{color:var(--muted);font-size:14px;margin-bottom:8px;text-align:left;}
 .info-below div{margin:4px 0;}
+
+/* Data management page */
+.data-controls { width:100%; }
+.file-input { display:none; }
+.btn-export { background:linear-gradient(90deg,#16a34a,#10b981); color:#042014; font-weight:800; padding:10px 14px; border-radius:8px; border:none; cursor:pointer; }
+.data-controls .secondary { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04); padding:10px 12px; border-radius:8px; cursor:pointer; }
+#dataPreview { white-space:pre-wrap; word-break:break-word; }

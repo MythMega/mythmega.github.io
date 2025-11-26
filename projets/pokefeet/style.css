@@ -80,3 +80,72 @@ aside#hints{margin-top:14px;color:var(--muted);max-width:480px;margin-left:auto;
 .btn-export { background:linear-gradient(90deg,#16a34a,#10b981); color:#042014; font-weight:800; padding:10px 14px; border-radius:8px; border:none; cursor:pointer; }
 .data-controls .secondary { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04); padding:10px 12px; border-radius:8px; cursor:pointer; }
 #dataPreview { white-space:pre-wrap; word-break:break-word; }
+
+/* History page tweaks: keep default (mobile-first) graph above, side-by-side on large screens */
+.center-card-history {
+  gap: 1rem;
+}
+
+/* Canvas card style (léger fond + arrondis correspondant au thème existant) */
+#historyChartWrap .card {
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
+  padding: .5rem;
+}
+
+/* Make canvas responsive while preserving aspect ratio */
+#historyChart {
+  width: 100% !important;
+  height: 320px; /* fixed visual height; chart library will scale */
+  max-height: 420px;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Force a readable min width on small devices for the list, while letting it grow on large screens */
+#historyList {
+  width: 100%;
+}
+
+/* Optional: tighten spacing inside history list entries if present */
+#historyList .history-row {
+  padding: .5rem .75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Accessibility / small-screen tweaks */
+@media (max-width: 992px) {
+  /* On md and smaller (<= 991px) ensure the chart is visually above list */
+  /* We already render chart first in the DOM; this keeps spacing tidy */
+  #historyChartWrap {
+    order: 1;
+    width: 100%;
+  }
+  #historyList {
+    order: 2;
+    width: 100%;
+  }
+}
+
+/* On very large screens, allow the two columns to feel balanced */
+@media (min-width: 992px) {
+  /* On large screens: make the chart area 60% and list 40% */
+  .center-card-history {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .center-card-history > #historyChartWrap {
+    width: 54%;
+    order: 2;
+  }
+  .center-card-history > #historyList {
+    width: 44%;
+    order: 1;
+  }
+}
+
+/* fallback for very wide screens to keep spacing pleasant */
+@media (min-width: 1400px) {
+  .center-card-history > #historyChartWrap { max-width: 70%; }
+  .center-card-history > #historyList { max-width: 40rem; }
+}

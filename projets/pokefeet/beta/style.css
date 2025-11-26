@@ -135,13 +135,11 @@ aside#hints{margin-top:14px;color:var(--muted);max-width:480px;margin-left:auto;
     align-items: flex-start;
   }
   .center-card-history > #historyChartWrap {
-    flex: 0 0 60%;
-    max-width: 60%;
-    order: 2; /* keep chart on the right as in markup */
+    width: 54%;
+    order: 2;
   }
   .center-card-history > #historyList {
-    flex: 0 0 40%;
-    max-width: 40%;
+    width: 44%;
     order: 1;
   }
 }

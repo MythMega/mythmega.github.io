@@ -9,13 +9,30 @@
 *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;}
 
 html,body,#app{height:100%;margin:0;background:linear-gradient(180deg,#071029 0%, #0b1220 100%);color:#e6eef8;}
-main{max-width:980px;margin:28px auto;padding:16px;}
+
+/* Centrage global de la page (horizontal + vertical) */
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:28px;
+}
+
+main{
+  max-width:980px;
+  width:100%;
+  margin:0;
+  padding:16px;
+}
+
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
 h1{font-size:20px;margin:0;color:#fff;}
 .scoreboard{display:flex;gap:14px;font-weight:600;color:var(--muted);}
 
 .game-area{display:flex;justify-content:center;}
 .center-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:480px;text-align:center;}
+.center-card-history{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:800px;text-align:center;}
 .pokemon-image{height:260px;display:flex;align-items:center;justify-content:center;background:var(--glass);border-radius:10px;margin-bottom:12px;}
 .pokemon-image img{max-height:240px;max-width:100%;image-rendering:auto;}
 
@@ -39,5 +56,96 @@ aside#hints{margin-top:14px;color:var(--muted);max-width:480px;margin-left:auto;
 }
 @keyframes pop{from{transform:translateY(-8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
 
+/* Shake animation pour input invalide */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); }
+}
+.shake {
+  animation: shake 420ms ease;
+  border-color: #ff6b6b !important;
+  box-shadow: 0 0 0 3px rgba(255,107,107,0.06);
+}
+
 .info-below{color:var(--muted);font-size:14px;margin-bottom:8px;text-align:left;}
 .info-below div{margin:4px 0;}
+
+/* Data management page */
+.data-controls { width:100%; }
+.file-input { display:none; }
+.btn-export { background:linear-gradient(90deg,#16a34a,#10b981); color:#042014; font-weight:800; padding:10px 14px; border-radius:8px; border:none; cursor:pointer; }
+.data-controls .secondary { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04); padding:10px 12px; border-radius:8px; cursor:pointer; }
+#dataPreview { white-space:pre-wrap; word-break:break-word; }
+
+/* History page tweaks: keep default (mobile-first) graph above, side-by-side on large screens */
+.center-card-history {
+  gap: 1rem;
+}
+
+/* Canvas card style (léger fond + arrondis correspondant au thème existant) */
+#historyChartWrap .card {
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
+  padding: .5rem;
+}
+
+/* Make canvas responsive while preserving aspect ratio */
+#historyChart {
+  width: 100% !important;
+  height: 320px; /* fixed visual height; chart library will scale */
+  max-height: 420px;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Force a readable min width on small devices for the list, while letting it grow on large screens */
+#historyList {
+  width: 100%;
+}
+
+/* Optional: tighten spacing inside history list entries if present */
+#historyList .history-row {
+  padding: .5rem .75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Accessibility / small-screen tweaks */
+@media (max-width: 992px) {
+  /* On md and smaller (<= 991px) ensure the chart is visually above list */
+  /* We already render chart first in the DOM; this keeps spacing tidy */
+  #historyChartWrap {
+    order: 1;
+    width: 100%;
+  }
+  #historyList {
+    order: 2;
+    width: 100%;
+  }
+}
+
+/* On very large screens, allow the two columns to feel balanced */
+@media (min-width: 992px) {
+  /* On large screens: make the chart area 60% and list 40% */
+  .center-card-history {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .center-card-history > #historyChartWrap {
+    width: 54%;
+    order: 2;
+  }
+  .center-card-history > #historyList {
+    width: 44%;
+    order: 1;
+  }
+}
+
+/* fallback for very wide screens to keep spacing pleasant */
+@media (min-width: 1400px) {
+  .center-card-history > #historyChartWrap { max-width: 70%; }
+  .center-card-history > #historyList { max-width: 40rem; }
+}

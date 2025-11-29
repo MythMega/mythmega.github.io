@@ -152,35 +152,104 @@ const Daily = (function () {
   }
 
   // stocke l'objet history complet dans le cookie
-  function saveDailyCookie(historyObj) {
+  // --- IndexedDB helpers (mirror from data.js) ---
+  const DB_NAME = 'PokefeetDB';
+  const DB_VERSION = 1;
+  const STORE_NAME = 'daily_results';
+  let dbInstance = null;
+
+  function getDB() {
+    return new Promise((resolve, reject) => {
+      if (dbInstance) {
+        resolve(dbInstance);
+        return;
+      }
+      const req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onerror = () => reject(req.error);
+      req.onsuccess = () => {
+        dbInstance = req.result;
+        resolve(dbInstance);
+      };
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME, { keyPath: 'date' });
+        }
+      };
+    });
+  }
+
+  async function getAllDailyFromDB() {
+    const db = await getDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.getAll();
+      req.onsuccess = () => {
+        const arr = req.result;
+        const obj = {};
+        arr.forEach(item => {
+          const date = item.date;
+          const { score, results } = item;
+          obj[date] = { score, results };
+        });
+        resolve(obj);
+      };
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function saveDailyToDB(dailyObj) {
+    const db = await getDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      
+      const clearReq = store.clear();
+      clearReq.onsuccess = () => {
+        for (const date in dailyObj) {
+          if (dailyObj.hasOwnProperty(date)) {
+            store.put({
+              date: date,
+              ...dailyObj[date]
+            });
+          }
+        }
+      };
+
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function saveDailyCookie(historyObj) {
     try {
-      setCookie(cookieName, JSON.stringify(historyObj), 3650);
+      await saveDailyToDB(historyObj);
     } catch (e) {
       console.error('Impossible de sauvegarder l\'historique daily', e);
     }
   }
 
   // renvoie l'objet history (map date -> { score, results }) ou null
-  function loadDailyCookie() {
-    const raw = getCookie(cookieName);
-    if (!raw) return null;
+  async function loadDailyCookie() {
     try {
-      const parsed = JSON.parse(raw);
-      // sécurité: s'assurer que c'est un objet
-      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
+      const data = await getAllDailyFromDB();
+      if (data && typeof data === 'object' && !Array.isArray(data)) return data;
       return null;
-    } catch (e) { return null; }
+    } catch (e) {
+      console.error('Error loading daily from IndexedDB:', e);
+      return null;
+    }
   }
-  
   // helper pour sauvegarder le résultat du jour dans l'historique
-  function saveResultForToday(payload) {
+  async function saveResultForToday(payload) {
     const dateKey = payload.date;
-    const history = loadDailyCookie() || {};
+    const history = await loadDailyCookie() || {};
     history[dateKey] = {
       score: payload.score,
       results: payload.results
     };
-    saveDailyCookie(history);
+    await saveDailyCookie(history);
   }
 
   // build emoji line helper (utile aussi pour history page)
@@ -235,10 +304,10 @@ const Daily = (function () {
   }
 
   // --- Adapter finishDaily pour utiliser l'historique ---
-  function finishDaily() {
+  async function finishDaily() {
     // persist results into history map
     const payload = { date: dateSeedStr(), results, score };
-    saveResultForToday(payload);
+    await saveResultForToday(payload);
 
     // prepare share text
     const share = buildShareText(results, payload.date, score);
@@ -389,7 +458,7 @@ const Daily = (function () {
     }
 
     // check cookie: if there is a saved daily and date matches today => render finished
-    const savedHistory = loadDailyCookie();
+    const savedHistory = await loadDailyCookie();
     const today = dateSeedStr();
     if (savedHistory && savedHistory[today]) {
       // already played today

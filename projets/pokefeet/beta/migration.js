@@ -132,7 +132,8 @@ const Migration = (function () {
       }, 100);
 
       // Delete the old cookie
-      deleteCookie(COOKIE_DAILY);
+      // TEMPORARLY NOT DELETE
+      // deleteCookie(COOKIE_DAILY);
       console.log('Migration: old cookie deleted.');
 
       db.close();

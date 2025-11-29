@@ -1,22 +1,53 @@
 // history.js
 (function () {
-  const cookieName = 'pk_daily_result_v2';
+  const DB_NAME = 'PokefeetDB';
+  const DB_VERSION = 1;
+  const STORE_NAME = 'daily_results';
   const COUNT = 5;
+  let dbInstance = null;
 
-  function getCookie(name) {
-    const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return v ? decodeURIComponent(v.pop()) : null;
+  function getDB() {
+    return new Promise((resolve, reject) => {
+      if (dbInstance) {
+        resolve(dbInstance);
+        return;
+      }
+      const req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onerror = () => reject(req.error);
+      req.onsuccess = () => {
+        dbInstance = req.result;
+        resolve(dbInstance);
+      };
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME, { keyPath: 'date' });
+        }
+      };
+    });
   }
 
-  function loadHistory() {
-    const raw = getCookie(cookieName);
-    if (!raw) return {};
+  async function loadHistory() {
     try {
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
-      return {};
+      const db = await getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.getAll();
+        req.onsuccess = () => {
+          const arr = req.result;
+          const obj = {};
+          arr.forEach(item => {
+            const date = item.date;
+            const { score, results } = item;
+            obj[date] = { score, results };
+          });
+          resolve(obj);
+        };
+        req.onerror = () => reject(req.error);
+      });
     } catch (e) {
-      console.error('Erreur parsing history cookie', e);
+      console.error('Error loading history from IndexedDB:', e);
       return {};
     }
   }
@@ -46,8 +77,8 @@
     return arr.join('');
   }
 
-  function render() {
-    const history = loadHistory();
+  async function render() {
+    const history = await loadHistory();
     const keys = Object.keys(history);
     const container = document.getElementById('historyList');
     const totalDaysEl = document.getElementById('totalDays');
@@ -80,5 +111,5 @@
   }
 
   // auto render on DOM ready
-  document.addEventListener('DOMContentLoaded', render);
+  document.addEventListener('DOMContentLoaded', () => render());
 })();

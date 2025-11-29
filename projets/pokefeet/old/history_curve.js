@@ -1,58 +1,26 @@
-// history_curve.js
+// history.js
 (function () {
-  const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 1;
-  const STORE_NAME = 'daily_results';
+  const cookieName = 'pk_daily_result_v2';
   const maxPoints = 50; // score max possible
   const canvas = document.getElementById('historyChart');
   const ctx = canvas.getContext('2d');
   const historyListEl = document.getElementById('historyList');
   const totalDaysEl = document.getElementById('totalDays');
   const chartStats = document.getElementById('chartStats');
-  let dbInstance = null;
 
-  function getDB() {
-    return new Promise((resolve, reject) => {
-      if (dbInstance) {
-        resolve(dbInstance);
-        return;
-      }
-      const req = indexedDB.open(DB_NAME, DB_VERSION);
-      req.onerror = () => reject(req.error);
-      req.onsuccess = () => {
-        dbInstance = req.result;
-        resolve(dbInstance);
-      };
-      req.onupgradeneeded = (e) => {
-        const db = e.target.result;
-        if (!db.objectStoreNames.contains(STORE_NAME)) {
-          db.createObjectStore(STORE_NAME, { keyPath: 'date' });
-        }
-      };
-    });
+  function getCookie(name) {
+    const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return v ? decodeURIComponent(v.pop()) : null;
   }
 
-  async function loadHistory() {
+  function loadHistory() {
+    const raw = getCookie(cookieName);
+    if (!raw) return {};
     try {
-      const db = await getDB();
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readonly');
-        const store = tx.objectStore(STORE_NAME);
-        const req = store.getAll();
-        req.onsuccess = () => {
-          const arr = req.result;
-          const obj = {};
-          arr.forEach(item => {
-            const date = item.date;
-            const { score, results } = item;
-            obj[date] = { score, results };
-          });
-          resolve(obj);
-        };
-        req.onerror = () => reject(req.error);
-      });
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
+      return {};
     } catch (e) {
-      console.error('Error loading history from IndexedDB:', e);
       return {};
     }
   }
@@ -195,22 +163,21 @@
     chartStats.textContent = `Derniers ${coords.length} jours — moyenne: ${avg.toFixed(1)} / ${maxPoints}`;
   }
 
-  // initial render (now async)
-  async function init() {
-    const history = await loadHistory();
+  // initial render
+  function init() {
+    const history = loadHistory();
     const allDates = buildHistoryList(history); // returns ascending dates
     const last = getLastNScores(history, 30); // ascending
     drawChart(last);
   }
 
   // redraw on resize for crispness
-  window.addEventListener('resize', async () => {
+  window.addEventListener('resize', () => {
     // keep canvas pixel ratio crisp
     const ratio = window.devicePixelRatio || 1;
     canvas.width = Math.floor(canvas.clientWidth * ratio);
     canvas.height = Math.floor(canvas.clientHeight * ratio);
-    const history = await loadHistory();
-    drawChart(getLastNScores(history, 30));
+    drawChart(getLastNScores(loadHistory(), 30));
   });
 
   // set initial canvas size for device pixel ratio

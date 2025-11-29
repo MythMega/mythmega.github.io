@@ -11,7 +11,7 @@ import socketserver
 import sys
 import os
 
-def run(port: int = 80):
+def run(port: int = 8080):
     handler = http.server.SimpleHTTPRequestHandler
     # Serve from current directory
     webdir = os.path.abspath(os.getcwd())
@@ -26,7 +26,7 @@ def run(port: int = 80):
             httpd.server_close()
 
 if __name__ == "__main__":
-    port = 80
+    port = 8080
     if len(sys.argv) >= 2:
         try:
             port = int(sys.argv[1])

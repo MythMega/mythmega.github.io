@@ -52,30 +52,13 @@
 
           <div id="dataPreview" style="max-height:260px;overflow:auto;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;font-family:monospace;font-size:13px;color:#dbeafe;display: none;"></div>
 
-          <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
-
-          <div style="margin-top:20px;">
-            <h4 style="margin:6px 0 8px 0;color:#ff6b6b;">Zone de suppression</h4>
-            <p class="info-below" style="margin-bottom:10px;color:#ff6b6b;">⚠️ Actions irréversibles</p>
-            
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button id="deleteBestBtn" style="padding:10px 12px;background:#991111;color:#ffb3b3;border:none;border-radius:8px;cursor:pointer;font-weight:700;">Delete Best Score</button>
-              <button id="deleteDailyBtn" style="padding:10px 12px;background:#991111;color:#ffb3b3;border:none;border-radius:8px;cursor:pointer;font-weight:700;">Delete All Daily Data</button>
-            </div>
-
-            <div id="deleteResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
-          </div>
-
         </div>
       </div>
     </section>
 
-    <a href="./index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;">Retour à l'accueil</button></a>
-
     <div id="notifications" aria-live="polite"></div>
   </main>
 
-  <script src="migration.js"></script>
   <script src="data.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {

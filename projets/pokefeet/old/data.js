@@ -1,86 +1,13 @@
 // data.js
-// Gestion stockage : IndexedDB pour pk_daily_result_v2, cookie pour pk_best
+// Gestion export / import des cookies pk_daily_result_v2 et pk_best
 const DataManager = (function () {
   const COOKIE_DAILY = 'pk_daily_result_v2';
   const COOKIE_BEST = 'pk_best';
   const EXPORT_VERSION = 'v1';
-  const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 1;
-  const STORE_NAME = 'daily_results';
   const COUNT = 5;
   const basePoints = 10;
   const hintPenalty = 2;
   const maxAttempts = 5; // used for fail marker when importing (consistent with daily.js)
-
-  // --- IndexedDB helpers ---
-  let dbInstance = null;
-
-  function getDB() {
-    return new Promise((resolve, reject) => {
-      if (dbInstance) {
-        resolve(dbInstance);
-        return;
-      }
-      const req = indexedDB.open(DB_NAME, DB_VERSION);
-      req.onerror = () => reject(req.error);
-      req.onsuccess = () => {
-        dbInstance = req.result;
-        resolve(dbInstance);
-      };
-      req.onupgradeneeded = (e) => {
-        const db = e.target.result;
-        if (!db.objectStoreNames.contains(STORE_NAME)) {
-          db.createObjectStore(STORE_NAME, { keyPath: 'date' });
-        }
-      };
-    });
-  }
-
-  // Get all daily records from IndexedDB as object {date: {...}}
-  async function getAllDailyFromDB() {
-    const db = await getDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const store = tx.objectStore(STORE_NAME);
-      const req = store.getAll();
-      req.onsuccess = () => {
-        const arr = req.result;
-        const obj = {};
-        arr.forEach(item => {
-          const date = item.date;
-          const { score, results } = item;
-          obj[date] = { score, results };
-        });
-        resolve(obj);
-      };
-      req.onerror = () => reject(req.error);
-    });
-  }
-
-  // Save daily records to IndexedDB from object {date: {...}}
-  async function saveDailyToDB(dailyObj) {
-    const db = await getDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      const store = tx.objectStore(STORE_NAME);
-      
-      // Clear and rewrite all
-      const clearReq = store.clear();
-      clearReq.onsuccess = () => {
-        for (const date in dailyObj) {
-          if (dailyObj.hasOwnProperty(date)) {
-            store.put({
-              date: date,
-              ...dailyObj[date]
-            });
-          }
-        }
-      };
-
-      tx.oncomplete = () => resolve(true);
-      tx.onerror = () => reject(tx.error);
-    });
-  }
 
   // --- cookie helpers (compatible avec le reste du projet) ---
   function setCookie(name, value, days = 3650) {
@@ -104,13 +31,16 @@ const DataManager = (function () {
     return ('0000000' + (h >>> 0).toString(16)).slice(-8);
   }
 
-  // --- build export payload (reads from IndexedDB + cookie) ---
-  async function buildPayloadObj() {
+  // --- build export payload (JSON canonical) ---
+  function buildPayloadObj() {
+    const dailyRaw = getCookie(COOKIE_DAILY);
     let daily = {};
     try {
-      daily = await getAllDailyFromDB();
+      if (dailyRaw) {
+        const parsed = JSON.parse(dailyRaw);
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) daily = parsed;
+      }
     } catch (e) {
-      console.error('Error reading from IndexedDB:', e);
       daily = {};
     }
 
@@ -124,9 +54,9 @@ const DataManager = (function () {
     return { daily, best };
   }
 
-  // --- create export file content (async) ---
-  async function createExportText() {
-    const payload = await buildPayloadObj();
+  // --- create export file content ---
+  function createExportText() {
+    const payload = buildPayloadObj();
     const payloadJson = JSON.stringify(payload);
     const hash = fnv1a32Hex(payloadJson);
     const now = new Date();
@@ -183,34 +113,35 @@ const DataManager = (function () {
     }, 2200);
   }
 
-  // --- daily storage helpers (now using IndexedDB) ---
-  async function saveDailyCookie(historyObj) {
+  // --- daily cookie helpers (same semantics as daily.js) ---
+  function saveDailyCookie(historyObj) {
     try {
-      await saveDailyToDB(historyObj);
+      setCookie(COOKIE_DAILY, JSON.stringify(historyObj), 3650);
     } catch (e) {
       console.error('Impossible de sauvegarder l\'historique daily', e);
     }
   }
-  async function loadDailyCookie() {
+  function loadDailyCookie() {
+    const raw = getCookie(COOKIE_DAILY);
+    if (!raw) return null;
     try {
-      const data = await getAllDailyFromDB();
-      if (data && typeof data === 'object' && !Array.isArray(data)) return data;
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
       return null;
-    } catch (e) {
-      console.error('Error loading daily from IndexedDB:', e);
-      return null;
-    }
+    } catch (e) { return null; }
   }
 
-  // --- merge logic for full-file import (writes to IndexedDB + cookie) ---
+  // --- merge logic for full-file import (existing behaviour) ---
   async function mergePayloadIntoCookies(payload) {
     // payload: { daily: {...}, best: number|null }
-    // Read existing data from IndexedDB
+    const existingDailyRaw = getCookie(COOKIE_DAILY);
     let existingDaily = {};
     try {
-      existingDaily = await getAllDailyFromDB();
+      if (existingDailyRaw) {
+        const parsed = JSON.parse(existingDailyRaw);
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) existingDaily = parsed;
+      }
     } catch (e) {
-      console.error('Error reading from IndexedDB during merge:', e);
       existingDaily = {};
     }
 
@@ -245,15 +176,15 @@ const DataManager = (function () {
       }
     }
 
-    // write back to IndexedDB
+    // write back cookie
     try {
-      await saveDailyToDB(existingDaily);
+      setCookie(COOKIE_DAILY, JSON.stringify(existingDaily), 3650);
     } catch (e) {
-      notify('Impossible d\'écrire dans IndexedDB', 'fail');
+      notify('Impossible d\'écrire le cookie daily', 'fail');
       return false;
     }
 
-    // handle best (stays in cookie)
+    // handle best
     const fileBest = (typeof payload.best === 'number') ? payload.best : null;
     const existingBestRaw = getCookie(COOKIE_BEST);
     let existingBest = null;
@@ -280,8 +211,8 @@ const DataManager = (function () {
   }
 
   // --- public handlers for full-file export/import ---
-  async function onExportClick() {
-    const text = await createExportText();
+  function onExportClick() {
+    const text = createExportText();
     const now = new Date();
     const stamp = now.toISOString().replace(/[:.]/g, '-').slice(0,19);
     const filename = `pokefeet_save_${stamp}.txt`;
@@ -321,9 +252,9 @@ const DataManager = (function () {
   }
 
   // --- preview current cookies (for debug / user) ---
-  async function renderCurrentCookiesPreview() {
+  function renderCurrentCookiesPreview() {
     const preview = document.getElementById('dataPreview');
-    const payload = await buildPayloadObj();
+    const payload = buildPayloadObj();
     const pretty = JSON.stringify(payload, null, 2);
     if (preview) {
       preview.style.display = 'block';
@@ -402,7 +333,7 @@ const DataManager = (function () {
   }
 
   // --- import daily from textarea ---
-  async function onImportDailyClick() {
+  function onImportDailyClick() {
     const area = document.getElementById('dailyImportArea');
     const out = document.getElementById('dailyImportResult');
     if (!area) return;
@@ -419,8 +350,8 @@ const DataManager = (function () {
     }
 
     const dateKey = parsed.date;
-    // check existing IndexedDB
-    const history = await loadDailyCookie() || {};
+    // check existing cookie
+    const history = loadDailyCookie() || {};
     if (history[dateKey]) {
       const msg = `Jour ${dateKey} déjà en sauvegarde. Import annulé.`;
       out.textContent = msg;
@@ -434,14 +365,12 @@ const DataManager = (function () {
       results: parsed.results
     };
     try {
-      await saveDailyCookie(history);
+      saveDailyCookie(history);
       const msg = `Jour ${dateKey} importé (score calculé: ${parsed.score}${parsed.scoreMismatch ? ' — attention : score déclaré différent' : ''}).`;
       out.textContent = msg;
       notify(msg, 'success');
-      // clear textarea on success
-      area.value = '';
       // update preview
-      await renderCurrentCookiesPreview();
+      renderCurrentCookiesPreview();
     } catch (e) {
       const err = 'Impossible de sauvegarder le daily importé';
       out.textContent = err;
@@ -457,52 +386,6 @@ const DataManager = (function () {
     if (out) out.textContent = '';
   }
 
-  // --- delete best score (pk_best cookie) ---
-  function onDeleteBestClick() {
-    const confirmed = confirm('Warning: This action is irreversible. Are you sure?');
-    if (!confirmed) return;
-
-    const deleteResult = document.getElementById('deleteResult');
-    try {
-      deleteCookie(COOKIE_BEST);
-      notify('Best score deleted', 'success');
-      if (deleteResult) deleteResult.textContent = 'Best score deleted successfully.';
-      // refresh preview
-      renderCurrentCookiesPreview();
-    } catch (e) {
-      notify('Failed to delete best score', 'fail');
-      if (deleteResult) deleteResult.textContent = 'Failed to delete best score.';
-    }
-  }
-
-  // --- delete all daily data (IndexedDB) ---
-  async function onDeleteDailyClick() {
-    const confirmed = confirm('Warning: This action is irreversible. Are you sure?');
-    if (!confirmed) return;
-
-    const deleteResult = document.getElementById('deleteResult');
-    try {
-      const db = await getDB();
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      const store = tx.objectStore(STORE_NAME);
-      store.clear();
-
-      await new Promise((resolve, reject) => {
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => reject(tx.error);
-      });
-
-      notify('All daily data deleted', 'success');
-      if (deleteResult) deleteResult.textContent = 'All daily data deleted successfully.';
-      // refresh preview
-      await renderCurrentCookiesPreview();
-    } catch (e) {
-      console.error('Error deleting daily data:', e);
-      notify('Failed to delete daily data', 'fail');
-      if (deleteResult) deleteResult.textContent = 'Failed to delete daily data.';
-    }
-  }
-
   // --- init bindings ---
   function init() {
     const exportBtn = document.getElementById('exportBtn');
@@ -510,8 +393,6 @@ const DataManager = (function () {
     const previewBtn = document.getElementById('previewBtn');
     const importDailyBtn = document.getElementById('importDailyBtn');
     const clearDailyBtn = document.getElementById('clearDailyArea');
-    const deleteBestBtn = document.getElementById('deleteBestBtn');
-    const deleteDailyBtn = document.getElementById('deleteDailyBtn');
 
     if (exportBtn) exportBtn.addEventListener('click', onExportClick);
     if (importFile) {
@@ -524,8 +405,6 @@ const DataManager = (function () {
     if (previewBtn) previewBtn.addEventListener('click', renderCurrentCookiesPreview);
     if (importDailyBtn) importDailyBtn.addEventListener('click', onImportDailyClick);
     if (clearDailyBtn) clearDailyBtn.addEventListener('click', onClearDailyArea);
-    if (deleteBestBtn) deleteBestBtn.addEventListener('click', onDeleteBestClick);
-    if (deleteDailyBtn) deleteDailyBtn.addEventListener('click', onDeleteDailyClick);
 
     // initial preview hidden until user asks
     const preview = document.getElementById('dataPreview');

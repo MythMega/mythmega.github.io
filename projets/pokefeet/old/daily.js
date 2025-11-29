@@ -292,9 +292,40 @@ const Daily = (function () {
     showNotification('Réponse correcte = +' + pointsForAttempt(attempts) + ' points', 'hint');
   }
 
+  // --- nouvelle fonction : vérifie si le nom entré existe dans la liste (FR ou EN) ---
+  function isValidName(val) {
+    if (!val) return false;
+    const v = val.trim().toLowerCase();
+    for (let i = 0; i < pokemons.length; i++) {
+      const p = pokemons[i];
+      if ((p.NameFR && p.NameFR.toLowerCase() === v) || (p.NameEN && p.NameEN.toLowerCase() === v)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // animation "shake" sur input pour nom invalide
+  function triggerInvalidInput() {
+    const el = input();
+    el.classList.remove('shake');
+    // reflow pour relancer l'animation si déjà présente
+    void el.offsetWidth;
+    el.classList.add('shake');
+    showNotification('Nom invalide', 'fail');
+    // retirer la classe après l'animation
+    setTimeout(() => el.classList.remove('shake'), 500);
+  }
+
   function submitGuess() {
     const val = input().value.trim();
     if (!val) return;
+    // si le nom n'est pas dans la liste possible, on secoue et on affiche une erreur
+    if (!isValidName(val)) {
+      triggerInvalidInput();
+      return; // ne compte pas comme tentative
+    }
+
     const current = dailyList[index];
     if (current.matchesName(val)) {
       handleCorrect();

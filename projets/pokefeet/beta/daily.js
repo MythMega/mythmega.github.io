@@ -15,6 +15,7 @@ const Daily = (function () {
   let attempts = 0; // attempts for current pokemon (0 = first try)
   let score = 0;
   let results = []; // for each of 5: { outcome: 'win'|'fail', attempts: n }
+  let wrongGuessesPerSlot = [];
 
   // DOM
   const img = () => document.getElementById('dailyImg');
@@ -31,6 +32,10 @@ const Daily = (function () {
   const notif = document.getElementById('notifications');
   const afterDone = document.getElementById('afterDone');
   const shareArea = document.getElementById('shareTextArea');
+  const failedEl = document.getElementById('dailyFailedAttempts');
+  const attemptGaugeEl = document.getElementById('attemptGauge');
+  const gaugeFillEl = attemptGaugeEl ? attemptGaugeEl.querySelector('.gauge-fill') : null;
+  const gaugeLabelEl = attemptGaugeEl ? attemptGaugeEl.querySelector('.gauge-label') : null;
 
   // cookie helpers
   function setCookie(name, value, days = 3650) {
@@ -142,6 +147,43 @@ const Daily = (function () {
 
   function showImage(src) {
     img().src = src || '';
+  }
+
+  function updateDailyFailedDisplay() {
+    if (!failedEl) return;
+    const arr = wrongGuessesPerSlot[index] || [];
+    if (!arr || arr.length === 0) {
+      failedEl.classList.add('hidden');
+      failedEl.textContent = '';
+      return;
+    }
+    failedEl.classList.remove('hidden');
+    failedEl.textContent = 'Échecs : ' + arr.join(', ');
+  }
+
+  function updateAttemptGauge() {
+    if (!gaugeFillEl || !gaugeLabelEl) return;
+    // points for the NEXT correct answer given current attempts
+    const pts = pointsForAttempt(attempts);
+    const pct = Math.round((pts / basePoints) * 100);
+    gaugeFillEl.style.height = pct + '%';
+    gaugeLabelEl.textContent = (pts > 0) ? ('+' + pts) : '+0';
+  }
+
+  function hideAttemptGauge() {
+    if (!attemptGaugeEl) return;
+    attemptGaugeEl.style.display = 'none';
+  }
+
+  function showAttemptGauge() {
+    if (!attemptGaugeEl) return;
+    attemptGaugeEl.style.display = '';
+  }
+
+  function clearDailyFailedDisplay() {
+    if (!failedEl) return;
+    failedEl.classList.add('hidden');
+    failedEl.textContent = '';
   }
 
   // scoring: points for attempt (same as main game)
@@ -287,6 +329,32 @@ const Daily = (function () {
     return header + lines.join('\n');
   }
 
+  // Recreate deterministic daily list for a given date (used when already played)
+  function getDailyListForDate(dateStr) {
+    const seed = stringToSeed(dateStr);
+    const rng = mulberry32(seed);
+    const shuffled = shuffleArrayWithSeed(pokemons, rng);
+    const list = shuffled.slice(0, Math.min(COUNT, shuffled.length));
+    let cursor = 0;
+    while (list.length < COUNT) {
+      list.push(shuffled[cursor % shuffled.length]);
+      cursor++;
+    }
+    return list;
+  }
+
+  function renderFullImages(list) {
+    const container = document.getElementById('dailyFullImages');
+    if (!container) return;
+    container.innerHTML = '';
+    list.forEach(p => {
+      const imgEl = document.createElement('img');
+      imgEl.src = p.FullImage || p.Image || '';
+      imgEl.alt = p.NameFR || p.NameEN || '';
+      container.appendChild(imgEl);
+    });
+  }
+
 
   // advance to next pokemon (or finish)
   function nextPokemon() {
@@ -295,6 +363,8 @@ const Daily = (function () {
     hideReveal();
     clearHints();
     input().value = '';
+    clearDailyFailedDisplay();
+    updateAttemptGauge();
     if (index >= COUNT) {
       finishDaily();
       return;
@@ -314,6 +384,14 @@ const Daily = (function () {
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
 
+    // show the full images of the daily pokemons
+    try {
+      renderFullImages(dailyList);
+    } catch (e) {}
+
+    // hide the attempt gauge on the summary screen
+    hideAttemptGauge();
+
     // disable controls
     input().disabled = true;
     document.getElementById('dailySubmit').disabled = true;
@@ -326,7 +404,10 @@ const Daily = (function () {
     results.push({ outcome: 'fail', attempts: attempts });
     // no score increase, move on
     showReveal(dailyList[index]);
-    nextPokemon();
+    // allow user to see reveal + failed attempts before advancing
+    setTimeout(() => {
+      nextPokemon();
+    }, 1000);
   }
 
   function handleCorrect() {
@@ -334,6 +415,7 @@ const Daily = (function () {
     score += pts;
     results.push({ outcome: 'win', attempts });
     showReveal(dailyList[index]);
+    clearDailyFailedDisplay();
     updateProgressUI();
     showNotification('+' + pts + ' points', 'success');
     // small delay then next
@@ -395,11 +477,23 @@ const Daily = (function () {
       return; // ne compte pas comme tentative
     }
 
+    // check if already tried
+    const currentGuesses = wrongGuessesPerSlot[index] || [];
+    if (currentGuesses.includes(val)) {
+      showNotification('Already tried', 'hint');
+      return; // ne compte pas comme tentative
+    }
+
     const current = dailyList[index];
     if (current.matchesName(val)) {
       handleCorrect();
     } else {
+      // record wrong guess for this slot and show it
+      if (!wrongGuessesPerSlot[index]) wrongGuessesPerSlot[index] = [];
+      wrongGuessesPerSlot[index].push(val);
+      updateDailyFailedDisplay();
       attempts++;
+      updateAttemptGauge();
       if (attempts >= maxAttempts) {
         // completely failed this pokemon
         showNotification('Échec — Pokémon révélé', 'fail');
@@ -432,6 +526,12 @@ const Daily = (function () {
     results = saved.results ? saved.results.slice(0, COUNT) : [];
     score = saved.score || 0;
     index = COUNT; // mark finished
+    // also show the full images for the date
+    try {
+      const list = getDailyListForDate(date);
+      renderFullImages(list);
+    } catch (e) {}
+    hideAttemptGauge();
   }
 
   // show current pokemon (partial image)
@@ -487,9 +587,11 @@ const Daily = (function () {
     attempts = 0;
     score = 0;
     results = [];
+    wrongGuessesPerSlot = Array.from({ length: COUNT }, () => []);
     populateNamesList();
     showCurrent();
     updateProgressUI();
+    updateAttemptGauge();
     bindButtons();
   }
 

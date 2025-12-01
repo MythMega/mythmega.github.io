@@ -61,20 +61,25 @@
 
   function emojiLineFromResults(results) {
     // results: array of up to COUNT items
-    const arr = [];
+    const parts = [];
     for (let i = 0; i < COUNT; i++) {
       const r = results && results[i];
       if (!r) {
-        arr.push('🟥');
+        parts.push('🟥');
       } else if (r.outcome === 'fail') {
-        arr.push('🟥');
+        parts.push('🟥');
       } else if (r.outcome === 'win') {
-        arr.push(r.attempts === 0 ? '🟩' : '🟧');
+        if (r.attempts === 0) {
+          parts.push('🟩');
+        } else {
+          // orange square with tooltip showing number of failed attempts
+          parts.push(`<span class="emoji-tooltip" aria-label="fails: ${r.attempts}" title="fails: ${r.attempts}">🟧</span>`);
+        }
       } else {
-        arr.push('🟥');
+        parts.push('🟥');
       }
     }
-    return arr.join('');
+    return parts.join('');
   }
 
   async function render() {
@@ -110,6 +115,27 @@
     });
   }
 
+  // Mobile-friendly tooltip toggle for emoji
+  function setupEmojiTooltips() {
+    const tooltips = document.querySelectorAll('.emoji-tooltip');
+    tooltips.forEach(tooltip => {
+      tooltip.addEventListener('click', (e) => {
+        e.preventDefault();
+        tooltips.forEach(t => t.classList.remove('active'));
+        tooltip.classList.add('active');
+      });
+    });
+    // Close tooltip when clicking elsewhere
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.emoji-tooltip')) {
+        tooltips.forEach(t => t.classList.remove('active'));
+      }
+    });
+  }
+
   // auto render on DOM ready
-  document.addEventListener('DOMContentLoaded', () => render());
+  document.addEventListener('DOMContentLoaded', () => {
+    render();
+    setTimeout(setupEmojiTooltips, 100); // setup tooltips after render
+  });
 })();

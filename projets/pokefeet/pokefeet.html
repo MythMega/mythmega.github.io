@@ -22,8 +22,15 @@
 
     <section class="game-area">
       <div class="center-card">
-        <div class="pokemon-image">
-          <img id="pokeImg" src="" alt="Pokémon" />
+        <div class="image-gauge-row">
+          <div class="pokemon-image">
+            <img id="pokeImg" src="" alt="Pokémon" />
+          </div>
+
+          <div id="practiceAttemptGauge" class="attempt-gauge">
+            <div class="gauge-label">+10</div>
+            <div class="gauge"><div class="gauge-fill" style="height:100%"></div></div>
+          </div>
         </div>
 
         <div class="info-below">
@@ -33,6 +40,7 @@
             <div>Type 1 : <span id="t1"></span></div>
             <div>Type 2 : <span id="t2"></span></div>
           </div>
+          <div id="failedAttemptsPractice" class="failed-attempts hidden" aria-live="polite"></div>
         </div>
 
         <div class="guess-area">
@@ -40,6 +48,7 @@
           <datalist id="namesList"></datalist>
           <button id="submitBtn">Valider</button>
           <button id="nextBtn" class="secondary" disabled>Suivant</button>
+          <button id="abandonBtn" class="danger">Abandon</button>
         </div>
       </div>
     </section>

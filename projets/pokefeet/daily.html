@@ -19,8 +19,15 @@
 
     <section class="game-area">
       <div class="center-card">
-        <div class="pokemon-image">
-          <img id="dailyImg" src="" alt="Pokémon" />
+        <div class="image-gauge-row">
+          <div class="pokemon-image">
+            <img id="dailyImg" src="" alt="Pokémon" />
+          </div>
+
+          <div id="attemptGauge" class="attempt-gauge" aria-hidden="false">
+            <div class="gauge-label">+10</div>
+            <div class="gauge"><div class="gauge-fill" style="height:100%"></div></div>
+          </div>
         </div>
 
         <div class="info-below">
@@ -30,6 +37,7 @@
             <div>Type 1 : <span id="dT1"></span></div>
             <div>Type 2 : <span id="dT2"></span></div>
           </div>
+          <div id="dailyFailedAttempts" class="failed-attempts hidden" aria-live="polite"></div>
         </div>
 
         <div class="guess-area">
@@ -42,6 +50,7 @@
         <div id="afterDone" class="hidden" style="margin-top:12px; text-align:left;">
           <h3>Partie terminée</h3>
           <div id="shareTextArea" style="white-space:pre-wrap; font-family:monospace; background:rgba(255,255,255,0.03); padding:8px; border-radius:8px;"></div>
+          <div id="dailyFullImages" class="daily-full-images" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
           <button id="copyShare">Copier</button>
           <button id="viewDetails">Voir détails</button>
         </div>

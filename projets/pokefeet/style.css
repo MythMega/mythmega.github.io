@@ -33,7 +33,7 @@ h1{font-size:20px;margin:0;color:#fff;}
 .game-area{display:flex;justify-content:center;}
 .center-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:480px;text-align:center;}
 .center-card-history{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:800px;text-align:center;}
-.pokemon-image{height:260px;display:flex;align-items:center;justify-content:center;background:var(--glass);border-radius:10px;margin-bottom:12px;}
+.pokemon-image{height:260px;width:90%;display:flex;align-items:center;justify-content:center;background:var(--glass);border-radius:10px;margin-bottom:12px;}
 .pokemon-image img{max-height:240px;max-width:100%;image-rendering:auto;}
 
 .guess-area{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:8px;}
@@ -112,6 +112,82 @@ aside#hints{margin-top:14px;color:var(--muted);max-width:480px;margin-left:auto;
   padding: .5rem .75rem;
   border-bottom: 1px solid rgba(255,255,255,0.03);
 }
+
+.failed-attempts { color: var(--muted); font-size: 14px; margin-top:8px; text-align:left; }
+.danger { background: #b91c1c; color: #fff; }
+
+/* Mobile-friendly emoji tooltips */
+.emoji-tooltip {
+  position: relative;
+  cursor: help;
+}
+
+/* Show tooltip on hover or focus (desktop) */
+@media (hover: hover) {
+  .emoji-tooltip:hover::after {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+  }
+}
+
+/* Mobile-friendly: show tooltip below emoji on click or long-press */
+@media (max-width: 767px) {
+  .emoji-tooltip.active::after {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+  }
+}
+
+/* Guess area mobile layout: buttons wrap below input */
+@media (max-width: 640px) {
+  .guess-area {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .guess-area input {
+    flex-basis: 100%;
+  }
+  .guess-area button {
+    flex: 1 1 calc(50% - 4px);
+  }
+}
+
+/* Return button styling */
+#retourBtn {
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Attempt gauge next to image */
+.image-gauge-row { display:flex; align-items:flex-start; gap:12px; justify-content:center; }
+.attempt-gauge { width:64px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.attempt-gauge .gauge { width:18px; height:160px; background: rgba(255,255,255,0.06); border-radius:10px; overflow:hidden; position:relative; }
+.attempt-gauge .gauge-fill { position:absolute; left:0; right:0; bottom:0; height:100%; background: linear-gradient(180deg,#16a34a,#10b981); transition: height 180ms ease; }
+.attempt-gauge .gauge-label { font-weight:800; color:#fff; background:transparent; }
+
+.daily-full-images img { max-height:64px; border-radius:6px; background: rgba(255,255,255,0.02); padding:4px; }
 
 /* Accessibility / small-screen tweaks */
 @media (max-width: 992px) {

@@ -228,22 +228,28 @@ const Game = (function () {
   }
 
   function showHintForAttempt(a) {
-    // a = 1 => afficher Type1
-    // a = 2 => afficher Type2
-    // a = 3 => afficher Index
-    // a = 4 => afficher Generation
+    // a = 1 => Type(s) on same line
+    // a = 2 => Index with generation in parentheses
+    // a = 3 => Egg groups
+    // a = 4 => Category
     switch (a) {
       case 1:
-        UI.addHint(`Type 1 : ${current.Type1}`);
+        // Types on same line
+        const t1 = current.Type1 || '';
+        const t2 = current.Type2 || '';
+        UI.addHint(`Type(s) : ${t1}${t2 ? ' / ' + t2 : ''}`);
         break;
       case 2:
-        UI.addHint(`Type 2 : ${current.getDisplayType2()}`);
+        // Index with generation
+        UI.addHint(`Index : ${current.Index} (Génération ${current.Generation})`);
         break;
       case 3:
-        UI.addHint(`Index : ${current.Index}`);
+        // Egg groups
+        UI.addHint(`Groupes d'oeuf : ${current.getEggGroupsDisplay()}`);
         break;
       case 4:
-        UI.addHint(`Génération : ${current.Generation}`);
+        // Category
+        UI.addHint(`Catégorie : ${current.getCategoryDisplay()}`);
         break;
       default:
         break;

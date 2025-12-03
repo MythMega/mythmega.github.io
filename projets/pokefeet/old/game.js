@@ -8,9 +8,13 @@ const Game = (function () {
   let attempts = 0; // 0 = première tentative
   let score = 0;
   let streak = 0;
+  let currentWrongGuesses = [];
   const basePoints = 10;
   const hintPenalty = 2; // chaque indice retire 2 points
   const maxAttempts = 5;
+  let practiceGaugeEl = null;
+  let practiceGaugeFill = null;
+  let practiceGaugeLabel = null;
 
   // cookie helpers
   function setCookie(name, value, days = 365) {
@@ -94,6 +98,10 @@ const Game = (function () {
     // initialisation UI
     UI.populateNamesList(pokemons);
     loadBestScore();
+    // cache gauge elements (DOM is ready when init is called)
+    practiceGaugeEl = document.getElementById('practiceAttemptGauge');
+    practiceGaugeFill = practiceGaugeEl ? practiceGaugeEl.querySelector('.gauge-fill') : null;
+    practiceGaugeLabel = practiceGaugeEl ? practiceGaugeEl.querySelector('.gauge-label') : null;
     next();
     bindUI();
     UI.enableSuivantBtn(false);
@@ -102,6 +110,12 @@ const Game = (function () {
   function bindUI() {
     document.getElementById('submitBtn').addEventListener('click', onSubmit);
     document.getElementById('nextBtn').addEventListener('click', next);
+    const ab = document.getElementById('abandonBtn');
+    if (ab) ab.addEventListener('click', () => {
+      if (!confirm('Abandon the current practice run?')) return;
+      // refresh the page
+      window.location.reload();
+    });
     document.getElementById('guessInput').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') onSubmit();
     });
@@ -124,6 +138,14 @@ const Game = (function () {
     attempts = 0;
     UI.clearHints();
     UI.hideRevealInfo();
+    currentWrongGuesses = [];
+    UI.clearFailedAttemptsPractice();
+    // reset practice gauge
+    if (practiceGaugeFill && practiceGaugeLabel) {
+      const pct = Math.round((basePoints / basePoints) * 100);
+      practiceGaugeFill.style.height = pct + '%';
+      practiceGaugeLabel.textContent = '+' + basePoints;
+    }
     UI.setScore(score);
     UI.setStreak(streak);
     UI.clearInput();
@@ -158,6 +180,12 @@ const Game = (function () {
       return; // ne compte pas comme tentative
     }
 
+    // check if already tried
+    if (currentWrongGuesses.includes(input)) {
+      UI.showNotification('Already tried', 'hint');
+      return; // ne compte pas comme tentative
+    }
+
     if (current.matchesName(input)) {
       // correct
       const points = pointsForAttempt(attempts);
@@ -174,7 +202,18 @@ const Game = (function () {
       console.log(PossiblePokemons.length);
     } else {
       // incorrect
+      // record wrong guess for display
+      const guessVal = document.getElementById('guessInput').value.trim();
+      if (guessVal) currentWrongGuesses.push(guessVal);
+      UI.showFailedAttemptsPractice(currentWrongGuesses);
       attempts++;
+      // update practice gauge
+      if (practiceGaugeFill && practiceGaugeLabel) {
+        const pts = pointsForAttempt(attempts);
+        const pct = Math.round((pts / basePoints) * 100);
+        practiceGaugeFill.style.height = pct + '%';
+        practiceGaugeLabel.textContent = (pts > 0) ? ('+' + pts) : '+0';
+      }
       if (attempts >= maxAttempts) {
         // échoué complètement
         UI.enableSuivantBtn(true);

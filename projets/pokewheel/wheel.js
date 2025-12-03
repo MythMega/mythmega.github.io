@@ -143,12 +143,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
   // spin: scrolls downward (items move up) and lands on a target
-  function spinToRandom(){
+  function spinToRandom(forceIndex = null){
     if (!filtered.length) return;
     launchBtn.disabled = true;
     checkbox.disabled = true;
 
-    const target = Math.floor(Math.random() * filtered.length);
+    const target = forceIndex !== null ? forceIndex : Math.floor(Math.random() * filtered.length);
     const extraCycles = 3 + Math.floor(Math.random() * 3); // 3..5
     const currentName = resultName.textContent;
     const currentCenterIndex = filtered.findIndex(p => p.Name === currentName);
@@ -202,13 +202,26 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFilter();
   });
 
-  launchBtn.addEventListener('click', () => {
+  launchBtn.addEventListener('click', (e) => {
     if (!filtered.length) {
       alert('Aucun Pokémon pour ce filtre.');
       return;
     }
     setArtworkToPokeball();
-    spinToRandom();
+    
+    // Cheat: if Ctrl is held, force index 140
+    if (e.ctrlKey) {
+      // Find the index in filtered array that has Index 140
+      const cheatIndex = filtered.findIndex(p => p.Index === 140);
+      if (cheatIndex !== -1) {
+        spinToRandom(cheatIndex);
+      } else {
+        // If 140 doesn't exist in filtered, just spin normally
+        spinToRandom();
+      }
+    } else {
+      spinToRandom();
+    }
   });
 
   loadDexOptions();

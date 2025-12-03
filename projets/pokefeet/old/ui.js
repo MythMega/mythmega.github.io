@@ -15,6 +15,7 @@ const UI = (function () {
   const namesDatalist = document.getElementById('namesList');
   const nextBtn = document.getElementById('nextBtn');
   const submitBtn = document.getElementById('submitBtn');
+  const failedPracticeEl = document.getElementById('failedAttemptsPractice');
 
   function populateNamesList(pokemons) {
     // Récupère tous les noms FR/EN uniques
@@ -125,6 +126,23 @@ const UI = (function () {
     showNotification('Réponse correcte = +' + p + ' points', 'hint');
   }
 
+  function showFailedAttemptsPractice(arr) {
+    if (!failedPracticeEl) return;
+    if (!arr || arr.length === 0) {
+      failedPracticeEl.classList.add('hidden');
+      failedPracticeEl.textContent = '';
+      return;
+    }
+    failedPracticeEl.classList.remove('hidden');
+    failedPracticeEl.textContent = 'Échecs : ' + arr.join(', ');
+  }
+
+  function clearFailedAttemptsPractice() {
+    if (!failedPracticeEl) return;
+    failedPracticeEl.classList.add('hidden');
+    failedPracticeEl.textContent = '';
+  }
+
   return {
     populateNamesList,
     showPokemonImage,
@@ -140,5 +158,7 @@ const UI = (function () {
     setSubmitEnabled,
     showNotification,
     enableSuivantBtn,
+    showFailedAttemptsPractice,
+    clearFailedAttemptsPractice,
   };
 })();

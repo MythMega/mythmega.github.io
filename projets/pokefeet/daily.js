@@ -60,9 +60,13 @@ const Daily = (function () {
 
   // seed based on date YYYY-MM-DD
   function dateSeedStr(d = new Date()) {
-    const y = d.getFullYear();
+    let y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
+    // if in beta folder, subtract 5 years for different seed
+    if (window.location.pathname.includes('/beta/')) {
+      y = y - 5;
+    }
     return `${y}-${m}-${day}`;
   }
   function stringToSeed(s) {
@@ -423,18 +427,25 @@ const Daily = (function () {
   }
 
   function showHintForAttempt(a) {
+    const p = dailyList[index];
     switch (a) {
       case 1:
-        addHint(`Type 1 : ${dailyList[index].Type1}`);
+        // Type(s) on same line
+        const t1 = p.Type1 || '';
+        const t2 = p.Type2 || '';
+        addHint(`Type(s) : ${t1}${t2 ? ' / ' + t2 : ''}`);
         break;
       case 2:
-        addHint(`Type 2 : ${dailyList[index].getDisplayType2()}`);
+        // Index with generation in parentheses
+        addHint(`Index : ${p.Index} (Génération ${p.Generation})`);
         break;
       case 3:
-        addHint(`Index : ${dailyList[index].Index}`);
+        // Egg groups
+        addHint(`Groupes d'oeuf : ${p.getEggGroupsDisplay()}`);
         break;
       case 4:
-        addHint(`Génération : ${dailyList[index].Generation}`);
+        // Category
+        addHint(`Catégorie : ${p.getCategoryDisplay()}`);
         break;
       default:
         break;

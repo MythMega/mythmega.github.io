@@ -67,7 +67,7 @@ const Daily = (function () {
     if (window.location.pathname.includes('/beta/')) {
       y = y - 5;
     }
-    return `${y}-${m}-${day}`;
+    return `${y-5}-${m}-${day}`;
   }
   function stringToSeed(s) {
     // simple hash to 32-bit int

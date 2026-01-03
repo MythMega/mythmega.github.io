@@ -8,7 +8,7 @@
 
 *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;}
 
-html,body,#app{height:100%;margin:0;background:linear-gradient(180deg,#071029 0%, #0b1220 100%);color:#e6eef8;}
+html,body,#app{min-height:100vh;margin:0;background:linear-gradient(180deg,#071029 0%, #0b1220 100%);color:#e6eef8;}
 
 /* Centrage global de la page (horizontal + vertical) */
 body{
@@ -225,3 +225,31 @@ aside#hints{margin-top:14px;color:var(--muted);max-width:480px;margin-left:auto;
   .center-card-history > #historyChartWrap { max-width: 70%; }
   .center-card-history > #historyList { max-width: 40rem; }
 }
+
+/* Dex styles */
+.progress-section { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.progress-bar { width: 300px; height: 20px; background: var(--glass); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); transition: width 0.3s; }
+
+.filter-section { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 8px; }
+.search-input { width: 100%; padding: 10px; background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #e6eef8; font-size: 14px; }
+.search-input::placeholder { color: var(--muted); }
+.filter-checkboxes { display: flex; gap: 20px; flex-wrap: wrap; }
+.checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+.checkbox-label input[type="checkbox"] { cursor: pointer; width: 16px; height: 16px; }
+
+.dex-grid { display: grid; gap: 15px; grid-template-columns: repeat(4, 1fr); }
+@media (min-width: 768px) {
+  .dex-grid { grid-template-columns: repeat(8, 1fr); }
+}
+.dex-entry { background: var(--card); padding: 10px; border-radius: 8px; text-align: center; }
+.dex-entry img { width: 100px; height: 100px; object-fit: contain; }
+.black-filter { filter: brightness(0); }
+.dex-name { margin: 5px 0; font-size: 12px; }
+.dex-entry button { margin-top: 5px; padding: 5px 8px; font-size: 10px; }
+.dex-entry button.disabled { opacity: 0.5; cursor: not-allowed; }
+.popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.popup-content { background: var(--card); padding: 20px; border-radius: 12px; max-width: 500px; width: 90%; position: relative; }
+.close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+.popup-images { display: flex; gap: 10px; justify-content: center; margin: 10px 0; }
+.popup-full-img, .popup-foot-img { width: 100px; height: 100px; object-fit: contain; }

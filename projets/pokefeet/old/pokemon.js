@@ -10,6 +10,8 @@ class Pokemon {
     this.Type2 = data.Type2 ?? null;
     this.Image = data.Image ?? data.image ?? ""; // lien optionnel vers l'image partielle
     this.FullImage = data.FullImage ?? data.FullImage ?? ""; // lien optionnel vers l'image complète
+    this.EggGroups = data.EggGroups ?? data.Eggroups ?? null; // array ou null
+    this.Category = data.Category ?? null; // string ou null
   }
 
   matchesName(name) {
@@ -20,5 +22,15 @@ class Pokemon {
 
   getDisplayType2() {
     return this.Type2 ? this.Type2 : "N/A";
+  }
+
+  getEggGroupsDisplay() {
+    if (!this.EggGroups) return "N/A";
+    if (Array.isArray(this.EggGroups)) return this.EggGroups.join(" / ");
+    return String(this.EggGroups);
+  }
+
+  getCategoryDisplay() {
+    return this.Category ?? "N/A";
   }
 }

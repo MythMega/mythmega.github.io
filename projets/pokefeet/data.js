@@ -36,6 +36,39 @@ const DataManager = (function () {
     });
   }
 
+  // Update importedInDex for a daily entry
+  async function updateImportedInDex(date, value) {
+    console.log('[Data] Updating importedInDex for', date, 'to', value);
+    const db = await getDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.get(date);
+      req.onsuccess = () => {
+        const entry = req.result;
+        if (entry) {
+          entry.importedInDex = value;
+          const putReq = store.put(entry);
+          putReq.onsuccess = () => {
+            console.log('[Data] Updated importedInDex for', date);
+            resolve();
+          };
+          putReq.onerror = () => {
+            console.error('[Data] Error updating importedInDex:', putReq.error);
+            reject(putReq.error);
+          };
+        } else {
+          console.warn('[Data] No entry found for date:', date);
+          resolve();
+        }
+      };
+      req.onerror = () => {
+        console.error('[Data] Error getting entry for update:', req.error);
+        reject(req.error);
+      };
+    });
+  }
+
   // Get all daily records from IndexedDB as object {date: {...}}
   async function getAllDailyFromDB() {
     const db = await getDB();
@@ -253,6 +286,28 @@ const DataManager = (function () {
       return false;
     }
 
+    // Update Dex for newly imported dates
+    for (const date of Object.keys(existingDaily)) {
+      const entry = existingDaily[date];
+      if (!entry.importedInDex) {
+        try {
+          const pokemons = await DailyToDexImport.reconstructDailyList(date);
+          for (const p of pokemons) {
+            await Dex.markFound(p.Index);
+          }
+          entry.importedInDex = true;
+        } catch (e) {
+          console.error('Error updating Dex for', date, e);
+        }
+      }
+    }
+    // Save again with updated importedInDex
+    try {
+      await saveDailyToDB(existingDaily);
+    } catch (e) {
+      console.error('Error saving updated importedInDex', e);
+    }
+
     // handle best (stays in cookie)
     const fileBest = (typeof payload.best === 'number') ? payload.best : null;
     const existingBestRaw = getCookie(COOKIE_BEST);
@@ -442,6 +497,18 @@ const DataManager = (function () {
       area.value = '';
       // update preview
       await renderCurrentCookiesPreview();
+
+      // Update Dex
+      try {
+        const pokemons = await DailyToDexImport.reconstructDailyList(dateKey);
+        for (const p of pokemons) {
+          await Dex.markFound(p.Index);
+        }
+        // Mark as imported
+        await updateImportedInDex(dateKey, true);
+      } catch (e) {
+        console.error('Error updating Dex:', e);
+      }
     } catch (e) {
       const err = 'Impossible de sauvegarder le daily importé';
       out.textContent = err;

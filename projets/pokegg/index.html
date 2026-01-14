@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokegg - Game</title>
+  <link rel="stylesheet" href="./style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h1 class="navbar-title">Pokegg</h1>
+      <div class="navbar-links">
+        <a href="./index.html" class="nav-link active">Game</a>
+        <a href="./dex.html" class="nav-link">Pokédex</a>
+        <a href="./options.html" class="nav-link">Options</a>
+      </div>
+    </nav>
+
+    <main class="game-container">
+      <div class="stats-display">
+        <div class="stat-item">
+          <p>Pokédollars: <span id="pokedollarsDisplay">0</span></p>
+        </div>
+        <div class="stat-item stat-small">
+          <p>AutoClick: <span id="autoclickDisplay">0</span>/s</p>
+        </div>
+        <div class="stat-item stat-small">
+          <p>Click Power: <span id="clickPowerDisplay">1</span>x</p>
+        </div>
+      </div>
+
+      <div class="egg-area">
+        <div class="egg-wrapper" id="eggWrapper">
+          <img id="eggUnderlay" class="egg-underlay" src="" alt="Egg Underlay">
+          <img id="eggImage" class="egg-image" src="" alt="Egg">
+          <img id="eggOverlay" class="egg-overlay" src="" alt="Egg Crack">
+        </div>
+      </div>
+
+      <div class="game-info">
+        <div id="clicksInfo" class="clicks-info">
+          <p>Clics: <span id="clicksCount">0</span> / <span id="clicksNeeded">0</span></p>
+        </div>
+        <div id="progressBar" class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <div id="hatchedPokemon" class="hatched-pokemon" style="display: none;">
+        <img id="hatchedSprite" src="" alt="Hatched Pokemon">
+        <p id="hatchedName"></p>
+      </div>
+
+      <button id="eggButton" class="egg-button">Click me!</button>
+      <button id="nextEggButton" class="next-egg-button" style="display: none;">Open another egg</button>
+      <button id="inventoryButton" class="inventory-button">Inventory</button>
+      <button id="shopButton" class="shop-button">Shop</button>
+    </main>
+
+    <!-- Modals -->
+    <div id="inventoryModal" class="full-modal" style="display: none;">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2>Inventory</h2>
+          <button class="modal-close-btn" onclick="gameUI.closeInventoryModal()">&times;</button>
+        </div>
+
+        <div class="inventory-stats">
+          <div class="stat-box">
+            <p>AutoClick: <span id="modalAutoclickDisplay">0</span>/sec</p>
+          </div>
+          <div class="stat-box">
+            <p>Click Power: <span id="modalClickPowerDisplay">1</span>x</p>
+          </div>
+        </div>
+
+        <div class="inventory-items" id="modalInventoryItems">
+          <!-- Items seront chargés ici par JavaScript -->
+        </div>
+
+        <div id="eggConfirmationModal" class="confirmation-modal" style="display: none;">
+          <div class="confirmation-content">
+            <h3>Use Egg?</h3>
+            <p id="eggConfirmationText"></p>
+            <div class="modal-buttons">
+              <button id="confirmUseButton" class="confirm-button">Use</button>
+              <button id="cancelUseButton" class="cancel-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="shopModal" class="full-modal" style="display: none;">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2>Shop</h2>
+          <button class="modal-close-btn" onclick="gameUI.closeShopModal()">&times;</button>
+        </div>
+
+        <div class="shop-balance">
+          <p>Balance: <span id="modalBalanceDisplay">0</span> Pokédollars</p>
+        </div>
+
+        <div class="items-grid" id="modalItemsGrid">
+          <!-- Items seront chargés ici par JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./scripts/entity/pokemon.js"></script>
+  <script src="./scripts/entity/family.js"></script>
+  <script src="./scripts/business/data/options.js"></script>
+  <script src="./scripts/business/data/load.js"></script>
+  <script src="./scripts/business/data/export.js"></script>
+  <script src="./scripts/business/data/import.js"></script>
+  <script src="./scripts/business/data/delete.js"></script>
+  <script src="./scripts/business/diagnostics.js"></script>
+  <script src="./scripts/business/currency.js"></script>
+  <script src="./scripts/business/inventory.js"></script>
+  <script src="./scripts/business/shop.js"></script>
+  <script src="./scripts/business/game.js"></script>
+  <script src="./scripts/business/pokedex.js"></script>
+  <script src="./scripts/ui/game_ui.js"></script>
+</body>
+</html>

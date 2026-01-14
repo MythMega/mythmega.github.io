@@ -100,6 +100,12 @@ main {
   justify-content: center;
 }
 
+/* Lorsque l'oeuf est éclos, cacher l'oeuf et son overlay (crack) mais garder l'underlay (rareté) */
+.egg-wrapper.hatched .egg-image,
+.egg-wrapper.hatched .egg-overlay {
+  display: none;
+}
+
 .egg-underlay {
   position: absolute;
   width: 100%;
@@ -171,23 +177,39 @@ main {
   font-size: 0.9rem;
 }
 
-.hatched-pokemon {
-  margin: 2rem 0;
+.hatched-pokemon-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
   text-align: center;
+  display: none;
 }
 
-.hatched-pokemon img {
-  width: 150px;
-  height: 150px;
+.hatched-pokemon-overlay.show {
+  display: block;
+}
+
+.hatched-pokemon-overlay img {
+  max-width: 200px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  margin-bottom: 1rem;
   animation: slideIn 0.5s ease;
 }
 
-.hatched-pokemon p {
+.hatched-pokemon-overlay p {
   font-size: 1.5rem;
   font-weight: bold;
   color: #667eea;
+  margin-top: 1rem;
+}
+
+/* Legacy class for backwards compatibility */
+.hatched-pokemon {
+  display: none;
 }
 
 @keyframes slideIn {
@@ -201,6 +223,14 @@ main {
   }
 }
 
+.action-button-container {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  min-height: 50px;
+}
+
 .egg-button,
 .next-egg-button {
   padding: 1rem 2rem;
@@ -210,7 +240,8 @@ main {
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .egg-button {
@@ -879,6 +910,15 @@ main {
   font-size: 1.1rem;
 }
 
+.item-description {
+  margin: 0.7rem 0;
+  color: #555;
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.4;
+  min-height: 2.8em;
+}
+
 /* ==================== INVENTORY PAGE ==================== */
 
 .inventory-container {
@@ -1108,4 +1148,8 @@ main {
 .cancel-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(250, 112, 154, 0.4);
+}
+
+a {
+  color: white;
 }

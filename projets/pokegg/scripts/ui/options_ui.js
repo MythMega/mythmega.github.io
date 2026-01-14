@@ -33,15 +33,21 @@ class OptionsUI {
   }
 
   async initialize() {
-    await this.loadTranslations();
-    this.updateLanguageButtons();
-    await gameManager.initializeGame();
-  }
-
-  async loadTranslations() {
-    const language = optionsManager.getLanguage();
-    await optionsManager.loadLanguage(language);
-    this.updateTranslations();
+    try {
+      const language = new OptionsManager().getLanguage();
+      const optionsManagerInstance = new OptionsManager();
+      await optionsManagerInstance.loadLanguage(language);
+      window.optionsManager = optionsManagerInstance;
+      
+      // Initialiser les managers
+      await inventoryManager.initialize();
+      await gameManager.initializeGame();
+      
+      this.updateLanguageButtons();
+      this.updateTranslations();
+    } catch (error) {
+      console.error('Error initializing options UI:', error);
+    }
   }
 
   updateTranslations() {
@@ -81,16 +87,22 @@ class OptionsUI {
 
   async handleExport() {
     try {
-      const data = {
-        caughtPokemon: gameManager.caughtPokemon,
-        lastExported: new Date().toISOString()
+      // Avant d'exporter, sauvegarder l'inventaire et la balance dans la base de données
+      const gameData = {
+        inventory: inventoryManager.items,
+        balance: currencyManager.getBalance(),
+        language: optionsManager.currentLanguage
       };
+      await dataLoader.saveGameData(gameData);
       
-      await DataExporter.export(data);
-      alert('Save exported successfully!');
+      // Exporter toutes les données
+      const success = await DataExporter.exportGame();
+      if (success) {
+        alert('Save exported successfully!');
+      }
     } catch (error) {
       console.error('Error exporting save:', error);
-      alert('Error exporting save');
+      alert('Error exporting save: ' + error.message);
     }
   }
 
@@ -99,16 +111,9 @@ class OptionsUI {
     if (!file) return;
     
     try {
-      const data = await DataImporter.import(file);
-      
-      if (data.caughtPokemon) {
-        gameManager.caughtPokemon = data.caughtPokemon;
-        await dataLoader.saveData(data);
-        alert('Save imported successfully!');
-        location.reload();
-      } else {
-        throw new Error('Invalid save file format');
-      }
+      await DataImporter.importFromFile(file);
+      alert('Save imported successfully! Reloading...');
+      setTimeout(() => location.reload(), 1000);
     } catch (error) {
       console.error('Error importing save:', error);
       alert('Error importing save: ' + error.message);

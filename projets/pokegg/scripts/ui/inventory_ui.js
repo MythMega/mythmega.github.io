@@ -14,6 +14,11 @@ class InventoryUI {
 
   async initialize() {
     try {
+      const language = new OptionsManager().getLanguage();
+      const optionsManagerInstance = new OptionsManager();
+      await optionsManagerInstance.loadLanguage(language);
+      window.optionsManager = optionsManagerInstance;
+
       await inventoryManager.initialize();
       await shopManager.initialize();
       await gameManager.initializeGame();
@@ -37,20 +42,31 @@ class InventoryUI {
 
   displayInventory() {
     const items = inventoryManager.getAllItems();
+    console.log('🔍 displayInventory called');
+    console.log('Items from inventoryManager:', items);
+    console.log('Number of items:', Object.keys(items).length);
+    
     this.inventoryItems.innerHTML = '';
 
     if (Object.keys(items).length === 0) {
+      console.warn('❌ Inventory is empty!');
       this.inventoryItems.innerHTML = '<p class="empty-inventory">Your inventory is empty</p>';
       return;
     }
 
     for (const itemName in items) {
       const itemData = shopManager.getItemData(itemName);
+      console.log(`Creating inventory item: ${itemName}`, itemData);
+      
       if (itemData) {
         const itemElement = this.createItemElement(itemData, items[itemName]);
         this.inventoryItems.appendChild(itemElement);
+      } else {
+        console.warn(`❌ No item data found for: ${itemName}`);
       }
     }
+    
+    console.log('✓ All inventory items added to DOM');
   }
 
   createItemElement(itemData, inventoryItem) {
@@ -59,11 +75,25 @@ class InventoryUI {
 
     const isConsumable = itemData.Consummable;
     const itemName = itemData.Name;
+    
+    // Récupérer la description en fonction de la langue actuelle
+    const currentLanguage = (window.optionsManager?.currentLanguage) || 'en';
+    
+    // Chercher la description avec fallback
+    let description = '';
+    if (currentLanguage === 'fr') {
+      description = itemData.Description_FR || itemData.Description_EN || 'Pas de description';
+    } else {
+      description = itemData.Description_EN || itemData.Description_FR || 'No description available';
+    }
+
+    console.log(`✓ Inventory Item: ${itemName} | Lang: ${currentLanguage} | Desc: "${description}"`);
 
     let contentHTML = `
       <img src="${itemData.Sprite}" alt="${itemName}" class="item-sprite">
       <div class="item-info">
         <h4>${itemName}</h4>
+        <p class="item-description">${description}</p>
     `;
 
     if (isConsumable) {

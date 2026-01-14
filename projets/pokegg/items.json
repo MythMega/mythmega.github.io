@@ -1,18 +1,22 @@
 [
     {
         "Name": "Incubator",
+        "Description_FR": "Un incubateur automatique. Créer du click automatique (momentanément cassé).",
+        "Description_EN": "Automatic incubator. Autoclick (temporarly broken).",
         "Consummable": false,
         "Available": true,
         "Sprite": "./medias/item/Incubator.png",
         "Effect": "AutoClick",
         "InitialValue": 0.5,
         "AdditionalUpgradeValue": 0.1,
-        "Price": 99999,
+        "Price": 10,
         "UpgradePriceMultiplier": 1.5,
         "MaxLevel": 100
     },
     {
         "Name": "Flame Click",
+        "Description_FR": "Un click plus puissant. Duplique tes clics (nécessite un refresh après achat).",
+        "Description_EN": "Powerfull click (requires a refresh after buying).",
         "Consummable": false,
         "Available": true,
         "Sprite": "./medias/item/FlameClick.png",
@@ -25,6 +29,8 @@
     },
     {
         "Name": "Uncommon Egg",
+        "Description_FR": "Oeuf peu commun. L'utiliser fera apparaitre un oeuf peu commun. S'utilise dans l'inventaire (1 seul fois).",
+        "Description_EN": "Uncommon egg. Will make an uncommon egg to appear. Use it from inventory (1 time use).",
         "Available": true,
         "Consummable": true,
         "Sprite": "./medias/item/UncommonEgg.png",
@@ -34,6 +40,8 @@
     },
     {
         "Name": "Rare Egg",
+        "Description_FR": "Oeuf rare. L'utiliser fera apparaitre un oeuf rare. S'utilise dans l'inventaire (1 seul fois).",
+        "Description_EN": "Rare egg. Will make a rare egg to appear. Use it from inventory (1 time use).",
         "Available": true,
         "Consummable": true,
         "Sprite": "./medias/item/RareEgg.png",
@@ -43,6 +51,8 @@
     },
     {
         "Name": "Epic Egg",
+        "Description_FR": "Oeuf Épique. L'utiliser fera apparaitre un oeuf épique. S'utilise dans l'inventaire (1 seul fois).",
+        "Description_EN": "Epic egg. Will make an epic egg to appear. Use it from inventory (1 time use).",
         "Available": true,
         "Consummable": true,
         "Sprite": "./medias/item/EpicEgg.png",
@@ -52,6 +62,8 @@
     },
     {
         "Name": "Legendary Egg",
+        "Description_FR": "Oeuf légendaire. L'utiliser fera apparaitre un oeuf légendaire. S'utilise dans l'inventaire (1 seul fois).",
+        "Description_EN": "Legendary egg. Will make a legendary egg to appear. Use it from inventory (1 time use).",
         "Available": true,
         "Consummable": true,
         "Sprite": "./medias/item/LegendaryEgg.png",
@@ -61,6 +73,8 @@
     },
     {
         "Name": "Mythical Egg",
+        "Description_FR": "Oeuf mythique. L'utiliser fera apparaitre un oeuf mythique. S'utilise dans l'inventaire (1 seul fois).",
+        "Description_EN": "Mythical egg. Will make a mythical egg to appear. Use it from inventory (1 time use).",
         "Available": true,
         "Consummable": true,
         "Sprite": "./medias/item/MythicalEgg.png",

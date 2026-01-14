@@ -8,6 +8,11 @@ class ShopUI {
 
   async initialize() {
     try {
+      const language = new OptionsManager().getLanguage();
+      const optionsManagerInstance = new OptionsManager();
+      await optionsManagerInstance.loadLanguage(language);
+      window.optionsManager = optionsManagerInstance;
+
       await shopManager.initialize();
       await inventoryManager.initialize();
       
@@ -33,12 +38,25 @@ class ShopUI {
 
   displayItems() {
     const items = shopManager.getAvailableItems();
+    console.log('🔍 displayItems called');
+    console.log('Items from shopManager:', items);
+    console.log('Number of items:', items ? items.length : 0);
+    
     this.itemsGrid.innerHTML = '';
 
-    items.forEach(itemData => {
+    if (!items || items.length === 0) {
+      console.warn('❌ No items found!');
+      this.itemsGrid.innerHTML = '<p>No items available</p>';
+      return;
+    }
+
+    items.forEach((itemData, index) => {
+      console.log(`Creating item ${index}: ${itemData.Name}`);
       const itemElement = this.createItemElement(itemData);
       this.itemsGrid.appendChild(itemElement);
     });
+    
+    console.log('✓ All items added to DOM');
   }
 
   createItemElement(itemData) {
@@ -49,6 +67,19 @@ class ShopUI {
     const isUpgrade = !itemData.Consummable;
     const currentLevel = inventoryManager.getItemLevel(itemName);
     const canUpgrade = shopManager.canUpgrade(itemName);
+    
+    // Récupérer la description en fonction de la langue actuelle
+    const currentLanguage = (window.optionsManager?.currentLanguage) || 'en';
+    
+    // Chercher la description avec fallback
+    let description = '';
+    if (currentLanguage === 'fr') {
+      description = itemData.Description_FR || itemData.Description_EN || 'Pas de description';
+    } else {
+      description = itemData.Description_EN || itemData.Description_FR || 'No description available';
+    }
+
+    console.log(`✓ Shop Item: ${itemName} | Lang: ${currentLanguage} | Desc: "${description}"`);
 
     let price = 0;
     if (isUpgrade) {
@@ -70,6 +101,7 @@ class ShopUI {
     div.innerHTML = `
       <img src="${itemData.Sprite}" alt="${itemName}" class="item-sprite">
       <h3>${itemName}</h3>
+      <p class="item-description">${description}</p>
       ${levelDisplay}
       <p class="item-price">${price} Pokédollars</p>
       <button class="buy-button" 

@@ -3,6 +3,7 @@ class GameUI {
   constructor() {
     this.eggButton = document.getElementById('eggButton');
     this.nextEggButton = document.getElementById('nextEggButton');
+    this.eggWrapper = document.getElementById('eggWrapper');
     this.eggImage = document.getElementById('eggImage');
     this.eggUnderlay = document.getElementById('eggUnderlay');
     this.eggOverlay = document.getElementById('eggOverlay');
@@ -59,6 +60,11 @@ class GameUI {
     try {
       // Diagnostic au démarrage
       console.log('Starting game initialization...');
+      
+      // Nettoyer les anciennes bases de données
+      await Diagnostics.cleanOldDatabases();
+      
+      // Vérifier la base de données
       await Diagnostics.checkDatabase();
       
       await this.loadTranslations();
@@ -80,6 +86,9 @@ class GameUI {
       // Cela permettra de voir les clics automatiques se faire en temps réel
       setInterval(() => this.updateClicksDisplay(), 100);
       setInterval(() => this.updateProgressBar(), 100);
+      
+      // Sauvegarder régulièrement l'inventaire et la balance (toutes les 5 secondes)
+      setInterval(() => this.saveGameProgressData(), 5000);
     } catch (error) {
       console.error('Error initializing game UI:', error);
       
@@ -102,9 +111,39 @@ class GameUI {
   }
 
   async loadGameData() {
-    const data = await dataLoader.loadData();
-    if (data.caughtPokemon) {
-      gameManager.caughtPokemon = data.caughtPokemon;
+    // Charger TOUTES les données du jeu
+    const allData = await dataLoader.loadAllGameData();
+    
+    // Charger les Pokémon attrapés
+    if (allData.caughtPokemon) {
+      gameManager.caughtPokemon = allData.caughtPokemon;
+    }
+    
+    // Charger l'inventaire
+    if (allData.inventory && Object.keys(allData.inventory).length > 0) {
+      inventoryManager.items = allData.inventory;
+      inventoryManager.calculateStats();
+    }
+    
+    // Charger la balance
+    if (allData.balance !== undefined && allData.balance > 0) {
+      currencyManager.setBalance(allData.balance);
+    }
+    
+    // La langue est déjà chargée dans loadTranslations()
+  }
+
+  // Sauvegarder les données de progression du jeu
+  async saveGameProgressData() {
+    try {
+      const gameData = {
+        inventory: inventoryManager.items,
+        balance: currencyManager.getBalance(),
+        language: optionsManager.currentLanguage
+      };
+      await dataLoader.saveGameData(gameData);
+    } catch (error) {
+      console.warn('Error saving game progress data:', error);
     }
   }
 
@@ -132,7 +171,8 @@ class GameUI {
     }
     
     // Masquer le Pokémon éclos
-    this.hatchedPokemon.style.display = 'none';
+    this.hatchedPokemon.classList.remove('show');
+    this.eggWrapper.classList.remove('hatched');
     this.nextEggButton.style.display = 'none';
     this.eggButton.style.display = 'block';
     
@@ -205,7 +245,10 @@ class GameUI {
       // Afficher le Pokémon éclos
       this.hatchedSprite.src = pokemon.sprite;
       this.hatchedName.textContent = pokemon.getName(optionsManager.currentLanguage);
-      this.hatchedPokemon.style.display = 'block';
+      this.hatchedPokemon.classList.add('show');
+      
+      // Masquer l'oeuf et son overlay (crack), garder l'underlay (rareté)
+      this.eggWrapper.classList.add('hatched');
       
       // Afficher le bouton pour ouvrir un autre œuf
       this.nextEggButton.style.display = 'block';
@@ -277,10 +320,20 @@ class GameUI {
     const isConsumable = itemData.Consummable;
     const itemName = itemData.Name;
 
+    // Récupérer la description en fonction de la langue actuelle
+    const currentLanguage = (window.optionsManager?.currentLanguage) || 'en';
+    let description = '';
+    if (currentLanguage === 'fr') {
+      description = itemData.Description_FR || itemData.Description_EN || 'Pas de description';
+    } else {
+      description = itemData.Description_EN || itemData.Description_FR || 'No description available';
+    }
+
     let contentHTML = `
       <img src="${itemData.Sprite}" alt="${itemName}" class="item-sprite">
       <div class="item-info">
         <h4>${itemName}</h4>
+        <p class="item-description">${description}</p>
     `;
 
     if (isConsumable) {
@@ -400,6 +453,15 @@ class GameUI {
     const currentLevel = inventoryManager.getItemLevel(itemName);
     const canUpgrade = shopManager.canUpgrade(itemName);
 
+    // Récupérer la description en fonction de la langue actuelle
+    const currentLanguage = (window.optionsManager?.currentLanguage) || 'en';
+    let description = '';
+    if (currentLanguage === 'fr') {
+      description = itemData.Description_FR || itemData.Description_EN || 'Pas de description';
+    } else {
+      description = itemData.Description_EN || itemData.Description_FR || 'No description available';
+    }
+
     let price = 0;
     if (isUpgrade) {
       price = shopManager.getUpgradePrice(itemName);
@@ -420,6 +482,7 @@ class GameUI {
     div.innerHTML = `
       <img src="${itemData.Sprite}" alt="${itemName}" class="item-sprite">
       <h3>${itemName}</h3>
+      <p class="item-description">${description}</p>
       ${levelDisplay}
       <p class="item-price">${price} Pokédollars</p>
       <button class="buy-button" 

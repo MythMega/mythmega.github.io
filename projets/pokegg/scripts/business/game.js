@@ -77,12 +77,13 @@ class GameManager {
   }
 
   selectRandomEgg() {
-    // Choisir une famille au hasard avec pondération par rareté au carré
-    // Les familles rares (rareté 1) sont plus communes, les familles légendaires (rareté 6) sont beaucoup plus rares
-    // Pondération: 1 / (rarity²) - cela rend les rares bien plus rares
+    // Choisir une famille au hasard avec pondération par rareté
+    // Les familles rares (rareté 1) sont plus communes, les familles légendaires (rareté 5) sont beaucoup plus rares
+    // Pondération: chaque rareté a une valeur définie dans getFamilyWeight()
+    // Utilisation de inverse de cette valeur comme poids pour la sélection (plus le poids est bas, moins la rareté est commune)
     const weightedFamilies = this.families.map(family => ({
       family: family,
-      weight: 1 / (family.rarity * family.rarity) // Inverse du carré de la rareté pour la pondération
+      weight: 1 / this.getFamilyWeight(family.rarity) // Inverse du poids de rareté
     }));
     
     // Calculer le poids total
@@ -109,9 +110,9 @@ class GameManager {
     let stage = 1;
     const familyEggCount = this.getFamilyEggCount(selectedFamily.name);
     
-    if (familyEggCount >= 5 && Math.random() > 0.5) stage = 2;
-    if (familyEggCount >= 25 && Math.random() > 0.5) stage = 3;
-    if (familyEggCount >= 125 && Math.random() > 0.5) stage = 4;
+    if (familyEggCount >= 1 && Math.random() > 0.5) stage = 2;
+    if (familyEggCount >= 5 && Math.random() > 0.5) stage = 3;
+    if (familyEggCount >= 25 && Math.random() > 0.5) stage = 4;
     
     // Toujours possibilité de tomber sur stage 1
     if (Math.random() > 0.8) stage = 1;
@@ -126,9 +127,41 @@ class GameManager {
       currentClicks: 0
     };
     
+    // Redémarrer l'autoclick dès qu'un œuf est sélectionné
+    // Cela garantit que l'autoclick fonctionne même si un œuf est sélectionné après l'initialisation du jeu
+    this.startAutoclick();
+    
     return this.currentEgg;
   }
 
+  getFamilyWeight(rarity) {
+    // Retourne le poids (difficulté relative) d'une rareté
+    // Plus la valeur est élevée, plus la rareté est difficile à obtenir
+    // Rareté 1 (commune) : poids 1 → poids de sélection = 1/1 = 1 (très courant)
+    // Rareté 2 : poids 2 → poids de sélection = 1/2 = 0.5
+    // Rareté 3 : poids 4 → poids de sélection = 1/4 = 0.25
+    // Rareté 4 : poids 8 → poids de sélection = 1/8 = 0.125
+    // Rareté 5 : poids 16 → poids de sélection = 1/16 = 0.0625 (très rare)
+    let result = 1;
+    switch(rarity) {
+      case 1:
+        result = 1;
+        break;
+      case 2:
+        result = 2;
+        break;
+      case 3:
+        result = 4;
+        break;
+      case 4:
+        result = 8;
+        break;
+      case 5:
+        result = 16;
+        break;
+    }
+    return result;
+  }
   click() {
     if (!this.currentEgg) {
       // Pas d'oeuf, pas de gains
@@ -143,7 +176,7 @@ class GameManager {
     
     // Gagner 1 Pokedollar à chaque click (additif avec le ClickPower)
     if (currencyManager) {
-      currencyManager.addPokedollars(1);
+      currencyManager.addPokedollars(Math.round(clickPower));
     }
     
     return {

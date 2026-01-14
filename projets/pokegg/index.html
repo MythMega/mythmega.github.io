@@ -14,6 +14,7 @@
         <a href="./index.html" class="nav-link active">Game</a>
         <a href="./dex.html" class="nav-link">Pokédex</a>
         <a href="./options.html" class="nav-link">Options</a>
+        <a href="./credits.html" class="nav-link">Credits</a>
       </div>
     </nav>
 
@@ -35,6 +36,11 @@
           <img id="eggUnderlay" class="egg-underlay" src="" alt="Egg Underlay">
           <img id="eggImage" class="egg-image" src="" alt="Egg">
           <img id="eggOverlay" class="egg-overlay" src="" alt="Egg Crack">
+          <!-- Pokémon éclos en overlay au-dessus de l'œuf -->
+          <div id="hatchedPokemon" class="hatched-pokemon-overlay">
+            <img id="hatchedSprite" src="" alt="Hatched Pokemon">
+            <p id="hatchedName"></p>
+          </div>
         </div>
       </div>
 
@@ -47,13 +53,10 @@
         </div>
       </div>
 
-      <div id="hatchedPokemon" class="hatched-pokemon" style="display: none;">
-        <img id="hatchedSprite" src="" alt="Hatched Pokemon">
-        <p id="hatchedName"></p>
+      <div class="action-button-container">
+        <button id="eggButton" class="egg-button">Click me!</button>
+        <button id="nextEggButton" class="next-egg-button" style="display: none;">Open another egg</button>
       </div>
-
-      <button id="eggButton" class="egg-button">Click me!</button>
-      <button id="nextEggButton" class="next-egg-button" style="display: none;">Open another egg</button>
       <button id="inventoryButton" class="inventory-button">Inventory</button>
       <button id="shopButton" class="shop-button">Shop</button>
     </main>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokegg - Credits</title>
+  <link rel="stylesheet" href="./style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h1 class="navbar-title" id="creditsTitle">Credits</h1>
+      <div class="navbar-links">
+        <a href="./index.html" class="nav-link">Game</a>
+        <a href="./dex.html" class="nav-link">Pokédex</a>
+        <a href="./options.html" class="nav-link">Options</a>
+        <a href="./credits.html" class="nav-link active">Credits</a>
+      </div>
+    </nav>
+
+    <main class="credits-container" style="color: white;">
+      <div class="credits-content">
+        <h2 id="creditsMainTitle">Credits</h2>
+          <br>
+        
+        <div class="credits-section">
+          <h3 id="creditsAboutTitle">About the Project</h3>
+          <p id="creditsAboutText">
+            Developed during illness by <a href="https://web.jmdev.fr">MythMega</a>
+          </p>
+        </div>
+
+          <br>
+        <div class="credits-section">
+          <h3 id="creditsBetaTitle">Beta Testers</h3>
+          <p id="creditsBetaText">
+            Special thanks to our beta testers, whose feedback was invaluable in shaping this game.
+          </p>
+          <ul>
+            <li>Batgo</li>
+            <li>Artemisa</li>
+            <li>Lineaucent</li>
+          </ul>
+        </div>
+          <br>
+
+        <div class="credits-section">
+          <h3 id="creditsSpritesTitle">Sprites</h3>
+          <p id="creditsEggsLabel">Egg Sprites:</p>
+          <p>
+            Kindsoulnyan (<a href="https://www.deviantart.com/kindsoulnyan/art/Pokemon-Eggs-Sprites-362738371">Link</a>)
+          </p>
+          <br>
+          <p id="creditsPokemonLabel">Pokémon Sprites:</p>
+          <p>
+            Pokeos (<a href="https://www.pokeos.com/">Link</a>)
+          </p>
+        </div>
+          <br>
+
+        <div class="credits-section">
+          <h3 id="creditsLegalTitle">Legal Disclaimer</h3>
+          <p id="creditsLegalText">
+            Pokegg and all elements of this website are not affiliated with The Pokémon Company International. Pokémon is a registered trademark of The Pokémon Company International. All references to Pokémon in this project are made for educational and recreational purposes only.
+          </p>
+        </div>
+
+        <button id="backButton" class="back-button">Back to Game</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="./scripts/business/data/options.js"></script>
+  <script>
+    // Load translations
+    async function loadCreditsTranslations() {
+      const language = new OptionsManager().getLanguage();
+      const optionsManager = new OptionsManager();
+      await optionsManager.loadLanguage(language);
+      
+      const translations = optionsManager.translations;
+      
+      document.getElementById('creditsTitle').textContent = translations.credits_title || 'Credits';
+      document.getElementById('creditsMainTitle').textContent = translations.credits_title || 'Credits';
+      document.getElementById('creditsAboutTitle').textContent = translations.credits_about || 'About the Project';
+      document.getElementById('creditsAboutText').innerHTML = 
+        (translations.credits_about_text || 'Developed during illness by') + ' <a href="https://web.jmdev.fr">MythMega</a>';
+      
+      document.getElementById('creditsBetaTitle').textContent = translations.credits_beta || 'Beta Testers';
+      document.getElementById('creditsBetaText').textContent = translations.credits_beta_text || 'Special thanks to our beta testers, whose feedback was invaluable in shaping this game.';
+      
+      document.getElementById('creditsSpritesTitle').textContent = translations.credits_sprites || 'Sprites';
+      document.getElementById('creditsEggsLabel').textContent = (translations.credits_eggs || 'Egg Sprites') + ':';
+      document.getElementById('creditsPokemonLabel').textContent = (translations.credits_pokemon || 'Pokémon Sprites') + ':';
+      
+      document.getElementById('creditsLegalTitle').textContent = translations.credits_affiliation || 'Legal Disclaimer';
+      document.getElementById('creditsLegalText').textContent = translations.credits_affiliation_text || 'Pokegg and all elements of this website are not affiliated with The Pokémon Company International.';
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCreditsTranslations();
+      
+      document.getElementById('backButton').addEventListener('click', () => {
+        window.location.href = './index.html';
+      });
+    });
+  </script>
+</body>
+</html>

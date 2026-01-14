@@ -47,6 +47,13 @@ class CurrencyManager {
     return this.pokedollars;
   }
 
+  // Définir directement le solde (utile pour l'import)
+  setBalance(amount) {
+    this.pokedollars = Math.max(0, amount);
+    this.savePokedollars();
+    this.notifyObservers();
+  }
+
   // Observer pattern pour notifier les changements
   observers = [];
 

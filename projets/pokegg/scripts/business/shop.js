@@ -69,7 +69,7 @@ class ShopManager {
       }
     }
 
-    // Sauvegarder l'inventaire
+    // Sauvegarder l'inventaire (et recalculer les stats via saveInventory)
     await inventoryManager.saveInventory();
 
     return { success: true, message: 'Item purchased successfully' };

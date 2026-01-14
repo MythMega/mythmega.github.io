@@ -10,7 +10,7 @@ import os
 import webbrowser
 import threading
 
-def run(port: int = 8081):
+def run(port: int = 80):
     handler = http.server.SimpleHTTPRequestHandler
 
     # Serve from current directory
@@ -34,11 +34,11 @@ def run(port: int = 8081):
             httpd.server_close()
 
 if __name__ == "__main__":
-    port = 8081
+    port = 80
     if len(sys.argv) >= 2:
         try:
             port = int(sys.argv[1])
         except ValueError:
             print("Argument de port invalide, utilisation du port 80.")
-            port = 8180
+            port = 80
     run(port)

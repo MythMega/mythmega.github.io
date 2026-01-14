@@ -25,64 +25,24 @@ class InventoryManager {
     }
   }
 
-  // Initialiser IndexedDB
+  // Initialiser IndexedDB via DataLoader pour cohérence
   async initializeDB() {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open('PokeggDB', 2); // Augmenter la version pour forcer l'upgrade
-      
-      request.onerror = () => {
-        console.error('Database failed to open');
-        reject(request.error);
-      };
-      
-      request.onsuccess = (e) => {
-        this.db = e.target.result;
-        
-        // Vérifier si le store existe, sinon le créer
-        if (!this.db.objectStoreNames.contains('inventory')) {
-          try {
-            // Fermer la connexion actuelle et réouvrir avec une version supérieure
-            this.db.close();
-            const upgradeRequest = indexedDB.open('PokeggDB', 3);
-            
-            upgradeRequest.onupgradeneeded = (upgradeEvent) => {
-              const db = upgradeEvent.target.result;
-              if (!db.objectStoreNames.contains('inventory')) {
-                db.createObjectStore('inventory', { keyPath: 'key' });
-              }
-            };
-            
-            upgradeRequest.onsuccess = (e) => {
-              this.db = e.target.result;
-              resolve();
-            };
-            
-            upgradeRequest.onerror = () => {
-              reject(upgradeRequest.error);
-            };
-          } catch (error) {
-            console.error('Error upgrading database:', error);
-            resolve(); // Continuer quand même
-          }
-        } else {
-          resolve();
-        }
-      };
-      
-      request.onupgradeneeded = (e) => {
-        const db = e.target.result;
-        if (!db.objectStoreNames.contains('inventory')) {
-          db.createObjectStore('inventory', { keyPath: 'key' });
-        }
-      };
-    });
+    try {
+      // Utiliser le DataLoader pour initialiser la base de données de manière centralisée
+      if (!this.db) {
+        this.db = await dataLoader.initDB();
+        console.log('Inventory: Database initialized via DataLoader');
+      }
+    } catch (error) {
+      console.error('Error initializing database:', error);
+    }
   }
 
   // Charger l'inventaire depuis IndexedDB
   async loadInventory() {
     return new Promise((resolve, reject) => {
       if (!this.db) {
-        console.warn('Database not initialized');
+        console.warn('Database not initialized for inventory load');
         resolve();
         return;
       }
@@ -104,6 +64,8 @@ class InventoryManager {
             this.items = getRequest.result.value;
             this.calculateStats();
             console.log('Inventory loaded successfully:', this.items);
+          } else {
+            console.log('No inventory data found, using default');
           }
           resolve();
         };
@@ -166,6 +128,7 @@ class InventoryManager {
       };
     }
     this.items[itemName].quantity += quantity;
+    this.calculateStats();
     this.saveInventory();
   }
 
@@ -176,6 +139,7 @@ class InventoryManager {
       if (this.items[itemName].quantity <= 0) {
         delete this.items[itemName];
       }
+      this.calculateStats();
       this.saveInventory();
     }
   }
@@ -225,16 +189,20 @@ class InventoryManager {
       const itemInventory = this.items[itemName];
 
       if (itemData) {
-        if (itemData.Effect === 'AutoClick') {
-          const baseValue = itemData.InitialValue;
-          const upgradeValue = itemData.AdditionalUpgradeValue;
-          const level = itemInventory.level;
-          this.stats.autoclickValuePerSecond += baseValue + (upgradeValue * (level - 1));
-        } else if (itemData.Effect === 'ClickUpgrade') {
-          const baseValue = itemData.InitialValue;
-          const upgradeValue = itemData.AdditionalUpgradeValue;
-          const level = itemInventory.level;
-          this.stats.clickPower += baseValue + (upgradeValue * (level - 1));
+        // Ne calculer les stats que si le niveau est >= 1 (item acheté/possédé)
+        if (itemInventory.level >= 1) {
+          if (itemData.Effect === 'AutoClick') {
+            const baseValue = itemData.InitialValue;
+            const upgradeValue = itemData.AdditionalUpgradeValue;
+            const level = itemInventory.level;
+            // Formule: baseValue au niveau 1, puis on ajoute upgradeValue pour chaque niveau supplémentaire
+            this.stats.autoclickValuePerSecond += baseValue + (upgradeValue * (level - 1));
+          } else if (itemData.Effect === 'ClickUpgrade') {
+            const baseValue = itemData.InitialValue;
+            const upgradeValue = itemData.AdditionalUpgradeValue;
+            const level = itemInventory.level;
+            this.stats.clickPower += baseValue + (upgradeValue * (level - 1));
+          }
         }
       }
     }

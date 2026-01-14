@@ -660,7 +660,9 @@ const Daily = (function () {
   function bindButtons() {
     document.getElementById('dailySubmit').addEventListener('click', submitGuess);
     document.getElementById('dailySkip').addEventListener('click', () => {
-      // reveal and mark as fail, then next
+      const ok = confirm("Es-tu sûr de vouloir passer ce Pokémon ?");
+      if (!ok) return;
+
       showNotification('Passé — Pokémon révélé', 'hint');
       failCurrentAndAdvance();
     });
@@ -672,6 +674,20 @@ const Daily = (function () {
       if (!txt) return;
       navigator.clipboard?.writeText(txt).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
+      }, () => {
+        showNotification('Impossible de copier', 'fail');
+      });
+    });
+    document.getElementById('copyDiscordShare').addEventListener('click', () => {
+      const txt = shareArea.textContent || '';
+      if (!txt) return;
+
+      navigator.clipboard?.writeText(txt).then(() => {
+        showNotification('Copié dans le presse-papier', 'success');
+
+        // Ouvrir le lien dans un nouvel onglet
+        window.open('https://discord.gg/yY3b8RYznN', '_blank');
+
       }, () => {
         showNotification('Impossible de copier', 'fail');
       });

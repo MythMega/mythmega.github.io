@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokegg - Options</title>
+  <link rel="stylesheet" href="./style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h1 class="navbar-title">Pokegg</h1>
+      <div class="navbar-links">
+        <a href="./index.html" class="nav-link">Game</a>
+        <a href="./dex.html" class="nav-link">Pokédex</a>
+        <a href="./options.html" class="nav-link active">Options</a>
+      </div>
+    </nav>
+
+    <main class="options-container">
+      <section class="options-section">
+        <h2 id="languageTitle">Language</h2>
+        <div class="language-buttons">
+          <button id="langEN" class="lang-button active" data-lang="en">English</button>
+          <button id="langFR" class="lang-button" data-lang="fr">Français</button>
+        </div>
+      </section>
+
+      <section class="options-section">
+        <h2 id="saveTitle">Save Management</h2>
+        
+        <button id="exportButton" class="option-button export-button">
+          Export my save
+        </button>
+        
+        <button id="importButton" class="option-button import-button">
+          Import a save
+        </button>
+        <input type="file" id="importFile" accept=".txt" style="display: none;">
+        
+        <button id="deleteButton" class="option-button delete-button danger">
+          Delete all my data
+        </button>
+      </section>
+    </main>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3 id="deleteConfirmTitle">Confirm deletion</h3>
+      <p id="deleteConfirmMessage">Are you sure you want to delete all your data? This action is irreversible.</p>
+      
+      <div class="modal-buttons">
+        <button id="deleteCancel" class="button-secondary">Cancel</button>
+        <button id="deleteConfirm" class="button-danger">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./scripts/entity/pokemon.js"></script>
+  <script src="./scripts/entity/family.js"></script>
+  <script src="./scripts/business/data/options.js"></script>
+  <script src="./scripts/business/data/load.js"></script>
+  <script src="./scripts/business/data/export.js"></script>
+  <script src="./scripts/business/data/import.js"></script>
+  <script src="./scripts/business/data/delete.js"></script>
+  <script src="./scripts/business/game.js"></script>
+  <script src="./scripts/business/pokedex.js"></script>
+  <script src="./scripts/ui/options_ui.js"></script>
+</body>
+</html>

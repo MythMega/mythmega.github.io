@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokegg - Shop</title>
+  <link rel="stylesheet" href="./style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h1 class="navbar-title">Pokegg - Shop</h1>
+      <div class="navbar-links">
+        <a href="./index.html" class="nav-link">Game</a>
+        <a href="./dex.html" class="nav-link">Pokédex</a>
+        <a href="./options.html" class="nav-link">Options</a>
+      </div>
+    </nav>
+
+    <main class="shop-container">
+      <div class="shop-header">
+        <h2>Shop</h2>
+        <div class="shop-balance">
+          <p>Balance: <span id="balanceDisplay">0</span> Pokédollars</p>
+        </div>
+      </div>
+
+      <div class="items-grid" id="itemsGrid">
+        <!-- Items seront chargés ici par JavaScript -->
+      </div>
+
+      <button id="backButton" class="back-button">Back to Game</button>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./scripts/entity/pokemon.js"></script>
+  <script src="./scripts/entity/family.js"></script>
+  <script src="./scripts/business/data/options.js"></script>
+  <script src="./scripts/business/data/load.js"></script>
+  <script src="./scripts/business/data/export.js"></script>
+  <script src="./scripts/business/data/import.js"></script>
+  <script src="./scripts/business/data/delete.js"></script>
+  <script src="./scripts/business/diagnostics.js"></script>
+  <script src="./scripts/business/currency.js"></script>
+  <script src="./scripts/business/inventory.js"></script>
+  <script src="./scripts/business/shop.js"></script>
+  <script src="./scripts/ui/shop_ui.js"></script>
+</body>
+</html>

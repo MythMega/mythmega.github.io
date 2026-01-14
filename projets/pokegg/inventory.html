@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokegg - Inventory</title>
+  <link rel="stylesheet" href="./style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h1 class="navbar-title">Pokegg - Inventory</h1>
+      <div class="navbar-links">
+        <a href="./index.html" class="nav-link">Game</a>
+        <a href="./dex.html" class="nav-link">Pokédex</a>
+        <a href="./options.html" class="nav-link">Options</a>
+      </div>
+    </nav>
+
+    <main class="inventory-container">
+      <div class="inventory-header">
+        <h2>Inventory</h2>
+        <button id="backButton" class="back-button">Back to Game</button>
+      </div>
+
+      <div class="inventory-stats">
+        <div class="stat-box">
+          <p>AutoClick: <span id="autoclickDisplay">0</span>/sec</p>
+        </div>
+        <div class="stat-box">
+          <p>Click Power: <span id="clickPowerDisplay">1</span>x</p>
+        </div>
+      </div>
+
+      <div class="inventory-items" id="inventoryItems">
+        <!-- Items seront chargés ici par JavaScript -->
+      </div>
+
+      <div id="eggConfirmationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <h3>Use Egg?</h3>
+          <p id="eggConfirmationText"></p>
+          <div class="modal-buttons">
+            <button id="confirmUseButton" class="confirm-button">Use</button>
+            <button id="cancelUseButton" class="cancel-button">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./scripts/entity/pokemon.js"></script>
+  <script src="./scripts/entity/family.js"></script>
+  <script src="./scripts/business/data/options.js"></script>
+  <script src="./scripts/business/data/load.js"></script>
+  <script src="./scripts/business/data/export.js"></script>
+  <script src="./scripts/business/data/import.js"></script>
+  <script src="./scripts/business/data/delete.js"></script>
+  <script src="./scripts/business/diagnostics.js"></script>
+  <script src="./scripts/business/currency.js"></script>
+  <script src="./scripts/business/game.js"></script>
+  <script src="./scripts/business/inventory.js"></script>
+  <script src="./scripts/business/shop.js"></script>
+  <script src="./scripts/ui/inventory_ui.js"></script>
+</body>
+</html>

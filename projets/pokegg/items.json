@@ -1,0 +1,72 @@
+[
+    {
+        "Name": "Incubator",
+        "Consummable": false,
+        "Available": true,
+        "Sprite": "./medias/item/Incubator.png",
+        "Effect": "AutoClick",
+        "InitialValue": 0.5,
+        "AdditionalUpgradeValue": 0.1,
+        "Price": 99999,
+        "UpgradePriceMultiplier": 1.5,
+        "MaxLevel": 100
+    },
+    {
+        "Name": "Flame Click",
+        "Consummable": false,
+        "Available": true,
+        "Sprite": "./medias/item/FlameClick.png",
+        "Effect": "ClickUpgrade",
+        "InitialValue": 1,
+        "AdditionalUpgradeValue": 1,
+        "Price": 1000,
+        "UpgradePriceMultiplier": 5,
+        "MaxLevel": 3
+    },
+    {
+        "Name": "Uncommon Egg",
+        "Available": true,
+        "Consummable": true,
+        "Sprite": "./medias/item/UncommonEgg.png",
+        "Effect": "Egg",
+        "InitialValue": 2,
+        "Price": 50
+    },
+    {
+        "Name": "Rare Egg",
+        "Available": true,
+        "Consummable": true,
+        "Sprite": "./medias/item/RareEgg.png",
+        "Effect": "Egg",
+        "InitialValue": 3,
+        "Price": 100
+    },
+    {
+        "Name": "Epic Egg",
+        "Available": true,
+        "Consummable": true,
+        "Sprite": "./medias/item/EpicEgg.png",
+        "Effect": "Egg",
+        "InitialValue": 4,
+        "Price": 250
+    },
+    {
+        "Name": "Legendary Egg",
+        "Available": true,
+        "Consummable": true,
+        "Sprite": "./medias/item/LegendaryEgg.png",
+        "Effect": "Egg",
+        "InitialValue": 5,
+        "Price": 500
+    },
+    {
+        "Name": "Mythical Egg",
+        "Available": true,
+        "Consummable": true,
+        "Sprite": "./medias/item/MythicalEgg.png",
+        "Effect": "Egg",
+        "InitialValue": 6,
+        "Price": 999
+    }
+    
+]

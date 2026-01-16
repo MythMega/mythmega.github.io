@@ -20,18 +20,20 @@ class Family {
     return this.membersByStage[stage] || [];
   }
 
-  getRandomMember(stage) {
-    const members = this.getMembersByStage(stage);
-    if (members.length === 0) {
+  getRandomMember(maxStage) {
+    // Récupérer tous les membres avec un stage <= maxStage
+    const availableMembers = this.members.filter(member => member.stage <= maxStage);
+    
+    if (availableMembers.length === 0) {
       return this.members[0]; // Fallback au premier membre
     }
-    return members[Math.floor(Math.random() * members.length)];
+    return availableMembers[Math.floor(Math.random() * availableMembers.length)];
   }
 
   getClicksNeeded(stage) {
-    // ((family rarity²)*2 ^ stage) * 5)
+    // ((family rarity²)*2 ^ (stage-1)) * 5)
     // Utilise le carré de la rareté pour rendre les œufs rares plus difficiles à ouvrir
-    return (this.rarity * this.rarity * Math.pow(2, stage)) * 5;
+    return (this.rarity * this.rarity * Math.pow(2, stage - 1)) * 5;
   }
 
   getUnlockThreshold(stage) {

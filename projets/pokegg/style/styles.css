@@ -453,7 +453,7 @@ main {
 }
 
 .modal-pokemon-info {
-  display: flex;
+  /*display: flex;*/
   gap: 2rem;
   margin: 2rem 0;
   justify-content: center;

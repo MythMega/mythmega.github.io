@@ -106,19 +106,19 @@ class GameManager {
       selectedFamily = this.families[0];
     }
     
-    // Déterminer le stage disponible
-    let stage = 1;
+    // Déterminer le stage MAXIMAL possible en fonction du nombre d'œufs capturés
+    let maxStage = 1;
     const familyEggCount = this.getFamilyEggCount(selectedFamily.name);
     
-    if (familyEggCount >= 1 && Math.random() > 0.5) stage = 2;
-    if (familyEggCount >= 5 && Math.random() > 0.5) stage = 3;
-    if (familyEggCount >= 25 && Math.random() > 0.5) stage = 4;
+    if (familyEggCount >= 1 && Math.random() > 0.5) maxStage = 2;
+    if (familyEggCount >= 5 && Math.random() > 0.5) maxStage = 3;
+    if (familyEggCount >= 25 && Math.random() > 0.5) maxStage = 4;
     
-    // Toujours possibilité de tomber sur stage 1
-    if (Math.random() > 0.8) stage = 1;
+    // Sélectionner un pokémon aléatoire de la famille (qui aura un stage <= maxStage)
+    const pokemon = selectedFamily.getRandomMember(maxStage);
     
-    const pokemon = selectedFamily.getRandomMember(stage);
-    const clicksNeeded = selectedFamily.getClicksNeeded(stage);
+    // Utiliser le stage réel du pokémon pour calculer les clics nécessaires
+    const clicksNeeded = selectedFamily.getClicksNeeded(pokemon.stage);
     
     this.currentEgg = {
       family: selectedFamily,

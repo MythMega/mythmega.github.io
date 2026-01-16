@@ -159,6 +159,9 @@ class GameManager {
       case 5:
         result = 16;
         break;
+      case 6:
+        result = 64;
+        break;
     }
     return result;
   }

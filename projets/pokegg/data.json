@@ -82,8 +82,8 @@
             },
             {
                 "Index": "8",
-                "Name_EN": "Charmeleon",
-                "Name_FR": "Reptincel",
+                "Name_EN": "Wartortle",
+                "Name_FR": "Carabaffe",
                 "Sprite":"https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/8.png",
                 "Type1": "fire",
                 "Type2": null,
@@ -91,8 +91,8 @@
             },
             {
                 "Index": "9",
-                "Name_EN": "Charizard",
-                "Name_FR": "Dracaufeu",
+                "Name_EN": "Blastoise",
+                "Name_FR": "Tortank",
                 "Sprite":"https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/9.png",
                 "Type1": "fire",
                 "Type2": "flying",
@@ -280,7 +280,7 @@
     },
     {
         "Family": "Pikachu",
-        "Egg": "./medias/eggs/025egg.png",
+        "Egg": "./medias/eggs/172egg.png",
         "Members": [
             {
                 "Index": "25",
@@ -398,7 +398,7 @@
     },
     {
         "Family": "Clefairy",
-        "Egg": "./medias/eggs/035egg.png",
+        "Egg": "./medias/eggs/173egg.png",
         "Members": [
             {
                 "Index": "35",
@@ -448,7 +448,7 @@
     },
     {
         "Family": "Jigglypuff",
-        "Egg": "./medias/eggs/039egg.png",
+        "Egg": "./medias/eggs/174egg.png",
         "Members": [
             {
                 "Index": "39",
@@ -1366,7 +1366,7 @@
     },
     {
         "Family": "Chansey",
-        "Egg": "./medias/eggs/113egg.png",
+        "Egg": "./medias/eggs/440egg.png",
         "Members": [
             {
                 "Index": "113",
@@ -1489,7 +1489,7 @@
     },
     {
         "Family": "Mr. Mime",
-        "Egg": "./medias/eggs/122egg.png",
+        "Egg": "./medias/eggs/439egg.png",
         "Members": [
             {
                 "Index": "122",
@@ -1521,7 +1521,7 @@
     },
     {
         "Family": "Jynx",
-        "Egg": "./medias/eggs/124egg.png",
+        "Egg": "./medias/eggs/238egg.png",
         "Members": [
             {
                 "Index": "124",
@@ -1537,7 +1537,7 @@
     },
     {
         "Family": "Electabuzz",
-        "Egg": "./medias/eggs/125egg.png",
+        "Egg": "./medias/eggs/239egg.png",
         "Members": [
             {
                 "Index": "125",
@@ -1553,7 +1553,7 @@
     },
     {
         "Family": "Magmar",
-        "Egg": "./medias/eggs/126egg.png",
+        "Egg": "./medias/eggs/240egg.png",
         "Members": [
             {
                 "Index": "126",

@@ -42,35 +42,23 @@ class GameManager {
         return;
       }
 
-      // Vérifier si on peut toujours cliquer (le bouton doit être visible)
-      if (window.gameUI && window.gameUI.eggButton) {
-        const isButtonVisible = window.gameUI.eggButton.style.display !== 'none';
-        if (!isButtonVisible) {
-          // Le bouton est caché, on n'autoclick pas
-          return;
-        }
-      }
-
       const stats = inventoryManager ? inventoryManager.getStats() : null;
-      if (!stats) {
+      if (!stats || stats.autoclickValuePerSecond <= 0) {
         return;
       }
 
       const clicksPerInterval = (stats.autoclickValuePerSecond / 10); // 10 intervalles par seconde
       
       if (clicksPerInterval > 0) {
-        // Effectuer le(s) click(s) automatique(s) via handleEggClick si possible
+        // Effectuer le(s) click(s) automatique(s) directement via gameManager.click()
+        // au lieu de passer par l'UI, ce qui est plus fiable
         for (let i = 0; i < Math.floor(clicksPerInterval); i++) {
-          if (window.gameUI && window.gameUI.handleEggClick) {
-            window.gameUI.handleEggClick();
-          }
+          this.click();
         }
         
         // Gérer les clics partiels (ex: 1.5 clics par intervalle)
         if (Math.random() < (clicksPerInterval % 1)) {
-          if (window.gameUI && window.gameUI.handleEggClick) {
-            window.gameUI.handleEggClick();
-          }
+          this.click();
         }
       }
     }, 100);

@@ -111,6 +111,40 @@
         </div>
       </div>
     </div>
+
+    <div id="newPokemonModal" class="full-modal" style="display: none;">
+      <div class="modal-container new-pokemon-modal-content">
+        <div class="modal-header">
+          <h2 id="newPokemonTitle">New Pokémon Discovered!</h2>
+          <button class="modal-close-btn" onclick="gameUI.closeNewPokemonModal()">&times;</button>
+        </div>
+
+        <div class="new-pokemon-body">
+          <div class="new-pokemon-sprites">
+            <div class="egg-sprite-container">
+              <img id="newPokemonEggSprite" src="" alt="Egg" class="egg-sprite">
+              <p class="sprite-label">Family Egg</p>
+            </div>
+            <div class="pokemon-sprite-container">
+              <img id="newPokemonSprite" src="" alt="Pokémon" class="pokemon-sprite">
+              <p class="sprite-label">Pokémon</p>
+            </div>
+          </div>
+
+          <div class="new-pokemon-info">
+            <h3 id="newPokemonName"></h3>
+            <div id="newPokemonTypes" class="pokemon-types"></div>
+            <div class="rarity-display">
+              <p>Rarity: <span id="newPokemonRarity"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="confirm-button" onclick="gameUI.closeNewPokemonModal()">Got it!</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Scripts -->

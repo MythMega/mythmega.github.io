@@ -29,6 +29,15 @@ class GameUI {
     this.modalClickPowerDisplay = document.getElementById('modalClickPowerDisplay');
     this.modalBalanceDisplay = document.getElementById('modalBalanceDisplay');
     
+    // New Pokémon Modal
+    this.newPokemonModal = document.getElementById('newPokemonModal');
+    this.newPokemonTitle = document.getElementById('newPokemonTitle');
+    this.newPokemonSprite = document.getElementById('newPokemonSprite');
+    this.newPokemonEggSprite = document.getElementById('newPokemonEggSprite');
+    this.newPokemonName = document.getElementById('newPokemonName');
+    this.newPokemonTypes = document.getElementById('newPokemonTypes');
+    this.newPokemonRarity = document.getElementById('newPokemonRarity');
+    
     // Confirmations
     this.eggConfirmationModal = document.getElementById('eggConfirmationModal');
     this.confirmUseButton = document.getElementById('confirmUseButton');
@@ -236,6 +245,11 @@ class GameUI {
   }
 
   displayHatchedPokemon() {
+    // Vérifier si c'est un nouveau pokémon AVANT d'appeler hatchEgg()
+    // (car hatchEgg() va l'ajouter à caughtPokemon)
+    const isNewPokemon = gameManager.currentEgg && gameManager.currentEgg.pokemon && 
+                         !(gameManager.currentEgg.pokemon.index in gameManager.caughtPokemon);
+    
     const pokemon = gameManager.hatchEgg();
     
     if (pokemon) {
@@ -252,6 +266,11 @@ class GameUI {
       
       // Afficher le bouton pour ouvrir un autre œuf
       this.nextEggButton.style.display = 'block';
+      
+      // Afficher la modal si c'est un nouveau pokémon
+      if (isNewPokemon) {
+        this.displayNewPokemonModal(pokemon);
+      }
     }
   }
 
@@ -504,6 +523,51 @@ class GameUI {
     } else {
       alert(`Purchase failed: ${result.message}`);
     }
+  }
+
+  // ========== NEW POKÉMON MODAL ==========
+
+  displayNewPokemonModal(pokemon) {
+    const family = gameManager.getPokemonFamily(pokemon);
+    if (!family) {
+      console.warn('Could not find family for pokemon:', pokemon);
+      return;
+    }
+
+    const language = optionsManager.currentLanguage || 'en';
+    
+    // Mettre à jour le contenu de la modal
+    this.newPokemonName.textContent = pokemon.getName(language);
+    this.newPokemonSprite.src = pokemon.sprite;
+    this.newPokemonEggSprite.src = family.eggImage;
+    
+    // Afficher les types
+    this.newPokemonTypes.innerHTML = '';
+    const types = pokemon.getTypes();
+    types.forEach(type => {
+      const typeBadge = document.createElement('span');
+      typeBadge.className = `type-badge ${type.toLowerCase()}`;
+      typeBadge.textContent = type;
+      this.newPokemonTypes.appendChild(typeBadge);
+    });
+    
+    // Afficher la rareté (stars)
+    const rarityStars = '★'.repeat(family.rarity);
+    this.newPokemonRarity.innerHTML = rarityStars;
+    
+    // Mettre à jour le titre en fonction de la langue
+    if (language === 'fr') {
+      this.newPokemonTitle.textContent = 'Nouveau Pokémon découvert!';
+    } else {
+      this.newPokemonTitle.textContent = 'New Pokémon Discovered!';
+    }
+    
+    // Afficher la modal
+    this.newPokemonModal.style.display = 'block';
+  }
+
+  closeNewPokemonModal() {
+    this.newPokemonModal.style.display = 'none';
   }
 }
 

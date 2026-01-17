@@ -4,14 +4,14 @@
         "Description_FR": "Un incubateur automatique. Créer du click automatique (momentanément cassé).",
         "Description_EN": "Automatic incubator. Autoclick (temporarly broken).",
         "Consummable": false,
-        "Available": false,
+        "Available": true,
         "Sprite": "./medias/item/Incubator.png",
         "Effect": "AutoClick",
         "InitialValue": 0.5,
         "AdditionalUpgradeValue": 0.1,
-        "Price": 99999,
+        "Price": 300,
         "UpgradePriceMultiplier": 1.5,
-        "MaxLevel": 10
+        "MaxLevel": 6
     },
     {
         "Name": "Flame Click",

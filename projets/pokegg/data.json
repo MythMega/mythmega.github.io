@@ -1783,7 +1783,7 @@
     },
     {
         "Family": "Snorlax",
-        "Egg": "./medias/eggs/143egg.png",
+        "Egg": "./medias/eggs/446egg.png",
         "Members": [
             {
                 "Index": "143",
@@ -2908,7 +2908,7 @@
     },
     {
         "Family": "Mantine",
-        "Egg": "./medias/eggs/226egg.png",
+        "Egg": "./medias/eggs/458egg.png",
         "Members": [
             {
                 "Index": "226",
@@ -3282,6 +3282,1746 @@
                 "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/251.png",
                 "Type1": "psychic",
                 "Type2": "grass",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 6
+    },
+    {
+        "Family": "Treecko",
+        "Egg": "./medias/eggs/252egg.png",
+        "Members": [
+            {
+                "Index": "252",
+                "Name_EN": "Treecko",
+                "Name_FR": "Arcko",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/252.png",
+                "Type1": "grass",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "253",
+                "Name_EN": "Grovyle",
+                "Name_FR": "Massko",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/253.png",
+                "Type1": "grass",
+                "Type2": null,
+                "Stage": 2
+            },
+            {
+                "Index": "254",
+                "Name_EN": "Sceptile",
+                "Name_FR": "Jungko",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/254.png",
+                "Type1": "grass",
+                "Type2": null,
+                "Stage": 3
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Torchic",
+        "Egg": "./medias/eggs/255egg.png",
+        "Members": [
+            {
+                "Index": "255",
+                "Name_EN": "Torchic",
+                "Name_FR": "Poussifeu",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/255.png",
+                "Type1": "fire",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "256",
+                "Name_EN": "Combusken",
+                "Name_FR": "Galifeu",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/256.png",
+                "Type1": "fire",
+                "Type2": "fighting",
+                "Stage": 2
+            },
+            {
+                "Index": "257",
+                "Name_EN": "Blaziken",
+                "Name_FR": "Braségali",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/257.png",
+                "Type1": "fire",
+                "Type2": "fighting",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Mudkip",
+        "Egg": "./medias/eggs/258egg.png",
+        "Members": [
+            {
+                "Index": "258",
+                "Name_EN": "Mudkip",
+                "Name_FR": "Gobou",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/258.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "259",
+                "Name_EN": "Marshtomp",
+                "Name_FR": "Flobio",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/259.png",
+                "Type1": "water",
+                "Type2": "ground",
+                "Stage": 2
+            },
+            {
+                "Index": "260",
+                "Name_EN": "Swampert",
+                "Name_FR": "Laggron",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/260.png",
+                "Type1": "water",
+                "Type2": "ground",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Poochyena",
+        "Egg": "./medias/eggs/261egg.png",
+        "Members": [
+            {
+                "Index": "261",
+                "Name_EN": "Poochyena",
+                "Name_FR": "Medhyèna",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/261.png",
+                "Type1": "dark",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "262",
+                "Name_EN": "Mightyena",
+                "Name_FR": "Grahyèna",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/262.png",
+                "Type1": "dark",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Zigzagoon",
+        "Egg": "./medias/eggs/263egg.png",
+        "Members": [
+            {
+                "Index": "263",
+                "Name_EN": "Zigzagoon",
+                "Name_FR": "Zigzaton",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/263.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "264",
+                "Name_EN": "Linoone",
+                "Name_FR": "Linéon",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/264.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Wurmple",
+        "Egg": "./medias/eggs/265egg.png",
+        "Members": [
+            {
+                "Index": "265",
+                "Name_EN": "Wurmple",
+                "Name_FR": "Chenipotte",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/265.png",
+                "Type1": "bug",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "266",
+                "Name_EN": "Silcoon",
+                "Name_FR": "Armulys",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/266.png",
+                "Type1": "bug",
+                "Type2": null,
+                "Stage": 2
+            },
+            {
+                "Index": "267",
+                "Name_EN": "Beautifly",
+                "Name_FR": "Charmillon",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/267.png",
+                "Type1": "bug",
+                "Type2": "flying",
+                "Stage": 3
+            },
+            {
+                "Index": "268",
+                "Name_EN": "Cascoon",
+                "Name_FR": "Blindalys",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/268.png",
+                "Type1": "bug",
+                "Type2": null,
+                "Stage": 2
+            },
+            {
+                "Index": "269",
+                "Name_EN": "Dustox",
+                "Name_FR": "Papinox",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/269.png",
+                "Type1": "bug",
+                "Type2": "poison",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Lotad",
+        "Egg": "./medias/eggs/270egg.png",
+        "Members": [
+            {
+                "Index": "270",
+                "Name_EN": "Lotad",
+                "Name_FR": "Nénupiot",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/270.png",
+                "Type1": "water",
+                "Type2": "grass",
+                "Stage": 1
+            },
+            {
+                "Index": "271",
+                "Name_EN": "Lombre",
+                "Name_FR": "Lombre",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/271.png",
+                "Type1": "water",
+                "Type2": "grass",
+                "Stage": 2
+            },
+            {
+                "Index": "272",
+                "Name_EN": "Ludicolo",
+                "Name_FR": "Ludicolo",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/272.png",
+                "Type1": "water",
+                "Type2": "grass",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Seedot",
+        "Egg": "./medias/eggs/273egg.png",
+        "Members": [
+            {
+                "Index": "273",
+                "Name_EN": "Seedot",
+                "Name_FR": "Grainipiot",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/273.png",
+                "Type1": "grass",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "274",
+                "Name_EN": "Nuzleaf",
+                "Name_FR": "Pifeuil",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/274.png",
+                "Type1": "grass",
+                "Type2": "dark",
+                "Stage": 2
+            },
+            {
+                "Index": "275",
+                "Name_EN": "Shiftry",
+                "Name_FR": "Tengalice",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/275.png",
+                "Type1": "grass",
+                "Type2": "dark",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Taillow",
+        "Egg": "./medias/eggs/276egg.png",
+        "Members": [
+            {
+                "Index": "276",
+                "Name_EN": "Taillow",
+                "Name_FR": "Nirondelle",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/276.png",
+                "Type1": "normal",
+                "Type2": "flying",
+                "Stage": 1
+            },
+            {
+                "Index": "277",
+                "Name_EN": "Swellow",
+                "Name_FR": "Hélédelle",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/277.png",
+                "Type1": "normal",
+                "Type2": "flying",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Wingull",
+        "Egg": "./medias/eggs/278egg.png",
+        "Members": [
+            {
+                "Index": "278",
+                "Name_EN": "Wingull",
+                "Name_FR": "Goélise",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/278.png",
+                "Type1": "water",
+                "Type2": "flying",
+                "Stage": 1
+            },
+            {
+                "Index": "279",
+                "Name_EN": "Pelipper",
+                "Name_FR": "Bekipan",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/279.png",
+                "Type1": "water",
+                "Type2": "flying",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Ralts",
+        "Egg": "./medias/eggs/280egg.png",
+        "Members": [
+            {
+                "Index": "280",
+                "Name_EN": "Ralts",
+                "Name_FR": "Tarsal",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/280.png",
+                "Type1": "psychic",
+                "Type2": "fairy",
+                "Stage": 1
+            },
+            {
+                "Index": "281",
+                "Name_EN": "Kirlia",
+                "Name_FR": "Kirlia",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/281.png",
+                "Type1": "psychic",
+                "Type2": "fairy",
+                "Stage": 2
+            },
+            {
+                "Index": "282",
+                "Name_EN": "Gardevoir",
+                "Name_FR": "Gardevoir",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/282.png",
+                "Type1": "psychic",
+                "Type2": "fairy",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Surskit",
+        "Egg": "./medias/eggs/283egg.png",
+        "Members": [
+            {
+                "Index": "283",
+                "Name_EN": "Surskit",
+                "Name_FR": "Arakdo",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/283.png",
+                "Type1": "bug",
+                "Type2": "water",
+                "Stage": 1
+            },
+            {
+                "Index": "284",
+                "Name_EN": "Masquerain",
+                "Name_FR": "Maskadra",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/284.png",
+                "Type1": "bug",
+                "Type2": "flying",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Shroomish",
+        "Egg": "./medias/eggs/285egg.png",
+        "Members": [
+            {
+                "Index": "285",
+                "Name_EN": "Shroomish",
+                "Name_FR": "Balignon",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/285.png",
+                "Type1": "grass",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "286",
+                "Name_EN": "Breloom",
+                "Name_FR": "Chapignon",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/286.png",
+                "Type1": "grass",
+                "Type2": "fighting",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Slakoth",
+        "Egg": "./medias/eggs/287egg.png",
+        "Members": [
+            {
+                "Index": "287",
+                "Name_EN": "Slakoth",
+                "Name_FR": "Parecool",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/287.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "288",
+                "Name_EN": "Vigoroth",
+                "Name_FR": "Vigoroth",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/288.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 2
+            },
+            {
+                "Index": "289",
+                "Name_EN": "Slaking",
+                "Name_FR": "Monaflèmit",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/289.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 3
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Nincada",
+        "Egg": "./medias/eggs/290egg.png",
+        "Members": [
+            {
+                "Index": "290",
+                "Name_EN": "Nincada",
+                "Name_FR": "Ningale",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/290.png",
+                "Type1": "bug",
+                "Type2": "ground",
+                "Stage": 1
+            },
+            {
+                "Index": "291",
+                "Name_EN": "Ninjask",
+                "Name_FR": "Ninjask",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/291.png",
+                "Type1": "bug",
+                "Type2": "flying",
+                "Stage": 2
+            },
+            {
+                "Index": "292",
+                "Name_EN": "Shedinja",
+                "Name_FR": "Munja",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/292.png",
+                "Type1": "bug",
+                "Type2": "ghost",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Whismur",
+        "Egg": "./medias/eggs/293egg.png",
+        "Members": [
+            {
+                "Index": "293",
+                "Name_EN": "Whismur",
+                "Name_FR": "Chuchmur",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/293.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "294",
+                "Name_EN": "Loudred",
+                "Name_FR": "Ramboum",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/294.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 2
+            },
+            {
+                "Index": "295",
+                "Name_EN": "Exploud",
+                "Name_FR": "Brouhabam",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/295.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 3
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Makuhita",
+        "Egg": "./medias/eggs/296egg.png",
+        "Members": [
+            {
+                "Index": "296",
+                "Name_EN": "Makuhita",
+                "Name_FR": "Makuhita",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/296.png",
+                "Type1": "fighting",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "297",
+                "Name_EN": "Hariyama",
+                "Name_FR": "Hariyama",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/297.png",
+                "Type1": "fighting",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Azurill",
+        "Egg": "./medias/eggs/298egg.png",
+        "Members": [
+            {
+                "Index": "298",
+                "Name_EN": "Azurill",
+                "Name_FR": "Azurill",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/298.png",
+                "Type1": "normal",
+                "Type2": "fairy",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Nosepass",
+        "Egg": "./medias/eggs/299egg.png",
+        "Members": [
+            {
+                "Index": "299",
+                "Name_EN": "Nosepass",
+                "Name_FR": "Tarinor",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/299.png",
+                "Type1": "rock",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Skitty",
+        "Egg": "./medias/eggs/300egg.png",
+        "Members": [
+            {
+                "Index": "300",
+                "Name_EN": "Skitty",
+                "Name_FR": "Skitty",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/300.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "301",
+                "Name_EN": "Delcatty",
+                "Name_FR": "Delcatty",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/301.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Sableye",
+        "Egg": "./medias/eggs/302egg.png",
+        "Members": [
+            {
+                "Index": "302",
+                "Name_EN": "Sableye",
+                "Name_FR": "Ténéfix",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/302.png",
+                "Type1": "dark",
+                "Type2": "ghost",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Mawile",
+        "Egg": "./medias/eggs/303egg.png",
+        "Members": [
+            {
+                "Index": "303",
+                "Name_EN": "Mawile",
+                "Name_FR": "Mysdibule",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/303.png",
+                "Type1": "steel",
+                "Type2": "fairy",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Aron",
+        "Egg": "./medias/eggs/304egg.png",
+        "Members": [
+            {
+                "Index": "304",
+                "Name_EN": "Aron",
+                "Name_FR": "Galekid",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/304.png",
+                "Type1": "steel",
+                "Type2": "rock",
+                "Stage": 1
+            },
+            {
+                "Index": "305",
+                "Name_EN": "Lairon",
+                "Name_FR": "Galegon",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/305.png",
+                "Type1": "steel",
+                "Type2": "rock",
+                "Stage": 2
+            },
+            {
+                "Index": "306",
+                "Name_EN": "Aggron",
+                "Name_FR": "Galeking",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/306.png",
+                "Type1": "steel",
+                "Type2": "rock",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Meditite",
+        "Egg": "./medias/eggs/307egg.png",
+        "Members": [
+            {
+                "Index": "307",
+                "Name_EN": "Meditite",
+                "Name_FR": "Méditikka",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/307.png",
+                "Type1": "fighting",
+                "Type2": "psychic",
+                "Stage": 1
+            },
+            {
+                "Index": "308",
+                "Name_EN": "Medicham",
+                "Name_FR": "Charmina",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/308.png",
+                "Type1": "fighting",
+                "Type2": "psychic",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Electrike",
+        "Egg": "./medias/eggs/309egg.png",
+        "Members": [
+            {
+                "Index": "309",
+                "Name_EN": "Electrike",
+                "Name_FR": "Dynavolt",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/309.png",
+                "Type1": "electric",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "310",
+                "Name_EN": "Manectric",
+                "Name_FR": "Élecsprint",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/310.png",
+                "Type1": "electric",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Plusle",
+        "Egg": "./medias/eggs/311egg.png",
+        "Members": [
+            {
+                "Index": "311",
+                "Name_EN": "Plusle",
+                "Name_FR": "Posipi",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/311.png",
+                "Type1": "electric",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Minun",
+        "Egg": "./medias/eggs/312egg.png",
+        "Members": [
+            {
+                "Index": "312",
+                "Name_EN": "Minun",
+                "Name_FR": "Négapi",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/312.png",
+                "Type1": "electric",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Volbeat",
+        "Egg": "./medias/eggs/313egg.png",
+        "Members": [
+            {
+                "Index": "313",
+                "Name_EN": "Volbeat",
+                "Name_FR": "Muciole",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/313.png",
+                "Type1": "bug",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Illumise",
+        "Egg": "./medias/eggs/314egg.png",
+        "Members": [
+            {
+                "Index": "314",
+                "Name_EN": "Illumise",
+                "Name_FR": "Lumivole",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/314.png",
+                "Type1": "bug",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Roselia",
+        "Egg": "./medias/eggs/315egg.png",
+        "Members": [
+            {
+                "Index": "315",
+                "Name_EN": "Roselia",
+                "Name_FR": "Rosélia",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/315.png",
+                "Type1": "grass",
+                "Type2": "poison",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Gulpin",
+        "Egg": "./medias/eggs/316egg.png",
+        "Members": [
+            {
+                "Index": "316",
+                "Name_EN": "Gulpin",
+                "Name_FR": "Gloupti",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/316.png",
+                "Type1": "poison",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "317",
+                "Name_EN": "Swalot",
+                "Name_FR": "Avaltout",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/317.png",
+                "Type1": "poison",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Carvanha",
+        "Egg": "./medias/eggs/318egg.png",
+        "Members": [
+            {
+                "Index": "318",
+                "Name_EN": "Carvanha",
+                "Name_FR": "Carvanha",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/318.png",
+                "Type1": "water",
+                "Type2": "dark",
+                "Stage": 1
+            },
+            {
+                "Index": "319",
+                "Name_EN": "Sharpedo",
+                "Name_FR": "Sharpedo",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/319.png",
+                "Type1": "water",
+                "Type2": "dark",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Wailmer",
+        "Egg": "./medias/eggs/320egg.png",
+        "Members": [
+            {
+                "Index": "320",
+                "Name_EN": "Wailmer",
+                "Name_FR": "Wailmer",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/320.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "321",
+                "Name_EN": "Wailord",
+                "Name_FR": "Wailord",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/321.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Numel",
+        "Egg": "./medias/eggs/322egg.png",
+        "Members": [
+            {
+                "Index": "322",
+                "Name_EN": "Numel",
+                "Name_FR": "Chamallot",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/322.png",
+                "Type1": "fire",
+                "Type2": "ground",
+                "Stage": 1
+            },
+            {
+                "Index": "323",
+                "Name_EN": "Camerupt",
+                "Name_FR": "Camérupt",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/323.png",
+                "Type1": "fire",
+                "Type2": "ground",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Torkoal",
+        "Egg": "./medias/eggs/324egg.png",
+        "Members": [
+            {
+                "Index": "324",
+                "Name_EN": "Torkoal",
+                "Name_FR": "Chartor",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/324.png",
+                "Type1": "fire",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Spoink",
+        "Egg": "./medias/eggs/325egg.png",
+        "Members": [
+            {
+                "Index": "325",
+                "Name_EN": "Spoink",
+                "Name_FR": "Spoink",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/325.png",
+                "Type1": "psychic",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "326",
+                "Name_EN": "Grumpig",
+                "Name_FR": "Groret",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/326.png",
+                "Type1": "psychic",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Spinda",
+        "Egg": "./medias/eggs/327egg.png",
+        "Members": [
+            {
+                "Index": "327",
+                "Name_EN": "Spinda",
+                "Name_FR": "Spinda",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/327.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Trapinch",
+        "Egg": "./medias/eggs/328egg.png",
+        "Members": [
+            {
+                "Index": "328",
+                "Name_EN": "Trapinch",
+                "Name_FR": "Kraknoix",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/328.png",
+                "Type1": "ground",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "329",
+                "Name_EN": "Vibrava",
+                "Name_FR": "Vibraninf",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/329.png",
+                "Type1": "ground",
+                "Type2": "dragon",
+                "Stage": 2
+            },
+            {
+                "Index": "330",
+                "Name_EN": "Flygon",
+                "Name_FR": "Libégon",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/330.png",
+                "Type1": "ground",
+                "Type2": "dragon",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Cacnea",
+        "Egg": "./medias/eggs/331egg.png",
+        "Members": [
+            {
+                "Index": "331",
+                "Name_EN": "Cacnea",
+                "Name_FR": "Cacnea",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/331.png",
+                "Type1": "grass",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "332",
+                "Name_EN": "Cacturne",
+                "Name_FR": "Cacturne",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/332.png",
+                "Type1": "grass",
+                "Type2": "dark",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Swablu",
+        "Egg": "./medias/eggs/333egg.png",
+        "Members": [
+            {
+                "Index": "333",
+                "Name_EN": "Swablu",
+                "Name_FR": "Tylton",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/333.png",
+                "Type1": "normal",
+                "Type2": "flying",
+                "Stage": 1
+            },
+            {
+                "Index": "334",
+                "Name_EN": "Altaria",
+                "Name_FR": "Altaria",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/334.png",
+                "Type1": "dragon",
+                "Type2": "flying",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Zangoose",
+        "Egg": "./medias/eggs/335egg.png",
+        "Members": [
+            {
+                "Index": "335",
+                "Name_EN": "Zangoose",
+                "Name_FR": "Mangriff",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/335.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Seviper",
+        "Egg": "./medias/eggs/336egg.png",
+        "Members": [
+            {
+                "Index": "336",
+                "Name_EN": "Seviper",
+                "Name_FR": "Séviper",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/336.png",
+                "Type1": "poison",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Lunatone",
+        "Egg": "./medias/eggs/337egg.png",
+        "Members": [
+            {
+                "Index": "337",
+                "Name_EN": "Lunatone",
+                "Name_FR": "Séléroc",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/337.png",
+                "Type1": "rock",
+                "Type2": "psychic",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Solrock",
+        "Egg": "./medias/eggs/338egg.png",
+        "Members": [
+            {
+                "Index": "338",
+                "Name_EN": "Solrock",
+                "Name_FR": "Solaroc",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/338.png",
+                "Type1": "rock",
+                "Type2": "psychic",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Barboach",
+        "Egg": "./medias/eggs/339egg.png",
+        "Members": [
+            {
+                "Index": "339",
+                "Name_EN": "Barboach",
+                "Name_FR": "Barloche",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/339.png",
+                "Type1": "water",
+                "Type2": "ground",
+                "Stage": 1
+            },
+            {
+                "Index": "340",
+                "Name_EN": "Whiscash",
+                "Name_FR": "Barbicha",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/340.png",
+                "Type1": "water",
+                "Type2": "ground",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Corphish",
+        "Egg": "./medias/eggs/341egg.png",
+        "Members": [
+            {
+                "Index": "341",
+                "Name_EN": "Corphish",
+                "Name_FR": "Écrapince",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/341.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "342",
+                "Name_EN": "Crawdaunt",
+                "Name_FR": "Colhomard",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/342.png",
+                "Type1": "water",
+                "Type2": "dark",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Baltoy",
+        "Egg": "./medias/eggs/343egg.png",
+        "Members": [
+            {
+                "Index": "343",
+                "Name_EN": "Baltoy",
+                "Name_FR": "Balbuto",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/343.png",
+                "Type1": "ground",
+                "Type2": "psychic",
+                "Stage": 1
+            },
+            {
+                "Index": "344",
+                "Name_EN": "Claydol",
+                "Name_FR": "Kaorine",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/344.png",
+                "Type1": "ground",
+                "Type2": "psychic",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Lileep",
+        "Egg": "./medias/eggs/345egg.png",
+        "Members": [
+            {
+                "Index": "345",
+                "Name_EN": "Lileep",
+                "Name_FR": "Lilia",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/345.png",
+                "Type1": "rock",
+                "Type2": "grass",
+                "Stage": 1
+            },
+            {
+                "Index": "346",
+                "Name_EN": "Cradily",
+                "Name_FR": "Vacilys",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/346.png",
+                "Type1": "rock",
+                "Type2": "grass",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Anorith",
+        "Egg": "./medias/eggs/347egg.png",
+        "Members": [
+            {
+                "Index": "347",
+                "Name_EN": "Anorith",
+                "Name_FR": "Anorith",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/347.png",
+                "Type1": "rock",
+                "Type2": "bug",
+                "Stage": 1
+            },
+            {
+                "Index": "348",
+                "Name_EN": "Armaldo",
+                "Name_FR": "Armaldo",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/348.png",
+                "Type1": "rock",
+                "Type2": "bug",
+                "Stage": 2
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Feebas",
+        "Egg": "./medias/eggs/349egg.png",
+        "Members": [
+            {
+                "Index": "349",
+                "Name_EN": "Feebas",
+                "Name_FR": "Barpau",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/349.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "350",
+                "Name_EN": "Milotic",
+                "Name_FR": "Milobellus",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/350.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Castform",
+        "Egg": "./medias/eggs/351egg.png",
+        "Members": [
+            {
+                "Index": "351",
+                "Name_EN": "Castform",
+                "Name_FR": "Morphéo",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/351.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Kecleon",
+        "Egg": "./medias/eggs/352egg.png",
+        "Members": [
+            {
+                "Index": "352",
+                "Name_EN": "Kecleon",
+                "Name_FR": "Kecleon",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/352.png",
+                "Type1": "normal",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Shuppet",
+        "Egg": "./medias/eggs/353egg.png",
+        "Members": [
+            {
+                "Index": "353",
+                "Name_EN": "Shuppet",
+                "Name_FR": "Polichombr",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/353.png",
+                "Type1": "ghost",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "354",
+                "Name_EN": "Banette",
+                "Name_FR": "Branette",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/354.png",
+                "Type1": "ghost",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Duskull",
+        "Egg": "./medias/eggs/355egg.png",
+        "Members": [
+            {
+                "Index": "355",
+                "Name_EN": "Duskull",
+                "Name_FR": "Skelénox",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/355.png",
+                "Type1": "ghost",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "356",
+                "Name_EN": "Dusclops",
+                "Name_FR": "Téraclope",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/356.png",
+                "Type1": "ghost",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Tropius",
+        "Egg": "./medias/eggs/357egg.png",
+        "Members": [
+            {
+                "Index": "357",
+                "Name_EN": "Tropius",
+                "Name_FR": "Tropius",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/357.png",
+                "Type1": "grass",
+                "Type2": "flying",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Chimecho",
+        "Egg": "./medias/eggs/358egg.png",
+        "Members": [
+            {
+                "Index": "358",
+                "Name_EN": "Chimecho",
+                "Name_FR": "Éoko",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/358.png",
+                "Type1": "psychic",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Absol",
+        "Egg": "./medias/eggs/359egg.png",
+        "Members": [
+            {
+                "Index": "359",
+                "Name_EN": "Absol",
+                "Name_FR": "Absol",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/359.png",
+                "Type1": "dark",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Wynaut",
+        "Egg": "./medias/eggs/360egg.png",
+        "Members": [
+            {
+                "Index": "360",
+                "Name_EN": "Wynaut",
+                "Name_FR": "Okéoké",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/360.png",
+                "Type1": "psychic",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 3
+    },
+    {
+        "Family": "Snorunt",
+        "Egg": "./medias/eggs/361egg.png",
+        "Members": [
+            {
+                "Index": "361",
+                "Name_EN": "Snorunt",
+                "Name_FR": "Stalgamin",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/361.png",
+                "Type1": "ice",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "362",
+                "Name_EN": "Glalie",
+                "Name_FR": "Oniglali",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/362.png",
+                "Type1": "ice",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Spheal",
+        "Egg": "./medias/eggs/363egg.png",
+        "Members": [
+            {
+                "Index": "363",
+                "Name_EN": "Spheal",
+                "Name_FR": "Obalie",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/363.png",
+                "Type1": "ice",
+                "Type2": "water",
+                "Stage": 1
+            },
+            {
+                "Index": "364",
+                "Name_EN": "Sealeo",
+                "Name_FR": "Phogleur",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/364.png",
+                "Type1": "ice",
+                "Type2": "water",
+                "Stage": 2
+            },
+            {
+                "Index": "365",
+                "Name_EN": "Walrein",
+                "Name_FR": "Kaimorse",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/365.png",
+                "Type1": "ice",
+                "Type2": "water",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Clamperl",
+        "Egg": "./medias/eggs/366egg.png",
+        "Members": [
+            {
+                "Index": "366",
+                "Name_EN": "Clamperl",
+                "Name_FR": "Coquiperl",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/366.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "367",
+                "Name_EN": "Huntail",
+                "Name_FR": "Serpang",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/367.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 2
+            },
+            {
+                "Index": "368",
+                "Name_EN": "Gorebyss",
+                "Name_FR": "Rosabyss",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/368.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 2
+            }
+        ],
+        "Rarity": 2
+    },
+    {
+        "Family": "Relicanth",
+        "Egg": "./medias/eggs/369egg.png",
+        "Members": [
+            {
+                "Index": "369",
+                "Name_EN": "Relicanth",
+                "Name_FR": "Relicanth",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/369.png",
+                "Type1": "water",
+                "Type2": "rock",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Luvdisc",
+        "Egg": "./medias/eggs/370egg.png",
+        "Members": [
+            {
+                "Index": "370",
+                "Name_EN": "Luvdisc",
+                "Name_FR": "Lovdisc",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/370.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 1
+    },
+    {
+        "Family": "Bagon",
+        "Egg": "./medias/eggs/371egg.png",
+        "Members": [
+            {
+                "Index": "371",
+                "Name_EN": "Bagon",
+                "Name_FR": "Draby",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/371.png",
+                "Type1": "dragon",
+                "Type2": null,
+                "Stage": 1
+            },
+            {
+                "Index": "372",
+                "Name_EN": "Shelgon",
+                "Name_FR": "Drackhaus",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/372.png",
+                "Type1": "dragon",
+                "Type2": null,
+                "Stage": 2
+            },
+            {
+                "Index": "373",
+                "Name_EN": "Salamence",
+                "Name_FR": "Drattak",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/373.png",
+                "Type1": "dragon",
+                "Type2": "flying",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Beldum",
+        "Egg": "./medias/eggs/374egg.png",
+        "Members": [
+            {
+                "Index": "374",
+                "Name_EN": "Beldum",
+                "Name_FR": "Terhal",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/374.png",
+                "Type1": "steel",
+                "Type2": "psychic",
+                "Stage": 1
+            },
+            {
+                "Index": "375",
+                "Name_EN": "Metang",
+                "Name_FR": "Métang",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/375.png",
+                "Type1": "steel",
+                "Type2": "psychic",
+                "Stage": 2
+            },
+            {
+                "Index": "376",
+                "Name_EN": "Metagross",
+                "Name_FR": "Métalosse",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/376.png",
+                "Type1": "steel",
+                "Type2": "psychic",
+                "Stage": 3
+            }
+        ],
+        "Rarity": 4
+    },
+    {
+        "Family": "Regirock",
+        "Egg": "./medias/eggs/377egg.png",
+        "Members": [
+            {
+                "Index": "377",
+                "Name_EN": "Regirock",
+                "Name_FR": "Regirock",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/377.png",
+                "Type1": "rock",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 5
+    },
+    {
+        "Family": "Regice",
+        "Egg": "./medias/eggs/378egg.png",
+        "Members": [
+            {
+                "Index": "378",
+                "Name_EN": "Regice",
+                "Name_FR": "Regice",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/378.png",
+                "Type1": "ice",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 5
+    },
+    {
+        "Family": "Registeel",
+        "Egg": "./medias/eggs/379egg.png",
+        "Members": [
+            {
+                "Index": "379",
+                "Name_EN": "Registeel",
+                "Name_FR": "Registeel",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/379.png",
+                "Type1": "steel",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 5
+    },
+    {
+        "Family": "Latias",
+        "Egg": "./medias/eggs/380egg.png",
+        "Members": [
+            {
+                "Index": "380",
+                "Name_EN": "Latias",
+                "Name_FR": "Latias",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/380.png",
+                "Type1": "dragon",
+                "Type2": "psychic",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 5
+    },
+    {
+        "Family": "Latios",
+        "Egg": "./medias/eggs/381egg.png",
+        "Members": [
+            {
+                "Index": "381",
+                "Name_EN": "Latios",
+                "Name_FR": "Latios",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/381.png",
+                "Type1": "dragon",
+                "Type2": "psychic",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 5
+    },
+    {
+        "Family": "Kyogre",
+        "Egg": "./medias/eggs/382egg.png",
+        "Members": [
+            {
+                "Index": "382",
+                "Name_EN": "Kyogre",
+                "Name_FR": "Kyogre",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/382.png",
+                "Type1": "water",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 5
+    },
+    {
+        "Family": "Groudon",
+        "Egg": "./medias/eggs/383egg.png",
+        "Members": [
+            {
+                "Index": "383",
+                "Name_EN": "Groudon",
+                "Name_FR": "Groudon",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/383.png",
+                "Type1": "ground",
+                "Type2": null,
+                "Stage": 1
+            }
+        ],
+        "Rarity": 5
+    },
+    {
+        "Family": "Rayquaza",
+        "Egg": "./medias/eggs/384egg.png",
+        "Members": [
+            {
+                "Index": "384",
+                "Name_EN": "Rayquaza",
+                "Name_FR": "Rayquaza",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/384.png",
+                "Type1": "dragon",
+                "Type2": "flying",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 5
+    },
+    {
+        "Family": "Jirachi",
+        "Egg": "./medias/eggs/385egg.png",
+        "Members": [
+            {
+                "Index": "385",
+                "Name_EN": "Jirachi",
+                "Name_FR": "Jirachi",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/385.png",
+                "Type1": "steel",
+                "Type2": "psychic",
+                "Stage": 1
+            }
+        ],
+        "Rarity": 6
+    },
+    {
+        "Family": "Deoxys",
+        "Egg": "./medias/eggs/386egg.png",
+        "Members": [
+            {
+                "Index": "386",
+                "Name_EN": "Deoxys",
+                "Name_FR": "Deoxys",
+                "Sprite": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/386.png",
+                "Type1": "psychic",
+                "Type2": null,
                 "Stage": 1
             }
         ],

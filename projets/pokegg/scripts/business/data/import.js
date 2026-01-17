@@ -7,7 +7,7 @@ class DataImporter {
       reader.onload = async (event) => {
         try {
           const encoded = event.target.result;
-          const decoded = atob(encoded);
+          const decoded = decodeURIComponent(escape(atob(encoded)));
           const importedData = JSON.parse(decoded);
           
           // Valider que c'est un export Pokegg

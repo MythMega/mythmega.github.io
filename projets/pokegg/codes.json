@@ -1,0 +1,53 @@
+[
+    {
+        "Code": "GIMMEM0NEY",
+        "IsUnique": false,
+        "Pokes": [],
+        "Money": 10000,
+        "Items": [],
+        "Expiration": null
+    },
+    {
+        "Code": "E4STER3GG",
+        "IsUnique": true,
+        "Pokes": [],
+        "Money": 0,
+        "Items": [
+            {
+                "Name": "Uncommon Egg",
+                "Count": 5
+            },
+            {
+                "Name": "Rare Egg",
+                "Count": 4
+            },
+            {
+                "Name": "Epic Egg",
+                "Count": 3
+            },
+            {
+                "Name": "Legendary Egg",
+                "Count": 2
+            },
+            {
+                "Name": "Mythical Egg",
+                "Count": 1
+            }
+        ],
+        "Expiration": "2026-04-12"
+
+    },
+    {
+        "Code": "THANKS2B3T4T3ST3R",
+        "IsUnique": true,
+        "Pokes": [
+            {
+                "Index": "370",
+                "Count": 3
+            }
+        ],
+        "Money": 12345,
+        "Items": [],
+        "Expiration": "2026-01-31"
+    }
+]

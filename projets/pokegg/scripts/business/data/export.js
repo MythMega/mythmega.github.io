@@ -5,7 +5,7 @@ class DataExporter {
       // Récupérer toutes les données
       const exportData = await dataLoader.exportAllData();
       const jsonString = JSON.stringify(exportData, null, 2);
-      const encoded = btoa(jsonString);
+      const encoded = btoa(unescape(encodeURIComponent(jsonString)));
       
       const now = new Date();
       const year = now.getFullYear();

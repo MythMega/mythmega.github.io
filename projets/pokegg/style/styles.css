@@ -78,7 +78,8 @@ main {
   border-radius: 20px;
   padding: 3rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
+  max-width: 100%;
+  margin-left: 0%;
   width: 100%;
 }
 
@@ -272,7 +273,8 @@ main {
 
 .pokedex-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 100%;
+  margin-left: 0%;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   padding: 2rem;
@@ -540,7 +542,8 @@ main {
 
 .options-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 100%;
+  margin-left: 0%;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   padding: 2rem;

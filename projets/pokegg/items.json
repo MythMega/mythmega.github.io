@@ -1,8 +1,8 @@
 [
     {
         "Name": "Incubator",
-        "Description_FR": "Un incubateur automatique. Créer du click automatique (momentanément cassé).",
-        "Description_EN": "Automatic incubator. Autoclick (temporarly broken).",
+        "Description_FR": "Un incubateur automatique. Créer du click automatique.",
+        "Description_EN": "Automatic incubator. Autoclick.",
         "Consummable": false,
         "Available": true,
         "Sprite": "./medias/item/Incubator.png",

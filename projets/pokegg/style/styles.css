@@ -1622,6 +1622,18 @@ html.dark-mode .hatched-pokemon-overlay p {
   color: #667eea;
 }
 
+html.dark-mode #newPokemonName {
+  color: #ffffff;
+}
+
+html.dark-mode #newPokemonRarity {
+  color: #ffffff;
+}
+
+html.dark-mode .rarity-display p {
+  color: #ffffff;
+}
+
 html.dark-mode .inventory-item,
 html.dark-mode .shop-item {
   background: #333;

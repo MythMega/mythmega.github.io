@@ -238,10 +238,19 @@ class GameUI {
   }
 
   updateProgressBar(progress = 0) {
+    if (!gameManager.currentEgg) {
+      return;
+    }
+    
     const percentage = (progress || (gameManager.currentEgg.currentClicks / gameManager.currentEgg.clicksNeeded)) * 100;
     // Limiter à 100% maximum
     const finalPercentage = Math.min(percentage, 100);
     this.progressFill.style.width = finalPercentage + '%';
+    
+    // Vérifier si l'oeuf doit éclore (utile pour l'autoclicker)
+    if (gameManager.currentEgg.currentClicks >= gameManager.currentEgg.clicksNeeded) {
+      this.displayHatchedPokemon();
+    }
   }
 
   displayHatchedPokemon() {

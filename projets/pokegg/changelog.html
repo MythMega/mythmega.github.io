@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokegg - Changelog</title>
+  <link rel="stylesheet" href="./style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h1 class="navbar-title" id="changelogTitle">Changelog</h1>
+      <div class="navbar-links">
+        <a href="./index.html" class="nav-link">Game</a>
+        <a href="./dex.html" class="nav-link">Pokédex</a>
+        <a href="./options.html" class="nav-link">Options</a>
+        <a href="./credits.html" class="nav-link">Credits</a>
+        <a href="./changelog.html" class="nav-link active">Changelog</a>
+      </div>
+    </nav>
+
+    <main class="changelog-container" style="color: white;">
+      <div class="changelog-content">
+        <h2 id="changelogMainTitle">Changelog</h2>
+        <br>
+
+        <div class="changelog-section">
+          <h3 id="changelogDate20012026">20/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.4.2</span>
+            <ul>
+              <li id="changelog_v0402_1">Incubators exploit fixed</li>
+              <li id="changelog_v0402_2">Changelog page</li>
+            </ul>
+          </div>
+        </div>
+        <br>
+
+        <div class="changelog-section">
+          <h3 id="changelogDate18012026">18/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.4.0</span>
+            <ul>
+              <li id="changelog_v0400_1">Sinnoh dex added</li>
+              <li id="changelog_v0400_2">Unova dex added</li>
+            </ul>
+          </div>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.4.1</span>
+            <ul>
+              <li id="changelog_v0401_1">Lots of eggs fixed</li>
+            </ul>
+          </div>
+        </div>
+        <br>
+
+        <div class="changelog-section">
+          <h3 id="changelogDate17012026">17/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.3.0</span>
+            <ul>
+              <li id="changelog_v0300_1">Hoenn dex added</li>
+            </ul>
+          </div>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.3.1</span>
+            <ul>
+              <li id="changelog_v0301_1">Save Fixed</li>
+            </ul>
+          </div>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.3.2</span>
+            <ul>
+              <li id="changelog_v0302_1">Multi column dex</li>
+            </ul>
+          </div>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.3.3</span>
+            <ul>
+              <li id="changelog_v0303_1">Incubators (autoclick)</li>
+              <li id="changelog_v0303_2">New pokémon popup</li>
+            </ul>
+          </div>
+        </div>
+        <br>
+
+        <div class="changelog-section">
+          <h3 id="changelogDate16012026">16/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.2.0</span>
+            <ul>
+              <li id="changelog_v0200_1">Johto dex added</li>
+            </ul>
+          </div>
+        </div>
+        <br>
+
+        <div class="changelog-section">
+          <h3 id="changelogDate15012026">15/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.1.0</span>
+            <ul>
+              <li id="changelog_v0100_1">Public pre-alpha release</li>
+            </ul>
+          </div>
+        </div>
+
+        <button id="backButton" class="back-button">Back to Game</button>
+        <br><br><br><p>Version : 0.4.2</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="./scripts/business/data/options.js"></script>
+  <script>
+    // Load translations
+    async function loadChangelogTranslations() {
+      const language = new OptionsManager().getLanguage();
+      const optionsManager = new OptionsManager();
+      await optionsManager.loadLanguage(language);
+      
+      const translations = optionsManager.translations;
+      
+      document.getElementById('changelogTitle').textContent = translations.changelog_title || 'Changelog';
+      document.getElementById('changelogMainTitle').textContent = translations.changelog_title || 'Changelog';
+      
+      document.getElementById('changelogDate20012026').textContent = '20/01/2026';
+      document.getElementById('changelog_v0402_1').textContent = translations.changelog_v0402_1 || 'Incubators exploit fixed';
+      document.getElementById('changelog_v0402_2').textContent = translations.changelog_v0402_2 || 'Changelog page';
+      
+      document.getElementById('changelogDate18012026').textContent = '18/01/2026';
+      document.getElementById('changelog_v0400_1').textContent = translations.changelog_v0400_1 || 'Sinnoh dex added';
+      document.getElementById('changelog_v0400_2').textContent = translations.changelog_v0400_2 || 'Unova dex added';
+      document.getElementById('changelog_v0401_1').textContent = translations.changelog_v0401_1 || 'Lots of eggs fixed';
+      
+      document.getElementById('changelogDate17012026').textContent = '17/01/2026';
+      document.getElementById('changelog_v0300_1').textContent = translations.changelog_v0300_1 || 'Hoenn dex added';
+      document.getElementById('changelog_v0301_1').textContent = translations.changelog_v0301_1 || 'Save Fixed';
+      document.getElementById('changelog_v0302_1').textContent = translations.changelog_v0302_1 || 'Multi column dex';
+      document.getElementById('changelog_v0303_1').textContent = translations.changelog_v0303_1 || 'Incubators (autoclick)';
+      document.getElementById('changelog_v0303_2').textContent = translations.changelog_v0303_2 || 'New pokémon popup';
+      
+      document.getElementById('changelogDate16012026').textContent = '16/01/2026';
+      document.getElementById('changelog_v0200_1').textContent = translations.changelog_v0200_1 || 'Johto dex added';
+      
+      document.getElementById('changelogDate15012026').textContent = '15/01/2026';
+      document.getElementById('changelog_v0100_1').textContent = translations.changelog_v0100_1 || 'Public pre-alpha release';
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      loadChangelogTranslations();
+      
+      document.getElementById('backButton').addEventListener('click', () => {
+        window.location.href = './index.html';
+      });
+    });
+  </script>
+</body>
+</html>

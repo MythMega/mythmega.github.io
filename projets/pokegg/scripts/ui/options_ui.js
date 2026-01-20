@@ -3,6 +3,8 @@ class OptionsUI {
   constructor() {
     this.langEN = document.getElementById('langEN');
     this.langFR = document.getElementById('langFR');
+    this.darkModeSwitch = document.getElementById('darkModeSwitch');
+    this.darkModeStatus = document.getElementById('darkModeStatus');
     this.exportButton = document.getElementById('exportButton');
     this.importButton = document.getElementById('importButton');
     this.importFile = document.getElementById('importFile');
@@ -19,6 +21,7 @@ class OptionsUI {
   setupEventListeners() {
     this.langEN.addEventListener('click', () => this.changeLanguage('en'));
     this.langFR.addEventListener('click', () => this.changeLanguage('fr'));
+    this.darkModeSwitch.addEventListener('change', () => this.toggleDarkMode());
     this.exportButton.addEventListener('click', () => this.handleExport());
     this.importButton.addEventListener('click', () => this.importFile.click());
     this.importFile.addEventListener('change', (e) => this.handleImport(e));
@@ -39,11 +42,15 @@ class OptionsUI {
       await optionsManagerInstance.loadLanguage(language);
       window.optionsManager = optionsManagerInstance;
       
+      // Initialiser le dark mode
+      optionsManager.initializeDarkMode();
+      
       // Initialiser les managers
       await inventoryManager.initialize();
       await gameManager.initializeGame();
       
       this.updateLanguageButtons();
+      this.updateDarkModeSwitch();
       this.updateTranslations();
     } catch (error) {
       console.error('Error initializing options UI:', error);
@@ -52,6 +59,7 @@ class OptionsUI {
 
   updateTranslations() {
     document.getElementById('languageTitle').textContent = optionsManager.translate('language');
+    document.getElementById('darkModeTitle').textContent = optionsManager.translate('dark_mode');
     document.getElementById('saveTitle').textContent = optionsManager.translate('save');
     this.exportButton.textContent = optionsManager.translate('export_save');
     this.importButton.textContent = optionsManager.translate('import_save');
@@ -61,6 +69,8 @@ class OptionsUI {
     document.getElementById('deleteConfirmMessage').textContent = optionsManager.translate('delete_confirm');
     document.getElementById('deleteCancel').textContent = optionsManager.translate('cancel');
     document.getElementById('deleteConfirm').textContent = optionsManager.translate('confirm');
+    
+    this.updateDarkModeStatus();
   }
 
   changeLanguage(lang) {
@@ -83,6 +93,22 @@ class OptionsUI {
     } else {
       this.langFR.classList.add('active');
     }
+  }
+
+  updateDarkModeSwitch() {
+    this.darkModeSwitch.checked = optionsManager.isDarkMode();
+    this.updateDarkModeStatus();
+  }
+
+  updateDarkModeStatus() {
+    const isDark = optionsManager.isDarkMode();
+    this.darkModeStatus.textContent = isDark ? optionsManager.translate('on') : optionsManager.translate('off');
+  }
+
+  toggleDarkMode() {
+    const enabled = this.darkModeSwitch.checked;
+    optionsManager.setDarkMode(enabled);
+    this.updateDarkModeStatus();
   }
 
   async handleExport() {

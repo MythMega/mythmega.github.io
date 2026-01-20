@@ -41,6 +41,29 @@ class OptionsManager {
   translate(key) {
     return this.translations[key] || key;
   }
+
+  isDarkMode() {
+    return this.getCookie('darkMode') === 'true';
+  }
+
+  setDarkMode(enabled) {
+    document.cookie = `darkMode=${enabled}; path=/; max-age=${60 * 60 * 24 * 365}`;
+    this.applyDarkMode(enabled);
+  }
+
+  applyDarkMode(enabled) {
+    if (enabled) {
+      document.documentElement.classList.add('dark-mode');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+    }
+  }
+
+  initializeDarkMode() {
+    if (this.isDarkMode()) {
+      this.applyDarkMode(true);
+    }
+  }
 }
 
 const optionsManager = new OptionsManager();

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokegg - Options</title>
   <link rel="stylesheet" href="./style/styles.css">
+  <script src="./scripts/darkmode.js"></script>
 </head>
 <body>
   <div class="container">
@@ -25,6 +26,17 @@
         <div class="language-buttons">
           <button id="langEN" class="lang-button active" data-lang="en">English</button>
           <button id="langFR" class="lang-button" data-lang="fr">Français</button>
+        </div>
+      </section>
+
+      <section class="options-section">
+        <h2 id="darkModeTitle">Dark Mode</h2>
+        <div class="dark-mode-toggle">
+          <label for="darkModeSwitch" class="toggle-label">
+            <input type="checkbox" id="darkModeSwitch" class="toggle-input">
+            <span class="toggle-slider"></span>
+          </label>
+          <span id="darkModeStatus" class="toggle-status">Off</span>
         </div>
       </section>
 

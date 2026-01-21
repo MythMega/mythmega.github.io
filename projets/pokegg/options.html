@@ -41,6 +41,25 @@
       </section>
 
       <section class="options-section">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+          <h2 id="idleModeTitle" style="margin: 0;">Idle Mode</h2>
+          <svg id="idleInfoIcon" class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <div id="idleTooltip" class="tooltip" style="display: none;"></div>
+        </div>
+        <div class="idle-mode-toggle">
+          <label for="idleModeSwitch" class="toggle-label">
+            <input type="checkbox" id="idleModeSwitch" class="toggle-input">
+            <span class="toggle-slider"></span>
+          </label>
+          <span id="idleModeStatus" class="toggle-status">Off</span>
+        </div>
+      </section>
+
+      <section class="options-section">
         <h2 id="saveTitle">Save Management</h2>
         
         <button id="exportButton" class="option-button export-button">

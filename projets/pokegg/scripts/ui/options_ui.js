@@ -5,6 +5,10 @@ class OptionsUI {
     this.langFR = document.getElementById('langFR');
     this.darkModeSwitch = document.getElementById('darkModeSwitch');
     this.darkModeStatus = document.getElementById('darkModeStatus');
+    this.idleModeSwitch = document.getElementById('idleModeSwitch');
+    this.idleModeStatus = document.getElementById('idleModeStatus');
+    this.idleInfoIcon = document.getElementById('idleInfoIcon');
+    this.idleTooltip = document.getElementById('idleTooltip');
     this.exportButton = document.getElementById('exportButton');
     this.importButton = document.getElementById('importButton');
     this.importFile = document.getElementById('importFile');
@@ -22,6 +26,9 @@ class OptionsUI {
     this.langEN.addEventListener('click', () => this.changeLanguage('en'));
     this.langFR.addEventListener('click', () => this.changeLanguage('fr'));
     this.darkModeSwitch.addEventListener('change', () => this.toggleDarkMode());
+    this.idleModeSwitch.addEventListener('change', () => this.toggleIdleMode());
+    this.idleInfoIcon.addEventListener('mouseenter', () => this.showIdleTooltip());
+    this.idleInfoIcon.addEventListener('mouseleave', () => this.hideIdleTooltip());
     this.exportButton.addEventListener('click', () => this.handleExport());
     this.importButton.addEventListener('click', () => this.importFile.click());
     this.importFile.addEventListener('change', (e) => this.handleImport(e));
@@ -51,6 +58,7 @@ class OptionsUI {
       
       this.updateLanguageButtons();
       this.updateDarkModeSwitch();
+      this.updateIdleModeSwitch();
       this.updateTranslations();
     } catch (error) {
       console.error('Error initializing options UI:', error);
@@ -60,6 +68,7 @@ class OptionsUI {
   updateTranslations() {
     document.getElementById('languageTitle').textContent = optionsManager.translate('language');
     document.getElementById('darkModeTitle').textContent = optionsManager.translate('dark_mode');
+    document.getElementById('idleModeTitle').textContent = optionsManager.translate('idle_mode');
     document.getElementById('saveTitle').textContent = optionsManager.translate('save');
     this.exportButton.textContent = optionsManager.translate('export_save');
     this.importButton.textContent = optionsManager.translate('import_save');
@@ -71,14 +80,16 @@ class OptionsUI {
     document.getElementById('deleteConfirm').textContent = optionsManager.translate('confirm');
     
     this.updateDarkModeStatus();
+    this.updateIdleModeStatus();
   }
 
   changeLanguage(lang) {
     optionsManager.loadLanguage(lang).then(() => {
       this.updateLanguageButtons();
+      this.updateDarkModeStatus();
+      this.updateIdleModeStatus();
       this.updateTranslations();
-      // Recharger la page pour appliquer la langue partout
-      location.reload();
+      // NE PAS recharger la page - garder les traductions à jour sans reload
     });
   }
 
@@ -109,6 +120,32 @@ class OptionsUI {
     const enabled = this.darkModeSwitch.checked;
     optionsManager.setDarkMode(enabled);
     this.updateDarkModeStatus();
+  }
+
+  updateIdleModeSwitch() {
+    this.idleModeSwitch.checked = optionsManager.isIdleMode();
+    this.updateIdleModeStatus();
+  }
+
+  updateIdleModeStatus() {
+    const isIdle = optionsManager.isIdleMode();
+    this.idleModeStatus.textContent = isIdle ? optionsManager.translate('on') : optionsManager.translate('off');
+  }
+
+  toggleIdleMode() {
+    const enabled = this.idleModeSwitch.checked;
+    optionsManager.setIdleMode(enabled);
+    this.updateIdleModeStatus();
+  }
+
+  showIdleTooltip() {
+    const description = optionsManager.translate('idle_description');
+    this.idleTooltip.textContent = description;
+    this.idleTooltip.style.display = 'block';
+  }
+
+  hideIdleTooltip() {
+    this.idleTooltip.style.display = 'none';
   }
 
   async handleExport() {

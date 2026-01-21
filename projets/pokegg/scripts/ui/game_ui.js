@@ -117,6 +117,8 @@ class GameUI {
   updateTranslations() {
     this.eggButton.textContent = optionsManager.translate('hatch_egg');
     this.nextEggButton.textContent = optionsManager.translate('open_another');
+    this.inventoryButton.textContent = optionsManager.translate('inventory');
+    this.shopButton.textContent = optionsManager.translate('shop');
   }
 
   async loadGameData() {
@@ -259,6 +261,13 @@ class GameUI {
     const isNewPokemon = gameManager.currentEgg && gameManager.currentEgg.pokemon && 
                          !(gameManager.currentEgg.pokemon.index in gameManager.caughtPokemon);
     
+    // Mettre à jour l'affichage des clicks AVANT de réinitialiser currentEgg
+    // (car hatchEgg() va mettre currentEgg à null)
+    if (gameManager.currentEgg) {
+      this.clicksCount.textContent = Math.floor(gameManager.currentEgg.clicksNeeded);
+      this.clicksNeeded.textContent = gameManager.currentEgg.clicksNeeded;
+    }
+    
     const pokemon = gameManager.hatchEgg();
     
     if (pokemon) {
@@ -279,6 +288,9 @@ class GameUI {
       // Afficher la modal si c'est un nouveau pokémon
       if (isNewPokemon) {
         this.displayNewPokemonModal(pokemon);
+      } else if (optionsManager.isIdleMode()) {
+        // Mode idle: si ce n'est pas un nouveau pokémon, passer au suivant après 1 seconde
+        setTimeout(() => this.handleNextEgg(), 1000);
       }
     }
   }
@@ -365,14 +377,17 @@ class GameUI {
     `;
 
     if (isConsumable) {
-      contentHTML += `<p class="item-quantity">Quantity: ${inventoryItem.quantity}</p>`;
+      const quantityLabel = optionsManager.translate('quantity');
+      const useLabel = optionsManager.translate('use');
+      contentHTML += `<p class="item-quantity">${quantityLabel}: ${inventoryItem.quantity}</p>`;
       contentHTML += `
         <button class="use-button" onclick="gameUI.useConsumableFromModal('${itemName}')">
-          Use
+          ${useLabel}
         </button>
       `;
     } else {
-      contentHTML += `<p class="item-level">Level: ${inventoryItem.level}</p>`;
+      const levelLabel = optionsManager.translate('level');
+      contentHTML += `<p class="item-level">${levelLabel}: ${inventoryItem.level}</p>`;
     }
 
     contentHTML += '</div>';
@@ -436,11 +451,15 @@ class GameUI {
         currentClicks: 0
       };
 
-      // Mettre à jour l'affichage du jeu EN AFFICHANT L'OEUF COURANT (pas en générant un nouveau)
-      this.displayCurrentEgg();
-      alert(`Egg used! You now have a new ${selectedFamily.name} egg of rarity ${rarityValue}.`);
+      // Afficher la notification
+      this.showNotification(itemData.Sprite, `-1x ${this.pendingEggToUse}`, 1000);
+      
+      // Fermer la confirmation ET l'inventaire
       this.closeEggConfirmation();
-      this.displayInventoryModal();
+      this.closeInventoryModal();
+      
+      // Mettre à jour l'affichage du jeu
+      this.displayCurrentEgg();
     }
   }
 
@@ -499,12 +518,18 @@ class GameUI {
 
     const hasEnoughMoney = currencyManager.getBalance() >= price;
 
+    const levelLabel = optionsManager.translate('level');
+    const ownedLabel = 'Owned';
+    const buyLabel = optionsManager.translate('buy');
+    const upgradeLabel = 'Upgrade';
+    const maxLevelLabel = 'Max Level';
+
     let levelDisplay = '';
     if (isUpgrade) {
-      levelDisplay = `<p class="item-level">Level: ${currentLevel}/${itemData.MaxLevel}</p>`;
+      levelDisplay = `<p class="item-level">${levelLabel}: ${currentLevel}/${itemData.MaxLevel}</p>`;
     } else {
       const quantity = inventoryManager.getItemQuantity(itemName);
-      levelDisplay = `<p class="item-quantity">Owned: ${quantity}</p>`;
+      levelDisplay = `<p class="item-quantity">${ownedLabel}: ${quantity}</p>`;
     }
 
     div.innerHTML = `
@@ -516,18 +541,53 @@ class GameUI {
       <button class="buy-button" 
               onclick="gameUI.buyItemFromModal('${itemName}')"
               ${!hasEnoughMoney || (isUpgrade && !canUpgrade) ? 'disabled' : ''}>
-        ${isUpgrade && !canUpgrade ? 'Max Level' : (isUpgrade && currentLevel > 0 ? 'Upgrade' : 'Buy')}
+        ${isUpgrade && !canUpgrade ? maxLevelLabel : (isUpgrade && currentLevel > 0 ? upgradeLabel : buyLabel)}
       </button>
     `;
 
     return div;
   }
 
+  showNotification(icon, text, duration = 1000) {
+    // Créer la notification
+    const notification = document.createElement('div');
+    notification.className = 'item-notification';
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      z-index: 10000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      animation: slideIn 0.3s ease;
+    `;
+    
+    notification.innerHTML = `
+      <img src="${icon}" style="width: 32px; height: 32px; object-fit: contain;">
+      <span>${text}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Disparition
+    setTimeout(() => {
+      notification.style.animation = 'fadeOut 0.5s ease forwards';
+      setTimeout(() => notification.remove(), 500);
+    }, duration);
+  }
+
   async buyItemFromModal(itemName) {
     const result = await shopManager.buyItem(itemName);
 
     if (result.success) {
-      alert(`Successfully purchased ${itemName}!`);
+      const itemData = shopManager.getItemData(itemName);
+      this.showNotification(itemData.Sprite, `+1x ${itemName}`, 1000);
       this.displayShopModal();
     } else {
       alert(`Purchase failed: ${result.message}`);
@@ -573,6 +633,16 @@ class GameUI {
     
     // Afficher la modal
     this.newPokemonModal.style.display = 'block';
+    
+    // Fermer la modal au clic en dehors
+    const closeOnOutsideClick = (event) => {
+      // Vérifier si le clic est en dehors du modal-content
+      if (event.target === this.newPokemonModal) {
+        this.closeNewPokemonModal();
+        this.newPokemonModal.removeEventListener('click', closeOnOutsideClick);
+      }
+    };
+    this.newPokemonModal.addEventListener('click', closeOnOutsideClick);
   }
 
   closeNewPokemonModal() {

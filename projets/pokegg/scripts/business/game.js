@@ -194,6 +194,10 @@ class GameManager {
       // Sauvegarder
       this.saveCaughtData();
       
+      // CRITICAL: Réinitialiser currentEgg à null pour arrêter l'autoclicker
+      // C'est LA clé pour éviter que l'autoclicker continue de gagner de l'argent sans œuf
+      this.currentEgg = null;
+      
       return pokemon;
     }
     return null;

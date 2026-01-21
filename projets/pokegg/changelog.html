@@ -26,6 +26,30 @@
         <br>
 
         <div class="changelog-section">
+          <h3>21/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.4.3</span>
+            <ul>
+              <li><strong id="changelog_v0403_1">Dark Mode</strong> - <span id="changelog_v0403_1_desc">For your little eyes. Activable in options.</span></li>
+              <li><strong id="changelog_v0403_2">Idle Mode</strong> - <span id="changelog_v0403_2_desc">A mode allowing you to chain eggs automatically with the incubator autoclicker. Activable in options.</span></li>
+              <li><strong id="changelog_v0403_3">UI/UX Improvements</strong> :
+                <ul>
+                  <li id="changelog_v0403_3a">A click outside a popup closes it.</li>
+                  <li id="changelog_v0403_3b">Purchases and item usage in inventory greatly streamlined</li>
+                </ul>
+              </li>
+              <li><strong id="changelog_v0403_4">Fixes</strong> :
+                <ul>
+                  <li id="changelog_v0403_4a">Language bugs fixed</li>
+                  <li id="changelog_v0403_4b">Incubator bugs (again) fixed</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <br>
+
+        <div class="changelog-section">
           <h3 id="changelogDate20012026">20/01/2026</h3>
           <div class="changelog-entry">
             <span class="changelog-version">0.4.2</span>
@@ -124,6 +148,18 @@
       
       document.getElementById('changelogTitle').textContent = translations.changelog_title || 'Changelog';
       document.getElementById('changelogMainTitle').textContent = translations.changelog_title || 'Changelog';
+      
+      // 0.4.3
+      document.getElementById('changelog_v0403_1').textContent = translations.changelog_v0403_1 || 'Dark Mode';
+      document.getElementById('changelog_v0403_1_desc').textContent = translations.changelog_v0403_1_desc || 'For your little eyes. Activable in options.';
+      document.getElementById('changelog_v0403_2').textContent = translations.changelog_v0403_2 || 'Idle Mode';
+      document.getElementById('changelog_v0403_2_desc').textContent = translations.changelog_v0403_2_desc || 'A mode allowing you to chain eggs automatically with the incubator autoclicker. Activable in options.';
+      document.getElementById('changelog_v0403_3').textContent = translations.changelog_v0403_3 || 'UI/UX Improvements';
+      document.getElementById('changelog_v0403_3a').textContent = translations.changelog_v0403_3a || 'A click outside a popup closes it.';
+      document.getElementById('changelog_v0403_3b').textContent = translations.changelog_v0403_3b || 'Purchases and item usage in inventory greatly streamlined';
+      document.getElementById('changelog_v0403_4').textContent = translations.changelog_v0403_4 || 'Fixes';
+      document.getElementById('changelog_v0403_4a').textContent = translations.changelog_v0403_4a || 'Language bugs fixed';
+      document.getElementById('changelog_v0403_4b').textContent = translations.changelog_v0403_4b || 'Incubator bugs (again) fixed';
       
       document.getElementById('changelogDate20012026').textContent = '20/01/2026';
       document.getElementById('changelog_v0402_1').textContent = translations.changelog_v0402_1 || 'Incubators exploit fixed';

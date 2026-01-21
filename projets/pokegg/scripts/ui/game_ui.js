@@ -185,7 +185,9 @@ class GameUI {
     this.hatchedPokemon.classList.remove('show');
     this.eggWrapper.classList.remove('hatched');
     this.nextEggButton.style.display = 'none';
+    this.nextEggButton.disabled = false; // S'assurer que le bouton n'est pas désactivé
     this.eggButton.style.display = 'block';
+    this.eggButton.disabled = false;
     
     // Réinitialiser les clics
     gameManager.currentEgg.currentClicks = 0;
@@ -284,6 +286,7 @@ class GameUI {
       
       // Afficher le bouton pour ouvrir un autre œuf
       this.nextEggButton.style.display = 'block';
+      this.nextEggButton.disabled = false; // Le bouton est maintenant cliquable
       
       // Afficher la modal si c'est un nouveau pokémon
       if (isNewPokemon) {
@@ -296,6 +299,15 @@ class GameUI {
   }
 
   handleNextEgg() {
+    // Vérifier qu'aucun œuf n'est en cours d'éclosion AVANT de lancer un nouveau
+    // Cette protection évite les problèmes en mode IDLE où un click utilisateur
+    // pourrait relancer un œuf alors qu'un autoclick est en cours
+    if (gameManager.currentEgg !== null && gameManager.currentEgg.currentClicks < gameManager.currentEgg.clicksNeeded) {
+      // Un œuf est actuellement en cours d'éclosion, ignorer le click
+      console.warn('An egg is already being hatched, ignoring next egg request');
+      return;
+    }
+    
     this.displayNewEgg();
   }
 

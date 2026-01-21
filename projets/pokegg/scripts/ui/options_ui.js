@@ -44,18 +44,18 @@ class OptionsUI {
 
   async initialize() {
     try {
-      const language = new OptionsManager().getLanguage();
-      const optionsManagerInstance = new OptionsManager();
-      await optionsManagerInstance.loadLanguage(language);
-      window.optionsManager = optionsManagerInstance;
+      // 1. Charger le langage dans l'instance GLOBALE optionsManager
+      const language = optionsManager.getLanguage();
+      await optionsManager.loadLanguage(language);
       
-      // Initialiser le dark mode
+      // 2. Initialiser le dark mode
       optionsManager.initializeDarkMode();
       
-      // Initialiser les managers
+      // 3. Initialiser les managers
       await inventoryManager.initialize();
       await gameManager.initializeGame();
       
+      // 4. Mettre à jour TOUS les textes maintenant que les traductions sont chargées
       this.updateLanguageButtons();
       this.updateDarkModeSwitch();
       this.updateIdleModeSwitch();

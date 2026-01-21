@@ -28,6 +28,17 @@
         <div class="changelog-section">
           <h3>21/01/2026</h3>
           <div class="changelog-entry">
+            <span class="changelog-version">0.4.4</span>
+            <ul>
+              <li><strong id="changelog_v0404_1">Fixes</strong> :
+                <ul>
+                  <li id="changelog_v0404_1a">Options page translations now load correctly on page load</li>
+                  <li id="changelog_v0404_1b">Idle mode no longer allows multiple eggs to hatch simultaneously</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="changelog-entry">
             <span class="changelog-version">0.4.3</span>
             <ul>
               <li><strong id="changelog_v0403_1">Dark Mode</strong> - <span id="changelog_v0403_1_desc">For your little eyes. Activable in options.</span></li>
@@ -131,7 +142,7 @@
         </div>
 
         <button id="backButton" class="back-button">Back to Game</button>
-        <br><br><br><p>Version : 0.4.2</p>
+        <br><br><br><p>Version : 0.4.4</p>
       </div>
     </main>
   </div>
@@ -148,6 +159,11 @@
       
       document.getElementById('changelogTitle').textContent = translations.changelog_title || 'Changelog';
       document.getElementById('changelogMainTitle').textContent = translations.changelog_title || 'Changelog';
+      
+      // 0.4.4
+      document.getElementById('changelog_v0404_1').textContent = translations.changelog_v0404_1 || 'Fixes';
+      document.getElementById('changelog_v0404_1a').textContent = translations.changelog_v0404_1a || 'Options page translations now load correctly on page load';
+      document.getElementById('changelog_v0404_1b').textContent = translations.changelog_v0404_1b || 'Idle mode no longer allows multiple eggs to hatch simultaneously';
       
       // 0.4.3
       document.getElementById('changelog_v0403_1').textContent = translations.changelog_v0403_1 || 'Dark Mode';

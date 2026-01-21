@@ -224,6 +224,17 @@ main {
   }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
 .action-button-container {
   position: relative;
   display: block;
@@ -648,6 +659,38 @@ main {
   font-weight: bold;
   color: #333;
   min-width: 60px;
+}
+
+/* ==================== IDLE MODE TOGGLE ==================== */
+
+.idle-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.info-icon {
+  cursor: help;
+  color: #667eea;
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.info-icon:hover {
+  color: #764ba2;
+}
+
+.tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  margin-left: 0.5rem;
+  z-index: 1001;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .option-button {
@@ -1644,4 +1687,18 @@ html.dark-mode .shop-item {
 html.dark-mode .inventory-item p,
 html.dark-mode .shop-item p {
   color: #b0b0b0;
+}
+
+html.dark-mode .info-icon {
+  color: #9aa5ce;
+}
+
+html.dark-mode .info-icon:hover {
+  color: #b0c4ff;
+}
+
+html.dark-mode .tooltip {
+  background: rgba(50, 50, 50, 0.95);
+  color: #e0e0e0;
+  border: 1px solid #555;
 }

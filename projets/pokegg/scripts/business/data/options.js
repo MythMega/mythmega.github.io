@@ -3,6 +3,7 @@ class OptionsManager {
   constructor() {
     this.currentLanguage = this.getLanguage() || 'en';
     this.translations = {};
+    this.idleMode = false;
   }
 
   async loadLanguage(lang) {
@@ -63,6 +64,18 @@ class OptionsManager {
     if (this.isDarkMode()) {
       this.applyDarkMode(true);
     }
+  }
+
+  isIdleMode() {
+    return this.getCookie('idleMode') === 'true';
+  }
+
+  setIdleMode(enabled) {
+    document.cookie = `idleMode=${enabled}; path=/; max-age=${60 * 60 * 24 * 365}`;
+  }
+
+  initializeIdleMode() {
+    // Idle mode will be read from cookie when needed
   }
 }
 

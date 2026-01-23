@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokegg - Redeem Code</title>
+    <link rel="stylesheet" href="./style/styles.css">
+    <script src="./scripts/darkmode.js"></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <h1 class="navbar-title">Pokegg</h1>
+            <div class="navbar-links">
+                <a href="./index.html" class="nav-link">Game</a>
+                <a href="./dex.html" class="nav-link">Pokédex</a>
+                <a href="./options.html" class="nav-link">Options</a>
+                <a href="./redeem.html" class="nav-link active">Redeem Code</a>
+                <a href="./credits.html" class="nav-link">Credits</a>
+                <a href="./changelog.html" class="nav-link">Changelog</a>
+            </div>
+        </nav>
+
+        <main class="redeem-container">
+            <section class="code-section">
+                <h1 id="redeemTitle">Redeem Code</h1>
+
+                <div class="code-input-wrapper">
+                    <label for="codeInput">Enter a code</label>
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            id="codeInput"
+                            class="code-input"
+                            placeholder="Enter your code here..."
+                            autocomplete="off"
+                        >
+                        <button id="redeemButton" class="redeem-button">Redeem</button>
+                    </div>
+                    <div id="codeStatus" class="code-status" style="display: none;"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Rewards Modal -->
+    <div id="rewardsModal" class="rewards-modal" style="display: none;">
+        <div class="rewards-modal-content">
+            <button class="close-rewards">&times;</button>
+            <h2 id="rewardsTitle">Rewards</h2>
+            <div id="rewardsContent"></div>
+            <button class="close-modal-button">Close</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./scripts/business/currency.js"></script>
+    <script src="./scripts/entity/pokemon.js"></script>
+    <script src="./scripts/entity/family.js"></script>
+    <script src="./scripts/business/data/load.js"></script>
+    <script src="./scripts/business/data/options.js"></script>
+    <script src="./scripts/business/game.js"></script>
+    <script src="./scripts/business/inventory.js"></script>
+    <script src="./scripts/business/pokedex.js"></script>
+    <script src="./scripts/entity/code.js"></script>
+    <script src="./scripts/business/code.js"></script>
+    <script src="./scripts/ui/options_ui.js"></script>
+    <script src="./scripts/ui/code_ui.js"></script>
+</body>
+</html>

@@ -82,5 +82,20 @@
   "item_bought": "Article acheté",
   "item_used": "Article utilisé",
   "save": "Gestion de la sauvegarde",
-  "sprite_version": "Version des Sprites"
+  "sprite_version": "Version du Sprite",
+  "redeem": "Utiliser un Code",
+  "enter_code": "Entrez un code",
+  "redeem_button": "Utiliser",
+  "code_success": "Code utilisé avec succès !",
+  "code_invalid": "Code invalide",
+  "code_expired": "Code expiré",
+  "code_already_used": "Code déjà utilisé",
+  "rewards": "Récompenses",
+  "pokemon": "Pokémon",
+  "money": "Pokédollars",
+  "items": "Objets",
+  "changelog_v0600_1": "Page de Redeem de Code",
+  "changelog_v0600_1_desc": "Réclamez des codes promotionnels pour débloquer des récompenses. Codes de triche et distributions promotionnelles.",
+  "changelog_v0600_2": "Corrections de Sprites",
+  "changelog_v0600_2_desc": "Correction des sprites des familles Nidoran, Mime Jr. et Canarticho."
 }

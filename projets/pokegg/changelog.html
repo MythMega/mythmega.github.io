@@ -15,6 +15,7 @@
         <a href="./index.html" class="nav-link">Game</a>
         <a href="./dex.html" class="nav-link">Pokédex</a>
         <a href="./options.html" class="nav-link">Options</a>
+        <a href="./redeem.html" class="nav-link">Redeem Code</a>
         <a href="./credits.html" class="nav-link">Credits</a>
         <a href="./changelog.html" class="nav-link active">Changelog</a>
       </div>
@@ -27,6 +28,13 @@
 
         <div class="changelog-section">
           <h3>23/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.6.0</span>
+            <ul>
+              <li><strong id="changelog_v0600_1">Redeem Code Page</strong> - <span id="changelog_v0600_1_desc">Redeem promotional codes to unlock rewards. Cheat codes and promotional distributions.</span></li>
+              <li><strong id="changelog_v0600_2">Sprite Fixes</strong> - <span id="changelog_v0600_2_desc">Fixed sprites for Nidoran family, Mime Jr., and Skarmory families.</span></li>
+            </ul>
+          </div>
           <div class="changelog-entry">
             <span class="changelog-version">0.5.0</span>
             <ul>
@@ -159,7 +167,7 @@
         </div>
 
         <button id="backButton" class="back-button">Back to Game</button>
-        <br><br><br><p>Version : 0.4.4</p>
+        <br><br><br><p>Version : 0.6.0</p>
       </div>
     </main>
   </div>
@@ -176,6 +184,12 @@
       
       document.getElementById('changelogTitle').textContent = translations.changelog_title || 'Changelog';
       document.getElementById('changelogMainTitle').textContent = translations.changelog_title || 'Changelog';
+      
+      // 0.6.0
+      document.getElementById('changelog_v0600_1').textContent = translations.changelog_v0600_1 || 'Redeem Code Page';
+      document.getElementById('changelog_v0600_1_desc').textContent = translations.changelog_v0600_1_desc || 'Redeem promotional codes to unlock rewards. Cheat codes and promotional distributions.';
+      document.getElementById('changelog_v0600_2').textContent = translations.changelog_v0600_2 || 'Sprite Fixes';
+      document.getElementById('changelog_v0600_2_desc').textContent = translations.changelog_v0600_2_desc || 'Fixed sprites for Nidoran family, Mime Jr., and Skarmory families.';
       
       // 0.5.0
       document.getElementById('changelog_v0500_1').textContent = translations.changelog_v0500_1 || 'Sprite Selector';

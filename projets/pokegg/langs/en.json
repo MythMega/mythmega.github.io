@@ -82,5 +82,20 @@
   "item_bought": "Item purchased",
   "item_used": "Item used",
   "save": "Save Management",
-  "sprite_version": "Sprite Version"
+  "sprite_version": "Sprite Version",
+  "redeem": "Redeem Code",
+  "enter_code": "Enter a code",
+  "redeem_button": "Redeem",
+  "code_success": "Code redeemed successfully!",
+  "code_invalid": "Invalid code",
+  "code_expired": "Code expired",
+  "code_already_used": "Code already used",
+  "rewards": "Rewards",
+  "pokemon": "Pokémon",
+  "money": "Money",
+  "items": "Items",
+  "changelog_v0600_1": "Redeem Code Page",
+  "changelog_v0600_1_desc": "Redeem promotional codes to unlock rewards. Cheat codes and promotional distributions.",
+  "changelog_v0600_2": "Sprite Fixes",
+  "changelog_v0600_2_desc": "Fixed sprites for Nidoran family, Mime Jr., and Skarmory families."
 }

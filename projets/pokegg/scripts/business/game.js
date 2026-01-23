@@ -21,6 +21,22 @@ class GameManager {
       const savedData = await dataLoader.loadData();
       this.caughtPokemon = savedData.caughtPokemon || {};
       
+      // Nettoyer les données corrompues: reconstruire les pokemon manquants
+      for (const index in this.caughtPokemon) {
+        const pokeData = this.caughtPokemon[index];
+        if (!pokeData.pokemon) {
+          // Chercher le Pokemon manquant dans les families
+          for (const family of this.families) {
+            const member = family.members.find(m => String(m.index) === String(index));
+            if (member) {
+              pokeData.pokemon = member;
+              console.log('Rebuilt pokemon data for index:', index);
+              break;
+            }
+          }
+        }
+      }
+      
       // Démarrer l'autoclick
       this.startAutoclick();
     } catch (error) {
@@ -229,6 +245,11 @@ class GameManager {
     let count = 0;
     for (const index in this.caughtPokemon) {
       const pokeData = this.caughtPokemon[index];
+      // Skip if pokemon is missing (malformed data)
+      if (!pokeData.pokemon) {
+        console.warn('Malformed pokemon data at index:', index, pokeData);
+        continue;
+      }
       if (this.getPokemonFamily(pokeData.pokemon)?.name === familyName) {
         count += pokeData.count;
       }
@@ -237,6 +258,10 @@ class GameManager {
   }
 
   getPokemonFamily(pokemon) {
+    // Safety check for undefined pokemon
+    if (!pokemon || !pokemon.index) {
+      return null;
+    }
     return this.families.find(family =>
       family.members.some(member => member.index === pokemon.index)
     );

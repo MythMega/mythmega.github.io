@@ -178,7 +178,14 @@ class GameManager {
 
   hatchEgg() {
     if (this.currentEgg && this.currentEgg.currentClicks >= this.currentEgg.clicksNeeded) {
-      const pokemon = this.currentEgg.pokemon;
+      let pokemon = this.currentEgg.pokemon;
+      
+      // S'assurer que pokemon est une instance de Pokemon
+      // (au cas où il aurait été désérialisé d'une sauvegarde)
+      if (pokemon && !pokemon.getName) {
+        // Recréer pokemon comme une instance de Pokemon
+        pokemon = new Pokemon(pokemon);
+      }
       
       // Enregistrer le Pokémon capturé
       if (!this.caughtPokemon[pokemon.index]) {

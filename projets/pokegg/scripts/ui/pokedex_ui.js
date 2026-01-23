@@ -28,6 +28,38 @@ class PokedexUI {
     this.modal.addEventListener('click', (e) => {
       if (e.target === this.modal) this.closeModal();
     });
+
+    // Écouter les changements de sprite
+    window.addEventListener('spriteVersionChanged', () => {
+      this.updateSpriteDisplay();
+    });
+  }
+
+  updateSpriteDisplay() {
+    // Mettre à jour les sprites affichés dans la grille
+    const pokemonDivs = this.pokedexGrid.querySelectorAll('.pokemon-entry');
+    pokemonDivs.forEach((div, index) => {
+      const entry = pokedexManager.filteredPokemon[index];
+      if (entry) {
+        const sprite = div.querySelector('.pokemon-sprite');
+        sprite.src = entry.pokemon.sprite;
+      }
+    });
+
+    // Mettre à jour aussi la modal si elle est ouverte
+    if (this.modal.style.display === 'flex') {
+      const modalSprite = document.getElementById('modalSprite');
+      if (modalSprite && modalSprite.alt) {
+        // Récupérer le pokémon et mettre à jour son sprite
+        const pokemonName = modalSprite.alt;
+        for (const entry of pokedexManager.filteredPokemon) {
+          if (entry.pokemon.name_en === pokemonName) {
+            modalSprite.src = entry.pokemon.sprite;
+            break;
+          }
+        }
+      }
+    }
   }
 
   async initialize() {

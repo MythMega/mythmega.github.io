@@ -60,6 +60,18 @@
       </section>
 
       <section class="options-section">
+        <h2 id="spriteVersionTitle">Sprite Version</h2>
+        <div class="sprite-version-selector">
+          <label for="spriteVersionSelect" id="spriteVersionLabel">Sprite Version:</label>
+          <select id="spriteVersionSelect" class="option-select">
+            <option value="home">Home</option>
+            <option value="bw">5G Static</option>
+            <option value="bw2">5G Anim</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="options-section">
         <h2 id="saveTitle">Save Management</h2>
         
         <button id="exportButton" class="option-button export-button">
@@ -95,6 +107,7 @@
   <script src="./scripts/entity/pokemon.js"></script>
   <script src="./scripts/entity/family.js"></script>
   <script src="./scripts/business/data/options.js"></script>
+  <script src="./scripts/ui/sprite_selector_ui.js"></script>
   <script src="./scripts/business/data/load.js"></script>
   <script src="./scripts/business/data/export.js"></script>
   <script src="./scripts/business/data/import.js"></script>

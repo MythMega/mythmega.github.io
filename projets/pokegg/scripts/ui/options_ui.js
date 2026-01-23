@@ -69,6 +69,7 @@ class OptionsUI {
     document.getElementById('languageTitle').textContent = optionsManager.translate('language');
     document.getElementById('darkModeTitle').textContent = optionsManager.translate('dark_mode');
     document.getElementById('idleModeTitle').textContent = optionsManager.translate('idle_mode');
+    document.getElementById('spriteVersionTitle').textContent = optionsManager.translate('sprite_version');
     document.getElementById('saveTitle').textContent = optionsManager.translate('save');
     this.exportButton.textContent = optionsManager.translate('export_save');
     this.importButton.textContent = optionsManager.translate('import_save');
@@ -78,6 +79,11 @@ class OptionsUI {
     document.getElementById('deleteConfirmMessage').textContent = optionsManager.translate('delete_confirm');
     document.getElementById('deleteCancel').textContent = optionsManager.translate('cancel');
     document.getElementById('deleteConfirm').textContent = optionsManager.translate('confirm');
+    
+    // Mettre à jour aussi le sprite selector
+    if (spriteSelectorUI) {
+      spriteSelectorUI.updateTranslations();
+    }
     
     this.updateDarkModeStatus();
     this.updateIdleModeStatus();

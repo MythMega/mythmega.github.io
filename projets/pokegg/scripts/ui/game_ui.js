@@ -63,6 +63,38 @@ class GameUI {
       this.updatePokedollarsDisplay();
       this.updateModalBalance();
     });
+
+    // Écouter les changements de sprite
+    window.addEventListener('spriteVersionChanged', () => {
+      this.updateSpriteDisplay();
+    });
+  }
+
+  updateSpriteDisplay() {
+    // Mettre à jour le sprite affiché actuellement
+    if (gameManager.currentEgg && gameManager.currentEgg.pokemon) {
+      let pokemon = gameManager.currentEgg.pokemon;
+      // S'assurer que c'est une instance de Pokemon
+      if (pokemon && !pokemon.getName) {
+        pokemon = new Pokemon(pokemon);
+        gameManager.currentEgg.pokemon = pokemon;
+      }
+      if (this.hatchedPokemon.classList.contains('show')) {
+        // Si un pokémon éclos est affiché
+        this.hatchedSprite.src = pokemon.sprite;
+      }
+    }
+    
+    // Mettre à jour aussi la modal de nouveau pokémon si elle est ouverte
+    if (this.newPokemonModal.style.display === 'block' && gameManager.currentEgg && gameManager.currentEgg.pokemon) {
+      let pokemon = gameManager.currentEgg.pokemon;
+      // S'assurer que c'est une instance de Pokemon
+      if (pokemon && !pokemon.getName) {
+        pokemon = new Pokemon(pokemon);
+        gameManager.currentEgg.pokemon = pokemon;
+      }
+      this.newPokemonSprite.src = pokemon.sprite;
+    }
   }
 
   async initialize() {
@@ -272,7 +304,7 @@ class GameUI {
     
     const pokemon = gameManager.hatchEgg();
     
-    if (pokemon) {
+    if (pokemon && typeof pokemon.getName === 'function') {
       // Masquer le bouton de clic
       this.eggButton.style.display = 'none';
       
@@ -295,6 +327,8 @@ class GameUI {
         // Mode idle: si ce n'est pas un nouveau pokémon, passer au suivant après 1 seconde
         setTimeout(() => this.handleNextEgg(), 1000);
       }
+    } else {
+      console.warn('Failed to hatch pokemon or invalid pokemon object:', pokemon);
     }
   }
 
@@ -609,6 +643,11 @@ class GameUI {
   // ========== NEW POKÉMON MODAL ==========
 
   displayNewPokemonModal(pokemon) {
+    // S'assurer que pokemon est une instance de Pokemon
+    if (pokemon && !pokemon.getName) {
+      pokemon = new Pokemon(pokemon);
+    }
+    
     const family = gameManager.getPokemonFamily(pokemon);
     if (!family) {
       console.warn('Could not find family for pokemon:', pokemon);

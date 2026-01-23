@@ -193,11 +193,11 @@ main {
 }
 
 .hatched-pokemon-overlay img {
-  max-width: 200px;
-  max-height: 200px;
-  width: auto;
-  height: auto;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
   animation: slideIn 0.5s ease;
 }
 
@@ -1701,4 +1701,51 @@ html.dark-mode .tooltip {
   background: rgba(50, 50, 50, 0.95);
   color: #e0e0e0;
   border: 1px solid #555;
+}
+/* ==================== SPRITE SELECTOR ==================== */
+
+.sprite-version-selector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sprite-version-selector label {
+  font-size: 1rem;
+  color: #333;
+}
+
+.option-select {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option-select:hover {
+  border-color: #667eea;
+}
+
+.option-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+html.dark-mode .option-select {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+html.dark-mode .option-select:hover {
+  border-color: #667eea;
+}
+
+html.dark-mode .sprite-version-selector label {
+  color: #e0e0e0;
 }

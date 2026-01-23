@@ -484,6 +484,8 @@ main {
   border-radius: 10px;
   background: #f5f5f5;
   padding: 10px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 .modal-details {

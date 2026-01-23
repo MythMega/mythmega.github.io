@@ -77,6 +77,23 @@ class OptionsManager {
   initializeIdleMode() {
     // Idle mode will be read from cookie when needed
   }
+
+  getSpriteVersion() {
+    return this.getCookie('spriteVersion') || 'home';
+  }
+
+  setSpriteVersion(version) {
+    document.cookie = `spriteVersion=${version}; path=/; max-age=${60 * 60 * 24 * 365}`;
+  }
+
+  getSpriteProperty(version) {
+    const spriteMap = {
+      'home': 'Sprite',
+      'bw': 'Sprite_BW',
+      'bw2': 'Sprite_BW2'
+    };
+    return spriteMap[version] || 'Sprite';
+  }
 }
 
 const optionsManager = new OptionsManager();

@@ -26,6 +26,23 @@
         <br>
 
         <div class="changelog-section">
+          <h3>23/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.5.0</span>
+            <ul>
+              <li><strong id="changelog_v0500_1">Sprite Selector</strong> - <span id="changelog_v0500_1_desc">Choose which sprite to display for Pokémon throughout the entire application.</span>
+                <ul>
+                  <li id="changelog_v0500_1a">Home: Classic 3D Models (default)</li>
+                  <li id="changelog_v0500_1b">5G Static: Pokémon Black & White sprites. Pixelated like on DS.</li>
+                  <li id="changelog_v0500_1c">5G Anim: ANIMATED sprites like on Pokémon Black & White 2.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <br>
+
+        <div class="changelog-section">
           <h3>21/01/2026</h3>
           <div class="changelog-entry">
             <span class="changelog-version">0.4.4</span>
@@ -159,6 +176,13 @@
       
       document.getElementById('changelogTitle').textContent = translations.changelog_title || 'Changelog';
       document.getElementById('changelogMainTitle').textContent = translations.changelog_title || 'Changelog';
+      
+      // 0.5.0
+      document.getElementById('changelog_v0500_1').textContent = translations.changelog_v0500_1 || 'Sprite Selector';
+      document.getElementById('changelog_v0500_1_desc').textContent = translations.changelog_v0500_1_desc || 'Choose which sprite to display for Pokémon throughout the entire application.';
+      document.getElementById('changelog_v0500_1a').textContent = translations.changelog_v0500_1a || 'Home: Classic 3D Models (default)';
+      document.getElementById('changelog_v0500_1b').textContent = translations.changelog_v0500_1b || '5G Static: Pokémon Black & White sprites. Pixelated like on DS.';
+      document.getElementById('changelog_v0500_1c').textContent = translations.changelog_v0500_1c || '5G Anim: ANIMATED sprites like on Pokémon Black & White 2.';
       
       // 0.4.4
       document.getElementById('changelog_v0404_1').textContent = translations.changelog_v0404_1 || 'Fixes';

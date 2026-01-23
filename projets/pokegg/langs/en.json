@@ -38,6 +38,11 @@
   "credits_affiliation": "Legal Disclaimer",
   "credits_affiliation_text": "Pokegg and all elements of this website are not affiliated with The Pokémon Company International. Pokémon is a registered trademark of The Pokémon Company International. All references to Pokémon in this project are made for educational and recreational purposes only.",
   "changelog_title": "Changelog",
+  "changelog_v0500_1": "Sprite Selector",
+  "changelog_v0500_1_desc": "Choose which sprite to display for Pokémon throughout the entire application.",
+  "changelog_v0500_1a": "Home: Classic 3D Models (default)",
+  "changelog_v0500_1b": "5G Static: Pokémon Black & White sprites. Pixelated like on DS.",
+  "changelog_v0500_1c": "5G Anim: ANIMATED sprites like on Pokémon Black & White 2.",
   "changelog_v0404_1": "Fixes",
   "changelog_v0404_1a": "Options page translations now load correctly on page load",
   "changelog_v0404_1b": "Idle mode no longer allows multiple eggs to hatch simultaneously",
@@ -76,5 +81,6 @@
   "level": "Level",
   "item_bought": "Item purchased",
   "item_used": "Item used",
-  "save": "Save Management"
+  "save": "Save Management",
+  "sprite_version": "Sprite Version"
 }

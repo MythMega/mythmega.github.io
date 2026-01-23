@@ -38,6 +38,11 @@
   "credits_affiliation": "Avis Juridique",
   "credits_affiliation_text": "Pokegg et tous les éléments de ce site ne sont pas affiliés à The Pokémon Company International. Pokémon est une marque déposée de The Pokémon Company International. Toutes les références à Pokémon dans ce projet sont faites à des fins éducatives et récréatives uniquement.",
   "changelog_title": "Historique des versions",
+  "changelog_v0500_1": "Sélecteur de Sprites",
+  "changelog_v0500_1_desc": "Choisissez quel sprite afficher pour les Pokémon dans toute l'application.",
+  "changelog_v0500_1a": "Home : Modèles 3D Classiques (par défaut)",
+  "changelog_v0500_1b": "5G Static : Sprites de Pokémon Noir & Blanc. Pixelisé comme sur DS.",
+  "changelog_v0500_1c": "5G Anim : Sprites ANIMÉS comme sur Pokémon Noir & Blanc 2.",
   "changelog_v0404_1": "Corrections",
   "changelog_v0404_1a": "Les traductions de la page d'options se chargent maintenant correctement au chargement de la page",
   "changelog_v0404_1b": "Le mode inactif n'autorise plus plusieurs œufs à éclore simultanément",
@@ -76,5 +81,6 @@
   "level": "Niveau",
   "item_bought": "Article acheté",
   "item_used": "Article utilisé",
-  "save": "Gestion de la sauvegarde"
+  "save": "Gestion de la sauvegarde",
+  "sprite_version": "Version des Sprites"
 }

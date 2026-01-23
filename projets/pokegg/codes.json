@@ -48,5 +48,18 @@
         "Money": 12345,
         "Items": [],
         "Expiration": "2026-01-31"
+    },
+    {
+        "Code": "PEAR",
+        "IsUnique": false,
+        "Pokes": [
+            {
+                "Index": "55",
+                "Count": 3
+            }
+        ],
+        "Money": 12345,
+        "Items": [],
+        "Expiration": "2026-01-31"
     }
 ]

@@ -23,21 +23,23 @@ class OptionsUI {
   }
 
   setupEventListeners() {
-    this.langEN.addEventListener('click', () => this.changeLanguage('en'));
-    this.langFR.addEventListener('click', () => this.changeLanguage('fr'));
-    this.darkModeSwitch.addEventListener('change', () => this.toggleDarkMode());
-    this.idleModeSwitch.addEventListener('change', () => this.toggleIdleMode());
-    this.idleInfoIcon.addEventListener('mouseenter', () => this.showIdleTooltip());
-    this.idleInfoIcon.addEventListener('mouseleave', () => this.hideIdleTooltip());
-    this.exportButton.addEventListener('click', () => this.handleExport());
-    this.importButton.addEventListener('click', () => this.importFile.click());
-    this.importFile.addEventListener('change', (e) => this.handleImport(e));
-    this.deleteButton.addEventListener('click', () => this.showDeleteConfirmation());
-    this.deleteCancel.addEventListener('click', () => this.closeDeleteModal());
-    this.deleteConfirm.addEventListener('click', () => this.handleDelete());
+    if (this.langEN) this.langEN.addEventListener('click', () => this.changeLanguage('en'));
+    if (this.langFR) this.langFR.addEventListener('click', () => this.changeLanguage('fr'));
+    if (this.darkModeSwitch) this.darkModeSwitch.addEventListener('change', () => this.toggleDarkMode());
+    if (this.idleModeSwitch) this.idleModeSwitch.addEventListener('change', () => this.toggleIdleMode());
+    if (this.idleInfoIcon) {
+      this.idleInfoIcon.addEventListener('mouseenter', () => this.showIdleTooltip());
+      this.idleInfoIcon.addEventListener('mouseleave', () => this.hideIdleTooltip());
+    }
+    if (this.exportButton) this.exportButton.addEventListener('click', () => this.handleExport());
+    if (this.importButton) this.importButton.addEventListener('click', () => this.importFile.click());
+    if (this.importFile) this.importFile.addEventListener('change', (e) => this.handleImport(e));
+    if (this.deleteButton) this.deleteButton.addEventListener('click', () => this.showDeleteConfirmation());
+    if (this.deleteCancel) this.deleteCancel.addEventListener('click', () => this.closeDeleteModal());
+    if (this.deleteConfirm) this.deleteConfirm.addEventListener('click', () => this.handleDelete());
     
     // Fermer modal en cliquant en dehors
-    this.deleteModal.addEventListener('click', (e) => {
+    if (this.deleteModal) this.deleteModal.addEventListener('click', (e) => {
       if (e.target === this.deleteModal) this.closeDeleteModal();
     });
   }
@@ -45,15 +47,21 @@ class OptionsUI {
   async initialize() {
     try {
       // 1. Charger le langage dans l'instance GLOBALE optionsManager
-      const language = optionsManager.getLanguage();
-      await optionsManager.loadLanguage(language);
-      
-      // 2. Initialiser le dark mode
-      optionsManager.initializeDarkMode();
+      if (typeof optionsManager !== 'undefined') {
+        const language = optionsManager.getLanguage();
+        await optionsManager.loadLanguage(language);
+        
+        // 2. Initialiser le dark mode
+        optionsManager.initializeDarkMode();
+      }
       
       // 3. Initialiser les managers
-      await inventoryManager.initialize();
-      await gameManager.initializeGame();
+      if (typeof inventoryManager !== 'undefined') {
+        await inventoryManager.initialize();
+      }
+      if (typeof gameManager !== 'undefined') {
+        await gameManager.initializeGame();
+      }
       
       // 4. Mettre à jour TOUS les textes maintenant que les traductions sont chargées
       this.updateLanguageButtons();

@@ -1,0 +1,54 @@
+<!-- Fichier de test - À utiliser dans la console du navigateur -->
+
+<!-- 
+Pour tester le système de redeem de codes, ouvrez la page redeem.html et testez les codes suivants :
+
+1. Code valide non-unique (illimité) :
+   GIMMEM0NEY
+   → Récompense : 1000 Pokédollars
+   → Réutilisable à l'infini
+
+2. Code avec Pokémon et Argent (expire 31/01/2026) :
+   THANKS2B3T4T3ST3R
+   → Récompense : Luvdisc (Index 370) x3 + 12345 Pokédollars
+   → Code unique, à utiliser une fois seulement
+
+3. Code avec Objets (expire 12/04/2026) :
+   E4STER3GG
+   → Récompense : Uncommon Egg x5 + Rare Egg x4 + Epic Egg x3 + Legendary Egg x2 + Mythical Egg x1
+   → Code unique, à utiliser une fois seulement
+
+4. Test d'erreurs :
+   CODE_INVALIDE → Message "Code invalide"
+   THANKS2B3T4T3ST3R (après utilisation) → Message "Code déjà utilisé"
+
+Tests à faire directement dans la console :
+
+// Test 1 : Charger les codes
+await codeManager.loadCodes();
+console.log(codeManager.codes);
+
+// Test 2 : Redeem un code valide
+const result = await codeManager.redeemCode("GIMMEM0NEY");
+console.log(result);
+
+// Test 3 : Vérifier les codes utilisés
+console.log(JSON.parse(localStorage.getItem('usedCodes')));
+
+// Test 4 : Vérifier une date d'expiration
+const code = codeManager.findCode("THANKS2B3T4T3ST3R");
+console.log("Expiré?", code.isExpired());
+console.log("Date d'expiration:", code.expiration);
+
+// Test 5 : Vérifier les récompenses
+const code = codeManager.findCode("E4STER3GG");
+console.log(code.getRewards());
+
+// Test 6 : UI - Montrer la modale
+const mockRewards = {
+  pokes: [{Index: "370", Count: 3}],
+  money: 5000,
+  items: [{Name: "Uncommon Egg", Count: 1}]
+};
+codeUI.showRewardsModal(mockRewards);
+-->

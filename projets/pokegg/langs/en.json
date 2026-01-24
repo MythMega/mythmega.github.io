@@ -151,5 +151,7 @@
   "changelog_v0610_2": "Keyboard Shortcuts",
   "changelog_v0610_2_desc": "Press I for Inventory, S or B for Shop.",
   "changelog_v0610_3": "Guide Page",
-  "changelog_v0610_3_desc": "New comprehensive guide explaining game mechanics, rarities, shop, incubator, redeem codes, and more."
+  "changelog_v0610_3_desc": "New comprehensive guide explaining game mechanics, rarities, shop, incubator, redeem codes, and more.",
+  "changelog_v0620_1": "Space Key Exploit Fix",
+  "changelog_v0620_1_desc": "Fixed exploit where holding down Space key would spam clicks. Now one press = one click, regardless of how long the key is held down."
 }

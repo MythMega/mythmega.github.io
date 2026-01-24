@@ -61,6 +61,9 @@ class GameUI {
     // Click on egg to hatch it
     this.eggWrapper.addEventListener('click', () => this.handleEggClick());
     
+    // Track space key state to prevent spam when key is held down
+    let spaceKeyPressed = false;
+    
     // Space key to hatch egg
     document.addEventListener('keydown', (e) => {
       // Ignore if typing in an input or textarea
@@ -69,8 +72,12 @@ class GameUI {
       }
       
       if (e.code === 'Space') {
-        e.preventDefault();
-        this.handleEggClick();
+        // Only trigger on first press, not on key repeat
+        if (!spaceKeyPressed) {
+          e.preventDefault();
+          spaceKeyPressed = true;
+          this.handleEggClick();
+        }
       }
       
       // I key to open inventory
@@ -83,6 +90,13 @@ class GameUI {
       if (e.key.toLowerCase() === 's' || e.key.toLowerCase() === 'b') {
         e.preventDefault();
         this.openShopModal();
+      }
+    });
+    
+    // Reset space key state on key release
+    document.addEventListener('keyup', (e) => {
+      if (e.code === 'Space') {
+        spaceKeyPressed = false;
       }
     });
     

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokegg - Guide</title>
+  <link rel="stylesheet" href="./style/styles.css">
+  <link rel="icon" type="image/png" href="./icon.png">
+  <script src="./scripts/darkmode.js"></script>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <h1 class="navbar-title" id="guideTitle">Guide</h1>
+      <div class="navbar-links">
+        <a href="./index.html" class="nav-link">Game</a>
+        <a href="./dex.html" class="nav-link">Pokédex</a>
+        <a href="./guide.html" class="nav-link active">Guide</a>
+        <a href="./options.html" class="nav-link">Options</a>
+        <a href="./redeem.html" class="nav-link">Redeem Code</a>
+        <a href="./credits.html" class="nav-link">Credits</a>
+        <a href="./changelog.html" class="nav-link">Changelog</a>
+      </div>
+    </nav>
+
+    <main class="guide-container" style="color: white; padding: 20px; max-width: 900px; margin: 0 auto;">
+      <article>
+        <h1 id="guideAbout">About Pokegg</h1>
+        <p id="guideAboutContent">
+          Pokegg is an incremental clicker game where you hatch Pokémon eggs to collect and complete your Pokédex. Each click earns you Pokédollars, which you can invest in purchasing incubators and click multipliers to accelerate your progress.
+        </p>
+
+        <h2 id="guideObjective">Game Objective</h2>
+        <p id="guideObjectiveDesc">
+          The goal of Pokegg is to complete your Pokédex by hatching eggs and collecting all Pokémon. Each click generates Pokédollars that you can use to purchase incubators and multipliers in the shop.
+        </p>
+
+        <h2 id="guideRarities">Pokémon Rarities</h2>
+        <p id="guideRaritiesDesc">
+          Pokémon are distributed across 5 rarity levels: Common (easier to find), Uncommon, Rare, Epic, and Legendary (rarest). The rarity of an egg affects the base number of clicks needed to hatch it.
+        </p>
+        <ul>
+          <li><strong>Common (⭐):</strong> Base clicks: ~5</li>
+          <li><strong>Uncommon (⭐⭐):</strong> Base clicks: ~20</li>
+          <li><strong>Rare (⭐⭐⭐):</strong> Base clicks: ~45</li>
+          <li><strong>Epic (⭐⭐⭐⭐):</strong> Base clicks: ~80</li>
+          <li><strong>Legendary (⭐⭐⭐⭐⭐):</strong> Base clicks: ~125</li>
+          <li><strong>Mythical (⭐⭐⭐⭐⭐⭐):</strong> Base clicks: ~180</li>
+        </ul>
+
+        <h2 id="guideEvolution">Pokémon Evolution</h2>
+        <p id="guideEvolutionDesc">
+          Evolved Pokémon forms (like Charmeleon or Charizard) only appear in the egg pool after you've caught their previous evolutionary forms (Charmander in this example). This encourages you to complete the full evolutionary lines.
+        </p>
+
+        <h2 id="guideInventory">Inventory & Shop</h2>
+        <p id="guideInventoryDesc">
+          Use the Inventory to manage and activate your purchased items. The Shop allows you to buy Incubators (for auto-clicking) and Click Multipliers (to boost your earning per click) using Pokédollars.
+        </p>
+        <ul>
+          <li><strong id="guideIncubators">Incubators:</strong> <span id="guideIncubatorsDesc">Generate automatic clicks. Stack multiple for faster progress.</span></li>
+          <li><strong id="guideMultipliers">Click Multipliers:</strong> <span id="guideMultipliersDesc">Increase your earning per click (example: 2x = double earnings).</span></li>
+        </ul>
+
+        <h2 id="guideIncubator">Incubator (Auto-Clicker)</h2>
+        <p id="guideIncubatorDesc">
+          Incubators automatically generate clicks at a set rate per second. You can stack multiple incubators to increase your auto-click speed. Incubators combine with your Click Power multiplier to maximize earnings.
+        </p>
+        <p id="guideIncubatorExample">
+          <strong>Example:</strong> If you have 3 clicks/sec from incubators and 2x Click Power, you get 6 clicks/sec.
+        </p>
+
+        <h2 id="guideRedeem">Redeem Code System</h2>
+        <p id="guideRedeemDesc">
+          Use the Redeem Code page to enter promotional codes and unlock special rewards. Example: Use code <strong>STR4T</strong> to get Epic eggs and 150 Pokédollars!
+        </p>
+        <p id="guideCodesIntro">
+          Codes can be:
+        </p>
+        <ul>
+          <li id="guideCodesPromo">Promotional codes distributed during events</li>
+          <li id="guideCodesCheat">Cheat codes for testing</li>
+          <li id="guideCodesGiveaway">Special rewards from giveaways</li>
+        </ul>
+
+        <h2 id="guideKeyboard">Keyboard Shortcuts</h2>
+        <p id="guideKeyboardDesc">
+          On PC, use these shortcuts: Press Space or click the egg to hatch it. Press I to open Inventory. Press S or B to open Shop.
+        </p>
+        <ul>
+          <li><strong id="guideKeyboardSpace">Space or click the egg:</strong> <span id="guideKeyboardSpaceDesc">Hatch the current egg</span></li>
+          <li><strong id="guideKeyboardI">I:</strong> <span id="guideKeyboardIDesc">Open Inventory</span></li>
+          <li><strong id="guideKeyboardSB">S or B:</strong> <span id="guideKeyboardSBDesc">Open Shop</span></li>
+        </ul>
+
+        <h2 id="guideMobile">Mobile Interactions</h2>
+        <p id="guideMobileDesc">
+          On mobile, click the egg to hatch it. Swipe your hatched Pokémon to the right to trigger the next egg hatching (same as clicking Open another egg).
+        </p>
+        <ul>
+          <li><strong id="guideMobileTap">Tap the egg:</strong> <span id="guideMobileTapDesc">Hatch the current egg</span></li>
+          <li><strong id="guideMobileSwipe">Swipe right:</strong> <span id="guideMobileSwipeDesc">Open the next egg (requires 50+ pixels movement)</span></li>
+        </ul>
+
+        <h2 id="guideIdle">Idle Mode</h2>
+        <p id="guideIdleDesc">
+          Idle Mode automatically progresses to the next egg after 1 second if no new Pokémon popup appears. This is useful for hands-off gameplay. Activable in Options.
+        </p>
+
+        <h2 id="guideSprites">Sprite Versions</h2>
+        <p id="guideSpritesDesc">
+          Change your preferred sprite style in Options. Choose between Classic (default 3D models), 5G Static (Black & White pixel art), or 5G Animated (animated Black & White 2 sprites).
+        </p>
+        <ul>
+          <li><strong id="guideSpritesClassic">Classic (Home):</strong> <span id="guideSpritesClassicDesc">Modern 3D Pokémon models (default)</span></li>
+          <li><strong id="guideSprites5gStatic">5G Static:</strong> <span id="guideSprites5gStaticDesc">Black & White pixel art sprites (like DS era)</span></li>
+          <li><strong id="guideSprites5gAnim">5G Animated:</strong> <span id="guideSprites5gAnimDesc">Animated Black & White 2 sprites</span></li>
+        </ul>
+      </article>
+    </main>
+  </div>
+
+  <script src="./scripts/business/data/options.js"></script>
+  <script src="./scripts/darkmode.js"></script>
+  <script>
+    // Load translations
+    async function loadGuideTranslations() {
+      // Initialize optionsManager if not already done
+      if (!window.optionsManager) {
+        window.optionsManager = new OptionsManager();
+      }
+      
+      const currentLang = window.optionsManager.currentLanguage || 'en';
+      console.log('Loading guide translations for language:', currentLang);
+      
+      // Map element IDs to translation keys
+      const elementsToTranslate = {
+        'guideTitle': 'guide_title',
+        'guideAbout': 'guide_about',
+        'guideAboutContent': 'guide_about_content',
+        'guideObjective': 'guide_objective',
+        'guideObjectiveDesc': 'guide_objective_desc',
+        'guideRarities': 'guide_rarities',
+        'guideRaritiesDesc': 'guide_rarities_desc',
+        'guideEvolution': 'guide_evolution',
+        'guideEvolutionDesc': 'guide_evolution_desc',
+        'guideInventory': 'guide_inventory',
+        'guideInventoryDesc': 'guide_inventory_desc',
+        'guideIncubators': 'guide_incubators',
+        'guideIncubatorsDesc': 'guide_incubators_desc',
+        'guideMultipliers': 'guide_multipliers',
+        'guideMultipliersDesc': 'guide_multipliers_desc',
+        'guideIncubator': 'guide_incubator',
+        'guideIncubatorDesc': 'guide_incubator_desc',
+        'guideIncubatorExample': 'guide_incubator_example',
+        'guideRedeem': 'guide_redeem',
+        'guideRedeemDesc': 'guide_redeem_desc',
+        'guideCodesIntro': 'guide_codes_intro',
+        'guideCodesPromo': 'guide_codes_promo',
+        'guideCodesCheat': 'guide_codes_cheat',
+        'guideCodesGiveaway': 'guide_codes_giveaway',
+        'guideKeyboard': 'guide_keyboard',
+        'guideKeyboardDesc': 'guide_keyboard_desc',
+        'guideKeyboardSpace': 'guide_keyboard_space',
+        'guideKeyboardSpaceDesc': 'guide_keyboard_space_desc',
+        'guideKeyboardI': 'guide_keyboard_i',
+        'guideKeyboardIDesc': 'guide_keyboard_i_desc',
+        'guideKeyboardSB': 'guide_keyboard_sb',
+        'guideKeyboardSBDesc': 'guide_keyboard_sb_desc',
+        'guideMobile': 'guide_mobile',
+        'guideMobileDesc': 'guide_mobile_desc',
+        'guideMobileTap': 'guide_mobile_tap',
+        'guideMobileTapDesc': 'guide_mobile_tap_desc',
+        'guideMobileSwipe': 'guide_mobile_swipe',
+        'guideMobileSwipeDesc': 'guide_mobile_swipe_desc',
+        'guideIdle': 'guide_idle',
+        'guideIdleDesc': 'guide_idle_desc',
+        'guideSprites': 'guide_sprites',
+        'guideSpritesDesc': 'guide_sprites_desc',
+        'guideSpritesClassic': 'guide_sprites_classic',
+        'guideSpritesClassicDesc': 'guide_sprites_classic_desc',
+        'guideSprites5gStatic': 'guide_sprites_5g_static',
+        'guideSprites5gStaticDesc': 'guide_sprites_5g_static_desc',
+        'guideSprites5gAnim': 'guide_sprites_5g_anim',
+        'guideSprites5gAnimDesc': 'guide_sprites_5g_anim_desc'
+      };
+
+      try {
+        const response = await fetch(`./langs/${currentLang}.json`);
+        const langData = await response.json();
+        
+        let count = 0;
+        for (const [elementId, translationKey] of Object.entries(elementsToTranslate)) {
+          const element = document.getElementById(elementId);
+          if (element && langData[translationKey]) {
+            element.textContent = langData[translationKey];
+            count++;
+          }
+        }
+        console.log(`Updated ${count} elements with language: ${currentLang}`);
+      } catch (error) {
+        console.error('Error loading guide translations:', error);
+      }
+    }
+
+    // Load translations on page load - wait for DOM to be ready
+    function initializeTranslations() {
+      console.log('Initializing guide translations...');
+      loadGuideTranslations().then(() => {
+        console.log('Guide translations loaded successfully');
+      }).catch(error => {
+        console.error('Failed to load guide translations:', error);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeTranslations);
+    } else {
+      initializeTranslations();
+    }
+
+    // Listen for language changes
+    window.addEventListener('languageChanged', () => {
+      console.log('Language changed event detected');
+      loadGuideTranslations();
+    });
+  </script>
+</body>
+</html>

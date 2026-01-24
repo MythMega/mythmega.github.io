@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokegg - Changelog</title>
+  <link rel="icon" type="image/png" href="./icon.png">
   <link rel="stylesheet" href="./style/styles.css">
   <script src="./scripts/darkmode.js"></script>
 </head>
@@ -14,6 +15,7 @@
       <div class="navbar-links">
         <a href="./index.html" class="nav-link">Game</a>
         <a href="./dex.html" class="nav-link">Pokédex</a>
+        <a href="./guide.html" class="nav-link">Guide</a>
         <a href="./options.html" class="nav-link">Options</a>
         <a href="./redeem.html" class="nav-link">Redeem Code</a>
         <a href="./credits.html" class="nav-link">Credits</a>
@@ -24,6 +26,19 @@
     <main class="changelog-container" style="color: white;">
       <div class="changelog-content">
         <h2 id="changelogMainTitle">Changelog</h2>
+        <br>
+
+        <div class="changelog-section">
+          <h3>24/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.6.1</span>
+            <ul>
+              <li><strong id="changelog_v0610_1">Interactive Egg & Mobile Features</strong> - <span id="changelog_v0610_1_desc">Click the egg or press Space to hatch it. Swipe hatched Pokémon right on mobile to open the next egg.</span></li>
+              <li><strong id="changelog_v0610_2">Keyboard Shortcuts</strong> - <span id="changelog_v0610_2_desc">Press I for Inventory, S or B for Shop.</span></li>
+              <li><strong id="changelog_v0610_3">Guide Page</strong> - <span id="changelog_v0610_3_desc">New comprehensive guide explaining game mechanics, rarities, shop, incubator, redeem codes, and more.</span></li>
+            </ul>
+          </div>
+        </div>
         <br>
 
         <div class="changelog-section">
@@ -184,6 +199,14 @@
       
       document.getElementById('changelogTitle').textContent = translations.changelog_title || 'Changelog';
       document.getElementById('changelogMainTitle').textContent = translations.changelog_title || 'Changelog';
+      
+      // 0.6.1
+      document.getElementById('changelog_v0610_1').textContent = translations.changelog_v0610_1 || 'Interactive Egg & Mobile Features';
+      document.getElementById('changelog_v0610_1_desc').textContent = translations.changelog_v0610_1_desc || 'Click the egg or press Space to hatch it. Swipe hatched Pokémon right on mobile to open the next egg.';
+      document.getElementById('changelog_v0610_2').textContent = translations.changelog_v0610_2 || 'Keyboard Shortcuts';
+      document.getElementById('changelog_v0610_2_desc').textContent = translations.changelog_v0610_2_desc || 'Press I for Inventory, S or B for Shop.';
+      document.getElementById('changelog_v0610_3').textContent = translations.changelog_v0610_3 || 'Guide Page';
+      document.getElementById('changelog_v0610_3_desc').textContent = translations.changelog_v0610_3_desc || 'New comprehensive guide explaining game mechanics, rarities, shop, incubator, redeem codes, and more.';
       
       // 0.6.0
       document.getElementById('changelog_v0600_1').textContent = translations.changelog_v0600_1 || 'Redeem Code Page';

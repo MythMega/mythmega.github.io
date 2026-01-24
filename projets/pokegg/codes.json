@@ -50,16 +50,16 @@
         "Expiration": "2026-01-31"
     },
     {
-        "Code": "PEAR",
-        "IsUnique": false,
-        "Pokes": [
+        "Code": "STR4T",
+        "IsUnique": true,
+        "Pokes": [],
+        "Money": 150,
+        "Items": [
             {
-                "Index": "55",
+                "Name": "Epic Egg",
                 "Count": 3
             }
         ],
-        "Money": 12345,
-        "Items": [],
-        "Expiration": "2026-01-31"
+        "Expiration": null
     }
 ]

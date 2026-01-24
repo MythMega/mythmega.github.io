@@ -58,6 +58,37 @@ class GameUI {
     this.confirmUseButton.addEventListener('click', () => this.confirmUseEgg());
     this.cancelUseButton.addEventListener('click', () => this.closeEggConfirmation());
     
+    // Click on egg to hatch it
+    this.eggWrapper.addEventListener('click', () => this.handleEggClick());
+    
+    // Space key to hatch egg
+    document.addEventListener('keydown', (e) => {
+      // Ignore if typing in an input or textarea
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return;
+      }
+      
+      if (e.code === 'Space') {
+        e.preventDefault();
+        this.handleEggClick();
+      }
+      
+      // I key to open inventory
+      if (e.key.toLowerCase() === 'i') {
+        e.preventDefault();
+        this.openInventoryModal();
+      }
+      
+      // S or B key to open shop
+      if (e.key.toLowerCase() === 's' || e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        this.openShopModal();
+      }
+    });
+    
+    // Swipe right on hatched pokemon to open next egg
+    this.setupSwipeListeners();
+    
     // S'abonner aux changements de Pokedollars
     currencyManager.subscribe((amount) => {
       this.updatePokedollarsDisplay();
@@ -68,6 +99,30 @@ class GameUI {
     window.addEventListener('spriteVersionChanged', () => {
       this.updateSpriteDisplay();
     });
+  }
+
+  setupSwipeListeners() {
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    this.hatchedPokemon.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    this.hatchedPokemon.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      this.handleSwipe(touchStartX, touchEndX);
+    }, false);
+  }
+
+  handleSwipe(startX, endX) {
+    const swipeThreshold = 50; // Minimum distance to be considered a swipe
+    const swipeDistance = endX - startX;
+    
+    // If swiped to the right by at least threshold distance
+    if (swipeDistance > swipeThreshold) {
+      this.handleNextEgg();
+    }
   }
 
   updateSpriteDisplay() {

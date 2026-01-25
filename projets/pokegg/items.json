@@ -10,7 +10,7 @@
         "InitialValue": 0.5,
         "AdditionalUpgradeValue": 0.1,
         "Price": 300,
-        "UpgradePriceMultiplier": 1.5,
+        "UpgradePriceMultiplier": 2,
         "MaxLevel": 6
     },
     {
@@ -24,8 +24,8 @@
         "InitialValue": 1,
         "AdditionalUpgradeValue": 1,
         "Price": 1000,
-        "UpgradePriceMultiplier": 5,
-        "MaxLevel": 3
+        "UpgradePriceMultiplier": 3,
+        "MaxLevel": 4
     },
     {
         "Name": "Uncommon Egg",

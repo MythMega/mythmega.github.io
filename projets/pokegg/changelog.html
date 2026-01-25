@@ -29,6 +29,17 @@
         <br>
 
         <div class="changelog-section">
+          <h3>25/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.6.3</span>
+            <ul>
+              <li><strong id="changelog_v0630_1">Price Adjustments</strong> - <span id="changelog_v0630_1_desc">Prices adjusted (increase price of incubators, decrease price of flame click).</span></li>
+            </ul>
+          </div>
+        </div>
+        <br>
+
+        <div class="changelog-section">
           <h3>24/01/2026</h3>
           <div class="changelog-entry">
             <span class="changelog-version">0.6.2</span>
@@ -205,6 +216,10 @@
       
       document.getElementById('changelogTitle').textContent = translations.changelog_title || 'Changelog';
       document.getElementById('changelogMainTitle').textContent = translations.changelog_title || 'Changelog';
+      
+      // 0.6.3
+      document.getElementById('changelog_v0630_1').textContent = translations.changelog_v0630_1 || 'Price Adjustements';
+      document.getElementById('changelog_v0630_1_desc').textContent = translations.changelog_v0630_1_desc || 'Prices adjusted (increase price of incubators, decrease price of flame click).';
       
       // 0.6.1
       document.getElementById('changelog_v0610_1').textContent = translations.changelog_v0610_1 || 'Interactive Egg & Mobile Features';

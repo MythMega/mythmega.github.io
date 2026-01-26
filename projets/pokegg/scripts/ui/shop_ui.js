@@ -82,10 +82,16 @@ class ShopUI {
     console.log(`✓ Shop Item: ${itemName} | Lang: ${currentLanguage} | Desc: "${description}"`);
 
     let price = 0;
+    let priceDisplay = '';
     if (isUpgrade) {
-      price = shopManager.getUpgradePrice(itemName);
+      // Ne calculer le prix que si on peut encore upgrader
+      if (canUpgrade) {
+        price = shopManager.getUpgradePrice(itemName);
+        priceDisplay = `<p class="item-price">${price} Pokédollars</p>`;
+      }
     } else {
       price = shopManager.getConsumablePrice(itemName);
+      priceDisplay = `<p class="item-price">${price} Pokédollars</p>`;
     }
 
     const hasEnoughMoney = currencyManager.getBalance() >= price;
@@ -103,7 +109,7 @@ class ShopUI {
       <h3>${itemName}</h3>
       <p class="item-description">${description}</p>
       ${levelDisplay}
-      <p class="item-price">${price} Pokédollars</p>
+      ${priceDisplay}
       <button class="buy-button" 
               onclick="shopUI.buyItem('${itemName}')"
               ${!hasEnoughMoney || (isUpgrade && !canUpgrade) ? 'disabled' : ''}>

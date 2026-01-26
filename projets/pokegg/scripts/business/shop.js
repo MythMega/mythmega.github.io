@@ -19,6 +19,13 @@ class ShopManager {
     if (!itemData) return 0;
 
     const currentLevel = inventoryManager.getItemLevel(itemName);
+    const maxLevel = itemData.MaxLevel;
+
+    // Si on est déjà au maximum, retourner 0
+    if (currentLevel >= maxLevel) {
+      return 0;
+    }
+
     const basePrice = itemData.Price;
     const multiplier = itemData.UpgradePriceMultiplier;
 
@@ -38,6 +45,15 @@ class ShopManager {
     const itemData = this.getItemData(itemName);
     if (!itemData) {
       return { success: false, message: 'Item not found' };
+    }
+
+    // Vérifier si c'est un upgrade au MaxLevel
+    if (!itemData.Consummable) {
+      const currentLevel = inventoryManager.getItemLevel(itemName);
+      const maxLevel = itemData.MaxLevel;
+      if (currentLevel >= maxLevel) {
+        return { success: false, message: 'Item already at max level' };
+      }
     }
 
     let price = 0;

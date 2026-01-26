@@ -155,5 +155,7 @@
   "changelog_v0620_1": "Correction de l'Exploit de la Touche Espace",
   "changelog_v0620_1_desc": "Correction de l'exploit où maintenir la touche Espace enfoncée spammait les clics. Maintenant une pression = un clic, peu importe la durée.",
   "changelog_v0630_1": "Ajustements des prix.",
-  "changelog_v0630_1_desc": "Prix ajustés (augmentation du prix des incubateurs, diminution du prix des flame clicks. +1 max flame click)."
+  "changelog_v0630_1_desc": "Prix ajustés (augmentation du prix des incubateurs, diminution du prix des flame clicks. +1 max flame click).",
+  "changelog_v0640_1": "Corrections de Bugs",
+  "changelog_v0640_1_desc": "Correction du problème où un upgrade ne pouvait pas être acheté après l'augmentation du MaxLevel. Correction de l'affichage du prix de l'upgrade quand l'item est au niveau maximum."
 }

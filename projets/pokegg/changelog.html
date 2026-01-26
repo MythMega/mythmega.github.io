@@ -29,6 +29,17 @@
         <br>
 
         <div class="changelog-section">
+          <h3>26/01/2026</h3>
+          <div class="changelog-entry">
+            <span class="changelog-version">0.6.4</span>
+            <ul>
+              <li><strong id="changelog_v0640_1">Bug Fixes</strong> - <span id="changelog_v0640_1_desc">Fixed issue where upgrade could not be purchased after MaxLevel was increased. Fixed display of upgrade price when item is at maximum level.</span></li>
+            </ul>
+          </div>
+        </div>
+        <br>
+
+        <div class="changelog-section">
           <h3>25/01/2026</h3>
           <div class="changelog-entry">
             <span class="changelog-version">0.6.3</span>
@@ -199,7 +210,7 @@
         </div>
 
         <button id="backButton" class="back-button">Back to Game</button>
-        <br><br><br><p>Version : 0.6.2</p>
+        <br><br><br><p>Version : 0.6.4</p>
       </div>
     </main>
   </div>
@@ -216,6 +227,10 @@
       
       document.getElementById('changelogTitle').textContent = translations.changelog_title || 'Changelog';
       document.getElementById('changelogMainTitle').textContent = translations.changelog_title || 'Changelog';
+      
+      // 0.6.4
+      document.getElementById('changelog_v0640_1').textContent = translations.changelog_v0640_1 || 'Bug Fixes';
+      document.getElementById('changelog_v0640_1_desc').textContent = translations.changelog_v0640_1_desc || 'Fixed issue where upgrade could not be purchased after MaxLevel was increased. Fixed display of upgrade price when item is at maximum level.';
       
       // 0.6.3
       document.getElementById('changelog_v0630_1').textContent = translations.changelog_v0630_1 || 'Price Adjustements';

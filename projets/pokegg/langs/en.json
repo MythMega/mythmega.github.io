@@ -155,5 +155,7 @@
   "changelog_v0620_1": "Space Key Exploit Fix",
   "changelog_v0620_1_desc": "Fixed exploit where holding down Space key would spam clicks. Now one press = one click, regardless of how long the key is held down.",
   "changelog_v0630_1": "Price Adjustments.",
-  "changelog_v0630_1_desc": "Prices adjusted (increase price of incubators, decrease price of flame click. +1 max flame click)."
+  "changelog_v0630_1_desc": "Prices adjusted (increase price of incubators, decrease price of flame click. +1 max flame click).",
+  "changelog_v0640_1": "Bug Fixes",
+  "changelog_v0640_1_desc": "Fixed issue where upgrade could not be purchased after MaxLevel was increased. Fixed display of upgrade price when item is at maximum level."
 }

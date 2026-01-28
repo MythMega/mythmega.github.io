@@ -257,6 +257,7 @@ const Daily = (function () {
           if (dailyObj.hasOwnProperty(date)) {
             store.put({
               date: date,
+              importedInDex: false, // default to false
               ...dailyObj[date]
             });
           }
@@ -296,6 +297,41 @@ const Daily = (function () {
       results: payload.results
     };
     await saveDailyCookie(history);
+    // Mark as imported since we just updated Dex
+    await updateImportedInDex(dateKey, true);
+  }
+
+  // Update importedInDex for a daily entry
+  async function updateImportedInDex(date, value) {
+    console.log('[Daily] Updating importedInDex for', date, 'to', value);
+    const db = await getDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.get(date);
+      req.onsuccess = () => {
+        const entry = req.result;
+        if (entry) {
+          entry.importedInDex = value;
+          const putReq = store.put(entry);
+          putReq.onsuccess = () => {
+            console.log('[Daily] Updated importedInDex for', date);
+            resolve();
+          };
+          putReq.onerror = () => {
+            console.error('[Daily] Error updating importedInDex:', putReq.error);
+            reject(putReq.error);
+          };
+        } else {
+          console.warn('[Daily] No entry found for date:', date);
+          resolve();
+        }
+      };
+      req.onerror = () => {
+        console.error('[Daily] Error getting entry for update:', req.error);
+        reject(req.error);
+      };
+    });
   }
 
   // build emoji line helper (utile aussi pour history page)
@@ -382,6 +418,21 @@ const Daily = (function () {
     // persist results into history map
     const payload = { date: dateSeedStr(), results, score };
     await saveResultForToday(payload);
+
+    // Update Dex with found Pokemon
+    console.log('[Daily] Updating Dex with found Pokemon');
+    for (let i = 0; i < dailyList.length; i++) {
+      const p = dailyList[i];
+      const res = results[i];
+      if (res && res.outcome === 'win') {
+        try {
+          await Dex.markFound(p.Index);
+          console.log('[Daily] Marked Pokemon', p.Index, 'as found');
+        } catch (e) {
+          console.error('[Daily] Error updating Dex for', p.Index, ':', e);
+        }
+      }
+    }
 
     // prepare share text
     const share = buildShareText(results, payload.date, score);
@@ -609,7 +660,9 @@ const Daily = (function () {
   function bindButtons() {
     document.getElementById('dailySubmit').addEventListener('click', submitGuess);
     document.getElementById('dailySkip').addEventListener('click', () => {
-      // reveal and mark as fail, then next
+      const ok = confirm("Es-tu sûr de vouloir passer ce Pokémon ?");
+      if (!ok) return;
+
       showNotification('Passé — Pokémon révélé', 'hint');
       failCurrentAndAdvance();
     });
@@ -621,6 +674,20 @@ const Daily = (function () {
       if (!txt) return;
       navigator.clipboard?.writeText(txt).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
+      }, () => {
+        showNotification('Impossible de copier', 'fail');
+      });
+    });
+    document.getElementById('copyDiscordShare').addEventListener('click', () => {
+      const txt = shareArea.textContent || '';
+      if (!txt) return;
+
+      navigator.clipboard?.writeText(txt).then(() => {
+        showNotification('Copié dans le presse-papier', 'success');
+
+        // Ouvrir le lien dans un nouvel onglet
+        window.open('https://discord.gg/yY3b8RYznN', '_blank');
+
       }, () => {
         showNotification('Impossible de copier', 'fail');
       });

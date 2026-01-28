@@ -58,8 +58,23 @@ const Daily = (function () {
     };
   }
 
+  // Get the date from URL parameter or use provided date or today
+  let overrideDate = null;
+  function getDateFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const dateParam = params.get('date');
+    if (dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam)) {
+      return dateParam;
+    }
+    return null;
+  }
+  
   // seed based on date YYYY-MM-DD
   function dateSeedStr(d = new Date()) {
+    // If we have an override date (from URL), use it
+    if (overrideDate) {
+      return overrideDate;
+    }
     let y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
@@ -605,6 +620,9 @@ const Daily = (function () {
 
   // main init
   async function init() {
+    // Get the date from URL parameter if provided
+    overrideDate = getDateFromURL();
+    
     // load pokemons data (same logic as Game.init: try fetch data/pokemons.json)
     try {
       const res = await fetch('data/pokemons.json');

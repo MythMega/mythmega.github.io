@@ -79,7 +79,7 @@
     return Object.keys(historyObj).sort((a,b) => a.localeCompare(b)); // ascending dates
   }
 
-  function getLastNScores(historyObj, n = 30) {
+  function getLastNScores(historyObj, n = 45) {
     const dates = Object.keys(historyObj).sort((a,b) => a.localeCompare(b)); // ascending
     const lastDates = dates.slice(-n);
     const scores = lastDates.map(d => {
@@ -199,7 +199,7 @@
   async function init() {
     const history = await loadHistory();
     const allDates = buildHistoryList(history); // returns ascending dates
-    const last = getLastNScores(history, 30); // ascending
+    const last = getLastNScores(history, 45); // ascending
     drawChart(last);
   }
 
@@ -210,7 +210,7 @@
     canvas.width = Math.floor(canvas.clientWidth * ratio);
     canvas.height = Math.floor(canvas.clientHeight * ratio);
     const history = await loadHistory();
-    drawChart(getLastNScores(history, 30));
+    drawChart(getLastNScores(history, 45));
   });
 
   // set initial canvas size for device pixel ratio

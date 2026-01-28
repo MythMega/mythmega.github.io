@@ -58,8 +58,23 @@ const Daily = (function () {
     };
   }
 
+  // Get the date from URL parameter or use provided date or today
+  let overrideDate = null;
+  function getDateFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const dateParam = params.get('date');
+    if (dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam)) {
+      return dateParam;
+    }
+    return null;
+  }
+  
   // seed based on date YYYY-MM-DD
   function dateSeedStr(d = new Date()) {
+    // If we have an override date (from URL), use it
+    if (overrideDate) {
+      return overrideDate;
+    }
     let y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
@@ -605,6 +620,9 @@ const Daily = (function () {
 
   // main init
   async function init() {
+    // Get the date from URL parameter if provided
+    overrideDate = getDateFromURL();
+    
     // load pokemons data (same logic as Game.init: try fetch data/pokemons.json)
     try {
       const res = await fetch('data/pokemons.json');
@@ -660,7 +678,9 @@ const Daily = (function () {
   function bindButtons() {
     document.getElementById('dailySubmit').addEventListener('click', submitGuess);
     document.getElementById('dailySkip').addEventListener('click', () => {
-      // reveal and mark as fail, then next
+      const ok = confirm("Es-tu sûr de vouloir passer ce Pokémon ?");
+      if (!ok) return;
+
       showNotification('Passé — Pokémon révélé', 'hint');
       failCurrentAndAdvance();
     });
@@ -672,6 +692,20 @@ const Daily = (function () {
       if (!txt) return;
       navigator.clipboard?.writeText(txt).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
+      }, () => {
+        showNotification('Impossible de copier', 'fail');
+      });
+    });
+    document.getElementById('copyDiscordShare').addEventListener('click', () => {
+      const txt = shareArea.textContent || '';
+      if (!txt) return;
+
+      navigator.clipboard?.writeText(txt).then(() => {
+        showNotification('Copié dans le presse-papier', 'success');
+
+        // Ouvrir le lien dans un nouvel onglet
+        window.open('https://discord.gg/yY3b8RYznN', '_blank');
+
       }, () => {
         showNotification('Impossible de copier', 'fail');
       });

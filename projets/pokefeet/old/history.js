@@ -39,8 +39,8 @@
           const obj = {};
           arr.forEach(item => {
             const date = item.date;
-            const { score, results } = item;
-            obj[date] = { score, results };
+            const { score, results, importedInDex } = item;
+            obj[date] = { score, results, importedInDex: importedInDex || false };
           });
           resolve(obj);
         };
@@ -104,13 +104,15 @@
       const entry = history[dateKey] || {};
       const score = entry.score || 0;
       const results = entry.results || [];
+      const importedInDex = entry.importedInDex || false;
       const dateLabel = formatDateLabel(dateKey);
       const emojis = emojiLineFromResults(results);
+      const dexIcon = importedInDex ? ' <span style="color:#4ade80;">✓</span>' : '';
 
       const row = document.createElement('div');
       row.style.padding = '10px 0';
       row.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
-      row.innerHTML = `<strong>${dateLabel}</strong> - Score : ${score}/${COUNT * 10} - <span style="font-family:monospace">${emojis}</span>`;
+      row.innerHTML = `<strong>${dateLabel}</strong> - Score : ${score}/${COUNT * 10} - <span style="font-family:monospace">${emojis}</span>${dexIcon}`;
       container.appendChild(row);
     });
   }

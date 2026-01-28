@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéPied Dex</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PokéPied Dex</h1>
+        
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span id="progressText">0 / 0</span>
+            <button id="forceUpdateBtn">Force Update</button>
+        </div>
+
+        <div class="filter-section">
+            <input 
+                type="text" 
+                id="searchInput" 
+                class="search-input"
+                placeholder="Rechercher par nom (FR/EN) ou index..."
+            />
+            <div class="filter-checkboxes">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="showFoundCheckbox" />
+                    Afficher que obtenu
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="showNotFoundCheckbox" />
+                    Afficher que non obtenu
+                </label>
+            </div>
+        </div>
+        
+        <div id="dexGrid" class="dex-grid">
+            <!-- Pokemon entries will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Popup for details -->
+    <div id="dexPopup" class="popup" style="display:none;">
+        <div class="popup-content">
+            <button id="closePopup" class="close-btn">&times;</button>
+            <div id="popupDetails">
+                <!-- Details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="pokemon.js"></script>
+    <script src="Dex.js"></script>
+    <script src="Dex-ui.js"></script>
+    <script src="DailyToDexImport.js"></script>
+    <script>
+      // Init Dex
+      document.addEventListener('DOMContentLoaded', async () => {
+        console.log('[Init] Starting Dex init');
+        await Dex.init();
+        const dexData = await Dex.getAllDexEntries();
+        const progress = await Dex.getProgress();
+        DexUI.updateProgress(progress.found, progress.total);
+        DexUI.renderDexGrid(Dex.getAllPokemons(), dexData);
+        DexUI.bindEvents();
+        console.log('[Init] Dex init complete');
+        window.scrollTo(0, 0);
+      });
+    </script>
+</body>
+</html>

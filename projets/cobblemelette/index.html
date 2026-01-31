@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cobblemelette</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">🍉 Cobblemelette</a>
+      <button class="nav-toggle" id="navToggle"></button>
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link active">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a href="banned_list.html" class="nav-link">Pokémon bannis</a>
+        </li>
+        <li class="nav-item">
+          <a href="infos.html" class="nav-link">Infos</a>
+        </li>
+        <li class="nav-item">
+          <a href="modpack.html" class="nav-link">Modpack</a>
+        </li>
+        <li class="nav-item">
+          <a href="players.html" class="nav-link">Participants</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section class="hero">
+      <h1>Bienvenue sur Cobblemelette</h1>
+      <div class="buttons-grid">
+        <a href="banned_list.html" class="btn-hero">🚫 Pokémon Bannis</a>
+        <a href="infos.html" class="btn-hero">ℹ️ Infos</a>
+        <a href="modpack.html" class="btn-hero">📦 Modpack</a>
+        <a href="players.html" class="btn-hero">👥 Participants</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Mobile menu toggle
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+
+    navToggle.addEventListener("click", () => {
+      navToggle.classList.toggle("open");
+      navMenu.classList.toggle("open");
+    });
+
+    // Close menu when a link is clicked
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        navToggle.classList.remove("open");
+        navMenu.classList.remove("open");
+      });
+    });
+
+    // Highlight active link
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      if (link.href === window.location.href) {
+        link.classList.add("active");
+      }
+    });
+  </script>
+</body>
+</html>

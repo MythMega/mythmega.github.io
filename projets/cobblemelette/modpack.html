@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cobblemelette : Modpack</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">🍉 Cobblemelette</a>
+      <button class="nav-toggle" id="navToggle"></button>
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a href="banned_list.html" class="nav-link">Pokémon bannis</a>
+        </li>
+        <li class="nav-item">
+          <a href="infos.html" class="nav-link">Infos</a>
+        </li>
+        <li class="nav-item">
+          <a href="modpack.html" class="nav-link active">Modpack</a>
+        </li>
+        <li class="nav-item">
+          <a href="players.html" class="nav-link">Participants</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section class="content-section">
+      <h2>Modpack Cobblemelette</h2>
+      <button class="btn-download">📥 Télécharger</button>
+
+      <div class="tutorial-label">Tutoriel d'installation</div>
+      <div class="video-container">
+        <iframe
+          src="https://www.youtube.com/embed/JDUuasZ2rjg"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Mobile menu toggle
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+
+    navToggle.addEventListener("click", () => {
+      navToggle.classList.toggle("open");
+      navMenu.classList.toggle("open");
+    });
+
+    // Close menu when a link is clicked
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        navToggle.classList.remove("open");
+        navMenu.classList.remove("open");
+      });
+    });
+
+    // Highlight active link
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      if (link.href === window.location.href) {
+        link.classList.add("active");
+      }
+    });
+  </script>
+</body>
+</html>

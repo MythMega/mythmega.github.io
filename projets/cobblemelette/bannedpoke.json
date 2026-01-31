@@ -216,12 +216,6 @@
         "Type2": null
     },
     {
-        "Nom": "Palkia",
-        "Sprite": "https://img.pokemondb.net/sprites/home/normal/palkia.png",
-        "Type1": "Eau",
-        "Type2": "Dragon"
-    },
-    {
         "Nom": "Pyrax",
         "Sprite": "https://img.pokemondb.net/sprites/home/normal/volcarona.png",
         "Type1": "Insecte",
@@ -508,5 +502,65 @@
         "Sprite": "https://img.pokemondb.net/sprites/home/normal/groudon-primal.png",
         "Type1": "Sol",
         "Type2": "Feu"
+    },
+    {
+        "Nom": "Cancrelove",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/pheromosa.png",
+        "Type1": "Insecte",
+        "Type2": "Combat"
+    },
+    {
+        "Nom": "Darumacho de Galar",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/darmanitan-galarian.png",
+        "Type1": "Glace",
+        "Type2": null
+    },
+    {
+        "Nom": "Darumacho de Galar Mode Transe",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/darmanitan-galarian-zen.png",
+        "Type1": "Glace",
+        "Type2": "Feu"
+    },
+    {
+        "Nom": "Hydragon",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/dracovish.png",
+        "Type1": "Eau",
+        "Type2": "Dragon"
+    },
+    {
+        "Nom": "Mandrillon",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/dragalge.png",
+        "Type1": "Poison",
+        "Type2": "Dragon"
+    },
+    {
+        "Nom": "Xerneas",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/xerneas.png",
+        "Type1": "Fée",
+        "Type2": null
+    },
+    {
+        "Nom": "Yveltal",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/yveltal.png",
+        "Type1": "Ténèbres",
+        "Type2": "Vol"
+    },
+    {
+        "Nom": "Zygarde",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/zygarde.png",
+        "Type1": "Dragon",
+        "Type2": "Sol"
+    },
+    {
+        "Nom": "Zygarde Forme Parfaite",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/zygarde-complete.png",
+        "Type1": "Dragon",
+        "Type2": "Sol"
+    },
+    {
+        "Nom": "Marshadow",
+        "Sprite": "https://img.pokemondb.net/sprites/home/normal/marshadow.png",
+        "Type1": "Combat",
+        "Type2": "Spectre"
     }
 ]

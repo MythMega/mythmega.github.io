@@ -1,58 +1,263 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cobblemelette : Infos</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cobblemelette : Infos — Bourg Omelette</title>
+  <link rel="stylesheet" href="infos.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <nav class="navbar">
+
+  <nav class="navbar" aria-label="Navigation principale">
     <div class="nav-container">
       <a href="index.html" class="nav-brand">🍉 Cobblemelette</a>
-      <button class="nav-toggle" id="navToggle"></button>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false">☰</button>
       <ul class="nav-menu" id="navMenu">
-        <li class="nav-item">
-          <a href="index.html" class="nav-link">Accueil</a>
-        </li>
-        <li class="nav-item">
-          <a href="banned_list.html" class="nav-link">Pokémon bannis</a>
-        </li>
-        <li class="nav-item">
-          <a href="infos.html" class="nav-link active">Infos</a>
-        </li>
-        <li class="nav-item">
-          <a href="modpack.html" class="nav-link">Modpack</a>
-        </li>
-        <li class="nav-item">
-          <a href="players.html" class="nav-link">Participants</a>
-        </li>
+        <li class="nav-item"><a href="index.html" class="nav-link">Accueil</a></li>
+        <li class="nav-item"><a href="banned_list.html" class="nav-link">Pokémon bannis</a></li>
+        <li class="nav-item"><a href="infos.html" class="nav-link active">Infos</a></li>
+        <li class="nav-item"><a href="modpack.html" class="nav-link">Modpack</a></li>
+        <li class="nav-item"><a href="players.html" class="nav-link">Participants</a></li>
       </ul>
     </div>
   </nav>
+  <div class="header-wrap">
+    <div class="sommaire" aria-label="Sommaire">
+      <div class="sommaire-title">Sommaire</div>
+      <nav class="toc" id="toc">
+        <a href="#pokecenter">01. PokéCenter</a>
+        <a href="#pokeshop">02. PokéShop</a>
+        <a href="#tcg">03. T.C.G. Shop</a>
+        <a href="#gimmick">04. Gimmick Shop</a>
+        <a href="#plushie">05. PlushieShop</a>
+        <a href="#pokebank">06. PokéBank</a>
+        <a href="#pokelabs">07. Pokélabs</a>
+        <a href="#serre">08. Serre</a>
+        <a href="#cabane">09. Cabane de pêche</a>
+        <a href="#capsule">10. Capsule Corps</a>
+        <a href="#nature">11. Nature Shop</a>
+        <a href="#safari">12. Safari</a>
+        <a href="#tour">13. Tour de Combat</a>
+        <a href="#sortie">14. Sortie</a>
+      </nav>
+    </div>
+  </div>
 
   <main class="main">
     <section class="content-section">
-      <h2>Informations</h2>
+      <h2>Guide de Bourg Omelette</h2>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+        Ce guide résume l'aménagement de Bourg Omelette et présente les lieux
+        principaux : services, boutiques, attractions et points d'intérêt.
+        Utilisez le sommaire en haut pour naviguer rapidement.
       </p>
-      <p>
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-        odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-        voluptatem sequi nesciunt.
-      </p>
+
+      <!-- PokéCenter -->
+      <div class="section" id="pokecenter">
+        <span class="anchor-offset" id="a-pokecenter"></span>
+        <div>
+          <h3>01. PokéCenter</h3>
+          <p>
+            Soignez vos pokémons gratuitement. Vous aurez aussi accès à des PC
+            pour échanger les pokémons de votre équipe.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/pokecenter.png" alt="Image placeholder PokéCenter" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- PokéShop -->
+      <div class="section" id="pokeshop">
+        <span class="anchor-offset" id="a-pokeshop"></span>
+        <div>
+          <h3>02. PokéShop</h3>
+          <p>
+            Achetez ici quelques items de première nécessité pour vos Pokémons.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/pokeshop.png" alt="Image placeholder PokéShop" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- T.C.G. Shop -->
+      <div class="section" id="tcg">
+        <span class="anchor-offset" id="a-tcg"></span>
+        <div>
+          <h3>03. T.C.G. Shop</h3>
+          <p>
+            Achetez des boosters Pokémon et faites grader vos cartes préférées.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/tcgshop.png" alt="Image placeholder T.C.G. Shop" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Gimmick Shop -->
+      <div class="section" id="gimmick">
+        <span class="anchor-offset" id="a-gimmick"></span>
+        <div>
+          <h3>04. Gimmick Shop</h3>
+          <p>
+            Le shop des experts : Terracristalisation, Dynamax, Capacité Z,
+            Méga-évolutions... Procurez-vous ce qu'il vous faut si vous avez le budget.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/gimmick.png" alt="Image placeholder Gimmick Shop" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Plushie Shop -->
+      <div class="section" id="plushie">
+        <span class="anchor-offset" id="a-plushie"></span>
+        <div>
+          <h3>05. PlushieShop</h3>
+          <p>
+            Le magasin le plus mignon de Bourg Omelette : des peluches uniques
+            pour décorer vos intérieurs cocooning.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/plushie.png" alt="Image placeholder Plushie Shop" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- PokéBank -->
+      <div class="section" id="pokebank">
+        <span class="anchor-offset" id="a-pokebank"></span>
+        <div>
+          <h3>06. PokéBank</h3>
+          <p>
+            Banque de Bourg Omelette. Pas de prêts, et que du cash.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/pokebank.png" alt="Image placeholder PokéBank" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Pokélabs -->
+      <div class="section" id="pokelabs">
+        <span class="anchor-offset" id="a-pokelabs"></span>
+        <div>
+          <h3>07. Pokélabs</h3>
+          <p>
+            Le laboratoire Pokémon est un passage incontournable. On raconte que
+            les dernières prouesses du labo seraient de donner vie à des cailloux anciens.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/pokelab.png" alt="Image placeholder Pokélabs" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Serre -->
+      <div class="section" id="serre">
+        <span class="anchor-offset" id="a-serre"></span>
+        <div>
+          <h3>08. Serre</h3>
+          <p>
+            Une serre ouverte au public. Vous pouvez même vous servir, tant que
+            vous replantez, afin que l'écosystème reste durable et se renouvelle.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/serre.png" alt="Image placeholder Serre" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Cabane de pêche -->
+      <div class="section" id="cabane">
+        <span class="anchor-offset" id="a-cabane"></span>
+        <div>
+          <h3>09. Cabane de pêche</h3>
+          <p>
+            Croisez notre maître pêcheur. Celui-ci pourra vous donner quelques
+            tips et ses meilleurs appâts.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/peche.png" alt="Image placeholder Cabane de pêche" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Capsule Corps -->
+      <div class="section" id="capsule">
+        <span class="anchor-offset" id="a-capsule"></span>
+        <div>
+          <h3>10. Capsule Corps</h3>
+          <p>
+            Des CT, DT, CS, rien que vous ne sauriez trouver chez Capsule Corp™.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/caps.png" alt="Image placeholder Capsule Corps" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Nature Shop -->
+      <div class="section" id="nature">
+        <span class="anchor-offset" id="a-nature"></span>
+        <div>
+          <h3>11. Nature Shop</h3>
+          <p>
+            Notre fermier local vend quelques victuailles et produits de son potager.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/nature.png" alt="Image placeholder Nature Shop" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Safari -->
+      <div class="section" id="safari">
+        <span class="anchor-offset" id="a-safari"></span>
+        <div>
+          <h3>12. Safari</h3>
+          <p>
+            Explorez notre parc safari en échange d'une pièce d'Or. Si vous avez
+            un ticket, vous êtes évidemment bienvenu aussi.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/safari.png" alt="Image placeholder Safari" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Tour de Combat -->
+      <div class="section" id="tour">
+        <span class="anchor-offset" id="a-tour"></span>
+        <div>
+          <h3>13. Tour de Combat</h3>
+          <p>
+            Le plus grand Challenge Pokémon de la région : progressez dans les
+            paliers de combat difficile, seul ou avec un ami, et méritez votre gloire.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/tourdecombat.png" alt="Image placeholder Tour de Combat" width="960" height="540" />
+        </div>
+      </div>
+
+      <!-- Sortie -->
+      <div class="section" id="sortie">
+        <span class="anchor-offset" id="a-sortie"></span>
+        <div>
+          <h3>14. Sortie</h3>
+          <p>
+            Votre sortie (mais surtout votre entrée) dans Bourg Omelette. Hors
+            de la ville, parcourez un monde qui regorge de secrets.
+          </p>
+        </div>
+        <div class="img-wrap">
+          <img src="./img/sortie.png" alt="Image placeholder Sortie" width="960" height="540" />
+        </div>
+      </div>
+
     </section>
   </main>
 
@@ -62,23 +267,55 @@
     const navMenu = document.getElementById("navMenu");
 
     navToggle.addEventListener("click", () => {
-      navToggle.classList.toggle("open");
-      navMenu.classList.toggle("open");
+      const open = navMenu.style.display !== "flex";
+      navMenu.style.display = open ? "flex" : "none";
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
 
-    // Close menu when a link is clicked
+    // Close menu when a link is clicked (mobile)
     document.querySelectorAll(".nav-link").forEach((link) => {
       link.addEventListener("click", () => {
-        navToggle.classList.remove("open");
-        navMenu.classList.remove("open");
+        if (window.innerWidth <= 1100) {
+          navMenu.style.display = "none";
+          navToggle.setAttribute("aria-expanded", "false");
+        }
       });
     });
 
-    // Highlight active link
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      if (link.href === window.location.href) {
-        link.classList.add("active");
+    // Smooth scroll for sommaire links
+    document.querySelectorAll(".toc a").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = a.getAttribute("href").slice(1);
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        const offset = 80; // account for fixed header spacing
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: "smooth" });
+        // update URL hash without jumping
+        history.replaceState(null, "", "#" + targetId);
+      });
+    });
+
+    // Highlight active toc item while scrolling
+    const tocLinks = Array.from(document.querySelectorAll(".toc a"));
+    const sections = tocLinks.map(l => document.getElementById(l.getAttribute("href").slice(1)));
+    function onScroll(){
+      const fromTop = window.scrollY + 100;
+      let current = sections[0];
+      for (let sec of sections){
+        if (sec.offsetTop <= fromTop) current = sec;
       }
+      tocLinks.forEach(l => l.classList.remove("active"));
+      const activeLink = tocLinks.find(l => l.getAttribute("href").slice(1) === current.id);
+      if (activeLink) activeLink.classList.add("active");
+    }
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+
+    // Highlight nav link matching current page
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      if (link.href === window.location.href) link.classList.add("active");
     });
   </script>
 </body>

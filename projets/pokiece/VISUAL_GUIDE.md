@@ -1,10 +1,10 @@
-# 🎮 Pokéice - Aperçu Visuel et Guide de Référence
+# 🎮 Pokiéce - Aperçu Visuel et Guide de Référence
 
 ## 🏗️ Architecture Globale
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     POKÉICE APPLICATION                     │
+│                     Pokiéce APPLICATION                     │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  ┌──────────────────────────────────────────────────────┐  │
@@ -40,7 +40,7 @@
 │  🌐                                            🌙  🏠     │ <- Boutons flottants
 ├──────────────────────────────────────────────────────────────┤
 │                                                              │
-│                        POKÉICE                              │
+│                        Pokiéce                              │
 │                  Qui est-ce Pokémon ?                       │
 │                                                              │
 ├──────────────────────────────────────────────────────────────┤
@@ -70,7 +70,7 @@
 │  🌐                                            🌙  🏠     │
 ├──────────────────────────────────────────────────────────────┤
 │                                                              │
-│                        POKÉICE                              │
+│                        Pokiéce                              │
 │                  Devinez le Pokémon                        │
 │                                                              │
 ├──────────────────────────────────────────────────────────────┤
@@ -205,7 +205,7 @@
 ## 📦 Structure des Fichiers
 
 ```
-POKÉICE/
+Pokiéce/
 │
 ├── 📄 PAGES HTML
 │   ├── index.html          ← Accueil
@@ -277,7 +277,7 @@ Validation:
 ╔══════════════════╦══════════════════╗
 ║   FRANÇAIS (FR)  ║   ENGLISH (EN)   ║
 ╠══════════════════╬══════════════════╣
-║ Pokéice          ║ Pokédex Game     ║
+║ Pokiéce          ║ Pokédex Game     ║
 ║ Commencer        ║ Start            ║
 ║ Rejoindre        ║ Join             ║
 ║ Coller code      ║ Paste code       ║
@@ -376,4 +376,4 @@ TRANSITIONS:
 
 ---
 
-**Pokéice v1.0.0 - Prêt à l'emploi! 🚀**
+**Pokiéce v1.0.0 - Prêt à l'emploi! 🚀**

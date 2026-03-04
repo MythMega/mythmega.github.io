@@ -1,4 +1,4 @@
-# ✅ VÉRIFICATION FINALE - Pokéice v1.1.0
+# ✅ VÉRIFICATION FINALE - Pokiéce v1.1.0
 
 ## 🎯 Tous les Problèmes Résolus
 
@@ -169,7 +169,7 @@ Tous les HTML chargent dans cet ordre:
 ### Au Démarrage
 
 ```
-🚀 Pokéice - Application Web (mons.js)
+🚀 Pokiéce - Application Web (mons.js)
 🚀 InitMons.js chargé (initmons.js)
 📥 Chargement de la base de données Pokémons (initmons.js)
 ✅ NNN Pokémons bruts chargés (initmons.js)
@@ -238,7 +238,7 @@ Pokemon {
 window.TRANSLATIONS.FR.title
 
 // Sortie attendue:
-"Pokéice"
+"Pokiéce"
 
 // Vérifier EN:
 window.TRANSLATIONS.EN.title
@@ -345,7 +345,7 @@ window.TRANSLATIONS.EN; // Doit contenir clés
 
 ## ✨ Conclusion
 
-Pokéice v1.1.0 est **PRÊT** avec:
+Pokiéce v1.1.0 est **PRÊT** avec:
 - ✅ Système de traduction robuste
 - ✅ Chargement Pokémons optimisé
 - ✅ Architecture modulaire
@@ -354,7 +354,7 @@ Pokéice v1.1.0 est **PRÊT** avec:
 - ✅ Gestion erreurs complète
 - ✅ Documentation exhaustive
 
-**AMUSEZ-VOUS AVEC POKÉICE! 🎮✨**
+**AMUSEZ-VOUS AVEC Pokiéce! 🎮✨**
 
 ---
 

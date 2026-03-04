@@ -1,4 +1,4 @@
-# 🧪 Plan de Test - Pokéice
+# 🧪 Plan de Test - Pokiéce
 
 ## 📋 Tests Fonctionnels
 
@@ -6,7 +6,7 @@
 
 #### A.1 Affichage Initial
 - [ ] Page charge correctement
-- [ ] Titre "Pokéice" s'affiche
+- [ ] Titre "Pokiéce" s'affiche
 - [ ] Deux sections visibles: "Nouvelle partie" et "Rejoindre une partie"
 - [ ] Boutons 🌐 et 🌙 sont présents en bas droit
 - [ ] Lien "Crédits" est visible
@@ -129,7 +129,7 @@
 #### A.1 Démarrage
 ```
 Console doit contenir:
-✓ "🚀 Pokéice - Application Web"
+✓ "🚀 Pokiéce - Application Web"
 ✓ "📄 DOM chargé"
 ✓ "✅ Initialisation globale terminée"
 ✓ Logs colorés en cyan (#00ffff)

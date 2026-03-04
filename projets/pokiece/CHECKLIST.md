@@ -1,4 +1,4 @@
-# ✅ Checklist des Spécifications - Pokéice
+# ✅ Checklist des Spécifications - Pokiéce
 
 ## 📋 Fichiers à Créer
 - [x] index.html

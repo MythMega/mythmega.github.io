@@ -1,9 +1,9 @@
-# ✅ Pokéice - Fichiers Créés
+# ✅ Pokiéce - Fichiers Créés
 
 ## 🎉 Résumé de Création
 
 **Date**: 2026-03-04  
-**Projet**: Pokéice - Qui est-ce Pokémon ?  
+**Projet**: Pokiéce - Qui est-ce Pokémon ?  
 **Status**: ✅ Complètement Terminé  
 **Fichiers Créés**: 13
 
@@ -15,7 +15,7 @@
 - **Description**: Page d'accueil
 - **Taille**: ~5 KB
 - **Contenu**:
-  - En-tête avec titre "Pokéice"
+  - En-tête avec titre "Pokiéce"
   - Section "Nouvelle partie" avec bouton "Commencer"
   - Section "Rejoindre une partie" avec input et bouton
   - Lien vers credits.html
@@ -328,7 +328,7 @@
 
 ## 🎉 Conclusion
 
-**L'application Pokéice est complètement créée et prête à l'emploi!**
+**L'application Pokiéce est complètement créée et prête à l'emploi!**
 
 Tous les fichiers demandés ont été créés avec:
 - ✅ Code de haute qualité
@@ -346,4 +346,4 @@ Tous les fichiers demandés ont été créés avec:
 
 ---
 
-**Bon jeu avec Pokéice! 🎮✨**
+**Bon jeu avec Pokiéce! 🎮✨**

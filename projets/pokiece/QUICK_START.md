@@ -1,4 +1,4 @@
-# 🚀 Guide de Démarrage Rapide - Pokéice
+# 🚀 Guide de Démarrage Rapide - Pokiéce
 
 ## 📦 Installation
 
@@ -93,7 +93,7 @@ pokiece/
 ### 1. Console (F12)
 Recherchez les messages suivants:
 ```
-✓ "🚀 Pokéice - Application Web"
+✓ "🚀 Pokiéce - Application Web"
 ✓ "📄 DOM chargé"
 ✓ "✅ Initialisation globale terminée"
 ✓ Logs colorés en #00ffff (cyan)
@@ -201,4 +201,4 @@ L'application est complète et prête à être utilisée!
 - Design responsive et moderne
 - Console logs détaillés pour debugging
 
-**Amusez-vous bien avec Pokéice! 🎮**
+**Amusez-vous bien avec Pokiéce! 🎮**

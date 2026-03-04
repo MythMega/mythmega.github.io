@@ -1,4 +1,4 @@
-# ✅ Corrections Effectuées - Pokéice
+# ✅ Corrections Effectuées - Pokiéce
 
 ## 📋 Problèmes Identifiés et Résolus
 

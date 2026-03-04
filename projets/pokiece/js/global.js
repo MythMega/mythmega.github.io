@@ -207,5 +207,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Affichage du message initial
-console.log('%c🚀 Pokéice - Application Web', 'color: #00d4ff; font-weight: bold; font-size: 16px');
+console.log('%c🚀 Pokiéce - Application Web', 'color: #00d4ff; font-weight: bold; font-size: 16px');
 console.log('%c✨ Bienvenue!', 'color: #ff00ff; font-weight: bold; font-size: 14px');

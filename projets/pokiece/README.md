@@ -1,4 +1,4 @@
-# 🎮 Pokéice - Qui est-ce Pokémon ?
+# 🎮 Pokiéce - Qui est-ce Pokémon ?
 
 Une application web interactive basée sur le célèbre jeu "Qui est-ce ?" adapté à l'univers des Pokémons !
 
@@ -248,4 +248,4 @@ credits.html
 
 ## 🎉 Bon jeu !
 
-Profitez de Pokéice et amusez-vous à deviner les Pokémons !
+Profitez de Pokiéce et amusez-vous à deviner les Pokémons !

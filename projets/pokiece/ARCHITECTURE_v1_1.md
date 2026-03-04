@@ -1,4 +1,4 @@
-# 📁 Structure Mise à Jour - Pokéice v1.1.0
+# 📁 Structure Mise à Jour - Pokiéce v1.1.0
 
 ## 🎉 Modifications de la Structure
 
@@ -92,7 +92,7 @@ game.js (utilise window.POKEMONS_DB)
 
 ```
 ┌─────────────────────────────────────────────────┐
-│         APPLICATION POKÉICE v1.1.0               │
+│         APPLICATION Pokiéce v1.1.0               │
 ├─────────────────────────────────────────────────┤
 │                                                  │
 │  ┌─────────────────────────────────────────┐   │

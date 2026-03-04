@@ -1,4 +1,4 @@
-# 📦 Structure Complète du Projet Pokéice
+# 📦 Structure Complète du Projet Pokiéce
 
 ## 📁 Arborescence
 
@@ -358,6 +358,6 @@ Pour questions/problèmes:
 
 ---
 
-**Projet: Pokéice v1.0.0**  
+**Projet: Pokiéce v1.0.0**  
 **Statut: ✅ Production Ready**  
 **Date: 2026-03-04**

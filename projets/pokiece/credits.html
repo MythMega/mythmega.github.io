@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokéice - Crédits</title>
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+    <!-- Boutons flottants -->
+    <button id="languageBtn" class="floating-btn language-btn" title="Toggle Language">🌐</button>
+    <button id="darkModeBtn" class="floating-btn dark-mode-btn" title="Toggle Dark Mode">🌙</button>
+
+    <div class="container">
+        <!-- En-tête -->
+        <header>
+            <h1 data-i18n="title">Pokéice</h1>
+            <p data-i18n="creditsTitle">Crédits</p>
+        </header>
+
+        <!-- Contenu principal -->
+        <main class="credits-content">
+            <section class="section credits-section">
+                <h2 data-i18n="creditsAbout">À propos</h2>
+                <p>
+                    Pokéice est une application web interactive basée sur le célèbre jeu "Qui est-ce ?" 
+                    adapté à l'univers des Pokémons. Cette application permet de jouer avec vos Pokémons 
+                    préférés et de partager des parties avec vos amis grâce à un système de codes uniques.
+                </p>
+            </section>
+
+            <section class="section credits-section">
+                <h2 data-i18n="creditsData">Sources des données</h2>
+                <p>
+                    Les données des Pokémons (noms, types, poids, taille, régions) proviennent de sources 
+                    publiques liées à l'univers Pokémon. Les sprites et icônes sont tirés d'un repos qui
+                    rassemble des sources comme pokémon showdown, PokémonDB, et d'autres sources.
+                </p>
+                <ul>
+                    <li>Sprites: <a href="https://pokemondb.net" target="_blank">PokemonDB</a></li>
+                    <li>Données: Communauté Pokémon</li>
+                </ul>
+            </section>
+
+            <section class="section credits-section">
+                <h2 data-i18n="creditchangelof">Changelog</h2>
+                <p>
+                    Résumé des modifications:
+                </p>
+                <ul>
+                    <li><i>04/03/2026</i><b>1.0</b> - Première version</li>
+                </ul>
+            </section>
+
+            <!-- Lien de retour -->
+            <div class="footer-links">
+                <a href="./index.html" data-i18n="backHome">← Retour à l'accueil</a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/mons.js"></script>
+    <script src="./js/initmons.js"></script>
+    <script src="./js/translation.js"></script>
+    <script src="./js/global.js"></script>
+    <script>
+        // === Credits.html - Script principal ===
+        console.log('%c📖 Page Crédits - Pokéice', 'color: #00ffff; font-weight: bold; font-size: 14px');
+
+        // Initialiser la traduction au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 Page credits.html chargée');
+            applyTranslation();
+        });
+    </script>
+</body>
+</html>

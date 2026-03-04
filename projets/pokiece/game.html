@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokéice - Pokémon Qui est-ce ?</title>
+    <meta name="description" content="Pokéice est un jeu inspiré du Qui est-ce ? version Pokémon. Devinez le Pokémon mystère en posant les bonnes questions ! Jouez a plusieurs avec un simple code !">
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+    <!-- Boutons flottants -->
+    <button id="languageBtn" class="floating-btn language-btn" title="Toggle Language">🌐</button>
+    <button id="darkModeBtn" class="floating-btn dark-mode-btn" title="Toggle Dark Mode">🌙</button>
+
+    <div class="container">
+        <!-- En-tête -->
+        <header>
+            <h1 data-i18n="title">Pokéice</h1>
+            <p data-i18n="gameTitle">Devinez le Pokémon</p>
+        </header>
+
+        <!-- Boutons de contrôle -->
+        <div class="game-controls">
+            <button id="homeBtn" class="btn btn-secondary" data-i18n="home">🏠 Accueil</button>
+            <button id="reshuffleBtn" class="btn btn-secondary" data-i18n="reshuffle">🔄 Relancer</button>
+            <button id="copyCodeBtn" class="btn btn-secondary" data-i18n="copyCode">📋 Copier code</button>
+        </div>
+
+        <!-- Affichage du Pokémon sélectionné -->
+        <div id="selectedPokemonSection" class="selected-pokemon-section">
+            <div class="selected-label" data-i18n="selected">Sélectionné :</div>
+            <div id="selectedPokemonDisplay" class="selected-pokemon-display">
+                <div class="selected-pokemon-empty" data-i18n="selectPokemon">Sélectionner un Pokémon</div>
+            </div>
+            <div class="remaining-display">
+                <span data-i18n="remaining">Restant</span>: <span id="remainingCount">30</span>
+            </div>
+        </div>
+
+        <!-- Grille de Pokémons -->
+        <main class="game-grid-container">
+            <div id="gameGrid" class="game-grid">
+                <!-- Les cartes de Pokémons seront générées ici par JavaScript -->
+            </div>
+        </main>
+
+        <!-- Boutons de contrôle de la grille -->
+        <div class="game-grid-controls">
+            <button id="allShinyBtn" class="btn btn-secondary" data-i18n="allShiny">✨ Tous Shiny</button>
+            <button id="allNormalBtn" class="btn btn-secondary" data-i18n="allNormal">Tous Normal</button>
+            <button id="activateAllBtn" class="btn btn-secondary" data-i18n="activateAll">✓ Activer tous</button>
+        </div>
+
+        <!-- Toast de notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <!-- Popup Final Guess (EN DEHORS du container pour la modal fixe) -->
+    <div id="finalGuessModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-title" data-i18n="finalGuess">Devinez Final :</div>
+            <div id="modalPokemonDisplay" class="modal-pokemon-display">
+                <img id="modalPokemonSprite" src="" alt="Pokémon" />
+                <div id="modalPokemonName"></div>
+            </div>
+            <button id="doneBtn" class="btn btn-primary" data-i18n="done">Fait</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/mons.js"></script>
+    <script src="./js/initmons.js"></script>
+    <script src="./js/translation.js"></script>
+    <script src="./js/global.js"></script>
+    <script src="./js/code.js"></script>
+    <script src="./js/game.js"></script>
+</body>
+</html>

@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokiéce - Crédits</title>
     <link rel="stylesheet" href="./styles/style.css">
+    <script>
+        // Appliquer le dark mode immédiatement si activé
+        (function() {
+            const darkMode = document.cookie.split('; ').find(row => row.startsWith('darkMode='));
+            if (darkMode && darkMode.split('=')[1] === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Boutons flottants -->
@@ -48,7 +57,8 @@
                     Résumé des modifications:
                 </p>
                 <ul>
-                    <li><i>04/03/2026</i><b>1.0</b> - Première version</li>
+                    <li><i>05/03/2026</i> <b>1.0.1</b> - Corrections visuelles</li>
+                    <li><i>04/03/2026</i> <b>1.0.0</b> - Première version</li>
                 </ul>
             </section>
 

@@ -6,6 +6,15 @@
     <title>Pokiéce - Pokémon Qui est-ce ?</title>
     <meta name="description" content="Pokiéce est un jeu inspiré du Qui est-ce ? version Pokémon. Devinez le Pokémon mystère en posant les bonnes questions ! Jouez a plusieurs avec un simple code !">
     <link rel="stylesheet" href="./styles/style.css">
+    <script>
+        // Appliquer le dark mode immédiatement si activé
+        (function() {
+            const darkMode = document.cookie.split('; ').find(row => row.startsWith('darkMode='));
+            if (darkMode && darkMode.split('=')[1] === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Boutons flottants -->
@@ -24,6 +33,7 @@
             <button id="homeBtn" class="btn btn-secondary" data-i18n="home">🏠 Accueil</button>
             <button id="reshuffleBtn" class="btn btn-secondary" data-i18n="reshuffle">🔄 Relancer</button>
             <button id="copyCodeBtn" class="btn btn-secondary" data-i18n="copyCode">📋 Copier code</button>
+            <button id="copyFullURLBtn" class="btn btn-secondary" data-i18n="copyFullURL">🔗 Copier URL</button>
         </div>
 
         <!-- Affichage du Pokémon sélectionné -->

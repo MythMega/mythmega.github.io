@@ -121,12 +121,16 @@ function buildGameURL(code) {
     return fullURL;
 }
 
+function getNoCodeGameurl() {
+    return window.location.origin + window.location.pathname;
+}
+
 /**
  * Recharge la page du jeu sans paramètre (shuffle)
  */
 function reshuffleGame() {
     console.log('🔄 Relancement du jeu (shuffle)');
-    const gamePageURL = './game.html';
+    const gamePageURL = getNoCodeGameurl();
     console.log(`🚀 Redirection vers: ${gamePageURL}`);
     window.location.href = gamePageURL;
 }

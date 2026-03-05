@@ -8,6 +8,15 @@
     <meta name="description" content="Pokiéce est un jeu inspiré du Qui est-ce ? version Pokémon. Devinez le Pokémon mystère en posant les bonnes questions ! Jouez a plusieurs avec un simple code !">
 
     <link rel="stylesheet" href="./styles/style.css">
+    <script>
+        // Appliquer le dark mode immédiatement si activé
+        (function() {
+            const darkMode = document.cookie.split('; ').find(row => row.startsWith('darkMode='));
+            if (darkMode && darkMode.split('=')[1] === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Boutons flottants -->
@@ -79,14 +88,39 @@
         /**
          * Rejoindre une partie existante
          * Récupère le code saisi et redirige vers game.html?Code=XXXX
+         * Supporte aussi les URLs complètes, extrait le code automatiquement
          */
         joinBtn.addEventListener('click', function() {
-            const code = codeInput.value.trim();
-            console.log(`📝 Code saisi: ${code}`);
+            let input = codeInput.value.trim();
+            console.log(`📝 Entrée saisie: ${input}`);
             
-            if (code === '') {
-                console.warn('⚠️ Code vide - aucune redirection');
+            if (input === '') {
+                console.warn('⚠️ Entrée vide - aucune redirection');
                 alert(getTranslation('emptyCode'));
+                return;
+            }
+            
+            // Extraire le code si une URL complète est fournie
+            let code = input;
+            if (input.includes('game.html?Code=')) {
+                // C'est une URL complète, extraire le code
+                const urlParams = new URL(input, window.location.origin).searchParams;
+                code = urlParams.get('Code');
+                console.log(`🔗 Code extrait de l'URL: ${code}`);
+            } else if (input.includes('Code=')) {
+                // C'est une URL partielle avec le paramètre Code
+                const urlParams = new URL('http://localhost' + (input.startsWith('?') ? '' : '?') + input);
+                code = urlParams.searchParams.get('Code') || input;
+                console.log(`🔗 Code extrait des paramètres: ${code}`);
+            } else {
+                // C'est déjà un code
+                code = input.toUpperCase();
+                console.log(`📝 Code direct: ${code}`);
+            }
+            
+            if (!code) {
+                console.warn('⚠️ Impossible d\'extraire le code');
+                alert(getTranslation('invalidCode'));
                 return;
             }
             

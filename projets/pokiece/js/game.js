@@ -258,9 +258,26 @@ function updateSelectedPokemonDisplay() {
     
     const display = document.getElementById('selectedPokemonDisplay');
     if (display) {
+        // Construire les types avec les icônes
+        let typesHTML = '';
+        selectedPokemon.Types.forEach(type => {
+            const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
+            typesHTML += `<img class="pokemon-type-icon" src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/type/icon/teragem/TeraGem_${typeCapitalized}.png" alt="${type}" title="${type}" />`;
+        });
+        
         display.innerHTML = `
-            <img src="${sprite}" alt="${name}" class="selected-pokemon-sprite" />
-            <div class="selected-pokemon-name">${name}</div>
+            <div class="selected-pokemon-left">
+                <img src="${sprite}" alt="${name}" class="selected-pokemon-sprite" />
+            </div>
+            <div class="selected-pokemon-right">
+                <div class="selected-pokemon-name">${name}</div>
+                <div class="selected-pokemon-info">
+                    <div class="pokemon-index">#${selectedPokemon.Index}</div>
+                    <div class="pokemon-types">${typesHTML}</div>
+                    <div class="pokemon-metrics">${selectedPokemon.Weight} kg • ${selectedPokemon.Height} m</div>
+                    <div class="pokemon-serie">${selectedPokemon.Serie}</div>
+                </div>
+            </div>
         `;
     }
     
@@ -450,26 +467,10 @@ function renderGameGrid() {
  * Relance le jeu avec de nouveaux Pokémons
  */
 function reshuffleGame() {
-    console.log('🔄 Relance du jeu');
-    
-    // Réinitialiser les variables
-    selectedPokemon = null;
-    selectedIndices = [];
-    
-    // Générer de nouveaux indices
-    const newIndices = [];
-    while (newIndices.length < 30) {
-        const randomIndex = Math.floor(Math.random() * gamePokemons.length);
-        const index = gamePokemons[randomIndex].Index;
-        if (!newIndices.includes(index)) {
-            newIndices.push(index);
-        }
-    }
-    
-    // Réencoder et relancer
-    const code = encodeCode(newIndices);
-    const gameURL = buildGameURL(code);
-    window.location.href = gameURL;
+    console.log('🔄 Relancement du jeu (shuffle)');
+    const gamePageURL = getNoCodeGameurl();
+    console.log(`🚀 Redirection vers: ${gamePageURL}`);
+    window.location.href = gamePageURL;
 }
 
 /**
@@ -528,13 +529,31 @@ function initGameControls() {
             const code = getCodeFromURL();
             
             if (code) {
-                const gameURL = buildGameURL(code);
-                copyToClipboard(gameURL);
+                copyToClipboard(code);
+                showToast(getTranslation('codeCopied'));
             } else {
                 console.warn('⚠️ Aucun code disponible');
             }
         });
         console.log('✅ Bouton Copy Code configuré');
+    }
+    
+    // Bouton Copy Full URL
+    const copyFullURLBtn = document.getElementById('copyFullURLBtn');
+    if (copyFullURLBtn) {
+        copyFullURLBtn.addEventListener('click', function() {
+            console.log('🔗 Bouton Copy Full URL cliqué');
+            const code = getCodeFromURL();
+            
+            if (code) {
+                const gameURL = buildGameURL(code);
+                copyToClipboard(gameURL);
+                showToast(getTranslation('urlCopied'));
+            } else {
+                console.warn('⚠️ Aucun code disponible');
+            }
+        });
+        console.log('✅ Bouton Copy Full URL configuré');
     }
     
     // Bouton Done (Modal Final Guess)

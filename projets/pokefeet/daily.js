@@ -64,6 +64,15 @@ const Daily = (function () {
     const params = new URLSearchParams(window.location.search);
     const dateParam = params.get('date');
     if (dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam)) {
+      // Check if the date is not after today
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      if (dateParam > todayStr) {
+        // Show error and prevent playing future dailies
+        alert("Impossible de jouer un daily du futur");
+        window.location.href = window.location.pathname;
+        return null;
+      }
       return dateParam;
     }
     return null;
@@ -410,6 +419,45 @@ const Daily = (function () {
     });
   }
 
+  // Check which pokemons are new (never found before)
+  async function checkNewPokemons() {
+    const newPokemons = [];
+    for (let i = 0; i < dailyList.length; i++) {
+      const res = results[i];
+      if (res && res.outcome === 'win') {
+        const p = dailyList[i];
+        const entry = await Dex.getDexEntry(p.Index).catch(() => null);
+        // A pokemon is new if it was not found before (entry is null or found is false)
+        if (!entry || !entry.found) {
+          newPokemons.push(p);
+        }
+      }
+    }
+    return newPokemons;
+  }
+
+  // Display new pokemons alert
+  function displayNewPokemonsAlert(newPokemons) {
+    const alertEl = document.getElementById('newPokemonsAlert');
+    if (!alertEl) return;
+    
+    if (newPokemons.length === 0) {
+      alertEl.classList.add('hidden');
+      return;
+    }
+
+    const pokemonNames = newPokemons
+      .map(p => p.NameFR || p.NameEN || '?')
+      .join(', ');
+    
+    const message = newPokemons.length === 1
+      ? `🌟 Nouveau Pokémon découvert : ${pokemonNames}!`
+      : `🌟 Nouveaux Pokémon découverts : ${pokemonNames}!`;
+    
+    alertEl.textContent = message;
+    alertEl.classList.remove('hidden');
+  }
+
 
   // advance to next pokemon (or finish)
   function nextPokemon() {
@@ -434,6 +482,9 @@ const Daily = (function () {
     const payload = { date: dateSeedStr(), results, score };
     await saveResultForToday(payload);
 
+    // Check for new pokemons BEFORE marking them as found
+    const newPokemons = await checkNewPokemons();
+
     // Update Dex with found Pokemon
     console.log('[Daily] Updating Dex with found Pokemon');
     for (let i = 0; i < dailyList.length; i++) {
@@ -448,6 +499,9 @@ const Daily = (function () {
         }
       }
     }
+
+    // Display alert for new pokemons
+    displayNewPokemonsAlert(newPokemons);
 
     // prepare share text
     const share = buildShareText(results, payload.date, score);

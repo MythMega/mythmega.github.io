@@ -10,9 +10,9 @@
 <body>
   <main id="app">
     <header>
-      <h1>Historique — PokéPied Daily</h1>
+      <h1 data-i18n="history.title">Historique — PokéPied Daily</h1>
       <div class="scoreboard">
-        <div>Total jours : <span id="totalDays">0</span></div>
+        <div><span data-i18n="history.totalDays">Total jours</span> : <span id="totalDays">0</span></div>
       </div>
     </header>
 
@@ -21,7 +21,7 @@
 
         <!-- graphique: placé en premier pour mobile/medium (sera repositionné sur large via order-lg) -->
         <div id="historyChartWrap" class="flex-fill order-1 order-lg-2" style="min-width:260px;">
-          <h3 class="h5">Scores (30 derniers jours)</h3>
+          <h3 class="h5" data-i18n="history.scoreChart">Scores (30 derniers jours)</h3>
           <div class="card p-2 bg-transparent border-0">
             <canvas id="historyChart" width="600" height="320" style="width:100%; height:320px; background:rgba(255,255,255,0.02); border-radius:8px;"></canvas>
             <div id="chartStats" class="mt-2 text-muted small"></div>
@@ -36,12 +36,15 @@
       </div>
     </section>
 
-    <a href="./index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;">Retour à l'accueil</button></a>
+    <a href="./index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
     
 
     <div id="notifications" aria-live="polite"></div>
   </main>
 
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="i18n-setup.js"></script>
   <script src="migration.js"></script>
   <script src="history.js"></script>
   <script src="history_curve.js"></script>

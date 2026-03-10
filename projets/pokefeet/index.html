@@ -29,34 +29,37 @@
 <body>
   <main id="app">
     <header>
-      <h1>PokéPied</h1>
-      <i>/ Code par Jordan M <a href="https://web.jmdev.fr/">(jdmev)</a></i>
+      <h1 data-i18n="home.title">PokéPied</h1>
+      <i data-i18n="home.byLine">/ Code par Jordan M</i> <a href="https://web.jmdev.fr/">(jdmev)</a>
     </header>
 
     <section class="home-area">
       <div class="home-card" role="region" aria-labelledby="homeTitle">
-        <h2 id="homeTitle" class="home-title">Choisissez un mode</h2>
+        <h2 id="homeTitle" class="home-title" data-i18n="home.chooseMode">Choisissez un mode</h2>
 
-        <a class="big-btn" href="daily.html" title="Daily challenge — Aller au défi du jour">Daily challenge</a>
+        <a class="big-btn" href="daily.html" data-i18n="home.dailyChallenge">Daily challenge</a>
 
         <div class="row-buttons" aria-hidden="false">
-          <a class="small-btn" href="history.html" title="History — Check records">Records</a>
-          <a class="small-btn" href="old_daily.html" title="Old Daily — Rejouer les dailies passés">Old Daily</a>
+          <a class="small-btn" href="history.html" data-i18n="home.records">Records</a>
+          <a class="small-btn" href="old_daily.html" data-i18n="home.oldDaily">Old Daily</a>
         </div>
 
         <div class="row-buttons" aria-hidden="false">
-          <a class="small-btn" href="data_management.html" title="Data Management — Save/Load">Save/Load</a>
+          <a class="small-btn" href="data_management.html" data-i18n="home.saveLoad">Save/Load</a>
         </div>
 
-        <a class="big-btn secondary" href="pokefeet.html" title="Practice ∞ — Aller à Practice">Practice ∞</a>
+        <a class="big-btn secondary" href="pokefeet.html" data-i18n="home.practice">Practice ∞</a>
 
-        <a class="big-btn secondary" href="pied-dex.html" title="Pokedex — View your collection">Pokedex</a>
+        <a class="big-btn secondary" href="pied-dex.html" data-i18n="home.pokedex">Pokedex</a>
 
-        <div class="subtitle">Mode Practice : parties illimitées — Daily : un défi par jour</div>
+        <div class="subtitle" data-i18n="home.modeDesc">Mode Practice : parties illimitées — Daily : un défi par jour</div>
       </div>
     </section>
 
   </main>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="i18n-setup.js"></script>
   <script src="migration.js"></script>
 </body>
 </html>

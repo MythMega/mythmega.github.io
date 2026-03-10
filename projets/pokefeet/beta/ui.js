@@ -43,7 +43,9 @@ const UI = (function () {
 
   function showPokemonImage(src) {
     imgEl.src = src || '';
-    imgEl.alt = src ? 'Pokémon' : 'Aucun';
+    const pokemon = Translator.get('practice.pokemon', 'Pokémon');
+    const none = Translator.get('practice.none', 'Aucun');
+    imgEl.alt = src ? pokemon : none;
     // Réinitialiser image styles si nécessaire
   }
 
@@ -123,7 +125,9 @@ const UI = (function () {
   // visual preview of points for the next correct answer (optional)
   function setScorePreview(p) {
     // place un petit badge temporaire comme notification
-    showNotification('Réponse correcte = +' + p + ' points', 'hint');
+    const correctMsg = Translator.get('practice.correctAnswer', 'Réponse correcte = +');
+    const pointsWord = Translator.get('practice.pointsReward', 'points');
+    showNotification(correctMsg + p + ' ' + pointsWord, 'hint');
   }
 
   function showFailedAttemptsPractice(arr) {
@@ -134,7 +138,8 @@ const UI = (function () {
       return;
     }
     failedPracticeEl.classList.remove('hidden');
-    failedPracticeEl.textContent = 'Échecs : ' + arr.join(', ');
+    const failedLabel = Translator.get('practice.failedAttempts', 'Échecs');
+    failedPracticeEl.textContent = failedLabel + ' : ' + arr.join(', ');
   }
 
   function clearFailedAttemptsPractice() {

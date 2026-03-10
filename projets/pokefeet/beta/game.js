@@ -72,7 +72,8 @@ const Game = (function () {
     // reflow pour relancer l'animation si déjà présente
     void el.offsetWidth;
     el.classList.add('shake');
-    UI.showNotification('Nom invalide', 'fail');
+    const invalidMsg = Translator.get('practice.invalidName', 'Nom invalide');
+    UI.showNotification(invalidMsg, 'fail');
     // retirer la classe après l'animation
     setTimeout(() => el.classList.remove('shake'), 500);
   }
@@ -112,7 +113,8 @@ const Game = (function () {
     document.getElementById('nextBtn').addEventListener('click', next);
     const ab = document.getElementById('abandonBtn');
     if (ab) ab.addEventListener('click', () => {
-      if (!confirm('Abandon the current practice run?')) return;
+      const confirmMsg = Translator.get('practice.confirmAbandon', 'Êtes-vous sûr d\'abandonner cette partie ?');
+      if (!confirm(confirmMsg)) return;
       // refresh the page
       window.location.reload();
     });
@@ -165,7 +167,8 @@ const Game = (function () {
     score = 0;
     streak = 0;
     UI.setScore(score);
-    UI.showNotification('Révélé ! Score remis à 0', 'fail');
+    const revealedMsg = Translator.get('practice.revealedReset', 'Révélé ! Score remis à 0');
+    UI.showNotification(revealedMsg, 'fail');
     saveBestIfNeeded();
     UI.enableInput(false);
   }
@@ -182,7 +185,8 @@ const Game = (function () {
 
     // check if already tried
     if (currentWrongGuesses.includes(input)) {
-      UI.showNotification('Already tried', 'hint');
+      const alreadyTriedMsg = Translator.get('daily.alreadyTried', 'Déjà essayé');
+      UI.showNotification(alreadyTriedMsg, 'hint');
       return; // ne compte pas comme tentative
     }
 
@@ -222,7 +226,8 @@ const Game = (function () {
       } else {
         // afficher indice correspondant
         showHintForAttempt(attempts);
-        UI.showNotification('-2 points (indice affiché)', 'hint');
+        const hintMsg = Translator.get('practice.hintShown', '-2 points (indice affiché)');
+        UI.showNotification(hintMsg, 'hint');
       }
     }
   }
@@ -237,19 +242,24 @@ const Game = (function () {
         // Types on same line
         const t1 = current.Type1 || '';
         const t2 = current.Type2 || '';
-        UI.addHint(`Type(s) : ${t1}${t2 ? ' / ' + t2 : ''}`);
+        const typesLabel = Translator.get('practice.types', 'Type(s)');
+        UI.addHint(`${typesLabel} : ${t1}${t2 ? ' / ' + t2 : ''}`);
         break;
       case 2:
         // Index with generation
-        UI.addHint(`Index : ${current.Index} (Génération ${current.Generation})`);
+        const indexLabel = Translator.get('practice.index', 'Index');
+        const genLabel = Translator.get('practice.generation_hint', 'Génération');
+        UI.addHint(`${indexLabel} : ${current.Index} (${genLabel} ${current.Generation})`);
         break;
       case 3:
         // Egg groups
-        UI.addHint(`Groupes d'oeuf : ${current.getEggGroupsDisplay()}`);
+        const eggLabel = Translator.get('practice.eggGroups', 'Groupes d\'oeuf');
+        UI.addHint(`${eggLabel} : ${current.getEggGroupsDisplay()}`);
         break;
       case 4:
         // Category
-        UI.addHint(`Catégorie : ${current.getCategoryDisplay()}`);
+        const catLabel = Translator.get('practice.category', 'Catégorie');
+        UI.addHint(`${catLabel} : ${current.getCategoryDisplay()}`);
         break;
       default:
         break;

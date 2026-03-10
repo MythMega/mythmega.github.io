@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Poké-feet Daily Passés</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .daily-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 600px;
+      margin: 24px auto;
+    }
+
+    .daily-button {
+      padding: 16px 12px;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 200ms ease;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+    }
+
+    .daily-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(2, 6, 23, 0.4);
+    }
+
+    .daily-button.played {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--muted);
+      border-color: rgba(148, 163, 184, 0.3);
+    }
+
+    .daily-button.played:hover {
+      background: rgba(148, 163, 184, 0.25);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+
+    .daily-button.available {
+      background: var(--accent);
+      color: #052018;
+      border-color: var(--accent);
+    }
+
+    .daily-button.available:hover {
+      background: #15a042;
+      border-color: #15a042;
+      box-shadow: 0 8px 16px rgba(22, 163, 74, 0.3);
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 10px 16px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 200ms ease;
+    }
+
+    .back-button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .no-dailies {
+      text-align: center;
+      color: var(--muted);
+      padding: 40px 20px;
+      font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .daily-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>PokéPied Daily Passés</h1>
+      <i>Rejoue les dailies manqués</i>
+    </header>
+
+    <section class="game-area">
+      <div class="center-card" style="max-width: 700px;">
+        <a href="index.html" class="back-button">← Retour</a>
+
+        <div id="dailiesContainer" class="daily-grid"></div>
+
+        <div id="noDailies" class="no-dailies hidden">
+          Aucun daily trouvé pour le moment.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="notifications"></div>
+
+  <script src="pokemon.js"></script>
+  <script src="daily.js"></script>
+  <script src="old_daily.js"></script>
+</body>
+</html>

@@ -92,13 +92,13 @@
 <body>
   <main id="app">
     <header>
-      <h1>PokéPied Daily Passés</h1>
-      <i>Rejoue les dailies manqués</i>
+      <h1 data-i18n="daily.title">PokéPied Daily Passés</h1>
+      <i data-i18n="daily.includes">Rejoue les dailies manqués</i>
     </header>
 
     <section class="game-area">
       <div class="center-card" style="max-width: 700px;">
-        <a href="index.html" class="back-button">← Retour</a>
+        <a href="index.html" class="back-button" data-i18n="common.backHome">← Retour</a>
 
         <div id="dailiesContainer" class="daily-grid"></div>
 
@@ -111,6 +111,9 @@
 
   <div id="notifications"></div>
 
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="i18n-setup.js"></script>
   <script src="pokemon.js"></script>
   <script src="daily.js"></script>
   <script src="old_daily.js"></script>

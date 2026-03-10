@@ -8,14 +8,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>PokéPied Dex</h1>
+        <h1 data-i18n="dex.title">PokéPied Dex</h1>
         
         <div class="progress-section">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <span id="progressText">0 / 0</span>
-            <button id="forceUpdateBtn">Force Update</button>
+            <span id="progressText" data-i18n="dex.progress">Progression : 0 / 0</span>
+            <button id="forceUpdateBtn" data-i18n="dex.forceUpdate">Force Update</button>
         </div>
 
         <div class="filter-section">
@@ -23,16 +23,17 @@
                 type="text" 
                 id="searchInput" 
                 class="search-input"
+                data-i18n-attr="placeholder:dex.search"
                 placeholder="Rechercher par nom (FR/EN) ou index..."
             />
             <div class="filter-checkboxes">
                 <label class="checkbox-label">
                     <input type="checkbox" id="showFoundCheckbox" />
-                    Afficher que obtenu
+                    <span data-i18n="dex.showFound">Afficher que obtenu</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" id="showNotFoundCheckbox" />
-                    Afficher que non obtenu
+                    <span data-i18n="dex.showNotFound">Afficher que non obtenu</span>
                 </label>
             </div>
         </div>
@@ -52,6 +53,9 @@
         </div>
     </div>
 
+    <script src="translate.js"></script>
+    <script src="language-switcher.js"></script>
+    <script src="i18n-setup.js"></script>
     <script src="pokemon.js"></script>
     <script src="Dex.js"></script>
     <script src="Dex-ui.js"></script>

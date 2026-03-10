@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Traductions - PokéFeet</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <main id="app">
+        <header>
+            <h1 data-i18n="home.title">Test des traductions</h1>
+        </header>
+        
+        <section class="game-area">
+            <div class="center-card">
+                <h2>Test du système de traduction</h2>
+                
+                <div id="testResults" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <p><strong>État du système:</strong></p>
+                    <p id="translatorStatus">Vérification...</p>
+                    <p id="currentLang">Langue: <span id="langInfo">-</span></p>
+                    <p><strong>Tests de traduction:</strong></p>
+                    <ul id="translationTests"></ul>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="testTranslation()" style="padding: 10px 20px; background: var(--accent); color: #052018; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;">
+                        Tester les traductions
+                    </button>
+                    <button onclick="switchToEnglish()" style="padding: 10px 20px; background: var(--accent); color: #052018; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;">
+                        Switch to English
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="translate.js"></script>
+    <script src="language-switcher.js"></script>
+    <script src="i18n-setup.js"></script>
+    
+    <script>
+        function testTranslation() {
+            const resultsDiv = document.getElementById('translationTests');
+            resultsDiv.innerHTML = '';
+            
+            const tests = [
+                { key: 'home.title', name: 'Home Title' },
+                { key: 'home.chooseMode', name: 'Choose Mode' },
+                { key: 'daily.submit', name: 'Submit Button' },
+                { key: 'practice.next', name: 'Next Button' },
+                { key: 'common.backHome', name: 'Back Home' }
+            ];
+            
+            tests.forEach(test => {
+                const translation = Translator.get(test.key, 'NOT FOUND');
+                const li = document.createElement('li');
+                li.textContent = `${test.name}: "${translation}"`;
+                if (translation === 'NOT FOUND') {
+                    li.style.color = '#ff6b6b';
+                }
+                resultsDiv.appendChild(li);
+            });
+            
+            document.getElementById('langInfo').textContent = Translator.getLanguage().toUpperCase();
+            document.getElementById('translatorStatus').textContent = 'Translator est opérationnel ✓';
+        }
+        
+        function switchToEnglish() {
+            Translator.setLanguage('en');
+            location.reload();
+        }
+        
+        // Test on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testTranslation();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

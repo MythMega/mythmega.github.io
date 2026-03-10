@@ -69,7 +69,8 @@ const Daily = (function () {
       const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
       if (dateParam > todayStr) {
         // Show error and prevent playing future dailies
-        alert("Impossible de jouer un daily du futur");
+        const futureMsg = Translator.get('daily.futureDaily', 'Impossible de jouer un daily du futur');
+        alert(futureMsg);
         window.location.href = window.location.pathname;
         return null;
       }
@@ -553,25 +554,32 @@ const Daily = (function () {
         // Type(s) on same line
         const t1 = p.Type1 || '';
         const t2 = p.Type2 || '';
-        addHint(`Type(s) : ${t1}${t2 ? ' / ' + t2 : ''}`);
+        const typesLabel = Translator.get('daily.types', 'Type(s)');
+        addHint(`${typesLabel} : ${t1}${t2 ? ' / ' + t2 : ''}`);
         break;
       case 2:
         // Index with generation in parentheses
-        addHint(`Index : ${p.Index} (Génération ${p.Generation})`);
+        const indexLabel = Translator.get('daily.index', 'Index');
+        const genLabel = Translator.get('daily.generation', 'Génération');
+        addHint(`${indexLabel} : ${p.Index} (${genLabel} ${p.Generation})`);
         break;
       case 3:
         // Egg groups
-        addHint(`Groupes d'oeuf : ${p.getEggGroupsDisplay()}`);
+        const eggLabel = Translator.get('daily.eggGroups', 'Groupes d\'oeuf');
+        addHint(`${eggLabel} : ${p.getEggGroupsDisplay()}`);
         break;
       case 4:
         // Category
-        addHint(`Catégorie : ${p.getCategoryDisplay()}`);
+        const catLabel = Translator.get('daily.category', 'Catégorie');
+        addHint(`${catLabel} : ${p.getCategoryDisplay()}`);
         break;
       default:
         break;
     }
     // visual preview
-    showNotification('Réponse correcte = +' + pointsForAttempt(attempts) + ' points', 'hint');
+    const correctMsg = Translator.get('daily.correctAnswer', 'Réponse correcte = +');
+    const pointsWord = Translator.get('daily.pointsReward', 'points');
+    showNotification(correctMsg + pointsForAttempt(attempts) + ' ' + pointsWord, 'hint');
   }
 
   // --- nouvelle fonction : vérifie si le nom entré existe dans la liste (FR ou EN) ---
@@ -594,7 +602,8 @@ const Daily = (function () {
     // reflow pour relancer l'animation si déjà présente
     void el.offsetWidth;
     el.classList.add('shake');
-    showNotification('Nom invalide', 'fail');
+    const invalidMsg = Translator.get('daily.invalidName', 'Nom invalide');
+    showNotification(invalidMsg, 'fail');
     // retirer la classe après l'animation
     setTimeout(() => el.classList.remove('shake'), 500);
   }
@@ -611,7 +620,8 @@ const Daily = (function () {
     // check if already tried
     const currentGuesses = wrongGuessesPerSlot[index] || [];
     if (currentGuesses.includes(val)) {
-      showNotification('Already tried', 'hint');
+      const alreadyTriedMsg = Translator.get('daily.alreadyTried', 'Déjà essayé');
+      showNotification(alreadyTriedMsg, 'hint');
       return; // ne compte pas comme tentative
     }
 

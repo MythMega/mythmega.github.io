@@ -126,8 +126,9 @@ function toggleLanguage() {
 }
 
 /**
- * Récupère une traduction pour une clé donnée
- * @param {string} key - Clé de traduction
+ * Récupère une traduction pour une clé donnée (supporte les clés imbriquées avec des points)
+ * Exemples: 'title', 'typesNames.Dark', 'nested.path.to.key'
+ * @param {string} key - Clé de traduction (peut contenir des points pour les objets imbriqués)
  * @returns {string} Texte traduit
  */
 function getTranslation(key) {
@@ -147,13 +148,20 @@ function getTranslation(key) {
         return key;
     }
     
-    if (!translationObj[key]) {
-        console.warn(`⚠️ Clé de traduction non trouvée: ${key} (${lang})`);
-        return key;
+    // Supporter les clés imbriquées avec des points (ex: 'typesNames.Dark')
+    const keys = key.split('.');
+    let value = translationObj;
+    
+    for (const k of keys) {
+        if (value && typeof value === 'object' && k in value) {
+            value = value[k];
+        } else {
+            console.warn(`⚠️ Clé de traduction non trouvée: ${key} (${lang})`);
+            return key;
+        }
     }
     
-    const text = translationObj[key];
-    return text;
+    return value;
 }
 
 /**

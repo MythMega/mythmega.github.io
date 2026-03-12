@@ -1,0 +1,83 @@
+{
+  "app": "Pokiéce",
+  "version": "1.0.0",
+  "description": "Qui est-ce Pokémon ? - Application web interactive",
+  "author": "Pokiéce Team",
+  "license": "MIT",
+  "features": {
+    "multiLanguage": "FR/EN",
+    "darkMode": true,
+    "responsive": true,
+    "codeSharing": true,
+    "pokemonGrid": "6x5",
+    "totalPokemons": 30
+  },
+  "technologies": {
+    "html": "HTML5",
+    "css": "CSS3",
+    "javascript": "Vanilla JS (ES6+)",
+    "storage": "Cookies"
+  },
+  "files": {
+    "pages": [
+      "index.html",
+      "game.html",
+      "credits.html"
+    ],
+    "styles": [
+      "styles/style.css"
+    ],
+    "scripts": [
+      "js/initmons.js",
+      "js/mons.js",
+      "js/global.js",
+      "js/translation.js",
+      "js/code.js",
+      "js/game.js"
+    ],
+    "data": [
+      "data/mons.json"
+    ],
+    "translations": [
+      "translations/fr.json",
+      "translations/en.json"
+    ]
+  },
+  "detailedFeatures": {
+    "traduction": {
+      "languages": ["FR", "EN"],
+      "storage": "cookie:language",
+      "filesBasedTranslation": true
+    },
+    "darkMode": {
+      "default": "light",
+      "storage": "cookie:darkMode"
+    },
+    "gameCode": {
+      "format": "Hexadécimal (Base16)",
+      "encoding": "4 caractères par indice",
+      "maxPokemons": 30,
+      "maxCodeLength": "120 caractères"
+    },
+    "pokemonLoading": {
+      "loadOnPageInit": true,
+      "cacheInMemory": true,
+      "requiredBeforeGameStart": true
+    }
+  },
+  "colors": {
+    "primary": "#00d4ff",
+    "secondary": "#b000ff",
+    "accent": "#ff00ff",
+    "lightBg": "#f5f5f5",
+    "darkBg": "#1a1a1a"
+  },
+  "deployment": {
+    "requires": "Web server (HTTP/HTTPS)",
+    "corsPolicy": "Aucune CORS stricte requise",
+    "externalAssets": [
+      "https://img.pokemondb.net (Sprites)",
+      "https://archives.bulbagarden.net (Icônes de type)"
+    ]
+  }
+}

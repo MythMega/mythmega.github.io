@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokiéce - Configurer une partie</title>
+    <meta name="description" content="Pokiéce - Configurez votre partie personnalisée en choisissant le nombre de Pokémons et les séries.">
+    <link rel="stylesheet" href="./styles/style.css">
+    <style>
+        .config-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .config-section h2 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: var(--text-color);
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff6d00;
+        }
+
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .series-checkbox {
+            appearance: none;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .series-checkbox:hover {
+            border-color: #ff6d00;
+            background: rgba(255, 109, 0, 0.1);
+        }
+
+        .series-checkbox:checked {
+            background: #ff6d00;
+            color: white;
+            border-color: #ff6d00;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+
+        .error-text {
+            color: #ff5252;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .success-text {
+            color: #4caf50;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .pokemon-count-display {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff6d00;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .series-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn-group .btn {
+                width: 100%;
+            }
+        }
+    </style>
+    <script>
+        // Appliquer le dark mode immédiatement si activé
+        (function() {
+            const darkMode = document.cookie.split('; ').find(row => row.startsWith('darkMode='));
+            if (darkMode && darkMode.split('=')[1] === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <!-- Boutons flottants -->
+    <button id="languageBtn" class="floating-btn language-btn" title="Toggle Language">🌐</button>
+    <button id="darkModeBtn" class="floating-btn dark-mode-btn" title="Toggle Dark Mode">🌙</button>
+
+    <div class="container">
+        <!-- En-tête -->
+        <header>
+            <h1 data-i18n="title">Pokiéce</h1>
+            <p data-i18n="configTitle">Configurer votre partie</p>
+        </header>
+
+        <!-- Contenu principal -->
+        <main>
+            <!-- Section: Nombre de Pokémons -->
+            <section class="config-section">
+                <h2 data-i18n="pokemonCount">Nombre de Pokémons</h2>
+                <div class="form-group">
+                    <label class="form-label" for="pokemonCountSelect" data-i18n="selectCount">Sélectionnez le nombre</label>
+                    <select id="pokemonCountSelect" class="form-control">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30" selected>30</option>
+                        <option value="45">45</option>
+                        <option value="60">60</option>
+                        <option value="100">100</option>
+                    </select>
+                    <div class="pokemon-count-display">
+                        <span data-i18n="willSelect">Vous sélectionnerez</span>: <span id="countDisplay">30</span> <span data-i18n="pokemons">Pokémons</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Filtrer par Séries -->
+            <section class="config-section">
+                <h2 data-i18n="filterBySeries">Filtrer par Séries</h2>
+                <p class="info-text" data-i18n="seriesInfo">Laissez vide pour inclure toutes les séries, ou sélectionnez une ou plusieurs séries</p>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="availableSeries">Séries disponibles</label>
+                    <div id="seriesContainer" class="series-grid">
+                        <!-- Les séries seront générées en JavaScript -->
+                    </div>
+                </div>
+                <div id="seriesWarning" style="display: none;">
+                    <div class="error-text" id="seriesErrorText"></div>
+                </div>
+            </section>
+
+            <!-- Boutons d'action -->
+            <div class="btn-group">
+                <button id="backBtn" class="btn btn-secondary" data-i18n="back">← Retour</button>
+                <button id="createBtn" class="btn btn-primary" data-i18n="createGame">Créer la partie</button>
+            </div>
+
+            <!-- Footer avec lien crédits -->
+            <footer class="footer-links">
+                <a href="./credits.html" data-i18n="credits">Crédits</a>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Modal / Popup d'erreur -->
+    <div id="errorModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-title" data-i18n="error">Erreur</div>
+            <div id="errorText" style="margin-bottom: 16px; color: var(--text-color);">
+                <!-- Texte d'erreur -->
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button id="errorRetryBtn" class="btn btn-primary" style="flex: 1;" data-i18n="changeParams">Changer les paramètres</button>
+                <button id="errorAutoBtn" class="btn btn-secondary" style="flex: 1;" data-i18n="autoGenerate">Générer avec le max</button>
+            </div>
+            <button id="errorCloseBtn" class="btn btn-secondary" style="width: 100%; margin-top: 12px;" data-i18n="cancel">Annuler</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/mons.js"></script>
+    <script src="./js/initmons.js"></script>
+    <script src="./js/translation.js"></script>
+    <script src="./js/global.js"></script>
+    <script src="./js/code.js"></script>
+    <script src="./js/config.js"></script>
+</body>
+</html>

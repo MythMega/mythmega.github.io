@@ -50,6 +50,40 @@
             border-color: #ff6d00;
         }
 
+        /* Conteneurs des séries et types */
+        #seriesContainer,
+        #typesContainer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Div des checkboxes (flexbox horizontal) */
+        #seriesCheckboxesDiv,
+        #typesCheckboxesDiv {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Paire checkbox + label */
+        #seriesCheckboxesDiv > div,
+        #typesCheckboxesDiv > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Div des boutons séparée */
+        .toggle-buttons-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+
         .series-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -181,12 +215,25 @@
                         <!-- Les séries seront générées en JavaScript -->
                     </div>
                 </div>
-                <div id="seriesWarning" style="display: none;">
-                    <div class="error-text" id="seriesErrorText"></div>
+            </section>
+
+            <!-- Section: Filtrer par Types -->
+            <section class="config-section">
+                <h2 data-i18n="filterByTypes">Filtrer par Types</h2>
+                <p class="info-text" data-i18n="typesInfo">Laissez vide pour inclure tous les types, ou sélectionnez un ou plusieurs types</p>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="availableTypes">Types disponibles</label>
+                    <div id="typesContainer" class="series-grid">
+                        <!-- Les types seront générés en JavaScript -->
+                    </div>
                 </div>
             </section>
 
             <!-- Boutons d'action -->
+            <div id="parametersWarning" style="display: none;">
+                <div class="error-text" id="parametersErrorText"></div>
+            </div>
+
             <div class="btn-group">
                 <button id="backBtn" class="btn btn-secondary" data-i18n="back">← Retour</button>
                 <button id="createBtn" class="btn btn-primary" data-i18n="createGame">Créer la partie</button>

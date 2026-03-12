@@ -413,6 +413,41 @@ function activateAll() {
 }
 
 /**
+ * Bascule l'affichage des pokémons inactifs
+ * @param {boolean} hideInactive - Si true, cache les pokémons inactifs
+ */
+function toggleHideInactive(hideInactive) {
+    console.log(`🔄 Toggling hide inactive: ${hideInactive}`);
+    
+    const gameGrid = document.getElementById('gameGrid');
+    if (!gameGrid) {
+        console.error('❌ Grille not found');
+        return;
+    }
+    
+    gamePokemons.forEach((pokemon, i) => {
+        const card = document.getElementById(`pokemon-${i}`);
+        if (!card) return;
+        
+        const isDisabled = card.dataset.isDisabled === 'true';
+        
+        if (hideInactive) {
+            // Cacher les cartes inactives
+            if (isDisabled) {
+                card.style.display = 'none';
+            } else {
+                card.style.display = '';
+            }
+        } else {
+            // Afficher toutes les cartes
+            card.style.display = '';
+        }
+    });
+    
+    console.log(`✅ Hide inactive: ${hideInactive ? 'ON' : 'OFF'}`);
+}
+
+/**
  * Bascule l'état disabled d'une carte
  * @param {HTMLElement} card - Élément de la carte
  * @param {Object} pokemon - Données du Pokémon
@@ -594,6 +629,16 @@ function initGameControls() {
             activateAll();
         });
         console.log('✅ Bouton Activate All configuré');
+    }
+    
+    // Checkbox Hide Inactive
+    const hideInactiveCheckbox = document.getElementById('hideInactiveCheckbox');
+    if (hideInactiveCheckbox) {
+        hideInactiveCheckbox.addEventListener('change', function() {
+            console.log(`🔄 Toggle Masquer inactif: ${this.checked ? 'ON' : 'OFF'}`);
+            toggleHideInactive(this.checked);
+        });
+        console.log('✅ Checkbox Hide Inactive configuré');
     }
 }
 

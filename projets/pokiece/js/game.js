@@ -10,6 +10,7 @@ let allPokemons = []; // Liste complète des Pokémons
 let gamePokemons = []; // Pokémons sélectionnés pour cette partie
 let selectedIndices = []; // Indices des Pokémons sélectionnés
 let selectedPokemon = null; // Pokémon actuellement sélectionné
+let gamePokemonCount = 30; // Nombre de pokémons pour cette partie (défaut 30)
 
 /**
  * Récupère la liste des Pokémons depuis la base de données pré-chargée
@@ -94,7 +95,8 @@ function createPokemonCard(pokemon, position) {
     // --- Bouton Select AU-DESSUS ---
     const selectBtn = document.createElement('button');
     selectBtn.className = 'pokemon-control-btn';
-    selectBtn.textContent = '👉 Sélectionner';
+    selectBtn.setAttribute('data-i18n', 'selectButton');
+    selectBtn.textContent = '👉 Sélectionner'; // Texte par défaut
     selectBtn.style.width = '100%';
     selectBtn.style.marginBottom = '8px';
     selectBtn.title = 'Select this Pokémon';
@@ -240,6 +242,30 @@ function selectPokemon(pokemon) {
 }
 
 /**
+ * Sélectionne un pokémon aléatoire parmi les pokémons actifs
+ */
+function selectRandomPokemon() {
+    // Récupérer tous les pokémons non-désactivés
+    const enabledCards = document.querySelectorAll('.pokemon-card:not(.disabled)');
+    
+    if (enabledCards.length === 0) {
+        console.warn('⚠️ Aucun pokémon actif disponible');
+        return;
+    }
+    
+    // Choisir un aléatoire
+    const randomCard = enabledCards[Math.floor(Math.random() * enabledCards.length)];
+    const index = parseInt(randomCard.dataset.index);
+    const pokemon = getPokemonByIndex(index);
+    
+    if (pokemon) {
+        const lang = getCurrentLanguage();
+        console.log(`🎲 Pokémon aléatoire sélectionné: ${pokemon.getName(lang)}`);
+        selectPokemon(pokemon);
+    }
+}
+
+/**
  * Met à jour l'affichage du Pokémon sélectionné
  */
 function updateSelectedPokemonDisplay() {
@@ -247,7 +273,10 @@ function updateSelectedPokemonDisplay() {
         const display = document.getElementById('selectedPokemonDisplay');
         if (display) {
             display.innerHTML = '<div class="selected-pokemon-empty" data-i18n="selectPokemon">Sélectionner un Pokémon</div>';
-            applyTranslation(); // Appliquer traduction sur la nouvelle div
+            // Appliquer traduction seulement si les traductions sont chargées
+            if (window.TRANSLATIONS && window.TRANSLATIONS.FR) {
+                applyTranslation();
+            }
         }
         return;
     }
@@ -631,6 +660,16 @@ function initGameControls() {
         console.log('✅ Bouton Activate All configuré');
     }
     
+    // Bouton Random Pokémon
+    const randomPokemonBtn = document.getElementById('randomPokemonButton');
+    if (randomPokemonBtn) {
+        randomPokemonBtn.addEventListener('click', function() {
+            console.log('🎲 Pokémon aléatoire cliqué');
+            selectRandomPokemon();
+        });
+        console.log('✅ Bouton Random Pokémon configuré');
+    }
+    
     // Checkbox Hide Inactive
     const hideInactiveCheckbox = document.getElementById('hideInactiveCheckbox');
     if (hideInactiveCheckbox) {
@@ -648,12 +687,18 @@ function initGameControls() {
 async function initGame() {
     console.log('%c🎮 Initialisation du jeu', 'color: #00ffff; font-weight: bold; font-size: 14px');
     console.log('📋 Étapes:');
+    console.log('   0. Charger les traductions');
     console.log('   1. Vérifier que les Pokémons sont chargés');
     console.log('   2. Traiter le code d\'URL');
     console.log('   3. Afficher la grille');
     console.log('   4. Initialiser les contrôles');
     
     try {
+        // 0. Charger les traductions
+        console.log('🌥️  Étape 0: Chargement des traductions');
+        await initTranslations();
+        console.log('✅ Traductions chargées');
+        
         // 1. Récupérer la liste des Pokémons (pré-chargée)
         console.log('🌥️  Étape 1: Récupération des Pokémons');
         allPokemons = await getPokemonsDatabase();
@@ -673,6 +718,12 @@ async function initGame() {
             return;
         }
         
+        // Récupérer le nombre de pokémons depuis la fenêtre (défini dans code.js)
+        if (window.gamePokemonCount !== undefined) {
+            gamePokemonCount = window.gamePokemonCount;
+            console.log(`📊 Nombre de pokémons chargé depuis la fenêtre: ${gamePokemonCount}`);
+        }
+        
         // 3. Sélectionner les Pokémons pour le jeu
         console.log('🌥️  Étape 3: Sélection des Pokémons');
         selectGamePokemons(indices);
@@ -681,12 +732,20 @@ async function initGame() {
         console.log('🌥️  Étape 4: Rendu de la grille');
         renderGameGrid();
         
-        // 5. Initialiser les contrôles
-        console.log('🌥️  Étape 5: Initialisation des contrôles');
+        // 5. Initialiser le compteur de restants avec le bon nombre
+        console.log('🌥️  Étape 5: Initialisation du compteur');
+        const remainingCount = document.getElementById('remainingCount');
+        if (remainingCount) {
+            remainingCount.textContent = gamePokemonCount;
+            console.log(`✅ Compteur initialisé: ${gamePokemonCount}`);
+        }
+        
+        // 6. Initialiser les contrôles
+        console.log('🌥️  Étape 6: Initialisation des contrôles');
         initGameControls();
         
-        // 6. Appliquer les traductions
-        console.log('🌥️  Étape 6: Application des traductions');
+        // 7. Appliquer les traductions
+        console.log('🌥️  Étape 7: Application des traductions');
         applyTranslation();
         
         console.log('%c✅ Jeu prêt!', 'color: #00ff00; font-weight: bold; font-size: 14px');

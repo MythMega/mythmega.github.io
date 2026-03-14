@@ -32,12 +32,17 @@
   "pokemonsLoading": "Chargement des Pokémons...",
   "selected": "Sélectionné :",
   "selectPokemon": "Sélectionner",
+  "selectButton": "👉 Sélectionner",
+  "chooseRandomPoke": "🎲 Choisir pokémon aléatoire",
   "finalGuess": "Résultat Final :",
   "done": "Fait",
   "remaining": "Restant",
   "allShiny": "✨ Tous Shiny",
   "allNormal": "Tous Normal",
   "activateAll": "✓ Activer tous",
+  "selectAll": "Sélectionner tous",
+  "deselectAll": "Désélectionner tous",
+  "toggleAll": "Inverser",
   "hideInactive": "Masquer inactif",
   "pokemonCount": "Nombre de Pokémons",
   "selectCount": "Sélectionnez le nombre",
@@ -49,9 +54,6 @@
   "filterByTypes": "Filtrer par Types",
   "typesInfo": "Laissez vide pour inclure tous les types, ou sélectionnez un ou plusieurs types",
   "availableTypes": "Types disponibles",
-  "selectAll": "Sélectionner tous",
-  "deselectAll": "Désélectionner tous",
-  "toggleAll": "Inverser",
   "series": "Série",
   "types": "Type",
   "invalidParams": "Paramètres invalides",
@@ -85,3 +87,4 @@
     "Dark": "Ténèbre"
   }
 }
+

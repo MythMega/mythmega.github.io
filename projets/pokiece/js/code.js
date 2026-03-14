@@ -109,16 +109,17 @@ function getCodeFromURL() {
 
 /**
  * Construit l'URL complète du jeu avec un code
+ * Toujours pointe vers game.html, peu importe la page actuelle
  * @param {string} code - Code du jeu
  * @returns {string} URL complète
  */
 function buildGameURL(code) {
     console.log(`🔗 Construction de l'URL du jeu avec code: ${code}`);
-    // Utiliser l'URL courante sans le paramètre Code
-    const baseURL = window.location.origin + window.location.pathname;
-    const fullURL = `${baseURL}?Code=${code}`;
-    console.log(`✅ URL construite: ${fullURL}`);
-    return fullURL;
+    // Construire l'URL vers game.html avec le code
+    const pathDir = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+    const gameURL = `${window.location.origin}${pathDir}/game.html?Code=${code}`;
+    console.log(`✅ URL construite: ${gameURL}`);
+    return gameURL;
 }
 
 function getNoCodeGameurl() {
@@ -133,6 +134,52 @@ function reshuffleGame() {
     const gamePageURL = getNoCodeGameurl();
     console.log(`🚀 Redirection vers: ${gamePageURL}`);
     window.location.href = gamePageURL;
+}
+
+/**
+ * Valide un code avec format count + indices
+ * @param {string} code - Code à valider
+ * @returns {boolean} True si valide, false sinon
+ */
+function isValidCodeWithCount(code) {
+    console.log(`🔍 Validation du code (format avec count): ${code}`);
+    
+    // Vérifications basiques
+    if (typeof code !== 'string' || code.length < 4) {
+        console.warn('⚠️ Code invalide (format: trop court)');
+        return false;
+    }
+    
+    // La première partie (4 caractères) doit être le count en hex
+    const countHex = code.substring(0, 4);
+    if (!countHex.match(/^[0-9A-F]+$/i)) {
+        console.warn('⚠️ Code invalide (count non-hexadécimal)');
+        return false;
+    }
+    
+    // La deuxième partie doit être les indices (doit être un multiple de 4)
+    const indicesCode = code.substring(4);
+    if (indicesCode && indicesCode.length % 4 !== 0) {
+        console.warn(`⚠️ Code invalide (indices length: ${indicesCode.length})`);
+        return false;
+    }
+    
+    // Vérifier que le décodage est possible
+    try {
+        const count = extractCountFromCode(code);
+        const indices = extractIndicesFromCode(code);
+        
+        if (!Array.isArray(indices) || indices.length === 0) {
+            console.warn('⚠️ Pas d\'indices trouvés');
+            return false;
+        }
+        
+        console.log(`✅ Code valide: count=${count}, indices_count=${indices.length}`);
+        return true;
+    } catch (e) {
+        console.error(`❌ Erreur lors de la validation: ${e.message}`);
+        return false;
+    }
 }
 
 /**
@@ -168,6 +215,58 @@ function isValidCode(code) {
         console.error(`❌ Erreur lors du décodage: ${e.message}`);
         return false;
     }
+}
+
+/**
+ * Extrait le nombre de pokémons depuis un code
+ * Le nombre est encodé dans les 4 premiers caractères en hexadécimal
+ * @param {string} code - Code complet (count + indices)
+ * @returns {number} Nombre de pokémons (30 par défaut si pas trouvé)
+ */
+function extractCountFromCode(code) {
+    console.log(`📊 Extraction du nombre depuis le code: ${code}`);
+    
+    if (!code || code.length < 4) {
+        console.warn('⚠️ Code trop court, retour du défaut 30');
+        return 30;
+    }
+    
+    try {
+        // Les 4 premiers caractères sont le nombre en hexadécimal
+        const countHex = code.substring(0, 4);
+        const count = parseInt(countHex, 16);
+        
+        if (isNaN(count) || count <= 0) {
+            console.warn(`⚠️ Nombre invalide extrait: ${count}, retour du défaut 30`);
+            return 30;
+        }
+        
+        console.log(`✅ Nombre extrait : ${count}`);
+        return count;
+    } catch (e) {
+        console.error(`❌ Erreur lors de l'extraction du nombre: ${e.message}`);
+        return 30;
+    }
+}
+
+/**
+ * Extrait les indices depuis un code (en ignorant les 4 premiers caractères du nombre)
+ * @param {string} code - Code complet (count + indices)
+ * @returns {number[]} Tableau des indices de Pokémons
+ */
+function extractIndicesFromCode(code) {
+    console.log(`📝 Extraction des indices depuis le code`);
+    
+    // Les 4 premiers caractères sont le nombre, les indices commencent à la position 4
+    const indicesCode = code.substring(4);
+    
+    if (!indicesCode) {
+        console.warn('⚠️ Pas d\'indices trouvés');
+        return [];
+    }
+    
+    // Utiliser decodeCode sur la partie indices
+    return decodeCode(indicesCode);
 }
 
 /**
@@ -209,13 +308,14 @@ function handleGameCode(pokemonsList) {
             return null;
         }
         
-        // Sélectionner 30 Pokémons aléatoires
+        // Sélectionner 30 Pokémons aléatoires par défaut
         const selectedPokemons = [];
         const indices = new Set();
+        const countDefault = 30;
         
-        console.log('🎲 Sélection aléatoire de 30 Pokémons...');
+        console.log(`🎲 Sélection aléatoire de ${countDefault} Pokémons...`);
         
-        while (selectedPokemons.length < 30) {
+        while (selectedPokemons.length < countDefault) {
             const randomIndex = Math.floor(Math.random() * validPokemons.length);
             const pokemon = validPokemons[randomIndex];
             
@@ -227,11 +327,17 @@ function handleGameCode(pokemonsList) {
             }
         }
         
+        // Encoder le nombre au début (4 caractères hexadécimaux)
+        const countHex = countDefault.toString(16).toUpperCase().padStart(4, '0');
+        console.log(`📊 Nombre encodé : ${countDefault} → ${countHex}`);
+        
         // Encoder les indices
         const indexArray = Array.from(indices);
-        const newCode = encodeCode(indexArray);
-        console.log(`🎯 Nouveau code généré: ${newCode}`);
+        const indicesCode = encodeCode(indexArray);
         
+        // Combiner: count + indices
+        const newCode = countHex + indicesCode;
+        console.log(`🎯 Nouveau code généré: ${newCode.substring(0, 20)}...`);
         // Recharger la page avec le code
         const gameURL = buildGameURL(newCode);
         console.log(`🚀 Redirection vers: ${gameURL}`);
@@ -242,7 +348,7 @@ function handleGameCode(pokemonsList) {
         console.log(`✅ Code trouvé: ${code}`);
         
         // Valider le code
-        if (!isValidCode(code)) {
+        if (!isValidCodeWithCount(code)) {
             console.error('❌ Code invalide');
             showToast(getTranslation('invalidCode'));
             alert(getTranslation('invalidCode'));
@@ -256,10 +362,17 @@ function handleGameCode(pokemonsList) {
             return null;
         }
         
-        // Décoder les indices
+        // Extraire le nombre et les indices
         try {
-            const indices = decodeCode(code);
-            console.log(`✅ Le code a été décodé avec succès: ${indices.join(', ')}`);
+            const count = extractCountFromCode(code);
+            const indices = extractIndicesFromCode(code);
+            console.log(`✅ Le code a été décodé avec succès:`);
+            console.log(`   - Nombre de pokémons: ${count}`);
+            console.log(`   - Indices: ${indices.join(', ')}`);
+            
+            // Sauvegarder le nombre pour utilisation dans game.js
+            window.gamePokemonCount = count;
+            
             return indices;
         } catch (e) {
             console.error(`❌ Erreur lors du décodage: ${e.message}`);

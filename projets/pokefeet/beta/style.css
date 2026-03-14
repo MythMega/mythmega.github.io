@@ -34,7 +34,7 @@ h1{font-size:20px;margin:0;color:#fff;}
 .center-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:480px;text-align:center;}
 .center-card-history{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:800px;text-align:center;}
 .pokemon-image{height:260px;width:90%;display:flex;align-items:center;justify-content:center;background:var(--glass);border-radius:10px;margin-bottom:12px;}
-.pokemon-image img{max-height:240px;max-width:100%;image-rendering:auto;}
+.pokemon-image img{max-height:260px;height:auto;width:100%;image-rendering:auto;}
 
 .guess-area{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:8px;}
 #guessInput{padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff;min-width:220px;}

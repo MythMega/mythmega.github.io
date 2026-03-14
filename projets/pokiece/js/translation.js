@@ -19,8 +19,10 @@ async function loadTranslationFile(lang) {
     console.log(`📥 Chargement des traductions ${lang}`);
     
     try {
-        const filePath = `./translations/${lang.toLowerCase()}.json`;
-        const response = await fetch(filePath);
+        // Ajouter un timestamp pour éviter le cache du navigateur
+        const timestamp = new Date().getTime();
+        const filePath = `./translations/${lang.toLowerCase()}.json?t=${timestamp}`;
+        const response = await fetch(filePath, { cache: 'no-store' });
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -28,6 +30,7 @@ async function loadTranslationFile(lang) {
         
         const translations = await response.json();
         console.log(`✅ Traductions ${lang} chargées (${Object.keys(translations).length} clés)`);
+        console.log(`   Clés: ${Object.keys(translations).join(', ')}`);
         
         return translations;
     } catch (error) {
@@ -48,9 +51,13 @@ async function initTranslations() {
         // Charger les traductions pour FR et EN
         console.log('🌥️  Chargement des fichiers de traduction...');
         window.TRANSLATIONS.FR = await loadTranslationFile('FR');
+        console.log(`✅ Traductions FR chargées (${Object.keys(window.TRANSLATIONS.FR).length} clés)`);
+        
         window.TRANSLATIONS.EN = await loadTranslationFile('EN');
+        console.log(`✅ Traductions EN chargées (${Object.keys(window.TRANSLATIONS.EN).length} clés)`);
         
         console.log('✅ Tous les fichiers de traduction chargés');
+        console.log('Clés disponibles (FR):', Object.keys(window.TRANSLATIONS.FR).slice(0, 5));
         
         // Dispatche un événement
         window.dispatchEvent(new CustomEvent('translationsLoaded'));
@@ -171,15 +178,23 @@ function applyTranslation() {
     console.log('%c🔄 Application des traductions', 'color: #00d4ff; font-weight: bold');
     const lang = getCurrentLanguage();
     
+    console.log(`📋 Langue sélectionnée: ${lang}`);
+    console.log(`📋 window.TRANSLATIONS:`, window.TRANSLATIONS);
+    console.log(`📋 window.TRANSLATIONS[${lang}]:`, window.TRANSLATIONS[lang]);
+    
     if (!window.TRANSLATIONS[lang]) {
         console.error(`❌ Traductions non disponibles pour ${lang}`);
+        console.error(`Clés disponibles:`, Object.keys(window.TRANSLATIONS));
         return;
     }
     
     let translated = 0;
     
     // Traiter les éléments avec data-i18n pour le contenu texte
-    document.querySelectorAll('[data-i18n]').forEach(element => {
+    const elements = document.querySelectorAll('[data-i18n]');
+    console.log(`📋 Éléments trouvés avec data-i18n: ${elements.length}`);
+    
+    elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         const text = window.TRANSLATIONS[lang][key];
         
@@ -188,7 +203,7 @@ function applyTranslation() {
             translated++;
             console.log(`   ✅ [${key}] = "${text}"`);
         } else {
-            console.warn(`   ⚠️ Clé non trouvée: ${key}`);
+            console.warn(`   ⚠️ Clé non trouvée: ${key} (disponibles: ${Object.keys(window.TRANSLATIONS[lang]).join(', ').slice(0, 100)}...)`);
         }
     });
     

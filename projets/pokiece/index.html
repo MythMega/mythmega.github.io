@@ -39,6 +39,13 @@
                 <button id="startBtn" class="btn btn-primary" data-i18n="start">Commencer</button>
             </section>
 
+            <!-- Section: Partie personnalisée -->
+            <section class="section custom-game-section">
+                <h2 data-i18n="customGame">Partie personnalisée</h2>
+                <p data-i18n="customGameDesc">Configurez le nombre de Pokémons et les séries</p>
+                <button id="configBtn" class="btn btn-primary" data-i18n="customize">Personnaliser</button>
+            </section>
+
             <!-- Section: Rejoindre une partie -->
             <section class="section join-game-section">
                 <h2 data-i18n="joinGame">Rejoindre une partie</h2>
@@ -75,6 +82,7 @@
         const startBtn = document.getElementById('startBtn');
         const joinBtn = document.getElementById('joinBtn');
         const codeInput = document.getElementById('codeInput');
+        const configBtn = document.getElementById('configBtn');
 
         /**
          * Démarrer une nouvelle partie
@@ -83,6 +91,15 @@
         startBtn.addEventListener('click', function() {
             console.log('✅ Bouton "Commencer" cliqué');
             window.location.href = './game.html';
+        });
+
+        /**
+         * Accéder à la configuration personnalisée
+         * Redirige vers config.html
+         */
+        configBtn.addEventListener('click', function() {
+            console.log('✅ Bouton "Personnaliser" cliqué');
+            window.location.href = './config.html';
         });
 
         /**

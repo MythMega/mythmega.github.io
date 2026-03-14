@@ -28,7 +28,7 @@
             <p data-i18n="gameTitle">Devinez le Pokémon</p>
         </header>
 
-        <!-- Boutons de contrôle -->
+        <!-- Boutons de contrôle supérieurs -->
         <div class="game-controls">
             <button id="homeBtn" class="btn btn-secondary" data-i18n="home">🏠 Accueil</button>
             <button id="reshuffleBtn" class="btn btn-secondary" data-i18n="reshuffle">🔄 Relancer</button>
@@ -46,6 +46,9 @@
                 <span data-i18n="remaining">Restant</span>: <span id="remainingCount">30</span>
             </div>
         </div>
+        <div class="random-pokemon-container">
+            <button id="randomPokemonButton" class="btn btn-primary" data-i18n="chooseRandomPoke">🎲 Choisir pokémon aléatoire</button>
+        </div>
 
         <!-- Grille de Pokémons -->
         <main class="game-grid-container">
@@ -56,8 +59,8 @@
 
         <!-- Boutons de contrôle de la grille -->
         <div class="game-grid-controls">
-            <div class="hide-inactive-container">
-                <input type="checkbox" id="hideInactiveCheckbox" />
+            <div class="checkbox-container">
+                <input type="checkbox" id="hideInactiveCheckbox" class="styled-checkbox" />
                 <label for="hideInactiveCheckbox" data-i18n="hideInactive">Masquer inactif</label>
             </div>
             <button id="allShinyBtn" class="btn btn-secondary" data-i18n="allShiny">✨ Tous Shiny</button>

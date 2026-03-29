@@ -1,0 +1,1 @@
+print("Regigigas @ Toxic Orb\nAbility: Poison Heal\nEVs: 252 HP / 252 Atk / 252 Def / 252 SpD / 252 Spe\nAdamant Nature\n- Dragon Dance\n- Facade\n- Glacial Lance\n- V-create")

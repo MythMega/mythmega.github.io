@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration — Starters à l'Aveugle</title>
+  <link rel="stylesheet" href="./styles/app.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="navbar__brand" href="index.html">Starters à l'Aveugle</a>
+    <div class="navbar__actions">
+      <button class="btn btn--ghost btn--small" id="btn-info">ℹ️ Crédits</button>
+      <button class="btn btn--ghost btn--small" id="btn-theme">☀️ Clair</button>
+    </div>
+  </nav>
+
+  <main class="page">
+    <h1 class="page__title text-center">⚙️ Configuration</h1>
+    <p class="page__subtitle text-center">Personnalise ta partie avant de commencer</p>
+
+    <!-- ═══ MODE DE JEU ═══ -->
+    <section class="setup-section">
+      <h2 class="setup-section__title">Mode de jeu</h2>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Mode</span>
+        <div class="setup-row__control">
+          <div class="option-group" data-group="game_mode">
+            <button class="option-btn" data-value="classic">Classique</button>
+            <button
+              class="option-btn option-btn--disabled"
+              data-value="egg"
+              data-tooltip="À venir"
+              tabindex="-1"
+              aria-disabled="true"
+            >🥚 Egg Mode</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SÉLECTION DES POKÉMON ═══ -->
+    <section class="setup-section">
+      <h2 class="setup-section__title">Sélection des Pokémon</h2>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Supprimer les Pokémon pouvant évoluer</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="remove_evolvable" role="switch" aria-checked="false" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Supprimer les Pokémon sans set Smogon</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="smogon_only" role="switch" aria-checked="true" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Légendaires</span>
+        <div class="setup-row__control">
+          <div class="option-group" data-group="legendary">
+            <button class="option-btn" data-value="yes">Oui</button>
+            <button class="option-btn" data-value="no">Non</button>
+            <button class="option-btn" data-value="only">Only</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ DONNÉES AFFICHÉES ═══ -->
+    <section class="setup-section">
+      <h2 class="setup-section__title">Données Affichées</h2>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Shiny</span>
+        <div class="setup-row__control">
+          <div class="option-group" data-group="shiny">
+            <button class="option-btn" data-value="normal">Normal</button>
+            <button class="option-btn" data-value="shiny">✨ Shiny</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Index Pokédex</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_index" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Poids / Taille</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_size" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Types</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_types" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Noms multilingues</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_multilang" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Catégories</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_categories" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Stats</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_stats" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Groupes d'œufs</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_egg_groups" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Taux de capture</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_catch_rate" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <span class="setup-row__label">Statut d'évolution</span>
+        <div class="setup-row__control">
+          <span class="switch" data-switch="show_evolution_status" role="switch" tabindex="0">
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ START BUTTON ═══ -->
+    <div class="text-center mt-2">
+      <button class="btn btn--primary" id="btn-start" style="font-size:1.1rem;padding:0.8rem 2.5rem;">
+        🎮 Démarrer la partie
+      </button>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initTheme } from './script/business/themeManager.js';
+    import { initNavbar } from './script/ui/navbar.js';
+    import { initForm, readForm } from './script/ui/setupForm.js';
+    import { settingsToQueryString } from './script/entity/settings.js';
+    import { log } from './script/business/logger.js';
+
+    initTheme();
+    initNavbar();
+    initForm();
+
+    // Activate "Classique" by default in mode de jeu
+    const classicBtn = document.querySelector('[data-group="game_mode"] [data-value="classic"]');
+    if (classicBtn) {
+      classicBtn.classList.add('option-btn--active');
+      classicBtn.disabled = true;
+    }
+
+    document.getElementById('btn-start').addEventListener('click', () => {
+      const settings = readForm();
+      const qs = settingsToQueryString(settings);
+      log('setup', 'Launching game with settings:', settings, qs);
+      window.location.href = `classic_game.html?${qs}`;
+    });
+  </script>
+</body>
+</html>

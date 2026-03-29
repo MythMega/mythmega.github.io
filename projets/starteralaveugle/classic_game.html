@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partie Classique — Starters à l'Aveugle</title>
+  <link rel="stylesheet" href="./styles/app.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="navbar__brand" href="index.html">Starters à l'Aveugle</a>
+    <div class="navbar__actions">
+      <button class="btn btn--ghost btn--small" id="btn-copy-url">🔗 Copier l'URL</button>
+      <button class="btn btn--ghost btn--small" id="btn-info">ℹ️ Crédits</button>
+      <button class="btn btn--ghost btn--small" id="btn-theme">☀️ Clair</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="page" id="game-main">
+    <!-- Header -->
+    <div class="game-header">
+      <h1 class="page__title">🎲 Partie Classique</h1>
+      <p class="game-progress" id="round-indicator">Manche 1 / 6</p>
+    </div>
+
+    <!-- Loading state -->
+    <div class="loader" id="loader">
+      <div class="loader__spinner"></div>
+      <span>Chargement des Pokémon…</span>
+    </div>
+
+    <!-- Round container (filled by JS) -->
+    <div id="round-container"></div>
+
+    <!-- Selected team sidebar -->
+    <aside class="selected-panel" id="selected-panel">
+      <div class="selected-panel__title">Mon équipe</div>
+      <div id="selected-list"></div>
+    </aside>
+  </main>
+
+  <script type="module">
+    import { initTheme } from './script/business/themeManager.js';
+    import { initNavbar } from './script/ui/navbar.js';
+    import { parseSettings } from './script/entity/settings.js';
+    import { loadAllPokemon } from './script/business/dataLoader.js';
+    import { filterPokemon } from './script/business/pokemonFilter.js';
+    import { createGameState, drawRound, choosePokemon, isGameOver, ROUNDS_TOTAL } from './script/business/gameState.js';
+    import { assignSets, assignmentsToQueryString } from './script/business/teamBuilder.js';
+    import { createPokemonCard } from './script/ui/pokemonCard.js';
+    import { showError } from './script/ui/errorPopup.js';
+    import { log } from './script/business/logger.js';
+
+    initTheme();
+    initNavbar();
+
+    // Copy current URL to clipboard
+    document.getElementById('btn-copy-url').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const btn = document.getElementById('btn-copy-url');
+        btn.textContent = '✅ Copié !';
+        setTimeout(() => { btn.textContent = '🔗 Copier l\'URL'; }, 2000);
+      });
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    let settings;
+    try {
+      settings = parseSettings(params);
+    } catch (e) {
+      showError(e.message);
+      document.getElementById('loader').classList.add('hidden');
+      throw e;
+    }
+
+    log('classic_game', 'Settings:', settings);
+
+    const roundContainer = document.getElementById('round-container');
+    const roundIndicator = document.getElementById('round-indicator');
+    const selectedList   = document.getElementById('selected-list');
+    const loader         = document.getElementById('loader');
+
+    let gameState = null;
+    let roundNumber = 0;
+    let pendingReveals = 0;
+
+    async function init() {
+      try {
+        const allPokemon = await loadAllPokemon();
+        const pool = filterPokemon(allPokemon, settings);
+
+        if (pool.length < ROUNDS_TOTAL * 3) {
+          showError(
+            `Pas assez de Pokémon disponibles (${pool.length}) pour jouer avec ces paramètres.\n` +
+            `Il en faut au minimum ${ROUNDS_TOTAL * 3} (${ROUNDS_TOTAL} manches × 3).\n` +
+            `Essayez d'assouplir les filtres dans la configuration.`
+          );
+          loader.classList.add('hidden');
+          return;
+        }
+
+        gameState = createGameState(pool);
+        loader.classList.add('hidden');
+        startNextRound();
+      } catch (e) {
+        showError(e.message);
+        loader.classList.add('hidden');
+      }
+    }
+
+    function startNextRound() {
+      roundNumber++;
+      roundIndicator.textContent = `Manche ${roundNumber} / ${ROUNDS_TOTAL}`;
+      log('classic_game', `Starting round ${roundNumber}`);
+
+      let roundPokemons;
+      try {
+        roundPokemons = drawRound(gameState);
+      } catch (e) {
+        showError(e.message);
+        return;
+      }
+
+      // Clear previous round
+      roundContainer.innerHTML = '';
+
+      const roundDiv = document.createElement('div');
+      roundDiv.className = 'pokemon-round';
+      roundDiv.id = `round-${roundNumber}`;
+
+      roundPokemons.forEach(pokemon => {
+        const card = createPokemonCard(pokemon, settings, onPokemonChosen);
+        roundDiv.appendChild(card);
+      });
+
+      roundContainer.appendChild(roundDiv);
+
+      // Scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function onPokemonChosen(pokemon) {
+      choosePokemon(gameState, pokemon);
+      log('classic_game', `Chosen: ${pokemon.name.fr}, total: ${gameState.selected.length}`);
+
+      // Update sidebar
+      addToSelectedPanel(pokemon);
+
+      if (isGameOver(gameState)) {
+        endGame();
+      } else {
+        // Short delay before next round so player can see the chosen indicator
+        setTimeout(startNextRound, 700);
+      }
+    }
+
+    function addToSelectedPanel(pokemon) {
+      const spriteUrl = settings.shiny === 'shiny' && pokemon.sprites.shiny
+        ? pokemon.sprites.shiny
+        : (pokemon.sprites.regular ?? '');
+
+      const div = document.createElement('div');
+      div.className = 'selected-mini';
+      div.innerHTML = `
+        <img src="${spriteUrl}" alt="${pokemon.name.fr}" onerror="this.src=''"/>
+        <span>${pokemon.name.fr}</span>
+      `;
+      selectedList.appendChild(div);
+    }
+
+    function endGame() {
+      log('classic_game', 'Game over! Building team...');
+      roundContainer.innerHTML = '';
+      roundIndicator.textContent = 'Équipe complète !';
+
+      const assignments = assignSets(gameState.selected);
+      const qs = assignmentsToQueryString(assignments);
+      log('classic_game', 'Redirecting to result with:', qs);
+
+      const btn = document.createElement('button');
+      btn.className = 'btn btn--primary';
+      btn.style.cssText = 'font-size:1.1rem;padding:0.8rem 2.5rem;display:block;margin:2rem auto;';
+      btn.textContent = '🏆 Obtenir l\'équipe';
+
+      btn.addEventListener('click', () => {
+        window.location.href = `result.html?${qs}`;
+      });
+
+      roundContainer.appendChild(btn);
+    }
+
+    init();
+  </script>
+</body>
+</html>

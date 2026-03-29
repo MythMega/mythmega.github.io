@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Résultat — Starters à l'Aveugle</title>
+  <link rel="stylesheet" href="./styles/app.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="navbar__brand" href="index.html">Starters à l'Aveugle</a>
+    <div class="navbar__actions">
+      <button class="btn btn--ghost btn--small" id="btn-info">ℹ️ Crédits</button>
+      <button class="btn btn--ghost btn--small" id="btn-theme">☀️ Clair</button>
+    </div>
+  </nav>
+
+  <main class="page">
+    <h1 class="page__title text-center">🏆 Ton Équipe</h1>
+
+    <!-- Loading state -->
+    <div class="loader" id="loader">
+      <div class="loader__spinner"></div>
+      <span>Construction de l'équipe…</span>
+    </div>
+
+    <!-- Team card display -->
+    <div class="result-team" id="result-team"></div>
+
+    <!-- Action buttons -->
+    <div class="result-actions" id="result-actions" style="display:none;">
+      <button class="btn btn--secondary" id="btn-copy">📋 Copier l'équipe</button>
+      <button class="btn btn--secondary" id="btn-showdown">⚔️ Ouvrir Showdown</button>
+    </div>
+
+    <!-- Export text -->
+    <textarea
+      class="result-textarea"
+      id="result-textarea"
+      readonly
+      spellcheck="false"
+      aria-label="Export Showdown de l'équipe"
+      style="display:none;"
+    ></textarea>
+
+    <!-- Back button -->
+    <div class="text-center mt-2" id="result-footer" style="display:none;">
+      <button class="btn btn--ghost" id="btn-home">🏠 Retourner à l'accueil</button>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initTheme } from './script/business/themeManager.js';
+    import { initNavbar } from './script/ui/navbar.js';
+    import { loadAllPokemon } from './script/business/dataLoader.js';
+    import { parseAssignments, buildTeamExport } from './script/business/teamBuilder.js';
+    import { getSetString } from './script/entity/pokemonSet.js';
+    import { showError } from './script/ui/errorPopup.js';
+    import { log } from './script/business/logger.js';
+
+    initTheme();
+    initNavbar();
+
+    const params = new URLSearchParams(window.location.search);
+    const loader        = document.getElementById('loader');
+    const resultTeam    = document.getElementById('result-team');
+    const resultActions = document.getElementById('result-actions');
+    const resultTextarea= document.getElementById('result-textarea');
+    const resultFooter  = document.getElementById('result-footer');
+
+    let assignments;
+    try {
+      assignments = parseAssignments(params);
+    } catch (e) {
+      showError(e.message);
+      loader.classList.add('hidden');
+      throw e;
+    }
+
+    log('result', 'Assignments from URL:', assignments);
+
+    async function init() {
+      try {
+        const allPokemon = await loadAllPokemon();
+        const pokemonMap = new Map(allPokemon.map(p => [p.pokedex_id, p]));
+
+        const resolved = assignments.map(({ pokedexId, setIndex }) => {
+          const pokemon = pokemonMap.get(pokedexId);
+          if (!pokemon) {
+            throw new Error(
+              `Pokémon introuvable pour l'id ${pokedexId} dans les données.\n` +
+              `Le paramètre URL semble corrompu.`
+            );
+          }
+          return { pokemon, setIndex };
+        });
+
+        log('result', 'Resolved team:', resolved.map(r => r.pokemon.name.fr));
+
+        // Render team cards
+        resolved.forEach(({ pokemon, setIndex }) => {
+          const card = buildResultCard(pokemon, setIndex);
+          resultTeam.appendChild(card);
+        });
+
+        // Build export text
+        const exportText = buildTeamExport(resolved);
+        resultTextarea.value = exportText;
+
+        // Show everything
+        loader.classList.add('hidden');
+        resultActions.style.display = '';
+        resultTextarea.style.display = '';
+        resultFooter.style.display = '';
+
+        // Wire buttons
+        document.getElementById('btn-copy').addEventListener('click', () => {
+          navigator.clipboard.writeText(resultTextarea.value).then(() => {
+            const btn = document.getElementById('btn-copy');
+            btn.textContent = '✅ Copié !';
+            setTimeout(() => { btn.textContent = '📋 Copier l\'équipe'; }, 2000);
+          }).catch(() => {
+            // Fallback
+            resultTextarea.select();
+            document.execCommand('copy');
+          });
+        });
+
+        document.getElementById('btn-showdown').addEventListener('click', () => {
+          window.open('https://play.pokemonshowdown.com/teambuilder', '_blank');
+        });
+
+        document.getElementById('btn-home').addEventListener('click', () => {
+          window.location.href = 'index.html';
+        });
+
+      } catch (e) {
+        showError(e.message);
+        loader.classList.add('hidden');
+      }
+    }
+
+    /**
+     * Build a result card element for a Pokémon.
+     * @param {Object} pokemon
+     * @param {number} setIndex
+     * @returns {HTMLElement}
+     */
+    function buildResultCard(pokemon, setIndex) {
+      const spriteUrl = pokemon.sprites.regular ?? '';
+      const setName   = (setIndex !== -1 && pokemon.sets[setIndex])
+        ? pokemon.sets[setIndex].Name
+        : 'Pas de set Smogon';
+
+      const card = document.createElement('div');
+      card.className = 'result-card';
+      card.innerHTML = `
+        <img
+          src="${spriteUrl}"
+          alt="${pokemon.name.fr}"
+          onerror="this.src=''"
+        />
+        <div class="result-card__name">${pokemon.name.fr}</div>
+        <div class="result-card__set-name text-muted">${setName}</div>
+      `;
+      return card;
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Starters à l'Aveugle</title>
+  <link rel="stylesheet" href="./styles/app.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="navbar__brand" href="index.html">Starters à l'Aveugle</a>
+    <div class="navbar__actions">
+      <button class="btn btn--ghost btn--small" id="btn-info">ℹ️ Crédits</button>
+      <button class="btn btn--ghost btn--small" id="btn-theme">☀️ Clair</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <main class="page page--center">
+    <div class="hero">
+      <h1 class="hero__title">Starters à l'Aveugle</h1>
+      <p class="hero__tagline">
+        Découvre trois Pokémon au hasard, révèle leurs infos, choisis le tien.
+        Répète 6 fois — et prends la route avec ton équipe mystère !
+      </p>
+      <button class="btn btn--primary hero__cta" id="btn-start">
+        🎲 Configurer une partie
+      </button>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initTheme } from './script/business/themeManager.js';
+    import { initNavbar } from './script/ui/navbar.js';
+
+    initTheme();
+    initNavbar();
+
+    document.getElementById('btn-start').addEventListener('click', () => {
+      window.location.href = 'setup.html';
+    });
+  </script>
+</body>
+</html>

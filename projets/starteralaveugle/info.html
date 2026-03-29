@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crédits & Infos — Starters à l'Aveugle</title>
+  <link rel="stylesheet" href="./styles/app.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="navbar__brand" href="index.html">Starters à l'Aveugle</a>
+    <div class="navbar__actions">
+      <button class="btn btn--ghost btn--small" id="btn-info" aria-disabled="true" style="opacity:0.4;cursor:default;">ℹ️ Crédits</button>
+      <button class="btn btn--ghost btn--small" id="btn-theme">☀️ Clair</button>
+    </div>
+  </nav>
+
+  <main class="page">
+    <h1 class="page__title text-center">ℹ️ Crédits & Informations</h1>
+
+    <div class="credits-section">
+      <h2>À propos</h2>
+      <p>
+        <strong>Starters à l'Aveugle</strong> est un petit jeu web Pokémon où tu découvres
+        des Pokémon au hasard, révèles leurs informations, et choisis ton équipe avant de
+        l'exporter vers Pokémon Showdown.
+      </p>
+      <h2>Crédits</h2>
+      <p>
+        <strong>Starters à l'Aveugle</strong> a été inspiré par le concept vidéo du youtubeur <a href="https://www.youtube.com/watch?v=9WhqcTv5YBY&list=PL4-mZdb_n_ZavQ8b2OHzdPRayLr_0QVYq">Sneaze</a> cependant
+        Sneaze n'a aucun lien avec le site ou le créateur du site.
+      </p>
+    </div>
+
+    <div class="credits-section">
+      <h2>Données Pokémon</h2>
+      <ul>
+        <li>
+          Sprites & données de base : <a href="https://github.com/Yarkis01/TyraDex" target="_blank" rel="noopener">TyraDex</a>
+          par <strong>Yarkis01</strong>
+        </li>
+        <li>
+          Sets compétitifs : <a href="https://www.smogon.com/" target="_blank" rel="noopener">Smogon University</a>
+        </li>
+        <li>
+          Icônes de types : <a href="https://github.com/MythMega/PkServData" target="_blank" rel="noopener">PkServData</a>
+          par <strong>MythMega</strong>
+        </li>
+      </ul>
+    </div>
+
+    <!-- <div class="credits-section">
+      <h2>Technologies</h2>
+      <ul>
+        <li>HTML5, CSS3, JavaScript ES2022 (modules natifs)</li>
+        <li>Aucune dépendance externe — 100% vanilla</li>
+      </ul>
+    </div> -->
+
+    <div class="credits-section">
+      <h2>Pokémon</h2>
+      <p>
+        Pokémon et tous les noms, personnages et éléments associés sont des marques déposées de
+        <strong>Nintendo / Game Freak / Creatures Inc.</strong><br/>
+        Ce projet est non officiel et à but non commercial.
+      </p>
+    </div>
+
+    <div class="text-center mt-2">
+      <a class="btn btn--ghost" href="index.html">🏠 Retour à l'accueil</a>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initTheme, toggleTheme, getCurrentTheme } from './script/business/themeManager.js';
+
+    initTheme();
+
+    const themeBtn = document.getElementById('btn-theme');
+    function updateThemeBtn() {
+      const theme = getCurrentTheme();
+      themeBtn.textContent = theme === 'dark' ? '☀️ Clair' : '🌙 Sombre';
+    }
+    updateThemeBtn();
+    themeBtn.addEventListener('click', () => {
+      toggleTheme();
+      updateThemeBtn();
+    });
+  </script>
+</body>
+</html>

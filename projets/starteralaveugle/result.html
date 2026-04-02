@@ -32,6 +32,7 @@
     <!-- Action buttons -->
     <div class="result-actions" id="result-actions" style="display:none;">
       <button class="btn btn--secondary" id="btn-copy">📋 Copier l'équipe</button>
+      <button class="btn btn--secondary" id="btn-copy-discord">💬 Copier Discord</button>
       <button class="btn btn--secondary" id="btn-showdown">⚔️ Ouvrir Showdown</button>
     </div>
 
@@ -125,6 +126,22 @@
             // Fallback
             resultTextarea.select();
             document.execCommand('copy');
+          });
+        });
+
+        document.getElementById('btn-copy-discord').addEventListener('click', () => {
+          const markdownText = '```\n' + resultTextarea.value + '\n```';
+          navigator.clipboard.writeText(markdownText).then(() => {
+            const btn = document.getElementById('btn-copy-discord');
+            btn.textContent = '✅ Copié !';
+            setTimeout(() => { btn.textContent = '💬 Copier Discord'; }, 2000);
+          }).catch(() => {
+            const tmp = document.createElement('textarea');
+            tmp.value = '```\n' + resultTextarea.value + '\n```';
+            document.body.appendChild(tmp);
+            tmp.select();
+            document.execCommand('copy');
+            document.body.removeChild(tmp);
           });
         });
 

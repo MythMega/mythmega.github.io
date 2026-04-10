@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bastocos — Album</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ====== NAVBAR ====== -->
+  <nav class="navbar" aria-label="Navigation principale">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">⚔ Bastocos</a>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="navbar-nav" id="nav-menu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Accueil</a></li>
+
+        <li class="nav-item">
+          <span class="nav-link has-dd" tabindex="0">Dex</span>
+          <div class="dropdown">
+            <a href="cards.html"  class="dd-item">Cartes</a>
+            <a href="trashs.html" class="dd-item">Déchets</a>
+            <div class="dd-item has-sub" tabindex="0">
+              Stuff
+              <div class="submenu">
+                <a href="weapons.html" class="sub-item">Armes</a>
+                <a href="armors.html"  class="sub-item">Armures</a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item"><a href="album.html"  class="nav-link">Album</a></li>
+        <li class="nav-item"><a href="tutoriels.html" class="nav-link">Tutoriels</a></li>
+        <li class="nav-item"><a href="credit.html" class="nav-link">Crédits</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====== MAIN ====== -->
+  <main class="main">
+    <div class="album-wrap">
+      <h1>Album</h1>
+      <p class="intro">
+        Bienvenue sur votre espace personnel.<br />
+        Retrouvez ici vos <strong>statistiques de combat</strong>, votre
+        <strong>collection de cartes</strong> et l'historique de vos aventures
+        sur Bastocos. Entrez votre pseudo Twitch pour accéder à votre profil.
+      </p>
+
+      <label for="user-search" class="search-label">Rechercher un joueur</label>
+      <div class="search-wrap">
+        <input
+          type="text"
+          id="user-search"
+          class="search-input"
+          placeholder="Votre pseudo…"
+          autocomplete="off"
+          aria-autocomplete="list"
+          aria-controls="autocomplete-box"
+        />
+        <ul class="autocomplete-box" id="autocomplete-box" role="listbox"></ul>
+      </div>
+      <p class="search-msg" id="search-msg" role="status" aria-live="polite"></p>
+      <button class="btn-voir-page" id="btn-voir-page">Voir ma page</button>
+    </div>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    Application Bastocos, développé par
+    <a href="https://web.jmdev.fr" target="_blank" rel="noopener noreferrer">MythMega</a>
+  </footer>
+
+  <script>
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+    });
+
+    // Album search
+    let users = [];
+    let hlIndex = -1;
+
+    fetch('users.json')
+      .then(r => r.json())
+      .then(data => { users = data; })
+      .catch(() => { /* users stays empty */ });
+
+    const input  = document.getElementById('user-search');
+    const box    = document.getElementById('autocomplete-box');
+    const msg    = document.getElementById('search-msg');
+
+    function renderSuggestions(query) {
+      box.innerHTML = '';
+      hlIndex = -1;
+      if (!query) { box.classList.remove('show'); return; }
+
+      const matches = users.filter(u =>
+        u.toLowerCase().includes(query.toLowerCase())
+      );
+
+      if (matches.length === 0) { box.classList.remove('show'); return; }
+
+      matches.forEach((name, i) => {
+        const li = document.createElement('li');
+        li.textContent = name;
+        li.setAttribute('role', 'option');
+        li.addEventListener('mousedown', e => {
+          e.preventDefault();
+          selectUser(name);
+        });
+        box.appendChild(li);
+      });
+      box.classList.add('show');
+    }
+
+    function selectUser(name) {
+      input.value = name;
+      box.classList.remove('show');
+      msg.className = 'search-msg ok';
+      msg.textContent = `✔ Profil trouvé : ${name}. Chargement en cours…`;
+    }
+
+    // Voir ma page button
+    document.getElementById('btn-voir-page').addEventListener('click', () => {
+      const q = input.value.trim();
+      if (!q) {
+        msg.className = 'search-msg err';
+        msg.textContent = '⚠ Veuillez entrer un pseudo avant de continuer.';
+        return;
+      }
+      box.classList.remove('show');
+      const found = users.find(u => u.toLowerCase() === q.toLowerCase());
+      if (found) {
+        selectUser(found);
+      } else {
+        msg.className = 'search-msg err';
+        msg.textContent = `⚠ Aucun joueur nommé « ${q} » n'a été trouvé. Une mise à jour est peut-être en cours.`;
+      }
+    });
+
+    function showNotFound(query) {
+      msg.className = 'search-msg err';
+      msg.textContent = `⚠ Aucun joueur nommé « ${query} » n'a été trouvé. Une mise à jour est peut-être en cours.`;
+    }
+
+    input.addEventListener('input', () => {
+      msg.textContent = '';
+      msg.className = 'search-msg';
+      renderSuggestions(input.value.trim());
+    });
+
+    input.addEventListener('keydown', e => {
+      const items = box.querySelectorAll('li');
+      if (!box.classList.contains('show') || items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        hlIndex = Math.min(hlIndex + 1, items.length - 1);
+        items.forEach((el, i) => el.classList.toggle('hl', i === hlIndex));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        hlIndex = Math.max(hlIndex - 1, 0);
+        items.forEach((el, i) => el.classList.toggle('hl', i === hlIndex));
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (hlIndex >= 0 && items[hlIndex]) {
+          selectUser(items[hlIndex].textContent);
+        } else {
+          validateInput();
+        }
+      } else if (e.key === 'Escape') {
+        box.classList.remove('show');
+      }
+    });
+
+    input.addEventListener('blur', () => {
+      setTimeout(() => box.classList.remove('show'), 150);
+    });
+
+    function validateInput() {
+      const q = input.value.trim();
+      if (!q) return;
+      const found = users.some(u => u.toLowerCase() === q.toLowerCase());
+      if (found) {
+        const exact = users.find(u => u.toLowerCase() === q.toLowerCase());
+        selectUser(exact);
+      } else {
+        showNotFound(q);
+      }
+      box.classList.remove('show');
+    }
+
+    input.addEventListener('keyup', e => {
+      if (e.key === 'Enter' && box.querySelectorAll('.hl').length === 0) {
+        validateInput();
+      }
+    });
+  </script>
+</body>
+</html>

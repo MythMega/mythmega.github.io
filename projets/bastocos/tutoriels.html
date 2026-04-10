@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bastocos — Tutoriels</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ====== NAVBAR ====== -->
+  <nav class="navbar" aria-label="Navigation principale">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">⚔ Bastocos</a>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="navbar-nav" id="nav-menu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Accueil</a></li>
+
+        <li class="nav-item">
+          <span class="nav-link has-dd" tabindex="0">Dex</span>
+          <div class="dropdown">
+            <a href="cards.html"  class="dd-item">Cartes</a>
+            <a href="trashs.html" class="dd-item">Déchets</a>
+            <div class="dd-item has-sub" tabindex="0">
+              Stuff
+              <div class="submenu">
+                <a href="weapons.html" class="sub-item">Armes</a>
+                <a href="armors.html"  class="sub-item">Armures</a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item"><a href="album.html"    class="nav-link">Album</a></li>
+        <li class="nav-item"><a href="tutoriels.html" class="nav-link">Tutoriels</a></li>
+        <li class="nav-item"><a href="credit.html"   class="nav-link">Crédits</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====== MAIN ====== -->
+  <main class="main">
+    <div class="tuto-wrap">
+      <h1>📖 Tutoriels</h1>
+
+      <ul class="tabs-nav" role="tablist" id="tabs-nav">
+        <li><button class="tab-btn active" role="tab" aria-selected="true"  data-tab="t1">Compte</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t2">Combat</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t3">Assaut</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t4">Duel</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t5">Album de Cartes</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t6">Stuff</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t7">Bonus 1</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t8">Bonus 2</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t9">Bonus 3</button></li>
+        <li><button class="tab-btn"        role="tab" aria-selected="false" data-tab="t10">Bonus 4</button></li>
+      </ul>
+
+      <div class="tab-panels">
+
+        <!-- T1 -->
+        <div class="tab-panel active" id="t1" role="tabpanel">
+          <h2>Compte</h2>
+          <p>
+            Pour créer ou mettre à jour son compte, il vous faut taper la commande "<b>!inscription</b>".
+          </p>
+          <p>
+            Pour supprimer votre compte, il est possible uniquement en demandant à l'admin de le faire.
+          </p>
+        </div>
+
+        <!-- T2 -->
+        <div class="tab-panel" id="t2" role="tabpanel">
+          <h2>Système de combats</h2>
+          <p>
+            Vous êtes en combat à partir du moment où sur le live vous vous voyez affronter quelqu'un.
+            Une fois que vous êtes en combats vous avez deux actions possibles : Attaquer ou Looter. 
+          </p>
+          <p>
+            Le loot ( <b>!loot</b> ) vous permettra d'obtenir des déchets, des armes, des armures et rarement, des cartes.
+            Obtenir une arme qui infligera plus de dégats que votre arme actuelle la remplacera. Pareil pour l'armure avec sa stat de défense.
+          </p>
+          <p>
+            L'attaque ( <b>!attack</b> ) enverra directement une attaque à votre adversaire, réduisant ainsi ses PVs.
+            Pour les dégats, vous infligerez les dégats de votre arme moins la défense de son armure (sans pouvoir infligé de dégats négatifs).
+          </p>
+          <p>
+            Un combat s'arrête quand l'un ou les deux combatttants n'ont plus de vie, ou que le temps est écoulé. Le temps est visible sur la barre du haut, se réduisant petit a petit.
+          </p>
+          <p>L'interface du live est mis a jour toutes les 5 secondes</p>
+        </div>
+
+        <!-- T3 -->
+        <div class="tab-panel" id="t3" role="tabpanel">
+          <h2>Assaut</h2>
+          <p>
+            Lancer un assaut ( <b>!hit</b> ) sur un joueur lancera le combat, si celui ci est présent, et cela sans lui demander de confirmation.
+            Une fois le combat créé, il sera ajouté à la liste d'attente.
+          </p>
+        </div>
+
+        <!-- T4 -->
+        <div class="tab-panel" id="t4" role="tabpanel">
+          <h2>Duel</h2>
+          <p>
+            Un duel ( <b>!duel</b> ) est une demande de combat. Cela a quelque chose d'officiel et permet de parier un peu plus.
+            Un duel n'est pas ajouté en liste d'attente tant que la personne invitée a combattre n'a pas confirmé. la proposition en duel est supprimée en cas de refus.
+          </p>
+          <p>
+            Refuser un duel ( <b>!nduel</b> ) n'a pour incidence que de supprimer le duel de la liste d'attente, vous pouvez refuser autant de duel que vous souhaitez.
+          </p>
+          <p>
+            Accepter un duel ( <b>!yduel</b> ) ajoutera le combat a la liste d'attente. Vous ne pouvez avoir qu'une demande de duel si vous n'êtes pas en attente de combat, et aucune si vous êtes en attente de combat.
+          </p>
+        </div>
+
+        <!-- T5 -->
+        <div class="tab-panel" id="t5" role="tabpanel">
+          <h2>Album de cartes</h2>
+          <p>
+            Vous pouvez collectionner des cartes rares, au travers de loot ou via les achats en boutique. Collectionner les cartes est un flex.
+          </p>
+          <p>
+            Pour accéder à votre liste de cartes (et à vos statistiques), vous pouvez utiliser la commande ( <b>!stat</b> ) ou passer par <a href="./album.html">cette page</a>.
+          </p>
+        </div>
+
+        <!-- T6 -->
+        <div class="tab-panel" id="t6" role="tabpanel">
+          <h2>Stuff</h2>
+          <p>
+            Les armes sont des items à loot, qui permettent d'augmenter vos dégats. Mais lorsque vous entrez dans l'arène à nouveau, vous entrez sans armes.
+          </p>
+          <p>
+            Les armures sont des items à loot, qui permettent de diminuer les dégats reçus. Mais lorsque vous entrez dans l'arène à nouveau, vous entrez sans armures.
+          </p>
+          <p>
+            Les déchets sont des items à loot, sans utilité en combats. Cependant, ils sont vendable à l'aide de la commande ( <b>!sellgoods</b> ).
+          </p>
+        </div>
+
+        <!-- T7 -->
+        <div class="tab-panel" id="t7" role="tabpanel">
+          <h2>Économie du jeu</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Id cursus metus aliquam eleifend.
+            Tristique nulla aliquet enim tortor at auctor urna nunc id.
+          </p>
+          <p>
+            Risus commodo viverra maecenas accumsan. Facilisi etiam dignissim diam quis enim
+            lobortis scelerisque fermentum. Iaculis eu non diam phasellus vestibulum lorem.
+            Purus viverra accumsan in nisl nisi scelerisque eu ultrices.
+          </p>
+          <p>
+            Etiam sit amet nisl purus in mollis nunc. Nunc mattis enim ut tellus elementum.
+            Semper viverra nam libero justo laoreet sit amet. Cras pulvinar mattis nunc sed
+            blandit libero volutpat sed.
+          </p>
+        </div>
+
+        <!-- T8 -->
+        <div class="tab-panel" id="t8" role="tabpanel">
+          <h2>Album &amp; Profil joueur</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla
+            et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis
+            dolor. Pellentesque nisl ante, ultrices vitae ornare quis.
+          </p>
+          <p>
+            Laoreet vel lorem. Integer in mauris eu nibh euismod gravida dui dui. Quisque id
+            lorem suscipit, ornare neque at, commodo leo. Proin pretium nibh sit amet nisl
+            commodo, nec euismod eros eleifend.
+          </p>
+          <p>
+            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius,
+            turpis molestie pretium placerat, arcu purus aliquam arcu, nec euismod lectus
+            quam consequat lacus.
+          </p>
+        </div>
+
+        <!-- T9 -->
+        <div class="tab-panel" id="t9" role="tabpanel">
+          <h2>Système de raretés</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Les raretés vont de Commun à Mythique,
+            représentant la puissance et la valeur d'un objet dans le jeu.
+          </p>
+          <p>
+            Commun — Peu commun — Rare — Épique — Légendaire — Mythique. Chaque palier
+            augmente significativement les statistiques et modifie les chances de loot.
+            Venenatis urna cursus eget nunc scelerisque viverra mauris.
+          </p>
+          <p>
+            Erat pellentesque adipiscing commodo elit at imperdiet dui. Pharetra et ultrices
+            neque ornare aenean euismod. Felis donec et odio pellentesque diam volutpat commodo
+            sed egestas egestas fringilla phasellus faucibus scelerisque.
+          </p>
+        </div>
+
+        <!-- T10 -->
+        <div class="tab-panel" id="t10" role="tabpanel">
+          <h2>Astuces avancées</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere quam at lectus
+            tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci
+            luctus et ultrices posuere cubilia curae.
+          </p>
+          <p>
+            Proin vel ante a orci tempus eleifend ut et magna. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies ac tempor dui sagittis.
+          </p>
+          <p>
+            In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla
+            purus at leo dignissim congue. Mauris elementum accumsan leo vel tempus. Quisque
+            sed nibh ac mauris cursus rutrum nec ac arcu.
+          </p>
+        </div>
+
+      </div><!-- /.tab-panels -->
+    </div>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    Application Bastocos, développé par
+    <a href="https://web.jmdev.fr" target="_blank" rel="noopener noreferrer">MythMega</a>
+  </footer>
+
+  <script>
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+    });
+
+    // Tabs
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels  = document.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+
+        tabButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        tabPanels.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

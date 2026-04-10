@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bastocos — Déchets</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ====== NAVBAR ====== -->
+  <nav class="navbar" aria-label="Navigation principale">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">⚔ Bastocos</a>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="navbar-nav" id="nav-menu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Accueil</a></li>
+
+        <li class="nav-item">
+          <span class="nav-link has-dd" tabindex="0">Dex</span>
+          <div class="dropdown">
+            <a href="cards.html"  class="dd-item">Cartes</a>
+            <a href="trashs.html" class="dd-item">Déchets</a>
+            <div class="dd-item has-sub" tabindex="0">
+              Stuff
+              <div class="submenu">
+                <a href="weapons.html" class="sub-item">Armes</a>
+                <a href="armors.html"  class="sub-item">Armures</a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item"><a href="album.html"    class="nav-link">Album</a></li>
+        <li class="nav-item"><a href="tutoriels.html" class="nav-link">Tutoriels</a></li>
+        <li class="nav-item"><a href="credit.html" class="nav-link">Crédits</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====== MAIN ====== -->
+  <main class="main">
+    <div class="grid-wrap">
+      <h1 class="page-title">🗑 Déchets</h1>
+      <div id="grid" class="items-grid">
+        <p class="loading">Chargement des déchets…</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ====== MODAL ====== -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+    <div class="modal">
+      <button class="modal-close-btn" id="modal-close" aria-label="Fermer">✕</button>
+      <img id="modal-img" class="modal-img" src="" alt="" />
+      <div id="modal-name" class="modal-name"></div>
+      <div id="modal-desc" class="modal-desc"></div>
+      <ul id="modal-stats" class="modal-stats"></ul>
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    Application Bastocos, développé par
+    <a href="https://web.jmdev.fr" target="_blank" rel="noopener noreferrer">MythMega</a>
+  </footer>
+
+  <script>
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+    });
+
+    // Modal
+    const overlay = document.getElementById('modal-overlay');
+    const modalClose = document.getElementById('modal-close');
+
+    function openModal(item) {
+      document.getElementById('modal-img').src = item.Image;
+      document.getElementById('modal-img').alt = item.Name;
+      document.getElementById('modal-name').textContent = item.Name;
+      document.getElementById('modal-desc').textContent = item.Description;
+
+      const statsList = document.getElementById('modal-stats');
+      statsList.innerHTML = '';
+
+      const buyLabel = item.BuyValue < 0 ? 'Non disponible' : item.BuyValue + ' 🪙';
+
+      const rows = [
+        ['Chance de loot',  item.LootChance + ' %'],
+        ['Valeur de vente', item.SellValue + ' 🪙'],
+        ['Prix d\'achat',   buyLabel],
+        ['Disponible',      item.Enabled ? 'Oui' : 'Non'],
+      ];
+
+      rows.forEach(([k, v]) => {
+        const li = document.createElement('li');
+        li.className = 'modal-stat';
+        li.innerHTML = `<span class="modal-stat-k">${k}</span><span class="modal-stat-v">${v}</span>`;
+        statsList.appendChild(li);
+      });
+
+      overlay.classList.add('open');
+    }
+
+    function closeModal() { overlay.classList.remove('open'); }
+    modalClose.addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // Load data
+    fetch('Data/trashs.json')
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(items => {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+
+        items.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'item-card';
+          card.innerHTML = `
+            <img src="${item.Image}" alt="${item.Name}" loading="lazy"
+                 onerror="this.style.opacity='0.3'" />
+            <div class="item-name">${item.Name}</div>
+            <button class="btn-more">Voir plus</button>
+          `;
+          card.querySelector('.btn-more').addEventListener('click', () => openModal(item));
+          grid.appendChild(card);
+        });
+      })
+      .catch(() => {
+        document.getElementById('grid').innerHTML =
+          '<p class="fetch-err">Impossible de charger les déchets.</p>';
+      });
+  </script>
+</body>
+</html>

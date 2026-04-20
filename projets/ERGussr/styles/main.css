@@ -1,0 +1,610 @@
+/* ============================
+   CSS Variables & Reset
+   ============================ */
+:root {
+  --color-bg: #0f1117;
+  --color-surface: #1a1d27;
+  --color-surface2: #252836;
+  --color-border: #2e3248;
+  --color-primary: #7c6cfc;
+  --color-primary-hover: #6555e8;
+  --color-secondary: #3a3f5c;
+  --color-secondary-hover: #4a5070;
+  --color-text: #e8eaf0;
+  --color-text-muted: #8c90a8;
+  --color-success: #4caf50;
+  --color-error: #f44336;
+  --color-warning: #ff9800;
+  --color-danger: #d32f2f;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --transition: 0.18s ease;
+  --nav-height: 56px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+}
+
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; display: block; }
+
+/* ============================
+   Typography
+   ============================ */
+h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; }
+h2 { font-size: 1.4rem; font-weight: 600; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p  { color: var(--color-text-muted); }
+
+/* ============================
+   Layout
+   ============================ */
+.page-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+  flex: 1;
+  width: 100%;
+}
+
+/* ============================
+   Navigation
+   ============================ */
+.navbar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 0.5rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin-right: auto;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+}
+
+.nav-link {
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  transition: background var(--transition), color var(--transition);
+  white-space: nowrap;
+}
+.nav-link:hover, .nav-link.active {
+  background: var(--color-surface2);
+  color: var(--color-text);
+  text-decoration: none;
+}
+.nav-link.active { color: var(--color-primary); font-weight: 600; }
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  color: var(--color-text);
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  margin: 5px 0;
+  transition: var(--transition);
+}
+
+@media (max-width: 640px) {
+  .nav-toggle { display: flex; flex-direction: column; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0; right: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    padding: 0.5rem 1rem 1rem;
+    gap: 0.1rem;
+  }
+  .nav-links.open { display: flex; }
+  .nav-link { padding: 0.6rem 0.75rem; }
+  .navbar { position: relative; }
+}
+
+/* ============================
+   Buttons
+   ============================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.4rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+  user-select: none;
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-primary   { background: var(--color-primary); color: #fff; }
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-secondary { background: var(--color-secondary); color: var(--color-text); }
+.btn-secondary:hover { background: var(--color-secondary-hover); }
+.btn-danger    { background: var(--color-danger); color: #fff; }
+.btn-danger:hover { background: #b71c1c; }
+.btn-full { width: 100%; }
+.btn-lg { padding: 0.75rem 2rem; font-size: 1.05rem; }
+
+/* ============================
+   Cards & Surfaces
+   ============================ */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+/* ============================
+   Form Elements
+   ============================ */
+.input {
+  width: 100%;
+  background: var(--color-surface2);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 1rem;
+  padding: 0.6rem 0.9rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.input:focus { border-color: var(--color-primary); }
+.input-invalid { border-color: var(--color-error) !important; }
+
+.input-group { position: relative; }
+
+/* ============================
+   Autocomplete
+   ============================ */
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  list-style: none;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 200;
+  box-shadow: var(--shadow);
+}
+.autocomplete-item {
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background var(--transition);
+}
+.autocomplete-item:hover,
+.autocomplete-item.active { background: var(--color-secondary); }
+
+/* ============================
+   Toast Notifications
+   ============================ */
+#toast-container {
+  position: fixed;
+  top: calc(var(--nav-height) + 12px);
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.toast {
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.25s, transform 0.25s;
+  max-width: 280px;
+}
+.toast-visible { opacity: 1; transform: translateX(0); }
+.toast-success { background: var(--color-success); color: #fff; }
+.toast-error   { background: var(--color-error);   color: #fff; }
+.toast-info    { background: var(--color-primary);  color: #fff; }
+
+/* ============================
+   Modal
+   ============================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  padding: 1rem;
+}
+.modal {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+.modal-title { margin-bottom: 0.75rem; }
+.modal-message { color: var(--color-text); margin-bottom: 1.5rem; }
+.modal-body { margin-bottom: 1.5rem; color: var(--color-text); }
+.modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+/* ============================
+   Item Picture
+   ============================ */
+.item-picture-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.item-picture {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 2px solid var(--color-border);
+}
+.item-picture.blacked-out {
+  filter: brightness(0);
+}
+.img-error {
+  background: var(--color-surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* ============================
+   Clue blocks
+   ============================ */
+.clue {
+  background: var(--color-surface2);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.clue-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.clue p {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+}
+
+/* ============================
+   Game HUD
+   ============================ */
+.game-hud {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.hud-item {
+  text-align: center;
+}
+.hud-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+.hud-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.hud-lives .hud-value { color: var(--color-error); }
+
+/* ============================
+   Guess Form
+   ============================ */
+.guess-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.guess-form .input-group { flex: 1; }
+.guess-form .input { border-radius: var(--radius-sm); }
+
+/* ============================
+   Daily Round Progress
+   ============================ */
+.round-progress {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.round-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  border: 2px solid var(--color-border);
+  transition: background var(--transition);
+}
+.round-dot.active  { background: var(--color-primary); border-color: var(--color-primary); }
+.round-dot.done    { background: var(--color-success); border-color: var(--color-success); }
+.round-dot.failed  { background: var(--color-error);   border-color: var(--color-error); }
+
+/* ============================
+   Summary Cards
+   ============================ */
+.summary-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+.summary-card {
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+  width: 140px;
+}
+.summary-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  margin: 0 auto 0.5rem;
+}
+.summary-name { font-size: 0.8rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.25rem; }
+.summary-emoji { font-size: 1rem; margin-bottom: 0.25rem; }
+.summary-score { font-size: 0.85rem; color: var(--color-primary); font-weight: 700; }
+
+/* ============================
+   Share Box
+   ============================ */
+.share-box {
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  font-family: monospace;
+  white-space: pre;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  margin: 1rem 0;
+}
+
+/* ============================
+   Replay Grid
+   ============================ */
+.replay-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+.replay-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--transition), transform var(--transition);
+}
+.replay-btn:hover { opacity: 0.85; transform: scale(1.04); }
+.replay-btn.played     { background: var(--color-primary); color: #fff; }
+.replay-btn.not-played { background: var(--color-secondary); color: var(--color-text-muted); }
+
+/* ============================
+   Settings
+   ============================ */
+.settings-section {
+  margin-bottom: 2rem;
+}
+.settings-section h2 {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+.lang-btn {
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  background: var(--color-surface2);
+  color: var(--color-text);
+  cursor: pointer;
+  font-weight: 600;
+  transition: border-color var(--transition), background var(--transition);
+}
+.lang-btn.selected {
+  border-color: var(--color-primary);
+  background: rgba(124,108,252,0.15);
+  color: var(--color-primary);
+}
+
+/* ============================
+   Index Hero
+   ============================ */
+.hero {
+  text-align: center;
+  padding: 3rem 0 2rem;
+}
+.hero h1 {
+  font-size: 3rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.menu-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition), transform var(--transition);
+  text-decoration: none;
+  display: block;
+  color: var(--color-text);
+}
+.menu-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+.menu-card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.menu-card h3 { color: var(--color-text); margin-bottom: 0.25rem; }
+.menu-card p { font-size: 0.88rem; }
+
+/* ============================
+   Game Over / Result screen
+   ============================ */
+.result-screen {
+  text-align: center;
+  padding: 2rem 0;
+}
+.result-score-display {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0.5rem 0;
+}
+.result-new-record {
+  color: var(--color-success);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+.result-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* ============================
+   Shake Animation
+   ============================ */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+.shake { animation: shake 0.35s ease; }
+
+/* ============================
+   Credits
+   ============================ */
+.credits-body {
+  max-width: 560px;
+  margin: 2rem auto;
+  text-align: center;
+}
+.credits-body p { font-size: 1rem; margin-bottom: 1rem; }
+
+/* ============================
+   Utility
+   ============================ */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.text-muted { color: var(--color-text-muted); }
+.text-primary { color: var(--color-primary); }
+.text-success { color: var(--color-success); }
+.text-error   { color: var(--color-error); }
+.hidden { display: none !important; }
+
+/* ============================
+   Responsive tweaks
+   ============================ */
+@media (max-width: 480px) {
+  .hero h1 { font-size: 2.2rem; }
+  .item-picture { width: 140px; height: 140px; }
+  .guess-form { flex-direction: column; }
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERGussr</title>
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="./index.html">ERGussr</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a class="nav-link" href="./index.html"    data-i18n="nav.home"></a></li>
+      <li><a class="nav-link" href="./practice.html" data-i18n="nav.practice"></a></li>
+      <li><a class="nav-link" href="./daily.html"    data-i18n="nav.daily"></a></li>
+      <li><a class="nav-link" href="./replay.html"   data-i18n="nav.replay"></a></li>
+      <li><a class="nav-link" href="./settings.html" data-i18n="nav.settings"></a></li>
+      <li><a class="nav-link" href="./credits.html"  data-i18n="nav.credits"></a></li>
+    </ul>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="hero">
+      <h1 data-i18n="index.title"></h1>
+      <p data-i18n="index.subtitle"></p>
+    </div>
+
+    <div class="menu-grid">
+      <a class="menu-card" href="./daily.html">
+        <div class="menu-card-icon">📅</div>
+        <h3 data-i18n="index.play_daily"></h3>
+        <p data-i18n="nav.daily"></p>
+      </a>
+      <a class="menu-card" href="./practice.html">
+        <div class="menu-card-icon">🎮</div>
+        <h3 data-i18n="index.play_practice"></h3>
+        <p data-i18n="nav.practice"></p>
+      </a>
+      <a class="menu-card" href="./replay.html">
+        <div class="menu-card-icon">🔄</div>
+        <h3 data-i18n="index.replay"></h3>
+        <p data-i18n="nav.replay"></p>
+      </a>
+      <a class="menu-card" href="./settings.html">
+        <div class="menu-card-icon">⚙️</div>
+        <h3 data-i18n="index.settings"></h3>
+        <p data-i18n="nav.settings"></p>
+      </a>
+      <a class="menu-card" href="./credits.html">
+        <div class="menu-card-icon">ℹ️</div>
+        <h3 data-i18n="index.credits"></h3>
+        <p data-i18n="nav.credits"></p>
+      </a>
+    </div>
+  </main>
+
+  <script type="module" src="./scripts/pages/index.js"></script>
+</body>
+</html>

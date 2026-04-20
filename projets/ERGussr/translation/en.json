@@ -1,0 +1,97 @@
+{
+  "lang": "en",
+  "nav": {
+    "home": "Home",
+    "practice": "Practice",
+    "daily": "Daily",
+    "replay": "Replay",
+    "settings": "Settings",
+    "credits": "Credits"
+  },
+  "index": {
+    "title": "ERGussr",
+    "subtitle": "Can you guess the item just from its description?",
+    "play_daily": "Play Daily",
+    "play_practice": "Practice",
+    "replay": "Replay a Daily",
+    "settings": "Settings",
+    "credits": "Credits"
+  },
+  "practice": {
+    "title": "Practice",
+    "lives": "Lives",
+    "score": "Score",
+    "highscore": "Highscore",
+    "guess_placeholder": "Enter item name...",
+    "submit": "Submit",
+    "reveal": "Reveal",
+    "game_over": "Game Over!",
+    "new_record": "New record!",
+    "your_score": "Your score",
+    "best_score": "Best score",
+    "play_again": "Play again",
+    "back_menu": "Main menu",
+    "not_found": "Item not found",
+    "correct": "Correct!",
+    "wrong": "Wrong answer",
+    "item_was": "The item was:"
+  },
+  "daily": {
+    "title": "Daily",
+    "round": "Round",
+    "of": "of",
+    "guess_placeholder": "Enter item name...",
+    "submit": "Submit",
+    "reveal": "Reveal",
+    "next": "Next",
+    "finish": "Finish",
+    "results_title": "Daily Results",
+    "score": "Score",
+    "copy_result": "Copy result",
+    "copied": "Copied!",
+    "back_menu": "Main menu",
+    "already_played": "You have already played this daily.",
+    "future_date": "This date is in the future.",
+    "not_found": "Item not found",
+    "item_was": "The item was:"
+  },
+  "replay": {
+    "title": "Replay a Daily",
+    "subtitle": "Select a date to replay that daily",
+    "played": "Played",
+    "not_played": "Not played"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "export": "Export save",
+    "import": "Import save",
+    "delete": "Delete data",
+    "delete_confirm": "Are you sure you want to delete all data? This action is irreversible.",
+    "delete_success": "Data deleted successfully.",
+    "import_success": "Import complete.",
+    "import_error": "Invalid save file.",
+    "import_result_title": "Import Result",
+    "import_new_dailies": "New dailies imported",
+    "import_skipped_dailies": "Dailies skipped (already present)",
+    "import_highscore_updated": "Highscore updated",
+    "import_highscore_ignored": "Highscore ignored (current score is higher)",
+    "lang_fr": "French",
+    "lang_en": "English"
+  },
+  "credits": {
+    "title": "Credits",
+    "description": "ERGussr is a guessing game based on Elden Ring items.",
+    "data_source": "The data and application are available on GitHub:",
+    "github_link": "View on GitHub"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred.",
+    "pic_not_available": "pic not avlble",
+    "separator": "/",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "close": "Close"
+  }
+}

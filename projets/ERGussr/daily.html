@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERGussr — Daily</title>
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="./index.html">ERGussr</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a class="nav-link" href="./index.html"    data-i18n="nav.home"></a></li>
+      <li><a class="nav-link" href="./practice.html" data-i18n="nav.practice"></a></li>
+      <li><a class="nav-link" href="./daily.html"    data-i18n="nav.daily"></a></li>
+      <li><a class="nav-link" href="./replay.html"   data-i18n="nav.replay"></a></li>
+      <li><a class="nav-link" href="./settings.html" data-i18n="nav.settings"></a></li>
+      <li><a class="nav-link" href="./credits.html"  data-i18n="nav.credits"></a></li>
+    </ul>
+  </nav>
+
+  <main class="page-wrapper">
+    <div id="daily-header" class="text-center mb-3">
+      <h2 data-i18n="daily.title"></h2>
+      <p id="daily-date-label" class="text-muted"></p>
+    </div>
+
+    <!-- Error messages -->
+    <div id="error-future" class="card text-center hidden">
+      <p class="text-error" data-i18n="daily.future_date"></p>
+      <a class="btn btn-secondary mt-2" href="./index.html" data-i18n="practice.back_menu"></a>
+    </div>
+
+    <!-- Already played -->
+    <div id="already-played" class="card text-center hidden">
+      <p data-i18n="daily.already_played"></p>
+      <div id="previous-result-area" class="mt-2"></div>
+      <a class="btn btn-secondary mt-2" href="./index.html" data-i18n="practice.back_menu"></a>
+    </div>
+
+    <!-- Game area -->
+    <div id="daily-game" class="hidden">
+      <!-- Round progress dots -->
+      <div class="round-progress" id="round-progress"></div>
+
+      <div id="round-info" class="text-center mb-2 text-muted">
+        <span data-i18n="daily.round"></span> <span id="current-round-num">1</span>
+        <span data-i18n="daily.of"></span> 5
+      </div>
+
+      <div class="card" id="game-area">
+        <div id="round-picture"></div>
+        <div id="round-clues"></div>
+
+        <div class="guess-form" id="guess-form">
+          <div class="input-group">
+            <input type="text" id="guess-input" class="input" data-i18n-placeholder="daily.guess_placeholder" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" id="btn-submit" data-i18n="daily.submit"></button>
+          <button class="btn btn-secondary" id="btn-reveal" data-i18n="daily.reveal"></button>
+        </div>
+
+        <!-- Revealed item name (shown after round ends) -->
+        <div id="item-reveal-zone" class="hidden mt-2 text-center">
+          <p class="text-muted" data-i18n="daily.item_was"></p>
+          <p id="revealed-name" style="font-size:1.2rem;font-weight:700;color:var(--color-text)"></p>
+          <button class="btn btn-primary mt-2" id="btn-next" data-i18n="daily.next"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results screen -->
+    <div id="daily-results" class="hidden">
+      <div class="card result-screen">
+        <h2 data-i18n="daily.results_title"></h2>
+        <p id="results-date" class="text-muted mb-1"></p>
+        <div class="result-score-display" id="result-total-score">0</div>
+        <div class="share-box" id="share-text"></div>
+        <div class="result-actions">
+          <button class="btn btn-primary" id="btn-copy" data-i18n="daily.copy_result"></button>
+          <a class="btn btn-secondary" href="./index.html" data-i18n="practice.back_menu"></a>
+        </div>
+      </div>
+      <div class="summary-cards" id="summary-cards"></div>
+    </div>
+
+  </main>
+
+  <script type="module" src="./scripts/pages/daily.js"></script>
+</body>
+</html>

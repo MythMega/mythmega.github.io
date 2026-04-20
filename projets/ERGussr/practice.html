@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERGussr — Practice</title>
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="./index.html">ERGussr</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a class="nav-link" href="./index.html"    data-i18n="nav.home"></a></li>
+      <li><a class="nav-link" href="./practice.html" data-i18n="nav.practice"></a></li>
+      <li><a class="nav-link" href="./daily.html"    data-i18n="nav.daily"></a></li>
+      <li><a class="nav-link" href="./replay.html"   data-i18n="nav.replay"></a></li>
+      <li><a class="nav-link" href="./settings.html" data-i18n="nav.settings"></a></li>
+      <li><a class="nav-link" href="./credits.html"  data-i18n="nav.credits"></a></li>
+    </ul>
+  </nav>
+
+  <main class="page-wrapper">
+    <!-- HUD -->
+    <div class="game-hud" id="game-hud">
+      <div class="hud-item hud-lives">
+        <div class="hud-label" data-i18n="practice.lives"></div>
+        <div class="hud-value" id="hud-lives">❤️❤️❤️</div>
+      </div>
+      <div class="hud-item">
+        <div class="hud-label" data-i18n="practice.score"></div>
+        <div class="hud-value" id="hud-score">0</div>
+      </div>
+      <div class="hud-item">
+        <div class="hud-label" data-i18n="practice.highscore"></div>
+        <div class="hud-value" id="hud-highscore">0</div>
+      </div>
+    </div>
+
+    <!-- Game Area -->
+    <div id="game-area" class="card">
+      <div id="round-picture"></div>
+      <div id="round-clues"></div>
+
+      <div class="guess-form" id="guess-form">
+        <div class="input-group">
+          <input type="text" id="guess-input" class="input" data-i18n-placeholder="practice.guess_placeholder" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" id="btn-submit" data-i18n="practice.submit"></button>
+        <button class="btn btn-secondary" id="btn-reveal" data-i18n="practice.reveal"></button>
+      </div>
+    </div>
+
+    <!-- Game Over -->
+    <div id="game-over" class="card result-screen hidden">
+      <h2 data-i18n="practice.game_over"></h2>
+      <p id="new-record-msg" class="result-new-record hidden" data-i18n="practice.new_record"></p>
+      <div class="mt-2">
+        <span class="text-muted" data-i18n="practice.your_score"></span>
+        <div class="result-score-display" id="final-score">0</div>
+      </div>
+      <div class="mt-1">
+        <span class="text-muted" data-i18n="practice.best_score"></span>
+        <div style="font-size:1.4rem;font-weight:700;color:var(--color-text-muted)" id="final-highscore">0</div>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-primary btn-lg" id="btn-play-again" data-i18n="practice.play_again"></button>
+        <a class="btn btn-secondary btn-lg" href="./index.html" data-i18n="practice.back_menu"></a>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="./scripts/pages/practice.js"></script>
+</body>
+</html>

@@ -66,7 +66,16 @@ async function loadDataset(file, category) {
     category
   ));
   // Quality filter: discard items with no description in either language
-  const items = allRaw.filter(item => item.desc1FR.trim() || item.desc1EN.trim());
+  const withDesc = allRaw.filter(item => item.desc1FR.trim() || item.desc1EN.trim());
+
+  // RUSTINE — à retirer une fois le jeu de données corrigé :
+  // Certains noms contiennent des "\n" (données malformées), ce qui casse l'autocomplete et l'affichage.
+  const items = withDesc.filter(item => !item.nameFR.includes("\n") && !item.nameEN.includes("\n"));
+  const skippedName = withDesc.length - items.length;
+  if (skippedName > 0) {
+    console.warn(`[DataLoader] RUSTINE: Skipped ${skippedName} item(s) with "\\n" in name in ${file}`);
+  }
+
   const skipped = allRaw.length - items.length;
   if (skipped > 0) {
     console.warn(`[DataLoader] Skipped ${skipped} item(s) with no Desc1 (FR or EN) in ${file}`);

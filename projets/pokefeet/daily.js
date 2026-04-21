@@ -26,7 +26,6 @@ const Daily = (function () {
   const dIdx = document.getElementById('dIndex');
   const dT1 = document.getElementById('dT1');
   const dT2 = document.getElementById('dT2');
-  const progressEl = document.getElementById('progress');
   const scoreEl = document.getElementById('dailyScore');
   const namesDatalist = document.getElementById('namesListDaily');
   const notif = document.getElementById('notifications');
@@ -142,7 +141,21 @@ const Daily = (function () {
   }
 
   function updateProgressUI() {
-    progressEl.textContent = `${index + 1} / ${COUNT}`;
+    for (let i = 0; i < COUNT; i++) {
+      const dot = document.getElementById('round-dot-' + i);
+      if (!dot) continue;
+      dot.classList.remove('completed', 'imperfect', 'active', 'failed');
+      if (i < index) {
+        const res = results[i];
+        if (res && res.outcome === 'win') {
+          dot.classList.add(res.attempts === 0 ? 'completed' : 'imperfect');
+        } else {
+          dot.classList.add('failed');
+        }
+      } else if (i === index && index < COUNT) {
+        dot.classList.add('active');
+      }
+    }
     scoreEl.textContent = score;
   }
 
@@ -535,7 +548,16 @@ const Daily = (function () {
     }, 1000);
   }
 
-  function handleCorrect() {
+  async function handleCorrect() {
+    const p = dailyList[index];
+    // Check if this is a brand-new discovery BEFORE finishDaily marks it found
+    try {
+      const dexEntry = await Dex.getDexEntry(p.Index);
+      if (!dexEntry || !dexEntry.found) {
+        showNewPokemonBanner(p);
+      }
+    } catch (e) { /* ignore */ }
+
     const pts = pointsForAttempt(attempts);
     score += pts;
     results.push({ outcome: 'win', attempts });
@@ -545,6 +567,18 @@ const Daily = (function () {
     showNotification('+' + pts + ' points', 'success');
     // small delay then next
     setTimeout(nextPokemon, 700);
+  }
+
+  function showNewPokemonBanner(p) {
+    const name = p.NameFR || p.NameEN || '?';
+    const banner = document.createElement('div');
+    banner.className = 'new-pokemon-banner';
+    banner.innerHTML =
+      '<div class="npb-star">&#10024;</div>' +
+      '<div class="npb-label">Nouveau Pok\u00e9mon !</div>' +
+      '<div class="npb-name">' + name + '</div>';
+    document.body.appendChild(banner);
+    setTimeout(() => { try { document.body.removeChild(banner); } catch (e) {} }, 3400);
   }
 
   function showHintForAttempt(a) {
@@ -654,8 +688,18 @@ const Daily = (function () {
     const share = buildShareText(saved.results || [], date, saved.score || 0);
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
-    // show summary on top
-    progressEl.textContent = `Terminé`;
+    // show summary on top — mark all dots
+    for (let i = 0; i < COUNT; i++) {
+      const dot = document.getElementById('round-dot-' + i);
+      if (!dot) continue;
+      dot.classList.remove('completed', 'imperfect', 'active', 'failed');
+      const res = (saved.results || [])[i];
+      if (res && res.outcome === 'win') {
+        dot.classList.add(res.attempts === 0 ? 'completed' : 'imperfect');
+      } else {
+        dot.classList.add('failed');
+      }
+    }
     scoreEl.textContent = saved.score || 0;
     // disable controls
     input().disabled = true;

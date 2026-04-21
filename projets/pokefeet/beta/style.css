@@ -31,10 +31,10 @@ h1{font-size:20px;margin:0;color:#fff;}
 .scoreboard{display:flex;gap:14px;font-weight:600;color:var(--muted);}
 
 .game-area{display:flex;justify-content:center;}
-.center-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:480px;text-align:center;}
+.center-card{background:var(--card);padding:24px;border-radius:16px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:min(640px,100%);text-align:center;}
 .center-card-history{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);width:800px;text-align:center;}
-.pokemon-image{height:260px;width:90%;display:flex;align-items:center;justify-content:center;background:var(--glass);border-radius:10px;margin-bottom:12px;}
-.pokemon-image img{max-height:260px;height:auto;width:100%;image-rendering:auto;}
+.pokemon-image{height:340px;width:100%;display:flex;align-items:center;justify-content:center;background:var(--glass);border-radius:12px;margin-bottom:16px;overflow:hidden;}
+.pokemon-image img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;image-rendering:crisp-edges;}
 
 .guess-area{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:8px;}
 #guessInput{padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff;min-width:220px;}
@@ -253,3 +253,119 @@ aside#hints{margin-top:14px;color:var(--muted);max-width:480px;margin-left:auto;
 .close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
 .popup-images { display: flex; gap: 10px; justify-content: center; margin: 10px 0; }
 .popup-full-img, .popup-foot-img { width: 100px; height: 100px; object-fit: contain; }
+
+/* ─── Daily: modern header & card tweaks ─── */
+h1 {
+  background: linear-gradient(90deg, #e6eef8 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.center-card {
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(22,163,74,0.06);
+  transition: box-shadow 200ms ease;
+}
+
+.guess-area input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  min-width: 200px;
+  font-size: 15px;
+  transition: border-color 200ms, box-shadow 200ms;
+  outline: none;
+}
+.guess-area input:focus {
+  border-color: rgba(16,185,129,0.5);
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+}
+
+button {
+  transition: filter 150ms ease, transform 100ms ease;
+}
+button:hover:not(:disabled) { filter: brightness(1.15); }
+button:active:not(:disabled) { transform: scale(0.97); }
+
+.score-display { font-weight: 600; color: var(--muted); }
+
+/* ─── 5-dot round gauge ─── */
+.round-gauge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.round-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 2px solid rgba(255,255,255,0.12);
+  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+}
+
+.round-dot.active {
+  border-color: rgba(16,185,129,0.6);
+  box-shadow: 0 0 6px rgba(16,185,129,0.35);
+  animation: dot-pulse 1.4s ease-in-out infinite;
+}
+
+.round-dot.completed {
+  background: var(--accent);
+  border-color: #10b981;
+  box-shadow: 0 0 10px rgba(22,163,74,0.55);
+  transform: scale(1.1);
+}
+
+.round-dot.imperfect {
+  background: #b45309;
+  border-color: #f59e0b;
+  box-shadow: 0 0 10px rgba(245,158,11,0.45);
+  transform: scale(1.1);
+}
+
+.round-dot.failed {
+  background: #7f1d1d;
+  border-color: #b91c1c;
+  box-shadow: 0 0 8px rgba(185,28,28,0.4);
+}
+
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 6px rgba(16,185,129,0.35); }
+  50% { transform: scale(1.25); box-shadow: 0 0 14px rgba(16,185,129,0.6); }
+}
+
+/* ─── New Pokémon discovery banner ─── */
+.new-pokemon-banner {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-110%);
+  background: linear-gradient(135deg, #064e25 0%, #16a34a 100%);
+  color: #fff;
+  padding: 18px 32px;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 12px 40px rgba(22,163,74,0.45), 0 2px 0 rgba(255,255,255,0.08) inset;
+  z-index: 300;
+  text-align: center;
+  min-width: 220px;
+  max-width: 380px;
+  width: 90%;
+  animation: npb-slide 3.4s cubic-bezier(0.22,1,0.36,1) forwards;
+  pointer-events: none;
+}
+
+.npb-star  { font-size: 28px; line-height: 1; margin-bottom: 4px; }
+.npb-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.8; margin-bottom: 4px; }
+.npb-name  { font-size: 22px; font-weight: 800; letter-spacing: 0.02em; }
+
+@keyframes npb-slide {
+  0%   { transform: translateX(-50%) translateY(-110%); opacity: 0; }
+  12%  { transform: translateX(-50%) translateY(0);    opacity: 1; }
+  78%  { transform: translateX(-50%) translateY(0);    opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-110%); opacity: 0; }
+}

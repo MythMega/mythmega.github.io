@@ -1,190 +1,49 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>JMDev</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <style>
-            body {
-            background-color: #2a2a2a;
-            color: white;
-            text-align: center;
-        }
-        .navbar {
-            margin-bottom: 20px;
-        }
-        .buttons-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-        img {
-            height: 50vh;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .button-item {
-            margin-bottom: 40px;
-            flex: 1 1 calc(33.333% - 20px); /* 3 colonnes par ligne (horizontale) */
-            max-width: calc(33.333% - 20px);
-        }
-        @media (max-width: 768px) {
-            .button-item {
-                flex: 1 1 calc(50% - 20px); /* 2 colonnes par ligne (verticale) */
-                max-width: calc(50% - 20px);
-            }
-        }
-        .button-item img {
-            width: 100%;
-            max-width: 150px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-
-        p {
-            text-shadow: black 0px 0px 5px, black 0px 0px 10px;
-        }
-        h5 {
-            text-shadow: black 0px 0px 10px, black 0px 0px 20px;
-        }
-
-        .button-item p {
-        font-size: 1.5em; /* Augmentez cette valeur selon la taille désirée */
-        font-weight: bold; /* Optionnel : rend le texte plus épais */
-    }
-
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">JMDV</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Accueil</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            En live
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://www.twitch.tv/mythmega">Twitch</a>
-                            <a class="dropdown-item" href="https://www.youtube.com/@MythMega-VOD/live/">Youtube</a>
-                            <a class="dropdown-item" href="twitch_integrated.html">Twitch (integrated)</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="planning.html">Planning</a>
-                            <a class="dropdown-item" href="config.html">Config PC</a>
-                            <a class="dropdown-item" href="./pokedexLive/main.html">Pokedex</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Minecraft
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://www.planetminecraft.com/member/mythmega/submissions/projects/">Maps</a>
-                            <a class="dropdown-item" href="https://www.planetminecraft.com/member/mythmega/submissions/data-packs/">Datapacks</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="mc_javarock.html">Serveur JavaRock</a>
-                            <a class="dropdown-item" href="mc_buildit.html">Serveur Build It</a>
-                            <a class="dropdown-item" href="mc_hyperlapse.html">Hyperlapses</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Logiciels
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="soft_MCCare.html">Suite MinecraftCare</a>
-                            <a class="dropdown-item" href="soft_AutoVodMaker.html">AutoVODMaker</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="https://github.com/MythMega/">Github</a>
-                            <a class="dropdown-item" href="cv.html">CV</a>
-                            <a class="dropdown-item" href="porfolio.html">Porfolio</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Musiques
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_kR3lTx6WyYRMPXns1EZAxs1nXLKTXMJnc">Journey No Destinations</a>
-                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_mvzBxia7UzxeHokmEQYUVO1kLvuUEU_uI">Pile ou Face</a>
-                            <a class="dropdown-item" href="https://music.youtube.com/playlist?list=OLAK5uy_mhnqdcrLNM7KA55dX_mH23k4hffxwWm78">Under The Wave</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="https://open.spotify.com/intl-fr/artist/5oGXhBpWfuYZ5wQ6iRFZsp">Spotify</a>
-                            <a class="dropdown-item" href="https://music.youtube.com/channel/UC1t79TP9wTVFP8ph3hOpuuQ">Youtube Musique</a>
-                            <a class="dropdown-item" href="https://music.apple.com/fr/artist/mythmega/1649554649">Apple Musique</a>
-                            <a class="dropdown-item" href="music_platforms.html">Autres platrformes</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Reseaux
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="social_youtube.html">Youtube</a>
-                            <a class="dropdown-item" href="social_discord.html">Discord</a>
-                            <a class="dropdown-item" href="social_bluesky.html">Bluesky</a>
-                            <a class="dropdown-item" href="social_instagram.html">Instagram</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Blogs/Voyage/Photos
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">(coming soon)</a>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-<br>
-    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMDV — JavaRock Saison 1</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <div class="page-content"><br>
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="4"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="5"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="6"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="7"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="8"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="9"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="10"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="11"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="12"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="13"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="14"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="15"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="16"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="17"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="18"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="19"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="20"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="21"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="22"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="23"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="24"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="25"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="26"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="27"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="28"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="29"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="30"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="31"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="32"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="6"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="7"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="8"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="9"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="10"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="11"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="12"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="13"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="14"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="15"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="16"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="17"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="18"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="19"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="20"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="21"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="22"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="23"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="24"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="25"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="26"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="27"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="28"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="29"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="30"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="31"></li>
+            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="32"></li>
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -425,11 +284,11 @@
                 </div>
             </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Précédente</span>
         </a>
-        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Suivante</span>
         </a>
@@ -453,8 +312,11 @@
             </div>
         </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    </body>
+    </div>
+    <footer>
+        <p>&copy; 2025 MythMega &mdash; <a href="index.html">Accueil</a> &middot; <a href="https://www.twitch.tv/mythmega" target="_blank" rel="noopener">Twitch</a> &middot; <a href="https://github.com/MythMega/" target="_blank" rel="noopener">Github</a></p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="nav.js"></script>
+</body>
 </html>

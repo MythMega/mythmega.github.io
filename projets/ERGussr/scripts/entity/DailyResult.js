@@ -52,6 +52,6 @@ export class DailyResult {
       if (r.fails_count === 2) return "🟧🟧🟩";
       return "🟥🟥🟥";
     });
-    return `ERGussr Daily — ${this.date} — score ${this.scoreTotal}\n${lines.join("\n")}`;
+    return `Elden Description Daily — ${this.date} — score ${this.scoreTotal}\n${lines.join("\n")}`;
   }
 }

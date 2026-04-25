@@ -21,7 +21,7 @@ export async function exportSave() {
   const b64 = btoa(unescape(encodeURIComponent(json)));
 
   const today = getTodayStr();
-  const filename = `ERGussr-${today}.save`;
+  const filename = `EldenDesc-${today}.save`;
   const blob = new Blob([b64], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
 

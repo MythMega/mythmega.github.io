@@ -34,7 +34,7 @@ function render(root, d, platform, username) {
   const totalPokemons = d.TotalPokemons || 1;
 
   root.innerHTML = `
-    <div class="sd-page">
+    <div class="sd-page" data-pseudo="${SD.esc(d.Pseudo)}">
       <div class="sd-container">
 
         <!-- Breadcrumb -->
@@ -83,6 +83,9 @@ function render(root, d, platform, username) {
             </div>
           </div>
         </div>
+
+        <!-- Trainer card -->
+        ${renderTrainerCardHTML(d)}
 
         <!-- Detailed stats -->
         <div class="sd-grid sd-grid--3" style="margin-bottom:24px">
@@ -203,4 +206,163 @@ function fmtDate(dateStr) {
   if (!dateStr) return '—';
   try { return new Date(dateStr).toLocaleDateString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric' }); }
   catch { return dateStr; }
+}
+
+// ── Carte de dresseur ─────────────────────────────────────────────────────────
+
+// Ordre de tri par rareté (du plus rare au moins rare)
+const BADGE_RARITY_ORDER = ['exotic', 'legendary', 'epic', 'rare', 'uncommon', 'common'];
+const BADGE_GLOW = {
+  exotic:    'drop-shadow(0 0 10px pink)   drop-shadow(0 0 20px pink)',
+  legendary: 'drop-shadow(0 0 10px yellow) drop-shadow(0 0 20px yellow)',
+  epic:      'drop-shadow(0 0 8px purple)  drop-shadow(0 0 18px purple)',
+  rare:      'drop-shadow(0 0 8px blue)    drop-shadow(0 0 18px blue)',
+  uncommon:  'drop-shadow(0 0 8px green)   drop-shadow(0 0 18px green)',
+  common:    'drop-shadow(0 0 6px white)   drop-shadow(0 0 14px white)',
+};
+
+// Décode le champ favoritePoke : "Pikachu#s" → { name, isShiny }
+function parseFavoriteCreature(raw) {
+  if (!raw) return null;
+  if (raw.endsWith('#s')) return { name: raw.slice(0, -2), isShiny: true };
+  if (raw.endsWith('#n')) return { name: raw.slice(0, -2), isShiny: false };
+  return { name: raw, isShiny: false };
+}
+
+function renderTrainerCardHTML(d) {
+  // Badges triés par rareté, max 8 obtenus
+  const sortedBadges = (d.Badges || [])
+    .filter(b => b.Obtained)
+    .sort((a, b) => {
+      const ra = BADGE_RARITY_ORDER.indexOf((a.Rarity || '').toLowerCase());
+      const rb = BADGE_RARITY_ORDER.indexOf((b.Rarity || '').toLowerCase());
+      return (ra === -1 ? 99 : ra) - (rb === -1 ? 99 : rb);
+    })
+    .slice(0, 8);
+
+  const fav = parseFavoriteCreature(d.FavoriteCreature);
+  const firstCatchStr = d.FirstCatch
+    ? new Date(d.FirstCatch).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: '2-digit' })
+    : '—';
+
+  const badgesHTML = sortedBadges.map(b => {
+    const glow = BADGE_GLOW[(b.Rarity || '').toLowerCase()] || 'none';
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+      <img src="${SD.esc(b.ImageUrl || '')}" alt="${SD.esc(b.Name)}"
+        title="${SD.esc(b.Description || b.Name)}"
+        style="height:48px;width:48px;filter:${glow};transition:transform .2s ease;cursor:default"
+        onmouseover="this.style.transform='scale(1.3) rotate(360deg)'"
+        onmouseout="this.style.transform=''">
+      <span style="font-size:10px;text-align:center;color:#fff;text-shadow:0 0 8px #000;font-weight:700;max-width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${SD.esc(b.Name)}">${SD.esc(b.Name)}</span>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="sd-section-header" style="margin-bottom:12px">
+    <h2>🎴 Carte de dresseur</h2>
+  </div>
+  <div style="margin-bottom:24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px">
+
+    <!-- Carte (rendue identique au HTML legacy) -->
+    <div id="trainer-card" style="
+      position:relative;overflow:hidden;
+      width:856px;max-width:100%;height:auto;
+      border-radius:10px;border:1px solid #ccc;
+      background-image:url('${SD.esc(d.CardBackground || '')}');
+      background-size:cover;background-position:center;
+      color:#fff;padding:20px;box-sizing:border-box;">
+
+      <!-- Fond sombre + étoiles -->
+      <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);border-radius:10px;z-index:0"></div>
+      <div class="tc-stars" style="
+        position:absolute;inset:0;z-index:0;
+        background:radial-gradient(circle,#fff 1px,transparent 1px) 0 0/60px 60px,
+                   radial-gradient(circle,#fff 1px,transparent 1px) 30px 30px/60px 60px;
+        opacity:.18;animation:tctwinkle 8s infinite linear;pointer-events:none"></div>
+
+      <!-- Contenu -->
+      <div style="position:relative;z-index:1">
+        <!-- Titre -->
+        <h1 style="margin:0 0 2px;font-size:22px;text-shadow:0 0 11px #000,0 0 20px #000;font-weight:800">
+          Dresseur : ${SD.esc(d.Pseudo)}
+        </h1>
+        <h3 style="margin:0 0 20px;font-size:14px;opacity:.8;font-weight:400;text-shadow:0 0 8px #000">
+          ID : ${SD.esc(d.Code_user || '—')}
+        </h3>
+
+        <!-- 3 colonnes -->
+        <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin-bottom:20px">
+
+          <!-- Avatar -->
+          <div style="flex:0 0 auto">
+            ${d.AvatarUrl
+              ? `<img src="${SD.esc(d.AvatarUrl)}" crossorigin="anonymous"
+                  style="width:128px;height:128px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,.4);"
+                  alt="Avatar de ${SD.esc(d.Pseudo)}">`
+              : `<div style="width:128px;height:128px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:48px">👤</div>`}
+          </div>
+
+          <!-- Stats -->
+          <div style="flex:1;min-width:160px;display:flex;flex-direction:column;gap:5px;font-size:14px;text-shadow:0 0 11px #000,0 0 11px #000">
+            <span><strong>Global Dex :</strong> ${d.DexCount ?? '—'}</span>
+            <span><strong>Shiny Dex :</strong> ${d.ShinyDex ?? '—'}</span>
+            <span><strong>Dresseur depuis :</strong> ${firstCatchStr}</span>
+            <span><strong>Plateforme :</strong> ${SD.esc(d.Platform)}
+              <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/${SD.esc((d.Platform || '').toLowerCase())}.png"
+                style="height:16px;width:16px;vertical-align:middle;margin-left:4px" alt="${SD.esc(d.Platform)}"></span>
+            <span><strong>Niveau :</strong> ${d.Level ?? '—'}</span>
+            <span><strong>Captures :</strong> ${SD.fmt(d.PokeCaught)}</span>
+          </div>
+
+          <!-- Créature favorite -->
+          <div style="flex:0 0 auto;text-align:center;min-width:120px;text-shadow:0 0 11px #000,0 0 11px #000">
+            ${fav ? `
+            <div style="font-size:12px;font-weight:700;margin-bottom:6px">Créature Favorite :</div>
+            <div style="font-size:13px;margin-bottom:8px">${SD.esc(fav.name)}${fav.isShiny ? ' ✨' : ''}</div>
+            ${d.FavoriteSprite
+              ? `<img src="${SD.esc(d.FavoriteSprite)}" alt="${SD.esc(fav.name)}" style="height:96px;width:auto">`
+              : ''}` : ''}
+          </div>
+        </div>
+
+        <!-- Badges -->
+        ${badgesHTML ? `
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+          ${badgesHTML}
+        </div>` : ''}
+      </div>
+    </div>
+
+    <!-- Bouton téléchargement -->
+    <button class="sd-btn sd-btn--primary" id="download-card-btn" onclick="downloadTrainerCard()">
+      📥 Télécharger ma carte
+    </button>
+  </div>
+
+  <style>
+    @keyframes tctwinkle { 0%,100%{opacity:.18} 50%{opacity:.08} }
+  </style>`;
+}
+
+function downloadTrainerCard() {
+  const card = document.getElementById('trainer-card');
+  if (!card) { console.error('[user] #trainer-card introuvable.'); return; }
+
+  const btn = document.getElementById('download-card-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Génération…'; }
+
+  domtoimage.toPng(card, { bgcolor: null })
+    .then(dataUrl => {
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `carte-dresseur-${document.querySelector('[data-pseudo]')?.dataset.pseudo || 'trainer'}.png`;
+      a.click();
+    })
+    .catch(err => {
+      console.error('[user] Erreur génération de la carte :', err);
+      alert('Une erreur est survenue lors de la génération de la carte.');
+    })
+    .finally(() => {
+      if (btn) { btn.disabled = false; btn.textContent = '📥 Télécharger ma carte'; }
+    });
 }

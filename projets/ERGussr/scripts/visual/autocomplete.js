@@ -64,12 +64,14 @@ export function attachAutocomplete(input, list, onSelect) {
       idx = (idx + 1) % items.length;
       items[idx].classList.add("active");
       items[idx].scrollIntoView({ block: "nearest" });
+      input.value = items[idx].textContent;
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (active) active.classList.remove("active");
       idx = (idx - 1 + items.length) % items.length;
       items[idx].classList.add("active");
       items[idx].scrollIntoView({ block: "nearest" });
+      input.value = items[idx].textContent;
     } else if (e.key === "Enter") {
       if (active) {
         e.preventDefault();

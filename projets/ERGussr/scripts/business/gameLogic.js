@@ -76,12 +76,32 @@ export function buildAutocompleteList(items, lang) {
 
 /**
  * Filters autocomplete suggestions for a given input.
+ * Splits the query into words and matches names containing ALL of them (order-independent).
+ * Results sorted: names starting with the full query first, then the rest.
+ * No hard cap — returns all matches.
  * @param {string[]} list
  * @param {string} input
  * @returns {string[]}
  */
 export function filterSuggestions(list, input) {
-  if (!input) return [];
+  if (!input || !input.trim()) return [];
   const norm = normalize(input);
-  return list.filter(name => normalize(name).includes(norm)).slice(0, 20);
+  const words = norm.split(/\s+/).filter(Boolean);
+
+  const filtered = list.filter(name => {
+    const normName = normalize(name);
+    return words.every(word => normName.includes(word));
+  });
+
+  // Sort: full-query prefix first, then alphabetical
+  filtered.sort((a, b) => {
+    const na = normalize(a), nb = normalize(b);
+    const aStarts = na.startsWith(norm);
+    const bStarts = nb.startsWith(norm);
+    if (aStarts && !bStarts) return -1;
+    if (!aStarts && bStarts) return 1;
+    return a.localeCompare(b, undefined, { sensitivity: "base" });
+  });
+
+  return filtered;
 }

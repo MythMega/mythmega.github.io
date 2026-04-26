@@ -22,10 +22,69 @@
       </div>
     </div>
   </nav>
-  <div id="sd-root"></div>
+
+  <div class="sd-page">
+    <div class="sd-container">
+
+      <!-- Header -->
+      <div class="sd-section-header" style="margin-bottom:24px">
+        <h1>📊 StreamDex — Tableau de bord</h1>
+      </div>
+
+      <!-- Widget recherche utilisateur (rendu statique, peuplé par le JS) -->
+      <div class="sd-card" style="margin-bottom:24px;padding:20px">
+        <h2 style="font-size:15px;margin:0 0 14px">🔍 Accéder au Pokédex d'un joueur</h2>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+
+          <!-- Boutons plateforme (peuplés par JS) -->
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label style="font-size:12px;color:var(--text-secondary)">Plateforme</label>
+            <div id="platform-buttons" style="display:flex;gap:6px">
+              <!-- rempli par main.js -->
+            </div>
+          </div>
+
+          <!-- Champ pseudo + autocomplete -->
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:180px">
+            <label for="user-search-input" style="font-size:12px;color:var(--text-secondary)">Pseudo</label>
+            <div style="position:relative">
+              <input class="sd-input" id="user-search-input" type="text"
+                placeholder="Entrez un pseudo..."
+                autocomplete="off"
+                style="width:100%">
+              <ul id="autocomplete-list" style="
+                display:none;position:absolute;top:100%;left:0;right:0;z-index:50;
+                background:var(--bg-card);border:1px solid var(--border-color);
+                border-radius:var(--radius-sm);margin:2px 0 0;padding:0;list-style:none;
+                max-height:200px;overflow-y:auto;box-shadow:var(--shadow-md)"></ul>
+            </div>
+          </div>
+
+          <!-- Bouton valider -->
+          <button class="sd-btn sd-btn--primary" id="goto-user-btn" style="align-self:flex-end">
+            Voir le Pokédex →
+          </button>
+        </div>
+
+        <!-- Message d'erreur inline -->
+        <div id="user-error" style="display:none;margin-top:12px" class="sd-error"></div>
+      </div>
+
+      <!-- Zone des statistiques (remplie par le JS après chargement de main.json) -->
+      <div id="sd-stats-section">
+        <div class="sd-loading">
+          <div class="sd-loading__spinner"></div>
+          <p>Chargement des statistiques…</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <footer class="sd-footer">
     <div class="sd-container">StreamDex — Données chargées dynamiquement</div>
   </footer>
+
   <script src="assets/js/utils.js"></script>
   <script src="assets/js/main.js"></script>
 </body>

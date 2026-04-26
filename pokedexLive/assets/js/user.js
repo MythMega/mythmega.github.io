@@ -166,6 +166,7 @@ function renderDex(entries) {
   const f = document.getElementById('filter-dex').value;
   const tbody = document.getElementById('dex-tbody');
 
+  // L'ordre vient du JSON (trié par settings.allPokemons côté serveur)
   let list = [...entries];
   if (q) list = list.filter(e => (e.PokeName || '').toLowerCase().includes(q));
   if (f === 'normal') list = list.filter(e => e.CountNormal > 0 && e.CountShiny === 0);

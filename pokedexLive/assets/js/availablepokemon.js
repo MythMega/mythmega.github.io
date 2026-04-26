@@ -41,11 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <option value="shiny">Shiny disponible</option>
             <option value="custom">Custom</option>
           </select>
-          <select class="sd-select" id="sort-by">
-            <option value="name">Nom A→Z</option>
-            <option value="serie">Série</option>
-            <option value="rarity">Rareté</option>
-          </select>
+
         </div>
         <div id="creatures-grid" class="sd-grid sd-grid--auto"></div>
         <div id="pagination" class="sd-pagination"></div>
@@ -55,7 +51,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('search-input').addEventListener('input', SD.debounce(applyFilters));
   document.getElementById('filter-serie').addEventListener('change', applyFilters);
   document.getElementById('filter-special').addEventListener('change', applyFilters);
-  document.getElementById('sort-by').addEventListener('change', applyFilters);
 
   applyFilters();
 });
@@ -64,17 +59,13 @@ function applyFilters() {
   const q = document.getElementById('search-input').value.trim();
   const serie = document.getElementById('filter-serie').value;
   const special = document.getElementById('filter-special').value;
-  const sort = document.getElementById('sort-by').value;
 
+  // L'ordre de creatures_list.json est conservé (pas de tri)
   filtered = SD.filterItems(allCreatures, q, ['Name_FR', 'Name_EN', 'AltName', 'Serie']);
   if (serie) filtered = filtered.filter(c => c.Serie === serie);
   if (special === 'legendary') filtered = filtered.filter(c => c.isLegendary);
   else if (special === 'shiny') filtered = filtered.filter(c => !c.isShinyLock);
   else if (special === 'custom') filtered = filtered.filter(c => c.isCustom);
-
-  if (sort === 'name') filtered.sort((a, b) => (a.Name_FR || a.Name_EN || '').localeCompare(b.Name_FR || b.Name_EN || ''));
-  else if (sort === 'serie') filtered.sort((a, b) => (a.Serie || '').localeCompare(b.Serie || ''));
-  else if (sort === 'rarity') filtered.sort((a, b) => (a.Rarity || '').localeCompare(b.Rarity || ''));
 
   document.getElementById('count-label').textContent = `${filtered.length} créature${filtered.length > 1 ? 's' : ''}`;
   page = 1;

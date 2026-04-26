@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="theme.css">
 </head>
 <body>
-    <div class="page-content"><div class="container">
+    <div class="page-content">
+        <div class="container">
             <h1>Planning</h1>
             <p>Les infos données ci dessous sont à titre indicatif et ne sont pas une garantie du reel contenu des lives, et tout est sujet à imprévus.</p>
         </div>
@@ -31,33 +32,36 @@
                     <tbody>
                         <tr>
                             <td>horaire</td>
-                            <td>20h-23h</td>
-                            <td>20h-23h</td>
-                            <td>20h-23h</td>
-                            <td>20h-23h</td>
-                            <td>20h-01h+</td>
-                            <td>20h-01h+</td>
-                            <td>19h-23h</td>
+                            <td id="h_lundi"></td>
+                            <td id="h_mardi"></td>
+                            <td id="h_mercredi"></td>
+                            <td id="h_jeudi"></td>
+                            <td id="h_vendredi"></td>
+                            <td id="h_samedi"></td>
+                            <td id="h_dimanche"></td>
                         </tr>
                         <tr>
                             <td>catégorie</td>
-                            <td>Minecraft [Javadrock]</td>
-                            <td>Clair Obscur / Mario / Autre</td>
-                            <td>Minecraft [Javadrock]</td>
-                            <td>Minecraft [Build It]</td>
-                            <td>Soirée jeux Coop</td>
-                            <td>Minecraft [Javadrock]</td>
-                            <td>Clair Obscur / Mario / Autre</td>
+                            <td id="c_lundi"></td>
+                            <td id="c_mardi"></td>
+                            <td id="c_mercredi"></td>
+                            <td id="c_jeudi"></td>
+                            <td id="c_vendredi"></td>
+                            <td id="c_samedi"></td>
+                            <td id="c_dimanche"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
     <footer>
         <p>&copy; 2026 MythMega &mdash; <a href="index.html">Accueil</a> &middot; <a href="https://www.twitch.tv/mythmega" target="_blank" rel="noopener">Twitch</a> &middot; <a href="https://github.com/MythMega/" target="_blank" rel="noopener">Github</a></p>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="nav.js"></script>
+    <script src="auto_planning.js"></script>
 </body>
 </html>

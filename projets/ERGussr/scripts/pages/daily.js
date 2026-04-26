@@ -143,7 +143,20 @@ function startRound(idx) {
   document.getElementById("round-picture").innerHTML = renderItemPicture(round.item);
   document.getElementById("round-clues").innerHTML = renderClues(round.item, round.fails, lang);
   updateProgressDots();
+  updateGauge();
   document.getElementById("guess-input").focus();
+}
+
+function updateGauge() {
+  if (currentRoundIdx >= rounds.length) return;
+  const fails = rounds[currentRoundIdx].fails;
+  for (let i = 0; i < 3; i++) {
+    const seg = document.getElementById(`gseg-${i}`);
+    if (!seg) continue;
+    seg.classList.remove("active", "spent");
+    if (i < fails) seg.classList.add("spent");
+    else if (i === fails) seg.classList.add("active");
+  }
 }
 
 function handleSubmit() {
@@ -179,6 +192,7 @@ function handleSubmit() {
     round.fails++;
     console.log(`[daily] Wrong guess. Fails: ${round.fails}`);
     shakeElement(input);
+    updateGauge();
 
     if (round.fails >= 3) {
       // Full fail — reveal without points

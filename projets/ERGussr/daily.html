@@ -53,22 +53,40 @@
       </div>
 
       <div class="card" id="game-area">
-        <div id="round-picture"></div>
-        <div id="round-clues"></div>
+        <div class="game-main">
+          <div id="round-picture"></div>
+          <div id="round-clues"></div>
 
-        <div class="guess-form" id="guess-form">
-          <div class="input-group">
-            <input type="text" id="guess-input" class="input" data-i18n-placeholder="daily.guess_placeholder" autocomplete="off">
+          <div class="guess-form" id="guess-form">
+            <div class="input-group">
+              <input type="text" id="guess-input" class="input" data-i18n-placeholder="daily.guess_placeholder" autocomplete="off">
+            </div>
+            <button class="btn btn-primary" id="btn-submit" data-i18n="daily.submit"></button>
+            <button class="btn btn-secondary" id="btn-reveal" data-i18n="daily.reveal"></button>
           </div>
-          <button class="btn btn-primary" id="btn-submit" data-i18n="daily.submit"></button>
-          <button class="btn btn-secondary" id="btn-reveal" data-i18n="daily.reveal"></button>
+
+          <!-- Revealed item name (shown after round ends) -->
+          <div id="item-reveal-zone" class="hidden mt-2 text-center">
+            <p class="text-muted" data-i18n="daily.item_was"></p>
+            <p id="revealed-name" style="font-size:1.2rem;font-weight:700;color:var(--color-text)"></p>
+            <button class="btn btn-primary mt-2" id="btn-next" data-i18n="daily.next"></button>
+          </div>
         </div>
 
-        <!-- Revealed item name (shown after round ends) -->
-        <div id="item-reveal-zone" class="hidden mt-2 text-center">
-          <p class="text-muted" data-i18n="daily.item_was"></p>
-          <p id="revealed-name" style="font-size:1.2rem;font-weight:700;color:var(--color-text)"></p>
-          <button class="btn btn-primary mt-2" id="btn-next" data-i18n="daily.next"></button>
+        <!-- Score gauge -->
+        <div class="score-gauge" id="score-gauge">
+          <div class="gauge-seg" id="gseg-0">
+            <span class="gauge-pts">10</span>
+            <span class="gauge-try-dots">●●●</span>
+          </div>
+          <div class="gauge-seg" id="gseg-1">
+            <span class="gauge-pts">5</span>
+            <span class="gauge-try-dots">●●</span>
+          </div>
+          <div class="gauge-seg" id="gseg-2">
+            <span class="gauge-pts">2</span>
+            <span class="gauge-try-dots">●</span>
+          </div>
         </div>
       </div>
     </div>

@@ -230,7 +230,21 @@ function parseFavoriteCreature(raw) {
 }
 
 function renderTrainerCardHTML(d) {
-  // Badges triés par rareté, max 8 obtenus
+  // ── Calcul des stats depuis les entrées (source de vérité côté client) ──────
+  const entries = d.Entries || [];
+  const dexCount  = entries.filter(e => e.CountNormal > 0 || e.CountShiny > 0).length;
+  const shinyDex  = entries.filter(e => e.CountShiny  > 0).length;
+
+  const allDates = entries
+    .flatMap(e => [e.DateFirstCatch, e.DateLastCatch])
+    .filter(Boolean)
+    .map(s => new Date(s).getTime())
+    .filter(t => !isNaN(t));
+  const firstCatchStr = allDates.length
+    ? new Date(Math.min(...allDates)).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: '2-digit' })
+    : '—';
+
+  // ── Badges triés par rareté, max 8 obtenus ───────────────────────────────
   const sortedBadges = (d.Badges || [])
     .filter(b => b.Obtained)
     .sort((a, b) => {
@@ -241,21 +255,20 @@ function renderTrainerCardHTML(d) {
     .slice(0, 8);
 
   const fav = parseFavoriteCreature(d.FavoriteCreature);
-  const firstCatchStr = d.FirstCatch
-    ? new Date(d.FirstCatch).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: '2-digit' })
-    : '—';
 
   const badgesHTML = sortedBadges.map(b => {
     const glow = BADGE_GLOW[(b.Rarity || '').toLowerCase()] || 'none';
-    return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center">
       <img src="${SD.esc(b.ImageUrl || '')}" alt="${SD.esc(b.Name)}"
         title="${SD.esc(b.Description || b.Name)}"
-        style="height:48px;width:48px;filter:${glow};transition:transform .2s ease;cursor:default"
+        style="height:48px;width:48px;filter:${glow};transition:transform .4s ease;cursor:default"
         onmouseover="this.style.transform='scale(1.3) rotate(360deg)'"
         onmouseout="this.style.transform=''">
-      <span style="font-size:10px;text-align:center;color:#fff;text-shadow:0 0 8px #000;font-weight:700;max-width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${SD.esc(b.Name)}">${SD.esc(b.Name)}</span>
+      <span style="font-size:10px;color:#fff;text-shadow:0 0 8px #000;font-weight:700;max-width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${SD.esc(b.Name)}">${SD.esc(b.Name)}</span>
     </div>`;
   }).join('');
+
+  const TEXT_SHADOW = 'text-shadow:0 0 11px #000,0 0 11px #000,0 0 20px #000';
 
   return `
   <div class="sd-section-header" style="margin-bottom:12px">
@@ -263,73 +276,83 @@ function renderTrainerCardHTML(d) {
   </div>
   <div style="margin-bottom:24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px">
 
-    <!-- Carte (rendue identique au HTML legacy) -->
+    <!-- ══ Carte 856×566 fixe ══ -->
     <div id="trainer-card" style="
-      position:relative;overflow:hidden;
-      width:856px;max-width:100%;height:auto;
-      border-radius:10px;border:1px solid #ccc;
-      background-image:url('${SD.esc(d.CardBackground || '')}');
-      background-size:cover;background-position:center;
-      color:#fff;padding:20px;box-sizing:border-box;">
+        position:relative;
+        width:856px;height:566px;
+        overflow:hidden;
+        border-radius:10px;border:1px solid #ccc;
+        background-image:url('${SD.esc(d.CardBackground || '')}');
+        background-size:cover;background-position:center;
+        color:#fff;box-sizing:border-box;">
 
-      <!-- Fond sombre + étoiles -->
+      <!-- Fond sombre -->
       <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);border-radius:10px;z-index:0"></div>
-      <div class="tc-stars" style="
-        position:absolute;inset:0;z-index:0;
-        background:radial-gradient(circle,#fff 1px,transparent 1px) 0 0/60px 60px,
-                   radial-gradient(circle,#fff 1px,transparent 1px) 30px 30px/60px 60px;
-        opacity:.18;animation:tctwinkle 8s infinite linear;pointer-events:none"></div>
 
-      <!-- Contenu -->
-      <div style="position:relative;z-index:1">
+      <!-- Étoiles -->
+      <div style="
+        position:absolute;inset:0;z-index:0;pointer-events:none;
+        background:
+          radial-gradient(circle,#fff 1px,transparent 1px) 0 0/60px 60px,
+          radial-gradient(circle,#fff 1px,transparent 1px) 30px 30px/60px 60px;
+        opacity:.18;animation:tctwinkle 8s infinite linear"></div>
+
+      <!-- Contenu principal -->
+      <div style="position:relative;z-index:1;padding:20px;height:100%;box-sizing:border-box;display:flex;flex-direction:column">
+
         <!-- Titre -->
-        <h1 style="margin:0 0 2px;font-size:22px;text-shadow:0 0 11px #000,0 0 20px #000;font-weight:800">
+        <h1 style="margin:0 0 2px;font-size:22px;font-weight:800;${TEXT_SHADOW};text-align:center">
           Dresseur : ${SD.esc(d.Pseudo)}
         </h1>
-        <h3 style="margin:0 0 20px;font-size:14px;opacity:.8;font-weight:400;text-shadow:0 0 8px #000">
+        <h3 style="margin:0 0 16px;font-size:13px;font-weight:400;opacity:.85;${TEXT_SHADOW};text-align:center">
           ID : ${SD.esc(d.Code_user || '—')}
         </h3>
 
-        <!-- 3 colonnes -->
-        <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin-bottom:20px">
+        <!-- 3 colonnes égales -->
+        <div style="display:flex;gap:16px;flex:1;align-items:center">
 
-          <!-- Avatar -->
-          <div style="flex:0 0 auto">
+          <!-- Colonne 1 : Avatar -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
             ${d.AvatarUrl
               ? `<img src="${SD.esc(d.AvatarUrl)}" crossorigin="anonymous"
-                  style="width:128px;height:128px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,.4);"
-                  alt="Avatar de ${SD.esc(d.Pseudo)}">`
-              : `<div style="width:128px;height:128px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:48px">👤</div>`}
+                  style="width:140px;height:140px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,.45);"
+                  alt="Avatar">`
+              : `<div style="width:140px;height:140px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:56px">👤</div>`}
+            <span style="font-size:13px;font-weight:700;${TEXT_SHADOW}">${SD.esc(d.Pseudo)}</span>
           </div>
 
-          <!-- Stats -->
-          <div style="flex:1;min-width:160px;display:flex;flex-direction:column;gap:5px;font-size:14px;text-shadow:0 0 11px #000,0 0 11px #000">
-            <span><strong>Global Dex :</strong> ${d.DexCount ?? '—'}</span>
-            <span><strong>Shiny Dex :</strong> ${d.ShinyDex ?? '—'}</span>
-            <span><strong>Dresseur depuis :</strong> ${firstCatchStr}</span>
-            <span><strong>Plateforme :</strong> ${SD.esc(d.Platform)}
+          <!-- Colonne 2 : Stats -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:14px;${TEXT_SHADOW};text-align:center">
+            <span>🗂️ <strong>Global Dex :</strong> ${dexCount}</span>
+            <span>✨ <strong>Shiny Dex :</strong> ${shinyDex}</span>
+            <span>📅 <strong>Dresseur depuis :</strong> ${firstCatchStr}</span>
+            <span>
+              📡 <strong>Plateforme :</strong> ${SD.esc(d.Platform)}
               <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/${SD.esc((d.Platform || '').toLowerCase())}.png"
-                style="height:16px;width:16px;vertical-align:middle;margin-left:4px" alt="${SD.esc(d.Platform)}"></span>
-            <span><strong>Niveau :</strong> ${d.Level ?? '—'}</span>
-            <span><strong>Captures :</strong> ${SD.fmt(d.PokeCaught)}</span>
+                style="height:16px;width:16px;vertical-align:middle;margin-left:3px" alt="${SD.esc(d.Platform)}">
+            </span>
+            <span>⭐ <strong>Niveau :</strong> ${d.Level ?? '—'}</span>
+            <span>🎯 <strong>Captures :</strong> ${SD.fmt(d.PokeCaught)}</span>
           </div>
 
-          <!-- Créature favorite -->
-          <div style="flex:0 0 auto;text-align:center;min-width:120px;text-shadow:0 0 11px #000,0 0 11px #000">
+          <!-- Colonne 3 : Créature favorite -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;${TEXT_SHADOW};text-align:center">
             ${fav ? `
-            <div style="font-size:12px;font-weight:700;margin-bottom:6px">Créature Favorite :</div>
-            <div style="font-size:13px;margin-bottom:8px">${SD.esc(fav.name)}${fav.isShiny ? ' ✨' : ''}</div>
-            ${d.FavoriteSprite
-              ? `<img src="${SD.esc(d.FavoriteSprite)}" alt="${SD.esc(fav.name)}" style="height:96px;width:auto">`
-              : ''}` : ''}
+              <span style="font-size:12px;font-weight:700">Créature Favorite</span>
+              <span style="font-size:13px">${SD.esc(fav.name)}${fav.isShiny ? ' ✨' : ''}</span>
+              ${d.FavoriteSprite
+                ? `<img src="${SD.esc(d.FavoriteSprite)}" alt="${SD.esc(fav.name)}" style="height:100px;width:auto">`
+                : `<span style="font-size:32px">❓</span>`}
+            ` : `<span style="opacity:.5">Pas de créature favorite</span>`}
           </div>
         </div>
 
         <!-- Badges -->
         ${badgesHTML ? `
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;justify-content:center;margin-top:14px">
           ${badgesHTML}
         </div>` : ''}
+
       </div>
     </div>
 

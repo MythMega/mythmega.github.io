@@ -798,7 +798,8 @@ const Daily = (function () {
     document.getElementById('copyShare').addEventListener('click', () => {
       const txt = shareArea.textContent || '';
       if (!txt) return;
-      navigator.clipboard?.writeText(txt).then(() => {
+      const url = window.location.href;
+      navigator.clipboard?.writeText(txt + '\n' + url).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
       }, () => {
         showNotification('Impossible de copier', 'fail');

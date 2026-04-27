@@ -47,8 +47,10 @@
         </div>
 
         <div class="guess-area">
-          <input id="dailyInput" type="text" autocomplete="off" data-i18n-attr="placeholder:daily.placeholder" placeholder="Tapez le nom FR ou EN" list="namesListDaily" />
-          <datalist id="namesListDaily"></datalist>
+          <div class="autocomplete-wrap">
+            <input id="dailyInput" type="text" autocomplete="off" data-i18n-attr="placeholder:daily.placeholder" placeholder="Tapez le nom FR ou EN" />
+            <div id="namesDropdown" class="autocomplete-dropdown hidden"></div>
+          </div>
           <button id="dailySubmit" data-i18n="daily.submit">Valider</button>
           <button id="dailySkip" class="secondary" data-i18n="daily.skip">Passer</button>
         </div>

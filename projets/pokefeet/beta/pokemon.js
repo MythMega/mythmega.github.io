@@ -16,8 +16,9 @@ class Pokemon {
 
   matchesName(name) {
     if (!name) return false;
-    const n = name.trim().toLowerCase();
-    return n === (this.NameFR || '').toLowerCase() || n === (this.NameEN || '').toLowerCase();
+    const normalize = s => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const n = normalize(name.trim());
+    return n === normalize(this.NameFR) || n === normalize(this.NameEN);
   }
 
   getDisplayType2() {

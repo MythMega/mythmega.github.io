@@ -27,7 +27,8 @@ const Daily = (function () {
   const dT1 = document.getElementById('dT1');
   const dT2 = document.getElementById('dT2');
   const scoreEl = document.getElementById('dailyScore');
-  const namesDatalist = document.getElementById('namesListDaily');
+  const dropdown = document.getElementById('namesDropdown');
+  let dropdownActive = -1;
   const notif = document.getElementById('notifications');
   const afterDone = document.getElementById('afterDone');
   const shareArea = document.getElementById('shareTextArea');
@@ -127,17 +128,22 @@ const Daily = (function () {
   }
 
   function populateNamesList() {
-    const namesSet = new Set();
-    pokemons.forEach(p => {
-      if (p.NameFR) namesSet.add(p.NameFR);
-      if (p.NameEN) namesSet.add(p.NameEN);
-    });
-    namesDatalist.innerHTML = '';
-    Array.from(namesSet).forEach(n => {
-      const o = document.createElement('option');
-      o.value = n;
-      namesDatalist.appendChild(o);
-    });
+    // no-op : suggestions gérées dynamiquement via le dropdown custom
+  }
+
+  function closeDropdown() {
+    dropdown.innerHTML = '';
+    dropdown.classList.add('hidden');
+    dropdownActive = -1;
+  }
+
+  function navigateDropdown(dir) {
+    const items = dropdown.querySelectorAll('.autocomplete-item');
+    if (!items.length) return;
+    items[dropdownActive]?.classList.remove('active');
+    dropdownActive = (dropdownActive + dir + items.length) % items.length;
+    items[dropdownActive].classList.add('active');
+    items[dropdownActive].scrollIntoView({ block: 'nearest' });
   }
 
   function updateProgressUI() {
@@ -616,13 +622,18 @@ const Daily = (function () {
     showNotification(correctMsg + pointsForAttempt(attempts) + ' ' + pointsWord, 'hint');
   }
 
+  // normalise une chaîne : minuscules + sans accents
+  function normalizeStr(s) {
+    return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
   // --- nouvelle fonction : vérifie si le nom entré existe dans la liste (FR ou EN) ---
   function isValidName(val) {
     if (!val) return false;
-    const v = val.trim().toLowerCase();
+    const v = normalizeStr(val.trim());
     for (let i = 0; i < pokemons.length; i++) {
       const p = pokemons[i];
-      if ((p.NameFR && p.NameFR.toLowerCase() === v) || (p.NameEN && p.NameEN.toLowerCase() === v)) {
+      if (normalizeStr(p.NameFR) === v || normalizeStr(p.NameEN) === v) {
         return true;
       }
     }
@@ -793,7 +804,50 @@ const Daily = (function () {
       failCurrentAndAdvance();
     });
     document.getElementById('dailyInput').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') submitGuess();
+      if (e.key === 'ArrowDown') { e.preventDefault(); navigateDropdown(1); return; }
+      if (e.key === 'ArrowUp')   { e.preventDefault(); navigateDropdown(-1); return; }
+      if (e.key === 'Escape')    { closeDropdown(); return; }
+      if (e.key === 'Enter') {
+        const items = dropdown.querySelectorAll('.autocomplete-item');
+        if (dropdownActive >= 0 && items[dropdownActive]) {
+          input().value = items[dropdownActive].textContent;
+          closeDropdown();
+        }
+        submitGuess();
+      }
+    });
+    document.getElementById('dailyInput').addEventListener('input', () => {
+      const needle = normalizeStr(input().value.trim());
+      dropdown.innerHTML = '';
+      dropdownActive = -1;
+      if (!needle) { dropdown.classList.add('hidden'); return; }
+      const MAX = 40;
+      let count = 0;
+      pokemons.forEach(p => {
+        if (count >= MAX) return;
+        const fr = p.NameFR || '';
+        const en = p.NameEN || '';
+        let name = null;
+        if (fr && normalizeStr(fr).includes(needle)) name = fr;
+        else if (en && normalizeStr(en).includes(needle)) name = en;
+        if (name) {
+          const item = document.createElement('div');
+          item.className = 'autocomplete-item';
+          item.textContent = name;
+          item.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            input().value = name;
+            closeDropdown();
+            submitGuess();
+          });
+          dropdown.appendChild(item);
+          count++;
+        }
+      });
+      dropdown.classList.toggle('hidden', count === 0);
+    });
+    document.getElementById('dailyInput').addEventListener('blur', () => {
+      setTimeout(closeDropdown, 150);
     });
     document.getElementById('copyShare').addEventListener('click', () => {
       const txt = shareArea.textContent || '';

@@ -416,6 +416,32 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
   }
 }
 
+/* --- Autocomplete custom dropdown --- */
+.autocomplete-wrap { position: relative; }
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #0f1a2e;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.7);
+}
+.autocomplete-item {
+  padding: 8px 14px;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 15px;
+}
+.autocomplete-item:hover,
+.autocomplete-item.active {
+  background: rgba(255,255,255,0.08);
+}
+
 /* Guess area mobile layout: buttons wrap below input */
 @media (max-width: 640px) {
   .guess-area {

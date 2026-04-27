@@ -281,12 +281,13 @@ function showResults(result) {
   ).join("");
 
   document.getElementById("btn-copy").addEventListener("click", () => {
-    navigator.clipboard.writeText(shareText).then(() => {
+    const copyText = shareText + "\n" + window.location.href;
+    navigator.clipboard.writeText(copyText).then(() => {
       showToast(t("daily.copied"), "success");
     }).catch(() => {
       // Fallback
       const ta = document.createElement("textarea");
-      ta.value = shareText;
+      ta.value = copyText;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand("copy");

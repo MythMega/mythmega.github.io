@@ -16,6 +16,7 @@ const Daily = (function () {
   let score = 0;
   let results = []; // for each of 5: { outcome: 'win'|'fail', attempts: n }
   let wrongGuessesPerSlot = [];
+  let busy = false; // verrou pendant les transitions de round
 
   // DOM
   const img = () => document.getElementById('dailyImg');
@@ -481,6 +482,7 @@ const Daily = (function () {
 
   // advance to next pokemon (or finish)
   function nextPokemon() {
+    busy = false;
     index++;
     attempts = 0;
     hideReveal();
@@ -544,6 +546,7 @@ const Daily = (function () {
   }
 
   function failCurrentAndAdvance() {
+    busy = true;
     // mark fail
     results.push({ outcome: 'fail', attempts: attempts });
     // no score increase, move on
@@ -555,6 +558,7 @@ const Daily = (function () {
   }
 
   async function handleCorrect() {
+    busy = true;
     const p = dailyList[index];
     // Check if this is a brand-new discovery BEFORE finishDaily marks it found
     try {
@@ -654,6 +658,7 @@ const Daily = (function () {
   }
 
   function submitGuess() {
+    if (busy) return;
     const val = input().value.trim();
     if (!val) return;
     // si le nom n'est pas dans la liste possible, on secoue et on affiche une erreur

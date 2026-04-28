@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bastocos — Charte Graphique</title>
+  <link rel="stylesheet" href="graph.css" />
+</head>
+<body>
+
+  <header class="cdc-header">
+    <div class="cdc-header-inner">
+      <div class="cdc-logo">⚔ Bastocos — Charte Graphique</div>
+      <nav class="cdc-nav">
+        <a href="#colors">Couleurs</a>
+        <a href="#typography">Typo</a>
+        <a href="#radius">Arrondis</a>
+        <a href="#shadows">Ombres</a>
+        <a href="#buttons">Boutons</a>
+        <a href="#cards">Cartes</a>
+        <a href="#modals">Modals</a>
+        <a href="#effects">Effets</a>
+        <a href="#playground">Bac à sable</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="cdc-main">
+
+    <!-- ===================== COULEURS ===================== -->
+    <section class="cdc-section" id="colors">
+      <h2 class="section-title">🎨 Palette de couleurs</h2>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#100808;border:1px solid #5a1a1a"></div>
+          <div class="swatch-info">
+            <code>--bg</code>
+            <span>#100808</span>
+            <em>Fond principal</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#1e0f0f"></div>
+          <div class="swatch-info">
+            <code>--bg-card</code>
+            <span>#1e0f0f</span>
+            <em>Fond carte/panel</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#0a0404"></div>
+          <div class="swatch-info">
+            <code>--bg-nav</code>
+            <span>#0a0404</span>
+            <em>Fond navbar/footer</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#c0392b"></div>
+          <div class="swatch-info">
+            <code>--primary</code>
+            <span>#c0392b</span>
+            <em>Rouge primaire</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#e74c3c"></div>
+          <div class="swatch-info">
+            <code>--primary-h</code>
+            <span>#e74c3c</span>
+            <em>Rouge hover/titres</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#f1948a"></div>
+          <div class="swatch-info">
+            <code>--primary-soft</code>
+            <span>#f1948a</span>
+            <em>Rouge doux (noms)</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#ff6b6b"></div>
+          <div class="swatch-info">
+            <code>--accent</code>
+            <span>#ff6b6b</span>
+            <em>Accent (erreurs, hover icônes)</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#5a1a1a"></div>
+          <div class="swatch-info">
+            <code>--border</code>
+            <span>#5a1a1a</span>
+            <em>Bordures</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#f0e8e8"></div>
+          <div class="swatch-info">
+            <code>--text</code>
+            <span>#f0e8e8</span>
+            <em>Texte principal</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#ccb8b8"></div>
+          <div class="swatch-info">
+            <code>--text-sec</code>
+            <span>#ccb8b8</span>
+            <em>Texte secondaire</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#886666"></div>
+          <div class="swatch-info">
+            <code>--text-muted</code>
+            <span>#886666</span>
+            <em>Texte atténué</em>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:rgba(192,57,43,0.35)"></div>
+          <div class="swatch-info">
+            <code>--shadow</code>
+            <span>rgba(192,57,43,0.35)</span>
+            <em>Couleur d'ombre rouge</em>
+          </div>
+        </div>
+        <!-- Bonus — Twitch gradient -->
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:linear-gradient(135deg,#6441a5,#8a5fd4)"></div>
+          <div class="swatch-info">
+            <code>Twitch gradient</code>
+            <span>#6441a5 → #8a5fd4</span>
+            <em>Bouton Twitch</em>
+          </div>
+        </div>
+        <!-- Bonus — Succès -->
+        <div class="color-swatch">
+          <div class="swatch-block" style="background:#a8e6a3"></div>
+          <div class="swatch-info">
+            <code>success</code>
+            <span>#a8e6a3</span>
+            <em>Message succès</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TYPO ===================== -->
+    <section class="cdc-section" id="typography">
+      <h2 class="section-title">🔤 Typographie</h2>
+      <div class="typo-grid">
+        <div class="typo-row">
+          <div class="typo-label">Police principale<br><code>Segoe UI, Tahoma, Geneva, Verdana, sans-serif</code></div>
+          <div class="typo-example" style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;font-size:1rem;color:#f0e8e8">Texte courant — The quick brown fox</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Hero title<br><code>clamp(2rem,6vw,3.5rem) / weight 900 / uppercase / ls 8px</code></div>
+          <div class="typo-example" style="font-size:clamp(1.4rem,4vw,2.5rem);font-weight:900;text-transform:uppercase;letter-spacing:8px;color:#e74c3c;text-shadow:0 0 40px rgba(192,57,43,0.35)">Bastocos</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Page title<br><code>1.8rem / weight 900 / uppercase / ls 3px / color primary-h</code></div>
+          <div class="typo-example" style="font-size:1.6rem;font-weight:900;text-transform:uppercase;letter-spacing:3px;color:#e74c3c">🃏 Cartes</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Brand navbar<br><code>1.3rem / weight 900 / uppercase / ls 3px</code></div>
+          <div class="typo-example" style="font-size:1.2rem;font-weight:900;text-transform:uppercase;letter-spacing:3px;color:#e74c3c">⚔ Bastocos</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Nav link<br><code>0.9rem / normal</code></div>
+          <div class="typo-example" style="font-size:0.9rem;color:#f0e8e8">Accueil · Dex · Album</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Item name<br><code>0.95rem / weight 700 / color primary-soft</code></div>
+          <div class="typo-example" style="font-size:0.95rem;font-weight:700;color:#f1948a">Épée de feu</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Texte secondaire<br><code>color text-sec / line-height 1.8</code></div>
+          <div class="typo-example" style="color:#ccb8b8;line-height:1.8;font-size:0.95rem">Une description courte de l'objet, en italique dans les modals.</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Texte atténué<br><code>color text-muted / 0.88rem</code></div>
+          <div class="typo-example" style="color:#886666;font-size:0.88rem">Rareté · Valeur · Clé de stat</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ARRONDIS ===================== -->
+    <section class="cdc-section" id="radius">
+      <h2 class="section-title">⭕ Arrondis (border-radius)</h2>
+      <div class="radius-grid">
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:0"></div>
+          <code>0px</code>
+          <em>Aucun — non utilisé</em>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:2px"></div>
+          <code>2px</code>
+          <em>Hamburger spans</em>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:4px"></div>
+          <code>4px</code>
+          <em>Nav links, btn-more</em>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:6px"></div>
+          <code>6px</code>
+          <em>Dropdowns, nav-btn, search-input, btn-voir-page</em>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:8px"></div>
+          <code>8px</code>
+          <em>Item cards, btn-twitch, tab-panels</em>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:10px"></div>
+          <code>10px</code>
+          <em>Modal</em>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:6px 6px 0 0"></div>
+          <code>6px 6px 0 0</code>
+          <em>Tab buttons (haut arrondi)</em>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:0 0 6px 6px"></div>
+          <code>0 0 6px 6px</code>
+          <em>Autocomplete box</em>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:0 0 8px 8px"></div>
+          <code>0 0 8px 8px</code>
+          <em>Tab panels</em>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== OMBRES ===================== -->
+    <section class="cdc-section" id="shadows">
+      <h2 class="section-title">🌑 Ombres & Glows</h2>
+      <div class="shadow-grid">
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow:0 2px 15px rgba(192,57,43,0.35)"></div>
+          <code>0 2px 15px var(--shadow)</code>
+          <em>Navbar</em>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow:0 6px 18px rgba(0,0,0,0.65)"></div>
+          <code>0 6px 18px rgba(0,0,0,0.65)</code>
+          <em>Dropdowns</em>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow:0 8px 24px rgba(192,57,43,0.35)"></div>
+          <code>0 8px 24px var(--shadow)</code>
+          <em>Item card :hover</em>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow:0 4px 20px rgba(100,65,165,0.5)"></div>
+          <code>0 4px 20px rgba(100,65,165,0.5)</code>
+          <em>Bouton Twitch</em>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow:0 6px 28px rgba(100,65,165,0.7)"></div>
+          <code>0 6px 28px rgba(100,65,165,0.7)</code>
+          <em>Bouton Twitch :hover</em>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow:0 0 40px rgba(192,57,43,0.35)"></div>
+          <code>0 0 40px var(--shadow)</code>
+          <em>Modal</em>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5))"></div>
+          <code>drop-shadow(0 2px 4px rgba(0,0,0,0.5))</code>
+          <em>Images d'items (filter)</em>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="text-shadow:0 0 40px rgba(192,57,43,0.35);font-size:1.4rem;font-weight:900;color:#e74c3c;display:flex;align-items:center;justify-content:center">TEXT</div>
+          <code>text-shadow: 0 0 40px var(--shadow)</code>
+          <em>Hero title glow</em>
+        </div>
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow:0 4px 14px rgba(192,57,43,0.35)"></div>
+          <code>0 4px 14px var(--shadow)</code>
+          <em>nav-btn :hover</em>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BOUTONS ===================== -->
+    <section class="cdc-section" id="buttons">
+      <h2 class="section-title">🔘 Boutons</h2>
+      <div class="btn-showcase">
+
+        <div class="btn-row">
+          <div class="btn-demo">
+            <button class="demo-btn-more">Voir plus</button>
+          </div>
+          <div class="btn-desc">
+            <code>.btn-more</code>
+            <p>background <span class="chip" style="background:#c0392b">--primary</span> · border-radius 4px · 0.85rem · transition background</p>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-demo">
+            <a class="demo-nav-btn" href="#">⚔ Armes</a>
+          </div>
+          <div class="btn-desc">
+            <code>.nav-btn</code>
+            <p>transparent · border 2px <span class="chip" style="background:#c0392b">--primary</span> · border-radius 6px · :hover fill primaire + translateY(-2px)</p>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-demo">
+            <a class="demo-btn-twitch" href="#">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+              Se battre sur Twitch
+            </a>
+          </div>
+          <div class="btn-desc">
+            <code>.btn-twitch</code>
+            <p>gradient <span class="chip" style="background:linear-gradient(135deg,#6441a5,#8a5fd4)">Twitch</span> · border-radius 8px · 1.2rem · :hover translateY(-3px)</p>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-demo">
+            <button class="demo-btn-voir-page">Voir la page</button>
+          </div>
+          <div class="btn-desc">
+            <code>.btn-voir-page</code>
+            <p>background <span class="chip" style="background:#c0392b">--primary</span> · border-radius 6px · 0.95rem · :hover translateY(-2px)</p>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-demo">
+            <div class="demo-tab-btns">
+              <button class="demo-tab-btn active">Onglet 1</button>
+              <button class="demo-tab-btn">Onglet 2</button>
+              <button class="demo-tab-btn">Onglet 3</button>
+            </div>
+          </div>
+          <div class="btn-desc">
+            <code>.tab-btn</code>
+            <p>border-radius 6px 6px 0 0 · actif: border <span class="chip" style="background:#c0392b">--primary</span> + couleur primary-h</p>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-demo">
+            <button class="demo-modal-close">✕</button>
+          </div>
+          <div class="btn-desc">
+            <code>.modal-close-btn</code>
+            <p>background none · color text-muted · :hover color <span class="chip" style="background:#ff6b6b">--accent</span></p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== CARDS ===================== -->
+    <section class="cdc-section" id="cards">
+      <h2 class="section-title">🃏 Item cards</h2>
+      <div class="cards-anatomy">
+        <div class="anatomy-labels">
+          <h3>Anatomie d'une .item-card</h3>
+          <ul>
+            <li><span class="label-dot" style="background:#1e0f0f;border:1px solid #5a1a1a"></span> bg-card + border 1px --border</li>
+            <li><span class="label-dot" style="background:#c0392b"></span> border-color --primary au hover</li>
+            <li><span class="label-dot" style="background:#5a1a1a"></span> border-radius 8px</li>
+            <li><span class="label-dot" style="background:#886666"></span> padding 1.5rem 1rem 1rem</li>
+            <li><span class="label-dot" style="background:#e74c3c"></span> :hover translateY(-4px) + shadow</li>
+          </ul>
+        </div>
+        <div class="demo-item-card">
+          <div class="demo-card">
+            <div class="demo-card-img-wrap">
+              <div class="demo-card-img-placeholder">📦</div>
+            </div>
+            <div class="demo-card-name">Épée de feu</div>
+            <button class="demo-btn-more">Voir plus</button>
+          </div>
+          <p class="demo-hint">← Survolez la carte</p>
+        </div>
+      </div>
+
+      <div class="grid-specs">
+        <h3>Grille d'items</h3>
+        <div class="spec-table">
+          <div class="spec-row"><span>Layout</span><code>display:grid · grid-template-columns: repeat(3,1fr)</code></div>
+          <div class="spec-row"><span>Gap</span><code>1.25rem</code></div>
+          <div class="spec-row"><span>Max-width</span><code>1200px centré</code></div>
+          <div class="spec-row"><span>Responsive 900px</span><code>2 colonnes</code></div>
+          <div class="spec-row"><span>Responsive 550px</span><code>1 colonne</code></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MODALS ===================== -->
+    <section class="cdc-section" id="modals">
+      <h2 class="section-title">🪟 Modals</h2>
+      <div class="modal-anatomy">
+        <div class="anatomy-labels">
+          <h3>Anatomie d'une .modal</h3>
+          <ul>
+            <li><span class="label-dot" style="background:rgba(0,0,0,0.82)"></span> Overlay rgba(0,0,0,0.82)</li>
+            <li><span class="label-dot" style="background:#1e0f0f;border:2px solid #c0392b"></span> bg-card + border 2px --primary</li>
+            <li><span class="label-dot" style="background:#e74c3c"></span> border-radius 10px</li>
+            <li><span class="label-dot" style="background:#5a1a1a"></span> padding 2rem</li>
+            <li><span class="label-dot" style="background:#c0392b;opacity:.35"></span> box-shadow 0 0 40px --shadow</li>
+            <li><span class="label-dot" style="background:#886666"></span> animation popIn (scale 0.94→1, opacity)</li>
+          </ul>
+        </div>
+        <div class="demo-modal-preview">
+          <div class="demo-modal-box">
+            <button class="demo-modal-close" style="position:absolute;top:0.7rem;right:0.9rem">✕</button>
+            <div style="font-size:2.5rem;text-align:center;margin-bottom:0.5rem">🗡️</div>
+            <div class="demo-modal-name">Épée de feu</div>
+            <div class="demo-modal-desc">Une lame forgée dans les flammes de l'enfer.</div>
+            <ul class="demo-modal-stats">
+              <li><span style="color:#886666">Rareté</span><span style="color:#f1948a;font-weight:700">Légendaire</span></li>
+              <li><span style="color:#886666">Dégâts</span><span style="color:#f1948a;font-weight:700">120 ⚔</span></li>
+              <li><span style="color:#886666">Prix d'achat</span><span style="color:#f1948a;font-weight:700">500 🪙</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EFFETS ===================== -->
+    <section class="cdc-section" id="effects">
+      <h2 class="section-title">✨ Effets & Transitions</h2>
+      <div class="effects-grid">
+
+        <div class="effect-item">
+          <div class="effect-label"><code>transition: background 0.2s, color 0.2s</code><em>Nav links, boutons</em></div>
+          <div class="effect-demo">
+            <div class="fx-nav-link">Lien nav</div>
+          </div>
+        </div>
+
+        <div class="effect-item">
+          <div class="effect-label"><code>transform: translateY(-4px)</code><em>Item card hover</em></div>
+          <div class="effect-demo">
+            <div class="fx-lift">Carte</div>
+          </div>
+        </div>
+
+        <div class="effect-item">
+          <div class="effect-label"><code>transform: translateY(-3px)</code><em>Btn Twitch hover</em></div>
+          <div class="effect-demo">
+            <div class="fx-lift3">Bouton</div>
+          </div>
+        </div>
+
+        <div class="effect-item">
+          <div class="effect-label"><code>transform: translateY(-2px)</code><em>nav-btn / btn-voir-page hover</em></div>
+          <div class="effect-demo">
+            <div class="fx-lift2">Nav btn</div>
+          </div>
+        </div>
+
+        <div class="effect-item">
+          <div class="effect-label"><code>@keyframes popIn</code><em>Modal ouverture (scale + opacity)</em></div>
+          <div class="effect-demo">
+            <div class="fx-popin" id="popinDemo">Modal</div>
+            <button class="fx-replay-btn" onclick="replayPopin()">↺ Rejouer</button>
+          </div>
+        </div>
+
+        <div class="effect-item">
+          <div class="effect-label"><code>image-rendering: pixelated</code><em>Images d'items (pixel art)</em></div>
+          <div class="effect-demo">
+            <div class="fx-pixel-compare">
+              <div>
+                <div class="fx-pixel-box" style="image-rendering:pixelated">🗡️</div>
+                <small>pixelated</small>
+              </div>
+              <div>
+                <div class="fx-pixel-box" style="image-rendering:auto">🗡️</div>
+                <small>auto</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="effect-item">
+          <div class="effect-label"><code>border-bottom: 2px solid --primary</code><em>Séparateurs de section (page-title, h1 credit…)</em></div>
+          <div class="effect-demo">
+            <div class="fx-separator">Titre de page</div>
+          </div>
+        </div>
+
+        <div class="effect-item">
+          <div class="effect-label"><code>filter: drop-shadow</code><em>Images transparentes pixel art</em></div>
+          <div class="effect-demo">
+            <div class="fx-dropshadow">🗡️</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== BAC À SABLE ===================== -->
+    <section class="cdc-section" id="playground">
+      <h2 class="section-title">🧪 Bac à sable interactif</h2>
+      <p class="section-intro">Testez le rendu d'un élément avec vos propres paramètres.</p>
+
+      <div class="playground-layout">
+
+        <!-- Panneau de contrôle -->
+        <div class="pg-controls">
+
+          <fieldset class="pg-group">
+            <legend>Contenu</legend>
+            <label>Type de contenu
+              <select id="pg-content-type">
+                <option value="text">Texte</option>
+                <option value="image">Image (URL)</option>
+                <option value="card">Carte item</option>
+                <option value="modal">Modal</option>
+                <option value="button">Bouton</option>
+              </select>
+            </label>
+            <div id="pg-text-controls">
+              <label>Texte <input type="text" id="pg-text" value="Épée de feu" /></label>
+            </div>
+            <div id="pg-image-controls" style="display:none">
+              <label>URL de l'image <input type="url" id="pg-img-url" placeholder="https://…" /></label>
+              <label>Texte alternatif <input type="text" id="pg-img-alt" value="image" /></label>
+            </div>
+            <div id="pg-card-controls" style="display:none">
+              <label>Nom <input type="text" id="pg-card-name" value="Épée de feu" /></label>
+              <label>URL image (optionnel) <input type="url" id="pg-card-img" placeholder="https://…" /></label>
+              <label>Label bouton <input type="text" id="pg-card-btn" value="Voir plus" /></label>
+            </div>
+            <div id="pg-modal-controls" style="display:none">
+              <label>Titre <input type="text" id="pg-modal-title" value="Épée de feu" /></label>
+              <label>Description <input type="text" id="pg-modal-desc" value="Une lame forgée dans les flammes." /></label>
+              <label>URL image (optionnel) <input type="url" id="pg-modal-img" placeholder="https://…" /></label>
+              <div id="pg-stats-list">
+                <div class="pg-stat-row">
+                  <input type="text" placeholder="Clé" value="Rareté" class="pg-stat-k" />
+                  <input type="text" placeholder="Valeur" value="Légendaire" class="pg-stat-v" />
+                  <button class="pg-remove-stat" onclick="removeStat(this)">−</button>
+                </div>
+              </div>
+              <button class="pg-add-btn" onclick="addStat()">+ Ajouter une stat</button>
+            </div>
+            <div id="pg-button-controls" style="display:none">
+              <label>Label <input type="text" id="pg-btn-label" value="Cliquez-moi" /></label>
+              <label>Style
+                <select id="pg-btn-style">
+                  <option value="btn-more">Voir plus (.btn-more)</option>
+                  <option value="nav-btn">Nav btn (.nav-btn)</option>
+                  <option value="btn-twitch">Twitch (.btn-twitch)</option>
+                  <option value="btn-voir-page">Voir page (.btn-voir-page)</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="pg-group">
+            <legend>Style de fond</legend>
+            <label>Couleur de fond
+              <select id="pg-bg">
+                <option value="#100808">--bg (fond principal)</option>
+                <option value="#1e0f0f">--bg-card (fond carte)</option>
+                <option value="#0a0404">--bg-nav (fond nav)</option>
+                <option value="#ffffff">Blanc</option>
+                <option value="custom">Personnalisé…</option>
+              </select>
+            </label>
+            <div id="pg-bg-custom-wrap" style="display:none">
+              <label>Couleur personnalisée <input type="color" id="pg-bg-custom" value="#100808" /></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="pg-group">
+            <legend>Typographie (pour texte)</legend>
+            <label>Taille
+              <select id="pg-font-size">
+                <option value="0.85rem">0.85rem — petit</option>
+                <option value="0.9rem">0.9rem — nav link</option>
+                <option value="0.95rem" selected>0.95rem — item name</option>
+                <option value="1rem">1rem — courant</option>
+                <option value="1.3rem">1.3rem — brand</option>
+                <option value="1.8rem">1.8rem — page title</option>
+                <option value="2.5rem">2.5rem — hero</option>
+              </select>
+            </label>
+            <label>Poids
+              <select id="pg-font-weight">
+                <option value="400" selected>400 — normal</option>
+                <option value="700">700 — bold</option>
+                <option value="900">900 — black</option>
+              </select>
+            </label>
+            <label>Couleur
+              <select id="pg-text-color">
+                <option value="#f0e8e8">--text</option>
+                <option value="#ccb8b8">--text-sec</option>
+                <option value="#886666">--text-muted</option>
+                <option value="#e74c3c" selected>--primary-h</option>
+                <option value="#f1948a">--primary-soft</option>
+                <option value="#ff6b6b">--accent</option>
+              </select>
+            </label>
+            <label>Uppercase
+              <input type="checkbox" id="pg-uppercase" />
+            </label>
+            <label>Letter-spacing
+              <select id="pg-ls">
+                <option value="0">0 — normal</option>
+                <option value="2px">2px</option>
+                <option value="3px" selected>3px — titres</option>
+                <option value="8px">8px — hero</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <fieldset class="pg-group">
+            <legend>Box</legend>
+            <label>Border-radius
+              <select id="pg-radius">
+                <option value="0">0px — aucun</option>
+                <option value="2px">2px</option>
+                <option value="4px">4px — btn-more</option>
+                <option value="6px" selected>6px — nav-btn</option>
+                <option value="8px">8px — item-card</option>
+                <option value="10px">10px — modal</option>
+              </select>
+            </label>
+            <label>Bordure
+              <select id="pg-border">
+                <option value="none">Aucune</option>
+                <option value="1px solid #5a1a1a" selected>1px solid --border</option>
+                <option value="2px solid #c0392b">2px solid --primary</option>
+                <option value="2px solid #e74c3c">2px solid --primary-h</option>
+              </select>
+            </label>
+            <label>Box-shadow
+              <select id="pg-shadow">
+                <option value="none">Aucune</option>
+                <option value="0 2px 15px rgba(192,57,43,0.35)">navbar shadow</option>
+                <option value="0 8px 24px rgba(192,57,43,0.35)" selected>card hover shadow</option>
+                <option value="0 0 40px rgba(192,57,43,0.35)">modal shadow</option>
+                <option value="0 6px 18px rgba(0,0,0,0.65)">dropdown shadow</option>
+                <option value="0 4px 20px rgba(100,65,165,0.5)">twitch shadow</option>
+              </select>
+            </label>
+            <label>Padding
+              <select id="pg-padding">
+                <option value="0">0</option>
+                <option value="0.5rem">0.5rem</option>
+                <option value="1rem" selected>1rem</option>
+                <option value="1.5rem">1.5rem</option>
+                <option value="2rem">2rem</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <button class="pg-apply-btn" onclick="applyPlayground()">▶ Appliquer</button>
+          <button class="pg-reset-btn" onclick="resetPlayground()">↺ Réinitialiser</button>
+
+          <div class="pg-code-output">
+            <div class="pg-code-header">
+              CSS généré
+              <button onclick="copyCss()" class="pg-copy-btn">📋 Copier</button>
+            </div>
+            <pre id="pg-css-output"></pre>
+          </div>
+        </div>
+
+        <!-- Prévisualisation -->
+        <div class="pg-preview-wrap">
+          <div class="pg-preview-label">Prévisualisation</div>
+          <div class="pg-preview-stage" id="pg-stage">
+            <div id="pg-element">Épée de feu</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="cdc-footer">
+    Bastocos — Charte graphique · générée le <span id="gen-date"></span>
+  </footer>
+
+  <script src="graph.js"></script>
+</body>
+</html>

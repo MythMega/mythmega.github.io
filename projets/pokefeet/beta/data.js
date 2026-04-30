@@ -405,7 +405,7 @@ const DataManager = (function () {
 
   function parseDailyText(text) {
     if (!text || typeof text !== 'string') return { error: 'Texte vide' };
-    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0 && !/^https?:\/\//i.test(l));
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0 && !/^https?:\/\//i.test(l) && !/^R\d+\s*:/i.test(l));
     if (lines.length < 6) return { error: 'Format invalide : attendu header + 5 lignes d\'emoji' };
 
     // header: try to extract date and score

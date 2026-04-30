@@ -281,8 +281,8 @@ const Daily = (function () {
         const obj = {};
         arr.forEach(item => {
           const date = item.date;
-          const { score, results } = item;
-          obj[date] = { score, results };
+          const { score, results, wrongGuesses } = item;
+          obj[date] = { score, results, wrongGuesses };
         });
         resolve(obj);
       };
@@ -339,7 +339,8 @@ const Daily = (function () {
     const history = await loadDailyCookie() || {};
     history[dateKey] = {
       score: payload.score,
-      results: payload.results
+      results: payload.results,
+      wrongGuesses: payload.wrongGuesses || []
     };
     await saveDailyCookie(history);
     // Mark as imported since we just updated Dex
@@ -377,6 +378,20 @@ const Daily = (function () {
         reject(req.error);
       };
     });
+  }
+
+  // build wrong guesses text section for share
+  function buildWrongGuessesText(wrongGuesses) {
+    if (!wrongGuesses || !wrongGuesses.length) return '';
+    const lines = [];
+    for (let i = 0; i < wrongGuesses.length; i++) {
+      const guesses = wrongGuesses[i];
+      if (guesses && guesses.length > 0) {
+        const formatted = guesses.map(g => `||${g}||`).join(' ');
+        lines.push(`R${i + 1} : ${formatted}`);
+      }
+    }
+    return lines.join('\n');
   }
 
   // build emoji line helper (utile aussi pour history page)
@@ -501,7 +516,7 @@ const Daily = (function () {
   // --- Adapter finishDaily pour utiliser l'historique ---
   async function finishDaily() {
     // persist results into history map
-    const payload = { date: dateSeedStr(), results, score };
+    const payload = { date: dateSeedStr(), results, score, wrongGuesses: wrongGuessesPerSlot };
     await saveResultForToday(payload);
 
     // Check for new pokemons BEFORE marking them as found
@@ -726,6 +741,7 @@ const Daily = (function () {
     // set module state so viewDetails and autres fonctionnent
     results = saved.results ? saved.results.slice(0, COUNT) : [];
     score = saved.score || 0;
+    wrongGuessesPerSlot = saved.wrongGuesses ? saved.wrongGuesses.slice(0, COUNT) : Array.from({ length: COUNT }, () => []);
     index = COUNT; // mark finished
     // also show the full images for the date
     try {
@@ -858,7 +874,9 @@ const Daily = (function () {
       const txt = shareArea.textContent || '';
       if (!txt) return;
       const url = window.location.href;
-      navigator.clipboard?.writeText(txt + '\n' + url).then(() => {
+      const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
+      const fullText = txt + '\n' + url + (wrongGuessesText ? '\n' + wrongGuessesText : '');
+      navigator.clipboard?.writeText(fullText).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
       }, () => {
         showNotification('Impossible de copier', 'fail');
@@ -867,8 +885,9 @@ const Daily = (function () {
     document.getElementById('copyDiscordShare').addEventListener('click', () => {
       const txt = shareArea.textContent || '';
       if (!txt) return;
-
-      navigator.clipboard?.writeText(txt).then(() => {
+      const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
+      const fullText = txt + (wrongGuessesText ? '\n' + wrongGuessesText : '');
+      navigator.clipboard?.writeText(fullText).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
 
         // Ouvrir le lien dans un nouvel onglet

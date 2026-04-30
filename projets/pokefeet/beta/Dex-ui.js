@@ -3,6 +3,8 @@ const DexUI = (function () {
   let dexEntries = {};
   let allPokemons = [];
   let allDexData = {};
+  let currentSort = 'index';
+  let currentDirection = 'asc';
 
   // Update progress bar
   function updateProgress(found, total) {
@@ -31,7 +33,66 @@ const DexUI = (function () {
       return acc;
     }, {});
 
-    pokemons.forEach(p => {
+    rebuildGrid();
+  }
+
+  // Return sorted copy of allPokemons based on currentSort and currentDirection
+  function getSortedPokemons() {
+    const sorted = [...allPokemons];
+    sorted.sort((a, b) => {
+      const entryA = dexEntries[a.Index] || { found: false, count: 0, firstFoundDate: null };
+      const entryB = dexEntries[b.Index] || { found: false, count: 0, firstFoundDate: null };
+      let valA, valB;
+
+      switch (currentSort) {
+        case 'name':
+          valA = (a.NameFR || a.NameEN || '').toLowerCase();
+          valB = (b.NameFR || b.NameEN || '').toLowerCase();
+          return currentDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        case 'count': {
+          const aFound = entryA.found;
+          const bFound = entryB.found;
+          // Non-found always at the end, regardless of direction
+          if (!aFound && bFound) return 1;
+          if (aFound && !bFound) return -1;
+          valA = entryA.count || 0;
+          valB = entryB.count || 0;
+          break;
+        }
+        case 'type':
+          valA = (a.Type1 || '').toLowerCase();
+          valB = (b.Type1 || '').toLowerCase();
+          return currentDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        case 'eggGroup':
+          valA = (Array.isArray(a.EggGroups) ? a.EggGroups[0] : (a.EggGroups || '')).toLowerCase();
+          valB = (Array.isArray(b.EggGroups) ? b.EggGroups[0] : (b.EggGroups || '')).toLowerCase();
+          return currentDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        case 'firstFound': {
+          valA = entryA.firstFoundDate ? new Date(entryA.firstFoundDate).getTime() : 0;
+          valB = entryB.firstFoundDate ? new Date(entryB.firstFoundDate).getTime() : 0;
+          break;
+        }
+        default: // 'index'
+          valA = parseInt(a.Index) || 0;
+          valB = parseInt(b.Index) || 0;
+      }
+
+      if (valA < valB) return currentDirection === 'asc' ? -1 : 1;
+      if (valA > valB) return currentDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+    return sorted;
+  }
+
+  // Re-render grid with current sort, then re-apply filters
+  function rebuildGrid() {
+    const grid = document.getElementById('dexGrid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+    const sorted = getSortedPokemons();
+
+    sorted.forEach(p => {
       const entry = dexEntries[p.Index] || { found: false, count: 0, firstFoundDate: null };
       const div = document.createElement('div');
       div.className = 'dex-entry';
@@ -60,6 +121,8 @@ const DexUI = (function () {
       div.appendChild(infoBtn);
       grid.appendChild(div);
     });
+
+    applyFilters();
   }
 
   // Filter and display based on search and checkboxes
@@ -189,6 +252,25 @@ const DexUI = (function () {
           showFoundCheckbox.checked = false;
         }
         applyFilters();
+      });
+    }
+
+    // Sort controls
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', () => {
+        currentSort = sortSelect.value;
+        rebuildGrid();
+      });
+    }
+
+    const sortDirectionBtn = document.getElementById('sortDirectionBtn');
+    if (sortDirectionBtn) {
+      sortDirectionBtn.addEventListener('click', () => {
+        currentDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+        sortDirectionBtn.textContent = currentDirection === 'asc' ? '↑ Asc' : '↓ Desc';
+        sortDirectionBtn.setAttribute('data-direction', currentDirection);
+        rebuildGrid();
       });
     }
   }

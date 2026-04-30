@@ -37,6 +37,19 @@
                 </label>
             </div>
         </div>
+
+        <div class="sort-section">
+            <label for="sortSelect">Trier par :</label>
+            <select id="sortSelect">
+                <option value="index" selected>Numéro Dex</option>
+                <option value="name">Nom</option>
+                <option value="count">Fois rencontré</option>
+                <option value="type">Type</option>
+                <option value="eggGroup">Groupe d'œuf</option>
+                <option value="firstFound">Première trouvaille</option>
+            </select>
+            <button id="sortDirectionBtn" class="sort-direction-btn" data-direction="asc">↑ Asc</button>
+        </div>
         
         <div id="dexGrid" class="dex-grid">
             <!-- Pokemon entries will be inserted here -->
@@ -53,6 +66,7 @@
         </div>
     </div>
 
+    <script src="loader.js"></script>
     <script src="translate.js"></script>
     <script src="language-switcher.js"></script>
     <script src="i18n-setup.js"></script>

@@ -867,9 +867,8 @@ const Daily = (function () {
     document.getElementById('copyDiscordShare').addEventListener('click', () => {
       const txt = shareArea.textContent || '';
       if (!txt) return;
-      const url = window.location.href;
 
-      navigator.clipboard?.writeText(txt + '\n' + url).then(() => {
+      navigator.clipboard?.writeText(txt).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
 
         // Ouvrir le lien dans un nouvel onglet

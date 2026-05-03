@@ -83,8 +83,11 @@ const Game = (function () {
     // charge le JSON embarqué (on peut remplacer par fetch si placé en fichier séparé)
     // Exemple minimal intégré ici : si vous avez un fichier data/pokemons.json, utilisez fetch.
     try {
-      const res = await fetch('data/pokemons.json');
-      const arr = await res.json();
+      const [pokemonsRes] = await Promise.all([
+        fetch('data/pokemons.json'),
+        TypeIcons.load()
+      ]);
+      const arr = await pokemonsRes.json();
       pokemons = arr.map(p => new Pokemon(p));
       PossiblePokemons = pokemons.slice();
     } catch (e) {
@@ -243,7 +246,17 @@ const Game = (function () {
         const t1 = current.Type1 || '';
         const t2 = current.Type2 || '';
         const typesLabel = Translator.get('practice.types', 'Type(s)');
-        UI.addHint(`${typesLabel} : ${t1}${t2 ? ' / ' + t2 : ''}`);
+        const t1Name = Translator.get(`types.${t1}`, t1);
+        const t1IconUrl = TypeIcons.getUrl(t1);
+        const t1Html = t1Name + (t1IconUrl ? ` <img class="type-icon" src="${t1IconUrl}" alt="${t1}">` : '');
+        let typeHint = `${typesLabel} : ${t1Html}`;
+        if (t2) {
+          const t2Name = Translator.get(`types.${t2}`, t2);
+          const t2IconUrl = TypeIcons.getUrl(t2);
+          const t2Html = t2Name + (t2IconUrl ? ` <img class="type-icon" src="${t2IconUrl}" alt="${t2}">` : '');
+          typeHint += ` / ${t2Html}`;
+        }
+        UI.addHintHTML(typeHint);
         break;
       case 2:
         // Index with generation

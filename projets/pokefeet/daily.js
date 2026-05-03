@@ -176,6 +176,12 @@ const Daily = (function () {
     hintsList.appendChild(li);
   }
 
+  function addHintHTML(html) {
+    const li = document.createElement('li');
+    li.innerHTML = html;
+    hintsList.appendChild(li);
+  }
+
   function showReveal(p) {
     if (!p) return;
     revealDiv.classList.remove('hidden');
@@ -614,7 +620,17 @@ const Daily = (function () {
         const t1 = p.Type1 || '';
         const t2 = p.Type2 || '';
         const typesLabel = Translator.get('daily.types', 'Type(s)');
-        addHint(`${typesLabel} : ${t1}${t2 ? ' / ' + t2 : ''}`);
+        const t1Name = Translator.get(`types.${t1}`, t1);
+        const t1IconUrl = TypeIcons.getUrl(t1);
+        const t1Html = t1Name + (t1IconUrl ? ` <img class="type-icon" src="${t1IconUrl}" alt="${t1}">` : '');
+        let typeHint = `${typesLabel} : ${t1Html}`;
+        if (t2) {
+          const t2Name = Translator.get(`types.${t2}`, t2);
+          const t2IconUrl = TypeIcons.getUrl(t2);
+          const t2Html = t2Name + (t2IconUrl ? ` <img class="type-icon" src="${t2IconUrl}" alt="${t2}">` : '');
+          typeHint += ` / ${t2Html}`;
+        }
+        addHintHTML(typeHint);
         break;
       case 2:
         // Index with generation in parentheses
@@ -765,8 +781,11 @@ const Daily = (function () {
     
     // load pokemons data (same logic as Game.init: try fetch data/pokemons.json)
     try {
-      const res = await fetch('data/pokemons.json');
-      const arr = await res.json();
+      const [pokemonsRes] = await Promise.all([
+        fetch('data/pokemons.json'),
+        TypeIcons.load()
+      ]);
+      const arr = await pokemonsRes.json();
       pokemons = arr.map(p => new Pokemon(p));
     } catch (e) {
       // fallback sample (same as original)

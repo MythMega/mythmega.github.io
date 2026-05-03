@@ -67,6 +67,12 @@ const UI = (function () {
     hintsList.appendChild(li);
   }
 
+  function addHintHTML(html) {
+    const li = document.createElement('li');
+    li.innerHTML = html;
+    hintsList.appendChild(li);
+  }
+
   function clearHints() {
     hintsList.innerHTML = '';
   }
@@ -155,6 +161,7 @@ const UI = (function () {
     setStreak,
     setBest,
     addHint,
+    addHintHTML,
     clearHints,
     showRevealInfo,
     hideRevealInfo,

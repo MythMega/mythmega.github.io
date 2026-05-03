@@ -262,8 +262,8 @@ button.secondary:hover:not(:disabled) {
 
 /* --- Hints --- */
 aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:auto; margin-right:auto; }
-#hintsList { list-style:none; padding:0; margin:8px 0 0 0; }
-#hintsList li {
+#hintsList, #dailyHints { list-style:none; padding:0; margin:8px 0 0 0; }
+#hintsList li, #dailyHints li {
   padding: 9px 13px;
   background: rgba(22,163,74,0.06);
   border: 1px solid rgba(22,163,74,0.1);
@@ -275,6 +275,14 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
 @keyframes hintReveal {
   from { opacity:0; transform:translateX(-8px); }
   to   { opacity:1; transform:translateX(0); }
+}
+.type-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-left: 4px;
+  border-radius: 3px;
 }
 
 /* --- Utility --- */

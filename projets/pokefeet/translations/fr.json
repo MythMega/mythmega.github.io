@@ -143,5 +143,25 @@
     "irreversible": "⚠️ Actions irréversibles",
     "deleteBest": "Delete Best Score",
     "deleteDaily": "Delete All Daily Data"
+  },
+  "types": {
+    "normal": "Normal",
+    "fighting": "Combat",
+    "flying": "Vol",
+    "poison": "Poison",
+    "ground": "Sol",
+    "rock": "Roche",
+    "bug": "Insecte",
+    "ghost": "Spectre",
+    "steel": "Acier",
+    "fire": "Feu",
+    "water": "Eau",
+    "grass": "Plante",
+    "electric": "Electrik",
+    "psychic": "Psy",
+    "ice": "Glace",
+    "dragon": "Dragon",
+    "dark": "Ténèbre",
+    "fairy": "Fée"
   }
 }

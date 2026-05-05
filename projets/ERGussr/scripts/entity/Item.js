@@ -113,7 +113,8 @@ export function replaceCaseAccentInsensitive(text, word, replacement) {
   let lastIndex = 0;
   let match;
   while ((match = regex.exec(normalizedText)) !== null) {
-    result += text.slice(lastIndex, match.index) + replacement;
+    const firstLetter = text[match.index] || "";
+    result += text.slice(lastIndex, match.index) + firstLetter + "###";
     lastIndex = match.index + match[0].length;
   }
   result += text.slice(lastIndex);

@@ -213,8 +213,10 @@ p  { color: var(--color-text-muted); }
   border-top: none;
   border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   list-style: none;
-  max-height: 240px;
+  max-height: 320px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
   z-index: 200;
   box-shadow: var(--shadow);
 }
@@ -480,6 +482,29 @@ p  { color: var(--color-text-muted); }
 .summary-name { font-size: 0.8rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.25rem; }
 .summary-emoji { font-size: 1rem; margin-bottom: 0.25rem; }
 .summary-score { font-size: 0.85rem; color: var(--color-primary); font-weight: 700; }
+
+/* ============================
+   Wrong Guesses List
+   ============================ */
+.wrong-guesses-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.35rem 0;
+  min-height: 0;
+}
+.wrong-guess-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.35);
+  color: var(--color-error);
+  border-radius: var(--radius-sm);
+  padding: 0.15rem 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
 
 /* ============================
    Share Box

@@ -230,6 +230,16 @@ const Daily = (function () {
     attemptGaugeEl.style.display = 'none';
   }
 
+  function hideGameplayElements() {
+    const toHide = [
+      document.querySelector('.image-gauge-row'),
+      document.querySelector('.info-below'),
+      document.querySelector('.guess-area'),
+      document.getElementById('hints')
+    ];
+    toHide.forEach(el => { if (el) el.style.display = 'none'; });
+  }
+
   function showAttemptGauge() {
     if (!attemptGaugeEl) return;
     attemptGaugeEl.style.display = '';
@@ -556,8 +566,9 @@ const Daily = (function () {
       renderFullImages(dailyList);
     } catch (e) {}
 
-    // hide the attempt gauge on the summary screen
+    // hide the attempt gauge and gameplay elements on the summary screen
     hideAttemptGauge();
+    hideGameplayElements();
 
     // disable controls
     input().disabled = true;
@@ -765,6 +776,7 @@ const Daily = (function () {
       renderFullImages(list);
     } catch (e) {}
     hideAttemptGauge();
+    hideGameplayElements();
   }
 
   // show current pokemon (partial image)

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gamefinder 2.0</title>
+
+  <!-- ====== STYLES ====== -->
+  <link rel="stylesheet" href="styles/variables.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+  <link rel="stylesheet" href="styles/layout.css" />
+  <link rel="stylesheet" href="styles/filters.css" />
+</head>
+<body>
+
+  <!-- ==========================================
+       OVERLAY DE CHARGEMENT
+       Affiché pendant la décompression / init DB
+       ========================================== -->
+  <div id="loader-bar-wrapper">
+    <div id="loader-bar"></div>
+  </div>
+
+  <div id="loader-overlay">
+    <div id="loader-title">GAMEFINDER 2.0</div>
+    <div id="loader-status">Initialisation…</div>
+    <!-- Barre de progression secondaire dans l'overlay -->
+    <div style="width:320px;max-width:90vw">
+      <div style="height:2px;background:rgba(0,245,255,0.1);border-radius:1px;overflow:hidden;margin-top:8px">
+        <div id="loader-bar-overlay"
+             style="height:100%;width:0%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));transition:width 0.4s ease;box-shadow:0 0 8px var(--neon-cyan)">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       RACINE DE L'APPLICATION
+       ========================================== -->
+  <div id="app-root" style="display:none">
+
+    <!-- En-tête global -->
+    <header id="app-header"></header>
+
+    <!-- Contenu principal — les "pages" sont injectées ici -->
+    <main id="app-main"></main>
+
+    <!-- Pied de page global -->
+    <footer id="app-footer"></footer>
+
+  </div><!-- /#app-root -->
+
+
+  <!-- Brotli : chargé dynamiquement par Database._loadBrotliFromCDN() si nécessaire. -->
+
+  <!-- ====== CLASSES ====== -->
+  <script src="Scripts/classes/Database.js"></script>
+  <script src="Scripts/classes/Game.js"></script>
+  <script src="Scripts/classes/Developer.js"></script>
+  <script src="Scripts/classes/Franchise.js"></script>
+  <script src="Scripts/classes/Genre.js"></script>
+  <script src="Scripts/classes/Platform.js"></script>
+  <script src="Scripts/classes/Theme.js"></script>
+  <script src="Scripts/classes/Router.js"></script>
+
+  <!-- ====== BUSINESS ====== -->
+  <script src="Scripts/business/SearchBusiness.js"></script>
+  <script src="Scripts/business/GameBusiness.js"></script>
+  <script src="Scripts/business/DeveloperBusiness.js"></script>
+  <script src="Scripts/business/FranchiseBusiness.js"></script>
+  <script src="Scripts/business/ListBusiness.js"></script>
+  <script src="Scripts/business/FiltersBusiness.js"></script>
+
+  <!-- ====== UI ====== -->
+  <script src="Scripts/ui/LoaderUI.js"></script>
+  <script src="Scripts/ui/HeaderUI.js"></script>
+  <script src="Scripts/ui/FooterUI.js"></script>
+  <script src="Scripts/ui/SearchUI.js"></script>
+  <script src="Scripts/ui/HomeUI.js"></script>
+  <script src="Scripts/ui/GameDetailUI.js"></script>
+  <script src="Scripts/ui/DeveloperDetailUI.js"></script>
+  <script src="Scripts/ui/FranchiseDetailUI.js"></script>
+  <script src="Scripts/ui/GenericDetailUI.js"></script>
+  <script src="Scripts/ui/ListUI.js"></script>
+  <script src="Scripts/ui/FiltersUI.js"></script>
+  <script src="Scripts/ui/RouletteUI.js"></script>
+
+  <!-- ====== BOOTSTRAP ====== -->
+  <script>
+    /**
+     * app.js (inline) — Point d'entrée de l'application Gamefinder 2.0.
+     * Gère :
+     *  1. Chargement & décompression de la base de données
+     *  2. Initialisation des services (business) et des composants UI
+     *  3. Routage côté client (sans rechargement de page)
+     */
+
+    (async function AppBootstrap() {
+      console.log('[App] Démarrage Gamefinder 2.0');
+
+      // ── 1. LOADER ──────────────────────────────────────────────
+      const loader = new LoaderUI();
+
+      function onProgress(percent, text) {
+        loader.setProgress(percent, text);
+        // Sync la barre secondaire dans l'overlay
+        const bar2 = document.getElementById('loader-bar-overlay');
+        if (bar2) bar2.style.width = percent + '%';
+      }
+
+      // ── 2. CHARGEMENT DE LA BASE ────────────────────────────────
+      let db;
+      try {
+        const database = new Database('database.db.br', onProgress);
+        db = await database.load();
+        console.log('[App] Base de données opérationnelle');
+      } catch (err) {
+        console.error('[App] Erreur fatale lors du chargement de la DB :', err);
+        document.getElementById('loader-status').textContent =
+          '⚠ Erreur de chargement — ' + err.message;
+        document.getElementById('loader-status').style.color = '#ff4444';
+        return; // Arrêt — impossible de continuer sans DB
+      }
+
+      // ── 3. INIT SERVICES ────────────────────────────────────────
+      console.log('[App] Initialisation des services métier…');
+      const gameBusiness      = new GameBusiness(db);
+      const developerBusiness = new DeveloperBusiness(db);
+      const franchiseBusiness = new FranchiseBusiness(db);
+      const searchBusiness    = new SearchBusiness(db);
+      const listBusiness      = new ListBusiness(gameBusiness, developerBusiness, franchiseBusiness, db);
+      const filtersBusiness     = new FiltersBusiness(db);
+
+      // ── 4. INIT UI ───────────────────────────────────────────────
+      console.log('[App] Initialisation de l\'UI…');
+
+      // Router
+      const router = new Router(renderRoute);
+      window._router = router; // Exposé globalement pour les liens inline
+
+      // Composants persistants
+      const headerUI  = new HeaderUI(router, listBusiness);
+      const footerUI  = new FooterUI();
+      const searchUI  = new SearchUI(searchBusiness, router);
+
+      // Composants de page
+      const homeUI            = new HomeUI(router, searchUI);
+      const gameDetailUI      = new GameDetailUI(gameBusiness, router);
+      const developerDetailUI = new DeveloperDetailUI(developerBusiness, router);
+      const franchiseDetailUI = new FranchiseDetailUI(franchiseBusiness, router);
+      const genericDetailUI   = new GenericDetailUI();
+      const listUI            = new ListUI(listBusiness, router);
+      const filtersUI         = new FiltersUI(filtersBusiness, router);
+      const rouletteUI        = new RouletteUI(gameBusiness, filtersBusiness, router);
+
+      // ── 5. AFFICHER L'APP ────────────────────────────────────────
+      loader.hide();
+      const appRoot = document.getElementById('app-root');
+      appRoot.style.display = 'flex';
+      // Petit fondu d'apparition
+      appRoot.style.opacity = '0';
+      appRoot.style.transition = 'opacity 0.5s ease';
+      requestAnimationFrame(() => { appRoot.style.opacity = '1'; });
+
+      // Rendu du header et footer (persistants)
+      headerUI.render();
+      footerUI.render();
+
+      // Démarrer le routeur (déclenchera le premier render)
+      router.start();
+
+      // ── 6. FONCTION DE ROUTAGE ───────────────────────────────────
+      /**
+       * Appelée par le Router à chaque changement de route.
+       * @param {{type: string, params: Object}} route
+       */
+      function renderRoute(route) {
+        console.log('[App] renderRoute :', route);
+        const main = document.getElementById('app-main');
+        if (!main) return;
+
+        // Scroll to top à chaque navigation
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        switch (route.type) {
+
+          case 'home':
+            homeUI.render(main);
+            break;
+
+          case 'game':
+            gameDetailUI.render(main, route.params.id);
+            break;
+
+          case 'developer':
+            developerDetailUI.render(main, route.params.id);
+            break;
+
+          case 'franchise':
+            franchiseDetailUI.render(main, route.params.id);
+            break;
+
+          case 'genre':
+          case 'platform':
+          case 'theme':
+            genericDetailUI.render(main, route.type, route.params.id);
+            break;
+
+          case 'list':
+            listUI.render(main, route.params.listType, route.params.page);
+            break;
+
+          case 'filters':
+            filtersUI.render(main, route.params);
+            break;
+
+          case 'roulette':
+            rouletteUI.render(main, route.params.settings, route.params.ids, route.params.idx);
+            break;
+
+          default:
+            console.warn('[App] Route inconnue :', route);
+            main.innerHTML = `
+              <div id="page-view" style="text-align:center;padding-top:80px">
+                <div class="page-title">404</div>
+                <p class="page-subtitle">Page introuvable.</p>
+              </div>`;
+        }
+
+        // Mettre à jour l'état du header (bouton actif, etc.)
+        headerUI.update(route);
+      }
+
+    })(); // fin AppBootstrap
+  </script>
+
+</body>
+</html>

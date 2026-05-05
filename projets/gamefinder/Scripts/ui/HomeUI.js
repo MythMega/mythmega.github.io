@@ -19,7 +19,7 @@ class HomeUI {
       <div id="home-view">
         <div>
           <div class="hero-title">GAMEFINDER</div>
-          <div class="hero-subtitle">// Trouver votre prochain coup de coeure</div>
+          <div class="hero-subtitle">// Trouver votre prochain coup de cœur</div>
         </div>
 
         <div class="cta-area">

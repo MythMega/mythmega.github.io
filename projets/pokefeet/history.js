@@ -117,7 +117,13 @@
         const row = document.createElement('div');
         row.style.padding = '10px 0';
         row.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
-        row.innerHTML = `<strong>${dateLabel}</strong> - Score : ${score}/${COUNT * 10} - <span style="font-family:monospace">${emojis}</span>${dexIcon}`;
+        row.style.cursor = 'pointer';
+        row.title = 'Voir ce daily';
+        row.innerHTML = `<strong style="text-decoration:underline dotted;">${dateLabel}</strong> - Score : ${score}/${COUNT * 10} - <span style="font-family:monospace">${emojis}</span>${dexIcon}`;
+        row.addEventListener('click', (e) => {
+          if (e.target.closest('.emoji-tooltip')) return;
+          window.location.href = `daily.html?date=${dateKey}`;
+        });
         container.insertBefore(row, showMoreBtn);
       });
       displayed += batch.length;

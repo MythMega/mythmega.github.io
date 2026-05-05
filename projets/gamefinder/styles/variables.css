@@ -1,0 +1,55 @@
+/* =============================================
+   VARIABLES — Gamefinder 2.0 Neon Urban Style
+   ============================================= */
+
+:root {
+  /* Palette néon */
+  --neon-cyan:    #00f5ff;
+  --neon-magenta: #ff00c8;
+  --neon-purple:  #9d00ff;
+  --neon-green:   #00ff94;
+  --neon-yellow:  #ffe600;
+
+  /* Fonds */
+  --bg-dark:      #05050f;
+  --bg-card:      rgba(10, 10, 30, 0.75);
+  --bg-overlay:   rgba(0, 0, 0, 0.55);
+
+  /* Texte */
+  --text-primary:   #e8e8ff;
+  --text-secondary: #8888bb;
+  --text-muted:     #444466;
+
+  /* Bordures */
+  --border-neon:   1px solid rgba(0, 245, 255, 0.35);
+  --border-magenta: 1px solid rgba(255, 0, 200, 0.3);
+
+  /* Ombres / lueurs néon */
+  --glow-cyan:    0 0 8px rgba(0, 245, 255, 0.7), 0 0 24px rgba(0, 245, 255, 0.3);
+  --glow-magenta: 0 0 8px rgba(255, 0, 200, 0.7), 0 0 24px rgba(255, 0, 200, 0.3);
+  --glow-purple:  0 0 8px rgba(157, 0, 255, 0.7), 0 0 24px rgba(157, 0, 255, 0.3);
+
+  /* Typographie */
+  --font-main:  'Orbitron', 'Rajdhani', sans-serif;
+  --font-body:  'Rajdhani', 'Segoe UI', sans-serif;
+  --font-mono:  'Share Tech Mono', monospace;
+
+  /* Rayons */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-med:  0.3s ease;
+  --transition-slow: 0.6s ease;
+
+  /* Barre de chargement */
+  --loader-height: 4px;
+
+  /* Z-index layers */
+  --z-header:   100;
+  --z-dropdown: 200;
+  --z-modal:    300;
+  --z-loader:   999;
+}

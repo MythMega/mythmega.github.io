@@ -9,7 +9,7 @@ import { createSeededRng, pickRandom } from "../business/seededRng.js";
 import { checkGuess, buildAutocompleteList, getTodayDateStr, parseDateStr, isDateValid } from "../business/gameLogic.js";
 import { getDailyResult, saveDailyResult } from "../business/database.js";
 import { DailyResult } from "../entity/DailyResult.js";
-import { applyTranslations, setActiveNav, showToast, shakeElement, setInputInvalid } from "../visual/ui.js";
+import { applyTranslations, setActiveNav, showToast, shakeElement, setInputInvalid, escapeHtml } from "../visual/ui.js";
 import { attachAutocomplete } from "../visual/autocomplete.js";
 import { renderItemPicture, renderItemPictureRevealed, renderClues, renderSummaryCard } from "../visual/roundRenderer.js";
 
@@ -63,7 +63,8 @@ async function init() {
     item,
     fails: 0,
     found: false,
-    score: 0
+    score: 0,
+    wrongGuesses: []
   }));
 
   document.getElementById("daily-game").classList.remove("hidden");
@@ -142,9 +143,22 @@ function startRound(idx) {
 
   document.getElementById("round-picture").innerHTML = renderItemPicture(round.item);
   document.getElementById("round-clues").innerHTML = renderClues(round.item, round.fails, lang);
+  document.getElementById("wrong-guesses-list").innerHTML = "";
   updateProgressDots();
   updateGauge();
   document.getElementById("guess-input").focus();
+}
+
+function renderWrongGuesses(guesses) {
+  const container = document.getElementById("wrong-guesses-list");
+  if (!container) return;
+  if (!guesses || guesses.length === 0) {
+    container.innerHTML = "";
+    return;
+  }
+  container.innerHTML = guesses
+    .map(g => `<span class="wrong-guess-tag">✗ ${escapeHtml(g)}</span>`)
+    .join("");
 }
 
 function updateGauge() {
@@ -191,6 +205,8 @@ function handleSubmit() {
   } else {
     round.fails++;
     console.log(`[daily] Wrong guess. Fails: ${round.fails}`);
+    round.wrongGuesses.push(guess);
+    renderWrongGuesses(round.wrongGuesses);
     shakeElement(input);
     updateGauge();
 
@@ -214,6 +230,7 @@ function handleReveal() {
   round.score = 0;
   round.found = false;
   round.fails = 3;
+  round.wrongGuesses.push("> *reveal*");
   console.log(`[daily] Round ${currentRoundIdx + 1} manually revealed`);
   showToast("+0 pts", "error");
   revealRound();
@@ -225,6 +242,8 @@ function revealRound() {
   document.getElementById("round-picture").innerHTML = renderItemPictureRevealed(round.item);
   // Show all clues, uncensored
   document.getElementById("round-clues").innerHTML = renderClues(round.item, 2, lang);
+  // Keep wrong guesses visible
+  renderWrongGuesses(round.wrongGuesses);
 
   document.getElementById("guess-form").classList.add("hidden");
   document.getElementById("revealed-name").textContent = round.item.getName(lang);
@@ -258,7 +277,8 @@ async function finishDaily() {
     status: r.found ? "win" : "fail"
   }));
 
-  const result = new DailyResult(dailyDate, totalScore, roundsData);
+  const wrongGuesses = rounds.map(r => r.wrongGuesses || []);
+  const result = new DailyResult(dailyDate, totalScore, roundsData, wrongGuesses);
   await saveDailyResult(result);
   console.log("[daily] Result saved to IndexedDB");
 
@@ -272,7 +292,7 @@ function showResults(result) {
   document.getElementById("results-date").textContent = `${t("daily.title")} — ${result.date}`;
 
   const shareText = result.toShareString();
-  document.getElementById("share-text").textContent = shareText;
+  document.getElementById("share-text").textContent = result.toVisualString();
 
   // Summary cards
   const cardsContainer = document.getElementById("summary-cards");
@@ -303,8 +323,24 @@ function showAlreadyPlayed(existing) {
 
   const shareText = existing.toShareString();
   area.innerHTML = `
-    <div class="share-box">${shareText}</div>
-    <p class="text-primary" style="font-size:1.4rem;font-weight:700">${t("daily.score")}: ${existing.scoreTotal}</p>`;
+    <div class="share-box">${escapeHtml(shareText)}</div>
+    <p class="text-primary" style="font-size:1.4rem;font-weight:700">${t("daily.score")}: ${existing.scoreTotal}</p>
+    <button class="btn btn-primary mt-2" id="btn-copy-old">${t("daily.copy_result")}</button>`;
+
+  document.getElementById("btn-copy-old").addEventListener("click", () => {
+    const copyText = shareText + "\n" + window.location.href;
+    navigator.clipboard.writeText(copyText).then(() => {
+      showToast(t("daily.copied"), "success");
+    }).catch(() => {
+      const ta = document.createElement("textarea");
+      ta.value = copyText;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      showToast(t("daily.copied"), "success");
+    });
+  });
 }
 
 init();

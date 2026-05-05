@@ -83,6 +83,4 @@ export function attachAutocomplete(input, list, onSelect) {
       closeDropdown();
     }
   });
-
-  input.addEventListener("blur", () => setTimeout(closeDropdown, 150));
 }

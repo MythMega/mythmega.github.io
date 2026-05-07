@@ -60,21 +60,10 @@ export class Item {
     if (!text) return text;
     const name = this.getName(lang);
     if (!name) return text;
-    // Build a list of words from both language names to censor
-    const allNames = [this.nameFR, this.nameEN].filter(Boolean);
     let result = text;
-    for (const n of allNames) {
-      const words = n.split(/\s+/).filter(w => w.length > 2);
-      for (const word of words) {
-        const normalized = removeDiacritics(word);
-        // Replace the word (accent-insensitive) with ###
-        const regex = new RegExp(
-          normalized.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-          "gi"
-        );
-        // Work on a diacritic-stripped version comparison but replace in original
-        result = replaceCaseAccentInsensitive(result, word, "###");
-      }
+    const words = name.split(/\s+/).filter(w => w.length > 2);
+    for (const word of words) {
+      result = replaceCaseAccentInsensitive(result, word, "###");
     }
     return result;
   }

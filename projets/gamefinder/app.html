@@ -63,6 +63,7 @@
   <script src="Scripts/classes/Platform.js"></script>
   <script src="Scripts/classes/Theme.js"></script>
   <script src="Scripts/classes/Router.js"></script>
+  <script src="Scripts/classes/Settings.js"></script>
 
   <!-- ====== BUSINESS ====== -->
   <script src="Scripts/business/SearchBusiness.js"></script>
@@ -85,6 +86,7 @@
   <script src="Scripts/ui/ListUI.js"></script>
   <script src="Scripts/ui/FiltersUI.js"></script>
   <script src="Scripts/ui/RouletteUI.js"></script>
+  <script src="Scripts/ui/SettingsUI.js"></script>
 
   <!-- ====== BOOTSTRAP ====== -->
   <script>
@@ -125,6 +127,8 @@
 
       // ── 3. INIT SERVICES ────────────────────────────────────────
       console.log('[App] Initialisation des services métier…');
+      const appSettings       = new AppSettings();
+      await appSettings.init();
       const gameBusiness      = new GameBusiness(db);
       const developerBusiness = new DeveloperBusiness(db);
       const franchiseBusiness = new FranchiseBusiness(db);
@@ -151,8 +155,9 @@
       const franchiseDetailUI = new FranchiseDetailUI(franchiseBusiness, router);
       const genericDetailUI   = new GenericDetailUI();
       const listUI            = new ListUI(listBusiness, router);
-      const filtersUI         = new FiltersUI(filtersBusiness, router);
+      const filtersUI         = new FiltersUI(filtersBusiness, router, appSettings);
       const rouletteUI        = new RouletteUI(gameBusiness, filtersBusiness, router);
+      const settingsUI        = new SettingsUI(appSettings);
 
       // ── 5. AFFICHER L'APP ────────────────────────────────────────
       loader.hide();
@@ -217,6 +222,10 @@
 
           case 'roulette':
             rouletteUI.render(main, route.params.settings, route.params.ids, route.params.idx);
+            break;
+
+          case 'settings':
+            settingsUI.render(main);
             break;
 
           default:

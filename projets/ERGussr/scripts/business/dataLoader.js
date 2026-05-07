@@ -70,8 +70,15 @@ async function loadDataset(file, category) {
 
   // RUSTINE — à retirer une fois le jeu de données corrigé :
   // Certains noms contiennent des "\n" (données malformées), ce qui casse l'autocomplete et l'affichage.
-  const items = withDesc.filter(item => !item.nameFR.includes("\n") && !item.nameEN.includes("\n"));
-  const skippedName = withDesc.length - items.length;
+  const noNewline = withDesc.filter(item => !item.nameFR.includes("\n") && !item.nameEN.includes("\n"));
+  const skippedName = withDesc.length - noNewline.length;
+
+  // Filter out Altered variants (not part of the base game pool)
+  const items = noNewline.filter(item => !item.nameEN.includes("(Alt") && !item.nameFR.includes("(alt"));
+  const skippedAltered = noNewline.length - items.length;
+  if (skippedAltered > 0) {
+    console.warn(`[DataLoader] Skipped ${skippedAltered} Altered item(s) in ${file}`);
+  }
   if (skippedName > 0) {
     console.warn(`[DataLoader] RUSTINE: Skipped ${skippedName} item(s) with "\\n" in name in ${file}`);
   }

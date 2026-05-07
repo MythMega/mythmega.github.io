@@ -283,7 +283,6 @@
 /* ----------- TEXTE TRONQUÉ (voir plus/moins) ----------- */
 .text-full          { display: none; }
 .text-full.visible  { display: inline; }
-.text-short.hidden  { display: none; }
 
 .btn-read-more {
   background: none;
@@ -297,3 +296,138 @@
   padding: 0;
 }
 .btn-read-more:hover { color: #fff; }
+
+/* ----------- SWITCH TOGGLE ----------- */
+.filter-switch-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.switch-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  cursor: pointer;
+  user-select: none;
+}
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+.switch-slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+.switch-slider::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 3px;
+  top: 3px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+.switch-toggle input:checked + .switch-slider {
+  background: rgba(0, 255, 148, 0.18);
+}
+.switch-toggle input:checked + .switch-slider::before {
+  transform: translateX(18px);
+  background: var(--neon-green);
+  box-shadow: 0 0 6px rgba(0, 255, 148, 0.6);
+}
+
+/* ----------- NOTE FILTRE INACTIF ----------- */
+.filter-note {
+  margin-top: 12px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+}
+
+/* ----------- FILTER BOX HEADER (titre + All ON/OFF) ----------- */
+.filter-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 0, 200, 0.2);
+}
+.filter-box-header .filter-box-title {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* ----------- BOUTONS ALL ON / ALL OFF ----------- */
+.toggle-all-row {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.btn-toggle-all {
+  padding: 3px 10px;
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  background: rgba(0, 255, 148, 0.06);
+  border: 1px solid rgba(0, 255, 148, 0.4);
+  border-radius: 100px;
+  color: var(--neon-green);
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+}
+.btn-toggle-all:hover {
+  background: rgba(0, 255, 148, 0.14);
+  box-shadow: 0 0 6px rgba(0, 255, 148, 0.25);
+}
+.btn-toggle-all.off {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--text-muted);
+}
+.btn-toggle-all.off:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+}
+
+/* ----------- TOGGLE BOUTON DÉSACTIVÉ ----------- */
+.toggle-btn[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ----------- PAGE PARAMÈTRES ----------- */
+.settings-sections {
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.settings-box {
+  max-width: 580px;
+}

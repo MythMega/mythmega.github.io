@@ -34,6 +34,7 @@ class HeaderUI {
           ${dropdownItems}
         </div>
       </div>
+      <button class="btn-neon" id="btn-settings" title="Paramètres">⚙ Paramètres</button>
     `;
 
     this._bindEvents();
@@ -56,6 +57,10 @@ class HeaderUI {
     document.getElementById('btn-roulette')?.addEventListener('click', () => {
       console.log('[HeaderUI] Clic Roulette');
       this.router.navigate('app.html?state=filters');
+    });
+    document.getElementById('btn-settings')?.addEventListener('click', () => {
+      console.log('[HeaderUI] Clic Paramètres');
+      this.router.navigate('app.html?state=settings');
     });
 
     // Dropdown Données

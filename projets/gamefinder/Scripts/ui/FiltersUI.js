@@ -1,13 +1,13 @@
 /**
  * FiltersUI.js
- * Page Roulette : 5 boxes de filtres + bouton de lancement.
+ * Page Roulette : boxes de filtres + bouton de lancement.
  *
  * Boxes :
- *  1. Plateformes   — vedettes ON par défaut, autres OFF, bouton "voir tout"
+ *  1. Plateformes   — vedettes ON par défaut, autres OFF, bouton "voir tout" + All ON/OFF
  *  2. Date de sortie — double range slider (min/max année)
- *  3. Modes de jeu  — tous ON par défaut
- *  4. Genres        — tous ON par défaut
- *  5. Thèmes        — tous ON par défaut
+ *  3. Modes de jeu  — tous ON par défaut + All ON/OFF
+ *  4. Genres        — tous ON par défaut + All ON/OFF
+ *  5. Thèmes        — tous ON par défaut + All ON/OFF (Erotic bloqué si contenu adulte désactivé)
  *
  * Au lancement, encode les settings dans l'URL et navigue vers la vue Roulette.
  */
@@ -16,13 +16,17 @@ class FiltersUI {
   /**
    * @param {FiltersBusiness} filtersBusiness
    * @param {Router}          router
+   * @param {AppSettings}     appSettings
    */
-  constructor(filtersBusiness, router) {
-    this.filtersBusiness = filtersBusiness;
-    this.router          = router;
-    this.state           = null;
-    this.filterData      = null;
-    this._container      = null;
+  constructor(filtersBusiness, router, appSettings) {
+    this.filtersBusiness  = filtersBusiness;
+    this.router           = router;
+    this.appSettings      = appSettings;
+    this.state            = null;
+    this.filterData       = null;
+    this._container       = null;
+    this.allowAdultContent = false;
+    this._eroticThemeId    = null;
   }
 
   /**
@@ -30,10 +34,18 @@ class FiltersUI {
    * @param {HTMLElement} container    - #app-main
    * @param {Object}      [params={}]  - { preSettings: string|null }
    */
-  render(container, params = {}) {
+  async render(container, params = {}) {
     console.log('[FiltersUI] Rendu de la page filtres', params);
     this._container = container;
     this.filterData = this.filtersBusiness.getFilterData();
+
+    // Charge le setting contenu adulte
+    this.allowAdultContent = await this.appSettings.get('allowAdultContent', false);
+
+    // Détecte dynamiquement l'ID du thème Erotic dans la DB
+    const eroticEntry = this.filterData.themes.find(t => t.name.toLowerCase() === 'erotic');
+    this._eroticThemeId = eroticEntry ? eroticEntry.id : null;
+    console.log(`[FiltersUI] Thème Erotic : id=${this._eroticThemeId}, allowAdult=${this.allowAdultContent}`);
 
     // Initialise l'état — depuis l'URL si fourni, sinon par défaut
     if (params && params.preSettings) {
@@ -42,6 +54,11 @@ class FiltersUI {
       console.log('[FiltersUI] Settings restaurés depuis URL');
     } else {
       this.state = this.filtersBusiness.getDefaultSettings();
+    }
+
+    // Force l'exclusion du thème Erotic de l'état si le contenu adulte est désactivé
+    if (!this.allowAdultContent && this._eroticThemeId !== null) {
+      this.state.t = this.state.t.filter(id => id !== this._eroticThemeId);
     }
 
     container.innerHTML = this._buildHTML();
@@ -62,6 +79,10 @@ class FiltersUI {
     const selM = new Set(s.m);
     const selG = new Set(s.g);
     const selT = new Set(s.t);
+    const scoreMin    = s.scoreMin    !== undefined ? s.scoreMin    : 0;
+    const scoreMax    = s.scoreMax    !== undefined ? s.scoreMax    : 100;
+    const allowNoScore = s.allowNoScore ?? false;
+    const allowFangame = s.allowFangame ?? false;
 
     // ── Plateformes ──────────────────────────────────────────────
     const featuredPlatforms = fd.platforms.filter(p => FID.has(p.id));
@@ -86,7 +107,12 @@ class FiltersUI {
     // ── Modes / Genres / Thèmes ───────────────────────────────────
     const modesHTML  = fd.gameModes.map(m => this._toggleBtn(m.id, m.name, selM.has(m.id), 'mode')).join('');
     const genresHTML = fd.genres.map(g => this._toggleBtn(g.id, g.name, selG.has(g.id), 'genre')).join('');
-    const themesHTML = fd.themes.map(t => this._toggleBtn(t.id, t.name, selT.has(t.id), 'theme')).join('');
+    const themesHTML = fd.themes.map(t => {
+      const isErotic   = t.id === this._eroticThemeId;
+      const isDisabled = isErotic && !this.allowAdultContent;
+      const isOn       = !isDisabled && selT.has(t.id);
+      return this._toggleBtn(t.id, t.name, isOn, 'theme', isDisabled);
+    }).join('');
 
     return `
       <div id="page-view" class="filters-page">
@@ -99,7 +125,13 @@ class FiltersUI {
 
           <!-- Box 1 : Plateformes -->
           <div class="filter-box reveal">
-            <div class="filter-box-title">🖥 Plateformes</div>
+            <div class="filter-box-header">
+              <div class="filter-box-title">🖥 Plateformes</div>
+              <div class="toggle-all-row">
+                <button class="btn-toggle-all" data-action="all-on" data-category="platform">All ON</button>
+                <button class="btn-toggle-all off" data-action="all-off" data-category="platform">All OFF</button>
+              </div>
+            </div>
             <div class="platforms-featured" id="platforms-featured">
               ${featuredHTML}
             </div>
@@ -131,20 +163,80 @@ class FiltersUI {
 
           <!-- Box 3 : Modes de jeu -->
           <div class="filter-box reveal">
-            <div class="filter-box-title">🕹 Modes de jeu</div>
+            <div class="filter-box-header">
+              <div class="filter-box-title">🕹 Modes de jeu</div>
+              <div class="toggle-all-row">
+                <button class="btn-toggle-all" data-action="all-on" data-category="mode">All ON</button>
+                <button class="btn-toggle-all off" data-action="all-off" data-category="mode">All OFF</button>
+              </div>
+            </div>
             <div class="toggle-grid" id="modes-grid">${modesHTML}</div>
           </div>
 
           <!-- Box 4 : Genres -->
           <div class="filter-box wide reveal">
-            <div class="filter-box-title">🎭 Genres</div>
+            <div class="filter-box-header">
+              <div class="filter-box-title">🎭 Genres</div>
+              <div class="toggle-all-row">
+                <button class="btn-toggle-all" data-action="all-on" data-category="genre">All ON</button>
+                <button class="btn-toggle-all off" data-action="all-off" data-category="genre">All OFF</button>
+              </div>
+            </div>
             <div class="toggle-grid" id="genres-grid">${genresHTML}</div>
           </div>
 
           <!-- Box 5 : Thèmes -->
           <div class="filter-box wide reveal">
-            <div class="filter-box-title">🌐 Thèmes</div>
+            <div class="filter-box-header">
+              <div class="filter-box-title">🌐 Thèmes</div>
+              <div class="toggle-all-row">
+                <button class="btn-toggle-all" data-action="all-on" data-category="theme">All ON</button>
+                <button class="btn-toggle-all off" data-action="all-off" data-category="theme">All OFF</button>
+              </div>
+            </div>
             <div class="toggle-grid" id="themes-grid">${themesHTML}</div>
+          </div>
+
+          <!-- Box 6 : Score -->
+          <div class="filter-box reveal">
+            <div class="filter-box-title">⭐ Score</div>
+            <div class="range-slider-box">
+              <div class="range-slider-container">
+                <div class="slider-track">
+                  <div class="slider-fill" id="score-slider-fill"
+                       style="left:${scoreMin}%;right:${100 - scoreMax}%"></div>
+                </div>
+                <input type="range" class="range-input" id="range-score-min"
+                       min="0" max="100" step="5" value="${scoreMin}" />
+                <input type="range" class="range-input" id="range-score-max"
+                       min="0" max="100" step="5" value="${scoreMax}" />
+              </div>
+              <div class="range-label" id="score-range-label">${scoreMin} — ${scoreMax}</div>
+            </div>
+            <div class="filter-switch-row" style="margin-top:14px">
+              <label class="switch-row-item">
+                <span>Autoriser les jeux sans note</span>
+                <span class="switch-toggle">
+                  <input type="checkbox" id="cb-allow-no-score" ${allowNoScore ? 'checked' : ''} />
+                  <span class="switch-slider"></span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Box 7 : Extra -->
+          <div class="filter-box reveal">
+            <div class="filter-box-title">⚙ Extra</div>
+            <div class="filter-switch-row">
+              <label class="switch-row-item">
+                <span>Autoriser fangame / mod</span>
+                <span class="switch-toggle">
+                  <input type="checkbox" id="cb-allow-fangame" ${allowFangame ? 'checked' : ''} />
+                  <span class="switch-slider"></span>
+                </span>
+              </label>
+            </div>
+            <p class="filter-note">⚠ Ce filtre n'est pas encore fonctionnel.</p>
           </div>
 
         </div>
@@ -161,7 +253,16 @@ class FiltersUI {
   }
 
   /** Génère le HTML d'un bouton toggle. */
-  _toggleBtn(id, name, isOn, category) {
+  _toggleBtn(id, name, isOn, category, disabled = false) {
+    if (disabled) {
+      return `<button class="toggle-btn off"
+                      data-id="${id}"
+                      data-category="${category}"
+                      disabled
+                      title="Activez le contenu adulte dans Paramètres pour accéder à ce thème">
+        <span class="toggle-dot"></span>${this._esc(name)}
+      </button>`;
+    }
     return `<button class="toggle-btn ${isOn ? 'on' : 'off'}"
                     data-id="${id}"
                     data-category="${category}">
@@ -177,6 +278,11 @@ class FiltersUI {
     // ── Toggle buttons (plateformes / modes / genres / thèmes) ────
     document.querySelectorAll('.toggle-btn').forEach(btn => {
       btn.addEventListener('click', () => this._toggleItem(btn));
+    });
+
+    // ── Boutons All ON / All OFF ──────────────────────────────────
+    document.querySelectorAll('.btn-toggle-all').forEach(btn => {
+      btn.addEventListener('click', () => this._toggleAll(btn.dataset.action, btn.dataset.category));
     });
 
     // ── Expand / collapse "autres plateformes" ────────────────────
@@ -218,10 +324,81 @@ class FiltersUI {
     rangeMin?.addEventListener('input', updateSlider);
     rangeMax?.addEventListener('input', updateSlider);
 
+    // ── Score slider ──────────────────────────────────────────────
+    const scoreRangeMin = document.getElementById('range-score-min');
+    const scoreRangeMax = document.getElementById('range-score-max');
+    const scoreFill     = document.getElementById('score-slider-fill');
+    const scoreLabel    = document.getElementById('score-range-label');
+
+    const updateScoreSlider = () => {
+      let lo = parseInt(scoreRangeMin.value);
+      let hi = parseInt(scoreRangeMax.value);
+      if (lo > hi) { scoreRangeMin.value = hi; lo = hi; }
+      if (hi < lo) { scoreRangeMax.value = lo; hi = lo; }
+      scoreFill.style.left  = lo + '%';
+      scoreFill.style.right = (100 - hi) + '%';
+      scoreLabel.textContent = `${lo} — ${hi}`;
+      this.state.scoreMin = lo;
+      this.state.scoreMax = hi;
+      console.log(`[FiltersUI] Plage de score : ${lo} – ${hi}`);
+    };
+
+    scoreRangeMin?.addEventListener('input', updateScoreSlider);
+    scoreRangeMax?.addEventListener('input', updateScoreSlider);
+
+    // ── Switch : jeux sans note ───────────────────────────────────
+    document.getElementById('cb-allow-no-score')?.addEventListener('change', e => {
+      this.state.allowNoScore = e.target.checked;
+      console.log(`[FiltersUI] Autoriser sans note : ${e.target.checked}`);
+    });
+
+    // ── Switch : fangame/mod ──────────────────────────────────────
+    document.getElementById('cb-allow-fangame')?.addEventListener('change', e => {
+      this.state.allowFangame = e.target.checked;
+      console.log(`[FiltersUI] Autoriser fangame/mod : ${e.target.checked}`);
+    });
+
     // ── Bouton Lancer la Roulette ─────────────────────────────────
     document.getElementById('btn-launch-roulette')?.addEventListener('click', () => {
       this._launchRoulette();
     });
+  }
+
+  /**
+   * Bascule tous les items d'une catégorie ON ou OFF.
+   * @param {'all-on'|'all-off'} action
+   * @param {string}             category
+   */
+  _toggleAll(action, category) {
+    const isOn = action === 'all-on';
+    const btns = document.querySelectorAll(`.toggle-btn[data-category="${category}"]`);
+
+    btns.forEach(btn => {
+      if (btn.disabled) return; // Ne jamais toucher les boutons désactivés (ex: Erotic)
+      btn.classList.remove('on', 'off');
+      btn.classList.add(isOn ? 'on' : 'off');
+    });
+
+    switch (category) {
+      case 'platform':
+        this.state.p = isOn ? this.filterData.platforms.map(p => p.id) : [];
+        break;
+      case 'mode':
+        this.state.m = isOn ? this.filterData.gameModes.map(m => m.id) : [];
+        break;
+      case 'genre':
+        this.state.g = isOn ? this.filterData.genres.map(g => g.id) : [];
+        break;
+      case 'theme': {
+        // Ne jamais inclure le thème Erotic si le contenu adulte est désactivé
+        const allowed = this.filterData.themes.filter(
+          t => this.allowAdultContent || t.id !== this._eroticThemeId
+        );
+        this.state.t = isOn ? allowed.map(t => t.id) : [];
+        break;
+      }
+    }
+    console.log(`[FiltersUI] Toggle All ${action} pour ${category}`);
   }
 
   /** Bascule un item ON/OFF et met à jour l'état. */
@@ -270,7 +447,7 @@ class FiltersUI {
     // setTimeout pour laisser le DOM se mettre à jour avant la requête synchrone
     setTimeout(() => {
       try {
-        const ids = this.filtersBusiness.runQuery(this.state);
+        const ids = this.filtersBusiness.runQuery({ ...this.state, allowAdultContent: this.allowAdultContent });
 
         if (ids.length === 0) {
           console.log('[FiltersUI] Aucun résultat');

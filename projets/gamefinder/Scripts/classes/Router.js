@@ -78,6 +78,7 @@ class Router {
       type: 'filters',
       params: { preSettings: params.get('s') || null },
     };
+    if (params.get('state') === 'settings') return { type: 'settings', params: {} };
     return { type: 'home', params: {} };
   }
 

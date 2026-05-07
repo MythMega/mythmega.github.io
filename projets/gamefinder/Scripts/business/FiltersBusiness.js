@@ -79,6 +79,10 @@ class FiltersBusiness {
       m: fd.gameModes.map(m => m.id),
       g: fd.genres.map(g => g.id),
       t: fd.themes.map(t => t.id),
+      scoreMin:    0,
+      scoreMax:    100,
+      allowNoScore: false,
+      allowFangame: false,
     };
   }
 
@@ -134,6 +138,11 @@ class FiltersBusiness {
     // Chaque partie est un ensemble de game IDs.
     // INTERSECT = intersection de ces ensembles = jeux qui satisfont TOUS les filtres.
     // Le query planner SQLite utilise les index (platform, game_id), etc.
+    // ── Score filter ──────────────────────────────────────────────
+    const scoreMin     = settings.scoreMin    ?? 0;
+    const scoreMax     = settings.scoreMax    ?? 100;
+    const allowNoScore = settings.allowNoScore ?? false;
+
     const parts = [
       `SELECT id FROM games WHERE first_release_date IS NOT NULL AND first_release_date BETWEEN ${minTs} AND ${maxTs}`,
     ];
@@ -141,6 +150,19 @@ class FiltersBusiness {
     if (modeNames)     parts.push(`SELECT game_id AS id FROM game_modes_rel  WHERE mode     IN (${sqlList(modeNames)})`);
     if (genreNames)    parts.push(`SELECT game_id AS id FROM game_genres      WHERE genre    IN (${sqlList(genreNames)})`);
     if (themeNames)    parts.push(`SELECT game_id AS id FROM game_themes      WHERE theme    IN (${sqlList(themeNames)})`);
+
+    // ── Exclusion du thème Erotic si contenu adulte désactivé ─────
+    if (!settings.allowAdultContent) {
+      const eroticTheme = fd.themes.find(t => t.name.toLowerCase() === 'erotic');
+      if (eroticTheme) {
+        parts.push(`SELECT id FROM games WHERE id NOT IN (SELECT game_id FROM game_themes WHERE theme = '${eroticTheme.name.replace(/'/g, "''")}')`);
+        console.log(`[FiltersBusiness] Thème "${eroticTheme.name}" (id=${eroticTheme.id}) exclu — contenu adulte désactivé`);
+      }
+    }
+    if (scoreMin > 0 || scoreMax < 100) {
+      const scoreNull = allowNoScore ? ' OR aggregated_rating IS NULL' : '';
+      parts.push(`SELECT id FROM games WHERE aggregated_rating BETWEEN ${scoreMin} AND ${scoreMax}${scoreNull}`);
+    }
 
     const sql = parts.join('\nINTERSECT\n');
     console.log('SQL :', sql.replace(/\s+/g, ' ').trim());

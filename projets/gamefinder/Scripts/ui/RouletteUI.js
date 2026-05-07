@@ -238,11 +238,9 @@ class RouletteUI {
         const blockId = btn.dataset.block;
         const block   = document.getElementById(blockId);
         if (!block) return;
-        const short = block.querySelector('.text-short');
         const full  = block.querySelector('.text-full');
         const isExpanded = full.classList.contains('visible');
         full.classList.toggle('visible', !isExpanded);
-        short.classList.toggle('hidden', !isExpanded);
         btn.textContent = isExpanded ? '… voir plus' : 'voir moins';
       });
     });

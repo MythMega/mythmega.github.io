@@ -73,16 +73,18 @@ class FiltersUI {
   _buildHTML() {
     const fd  = this.filterData;
     const s   = this.state;
-    const FID = new Set(FiltersBusiness.FEATURED_PLATFORM_IDS);
+    const FID = new Set(this.filtersBusiness.pinnedPlatformIds);
 
     const selP = new Set(s.p);
     const selM = new Set(s.m);
     const selG = new Set(s.g);
     const selT = new Set(s.t);
-    const scoreMin    = s.scoreMin    !== undefined ? s.scoreMin    : 0;
-    const scoreMax    = s.scoreMax    !== undefined ? s.scoreMax    : 100;
-    const allowNoScore = s.allowNoScore ?? false;
-    const allowFangame = s.allowFangame ?? false;
+    const scoreMin      = s.scoreMin    !== undefined ? s.scoreMin    : 0;
+    const scoreMax      = s.scoreMax    !== undefined ? s.scoreMax    : 100;
+    const allowNoScore  = s.allowNoScore  ?? false;
+    const allowFangame  = s.allowFangame  ?? false;
+    const onlyGameAwards    = s.onlyGameAwards    ?? false;
+    const allowedGameTypes  = new Set(s.allowedGameTypes ?? []);
 
     // ── Plateformes ──────────────────────────────────────────────
     const featuredPlatforms = fd.platforms.filter(p => FID.has(p.id));
@@ -113,6 +115,11 @@ class FiltersUI {
       const isOn       = !isDisabled && selT.has(t.id);
       return this._toggleBtn(t.id, t.name, isOn, 'theme', isDisabled);
     }).join('');
+
+    const nonZeroGameTypes = (fd.gameTypes || []).filter(t => t.id !== 0);
+    const gameTypesHTML = nonZeroGameTypes.map(t =>
+      this._toggleBtn(t.id, t.type, allowedGameTypes.has(t.id), 'game-type')
+    ).join('');
 
     return `
       <div id="page-view" class="filters-page">
@@ -235,9 +242,29 @@ class FiltersUI {
                   <span class="switch-slider"></span>
                 </span>
               </label>
+              <label class="switch-row-item">
+                <span>Uniquement Game Awards</span>
+                <span class="switch-toggle">
+                  <input type="checkbox" id="cb-only-game-awards" ${onlyGameAwards ? 'checked' : ''} />
+                  <span class="switch-slider"></span>
+                </span>
+              </label>
             </div>
-            <p class="filter-note">⚠ Ce filtre n'est pas encore fonctionnel.</p>
           </div>
+
+          <!-- Box 8 : Types de jeux -->
+          ${nonZeroGameTypes.length ? `
+          <div class="filter-box reveal">
+            <div class="filter-box-header">
+              <div class="filter-box-title">🏷 Types de jeux</div>
+              <div class="toggle-all-row">
+                <button class="btn-toggle-all" data-action="all-on" data-category="game-type">All ON</button>
+                <button class="btn-toggle-all off" data-action="all-off" data-category="game-type">All OFF</button>
+              </div>
+            </div>
+            <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:10px">Le type «&nbsp;Jeu principal&nbsp;» (id&nbsp;0) est toujours autorisé.</p>
+            <div class="toggle-grid" id="game-types-grid">${gameTypesHTML}</div>
+          </div>` : ''}
 
         </div>
 
@@ -358,6 +385,12 @@ class FiltersUI {
       console.log(`[FiltersUI] Autoriser fangame/mod : ${e.target.checked}`);
     });
 
+    // ── Switch : uniquement Game Awards ─────────────────────────
+    document.getElementById('cb-only-game-awards')?.addEventListener('change', e => {
+      this.state.onlyGameAwards = e.target.checked;
+      console.log(`[FiltersUI] Uniquement Game Awards : ${e.target.checked}`);
+    });
+
     // ── Bouton Lancer la Roulette ─────────────────────────────────
     document.getElementById('btn-launch-roulette')?.addEventListener('click', () => {
       this._launchRoulette();
@@ -397,6 +430,11 @@ class FiltersUI {
         this.state.t = isOn ? allowed.map(t => t.id) : [];
         break;
       }
+      case 'game-type': {
+        const nonZero = (this.filterData.gameTypes || []).filter(t => t.id !== 0);
+        this.state.allowedGameTypes = isOn ? nonZero.map(t => t.id) : [];
+        break;
+      }
     }
     console.log(`[FiltersUI] Toggle All ${action} pour ${category}`);
   }
@@ -408,10 +446,11 @@ class FiltersUI {
 
     let arr;
     switch (cat) {
-      case 'platform': arr = this.state.p; break;
-      case 'mode':     arr = this.state.m; break;
-      case 'genre':    arr = this.state.g; break;
-      case 'theme':    arr = this.state.t; break;
+      case 'platform':  arr = this.state.p; break;
+      case 'mode':      arr = this.state.m; break;
+      case 'genre':     arr = this.state.g; break;
+      case 'theme':     arr = this.state.t; break;
+      case 'game-type': arr = this.state.allowedGameTypes; break;
       default: return;
     }
 
@@ -426,10 +465,11 @@ class FiltersUI {
 
     const updated = [...set];
     switch (cat) {
-      case 'platform': this.state.p = updated; break;
-      case 'mode':     this.state.m = updated; break;
-      case 'genre':    this.state.g = updated; break;
-      case 'theme':    this.state.t = updated; break;
+      case 'platform':  this.state.p = updated; break;
+      case 'mode':      this.state.m = updated; break;
+      case 'genre':     this.state.g = updated; break;
+      case 'theme':     this.state.t = updated; break;
+      case 'game-type': this.state.allowedGameTypes = updated; break;
     }
     console.log(`[FiltersUI] Toggle ${cat} id=${id} → ${set.has(id) ? 'ON' : 'OFF'}`);
   }

@@ -16,7 +16,7 @@ class DeveloperBusiness {
   getById(id) {
     console.log('[DeveloperBusiness] getById :', id);
     const row = this.db.queryOne(
-      `SELECT DISTINCT company_id, company_name FROM game_developers WHERE company_id = ?`, [id]
+      `SELECT company_id, company_name, url, logo_url FROM game_developers WHERE company_id = ? LIMIT 1`, [id]
     );
     if (!row) { console.warn('[DeveloperBusiness] Développeur introuvable :', id); return null; }
 
@@ -46,7 +46,7 @@ class DeveloperBusiness {
     const limit  = 30;
     const offset = (page - 1) * limit;
     const rows   = this.db.query(
-      `SELECT DISTINCT company_id, company_name FROM game_developers ORDER BY company_name ASC LIMIT ? OFFSET ?`,
+      `SELECT company_id, company_name, url, logo_url FROM game_developers GROUP BY company_id ORDER BY company_name ASC LIMIT ? OFFSET ?`,
       [limit + 1, offset]
     );
     const hasNext = rows.length > limit;

@@ -25,9 +25,9 @@ class HeaderUI {
       .join('');
 
     header.innerHTML = `
-      <span class="header-logo" id="btn-home-logo">GAMEFINDER <span style="color:var(--neon-magenta)">2.0</span></span>
-      <button class="btn-neon" id="btn-home">Accueil</button>
-      <button class="btn-neon magenta" id="btn-roulette">Roulette</button>
+      <span class="header-logo" id="btn-home-logo">GF <span style="color:var(--neon-magenta)">2.0</span></span>
+      <button class="btn-neon" id="btn-home"><img class="header-btn-icon" src="assets/home.png" alt="Accueil" /><span class="header-btn-label">Accueil</span></button>
+      <button class="btn-neon magenta" id="btn-roulette"><img class="header-btn-icon" src="assets/roulette.png" alt="Roulette" /><span class="header-btn-label">Roulette</span></button>
       <div class="header-dropdown" id="dropdown-donnees">
         <button class="btn-neon purple">Données ▾</button>
         <div class="dropdown-menu" id="dropdown-menu-donnees">

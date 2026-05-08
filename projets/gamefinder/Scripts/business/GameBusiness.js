@@ -86,6 +86,10 @@ class GameBusiness {
       `SELECT youtube_id FROM game_videos WHERE game_id = ?`, [game.id]
     );
 
+    game.keywords = this.db.query(
+      `SELECT keyword FROM game_keywords WHERE game_id = ?`, [game.id]
+    ).map(r => r.keyword);
+
     console.log(`[GameBusiness] Jeu #${game.id} enrichi :`, {
       genres: game.genres.length,
       platforms: game.platforms.length,

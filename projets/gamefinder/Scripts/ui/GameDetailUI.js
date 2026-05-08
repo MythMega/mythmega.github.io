@@ -42,14 +42,14 @@ class GameDetailUI {
 
     const screenshotsHTML = game.screenshots.length
       ? `<div class="screenshots-row">
-          ${game.screenshots.map(s => `<img src="${this._esc(s.url)}" alt="screenshot" loading="lazy" />`).join('')}
+          ${game.screenshots.map((s, i) => `<img src="${this._esc(s.url)}" alt="screenshot" loading="lazy" class="screenshot-thumb" data-idx="${i}" />`).join('')}
          </div>`
       : '<p style="color:var(--text-muted);font-size:0.85rem">Aucune capture disponible</p>';
 
     const videosHTML = game.videos.length
       ? game.videos.map(v =>
-          `<a class="tag" href="https://youtube.com/watch?v=${this._esc(v.youtube_id)}" target="_blank" rel="noopener">▶ YouTube</a>`
-        ).join(' ')
+          `<iframe class="yt-embed" src="https://www.youtube.com/embed/${this._esc(v.youtube_id)}" title="YouTube video" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`
+        ).join('')
       : '';
 
     container.innerHTML = `
@@ -118,6 +118,12 @@ class GameDetailUI {
           <div class="game-tags-row">${tagsHTML(game.themes, 'theme')}</div>
         </div>
 
+        ${game.keywords.length ? `
+        <div class="game-section reveal">
+          <div class="game-section-title">Mots-clés</div>
+          <div class="game-tags-row">${tagsHTML(game.keywords, 'keyword')}</div>
+        </div>` : ''}
+
         ${game.developers.length ? `
         <div class="game-section reveal">
           <div class="game-section-title">Développeurs</div>
@@ -127,7 +133,7 @@ class GameDetailUI {
         ${videosHTML ? `
         <div class="game-section reveal">
           <div class="game-section-title">Vidéos</div>
-          <div class="game-tags-row">${videosHTML}</div>
+          <div class="videos-row">${videosHTML}</div>
         </div>` : ''}
 
         <div class="game-section reveal">
@@ -147,6 +153,7 @@ class GameDetailUI {
     });
 
     this._activateReveal();
+    if (game.screenshots.length) this._bindLightbox(container, game.screenshots);
   }
 
   /** Active les animations .reveal au scroll. */
@@ -161,6 +168,59 @@ class GameDetailUI {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  /** Rend les miniatures cliquables pour ouvrir le lightbox. */
+  _bindLightbox(container, screenshots) {
+    container.querySelectorAll('.screenshot-thumb').forEach(img => {
+      img.addEventListener('click', () => {
+        this._openLightbox(screenshots, parseInt(img.dataset.idx, 10));
+      });
+    });
+  }
+
+  /** Ouvre le lightbox plein écran avec navigation. */
+  _openLightbox(screenshots, startIdx) {
+    const urls = screenshots.map(s => s.url);
+    let current = startIdx;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    document.body.appendChild(overlay);
+
+    const update = () => {
+      const img = overlay.querySelector('.lightbox-img');
+      if (img) { img.src = urls[current]; img.alt = `screenshot ${current + 1}`; }
+    };
+
+    const close = () => {
+      overlay.remove();
+      document.removeEventListener('keydown', onKey);
+    };
+
+    const prev = () => { current = (current - 1 + urls.length) % urls.length; update(); };
+    const next = () => { current = (current + 1) % urls.length; update(); };
+
+    const onKey = (e) => {
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') prev();
+      else if (e.key === 'ArrowRight') next();
+    };
+
+    overlay.innerHTML = `
+      <button class="lightbox-close" title="Fermer (Échap)">✕</button>
+      <div class="lightbox-inner">
+        ${urls.length > 1 ? `<button class="lightbox-nav" id="lb-prev">&#8592;</button>` : ''}
+        <img class="lightbox-img" src="${this._esc(urls[current])}" alt="screenshot ${current + 1}" />
+        ${urls.length > 1 ? `<button class="lightbox-nav" id="lb-next">&#8594;</button>` : ''}
+      </div>`;
+
+    overlay.querySelector('.lightbox-inner').addEventListener('click', e => e.stopPropagation());
+    overlay.querySelector('.lightbox-close').addEventListener('click', close);
+    overlay.querySelector('#lb-prev')?.addEventListener('click', prev);
+    overlay.querySelector('#lb-next')?.addEventListener('click', next);
+    overlay.addEventListener('click', close);
+    document.addEventListener('keydown', onKey);
   }
 
   _esc(str) {

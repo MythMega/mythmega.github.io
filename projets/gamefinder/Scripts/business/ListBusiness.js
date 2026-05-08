@@ -49,7 +49,7 @@ class ListBusiness {
 
       case 'platform': {
         const rows = this.db.query(
-          `SELECT id, name FROM platforms ORDER BY name ASC LIMIT ? OFFSET ?`,
+          `SELECT id, name, url, logo_url FROM platforms ORDER BY name ASC LIMIT ? OFFSET ?`,
           [limit + 1, offset]
         );
         return this._buildResult(rows, page, type);

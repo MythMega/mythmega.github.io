@@ -92,13 +92,13 @@ class RouletteUI {
       ? `<img class="game-cover-img" src="${this._esc(game.cover_url)}" alt="${this._esc(game.name)}" />`
       : `<div class="game-cover-img" style="background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:3rem;">🎮</div>`;
 
-    const screenshotsHTML = game.screenshots.slice(0, 8).map(s =>
-      `<img src="${this._esc(s.url)}" alt="screenshot" loading="lazy" />`
+    const screenshotsHTML = game.screenshots.slice(0, 8).map((s, i) =>
+      `<img src="${this._esc(s.url)}" alt="screenshot" loading="lazy" class="screenshot-thumb" data-idx="${i}" />`
     ).join('');
 
     const videosHTML = game.videos.slice(0, 3).map(v =>
-      `<a class="tag" href="https://youtube.com/watch?v=${this._esc(v.youtube_id)}" target="_blank" rel="noopener">▶ YouTube</a>`
-    ).join(' ');
+      `<iframe class="yt-embed" src="https://www.youtube.com/embed/${this._esc(v.youtube_id)}" title="YouTube video" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`
+    ).join('');
 
     const summaryBlock   = this._truncated(game.summary,   100, 'block-summary');
     const storylineBlock = this._truncated(game.storyline, 100, 'block-storyline');
@@ -115,6 +115,7 @@ class RouletteUI {
           </button>
           ${prevUrl ? `<button class="btn-neon" id="btn-prev">← Précédent</button>` : ''}
           ${game.url ? `<a class="btn-neon purple" href="${this._esc(game.url)}" target="_blank" rel="noopener">IGDB ↗</a>` : ''}
+          <button class="btn-neon green" id="btn-detail">Fiche détail ↗</button>
           ${nextUrl
             ? `<button class="btn-neon magenta" id="btn-next">Suivant →</button>`
             : `<button class="btn-neon magenta" id="btn-end-list">Fin de liste ⚑</button>`}
@@ -188,6 +189,12 @@ class RouletteUI {
           <div class="game-tags-row">${tagsHTML(game.themes, 'theme')}</div>
         </div>` : ''}
 
+        ${game.keywords.length ? `
+        <div class="game-section reveal">
+          <div class="game-section-title">Mots-clés</div>
+          <div class="game-tags-row">${tagsHTML(game.keywords, 'keyword')}</div>
+        </div>` : ''}
+
         ${game.developers.length ? `
         <div class="game-section reveal">
           <div class="game-section-title">Développeurs</div>
@@ -197,7 +204,7 @@ class RouletteUI {
         ${videosHTML ? `
         <div class="game-section reveal">
           <div class="game-section-title">Vidéos</div>
-          <div class="game-tags-row">${videosHTML}</div>
+          <div class="videos-row">${videosHTML}</div>
         </div>` : ''}
 
         ${screenshotsHTML ? `
@@ -220,6 +227,9 @@ class RouletteUI {
 
     container.querySelector('#btn-next')
       ?.addEventListener('click', () => this.router.navigate(nextUrl));
+
+    container.querySelector('#btn-detail')
+      ?.addEventListener('click', () => this.router.navigate(`app.html?game=${game.id}`));
 
     container.querySelector('#btn-end-list')
       ?.addEventListener('click', () => this._showEndPopup(settingsEncoded));
@@ -246,6 +256,7 @@ class RouletteUI {
     });
 
     this._activateReveal();
+    if (game.screenshots.length) this._bindLightbox(container, game.screenshots.slice(0, 8));
   }
 
   // ─────────────────────────────────────────────────────────────────
@@ -349,6 +360,59 @@ class RouletteUI {
       });
     }, { threshold: 0.05 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  /** Rend les miniatures cliquables pour ouvrir le lightbox. */
+  _bindLightbox(container, screenshots) {
+    container.querySelectorAll('.screenshot-thumb').forEach(img => {
+      img.addEventListener('click', () => {
+        this._openLightbox(screenshots, parseInt(img.dataset.idx, 10));
+      });
+    });
+  }
+
+  /** Ouvre le lightbox plein écran avec navigation. */
+  _openLightbox(screenshots, startIdx) {
+    const urls = screenshots.map(s => s.url);
+    let current = startIdx;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    document.body.appendChild(overlay);
+
+    const update = () => {
+      const img = overlay.querySelector('.lightbox-img');
+      if (img) { img.src = urls[current]; img.alt = `screenshot ${current + 1}`; }
+    };
+
+    const close = () => {
+      overlay.remove();
+      document.removeEventListener('keydown', onKey);
+    };
+
+    const prev = () => { current = (current - 1 + urls.length) % urls.length; update(); };
+    const next = () => { current = (current + 1) % urls.length; update(); };
+
+    const onKey = (e) => {
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') prev();
+      else if (e.key === 'ArrowRight') next();
+    };
+
+    overlay.innerHTML = `
+      <button class="lightbox-close" title="Fermer (Échap)">✕</button>
+      <div class="lightbox-inner">
+        ${urls.length > 1 ? `<button class="lightbox-nav" id="lb-prev">&#8592;</button>` : ''}
+        <img class="lightbox-img" src="${this._esc(urls[current])}" alt="screenshot ${current + 1}" />
+        ${urls.length > 1 ? `<button class="lightbox-nav" id="lb-next">&#8594;</button>` : ''}
+      </div>`;
+
+    overlay.querySelector('.lightbox-inner').addEventListener('click', e => e.stopPropagation());
+    overlay.querySelector('.lightbox-close').addEventListener('click', close);
+    overlay.querySelector('#lb-prev')?.addEventListener('click', prev);
+    overlay.querySelector('#lb-next')?.addEventListener('click', next);
+    overlay.addEventListener('click', close);
+    document.addEventListener('keydown', onKey);
   }
 
   _esc(str) {

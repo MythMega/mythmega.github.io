@@ -39,6 +39,8 @@ class Game {
     this.videos       = [];
     /** @type {string|null} */
     this.franchise    = null;
+    /** @type {string[]} */
+    this.keywords     = [];
   }
 
   /**

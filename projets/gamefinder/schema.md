@@ -140,6 +140,13 @@ Cette base contient toutes les données IGDB nécessaires pour une application c
 | id | INTEGER |
 | name | TEXT |
 
+### `game_franchises`
+
+| Champ | Type | Description |
+|-------|------|-------------|
+| game_id | INTEGER | ID du jeu |
+| franchise | TEXT | Nom de la franchise (correspond à `franchises.name`) |
+
 ---
 
 # Notes

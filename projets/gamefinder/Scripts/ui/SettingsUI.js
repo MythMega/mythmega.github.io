@@ -18,6 +18,17 @@ class SettingsUI {
    */
   async render(container) {
     const allowAdult = await this.appSettings.get('allowAdultContent', false);
+    const cacheInfo  = await Database.getCacheInfo('database.db.br');
+
+    const cacheHTML = cacheInfo
+      ? `<p class="filter-note" style="margin-bottom:12px">
+           ✅ Base en cache — <strong>${(cacheInfo.sizeBytes / 1024 / 1024).toFixed(1)}&nbsp;Mo</strong>
+           mis en cache le <strong>${cacheInfo.cachedAt.toLocaleDateString('fr-FR')}</strong>
+           à <strong>${cacheInfo.cachedAt.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</strong>.
+         </p>`
+      : `<p class="filter-note" style="margin-bottom:12px;color:var(--neon-yellow)">
+           ⏳ Aucun cache local — la base sera téléchargée au prochain lancement.
+         </p>`;
 
     container.innerHTML = `
       <div id="page-view" class="settings-page">
@@ -44,11 +55,28 @@ class SettingsUI {
             </p>
           </div>
 
+          <div class="filter-box reveal settings-box">
+            <div class="filter-box-title">🗄 Base de données</div>
+            ${cacheHTML}
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn-neon magenta" id="btn-clear-cache" ${!cacheInfo ? 'disabled style="opacity:0.45"' : ''}>
+                🗑 Vider le cache
+              </button>
+              <button class="btn-neon" id="btn-reload-db">
+                ↻ Retelecharger la base
+              </button>
+            </div>
+            <p class="filter-note" style="margin-top:10px">
+              Tu peux aussi utiliser <kbd style="font-family:var(--font-mono);border:1px solid rgba(0,245,255,0.4);padding:1px 5px;border-radius:3px">Ctrl + F5</kbd>
+              pour vider le cache et recharger la base.
+            </p>
+          </div>
+
         </div>
       </div>
     `;
 
-    this._bindEvents();
+    this._bindEvents(cacheInfo);
     this._activateReveal();
   }
 
@@ -56,7 +84,7 @@ class SettingsUI {
   // EVENTS
   // ─────────────────────────────────────────────────────────────────
 
-  _bindEvents() {
+  _bindEvents(cacheInfo) {
     const cb = document.getElementById('cb-adult-content');
     if (!cb) return;
 
@@ -74,6 +102,27 @@ class SettingsUI {
 
       await this.appSettings.set('allowAdultContent', newValue);
       console.log(`[SettingsUI] allowAdultContent → ${newValue}`);
+    });
+
+    // ── Vider le cache ────────────────────────────────────────────
+    document.getElementById('btn-clear-cache')?.addEventListener('click', async () => {
+      await Database.clearCache('database.db.br');
+      const btn = document.getElementById('btn-clear-cache');
+      if (btn) { btn.disabled = true; btn.style.opacity = '0.45'; }
+      // Met à jour le texte du statut dans la box
+      const box = btn?.closest('.filter-box');
+      const statusP = box?.querySelector('p.filter-note');
+      if (statusP) {
+        statusP.innerHTML = `⏳ Cache vidé — la base sera retéléchargée au prochain lancement.`;
+        statusP.style.color = 'var(--neon-yellow)';
+      }
+      console.log('[SettingsUI] Cache vidé manuellement');
+    });
+
+    // ── Retélécharger la base (vide cache + recharge la page) ────
+    document.getElementById('btn-reload-db')?.addEventListener('click', async () => {
+      await Database.clearCache('database.db.br');
+      window.location.reload();
     });
   }
 

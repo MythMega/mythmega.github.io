@@ -82,6 +82,64 @@ class ListBusiness {
   }
 
   /**
+   * Recherche dans un type donné par nom, retourne tous les résultats correspondants.
+   * @param {string} type  - 'game'|'developer'|'franchise'|'genre'|'platform'|'theme'
+   * @param {string} term
+   * @returns {Object[]}
+   */
+  search(type, term) {
+    if (!term || term.trim().length < 2) return [];
+    const like = `%${term.trim()}%`;
+    console.log(`[ListBusiness] search type=${type} term="${term}"`);
+
+    switch (type) {
+      case 'game':
+        return this.db.query(
+          `SELECT id, name, cover_url FROM games WHERE name LIKE ? ORDER BY name ASC`,
+          [like]
+        );
+
+      case 'developer':
+        return this.db.query(
+          `SELECT company_id, company_name, logo_url FROM game_developers WHERE company_name LIKE ? GROUP BY company_id ORDER BY company_name ASC`,
+          [like]
+        );
+
+      case 'franchise':
+        return this.db.query(
+          `SELECT f.id, f.name,
+             (SELECT g.cover_url FROM games g
+              JOIN game_franchises gf ON gf.game_id = g.id
+              WHERE gf.franchise = f.name AND g.cover_url IS NOT NULL
+              ORDER BY g.first_release_date DESC LIMIT 1) AS cover_url
+           FROM franchises f WHERE f.name LIKE ? ORDER BY f.name ASC`,
+          [like]
+        );
+
+      case 'genre':
+        return this.db.query(
+          `SELECT id, name FROM genres WHERE name LIKE ? ORDER BY name ASC`,
+          [like]
+        );
+
+      case 'platform':
+        return this.db.query(
+          `SELECT id, name, url, logo_url FROM platforms WHERE name LIKE ? ORDER BY name ASC`,
+          [like]
+        );
+
+      case 'theme':
+        return this.db.query(
+          `SELECT id, name FROM themes WHERE name LIKE ? ORDER BY name ASC`,
+          [like]
+        );
+
+      default:
+        return [];
+    }
+  }
+
+  /**
    * Retourne la liste des types disponibles pour le menu Données.
    */
   static availableTypes() {

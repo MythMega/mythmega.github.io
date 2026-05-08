@@ -29,12 +29,12 @@ class HeaderUI {
       <button class="btn-neon" id="btn-home"><img class="header-btn-icon" src="assets/home.png" alt="Accueil" /><span class="header-btn-label">Accueil</span></button>
       <button class="btn-neon magenta" id="btn-roulette"><img class="header-btn-icon" src="assets/roulette.png" alt="Roulette" /><span class="header-btn-label">Roulette</span></button>
       <div class="header-dropdown" id="dropdown-donnees">
-        <button class="btn-neon purple">Données ▾</button>
+        <button class="btn-neon purple"><img class="header-btn-icon" src="assets/database.png" alt="Données" /><span class="header-btn-label">Données ▾</span></button>
         <div class="dropdown-menu" id="dropdown-menu-donnees">
           ${dropdownItems}
         </div>
       </div>
-      <button class="btn-neon" id="btn-settings" title="Paramètres">⚙ Paramètres</button>
+      <button class="btn-neon" id="btn-settings" title="Paramètres"><img class="header-btn-icon" src="assets/settings.png" alt="Paramètres" /><span class="header-btn-label">Paramètres</span></button>
     `;
 
     this._bindEvents();

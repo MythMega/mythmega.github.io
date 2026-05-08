@@ -70,13 +70,17 @@ class ListUI {
   _renderItem(item, type) {
     const id   = item.id || item.company_id || '';
     const name = item.name || item.company_name || '—';
-    const cover = (type === 'game' && item.cover_url)
-      ? `<img class="list-item-cover" src="${this._esc(item.cover_url)}" alt="${this._esc(name)}" loading="lazy" />`
-      : '';
+
+    let mediaHTML = '';
+    if (type === 'game' && item.cover_url) {
+      mediaHTML = `<img class="list-item-cover" src="${this._esc(item.cover_url)}" alt="${this._esc(name)}" loading="lazy" />`;
+    } else if ((type === 'platform' || type === 'developer') && item.logo_url) {
+      mediaHTML = `<div class="list-item-logo-box"><img class="list-item-logo" src="${this._esc(item.logo_url)}" alt="${this._esc(name)}" loading="lazy" /></div>`;
+    }
 
     return `
       <div class="list-item-card reveal" data-type="${type}" data-id="${id}">
-        ${cover}
+        ${mediaHTML}
         <div class="list-item-id">#${id}</div>
         <div class="list-item-name">${this._esc(name)}</div>
       </div>

@@ -82,6 +82,7 @@
   <script src="Scripts/ui/GameDetailUI.js"></script>
   <script src="Scripts/ui/DeveloperDetailUI.js"></script>
   <script src="Scripts/ui/FranchiseDetailUI.js"></script>
+  <script src="Scripts/ui/PlatformDetailUI.js"></script>
   <script src="Scripts/ui/GenericDetailUI.js"></script>
   <script src="Scripts/ui/ListUI.js"></script>
   <script src="Scripts/ui/FiltersUI.js"></script>
@@ -129,12 +130,31 @@
       console.log('[App] Initialisation des services métier…');
       const appSettings       = new AppSettings();
       await appSettings.init();
+
+      // Chargement des mots-clés fangame/mod à exclure
+      let fangameKeywords = [];
+      try {
+        const fkRes = await fetch('data/fangameandmodes.json');
+        if (fkRes.ok) fangameKeywords = await fkRes.json();
+      } catch (e) {
+        console.warn('[App] Impossible de charger fangameandmodes.json :', e);
+      }
+
+      // Chargement des plateformes épinglées
+      let pinnedPlatformNames = [];
+      try {
+        const ppRes = await fetch('data/pinnedplatforms.json');
+        if (ppRes.ok) pinnedPlatformNames = await ppRes.json();
+      } catch (e) {
+        console.warn('[App] Impossible de charger pinnedplatforms.json :', e);
+      }
+
       const gameBusiness      = new GameBusiness(db);
       const developerBusiness = new DeveloperBusiness(db);
       const franchiseBusiness = new FranchiseBusiness(db);
       const searchBusiness    = new SearchBusiness(db);
       const listBusiness      = new ListBusiness(gameBusiness, developerBusiness, franchiseBusiness, db);
-      const filtersBusiness     = new FiltersBusiness(db);
+      const filtersBusiness     = new FiltersBusiness(db, fangameKeywords, pinnedPlatformNames);
 
       // ── 4. INIT UI ───────────────────────────────────────────────
       console.log('[App] Initialisation de l\'UI…');
@@ -153,6 +173,7 @@
       const gameDetailUI      = new GameDetailUI(gameBusiness, router);
       const developerDetailUI = new DeveloperDetailUI(developerBusiness, router);
       const franchiseDetailUI = new FranchiseDetailUI(franchiseBusiness, router);
+      const platformDetailUI  = new PlatformDetailUI(db, router);
       const genericDetailUI   = new GenericDetailUI();
       const listUI            = new ListUI(listBusiness, router);
       const filtersUI         = new FiltersUI(filtersBusiness, router, appSettings);
@@ -206,8 +227,11 @@
             franchiseDetailUI.render(main, route.params.id);
             break;
 
-          case 'genre':
           case 'platform':
+            platformDetailUI.render(main, route.params.id);
+            break;
+
+          case 'genre':
           case 'theme':
             genericDetailUI.render(main, route.type, route.params.id);
             break;

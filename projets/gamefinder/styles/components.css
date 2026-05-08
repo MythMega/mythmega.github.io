@@ -57,6 +57,14 @@
 .btn-neon.purple::before { background: var(--neon-purple); }
 .btn-neon.purple:hover { box-shadow: var(--glow-purple); }
 
+/* Variante green */
+.btn-neon.green {
+  color: var(--neon-green);
+  border-color: var(--neon-green);
+}
+.btn-neon.green::before { background: var(--neon-green); }
+.btn-neon.green:hover { box-shadow: 0 0 8px rgba(0,255,148,0.7), 0 0 24px rgba(0,255,148,0.3); }
+
 /* GRAND bouton central (CTA) */
 .btn-neon-cta {
   padding: 18px 56px;
@@ -292,4 +300,93 @@
   background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
   box-shadow: 0 0 8px rgba(0,245,255,0.4);
   transition: width 1s ease;
+}
+
+/* ----------- LIGHTBOX CAPTURES ----------- */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: calc(var(--z-modal) + 10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.2s ease;
+  cursor: zoom-out;
+}
+.lightbox-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: default;
+  max-width: 95vw;
+}
+.lightbox-img {
+  max-width: 88vw;
+  max-height: 84vh;
+  border-radius: var(--radius-md);
+  border: var(--border-neon);
+  box-shadow: var(--glow-cyan);
+  object-fit: contain;
+  display: block;
+}
+.lightbox-close {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  background: transparent;
+  border: 1px solid rgba(0,245,255,0.5);
+  color: var(--neon-cyan);
+  font-size: 1.2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-close:hover {
+  background: rgba(0,245,255,0.15);
+  box-shadow: var(--glow-cyan);
+}
+.lightbox-nav {
+  background: transparent;
+  border: 1px solid rgba(0,245,255,0.5);
+  color: var(--neon-cyan);
+  font-size: 1.6rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-nav:hover {
+  background: rgba(0,245,255,0.15);
+  box-shadow: var(--glow-cyan);
+}
+
+/* ----------- VIDEOS YOUTUBE ----------- */
+.videos-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  flex-wrap: nowrap;
+}
+.yt-embed {
+  flex-shrink: 0;
+  width: 320px;
+  height: 180px;
+  border-radius: var(--radius-sm);
+  border: var(--border-neon);
+  background: var(--bg-dark);
 }

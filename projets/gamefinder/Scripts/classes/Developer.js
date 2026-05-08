@@ -9,8 +9,10 @@ class Developer {
    * @param {Object} row
    */
   constructor(row) {
-    this.id   = row.company_id;
-    this.name = row.company_name;
+    this.id       = row.company_id;
+    this.name     = row.company_name;
+    this.url      = row.url      || null;
+    this.logo_url = row.logo_url || null;
     /** @type {number[]} Ids de jeux associés (chargés à la demande) */
     this.gameIds = [];
   }

@@ -10,15 +10,18 @@
  */
 
 class FiltersBusiness {
-  /** IDs IGDB des plateformes "vedettes" affichées en premier, ON par défaut. */
-  static FEATURED_PLATFORM_IDS = [6, 130, 167, 169]; // PC, Nintendo Switch, PS5, Xbox Series X|S
-
   /**
    * @param {Database} db
+   * @param {string[]} [fangameKeywords=[]]      - Mots-clés à exclure si allowFangame est OFF
+   * @param {string[]} [pinnedPlatformNames=[]]  - Noms des plateformes épinglées (issues du JSON)
    */
-  constructor(db) {
-    this.db          = db;
-    this._filterData = null; // cache — chargé une seule fois
+  constructor(db, fangameKeywords = [], pinnedPlatformNames = []) {
+    this.db                  = db;
+    this._filterData         = null; // cache — chargé une seule fois
+    this._fangameKeywords    = fangameKeywords;
+    this._pinnedPlatformNames = pinnedPlatformNames;
+    /** @type {number[]} Résolu après getFilterData() */
+    this.pinnedPlatformIds   = [];
   }
 
   /**
@@ -31,10 +34,11 @@ class FiltersBusiness {
 
     console.log('[FiltersBusiness] Chargement des données de filtres…');
 
-    const platforms = this.db.query(`SELECT id, name FROM platforms ORDER BY name ASC`);
-    const gameModes = this.db.query(`SELECT id, name FROM game_modes ORDER BY name ASC`);
-    const genres    = this.db.query(`SELECT id, name FROM genres    ORDER BY name ASC`);
-    const themes    = this.db.query(`SELECT id, name FROM themes    ORDER BY name ASC`);
+    const platforms  = this.db.query(`SELECT id, name FROM platforms  ORDER BY name ASC`);
+    const gameModes  = this.db.query(`SELECT id, name FROM game_modes ORDER BY name ASC`);
+    const genres     = this.db.query(`SELECT id, name FROM genres     ORDER BY name ASC`);
+    const themes     = this.db.query(`SELECT id, name FROM themes     ORDER BY name ASC`);
+    const gameTypes  = this.db.query(`SELECT id, type  FROM game_types ORDER BY id ASC`);
 
     // Plage d'années à partir des timestamps UNIX de la table games
     const yearRow = this.db.queryOne(`
@@ -45,20 +49,31 @@ class FiltersBusiness {
       WHERE first_release_date IS NOT NULL AND first_release_date > 0
     `);
 
+    // Résolution des noms de plateformes épinglées → IDs
+    if (this._pinnedPlatformNames.length > 0) {
+      const nameSet = new Set(this._pinnedPlatformNames.map(n => n.toLowerCase()));
+      this.pinnedPlatformIds = platforms
+        .filter(p => nameSet.has(p.name.toLowerCase()))
+        .map(p => p.id);
+      console.log(`[FiltersBusiness] Plateformes épinglées résolues : ${this.pinnedPlatformIds.length}/${this._pinnedPlatformNames.length}`, this.pinnedPlatformIds);
+    }
+
     this._filterData = {
       platforms,
       gameModes,
       genres,
       themes,
+      gameTypes,
       minYear: yearRow ? (yearRow.min_year || 1970) : 1970,
       maxYear: yearRow ? (yearRow.max_year || new Date().getFullYear()) : new Date().getFullYear(),
     };
 
     console.log('[FiltersBusiness] Données chargées :', {
-      platforms: platforms.length,
-      gameModes: gameModes.length,
-      genres:    genres.length,
-      themes:    themes.length,
+      platforms:  platforms.length,
+      gameModes:  gameModes.length,
+      genres:     genres.length,
+      themes:     themes.length,
+      gameTypes:  gameTypes.length,
       yearRange: `${this._filterData.minYear}–${this._filterData.maxYear}`,
     });
 
@@ -73,16 +88,19 @@ class FiltersBusiness {
    */
   getDefaultSettings() {
     const fd = this.getFilterData();
+    const currentYear = new Date().getFullYear();
     return {
-      p: [...FiltersBusiness.FEATURED_PLATFORM_IDS],
-      y: [fd.minYear, fd.maxYear],
+      p: [...this.pinnedPlatformIds],
+      y: [fd.minYear, Math.min(fd.maxYear, currentYear)],
       m: fd.gameModes.map(m => m.id),
       g: fd.genres.map(g => g.id),
       t: fd.themes.map(t => t.id),
-      scoreMin:    0,
-      scoreMax:    100,
-      allowNoScore: false,
-      allowFangame: false,
+      scoreMin:         0,
+      scoreMax:         100,
+      allowNoScore:     false,
+      allowFangame:     false,
+      onlyGameAwards:   false,
+      allowedGameTypes: [],
     };
   }
 
@@ -159,6 +177,38 @@ class FiltersBusiness {
         console.log(`[FiltersBusiness] Thème "${eroticTheme.name}" (id=${eroticTheme.id}) exclu — contenu adulte désactivé`);
       }
     }
+
+    // ── Exclusion des fangames/mods si allowFangame est OFF ───────
+    if (!settings.allowFangame && this._fangameKeywords.length > 0) {
+      const kwList = this._fangameKeywords.map(k => `'${k.replace(/'/g, "''")}'`).join(',');
+      parts.push(`SELECT id FROM games WHERE id NOT IN (SELECT game_id FROM game_keywords WHERE LOWER(keyword) IN (${kwList}))`);
+      console.log('[FiltersBusiness] Fangames/mods exclus — keywords :', this._fangameKeywords);
+    }
+
+    // ── Uniquement Game Awards ────────────────────────────────────
+    if (settings.onlyGameAwards) {
+      parts.push(`SELECT game_id AS id FROM game_keywords WHERE LOWER(keyword) LIKE '%game award%'`);
+      console.log('[FiltersBusiness] Filtre "Uniquement Game Awards" actif');
+    }
+
+    // ── Filtre type de jeu ────────────────────────────────────────
+    const allowedGameTypes   = settings.allowedGameTypes ?? [];
+    const allNonZeroTypeIds  = fd.gameTypes.filter(t => t.id !== 0).map(t => t.id);
+    if (allowedGameTypes.length < allNonZeroTypeIds.length) {
+      if (allowedGameTypes.length === 0) {
+        parts.push(`SELECT id FROM games WHERE game_type = 0 OR game_type IS NULL`);
+      } else {
+        const typeList = allowedGameTypes.map(Number).join(',');
+        parts.push(`SELECT id FROM games WHERE game_type = 0 OR game_type IS NULL OR game_type IN (${typeList})`);
+      }
+      console.log('[FiltersBusiness] Filtre type de jeu actif — autorisés :', allowedGameTypes);
+    }
+
+    // Exclure les jeux sans note si allowNoScore est OFF (indépendant de la plage)
+    if (!allowNoScore) {
+      parts.push(`SELECT id FROM games WHERE aggregated_rating IS NOT NULL`);
+    }
+    // Filtrer par plage de score si la plage n'est pas maximale
     if (scoreMin > 0 || scoreMax < 100) {
       const scoreNull = allowNoScore ? ' OR aggregated_rating IS NULL' : '';
       parts.push(`SELECT id FROM games WHERE aggregated_rating BETWEEN ${scoreMin} AND ${scoreMax}${scoreNull}`);

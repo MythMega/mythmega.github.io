@@ -23,6 +23,11 @@ class DeveloperDetailUI {
     }
 
     const { dev, games } = result;
+
+    const logoHTML = dev.logo_url
+      ? `<div class="entity-logo-wrapper"><img class="entity-logo-img" src="${this._esc(dev.logo_url)}" alt="${this._esc(dev.name)}" /></div>`
+      : `<div class="entity-logo-wrapper entity-logo-placeholder">👨‍💻</div>`;
+
     const gamesHTML = games.length
       ? games.map(g => `
           <div class="list-item-card" data-game-id="${g.id}">
@@ -35,8 +40,24 @@ class DeveloperDetailUI {
 
     container.innerHTML = `
       <div id="page-view">
-        <div class="page-title reveal">👨‍💻 ${this._esc(dev.name)}</div>
-        <p class="page-subtitle">#${dev.id} — ${games.length} jeu(x) développé(s)</p>
+        <div class="game-detail-hero reveal">
+          ${logoHTML}
+          <div class="game-info-block">
+            <div class="game-detail-title">${this._esc(dev.name)}</div>
+            <div class="game-meta-row">
+              <span class="game-meta-label">ID</span>
+              <span class="game-meta-value" style="font-family:var(--font-mono)">#${dev.id}</span>
+            </div>
+            <div class="game-meta-row">
+              <span class="game-meta-label">Jeux développés</span>
+              <span class="game-meta-value">${games.length}</span>
+            </div>
+            ${dev.url ? `<div class="game-meta-row">
+              <span class="game-meta-label">Lien IGDB</span>
+              <a href="${this._esc(dev.url)}" target="_blank" rel="noopener" class="game-meta-value">Voir sur IGDB ↗</a>
+            </div>` : ''}
+          </div>
+        </div>
         <hr class="neon-divider" />
         <div class="game-section reveal">
           <div class="game-section-title">Jeux</div>

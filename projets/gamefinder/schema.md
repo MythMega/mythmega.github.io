@@ -18,17 +18,38 @@ Cette base contient toutes les données IGDB nécessaires pour une application c
 | cover_url | TEXT | URL de la jaquette |
 | updated_at | INTEGER | Timestamp de mise à jour |
 | url | TEXT | URL IGDB |
+| game_type | INTEGER | FK → game_types.id |
 
 ---
 
 ## Tables dictionnaires
 
-### `genres`, `platforms`, `game_modes`, `player_perspectives`, `themes`, `franchises`, `keywords`
+### `game_types`
 
 | Champ | Type | Description |
 |-------|------|-------------|
 | id | INTEGER PRIMARY KEY | ID IGDB |
+| type | TEXT | Label (ex: DLC, Mod, Bundle…) |
+
+> Source : `game_type.json` (récupéré via `gametype.bat`).
+
+---
+
+### `genres`, `game_modes`, `player_perspectives`, `themes`, `franchises`, `keywords`
+
+| Champ | Type | Description |
+|-------|------|-------------|
+| id | INTEGER PRIMARY KEY | ID auto-incrémenté |
 | name | TEXT | Nom lisible |
+
+### `platforms`
+
+| Champ | Type | Description |
+|-------|------|-------------|
+| id | INTEGER PRIMARY KEY | ID auto-incrémenté |
+| name | TEXT | Nom lisible |
+| url | TEXT | URL IGDB de la plateforme |
+| logo_url | TEXT | URL du logo (t_1080p) |
 
 ---
 
@@ -61,6 +82,13 @@ Cette base contient toutes les données IGDB nécessaires pour une application c
 |-------|------|
 | game_id | INTEGER |
 | perspective | TEXT |
+
+### `game_keywords`
+
+| Champ | Type |
+|-------|------|
+| game_id | INTEGER |
+| keyword | TEXT |
 
 ### `game_themes`
 
@@ -98,6 +126,8 @@ Cette base contient toutes les données IGDB nécessaires pour une application c
 | game_id | INTEGER |
 | company_id | INTEGER |
 | company_name | TEXT |
+| url | TEXT |
+| logo_url | TEXT |
 
 ---
 

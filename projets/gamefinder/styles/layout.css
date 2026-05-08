@@ -163,6 +163,17 @@
   margin-bottom: 28px;
 }
 
+/* ----------- BARRE RECHERCHE LISTE ----------- */
+.list-search-bar {
+  position: relative;
+  margin-bottom: 24px;
+}
+.list-search-bar .search-input {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
 /* ----------- GRID LISTE ----------- */
 .list-grid {
   display: grid;

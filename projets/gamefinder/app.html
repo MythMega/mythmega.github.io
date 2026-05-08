@@ -56,6 +56,17 @@
 
   <!-- ====== CLASSES ====== -->
   <script src="Scripts/classes/Database.js"></script>
+
+  <!-- Ctrl+F5 : vide le cache IndexedDB et recharge la page -->
+  <script>
+    window.addEventListener('keydown', async function(e) {
+      if (e.ctrlKey && e.key === 'F5') {
+        e.preventDefault();
+        try { await Database.clearCache('database.db.br'); } catch (_) {}
+        window.location.reload();
+      }
+    }, { capture: true });
+  </script>
   <script src="Scripts/classes/Game.js"></script>
   <script src="Scripts/classes/Developer.js"></script>
   <script src="Scripts/classes/Franchise.js"></script>

@@ -5,10 +5,96 @@
  */
 
 class Database {
+  // ─── IndexedDB cache ─────────────────────────────────────────
+  static IDB_NAME    = 'gamefinder-cache';
+  static IDB_STORE   = 'db-files';
+  static IDB_VERSION = 1;
+
+  /** Ouvre (ou crée) le store IndexedDB. */
+  static _openIdb() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(Database.IDB_NAME, Database.IDB_VERSION);
+      req.onupgradeneeded = e => {
+        const idb = e.target.result;
+        if (!idb.objectStoreNames.contains(Database.IDB_STORE)) {
+          idb.createObjectStore(Database.IDB_STORE);
+        }
+      };
+      req.onsuccess = e => resolve(e.target.result);
+      req.onerror   = e => reject(e.target.error);
+    });
+  }
+
+  /** Retourne l'entrée mise en cache { data: ArrayBuffer, cachedAt: number } ou null. */
+  static async _getCachedDb(key) {
+    try {
+      const idb = await Database._openIdb();
+      const entry = await new Promise((resolve, reject) => {
+        const tx  = idb.transaction(Database.IDB_STORE, 'readonly');
+        const req = tx.objectStore(Database.IDB_STORE).get(key);
+        req.onsuccess = e => resolve(e.target.result ?? null);
+        req.onerror   = e => reject(e.target.error);
+      });
+      idb.close();
+      return entry;
+    } catch (e) {
+      console.warn('[Database] Lecture cache IndexedDB impossible :', e);
+      return null;
+    }
+  }
+
+  /** Sauvegarde les octets compressés + métadonnées dans IndexedDB. */
+  static async _saveCachedDb(key, data) {
+    try {
+      const idb = await Database._openIdb();
+      await new Promise((resolve, reject) => {
+        const tx    = idb.transaction(Database.IDB_STORE, 'readwrite');
+        const store = tx.objectStore(Database.IDB_STORE);
+        const req   = store.put({ data, cachedAt: Date.now() }, key);
+        req.onsuccess = () => resolve();
+        req.onerror   = e => reject(e.target.error);
+      });
+      idb.close();
+      console.log(`[Database] Base mise en cache (${(data.byteLength / 1024 / 1024).toFixed(1)} Mo)`);
+    } catch (e) {
+      console.warn('[Database] Mise en cache IndexedDB impossible :', e);
+    }
+  }
+
   /**
-   * @param {string} dbUrl        - URL du fichier .db.br à charger
-   * @param {Function} onProgress - Callback(percent, statusText)
+   * Vide l'entrée de cache de la base.
+   * @param {string} [key='database.db.br']
    */
+  static async clearCache(key = 'database.db.br') {
+    try {
+      const idb = await Database._openIdb();
+      await new Promise((resolve, reject) => {
+        const tx  = idb.transaction(Database.IDB_STORE, 'readwrite');
+        const req = tx.objectStore(Database.IDB_STORE).delete(key);
+        req.onsuccess = () => resolve();
+        req.onerror   = e => reject(e.target.error);
+      });
+      idb.close();
+      console.log('[Database] Cache vidé');
+    } catch (e) {
+      console.warn('[Database] Impossible de vider le cache :', e);
+    }
+  }
+
+  /**
+   * Retourne les infos de cache pour affichage : { cachedAt: Date, sizeBytes: number } ou null.
+   * @param {string} [key='database.db.br']
+   */
+  static async getCacheInfo(key = 'database.db.br') {
+    const entry = await Database._getCachedDb(key);
+    if (!entry) return null;
+    return {
+      cachedAt:  new Date(entry.cachedAt),
+      sizeBytes: entry.data.byteLength,
+    };
+  }
+
+  // ─────────────────────────────────────────────────────────────
   constructor(dbUrl, onProgress) {
     this.dbUrl      = dbUrl;
     this.onProgress = onProgress || (() => {});
@@ -22,16 +108,34 @@ class Database {
    */
   async load() {
     console.log('[Database] Démarrage du chargement…', this.dbUrl);
-    this.onProgress(5, 'Téléchargement de la base de données…');
+    this.onProgress(5, 'Vérification du cache local…');
 
-    // 1. Téléchargement du fichier compressé
-    const response = await fetch(this.dbUrl);
-    if (!response.ok) {
-      throw new Error(`[Database] Échec du téléchargement : ${response.status} ${response.statusText}`);
+    // 1. Tentative lecture depuis IndexedDB
+    const cached = await Database._getCachedDb(this.dbUrl);
+    let compressed;
+
+    if (cached) {
+      const mo      = (cached.data.byteLength / 1024 / 1024).toFixed(1);
+      const dateStr = new Date(cached.cachedAt).toLocaleDateString('fr-FR');
+      console.log(`[Database] Cache IndexedDB trouvé (${mo} Mo, mis en cache le ${dateStr})`);
+      this.onProgress(30, `Cache local trouvé (${mo} Mo) — chargement…`);
+      compressed = cached.data;
+    } else {
+      this.onProgress(5, 'Téléchargement de la base de données…');
+
+      // 2. Téléchargement du fichier compressé
+      const response = await fetch(this.dbUrl);
+      if (!response.ok) {
+        throw new Error(`[Database] Échec du téléchargement : ${response.status} ${response.statusText}`);
+      }
+      compressed = await response.arrayBuffer();
+      console.log('[Database] Fichier téléchargé, taille compressée :', compressed.byteLength, 'octets');
+      this.onProgress(30, 'Mise en cache locale…');
+      // Sauvegarde en cache (non bloquant pour la suite)
+      await Database._saveCachedDb(this.dbUrl, compressed);
     }
-    const compressed = await response.arrayBuffer();
-    console.log('[Database] Fichier téléchargé, taille compressée :', compressed.byteLength, 'octets');
-    this.onProgress(35, 'Décompression (brotli)…');
+
+    this.onProgress(40, 'Décompression (brotli)…');
 
     // 2. Décompression brotli
     let sqliteBuffer;

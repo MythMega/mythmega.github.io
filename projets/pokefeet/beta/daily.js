@@ -410,7 +410,7 @@ const Daily = (function () {
       return oranges + greens;
     });
 
-    const header = `PokéPied Daily — ${dateStr} — score ${totalScore}\n`;
+    const header = `Pokefeet Daily — ${dateStr} — score ${totalScore}\n`;
     return header + lines.join('\n');
   }
 

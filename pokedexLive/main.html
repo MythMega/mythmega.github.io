@@ -10,6 +10,9 @@
   <nav class="sd-navbar">
     <div class="sd-container sd-navbar__inner">
       <a href="main.html" class="sd-navbar__brand">🎮 StreamDex</a>
+      <button class="sd-navbar__hamburger" id="sd-hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
       <div class="sd-navbar__links">
         <a href="main.html" class="sd-navbar__link">Accueil</a>
         <a href="availablepokemon.html" class="sd-navbar__link">Pokédex</a>
@@ -71,6 +74,9 @@
 
         <!-- Message d'erreur inline -->
         <div id="user-error" style="display:none;margin-top:14px" class="sd-error"></div>
+
+        <!-- Bouton "dernier pokédex ouvert" (injecté par main.js si cookie présent) -->
+        <div id="last-user-btn-container"></div>
       </div>
 
       <!-- Zone des statistiques (remplie par le JS après chargement de main.json) -->

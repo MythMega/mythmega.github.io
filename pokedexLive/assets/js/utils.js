@@ -3,7 +3,6 @@
 // ============================================
 
 const SD = {
-
   // --- JSON Loader ---
   async fetchJson(url) {
     const res = await fetch(url);
@@ -124,8 +123,47 @@ const SD = {
     document.querySelectorAll('.sd-navbar__link').forEach(a => {
       if (a.getAttribute('href') === path) a.classList.add('active');
     });
+  },
+
+  // --- Hamburger menu init ---
+  initHamburger() {
+    const btn   = document.getElementById('sd-hamburger');
+    const links = document.querySelector('.sd-navbar__links');
+    if (!btn || !links) return;
+    btn.addEventListener('click', () => {
+      const open = links.classList.toggle('is-open');
+      btn.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', open);
+    });
+    // Fermer au clic sur un lien
+    links.querySelectorAll('.sd-navbar__link').forEach(a =>
+      a.addEventListener('click', () => {
+        links.classList.remove('is-open');
+        btn.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', false);
+      })
+    );
+  },
+
+  // --- Cookies helpers ---
+  setCookie(name, value, days = 365) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)};expires=${expires};path=/;SameSite=Lax`;
+  },
+
+  getCookie(name) {
+    const key   = encodeURIComponent(name) + '=';
+    const found = document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith(key));
+    return found ? decodeURIComponent(found.slice(key.length)) : null;
+  },
+
+  deleteCookie(name) {
+    document.cookie = `${encodeURIComponent(name)}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
   }
 };
 
-// Mark active nav on load
-document.addEventListener('DOMContentLoaded', () => SD.markActiveNav());
+// Mark active nav + init hamburger on every page
+document.addEventListener('DOMContentLoaded', () => {
+  SD.markActiveNav();
+  SD.initHamburger();
+});

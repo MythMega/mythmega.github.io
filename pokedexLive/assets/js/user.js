@@ -3,37 +3,48 @@
 // ============================================
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const root = document.getElementById('sd-root');
-  const platform = SD.getParam('platform');
-  const username = SD.getParam('username');
+    const root = document.getElementById('sd-root');
+    const platform = SD.getParam('platform');
+    const username = SD.getParam('username');
 
-  if (!platform || !username) {
-    SD.error(root, 'Paramètres manquants dans l\'URL (?platform=xxx&username=xxx).');
-    return;
-  }
+    if (!platform || !username) {
+        SD.error(root, 'Paramètres manquants dans l\'URL (?platform=xxx&username=xxx).');
+        return;
+    }
 
-  SD.loading(root);
-  SD.setTitle(`${username} (${platform})`);
+    SD.loading(root);
+    SD.setTitle(`${username} (${platform})`);
 
-  let data;
-  try {
-    data = await SD.fetchJson(`../Data/json/users/${encodeURIComponent(platform)}_${encodeURIComponent(username)}.json`);
-  } catch {
-    SD.error(root, `Utilisateur "${SD.esc(username)}" sur ${SD.esc(platform)} introuvable.`);
-    return;
-  }
+    let data;
+    try {
+        data = await SD.fetchJson(`../Data/json/users/${encodeURIComponent(platform)}_${encodeURIComponent(username)}.json`);
+    } catch {
+        SD.error(root, `Utilisateur "${SD.esc(username)}" sur ${SD.esc(platform)} introuvable.`);
+        return;
+    }
 
-  SD.setTitle(`${data.Pseudo} (${data.Platform})`);
-  render(root, data, platform, username);
+    SD.setTitle(`${data.Pseudo} (${data.Platform})`);
+    render(root, data, platform, username);
 });
 
-function render(root, d, platform, username) {
-  const entries = d.Entries || [];
-  const normalEntries = entries.filter(e => e.CountNormal > 0);
-  const shinyEntries  = entries.filter(e => e.CountShiny > 0);
-  const totalPokemons = d.TotalPokemons || 1;
+// ── Pagination Pokédex ───────────────────────────────────────────────────────
+const DEX_PAGE_SIZE = 50;
 
-  root.innerHTML = `
+// Référence globale aux entries chargées (pour les boutons de pagination inline)
+let currentEntries = [];
+
+// Wrapper global appelé par les boutons de pagination générés dynamiquement
+function renderDexGlobal(entries, page) {
+    renderDex(entries, page);
+}
+
+function render(root, d, platform, username) {
+    const entries = d.Entries || [];
+    const normalEntries = entries.filter(e => e.CountNormal > 0);
+    const shinyEntries = entries.filter(e => e.CountShiny > 0);
+    const totalPokemons = d.TotalPokemons || 1;
+
+    root.innerHTML = `
     <div class="sd-page" data-pseudo="${SD.esc(d.Pseudo)}">
       <div class="sd-container">
 
@@ -46,9 +57,9 @@ function render(root, d, platform, username) {
         <div class="sd-hero">
           <div class="sd-hero__sprite">
             ${d.AvatarUrl
-              ? `<img src="${SD.esc(d.AvatarUrl)}" alt="avatar" class="sd-avatar sd-avatar--lg">`
-              : `<div class="sd-avatar sd-avatar--lg" style="display:flex;align-items:center;justify-content:center;background:var(--bg-card);font-size:32px;">👤</div>`
-            }
+            ? `<img src="${SD.esc(d.AvatarUrl)}" alt="avatar" class="sd-avatar sd-avatar--lg">`
+            : `<div class="sd-avatar sd-avatar--lg" style="display:flex;align-items:center;justify-content:center;background:var(--bg-card);font-size:32px;">👤</div>`
+        }
           </div>
           <div class="sd-hero__info">
             <h1 class="sd-hero__name">${SD.esc(d.Pseudo)}</h1>
@@ -118,10 +129,10 @@ function render(root, d, platform, username) {
               <h2 style="font-size:15px;margin:0 0 10px">Badges obtenus</h2>
               <div style="display:flex;gap:6px;flex-wrap:wrap">
                 ${d.Badges.filter(b => b.Obtained).map(b =>
-                  b.ImageUrl
-                    ? `<img src="${SD.esc(b.ImageUrl)}" alt="${SD.esc(b.Name)}" title="${SD.esc(b.Name)}" style="height:40px;width:auto;" data-tooltip="${SD.esc(b.Name)}">`
-                    : SD.badge(b.Name, 'gray')
-                ).join('')}
+            b.ImageUrl
+                ? `<img src="${SD.esc(b.ImageUrl)}" alt="${SD.esc(b.Name)}" title="${SD.esc(b.Name)}" style="height:40px;width:auto;" data-tooltip="${SD.esc(b.Name)}">`
+                : SD.badge(b.Name, 'gray')
+        ).join('')}
               </div>
               ${d.Level ? `<div style="margin-top:12px">${SD.progressBar(d.CurrentXP, d.MaxXP)} <span style="font-size:11px;color:var(--text-muted)">Niveau ${d.Level}</span></div>` : ''}
             </div>
@@ -130,7 +141,7 @@ function render(root, d, platform, username) {
 
         <!-- Pokédex table -->
         <div class="sd-section-header">
-          <h2>Pokédex (${entries.length} entrées)</h2>
+          <h2>Pokédex (<span id="dex-count-label">${entries.length}</span> entrées)</h2>
           <div style="display:flex;gap:8px;align-items:center">
             <input class="sd-input" type="text" id="search-dex" placeholder="Rechercher..." style="min-width:160px;flex:unset;">
             <select class="sd-select" id="filter-dex">
@@ -155,32 +166,59 @@ function render(root, d, platform, username) {
             <tbody id="dex-tbody"></tbody>
           </table>
         </div>
+        <!-- Pagination -->
+        <div id="dex-pagination" style="display:flex;gap:8px;align-items:center;justify-content:center;margin:16px 0;flex-wrap:wrap"></div>
+
+        <!-- Date d'export -->
+        <div id="export-date-footer" style="text-align:center;font-size:11px;color:var(--text-muted);margin:24px 0 8px;opacity:.7"></div>
       </div>
     </div>`;
 
-  renderDex(entries);
+    currentEntries = entries;
+    renderDex(entries, 0);
 
-  document.getElementById('search-dex').addEventListener('input', SD.debounce(() => renderDex(entries)));
-  document.getElementById('filter-dex').addEventListener('change', () => renderDex(entries));
+    document.getElementById('search-dex').addEventListener('input', SD.debounce(() => renderDex(currentEntries, 0)));
+    document.getElementById('filter-dex').addEventListener('change', () => renderDex(currentEntries, 0));
+
+    // Date de dernier export
+    const footer = document.getElementById('export-date-footer');
+    if (footer) {
+        if (d.ExportedAt) {
+            const dt = new Date(d.ExportedAt);
+            footer.textContent = `Données exportées le ${dt.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })} à ${dt.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`;
+        } else {
+            footer.textContent = '<pas de date de dernier export définie>';
+        }
+    }
 }
 
-function renderDex(entries) {
-  const q = document.getElementById('search-dex').value.trim().toLowerCase();
-  const f = document.getElementById('filter-dex').value;
-  const tbody = document.getElementById('dex-tbody');
+function renderDex(entries, page = 0) {
+    const q = document.getElementById('search-dex').value.trim().toLowerCase();
+    const f = document.getElementById('filter-dex').value;
+    const tbody = document.getElementById('dex-tbody');
+    const pagination = document.getElementById('dex-pagination');
+    const countLabel = document.getElementById('dex-count-label');
 
-  // L'ordre vient du JSON (trié par settings.allPokemons côté serveur)
-  let list = [...entries];
-  if (q) list = list.filter(e => (e.PokeName || '').toLowerCase().includes(q));
-  if (f === 'normal') list = list.filter(e => e.CountNormal > 0 && e.CountShiny === 0);
-  else if (f === 'shiny') list = list.filter(e => e.CountShiny > 0);
+    // L'ordre vient du JSON (trié par settings.allPokemons côté serveur)
+    let list = [...entries];
+    if (q) list = list.filter(e => (e.PokeName || '').toLowerCase().includes(q));
+    if (f === 'normal') list = list.filter(e => e.CountNormal > 0 && e.CountShiny === 0);
+    else if (f === 'shiny') list = list.filter(e => e.CountShiny > 0);
 
-  if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted)">Aucune entrée</td></tr>`;
-    return;
-  }
+    if (countLabel) countLabel.textContent = list.length;
 
-  tbody.innerHTML = list.map(e => `
+    if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted)">Aucune entrée</td></tr>`;
+        if (pagination) pagination.innerHTML = '';
+        return;
+    }
+
+    const totalPages = Math.ceil(list.length / DEX_PAGE_SIZE);
+    // Clamp page dans les bornes
+    page = Math.max(0, Math.min(page, totalPages - 1));
+    const slice = list.slice(page * DEX_PAGE_SIZE, (page + 1) * DEX_PAGE_SIZE);
+
+    tbody.innerHTML = slice.map(e => `
     <tr>
       <td>${e.SpriteNormal ? SD.sprite(e.SpriteNormal, e.PokeName, 40) : '—'}</td>
       <td>
@@ -191,11 +229,46 @@ function renderDex(entries) {
       <td style="color:var(--text-muted);font-size:12px">${fmtDate(e.DateFirstCatch)}</td>
       <td style="color:var(--text-muted);font-size:12px">${fmtDate(e.DateLastCatch)}</td>
     </tr>`).join('');
+
+    // ── Pagination ────────────────────────────────────────────────
+    if (!pagination) return;
+    if (totalPages <= 1) { pagination.innerHTML = ''; return; }
+
+    const start = page * DEX_PAGE_SIZE + 1;
+    const end = Math.min((page + 1) * DEX_PAGE_SIZE, list.length);
+
+    let html = '';
+
+    // Bouton Précédent
+    html += `<button class="sd-btn sd-btn--ghost" style="padding:4px 10px;font-size:13px"
+    ${page === 0 ? 'disabled' : ''}
+    onclick="renderDexGlobal(currentEntries, ${page - 1})">‹ Précédent</button>`;
+
+    // Numéros de page (fenêtre de 5 autour de la page courante)
+    const window = 2;
+    for (let i = 0; i < totalPages; i++) {
+        if (i === 0 || i === totalPages - 1 || Math.abs(i - page) <= window) {
+            html += `<button class="sd-btn ${i === page ? 'sd-btn--primary' : 'sd-btn--ghost'}"
+        style="padding:4px 10px;font-size:13px;min-width:36px"
+        onclick="renderDexGlobal(currentEntries, ${i})">${i + 1}</button>`;
+        } else if (Math.abs(i - page) === window + 1) {
+            html += `<span style="padding:0 4px;color:var(--text-muted)">…</span>`;
+        }
+    }
+
+    // Bouton Suivant
+    html += `<button class="sd-btn sd-btn--ghost" style="padding:4px 10px;font-size:13px"
+    ${page === totalPages - 1 ? 'disabled' : ''}
+    onclick="renderDexGlobal(currentEntries, ${page + 1})">Suivant ›</button>`;
+
+    html += `<span style="font-size:12px;color:var(--text-muted);margin-left:8px">${start}–${end} / ${list.length}</span>`;
+
+    pagination.innerHTML = html;
 }
 
 function statBox(label, value, accent = 'blue') {
-  const colors = { blue: 'var(--accent-blue)', gold: 'var(--shiny-gold)', green: 'var(--accent-green)', orange: 'var(--accent-orange)' };
-  return `
+    const colors = { blue: 'var(--accent-blue)', gold: 'var(--shiny-gold)', green: 'var(--accent-green)', orange: 'var(--accent-orange)' };
+    return `
     <div class="sd-stat-card" style="padding:10px;">
       <div class="sd-stat-card__value" style="font-size:18px;color:${colors[accent] || colors.blue}">${value}</div>
       <div class="sd-stat-card__label">${label}</div>
@@ -203,9 +276,9 @@ function statBox(label, value, accent = 'blue') {
 }
 
 function fmtDate(dateStr) {
-  if (!dateStr) return '—';
-  try { return new Date(dateStr).toLocaleDateString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric' }); }
-  catch { return dateStr; }
+    if (!dateStr) return '—';
+    try { return new Date(dateStr).toLocaleDateString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric' }); }
+    catch { return dateStr; }
 }
 
 // ── Carte de dresseur ─────────────────────────────────────────────────────────
@@ -213,52 +286,52 @@ function fmtDate(dateStr) {
 // Ordre de tri par rareté (du plus rare au moins rare)
 const BADGE_RARITY_ORDER = ['exotic', 'legendary', 'epic', 'rare', 'uncommon', 'common'];
 const BADGE_GLOW = {
-  exotic:    'drop-shadow(0 0 10px pink)   drop-shadow(0 0 20px pink)',
-  legendary: 'drop-shadow(0 0 10px yellow) drop-shadow(0 0 20px yellow)',
-  epic:      'drop-shadow(0 0 8px purple)  drop-shadow(0 0 18px purple)',
-  rare:      'drop-shadow(0 0 8px blue)    drop-shadow(0 0 18px blue)',
-  uncommon:  'drop-shadow(0 0 8px green)   drop-shadow(0 0 18px green)',
-  common:    'drop-shadow(0 0 6px white)   drop-shadow(0 0 14px white)',
+    exotic: 'drop-shadow(0 0 10px pink)   drop-shadow(0 0 20px pink)',
+    legendary: 'drop-shadow(0 0 10px yellow) drop-shadow(0 0 20px yellow)',
+    epic: 'drop-shadow(0 0 8px purple)  drop-shadow(0 0 18px purple)',
+    rare: 'drop-shadow(0 0 8px blue)    drop-shadow(0 0 18px blue)',
+    uncommon: 'drop-shadow(0 0 8px green)   drop-shadow(0 0 18px green)',
+    common: 'drop-shadow(0 0 6px white)   drop-shadow(0 0 14px white)',
 };
 
 // Décode le champ favoritePoke : "Pikachu#s" → { name, isShiny }
 function parseFavoriteCreature(raw) {
-  if (!raw) return null;
-  if (raw.endsWith('#s')) return { name: raw.slice(0, -2), isShiny: true };
-  if (raw.endsWith('#n')) return { name: raw.slice(0, -2), isShiny: false };
-  return { name: raw, isShiny: false };
+    if (!raw) return null;
+    if (raw.endsWith('#s')) return { name: raw.slice(0, -2), isShiny: true };
+    if (raw.endsWith('#n')) return { name: raw.slice(0, -2), isShiny: false };
+    return { name: raw, isShiny: false };
 }
 
 function renderTrainerCardHTML(d) {
-  // ── Calcul des stats depuis les entrées (source de vérité côté client) ──────
-  const entries = d.Entries || [];
-  const dexCount  = entries.filter(e => e.CountNormal > 0 || e.CountShiny > 0).length;
-  const shinyDex  = entries.filter(e => e.CountShiny  > 0).length;
+    // ── Calcul des stats depuis les entrées (source de vérité côté client) ──────
+    const entries = d.Entries || [];
+    const dexCount = entries.filter(e => e.CountNormal > 0 || e.CountShiny > 0).length;
+    const shinyDex = entries.filter(e => e.CountShiny > 0).length;
 
-  const allDates = entries
-    .flatMap(e => [e.DateFirstCatch, e.DateLastCatch])
-    .filter(Boolean)
-    .map(s => new Date(s).getTime())
-    .filter(t => !isNaN(t));
-  const firstCatchStr = allDates.length
-    ? new Date(Math.min(...allDates)).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: '2-digit' })
-    : '—';
+    const allDates = entries
+        .flatMap(e => [e.DateFirstCatch, e.DateLastCatch])
+        .filter(Boolean)
+        .map(s => new Date(s).getTime())
+        .filter(t => !isNaN(t));
+    const firstCatchStr = allDates.length
+        ? new Date(Math.min(...allDates)).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: '2-digit' })
+        : '—';
 
-  // ── Badges triés par rareté, max 8 obtenus ───────────────────────────────
-  const sortedBadges = (d.Badges || [])
-    .filter(b => b.Obtained)
-    .sort((a, b) => {
-      const ra = BADGE_RARITY_ORDER.indexOf((a.Rarity || '').toLowerCase());
-      const rb = BADGE_RARITY_ORDER.indexOf((b.Rarity || '').toLowerCase());
-      return (ra === -1 ? 99 : ra) - (rb === -1 ? 99 : rb);
-    })
-    .slice(0, 8);
+    // ── Badges triés par rareté, max 8 obtenus ───────────────────────────────
+    const sortedBadges = (d.Badges || [])
+        .filter(b => b.Obtained)
+        .sort((a, b) => {
+            const ra = BADGE_RARITY_ORDER.indexOf((a.Rarity || '').toLowerCase());
+            const rb = BADGE_RARITY_ORDER.indexOf((b.Rarity || '').toLowerCase());
+            return (ra === -1 ? 99 : ra) - (rb === -1 ? 99 : rb);
+        })
+        .slice(0, 8);
 
-  const fav = parseFavoriteCreature(d.FavoriteCreature);
+    const fav = parseFavoriteCreature(d.FavoriteCreature);
 
-  const badgesHTML = sortedBadges.map(b => {
-    const glow = BADGE_GLOW[(b.Rarity || '').toLowerCase()] || 'none';
-    return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center">
+    const badgesHTML = sortedBadges.map(b => {
+        const glow = BADGE_GLOW[(b.Rarity || '').toLowerCase()] || 'none';
+        return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center">
       <img src="${SD.esc(b.ImageUrl || '')}" alt="${SD.esc(b.Name)}"
         title="${SD.esc(b.Description || b.Name)}"
         style="height:48px;width:48px;filter:${glow};transition:transform .4s ease;cursor:default"
@@ -266,11 +339,11 @@ function renderTrainerCardHTML(d) {
         onmouseout="this.style.transform=''">
       <span style="font-size:10px;color:#fff;text-shadow:0 0 8px #000;font-weight:700;max-width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${SD.esc(b.Name)}">${SD.esc(b.Name)}</span>
     </div>`;
-  }).join('');
+    }).join('');
 
-  const TEXT_SHADOW = 'text-shadow:0 0 11px #000,0 0 11px #000,0 0 20px #000';
+    const TEXT_SHADOW = 'text-shadow:0 0 11px #000,0 0 11px #000,0 0 20px #000';
 
-  return `
+    return `
   <div class="sd-section-header" style="margin-bottom:12px">
     <h2>🎴 Carte de dresseur</h2>
   </div>
@@ -314,10 +387,10 @@ function renderTrainerCardHTML(d) {
           <!-- Colonne 1 : Avatar -->
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
             ${d.AvatarUrl
-              ? `<img src="${SD.esc(d.AvatarUrl)}" crossorigin="anonymous"
+            ? `<img src="${SD.esc(d.AvatarUrl)}" crossorigin="anonymous"
                   style="width:140px;height:140px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,.45);"
                   alt="Avatar">`
-              : `<div style="width:140px;height:140px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:56px">👤</div>`}
+            : `<div style="width:140px;height:140px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:56px">👤</div>`}
             <span style="font-size:13px;font-weight:700;${TEXT_SHADOW}">${SD.esc(d.Pseudo)}</span>
           </div>
 
@@ -368,24 +441,24 @@ function renderTrainerCardHTML(d) {
 }
 
 function downloadTrainerCard() {
-  const card = document.getElementById('trainer-card');
-  if (!card) { console.error('[user] #trainer-card introuvable.'); return; }
+    const card = document.getElementById('trainer-card');
+    if (!card) { console.error('[user] #trainer-card introuvable.'); return; }
 
-  const btn = document.getElementById('download-card-btn');
-  if (btn) { btn.disabled = true; btn.textContent = '⏳ Génération…'; }
+    const btn = document.getElementById('download-card-btn');
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Génération…'; }
 
-  domtoimage.toPng(card, { bgcolor: null })
-    .then(dataUrl => {
-      const a = document.createElement('a');
-      a.href = dataUrl;
-      a.download = `carte-dresseur-${document.querySelector('[data-pseudo]')?.dataset.pseudo || 'trainer'}.png`;
-      a.click();
-    })
-    .catch(err => {
-      console.error('[user] Erreur génération de la carte :', err);
-      alert('Une erreur est survenue lors de la génération de la carte.');
-    })
-    .finally(() => {
-      if (btn) { btn.disabled = false; btn.textContent = '📥 Télécharger ma carte'; }
-    });
+    domtoimage.toPng(card, { bgcolor: null })
+        .then(dataUrl => {
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = `carte-dresseur-${document.querySelector('[data-pseudo]')?.dataset.pseudo || 'trainer'}.png`;
+            a.click();
+        })
+        .catch(err => {
+            console.error('[user] Erreur génération de la carte :', err);
+            alert('Une erreur est survenue lors de la génération de la carte.');
+        })
+        .finally(() => {
+            if (btn) { btn.disabled = false; btn.textContent = '📥 Télécharger ma carte'; }
+        });
 }

@@ -3,18 +3,18 @@
 // ============================================
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const root = document.getElementById('sd-root');
-  SD.loading(root);
+    const root = document.getElementById('sd-root');
+    SD.loading(root);
 
-  let zones;
-  try {
-    zones = await SD.fetchJson('Data/json/zones_list.json');
-  } catch {
-    SD.error(root, 'Impossible de charger les zones.');
-    return;
-  }
+    let zones;
+    try {
+        zones = await SD.fetchJson('Data/json/zones_list.json');
+    } catch {
+        SD.error(root, 'Impossible de charger les zones.');
+        return;
+    }
 
-  root.innerHTML = `
+    root.innerHTML = `
     <div class="sd-page">
       <div class="sd-container">
         <div class="sd-section-header">
@@ -34,24 +34,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
     </div>`;
 
-  const grid = document.getElementById('zones-grid');
-  const searchInput = document.getElementById('search-input');
-  const sortBy = document.getElementById('sort-by');
+    const grid = document.getElementById('zones-grid');
+    const searchInput = document.getElementById('search-input');
+    const sortBy = document.getElementById('sort-by');
 
-  function render() {
-    const q = searchInput.value.trim();
-    const s = sortBy.value;
+    function render() {
+        const q = searchInput.value.trim();
+        const s = sortBy.value;
 
-    let list = SD.filterItems(zones, q, ['Name', 'Description']);
+        let list = SD.filterItems(zones, q, ['Name', 'Description']);
 
-    if (s === 'name') list.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
-    else if (s === 'dex') list.sort((a, b) => (a.DexRequirement || 0) - (b.DexRequirement || 0));
-    else if (s === 'level') list.sort((a, b) => (a.LevelRequirement || 0) - (b.LevelRequirement || 0));
-    else if (s === 'count') list.sort((a, b) => (b.CreatureCount || 0) - (a.CreatureCount || 0));
+        if (s === 'name') list.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
+        else if (s === 'dex') list.sort((a, b) => (a.DexRequirement || 0) - (b.DexRequirement || 0));
+        else if (s === 'level') list.sort((a, b) => (a.LevelRequirement || 0) - (b.LevelRequirement || 0));
+        else if (s === 'count') list.sort((a, b) => (b.CreatureCount || 0) - (a.CreatureCount || 0));
 
-    if (list.length === 0) { SD.empty(grid); return; }
+        if (list.length === 0) { SD.empty(grid); return; }
 
-    grid.innerHTML = list.map(z => `
+        grid.innerHTML = list.map(z => `
       <a href="Zone/info.html?name=${encodeURIComponent(z.Name)}" class="sd-card" style="display:block;text-decoration:none;">
         <div class="sd-card__body" style="padding:20px">
           <div style="font-size:24px;margin-bottom:8px">📍</div>
@@ -65,9 +65,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         </div>
       </a>`).join('');
-  }
+    }
 
-  searchInput.addEventListener('input', SD.debounce(render));
-  sortBy.addEventListener('change', render);
-  render();
+    searchInput.addEventListener('input', SD.debounce(render));
+    sortBy.addEventListener('change', render);
+    render();
 });

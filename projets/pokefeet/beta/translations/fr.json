@@ -6,7 +6,7 @@
     "loading": "Chargement..."
   },
   "home": {
-    "title": "PokéPied",
+    "title": "Pokefeet",
     "chooseMode": "Choisissez un mode",
     "dailyChallenge": "Défi du jour",
     "records": "Historique",
@@ -18,7 +18,7 @@
     "byLine": "/ Code par Jordan M"
   },
   "daily": {
-    "title": "PokéPied Daily",
+    "title": "Pokefeet Daily",
     "includes": "Inclut pokémon 1G, 2G, 3G et leurs formes régionales",
     "progress": "Progression",
     "progressOf": "de",
@@ -47,7 +47,7 @@
     "pointsReward": "points"
   },
   "practice": {
-    "title": "PokéPied",
+    "title": "Pokefeet",
     "includes": "Inclut pokémon 1G, 2G, 3G et leurs formes régionales",
     "score": "Score",
     "streak": "Streak",
@@ -74,7 +74,7 @@
     "none": "Aucun"
   },
   "history": {
-    "title": "Historique — PokéPied Daily",
+    "title": "Historique — Pokefeet Daily",
     "totalDays": "Total jours",
     "scoreChart": "Scores (30 derniers jours)",
     "average": "Moyenne",
@@ -82,7 +82,7 @@
     "max": "Max"
   },
   "dex": {
-    "title": "PokéPied Dex",
+    "title": "Pokefeet Dex",
     "progress": "Progression",
     "forceUpdate": "Force Update",
     "search": "Rechercher par nom (FR/EN) ou index...",
@@ -101,7 +101,7 @@
     "count": "Nombre de fois"
   },
   "dataManagement": {
-    "title": "Gestion des données — PokéPied",
+    "title": "Gestion des données — Pokefeet",
     "exportImport": "Export / Import",
     "saveRestore": "Sauvegarder ou restaurer vos données",
     "exportDesc": "Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.",
@@ -109,7 +109,7 @@
     "importFile": "Importer un fichier",
     "preview": "Aperçu cookie actuel",
     "importDaily": "Importer un Daily",
-    "importDailyDesc": "Collez le bloc texte d'un Daily (format emoji ou :green_square:). Exemple: PokéPied Daily — 2025-11-24 — score 38 suivi de 5 lignes d'emoji.",
+    "importDailyDesc": "Collez le bloc texte d'un Daily (format emoji ou :green_square:). Exemple: Pokefeet Daily — 2025-11-24 — score 38 suivi de 5 lignes d'emoji.",
     "importDailyBtn": "Importer un jour",
     "clear": "Effacer",
     "importResult": "Résultat de l'import",

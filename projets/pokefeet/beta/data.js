@@ -409,11 +409,11 @@ const DataManager = (function () {
     if (lines.length < 6) return { error: 'Format invalide : attendu header + 5 lignes d\'emoji' };
 
     // header: try to extract date and score
-    // accept "PokéPied Daily — 2025-11-24 — score 38" with dash or em-dash
+    // accept "Pokefeet Daily — 2025-11-24 — score 38" with dash or em-dash
     const header = lines[0];
-    const headerRegex = /Pok[eé]Pied Daily\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
+    const headerRegex = /(?:Pok[eé]Pied|Pokefeet) Daily\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
     const m = header.match(headerRegex);
-    if (!m) return { error: 'En-tête invalide. Format attendu : "PokéPied Daily — YYYY-MM-DD — score N"' };
+    if (!m) return { error: 'En-tête invalide. Format attendu : "Pokefeet Daily — YYYY-MM-DD — score N"' };
     const dateStr = m[1];
     const declaredScore = parseInt(m[2], 10);
 

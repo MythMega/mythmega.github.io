@@ -79,6 +79,7 @@ class Router {
       params: { preSettings: params.get('s') || null },
     };
     if (params.get('state') === 'settings') return { type: 'settings', params: {} };
+    if (params.get('state') === 'profile')  return { type: 'profile',  params: {} };
     return { type: 'home', params: {} };
   }
 

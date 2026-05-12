@@ -18,11 +18,16 @@ class RouletteUI {
    * @param {GameBusiness}    gameBusiness
    * @param {FiltersBusiness} filtersBusiness
    * @param {Router}          router
+   * @param {UserProfile}     [userProfile]
    */
-  constructor(gameBusiness, filtersBusiness, router) {
+  constructor(gameBusiness, filtersBusiness, router, userProfile) {
     this.gameBusiness    = gameBusiness;
     this.filtersBusiness = filtersBusiness;
     this.router          = router;
+    this.userProfile     = userProfile || null;
+    // Sessions de roulette où les XP ont déjà été attribués
+    this._lastXPSessions   = new Set(); // XP "fin de liste"
+    this._detailXPSessions = new Set(); // XP "fiche détail"
   }
 
   /**
@@ -31,7 +36,7 @@ class RouletteUI {
    * @param {number[]}    ids             - liste des IDs de jeux
    * @param {number}      idx             - index courant (0-based)
    */
-  render(container, settingsEncoded, ids, idx) {
+  async render(container, settingsEncoded, ids, idx) {
     console.log(`[RouletteUI] Rendu idx=${idx} total=${ids.length}`);
 
     // Liste vide
@@ -114,8 +119,10 @@ class RouletteUI {
             ⇦ Filtres
           </button>
           ${prevUrl ? `<button class="btn-neon" id="btn-prev">← Précédent</button>` : ''}
-          ${game.url ? `<a class="btn-neon purple" href="${this._esc(game.url)}" target="_blank" rel="noopener">IGDB ↗</a>` : ''}
+          ${game.url ? `<a id="btn-igdb" class="btn-neon purple" href="${this._esc(game.url)}" target="_blank" rel="noopener">IGDB ↗</a>` : ''}
           <button class="btn-neon green" id="btn-detail">Fiche détail ↗</button>
+          <button class="btn-neon" id="btn-todo">⏳ À faire…</button>
+          <button class="btn-neon magenta" id="btn-hidden">⏳ Masquer…</button>
           ${nextUrl
             ? `<button class="btn-neon magenta" id="btn-next">Suivant →</button>`
             : `<button class="btn-neon magenta" id="btn-end-list">Fin de liste ⚑</button>`}
@@ -229,10 +236,67 @@ class RouletteUI {
       ?.addEventListener('click', () => this.router.navigate(nextUrl));
 
     container.querySelector('#btn-detail')
-      ?.addEventListener('click', () => this.router.navigate(`app.html?game=${game.id}`));
+      ?.addEventListener('click', () => {
+        // +3 XP la première fois que l'on clique sur "Fiche détail" dans cette session roulette
+        if (this.userProfile && !this._detailXPSessions.has(settingsEncoded)) {
+          this._detailXPSessions.add(settingsEncoded);
+          this.userProfile.addXP(3).then(() => showXPNotif(3));
+        }
+        this.router.navigate(`app.html?game=${game.id}`);
+      });
 
     container.querySelector('#btn-end-list')
       ?.addEventListener('click', () => this._showEndPopup(settingsEncoded));
+
+    // +3 XP clic IGDB
+    container.querySelector('#btn-igdb')?.addEventListener('click', () => {
+      this.userProfile?.addXP(3).then(() => showXPNotif(3));
+    });
+
+    // ── Listes Todo / Hidden ─────────────────────────────────────────
+    if (this.userProfile) {
+      const [isTodo, isHidden] = await Promise.all([
+        this.userProfile.isInTodo(game.id),
+        this.userProfile.isInHidden(game.id),
+      ]);
+      const btnTodo   = container.querySelector('#btn-todo');
+      const btnHidden = container.querySelector('#btn-hidden');
+      this._updateTodoBtn(btnTodo, isTodo);
+      this._updateHiddenBtn(btnHidden, isHidden);
+
+      btnTodo?.addEventListener('click', async () => {
+        const inTodo = await this.userProfile.isInTodo(game.id);
+        if (inTodo) {
+          await this.userProfile.removeFromTodo(game.id);
+          this._updateTodoBtn(btnTodo, false);
+        } else {
+          await this.userProfile.addToTodo(game.id);
+          this._updateTodoBtn(btnTodo, true);
+          const first = await this.userProfile.checkDailyAddBonus();
+          if (first) { await this.userProfile.addXP(1); showXPNotif(1); }
+        }
+      });
+
+      btnHidden?.addEventListener('click', async () => {
+        const inHidden = await this.userProfile.isInHidden(game.id);
+        if (inHidden) {
+          await this.userProfile.removeFromHidden(game.id);
+          this._updateHiddenBtn(btnHidden, false);
+        } else {
+          await this.userProfile.addToHidden(game.id);
+          this._updateHiddenBtn(btnHidden, true);
+          const first = await this.userProfile.checkDailyAddBonus();
+          if (first) { await this.userProfile.addXP(1); showXPNotif(1); }
+        }
+      });
+
+      // +3*x XP quand on atteint le dernier jeu (une seule fois par session)
+      if (isLast && !this._lastXPSessions.has(settingsEncoded)) {
+        this._lastXPSessions.add(settingsEncoded);
+        const amount = 3 * ids.length;
+        this.userProfile.addXP(amount).then(() => showXPNotif(amount));
+      }
+    }
 
     // Liens développeurs via router
     container.querySelectorAll('a[data-dev]').forEach(a => {
@@ -257,6 +321,18 @@ class RouletteUI {
 
     this._activateReveal();
     if (game.screenshots.length) this._bindLightbox(container, game.screenshots.slice(0, 8));
+  }
+
+  _updateTodoBtn(btn, state) {
+    if (!btn) return;
+    btn.textContent = state ? '✅ Retirer de « À faire »' : '+ À faire';
+    btn.classList.toggle('active', state);
+  }
+
+  _updateHiddenBtn(btn, state) {
+    if (!btn) return;
+    btn.textContent = state ? '🔓 Ne plus masquer' : '🚫 Masquer';
+    btn.classList.toggle('active', state);
   }
 
   // ─────────────────────────────────────────────────────────────────

@@ -1,0 +1,399 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Flux de messages</title>
+    <style>
+    :root {
+        /* Modifier uniquement cette variable pour changer la hauteur des images (1:1) et la taille du texte */
+        --unit-size: 48px; /* hauteur image 1:1 et base de la taille du texte */
+        --box-bg: rgba(0,0,0,0.18); /* fond tr�s transparent pour les boxes */
+        --text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+        --max-messages: 100;
+        --gap: 8px;
+    }
+
+    /* Reset minimal */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0
+    }
+
+    html, body {
+        height: 100%;
+        background: transparent;
+        color: #fff;
+        font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif
+    }
+
+    /* Conteneur principal : occupe tout l'espace (overlay) */
+    .overlay {
+        position: fixed;
+        inset: 0;
+        pointer-events: none; /* overlay passif par d�faut */
+        display: flex;
+        align-items: flex-end; /* messages partent du bas */
+        justify-content: flex-start;
+        padding: 16px;
+        gap: var(--gap);
+    }
+
+    /* Zone qui contient la liste des messages */
+    .message-list {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column; /* empile du haut vers le bas, on scroll vers le bas pour voir les nouveaux */
+        gap: var(--gap);
+        overflow: hidden; /* on g�re le scroll via JS pour garder l'effet overlay */
+        pointer-events: auto; /* permettre interactions si besoin */
+    }
+
+    /* Box message */
+    .message {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        background: var(--box-bg);
+        padding: 8px 10px;
+        border-radius: 8px;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        max-width: 100%;
+        /* animation d'entr�e */
+        transform: translateY(20px);
+        opacity: 0;
+        animation: slideIn 420ms cubic-bezier(.2,.9,.2,1) forwards;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Badges container (� gauche) */
+    .badges {
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+        flex-shrink: 0;
+    }
+
+    .badge {
+        width: var(--unit-size);
+        height: var(--unit-size);
+        border-radius: 6px;
+        overflow: hidden;
+        background: rgba(255,255,255,0.06);
+        flex-shrink: 0;
+    }
+
+        .badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    /* Texte du message (� droite) */
+    .text {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 8px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        /* La taille du texte est synchronis�e avec --unit-size */
+        font-size: calc(var(--unit-size) * 0.9);
+        line-height: 1.1;
+        text-shadow: var(--text-shadow);
+        color: #fff;
+        flex: 1;
+        min-width: 0; /* pour que le texte puisse shrink correctement */
+    }
+
+    .username {
+        font-weight: 700;
+        margin-right: 6px;
+        color: #fff;
+        min-width: fit-content;
+        width: auto;
+    }
+
+    .message-time {
+        display: none;
+        margin-left: 8px;
+        opacity: 0;
+        font-size: calc(var(--unit-size) * 0.1);
+    }
+
+    /* Responsive layout : s'adapte sans modifier la taille du texte/image (contr�l�e par --unit-size) */
+    @media (max-width:420px) {
+        .overlay {
+            padding: 10px;
+        }
+
+        .message {
+            padding: 6px 8px;
+            gap: 8px;
+            border-radius: 6px;
+        }
+    }
+
+    /* Limiter la hauteur visible pour simuler overlay (optionnel) */
+    .message-list {
+        max-height: 100vh;
+        overflow-y: auto;
+        padding-right: 6px;
+    }
+
+        /* Style de la scrollbar discr�te (non intrusive) */
+        .message-list::-webkit-scrollbar {
+            width: 8px;
+            height: 8px
+        }
+
+        .message-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.08);
+            border-radius: 8px
+        }
+
+        .message-list::-webkit-scrollbar-track {
+            background: transparent
+        }
+
+    /* Petite transition quand on supprime un message (fade out) */
+    .removing {
+        animation: fadeOut 300ms ease forwards;
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            height: auto;
+            transform: translateY(0)
+        }
+
+        to {
+            opacity: 0;
+            height: 0;
+            transform: translateY(-8px);
+            margin: 0;
+            padding: 0
+        }
+    }
+
+            .overlay { align-items: flex-end; }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        html, body { background: rgba(0, 0, 0, 0); }
+        :root { --box-bg: rgba(0, 0, 0, 0.18); }
+    </style>
+</head>
+<body>
+    <div class="overlay" aria-hidden="false">
+        <div id="messageList" class="message-list" role="list" aria-live="polite"></div>
+    </div>
+
+    <script>
+        const CONFIG = {
+            messageDisplayDuration: 10000,
+            appendDirection: "bottom",
+            showPlatform: true
+        };
+
+        /*
+              Script :
+              - Requ�te GET toutes les secondes vers http://localhost:5054/GetNewMessages
+              - Attache chaque �l�ment re�u en bas de la liste
+              - Conserve au maximum 100 messages (supprime les plus anciens)
+              - Animation d'entr�e g�r�e par CSS (slideIn)
+              - Taille image & texte synchronis�es via --unit-size dans le CSS
+            */
+
+        (() => {
+            const ENDPOINT = 'http://localhost:5054/GetNewMessages';
+            const POLL_INTERVAL_MS = 2000;
+            const MAX_MESSAGES = 100; // doit correspondre � --max-messages si vous voulez garder coh�rence
+            const listEl = document.getElementById('messageList');
+
+            // Stockage local des messages (en m�moire)
+            const messages = [];
+
+            // Formatage simple de la date (affiche HH:MM)
+            function formatTime(dateStr) {
+                try {
+                    const d = new Date(dateStr);
+                    if (isNaN(d)) return '';
+                    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                } catch (e) {
+                    return '';
+                }
+            }
+
+            // Cr�e un �l�ment DOM pour un message
+            function createMessageNode(msg) {
+                const item = document.createElement('div');
+                item.className = 'message';
+                item.setAttribute('role', 'listitem');
+
+                // Badges
+                const badges = document.createElement('div');
+                badges.className = 'badges';
+                if (Array.isArray(msg.Badges) && msg.Badges.length) {
+                    msg.Badges.forEach(url => {
+                        const b = document.createElement('div');
+                        b.className = 'badge';
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.alt = '';
+                        b.appendChild(img);
+                        badges.appendChild(b);
+                    });
+                }
+
+                if (CONFIG.showPlatform && msg.PlatformIcon) {
+                    const b = document.createElement('div');
+                    b.className = 'badge';
+                    const img = document.createElement('img');
+                    img.src = msg.PlatformIcon;
+                    img.alt = '';
+                    b.appendChild(img);
+                    badges.appendChild(b);
+                }
+
+                if (!badges.hasChildNodes()) {
+                    const b = document.createElement('div');
+                    b.className = 'badge';
+                    badges.appendChild(b);
+                }
+
+                // Texte : "<Pseudo> : <message>"
+                const text = document.createElement('div');
+                text.className = 'text';
+
+                const username = document.createElement('span');
+                username.className = 'username';
+                username.textContent = msg.Username ?? 'Inconnu';
+
+                const content = document.createElement('span');
+                content.className = 'content';
+                content.textContent = `: ${msg.MessageContent ?? ''}`;
+
+                const time = document.createElement('span');
+                time.className = 'message-time';
+                time.textContent = formatTime(msg.DateTimeCode);
+
+                text.appendChild(username);
+                text.appendChild(content);
+                text.appendChild(time);
+
+                item.appendChild(badges);
+                item.appendChild(text);
+
+                return item;
+            }
+
+            // Ajoute des messages (tableau) � la liste et g�re la limite
+            function removeMessageNode(node) {
+                node.classList.add('removing');
+                setTimeout(() => {
+                    if (node.parentNode) node.parentNode.removeChild(node);
+                }, 300);
+            }
+
+            function addMessages(newMsgs) {
+                if (!Array.isArray(newMsgs) || newMsgs.length === 0) return;
+
+                const appendToTop = CONFIG.appendDirection === 'top';
+
+                newMsgs.forEach(m => {
+                    messages.push(m);
+                    const node = createMessageNode(m);
+
+                    if (appendToTop) {
+                        listEl.prepend(node);
+                    } else {
+                        listEl.appendChild(node);
+                    }
+
+                    if (CONFIG.messageDisplayDuration > 0) {
+                        setTimeout(() => {
+                            const idx = messages.indexOf(m);
+                            if (idx > -1) messages.splice(idx, 1);
+                            removeMessageNode(node);
+                        }, CONFIG.messageDisplayDuration);
+                    }
+                });
+
+                while (messages.length > MAX_MESSAGES) {
+                    messages.shift();
+                    const toRemove = appendToTop ? listEl.lastElementChild : listEl.firstElementChild;
+                    if (toRemove) removeMessageNode(toRemove);
+                }
+
+                requestAnimationFrame(() => {
+                    listEl.scrollTop = appendToTop ? 0 : listEl.scrollHeight;
+                });
+            }
+
+            // R�cup�re les nouveaux messages depuis l'endpoint
+            async function fetchNewMessages() {
+                try {
+                    const resp = await fetch(ENDPOINT, { method: 'GET', cache: 'no-store' });
+                    if (!resp.ok) {
+                        // silencieux en overlay ; on peut logguer en console
+                        console.warn('Fetch failed', resp.status);
+                        return;
+                    }
+                    const data = await resp.json();
+                    // On suppose que l'API renvoie un tableau d'objets comme dans l'exemple
+                    if (Array.isArray(data) && data.length) {
+                        addMessages(data);
+                    }
+                } catch (err) {
+                    // Erreurs r�seau ignor�es pour ne pas spammer l'overlay
+                    console.warn('Erreur fetch messages', err);
+                }
+            }
+
+            // D�marrer le polling
+            let pollId = null;
+            function startPolling() {
+                // fetch initial pour ne pas attendre 1s
+                fetchNewMessages();
+                pollId = setInterval(fetchNewMessages, POLL_INTERVAL_MS);
+            }
+
+            // Stop si besoin
+            function stopPolling() {
+                if (pollId) {
+                    clearInterval(pollId);
+                    pollId = null;
+                }
+            }
+
+            // D�marrage automatique
+            startPolling();
+
+            // Exposer pour debug si n�cessaire
+            window.__messageOverlay = {
+                addMessages,
+                stopPolling,
+                startPolling,
+                messages
+            };
+        })();</script>
+</body>
+</html>

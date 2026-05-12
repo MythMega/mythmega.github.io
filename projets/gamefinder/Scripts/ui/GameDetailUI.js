@@ -4,16 +4,21 @@
  */
 
 class GameDetailUI {
+  /** Accordé une seule fois par session de navigation (tab ouvert). */
+  static _xpGranted = false;
+
   /**
    * @param {GameBusiness} gameBusiness
    * @param {Router}       router
+   * @param {UserProfile}  [userProfile]
    */
-  constructor(gameBusiness, router) {
+  constructor(gameBusiness, router, userProfile) {
     this.gameBusiness = gameBusiness;
     this.router       = router;
+    this.userProfile  = userProfile || null;
   }
 
-  render(container, id) {
+  async render(container, id) {
     console.log('[GameDetailUI] Rendu du jeu #', id);
     const game = this.gameBusiness.getById(id);
 
@@ -78,8 +83,14 @@ class GameDetailUI {
             </div>
             ${game.url ? `<div class="game-meta-row">
               <span class="game-meta-label">Lien IGDB</span>
-              <a href="${this._esc(game.url)}" target="_blank" rel="noopener" class="game-meta-value">Voir sur IGDB ↗</a>
+              <a id="link-igdb" href="${this._esc(game.url)}" target="_blank" rel="noopener" class="game-meta-value">Voir sur IGDB ↗</a>
             </div>` : ''}
+
+            <!-- Actions liste -->
+            <div class="game-list-actions">
+              <button class="btn-neon green" id="btn-todo">⏳ À faire…</button>
+              <button class="btn-neon magenta" id="btn-hidden">⏳ Masquer…</button>
+            </div>
 
             <!-- Tags rapides -->
             <div class="game-tags-row" style="margin-top:8px">
@@ -154,6 +165,69 @@ class GameDetailUI {
 
     this._activateReveal();
     if (game.screenshots.length) this._bindLightbox(container, game.screenshots);
+
+    // ── XP & listes ─────────────────────────────────────────────
+    if (!this.userProfile) return;
+
+    // +3 XP au premier clic sur une fiche détail par session
+    if (!GameDetailUI._xpGranted) {
+      GameDetailUI._xpGranted = true;
+      this.userProfile.addXP(3).then(() => showXPNotif(3));
+    }
+
+    // +3 XP sur clic IGDB
+    container.querySelector('#link-igdb')?.addEventListener('click', () => {
+      this.userProfile.addXP(3).then(() => showXPNotif(3));
+    });
+
+    // Initialiser l'état des boutons todo / hidden
+    const [isTodo, isHidden] = await Promise.all([
+      this.userProfile.isInTodo(id),
+      this.userProfile.isInHidden(id),
+    ]);
+
+    const btnTodo   = container.querySelector('#btn-todo');
+    const btnHidden = container.querySelector('#btn-hidden');
+    this._updateTodoBtn(btnTodo, isTodo);
+    this._updateHiddenBtn(btnHidden, isHidden);
+
+    btnTodo?.addEventListener('click', async () => {
+      const inTodo = await this.userProfile.isInTodo(id);
+      if (inTodo) {
+        await this.userProfile.removeFromTodo(id);
+        this._updateTodoBtn(btnTodo, false);
+      } else {
+        await this.userProfile.addToTodo(id);
+        this._updateTodoBtn(btnTodo, true);
+        const isFirstToday = await this.userProfile.checkDailyAddBonus();
+        if (isFirstToday) { await this.userProfile.addXP(1); showXPNotif(1); }
+      }
+    });
+
+    btnHidden?.addEventListener('click', async () => {
+      const inHidden = await this.userProfile.isInHidden(id);
+      if (inHidden) {
+        await this.userProfile.removeFromHidden(id);
+        this._updateHiddenBtn(btnHidden, false);
+      } else {
+        await this.userProfile.addToHidden(id);
+        this._updateHiddenBtn(btnHidden, true);
+        const isFirstToday = await this.userProfile.checkDailyAddBonus();
+        if (isFirstToday) { await this.userProfile.addXP(1); showXPNotif(1); }
+      }
+    });
+  }
+
+  _updateTodoBtn(btn, state) {
+    if (!btn) return;
+    btn.textContent = state ? '✅ Retirer de « À faire »' : '+ Ajouter à « À faire »';
+    btn.classList.toggle('active', state);
+  }
+
+  _updateHiddenBtn(btn, state) {
+    if (!btn) return;
+    btn.textContent = state ? '🔓 Ne plus masquer' : '🚫 Masquer ce jeu';
+    btn.classList.toggle('active', state);
   }
 
   /** Active les animations .reveal au scroll. */

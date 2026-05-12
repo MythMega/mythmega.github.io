@@ -75,6 +75,7 @@
   <script src="Scripts/classes/Theme.js"></script>
   <script src="Scripts/classes/Router.js"></script>
   <script src="Scripts/classes/Settings.js"></script>
+  <script src="Scripts/classes/UserProfile.js"></script>
 
   <!-- ====== BUSINESS ====== -->
   <script src="Scripts/business/SearchBusiness.js"></script>
@@ -99,6 +100,7 @@
   <script src="Scripts/ui/FiltersUI.js"></script>
   <script src="Scripts/ui/RouletteUI.js"></script>
   <script src="Scripts/ui/SettingsUI.js"></script>
+  <script src="Scripts/ui/ProfileUI.js"></script>
 
   <!-- ====== BOOTSTRAP ====== -->
   <script>
@@ -142,6 +144,10 @@
       const appSettings       = new AppSettings();
       await appSettings.init();
 
+      const userProfile = new UserProfile();
+      await userProfile.init();
+      window._userProfile = userProfile;
+
       // Chargement des mots-clés fangame/mod à exclure
       let fangameKeywords = [];
       try {
@@ -181,15 +187,16 @@
 
       // Composants de page
       const homeUI            = new HomeUI(router, searchUI);
-      const gameDetailUI      = new GameDetailUI(gameBusiness, router);
+      const gameDetailUI      = new GameDetailUI(gameBusiness, router, userProfile);
       const developerDetailUI = new DeveloperDetailUI(developerBusiness, router);
       const franchiseDetailUI = new FranchiseDetailUI(franchiseBusiness, router);
       const platformDetailUI  = new PlatformDetailUI(db, router);
       const genericDetailUI   = new GenericDetailUI();
       const listUI            = new ListUI(listBusiness, router);
-      const filtersUI         = new FiltersUI(filtersBusiness, router, appSettings);
-      const rouletteUI        = new RouletteUI(gameBusiness, filtersBusiness, router);
-      const settingsUI        = new SettingsUI(appSettings);
+      const filtersUI         = new FiltersUI(filtersBusiness, router, appSettings, userProfile);
+      const rouletteUI        = new RouletteUI(gameBusiness, filtersBusiness, router, userProfile);
+      const settingsUI        = new SettingsUI(appSettings, userProfile);
+      const profileUI         = new ProfileUI(userProfile, gameBusiness, router);
 
       // ── 5. AFFICHER L'APP ────────────────────────────────────────
       loader.hide();
@@ -261,6 +268,10 @@
 
           case 'settings':
             settingsUI.render(main);
+            break;
+
+          case 'profile':
+            profileUI.render(main);
             break;
 
           default:

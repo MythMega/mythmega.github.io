@@ -17,11 +17,13 @@ class FiltersUI {
    * @param {FiltersBusiness} filtersBusiness
    * @param {Router}          router
    * @param {AppSettings}     appSettings
+   * @param {UserProfile}     [userProfile]
    */
-  constructor(filtersBusiness, router, appSettings) {
+  constructor(filtersBusiness, router, appSettings, userProfile) {
     this.filtersBusiness  = filtersBusiness;
     this.router           = router;
     this.appSettings      = appSettings;
+    this.userProfile      = userProfile || null;
     this.state            = null;
     this.filterData       = null;
     this._container       = null;
@@ -51,9 +53,10 @@ class FiltersUI {
     if (params && params.preSettings) {
       const decoded = this.filtersBusiness.decodeSettings(params.preSettings);
       this.state    = decoded || this.filtersBusiness.getDefaultSettings();
-      console.log('[FiltersUI] Settings restaurés depuis URL');
+      console.log('[FiltersUI] Settings restaurés depuis preSettings :', JSON.stringify(this.state));
     } else {
       this.state = this.filtersBusiness.getDefaultSettings();
+      console.log('[FiltersUI] Settings initialisés par défaut.');
     }
 
     // Force l'exclusion du thème Erotic de l'état si le contenu adulte est désactivé
@@ -126,6 +129,9 @@ class FiltersUI {
 
         <div class="page-title reveal">🎲 ROULETTE</div>
         <p class="page-subtitle">Affine tes critères — on trouve un jeu pour toi</p>
+        <div class="filters-load-area">
+          <button class="btn-neon btn-sm" id="btn-load-filter">📂 Charger un filtre</button>
+        </div>
         <hr class="neon-divider" />
 
         <div class="filter-boxes-grid">
@@ -273,6 +279,15 @@ class FiltersUI {
           <button class="btn-neon btn-neon-cta" id="btn-launch-roulette">
             🎲 LANCER LA ROULETTE
           </button>
+          <button class="btn-save-filter" id="btn-save-filter">💾 Sauvegarder les critères</button>
+          <div id="save-filter-form" class="save-filter-form hidden">
+            <input type="text" id="save-filter-name" class="save-filter-input"
+                   placeholder="Nom du filtre…" maxlength="60" autocomplete="off" />
+            <div class="save-filter-actions">
+              <button class="btn-neon btn-sm green" id="btn-save-filter-confirm">✓ Valider</button>
+              <button class="btn-neon btn-sm" id="btn-save-filter-cancel">✕ Annuler</button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -395,6 +410,26 @@ class FiltersUI {
     document.getElementById('btn-launch-roulette')?.addEventListener('click', () => {
       this._launchRoulette();
     });
+
+    // ── Bouton Charger un filtre ──────────────────────────────────
+    document.getElementById('btn-load-filter')?.addEventListener('click', () => {
+      this._showLoadFilterPopup();
+    });
+
+    // ── Bouton Sauvegarder les critères ───────────────────────────
+    document.getElementById('btn-save-filter')?.addEventListener('click', () => {
+      this._toggleSaveFilterForm(true);
+    });
+    document.getElementById('btn-save-filter-cancel')?.addEventListener('click', () => {
+      this._toggleSaveFilterForm(false);
+    });
+    document.getElementById('btn-save-filter-confirm')?.addEventListener('click', () => {
+      this._confirmSaveFilter();
+    });
+    document.getElementById('save-filter-name')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') this._confirmSaveFilter();
+      if (e.key === 'Escape') this._toggleSaveFilterForm(false);
+    });
   }
 
   /**
@@ -475,6 +510,120 @@ class FiltersUI {
   }
 
   // ─────────────────────────────────────────────────────────────────
+  // SAUVEGARDE / CHARGEMENT DE FILTRES
+  // ─────────────────────────────────────────────────────────────────
+
+  _toggleSaveFilterForm(show) {
+    const form    = document.getElementById('save-filter-form');
+    const btnSave = document.getElementById('btn-save-filter');
+    if (!form) return;
+    if (show) {
+      form.classList.remove('hidden');
+      btnSave?.classList.add('hidden');
+      const input = document.getElementById('save-filter-name');
+      if (input) { input.value = ''; input.focus(); }
+    } else {
+      form.classList.add('hidden');
+      btnSave?.classList.remove('hidden');
+    }
+  }
+
+  async _confirmSaveFilter() {
+    if (!this.userProfile) return;
+    const input = document.getElementById('save-filter-name');
+    const name  = input?.value?.trim();
+    if (!name) { input?.focus(); return; }
+    try {
+      const stateToSave = { ...this.state };
+      console.log(`[FiltersUI] 💾 Sauvegarde du filtre « ${name} » :`, JSON.stringify(stateToSave));
+      await this.userProfile.saveFilter(name, stateToSave);
+      this._toggleSaveFilterForm(false);
+      this._showToast(`Filtre « ${name} » sauvegardé.`);
+      console.log(`[FiltersUI] ✅ Filtre « ${name} » sauvegardé avec succès.`);
+    } catch (e) {
+      console.error('[FiltersUI] Erreur sauvegarde filtre :', e);
+    }
+  }
+
+  async _showLoadFilterPopup() {
+    if (!this.userProfile) return;
+    const filters = await this.userProfile.getSavedFilters();
+
+    const popup = document.createElement('div');
+    popup.className = 'popup-overlay';
+
+    const renderList = () => {
+      const listHTML = filters.length === 0
+        ? `<p class="saved-filters-empty">Aucun filtre sauvegardé.</p>`
+        : filters.map((f, i) => `
+            <div class="saved-filter-row" data-index="${i}">
+              <span class="saved-filter-name">${this._esc(f.name)}</span>
+              <div class="saved-filter-actions">
+                <button class="btn-neon btn-sm green btn-load-saved" data-index="${i}">Charger</button>
+                <button class="btn-neon btn-sm magenta btn-delete-saved" data-index="${i}">Supprimer</button>
+              </div>
+            </div>`
+          ).join('');
+
+      return `
+        <div class="popup-card popup-card-wide">
+          <div class="popup-title">📂 Filtres sauvegardés</div>
+          <div class="saved-filters-list">${listHTML}</div>
+          <div class="popup-actions" style="margin-top:20px">
+            <button class="btn-neon" id="popup-close-filters">Fermer</button>
+          </div>
+        </div>`;
+    };
+
+    popup.innerHTML = renderList();
+    document.body.appendChild(popup);
+
+    const rebindButtons = () => {
+      popup.querySelectorAll('.btn-load-saved').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx   = Number(btn.dataset.index);
+          const saved = filters[idx];
+          if (!saved) return;
+          console.log(`[FiltersUI] 📂 Chargement du filtre « ${saved.name} » :`, JSON.stringify(saved.state));
+          const encoded = this.filtersBusiness.encodeSettings(saved.state);
+          console.log(`[FiltersUI] 📂 Encodé en preSettings : ${encoded}`);
+          popup.remove();
+          this.render(this._container, { preSettings: encoded });
+        });
+      });
+
+      popup.querySelectorAll('.btn-delete-saved').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const idx  = Number(btn.dataset.index);
+          const name = filters[idx]?.name;
+          if (!name) return;
+          await this.userProfile.deleteFilter(name);
+          filters.splice(idx, 1);
+          popup.innerHTML = renderList();
+          rebindButtons();
+        });
+      });
+
+      popup.querySelector('#popup-close-filters')?.addEventListener('click', () => popup.remove());
+    };
+
+    rebindButtons();
+    popup.addEventListener('click', e => { if (e.target === popup) popup.remove(); });
+  }
+
+  _showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'filter-toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('filter-toast-visible')));
+    setTimeout(() => {
+      toast.classList.remove('filter-toast-visible');
+      setTimeout(() => toast.remove(), 400);
+    }, 2500);
+  }
+
+  // ─────────────────────────────────────────────────────────────────
   // LANCEMENT
   // ─────────────────────────────────────────────────────────────────
 
@@ -499,6 +648,10 @@ class FiltersUI {
 
         const encoded = this.filtersBusiness.encodeSettings(this.state);
         console.log(`[FiltersUI] ${ids.length} jeux trouvés, navigation vers la roulette`);
+        // +5 XP au lancement de la roulette
+        if (this.userProfile) {
+          this.userProfile.addXP(5).then(() => showXPNotif(5));
+        }
         this.router.navigate(`app.html?roulette=${encoded}&ids=${ids.join(',')}&idx=0`);
 
       } catch (e) {

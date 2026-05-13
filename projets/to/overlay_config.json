@@ -1,0 +1,15 @@
+﻿{
+  "Port": 5054,
+  "MessageDisplayDuration": 10,
+  "AppendDirection": "bottom",
+  "ShowPlatform": true,
+  "IgnoredUsers": [],
+  "BackgroundGlobal": {
+    "Color": "000000",
+    "Opacity": 0
+  },
+  "BackgroundMessage": {
+    "Color": "000000",
+    "Opacity": 0.18
+  }
+}

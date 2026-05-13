@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Overlay Config Editor</title>
+<style>
+:root{
+  --bg:#0b0b12;--surface:#13131e;--surface2:#1b1b2a;--surface3:#22223
+  2;--border:#2c2c42;--accent:#6366f1;--accent2:#818cf8;--text:#e2e2f0;
+  --muted:#6b6b90;--danger:#ef4444;--success:#22c55e;--warn:#f59e0b;
+  --r:8px;--r2:12px;--shadow:0 8px 32px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.6}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── Header ─────────────────────────────── */
+.hdr{position:sticky;top:0;z-index:200;background:rgba(11,11,18,.9);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  padding:12px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.hdr-title{font-size:1rem;font-weight:700;letter-spacing:.02em;
+  background:linear-gradient(135deg,var(--accent2),#a78bfa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lang-sw{display:flex;gap:5px}
+.lang-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);
+  border-radius:6px;padding:4px 11px;cursor:pointer;font-size:12px;font-weight:600;
+  transition:all .15s;letter-spacing:.04em}
+.lang-btn:hover{border-color:var(--accent);color:var(--text)}
+.lang-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── Main ────────────────────────────────── */
+.main{max-width:820px;margin:0 auto;padding:28px 20px 100px}
+
+/* ── Load card ───────────────────────────── */
+.load-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);
+  padding:28px 28px 24px;margin-bottom:24px}
+.load-card h2{font-size:.95rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+.load-card p{font-size:13px;color:var(--muted);margin-bottom:18px}
+.load-actions{display:flex;gap:10px;flex-wrap:wrap}
+#dropzone{border:2px dashed var(--border);border-radius:var(--r2);padding:20px;
+  text-align:center;color:var(--muted);font-size:13px;cursor:pointer;
+  transition:border-color .2s,background .2s;margin-top:14px}
+#dropzone:hover,#dropzone.over{border-color:var(--accent);background:rgba(99,102,241,.06)}
+#fileIn{display:none}
+
+/* ── Section card ────────────────────────── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);
+  margin-bottom:16px;overflow:hidden;transition:box-shadow .2s}
+.card:hover{box-shadow:0 0 0 1px rgba(99,102,241,.2)}
+.card-hd{padding:14px 22px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px}
+.card-ico{width:30px;height:30px;border-radius:8px;background:rgba(99,102,241,.15);
+  display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.card-title{font-size:14px;font-weight:600}
+.card-body{padding:20px 22px;display:flex;flex-direction:column;gap:16px}
+
+/* ── Fields ──────────────────────────────── */
+.field{display:flex;flex-direction:column;gap:5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.hint{font-size:12px;color:var(--muted);opacity:.75}
+input[type=text],input[type=number],select{
+  background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);
+  color:var(--text);padding:9px 12px;font-size:14px;width:100%;outline:none;transition:border-color .15s}
+input[type=text]:focus,input[type=number]:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--surface2)}
+
+/* ── Toggle ──────────────────────────────── */
+.tog-wrap{display:flex;align-items:center;gap:10px;margin-top:2px}
+.tog{position:relative;width:42px;height:23px;cursor:pointer;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.tog-sl{position:absolute;inset:0;background:var(--surface2);border:1px solid var(--border);
+  border-radius:23px;transition:.2s}
+.tog-sl:before{content:'';position:absolute;width:15px;height:15px;left:3px;top:3px;
+  background:var(--muted);border-radius:50%;transition:.2s}
+.tog input:checked+.tog-sl{background:var(--accent);border-color:var(--accent)}
+.tog input:checked+.tog-sl:before{transform:translateX(19px);background:#fff}
+.tog-lbl{font-size:14px;color:var(--text);cursor:pointer;user-select:none}
+
+/* ── Color + Opacity ─────────────────────── */
+.color-row{display:flex;align-items:center;gap:9px}
+.swatch{width:36px;height:36px;border-radius:7px;border:2px solid var(--border);
+  overflow:hidden;cursor:pointer;flex-shrink:0;position:relative}
+.swatch input[type=color]{
+  position:absolute;inset:-4px;width:calc(100%+8px);height:calc(100%+8px);
+  border:none;background:none;padding:0;cursor:pointer;opacity:.01}
+.swatch-bg{position:absolute;inset:0;border-radius:5px;pointer-events:none}
+.opa-row{display:flex;align-items:center;gap:10px}
+input[type=range]{flex:1;-webkit-appearance:none;height:4px;
+  background:var(--border);border-radius:4px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;
+  background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid #fff;
+  box-shadow:0 0 0 1px var(--accent)}
+.opa-val{width:52px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r);color:var(--text);padding:5px 6px;font-size:13px;
+  text-align:center;outline:none}
+.opa-val:focus{border-color:var(--accent)}
+
+/* ── Tag input ───────────────────────────── */
+.tag-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);
+  padding:6px 9px;display:flex;flex-wrap:wrap;gap:5px;min-height:42px;cursor:text;
+  transition:border-color .15s}
+.tag-wrap:focus-within{border-color:var(--accent)}
+.tag{background:var(--surface3);border:1px solid var(--border);border-radius:5px;
+  padding:2px 6px 2px 9px;font-size:13px;display:flex;align-items:center;gap:5px;color:var(--text)}
+.tag button{background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:14px;line-height:1;padding:0;display:flex;align-items:center}
+.tag button:hover{color:var(--danger)}
+.tag-in{border:none;outline:none;background:transparent;color:var(--text);
+  font-size:13px;min-width:100px;flex:1;padding:2px 0}
+
+/* ── Preview box ─────────────────────────── */
+.preview{border-radius:var(--r);padding:13px 16px;margin-top:6px;
+  border:1px solid var(--border);transition:background .2s;
+  font-size:13px;color:rgba(255,255,255,.5)}
+
+/* ── Buttons ─────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;
+  border-radius:var(--r);border:none;cursor:pointer;font-size:13px;font-weight:600;
+  transition:all .15s;white-space:nowrap;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2)}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{filter:brightness(1.1)}
+.btn-warn{background:transparent;color:var(--warn);border:1px solid var(--warn)}
+.btn-warn:hover{background:var(--warn);color:#000}
+
+/* ── Bottom bar ──────────────────────────── */
+.bar{position:fixed;bottom:0;left:0;right:0;background:rgba(11,11,18,.95);
+  backdrop-filter:blur(12px);border-top:1px solid var(--border);
+  padding:12px 28px;display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.bar-hint{flex:1;font-size:12px;color:var(--muted)}
+
+/* ── Config form hidden until loaded ──────── */
+#form{display:none}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <span class="hdr-title">Overlay Chat — Config Editor</span>
+  <div class="lang-sw">
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- Load section -->
+  <div class="load-card" id="loadCard">
+    <h2 data-i="load.title"></h2>
+    <p data-i="load.desc"></p>
+    <div class="load-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('fileIn').click()">📂 <span data-i="load.btn.file"></span></button>
+      <button class="btn btn-primary" onclick="createNew()">✨ <span data-i="load.btn.new"></span></button>
+    </div>
+    <div id="dropzone" onclick="document.getElementById('fileIn').click()">
+      <span data-i="load.drop"></span>
+    </div>
+    <input type="file" id="fileIn" accept=".json"/>
+  </div>
+
+  <!-- Config form -->
+  <div id="form">
+
+    <!-- Server -->
+    <div class="card">
+      <div class="card-hd"><div class="card-ico">🔌</div><div class="card-title" data-i="s.server"></div></div>
+      <div class="card-body">
+        <div class="field">
+          <label data-i="f.port"></label>
+          <input type="number" id="port" min="1" max="65535"/>
+          <span class="hint" data-i="h.port"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="card">
+      <div class="card-hd"><div class="card-ico">💬</div><div class="card-title" data-i="s.messages"></div></div>
+      <div class="card-body">
+        <div class="field">
+          <label data-i="f.duration"></label>
+          <input type="number" id="duration" min="-1"/>
+          <span class="hint" data-i="h.duration"></span>
+        </div>
+        <div class="field">
+          <label data-i="f.direction"></label>
+          <select id="direction">
+            <option value="bottom" data-i="o.bottom"></option>
+            <option value="top" data-i="o.top"></option>
+          </select>
+        </div>
+        <div class="field">
+          <label data-i="f.platform"></label>
+          <div class="tog-wrap">
+            <label class="tog"><input type="checkbox" id="showPlatform" onchange="syncToggle()"/><span class="tog-sl"></span></label>
+            <span class="tog-lbl" id="togLbl"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Background Global -->
+    <div class="card">
+      <div class="card-hd"><div class="card-ico">🖼️</div><div class="card-title" data-i="s.bgGlobal"></div></div>
+      <div class="card-body">
+        <div class="grid2">
+          <div class="field">
+            <label data-i="f.color"></label>
+            <div class="color-row">
+              <div class="swatch" id="swG">
+                <div class="swatch-bg" id="swGBg"></div>
+                <input type="color" id="colGPicker" oninput="pickerToHex('G')"/>
+              </div>
+              <input type="text" id="colGHex" maxlength="6" placeholder="000000" oninput="hexToPicker('G')"/>
+            </div>
+          </div>
+          <div class="field">
+            <label data-i="f.opacity"></label>
+            <div class="opa-row">
+              <input type="range" id="opaGRange" min="0" max="1" step="0.01" oninput="rangeToNum('G')"/>
+              <input type="number" id="opaGNum" class="opa-val" min="0" max="1" step="0.01" oninput="numToRange('G')"/>
+            </div>
+            <span class="hint" data-i="h.opacity"></span>
+          </div>
+        </div>
+        <div class="preview" id="prevG"><span data-i="prev.global"></span></div>
+      </div>
+    </div>
+
+    <!-- Background Message -->
+    <div class="card">
+      <div class="card-hd"><div class="card-ico">🎨</div><div class="card-title" data-i="s.bgMessage"></div></div>
+      <div class="card-body">
+        <div class="grid2">
+          <div class="field">
+            <label data-i="f.color"></label>
+            <div class="color-row">
+              <div class="swatch" id="swM">
+                <div class="swatch-bg" id="swMBg"></div>
+                <input type="color" id="colMPicker" oninput="pickerToHex('M')"/>
+              </div>
+              <input type="text" id="colMHex" maxlength="6" placeholder="000000" oninput="hexToPicker('M')"/>
+            </div>
+          </div>
+          <div class="field">
+            <label data-i="f.opacity"></label>
+            <div class="opa-row">
+              <input type="range" id="opaMRange" min="0" max="1" step="0.01" oninput="rangeToNum('M')"/>
+              <input type="number" id="opaMNum" class="opa-val" min="0" max="1" step="0.01" oninput="numToRange('M')"/>
+            </div>
+            <span class="hint" data-i="h.opacity"></span>
+          </div>
+        </div>
+        <div class="preview" id="prevM">
+          <span style="color:#fff;font-weight:600">StreamerXYZ</span>
+          <span style="color:rgba(255,255,255,.7)"> : <span data-i="prev.msg"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ignored users -->
+    <div class="card">
+      <div class="card-hd"><div class="card-ico">🚫</div><div class="card-title" data-i="s.ignored"></div></div>
+      <div class="card-body">
+        <div class="field">
+          <label data-i="f.ignored"></label>
+          <div class="tag-wrap" onclick="document.getElementById('tagIn').focus()">
+            <div id="tagList" style="display:contents"></div>
+            <input type="text" id="tagIn" class="tag-in"/>
+          </div>
+          <span class="hint" data-i="h.ignored"></span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form -->
+</main>
+
+<div class="bar" id="bar" style="display:none">
+  <span class="bar-hint" data-i="bar.hint"></span>
+  <button class="btn btn-warn" onclick="reset()">↺ <span data-i="btn.reset"></span></button>
+  <button class="btn btn-success" onclick="download()">⬇ <span data-i="btn.dl"></span></button>
+</div>
+
+<script>
+// ── i18n ──────────────────────────────────────────────────────────────────────
+const TR = {
+  en:{
+    'load.title':'Get started',
+    'load.desc':'Load an existing overlay_config.json or create a new one from defaults.',
+    'load.btn.file':'Load JSON file',
+    'load.btn.new':'New config',
+    'load.drop':'Drop a JSON file here, or click to browse',
+    's.server':'Server',
+    's.messages':'Messages',
+    's.bgGlobal':'Global Background',
+    's.bgMessage':'Message Background',
+    's.ignored':'Ignored Users',
+    'f.port':'Port',
+    'f.duration':'Display duration (seconds)',
+    'f.direction':'Append direction',
+    'f.platform':'Show platform icon',
+    'f.color':'Color',
+    'f.opacity':'Opacity',
+    'f.ignored':'Usernames to ignore',
+    'h.port':'HTTP server port (1–65535). Default: 5054.',
+    'h.duration':'-1 = messages never disappear. Positive value = seconds before auto-hide.',
+    'h.opacity':'0 = fully transparent · 1 = fully opaque',
+    'h.ignored':'Press Enter or comma to add. Messages from these users are silently dropped.',
+    'o.bottom':'↓ Bottom — new messages appear at the bottom',
+    'o.top':'↑ Top — new messages appear at the top',
+    'tog.on':'Enabled','tog.off':'Disabled',
+    'prev.global':'Page background preview',
+    'prev.msg':'Example message content',
+    'bar.hint':'Ctrl+S to download',
+    'btn.reset':'Reset to defaults',
+    'btn.dl':'Download overlay_config.json',
+  },
+  fr:{
+    'load.title':'Commencer',
+    'load.desc':'Chargez un overlay_config.json existant ou créez-en un avec les valeurs par défaut.',
+    'load.btn.file':'Charger un fichier JSON',
+    'load.btn.new':'Nouvelle config',
+    'load.drop':'Déposez un fichier JSON ici, ou cliquez pour parcourir',
+    's.server':'Serveur',
+    's.messages':'Messages',
+    's.bgGlobal':'Fond global',
+    's.bgMessage':'Fond des messages',
+    's.ignored':'Utilisateurs ignorés',
+    'f.port':'Port',
+    'f.duration':'Durée d\'affichage (secondes)',
+    'f.direction':'Sens d\'apparition',
+    'f.platform':'Afficher l\'icône de plateforme',
+    'f.color':'Couleur',
+    'f.opacity':'Opacité',
+    'f.ignored':'Pseudos à ignorer',
+    'h.port':'Port d\'écoute HTTP (1–65535). Défaut : 5054.',
+    'h.duration':'-1 = les messages ne disparaissent jamais. Valeur positive = secondes avant masquage.',
+    'h.opacity':'0 = totalement transparent · 1 = totalement opaque',
+    'h.ignored':'Appuyez sur Entrée ou virgule pour ajouter. Les messages de ces utilisateurs sont ignorés.',
+    'o.bottom':'↓ Bas — nouveaux messages en bas',
+    'o.top':'↑ Haut — nouveaux messages en haut',
+    'tog.on':'Activé','tog.off':'Désactivé',
+    'prev.global':'Aperçu du fond de page',
+    'prev.msg':'Contenu d\'exemple de message',
+    'bar.hint':'Ctrl+S pour télécharger',
+    'btn.reset':'Réinitialiser',
+    'btn.dl':'Télécharger overlay_config.json',
+  },
+  es:{
+    'load.title':'Empezar',
+    'load.desc':'Carga un overlay_config.json existente o crea uno con los valores por defecto.',
+    'load.btn.file':'Cargar archivo JSON',
+    'load.btn.new':'Nueva configuración',
+    'load.drop':'Suelta un archivo JSON aquí, o haz clic para buscar',
+    's.server':'Servidor',
+    's.messages':'Mensajes',
+    's.bgGlobal':'Fondo global',
+    's.bgMessage':'Fondo de mensajes',
+    's.ignored':'Usuarios ignorados',
+    'f.port':'Puerto',
+    'f.duration':'Duración de visualización (segundos)',
+    'f.direction':'Dirección de aparición',
+    'f.platform':'Mostrar icono de plataforma',
+    'f.color':'Color',
+    'f.opacity':'Opacidad',
+    'f.ignored':'Usuarios a ignorar',
+    'h.port':'Puerto del servidor HTTP (1–65535). Por defecto: 5054.',
+    'h.duration':'-1 = los mensajes nunca desaparecen. Valor positivo = segundos antes de ocultarse.',
+    'h.opacity':'0 = completamente transparente · 1 = completamente opaco',
+    'h.ignored':'Presiona Enter o coma para añadir. Los mensajes de estos usuarios serán ignorados.',
+    'o.bottom':'↓ Abajo — mensajes nuevos abajo',
+    'o.top':'↑ Arriba — mensajes nuevos arriba',
+    'tog.on':'Activado','tog.off':'Desactivado',
+    'prev.global':'Vista previa del fondo de página',
+    'prev.msg':'Contenido de mensaje de ejemplo',
+    'bar.hint':'Ctrl+S para descargar',
+    'btn.reset':'Restablecer',
+    'btn.dl':'Descargar overlay_config.json',
+  }
+};
+
+const DEFAULTS={
+  Port:5054,MessageDisplayDuration:10,AppendDirection:'bottom',ShowPlatform:true,IgnoredUsers:[],
+  BackgroundGlobal:{Color:'000000',Opacity:0},
+  BackgroundMessage:{Color:'000000',Opacity:0.18}
+};
+
+let lang='en', users=[];
+
+function t(k){return(TR[lang]||TR.en)[k]||k}
+
+function applyLang(){
+  document.querySelectorAll('[data-i]').forEach(el=>el.textContent=t(el.dataset.i));
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    if(el.tagName==='OPTION')el.textContent=t(el.dataset.i);
+  });
+  document.getElementById('tagIn').placeholder=t('h.ignored').split('.')[0]+'…';
+  syncToggle();
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('on',b.textContent.toLowerCase()===lang));
+}
+function setLang(l){lang=l;applyLang()}
+
+// ── Detect browser lang ────────────────────────────────────────────────────────
+function detectLang(){
+  const l=(navigator.language||'en').slice(0,2).toLowerCase();
+  return ['en','fr','es'].includes(l)?l:'en';
+}
+
+// ── Load / File ────────────────────────────────────────────────────────────────
+document.getElementById('fileIn').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{loadCfg(JSON.parse(ev.target.result))}catch{alert('Invalid JSON');}};
+  r.readAsText(f); e.target.value='';
+});
+
+const dz=document.getElementById('dropzone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{
+  e.preventDefault();dz.classList.remove('over');
+  const f=e.dataTransfer.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{loadCfg(JSON.parse(ev.target.result))}catch{alert('Invalid JSON');}};
+  r.readAsText(f);
+});
+
+function createNew(){loadCfg(JSON.parse(JSON.stringify(DEFAULTS)))}
+
+function loadCfg(c){
+  const cfg=Object.assign({},DEFAULTS,c);
+  cfg.BackgroundGlobal=Object.assign({},DEFAULTS.BackgroundGlobal,c.BackgroundGlobal||{});
+  cfg.BackgroundMessage=Object.assign({},DEFAULTS.BackgroundMessage,c.BackgroundMessage||{});
+
+  document.getElementById('port').value=cfg.Port;
+  document.getElementById('duration').value=cfg.MessageDisplayDuration;
+  document.getElementById('direction').value=cfg.AppendDirection;
+  document.getElementById('showPlatform').checked=cfg.ShowPlatform;
+  syncToggle();
+
+  setColor('G',cfg.BackgroundGlobal.Color);
+  setOpa('G',cfg.BackgroundGlobal.Opacity);
+  setColor('M',cfg.BackgroundMessage.Color);
+  setOpa('M',cfg.BackgroundMessage.Opacity);
+
+  users=Array.isArray(cfg.IgnoredUsers)?[...cfg.IgnoredUsers]:[];
+  renderTags();
+
+  document.getElementById('form').style.display='block';
+  document.getElementById('bar').style.display='flex';
+  updatePreviews();
+}
+
+function reset(){loadCfg(JSON.parse(JSON.stringify(DEFAULTS)))}
+
+// ── Toggle ─────────────────────────────────────────────────────────────────────
+function syncToggle(){
+  document.getElementById('togLbl').textContent=
+    document.getElementById('showPlatform').checked?t('tog.on'):t('tog.off');
+}
+
+// ── Color ──────────────────────────────────────────────────────────────────────
+function setColor(id,hex){
+  hex=(hex||'000000').replace('#','').padEnd(6,'0').slice(0,6);
+  document.getElementById('col'+id+'Hex').value=hex;
+  document.getElementById('col'+id+'Picker').value='#'+hex;
+  document.getElementById('sw'+id+'Bg').style.background='#'+hex;
+  updatePreviews();
+}
+function setOpa(id,v){
+  v=Math.max(0,Math.min(1,parseFloat(v)||0));
+  document.getElementById('opa'+id+'Range').value=v;
+  document.getElementById('opa'+id+'Num').value=v;
+  updatePreviews();
+}
+function pickerToHex(id){
+  const hex=document.getElementById('col'+id+'Picker').value.replace('#','');
+  document.getElementById('col'+id+'Hex').value=hex;
+  document.getElementById('sw'+id+'Bg').style.background='#'+hex;
+  updatePreviews();
+}
+function hexToPicker(id){
+  const hex=document.getElementById('col'+id+'Hex').value.replace('#','');
+  if(/^[0-9a-fA-F]{6}$/.test(hex)){
+    document.getElementById('col'+id+'Picker').value='#'+hex;
+    document.getElementById('sw'+id+'Bg').style.background='#'+hex;
+    updatePreviews();
+  }
+}
+function rangeToNum(id){
+  document.getElementById('opa'+id+'Num').value=document.getElementById('opa'+id+'Range').value;
+  updatePreviews();
+}
+function numToRange(id){
+  let v=parseFloat(document.getElementById('opa'+id+'Num').value);
+  v=Math.max(0,Math.min(1,isNaN(v)?0:v));
+  document.getElementById('opa'+id+'Range').value=v;
+  document.getElementById('opa'+id+'Num').value=v;
+  updatePreviews();
+}
+function getRgba(id){
+  const hex=(document.getElementById('col'+id+'Hex').value||'000000').replace('#','').padEnd(6,'0');
+  const r=parseInt(hex.slice(0,2),16)||0,g=parseInt(hex.slice(2,4),16)||0,b=parseInt(hex.slice(4,6),16)||0;
+  const a=parseFloat(document.getElementById('opa'+id+'Range').value)||0;
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+// ── Previews ───────────────────────────────────────────────────────────────────
+function updatePreviews(){
+  document.getElementById('prevG').style.background=getRgba('G');
+  document.getElementById('prevM').style.background=getRgba('M');
+}
+
+// ── Tags ───────────────────────────────────────────────────────────────────────
+document.getElementById('tagIn').addEventListener('keydown',e=>{
+  if(e.key==='Enter'||e.key===','){
+    e.preventDefault();
+    const v=e.target.value.trim().replace(/,$/,'');
+    if(v&&!users.includes(v)){users.push(v);renderTags();}
+    e.target.value='';
+  }else if(e.key==='Backspace'&&e.target.value===''&&users.length){
+    users.pop();renderTags();
+  }
+});
+function removeUser(i){users.splice(i,1);renderTags()}
+function renderTags(){
+  const l=document.getElementById('tagList');l.innerHTML='';
+  users.forEach((u,i)=>{
+    const t=document.createElement('span');t.className='tag';
+    t.innerHTML=`${u}<button onclick="removeUser(${i})">&#x2715;</button>`;
+    l.appendChild(t);
+  });
+}
+
+// ── Build & download ───────────────────────────────────────────────────────────
+function buildCfg(){
+  return{
+    Port:parseInt(document.getElementById('port').value)||5054,
+    MessageDisplayDuration:parseInt(document.getElementById('duration').value)||10,
+    AppendDirection:document.getElementById('direction').value,
+    ShowPlatform:document.getElementById('showPlatform').checked,
+    IgnoredUsers:[...users],
+    BackgroundGlobal:{
+      Color:(document.getElementById('colGHex').value||'000000').replace('#',''),
+      Opacity:parseFloat(document.getElementById('opaGRange').value)||0
+    },
+    BackgroundMessage:{
+      Color:(document.getElementById('colMHex').value||'000000').replace('#',''),
+      Opacity:parseFloat(document.getElementById('opaMRange').value)||0
+    }
+  };
+}
+function download(){
+  const blob=new Blob([JSON.stringify(buildCfg(),null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='overlay_config.json';a.click();URL.revokeObjectURL(a.href);
+}
+
+// ── Keyboard shortcut ──────────────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='s'){
+    e.preventDefault();
+    if(document.getElementById('form').style.display!=='none')download();
+  }
+});
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+lang=detectLang();applyLang();
+</script>
+</body>
+</html>

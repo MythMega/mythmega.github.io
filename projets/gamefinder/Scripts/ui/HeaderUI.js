@@ -35,6 +35,7 @@ class HeaderUI {
         </div>
       </div>
       <button class="btn-neon" id="btn-settings" title="Paramètres"><img class="header-btn-icon" src="assets/settings.png" alt="Paramètres" /><span class="header-btn-label">Paramètres</span></button>
+      <button class="btn-neon purple" id="btn-profile" title="Profil"><span class="header-btn-label">👤 Profil</span></button>
     `;
 
     this._bindEvents();
@@ -61,6 +62,10 @@ class HeaderUI {
     document.getElementById('btn-settings')?.addEventListener('click', () => {
       console.log('[HeaderUI] Clic Paramètres');
       this.router.navigate('app.html?state=settings');
+    });
+    document.getElementById('btn-profile')?.addEventListener('click', () => {
+      console.log('[HeaderUI] Clic Profil');
+      this.router.navigate('app.html?state=profile');
     });
 
     // Dropdown Données

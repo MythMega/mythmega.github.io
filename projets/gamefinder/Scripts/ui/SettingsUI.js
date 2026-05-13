@@ -6,10 +6,12 @@
 
 class SettingsUI {
   /**
-   * @param {AppSettings} appSettings
+   * @param {AppSettings}  appSettings
+   * @param {UserProfile}  [userProfile]
    */
-  constructor(appSettings) {
+  constructor(appSettings, userProfile) {
     this.appSettings = appSettings;
+    this.userProfile = userProfile || null;
   }
 
   /**
@@ -19,6 +21,7 @@ class SettingsUI {
   async render(container) {
     const allowAdult = await this.appSettings.get('allowAdultContent', false);
     const cacheInfo  = await Database.getCacheInfo('database.db.br');
+    const username   = this.userProfile ? await this.userProfile.getUsername() : 'Joueur';
 
     const cacheHTML = cacheInfo
       ? `<p class="filter-note" style="margin-bottom:12px">
@@ -37,6 +40,29 @@ class SettingsUI {
         <hr class="neon-divider" />
 
         <div class="settings-sections">
+
+          <!-- Profil -->
+          <div class="filter-box reveal settings-box">
+            <div class="filter-box-title">👤 Profil</div>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+              <label for="input-username"
+                     style="font-family:var(--font-body);font-size:0.9rem;color:var(--text-secondary)">
+                Pseudo :
+              </label>
+              <input type="text" id="input-username"
+                     class="search-input"
+                     maxlength="32"
+                     value="${this._esc(username)}"
+                     placeholder="Joueur"
+                     style="max-width:220px;padding:8px 14px;font-size:0.9rem" />
+              <button class="btn-neon" id="btn-save-username" style="padding:8px 18px;font-size:0.75rem">
+                ✓ Enregistrer
+              </button>
+            </div>
+            <p class="filter-note">
+              Ton pseudo sera affiché sur la page Profil.
+            </p>
+          </div>
 
           <div class="filter-box reveal settings-box">
             <div class="filter-box-title">🔞 Contenu adulte</div>
@@ -85,10 +111,24 @@ class SettingsUI {
   // ─────────────────────────────────────────────────────────────────
 
   _bindEvents(cacheInfo) {
-    const cb = document.getElementById('cb-adult-content');
-    if (!cb) return;
+    // ── Pseudo ────────────────────────────────────────────────────
+    document.getElementById('btn-save-username')?.addEventListener('click', async () => {
+      const input = document.getElementById('input-username');
+      if (!input || !this.userProfile) return;
+      const name = input.value.trim() || 'Joueur';
+      input.value = name;
+      await this.userProfile.setUsername(name);
+      const btn = document.getElementById('btn-save-username');
+      if (btn) {
+        const orig = btn.textContent;
+        btn.textContent = '✅ Sauvegardé !';
+        setTimeout(() => { btn.textContent = orig; }, 1800);
+      }
+    });
 
-    cb.addEventListener('change', async e => {
+    // ── Contenu adulte ────────────────────────────────────────────
+    const cb = document.getElementById('cb-adult-content');
+    cb?.addEventListener('change', async e => {
       const newValue = e.target.checked;
 
       if (newValue) {
@@ -171,6 +211,12 @@ class SettingsUI {
       });
     }, { threshold: 0.05 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+  _esc(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 }
 

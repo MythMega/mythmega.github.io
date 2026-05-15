@@ -854,3 +854,60 @@ img {
   font-size: 12px;
   margin-top: auto;
 }
+
+/* ============ NAVIGATION PAR MOIS (records) ============ */
+
+/* Barre centrale ◀ Juin 2025 ▶ */
+.sd-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0 8px;
+}
+
+.sd-month-nav__label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 160px;
+  text-align: center;
+}
+
+/* Onglets de sélection rapide des mois */
+.sd-month-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.sd-month-tab {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 10px;
+  transition: all var(--transition);
+}
+
+.sd-month-tab:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.sd-month-tab.active {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .sd-month-nav__label { font-size: 15px; min-width: 120px; }
+  .sd-month-tab        { font-size: 11px; padding: 3px 8px; }
+}
+

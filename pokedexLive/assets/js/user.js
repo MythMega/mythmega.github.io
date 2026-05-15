@@ -177,6 +177,10 @@ function render(root, d, platform, username) {
     currentEntries = entries;
     renderDex(entries, 0);
 
+    // Appliquer le scale responsive de la carte dresseur maintenant que le DOM est prêt
+    // (applyCardScale lit clientWidth, il faut que l'élément soit dans le DOM)
+    requestAnimationFrame(applyCardScale);
+
     document.getElementById('search-dex').addEventListener('input', SD.debounce(() => renderDex(currentEntries, 0)));
     document.getElementById('filter-dex').addEventListener('change', () => renderDex(currentEntries, 0));
 
@@ -347,85 +351,130 @@ function renderTrainerCardHTML(d) {
   <div class="sd-section-header" style="margin-bottom:12px">
     <h2>🎴 Carte de dresseur</h2>
   </div>
-  <div style="margin-bottom:24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px">
 
-    <!-- ══ Carte 856×566 fixe ══ -->
-    <div id="trainer-card" style="
-        position:relative;
-        width:856px;height:566px;
-        overflow:hidden;
-        border-radius:10px;border:1px solid #ccc;
-        background-image:url('${SD.esc(d.CardBackground || '')}');
-        background-size:cover;background-position:center;
-        color:#fff;box-sizing:border-box;">
+  <style>
+    @keyframes tctwinkle { 0%,100%{opacity:.18} 50%{opacity:.08} }
 
-      <!-- Fond sombre -->
-      <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);border-radius:10px;z-index:0"></div>
+    /* Wrapper : centre la carte sur grand écran, scale sur mobile */
+    .trainer-card-outer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
 
-      <!-- Étoiles -->
-      <div style="
-        position:absolute;inset:0;z-index:0;pointer-events:none;
-        background:
-          radial-gradient(circle,#fff 1px,transparent 1px) 0 0/60px 60px,
-          radial-gradient(circle,#fff 1px,transparent 1px) 30px 30px/60px 60px;
-        opacity:.18;animation:tctwinkle 8s infinite linear"></div>
+    /* Conteneur qui clip le scale sur mobile */
+    .trainer-card-scaler {
+      /* Grand écran : taille naturelle de la carte */
+      width: 856px;
+      height: 566px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
 
-      <!-- Contenu principal -->
-      <div style="position:relative;z-index:1;padding:20px;height:100%;box-sizing:border-box;display:flex;flex-direction:column">
+    /* La carte est TOUJOURS 856×566 en interne.
+       C'est ce qui garantit que toutes les captures téléchargées ont la même résolution.
+       Le scale visuel sur mobile est appliqué par applyCardScale() en JS. */
+    #trainer-card {
+      width: 856px;
+      height: 566px;
+      transform-origin: top left;
+    }
 
-        <!-- Titre -->
-        <h1 style="margin:0 0 2px;font-size:22px;font-weight:800;${TEXT_SHADOW};text-align:center">
-          Dresseur : ${SD.esc(d.Pseudo)}
-        </h1>
-        <h3 style="margin:0 0 16px;font-size:13px;font-weight:400;opacity:.85;${TEXT_SHADOW};text-align:center">
-          ID : ${SD.esc(d.Code_user || '—')}
-        </h3>
+    @media (max-width: 900px) {
+      .trainer-card-scaler {
+        width: 100%;
+        /* La hauteur est mise à jour par applyCardScale() */
+      }
+    }
+  </style>
 
-        <!-- 3 colonnes égales -->
-        <div style="display:flex;gap:16px;flex:1;align-items:center">
+  <div class="trainer-card-outer">
 
-          <!-- Colonne 1 : Avatar -->
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
-            ${d.AvatarUrl
+    <!-- Conteneur qui gère le scale CSS sur mobile -->
+    <div class="trainer-card-scaler" id="trainer-card-scaler">
+
+      <!-- La carte reste TOUJOURS 856×566 ; ne pas changer ces dimensions.
+           Voir applyCardScale() et downloadTrainerCard() pour la gestion responsive. -->
+      <div id="trainer-card" style="
+          position:relative;
+          overflow:hidden;
+          border-radius:10px;border:1px solid #ccc;
+          background-image:url('${SD.esc(d.CardBackground || '')}');
+          background-size:cover;background-position:center;
+          color:#fff;box-sizing:border-box;">
+
+        <!-- Fond sombre -->
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);border-radius:10px;z-index:0"></div>
+
+        <!-- Étoiles -->
+        <div style="
+          position:absolute;inset:0;z-index:0;pointer-events:none;
+          background:
+            radial-gradient(circle,#fff 1px,transparent 1px) 0 0/60px 60px,
+            radial-gradient(circle,#fff 1px,transparent 1px) 30px 30px/60px 60px;
+          opacity:.18;animation:tctwinkle 8s infinite linear"></div>
+
+        <!-- Contenu principal -->
+        <div style="position:relative;z-index:1;padding:20px;height:100%;box-sizing:border-box;display:flex;flex-direction:column">
+
+          <!-- Titre -->
+          <h1 style="margin:0 0 2px;font-size:22px;font-weight:800;${TEXT_SHADOW};text-align:center">
+            Dresseur : ${SD.esc(d.Pseudo)}
+          </h1>
+          <h3 style="margin:0 0 16px;font-size:13px;font-weight:400;opacity:.85;${TEXT_SHADOW};text-align:center">
+            ID : ${SD.esc(d.Code_user || '—')}
+          </h3>
+
+          <!-- 3 colonnes égales -->
+          <div style="display:flex;gap:16px;flex:1;align-items:center">
+
+            <!-- Colonne 1 : Avatar -->
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+              ${d.AvatarUrl
             ? `<img src="${SD.esc(d.AvatarUrl)}" crossorigin="anonymous"
                   style="width:140px;height:140px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,.45);"
                   alt="Avatar">`
             : `<div style="width:140px;height:140px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:56px">👤</div>`}
-            <span style="font-size:13px;font-weight:700;${TEXT_SHADOW}">${SD.esc(d.Pseudo)}</span>
-          </div>
+              <span style="font-size:13px;font-weight:700;${TEXT_SHADOW}">${SD.esc(d.Pseudo)}</span>
+            </div>
 
-          <!-- Colonne 2 : Stats -->
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:14px;${TEXT_SHADOW};text-align:center">
-            <span>🗂️ <strong>Global Dex :</strong> ${dexCount}</span>
-            <span>✨ <strong>Shiny Dex :</strong> ${shinyDex}</span>
-            <span>📅 <strong>Dresseur depuis :</strong> ${firstCatchStr}</span>
-            <span>
-              📡 <strong>Plateforme :</strong> ${SD.esc(d.Platform)}
-              <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/${SD.esc((d.Platform || '').toLowerCase())}.png"
-                style="height:16px;width:16px;vertical-align:middle;margin-left:3px" alt="${SD.esc(d.Platform)}">
-            </span>
-            <span>⭐ <strong>Niveau :</strong> ${d.Level ?? '—'}</span>
-            <span>🎯 <strong>Captures :</strong> ${SD.fmt(d.PokeCaught)}</span>
-          </div>
+            <!-- Colonne 2 : Stats -->
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:14px;${TEXT_SHADOW};text-align:center">
+              <span>🗂️ <strong>Global Dex :</strong> ${dexCount}</span>
+              <span>✨ <strong>Shiny Dex :</strong> ${shinyDex}</span>
+              <span>📅 <strong>Dresseur depuis :</strong> ${firstCatchStr}</span>
+              <span>
+                📡 <strong>Plateforme :</strong> ${SD.esc(d.Platform)}
+                <img src="https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/platform/${SD.esc((d.Platform || '').toLowerCase())}.png"
+                  style="height:16px;width:16px;vertical-align:middle;margin-left:3px" alt="${SD.esc(d.Platform)}">
+              </span>
+              <span>⭐ <strong>Niveau :</strong> ${d.Level ?? '—'}</span>
+              <span>🎯 <strong>Captures :</strong> ${SD.fmt(d.PokeCaught)}</span>
+            </div>
 
-          <!-- Colonne 3 : Créature favorite -->
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;${TEXT_SHADOW};text-align:center">
-            ${fav ? `
-              <span style="font-size:12px;font-weight:700">Créature Favorite</span>
-              <span style="font-size:13px">${SD.esc(fav.name)}${fav.isShiny ? ' ✨' : ''}</span>
-              ${d.FavoriteSprite
+            <!-- Colonne 3 : Créature favorite -->
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;${TEXT_SHADOW};text-align:center">
+              ${fav ? `
+                <span style="font-size:12px;font-weight:700">Créature Favorite</span>
+                <span style="font-size:13px">${SD.esc(fav.name)}${fav.isShiny ? ' ✨' : ''}</span>
+                ${d.FavoriteSprite
                 ? `<img src="${SD.esc(d.FavoriteSprite)}" alt="${SD.esc(fav.name)}" style="height:100px;width:auto">`
                 : `<span style="font-size:32px">❓</span>`}
-            ` : `<span style="opacity:.5">Pas de créature favorite</span>`}
+              ` : `<span style="opacity:.5">Pas de créature favorite</span>`}
+            </div>
+
           </div>
+
+          <!-- Badges -->
+          ${badgesHTML ? `
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;justify-content:center;margin-top:14px">
+            ${badgesHTML}
+          </div>` : ''}
+
         </div>
-
-        <!-- Badges -->
-        ${badgesHTML ? `
-        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;justify-content:center;margin-top:14px">
-          ${badgesHTML}
-        </div>` : ''}
-
       </div>
     </div>
 
@@ -433,32 +482,80 @@ function renderTrainerCardHTML(d) {
     <button class="sd-btn sd-btn--primary" id="download-card-btn" onclick="downloadTrainerCard()">
       📥 Télécharger ma carte
     </button>
-  </div>
-
-  <style>
-    @keyframes tctwinkle { 0%,100%{opacity:.18} 50%{opacity:.08} }
-  </style>`;
+  </div>`;
 }
 
+// ── Scale responsive de la carte dresseur ────────────────────────────────────
+// La carte est TOUJOURS 856×566 en interne (garantit des captures identiques
+// quelle que soit la taille d'écran). Sur mobile on applique un transform:scale
+// pour qu'elle tienne visuellement sans modifier ses dimensions réelles.
+function applyCardScale() {
+    const card   = document.getElementById('trainer-card');
+    const scaler = document.getElementById('trainer-card-scaler');
+    if (!card || !scaler) return;
+
+    const CARD_W = 856;
+    const CARD_H = 566;
+    // clientWidth du scaler = largeur réelle disponible dans la page
+    const availableW = scaler.parentElement?.clientWidth || scaler.clientWidth;
+
+    if (availableW >= CARD_W) {
+        // Grand écran : taille naturelle, centré par le flex du wrapper
+        card.style.transform = 'none';
+        scaler.style.width   = CARD_W + 'px';
+        scaler.style.height  = CARD_H + 'px';
+    } else {
+        // Mobile : scale proportionnel pour tenir dans la largeur disponible
+        const scale = availableW / CARD_W;
+        card.style.transform       = `scale(${scale})`;
+        card.style.transformOrigin = 'top left';
+        scaler.style.width  = '100%';
+        scaler.style.height = (CARD_H * scale) + 'px'; // hauteur visuelle compressée
+    }
+}
+
+// Recalcul au resize
+window.addEventListener('resize', applyCardScale);
+
 function downloadTrainerCard() {
-    const card = document.getElementById('trainer-card');
+    const card   = document.getElementById('trainer-card');
+    const scaler = document.getElementById('trainer-card-scaler');
     if (!card) { console.error('[user] #trainer-card introuvable.'); return; }
 
     const btn = document.getElementById('download-card-btn');
     if (btn) { btn.disabled = true; btn.textContent = '⏳ Génération…'; }
 
-    domtoimage.toPng(card, { bgcolor: null })
-        .then(dataUrl => {
-            const a = document.createElement('a');
-            a.href = dataUrl;
-            a.download = `carte-dresseur-${document.querySelector('[data-pseudo]')?.dataset.pseudo || 'trainer'}.png`;
-            a.click();
-        })
-        .catch(err => {
-            console.error('[user] Erreur génération de la carte :', err);
-            alert('Une erreur est survenue lors de la génération de la carte.');
-        })
-        .finally(() => {
-            if (btn) { btn.disabled = false; btn.textContent = '📥 Télécharger ma carte'; }
-        });
+    const CARD_W  = 856;
+    // On est "mobile" si le scaler est plus étroit que la carte réelle
+    const isMobile = (scaler?.parentElement?.clientWidth || scaler?.clientWidth || CARD_W) < CARD_W;
+
+    function doCapture() {
+        // dom-to-image voit la carte sans scale → capture toujours en 856×566
+        domtoimage.toPng(card, { width: 856, height: 566, bgcolor: null })
+            .then(dataUrl => {
+                const a = document.createElement('a');
+                a.href     = dataUrl;
+                a.download = `carte-dresseur-${document.querySelector('[data-pseudo]')?.dataset.pseudo || 'trainer'}.png`;
+                a.click();
+            })
+            .catch(err => {
+                console.error('[user] Erreur génération de la carte :', err);
+                alert('Une erreur est survenue lors de la génération de la carte.');
+            })
+            .finally(() => {
+                // Sur mobile : remettre le scale visuel après la capture
+                if (isMobile) applyCardScale();
+                if (btn) { btn.disabled = false; btn.textContent = '📥 Télécharger ma carte'; }
+            });
+    }
+
+    if (isMobile) {
+        // Retirer le scale pour que dom-to-image voie la carte en taille réelle 856×566
+        card.style.transform = 'none';
+        if (scaler) { scaler.style.width = '856px'; scaler.style.height = '566px'; }
+        // Laisser deux cycles de rendu avant la capture pour que le layout soit stable
+        requestAnimationFrame(() => requestAnimationFrame(doCapture));
+    } else {
+        doCapture();
+    }
 }

@@ -61,6 +61,7 @@ const Daily = (function () {
 
   // Get the date from URL parameter or use provided date or today
   let overrideDate = null;
+  let sessionDate = null; // date captured at the start of the daily session (prevents midnight rollover)
   function getDateFromURL() {
     const params = new URLSearchParams(window.location.search);
     const dateParam = params.get('date');
@@ -501,7 +502,7 @@ const Daily = (function () {
   // --- Adapter finishDaily pour utiliser l'historique ---
   async function finishDaily() {
     // persist results into history map
-    const payload = { date: dateSeedStr(), results, score };
+    const payload = { date: sessionDate || dateSeedStr(), results, score };
     await saveResultForToday(payload);
 
     // Check for new pokemons BEFORE marking them as found
@@ -764,6 +765,7 @@ const Daily = (function () {
     // check cookie: if there is a saved daily and date matches today => render finished
     const savedHistory = await loadDailyCookie();
     const today = dateSeedStr();
+    sessionDate = today; // lock the date for the whole session
     if (savedHistory && savedHistory[today]) {
       // already played today
       populateNamesList();
@@ -774,7 +776,7 @@ const Daily = (function () {
 
 
     // create deterministic list 5 using date seed
-    const seed = stringToSeed(dateSeedStr());
+    const seed = stringToSeed(sessionDate);
     const rng = mulberry32(seed);
     const shuffled = shuffleArrayWithSeed(pokemons, rng);
     // if fewer pokemons than COUNT, repeat but keep unique as much as possible

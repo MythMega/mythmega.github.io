@@ -456,6 +456,18 @@ const DataManager = (function () {
     return { date: dateStr, score: computedScore, declaredScore, scoreMismatch, results };
   }
 
+  // --- delete a single daily entry from IndexedDB by date key ---
+  async function deleteDailyEntry(date) {
+    const db = await getDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.delete(date);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
   // --- import daily from textarea ---
   async function onImportDailyClick() {
     const area = document.getElementById('dailyImportArea');
@@ -466,6 +478,27 @@ const DataManager = (function () {
       out.textContent = 'Aucun texte collé.';
       return;
     }
+
+    // Secret command: !DEL:YYYY-MM-DD — delete a specific day from the save
+    const delMatch = txt.match(/^!DEL:([\d]{4}-[\d]{2}-[\d]{2})$/);
+    if (delMatch) {
+      const dateToDelete = delMatch[1];
+      try {
+        const history = await loadDailyCookie() || {};
+        if (!history[dateToDelete]) {
+          out.textContent = `Aucune entrée trouvée pour le ${dateToDelete}.`;
+          return;
+        }
+        await deleteDailyEntry(dateToDelete);
+        area.value = '';
+        out.textContent = `Entrée du ${dateToDelete} supprimée.`;
+        await renderCurrentCookiesPreview();
+      } catch (e) {
+        out.textContent = `Erreur lors de la suppression : ${e.message}`;
+      }
+      return;
+    }
+
     const parsed = parseDailyText(txt);
     if (parsed.error) {
       out.textContent = parsed.error;

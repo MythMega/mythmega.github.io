@@ -323,6 +323,14 @@ img {
   transition: transform var(--transition);
 }
 
+/* Taille fixe pour les sprites de balls (64×64, indépendamment de la taille source) */
+.sd-card__sprite--fixed img {
+  width: 64px !important;
+  height: 64px !important;
+  max-height: 64px !important;
+  object-fit: contain;
+}
+
 .sd-card:hover .sd-card__sprite img {
   transform: scale(1.1);
 }

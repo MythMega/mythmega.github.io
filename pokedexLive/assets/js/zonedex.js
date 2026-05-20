@@ -53,8 +53,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         grid.innerHTML = list.map(z => `
       <a href="Zone/info.html?name=${encodeURIComponent(z.Name)}" class="sd-card" style="display:block;text-decoration:none;">
-        <div class="sd-card__body" style="padding:20px">
-          <div style="font-size:24px;margin-bottom:8px">📍</div>
+        ${z.Image
+          ? `<div style="width:100%;height:120px;overflow:hidden;border-radius:var(--radius-md) var(--radius-md) 0 0;background:var(--bg-secondary);">
+               <img src="${SD.esc(z.Image)}" alt="${SD.esc(z.Name)}" style="width:100%;height:120px;object-fit:cover;display:block;">
+             </div>`
+          : `<div style="width:100%;height:120px;border-radius:var(--radius-md) var(--radius-md) 0 0;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;font-size:40px;">📍</div>`
+        }
+        <div class="sd-card__body" style="padding:16px">
           <div class="sd-card__title" style="font-size:16px">${SD.esc(z.Name)}</div>
           ${z.Description ? `<p style="font-size:12px;color:var(--text-secondary);margin:6px 0">${SD.esc(z.Description)}</p>` : ''}
           <div class="sd-card__badges" style="margin-top:8px">

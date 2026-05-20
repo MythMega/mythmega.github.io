@@ -60,8 +60,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     grid.innerHTML = list.map(b => `
       <a href="Ball/info.html?ballName=${encodeURIComponent(b.Name)}" class="sd-card" style="display:block;text-decoration:none;">
-        <div class="sd-card__sprite">
-          ${b.Sprite ? SD.sprite(b.Sprite, b.Name, 80) : '<div style="height:80px;display:flex;align-items:center;justify-content:center;font-size:32px">🎱</div>'}
+        <div class="sd-card__sprite" style="display:flex;align-items:center;justify-content:center;height:80px;">
+          ${b.Sprite
+            ? `<img src="${b.Sprite}" alt="${SD.esc(b.Name)}" style="width:64px;height:64px;object-fit:contain;image-rendering:pixelated;">`
+            : '<div style="font-size:32px">🎱</div>'}
         </div>
         <div class="sd-card__body">
           <div class="sd-card__title">${SD.esc(b.Name)}</div>

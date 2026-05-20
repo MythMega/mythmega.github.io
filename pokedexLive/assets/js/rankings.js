@@ -1,4 +1,4 @@
-﻿// ============================================
+// ============================================
 // StreamDex - Rankings page (rankings.js)
 // ============================================
 
@@ -64,54 +64,64 @@ document.addEventListener('DOMContentLoaded', async () => {
     return { id, icon, title, key, fmt, color, platform };
   }
 
+  function rarityIcon(r) {
+    const icons = { Legendary: '🌟', Rare: '💎', Uncommon: '🔵', Common: '⚪', Epic: '🟣', Mythic: '🔮', Ultra: '🟠' };
+    return icons[r] || '🎴';
+  }
+
+  function rarityColor(r) {
+    const colors = { Legendary: 'gold', Rare: 'blue', Uncommon: 'green', Common: '', Epic: 'purple', Mythic: 'purple', Ultra: 'orange' };
+    return colors[r] || '';
+  }
+
   const globalGroups = [
     {
       title: 'Progression',
       rankings: [
-        mkRk('level',       '⭐', 'Niveau',               'level',          v => `Lv ${v}`,                      'orange'),
-        mkRk('xp',          '🔮', 'XP accumulée',          'currentXP',      v => SD.fmt(v),                     'purple'),
-        mkRk('dexcount',    '📖', 'Pokédex Normal',        'dexCount',       v => SD.fmt(v),                     'blue'),
-        mkRk('shinydex',    '✨', 'Pokédex Shiny',         'shinyDex',       v => SD.fmt(v),                     'gold'),
-        mkRk('dextotal',    '📚', 'Dex complet (N+S)',     '_dexTotal',      v => SD.fmt(v),                     'purple'),
+        mkRk('level',        '⭐', 'Niveau',               'level',          v => `Lv ${v}`,           'orange'),
+        mkRk('xp',           '🔮', 'XP accumulée',          'currentXP',      v => SD.fmt(v),           'purple'),
+        mkRk('dexcount',     '📖', 'Pokédex Normal',        'dexCount',       v => SD.fmt(v),           'blue'),
+        mkRk('shinydex',     '✨', 'Pokédex Shiny',         'shinyDex',       v => SD.fmt(v),           'gold'),
       ]
     },
     {
       title: 'Captures',
       rankings: [
-        mkRk('caught',      '🎉', 'Pokémon capturés',      'pokeCaught',     v => SD.fmt(v),                     'green'),
-        mkRk('shiny',       '💫', 'Shiny capturés',        'shinyCaught',    v => SD.fmt(v),                     'gold'),
-        mkRk('balls',       '🎱', 'Balls lancées',         'ballLaunched',   v => SD.fmt(v),                     ''),
-        mkRk('ballpct',     '🎯', 'Taux de capture',       '_ballSuccessPct',v => `${v.toFixed(1)} %`,           'green'),
-        mkRk('shinypct',    '🌟', 'Ratio Shiny',           '_catchShinyPct', v => `${v.toFixed(2)} %`,           'gold'),
-        mkRk('catchperday', '📅', 'Captures / jour',       '_catchPerDay',   v => `${SD.fmt(v)} / j`,            'blue'),
-        mkRk('daysactive',  '🗓️', 'Jours actifs',          '_daysActive',    v => `${SD.fmt(v)} j`,              'purple'),
+        mkRk('caught',       '🎉', 'Pokémon capturés',      'pokeCaught',     v => SD.fmt(v),           'green'),
+        mkRk('shiny',        '💫', 'Shiny capturés',        'shinyCaught',    v => SD.fmt(v),           'gold'),
+        mkRk('balls',        '🎱', 'Balls lancées',         'ballLaunched',   v => SD.fmt(v),           ''),
+        mkRk('daysactive',   '🗓️', 'Jours actifs',          '_daysActive',    v => `${SD.fmt(v)} j`,    'purple'),
       ]
+    },
+    {
+      title: 'Par rareté',
+      rankings: rarities.map(r => mkRk(`rar-${r}`, rarityIcon(r), r, `_rar_${r}`, v => SD.fmt(v), rarityColor(r)))
     },
     {
       title: 'Économie',
       rankings: [
-        mkRk('moneyspent',  '💸', 'Argent dépensé',        'moneySpent',     v => `${SD.fmt(v)} 💰`,             'orange'),
-        mkRk('custommoney', '🏦', 'Économies',             'customMoney',    v => `${SD.fmt(v)} 💰`,             'green'),
-        mkRk('scrap',       '♻️', 'Scrap total',           '_scrapTotal',    v => SD.fmt(v),                     'purple'),
-        mkRk('scrappedshiny','♻✨','Scrap Shiny',           'scrappedShiny',  v => SD.fmt(v),                     'gold'),
-        mkRk('scrappednorm','♻📦','Scrap Normal',          'scrappedNormal', v => SD.fmt(v),                     'blue'),
+        mkRk('moneyspent',   '💸', 'Argent dépensé',        'moneySpent',     v => `${SD.fmt(v)} 💰`,   'orange'),
+        mkRk('custommoney',  '🏦', 'Économies',             'customMoney',    v => `${SD.fmt(v)} 💰`,   'green'),
+        mkRk('scrap',        '♻️', 'Scrap total',           '_scrapTotal',    v => SD.fmt(v),           'purple'),
+        mkRk('scrappedshiny','♻✨', 'Scrap Shiny',           'scrappedShiny',  v => SD.fmt(v),           'gold'),
+        mkRk('scrappednorm', '♻📦','Scrap Normal',           'scrappedNormal', v => SD.fmt(v),           'blue'),
       ]
     },
     {
       title: 'Social',
       rankings: [
-        mkRk('trade',       '🤝', 'Trades effectués',      'tradeCount',     v => SD.fmt(v),                     ''),
-        mkRk('giveaway',    '🎁', 'Giveaways reçus',       '_giveTotal',     v => SD.fmt(v),                     'purple'),
-        mkRk('giveawaynorm','🎁', 'Giveaways Normal',      'giveawayNormal', v => SD.fmt(v),                     'blue'),
-        mkRk('giveawayshiny','🎁✨','Giveaways Shiny',      'giveawayShiny',  v => SD.fmt(v),                     'gold'),
+        mkRk('trade',        '🤝', 'Trades effectués',      'tradeCount',     v => SD.fmt(v),           ''),
+        mkRk('giveaway',     '🎁', 'Giveaways reçus',       '_giveTotal',     v => SD.fmt(v),           'purple'),
+        mkRk('giveawaynorm', '🎁', 'Giveaways Normal',      'giveawayNormal', v => SD.fmt(v),           'blue'),
+        mkRk('giveawayshiny','🎁✨','Giveaways Shiny',        'giveawayShiny',  v => SD.fmt(v),           'gold'),
       ]
     },
     {
       title: 'Raids',
       rankings: [
-        mkRk('raidcount',   '⚔️', 'Raids participés',      'raidCount',      v => SD.fmt(v),                     'red'),
-        mkRk('raiddmg',     '💥', 'Dégâts totaux raids',   'raidTotalDmg',   v => SD.fmt(v),                     'red'),
-        mkRk('raidavg',     '📊', 'Dégâts moyens / raid',  '_raidAvgDmg',    v => SD.fmt(v),                     'orange'),
+        mkRk('raidcount',    '⚔️', 'Raids participés',      'raidCount',      v => SD.fmt(v),           'red'),
+        mkRk('raiddmg',      '💥', 'Dégâts totaux raids',   'raidTotalDmg',   v => SD.fmt(v),           'red'),
+        mkRk('raidavg',      '📊', 'Dégâts moyens / raid',  '_raidAvgDmg',    v => SD.fmt(v),           'orange'),
       ]
     },
   ];
@@ -126,7 +136,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         mkRk(`${pl}-shiny`,    '💫', 'Shiny capturés',      'shinyCaught',    v => SD.fmt(v),           'gold',   pl),
         mkRk(`${pl}-dex`,      '📖', 'Pokédex Normal',      'dexCount',       v => SD.fmt(v),           'blue',   pl),
         mkRk(`${pl}-shinydex`, '✨', 'Pokédex Shiny',       'shinyDex',       v => SD.fmt(v),           'gold',   pl),
-        mkRk(`${pl}-ballpct`,  '🎯', 'Taux de capture',     '_ballSuccessPct',v => `${v.toFixed(1)} %`, 'green',  pl),
         mkRk(`${pl}-money`,    '💰', 'Économies',           'customMoney',    v => `${SD.fmt(v)} 💰`,   'green',  pl),
         mkRk(`${pl}-spent`,    '💸', 'Argent dépensé',      'moneySpent',     v => `${SD.fmt(v)} 💰`,   'orange', pl),
         mkRk(`${pl}-raid`,     '⚔️', 'Raids participés',    'raidCount',      v => SD.fmt(v),           'red',    pl),
@@ -134,6 +143,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         mkRk(`${pl}-trade`,    '🤝', 'Trades effectués',    'tradeCount',     v => SD.fmt(v),           '',       pl),
         mkRk(`${pl}-scrap`,    '♻️', 'Scrap total',         '_scrapTotal',    v => SD.fmt(v),           'purple', pl),
         mkRk(`${pl}-days`,     '🗓️', 'Jours actifs',        '_daysActive',    v => `${SD.fmt(v)} j`,    'blue',   pl),
+        ...rarities.map(r => mkRk(`${pl}-rar-${r}`, rarityIcon(r), r, `_rar_${r}`, v => SD.fmt(v), rarityColor(r), pl)),
       ]
     }];
   }

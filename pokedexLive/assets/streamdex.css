@@ -195,8 +195,7 @@ img {
   overflow: hidden;
 }
 
-.sd-dropdown:hover .sd-dropdown__menu,
-.sd-dropdown:focus-within .sd-dropdown__menu {
+.sd-dropdown.is-open .sd-dropdown__menu {
   display: block;
 }
 
@@ -222,7 +221,6 @@ img {
   }
   .sd-dropdown__menu {
     position: static;
-    display: block;
     box-shadow: none;
     border: none;
     border-left: 2px solid var(--border-color);

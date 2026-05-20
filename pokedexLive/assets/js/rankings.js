@@ -64,23 +64,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     return { id, icon, title, key, fmt, color, platform };
   }
 
-  function rarityIcon(r) {
-    const icons = { Legendary: '🌟', Rare: '💎', Uncommon: '🔵', Common: '⚪', Epic: '🟣', Mythic: '🔮', Ultra: '🟠' };
-    return icons[r] || '🎴';
-  }
+  const RARITY_ORDER = { COMMON: 1, UNCOMMON: 2, RARE: 3, EPIC: 4, LEGENDARY: 5, MYTHICAL: 6 };
+  const RARITY_LABEL = { COMMON: 'Communs', UNCOMMON: 'Peu communs', RARE: 'Rares', EPIC: 'Épiques', LEGENDARY: 'Légendaires', MYTHICAL: 'Mythiques' };
+  const RARITY_ICONS = { COMMON: '⚪', UNCOMMON: '🔵', RARE: '💎', EPIC: '🟣', LEGENDARY: '🌟', MYTHICAL: '🔮' };
+  const RARITY_COLOR = { COMMON: '', UNCOMMON: '', RARE: 'blue', EPIC: 'purple', LEGENDARY: 'gold', MYTHICAL: 'purple' };
 
-  function rarityColor(r) {
-    const colors = { Legendary: 'gold', Rare: 'blue', Uncommon: '', Common: '', Epic: 'purple', Mythic: 'purple', Ultra: 'orange' };
-    return colors[r] || '';
-  }
+  function rarityIcon(r)  { return RARITY_ICONS[r.toUpperCase()] || '🎴'; }
+  function rarityColor(r) { return RARITY_COLOR[r.toUpperCase()] || ''; }
+  function rarityLabel(r) { return RARITY_LABEL[r.toUpperCase()] || r; }
 
-  // Rarités détectées dynamiquement
+  // Rarités détectées dynamiquement, triées selon l'ordre défini
   const raritySet = new Set();
   players.forEach(p => { if (p.rarityCounts) Object.keys(p.rarityCounts).forEach(r => raritySet.add(r)); });
-  const rarities = [...raritySet].filter(r => r && r !== 'Unknown').sort();
+  const rarities = [...raritySet]
+    .filter(r => r && r !== 'Unknown')
+    .sort((a, b) => (RARITY_ORDER[a.toUpperCase()] || 99) - (RARITY_ORDER[b.toUpperCase()] || 99));
   players.forEach(p => {
     rarities.forEach(r => { p[`_rar_${r}`] = (p.rarityCounts && p.rarityCounts[r]) ? p.rarityCounts[r] : 0; });
   });
+
+  // Classements rareté : utilise le label traduit comme titre
+  const rarityRankings = (prefix, pl = null) =>
+    rarities.map(r => mkRk(`${prefix}-rar-${r}`, rarityIcon(r), rarityLabel(r), `_rar_${r}`, v => SD.fmt(v), rarityColor(r), pl));
 
   const globalGroups = [
     {
@@ -103,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     },
     {
       title: 'Par rareté',
-      rankings: rarities.map(r => mkRk(`rar-${r}`, rarityIcon(r), r, `_rar_${r}`, v => SD.fmt(v), rarityColor(r)))
+      rankings: rarityRankings('rar')
     },
     {
       title: 'Économie',
@@ -156,7 +161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       },
       {
         title: 'Par rareté',
-        rankings: rarities.map(r => mkRk(`${pl}-rar-${r}`, rarityIcon(r), r, `_rar_${r}`, v => SD.fmt(v), rarityColor(r), pl))
+        rankings: rarityRankings(pl, pl)
       },
     ];
   }
@@ -272,7 +277,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <li class="rk-row">
                 <span class="rk-rank rk-rank--${i+1}">${rankLabel(i+1)}</span>
                 <div class="rk-player">
-                  <div class="rk-player__name" title="${SD.esc(p.pseudo)}">${SD.esc(p.pseudo)}</div>
+                  <a class="rk-player__name" href="../User/info.html?platform=${encodeURIComponent(p.platform || '')}&username=${encodeURIComponent(p.pseudo)}" title="${SD.esc(p.pseudo)}">${SD.esc(p.pseudo)}</a>
                   <div class="rk-player__platform">${p.platform || ''}</div>
                 </div>
                 <div class="rk-bar-wrap"><div class="rk-bar" style="--bar-pct:${pct}%;background:${barColor}"></div></div>

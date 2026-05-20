@@ -70,9 +70,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function rarityColor(r) {
-    const colors = { Legendary: 'gold', Rare: 'blue', Uncommon: 'green', Common: '', Epic: 'purple', Mythic: 'purple', Ultra: 'orange' };
+    const colors = { Legendary: 'gold', Rare: 'blue', Uncommon: '', Common: '', Epic: 'purple', Mythic: 'purple', Ultra: 'orange' };
     return colors[r] || '';
   }
+
+  // Rarités détectées dynamiquement
+  const raritySet = new Set();
+  players.forEach(p => { if (p.rarityCounts) Object.keys(p.rarityCounts).forEach(r => raritySet.add(r)); });
+  const rarities = [...raritySet].filter(r => r && r !== 'Unknown').sort();
+  players.forEach(p => {
+    rarities.forEach(r => { p[`_rar_${r}`] = (p.rarityCounts && p.rarityCounts[r]) ? p.rarityCounts[r] : 0; });
+  });
 
   const globalGroups = [
     {
@@ -127,25 +135,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   ];
 
   function platGroups(pl) {
-    return [{
-      title: `Top ${pl.charAt(0).toUpperCase() + pl.slice(1)}`,
-      rankings: [
-        mkRk(`${pl}-level`,    '⭐', 'Niveau',              'level',          v => `Lv ${v}`,           'orange', pl),
-        mkRk(`${pl}-xp`,       '🔮', 'XP accumulée',        'currentXP',      v => SD.fmt(v),           'purple', pl),
-        mkRk(`${pl}-caught`,   '🎉', 'Pokémon capturés',    'pokeCaught',     v => SD.fmt(v),           'green',  pl),
-        mkRk(`${pl}-shiny`,    '💫', 'Shiny capturés',      'shinyCaught',    v => SD.fmt(v),           'gold',   pl),
-        mkRk(`${pl}-dex`,      '📖', 'Pokédex Normal',      'dexCount',       v => SD.fmt(v),           'blue',   pl),
-        mkRk(`${pl}-shinydex`, '✨', 'Pokédex Shiny',       'shinyDex',       v => SD.fmt(v),           'gold',   pl),
-        mkRk(`${pl}-money`,    '💰', 'Économies',           'customMoney',    v => `${SD.fmt(v)} 💰`,   'green',  pl),
-        mkRk(`${pl}-spent`,    '💸', 'Argent dépensé',      'moneySpent',     v => `${SD.fmt(v)} 💰`,   'orange', pl),
-        mkRk(`${pl}-raid`,     '⚔️', 'Raids participés',    'raidCount',      v => SD.fmt(v),           'red',    pl),
-        mkRk(`${pl}-raiddmg`,  '💥', 'Dégâts raids',        'raidTotalDmg',   v => SD.fmt(v),           'red',    pl),
-        mkRk(`${pl}-trade`,    '🤝', 'Trades effectués',    'tradeCount',     v => SD.fmt(v),           '',       pl),
-        mkRk(`${pl}-scrap`,    '♻️', 'Scrap total',         '_scrapTotal',    v => SD.fmt(v),           'purple', pl),
-        mkRk(`${pl}-days`,     '🗓️', 'Jours actifs',        '_daysActive',    v => `${SD.fmt(v)} j`,    'blue',   pl),
-        ...rarities.map(r => mkRk(`${pl}-rar-${r}`, rarityIcon(r), r, `_rar_${r}`, v => SD.fmt(v), rarityColor(r), pl)),
-      ]
-    }];
+    return [
+      {
+        title: `Top ${pl.charAt(0).toUpperCase() + pl.slice(1)}`,
+        rankings: [
+          mkRk(`${pl}-level`,    '⭐', 'Niveau',              'level',          v => `Lv ${v}`,           'orange', pl),
+          mkRk(`${pl}-xp`,       '🔮', 'XP accumulée',        'currentXP',      v => SD.fmt(v),           'purple', pl),
+          mkRk(`${pl}-caught`,   '🎉', 'Pokémon capturés',    'pokeCaught',     v => SD.fmt(v),           'green',  pl),
+          mkRk(`${pl}-shiny`,    '💫', 'Shiny capturés',      'shinyCaught',    v => SD.fmt(v),           'gold',   pl),
+          mkRk(`${pl}-dex`,      '📖', 'Pokédex Normal',      'dexCount',       v => SD.fmt(v),           'blue',   pl),
+          mkRk(`${pl}-shinydex`, '✨', 'Pokédex Shiny',       'shinyDex',       v => SD.fmt(v),           'gold',   pl),
+          mkRk(`${pl}-money`,    '💰', 'Économies',           'customMoney',    v => `${SD.fmt(v)} 💰`,   'green',  pl),
+          mkRk(`${pl}-spent`,    '💸', 'Argent dépensé',      'moneySpent',     v => `${SD.fmt(v)} 💰`,   'orange', pl),
+          mkRk(`${pl}-raid`,     '⚔️', 'Raids participés',    'raidCount',      v => SD.fmt(v),           'red',    pl),
+          mkRk(`${pl}-raiddmg`,  '💥', 'Dégâts raids',        'raidTotalDmg',   v => SD.fmt(v),           'red',    pl),
+          mkRk(`${pl}-trade`,    '🤝', 'Trades effectués',    'tradeCount',     v => SD.fmt(v),           '',       pl),
+          mkRk(`${pl}-scrap`,    '♻️', 'Scrap total',         '_scrapTotal',    v => SD.fmt(v),           'purple', pl),
+          mkRk(`${pl}-days`,     '🗓️', 'Jours actifs',        '_daysActive',    v => `${SD.fmt(v)} j`,    'blue',   pl),
+        ]
+      },
+      {
+        title: 'Par rareté',
+        rankings: rarities.map(r => mkRk(`${pl}-rar-${r}`, rarityIcon(r), r, `_rar_${r}`, v => SD.fmt(v), rarityColor(r), pl))
+      },
+    ];
   }
 
   const TABS = [

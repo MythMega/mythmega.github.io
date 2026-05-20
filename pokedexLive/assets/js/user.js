@@ -17,13 +17,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let data;
     try {
-        data = await SD.fetchJson(`../Data/json/users/${encodeURIComponent(platform)}_${encodeURIComponent(username)}.json`);
-    } catch {
-        SD.error(root, `Utilisateur "${SD.esc(username)}" sur ${SD.esc(platform)} introuvable.`);
-        return;
-    }
+          data = await SD.fetchJson(`../Data/json/users/${encodeURIComponent(platform)}_${encodeURIComponent(username)}.json`);
+        } catch {
+          SD.error(root, `Utilisateur "${SD.esc(username)}" sur ${SD.esc(platform)} introuvable.`);
+          return;
+        }
+
+        // Charger main.json pour les données de boutique/évolution
+        try {
+          window._mainData = await SD.fetchJson('../Data/json/main.json');
+        } catch {
+          window._mainData = null;
+        }
 
     SD.setTitle(`${data.Pseudo} (${data.Platform})`);
+    // Rendre les données user accessibles à la popup
+    window._userData       = data;
+    window._allUserEntries = data.Entries || [];
     render(root, data, platform, username);
 });
 
@@ -161,6 +171,7 @@ function render(root, d, platform, username) {
                 <th>Shiny ✨</th>
                 <th>Première capture</th>
                 <th>Dernière capture</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="dex-tbody"></tbody>
@@ -232,6 +243,9 @@ function renderDex(entries, page = 0) {
       <td>${e.CountShiny > 0 ? `<span style="color:var(--shiny-gold)">✨ ${SD.fmt(e.CountShiny)}</span>` : '—'}</td>
       <td style="color:var(--text-muted);font-size:12px">${fmtDate(e.DateFirstCatch)}</td>
       <td style="color:var(--text-muted);font-size:12px">${fmtDate(e.DateLastCatch)}</td>
+      <td><button class="sd-btn sd-btn--ghost" style="font-size:12px;padding:4px 10px"
+        onclick="openCreaturePopup(${JSON.stringify(e).replace(/"/g, '&quot;')})"
+      >⚙️ Actions</button></td>
     </tr>`).join('');
 
     // ── Pagination ────────────────────────────────────────────────

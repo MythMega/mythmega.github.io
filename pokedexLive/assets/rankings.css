@@ -220,11 +220,18 @@
 }
 
 .rk-player__name {
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+a.rk-player__name:hover {
+  color: var(--accent-blue);
+  text-decoration: underline;
 }
 
 .rk-player__platform {

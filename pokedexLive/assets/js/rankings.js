@@ -319,8 +319,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-  // ── Définition des onglets et de leurs classements ──────────────────────────
-
   const TABS = [
     {
       id: 'global',

@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const allFiles = (index.files || []);
-    if (allFiles.length === 0) {
-        SD.empty(root, 'Aucun raid enregistré pour le moment.');
+    if (allFiles.length === 0) {        SD.empty(root, 'Aucun raid enregistré pour le moment.');
         return;
     }
 
@@ -41,9 +40,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         return new Date(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}`);
     }
 
-    const recentFiles = allFiles.filter(f => {
-        const d = fileToDate2(f);
-        return d && d >= cutoff;
+    // Les entrées peuvent être des objets { filename, bossName, date } ou de simples strings (ancien format)
+    function entryFilename(e) { return typeof e === 'string' ? e : e.filename; }
+    function entryDate(e) {
+      if (typeof e === 'object' && e.date) return new Date(e.date.replace(' ', 'T'));
+      return fileToDate2(entryFilename(e));
+    }
+    function entryLabel(e) {
+      const d = entryDate(e);
+      const datePart = d
+        ? d.toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })
+        : entryFilename(e).replace('raid-', '').replace('.json', '');
+      const boss = (typeof e === 'object' && e.bossName) ? e.bossName : null;
+      return boss ? `${boss}, ${datePart}` : datePart;
+    }
+
+    const recentFiles = allFiles.filter(e => {
+      const d = entryDate(e);
+      return d && d >= cutoff;
     });
 
     const filesToShow = recentFiles.length > 0 ? recentFiles : allFiles.slice(0, Math.min(10, allFiles.length));
@@ -79,15 +93,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const hint = document.getElementById('raid-filter-hint');
     const label = document.getElementById('raid-count-label');
 
-    filesToShow.forEach(f => {
-        const d = fileToDate2(f);
-        const label = d
-            ? d.toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })
-            : f.replace('raid-', '').replace('.json', '');
-        const opt = document.createElement('option');
-        opt.value = f;
-        opt.textContent = label;
-        select.appendChild(opt);
+    filesToShow.forEach(e => {
+      const opt = document.createElement('option');
+      opt.value = entryFilename(e);
+      opt.textContent = entryLabel(e);
+      select.appendChild(opt);
     });
 
     label.textContent = `${filesToShow.length} raid${filesToShow.length > 1 ? 's' : ''} affiché${filesToShow.length > 1 ? 's' : ''}`;
@@ -367,7 +377,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Charge le plus récent par défaut
     if (filesToShow.length > 0) {
-        select.value = filesToShow[0];
-        await loadRaid(filesToShow[0]);
+      select.value = entryFilename(filesToShow[0]);
+      await loadRaid(entryFilename(filesToShow[0]));
     }
 });

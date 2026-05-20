@@ -324,8 +324,20 @@
 }
 
     .rk-plat-badge.is-visible {
-        opacity: 1;
-        transform: scale(1);
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Carte plateformes (même animation que rk-card) */
+    .rk-plat-card {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease, border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .rk-plat-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
 .rk-plat-badge__label {

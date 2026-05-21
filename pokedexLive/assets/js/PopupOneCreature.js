@@ -91,7 +91,7 @@ function openCreaturePopup(entry) {
         ${_btn('Scrap 1 shiny', `${cmdScrap} ${name} shiny`, scrapShiny1En, 'poc-btn--scrap poc-btn--shiny')}
         ${scrapShinyXEn || true ? _btn(`Scrap ${scrapShinyX || '?'} shinies`, `${cmdScrap} ${name} fullshiny`, scrapShinyXEn, 'poc-btn--scrap poc-btn--shiny') : ''}
         ${_btn(scrapBothLabel || 'Scrap mix normaux & shinies',
-        `${cmdScrap} ${name} fullnormal && ${cmdScrap} ${name} fullshiny`,
+        `${cmdScrap} ${name} complete`,
         scrapBothEn, 'poc-btn--scrap')}
       </div>
     </div>`;

@@ -1,0 +1,101 @@
+{
+  "bossName": "D\u00E9m\u00E9t\u00E9ros",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Landorus_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Landorus_shiny.gif",
+  "bossRarity": "LEGENDARY",
+  "shiny": true,
+  "pvMax": 320000,
+  "date": "2026-05-23 23:06:04",
+  "durationSec": 1268,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 298701,
+      "countAtk": 8,
+      "baseDmg": 23315,
+      "level": 18,
+      "raidCount": 747,
+      "luck": 1.6014422
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 28082,
+      "countAtk": 10,
+      "baseDmg": 1323,
+      "level": 10,
+      "raidCount": 85,
+      "luck": 2.1226
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 18193,
+      "countAtk": 3,
+      "baseDmg": 4500,
+      "level": 20,
+      "raidCount": 178,
+      "luck": 1.3476297
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 344976
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 2,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    }
+  ]
+}

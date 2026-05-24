@@ -1,0 +1,105 @@
+{
+  "bossName": "Hippopotas",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hippopotas_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hippopotas_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-05-24 21:48:48",
+  "durationSec": 525,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 29795,
+      "countAtk": 2,
+      "baseDmg": 13701,
+      "level": 18,
+      "raidCount": 452,
+      "luck": 1.0873294
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 23259,
+      "countAtk": 2,
+      "baseDmg": 23259,
+      "level": 18,
+      "raidCount": 755,
+      "luck": 0.5
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Lo\u00EFcLatendresse-h6p3y",
+      "damage": 506,
+      "countAtk": 2,
+      "baseDmg": 239,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.0585774
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 506
+    },
+    {
+      "platform": "twitch",
+      "damage": 53054
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Lo\u00EFcLatendresse-h6p3y",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 2,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ]
+}

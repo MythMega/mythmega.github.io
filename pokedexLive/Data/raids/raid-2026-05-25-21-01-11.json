@@ -1,0 +1,78 @@
+{
+  "bossName": "Delcatty",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Delcatty_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Delcatty_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-05-25 21:01:11",
+  "durationSec": 2010,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 72080,
+      "countAtk": 2,
+      "baseDmg": 23988,
+      "level": 18,
+      "raidCount": 763,
+      "luck": 1.5024179
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "mollybenard6308",
+      "damage": 7790,
+      "countAtk": 9,
+      "baseDmg": 587,
+      "level": 7,
+      "raidCount": 30,
+      "luck": 1.474541
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 7790
+    },
+    {
+      "platform": "twitch",
+      "damage": 72080
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "mollybenard6308",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ]
+}

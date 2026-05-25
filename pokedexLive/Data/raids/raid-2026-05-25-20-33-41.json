@@ -1,0 +1,105 @@
+{
+  "bossName": "Coxyclaque",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ledian_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ledian_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 30000,
+  "date": "2026-05-25 20:33:41",
+  "durationSec": 1325,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 23968,
+      "countAtk": 1,
+      "baseDmg": 23968,
+      "level": 18,
+      "raidCount": 762,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "alexciel",
+      "damage": 4917,
+      "countAtk": 3,
+      "baseDmg": 905,
+      "level": 11,
+      "raidCount": 30,
+      "luck": 1.8110497
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "mollybenard6308",
+      "damage": 1400,
+      "countAtk": 2,
+      "baseDmg": 488,
+      "level": 7,
+      "raidCount": 29,
+      "luck": 1.4344262
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 23968
+    },
+    {
+      "platform": "youtube",
+      "damage": 6317
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "mollybenard6308",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ]
+}

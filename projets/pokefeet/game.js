@@ -15,6 +15,7 @@ const Game = (function () {
   let practiceGaugeEl = null;
   let practiceGaugeFill = null;
   let practiceGaugeLabel = null;
+  let gameActive = false;
 
   // cookie helpers
   function setCookie(name, value, days = 365) {
@@ -51,13 +52,18 @@ const Game = (function () {
     return Math.max(basePoints - a * hintPenalty, 0);
   }
 
+  // normalise une chaîne : minuscules + sans accents
+  function normalizeStr(s) {
+    return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
     // --- nouvelle fonction : vérifie si le nom entré existe dans la liste (FR ou EN) ---
   function isValidName(val) {
     if (!val) return false;
-    const v = val.trim().toLowerCase();
+    const v = normalizeStr(val.trim());
     for (let i = 0; i < pokemons.length; i++) {
       const p = pokemons[i];
-      if ((p.NameFR && p.NameFR.toLowerCase() === v) || (p.NameEN && p.NameEN.toLowerCase() === v)) {
+      if (normalizeStr(p.NameFR) === v || normalizeStr(p.NameEN) === v) {
         return true;
       }
     }
@@ -107,6 +113,7 @@ const Game = (function () {
     practiceGaugeFill = practiceGaugeEl ? practiceGaugeEl.querySelector('.gauge-fill') : null;
     practiceGaugeLabel = practiceGaugeEl ? practiceGaugeEl.querySelector('.gauge-label') : null;
     next();
+    gameActive = true;
     bindUI();
     UI.enableSuivantBtn(false);
   }
@@ -114,15 +121,114 @@ const Game = (function () {
   function bindUI() {
     document.getElementById('submitBtn').addEventListener('click', onSubmit);
     document.getElementById('nextBtn').addEventListener('click', next);
+
+    // Abandon → game over screen
     const ab = document.getElementById('abandonBtn');
     if (ab) ab.addEventListener('click', () => {
       const confirmMsg = Translator.get('practice.confirmAbandon', 'Êtes-vous sûr d\'abandonner cette partie ?');
       if (!confirm(confirmMsg)) return;
-      // refresh the page
+      saveBestIfNeeded();
+      showGameOverScreen(current, true);
+    });
+
+    // Retour à l'accueil → confirm si partie en cours
+    const retourBtn = document.getElementById('retourBtn');
+    if (retourBtn) retourBtn.addEventListener('click', () => {
+      if (gameActive) {
+        const confirmMsg = Translator.get('practice.confirmLeave', 'Êtes-vous sûr de vouloir quitter la partie ?');
+        if (!confirm(confirmMsg)) return;
+      }
+      window.location.href = './index.html';
+    });
+
+    // Boutons de l'écran game over
+    const gameOverHomeBtn = document.getElementById('gameOverHomeBtn');
+    if (gameOverHomeBtn) gameOverHomeBtn.addEventListener('click', () => {
+      window.location.href = './index.html';
+    });
+    const gameOverReplayBtn = document.getElementById('gameOverReplayBtn');
+    if (gameOverReplayBtn) gameOverReplayBtn.addEventListener('click', () => {
       window.location.reload();
     });
-    document.getElementById('guessInput').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') onSubmit();
+
+    // Confirmation avant fermeture/rechargement si partie en cours
+    window.addEventListener('beforeunload', (e) => {
+      if (gameActive) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+    // Autocomplete custom (comme le daily)
+    const practiceDropdown = document.getElementById('practiceNamesDropdown');
+    let dropdownActive = -1;
+
+    function closePracticeDropdown() {
+      if (!practiceDropdown) return;
+      practiceDropdown.innerHTML = '';
+      practiceDropdown.classList.add('hidden');
+      dropdownActive = -1;
+    }
+
+    function navigatePracticeDropdown(dir) {
+      if (!practiceDropdown) return;
+      const items = practiceDropdown.querySelectorAll('.autocomplete-item');
+      if (!items.length) return;
+      if (dropdownActive >= 0) items[dropdownActive]?.classList.remove('active');
+      dropdownActive = (dropdownActive + dir + items.length) % items.length;
+      items[dropdownActive].classList.add('active');
+      items[dropdownActive].scrollIntoView({ block: 'nearest' });
+    }
+
+    const guessInput = document.getElementById('guessInput');
+    guessInput.addEventListener('input', () => {
+      if (!practiceDropdown) return;
+      const needle = normalizeStr(guessInput.value.trim());
+      practiceDropdown.innerHTML = '';
+      dropdownActive = -1;
+      if (!needle) { practiceDropdown.classList.add('hidden'); return; }
+      const MAX = 40;
+      let count = 0;
+      pokemons.forEach(p => {
+        if (count >= MAX) return;
+        const fr = p.NameFR || '';
+        const en = p.NameEN || '';
+        let name = null;
+        if (fr && normalizeStr(fr).includes(needle)) name = fr;
+        else if (en && normalizeStr(en).includes(needle)) name = en;
+        if (name) {
+          const item = document.createElement('div');
+          item.className = 'autocomplete-item';
+          item.textContent = name;
+          item.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            guessInput.value = name;
+            closePracticeDropdown();
+            onSubmit();
+          });
+          practiceDropdown.appendChild(item);
+          count++;
+        }
+      });
+      practiceDropdown.classList.toggle('hidden', count === 0);
+    });
+
+    guessInput.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); navigatePracticeDropdown(1); return; }
+      if (e.key === 'ArrowUp')   { e.preventDefault(); navigatePracticeDropdown(-1); return; }
+      if (e.key === 'Escape')    { closePracticeDropdown(); return; }
+      if (e.key === 'Enter') {
+        const items = practiceDropdown ? practiceDropdown.querySelectorAll('.autocomplete-item') : [];
+        if (dropdownActive >= 0 && items[dropdownActive]) {
+          guessInput.value = items[dropdownActive].textContent;
+          closePracticeDropdown();
+        }
+        onSubmit();
+      }
+    });
+
+    guessInput.addEventListener('blur', () => {
+      setTimeout(closePracticeDropdown, 150);
     });
   }
 
@@ -222,10 +328,9 @@ const Game = (function () {
         practiceGaugeLabel.textContent = (pts > 0) ? ('+' + pts) : '+0';
       }
       if (attempts >= maxAttempts) {
-        // échoué complètement
-        UI.enableSuivantBtn(true);
-        revealAllAndResetScore();
-        PossiblePokemons = [...pokemons];
+        // échoué complètement → écran game over
+        saveBestIfNeeded();
+        showGameOverScreen(current, false);
       } else {
         // afficher indice correspondant
         showHintForAttempt(attempts);
@@ -279,6 +384,35 @@ const Game = (function () {
     }
     // mettre à jour points attendus (visuel)
     UI.setScorePreview(pointsForAttempt(attempts));
+  }
+
+  function showGameOverScreen(pokemon, wasAbandon) {
+    gameActive = false;
+    const screen = document.getElementById('gameOverScreen');
+    if (!screen) return;
+    const titleEl = document.getElementById('gameOverTitle');
+    const imgEl = document.getElementById('gameOverImg');
+    const nameEl = document.getElementById('gameOverPokeName');
+    const statsEl = document.getElementById('gameOverStats');
+    if (titleEl) titleEl.textContent = wasAbandon
+      ? Translator.get('practice.abandonTitle', 'Partie abandonnée')
+      : Translator.get('practice.failTitle', 'Échec !');
+    if (imgEl) {
+      imgEl.src = pokemon ? (pokemon.FullImage || pokemon.Image || '') : '';
+      imgEl.alt = pokemon ? (pokemon.NameFR || pokemon.NameEN || '') : '';
+    }
+    if (nameEl) nameEl.textContent = pokemon ? (pokemon.NameFR || pokemon.NameEN || '?') : '';
+    if (statsEl) {
+      const scoreLabel = Translator.get('practice.score', 'Score');
+      const streakLabel = Translator.get('practice.streak', 'Série');
+      const bestLabel = Translator.get('practice.best', 'Meilleur');
+      const best = parseInt(getCookie('pk_best') || '0', 10);
+      statsEl.innerHTML =
+        `<div>${scoreLabel} : <strong>${score}</strong></div>` +
+        `<div>${streakLabel} : <strong>${streak}</strong></div>` +
+        `<div>${bestLabel} : <strong>${best}</strong></div>`;
+    }
+    screen.style.display = 'flex';
   }
 
   return {

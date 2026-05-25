@@ -849,6 +849,24 @@ const Daily = (function () {
   }
 
   function bindButtons() {
+    // Retour à l'accueil → confirm si partie en cours
+    const retourBtn = document.getElementById('retourBtn');
+    if (retourBtn) retourBtn.addEventListener('click', () => {
+      if (index < COUNT) {
+        const confirmMsg = Translator.get('practice.confirmLeave', 'Êtes-vous sûr de vouloir quitter la partie ?');
+        if (!confirm(confirmMsg)) return;
+      }
+      window.location.href = './index.html';
+    });
+
+    // Confirmation avant fermeture/rechargement si partie en cours
+    window.addEventListener('beforeunload', (e) => {
+      if (index < COUNT) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
     document.getElementById('dailySubmit').addEventListener('click', submitGuess);
     document.getElementById('dailySkip').addEventListener('click', () => {
       const ok = confirm("Es-tu sûr de vouloir passer ce Pokémon ?");

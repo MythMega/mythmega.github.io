@@ -2,7 +2,7 @@
   {
     "Generation": 1,
     "Image": "./img/1-151/001-a.png",
-    "FullImage": "./img/fullsprite/1.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/1.png",
     "Index": "1",
     "NameEN": "Bulbasaur",
     "NameFR": "Bulbizarre",
@@ -17,7 +17,7 @@
   {
     "Generation": 1,
     "Image": "./img/1-151/002-a.png",
-    "FullImage": "./img/fullsprite/2.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/2.png",
     "Index": "2",
     "NameEN": "Ivysaur",
     "NameFR": "Herbizarre",
@@ -32,7 +32,7 @@
   {
     "Generation": 1,
     "Image": "./img/1-151/003-a.png",
-    "FullImage": "./img/fullsprite/3.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/3.png",
     "Index": "3",
     "NameEN": "Venusaur",
     "NameFR": "Florizarre",
@@ -47,7 +47,7 @@
   {
     "Generation": 1,
     "Image": "./img/1-151/004-a.png",
-    "FullImage": "./img/fullsprite/4.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/4.png",
     "Index": "4",
     "NameEN": "Charmander",
     "NameFR": "Salamèche",
@@ -62,7 +62,7 @@
   {
     "Generation": 1,
     "Image": "./img/1-151/005-a.png",
-    "FullImage": "./img/fullsprite/5.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/5.png",
     "Index": "5",
     "NameEN": "Charmeleon",
     "NameFR": "Reptincel",
@@ -77,7 +77,7 @@
   {
     "Generation": 1,
     "Image": "./img/1-151/006-a.png",
-    "FullImage": "./img/fullsprite/6.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/6.png",
     "Index": "6",
     "NameEN": "Charizard",
     "NameFR": "Dracaufeu",
@@ -97,7 +97,7 @@
     "NameFR": "Carapuce",
     "Type1": "water",
     "Type2": null,
-    "FullImage": "./img/fullsprite/7.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/7.png",
     "Category": "Pokémon Minitortue",
     "EggGroups": [
       "Aquatique 1",
@@ -112,7 +112,7 @@
     "NameFR": "Carabaffe",
     "Type1": "water",
     "Type2": null,
-    "FullImage": "./img/fullsprite/8.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/8.png",
     "Category": "Pokémon Tortue",
     "EggGroups": [
       "Aquatique 1",
@@ -127,7 +127,7 @@
     "NameFR": "Tortank",
     "Type1": "water",
     "Type2": null,
-    "FullImage": "./img/fullsprite/9.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/9.png",
     "Category": "Pokémon Carapace",
     "EggGroups": [
       "Aquatique 1",
@@ -142,7 +142,7 @@
     "NameFR": "Chenipan",
     "Type1": "bug",
     "Type2": null,
-    "FullImage": "./img/fullsprite/10.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/10.png",
     "Category": "Pokémon Ver",
     "EggGroups": [
       "Insectoïde"
@@ -156,7 +156,7 @@
     "NameFR": "Chrysacier",
     "Type1": "bug",
     "Type2": null,
-    "FullImage": "./img/fullsprite/11.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/11.png",
     "Category": "Pokémon Cocon",
     "EggGroups": [
       "Insectoïde"
@@ -170,7 +170,7 @@
     "NameFR": "Papilusion",
     "Type1": "bug",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/12.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/12.png",
     "Category": "Pokémon Papillon",
     "EggGroups": [
       "Insectoïde"
@@ -184,7 +184,7 @@
     "NameFR": "Aspicot",
     "Type1": "bug",
     "Type2": "poison",
-    "FullImage": "./img/fullsprite/13.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/13.png",
     "Category": "Pokémon Insectopic",
     "EggGroups": [
       "Insectoïde"
@@ -198,7 +198,7 @@
     "NameFR": "Coconfort",
     "Type1": "bug",
     "Type2": "poison",
-    "FullImage": "./img/fullsprite/14.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/14.png",
     "Category": "Pokémon Cocon",
     "EggGroups": [
       "Insectoïde"
@@ -212,7 +212,7 @@
     "NameFR": "Dardargnan",
     "Type1": "bug",
     "Type2": "poison",
-    "FullImage": "./img/fullsprite/15.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/15.png",
     "Category": "Pokémon Guêpoison",
     "EggGroups": [
       "Insectoïde"
@@ -226,7 +226,7 @@
     "NameFR": "Roucool",
     "Type1": "normal",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/16.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/16.png",
     "Category": "Pokémon Minoiseau",
     "EggGroups": [
       "Aérien"
@@ -240,7 +240,7 @@
     "NameFR": "Roucoups",
     "Type1": "normal",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/17.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/17.png",
     "Category": "Pokémon Oiseau",
     "EggGroups": [
       "Aérien"
@@ -254,7 +254,7 @@
     "NameFR": "Roucarnage",
     "Type1": "normal",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/18.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/18.png",
     "Category": "Pokémon Oiseau",
     "EggGroups": [
       "Aérien"
@@ -268,7 +268,7 @@
     "NameFR": "Rattata",
     "Type1": "normal",
     "Type2": null,
-    "FullImage": "./img/fullsprite/19.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/19.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre"
@@ -282,7 +282,7 @@
     "NameFR": "Rattatac",
     "Type1": "normal",
     "Type2": null,
-    "FullImage": "./img/fullsprite/20.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/20.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre"
@@ -296,7 +296,7 @@
     "NameFR": "Piafabec",
     "Type1": "normal",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/21.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/21.png",
     "Category": "Pokémon Minoiseau",
     "EggGroups": [
       "Aérien"
@@ -310,7 +310,7 @@
     "NameFR": "Rapasdepic",
     "Type1": "normal",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/22.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/22.png",
     "Category": "Pokémon Bec-Oiseau",
     "EggGroups": [
       "Aérien"
@@ -324,7 +324,7 @@
     "NameFR": "Abo",
     "Type1": "poison",
     "Type2": null,
-    "FullImage": "./img/fullsprite/23.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/23.png",
     "Category": "Pokémon Serpent",
     "EggGroups": [
       "Terrestre",
@@ -339,7 +339,7 @@
     "NameFR": "Arbok",
     "Type1": "poison",
     "Type2": null,
-    "FullImage": "./img/fullsprite/24.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/24.png",
     "Category": "Pokémon Cobra",
     "EggGroups": [
       "Terrestre",
@@ -354,7 +354,7 @@
     "NameFR": "Pikachu",
     "Type1": "electric",
     "Type2": null,
-    "FullImage": "./img/fullsprite/25.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/25.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre",
@@ -369,7 +369,7 @@
     "NameFR": "Raichu",
     "Type1": "electric",
     "Type2": null,
-    "FullImage": "./img/fullsprite/26.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/26.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre",
@@ -384,7 +384,7 @@
     "NameFR": "Sabelette",
     "Type1": "ground",
     "Type2": null,
-    "FullImage": "./img/fullsprite/27.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/27.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre"
@@ -398,7 +398,7 @@
     "NameFR": "Sablaireau",
     "Type1": "ground",
     "Type2": null,
-    "FullImage": "./img/fullsprite/28.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/28.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre"
@@ -412,7 +412,7 @@
     "NameFR": "Nidoran femelle",
     "Type1": "poison",
     "Type2": null,
-    "FullImage": "./img/fullsprite/29.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/29.png",
     "Category": "Pokémon Vénépic",
     "EggGroups": [
       "Monstrueux",
@@ -427,7 +427,7 @@
     "NameFR": "Nidorina",
     "Type1": "poison",
     "Type2": null,
-    "FullImage": "./img/fullsprite/30.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/30.png",
     "Category": "Pokémon Vénépic",
     "EggGroups": [
       "Inconnu"
@@ -441,7 +441,7 @@
     "NameFR": "Nidoqueen",
     "Type1": "poison",
     "Type2": "ground",
-    "FullImage": "./img/fullsprite/31.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/31.png",
     "Category": "Pokémon Perceur",
     "EggGroups": [
       "Inconnu"
@@ -455,7 +455,7 @@
     "NameFR": "Nidoran mâle",
     "Type1": "poison",
     "Type2": null,
-    "FullImage": "./img/fullsprite/32.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/32.png",
     "Category": "Pokémon Vénépic",
     "EggGroups": [
       "Monstrueux",
@@ -470,7 +470,7 @@
     "NameFR": "Nidorino",
     "Type1": "poison",
     "Type2": null,
-    "FullImage": "./img/fullsprite/33.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/33.png",
     "Category": "Pokémon Vénépic",
     "EggGroups": [
       "Monstrueux",
@@ -485,7 +485,7 @@
     "NameFR": "Nidoking",
     "Type1": "poison",
     "Type2": "ground",
-    "FullImage": "./img/fullsprite/34.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/34.png",
     "Category": "Pokémon Perceur",
     "EggGroups": [
       "Monstrueux",
@@ -500,7 +500,7 @@
     "Type1": "fairy",
     "Type2": null,
     "Image": "./img/1-151/035-a.png",
-    "FullImage": "./img/fullsprite/35.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/35.png",
     "Category": "Pokémon Fée",
     "EggGroups": [
       "Féerique"
@@ -514,7 +514,7 @@
     "Type1": "fairy",
     "Type2": null,
     "Image": "./img/1-151/036-a.png",
-    "FullImage": "./img/fullsprite/36.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/36.png",
     "Category": "Pokémon Fée",
     "EggGroups": [
       "Féerique"
@@ -528,7 +528,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/1-151/037-a.png",
-    "FullImage": "./img/fullsprite/37.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/37.png",
     "Category": "Pokémon Renard",
     "EggGroups": [
       "Terrestre"
@@ -542,7 +542,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/1-151/038-a.png",
-    "FullImage": "./img/fullsprite/38.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/38.png",
     "Category": "Pokémon Renard",
     "EggGroups": [
       "Terrestre"
@@ -556,7 +556,7 @@
     "Type1": "normal",
     "Type2": "fairy",
     "Image": "./img/1-151/039-a.png",
-    "FullImage": "./img/fullsprite/39.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/39.png",
     "Category": "Pokémon Bouboule",
     "EggGroups": [
       "Féerique"
@@ -570,7 +570,7 @@
     "Type1": "normal",
     "Type2": "fairy",
     "Image": "./img/1-151/040-a.png",
-    "FullImage": "./img/fullsprite/40.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/40.png",
     "Category": "Pokémon Bouboule",
     "EggGroups": [
       "Féerique"
@@ -584,7 +584,7 @@
     "Type1": "poison",
     "Type2": "flying",
     "Image": "./img/1-151/041-a.png",
-    "FullImage": "./img/fullsprite/41.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/41.png",
     "Category": "Pokémon Chovsouris",
     "EggGroups": [
       "Aérien"
@@ -598,7 +598,7 @@
     "Type1": "poison",
     "Type2": "flying",
     "Image": "./img/1-151/042-a.png",
-    "FullImage": "./img/fullsprite/42.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/42.png",
     "Category": "Pokémon Chovsouris",
     "EggGroups": [
       "Aérien"
@@ -612,7 +612,7 @@
     "Type1": "grass",
     "Type2": "poison",
     "Image": "./img/1-151/043-a.png",
-    "FullImage": "./img/fullsprite/43.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/43.png",
     "Category": "Pokémon Racine",
     "EggGroups": [
       "Végétal"
@@ -626,7 +626,7 @@
     "Type1": "grass",
     "Type2": "poison",
     "Image": "./img/1-151/044-a.png",
-    "FullImage": "./img/fullsprite/44.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/44.png",
     "Category": "Pokémon Racine",
     "EggGroups": [
       "Végétal"
@@ -640,7 +640,7 @@
     "Type1": "grass",
     "Type2": "poison",
     "Image": "./img/1-151/045-a.png",
-    "FullImage": "./img/fullsprite/45.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/45.png",
     "Category": "Pokémon Fleur",
     "EggGroups": [
       "Végétal"
@@ -654,7 +654,7 @@
     "Type1": "bug",
     "Type2": "grass",
     "Image": "./img/1-151/046-a.png",
-    "FullImage": "./img/fullsprite/46.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/46.png",
     "Category": "Pokémon Champignon",
     "EggGroups": [
       "Insectoïde",
@@ -669,7 +669,7 @@
     "Type1": "bug",
     "Type2": "grass",
     "Image": "./img/1-151/047-a.png",
-    "FullImage": "./img/fullsprite/47.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/47.png",
     "Category": "Pokémon Champignon",
     "EggGroups": [
       "Insectoïde",
@@ -684,7 +684,7 @@
     "Type1": "bug",
     "Type2": "poison",
     "Image": "./img/1-151/048-a.png",
-    "FullImage": "./img/fullsprite/48.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/48.png",
     "Category": "Pokémon Vermine",
     "EggGroups": [
       "Insectoïde"
@@ -698,7 +698,7 @@
     "Type1": "bug",
     "Type2": "poison",
     "Image": "./img/1-151/049-a.png",
-    "FullImage": "./img/fullsprite/49.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/49.png",
     "Category": "Pokémon Papipoison",
     "EggGroups": [
       "Insectoïde"
@@ -712,7 +712,7 @@
     "Type1": "ground",
     "Type2": null,
     "Image": "./img/1-151/050-a.png",
-    "FullImage": "./img/fullsprite/50.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/50.png",
     "Category": "Pokémon Taupe",
     "EggGroups": [
       "Terrestre"
@@ -726,7 +726,7 @@
     "Type1": "ground",
     "Type2": null,
     "Image": "./img/1-151/051-a.png",
-    "FullImage": "./img/fullsprite/51.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/51.png",
     "Category": "Pokémon Taupe",
     "EggGroups": [
       "Terrestre"
@@ -740,7 +740,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/052-a.png",
-    "FullImage": "./img/fullsprite/52.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/52.png",
     "Category": "Pokémon Chadégout",
     "EggGroups": [
       "Terrestre"
@@ -754,7 +754,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/053-a.png",
-    "FullImage": "./img/fullsprite/53.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/53.png",
     "Category": "Pokémon Chadeville",
     "EggGroups": [
       "Terrestre"
@@ -768,7 +768,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/054-a.png",
-    "FullImage": "./img/fullsprite/54.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/54.png",
     "Category": "Pokémon Canard",
     "EggGroups": [
       "Aquatique 1",
@@ -783,7 +783,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/055-a.png",
-    "FullImage": "./img/fullsprite/55.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/55.png",
     "Category": "Pokémon Canard",
     "EggGroups": [
       "Aquatique 1",
@@ -798,7 +798,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/056-a.png",
-    "FullImage": "./img/fullsprite/56.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/56.png",
     "Category": "Pokémon Porsinge",
     "EggGroups": [
       "Terrestre"
@@ -812,7 +812,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/057-a.png",
-    "FullImage": "./img/fullsprite/57.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/57.png",
     "Category": "Pokémon Porsinge",
     "EggGroups": [
       "Terrestre"
@@ -826,7 +826,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/1-151/058-a.png",
-    "FullImage": "./img/fullsprite/58.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/58.png",
     "Category": "Pokémon Chiot",
     "EggGroups": [
       "Terrestre"
@@ -840,7 +840,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/1-151/059-a.png",
-    "FullImage": "./img/fullsprite/59.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/59.png",
     "Category": "Pokémon Légendaire",
     "EggGroups": [
       "Terrestre"
@@ -854,7 +854,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/060-a.png",
-    "FullImage": "./img/fullsprite/60.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/60.png",
     "Category": "Pokémon Têtard",
     "EggGroups": [
       "Aquatique 1"
@@ -868,7 +868,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/061-a.png",
-    "FullImage": "./img/fullsprite/61.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/61.png",
     "Category": "Pokémon Têtard",
     "EggGroups": [
       "Aquatique 1"
@@ -882,7 +882,7 @@
     "Type1": "water",
     "Type2": "fighting",
     "Image": "./img/1-151/062-a.png",
-    "FullImage": "./img/fullsprite/62.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/62.png",
     "Category": "Pokémon Têtard",
     "EggGroups": [
       "Aquatique 1"
@@ -896,7 +896,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/063-a.png",
-    "FullImage": "./img/fullsprite/63.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/63.png",
     "Category": "Pokémon Psy",
     "EggGroups": [
       "Humanoïde"
@@ -910,7 +910,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/064-a.png",
-    "FullImage": "./img/fullsprite/64.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/64.png",
     "Category": "Pokémon Psy",
     "EggGroups": [
       "Humanoïde"
@@ -924,7 +924,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/065-a.png",
-    "FullImage": "./img/fullsprite/65.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/65.png",
     "Category": "Pokémon Psy",
     "EggGroups": [
       "Humanoïde"
@@ -938,7 +938,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/066-a.png",
-    "FullImage": "./img/fullsprite/66.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/66.png",
     "Category": "Pokémon Colosse",
     "EggGroups": [
       "Humanoïde"
@@ -952,7 +952,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/067-a.png",
-    "FullImage": "./img/fullsprite/67.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/67.png",
     "Category": "Pokémon Colosse",
     "EggGroups": [
       "Humanoïde"
@@ -966,7 +966,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/068-a.png",
-    "FullImage": "./img/fullsprite/68.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/68.png",
     "Category": "Pokémon Colosse",
     "EggGroups": [
       "Humanoïde"
@@ -980,7 +980,7 @@
     "Type1": "grass",
     "Type2": "poison",
     "Image": "./img/1-151/069-a.png",
-    "FullImage": "./img/fullsprite/69.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/69.png",
     "Category": "Pokémon Fleur",
     "EggGroups": [
       "Végétal"
@@ -994,7 +994,7 @@
     "Type1": "grass",
     "Type2": "poison",
     "Image": "./img/1-151/070-a.png",
-    "FullImage": "./img/fullsprite/70.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/70.png",
     "Category": "Pokémon Carnivore",
     "EggGroups": [
       "Végétal"
@@ -1008,7 +1008,7 @@
     "Type1": "grass",
     "Type2": "poison",
     "Image": "./img/1-151/071-a.png",
-    "FullImage": "./img/fullsprite/71.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/71.png",
     "Category": "Pokémon Carnivore",
     "EggGroups": [
       "Végétal"
@@ -1022,7 +1022,7 @@
     "Type1": "water",
     "Type2": "poison",
     "Image": "./img/1-151/072-a.png",
-    "FullImage": "./img/fullsprite/72.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/72.png",
     "Category": "Pokémon Mollusque",
     "EggGroups": [
       "Aquatique 3"
@@ -1036,7 +1036,7 @@
     "Type1": "water",
     "Type2": "poison",
     "Image": "./img/1-151/073-a.png",
-    "FullImage": "./img/fullsprite/73.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/73.png",
     "Category": "Pokémon Mollusque",
     "EggGroups": [
       "Aquatique 3"
@@ -1050,7 +1050,7 @@
     "Type1": "rock",
     "Type2": "ground",
     "Image": "./img/1-151/074-a.png",
-    "FullImage": "./img/fullsprite/74.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/74.png",
     "Category": "Pokémon Roche",
     "EggGroups": [
       "Minéral"
@@ -1064,7 +1064,7 @@
     "Type1": "rock",
     "Type2": "ground",
     "Image": "./img/1-151/075-a.png",
-    "FullImage": "./img/fullsprite/75.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/75.png",
     "Category": "Pokémon Roche",
     "EggGroups": [
       "Minéral"
@@ -1078,7 +1078,7 @@
     "Type1": "rock",
     "Type2": "ground",
     "Image": "./img/1-151/076-a.png",
-    "FullImage": "./img/fullsprite/76.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/76.png",
     "Category": "Pokémon Titanesque",
     "EggGroups": [
       "Minéral"
@@ -1092,7 +1092,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/1-151/077-a.png",
-    "FullImage": "./img/fullsprite/77.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/77.png",
     "Category": "Pokémon Cheval Feu",
     "EggGroups": [
       "Terrestre"
@@ -1106,7 +1106,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/1-151/078-a.png",
-    "FullImage": "./img/fullsprite/78.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/78.png",
     "Category": "Pokémon Cheval Feu",
     "EggGroups": [
       "Terrestre"
@@ -1120,7 +1120,7 @@
     "Type1": "water",
     "Type2": "psychic",
     "Image": "./img/1-151/079-a.png",
-    "FullImage": "./img/fullsprite/79.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/79.png",
     "Category": "Pokémon Crétin",
     "EggGroups": [
       "Monstrueux",
@@ -1135,7 +1135,7 @@
     "Type1": "water",
     "Type2": "psychic",
     "Image": "./img/1-151/080-a.png",
-    "FullImage": "./img/fullsprite/80.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/80.png",
     "Category": "Pokémon Symbiose",
     "EggGroups": [
       "Monstrueux",
@@ -1150,7 +1150,7 @@
     "Type1": "electric",
     "Type2": "steel",
     "Image": "./img/1-151/081-a.png",
-    "FullImage": "./img/fullsprite/81.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/81.png",
     "Category": "Pokémon Magnétique",
     "EggGroups": [
       "Minéral"
@@ -1164,7 +1164,7 @@
     "Type1": "electric",
     "Type2": "steel",
     "Image": "./img/1-151/082-a.png",
-    "FullImage": "./img/fullsprite/82.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/82.png",
     "Category": "Pokémon Magnétique",
     "EggGroups": [
       "Minéral"
@@ -1178,7 +1178,7 @@
     "Type1": "normal",
     "Type2": "flying",
     "Image": "./img/1-151/083-a.png",
-    "FullImage": "./img/fullsprite/83.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/83.png",
     "Category": "Pokémon Canard Fou",
     "EggGroups": [
       "Aérien",
@@ -1193,7 +1193,7 @@
     "Type1": "normal",
     "Type2": "flying",
     "Image": "./img/1-151/084-a.png",
-    "FullImage": "./img/fullsprite/84.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/84.png",
     "Category": "Pokémon Duoiseau",
     "EggGroups": [
       "Aérien"
@@ -1207,7 +1207,7 @@
     "Type1": "normal",
     "Type2": "flying",
     "Image": "./img/1-151/085-a.png",
-    "FullImage": "./img/fullsprite/85.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/85.png",
     "Category": "Pokémon Trioiseau",
     "EggGroups": [
       "Aérien"
@@ -1221,7 +1221,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/086-a.png",
-    "FullImage": "./img/fullsprite/86.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/86.png",
     "Category": "Pokémon Otarie",
     "EggGroups": [
       "Aquatique 1",
@@ -1236,7 +1236,7 @@
     "Type1": "water",
     "Type2": "ice",
     "Image": "./img/1-151/087-a.png",
-    "FullImage": "./img/fullsprite/87.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/87.png",
     "Category": "Pokémon Otarie",
     "EggGroups": [
       "Aquatique 1",
@@ -1251,7 +1251,7 @@
     "Type1": "poison",
     "Type2": null,
     "Image": "./img/1-151/088-a.png",
-    "FullImage": "./img/fullsprite/88.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/88.png",
     "Category": "Pokémon Dégueu",
     "EggGroups": [
       "Amorphe"
@@ -1265,7 +1265,7 @@
     "Type1": "poison",
     "Type2": null,
     "Image": "./img/1-151/089-a.png",
-    "FullImage": "./img/fullsprite/89.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/89.png",
     "Category": "Pokémon Dégueu",
     "EggGroups": [
       "Amorphe"
@@ -1279,7 +1279,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/090-a.png",
-    "FullImage": "./img/fullsprite/90.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/90.png",
     "Category": "Pokémon Bivalve",
     "EggGroups": [
       "Aquatique 3"
@@ -1293,7 +1293,7 @@
     "Type1": "water",
     "Type2": "ice",
     "Image": "./img/1-151/091-a.png",
-    "FullImage": "./img/fullsprite/91.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/91.png",
     "Category": "Pokémon Bivalve",
     "EggGroups": [
       "Aquatique 3"
@@ -1307,7 +1307,7 @@
     "Type1": "ghost",
     "Type2": "poison",
     "Image": "./img/1-151/092-a.png",
-    "FullImage": "./img/fullsprite/92.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/92.png",
     "Category": "Pokémon Gaz",
     "EggGroups": [
       "Amorphe"
@@ -1321,7 +1321,7 @@
     "Type1": "ghost",
     "Type2": "poison",
     "Image": "./img/1-151/093-a.png",
-    "FullImage": "./img/fullsprite/93.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/93.png",
     "Category": "Pokémon Gaz",
     "EggGroups": [
       "Amorphe"
@@ -1335,7 +1335,7 @@
     "Type1": "ghost",
     "Type2": "poison",
     "Image": "./img/1-151/094-a.png",
-    "FullImage": "./img/fullsprite/94.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/94.png",
     "Category": "Pokémon Ombre",
     "EggGroups": [
       "Amorphe"
@@ -1349,7 +1349,7 @@
     "Type1": "rock",
     "Type2": "ground",
     "Image": "./img/1-151/095-a.png",
-    "FullImage": "./img/fullsprite/95.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/95.png",
     "Category": "Pokémon Serpenroc",
     "EggGroups": [
       "Minéral"
@@ -1363,7 +1363,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/096-a.png",
-    "FullImage": "./img/fullsprite/96.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/96.png",
     "Category": "Pokémon Hypnose",
     "EggGroups": [
       "Humanoïde"
@@ -1377,7 +1377,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/097-a.png",
-    "FullImage": "./img/fullsprite/97.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/97.png",
     "Category": "Pokémon Hypnose",
     "EggGroups": [
       "Humanoïde"
@@ -1391,7 +1391,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/098-a.png",
-    "FullImage": "./img/fullsprite/98.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/98.png",
     "Category": "Pokémon Doux Crabe",
     "EggGroups": [
       "Aquatique 3"
@@ -1405,7 +1405,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/099-a.png",
-    "FullImage": "./img/fullsprite/99.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/99.png",
     "Category": "Pokémon Pince",
     "EggGroups": [
       "Aquatique 3"
@@ -1419,7 +1419,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/1-151/100-a.png",
-    "FullImage": "./img/fullsprite/100.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/100.png",
     "Category": "Pokémon Balle",
     "EggGroups": [
       "Minéral"
@@ -1433,7 +1433,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/1-151/101-a.png",
-    "FullImage": "./img/fullsprite/101.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/101.png",
     "Category": "Pokémon Balle",
     "EggGroups": [
       "Minéral"
@@ -1447,7 +1447,7 @@
     "Type1": "grass",
     "Type2": "psychic",
     "Image": "./img/1-151/102-a.png",
-    "FullImage": "./img/fullsprite/102.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/102.png",
     "Category": "Pokémon Œuf",
     "EggGroups": [
       "Végétal"
@@ -1461,7 +1461,7 @@
     "Type1": "grass",
     "Type2": "psychic",
     "Image": "./img/1-151/103-a.png",
-    "FullImage": "./img/fullsprite/103.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/103.png",
     "Category": "Pokémon Fruitpalme",
     "EggGroups": [
       "Végétal"
@@ -1475,7 +1475,7 @@
     "Type1": "ground",
     "Type2": null,
     "Image": "./img/1-151/104-a.png",
-    "FullImage": "./img/fullsprite/104.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/104.png",
     "Category": "Pokémon Solitaire",
     "EggGroups": [
       "Monstrueux"
@@ -1489,7 +1489,7 @@
     "Type1": "ground",
     "Type2": null,
     "Image": "./img/1-151/105-a.png",
-    "FullImage": "./img/fullsprite/105.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/105.png",
     "Category": "Pokémon Gard'Os",
     "EggGroups": [
       "Monstrueux"
@@ -1503,7 +1503,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/106-a.png",
-    "FullImage": "./img/fullsprite/106.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/106.png",
     "Category": "Pokémon Latteur",
     "EggGroups": [
       "Humanoïde"
@@ -1517,7 +1517,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/107-a.png",
-    "FullImage": "./img/fullsprite/107.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/107.png",
     "Category": "Pokémon Puncheur",
     "EggGroups": [
       "Humanoïde"
@@ -1531,7 +1531,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/108-a.png",
-    "FullImage": "./img/fullsprite/108.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/108.png",
     "Category": "Pokémon Lécheur",
     "EggGroups": [
       "Monstrueux"
@@ -1545,7 +1545,7 @@
     "Type1": "poison",
     "Type2": null,
     "Image": "./img/1-151/109-a.png",
-    "FullImage": "./img/fullsprite/109.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/109.png",
     "Category": "Pokémon Gaz Mortel",
     "EggGroups": [
       "Amorphe"
@@ -1559,7 +1559,7 @@
     "Type1": "poison",
     "Type2": null,
     "Image": "./img/1-151/110-a.png",
-    "FullImage": "./img/fullsprite/110.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/110.png",
     "Category": "Pokémon Gaz Mortel",
     "EggGroups": [
       "Amorphe"
@@ -1573,7 +1573,7 @@
     "Type1": "ground",
     "Type2": "rock",
     "Image": "./img/1-151/111-a.png",
-    "FullImage": "./img/fullsprite/111.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/111.png",
     "Category": "Pokémon Piquant",
     "EggGroups": [
       "Monstrueux",
@@ -1588,7 +1588,7 @@
     "Type1": "ground",
     "Type2": "rock",
     "Image": "./img/1-151/112-a.png",
-    "FullImage": "./img/fullsprite/112.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/112.png",
     "Category": "Pokémon Perceur",
     "EggGroups": [
       "Monstrueux",
@@ -1603,7 +1603,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/113-a.png",
-    "FullImage": "./img/fullsprite/113.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/113.png",
     "Category": "Pokémon Œuf",
     "EggGroups": [
       "Féerique"
@@ -1617,7 +1617,7 @@
     "Type1": "grass",
     "Type2": null,
     "Image": "./img/1-151/114-a.png",
-    "FullImage": "./img/fullsprite/114.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/114.png",
     "Category": "Pokémon Vigne",
     "EggGroups": [
       "Végétal"
@@ -1631,7 +1631,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/115-a.png",
-    "FullImage": "./img/fullsprite/115.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/115.png",
     "Category": "Pokémon Maternel",
     "EggGroups": [
       "Monstrueux"
@@ -1645,7 +1645,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/116-a.png",
-    "FullImage": "./img/fullsprite/116.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/116.png",
     "Category": "Pokémon Dragon",
     "EggGroups": [
       "Aquatique 1",
@@ -1660,7 +1660,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/117-a.png",
-    "FullImage": "./img/fullsprite/117.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/117.png",
     "Category": "Pokémon Dragon",
     "EggGroups": [
       "Aquatique 1",
@@ -1675,7 +1675,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/118-a.png",
-    "FullImage": "./img/fullsprite/118.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/118.png",
     "Category": "Pokémon Poisson",
     "EggGroups": [
       "Aquatique 2"
@@ -1689,7 +1689,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/119-a.png",
-    "FullImage": "./img/fullsprite/119.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/119.png",
     "Category": "Pokémon Poisson",
     "EggGroups": [
       "Aquatique 2"
@@ -1703,7 +1703,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/120-a.png",
-    "FullImage": "./img/fullsprite/120.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/120.png",
     "Category": "Pokémon Étoile",
     "EggGroups": [
       "Aquatique 3"
@@ -1717,7 +1717,7 @@
     "Type1": "water",
     "Type2": "psychic",
     "Image": "./img/1-151/121-a.png",
-    "FullImage": "./img/fullsprite/121.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/121.png",
     "Category": "Pokémon Mystérieux",
     "EggGroups": [
       "Aquatique 3"
@@ -1731,7 +1731,7 @@
     "Type1": "psychic",
     "Type2": "fairy",
     "Image": "./img/1-151/122-a.png",
-    "FullImage": "./img/fullsprite/122.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/122.png",
     "Category": "Pokémon Bloqueur",
     "EggGroups": [
       "Humanoïde"
@@ -1745,7 +1745,7 @@
     "Type1": "bug",
     "Type2": "flying",
     "Image": "./img/1-151/123-a.png",
-    "FullImage": "./img/fullsprite/123.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/123.png",
     "Category": "Pokémon Mante",
     "EggGroups": [
       "Insectoïde"
@@ -1759,7 +1759,7 @@
     "Type1": "ice",
     "Type2": "psychic",
     "Image": "./img/1-151/124-a.png",
-    "FullImage": "./img/fullsprite/124.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/124.png",
     "Category": "Pokémon Humanoïde",
     "EggGroups": [
       "Humanoïde"
@@ -1773,7 +1773,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/1-151/125-a.png",
-    "FullImage": "./img/fullsprite/125.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/125.png",
     "Category": "Pokémon Électrique",
     "EggGroups": [
       "Humanoïde"
@@ -1787,7 +1787,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/1-151/126-a.png",
-    "FullImage": "./img/fullsprite/126.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/126.png",
     "Category": "Pokémon Crache-feu",
     "EggGroups": [
       "Humanoïde"
@@ -1801,7 +1801,7 @@
     "Type1": "bug",
     "Type2": null,
     "Image": "./img/1-151/127-a.png",
-    "FullImage": "./img/fullsprite/127.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/127.png",
     "Category": "Pokémon Scarabée",
     "EggGroups": [
       "Insectoïde"
@@ -1815,7 +1815,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/128-a.png",
-    "FullImage": "./img/fullsprite/128.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/128.png",
     "Category": "Pokémon Buffle",
     "EggGroups": [
       "Terrestre"
@@ -1829,7 +1829,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/129-a.png",
-    "FullImage": "./img/fullsprite/129.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/129.png",
     "Category": "Pokémon Poisson",
     "EggGroups": [
       "Aquatique 2",
@@ -1844,7 +1844,7 @@
     "Type1": "water",
     "Type2": "flying",
     "Image": "./img/1-151/130-a.png",
-    "FullImage": "./img/fullsprite/130.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/130.png",
     "Category": "Pokémon Terrifiant",
     "EggGroups": [
       "Aquatique 2",
@@ -1859,7 +1859,7 @@
     "Type1": "water",
     "Type2": "ice",
     "Image": "./img/1-151/131-a.png",
-    "FullImage": "./img/fullsprite/131.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/131.png",
     "Category": "Pokémon Transport",
     "EggGroups": [
       "Monstrueux",
@@ -1874,7 +1874,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/132-a.png",
-    "FullImage": "./img/fullsprite/132.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/132.png",
     "Category": "Pokémon Morphing",
     "EggGroups": [
       "Métamorph"
@@ -1888,7 +1888,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/133-a.png",
-    "FullImage": "./img/fullsprite/133.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/133.png",
     "Category": "Pokémon Évolutif",
     "EggGroups": [
       "Terrestre"
@@ -1902,7 +1902,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/1-151/134-a.png",
-    "FullImage": "./img/fullsprite/134.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/134.png",
     "Category": "Pokémon Bulleur",
     "EggGroups": [
       "Terrestre"
@@ -1916,7 +1916,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/1-151/135-a.png",
-    "FullImage": "./img/fullsprite/135.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/135.png",
     "Category": "Pokémon Orage",
     "EggGroups": [
       "Terrestre"
@@ -1930,7 +1930,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/1-151/136-a.png",
-    "FullImage": "./img/fullsprite/136.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/136.png",
     "Category": "Pokémon Flamme",
     "EggGroups": [
       "Terrestre"
@@ -1944,7 +1944,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/137-a.png",
-    "FullImage": "./img/fullsprite/137.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/137.png",
     "Category": "Pokémon Virtuel",
     "EggGroups": [
       "Minéral"
@@ -1958,7 +1958,7 @@
     "Type1": "rock",
     "Type2": "water",
     "Image": "./img/1-151/138-a.png",
-    "FullImage": "./img/fullsprite/138.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/138.png",
     "Category": "Pokémon Spirale",
     "EggGroups": [
       "Aquatique 1",
@@ -1973,7 +1973,7 @@
     "Type1": "rock",
     "Type2": "water",
     "Image": "./img/1-151/139-a.png",
-    "FullImage": "./img/fullsprite/139.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/139.png",
     "Category": "Pokémon Spirale",
     "EggGroups": [
       "Aquatique 1",
@@ -1988,7 +1988,7 @@
     "Type1": "rock",
     "Type2": "water",
     "Image": "./img/1-151/140-a.png",
-    "FullImage": "./img/fullsprite/140.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/140.png",
     "Category": "Pokémon Carapace",
     "EggGroups": [
       "Aquatique 1",
@@ -2003,7 +2003,7 @@
     "Type1": "rock",
     "Type2": "water",
     "Image": "./img/1-151/141-a.png",
-    "FullImage": "./img/fullsprite/141.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/141.png",
     "Category": "Pokémon Carapace",
     "EggGroups": [
       "Aquatique 1",
@@ -2018,7 +2018,7 @@
     "Type1": "rock",
     "Type2": "flying",
     "Image": "./img/1-151/142-a.png",
-    "FullImage": "./img/fullsprite/142.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/142.png",
     "Category": "Pokémon Fossile",
     "EggGroups": [
       "Aérien"
@@ -2032,7 +2032,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/1-151/143-a.png",
-    "FullImage": "./img/fullsprite/143.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/143.png",
     "Category": "Pokémon Pionceur",
     "EggGroups": [
       "Monstrueux"
@@ -2046,7 +2046,7 @@
     "Type1": "ice",
     "Type2": "flying",
     "Image": "./img/1-151/144-a.png",
-    "FullImage": "./img/fullsprite/144.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/144.png",
     "Category": "Pokémon Glaciaire",
     "EggGroups": [
       "Inconnu"
@@ -2060,7 +2060,7 @@
     "Type1": "electric",
     "Type2": "flying",
     "Image": "./img/1-151/145-a.png",
-    "FullImage": "./img/fullsprite/145.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/145.png",
     "Category": "Pokémon Électrique",
     "EggGroups": [
       "Inconnu"
@@ -2074,7 +2074,7 @@
     "Type1": "fire",
     "Type2": "flying",
     "Image": "./img/1-151/146-a.png",
-    "FullImage": "./img/fullsprite/146.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/146.png",
     "Category": "Pokémon Flamme",
     "EggGroups": [
       "Inconnu"
@@ -2088,7 +2088,7 @@
     "Type1": "dragon",
     "Type2": null,
     "Image": "./img/1-151/147-a.png",
-    "FullImage": "./img/fullsprite/147.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/147.png",
     "Category": "Pokémon Dragon",
     "EggGroups": [
       "Draconique",
@@ -2103,7 +2103,7 @@
     "Type1": "dragon",
     "Type2": null,
     "Image": "./img/1-151/148-a.png",
-    "FullImage": "./img/fullsprite/148.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/148.png",
     "Category": "Pokémon Dragon",
     "EggGroups": [
       "Draconique",
@@ -2118,7 +2118,7 @@
     "Type1": "dragon",
     "Type2": "flying",
     "Image": "./img/1-151/149-a.png",
-    "FullImage": "./img/fullsprite/149.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/149.png",
     "Category": "Pokémon Dragon",
     "EggGroups": [
       "Draconique",
@@ -2133,7 +2133,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/150-a.png",
-    "FullImage": "./img/fullsprite/150.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/150.png",
     "Category": "Pokémon Génétique",
     "EggGroups": [
       "Inconnu"
@@ -2147,7 +2147,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/151-a.png",
-    "FullImage": "./img/fullsprite/151.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/151.png",
     "Category": "Pokémon Nouveau",
     "EggGroups": [
       "Inconnu"
@@ -2161,7 +2161,7 @@
     "Type1": "dark",
     "Type2": "normal",
     "Image": "./img/1-151/019b-a.png",
-    "FullImage": "./img/fullsprite/19-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/19-regional-a.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre"
@@ -2175,7 +2175,7 @@
     "Type1": "dark",
     "Type2": "normal",
     "Image": "./img/1-151/020b-a.png",
-    "FullImage": "./img/fullsprite/20-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/20-regional-a.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre"
@@ -2189,7 +2189,7 @@
     "NameFR": "Raichu d'Alola",
     "Type1": "electric",
     "Type2": "psychic",
-    "FullImage": "./img/fullsprite/26-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/26-regional-a.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre",
@@ -2204,7 +2204,7 @@
     "Type1": "ice",
     "Type2": "steel",
     "Image": "./img/1-151/027b-a.png",
-    "FullImage": "./img/fullsprite/027-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/27-regional-a.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre"
@@ -2218,7 +2218,7 @@
     "Type1": "ice",
     "Type2": "steel",
     "Image": "./img/1-151/028b-a.png",
-    "FullImage": "./img/fullsprite/028-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/27-regional-a.png",
     "Category": "Pokémon Souris",
     "EggGroups": [
       "Terrestre"
@@ -2232,7 +2232,7 @@
     "Type1": "ice",
     "Type2": null,
     "Image": "./img/1-151/037b-a.png",
-    "FullImage": "./img/fullsprite/037-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/37-regional-a.png",
     "Category": "Pokémon Renard",
     "EggGroups": [
       "Terrestre"
@@ -2246,7 +2246,7 @@
     "Type1": "ice",
     "Type2": "fairy",
     "Image": "./img/1-151/038b-a.png",
-    "FullImage": "./img/fullsprite/038-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/38-regional-a.png",
     "Category": "Pokémon Renard",
     "EggGroups": [
       "Terrestre"
@@ -2260,7 +2260,7 @@
     "Type1": "ground",
     "Type2": "steel",
     "Image": "./img/1-151/050b-a.png",
-    "FullImage": "./img/fullsprite/050-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/50-regional-a.png",
     "Category": "Pokémon Taupe",
     "EggGroups": [
       "Terrestre"
@@ -2274,7 +2274,7 @@
     "Type1": "ground",
     "Type2": "steel",
     "Image": "./img/1-151/051b-a.png",
-    "FullImage": "./img/fullsprite/051-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/51-regional-a.png",
     "Category": "Pokémon Taupe",
     "EggGroups": [
       "Terrestre"
@@ -2288,7 +2288,7 @@
     "Type1": "dark",
     "Type2": null,
     "Image": "./img/1-151/052b-a.png",
-    "FullImage": "./img/fullsprite/052-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/52-regional-a.png",
     "Category": "Pokémon Chadégout",
     "EggGroups": [
       "Terrestre"
@@ -2302,7 +2302,7 @@
     "Type1": "dark",
     "Type2": null,
     "Image": "./img/1-151/053b-a.png",
-    "FullImage": "./img/fullsprite/053-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/53-regional-a.png",
     "Category": "Pokémon Chadeville",
     "EggGroups": [
       "Terrestre"
@@ -2316,7 +2316,7 @@
     "Type1": "steel",
     "Type2": null,
     "Image": "./img/1-151/052c-a.png",
-    "FullImage": "./img/fullsprite/052-C.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/52-regional-g.png",
     "Category": "Pokémon Chadégout",
     "EggGroups": [
       "Terrestre"
@@ -2330,7 +2330,7 @@
     "Type1": "fire",
     "Type2": "rock",
     "Image": "./img/1-151/058b-a.png",
-    "FullImage": "./img/fullsprite/058-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/58-regional-h.png",
     "Category": "Pokémon Chiot",
     "EggGroups": [
       "Terrestre"
@@ -2344,7 +2344,7 @@
     "Type1": "fire",
     "Type2": "rock",
     "Image": "./img/1-151/059b-a.png",
-    "FullImage": "./img/fullsprite/059-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/58-regional-h.png",
     "Category": "Pokémon Légendaire",
     "EggGroups": [
       "Terrestre"
@@ -2358,7 +2358,7 @@
     "Type1": "rock",
     "Type2": "electric",
     "Image": "./img/1-151/074b-a.png",
-    "FullImage": "./img/fullsprite/074-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/74-regional-a.png",
     "Category": "Pokémon Roche",
     "EggGroups": [
       "Minéral"
@@ -2372,7 +2372,7 @@
     "Type1": "rock",
     "Type2": "electric",
     "Image": "./img/1-151/075b-a.png",
-    "FullImage": "./img/fullsprite/075-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/75-regional-a.png",
     "Category": "Pokémon Roche",
     "EggGroups": [
       "Minéral"
@@ -2386,7 +2386,7 @@
     "Type1": "rock",
     "Type2": "electric",
     "Image": "./img/1-151/076b-a.png",
-    "FullImage": "./img/fullsprite/076-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/76-regional-a.png",
     "Category": "Pokémon Titanesque",
     "EggGroups": [
       "Minéral"
@@ -2400,7 +2400,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/077b-a.png",
-    "FullImage": "./img/fullsprite/077-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/77-regional-g.png",
     "Category": "Pokémon Cheval Feu",
     "EggGroups": [
       "Terrestre"
@@ -2414,7 +2414,7 @@
     "Type1": "psychic",
     "Type2": "fairy",
     "Image": "./img/1-151/078b-a.png",
-    "FullImage": "./img/fullsprite/078-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/78-regional-g.png",
     "Category": "Pokémon Cheval Feu",
     "EggGroups": [
       "Terrestre"
@@ -2428,7 +2428,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/1-151/079b-a.png",
-    "FullImage": "./img/fullsprite/079-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/79-regional-g.png",
     "Category": "Pokémon Crétin",
     "EggGroups": [
       "Monstrueux",
@@ -2443,7 +2443,7 @@
     "Type1": "poison",
     "Type2": "psychic",
     "Image": "./img/1-151/080b-a.png",
-    "FullImage": "./img/fullsprite/080-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/80-regional-g.png",
     "Category": "Pokémon Symbiose",
     "EggGroups": [
       "Monstrueux",
@@ -2458,7 +2458,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/083b-a.png",
-    "FullImage": "./img/fullsprite/083-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/83-regional-g.png",
     "Category": "Pokémon Canard Fou",
     "EggGroups": [
       "Aérien",
@@ -2473,7 +2473,7 @@
     "Type1": "poison",
     "Type2": "dark",
     "Image": "./img/1-151/088b-a.png",
-    "FullImage": "./img/fullsprite/088-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/88-regional-a.png",
     "Category": "Pokémon Dégueu",
     "EggGroups": [
       "Amorphe"
@@ -2487,7 +2487,7 @@
     "Type1": "poison",
     "Type2": "dark",
     "Image": "./img/1-151/089b-a.png",
-    "FullImage": "./img/fullsprite/089-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/89-regional-a.png",
     "Category": "Pokémon Dégueu",
     "EggGroups": [
       "Amorphe"
@@ -2501,7 +2501,7 @@
     "Type1": "electric",
     "Type2": "grass",
     "Image": "./img/1-151/100b-a.png",
-    "FullImage": "./img/fullsprite/100-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/100-regional-h.png",
     "Category": "Pokémon Balle",
     "EggGroups": [
       "Minéral"
@@ -2515,7 +2515,7 @@
     "Type1": "electric",
     "Type2": "grass",
     "Image": "./img/1-151/101b-a.png",
-    "FullImage": "./img/fullsprite/101-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/101-regional-h.png",
     "Category": "Pokémon Balle",
     "EggGroups": [
       "Minéral"
@@ -2529,7 +2529,7 @@
     "Type1": "grass",
     "Type2": "dragon",
     "Image": "./img/1-151/103b-a.png",
-    "FullImage": "./img/fullsprite/103-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/103-regional-a.png",
     "Category": "Pokémon Fruitpalme",
     "EggGroups": [
       "Végétal"
@@ -2543,7 +2543,7 @@
     "Type1": "fire",
     "Type2": "ghost",
     "Image": "./img/1-151/105b-a.png",
-    "FullImage": "./img/fullsprite/105-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/105-regional-a.png",
     "Category": "Pokémon Gard'Os",
     "EggGroups": [
       "Monstrueux"
@@ -2557,7 +2557,7 @@
     "Type1": "poison",
     "Type2": "fairy",
     "Image": "./img/1-151/110b-a.png",
-    "FullImage": "./img/fullsprite/110-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/110-regional-g.png",
     "Category": "Pokémon Gaz Mortel",
     "EggGroups": [
       "Amorphe"
@@ -2571,7 +2571,7 @@
     "Type1": "ice",
     "Type2": "psychic",
     "Image": "./img/1-151/122b-a.png",
-    "FullImage": "./img/fullsprite/122-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/122-regional-g.png",
     "Category": "Pokémon Bloqueur",
     "EggGroups": [
       "Humanoïde"
@@ -2585,7 +2585,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/1-151/128b-a.png",
-    "FullImage": "./img/fullsprite/128-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/128-regional-p-combat.png",
     "Category": "Pokémon Buffle",
     "EggGroups": [
       "Terrestre"
@@ -2599,7 +2599,7 @@
     "Type1": "psychic",
     "Type2": "flying",
     "Image": "./img/1-151/144b-a.png",
-    "FullImage": "./img/fullsprite/144-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/144-regional-g.png",
     "Category": "Pokémon Glaciaire",
     "EggGroups": [
       "Inconnu"
@@ -2613,7 +2613,7 @@
     "Type1": "fighting",
     "Type2": "flying",
     "Image": "./img/1-151/145b-a.png",
-    "FullImage": "./img/fullsprite/145-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/145-regional-g.png",
     "Category": "Pokémon Électrique",
     "EggGroups": [
       "Inconnu"
@@ -2627,7 +2627,7 @@
     "Type1": "dark",
     "Type2": "flying",
     "Image": "./img/1-151/146b-a.png",
-    "FullImage": "./img/fullsprite/146-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/146-regional-g.png",
     "Category": "Pokémon Flamme",
     "EggGroups": [
       "Inconnu"
@@ -2641,7 +2641,7 @@
     "NameFR": "Germignon",
     "Type1": "grass",
     "Type2": null,
-    "FullImage": "./img/fullsprite/152.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/152.png",
     "Category": "Pokémon Feuille",
     "EggGroups": [
       "Monstrueux",
@@ -2656,7 +2656,7 @@
     "NameFR": "Macronium",
     "Type1": "grass",
     "Type2": null,
-    "FullImage": "./img/fullsprite/153.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/153.png",
     "Category": "Pokémon Feuille",
     "EggGroups": [
       "Monstrueux",
@@ -2671,7 +2671,7 @@
     "NameFR": "Méganium",
     "Type1": "grass",
     "Type2": null,
-    "FullImage": "./img/fullsprite/154.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/154.png",
     "Category": "Pokémon Herbe",
     "EggGroups": [
       "Monstrueux",
@@ -2686,7 +2686,7 @@
     "NameFR": "Héricendre",
     "Type1": "fire",
     "Type2": null,
-    "FullImage": "./img/fullsprite/155.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/155.png",
     "Category": "Pokémon Souris Feu",
     "EggGroups": [
       "Terrestre"
@@ -2700,7 +2700,7 @@
     "NameFR": "Feurisson",
     "Type1": "fire",
     "Type2": null,
-    "FullImage": "./img/fullsprite/156.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/156.png",
     "Category": "Pokémon Volcan",
     "EggGroups": [
       "Terrestre"
@@ -2714,7 +2714,7 @@
     "NameFR": "Typhlosion",
     "Type1": "fire",
     "Type2": null,
-    "FullImage": "./img/fullsprite/157.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/157.png",
     "Category": "Pokémon Volcan",
     "EggGroups": [
       "Terrestre"
@@ -2728,7 +2728,7 @@
     "NameFR": "Kaiminus",
     "Type1": "water",
     "Type2": null,
-    "FullImage": "./img/fullsprite/158.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/158.png",
     "Category": "Pokémon Mâchoire",
     "EggGroups": [
       "Monstrueux",
@@ -2743,7 +2743,7 @@
     "NameFR": "Crocrodil",
     "Type1": "water",
     "Type2": null,
-    "FullImage": "./img/fullsprite/159.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/159.png",
     "Category": "Pokémon Mâchoire",
     "EggGroups": [
       "Monstrueux",
@@ -2758,7 +2758,7 @@
     "NameFR": "Aligatueur",
     "Type1": "water",
     "Type2": null,
-    "FullImage": "./img/fullsprite/160.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/160.png",
     "Category": "Pokémon Mâchoire",
     "EggGroups": [
       "Aquatique 1",
@@ -2773,7 +2773,7 @@
     "NameFR": "Fouinette",
     "Type1": "normal",
     "Type2": null,
-    "FullImage": "./img/fullsprite/161.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/161.png",
     "Category": "Pokémon Espion",
     "EggGroups": [
       "Terrestre"
@@ -2787,7 +2787,7 @@
     "NameFR": "Fouinar",
     "Type1": "normal",
     "Type2": null,
-    "FullImage": "./img/fullsprite/162.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/162.png",
     "Category": "Pokémon Allongé",
     "EggGroups": [
       "Terrestre"
@@ -2801,7 +2801,7 @@
     "NameFR": "Hoothoot",
     "Type1": "normal",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/163.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/163.png",
     "Category": "Pokémon Hibou",
     "EggGroups": [
       "Aérien"
@@ -2815,7 +2815,7 @@
     "NameFR": "Noarfang",
     "Type1": "normal",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/164.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/164.png",
     "Category": "Pokémon Hibou",
     "EggGroups": [
       "Aérien"
@@ -2829,7 +2829,7 @@
     "NameFR": "Coxy",
     "Type1": "bug",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/165.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/165.png",
     "Category": "Pokémon 5 Étoiles",
     "EggGroups": [
       "Insectoïde"
@@ -2843,7 +2843,7 @@
     "NameFR": "Coxyclaque",
     "Type1": "bug",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/166.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/166.png",
     "Category": "Pokémon 5 Étoiles",
     "EggGroups": [
       "Insectoïde"
@@ -2857,7 +2857,7 @@
     "NameFR": "Mimigal",
     "Type1": "bug",
     "Type2": "poison",
-    "FullImage": "./img/fullsprite/167.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/167.png",
     "Category": "Pokémon Crache Fil",
     "EggGroups": [
       "Insectoïde"
@@ -2871,7 +2871,7 @@
     "NameFR": "Migalos",
     "Type1": "bug",
     "Type2": "poison",
-    "FullImage": "./img/fullsprite/168.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/168.png",
     "Category": "Pokémon Long-Patte",
     "EggGroups": [
       "Insectoïde"
@@ -2885,7 +2885,7 @@
     "NameFR": "Nostenfer",
     "Type1": "poison",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/169.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/169.png",
     "Category": "Pokémon Chovsouris",
     "EggGroups": [
       "Aérien"
@@ -2899,7 +2899,7 @@
     "NameFR": "Loupio",
     "Type1": "water",
     "Type2": "electric",
-    "FullImage": "./img/fullsprite/170.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/170.png",
     "Category": "Pokémon Poisson",
     "EggGroups": [
       "Aquatique 2"
@@ -2913,7 +2913,7 @@
     "NameFR": "Lanturn",
     "Type1": "water",
     "Type2": "electric",
-    "FullImage": "./img/fullsprite/171.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/171.png",
     "Category": "Pokémon Lumière",
     "EggGroups": [
       "Aquatique 2"
@@ -2927,7 +2927,7 @@
     "NameFR": "Pichu",
     "Type1": "electric",
     "Type2": null,
-    "FullImage": "./img/fullsprite/172.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/172.png",
     "Category": "Pokémon Minisouris",
     "EggGroups": [
       "Inconnu"
@@ -2941,7 +2941,7 @@
     "NameFR": "Mélo",
     "Type1": "fairy",
     "Type2": null,
-    "FullImage": "./img/fullsprite/173.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/173.png",
     "Category": "Pokémon Étoile",
     "EggGroups": [
       "Inconnu"
@@ -2955,7 +2955,7 @@
     "NameFR": "Toudoudou",
     "Type1": "normal",
     "Type2": "fairy",
-    "FullImage": "./img/fullsprite/174.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/174.png",
     "Category": "Pokémon Bouboule",
     "EggGroups": [
       "Inconnu"
@@ -2969,7 +2969,7 @@
     "NameFR": "Togepi",
     "Type1": "fairy",
     "Type2": null,
-    "FullImage": "./img/fullsprite/175.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/175.png",
     "Category": "Pokémon Balle Pic",
     "EggGroups": [
       "Inconnu"
@@ -2983,7 +2983,7 @@
     "NameFR": "Togetic",
     "Type1": "fairy",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/176.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/176.png",
     "Category": "Pokémon Bonheur",
     "EggGroups": [
       "Aérien",
@@ -2998,7 +2998,7 @@
     "NameFR": "Natu",
     "Type1": "psychic",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/177.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/177.png",
     "Category": "Pokémon Minoiseau",
     "EggGroups": [
       "Aérien"
@@ -3012,7 +3012,7 @@
     "NameFR": "Xatu",
     "Type1": "psychic",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/178.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/178.png",
     "Category": "Pokémon Mystique",
     "EggGroups": [
       "Aérien"
@@ -3026,7 +3026,7 @@
     "NameFR": "Wattouat",
     "Type1": "electric",
     "Type2": null,
-    "FullImage": "./img/fullsprite/179.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/179.png",
     "Category": "Pokémon Laine",
     "EggGroups": [
       "Terrestre",
@@ -3041,7 +3041,7 @@
     "NameFR": "Lainergie",
     "Type1": "electric",
     "Type2": null,
-    "FullImage": "./img/fullsprite/180.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/180.png",
     "Category": "Pokémon Laine",
     "EggGroups": [
       "Terrestre",
@@ -3056,7 +3056,7 @@
     "NameFR": "Pharamp",
     "Type1": "electric",
     "Type2": null,
-    "FullImage": "./img/fullsprite/181.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/181.png",
     "Category": "Pokémon Lumière",
     "EggGroups": [
       "Monstrueux",
@@ -3071,7 +3071,7 @@
     "NameFR": "Joliflor",
     "Type1": "grass",
     "Type2": null,
-    "FullImage": "./img/fullsprite/182.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/182.png",
     "Category": "Pokémon Fleur",
     "EggGroups": [
       "Végétal"
@@ -3085,7 +3085,7 @@
     "NameFR": "Marill",
     "Type1": "water",
     "Type2": "fairy",
-    "FullImage": "./img/fullsprite/183.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/183.png",
     "Category": "Pokémon Aquasouris",
     "EggGroups": [
       "Aquatique 1",
@@ -3100,7 +3100,7 @@
     "NameFR": "Azumarill",
     "Type1": "water",
     "Type2": "fairy",
-    "FullImage": "./img/fullsprite/184.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/184.png",
     "Category": "Pokémon Aqualapin",
     "EggGroups": [
       "Aquatique 1",
@@ -3115,7 +3115,7 @@
     "NameFR": "Simularbre",
     "Type1": "rock",
     "Type2": null,
-    "FullImage": "./img/fullsprite/185.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/185.png",
     "Category": "Pokémon Imitation",
     "EggGroups": [
       "Minéral"
@@ -3129,7 +3129,7 @@
     "NameFR": "Tarpaud",
     "Type1": "water",
     "Type2": null,
-    "FullImage": "./img/fullsprite/186.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/186.png",
     "Category": "Pokémon Grenouille",
     "EggGroups": [
       "Aquatique 1"
@@ -3143,7 +3143,7 @@
     "NameFR": "Granivol",
     "Type1": "grass",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/187.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/187.png",
     "Category": "Pokémon Pissenlit",
     "EggGroups": [
       "Féerique",
@@ -3158,7 +3158,7 @@
     "NameFR": "Floravol",
     "Type1": "grass",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/188.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/188.png",
     "Category": "Pokémon Pissenlit",
     "EggGroups": [
       "Féerique",
@@ -3173,7 +3173,7 @@
     "NameFR": "Cotovol",
     "Type1": "grass",
     "Type2": "flying",
-    "FullImage": "./img/fullsprite/189.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/189.png",
     "Category": "Pokémon Pissenlit",
     "EggGroups": [
       "Féerique",
@@ -3188,7 +3188,7 @@
     "NameFR": "Capumain",
     "Type1": "normal",
     "Type2": null,
-    "FullImage": "./img/fullsprite/190.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/190.png",
     "Category": "Pokémon Longqueue",
     "EggGroups": [
       "Terrestre"
@@ -3202,7 +3202,7 @@
     "NameFR": "Tournegrin",
     "Type1": "grass",
     "Type2": null,
-    "FullImage": "./img/fullsprite/191.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/191.png",
     "Category": "Pokémon Graine",
     "EggGroups": [
       "Végétal"
@@ -3216,7 +3216,7 @@
     "Type1": "grass",
     "Type2": null,
     "Image": "./img/152-250/192-a.png",
-    "FullImage": "./img/fullsprite/192.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/192.png",
     "Category": "Pokémon Soleil",
     "EggGroups": [
       "Végétal"
@@ -3230,7 +3230,7 @@
     "Type1": "bug",
     "Type2": "flying",
     "Image": "./img/152-250/193-a.png",
-    "FullImage": "./img/fullsprite/193.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/193.png",
     "Category": "Pokémon Translaile",
     "EggGroups": [
       "Insectoïde"
@@ -3244,7 +3244,7 @@
     "Type1": "water",
     "Type2": "ground",
     "Image": "./img/152-250/194-a.png",
-    "FullImage": "./img/fullsprite/194.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/194.png",
     "Category": "Pokémon Poisson",
     "EggGroups": [
       "Aquatique 1",
@@ -3259,7 +3259,7 @@
     "Type1": "water",
     "Type2": "ground",
     "Image": "./img/152-250/195-a.png",
-    "FullImage": "./img/fullsprite/195.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/195.png",
     "Category": "Pokémon Poisson",
     "EggGroups": [
       "Aquatique 1",
@@ -3274,7 +3274,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/152-250/196-a.png",
-    "FullImage": "./img/fullsprite/196.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/196.png",
     "Category": "Pokémon Soleil",
     "EggGroups": [
       "Terrestre"
@@ -3288,7 +3288,7 @@
     "Type1": "dark",
     "Type2": null,
     "Image": "./img/152-250/197-a.png",
-    "FullImage": "./img/fullsprite/197.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/197.png",
     "Category": "Pokémon Lune",
     "EggGroups": [
       "Terrestre"
@@ -3302,7 +3302,7 @@
     "Type1": "dark",
     "Type2": "flying",
     "Image": "./img/152-250/198-a.png",
-    "FullImage": "./img/fullsprite/198.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/198.png",
     "Category": "Pokémon Obscurité",
     "EggGroups": [
       "Aérien"
@@ -3316,7 +3316,7 @@
     "Type1": "water",
     "Type2": "psychic",
     "Image": "./img/152-250/199-a.png",
-    "FullImage": "./img/fullsprite/199.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/199.png",
     "Category": "Pokémon Royal",
     "EggGroups": [
       "Monstrueux",
@@ -3331,7 +3331,7 @@
     "Type1": "ghost",
     "Type2": null,
     "Image": "./img/152-250/200-a.png",
-    "FullImage": "./img/fullsprite/200.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/200.png",
     "Category": "Pokémon Strident",
     "EggGroups": [
       "Amorphe"
@@ -3345,7 +3345,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/152-250/201-a.png",
-    "FullImage": "./img/fullsprite/201.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/201.png",
     "Category": "Pokémon Symbolique",
     "EggGroups": [
       "Inconnu"
@@ -3359,7 +3359,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/152-250/202-a.png",
-    "FullImage": "./img/fullsprite/202.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/202.png",
     "Category": "Pokémon Patient",
     "EggGroups": [
       "Amorphe"
@@ -3373,7 +3373,7 @@
     "Type1": "normal",
     "Type2": "psychic",
     "Image": "./img/152-250/203-a.png",
-    "FullImage": "./img/fullsprite/203.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/203.png",
     "Category": "Pokémon Long-Cou",
     "EggGroups": [
       "Terrestre"
@@ -3387,7 +3387,7 @@
     "Type1": "bug",
     "Type2": null,
     "Image": "./img/152-250/204-a.png",
-    "FullImage": "./img/fullsprite/204.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/204.png",
     "Category": "Pokémon Ver Caché",
     "EggGroups": [
       "Insectoïde"
@@ -3401,7 +3401,7 @@
     "Type1": "bug",
     "Type2": "steel",
     "Image": "./img/152-250/205-a.png",
-    "FullImage": "./img/fullsprite/205.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/205.png",
     "Category": "Pokémon Ver Caché",
     "EggGroups": [
       "Insectoïde"
@@ -3415,7 +3415,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/152-250/206-a.png",
-    "FullImage": "./img/fullsprite/206.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/206.png",
     "Category": "Pokémon Serpent",
     "EggGroups": [
       "Terrestre"
@@ -3429,7 +3429,7 @@
     "Type1": "ground",
     "Type2": "flying",
     "Image": "./img/152-250/207-a.png",
-    "FullImage": "./img/fullsprite/207.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/207.png",
     "Category": "Pokémon Scorpivol",
     "EggGroups": [
       "Insectoïde"
@@ -3443,7 +3443,7 @@
     "Type1": "steel",
     "Type2": "ground",
     "Image": "./img/152-250/208-a.png",
-    "FullImage": "./img/fullsprite/208.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/208.png",
     "Category": "Pokémon Serpenfer",
     "EggGroups": [
       "Minéral"
@@ -3457,7 +3457,7 @@
     "Type1": "fairy",
     "Type2": null,
     "Image": "./img/152-250/209-a.png",
-    "FullImage": "./img/fullsprite/209.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/209.png",
     "Category": "Pokémon Fée",
     "EggGroups": [
       "Terrestre",
@@ -3472,7 +3472,7 @@
     "Type1": "fairy",
     "Type2": null,
     "Image": "./img/152-250/210-a.png",
-    "FullImage": "./img/fullsprite/210.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/210.png",
     "Category": "Pokémon Fée",
     "EggGroups": [
       "Terrestre",
@@ -3487,7 +3487,7 @@
     "Type1": "water",
     "Type2": "poison",
     "Image": "./img/152-250/211-a.png",
-    "FullImage": "./img/fullsprite/211.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/211.png",
     "Category": "Pokémon Bouboule",
     "EggGroups": [
       "Aquatique 2"
@@ -3501,7 +3501,7 @@
     "Type1": "bug",
     "Type2": "steel",
     "Image": "./img/152-250/212-a.png",
-    "FullImage": "./img/fullsprite/212.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/212.png",
     "Category": "Pokémon Pince",
     "EggGroups": [
       "Insectoïde"
@@ -3515,7 +3515,7 @@
     "Type1": "bug",
     "Type2": "rock",
     "Image": "./img/152-250/213-a.png",
-    "FullImage": "./img/fullsprite/213.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/213.png",
     "Category": "Pokémon Pourri",
     "EggGroups": [
       "Insectoïde"
@@ -3529,7 +3529,7 @@
     "Type1": "bug",
     "Type2": "fighting",
     "Image": "./img/152-250/214-a.png",
-    "FullImage": "./img/fullsprite/214.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/214.png",
     "Category": "Pokémon Unicorne",
     "EggGroups": [
       "Insectoïde"
@@ -3543,7 +3543,7 @@
     "Type1": "dark",
     "Type2": "ice",
     "Image": "./img/152-250/215-a.png",
-    "FullImage": "./img/fullsprite/215.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/215.png",
     "Category": "Pokémon Grifacérée",
     "EggGroups": [
       "Terrestre"
@@ -3557,7 +3557,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/152-250/216-a.png",
-    "FullImage": "./img/fullsprite/216.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/216.png",
     "Category": "Pokémon Mini Ours",
     "EggGroups": [
       "Terrestre"
@@ -3571,7 +3571,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/152-250/217-a.png",
-    "FullImage": "./img/fullsprite/217.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/217.png",
     "Category": "Pokémon Hibernant",
     "EggGroups": [
       "Terrestre"
@@ -3585,7 +3585,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/152-250/218-a.png",
-    "FullImage": "./img/fullsprite/218.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/218.png",
     "Category": "Pokémon Lave",
     "EggGroups": [
       "Amorphe"
@@ -3599,7 +3599,7 @@
     "Type1": "fire",
     "Type2": "rock",
     "Image": "./img/152-250/219-a.png",
-    "FullImage": "./img/fullsprite/219.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/219.png",
     "Category": "Pokémon Lave",
     "EggGroups": [
       "Amorphe"
@@ -3613,7 +3613,7 @@
     "Type1": "ice",
     "Type2": "ground",
     "Image": "./img/152-250/220-a.png",
-    "FullImage": "./img/fullsprite/220.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/220.png",
     "Category": "Pokémon Cochon",
     "EggGroups": [
       "Terrestre"
@@ -3627,7 +3627,7 @@
     "Type1": "ice",
     "Type2": "ground",
     "Image": "./img/152-250/221-a.png",
-    "FullImage": "./img/fullsprite/221.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/221.png",
     "Category": "Pokémon Porc",
     "EggGroups": [
       "Terrestre"
@@ -3641,7 +3641,7 @@
     "Type1": "water",
     "Type2": "rock",
     "Image": "./img/152-250/222-a.png",
-    "FullImage": "./img/fullsprite/222.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/222.png",
     "Category": "Pokémon Corail",
     "EggGroups": [
       "Aquatique 1",
@@ -3656,7 +3656,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/152-250/223-a.png",
-    "FullImage": "./img/fullsprite/223.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/223.png",
     "Category": "Pokémon Jet",
     "EggGroups": [
       "Aquatique 1",
@@ -3671,7 +3671,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/152-250/224-a.png",
-    "FullImage": "./img/fullsprite/224.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/224.png",
     "Category": "Pokémon Jet",
     "EggGroups": [
       "Aquatique 1",
@@ -3686,7 +3686,7 @@
     "Type1": "ice",
     "Type2": "flying",
     "Image": "./img/152-250/225-a.png",
-    "FullImage": "./img/fullsprite/225.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/225.png",
     "Category": "Pokémon Livraison",
     "EggGroups": [
       "Aquatique 1",
@@ -3701,7 +3701,7 @@
     "Type1": "water",
     "Type2": "flying",
     "Image": "./img/152-250/226-a.png",
-    "FullImage": "./img/fullsprite/226.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/226.png",
     "Category": "Pokémon Cervolant",
     "EggGroups": [
       "Aquatique 1"
@@ -3715,7 +3715,7 @@
     "Type1": "steel",
     "Type2": "flying",
     "Image": "./img/152-250/227-a.png",
-    "FullImage": "./img/fullsprite/227.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/227.png",
     "Category": "Pokémon Armoiseau",
     "EggGroups": [
       "Aérien"
@@ -3729,7 +3729,7 @@
     "Type1": "dark",
     "Type2": "fire",
     "Image": "./img/152-250/228-a.png",
-    "FullImage": "./img/fullsprite/228.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/228.png",
     "Category": "Pokémon Sombre",
     "EggGroups": [
       "Terrestre"
@@ -3743,7 +3743,7 @@
     "Type1": "dark",
     "Type2": "fire",
     "Image": "./img/152-250/229-a.png",
-    "FullImage": "./img/fullsprite/229.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/229.png",
     "Category": "Pokémon Sombre",
     "EggGroups": [
       "Terrestre"
@@ -3757,7 +3757,7 @@
     "Type1": "water",
     "Type2": "dragon",
     "Image": "./img/152-250/230-a.png",
-    "FullImage": "./img/fullsprite/230.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/230.png",
     "Category": "Pokémon Dragon",
     "EggGroups": [
       "Aquatique 1",
@@ -3772,7 +3772,7 @@
     "Type1": "ground",
     "Type2": null,
     "Image": "./img/152-250/231-a.png",
-    "FullImage": "./img/fullsprite/231.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/231.png",
     "Category": "Pokémon Long-Nez",
     "EggGroups": [
       "Terrestre"
@@ -3786,7 +3786,7 @@
     "Type1": "ground",
     "Type2": null,
     "Image": "./img/152-250/232-a.png",
-    "FullImage": "./img/fullsprite/232.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/232.png",
     "Category": "Pokémon Armure",
     "EggGroups": [
       "Terrestre"
@@ -3800,7 +3800,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/152-250/233-a.png",
-    "FullImage": "./img/fullsprite/233.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/233.png",
     "Category": "Pokémon Virtuel",
     "EggGroups": [
       "Minéral"
@@ -3814,7 +3814,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/152-250/234-a.png",
-    "FullImage": "./img/fullsprite/234.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/234.png",
     "Category": "Pokémon Maxi Corne",
     "EggGroups": [
       "Terrestre"
@@ -3828,7 +3828,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/152-250/235-a.png",
-    "FullImage": "./img/fullsprite/235.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/235.png",
     "Category": "Pokémon Peintre",
     "EggGroups": [
       "Terrestre"
@@ -3842,7 +3842,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/152-250/236-a.png",
-    "FullImage": "./img/fullsprite/236.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/236.png",
     "Category": "Pokémon Bagarreur",
     "EggGroups": [
       "Inconnu"
@@ -3856,7 +3856,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/152-250/237-a.png",
-    "FullImage": "./img/fullsprite/237.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/237.png",
     "Category": "Pokémon Poirier",
     "EggGroups": [
       "Humanoïde"
@@ -3870,7 +3870,7 @@
     "Type1": "ice",
     "Type2": "psychic",
     "Image": "./img/152-250/238-a.png",
-    "FullImage": "./img/fullsprite/238.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/238.png",
     "Category": "Pokémon Bisou",
     "EggGroups": [
       "Inconnu"
@@ -3884,7 +3884,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/152-250/239-a.png",
-    "FullImage": "./img/fullsprite/239.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/239.png",
     "Category": "Pokémon Électrique",
     "EggGroups": [
       "Inconnu"
@@ -3898,7 +3898,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/152-250/240-a.png",
-    "FullImage": "./img/fullsprite/240.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/240.png",
     "Category": "Pokémon Charbon",
     "EggGroups": [
       "Inconnu"
@@ -3912,7 +3912,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/152-250/241-a.png",
-    "FullImage": "./img/fullsprite/241.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/241.png",
     "Category": "Pokémon Vachalait",
     "EggGroups": [
       "Terrestre"
@@ -3926,7 +3926,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/152-250/242-a.png",
-    "FullImage": "./img/fullsprite/242.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/242.png",
     "Category": "Pokémon Bonheur",
     "EggGroups": [
       "Féerique"
@@ -3940,7 +3940,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/152-250/243-a.png",
-    "FullImage": "./img/fullsprite/243.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/243.png",
     "Category": "Pokémon Foudre",
     "EggGroups": [
       "Inconnu"
@@ -3954,7 +3954,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/152-250/244-a.png",
-    "FullImage": "./img/fullsprite/244.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/244.png",
     "Category": "Pokémon Volcan",
     "EggGroups": [
       "Inconnu"
@@ -3968,7 +3968,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/152-250/245-a.png",
-    "FullImage": "./img/fullsprite/245.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/245.png",
     "Category": "Pokémon Aurore",
     "EggGroups": [
       "Inconnu"
@@ -3982,7 +3982,7 @@
     "Type1": "rock",
     "Type2": "ground",
     "Image": "./img/152-250/246-a.png",
-    "FullImage": "./img/fullsprite/246.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/246.png",
     "Category": "Pokémon Peaupierre",
     "EggGroups": [
       "Monstrueux"
@@ -3996,7 +3996,7 @@
     "Type1": "rock",
     "Type2": "ground",
     "Image": "./img/152-250/247-a.png",
-    "FullImage": "./img/fullsprite/247.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/247.png",
     "Category": "Pokémon Carapadure",
     "EggGroups": [
       "Monstrueux"
@@ -4010,7 +4010,7 @@
     "Type1": "rock",
     "Type2": "dark",
     "Image": "./img/152-250/248-a.png",
-    "FullImage": "./img/fullsprite/248.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/248.png",
     "Category": "Pokémon Armure",
     "EggGroups": [
       "Monstrueux"
@@ -4024,7 +4024,7 @@
     "Type1": "psychic",
     "Type2": "flying",
     "Image": "./img/152-250/249-a.png",
-    "FullImage": "./img/fullsprite/249.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/249.png",
     "Category": "Pokémon Plongeon",
     "EggGroups": [
       "Inconnu"
@@ -4038,7 +4038,7 @@
     "Type1": "fire",
     "Type2": "flying",
     "Image": "./img/152-250/250-a.png",
-    "FullImage": "./img/fullsprite/250.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/250.png",
     "Category": "Pokémon Arc-en-ciel",
     "EggGroups": [
       "Inconnu"
@@ -4052,7 +4052,7 @@
     "Type1": "psychic",
     "Type2": "grass",
     "Image": "./img/152-250/251-a.png",
-    "FullImage": "./img/fullsprite/251.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/251.png",
     "Category": "Pokémon Temporel",
     "EggGroups": [
       "Inconnu"
@@ -4066,7 +4066,7 @@
     "Type1": "fire",
     "Type2": "ghost",
     "Image": "./img/152-250/157b-a.png",
-    "FullImage": "./img/fullsprite/157-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/157-regional-h.png",
     "Category": "Pokémon Volcan",
     "EggGroups": [
       "Terrestre"
@@ -4080,7 +4080,7 @@
     "Type1": "poison",
     "Type2": "psy",
     "Image": "./img/152-250/199b-a.png",
-    "FullImage": "./img/fullsprite/199-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/199-regional-g.png",
     "Category": "Pokémon Royal",
     "EggGroups": [
       "Monstrueux",
@@ -4095,7 +4095,7 @@
     "Type1": "dark",
     "Type2": "poison",
     "Image": "./img/152-250/211b-a.png",
-    "FullImage": "./img/fullsprite/211-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/211-regional-h.png",
     "Category": "Pokémon Bouboule",
     "EggGroups": [
       "Aquatique 2"
@@ -4109,7 +4109,7 @@
     "Type1": "fighting",
     "Type2": "poison",
     "Image": "./img/152-250/215b-a.png",
-    "FullImage": "./img/fullsprite/215-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/215-regional-h.png",
     "Category": "Pokémon Grifacérée",
     "EggGroups": [
       "Terrestre"
@@ -4123,7 +4123,7 @@
     "Type1": "ghost",
     "Type2": null,
     "Image": "./img/152-250/222b-a.png",
-    "FullImage": "./img/fullsprite/222-B.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/222-regional-g.png",
     "Category": "Pokémon Corail",
     "EggGroups": [
       "Aquatique 1",
@@ -4138,7 +4138,7 @@
     "Type1": "grass",
     "Type2": null,
     "Image": "./img/251-386/252-a.png",
-    "FullImage": "./img/fullsprite/252.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/252.png",
     "Category": "Pokémon Bois Gecko",
     "EggGroups": [
       "Monstrueux",
@@ -4153,7 +4153,7 @@
     "Type1": "grass",
     "Type2": null,
     "Image": "./img/251-386/253-a.png",
-    "FullImage": "./img/fullsprite/253.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/253.png",
     "Category": "Pokémon Bois Gecko",
     "EggGroups": [
       "Monstrueux",
@@ -4168,7 +4168,7 @@
     "Type1": "grass",
     "Type2": null,
     "Image": "./img/251-386/254-a.png",
-    "FullImage": "./img/fullsprite/254.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/254.png",
     "Category": "Pokémon Forêt",
     "EggGroups": [
       "Monstrueux",
@@ -4183,7 +4183,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/251-386/255-a.png",
-    "FullImage": "./img/fullsprite/255.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/255.png",
     "Category": "Pokémon Poussin",
     "EggGroups": [
       "Terrestre"
@@ -4197,7 +4197,7 @@
     "Type1": "fire",
     "Type2": "fighting",
     "Image": "./img/251-386/256-a.png",
-    "FullImage": "./img/fullsprite/256.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/256.png",
     "Category": "Pokémon Poulet",
     "EggGroups": [
       "Terrestre"
@@ -4211,7 +4211,7 @@
     "Type1": "fire",
     "Type2": "fighting",
     "Image": "./img/251-386/257-a.png",
-    "FullImage": "./img/fullsprite/257.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/257.png",
     "Category": "Pokémon Ardent",
     "EggGroups": [
       "Terrestre"
@@ -4225,7 +4225,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/258-a.png",
-    "FullImage": "./img/fullsprite/258.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/258.png",
     "Category": "Pokémon Poissonboue",
     "EggGroups": [
       "Monstrueux",
@@ -4240,7 +4240,7 @@
     "Type1": "water",
     "Type2": "ground",
     "Image": "./img/251-386/259-a.png",
-    "FullImage": "./img/fullsprite/259.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/259.png",
     "Category": "Pokémon Poissonboue",
     "EggGroups": [
       "Monstrueux",
@@ -4255,7 +4255,7 @@
     "Type1": "water",
     "Type2": "ground",
     "Image": "./img/251-386/260-a.png",
-    "FullImage": "./img/fullsprite/260.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/260.png",
     "Category": "Pokémon Poissonboue",
     "EggGroups": [
       "Monstrueux",
@@ -4270,7 +4270,7 @@
     "Type1": "dark",
     "Type2": null,
     "Image": "./img/251-386/261-a.png",
-    "FullImage": "./img/fullsprite/261.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/261.png",
     "Category": "Pokémon Morsure",
     "EggGroups": [
       "Terrestre"
@@ -4284,7 +4284,7 @@
     "Type1": "dark",
     "Type2": null,
     "Image": "./img/251-386/262-a.png",
-    "FullImage": "./img/fullsprite/262.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/262.png",
     "Category": "Pokémon Morsure",
     "EggGroups": [
       "Terrestre"
@@ -4298,7 +4298,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/263-a.png",
-    "FullImage": "./img/fullsprite/263.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/263.png",
     "Category": "Pokémon Petit Raton",
     "EggGroups": [
       "Terrestre"
@@ -4312,7 +4312,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/264-a.png",
-    "FullImage": "./img/fullsprite/264.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/264.png",
     "Category": "Pokémon Fonceur",
     "EggGroups": [
       "Terrestre"
@@ -4326,7 +4326,7 @@
     "Type1": "bug",
     "Type2": null,
     "Image": "./img/251-386/265-a.png",
-    "FullImage": "./img/fullsprite/265.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/265.png",
     "Category": "Pokémon Ver",
     "EggGroups": [
       "Insectoïde"
@@ -4340,7 +4340,7 @@
     "Type1": "bug",
     "Type2": null,
     "Image": "./img/251-386/266-a.png",
-    "FullImage": "./img/fullsprite/266.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/266.png",
     "Category": "Pokémon Cocon",
     "EggGroups": [
       "Insectoïde"
@@ -4354,7 +4354,7 @@
     "Type1": "bug",
     "Type2": "flying",
     "Image": "./img/251-386/267-a.png",
-    "FullImage": "./img/fullsprite/267.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/267.png",
     "Category": "Pokémon Papillon",
     "EggGroups": [
       "Insectoïde"
@@ -4368,7 +4368,7 @@
     "Type1": "bug",
     "Type2": null,
     "Image": "./img/251-386/268-a.png",
-    "FullImage": "./img/fullsprite/268.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/268.png",
     "Category": "Pokémon Cocon",
     "EggGroups": [
       "Insectoïde"
@@ -4382,7 +4382,7 @@
     "Type1": "bug",
     "Type2": "poison",
     "Image": "./img/251-386/269-a.png",
-    "FullImage": "./img/fullsprite/269.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/269.png",
     "Category": "Pokémon Papipoison",
     "EggGroups": [
       "Insectoïde"
@@ -4396,7 +4396,7 @@
     "Type1": "water",
     "Type2": "grass",
     "Image": "./img/251-386/270-a.png",
-    "FullImage": "./img/fullsprite/270.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/270.png",
     "Category": "Pokémon Aquaplante",
     "EggGroups": [
       "Aquatique 1",
@@ -4411,7 +4411,7 @@
     "Type1": "water",
     "Type2": "grass",
     "Image": "./img/251-386/271-a.png",
-    "FullImage": "./img/fullsprite/271.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/271.png",
     "Category": "Pokémon Jovial",
     "EggGroups": [
       "Aquatique 1",
@@ -4426,7 +4426,7 @@
     "Type1": "water",
     "Type2": "grass",
     "Image": "./img/251-386/272-a.png",
-    "FullImage": "./img/fullsprite/272.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/272.png",
     "Category": "Pokémon Insouciant",
     "EggGroups": [
       "Aquatique 1",
@@ -4441,7 +4441,7 @@
     "Type1": "grass",
     "Type2": null,
     "Image": "./img/251-386/273-a.png",
-    "FullImage": "./img/fullsprite/273.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/273.png",
     "Category": "Pokémon Gland",
     "EggGroups": [
       "Terrestre",
@@ -4456,7 +4456,7 @@
     "Type1": "grass",
     "Type2": "dark",
     "Image": "./img/251-386/274-a.png",
-    "FullImage": "./img/fullsprite/274.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/274.png",
     "Category": "Pokémon Malin",
     "EggGroups": [
       "Terrestre",
@@ -4471,7 +4471,7 @@
     "Type1": "grass",
     "Type2": "dark",
     "Image": "./img/251-386/275-a.png",
-    "FullImage": "./img/fullsprite/275.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/275.png",
     "Category": "Pokémon Malveillant",
     "EggGroups": [
       "Terrestre",
@@ -4486,7 +4486,7 @@
     "Type1": "normal",
     "Type2": "flying",
     "Image": "./img/251-386/276-a.png",
-    "FullImage": "./img/fullsprite/276.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/276.png",
     "Category": "Pokémon Minirondel",
     "EggGroups": [
       "Aérien"
@@ -4500,7 +4500,7 @@
     "Type1": "normal",
     "Type2": "flying",
     "Image": "./img/251-386/277-a.png",
-    "FullImage": "./img/fullsprite/277.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/277.png",
     "Category": "Pokémon Hirondelle",
     "EggGroups": [
       "Aérien"
@@ -4514,7 +4514,7 @@
     "Type1": "water",
     "Type2": "flying",
     "Image": "./img/251-386/278-a.png",
-    "FullImage": "./img/fullsprite/278.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/278.png",
     "Category": "Pokémon Mouette",
     "EggGroups": [
       "Aquatique 1",
@@ -4529,7 +4529,7 @@
     "Type1": "water",
     "Type2": "flying",
     "Image": "./img/251-386/279-a.png",
-    "FullImage": "./img/fullsprite/279.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/279.png",
     "Category": "Pokémon Oiseaudo",
     "EggGroups": [
       "Aquatique 1",
@@ -4544,7 +4544,7 @@
     "Type1": "psychic",
     "Type2": "fairy",
     "Image": "./img/251-386/280-a.png",
-    "FullImage": "./img/fullsprite/280.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/280.png",
     "Category": "Pokémon Sentiment",
     "EggGroups": [
       "Amorphe",
@@ -4559,7 +4559,7 @@
     "Type1": "psychic",
     "Type2": "fairy",
     "Image": "./img/251-386/281-a.png",
-    "FullImage": "./img/fullsprite/281.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/281.png",
     "Category": "Pokémon Émotion",
     "EggGroups": [
       "Amorphe",
@@ -4574,7 +4574,7 @@
     "Type1": "psychic",
     "Type2": "fairy",
     "Image": "./img/251-386/282-a.png",
-    "FullImage": "./img/fullsprite/282.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/282.png",
     "Category": "Pokémon Étreinte",
     "EggGroups": [
       "Amorphe",
@@ -4589,7 +4589,7 @@
     "Type1": "bug",
     "Type2": "water",
     "Image": "./img/251-386/283-a.png",
-    "FullImage": "./img/fullsprite/283.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/283.png",
     "Category": "Pokémon Maresurfeur",
     "EggGroups": [
       "Aquatique 1",
@@ -4604,7 +4604,7 @@
     "Type1": "bug",
     "Type2": "flying",
     "Image": "./img/251-386/284-a.png",
-    "FullImage": "./img/fullsprite/284.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/284.png",
     "Category": "Pokémon Boule Œil",
     "EggGroups": [
       "Aquatique 1",
@@ -4619,7 +4619,7 @@
     "Type1": "grass",
     "Type2": null,
     "Image": "./img/251-386/285-a.png",
-    "FullImage": "./img/fullsprite/285.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/285.png",
     "Category": "Pokémon Champignon",
     "EggGroups": [
       "Féerique",
@@ -4634,7 +4634,7 @@
     "Type1": "grass",
     "Type2": "fighting",
     "Image": "./img/251-386/286-a.png",
-    "FullImage": "./img/fullsprite/286.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/286.png",
     "Category": "Pokémon Champignon",
     "EggGroups": [
       "Féerique",
@@ -4649,7 +4649,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/287-a.png",
-    "FullImage": "./img/fullsprite/287.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/287.png",
     "Category": "Pokémon Flâneur",
     "EggGroups": [
       "Terrestre"
@@ -4663,7 +4663,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/288-a.png",
-    "FullImage": "./img/fullsprite/288.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/288.png",
     "Category": "Pokémon Turbusinge",
     "EggGroups": [
       "Terrestre"
@@ -4677,7 +4677,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/289-a.png",
-    "FullImage": "./img/fullsprite/289.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/289.png",
     "Category": "Pokémon Fainéant",
     "EggGroups": [
       "Terrestre"
@@ -4691,7 +4691,7 @@
     "Type1": "bug",
     "Type2": "ground",
     "Image": "./img/251-386/290-a.png",
-    "FullImage": "./img/fullsprite/290.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/290.png",
     "Category": "Pokémon Apprenti",
     "EggGroups": [
       "Insectoïde"
@@ -4705,7 +4705,7 @@
     "Type1": "bug",
     "Type2": "flying",
     "Image": "./img/251-386/291-a.png",
-    "FullImage": "./img/fullsprite/291.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/291.png",
     "Category": "Pokémon Ninja",
     "EggGroups": [
       "Insectoïde"
@@ -4719,7 +4719,7 @@
     "Type1": "bug",
     "Type2": "ghost",
     "Image": "./img/251-386/292-a.png",
-    "FullImage": "./img/fullsprite/292.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/292.png",
     "Category": "Pokémon Exuvie",
     "EggGroups": [
       "Minéral"
@@ -4733,7 +4733,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/293-a.png",
-    "FullImage": "./img/fullsprite/293.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/293.png",
     "Category": "Pokémon Chuchoteur",
     "EggGroups": [
       "Monstrueux",
@@ -4748,7 +4748,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/294-a.png",
-    "FullImage": "./img/fullsprite/294.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/294.png",
     "Category": "Pokémon Grosse Voix",
     "EggGroups": [
       "Monstrueux",
@@ -4763,7 +4763,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/295-a.png",
-    "FullImage": "./img/fullsprite/295.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/295.png",
     "Category": "Pokémon Bruit Sourd",
     "EggGroups": [
       "Monstrueux",
@@ -4778,7 +4778,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/251-386/296-a.png",
-    "FullImage": "./img/fullsprite/296.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/296.png",
     "Category": "Pokémon Tenace",
     "EggGroups": [
       "Humanoïde"
@@ -4792,7 +4792,7 @@
     "Type1": "fighting",
     "Type2": null,
     "Image": "./img/251-386/297-a.png",
-    "FullImage": "./img/fullsprite/297.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/297.png",
     "Category": "Pokémon Cogneur",
     "EggGroups": [
       "Humanoïde"
@@ -4806,7 +4806,7 @@
     "Type1": "normal",
     "Type2": "fairy",
     "Image": "./img/251-386/298-a.png",
-    "FullImage": "./img/fullsprite/298.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/298.png",
     "Category": "Pokémon Point Polka",
     "EggGroups": [
       "Inconnu"
@@ -4820,7 +4820,7 @@
     "Type1": "rock",
     "Type2": null,
     "Image": "./img/251-386/299-a.png",
-    "FullImage": "./img/fullsprite/299.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/299.png",
     "Category": "Pokémon Boussole",
     "EggGroups": [
       "Minéral"
@@ -4834,7 +4834,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/300-a.png",
-    "FullImage": "./img/fullsprite/300.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/300.png",
     "Category": "Pokémon Chaton",
     "EggGroups": [
       "Terrestre",
@@ -4849,7 +4849,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/301-a.png",
-    "FullImage": "./img/fullsprite/301.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/301.png",
     "Category": "Pokémon Guindé",
     "EggGroups": [
       "Terrestre",
@@ -4864,7 +4864,7 @@
     "Type1": "dark",
     "Type2": "ghost",
     "Image": "./img/251-386/302-a.png",
-    "FullImage": "./img/fullsprite/302.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/302.png",
     "Category": "Pokémon Obscurité",
     "EggGroups": [
       "Humanoïde"
@@ -4878,7 +4878,7 @@
     "Type1": "steel",
     "Type2": "fairy",
     "Image": "./img/251-386/303-a.png",
-    "FullImage": "./img/fullsprite/303.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/303.png",
     "Category": "Pokémon Trompeur",
     "EggGroups": [
       "Terrestre",
@@ -4893,7 +4893,7 @@
     "Type1": "steel",
     "Type2": "rock",
     "Image": "./img/251-386/304-a.png",
-    "FullImage": "./img/fullsprite/304.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/304.png",
     "Category": "Pokémon Armurfer",
     "EggGroups": [
       "Monstrueux"
@@ -4907,7 +4907,7 @@
     "Type1": "steel",
     "Type2": "rock",
     "Image": "./img/251-386/305-a.png",
-    "FullImage": "./img/fullsprite/305.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/305.png",
     "Category": "Pokémon Armurfer",
     "EggGroups": [
       "Monstrueux"
@@ -4921,7 +4921,7 @@
     "Type1": "steel",
     "Type2": "rock",
     "Image": "./img/251-386/306-a.png",
-    "FullImage": "./img/fullsprite/306.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/306.png",
     "Category": "Pokémon Armurfer",
     "EggGroups": [
       "Monstrueux"
@@ -4935,7 +4935,7 @@
     "Type1": "fighting",
     "Type2": "psychic",
     "Image": "./img/251-386/307-a.png",
-    "FullImage": "./img/fullsprite/307.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/307.png",
     "Category": "Pokémon Méditation",
     "EggGroups": [
       "Humanoïde"
@@ -4949,7 +4949,7 @@
     "Type1": "fighting",
     "Type2": "psychic",
     "Image": "./img/251-386/308-a.png",
-    "FullImage": "./img/fullsprite/308.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/308.png",
     "Category": "Pokémon Méditation",
     "EggGroups": [
       "Humanoïde"
@@ -4963,7 +4963,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/251-386/309-a.png",
-    "FullImage": "./img/fullsprite/309.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/309.png",
     "Category": "Pokémon Orage",
     "EggGroups": [
       "Terrestre"
@@ -4977,7 +4977,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/251-386/310-a.png",
-    "FullImage": "./img/fullsprite/310.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/310.png",
     "Category": "Pokémon Décharge",
     "EggGroups": [
       "Terrestre"
@@ -4991,7 +4991,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/251-386/311-a.png",
-    "FullImage": "./img/fullsprite/311.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/311.png",
     "Category": "Pokémon Acclameur",
     "EggGroups": [
       "Féerique"
@@ -5005,7 +5005,7 @@
     "Type1": "electric",
     "Type2": null,
     "Image": "./img/251-386/312-a.png",
-    "FullImage": "./img/fullsprite/312.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/312.png",
     "Category": "Pokémon Acclameur",
     "EggGroups": [
       "Féerique"
@@ -5019,7 +5019,7 @@
     "Type1": "bug",
     "Type2": null,
     "Image": "./img/251-386/313-a.png",
-    "FullImage": "./img/fullsprite/313.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/313.png",
     "Category": "Pokémon Luciole",
     "EggGroups": [
       "Insectoïde",
@@ -5034,7 +5034,7 @@
     "Type1": "bug",
     "Type2": null,
     "Image": "./img/251-386/314-a.png",
-    "FullImage": "./img/fullsprite/314.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/314.png",
     "Category": "Pokémon Luciole",
     "EggGroups": [
       "Insectoïde",
@@ -5049,7 +5049,7 @@
     "Type1": "grass",
     "Type2": "poison",
     "Image": "./img/251-386/315-a.png",
-    "FullImage": "./img/fullsprite/315.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/315.png",
     "Category": "Pokémon Épine",
     "EggGroups": [
       "Féerique",
@@ -5064,7 +5064,7 @@
     "Type1": "poison",
     "Type2": null,
     "Image": "./img/251-386/316-a.png",
-    "FullImage": "./img/fullsprite/316.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/316.png",
     "Category": "Pokémon Estomac",
     "EggGroups": [
       "Amorphe"
@@ -5078,7 +5078,7 @@
     "Type1": "poison",
     "Type2": null,
     "Image": "./img/251-386/317-a.png",
-    "FullImage": "./img/fullsprite/317.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/317.png",
     "Category": "Pokémon Sac Poison",
     "EggGroups": [
       "Amorphe"
@@ -5092,7 +5092,7 @@
     "Type1": "water",
     "Type2": "dark",
     "Image": "./img/251-386/318-a.png",
-    "FullImage": "./img/fullsprite/318.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/318.png",
     "Category": "Pokémon Féroce",
     "EggGroups": [
       "Aquatique 2"
@@ -5106,7 +5106,7 @@
     "Type1": "water",
     "Type2": "dark",
     "Image": "./img/251-386/319-a.png",
-    "FullImage": "./img/fullsprite/319.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/319.png",
     "Category": "Pokémon Brutal",
     "EggGroups": [
       "Aquatique 2"
@@ -5120,7 +5120,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/320-a.png",
-    "FullImage": "./img/fullsprite/320.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/320.png",
     "Category": "Pokémon Baleinboule",
     "EggGroups": [
       "Terrestre",
@@ -5135,7 +5135,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/321-a.png",
-    "FullImage": "./img/fullsprite/321.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/321.png",
     "Category": "Pokémon Cachabouée",
     "EggGroups": [
       "Terrestre",
@@ -5150,7 +5150,7 @@
     "Type1": "fire",
     "Type2": "ground",
     "Image": "./img/251-386/322-a.png",
-    "FullImage": "./img/fullsprite/322.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/322.png",
     "Category": "Pokémon Engourdi",
     "EggGroups": [
       "Terrestre"
@@ -5164,7 +5164,7 @@
     "Type1": "fire",
     "Type2": "ground",
     "Image": "./img/251-386/323-a.png",
-    "FullImage": "./img/fullsprite/323.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/323.png",
     "Category": "Pokémon Éruption",
     "EggGroups": [
       "Terrestre"
@@ -5178,7 +5178,7 @@
     "Type1": "fire",
     "Type2": null,
     "Image": "./img/251-386/324-a.png",
-    "FullImage": "./img/fullsprite/324.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/324.png",
     "Category": "Pokémon Charbon",
     "EggGroups": [
       "Terrestre"
@@ -5192,7 +5192,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/251-386/325-a.png",
-    "FullImage": "./img/fullsprite/325.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/325.png",
     "Category": "Pokémon Rebond",
     "EggGroups": [
       "Terrestre"
@@ -5206,7 +5206,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/251-386/326-a.png",
-    "FullImage": "./img/fullsprite/326.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/326.png",
     "Category": "Pokémon Magouilleur",
     "EggGroups": [
       "Terrestre"
@@ -5220,7 +5220,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/327-a.png",
-    "FullImage": "./img/fullsprite/327.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/327.png",
     "Category": "Pokémon Panda Tache",
     "EggGroups": [
       "Terrestre",
@@ -5235,7 +5235,7 @@
     "Type1": "ground",
     "Type2": null,
     "Image": "./img/251-386/328-a.png",
-    "FullImage": "./img/fullsprite/328.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/328.png",
     "Category": "Pokémon Piégeur",
     "EggGroups": [
       "Insectoïde",
@@ -5250,7 +5250,7 @@
     "Type1": "ground",
     "Type2": "dragon",
     "Image": "./img/251-386/329-a.png",
-    "FullImage": "./img/fullsprite/329.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/329.png",
     "Category": "Pokémon Vibration",
     "EggGroups": [
       "Insectoïde",
@@ -5265,7 +5265,7 @@
     "Type1": "ground",
     "Type2": "dragon",
     "Image": "./img/251-386/330-a.png",
-    "FullImage": "./img/fullsprite/330.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/330.png",
     "Category": "Pokémon Mystique",
     "EggGroups": [
       "Insectoïde",
@@ -5280,7 +5280,7 @@
     "Type1": "grass",
     "Type2": null,
     "Image": "./img/251-386/331-a.png",
-    "FullImage": "./img/fullsprite/331.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/331.png",
     "Category": "Pokémon Cactus",
     "EggGroups": [
       "Végétal",
@@ -5295,7 +5295,7 @@
     "Type1": "grass",
     "Type2": "dark",
     "Image": "./img/251-386/332-a.png",
-    "FullImage": "./img/fullsprite/332.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/332.png",
     "Category": "Pokémon Épouvantail",
     "EggGroups": [
       "Végétal",
@@ -5310,7 +5310,7 @@
     "Type1": "normal",
     "Type2": "flying",
     "Image": "./img/251-386/333-a.png",
-    "FullImage": "./img/fullsprite/333.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/333.png",
     "Category": "Pokémon Oiseaucoton",
     "EggGroups": [
       "Aérien",
@@ -5325,7 +5325,7 @@
     "Type1": "dragon",
     "Type2": "flying",
     "Image": "./img/251-386/334-a.png",
-    "FullImage": "./img/fullsprite/334.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/334.png",
     "Category": "Pokémon Virevolteur",
     "EggGroups": [
       "Aérien",
@@ -5340,7 +5340,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/335-a.png",
-    "FullImage": "./img/fullsprite/335.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/335.png",
     "Category": "Pokémon Chat Furet",
     "EggGroups": [
       "Terrestre"
@@ -5354,7 +5354,7 @@
     "Type1": "poison",
     "Type2": null,
     "Image": "./img/251-386/336-a.png",
-    "FullImage": "./img/fullsprite/336.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/336.png",
     "Category": "Pokémon Serpacroc",
     "EggGroups": [
       "Terrestre",
@@ -5369,7 +5369,7 @@
     "Type1": "rock",
     "Type2": "psychic",
     "Image": "./img/251-386/337-a.png",
-    "FullImage": "./img/fullsprite/337.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/337.png",
     "Category": "Pokémon Météorite",
     "EggGroups": [
       "Minéral"
@@ -5383,7 +5383,7 @@
     "Type1": "rock",
     "Type2": "psychic",
     "Image": "./img/251-386/338-a.png",
-    "FullImage": "./img/fullsprite/338.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/338.png",
     "Category": "Pokémon Météorite",
     "EggGroups": [
       "Minéral"
@@ -5397,7 +5397,7 @@
     "Type1": "water",
     "Type2": "ground",
     "Image": "./img/251-386/339-a.png",
-    "FullImage": "./img/fullsprite/339.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/339.png",
     "Category": "Pokémon Barbillon",
     "EggGroups": [
       "Aquatique 2"
@@ -5411,7 +5411,7 @@
     "Type1": "water",
     "Type2": "ground",
     "Image": "./img/251-386/340-a.png",
-    "FullImage": "./img/fullsprite/340.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/340.png",
     "Category": "Pokémon Barbillon",
     "EggGroups": [
       "Aquatique 2"
@@ -5425,7 +5425,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/341-a.png",
-    "FullImage": "./img/fullsprite/341.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/341.png",
     "Category": "Pokémon Brute",
     "EggGroups": [
       "Aquatique 1",
@@ -5440,7 +5440,7 @@
     "Type1": "water",
     "Type2": "dark",
     "Image": "./img/251-386/342-a.png",
-    "FullImage": "./img/fullsprite/342.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/342.png",
     "Category": "Pokémon Crapule",
     "EggGroups": [
       "Aquatique 1",
@@ -5455,7 +5455,7 @@
     "Type1": "ground",
     "Type2": "psychic",
     "Image": "./img/251-386/343-a.png",
-    "FullImage": "./img/fullsprite/343.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/343.png",
     "Category": "Pokémon Poupargile",
     "EggGroups": [
       "Minéral"
@@ -5469,7 +5469,7 @@
     "Type1": "ground",
     "Type2": "psychic",
     "Image": "./img/251-386/344-a.png",
-    "FullImage": "./img/fullsprite/344.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/344.png",
     "Category": "Pokémon Poupargile",
     "EggGroups": [
       "Minéral"
@@ -5483,7 +5483,7 @@
     "Type1": "rock",
     "Type2": "grass",
     "Image": "./img/251-386/345-a.png",
-    "FullImage": "./img/fullsprite/345.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/345.png",
     "Category": "Pokémon Lis d'Eau",
     "EggGroups": [
       "Aquatique 3"
@@ -5497,7 +5497,7 @@
     "Type1": "rock",
     "Type2": "grass",
     "Image": "./img/251-386/346-a.png",
-    "FullImage": "./img/fullsprite/346.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/346.png",
     "Category": "Pokémon Bernacle",
     "EggGroups": [
       "Aquatique 3"
@@ -5511,7 +5511,7 @@
     "Type1": "rock",
     "Type2": "bug",
     "Image": "./img/251-386/347-a.png",
-    "FullImage": "./img/fullsprite/347.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/347.png",
     "Category": "Pokémon Crustage",
     "EggGroups": [
       "Aquatique 3"
@@ -5525,7 +5525,7 @@
     "Type1": "rock",
     "Type2": "bug",
     "Image": "./img/251-386/348-a.png",
-    "FullImage": "./img/fullsprite/348.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/348.png",
     "Category": "Pokémon Blindage",
     "EggGroups": [
       "Aquatique 3"
@@ -5539,7 +5539,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/349-a.png",
-    "FullImage": "./img/fullsprite/349.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/349.png",
     "Category": "Pokémon Poisson",
     "EggGroups": [
       "Aquatique 1",
@@ -5554,7 +5554,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/350-a.png",
-    "FullImage": "./img/fullsprite/350.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/350.png",
     "Category": "Pokémon Tendre",
     "EggGroups": [
       "Draconique",
@@ -5569,7 +5569,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/351-a.png",
-    "FullImage": "./img/fullsprite/351.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/351.png",
     "Category": "Pokémon Climat",
     "EggGroups": [
       "Féerique",
@@ -5584,7 +5584,7 @@
     "Type1": "normal",
     "Type2": null,
     "Image": "./img/251-386/352-a.png",
-    "FullImage": "./img/fullsprite/352.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/352.png",
     "Category": "Pokémon Multicolor",
     "EggGroups": [
       "Terrestre"
@@ -5598,7 +5598,7 @@
     "Type1": "ghost",
     "Type2": null,
     "Image": "./img/251-386/353-a.png",
-    "FullImage": "./img/fullsprite/353.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/353.png",
     "Category": "Pokémon Poupée",
     "EggGroups": [
       "Amorphe"
@@ -5612,7 +5612,7 @@
     "Type1": "ghost",
     "Type2": null,
     "Image": "./img/251-386/354-a.png",
-    "FullImage": "./img/fullsprite/354.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/354.png",
     "Category": "Pokémon Marionnette",
     "EggGroups": [
       "Amorphe"
@@ -5626,7 +5626,7 @@
     "Type1": "ghost",
     "Type2": null,
     "Image": "./img/251-386/355-a.png",
-    "FullImage": "./img/fullsprite/355.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/355.png",
     "Category": "Pokémon Requiem",
     "EggGroups": [
       "Amorphe"
@@ -5640,7 +5640,7 @@
     "Type1": "ghost",
     "Type2": null,
     "Image": "./img/251-386/356-a.png",
-    "FullImage": "./img/fullsprite/356.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/356.png",
     "Category": "Pokémon Appel",
     "EggGroups": [
       "Amorphe"
@@ -5654,7 +5654,7 @@
     "Type1": "grass",
     "Type2": "flying",
     "Image": "./img/251-386/357-a.png",
-    "FullImage": "./img/fullsprite/357.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/357.png",
     "Category": "Pokémon Fruit",
     "EggGroups": [
       "Monstrueux",
@@ -5669,7 +5669,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/251-386/358-a.png",
-    "FullImage": "./img/fullsprite/358.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/358.png",
     "Category": "Pokémon Carillon",
     "EggGroups": [
       "Amorphe"
@@ -5683,7 +5683,7 @@
     "Type1": "dark",
     "Type2": null,
     "Image": "./img/251-386/359-a.png",
-    "FullImage": "./img/fullsprite/359.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/359.png",
     "Category": "Pokémon Désastre",
     "EggGroups": [
       "Terrestre"
@@ -5697,7 +5697,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/251-386/360-a.png",
-    "FullImage": "./img/fullsprite/360.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/360.png",
     "Category": "Pokémon Ravi",
     "EggGroups": [
       "Inconnu"
@@ -5711,7 +5711,7 @@
     "Type1": "ice",
     "Type2": null,
     "Image": "./img/251-386/361-a.png",
-    "FullImage": "./img/fullsprite/361.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/361.png",
     "Category": "Pokémon Capuche",
     "EggGroups": [
       "Féerique",
@@ -5726,7 +5726,7 @@
     "Type1": "ice",
     "Type2": null,
     "Image": "./img/251-386/362-a.png",
-    "FullImage": "./img/fullsprite/362.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/362.png",
     "Category": "Pokémon Face",
     "EggGroups": [
       "Féerique",
@@ -5741,7 +5741,7 @@
     "Type1": "ice",
     "Type2": "water",
     "Image": "./img/251-386/363-a.png",
-    "FullImage": "./img/fullsprite/363.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/363.png",
     "Category": "Pokémon Clap Clap",
     "EggGroups": [
       "Aquatique 1",
@@ -5756,7 +5756,7 @@
     "Type1": "ice",
     "Type2": "water",
     "Image": "./img/251-386/364-a.png",
-    "FullImage": "./img/fullsprite/364.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/364.png",
     "Category": "Pokémon Roule Boule",
     "EggGroups": [
       "Aquatique 1",
@@ -5771,7 +5771,7 @@
     "Type1": "ice",
     "Type2": "water",
     "Image": "./img/251-386/365-a.png",
-    "FullImage": "./img/fullsprite/365.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/365.png",
     "Category": "Pokémon Brise Glace",
     "EggGroups": [
       "Aquatique 1",
@@ -5786,7 +5786,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/366-a.png",
-    "FullImage": "./img/fullsprite/366.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/366.png",
     "Category": "Pokémon Bivalve",
     "EggGroups": [
       "Aquatique 1"
@@ -5800,7 +5800,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/367-a.png",
-    "FullImage": "./img/fullsprite/367.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/367.png",
     "Category": "Pokémon Abysse",
     "EggGroups": [
       "Aquatique 1"
@@ -5814,7 +5814,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/368-a.png",
-    "FullImage": "./img/fullsprite/368.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/368.png",
     "Category": "Pokémon Mer du Sud",
     "EggGroups": [
       "Aquatique 1"
@@ -5828,7 +5828,7 @@
     "Type1": "water",
     "Type2": "rock",
     "Image": "./img/251-386/369-a.png",
-    "FullImage": "./img/fullsprite/369.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/369.png",
     "Category": "Pokémon Longévité",
     "EggGroups": [
       "Aquatique 1",
@@ -5843,7 +5843,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/370-a.png",
-    "FullImage": "./img/fullsprite/370.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/370.png",
     "Category": "Pokémon Rendezvous",
     "EggGroups": [
       "Aquatique 2"
@@ -5857,7 +5857,7 @@
     "Type1": "dragon",
     "Type2": null,
     "Image": "./img/251-386/371-a.png",
-    "FullImage": "./img/fullsprite/371.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/371.png",
     "Category": "Pokémon Tête de Roc",
     "EggGroups": [
       "Draconique"
@@ -5871,7 +5871,7 @@
     "Type1": "dragon",
     "Type2": null,
     "Image": "./img/251-386/372-a.png",
-    "FullImage": "./img/fullsprite/372.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/372.png",
     "Category": "Pokémon Endurant",
     "EggGroups": [
       "Draconique"
@@ -5885,7 +5885,7 @@
     "Type1": "dragon",
     "Type2": "flying",
     "Image": "./img/251-386/373-a.png",
-    "FullImage": "./img/fullsprite/373.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/373.png",
     "Category": "Pokémon Dragon",
     "EggGroups": [
       "Draconique"
@@ -5899,7 +5899,7 @@
     "Type1": "steel",
     "Type2": "psychic",
     "Image": "./img/251-386/374-a.png",
-    "FullImage": "./img/fullsprite/374.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/374.png",
     "Category": "Pokémon Boulefer",
     "EggGroups": [
       "Minéral"
@@ -5913,7 +5913,7 @@
     "Type1": "steel",
     "Type2": "psychic",
     "Image": "./img/251-386/375-a.png",
-    "FullImage": "./img/fullsprite/375.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/375.png",
     "Category": "Pokémon Pincefer",
     "EggGroups": [
       "Minéral"
@@ -5927,7 +5927,7 @@
     "Type1": "steel",
     "Type2": "psychic",
     "Image": "./img/251-386/376-a.png",
-    "FullImage": "./img/fullsprite/376.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/376.png",
     "Category": "Pokémon Pattefer",
     "EggGroups": [
       "Minéral"
@@ -5941,7 +5941,7 @@
     "Type1": "rock",
     "Type2": null,
     "Image": "./img/251-386/377-a.png",
-    "FullImage": "./img/fullsprite/377.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/377.png",
     "Category": "Pokémon Pic Rocheux",
     "EggGroups": [
       "Inconnu"
@@ -5955,7 +5955,7 @@
     "Type1": "ice",
     "Type2": null,
     "Image": "./img/251-386/378-a.png",
-    "FullImage": "./img/fullsprite/378.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/378.png",
     "Category": "Pokémon Iceberg",
     "EggGroups": [
       "Inconnu"
@@ -5969,7 +5969,7 @@
     "Type1": "steel",
     "Type2": null,
     "Image": "./img/251-386/379-a.png",
-    "FullImage": "./img/fullsprite/379.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/379.png",
     "Category": "Pokémon Fer",
     "EggGroups": [
       "Inconnu"
@@ -5983,7 +5983,7 @@
     "Type1": "dragon",
     "Type2": "psychic",
     "Image": "./img/251-386/380-a.png",
-    "FullImage": "./img/fullsprite/380.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/380.png",
     "Category": "Pokémon Éon",
     "EggGroups": [
       "Inconnu"
@@ -5997,7 +5997,7 @@
     "Type1": "dragon",
     "Type2": "psychic",
     "Image": "./img/251-386/381-a.png",
-    "FullImage": "./img/fullsprite/381.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/381.png",
     "Category": "Pokémon Éon",
     "EggGroups": [
       "Inconnu"
@@ -6011,7 +6011,7 @@
     "Type1": "water",
     "Type2": null,
     "Image": "./img/251-386/382-a.png",
-    "FullImage": "./img/fullsprite/382.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/382.png",
     "Category": "Pokémon Bassinmarin",
     "EggGroups": [
       "Inconnu"
@@ -6025,7 +6025,7 @@
     "Type1": "ground",
     "Type2": null,
     "Image": "./img/251-386/383-a.png",
-    "FullImage": "./img/fullsprite/383.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/383.png",
     "Category": "Pokémon Continent",
     "EggGroups": [
       "Inconnu"
@@ -6039,7 +6039,7 @@
     "Type1": "dragon",
     "Type2": "flying",
     "Image": "./img/251-386/384-a.png",
-    "FullImage": "./img/fullsprite/384.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/384.png",
     "Category": "Pokémon Cieux",
     "EggGroups": [
       "Inconnu"
@@ -6053,7 +6053,7 @@
     "Type1": "psychic",
     "Type2": "steel",
     "Image": "./img/251-386/385-a.png",
-    "FullImage": "./img/fullsprite/385.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/385.png",
     "Category": "Pokémon Souhait",
     "EggGroups": [
       "Inconnu"
@@ -6067,7 +6067,7 @@
     "Type1": "psychic",
     "Type2": null,
     "Image": "./img/251-386/386-a.png",
-    "FullImage": "./img/fullsprite/386.png",
+    "FullImage": "https://s3.pokeos.com/pokeos-uploads/assets/pokemon/home/render/386.png",
     "Category": "Pokémon ADN",
     "EggGroups": [
       "Inconnu"

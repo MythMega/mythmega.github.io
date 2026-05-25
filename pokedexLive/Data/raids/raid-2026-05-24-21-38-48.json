@@ -1,0 +1,105 @@
+{
+  "bossName": "Fouinar",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Furret_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Furret_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-05-24 21:38:48",
+  "durationSec": 286,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 56984,
+      "countAtk": 2,
+      "baseDmg": 23301,
+      "level": 18,
+      "raidCount": 754,
+      "luck": 1.2227801
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Lo\u00EFcLatendresse-h6p3y",
+      "damage": 393,
+      "countAtk": 2,
+      "baseDmg": 177,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.1101695
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "l_fan_de_caintheaxolotl",
+      "damage": 309,
+      "countAtk": 1,
+      "baseDmg": 309,
+      "level": 3,
+      "raidCount": 6,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 57293
+    },
+    {
+      "platform": "youtube",
+      "damage": 393
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "l_fan_de_caintheaxolotl",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Lo\u00EFcLatendresse-h6p3y",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ]
+}

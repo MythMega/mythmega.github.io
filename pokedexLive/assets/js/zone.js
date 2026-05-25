@@ -53,8 +53,11 @@ function render(root, zone, creatures, zoneName) {
 
         <!-- Hero -->
         <div class="sd-hero" style="margin-bottom:24px">
+          ${zone.Image ? `<div style="width:100%;max-height:220px;overflow:hidden;border-radius:var(--radius-lg);margin-bottom:16px;background:var(--bg-secondary);">
+            <img src="${zone.Image}" alt="${SD.esc(zone.Name)}" style="width:100%;max-height:220px;object-fit:cover;display:block;">
+          </div>` : ''}
           <div class="sd-hero__info">
-            <h1 class="sd-hero__name">📍 ${SD.esc(zone.Name)}</h1>
+            <h1 class="sd-hero__name">${zone.Image ? '' : '📍 '}${SD.esc(zone.Name)}</h1>
             <div class="sd-hero__meta">
               ${zone.DexRequirement > 0 ? SD.badge(`Dex requis : ${zone.DexRequirement}`, 'blue') : SD.badge('Accessible dès le départ', 'green')}
               ${zone.LevelRequirement > 0 ? SD.badge(`Niveau requis : ${zone.LevelRequirement}`, 'orange') : ''}

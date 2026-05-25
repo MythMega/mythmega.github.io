@@ -1,0 +1,74 @@
+{
+  "bossName": "Grahy\u00E8na",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mightyena_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mightyena_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 30000,
+  "date": "2026-05-23 20:08:18",
+  "durationSec": 298,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 56386,
+      "countAtk": 2,
+      "baseDmg": 22984,
+      "level": 18,
+      "raidCount": 742,
+      "luck": 1.2266359
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4434,
+      "countAtk": 1,
+      "baseDmg": 4434,
+      "level": 20,
+      "raidCount": 177,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 60820
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ]
+}

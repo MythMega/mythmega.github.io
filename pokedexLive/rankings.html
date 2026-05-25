@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamDex › Classements</title>
+    <link rel="stylesheet" href="assets/streamdex.css">
+    <link rel="stylesheet" href="assets/rankings.css">
+</head>
+<body>
+    <nav class="sd-navbar">
+        <div class="sd-container sd-navbar__inner">
+            <a href="main.html" class="sd-navbar__brand">🎮 StreamDex</a>
+            <button class="sd-navbar__hamburger" id="sd-hamburger" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="sd-navbar__links">
+                <a href="main.html" class="sd-navbar__link">Accueil</a>
+                <a href="availablepokemon.html" class="sd-navbar__link">Pokédex</a>
+                <a href="balldex.html" class="sd-navbar__link">Balls</a>
+                <a href="zonedex.html" class="sd-navbar__link">Zones</a>
+                <a href="pokestats.html" class="sd-navbar__link">Stats</a>
+                <div class="sd-dropdown">
+                    <button class="sd-navbar__link sd-dropdown__toggle">Achat/Vente ▾</button>
+                    <div class="sd-dropdown__menu">
+                        <a href="buypokemon.html" class="sd-dropdown__item">🛒 Boutique</a>
+                        <a href="scrappokemon.html" class="sd-dropdown__item">♻️ Scrap</a>
+                    </div>
+                </div>
+                <a href="records.html" class="sd-navbar__link">Records</a>
+                <a href="commandgenerator.html" class="sd-navbar__link">Commandes</a>
+                <a href="raids.html" class="sd-navbar__link">Raids</a>
+                <a href="rankings.html" class="sd-navbar__link sd-navbar__link--active">Classements</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="sd-root"></div>
+
+    <footer class="sd-footer">
+        <div class="sd-container">StreamDex — Données chargées dynamiquement</div>
+    </footer>
+
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/rankings.js"></script>
+</body>
+</html>

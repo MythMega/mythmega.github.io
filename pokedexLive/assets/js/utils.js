@@ -2,6 +2,34 @@
 // StreamDex - Utility Functions (utils.js)
 // ============================================
 
+// ── Dropdown navbar (toggle au clic, fermeture au clic extérieur) ──────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.sd-dropdown__toggle').forEach(toggle => {
+    toggle.addEventListener('click', e => {
+      e.stopPropagation();
+      const dropdown = toggle.closest('.sd-dropdown');
+      const isOpen = dropdown.classList.contains('is-open');
+      // Ferme tous les dropdowns ouverts
+      document.querySelectorAll('.sd-dropdown.is-open').forEach(d => d.classList.remove('is-open'));
+      // Ouvre celui-ci seulement s'il était fermé
+      if (!isOpen) dropdown.classList.add('is-open');
+    });
+  });
+
+  // Clic en dehors → ferme tout
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.sd-dropdown.is-open').forEach(d => d.classList.remove('is-open'));
+  });
+
+  // Clic sur un item du menu → ferme le dropdown
+  document.querySelectorAll('.sd-dropdown__item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.sd-dropdown.is-open').forEach(d => d.classList.remove('is-open'));
+    });
+  });
+});
+// ──────────────────────────────────────────────────────────────────────────
+
 const SD = {
   // --- JSON Loader ---
   async fetchJson(url) {

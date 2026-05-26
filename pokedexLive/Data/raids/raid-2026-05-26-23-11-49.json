@@ -1,0 +1,115 @@
+{
+  "bossName": "Ok\u00E9ok\u00E9",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wynaut_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wynaut_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 30000,
+  "date": "2026-05-26 23:11:49",
+  "durationSec": 120,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 30442,
+      "countAtk": 6,
+      "baseDmg": 4639,
+      "level": 20,
+      "raidCount": 185,
+      "luck": 1.0936983
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 30442
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-26 23:13:41",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4639,
+      "pvAfter": 25361,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-26 23:13:44",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6970,
+      "pvAfter": 18391,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-26 23:13:45",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4677,
+      "pvAfter": 13714,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-26 23:13:47",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4744,
+      "pvAfter": 8970,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-26 23:13:48",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4661,
+      "pvAfter": 4309,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-26 23:13:49",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4751,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    }
+  ]
+}

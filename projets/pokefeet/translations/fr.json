@@ -85,6 +85,7 @@
     "min": "Min",
     "max": "Max",
     "showMore": "Afficher 25 de plus",
+    "update": "↑ Mise à jour : {name} ({date}) ↓",
     "stats": {
       "title": "Statistiques détaillées",
       "global": "Globaux",
@@ -147,6 +148,38 @@
     "irreversible": "⚠️ Actions irréversibles",
     "deleteBest": "Delete Best Score",
     "deleteDaily": "Delete All Daily Data"
+  },
+  "dataViewer": {
+    "title": "Données Pokémon",
+    "filterBy": "Filtrer par",
+    "filterPlaceholder": "Filtrer...",
+    "noResults": "Aucun résultat",
+    "colImage": "Image",
+    "colFullImage": "Sprite",
+    "colIndex": "N°",
+    "colNameFR": "Nom FR",
+    "colNameEN": "Nom EN",
+    "colGeneration": "Génération",
+    "colType1": "Type 1",
+    "colType2": "Type 2",
+    "colEggGroups": "Groupes d'œuf",
+    "colCategory": "Catégorie",
+    "missingImage": "Image manquante",
+    "missingFullImage": "Sprite manquant",
+    "missingIndex": "Index manquant",
+    "missingNameFR": "Nom FR manquant",
+    "missingNameEN": "Nom EN manquant",
+    "missingGeneration": "Génération manquante",
+    "missingType1": "Type 1 manquant",
+    "missingEggGroups": "Groupes d'œuf manquants",
+    "missingCategory": "Catégorie manquante",
+    "colVersion": "Version",
+    "missingVersion": "Version manquante"
+  },
+  "footer": {
+    "homeLink": "Accueil",
+    "dataLink": "Données",
+    "changelogLink": "Changelog"
   },
   "types": {
     "normal": "Normal",

@@ -197,6 +197,31 @@
           </ul>
         </li>
 
+        <!-- JEUX -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">Jeux</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="./pokedexLive/main.html">Streamdex</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="#" role="button">Pok\u00e9mon</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="./projets/pokefeet/">Pokefeet</a></li>
+                <li><a class="dropdown-item" href="./projets/pokegg/">Pokegg</a></li>
+                <li><a class="dropdown-item" href="./projets/starteralaveugle/">Starter \u00e0 l'Aveugle</a></li>
+                <li><a class="dropdown-item" href="./projets/pokiece/">Pok\u00e9mon Qui est-ce\u202f?</a></li>
+              </ul>
+            </li>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="#" role="button">Elden Ring</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="./projets/ERGussr/">Elden Desc Guessr</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
         <!-- BLOG / PHOTOS -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -213,6 +238,59 @@
 </nav>`;
 
   document.body.insertAdjacentHTML('afterbegin', navHTML);
+
+  /* ──────────────────────────────────────
+     SUBMENU TOGGLE
+  ────────────────────────────────────── */
+  function initSubmenus() {
+    document.querySelectorAll('.dropdown-submenu').forEach(function (item) {
+      var btn = item.querySelector(':scope > a');
+      if (!btn) return;
+
+      // Mobile: click toggles the submenu.
+      // Direct listener so stopPropagation prevents Bootstrap from closing the parent dropdown.
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.innerWidth >= 992) return;
+        var wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.dropdown-submenu.open').forEach(function (el) {
+          if (el !== item) el.classList.remove('open');
+        });
+        item.classList.toggle('open', !wasOpen);
+      });
+
+      // Desktop: detect right-edge overflow on hover and flip submenu to the left if needed.
+      item.addEventListener('mouseenter', function () {
+        if (window.innerWidth < 992) return;
+        var submenu = item.querySelector(':scope > .dropdown-menu');
+        if (!submenu) return;
+        item.classList.remove('flip-left');
+        requestAnimationFrame(function () {
+          var rect = submenu.getBoundingClientRect();
+          if (rect.right > window.innerWidth - 8) {
+            item.classList.add('flip-left');
+          }
+        });
+      });
+
+      item.addEventListener('mouseleave', function () {
+        if (window.innerWidth < 992) return;
+        item.classList.remove('flip-left');
+      });
+    });
+
+    // Close submenus when the parent Jeux (or any nav) dropdown closes.
+    document.querySelectorAll('.nav-item.dropdown').forEach(function (navItem) {
+      navItem.addEventListener('hide.bs.dropdown', function () {
+        navItem.querySelectorAll('.dropdown-submenu.open').forEach(function (sub) {
+          sub.classList.remove('open');
+        });
+      });
+    });
+  }
+
+  initSubmenus();
 
   /* ──────────────────────────────────────
      NAVBAR SCROLL EFFECT

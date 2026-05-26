@@ -4,11 +4,14 @@ const DailyToDexImport = (function () {
   const DAILY_STORE_NAME = 'daily_results';
   let allPokemons = [];
 
-  // Load Pokemon data (duplicate from Dex)
+  // Load Pokemon data
   async function loadPokemons() {
     console.log('[Import] Loading Pokemon data');
     try {
-      const res = await fetch('data/pokemons.json');
+      const [res] = await Promise.all([
+        fetch('data/pokemons.json'),
+        PokemonVersions.load()
+      ]);
       const arr = await res.json();
       allPokemons = arr.map(p => new Pokemon(p));
       console.log('[Import] Loaded', allPokemons.length, 'Pokemon');
@@ -46,9 +49,11 @@ const DailyToDexImport = (function () {
   }
 
   function getDailyListForDate(dateStr) {
+    // Filtre les Pokémon disponibles à la date donnée avant d'appliquer le seed
+    const available = PokemonVersions.getAvailablePokemons(allPokemons, dateStr);
     const seed = stringToSeed(dateStr);
     const rng = mulberry32(seed);
-    const shuffled = shuffleArrayWithSeed(allPokemons, rng);
+    const shuffled = shuffleArrayWithSeed(available, rng);
     const list = shuffled.slice(0, Math.min(5, shuffled.length));
     let cursor = 0;
     while (list.length < 5) {

@@ -83,6 +83,7 @@
   }
 
   async function render() {
+    await PokemonVersions.load();
     const history = await loadHistory();
     const keys = Object.keys(history);
     const container = document.getElementById('historyList');
@@ -105,7 +106,8 @@
 
     function renderRows() {
       const batch = keys.slice(displayed, displayed + PAGE_SIZE);
-      batch.forEach(dateKey => {
+      batch.forEach((dateKey, batchIdx) => {
+        const globalIdx = displayed + batchIdx;
         const entry = history[dateKey] || {};
         const score = entry.score || 0;
         const results = entry.results || [];
@@ -125,6 +127,19 @@
           window.location.href = `daily.html?date=${dateKey}`;
         });
         container.insertBefore(row, showMoreBtn);
+
+        // Séparateur mise à jour : entre cette entrée (plus récente) et la suivante (plus ancienne)
+        const nextDateKey = keys[globalIdx + 1];
+        if (nextDateKey) {
+          (PokemonVersions.getData() || []).forEach(v => {
+            if (v.deploy_date && v.deploy_date > nextDateKey && v.deploy_date <= dateKey) {
+              const sep = document.createElement('div');
+              sep.style.cssText = 'padding:5px 12px;background:#a16207;color:#fef9c3;font-size:12px;font-weight:700;border-radius:6px;margin:3px 0;text-align:center;letter-spacing:.03em;';
+              sep.textContent = Translator.get('history.update', '↑ Mise à jour : {name} ({date}) ↓').replace('{name}', v.Update_Name).replace('{date}', v.deploy_date);
+              container.insertBefore(sep, showMoreBtn);
+            }
+          });
+        }
       });
       displayed += batch.length;
 

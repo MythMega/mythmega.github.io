@@ -10,6 +10,7 @@
   const totalDaysEl = document.getElementById('totalDays');
   const chartStats = document.getElementById('chartStats');
   let dbInstance = null;
+  let versionData = null; // chargé depuis data/version.json
 
   function getDB() {
     return new Promise((resolve, reject) => {
@@ -67,13 +68,26 @@
       return [];
     }
     entries.reverse(); // newest first for display
-    entries.forEach(date => {
+    entries.forEach((date, i) => {
       const item = historyObj[date];
       const div = document.createElement('div');
       div.style.padding = '8px';
       div.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
       div.innerHTML = `<strong>${date}</strong> — score: <strong>${item.score ?? 0}</strong><br/><span style="color:var(--muted);font-size:13px;">${(item.results||[]).map(r => r ? (r.outcome==='win' ? (r.attempts===0 ? '🟩' : '🟧') : '🟥') : '🟥').join('')}</span>`;
       historyListEl.appendChild(div);
+
+      // Séparateur mise à jour entre cette entrée (plus récente) et la suivante (plus ancienne)
+      const nextDate = entries[i + 1];
+      if (nextDate && versionData) {
+        versionData.forEach(v => {
+          if (v.deploy_date && v.deploy_date > nextDate && v.deploy_date <= date) {
+            const sep = document.createElement('div');
+            sep.style.cssText = 'padding:5px 12px;background:#a16207;color:#fef9c3;font-size:12px;font-weight:700;border-radius:6px;margin:3px 0;text-align:center;letter-spacing:.03em;';
+            sep.textContent = `↗ Mise à jour : ${v.Update_Name} (${v.deploy_date}) ↖`;
+            historyListEl.appendChild(sep);
+          }
+        });
+      }
     });
     totalDaysEl.textContent = String(entries.length);
     return Object.keys(historyObj).sort((a,b) => a.localeCompare(b)); // ascending dates
@@ -193,10 +207,47 @@
 
     // update stats area
     chartStats.textContent = `Derniers ${coords.length} jours — moyenne: ${avg.toFixed(1)} / ${maxPoints}`;
+
+    // Lignes verticales pour les mises à jour de version
+    if (versionData && coords.length > 1) {
+      const firstTs = new Date(coords[0].date + 'T00:00:00').getTime();
+      const lastTs  = new Date(coords[coords.length - 1].date + 'T00:00:00').getTime();
+      versionData.forEach(v => {
+        if (!v.deploy_date) return;
+        const deployTs = new Date(v.deploy_date + 'T00:00:00').getTime();
+        if (deployTs < firstTs || deployTs > lastTs) return;
+        // Interpoler la position x
+        let vx = coords[coords.length - 1].x;
+        for (let i = 0; i < coords.length - 1; i++) {
+          const t0 = new Date(coords[i].date + 'T00:00:00').getTime();
+          const t1 = new Date(coords[i + 1].date + 'T00:00:00').getTime();
+          if (deployTs >= t0 && deployTs <= t1) {
+            const ratio = t1 === t0 ? 0 : (deployTs - t0) / (t1 - t0);
+            vx = coords[i].x + ratio * (coords[i + 1].x - coords[i].x);
+            break;
+          }
+        }
+        ctx.save();
+        ctx.beginPath();
+        ctx.setLineDash([5, 4]);
+        ctx.strokeStyle = '#eab308';
+        ctx.lineWidth = 2;
+        ctx.moveTo(vx, pad);
+        ctx.lineTo(vx, pad + innerH);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 11px Inter, Arial';
+        ctx.fillText(v.Update_Name, vx + 4, pad + 28);
+        ctx.restore();
+      });
+    }
   }
 
   // initial render (now async)
   async function init() {
+    await PokemonVersions.load();
+    versionData = PokemonVersions.getData();
     const history = await loadHistory();
     const allDates = buildHistoryList(history); // returns ascending dates
     const last = getLastNScores(history, 45); // ascending

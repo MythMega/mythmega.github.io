@@ -1,0 +1,101 @@
+{
+  "bossName": "Heatran",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Heatran_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Heatran_shiny.gif",
+  "bossRarity": "LEGENDARY",
+  "shiny": false,
+  "pvMax": 300000,
+  "date": "2026-05-26 20:17:23",
+  "durationSec": 4181,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 302546,
+      "countAtk": 7,
+      "baseDmg": 23874,
+      "level": 18,
+      "raidCount": 765,
+      "luck": 1.8103734
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 8054,
+      "countAtk": 1,
+      "baseDmg": 8054,
+      "level": 17,
+      "raidCount": 300,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4640,
+      "countAtk": 1,
+      "baseDmg": 4640,
+      "level": 20,
+      "raidCount": 183,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 315240
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ]
+}

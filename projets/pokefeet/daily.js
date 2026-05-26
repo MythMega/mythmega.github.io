@@ -448,9 +448,13 @@ const Daily = (function () {
 
   // Recreate deterministic daily list for a given date (used when already played)
   function getDailyListForDate(dateStr) {
+    const available = PokemonVersions.getAvailablePokemons(pokemons, dateStr);
+    const _avVer = PokemonVersions.getAvailableVersions(dateStr);
+    const _vNames = (PokemonVersions.getData() || []).filter(v => _avVer.has(v.pokefeet_data_version)).map(v => v.Update_Name);
+    console.log(`[Daily chargé – ${dateStr}] Pool : ${available.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
     const seed = stringToSeed(dateStr);
     const rng = mulberry32(seed);
-    const shuffled = shuffleArrayWithSeed(pokemons, rng);
+    const shuffled = shuffleArrayWithSeed(available, rng);
     const list = shuffled.slice(0, Math.min(COUNT, shuffled.length));
     let cursor = 0;
     while (list.length < COUNT) {
@@ -632,15 +636,11 @@ const Daily = (function () {
         const t1 = p.Type1 || '';
         const t2 = p.Type2 || '';
         const typesLabel = Translator.get('daily.types', 'Type(s)');
-        const t1Name = Translator.get(`types.${t1}`, t1);
-        const t1IconUrl = TypeIcons.getUrl(t1);
-        const t1Html = t1Name + (t1IconUrl ? ` <img class="type-icon" src="${t1IconUrl}" alt="${t1}">` : '');
-        let typeHint = `${typesLabel} : ${t1Html}`;
+        const t1Badge = `<span class="type-badge t-${t1.toLowerCase()}">${Translator.get('types.' + t1.toLowerCase(), t1)}</span>`;
+        let typeHint = `${typesLabel} : ${t1Badge}`;
         if (t2) {
-          const t2Name = Translator.get(`types.${t2}`, t2);
-          const t2IconUrl = TypeIcons.getUrl(t2);
-          const t2Html = t2Name + (t2IconUrl ? ` <img class="type-icon" src="${t2IconUrl}" alt="${t2}">` : '');
-          typeHint += ` / ${t2Html}`;
+          const t2Badge = `<span class="type-badge t-${t2.toLowerCase()}">${Translator.get('types.' + t2.toLowerCase(), t2)}</span>`;
+          typeHint += ` ${t2Badge}`;
         }
         addHintHTML(typeHint);
         break;
@@ -796,7 +796,8 @@ const Daily = (function () {
     try {
       const [pokemonsRes] = await Promise.all([
         fetch('data/pokemons.json'),
-        TypeIcons.load()
+        TypeIcons.load(),
+        PokemonVersions.load()
       ]);
       const arr = await pokemonsRes.json();
       pokemons = arr.map(p => new Pokemon(p));
@@ -822,10 +823,14 @@ const Daily = (function () {
     }
 
 
-    // create deterministic list 5 using date seed
+    // create deterministic list 5 using date seed, filtered to available versions for today
+    const availablePokemons = PokemonVersions.getAvailablePokemons(pokemons, sessionDate);
+    const _avVer = PokemonVersions.getAvailableVersions(sessionDate);
+    const _vNames = (PokemonVersions.getData() || []).filter(v => _avVer.has(v.pokefeet_data_version)).map(v => v.Update_Name);
+    console.log(`[Daily – ${sessionDate}] Pool : ${availablePokemons.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
     const seed = stringToSeed(sessionDate);
     const rng = mulberry32(seed);
-    const shuffled = shuffleArrayWithSeed(pokemons, rng);
+    const shuffled = shuffleArrayWithSeed(availablePokemons, rng);
     // if fewer pokemons than COUNT, repeat but keep unique as much as possible
     dailyList = shuffled.slice(0, Math.min(COUNT, shuffled.length));
     // if not enough, loop fill

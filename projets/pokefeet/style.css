@@ -742,3 +742,33 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
   .small-btn { flex:1 1 auto; width:100%; }
   .daily-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
 }
+
+/* --- Type badges --- */
+.type-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #fff;
+  vertical-align: middle;
+}
+.t-normal   { background: #777a76; }
+.t-fire     { background: #c53b09; }
+.t-water    { background: #2563c0; }
+.t-grass    { background: #3b7d2b; }
+.t-electric { background: #b59a05; }
+.t-ice      { background: #3b9090; }
+.t-fighting { background: #8c2020; }
+.t-poison   { background: #6b2e8c; }
+.t-ground   { background: #8c6a28; }
+.t-flying   { background: #5a54b8; }
+.t-psychic  { background: #b82060; }
+.t-bug      { background: #5a7815; }
+.t-rock     { background: #7a6828; }
+.t-ghost    { background: #3b2860; }
+.t-dragon   { background: #4018c0; }
+.t-dark     { background: #3c2c1c; }
+.t-steel    { background: #5c7080; }
+.t-fairy    { background: #9c407c; }

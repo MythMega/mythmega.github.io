@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       </div>
 
-      <!-- Graphiques -->
+      <!-- Graphiques classiques -->
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:24px;margin-bottom:24px">
         <div class="sd-card" style="padding:24px">
           <h3 style="margin:0 0 16px;font-size:14px">🥧 Dégâts par plateforme</h3>
@@ -232,6 +232,18 @@ document.addEventListener('DOMContentLoaded', async () => {
           <h3 style="margin:0 0 16px;font-size:14px">🔢 Nombre d'attaques</h3>
           <canvas id="chart-atk" height="260"></canvas>
         </div>
+      </div>
+
+      <!-- Courbe de vie du boss -->
+      <div class="sd-card" style="margin-bottom:24px;padding:24px">
+        <h3 style="margin:0 0 16px;font-size:14px">💪 Vie du boss au fil du temps</h3>
+        <canvas id="chart-hp" height="120"></canvas>
+      </div>
+
+      <!-- Journal des attaques -->
+      <div class="sd-card" style="margin-bottom:24px;padding:24px">
+        <h3 style="margin:0 0 12px;font-size:14px">📜 Journal des attaques</h3>
+        <div id="attack-log" style="max-height:360px;overflow-y:auto;font-size:12px;font-family:monospace;line-height:1.7;padding-right:8px"></div>
       </div>
     `;
 
@@ -303,6 +315,89 @@ document.addEventListener('DOMContentLoaded', async () => {
             },
             options: { ...chartDefaults, plugins: { legend: { display: false } } }
         }));
+
+        // ── Courbe de vie du boss ─────────────────────────────────────
+        const attackLog = raid.attackLog || [];
+        if (attackLog.length && document.getElementById('chart-hp')) {
+            // Point initial : boss à 100%
+            const hpLabels   = ['Début'];
+            const hpValues   = [raid.pvMax];
+            const hpTooltips = ['Début du raid'];
+
+            attackLog.forEach(atk => {
+                const time = atk.at ? atk.at.split(' ')[1] : '??';
+                hpLabels.push(time);
+                hpValues.push(atk.pvAfter);
+                const pct = raid.pvMax > 0 ? ((atk.pvAfter / raid.pvMax) * 100).toFixed(1) : 0;
+                const sign = atk.damages >= 0 ? '-' : '+';
+                const heal  = atk.heal ? ' 💚 soin' : '';
+                const crit  = atk.critical ? ' ⚡ CRIT' : '';
+                hpTooltips.push(`${atk.pseudo} (${atk.platform}) ${sign}${Math.abs(atk.damages)}${heal}${crit} \u2014 ${atk.pvAfter} PV (${pct}%)`);
+            });
+
+            charts.push(new Chart(document.getElementById('chart-hp'), {
+                type: 'line',
+                data: {
+                    labels: hpLabels,
+                    datasets: [{
+                        label: 'PV du boss',
+                        data: hpValues,
+                        borderColor: '#f85149',
+                        backgroundColor: 'rgba(248,81,73,0.12)',
+                        pointBackgroundColor: hpValues.map((v, i) => {
+                            if (i === 0) return '#8b949e';
+                            const atk = attackLog[i - 1];
+                            if (atk?.heal) return '#3fb950';
+                            if (atk?.critical) return '#ffd700';
+                            return '#f85149';
+                        }),
+                        pointRadius: hpValues.map((_, i) => i === 0 ? 4 : 6),
+                        pointHoverRadius: 10,
+                        tension: 0.3,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => hpTooltips[ctx.dataIndex]
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#8b949e', maxRotation: 45, maxTicksLimit: 20 }, grid: { color: '#21262d' } },
+                        y: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' }, min: 0, max: raid.pvMax }
+                    }
+                }
+            }));
+        }
+
+        // ── Journal des attaques (texte) ──────────────────────────────
+        const logEl = document.getElementById('attack-log');
+        if (logEl && attackLog.length) {
+            const PLAT_COLOR = { twitch: '#bc8cff', youtube: '#f85149', tiktok: '#e6edf3', discord: '#58a6ff' };
+            logEl.innerHTML = attackLog.map((atk, i) => {
+                const time    = atk.at ? atk.at.split(' ')[1] : '??';
+                const color   = PLAT_COLOR[(atk.platform || '').toLowerCase()] || '#e6edf3';
+                const dmgSign = atk.heal ? `<span style="color:#3fb950">+${Math.abs(atk.damages)} 💚 soin</span>`
+                              : atk.critical ? `<span style="color:#ffd700">-${atk.damages} ⚡ CRIT</span>`
+                              : `<span style="color:#f85149">-${atk.damages}</span>`;
+                const pct  = raid.pvMax > 0 ? ((atk.pvAfter / raid.pvMax) * 100).toFixed(1) : '?';
+                const statT = atk.statusEffect ? `<span style="color:#d29922"> ▸ ${atk.statusEffect}</span>` : '';
+                return `<div style="padding:2px 0;border-bottom:1px solid #21262d">
+  <span style="color:var(--text-muted)">[${time}]</span>
+  <span style="color:${color};font-weight:600">${atk.pseudo}</span>
+  <span style="color:var(--text-muted)"> (${atk.platform})</span>
+  ${dmgSign}
+  <span style="color:var(--text-muted)"> → ${atk.pvAfter} PV (${pct}%)</span>
+  ${statT}
+</div>`;
+            }).join('');
+        } else if (logEl) {
+            logEl.innerHTML = '<span style="color:var(--text-muted)">Aucune attaque enregistrée (ancien raid).</span>';
+        }
     }
 
     // ── Helpers HTML ────────────────────────────────────────────────────────

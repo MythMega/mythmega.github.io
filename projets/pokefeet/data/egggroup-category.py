@@ -13,7 +13,7 @@ try:
 except ImportError:
     raise SystemExit("Le module 'requests' est requis. Installez-le avec: pip install requests")
 
-JSON_FILENAME = "pokemons.json"
+JSON_FILENAME = "pokemons_wip.json"
 BACKUP_FILENAME = JSON_FILENAME + ".bak"
 API_URL_TEMPLATE = "https://tyradex.app/api/v1/pokemon/{id}"
 REQUEST_TIMEOUT = 10

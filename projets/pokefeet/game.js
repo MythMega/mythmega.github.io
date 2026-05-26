@@ -91,11 +91,18 @@ const Game = (function () {
     try {
       const [pokemonsRes] = await Promise.all([
         fetch('data/pokemons.json'),
-        TypeIcons.load()
+        TypeIcons.load(),
+        PokemonVersions.load()
       ]);
       const arr = await pokemonsRes.json();
       pokemons = arr.map(p => new Pokemon(p));
-      PossiblePokemons = pokemons.slice();
+      // Pool de jeu limité aux Pokémon disponibles aujourd'hui
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      PossiblePokemons = PokemonVersions.getAvailablePokemons(pokemons, todayStr);
+      const _avVer = PokemonVersions.getAvailableVersions(todayStr);
+      const _vNames = (PokemonVersions.getData() || []).filter(v => _avVer.has(v.pokefeet_data_version)).map(v => v.Update_Name);
+      console.log(`[Entraînement – ${todayStr}] Pool : ${PossiblePokemons.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
     } catch (e) {
       // fallback : quelques pokémons d'exemple pour que l'app fonctionne sans fetch
       pokemons = [
@@ -103,6 +110,7 @@ const Game = (function () {
         new Pokemon({"Index":"4","NameEN":"Charmander","NameFR":"Salamèche","Generation":1,"Type1":"fire","Type2":null,"Image":"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"}),
         new Pokemon({"Index":"7","NameEN":"Squirtle","NameFR":"Carapuce","Generation":1,"Type1":"water","Type2":null,"Image":"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"})
       ];
+      PossiblePokemons = pokemons.slice();
     }
 
     // initialisation UI
@@ -351,15 +359,11 @@ const Game = (function () {
         const t1 = current.Type1 || '';
         const t2 = current.Type2 || '';
         const typesLabel = Translator.get('practice.types', 'Type(s)');
-        const t1Name = Translator.get(`types.${t1}`, t1);
-        const t1IconUrl = TypeIcons.getUrl(t1);
-        const t1Html = t1Name + (t1IconUrl ? ` <img class="type-icon" src="${t1IconUrl}" alt="${t1}">` : '');
-        let typeHint = `${typesLabel} : ${t1Html}`;
+        const t1Badge = `<span class="type-badge t-${t1.toLowerCase()}">${Translator.get('types.' + t1.toLowerCase(), t1)}</span>`;
+        let typeHint = `${typesLabel} : ${t1Badge}`;
         if (t2) {
-          const t2Name = Translator.get(`types.${t2}`, t2);
-          const t2IconUrl = TypeIcons.getUrl(t2);
-          const t2Html = t2Name + (t2IconUrl ? ` <img class="type-icon" src="${t2IconUrl}" alt="${t2}">` : '');
-          typeHint += ` / ${t2Html}`;
+          const t2Badge = `<span class="type-badge t-${t2.toLowerCase()}">${Translator.get('types.' + t2.toLowerCase(), t2)}</span>`;
+          typeHint += ` ${t2Badge}`;
         }
         UI.addHintHTML(typeHint);
         break;

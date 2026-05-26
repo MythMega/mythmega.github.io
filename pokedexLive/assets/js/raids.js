@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       <!-- Graphiques classiques -->
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:24px;margin-bottom:24px">
-        <div class="sd-card" style="padding:24px">
+        <div class="sd-card" style="padding:24px;display:none">
           <h3 style="margin:0 0 16px;font-size:14px">🥧 Dégâts par plateforme</h3>
           <canvas id="chart-platform" height="260"></canvas>
         </div>

@@ -12,6 +12,7 @@ class Pokemon {
     this.FullImage = data.FullImage ?? data.FullImage ?? ""; // lien optionnel vers l'image complète
     this.EggGroups = data.EggGroups ?? data.Eggroups ?? null; // array ou null
     this.Category = data.Category ?? null; // string ou null
+    this.pokefeet_data_version = data.pokefeet_data_version ?? 1;
   }
 
   matchesName(name) {

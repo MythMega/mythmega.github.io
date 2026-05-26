@@ -85,6 +85,7 @@
     "min": "Min",
     "max": "Max",
     "showMore": "Show 25 more",
+    "update": "↑ Update: {name} ({date}) ↓",
     "stats": {
       "title": "Detailed Statistics",
       "global": "Global",
@@ -147,6 +148,38 @@
     "irreversible": "⚠️ Irreversible actions",
     "deleteBest": "Delete Best Score",
     "deleteDaily": "Delete All Daily Data"
+  },
+  "dataViewer": {
+    "title": "Pokémon Data",
+    "filterBy": "Filter by",
+    "filterPlaceholder": "Filter...",
+    "noResults": "No results",
+    "colImage": "Image",
+    "colFullImage": "Sprite",
+    "colIndex": "No.",
+    "colNameFR": "Name FR",
+    "colNameEN": "Name EN",
+    "colGeneration": "Generation",
+    "colType1": "Type 1",
+    "colType2": "Type 2",
+    "colEggGroups": "Egg Groups",
+    "colCategory": "Category",
+    "missingImage": "Image missing",
+    "missingFullImage": "Sprite missing",
+    "missingIndex": "Index missing",
+    "missingNameFR": "Name FR missing",
+    "missingNameEN": "Name EN missing",
+    "missingGeneration": "Generation missing",
+    "missingType1": "Type 1 missing",
+    "missingEggGroups": "Egg groups missing",
+    "missingCategory": "Category missing",
+    "colVersion": "Version",
+    "missingVersion": "Version missing"
+  },
+  "footer": {
+    "homeLink": "Home",
+    "dataLink": "Data",
+    "changelogLink": "Changelog"
   },
   "types": {
     "normal": "Normal",

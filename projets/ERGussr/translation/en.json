@@ -7,6 +7,7 @@
     "replay": "Replay",
     "historique": "History",
     "settings": "Settings",
+    "data": "Data",
     "credits": "Credits"
   },
   "index": {
@@ -113,6 +114,16 @@
     "stat_days_total": "Days participated",
     "stat_no_data": "—",
     "stat_never": "Never"
+  },
+  "data": {
+    "title": "Data",
+    "search_placeholder": "Filter by ID, name...",
+    "hide_existing": "Hide elements whose image exists",
+    "col_id": "ID",
+    "col_name_fr": "Name FR",
+    "col_name_en": "Name EN",
+    "col_path": "Location",
+    "col_image": "Image"
   },
   "common": {
     "loading": "Loading...",

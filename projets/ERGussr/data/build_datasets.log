@@ -1,0 +1,60 @@
+2026-05-27 03:36:43 INFO: Démarrage du script de génération des datasets
+2026-05-27 03:36:43 INFO: Traitement de la catégorie Goods
+2026-05-27 03:36:43 INFO: [FR] Suffixes trouvés pour cette source: GoodsCaption.fmg, GoodsInfo.fmg, GoodsInfo2.fmg, GoodsName.fmg
+2026-05-27 03:36:43 INFO: [EN] Suffixes trouvés pour cette source: GoodsCaption.fmg, GoodsInfo.fmg, GoodsInfo2.fmg, GoodsName.fmg
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'NameFR' -> 1590 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc1FR' -> 652 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc3FR' -> 908 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc2FR' -> 149 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'NameEN' -> 1597 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc1EN' -> 652 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc3EN' -> 910 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc2EN' -> 148 entrées
+2026-05-27 03:36:43 INFO: Catégorie 'Goods' -> 1607 items générés
+2026-05-27 03:36:43 INFO: Wrote Dataset-goods.json (1607 items)
+2026-05-27 03:36:43 INFO: Traitement de la catégorie Weapons
+2026-05-27 03:36:43 INFO: [FR] Suffixes trouvés pour cette source: WeaponCaption.fmg, WeaponInfo.fmg, WeaponName.fmg
+2026-05-27 03:36:43 INFO: [EN] Suffixes trouvés pour cette source: WeaponCaption.fmg, WeaponInfo.fmg, WeaponName.fmg
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'NameFR' -> 3005 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc1FR' -> 36 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc2FR' -> 465 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'NameEN' -> 3139 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc1EN' -> 37 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc2EN' -> 463 entrées
+2026-05-27 03:36:43 INFO: Catégorie 'Weapons' -> 3140 items générés
+2026-05-27 03:36:43 INFO: Wrote Dataset-weapon.json (3140 items)
+2026-05-27 03:36:43 INFO: Traitement de la catégorie Armor
+2026-05-27 03:36:43 INFO: [FR] Suffixes trouvés pour cette source: ProtectorCaption.fmg, ProtectorInfo.fmg, ProtectorName.fmg
+2026-05-27 03:36:43 INFO: [EN] Suffixes trouvés pour cette source: ProtectorCaption.fmg, ProtectorInfo.fmg, ProtectorName.fmg
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'NameFR' -> 616 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc1FR' -> 508 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc2FR' -> 527 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'NameEN' -> 605 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc1EN' -> 524 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc2EN' -> 531 entrées
+2026-05-27 03:36:43 INFO: Catégorie 'Armor' -> 624 items générés
+2026-05-27 03:36:43 INFO: Wrote Dataset-armor.json (624 items)
+2026-05-27 03:36:43 INFO: Traitement de la catégorie Magic
+2026-05-27 03:36:43 INFO: [FR] Suffixes trouvés pour cette source: MagicCaption.fmg, MagicInfo.fmg, MagicName.fmg
+2026-05-27 03:36:43 INFO: [EN] Suffixes trouvés pour cette source: MagicCaption.fmg, MagicInfo.fmg, MagicName.fmg
+2026-05-27 03:36:43 WARNING: [FR] Après nettoyage, la map 'NameFR' est vide.
+2026-05-27 03:36:43 WARNING: [FR] Après nettoyage, la map 'Desc1FR' est vide.
+2026-05-27 03:36:43 WARNING: [FR] Après nettoyage, la map 'Desc2FR' est vide.
+2026-05-27 03:36:43 WARNING: [EN] Après nettoyage, la map 'NameEN' est vide.
+2026-05-27 03:36:43 WARNING: [EN] Après nettoyage, la map 'Desc1EN' est vide.
+2026-05-27 03:36:43 WARNING: [EN] Après nettoyage, la map 'Desc2EN' est vide.
+2026-05-27 03:36:43 WARNING: Aucun ID trouvé pour la catégorie 'Magic' (préfixe Mafic-). Vérifiez les clés sources.
+2026-05-27 03:36:43 INFO: Catégorie 'Magic' -> 0 items générés
+2026-05-27 03:36:43 INFO: Wrote Dataset-magic.json (0 items)
+2026-05-27 03:36:43 INFO: Traitement de la catégorie Accessories
+2026-05-27 03:36:43 INFO: [FR] Suffixes trouvés pour cette source: AccessoryCaption.fmg, AccessoryInfo.fmg, AccessoryName.fmg
+2026-05-27 03:36:43 INFO: [EN] Suffixes trouvés pour cette source: AccessoryCaption.fmg, AccessoryInfo.fmg, AccessoryName.fmg
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'NameFR' -> 118 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc1FR' -> 118 entrées
+2026-05-27 03:36:43 INFO: [FR] Cleaned 'Desc2FR' -> 118 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'NameEN' -> 118 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc1EN' -> 114 entrées
+2026-05-27 03:36:43 INFO: [EN] Cleaned 'Desc2EN' -> 118 entrées
+2026-05-27 03:36:43 INFO: Catégorie 'Accessories' -> 118 items générés
+2026-05-27 03:36:43 INFO: Wrote Dataset-accessories.json (118 items)
+2026-05-27 03:36:43 INFO: Traitement terminé. Voir build_datasets.log pour les logs détaillés.

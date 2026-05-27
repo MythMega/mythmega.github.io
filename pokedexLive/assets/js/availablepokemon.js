@@ -9,20 +9,20 @@ let page = 1;
 let allSeries = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const root = document.getElementById('sd-root');
-  SD.loading(root);
+    const root = document.getElementById('sd-root');
+    SD.loading(root);
 
-  try {
-    allCreatures = await SD.fetchJson('Data/json/creatures_list.json');
-    allCreatures = allCreatures.filter(c => c.enabled);
-  } catch {
-    SD.error(root, 'Impossible de charger la liste des créatures.');
-    return;
-  }
+    try {
+        allCreatures = await SD.fetchJson('Data/json/creatures_list.json');
+        allCreatures = allCreatures.filter(c => c.enabled);
+    } catch {
+        SD.error(root, 'Impossible de charger la liste des créatures.');
+        return;
+    }
 
-  allSeries = [...new Set(allCreatures.map(c => c.Serie).filter(Boolean))].sort();
+    allSeries = [...new Set(allCreatures.map(c => c.Serie).filter(Boolean))].sort();
 
-  root.innerHTML = `
+    root.innerHTML = `
     <div class="sd-page">
       <div class="sd-container">
         <div class="sd-section-header">
@@ -48,43 +48,43 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
     </div>`;
 
-  document.getElementById('search-input').addEventListener('input', SD.debounce(applyFilters));
-  document.getElementById('filter-serie').addEventListener('change', applyFilters);
-  document.getElementById('filter-special').addEventListener('change', applyFilters);
+    document.getElementById('search-input').addEventListener('input', SD.debounce(applyFilters));
+    document.getElementById('filter-serie').addEventListener('change', applyFilters);
+    document.getElementById('filter-special').addEventListener('change', applyFilters);
 
-  applyFilters();
+    applyFilters();
 });
 
 function applyFilters() {
-  const q = document.getElementById('search-input').value.trim();
-  const serie = document.getElementById('filter-serie').value;
-  const special = document.getElementById('filter-special').value;
+    const q = document.getElementById('search-input').value.trim();
+    const serie = document.getElementById('filter-serie').value;
+    const special = document.getElementById('filter-special').value;
 
-  // L'ordre de creatures_list.json est conservé (pas de tri)
-  filtered = SD.filterItems(allCreatures, q, ['Name_FR', 'Name_EN', 'AltName', 'Serie']);
-  if (serie) filtered = filtered.filter(c => c.Serie === serie);
-  if (special === 'legendary') filtered = filtered.filter(c => c.isLegendary);
-  else if (special === 'shiny') filtered = filtered.filter(c => !c.isShinyLock);
-  else if (special === 'custom') filtered = filtered.filter(c => c.isCustom);
+    // L'ordre de creatures_list.json est conservé (pas de tri)
+    filtered = SD.filterItems(allCreatures, q, ['Name_FR', 'Name_EN', 'AltName', 'Serie']);
+    if (serie) filtered = filtered.filter(c => c.Serie === serie);
+    if (special === 'legendary') filtered = filtered.filter(c => c.isLegendary);
+    else if (special === 'shiny') filtered = filtered.filter(c => !c.isShinyLock);
+    else if (special === 'custom') filtered = filtered.filter(c => c.isCustom);
 
-  document.getElementById('count-label').textContent = `${filtered.length} créature${filtered.length > 1 ? 's' : ''}`;
-  page = 1;
-  renderPage();
+    document.getElementById('count-label').textContent = `${filtered.length} créature${filtered.length > 1 ? 's' : ''}`;
+    page = 1;
+    renderPage();
 }
 
 function renderPage() {
-  const grid = document.getElementById('creatures-grid');
-  const start = (page - 1) * PAGE_SIZE;
-  const slice = filtered.slice(start, start + PAGE_SIZE);
+    const grid = document.getElementById('creatures-grid');
+    const start = (page - 1) * PAGE_SIZE;
+    const slice = filtered.slice(start, start + PAGE_SIZE);
 
-  if (slice.length === 0) { SD.empty(grid); renderPagination(); return; }
+    if (slice.length === 0) { SD.empty(grid); renderPagination(); return; }
 
-  grid.innerHTML = slice.map(c => {
-    let cardClass = 'sd-card';
-    if (c.isLegendary) cardClass += ' sd-card--legendary';
-    else if (c.isCustom) cardClass += ' sd-card--exclusive';
-    const name = c.Name_FR || c.Name_EN;
-    return `
+    grid.innerHTML = slice.map(c => {
+        let cardClass = 'sd-card';
+        if (c.isLegendary) cardClass += ' sd-card--legendary';
+        else if (c.isCustom) cardClass += ' sd-card--exclusive';
+        const name = c.Name_FR || c.Name_EN;
+        return `
       <a href="Creature/info.html?name=${encodeURIComponent(name)}" class="${cardClass}" style="display:block;text-decoration:none;">
         <div class="sd-card__sprite">
           ${SD.sprite(c.Sprite_Normal, name, 80)}
@@ -99,27 +99,27 @@ function renderPage() {
           </div>
         </div>
       </a>`;
-  }).join('');
+    }).join('');
 
-  renderPagination();
+    renderPagination();
 }
 
 function renderPagination() {
-  const container = document.getElementById('pagination');
-  const total = Math.ceil(filtered.length / PAGE_SIZE);
-  if (total <= 1) { container.innerHTML = ''; return; }
+    const container = document.getElementById('pagination');
+    const total = Math.ceil(filtered.length / PAGE_SIZE);
+    if (total <= 1) { container.innerHTML = ''; return; }
 
-  let html = '';
-  if (page > 1) html += `<button class="sd-pagination__btn" onclick="goPage(${page-1})">←</button>`;
-  for (let i = Math.max(1, page-2); i <= Math.min(total, page+2); i++) {
-    html += `<button class="sd-pagination__btn${i===page?' active':''}" onclick="goPage(${i})">${i}</button>`;
-  }
-  if (page < total) html += `<button class="sd-pagination__btn" onclick="goPage(${page+1})">→</button>`;
-  container.innerHTML = html;
+    let html = '';
+    if (page > 1) html += `<button class="sd-pagination__btn" onclick="goPage(${page - 1})">←</button>`;
+    for (let i = Math.max(1, page - 2); i <= Math.min(total, page + 2); i++) {
+        html += `<button class="sd-pagination__btn${i === page ? ' active' : ''}" onclick="goPage(${i})">${i}</button>`;
+    }
+    if (page < total) html += `<button class="sd-pagination__btn" onclick="goPage(${page + 1})">→</button>`;
+    container.innerHTML = html;
 }
 
 function goPage(p) {
-  page = p;
-  renderPage();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+    page = p;
+    renderPage();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }

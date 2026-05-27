@@ -43,15 +43,34 @@
 
     <!-- Game Area -->
     <div id="game-area" class="card">
-      <div id="round-picture"></div>
-      <div id="round-clues"></div>
+      <div class="game-main">
+        <div id="round-picture"></div>
+        <div id="wrong-guesses-list" class="wrong-guesses-list"></div>
+        <div id="round-clues"></div>
 
-      <div class="guess-form" id="guess-form">
-        <div class="input-group">
-          <input type="text" id="guess-input" class="input" data-i18n-placeholder="practice.guess_placeholder" autocomplete="off">
+        <div class="guess-form" id="guess-form">
+          <div class="input-group">
+            <input type="text" id="guess-input" class="input" data-i18n-placeholder="practice.guess_placeholder" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" id="btn-submit" data-i18n="practice.submit"></button>
+          <button class="btn btn-secondary" id="btn-reveal" data-i18n="practice.reveal"></button>
         </div>
-        <button class="btn btn-primary" id="btn-submit" data-i18n="practice.submit"></button>
-        <button class="btn btn-secondary" id="btn-reveal" data-i18n="practice.reveal"></button>
+      </div>
+
+      <!-- Score gauge -->
+      <div class="score-gauge" id="score-gauge">
+        <div class="gauge-seg" id="gseg-0">
+          <span class="gauge-pts">10</span>
+          <span class="gauge-try-dots">●●●</span>
+        </div>
+        <div class="gauge-seg" id="gseg-1">
+          <span class="gauge-pts">5</span>
+          <span class="gauge-try-dots">●●</span>
+        </div>
+        <div class="gauge-seg" id="gseg-2">
+          <span class="gauge-pts">2</span>
+          <span class="gauge-try-dots">●</span>
+        </div>
       </div>
     </div>
 

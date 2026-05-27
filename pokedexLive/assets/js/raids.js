@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const allFiles = (index.files || []);
-    if (allFiles.length === 0) {        SD.empty(root, 'Aucun raid enregistré pour le moment.');
+    if (allFiles.length === 0) {
+        SD.empty(root, 'Aucun raid enregistré pour le moment.');
         return;
     }
 
@@ -43,21 +44,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Les entrées peuvent être des objets { filename, bossName, date } ou de simples strings (ancien format)
     function entryFilename(e) { return typeof e === 'string' ? e : e.filename; }
     function entryDate(e) {
-      if (typeof e === 'object' && e.date) return new Date(e.date.replace(' ', 'T'));
-      return fileToDate2(entryFilename(e));
+        if (typeof e === 'object' && e.date) return new Date(e.date.replace(' ', 'T'));
+        return fileToDate2(entryFilename(e));
     }
     function entryLabel(e) {
-      const d = entryDate(e);
-      const datePart = d
-        ? d.toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })
-        : entryFilename(e).replace('raid-', '').replace('.json', '');
-      const boss = (typeof e === 'object' && e.bossName) ? e.bossName : null;
-      return boss ? `${boss}, ${datePart}` : datePart;
+        const d = entryDate(e);
+        const datePart = d
+            ? d.toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })
+            : entryFilename(e).replace('raid-', '').replace('.json', '');
+        const boss = (typeof e === 'object' && e.bossName) ? e.bossName : null;
+        return boss ? `${boss}, ${datePart}` : datePart;
     }
 
     const recentFiles = allFiles.filter(e => {
-      const d = entryDate(e);
-      return d && d >= cutoff;
+        const d = entryDate(e);
+        return d && d >= cutoff;
     });
 
     const filesToShow = recentFiles.length > 0 ? recentFiles : allFiles.slice(0, Math.min(10, allFiles.length));
@@ -94,10 +95,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const label = document.getElementById('raid-count-label');
 
     filesToShow.forEach(e => {
-      const opt = document.createElement('option');
-      opt.value = entryFilename(e);
-      opt.textContent = entryLabel(e);
-      select.appendChild(opt);
+        const opt = document.createElement('option');
+        opt.value = entryFilename(e);
+        opt.textContent = entryLabel(e);
+        select.appendChild(opt);
     });
 
     label.textContent = `${filesToShow.length} raid${filesToShow.length > 1 ? 's' : ''} affiché${filesToShow.length > 1 ? 's' : ''}`;
@@ -320,8 +321,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const attackLog = raid.attackLog || [];
         if (attackLog.length && document.getElementById('chart-hp')) {
             // Point initial : boss à 100%
-            const hpLabels   = ['Début'];
-            const hpValues   = [raid.pvMax];
+            const hpLabels = ['Début'];
+            const hpValues = [raid.pvMax];
             const hpTooltips = ['Début du raid'];
 
             attackLog.forEach(atk => {
@@ -330,8 +331,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 hpValues.push(atk.pvAfter);
                 const pct = raid.pvMax > 0 ? ((atk.pvAfter / raid.pvMax) * 100).toFixed(1) : 0;
                 const sign = atk.damages >= 0 ? '-' : '+';
-                const heal  = atk.heal ? ' 💚 soin' : '';
-                const crit  = atk.critical ? ' ⚡ CRIT' : '';
+                const heal = atk.heal ? ' 💚 soin' : '';
+                const crit = atk.critical ? ' ⚡ CRIT' : '';
                 hpTooltips.push(`${atk.pseudo} (${atk.platform}) ${sign}${Math.abs(atk.damages)}${heal}${crit} \u2014 ${atk.pvAfter} PV (${pct}%)`);
             });
 
@@ -379,12 +380,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (logEl && attackLog.length) {
             const PLAT_COLOR = { twitch: '#bc8cff', youtube: '#f85149', tiktok: '#e6edf3', discord: '#58a6ff' };
             logEl.innerHTML = attackLog.map((atk, i) => {
-                const time    = atk.at ? atk.at.split(' ')[1] : '??';
-                const color   = PLAT_COLOR[(atk.platform || '').toLowerCase()] || '#e6edf3';
+                const time = atk.at ? atk.at.split(' ')[1] : '??';
+                const color = PLAT_COLOR[(atk.platform || '').toLowerCase()] || '#e6edf3';
                 const dmgSign = atk.heal ? `<span style="color:#3fb950">+${Math.abs(atk.damages)} 💚 soin</span>`
-                              : atk.critical ? `<span style="color:#ffd700">-${atk.damages} ⚡ CRIT</span>`
-                              : `<span style="color:#f85149">-${atk.damages}</span>`;
-                const pct  = raid.pvMax > 0 ? ((atk.pvAfter / raid.pvMax) * 100).toFixed(1) : '?';
+                    : atk.critical ? `<span style="color:#ffd700">-${atk.damages} ⚡ CRIT</span>`
+                        : `<span style="color:#f85149">-${atk.damages}</span>`;
+                const pct = raid.pvMax > 0 ? ((atk.pvAfter / raid.pvMax) * 100).toFixed(1) : '?';
                 const statT = atk.statusEffect ? `<span style="color:#d29922"> ▸ ${atk.statusEffect}</span>` : '';
                 return `<div style="padding:2px 0;border-bottom:1px solid #21262d">
   <span style="color:var(--text-muted)">[${time}]</span>
@@ -472,7 +473,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Charge le plus récent par défaut
     if (filesToShow.length > 0) {
-      select.value = entryFilename(filesToShow[0]);
-      await loadRaid(entryFilename(filesToShow[0]));
+        select.value = entryFilename(filesToShow[0]);
+        await loadRaid(entryFilename(filesToShow[0]));
     }
 });

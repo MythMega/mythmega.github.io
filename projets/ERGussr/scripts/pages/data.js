@@ -54,6 +54,17 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+/**
+ * Returns true when an item has a name problem:
+ *   - NameFR or NameEN is empty/null, OR
+ *   - NameFR and NameEN are both non-empty but identical.
+ */
+function hasNameIssue(item) {
+  const fr = (item.NameFR ?? '').trim();
+  const en = (item.NameEN ?? '').trim();
+  return !fr || !en || fr === en;
+}
+
 // ─── Data loading ────────────────────────────────────────────────────────────
 
 async function loadAllData() {
@@ -99,8 +110,9 @@ function checkImages() {
 // ─── Filtering & sorting ─────────────────────────────────────────────────────
 
 function getFilteredSorted() {
-  const search = document.getElementById('data-search')?.value.toLowerCase().trim() ?? '';
-  const hideExisting = document.getElementById('hide-existing')?.checked ?? false;
+  const search         = document.getElementById('data-search')?.value.toLowerCase().trim() ?? '';
+  const hideExisting   = document.getElementById('hide-existing')?.checked   ?? false;
+  const showNameIssues = document.getElementById('show-name-issues')?.checked ?? false;
 
   let items = allData[currentTab] ?? [];
 
@@ -115,6 +127,10 @@ function getFilteredSorted() {
 
   if (hideExisting) {
     items = items.filter(item => imageStatuses[item.PictureURL] !== 'ok');
+  }
+
+  if (showNameIssues) {
+    items = items.filter(hasNameIssue);
   }
 
   items = [...items].sort((a, b) => {
@@ -216,6 +232,13 @@ function renderTable() {
     const status = imageStatuses[item.PictureURL] ?? 'pending';
     const rowClass = status === 'missing' ? ' class="row-missing"' : '';
 
+    // Name-issue cell highlighting (always shown, not only when filter is active)
+    const fr = (item.NameFR ?? '').trim();
+    const en = (item.NameEN ?? '').trim();
+    const namesEqual  = fr && en && fr === en;
+    const frCellClass = (!fr || namesEqual) ? ' class="cell-warn"' : '';
+    const enCellClass = (!en || namesEqual) ? ' class="cell-warn"' : '';
+
     let imgCell;
     if (status === 'ok') {
       imgCell = `<img class="item-thumb" src="${escHtml(item.PictureURL)}" alt="${escHtml(item.NameFR ?? '')}">`;
@@ -227,8 +250,8 @@ function renderTable() {
 
     return `<tr${rowClass}>
       <td class="col-id">${escHtml(item.ID ?? '')}</td>
-      <td>${escHtml(item.NameFR ?? '')}</td>
-      <td>${escHtml(item.NameEN ?? '')}</td>
+      <td${frCellClass}>${escHtml(item.NameFR ?? '')}</td>
+      <td${enCellClass}>${escHtml(item.NameEN ?? '')}</td>
       <td class="col-path">${escHtml(item.emplacement ?? '')}</td>
       <td class="col-img">${imgCell}</td>
     </tr>`;
@@ -259,8 +282,20 @@ function renderTabs() {
 // ─── Controls setup ──────────────────────────────────────────────────────────
 
 function setupControls() {
+  const elHideExisting   = document.getElementById('hide-existing');
+  const elShowNameIssues = document.getElementById('show-name-issues');
+
   document.getElementById('data-search')?.addEventListener('input', renderTable);
-  document.getElementById('hide-existing')?.addEventListener('change', renderTable);
+
+  // Mutually exclusive checkboxes
+  elHideExisting?.addEventListener('change', () => {
+    if (elHideExisting.checked) elShowNameIssues.checked = false;
+    renderTable();
+  });
+  elShowNameIssues?.addEventListener('change', () => {
+    if (elShowNameIssues.checked) elHideExisting.checked = false;
+    renderTable();
+  });
 
   document.querySelectorAll('.data-table th[data-col]').forEach(th => {
     th.addEventListener('click', () => {

@@ -177,6 +177,28 @@
       background: rgba(244, 67, 54, 0.04);
     }
 
+    /* Name-issue cell highlight */
+    .cell-warn {
+      background: rgba(255, 152, 0, 0.08) !important;
+      color: var(--color-warning) !important;
+      font-style: italic;
+    }
+
+    /* Checkbox group */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .checkbox-group::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 1.2em;
+      background: var(--color-border);
+    }
+
     /* Empty state */
     .table-empty {
       text-align: center;
@@ -313,10 +335,16 @@
         data-i18n-placeholder="data.search_placeholder"
         placeholder="Filtrer par ID, nom..."
       >
-      <label class="checkbox-label">
-        <input type="checkbox" id="hide-existing">
-        <span data-i18n="data.hide_existing">Masquer les éléments dont l'image existe</span>
-      </label>
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="hide-existing">
+          <span data-i18n="data.hide_existing">Masquer les éléments dont l'image existe</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="show-name-issues">
+          <span data-i18n="data.show_name_issues">N'afficher que les problèmes de noms</span>
+        </label>
+      </div>
       <span class="count-info" id="count-info"></span>
     </div>
 

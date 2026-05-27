@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elden Description — Données</title>
+  <link rel="stylesheet" href="./styles/main.css">
+  <style>
+    .data-page-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Tabs */
+    .data-tabs {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: var(--color-surface2);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.45rem 0.9rem;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+    .tab-btn:hover {
+      background: var(--color-secondary);
+      color: var(--color-text);
+    }
+    .tab-btn.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
+      font-weight: 600;
+    }
+    .tab-count {
+      font-size: 0.8em;
+      opacity: 0.75;
+    }
+
+    /* Controls */
+    .data-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .data-search {
+      flex: 1;
+      min-width: 200px;
+      max-width: 360px;
+      background: var(--color-surface2);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text);
+      font-size: 0.95rem;
+      padding: 0.5rem 0.9rem;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .data-search:focus { border-color: var(--color-primary); }
+    .data-search::placeholder { color: var(--color-text-muted); }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .checkbox-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--color-primary);
+      cursor: pointer;
+    }
+    .checkbox-label:hover { color: var(--color-text); }
+
+    .count-info {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-left: auto;
+    }
+
+    /* Table */
+    .data-table-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .data-table thead {
+      background: var(--color-surface);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .data-table th {
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      border-bottom: 2px solid var(--color-border);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .data-table th[data-col]:not([data-col="image"]) {
+      cursor: pointer;
+    }
+    .data-table th[data-col]:not([data-col="image"]):hover {
+      color: var(--color-text);
+    }
+    .data-table th.sort-asc::after { content: " ▲"; font-size: 0.75em; color: var(--color-primary); }
+    .data-table th.sort-desc::after { content: " ▼"; font-size: 0.75em; color: var(--color-primary); }
+
+    .data-table td {
+      padding: 0.5rem 0.9rem;
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: middle;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(124, 108, 252, 0.05); }
+
+    .col-id {
+      font-family: monospace;
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+    .col-path {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+    .col-img { text-align: center; width: 72px; }
+
+    .item-thumb {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+    .img-missing {
+      display: inline-block;
+      background: rgba(244, 67, 54, 0.12);
+      border: 1px solid rgba(244, 67, 54, 0.35);
+      border-radius: 4px;
+      color: var(--color-error);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      cursor: help;
+    }
+    .img-pending {
+      color: var(--color-text-muted);
+      font-size: 1.1rem;
+    }
+
+    .row-missing td:last-child {
+      background: rgba(244, 67, 54, 0.04);
+    }
+
+    /* Empty state */
+    .table-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── Progress bars ── */
+    .progress-section {
+      margin-bottom: 1.75rem;
+    }
+    .progress-global {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .progress-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .progress-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .progress-pct {
+      color: var(--color-primary);
+      margin-left: 0.4rem;
+    }
+    .progress-bar-track {
+      height: 10px;
+      background: var(--color-surface2);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--color-primary);
+      transition: width 0.35s ease;
+      min-width: 0;
+    }
+    .progress-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.65rem;
+    }
+    .progress-cat-item {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+    }
+    .progress-cat-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+    .progress-cat-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .progress-cat-count {
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+    .progress-cat-pct { color: var(--color-primary); }
+    .progress-cat-item .progress-bar-track { height: 6px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="./index.html">Elden Desc.</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a class="nav-link" href="./index.html"      data-i18n="nav.home"></a></li>
+      <li><a class="nav-link" href="./practice.html"   data-i18n="nav.practice"></a></li>
+      <li><a class="nav-link" href="./daily.html"      data-i18n="nav.daily"></a></li>
+      <li><a class="nav-link" href="./replay.html"     data-i18n="nav.replay"></a></li>
+      <li><a class="nav-link" href="./historique.html" data-i18n="nav.historique"></a></li>
+      <li><a class="nav-link" href="./settings.html"   data-i18n="nav.settings"></a></li>
+      <li><a class="nav-link" href="./data.html"       data-i18n="nav.data"></a></li>
+      <li><a class="nav-link" href="./credits.html"    data-i18n="nav.credits"></a></li>
+    </ul>
+  </nav>
+
+  <main class="data-page-wrapper">
+    <h2 data-i18n="data.title" style="margin-bottom: 1.25rem;"></h2>
+
+    <!-- Progress bars -->
+    <div class="progress-section" id="progress-section">
+      <div class="progress-global">
+        <div class="progress-header">
+          <span class="progress-title">Images disponibles — global</span>
+          <span class="progress-value">
+            <span id="global-progress-text">… / …</span>
+            <span class="progress-pct" id="global-progress-pct"></span>
+          </span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="global-progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="progress-categories" id="progress-categories"></div>
+    </div>
+
+    <div class="data-tabs" id="data-tabs"></div>
+
+    <div class="data-controls">
+      <input
+        type="search"
+        id="data-search"
+        class="data-search"
+        data-i18n-placeholder="data.search_placeholder"
+        placeholder="Filtrer par ID, nom..."
+      >
+      <label class="checkbox-label">
+        <input type="checkbox" id="hide-existing">
+        <span data-i18n="data.hide_existing">Masquer les éléments dont l'image existe</span>
+      </label>
+      <span class="count-info" id="count-info"></span>
+    </div>
+
+    <div class="data-table-wrapper">
+      <table class="data-table" id="data-table">
+        <thead>
+          <tr>
+            <th data-col="ID" data-i18n="data.col_id">ID</th>
+            <th data-col="NameFR" data-i18n="data.col_name_fr">Nom FR</th>
+            <th data-col="NameEN" data-i18n="data.col_name_en">Nom EN</th>
+            <th data-col="emplacement" data-i18n="data.col_path">Emplacement</th>
+            <th data-col="image" data-i18n="data.col_image">Image</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr><td colspan="5" class="table-empty" data-i18n="common.loading">Chargement...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script type="module" src="./scripts/pages/data.js"></script>
+</body>
+</html>

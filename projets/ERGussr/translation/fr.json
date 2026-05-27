@@ -7,6 +7,7 @@
     "replay": "Rejouer",
     "historique": "Historique",
     "settings": "Paramètres",
+    "data": "Données",
     "credits": "Crédits"
   },
   "index": {
@@ -113,6 +114,16 @@
     "stat_days_total": "Jours participés",
     "stat_no_data": "—",
     "stat_never": "Jamais"
+  },
+  "data": {
+    "title": "Données",
+    "search_placeholder": "Filtrer par ID, nom...",
+    "hide_existing": "Masquer les éléments dont l'image existe",
+    "col_id": "ID",
+    "col_name_fr": "Nom FR",
+    "col_name_en": "Nom EN",
+    "col_path": "Emplacement",
+    "col_image": "Image"
   },
   "common": {
     "loading": "Chargement...",

@@ -5,8 +5,9 @@ const DataManager = (function () {
   const COOKIE_BEST = 'pk_best';
   const EXPORT_VERSION = 'v1';
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 1;
+  const DB_VERSION = 2;
   const STORE_NAME = 'daily_results';
+  const WEEKLY_STORE = 'weekly_results';
   const COUNT = 5;
   const basePoints = 10;
   const hintPenalty = 2;
@@ -31,6 +32,9 @@ const DataManager = (function () {
         const db = e.target.result;
         if (!db.objectStoreNames.contains(STORE_NAME)) {
           db.createObjectStore(STORE_NAME, { keyPath: 'date' });
+        }
+        if (!db.objectStoreNames.contains(WEEKLY_STORE)) {
+          db.createObjectStore(WEEKLY_STORE, { keyPath: 'date' });
         }
       };
     });

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokefeet – Prédictions</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── PASSWORD OVERLAY ─────────────────────────────── */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: #0f172a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      gap: 1.2rem;
+    }
+    #overlay h1 {
+      font-size: 1.6rem;
+      color: #94a3b8;
+      letter-spacing: .05em;
+    }
+    #overlay .lock-icon {
+      font-size: 3rem;
+    }
+    #pw-form {
+      display: flex;
+      gap: .6rem;
+    }
+    #pw-input {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e2e8f0;
+      padding: .55rem 1rem;
+      font-size: 1rem;
+      outline: none;
+      width: 230px;
+      transition: border-color .2s;
+    }
+    #pw-input:focus { border-color: #6366f1; }
+    #pw-input.shake {
+      animation: shake .35s ease;
+      border-color: #ef4444;
+    }
+    #pw-btn {
+      background: #6366f1;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      padding: .55rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    #pw-btn:hover { background: #818cf8; }
+    #pw-error {
+      color: #ef4444;
+      font-size: .9rem;
+      min-height: 1.2em;
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-8px); }
+      40%      { transform: translateX(8px); }
+      60%      { transform: translateX(-5px); }
+      80%      { transform: translateX(5px); }
+    }
+
+    /* ── MAIN CONTENT ─────────────────────────────────── */
+    #main { display: none; width: 100%; max-width: 1100px; padding: 2rem 1rem 4rem; }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    header h1 { font-size: 1.8rem; color: #818cf8; }
+    header p  { color: #64748b; font-size: .9rem; margin-top: .3rem; }
+
+    /* search */
+    #search-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    #search-input {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: #e2e8f0;
+      padding: .6rem 1.1rem;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 480px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    #search-input:focus { border-color: #6366f1; }
+    #search-input::placeholder { color: #475569; }
+
+    /* day cards */
+    #days-container { display: flex; flex-direction: column; gap: 1.4rem; }
+
+    .day-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      transition: opacity .2s;
+    }
+    .day-card.hidden { display: none; }
+
+    .day-label {
+      font-size: .85rem;
+      color: #64748b;
+      margin-bottom: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .pokemon-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      align-items: center;
+    }
+
+    .poke-thumb {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #0f172a;
+      border: 1px solid #334155;
+      flex-shrink: 0;
+    }
+    .poke-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .poke-thumb .match-highlight {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid #6366f1;
+      pointer-events: none;
+      display: none;
+    }
+    .poke-thumb.matched .match-highlight { display: block; }
+
+    #stats {
+      text-align: center;
+      color: #475569;
+      font-size: .85rem;
+      margin-bottom: 1.2rem;
+    }
+
+    #loading {
+      text-align: center;
+      color: #64748b;
+      padding: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- PASSWORD OVERLAY -->
+<div id="overlay">
+  <div class="lock-icon">🔒</div>
+  <h1>Accès restreint</h1>
+  <form id="pw-form" onsubmit="return false;">
+    <input id="pw-input" type="password" placeholder="Mot de passe" autocomplete="off" />
+    <button id="pw-btn" type="submit">Entrer</button>
+  </form>
+  <div id="pw-error"></div>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="main">
+  <header>
+    <h1>🔮 Prédictions — 100 prochains jours</h1>
+    <p>Pokémon du daily des 100 jours à venir (depuis demain)</p>
+  </header>
+
+  <div id="search-bar">
+    <input id="search-input" type="text"
+           placeholder="Rechercher un Pokémon (FR ou EN, plusieurs mots = ET)…" />
+  </div>
+
+  <div id="stats"></div>
+  <div id="loading">Chargement…</div>
+  <div id="days-container"></div>
+</div>
+
+<script>
+// ── CONSTANTS ─────────────────────────────────────────────────────────────────
+const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
+const DAYS_AHEAD    = 3650;
+const DAILY_COUNT   = 5;
+
+// ── SHA-256 via Web Crypto ────────────────────────────────────────────────────
+async function sha256hex(str) {
+  const buf = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(str)
+  );
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+// ── PASSWORD CHECK ────────────────────────────────────────────────────────────
+const overlay   = document.getElementById('overlay');
+const pwInput   = document.getElementById('pw-input');
+const pwBtn     = document.getElementById('pw-btn');
+const pwError   = document.getElementById('pw-error');
+const mainEl    = document.getElementById('main');
+
+async function checkPassword() {
+  const val  = pwInput.value;
+  const hash = await sha256hex(val);
+  if (hash === PASSWORD_HASH) {
+    overlay.style.display = 'none';
+    mainEl.style.display  = 'block';
+    init();
+  } else {
+    pwError.textContent = 'Mot de passe incorrect.';
+    pwInput.classList.remove('shake');
+    void pwInput.offsetWidth;
+    pwInput.classList.add('shake');
+    pwInput.value = '';
+    pwInput.addEventListener('animationend', () => pwInput.classList.remove('shake'), { once: true });
+  }
+}
+
+pwBtn.addEventListener('click', checkPassword);
+pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+
+// ── DETERMINISTIC RNG (Mulberry32) ───────────────────────────────────────────
+function mulberry32(a) {
+  return function () {
+    let t = a += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function stringToSeed(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = Math.imul(31, h) + s.charCodeAt(i) | 0;
+  }
+  return h >>> 0;
+}
+
+function shuffleWithSeed(arr, rng) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── DATE HELPERS ──────────────────────────────────────────────────────────────
+function dateToStr(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function addDays(d, n) {
+  const r = new Date(d);
+  r.setDate(r.getDate() + n);
+  return r;
+}
+
+function formatDateFR(dateStr) {
+  const [y, m, day] = dateStr.split('-');
+  const names = ['jan', 'fév', 'mar', 'avr', 'mai', 'juin',
+                  'juil', 'août', 'sep', 'oct', 'nov', 'déc'];
+  return `${parseInt(day)} ${names[parseInt(m)-1]} ${y}`;
+}
+
+// ── VERSION FILTERING ─────────────────────────────────────────────────────────
+function getAvailablePokemons(allPokemons, versionData, dateStr) {
+  const available = new Set();
+  versionData.forEach(v => {
+    if (v.deploy_date === null || v.deploy_date <= dateStr) {
+      available.add(v.pokefeet_data_version);
+    }
+  });
+  return allPokemons.filter(p => available.has(p.pokefeet_data_version ?? 1));
+}
+
+// ── DAILY LIST FOR DATE ───────────────────────────────────────────────────────
+function getDailyListForDate(allPokemons, versionData, dateStr) {
+  const pool = getAvailablePokemons(allPokemons, versionData, dateStr);
+  const seed = stringToSeed(dateStr);
+  const rng  = mulberry32(seed);
+  const shuffled = shuffleWithSeed(pool, rng);
+  const list = shuffled.slice(0, Math.min(DAILY_COUNT, shuffled.length));
+  let cursor = 0;
+  while (list.length < DAILY_COUNT) {
+    list.push(shuffled[cursor % shuffled.length]);
+    cursor++;
+  }
+  return list;
+}
+
+// ── NORMALIZE (accent-insensitive, lower) ─────────────────────────────────────
+function normalize(s) {
+  return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+let allCards = []; // { dateStr, pokemons: [{nameFR, nameEN, imgEl, thumbEl}] }
+
+function applySearch(query) {
+  const words = query.trim().split(/\s+/).filter(Boolean).map(normalize);
+  const statsEl = document.getElementById('stats');
+  let visible = 0;
+
+  allCards.forEach(card => {
+    const { dateStr, pokemons, cardEl } = card;
+
+    if (words.length === 0) {
+      // no filter — show all, remove highlights
+      cardEl.classList.remove('hidden');
+      pokemons.forEach(p => p.thumbEl.classList.remove('matched'));
+      visible++;
+      return;
+    }
+
+    // For each word, check if at least one Pokémon in the day contains it
+    // AND: all words must match at least one Pokémon in this day
+    const dayMatches = words.every(word =>
+      pokemons.some(p =>
+        normalize(p.nameFR).includes(word) || normalize(p.nameEN).includes(word)
+      )
+    );
+
+    if (dayMatches) {
+      cardEl.classList.remove('hidden');
+      visible++;
+      // highlight individual matching Pokémon thumbs
+      pokemons.forEach(p => {
+        const pMatches = words.every(word =>
+          normalize(p.nameFR).includes(word) || normalize(p.nameEN).includes(word)
+        );
+        p.thumbEl.classList.toggle('matched', pMatches);
+      });
+    } else {
+      cardEl.classList.add('hidden');
+      pokemons.forEach(p => p.thumbEl.classList.remove('matched'));
+    }
+  });
+
+  if (words.length > 0) {
+    statsEl.textContent = `${visible} jour${visible !== 1 ? 's' : ''} trouvé${visible !== 1 ? 's' : ''}`;
+  } else {
+    statsEl.textContent = '';
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+async function init() {
+  const loadingEl   = document.getElementById('loading');
+  const container   = document.getElementById('days-container');
+  const searchInput = document.getElementById('search-input');
+
+  try {
+    // load data in parallel
+    const [pokemonsRaw, versionRaw] = await Promise.all([
+      fetch('data/pokemons.json').then(r => r.json()),
+      fetch('data/version.json').then(r => r.json()).catch(() => [
+        { pokefeet_data_version: 1, deploy_date: null, Update_Name: 'Base' }
+      ])
+    ]);
+
+    loadingEl.style.display = 'none';
+
+    const today = new Date();
+
+    for (let i = 1; i <= DAYS_AHEAD; i++) {
+      const date    = addDays(today, i);
+      const dateStr = dateToStr(date);
+      const list    = getDailyListForDate(pokemonsRaw, versionRaw, dateStr);
+
+      // build card
+      const cardEl = document.createElement('div');
+      cardEl.className = 'day-card';
+
+      const labelEl = document.createElement('div');
+      labelEl.className = 'day-label';
+      labelEl.textContent = `Jour +${i} — ${formatDateFR(dateStr)}`;
+      cardEl.appendChild(labelEl);
+
+      const rowEl = document.createElement('div');
+      rowEl.className = 'pokemon-row';
+
+      const pokemonsInfo = [];
+
+      list.forEach(p => {
+        const thumbEl = document.createElement('div');
+        thumbEl.className = 'poke-thumb';
+
+        const imgEl = document.createElement('img');
+        imgEl.src   = p.Image || p.FullImage || '';
+        imgEl.alt   = p.NameFR || p.NameEN || '';
+        imgEl.loading = 'lazy';
+
+        const highlightEl = document.createElement('div');
+        highlightEl.className = 'match-highlight';
+
+        thumbEl.appendChild(imgEl);
+        thumbEl.appendChild(highlightEl);
+        rowEl.appendChild(thumbEl);
+
+        pokemonsInfo.push({
+          nameFR: p.NameFR || '',
+          nameEN: p.NameEN || '',
+          imgEl,
+          thumbEl
+        });
+      });
+
+      cardEl.appendChild(rowEl);
+      container.appendChild(cardEl);
+
+      allCards.push({ dateStr, pokemons: pokemonsInfo, cardEl });
+    }
+
+    // wire search
+    searchInput.addEventListener('input', () => applySearch(searchInput.value));
+
+  } catch (err) {
+    loadingEl.textContent = 'Erreur lors du chargement des données.';
+    console.error(err);
+  }
+}
+</script>
+</body>
+</html>

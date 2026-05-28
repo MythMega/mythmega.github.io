@@ -39,16 +39,16 @@
         </div>
 
         <div class="sort-section">
-            <label for="sortSelect">Trier par :</label>
+            <label for="sortSelect" data-i18n="dex.sortBy">Trier par :</label>
             <select id="sortSelect">
-                <option value="index" selected>Numéro Dex</option>
-                <option value="name">Nom</option>
-                <option value="count">Fois rencontré</option>
-                <option value="type">Type</option>
-                <option value="eggGroup">Groupe d'œuf</option>
-                <option value="firstFound">Première trouvaille</option>
+                <option value="index" selected data-i18n="dex.sortIndex">Numéro Dex</option>
+                <option value="name" data-i18n="dex.sortName">Nom</option>
+                <option value="count" data-i18n="dex.sortCount">Fois rencontré</option>
+                <option value="type" data-i18n="dex.sortType">Type</option>
+                <option value="eggGroup" data-i18n="dex.sortEggGroup">Groupe d'œuf</option>
+                <option value="firstFound" data-i18n="dex.sortFirstFound">Première trouvaille</option>
             </select>
-            <button id="sortDirectionBtn" class="sort-direction-btn" data-direction="asc">↑ Asc</button>
+            <button id="sortDirectionBtn" class="sort-direction-btn" data-direction="asc" data-i18n="dex.sortAsc">↑ Asc</button>
         </div>
         
         <div id="dexGrid" class="dex-grid">
@@ -69,10 +69,12 @@
     <script src="loader.js"></script>
     <script src="translate.js"></script>
     <script src="language-switcher.js"></script>
+    <script src="footer.js"></script>
     <script src="i18n-setup.js"></script>
     <script src="pokemon.js"></script>
     <script src="Dex.js"></script>
     <script src="Dex-ui.js"></script>
+    <script src="pokemon-versions.js"></script>
     <script src="DailyToDexImport.js"></script>
     <script>
       // Init Dex

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Données Pokémon — Pokefeet</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <style>
+    /* ── Data viewer overrides ── */
+    body {
+      align-items: flex-start;
+      padding: 20px 24px 60px;
+    }
+    main { max-width: 1500px; }
+
+    /* Controls bar */
+    .dv-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .dv-label {
+      color: var(--muted-light);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .dv-select {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 200ms, box-shadow 200ms;
+    }
+    .dv-select:focus {
+      border-color: rgba(34,197,94,0.5);
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+    }
+    .dv-count {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Table wrapper */
+    .dv-table-wrap {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead th {
+      padding: 11px 10px;
+      text-align: left;
+      color: var(--muted-light);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--glass-border);
+      white-space: nowrap;
+      background: rgba(255,255,255,0.025);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    thead th.sortable {
+      cursor: pointer;
+      user-select: none;
+    }
+    thead th.sortable:hover { color: var(--text); background: rgba(255,255,255,0.055); }
+    thead th.sorted-asc  { color: var(--accent-bright); }
+    thead th.sorted-desc { color: var(--accent-bright); }
+    thead th.sorted-asc::after  { content: ' ▲'; }
+    thead th.sorted-desc::after { content: ' ▼'; }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 120ms;
+    }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    tbody tr:last-child { border-bottom: none; }
+
+    td {
+      padding: 7px 10px;
+      vertical-align: middle;
+      color: var(--text);
+    }
+
+    /* Image cells */
+    .td-img {
+      text-align: center;
+      min-width: 56px;
+    }
+    .td-img img {
+      height: 48px;
+      width: auto;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+      margin: 0 auto;
+      border-radius: 4px;
+    }
+    .td-fullimg img {
+      height: 64px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .img-error {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #f87171;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid rgba(248,113,113,0.3);
+      background: rgba(248,113,113,0.08);
+      padding: 3px 7px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* Egg groups */
+    .td-eggs ul {
+      list-style: disc;
+      margin: 0;
+      padding-left: 16px;
+    }
+    .td-eggs li { font-size: 13px; color: var(--muted-light); white-space: nowrap; }
+
+    /* Missing value */
+    .missing { color: var(--muted); font-style: italic; font-size: 13px; }
+
+    /* No results */
+    .dv-empty {
+      text-align: center;
+      padding: 48px 16px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Back link */
+    .back-link {
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      color: var(--muted-light);
+      border: 1px solid var(--glass-border);
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 150ms, color 150ms;
+    }
+    .back-link:hover { background: rgba(255,255,255,0.09); color: var(--text); }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1 data-i18n="dataViewer.title">Données Pokémon</h1>
+      <a href="index.html" class="back-link" data-i18n="common.backHome">Retour à l'accueil</a>
+    </header>
+
+    <div class="dv-controls">
+      <label class="dv-label" for="dvFilterCol" data-i18n="dataViewer.filterBy">Filtrer par</label>
+      <select id="dvFilterCol" class="dv-select">
+        <!-- Populated by JS -->
+      </select>
+      <input
+        type="text"
+        id="dvFilterVal"
+        class="search-input"
+        style="min-width:200px"
+        data-i18n-attr="placeholder:dataViewer.filterPlaceholder"
+        placeholder="Filtrer..."
+      >
+      <span id="dvCount" class="dv-count"></span>
+    </div>
+
+    <div id="dvRealDataNotice" style="display:none;margin:6px 0 -4px;padding:5px 14px;background:#78350f;color:#fde68a;font-size:12px;font-weight:600;border-radius:6px;text-align:center;">
+      ⚠️ Affichage des données de production (pokemons.json) — pokemons_wip.json introuvable
+    </div>
+
+    <div class="dv-table-wrap">
+      <table id="dvTable">
+        <thead id="dvHead"></thead>
+        <tbody id="dvBody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="loader.js"></script>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="footer.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script>
+  (function () {
+    /* ─── Column definitions ─────────────────────────────── */
+    const COLS = [
+      { key: 'Image',      i18nKey: 'dataViewer.colImage',      sortable: false, filterable: false, kind: 'img'      },
+      { key: 'FullImage',  i18nKey: 'dataViewer.colFullImage',   sortable: false, filterable: false, kind: 'fullimg'  },
+      { key: 'Index',      i18nKey: 'dataViewer.colIndex',       sortable: true,  filterable: true,  kind: 'num'      },
+      { key: 'NameFR',     i18nKey: 'dataViewer.colNameFR',      sortable: true,  filterable: true,  kind: 'str'      },
+      { key: 'NameEN',     i18nKey: 'dataViewer.colNameEN',      sortable: true,  filterable: true,  kind: 'str'      },
+      { key: 'Generation', i18nKey: 'dataViewer.colGeneration',  sortable: true,  filterable: true,  kind: 'num'      },
+      { key: 'Type1',      i18nKey: 'dataViewer.colType1',       sortable: true,  filterable: true,  kind: 'type'     },
+      { key: 'Type2',      i18nKey: 'dataViewer.colType2',       sortable: true,  filterable: true,  kind: 'type2'    },
+      { key: 'EggGroups',  i18nKey: 'dataViewer.colEggGroups',   sortable: false, filterable: false, kind: 'eggs'     },
+      { key: 'Category',            i18nKey: 'dataViewer.colCategory',    sortable: true,  filterable: true,  kind: 'str'  },
+      { key: 'pokefeet_data_version', i18nKey: 'dataViewer.colVersion',      sortable: true,  filterable: true,  kind: 'num'  },
+    ];
+
+    /* missing-value i18n keys per field */
+    const MISSING_KEYS = {
+      Image:      'dataViewer.missingImage',
+      FullImage:  'dataViewer.missingFullImage',
+      Index:      'dataViewer.missingIndex',
+      NameFR:     'dataViewer.missingNameFR',
+      NameEN:     'dataViewer.missingNameEN',
+      Generation: 'dataViewer.missingGeneration',
+      Type1:      'dataViewer.missingType1',
+      EggGroups:  'dataViewer.missingEggGroups',
+      Category:            'dataViewer.missingCategory',
+      pokefeet_data_version: 'dataViewer.missingVersion',
+    };
+
+    /* ─── State ──────────────────────────────────────────── */
+    let allData    = [];
+    let sortCol    = 'Index';
+    let sortDir    = 'asc';   // 'asc' | 'desc'
+    let filterCol  = 'Index';
+    let filterVal  = '';
+
+    /* ─── Helpers ────────────────────────────────────────── */
+    function t(key, fallback = '') {
+      return (typeof Translator !== 'undefined') ? Translator.get(key, fallback) : fallback;
+    }
+
+    function missing(fieldKey) {
+      const k = MISSING_KEYS[fieldKey];
+      return k ? `<span class="missing">${t(k, fieldKey + ' manquant')}</span>` : '';
+    }
+
+    /* Build an <img> cell with onerror handling */
+    function imgCell(src, altKey, extraClass) {
+      if (!src) return missing(altKey);
+      return `<img
+        src="${src}"
+        alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';"
+      ><span class="img-error" style="display:none">⚠ ${t('dataViewer.missingImage', 'Image manquante')}</span>`;
+    }
+
+    /* Type badge */
+    function typeBadge(typeVal, optional) {
+      if (!typeVal) return optional ? '<span class="missing">/</span>' : missing('Type1');
+      const name = t('types.' + typeVal.toLowerCase(), typeVal);
+      return `<span class="type-badge t-${typeVal.toLowerCase()}">${name}</span>`;
+    }
+
+    /* Cell content per column kind */
+    function renderCell(col, row) {
+      const v = row[col.key];
+      switch (col.kind) {
+        case 'img':
+          return `<td class="td-img">${imgCell(v, 'Image')}</td>`;
+        case 'fullimg':
+          return `<td class="td-img td-fullimg">${imgCell(v, 'FullImage')}</td>`;
+        case 'type':
+          return `<td>${typeBadge(v, false)}</td>`;
+        case 'type2':
+          return `<td>${typeBadge(v, true)}</td>`;
+        case 'eggs': {
+          if (!v || (Array.isArray(v) && v.length === 0)) {
+            return `<td>${missing('EggGroups')}</td>`;
+          }
+          const items = (Array.isArray(v) ? v : [v]).map(e => `<li>${e}</li>`).join('');
+          return `<td class="td-eggs"><ul>${items}</ul></td>`;
+        }
+        default: {
+          if (v === null || v === undefined || v === '') {
+            return `<td>${missing(col.key)}</td>`;
+          }
+          return `<td>${v}</td>`;
+        }
+      }
+    }
+
+    /* ─── Filter & Sort ──────────────────────────────────── */
+    function getFilterValue(row, key) {
+      const v = row[key];
+      if (v === null || v === undefined) return '';
+      return String(v).toLowerCase();
+    }
+
+    function sortValue(row, key) {
+      const col = COLS.find(c => c.key === key);
+      const v = row[key];
+      if (v === null || v === undefined) return col && col.kind === 'num' ? -Infinity : '';
+      if (col && col.kind === 'num') return Number(v);
+      return String(v).toLowerCase();
+    }
+
+    function applyFilterSort() {
+      const needle = filterVal.trim().toLowerCase();
+      let rows = allData.filter(row => {
+        if (!needle) return true;
+        return getFilterValue(row, filterCol).includes(needle);
+      });
+
+      rows.sort((a, b) => {
+        const va = sortValue(a, sortCol);
+        const vb = sortValue(b, sortCol);
+        let cmp = 0;
+        if (typeof va === 'number' && typeof vb === 'number') {
+          cmp = va - vb;
+        } else {
+          cmp = String(va).localeCompare(String(vb));
+        }
+        return sortDir === 'asc' ? cmp : -cmp;
+      });
+
+      return rows;
+    }
+
+    /* ─── Render ─────────────────────────────────────────── */
+    function renderHead() {
+      const head = document.getElementById('dvHead');
+      const cells = COLS.map(col => {
+        const label = t(col.i18nKey, col.key);
+        if (!col.sortable) return `<th>${label}</th>`;
+        let cls = 'sortable';
+        if (col.key === sortCol) cls += sortDir === 'asc' ? ' sorted-asc' : ' sorted-desc';
+        return `<th class="${cls}" data-col="${col.key}">${label}</th>`;
+      }).join('');
+      head.innerHTML = `<tr>${cells}</tr>`;
+
+      // Bind sort click
+      head.querySelectorAll('th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+          const col = th.dataset.col;
+          if (col === sortCol) {
+            sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+          } else {
+            sortCol = col;
+            sortDir = 'asc';
+          }
+          renderAll();
+        });
+      });
+    }
+
+    function renderBody(rows) {
+      const tbody = document.getElementById('dvBody');
+      if (rows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${COLS.length}" class="dv-empty">${t('dataViewer.noResults', 'Aucun résultat')}</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = rows.map(row =>
+        `<tr>${COLS.map(col => renderCell(col, row)).join('')}</tr>`
+      ).join('');
+    }
+
+    function updateCount(filtered) {
+      const total = allData.length;
+      const shown = filtered.length;
+      const tplFr = `${shown} / ${total} Pokémon`;
+      document.getElementById('dvCount').textContent = tplFr;
+    }
+
+    function renderAll() {
+      const rows = applyFilterSort();
+      renderHead();
+      renderBody(rows);
+      updateCount(rows);
+    }
+
+    /* ─── Filter select ──────────────────────────────────── */
+    function buildFilterSelect() {
+      const sel = document.getElementById('dvFilterCol');
+      sel.innerHTML = '';
+      COLS.filter(c => c.filterable).forEach(col => {
+        const opt = document.createElement('option');
+        opt.value = col.key;
+        opt.textContent = t(col.i18nKey, col.key);
+        if (col.key === filterCol) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', () => {
+        filterCol = sel.value;
+        renderAll();
+      });
+    }
+
+    /* ─── Init ───────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Ensure translations are loaded before building the page
+      if (typeof Translator !== 'undefined') {
+        await Translator.init();
+      }
+
+      // Apply static translations (data-i18n attributes)
+      if (typeof applyTranslations === 'function') {
+        applyTranslations();
+      }
+
+      // Load pokemon data
+      try {
+        let res = await fetch('./data/pokemons_wip.json');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        allData = await res.json();
+      } catch (e) {
+        // Fallback to production data
+        console.warn('[DataViewer] pokemons_wip.json indisponible, fallback sur pokemons.json', e);
+        try {
+          const res = await fetch('./data/pokemons.json');
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          allData = await res.json();
+          document.getElementById('dvRealDataNotice').style.display = 'block';
+        } catch (e2) {
+          console.error('[DataViewer] Failed to load pokemons.json', e2);
+          document.getElementById('dvBody').innerHTML =
+            `<tr><td colspan="${COLS.length}" class="dv-empty" style="color:#f87171">
+              ⚠ Impossible de charger les données (pokemons_wip.json et pokemons.json)
+            </td></tr>`;
+          return;
+        }
+      }
+
+      buildFilterSelect();
+
+      const input = document.getElementById('dvFilterVal');
+      input.addEventListener('input', () => {
+        filterVal = input.value;
+        renderAll();
+      });
+
+      renderAll();
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Changelog</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <style>
+    .changelog-container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 16px 80px;
+    }
+
+    .changelog-version-group {
+      margin-bottom: 28px;
+    }
+
+    .changelog-version-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .version-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+    .version-badge.release  { background: #166534; color: #bbf7d0; }
+    .version-badge.beta     { background: #78350f; color: #fde68a; }
+    .version-badge.alpha    { background: #1e3a5f; color: #bae6fd; }
+
+    .changelog-date {
+      font-size: 12px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .changelog-message {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .changelog-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 6px;
+      transition: background 150ms;
+    }
+    .changelog-entry:hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    .changelog-entry-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      min-width: 110px;
+    }
+
+    #changelog-loading {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>Pokefeet — Changelog</h1>
+      <a class="small-btn" href="index.html" data-i18n="common.backHome">Retour à l'accueil</a>
+    </header>
+
+    <section class="game-area">
+      <div class="changelog-container">
+        <div id="changelog-loading">Chargement...</div>
+        <div id="changelog-list" style="display:none;"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="loader.js"></script>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="footer.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script>
+    async function loadChangelog() {
+      const loadingEl = document.getElementById('changelog-loading');
+      const listEl    = document.getElementById('changelog-list');
+
+      try {
+        const res  = await fetch('./data/pokefeet_commits.csv');
+        const text = await res.text();
+        const lines = text.trim().split('\n');
+
+        // Skip header row
+        const entries = lines.slice(1).map(line => {
+          const parts = line.split(';');
+          if (parts.length < 4) return null;
+          const [verMaj, verPatch, dateRaw, ...msgParts] = parts;
+          const raw = dateRaw.trim();
+          return {
+            verMaj:   verMaj.trim(),
+            verPatch: verPatch.trim(),
+            date:     new Date(raw),
+            datePart: raw.slice(0, 10), // YYYY-MM-DD from the CSV (local date, timezone-independent)
+            message:  msgParts.join(';').trim()
+          };
+        }).filter(Boolean);
+
+        // Sort: primary = date-part descending, secondary = version rank descending
+        entries.sort((a, b) => {
+          if (a.datePart !== b.datePart) return b.datePart.localeCompare(a.datePart);
+          return versionRank(b.verMaj, b.verPatch) - versionRank(a.verMaj, a.verPatch);
+        });
+
+        // Render
+        listEl.innerHTML = '';
+        entries.forEach(entry => {
+          const { verMaj, verPatch, date, message } = entry;
+
+          // Determine badge style
+          let badgeClass, badgeLabel;
+          if (/^[0-9]+$/.test(verMaj)) {
+            badgeClass = 'release';
+            badgeLabel = `v${verMaj}.${verPatch}`;
+          } else if (verMaj.startsWith('B')) {
+            badgeClass = 'beta';
+            badgeLabel = `Beta ${verMaj.slice(1)}.${verPatch}`;
+          } else {
+            badgeClass = 'alpha';
+            badgeLabel = `Alpha ${verMaj.slice(1)}.${verPatch}`;
+          }
+
+          const dateStr = date.toLocaleDateString('fr-FR', {
+            year: 'numeric', month: 'short', day: 'numeric'
+          });
+
+          const entryEl = document.createElement('div');
+          entryEl.className = 'changelog-entry';
+          entryEl.innerHTML = `
+            <div class="changelog-entry-left">
+              <span class="version-badge ${badgeClass}">${badgeLabel}</span>
+              <span class="changelog-date">${dateStr}</span>
+            </div>
+            <span class="changelog-message">${escapeHtml(message)}</span>
+          `;
+          listEl.appendChild(entryEl);
+        });
+
+        loadingEl.style.display = 'none';
+        listEl.style.display    = 'block';
+
+      } catch (e) {
+        loadingEl.textContent = 'Impossible de charger le changelog.';
+        console.error('[Changelog]', e);
+      }
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Returns a numeric rank for version sorting (higher = more recent)
+    // Release > Beta > Alpha ; within each category, major then patch
+    function versionRank(verMaj, verPatch) {
+      const patch = parseInt(verPatch) || 0;
+      if (/^[0-9]+$/.test(verMaj)) {
+        return 2_000_000 + parseInt(verMaj) * 1000 + patch; // Release
+      } else if (verMaj.startsWith('B')) {
+        return 1_000_000 + (parseInt(verMaj.slice(1)) || 0) * 1000 + patch; // Beta
+      } else {
+        return (parseInt(verMaj.slice(1)) || 0) * 1000 + patch; // Alpha
+      }
+    }
+
+    loadChangelog();
+  </script>
+</body>
+</html>

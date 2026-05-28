@@ -1,0 +1,79 @@
+================================================================================
+  POKEFEET — WEEKLY CHALLENGE : RÉSUMÉ DE LA DEMANDE
+================================================================================
+
+Demande : Ajouter un mode "Weekly Challenge" dans le dossier beta, fonctionnant
+comme le Daily mais avec :
+  - Reset tous les lundis (seed = date du lundi de la semaine courante)
+  - 10 Pokémon (au lieu de 5)
+  - Stockage séparé dans IndexedDB (store "weekly_results")
+  - Intégration complète dans l'UI : accueil, défis passés, historique,
+    data management, pokédex (force update inclus)
+  - L'accueil montre Daily Challenge ET Weekly Challenge en parallèle
+  - "Défis passés" est centré, commun aux deux modes (onglets Daily/Weekly)
+  - L'historique a 2 onglets : Daily (par défaut) et Weekly
+  - La gestion de données supporte l'import/export des weekly
+  - Le Pokédex (force update) balaye aussi les résultats weekly
+  - La première date dispo dans "Défis passés" = min(oldest daily, oldest weekly)
+
+================================================================================
+  TÂCHES
+================================================================================
+
+[TÂCHE 1] Créer beta/weekly.js
+  Statut  : ✅ TERMINÉ
+  Détails : Copie de daily.js adaptée —
+            COUNT=10, seed=lundi de la semaine, store="weekly_results",
+            URL param ?week=YYYY-MM-DD, DB_VERSION=2,
+            buildShareText affiche "Pokefeet Weekly".
+
+[TÂCHE 2] Créer beta/weekly.html
+  Statut  : ✅ TERMINÉ
+  Détails : Copie de daily.html avec 10 round-dots (2 rangées de 5),
+            script weekly.js à la place de daily.js.
+
+[TÂCHE 3] Mettre à jour beta/index.html
+  Statut  : ✅ TERMINÉ
+  Détails : Daily + Weekly en deux big-btn côte à côte,
+            "Défis passés" centré en dessous,
+            History, Pokedex, Save/Load sous forme de small-btn.
+
+[TÂCHE 4] Mettre à jour beta/old_daily.html + beta/old_daily.js
+  Statut  : ✅ TERMINÉ
+  Détails : Ajout d'onglets Daily / Weekly.
+            Weekly tab affiche les semaines (bouton = date du lundi → weekly.html?week=…).
+            Date de début = min(oldest daily, oldest weekly) pour chaque onglet.
+            DB_VERSION bump à 2.
+
+[TÂCHE 5] Mettre à jour beta/data_management.html + beta/data.js
+  Statut  : ✅ TERMINÉ
+  Détails : Section "Importer un Weekly" ajoutée (textarea + bouton).
+            Export inclut les weekly dans le payload (clé "weekly").
+            Import/merge gère le store weekly_results.
+            DB_VERSION bump à 2.
+
+[TÂCHE 6] Mettre à jour beta/history.html + beta/history.js
+  Statut  : ✅ TERMINÉ
+  Détails : Onglets Daily (défaut) / Weekly.
+            Weekly affiche 10 cases emoji par entrée, relie à weekly.html?week=….
+            DB_VERSION bump à 2.
+
+[TÂCHE 7] Mettre à jour beta/DailyToDexImport.js
+  Statut  : ✅ TERMINÉ
+  Détails : forceUpdate() scanne aussi weekly_results (getWeeklyListForDate COUNT=10).
+            DB_VERSION bump à 2.
+
+================================================================================
+  NOTES TECHNIQUES
+================================================================================
+
+- DB : PokefeetDB passe en version 2 ; onupgradeneeded crée "weekly_results"
+  si absent (keyPath: "date").
+- Seed weekly : même algo Mulberry32 que daily, appliqué sur la date du lundi.
+- getMondayOfWeek(d) : si d est dimanche (day=0) → lundi précédent (-6 jours),
+  sinon → lundi de la semaine (1 - day).
+- Les weekly bénéficient de la même logique PokemonVersions que les daily.
+- Share text format : "Pokefeet Weekly — YYYY-MM-DD — score N"
+  suivi de 10 lignes (chacune = 5 emoji max : oranges puis verts, ou 5 rouges).
+- importedInDex : présent dans weekly_results également ; forceUpdate le
+  marque à true après traitement.

@@ -49,6 +49,22 @@
 
           <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
 
+          <div style="margin-bottom:10px;">
+            <h4 style="margin:6px 0 8px 0;">Importer un Weekly</h4>
+            <p class="info-below" style="margin-bottom:8px;">Collez le bloc texte d'un Weekly (format emoji). Exemple: Pokefeet Weekly — 2025-11-24 — score 84 suivi de 10 lignes d'emoji.</p>
+
+            <textarea id="weeklyImportArea" placeholder="Collez ici le texte du Weekly..." style="width:100%;min-height:170px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
+
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <button id="importWeeklyBtn" class="btn-export" style="padding:10px 12px;">Importer une semaine</button>
+              <button id="clearWeeklyArea" class="secondary" style="padding:10px 12px;">Effacer</button>
+            </div>
+
+            <div id="weeklyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+          </div>
+
+          <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
+
           <div id="dataPreview" style="max-height:260px;overflow:auto;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;font-family:monospace;font-size:13px;color:#dbeafe;display: none;"></div>
 
           <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
@@ -81,6 +97,7 @@
   <script src="i18n-setup.js"></script>
   <script src="migration.js"></script>
   <script src="pokemon.js"></script>
+  <script src="pokemon-versions.js"></script>
   <script src="Dex.js"></script>
   <script src="DailyToDexImport.js"></script>
   <script src="data.js"></script>

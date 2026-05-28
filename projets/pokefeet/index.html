@@ -34,6 +34,7 @@
 
         <div class="row-buttons" aria-hidden="false" style="gap:10px;">
           <a class="big-btn" href="daily.html" style="flex:1;">Daily Challenge</a>
+          <a class="big-btn" href="weekly.html" style="flex:1;">Weekly Challenge</a>
         </div>
 
         <a class="big-btn secondary" href="old_daily.html" style="margin-top:6px; text-align:center;" data-i18n="home.pastChallenges">Défis passés</a>
@@ -45,11 +46,15 @@
 
         <a class="big-btn secondary" href="data_management.html" style="margin-top:4px; text-align:center;" data-i18n="home.saveLoad">Paramètres</a>
 
-        <a class="big-btn secondary" href="pokefeet.html" data-i18n="home.practice">Practice ∞</a>
+        <a class="big-btn golden" href="pokefeet.html" data-i18n="home.practice">Marathon</a>
 
         <div class="subtitle" data-i18n="home.modeDesc">Daily : un défi par jour — Weekly : 10 Pokémon par semaine</div>
       </div>
     </section>
+
+    <div id="newsBanner" class="news-ticker" style="display:none;">
+      <span id="newsBannerText" class="news-ticker-text"></span>
+    </div>
 
   </main>
 
@@ -59,5 +64,44 @@
   <script src="footer.js"></script>
   <script src="i18n-setup.js"></script>
   <script src="migration.js"></script>
+  <script>
+    (async function () {
+      const SHEET_ID = '1ACLXY7DR2KBreQJNVyJZ9FeH4YX2j736FNWiSaQp-Hc';
+      const GID      = '398219060';
+      const URL      = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv&gid=' + GID;
+
+      function parseCSVRow(row) {
+        const result = []; let cur = '', inQ = false;
+        for (let i = 0; i < row.length; i++) {
+          const c = row[i];
+          if (c === '"') { inQ = !inQ; }
+          else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+          else { cur += c; }
+        }
+        result.push(cur);
+        return result;
+      }
+
+      try {
+        const res  = await fetch(URL);
+        if (!res.ok) return;
+        const csv  = await res.text();
+        const rows = csv.split('\n');
+        const fr   = (rows[0] ? parseCSVRow(rows[0])[1] : '').trim();
+        const en   = (rows[1] ? parseCSVRow(rows[1])[1] : '').trim();
+        const lang = (typeof Translator !== 'undefined') ? Translator.getLanguage() : (document.documentElement.lang || 'fr');
+        const msg  = (lang === 'en' ? en : fr) || fr || en;
+        if (!msg) return;
+        const banner = document.getElementById('newsBanner');
+        const textEl = document.getElementById('newsBannerText');
+        if (banner && textEl) {
+          textEl.textContent = msg;
+          const duration = Math.max(12, Math.round(msg.length * 0.18)) + 's';
+          textEl.style.animationDuration = duration;
+          banner.style.display = 'block';
+        }
+      } catch (e) { /* sheet inaccessible, on ignore silencieusement */ }
+    })();
+  </script>
 </body>
 </html>

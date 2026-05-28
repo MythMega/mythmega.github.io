@@ -5,8 +5,9 @@
 const Migration = (function () {
   const COOKIE_DAILY = 'pk_daily_result_v2';
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 1;
+  const DB_VERSION = 2;
   const STORE_NAME = 'daily_results';
+  const WEEKLY_STORE = 'weekly_results';
 
   // Get cookie by name
   function getCookie(name) {
@@ -49,6 +50,9 @@ const Migration = (function () {
         const db = e.target.result;
         if (!db.objectStoreNames.contains(STORE_NAME)) {
           db.createObjectStore(STORE_NAME, { keyPath: 'date' });
+        }
+        if (!db.objectStoreNames.contains(WEEKLY_STORE)) {
+          db.createObjectStore(WEEKLY_STORE, { keyPath: 'date' });
         }
       };
     });

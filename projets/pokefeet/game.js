@@ -17,6 +17,16 @@ const Game = (function () {
   let practiceGaugeLabel = null;
   let gameActive = false;
 
+  // session & stats
+  const SESSION_KEY      = 'pk_practice_session';
+  let foundCount         = 0;
+  let perfectCount       = 0;
+  let totalFails         = 0;
+  let pokemonTotal       = 0;
+  let fullOrderedIndices = [];
+  let sessionStartedAt   = null;
+  let bestStreak         = 0;
+
   // cookie helpers
   function setCookie(name, value, days = 365) {
     const d = new Date();
@@ -28,24 +38,106 @@ const Game = (function () {
     return v ? decodeURIComponent(v.pop()) : null;
   }
 
-  // selection aléatoire
-  function pickRandom() {
-    if (!pokemons.length) return null;
-    return takeRandomAndRemove();
+  // ── Seeded PRNG (mulberry32) ─────────────────────────────
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      var t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
   }
 
-  function takeRandomAndRemove() {
-    // mélange Fisher‑Yates in-place
-    for (let i = PossiblePokemons.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [PossiblePokemons[i], PossiblePokemons[j]] = [PossiblePokemons[j], PossiblePokemons[i]];
+  function seededShuffle(arr, seed) {
+    const rng    = mulberry32(seed);
+    const result = arr.slice();
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
     }
-
-    // prends et retire le premier élément
-    const selected = PossiblePokemons.shift(); // ou arr.splice(0,1)[0]
-    return selected;
+    return result;
   }
 
+  // ── Session persistence ───────────────────────────────────
+  function saveSession() {
+    try {
+      localStorage.setItem(SESSION_KEY, JSON.stringify({
+        orderedIndices: fullOrderedIndices,
+        foundCount:     foundCount,
+        score:          score,
+        streak:         streak,
+        perfectCount:   perfectCount,
+        totalFails:     totalFails,
+        pokemonTotal:   pokemonTotal,
+        finished:       false,
+        startedAt:      sessionStartedAt
+      }));
+    } catch (e) {}
+  }
+
+  function loadSession() {
+    try {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      const s = JSON.parse(raw);
+      return s.finished ? null : s;
+    } catch (e) { return null; }
+  }
+
+  function markSessionFinished() {
+    try {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      s.finished = true;
+      localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+    } catch (e) {}
+  }
+
+  // ── Progress bar ──────────────────────────────────────────
+  function updateProgressBar() {
+    const bar   = document.getElementById('practiceProgressFill');
+    const ghost = document.getElementById('practiceProgressBestStreak');
+    const label = document.getElementById('practiceProgressLabel');
+    if (!bar || !label) return;
+    const pct = pokemonTotal > 0 ? Math.round((foundCount / pokemonTotal) * 100) : 0;
+    bar.style.width = pct + '%';
+    if (ghost) {
+      const bestPct = pokemonTotal > 0 ? Math.round((bestStreak / pokemonTotal) * 100) : 0;
+      ghost.style.width = bestPct + '%';
+    }
+    label.textContent = foundCount + ' / ' + pokemonTotal;
+  }
+
+  // ── Victory screen (end of pool) ─────────────────────────
+  function showVictoryScreen() {
+    gameActive = false;
+    markSessionFinished();
+    const screen = document.getElementById('gameOverScreen');
+    if (!screen) return;
+    const T       = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
+    const titleEl = document.getElementById('gameOverTitle');
+    const imgEl   = document.getElementById('gameOverImg');
+    const nameEl  = document.getElementById('gameOverPokeName');
+    const statsEl = document.getElementById('gameOverStats');
+    if (titleEl) titleEl.textContent = T('practice.victoryTitle', 'Félicitations !');
+    if (imgEl)  { imgEl.src = ''; imgEl.style.display = 'none'; }
+    if (nameEl) nameEl.textContent = T('practice.victoryAll', 'Vous avez trouvé tous les Pokémon !');
+    if (statsEl) {
+      const best = parseInt(getCookie('pk_best') || '0', 10);
+      statsEl.innerHTML =
+        '<div>' + T('practice.score',        'Score')                + ' : <strong>' + score                          + '</strong></div>' +
+        '<div>' + T('practice.statsFound',   'Trouvés')              + ' : <strong>' + foundCount + ' / ' + pokemonTotal + '</strong></div>' +
+        '<div>' + T('practice.statsPerfect', 'Parfaits (1er essai)') + ' : <strong>' + perfectCount                   + '</strong></div>' +
+        '<div>' + T('practice.statsFails',   'Erreurs totales')      + ' : <strong>' + totalFails                     + '</strong></div>' +
+        '<div>' + T('practice.streak',       'Série')                + ' : <strong>' + streak                         + '</strong></div>' +
+        '<div>' + T('practice.bestStreak',   'Meilleur Streak')      + ' : <strong>' + bestStreak                     + '</strong></div>' +
+        '<div>' + T('practice.best',         'Meilleur')             + ' : <strong>' + best                           + '</strong></div>';
+    }
+    screen.style.display = 'flex';
+  }
+
+  // selection aléatoire (désormais gérée via seededShuffle au démarrage)
   // points pour la tentative courante selon le nombre d'indices déjà affichés (attempts)
   function pointsForAttempt(a) {
     // attempts 0 => 10, 1 => 8, 2 => 6, 3 => 4, 4 => 2
@@ -116,10 +208,49 @@ const Game = (function () {
     // initialisation UI
     UI.populateNamesList(pokemons);
     loadBestScore();
+    loadBestStreak();
     // cache gauge elements (DOM is ready when init is called)
     practiceGaugeEl = document.getElementById('practiceAttemptGauge');
     practiceGaugeFill = practiceGaugeEl ? practiceGaugeEl.querySelector('.gauge-fill') : null;
     practiceGaugeLabel = practiceGaugeEl ? practiceGaugeEl.querySelector('.gauge-label') : null;
+
+    // ── Session restore ou nouvelle partie ───────────────────
+    const savedSession = loadSession();
+    if (savedSession && Array.isArray(savedSession.orderedIndices) && savedSession.orderedIndices.length > 0) {
+      // Reprendre la session existante
+      fullOrderedIndices = savedSession.orderedIndices;
+      pokemonTotal       = fullOrderedIndices.length;
+      foundCount         = savedSession.foundCount   || 0;
+      score              = savedSession.score        || 0;
+      streak             = savedSession.streak       || 0;
+      perfectCount       = savedSession.perfectCount || 0;
+      totalFails         = savedSession.totalFails   || 0;
+      sessionStartedAt   = savedSession.startedAt    || new Date().toISOString();
+      const pokemonMap   = new Map(pokemons.map(p => [String(p.Index), p]));
+      PossiblePokemons   = fullOrderedIndices
+        .slice(foundCount)
+        .map(idx => pokemonMap.get(String(idx)))
+        .filter(p => p != null);
+      UI.setScore(score);
+      UI.setStreak(streak);
+      UI.showNotification(
+        (typeof Translator !== 'undefined')
+          ? Translator.get('practice.sessionResumed', 'Partie en cours reprise')
+          : 'Partie en cours reprise',
+        'hint'
+      );
+    } else {
+      // Nouvelle session avec ordre d\u00e9terministe (seed)
+      const seed         = Math.floor(Math.random() * 2147483647) + 1;
+      PossiblePokemons   = seededShuffle(PossiblePokemons, seed);
+      pokemonTotal       = PossiblePokemons.length;
+      fullOrderedIndices = PossiblePokemons.map(p => String(p.Index));
+      sessionStartedAt   = new Date().toISOString();
+      foundCount = 0; score = 0; streak = 0; perfectCount = 0; totalFails = 0;
+      saveSession();
+    }
+
+    updateProgressBar();
     next();
     gameActive = true;
     bindUI();
@@ -135,17 +266,14 @@ const Game = (function () {
     if (ab) ab.addEventListener('click', () => {
       const confirmMsg = Translator.get('practice.confirmAbandon', 'Êtes-vous sûr d\'abandonner cette partie ?');
       if (!confirm(confirmMsg)) return;
+      markSessionFinished();
       saveBestIfNeeded();
       showGameOverScreen(current, true);
     });
 
-    // Retour à l'accueil → confirm si partie en cours
+    // Retour à l'accueil
     const retourBtn = document.getElementById('retourBtn');
     if (retourBtn) retourBtn.addEventListener('click', () => {
-      if (gameActive) {
-        const confirmMsg = Translator.get('practice.confirmLeave', 'Êtes-vous sûr de vouloir quitter la partie ?');
-        if (!confirm(confirmMsg)) return;
-      }
       window.location.href = './index.html';
     });
 
@@ -157,14 +285,6 @@ const Game = (function () {
     const gameOverReplayBtn = document.getElementById('gameOverReplayBtn');
     if (gameOverReplayBtn) gameOverReplayBtn.addEventListener('click', () => {
       window.location.reload();
-    });
-
-    // Confirmation avant fermeture/rechargement si partie en cours
-    window.addEventListener('beforeunload', (e) => {
-      if (gameActive) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
     });
 
     // Autocomplete custom (comme le daily)
@@ -253,6 +373,20 @@ const Game = (function () {
     }
   }
 
+  function loadBestStreak() {
+    bestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
+    UI.setBestStreak(bestStreak);
+  }
+
+  function saveBestStreakIfNeeded() {
+    if (streak > bestStreak) {
+      bestStreak = streak;
+      setCookie('pk_best_streak', bestStreak, 365);
+      UI.setBestStreak(bestStreak);
+      updateProgressBar();
+    }
+  }
+
   function resetGameStateForNewPokemon() {
     attempts = 0;
     UI.clearHints();
@@ -271,7 +405,12 @@ const Game = (function () {
   }
 
   function next() {
-    current = pickRandom();
+    if (PossiblePokemons.length === 0) {
+      saveBestIfNeeded();
+      showVictoryScreen();
+      return;
+    }
+    current = PossiblePokemons.shift();
     resetGameStateForNewPokemon();
     UI.showPokemonImage(current ? current.Image : '');
     UI.enableInput(true);
@@ -312,15 +451,20 @@ const Game = (function () {
       const points = pointsForAttempt(attempts);
       score += points;
       streak += 1;
+      saveBestStreakIfNeeded();
+      if (attempts === 0) perfectCount++;
+      totalFails += attempts;
+      foundCount++;
       UI.setScore(score);
       UI.setStreak(streak);
       UI.showNotification('+' + points + ' points', 'success');
       UI.showRevealInfo(current); // afficher infos
       saveBestIfNeeded();
+      saveSession();
+      updateProgressBar();
       UI.enableSuivantBtn(true);
       UI.enableInput(false);
       UI.showPokemonImage(current ? current.FullImage : '');
-      console.log(PossiblePokemons.length);
     } else {
       // incorrect
       // record wrong guess for display
@@ -337,6 +481,8 @@ const Game = (function () {
       }
       if (attempts >= maxAttempts) {
         // échoué complètement → écran game over
+        totalFails += maxAttempts;
+        markSessionFinished();
         saveBestIfNeeded();
         showGameOverScreen(current, false);
       } else {
@@ -407,14 +553,16 @@ const Game = (function () {
     }
     if (nameEl) nameEl.textContent = pokemon ? (pokemon.NameFR || pokemon.NameEN || '?') : '';
     if (statsEl) {
-      const scoreLabel = Translator.get('practice.score', 'Score');
-      const streakLabel = Translator.get('practice.streak', 'Série');
-      const bestLabel = Translator.get('practice.best', 'Meilleur');
+      const T = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
       const best = parseInt(getCookie('pk_best') || '0', 10);
       statsEl.innerHTML =
-        `<div>${scoreLabel} : <strong>${score}</strong></div>` +
-        `<div>${streakLabel} : <strong>${streak}</strong></div>` +
-        `<div>${bestLabel} : <strong>${best}</strong></div>`;
+        '<div>' + T('practice.score',        'Score')                + ' : <strong>' + score                          + '</strong></div>' +
+        '<div>' + T('practice.statsFound',   'Trouv\u00e9s')              + ' : <strong>' + foundCount + ' / ' + pokemonTotal + '</strong></div>' +
+        '<div>' + T('practice.statsPerfect', 'Parfaits (1er essai)') + ' : <strong>' + perfectCount                   + '</strong></div>' +
+        '<div>' + T('practice.statsFails',   'Erreurs totales')      + ' : <strong>' + totalFails                     + '</strong></div>' +
+        '<div>' + T('practice.streak',       'S\u00e9rie')                + ' : <strong>' + streak                         + '</strong></div>' +
+        '<div>' + T('practice.bestStreak',   'Meilleur Streak')      + ' : <strong>' + bestStreak                     + '</strong></div>' +
+        '<div>' + T('practice.best',         'Meilleur')             + ' : <strong>' + best                           + '</strong></div>';
     }
     screen.style.display = 'flex';
   }

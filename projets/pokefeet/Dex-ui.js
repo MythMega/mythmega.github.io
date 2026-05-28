@@ -111,7 +111,8 @@ const DexUI = (function () {
       nameDiv.textContent = `${p.NameFR || p.NameEN} (${p.NameEN}) #${p.Index}`;
 
       const infoBtn = document.createElement('button');
-      infoBtn.textContent = '+ d\'info';
+      const T0 = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
+      infoBtn.textContent = T0('dex.moreInfo', "+ d'info");
       infoBtn.disabled = !entry.found;
       infoBtn.className = entry.found ? '' : 'disabled';
       infoBtn.onclick = () => showPopup(p, entry);
@@ -181,21 +182,23 @@ const DexUI = (function () {
     const details = document.getElementById('popupDetails');
     if (!popup || !details) return;
 
+    const T = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
+    const typeLabel = (t) => t ? T('types.' + t.toLowerCase(), t) : 'N/A';
     details.innerHTML = `
       <h2>${pokemon.NameFR} (${pokemon.NameEN})</h2>
       <div class="popup-images">
         <img src="${pokemon.FullImage || ''}" alt="Full sprite" class="popup-full-img">
         <img src="${pokemon.Image || ''}" alt="Foot sprite" class="popup-foot-img">
       </div>
-      <p><strong>Index:</strong> ${pokemon.Index}</p>
-      <p><strong>Génération:</strong> ${pokemon.Generation}</p>
-      <p><strong>Type 1:</strong> ${pokemon.Type1}</p>
-      <p><strong>Type 2:</strong> ${pokemon.getDisplayType2()}</p>
-      <p><strong>Groupes d'oeuf:</strong> ${pokemon.getEggGroupsDisplay()}</p>
-      <p><strong>Catégorie:</strong> ${pokemon.getCategoryDisplay()}</p>
-      <p><strong>Trouvé:</strong> ${entry.found ? 'Oui' : 'Non'}</p>
-      <p><strong>Première trouvaille:</strong> ${entry.firstFoundDate || 'N/A'}</p>
-      <p><strong>Nombre de fois:</strong> ${entry.count}</p>
+      <p><strong>${T('dex.index', 'Index')}:</strong> ${pokemon.Index}</p>
+      <p><strong>${T('dex.generation', 'Génération')}:</strong> ${pokemon.Generation}</p>
+      <p><strong>${T('dex.type1', 'Type 1')}:</strong> ${typeLabel(pokemon.Type1)}</p>
+      <p><strong>${T('dex.type2', 'Type 2')}:</strong> ${pokemon.Type2 ? typeLabel(pokemon.Type2) : 'N/A'}</p>
+      <p><strong>${T('dex.eggGroups', "Groupes d'oeuf")}:</strong> ${pokemon.getEggGroupsDisplay()}</p>
+      <p><strong>${T('dex.category', 'Catégorie')}:</strong> ${pokemon.getCategoryDisplay()}</p>
+      <p><strong>${T('dex.found', 'Trouvé')}:</strong> ${entry.found ? T('dex.yes', 'Oui') : T('dex.no', 'Non')}</p>
+      <p><strong>${T('dex.firstFound', 'Première trouvaille')}:</strong> ${entry.firstFoundDate || 'N/A'}</p>
+      <p><strong>${T('dex.count', 'Nombre de fois')}:</strong> ${entry.count}</p>
     `;
 
     popup.style.display = 'flex';
@@ -268,7 +271,8 @@ const DexUI = (function () {
     if (sortDirectionBtn) {
       sortDirectionBtn.addEventListener('click', () => {
         currentDirection = currentDirection === 'asc' ? 'desc' : 'asc';
-        sortDirectionBtn.textContent = currentDirection === 'asc' ? '↑ Asc' : '↓ Desc';
+        const _Tdir = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
+        sortDirectionBtn.textContent = currentDirection === 'asc' ? _Tdir('dex.sortAsc', '↑ Asc') : _Tdir('dex.sortDesc', '↓ Desc');
         sortDirectionBtn.setAttribute('data-direction', currentDirection);
         rebuildGrid();
       });

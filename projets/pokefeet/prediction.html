@@ -176,6 +176,32 @@
       color: #64748b;
       padding: 3rem;
     }
+
+    /* ── TABS ──────────────────────────────────────────────── */
+    .pred-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+    .pred-tab-btn {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 0;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      background: #1e293b;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background .15s, color .15s;
+    }
+    .pred-tab-btn.active {
+      background: #6366f1;
+      color: #fff;
+      border-color: transparent;
+    }
   </style>
 </head>
 <body>
@@ -194,9 +220,14 @@
 <!-- MAIN PAGE -->
 <div id="main">
   <header>
-    <h1>🔮 Prédictions — 100 prochains jours</h1>
-    <p>Pokémon du daily des 100 jours à venir (depuis demain)</p>
+    <h1>🔮 Prédictions</h1>
+    <p>Pokémon des prochains défis (daily depuis demain, weekly depuis la semaine prochaine)</p>
   </header>
+
+  <div class="pred-tabs">
+    <button class="pred-tab-btn active" id="tab-daily" onclick="switchTab('daily')">Daily</button>
+    <button class="pred-tab-btn" id="tab-weekly" onclick="switchTab('weekly')">Weekly</button>
+  </div>
 
   <div id="search-bar">
     <input id="search-input" type="text"
@@ -205,7 +236,14 @@
 
   <div id="stats"></div>
   <div id="loading">Chargement…</div>
-  <div id="days-container"></div>
+
+  <div id="daily-panel">
+    <div id="days-container"></div>
+  </div>
+
+  <div id="weekly-panel" style="display:none;">
+    <div id="weekly-container"></div>
+  </div>
 </div>
 
 <script>
@@ -213,6 +251,7 @@
 const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
 const DAYS_AHEAD    = 3650;
 const DAILY_COUNT   = 5;
+const WEEKLY_COUNT  = 10;
 
 // ── SHA-256 via Web Crypto ────────────────────────────────────────────────────
 async function sha256hex(str) {
@@ -326,42 +365,81 @@ function getDailyListForDate(allPokemons, versionData, dateStr) {
   return list;
 }
 
+// ── WEEKLY HELPERS ───────────────────────────────────────────────────────────
+function getMondayOfWeek(d) {
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  const monday = new Date(d);
+  monday.setDate(d.getDate() + diff);
+  monday.setHours(0, 0, 0, 0);
+  return monday;
+}
+
+function getWeeklyListForDate(allPokemons, versionData, weekDateStr) {
+  const pool = getAvailablePokemons(allPokemons, versionData, weekDateStr);
+  const seed = stringToSeed('week' + weekDateStr);
+  const rng  = mulberry32(seed);
+  const shuffled = shuffleWithSeed(pool, rng);
+  const list = shuffled.slice(0, Math.min(WEEKLY_COUNT, shuffled.length));
+  let cursor = 0;
+  while (list.length < WEEKLY_COUNT) {
+    list.push(shuffled[cursor % shuffled.length]);
+    cursor++;
+  }
+  return list;
+}
+
+function formatWeekLabelFR(mondayStr) {
+  const [y, m, d] = mondayStr.split('-').map(Number);
+  const monday = new Date(y, m - 1, d);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  const months = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
+  return `du ${monday.getDate()} ${months[monday.getMonth()]} au ${sunday.getDate()} ${months[sunday.getMonth()]} ${y}`;
+}
+
 // ── NORMALIZE (accent-insensitive, lower) ─────────────────────────────────────
 function normalize(s) {
   return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
 
-// ── SEARCH ────────────────────────────────────────────────────────────────────
-let allCards = []; // { dateStr, pokemons: [{nameFR, nameEN, imgEl, thumbEl}] }
+// ── TAB STATE ─────────────────────────────────────────────────────────────────
+let activeTab   = 'daily';
+let dailyCards  = [];
+let weeklyCards = [];
 
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('daily-panel').style.display  = tab === 'daily'  ? '' : 'none';
+  document.getElementById('weekly-panel').style.display = tab === 'weekly' ? '' : 'none';
+  document.getElementById('tab-daily').classList.toggle('active', tab === 'daily');
+  document.getElementById('tab-weekly').classList.toggle('active', tab === 'weekly');
+  applySearch(document.getElementById('search-input').value);
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
 function applySearch(query) {
-  const words = query.trim().split(/\s+/).filter(Boolean).map(normalize);
+  const cards   = activeTab === 'daily' ? dailyCards : weeklyCards;
+  const words   = query.trim().split(/\s+/).filter(Boolean).map(normalize);
   const statsEl = document.getElementById('stats');
   let visible = 0;
 
-  allCards.forEach(card => {
-    const { dateStr, pokemons, cardEl } = card;
-
+  cards.forEach(card => {
+    const { pokemons, cardEl } = card;
     if (words.length === 0) {
-      // no filter — show all, remove highlights
       cardEl.classList.remove('hidden');
       pokemons.forEach(p => p.thumbEl.classList.remove('matched'));
       visible++;
       return;
     }
-
-    // For each word, check if at least one Pokémon in the day contains it
-    // AND: all words must match at least one Pokémon in this day
     const dayMatches = words.every(word =>
       pokemons.some(p =>
         normalize(p.nameFR).includes(word) || normalize(p.nameEN).includes(word)
       )
     );
-
     if (dayMatches) {
       cardEl.classList.remove('hidden');
       visible++;
-      // highlight individual matching Pokémon thumbs
       pokemons.forEach(p => {
         const pMatches = words.every(word =>
           normalize(p.nameFR).includes(word) || normalize(p.nameEN).includes(word)
@@ -374,21 +452,51 @@ function applySearch(query) {
     }
   });
 
+  const unit  = activeTab === 'daily' ? 'jour'  : 'semaine';
+  const unitP = activeTab === 'daily' ? 'jours' : 'semaines';
   if (words.length > 0) {
-    statsEl.textContent = `${visible} jour${visible !== 1 ? 's' : ''} trouvé${visible !== 1 ? 's' : ''}`;
+    statsEl.textContent = `${visible} ${visible !== 1 ? unitP : unit} trouvé${visible !== 1 ? 's' : ''}`;
   } else {
     statsEl.textContent = '';
   }
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
+function buildCard(label, list) {
+  const cardEl = document.createElement('div');
+  cardEl.className = 'day-card';
+  const labelEl = document.createElement('div');
+  labelEl.className = 'day-label';
+  labelEl.textContent = label;
+  cardEl.appendChild(labelEl);
+  const rowEl = document.createElement('div');
+  rowEl.className = 'pokemon-row';
+  const pokemonsInfo = [];
+  list.forEach(p => {
+    const thumbEl = document.createElement('div');
+    thumbEl.className = 'poke-thumb';
+    const imgEl = document.createElement('img');
+    imgEl.src     = p.Image || p.FullImage || '';
+    imgEl.alt     = p.NameFR || p.NameEN || '';
+    imgEl.loading = 'lazy';
+    const hlEl = document.createElement('div');
+    hlEl.className = 'match-highlight';
+    thumbEl.appendChild(imgEl);
+    thumbEl.appendChild(hlEl);
+    rowEl.appendChild(thumbEl);
+    pokemonsInfo.push({ nameFR: p.NameFR || '', nameEN: p.NameEN || '', imgEl, thumbEl });
+  });
+  cardEl.appendChild(rowEl);
+  return { cardEl, pokemonsInfo };
+}
+
 async function init() {
-  const loadingEl   = document.getElementById('loading');
-  const container   = document.getElementById('days-container');
-  const searchInput = document.getElementById('search-input');
+  const loadingEl    = document.getElementById('loading');
+  const container    = document.getElementById('days-container');
+  const weeklyContEl = document.getElementById('weekly-container');
+  const searchInput  = document.getElementById('search-input');
 
   try {
-    // load data in parallel
     const [pokemonsRaw, versionRaw] = await Promise.all([
       fetch('data/pokemons.json').then(r => r.json()),
       fetch('data/version.json').then(r => r.json()).catch(() => [
@@ -397,59 +505,33 @@ async function init() {
     ]);
 
     loadingEl.style.display = 'none';
-
     const today = new Date();
 
+    // ── DAILY ─────────────────────────────────────────────────
+    dailyCards = [];
     for (let i = 1; i <= DAYS_AHEAD; i++) {
       const date    = addDays(today, i);
       const dateStr = dateToStr(date);
       const list    = getDailyListForDate(pokemonsRaw, versionRaw, dateStr);
-
-      // build card
-      const cardEl = document.createElement('div');
-      cardEl.className = 'day-card';
-
-      const labelEl = document.createElement('div');
-      labelEl.className = 'day-label';
-      labelEl.textContent = `Jour +${i} — ${formatDateFR(dateStr)}`;
-      cardEl.appendChild(labelEl);
-
-      const rowEl = document.createElement('div');
-      rowEl.className = 'pokemon-row';
-
-      const pokemonsInfo = [];
-
-      list.forEach(p => {
-        const thumbEl = document.createElement('div');
-        thumbEl.className = 'poke-thumb';
-
-        const imgEl = document.createElement('img');
-        imgEl.src   = p.Image || p.FullImage || '';
-        imgEl.alt   = p.NameFR || p.NameEN || '';
-        imgEl.loading = 'lazy';
-
-        const highlightEl = document.createElement('div');
-        highlightEl.className = 'match-highlight';
-
-        thumbEl.appendChild(imgEl);
-        thumbEl.appendChild(highlightEl);
-        rowEl.appendChild(thumbEl);
-
-        pokemonsInfo.push({
-          nameFR: p.NameFR || '',
-          nameEN: p.NameEN || '',
-          imgEl,
-          thumbEl
-        });
-      });
-
-      cardEl.appendChild(rowEl);
+      const { cardEl, pokemonsInfo } = buildCard(`Jour +${i} — ${formatDateFR(dateStr)}`, list);
       container.appendChild(cardEl);
-
-      allCards.push({ dateStr, pokemons: pokemonsInfo, cardEl });
+      dailyCards.push({ dateStr, pokemons: pokemonsInfo, cardEl });
     }
 
-    // wire search
+    // ── WEEKLY ────────────────────────────────────────────────
+    weeklyCards = [];
+    const currentMonday = getMondayOfWeek(today);
+    const firstMonday   = addDays(currentMonday, 7);
+    const weeksAhead    = Math.ceil(DAYS_AHEAD / 7);
+    for (let w = 0; w < weeksAhead; w++) {
+      const weekStart   = addDays(firstMonday, w * 7);
+      const weekDateStr = dateToStr(weekStart);
+      const list        = getWeeklyListForDate(pokemonsRaw, versionRaw, weekDateStr);
+      const { cardEl, pokemonsInfo } = buildCard(`Semaine +${w + 1} — ${formatWeekLabelFR(weekDateStr)}`, list);
+      weeklyContEl.appendChild(cardEl);
+      weeklyCards.push({ dateStr: weekDateStr, pokemons: pokemonsInfo, cardEl });
+    }
+
     searchInput.addEventListener('input', () => applySearch(searchInput.value));
 
   } catch (err) {

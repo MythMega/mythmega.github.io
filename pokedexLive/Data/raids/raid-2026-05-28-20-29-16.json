@@ -1,0 +1,71 @@
+{
+  "bossName": "Roucarnage",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgeot_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgeot_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-05-28 20:29:16",
+  "durationSec": 476,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 71671,
+      "countAtk": 2,
+      "baseDmg": 23877,
+      "level": 18,
+      "raidCount": 770,
+      "luck": 1.5008377
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 71671
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-28 20:29:52",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23877,
+      "pvAfter": 36123,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-28 20:37:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 47794,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

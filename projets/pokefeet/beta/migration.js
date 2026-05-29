@@ -41,14 +41,22 @@ const Migration = (function () {
   // Initialize IndexedDB with daily_results store
   function initDB() {
     return new Promise((resolve, reject) => {
+      let settled = false;
+      const timer = setTimeout(() => {
+        if (settled) return; settled = true;
+        console.warn('[PokefeetDB] indexedDB.open() timed out — skipping migration.');
+        reject(new Error('IDB open timeout'));
+      }, 5000);
       const req = indexedDB.open(DB_NAME, DB_VERSION);
       
-      req.onerror = () => reject(req.error);
+      req.onerror = () => { if (settled) return; settled = true; clearTimeout(timer); reject(req.error); };
       req.onblocked = () => {
+        if (settled) return; settled = true; clearTimeout(timer);
         console.warn('[PokefeetDB] Migration blocked — please close other Pokefeet tabs and reload.');
         reject(new Error('IDB upgrade blocked'));
       };
       req.onsuccess = () => {
+        if (settled) return; settled = true; clearTimeout(timer);
         const db = req.result;
         db.addEventListener('versionchange', () => { db.close(); });
         resolve(db);

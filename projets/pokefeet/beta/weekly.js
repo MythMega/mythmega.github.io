@@ -133,7 +133,11 @@ const Weekly = (function () {
     const history = await loadWeeklyCookie() || {};
     history[dateKey] = { score: payload.score, results: payload.results, wrongGuesses: payload.wrongGuesses || [] };
     await saveWeeklyToDB(history);
-    await updateImportedInDex(dateKey, true);
+    try {
+      await updateImportedInDex(dateKey, true);
+    } catch (e) {
+      console.error('[Weekly] Could not update importedInDex:', e);
+    }
   }
 
   async function updateImportedInDex(date, value) {
@@ -424,7 +428,11 @@ const Weekly = (function () {
 
   async function finishWeekly() {
     const payload = { date: sessionWeek || getWeekSeedStr(), results, score, wrongGuesses: wrongGuessesPerSlot };
-    await saveResultForWeek(payload);
+    try {
+      await saveResultForWeek(payload);
+    } catch (e) {
+      console.error('[Weekly] Could not save result:', e);
+    }
     const newPokemons = await checkNewPokemons();
     for (let i = 0; i < weeklyList.length; i++) {
       const p = weeklyList[i];

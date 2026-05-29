@@ -377,7 +377,11 @@ const Daily = (function () {
     };
     await saveDailyCookie(history);
     // Mark as imported since we just updated Dex
-    await updateImportedInDex(dateKey, true);
+    try {
+      await updateImportedInDex(dateKey, true);
+    } catch (e) {
+      console.error('[Daily] Could not update importedInDex:', e);
+    }
   }
 
   // Update importedInDex for a daily entry
@@ -554,7 +558,11 @@ const Daily = (function () {
   async function finishDaily() {
     // persist results into history map
     const payload = { date: sessionDate || dateSeedStr(), results, score, wrongGuesses: wrongGuessesPerSlot };
-    await saveResultForToday(payload);
+    try {
+      await saveResultForToday(payload);
+    } catch (e) {
+      console.error('[Daily] Could not save result:', e);
+    }
 
     // Check for new pokemons BEFORE marking them as found
     const newPokemons = await checkNewPokemons();

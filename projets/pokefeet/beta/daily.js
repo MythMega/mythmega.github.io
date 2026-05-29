@@ -177,6 +177,12 @@ const Daily = (function () {
     hintsList.appendChild(li);
   }
 
+  function addHintHTML(html) {
+    const li = document.createElement('li');
+    li.innerHTML = html;
+    hintsList.appendChild(li);
+  }
+
   function showReveal(p) {
     if (!p) return;
     revealDiv.classList.remove('hidden');
@@ -225,6 +231,16 @@ const Daily = (function () {
     attemptGaugeEl.style.display = 'none';
   }
 
+  function hideGameplayElements() {
+    const toHide = [
+      document.querySelector('.image-gauge-row'),
+      document.querySelector('.info-below'),
+      document.querySelector('.guess-area'),
+      document.getElementById('hints')
+    ];
+    toHide.forEach(el => { if (el) el.style.display = 'none'; });
+  }
+
   function showAttemptGauge() {
     if (!attemptGaugeEl) return;
     attemptGaugeEl.style.display = '';
@@ -246,8 +262,9 @@ const Daily = (function () {
   // stocke l'objet history complet dans le cookie
   // --- IndexedDB helpers (mirror from data.js) ---
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 1;
+  const DB_VERSION = 2;
   const STORE_NAME = 'daily_results';
+  const WEEKLY_STORE = 'weekly_results';
   let dbInstance = null;
 
   function getDB() {
@@ -267,6 +284,9 @@ const Daily = (function () {
         if (!db.objectStoreNames.contains(STORE_NAME)) {
           db.createObjectStore(STORE_NAME, { keyPath: 'date' });
         }
+        if (!db.objectStoreNames.contains(WEEKLY_STORE)) {
+          db.createObjectStore(WEEKLY_STORE, { keyPath: 'date' });
+        }
       };
     });
   }
@@ -282,8 +302,8 @@ const Daily = (function () {
         const obj = {};
         arr.forEach(item => {
           const date = item.date;
-          const { score, results } = item;
-          obj[date] = { score, results };
+          const { score, results, wrongGuesses } = item;
+          obj[date] = { score, results, wrongGuesses };
         });
         resolve(obj);
       };
@@ -340,7 +360,8 @@ const Daily = (function () {
     const history = await loadDailyCookie() || {};
     history[dateKey] = {
       score: payload.score,
-      results: payload.results
+      results: payload.results,
+      wrongGuesses: payload.wrongGuesses || []
     };
     await saveDailyCookie(history);
     // Mark as imported since we just updated Dex
@@ -380,6 +401,20 @@ const Daily = (function () {
     });
   }
 
+  // build wrong guesses text section for share
+  function buildWrongGuessesText(wrongGuesses) {
+    if (!wrongGuesses || !wrongGuesses.length) return '';
+    const lines = [];
+    for (let i = 0; i < wrongGuesses.length; i++) {
+      const guesses = wrongGuesses[i];
+      if (guesses && guesses.length > 0) {
+        const formatted = guesses.map(g => `||${g}||`).join(' ');
+        lines.push(`R${i + 1} : ${formatted}`);
+      }
+    }
+    return lines.join('\n');
+  }
+
   // build emoji line helper (utile aussi pour history page)
   function resultToEmojiLine(resArr) {
     // pour chaque slot: win attempts==0 => 🟩, win attempts>0 => 🟧, fail => 🟥
@@ -417,9 +452,13 @@ const Daily = (function () {
 
   // Recreate deterministic daily list for a given date (used when already played)
   function getDailyListForDate(dateStr) {
+    const available = PokemonVersions.getAvailablePokemons(pokemons, dateStr);
+    const _avVer = PokemonVersions.getAvailableVersions(dateStr);
+    const _vNames = (PokemonVersions.getData() || []).filter(v => _avVer.has(v.pokefeet_data_version)).map(v => v.Update_Name);
+    console.log(`[Daily chargé – ${dateStr}] Pool : ${available.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
     const seed = stringToSeed(dateStr);
     const rng = mulberry32(seed);
-    const shuffled = shuffleArrayWithSeed(pokemons, rng);
+    const shuffled = shuffleArrayWithSeed(available, rng);
     const list = shuffled.slice(0, Math.min(COUNT, shuffled.length));
     let cursor = 0;
     while (list.length < COUNT) {
@@ -502,7 +541,7 @@ const Daily = (function () {
   // --- Adapter finishDaily pour utiliser l'historique ---
   async function finishDaily() {
     // persist results into history map
-    const payload = { date: sessionDate || dateSeedStr(), results, score };
+    const payload = { date: sessionDate || dateSeedStr(), results, score, wrongGuesses: wrongGuessesPerSlot };
     await saveResultForToday(payload);
 
     // Check for new pokemons BEFORE marking them as found
@@ -536,8 +575,9 @@ const Daily = (function () {
       renderFullImages(dailyList);
     } catch (e) {}
 
-    // hide the attempt gauge on the summary screen
+    // hide the attempt gauge and gameplay elements on the summary screen
     hideAttemptGauge();
+    hideGameplayElements();
 
     // disable controls
     input().disabled = true;
@@ -600,7 +640,13 @@ const Daily = (function () {
         const t1 = p.Type1 || '';
         const t2 = p.Type2 || '';
         const typesLabel = Translator.get('daily.types', 'Type(s)');
-        addHint(`${typesLabel} : ${t1}${t2 ? ' / ' + t2 : ''}`);
+        const t1Badge = `<span class="type-badge t-${t1.toLowerCase()}">${Translator.get('types.' + t1.toLowerCase(), t1)}</span>`;
+        let typeHint = `${typesLabel} : ${t1Badge}`;
+        if (t2) {
+          const t2Badge = `<span class="type-badge t-${t2.toLowerCase()}">${Translator.get('types.' + t2.toLowerCase(), t2)}</span>`;
+          typeHint += ` ${t2Badge}`;
+        }
+        addHintHTML(typeHint);
         break;
       case 2:
         // Index with generation in parentheses
@@ -727,6 +773,7 @@ const Daily = (function () {
     // set module state so viewDetails and autres fonctionnent
     results = saved.results ? saved.results.slice(0, COUNT) : [];
     score = saved.score || 0;
+    wrongGuessesPerSlot = saved.wrongGuesses ? saved.wrongGuesses.slice(0, COUNT) : Array.from({ length: COUNT }, () => []);
     index = COUNT; // mark finished
     // also show the full images for the date
     try {
@@ -734,6 +781,7 @@ const Daily = (function () {
       renderFullImages(list);
     } catch (e) {}
     hideAttemptGauge();
+    hideGameplayElements();
   }
 
   // show current pokemon (partial image)
@@ -750,8 +798,12 @@ const Daily = (function () {
     
     // load pokemons data (same logic as Game.init: try fetch data/pokemons.json)
     try {
-      const res = await fetch('data/pokemons.json');
-      const arr = await res.json();
+      const [pokemonsRes] = await Promise.all([
+        fetch('data/pokemons.json'),
+        TypeIcons.load(),
+        PokemonVersions.load()
+      ]);
+      const arr = await pokemonsRes.json();
       pokemons = arr.map(p => new Pokemon(p));
     } catch (e) {
       // fallback sample (same as original)
@@ -775,10 +827,14 @@ const Daily = (function () {
     }
 
 
-    // create deterministic list 5 using date seed
+    // create deterministic list 5 using date seed, filtered to available versions for today
+    const availablePokemons = PokemonVersions.getAvailablePokemons(pokemons, sessionDate);
+    const _avVer = PokemonVersions.getAvailableVersions(sessionDate);
+    const _vNames = (PokemonVersions.getData() || []).filter(v => _avVer.has(v.pokefeet_data_version)).map(v => v.Update_Name);
+    console.log(`[Daily – ${sessionDate}] Pool : ${availablePokemons.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
     const seed = stringToSeed(sessionDate);
     const rng = mulberry32(seed);
-    const shuffled = shuffleArrayWithSeed(pokemons, rng);
+    const shuffled = shuffleArrayWithSeed(availablePokemons, rng);
     // if fewer pokemons than COUNT, repeat but keep unique as much as possible
     dailyList = shuffled.slice(0, Math.min(COUNT, shuffled.length));
     // if not enough, loop fill
@@ -802,6 +858,24 @@ const Daily = (function () {
   }
 
   function bindButtons() {
+    // Retour à l'accueil → confirm si partie en cours
+    const retourBtn = document.getElementById('retourBtn');
+    if (retourBtn) retourBtn.addEventListener('click', () => {
+      if (index < COUNT) {
+        const confirmMsg = Translator.get('practice.confirmLeave', 'Êtes-vous sûr de vouloir quitter la partie ?');
+        if (!confirm(confirmMsg)) return;
+      }
+      window.location.href = './index.html';
+    });
+
+    // Confirmation avant fermeture/rechargement si partie en cours
+    window.addEventListener('beforeunload', (e) => {
+      if (index < COUNT) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
     document.getElementById('dailySubmit').addEventListener('click', submitGuess);
     document.getElementById('dailySkip').addEventListener('click', () => {
       const ok = confirm("Es-tu sûr de vouloir passer ce Pokémon ?");
@@ -860,7 +934,9 @@ const Daily = (function () {
       const txt = shareArea.textContent || '';
       if (!txt) return;
       const url = window.location.href;
-      navigator.clipboard?.writeText(txt + '\n' + url).then(() => {
+      const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
+      const fullText = txt + '\n' + url + (wrongGuessesText ? '\n' + wrongGuessesText : '');
+      navigator.clipboard?.writeText(fullText).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
       }, () => {
         showNotification('Impossible de copier', 'fail');
@@ -869,8 +945,9 @@ const Daily = (function () {
     document.getElementById('copyDiscordShare').addEventListener('click', () => {
       const txt = shareArea.textContent || '';
       if (!txt) return;
-
-      navigator.clipboard?.writeText(txt).then(() => {
+      const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
+      const fullText = txt + (wrongGuessesText ? '\n' + wrongGuessesText : '');
+      navigator.clipboard?.writeText(fullText).then(() => {
         showNotification('Copié dans le presse-papier', 'success');
 
         // Ouvrir le lien dans un nouvel onglet

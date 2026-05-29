@@ -9,6 +9,13 @@
 </head>
 <body>
   <main id="app">
+    <div id="practiceProgress" style="width:100%; padding:8px 16px 4px; box-sizing:border-box;">
+      <div style="width:100%; background:rgba(255,255,255,0.12); border-radius:999px; height:22px; overflow:hidden; position:relative;">
+        <div id="practiceProgressBestStreak" style="position:absolute; top:0; left:0; height:100%; background:var(--accent,#34d399); opacity:0.5; width:0%; border-radius:999px; transition:width 0.4s ease;"></div>
+        <div id="practiceProgressFill" style="position:absolute; top:0; left:0; height:100%; background:var(--accent,#34d399); width:0%; border-radius:999px; transition:width 0.4s ease;"></div>
+        <span id="practiceProgressLabel" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:600; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,0.55); pointer-events:none;"></span>
+      </div>
+    </div>
     <header>
       <h1 data-i18n="practice.title">Pokefeet</h1>
       <i data-i18n="home.byLine">/ Code par Jordan M</i> <a href="https://web.jmdev.fr/">(jdmev)</a>
@@ -17,6 +24,7 @@
         <div><span data-i18n="practice.score">Score</span> : <span id="score">0</span></div>
         <div><span data-i18n="practice.streak">Streak</span> : <span id="streak">0</span></div>
         <div><span data-i18n="practice.best">Meilleur</span> : <span id="bestScore">0</span></div>
+        <div><span data-i18n="practice.bestStreak">Meilleur Streak</span> : <span id="bestStreakScore">0</span></div>
       </div>
     </header>
 
@@ -44,7 +52,10 @@
         </div>
 
         <div class="guess-area">
-          <input id="guessInput" type="text" autocomplete="off" data-i18n-attr="placeholder:practice.placeholder" placeholder="Tapez le nom FR ou EN" list="namesList" />
+          <div class="autocomplete-wrap">
+            <input id="guessInput" type="text" autocomplete="off" data-i18n-attr="placeholder:practice.placeholder" placeholder="Tapez le nom FR ou EN" />
+            <div id="practiceNamesDropdown" class="autocomplete-dropdown hidden"></div>
+          </div>
           <datalist id="namesList"></datalist>
           <button id="submitBtn" data-i18n="practice.submit">Valider</button>
           <button id="nextBtn" class="secondary" disabled data-i18n="practice.next">Suivant</button>
@@ -52,20 +63,35 @@
         </div>
       </div>
     </section>
-    <a href="./index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
+    <button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button>
     <aside id="hints">
       <h3 data-i18n="common.hints">Indices</h3>
       <ul id="hintsList"></ul>
     </aside>
 
     <div id="notifications" aria-live="polite"></div>
+
+    <div id="gameOverScreen" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.87); align-items:center; justify-content:center; z-index:1000;">
+      <div class="center-card" style="text-align:center; max-width:400px; width:90%; padding:32px;">
+        <h2 id="gameOverTitle" style="margin-bottom:8px;"></h2>
+        <img id="gameOverImg" src="" alt="" style="max-width:160px; margin:12px auto; display:block;" />
+        <p id="gameOverPokeName" style="font-size:1.3em; font-weight:bold; margin:8px 0;"></p>
+        <div id="gameOverStats" style="margin:12px 0; line-height:2;"></div>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
+          <button id="gameOverHomeBtn" class="secondary" data-i18n="common.backHome">Retour à l'accueil</button>
+          <button id="gameOverReplayBtn" data-i18n="practice.replay">Relancer une partie</button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <script src="loader.js"></script>
   <script src="translate.js"></script>
   <script src="language-switcher.js"></script>
+  <script src="footer.js"></script>
   <script src="i18n-setup.js"></script>
   <script src="pokemon.js"></script>
+  <script src="pokemon-versions.js"></script>
   <script src="game.js"></script>
   <script src="ui.js"></script>
   <script>

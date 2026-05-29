@@ -6,7 +6,7 @@ import { loadTranslations, t, getLang } from "../business/i18n.js";
 import { getLangPref, getHighscore, updateHighscore } from "../business/settings.js";
 import { loadAllItems } from "../business/dataLoader.js";
 import { checkGuess, buildAutocompleteList } from "../business/gameLogic.js";
-import { applyTranslations, setActiveNav, showToast, shakeElement, setInputInvalid } from "../visual/ui.js";
+import { applyTranslations, setActiveNav, showToast, shakeElement, setInputInvalid, escapeHtml } from "../visual/ui.js";
 import { attachAutocomplete } from "../visual/autocomplete.js";
 import { renderItemPicture, renderClues } from "../visual/roundRenderer.js";
 
@@ -18,6 +18,7 @@ let lives = 3;
 let score = 0;
 let currentItem = null;
 let fails = 0; // fails for current round (0,1,2)
+let wrongGuesses = [];
 
 async function init() {
   lang = getLangPref();
@@ -62,6 +63,7 @@ function pickRandomItem() {
 function startRound() {
   currentItem = pickRandomItem();
   fails = 0;
+  wrongGuesses = [];
   console.log(`[practice] New round: ${currentItem.id} — ${currentItem.getName(lang)}`);
   renderRound();
 }
@@ -69,10 +71,30 @@ function startRound() {
 function renderRound() {
   document.getElementById("round-picture").innerHTML = renderItemPicture(currentItem);
   document.getElementById("round-clues").innerHTML = renderClues(currentItem, fails, lang);
+  renderWrongGuesses();
+  updateGauge();
   document.getElementById("guess-input").value = "";
   setInputInvalid(document.getElementById("guess-input"), false);
   document.getElementById("guess-input").focus();
   updateHUD();
+}
+
+function renderWrongGuesses() {
+  const container = document.getElementById("wrong-guesses-list");
+  if (!container) return;
+  container.innerHTML = wrongGuesses
+    .map(g => `<span class="wrong-guess-tag">✗ ${escapeHtml(g)}</span>`)
+    .join("");
+}
+
+function updateGauge() {
+  for (let i = 0; i < 3; i++) {
+    const seg = document.getElementById(`gseg-${i}`);
+    if (!seg) continue;
+    seg.classList.remove("active", "spent");
+    if (i < fails) seg.classList.add("spent");
+    else if (i === fails) seg.classList.add("active");
+  }
 }
 
 function updateHUD() {
@@ -110,15 +132,18 @@ function handleSubmit() {
     setTimeout(startRound, 900);
   } else {
     fails++;
+    wrongGuesses.push(guess);
     console.log(`[practice] Wrong guess. Fails: ${fails}`);
     showToast(t("practice.wrong"), "error", 1800);
     shakeElement(input);
+    renderWrongGuesses();
+    updateGauge();
 
     if (fails >= 3) {
       // Full fail = lose a life
       loseLife();
     } else {
-      renderRound();
+      document.getElementById("round-clues").innerHTML = renderClues(currentItem, fails, lang);
     }
   }
   input.value = "";
@@ -126,6 +151,10 @@ function handleSubmit() {
 
 function handleReveal() {
   console.log(`[practice] Reveal pressed for: ${currentItem.id}`);
+  fails = 3;
+  wrongGuesses.push("> *reveal*");
+  renderWrongGuesses();
+  updateGauge();
   showToast(`${t("practice.item_was")} ${currentItem.getName(lang)}`, "info", 3000);
   loseLife();
 }

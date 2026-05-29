@@ -12,6 +12,7 @@ class Pokemon {
     this.FullImage = data.FullImage ?? data.FullImage ?? ""; // lien optionnel vers l'image complète
     this.EggGroups = data.EggGroups ?? data.Eggroups ?? null; // array ou null
     this.Category = data.Category ?? null; // string ou null
+    this.pokefeet_data_version = data.pokefeet_data_version ?? 1;
   }
 
   matchesName(name) {
@@ -35,3 +36,23 @@ class Pokemon {
     return this.Category ?? "N/A";
   }
 }
+
+// TypeIcons : charge bindings/type_icons.json et fournit l'URL par type
+const TypeIcons = (function () {
+  let _data = {};
+
+  async function load() {
+    try {
+      const res = await fetch('bindings/type_icons.json');
+      if (res.ok) _data = await res.json();
+    } catch (e) {
+      console.warn('[TypeIcons] Failed to load type icons', e);
+    }
+  }
+
+  function getUrl(type) {
+    return (type && _data[type]) ? _data[type] : '';
+  }
+
+  return { load, getUrl };
+})();

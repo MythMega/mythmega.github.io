@@ -1,130 +1,200 @@
 // old_daily.js
-// Page pour afficher les dailies passés et rejouer les dailies manqués
+// Page pour afficher les défis passés (daily ET weekly) avec onglets
 
 const OldDaily = (function () {
-  const container = document.getElementById('dailiesContainer');
-  const noDailiesMsg = document.getElementById('noDailies');
-  const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 1;
-  const STORE_NAME = 'daily_results';
-  let dbInstance = null;
+  const dailyContainer  = document.getElementById('dailiesContainer');
+  const weeklyContainer = document.getElementById('weekliesContainer');
+  const noDailiesMsg    = document.getElementById('noDailies');
+  const tabDailyBtn     = document.getElementById('tabDailyBtn');
+  const tabWeeklyBtn    = document.getElementById('tabWeeklyBtn');
+
+  const DB_NAME    = 'PokefeetDB';
+  const DB_VERSION = 2;
+  let dbInstance   = null;
 
   function getDB() {
     return new Promise((resolve, reject) => {
-      if (dbInstance) {
-        resolve(dbInstance);
-        return;
-      }
+      if (dbInstance) { resolve(dbInstance); return; }
       const req = indexedDB.open(DB_NAME, DB_VERSION);
-      req.onerror = () => reject(req.error);
-      req.onsuccess = () => {
-        dbInstance = req.result;
-        resolve(dbInstance);
-      };
+      req.onerror   = () => reject(req.error);
+      req.onsuccess = () => { dbInstance = req.result; resolve(dbInstance); };
       req.onupgradeneeded = (e) => {
         const db = e.target.result;
-        if (!db.objectStoreNames.contains(STORE_NAME)) {
-          db.createObjectStore(STORE_NAME, { keyPath: 'date' });
-        }
+        if (!db.objectStoreNames.contains('daily_results'))
+          db.createObjectStore('daily_results',  { keyPath: 'date' });
+        if (!db.objectStoreNames.contains('weekly_results'))
+          db.createObjectStore('weekly_results', { keyPath: 'date' });
       };
     });
   }
 
-  // Get all daily results from indexedDB
-  async function getAllDailyResults() {
+  async function getAllFromStore(storeName) {
     const db = await getDB();
     return new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const store = tx.objectStore(STORE_NAME);
-      const req = store.getAll();
+      const tx    = db.transaction(storeName, 'readonly');
+      const store = tx.objectStore(storeName);
+      const req   = store.getAll();
       req.onsuccess = () => {
-        const results = {};
-        req.result.forEach(item => {
-          results[item.date] = item;
-        });
-        resolve(results);
+        const map = {};
+        req.result.forEach(item => { map[item.date] = item; });
+        resolve(map);
       };
       req.onerror = () => reject(req.error);
     });
   }
 
-  // Generate date range from today back to the earliest daily in DB
-  async function generateDateRange() {
-    const allDailies = await getAllDailyResults();
-    const dates = Object.keys(allDailies).sort();
-
-    if (dates.length === 0) {
-      return [];
-    }
-
-    const today = new Date();
-    const startDate = new Date();
-    const endDateStr = dates[0]; // earliest date
-    const [eYear, eMonth, eDay] = endDateStr.split('-').map(Number);
-    startDate.setFullYear(eYear, eMonth - 1, eDay);
-
-    const dateRange = [];
-    const current = new Date(today);
-    current.setHours(0, 0, 0, 0);
-    startDate.setHours(0, 0, 0, 0);
-
-    while (current >= startDate) {
-      const y = current.getFullYear();
-      const m = String(current.getMonth() + 1).padStart(2, '0');
-      const d = String(current.getDate()).padStart(2, '0');
-      const dateStr = `${y}-${m}-${d}`;
-      dateRange.push({ date: dateStr, played: allDailies.hasOwnProperty(dateStr) });
-      current.setDate(current.getDate() - 1);
-    }
-
-    return dateRange;
+  // ── helpers ────────────────────────────────────────────────
+  function getMondayOfWeek(d) {
+    const date = new Date(d);
+    date.setHours(0, 0, 0, 0);
+    const day  = date.getDay();
+    const diff = (day === 0) ? -6 : 1 - day;
+    date.setDate(date.getDate() + diff);
+    return date;
   }
 
-  // Format date for display
+  function dateToStr(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${dd}`;
+  }
+
   function formatDate(dateStr) {
     const [year, month, day] = dateStr.split('-').map(Number);
     const date = new Date(year, month - 1, day);
-    const options = { weekday: 'short', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('fr-FR', options);
+    const locale = (typeof Translator !== 'undefined' && Translator.getLanguage() === 'fr') ? 'fr-FR' : 'en-GB';
+    return date.toLocaleDateString(locale, { weekday: 'short', month: 'short', day: 'numeric' });
   }
 
-  // Create a button for each daily
-  function createDailyButton(dateInfo) {
-    const button = document.createElement('a');
-    button.href = `daily.html?date=${dateInfo.date}`;
-    button.className = `daily-button ${dateInfo.played ? 'played' : 'available'}`;
-    button.textContent = formatDate(dateInfo.date);
-    button.title = dateInfo.played ? 'Daily déjà joué' : 'Daily disponible - Cliquez pour jouer';
-    return button;
+  function formatWeekLabel(mondayStr) {
+    const [year, month, day] = mondayStr.split('-').map(Number);
+    const monday = new Date(year, month - 1, day);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    const opts   = { day: 'numeric', month: 'short' };
+    const locale = (typeof Translator !== 'undefined' && Translator.getLanguage() === 'fr') ? 'fr-FR' : 'en-GB';
+    if (typeof Translator !== 'undefined') {
+      return Translator.get('history.weekLabel', 'Semaine du {from} au {to} {year}')
+        .replace('{from}', monday.toLocaleDateString(locale, opts))
+        .replace('{to}',   sunday.toLocaleDateString(locale, opts))
+        .replace('{year}', year);
+    }
+    return `Semaine du ${monday.toLocaleDateString(locale, opts)} au ${sunday.toLocaleDateString(locale, opts)} ${year}`;
   }
 
-  // Initialize the page
+  // ── DAILY tab ──────────────────────────────────────────────
+  async function renderDailyTab() {
+    const allDailies  = await getAllFromStore('daily_results');
+    const allWeeklies = await getAllFromStore('weekly_results');
+
+    // Start date = min(oldest daily, oldest weekly)
+    const dailyDates  = Object.keys(allDailies).sort();
+    const weeklyDates = Object.keys(allWeeklies).sort();
+    const allOldest   = [...dailyDates, ...weeklyDates].sort();
+
+    dailyContainer.innerHTML = '';
+    noDailiesMsg.classList.add('hidden');
+
+    if (allOldest.length === 0) {
+      noDailiesMsg.classList.remove('hidden');
+      return;
+    }
+
+    const oldestStr = allOldest[0];
+    const [eY, eM, eD] = oldestStr.split('-').map(Number);
+    const startDate = new Date(eY, eM - 1, eD);
+    startDate.setHours(0, 0, 0, 0);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const current = new Date(today);
+
+    while (current >= startDate) {
+      const dateStr = dateToStr(current);
+      const played  = allDailies.hasOwnProperty(dateStr);
+      const btn     = document.createElement('a');
+      btn.href      = `daily.html?date=${dateStr}`;
+      btn.className = `daily-button ${played ? 'played' : 'available'}`;
+      btn.textContent = formatDate(dateStr);
+      btn.title     = played
+        ? (typeof Translator !== 'undefined' ? Translator.get('oldDaily.playedTitle', 'Déjà joué') : 'Déjà joué')
+        : (typeof Translator !== 'undefined' ? Translator.get('oldDaily.availableTitle', 'Disponible') : 'Disponible');
+      dailyContainer.appendChild(btn);
+      current.setDate(current.getDate() - 1);
+    }
+  }
+
+  // ── WEEKLY tab ─────────────────────────────────────────────
+  async function renderWeeklyTab() {
+    const allDailies  = await getAllFromStore('daily_results');
+    const allWeeklies = await getAllFromStore('weekly_results');
+
+    const dailyDates  = Object.keys(allDailies).sort();
+    const weeklyDates = Object.keys(allWeeklies).sort();
+    const allOldest   = [...dailyDates, ...weeklyDates].sort();
+
+    weeklyContainer.innerHTML = '';
+    noDailiesMsg.classList.add('hidden');
+
+    if (allOldest.length === 0) {
+      noDailiesMsg.classList.remove('hidden');
+      return;
+    }
+
+    const oldestStr = allOldest[0];
+    const [eY, eM, eD] = oldestStr.split('-').map(Number);
+    // Align to Monday
+    const startMonday = getMondayOfWeek(new Date(eY, eM - 1, eD));
+
+    const today = new Date();
+    const currentMonday = getMondayOfWeek(today);
+
+    const current = new Date(currentMonday);
+    while (current >= startMonday) {
+      const mondayStr = dateToStr(current);
+      const played    = allWeeklies.hasOwnProperty(mondayStr);
+      const btn       = document.createElement('a');
+      btn.href        = `weekly.html?week=${mondayStr}`;
+      btn.className   = `daily-button ${played ? 'played' : 'available'}`;
+      btn.textContent = formatWeekLabel(mondayStr);
+      btn.title       = played
+        ? (typeof Translator !== 'undefined' ? Translator.get('oldDaily.weeklyPlayedTitle', 'Déjà joué') : 'Déjà joué')
+        : (typeof Translator !== 'undefined' ? Translator.get('oldDaily.weeklyAvailableTitle', 'Disponible') : 'Disponible');
+      weeklyContainer.appendChild(btn);
+      current.setDate(current.getDate() - 7);
+    }
+  }
+
+  // ── Tab switching ──────────────────────────────────────────
+  function switchTab(tab) {
+    if (tab === 'daily') {
+      tabDailyBtn.classList.add('active');
+      tabWeeklyBtn.classList.remove('active');
+      dailyContainer.style.display  = '';
+      weeklyContainer.style.display = 'none';
+    } else {
+      tabWeeklyBtn.classList.add('active');
+      tabDailyBtn.classList.remove('active');
+      weeklyContainer.style.display = '';
+      dailyContainer.style.display  = 'none';
+    }
+  }
+
+  // ── Init ───────────────────────────────────────────────────
   async function init() {
+    tabDailyBtn.addEventListener('click',  () => switchTab('daily'));
+    tabWeeklyBtn.addEventListener('click', () => switchTab('weekly'));
+
     try {
-      const dateRange = await generateDateRange();
-
-      if (dateRange.length === 0) {
-        noDailiesMsg.classList.remove('hidden');
-        return;
-      }
-
-      container.innerHTML = '';
-      dateRange.forEach(dateInfo => {
-        const button = createDailyButton(dateInfo);
-        container.appendChild(button);
-      });
+      await Promise.all([renderDailyTab(), renderWeeklyTab()]);
     } catch (e) {
-      console.error('Error initializing old daily page:', e);
+      console.error('Error initializing past challenges page:', e);
       noDailiesMsg.classList.remove('hidden');
     }
   }
 
-  return {
-    init
-  };
+  return { init };
 })();
 
-// Auto-init on DOM ready
-document.addEventListener('DOMContentLoaded', () => {
-  OldDaily.init();
-});
+document.addEventListener('DOMContentLoaded', () => { OldDaily.init(); });

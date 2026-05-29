@@ -9,12 +9,14 @@
     "title": "PokéFeet",
     "chooseMode": "Choose a mode",
     "dailyChallenge": "Daily Challenge",
+    "weeklyChallenge": "Weekly Challenge",
     "records": "Records",
+    "pastChallenges": "Past Challenges",
     "oldDaily": "Past Dailies",
-    "saveLoad": "Save/Load",
-    "practice": "Practice ∞",
+    "saveLoad": "Settings",
+    "practice": "Marathon",
     "pokedex": "Pokédex",
-    "modeDesc": "Practice mode: unlimited games — Daily: one challenge per day",
+    "modeDesc": "Daily: one challenge per day — Weekly: 10 Pokémon per week",
     "byLine": "/ Code by Jordan M"
   },
   "daily": {
@@ -75,17 +77,32 @@
     "category": "Category",
     "revealedReset": "Revealed! Score reset to 0",
     "pokemon": "Pokémon",
-    "none": "None"
+    "none": "None",
+    "progressLabel": "Found",
+    "victoryTitle": "Congratulations!",
+    "victoryAll": "You found all Pokémon!",
+    "statsFound": "Found",
+    "statsPerfect": "Perfect (1st try)",
+    "statsFails": "Total mistakes",
+    "sessionResumed": "Session resumed",
+    "bestStreak": "Best Streak"
   },
   "history": {
     "title": "History — PokéFeet Daily",
     "totalDays": "Total days",
+    "totalWeeks": "Total weeks",
     "scoreChart": "Scores (last 30 days)",
+    "scoreChartWeekly": "Scores (last weeks)",
+    "scoreChartWeeklyStats": "Last {n} weeks \u2014 average: {avg} / {max}",
     "average": "Average",
     "min": "Min",
     "max": "Max",
     "showMore": "Show 25 more",
     "update": "↑ Update: {name} ({date}) ↓",
+    "chartAverage": "Average",
+    "chartNoData": "No data",
+    "chartDailyStats": "Last {n} days — average: {avg} / {max}",
+    "weekLabel": "Week of {from} to {to} {year}",
     "stats": {
       "title": "Detailed Statistics",
       "global": "Global",
@@ -109,7 +126,15 @@
       "totalRounds": "Total played",
       "perfectRounds": "First try 🟩",
       "foundRounds": "Found 🟩🟧",
-      "failedRounds": "Failed 🟥"
+      "failedRounds": "Failed 🟥",
+      "weekly": {
+        "totalWeeksPlayed": "Weeks played",
+        "perfectWeeks": "Perfect weeks",
+        "avg4": "Last 4 weeks",
+        "avg12": "Last 12 weeks",
+        "avg52": "Last 52 weeks",
+        "weeksUnit": "wk"
+      }
     }
   },
   "dex": {
@@ -129,7 +154,17 @@
     "yes": "Yes",
     "no": "No",
     "firstFound": "First found",
-    "count": "Count"
+    "count": "Count",
+    "sortBy": "Sort by:",
+    "sortIndex": "Dex Number",
+    "sortName": "Name",
+    "sortCount": "Times encountered",
+    "sortType": "Type",
+    "sortEggGroup": "Egg Group",
+    "sortFirstFound": "First found",
+    "sortAsc": "↑ Asc",
+    "sortDesc": "↓ Desc",
+    "moreInfo": "+ info"
   },
   "dataManagement": {
     "title": "Data Management — PokéFeet",
@@ -200,5 +235,14 @@
     "dragon": "Dragon",
     "dark": "Dark",
     "fairy": "Fairy"
+  },
+  "oldDaily": {
+    "tabDaily": "Daily",
+    "tabWeekly": "Weekly",
+    "playedTitle": "Already played",
+    "availableTitle": "Available",
+    "weeklyPlayedTitle": "Already played",
+    "weeklyAvailableTitle": "Available",
+    "noChallenge": "No challenges found yet."
   }
 }

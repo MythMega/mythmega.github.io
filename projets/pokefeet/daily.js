@@ -262,8 +262,9 @@ const Daily = (function () {
   // stocke l'objet history complet dans le cookie
   // --- IndexedDB helpers (mirror from data.js) ---
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 1;
+  const DB_VERSION = 2;
   const STORE_NAME = 'daily_results';
+  const WEEKLY_STORE = 'weekly_results';
   let dbInstance = null;
 
   function getDB() {
@@ -282,6 +283,9 @@ const Daily = (function () {
         const db = e.target.result;
         if (!db.objectStoreNames.contains(STORE_NAME)) {
           db.createObjectStore(STORE_NAME, { keyPath: 'date' });
+        }
+        if (!db.objectStoreNames.contains(WEEKLY_STORE)) {
+          db.createObjectStore(WEEKLY_STORE, { keyPath: 'date' });
         }
       };
     });

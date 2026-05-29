@@ -1,7 +1,10 @@
-// DailyToDexImport.js - Import logic from Daily to Dex
+// DailyToDexImport.js - Import logic from Daily/Weekly to Dex
 const DailyToDexImport = (function () {
-  const DAILY_DB_NAME = 'PokefeetDB';
-  const DAILY_STORE_NAME = 'daily_results';
+  const DAILY_DB_NAME   = 'PokefeetDB';
+  const DAILY_STORE_NAME   = 'daily_results';
+  const WEEKLY_STORE_NAME  = 'weekly_results';
+  const DAILY_COUNT  = 5;
+  const WEEKLY_COUNT = 10;
   let allPokemons = [];
 
   // Load Pokemon data
@@ -54,9 +57,23 @@ const DailyToDexImport = (function () {
     const seed = stringToSeed(dateStr);
     const rng = mulberry32(seed);
     const shuffled = shuffleArrayWithSeed(available, rng);
-    const list = shuffled.slice(0, Math.min(5, shuffled.length));
+    const list = shuffled.slice(0, Math.min(DAILY_COUNT, shuffled.length));
     let cursor = 0;
-    while (list.length < 5) {
+    while (list.length < DAILY_COUNT) {
+      list.push(shuffled[cursor % shuffled.length]);
+      cursor++;
+    }
+    return list;
+  }
+
+  function getWeeklyListForDate(weekDateStr) {
+    const available = PokemonVersions.getAvailablePokemons(allPokemons, weekDateStr);
+    const seed = stringToSeed('week' + weekDateStr);
+    const rng  = mulberry32(seed);
+    const shuffled = shuffleArrayWithSeed(available, rng);
+    const list = shuffled.slice(0, Math.min(WEEKLY_COUNT, shuffled.length));
+    let cursor = 0;
+    while (list.length < WEEKLY_COUNT) {
       list.push(shuffled[cursor % shuffled.length]);
       cursor++;
     }
@@ -67,14 +84,15 @@ const DailyToDexImport = (function () {
   function getDailyDB() {
     console.log('[Import] Getting Daily DB');
     return new Promise((resolve, reject) => {
-      const req = indexedDB.open(DAILY_DB_NAME, 1);
-      req.onerror = () => {
-        console.error('[Import] Daily DB open error:', req.error);
-        reject(req.error);
-      };
-      req.onsuccess = () => {
-        console.log('[Import] Daily DB opened');
-        resolve(req.result);
+      const req = indexedDB.open(DAILY_DB_NAME, 2);
+      req.onerror = () => { console.error('[Import] Daily DB open error:', req.error); reject(req.error); };
+      req.onsuccess = () => { console.log('[Import] Daily DB opened'); resolve(req.result); };
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(DAILY_STORE_NAME))
+          db.createObjectStore(DAILY_STORE_NAME,  { keyPath: 'date' });
+        if (!db.objectStoreNames.contains(WEEKLY_STORE_NAME))
+          db.createObjectStore(WEEKLY_STORE_NAME, { keyPath: 'date' });
       };
     });
   }
@@ -87,14 +105,20 @@ const DailyToDexImport = (function () {
       const tx = db.transaction(DAILY_STORE_NAME, 'readonly');
       const store = tx.objectStore(DAILY_STORE_NAME);
       const req = store.getAll();
-      req.onsuccess = () => {
-        console.log('[Import] Retrieved daily results:', req.result.length);
-        resolve(req.result);
-      };
-      req.onerror = () => {
-        console.error('[Import] Error getting daily results:', req.error);
-        reject(req.error);
-      };
+      req.onsuccess = () => { console.log('[Import] Retrieved daily results:', req.result.length); resolve(req.result); };
+      req.onerror  = () => { console.error('[Import] Error getting daily results:', req.error); reject(req.error); };
+    });
+  }
+
+  // Get all weekly results
+  async function getAllWeeklyResults() {
+    const db = await getDailyDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(WEEKLY_STORE_NAME, 'readonly');
+      const store = tx.objectStore(WEEKLY_STORE_NAME);
+      const req = store.getAll();
+      req.onsuccess = () => { resolve(req.result); };
+      req.onerror  = () => reject(req.error);
     });
   }
 
@@ -111,74 +135,97 @@ const DailyToDexImport = (function () {
         if (entry) {
           entry.importedInDex = value;
           const putReq = store.put(entry);
-          putReq.onsuccess = () => {
-            console.log('[Import] Updated importedInDex for', date);
-            resolve();
-          };
-          putReq.onerror = () => {
-            console.error('[Import] Error updating importedInDex:', putReq.error);
-            reject(putReq.error);
-          };
-        } else {
-          console.warn('[Import] No entry found for date:', date);
-          resolve();
-        }
+          putReq.onsuccess = () => { console.log('[Import] Updated importedInDex for', date); resolve(); };
+          putReq.onerror  = () => { console.error('[Import] Error updating importedInDex:', putReq.error); reject(putReq.error); };
+        } else { console.warn('[Import] No entry found for date:', date); resolve(); }
       };
-      req.onerror = () => {
-        console.error('[Import] Error getting entry for update:', req.error);
-        reject(req.error);
-      };
+      req.onerror = () => { console.error('[Import] Error getting entry for update:', req.error); reject(req.error); };
     });
   }
 
-  // Force update: import all daily games and check for new Pokemon
+  async function updateWeeklyImportedInDex(date, value) {
+    const db = await getDailyDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(WEEKLY_STORE_NAME, 'readwrite');
+      const store = tx.objectStore(WEEKLY_STORE_NAME);
+      const req = store.get(date);
+      req.onsuccess = () => {
+        const entry = req.result;
+        if (entry) { entry.importedInDex = value; store.put(entry).onsuccess = () => resolve(); }
+        else { resolve(); }
+      };
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  // Force update: import all daily AND weekly games and check for new Pokemon
   async function forceUpdate() {
     console.log('[Import] Starting force update');
     await loadPokemons();
-    const newPokemons = []; // array of {index, date}
+    const newPokemons = [];
 
     try {
-      const dailyResults = await getAllDailyResults();
-      console.log('[Import] Processing', dailyResults.length, 'daily entries');
+      const [dailyResults, weeklyResults] = await Promise.all([
+        getAllDailyResults(),
+        getAllWeeklyResults()
+      ]);
 
-      // Fetch all existing Dex entries to check what's already there
       const existingDexEntries = await Dex.getAllDexEntries();
       const existingIndexes = new Set(existingDexEntries.map(e => e.index));
 
+      // Process daily results
+      console.log('[Import] Processing', dailyResults.length, 'daily entries');
       for (const entry of dailyResults) {
-        console.log('[Import] Processing date:', entry.date);
-        // Reconstruct daily list for the date
         const dailyList = getDailyListForDate(entry.date);
-        const results = entry.results || [];
-        
+        const results   = entry.results || [];
         for (let i = 0; i < results.length; i++) {
           const res = results[i];
           if (res && res.outcome === 'win') {
             const p = dailyList[i];
-            if (p) {
-              // Check if already in Dex
-              if (!existingIndexes.has(p.Index)) {
-                // New Pokemon - add with count 1
-                await Dex.addNewDexEntry(p.Index, entry.date);
-                newPokemons.push({ index: p.Index, name: p.NameFR || p.NameEN, date: entry.date });
-                existingIndexes.add(p.Index);
-                console.log('[Import] Added new Pokemon', p.Index, 'from date', entry.date);
-              } else {
-                console.log('[Import] Pokemon', p.Index, 'already in Dex, skipping');
-              }
+            if (p && !existingIndexes.has(p.Index)) {
+              await Dex.addNewDexEntry(p.Index, entry.date);
+              newPokemons.push({ index: p.Index, name: p.NameFR || p.NameEN, date: entry.date });
+              existingIndexes.add(p.Index);
+            }
+          }
+        }
+      }
+
+      // Process weekly results
+      console.log('[Import] Processing', weeklyResults.length, 'weekly entries');
+      for (const entry of weeklyResults) {
+        const weeklyList = getWeeklyListForDate(entry.date);
+        const results    = entry.results || [];
+        for (let i = 0; i < results.length; i++) {
+          const res = results[i];
+          if (res && res.outcome === 'win') {
+            const p = weeklyList[i];
+            if (p && !existingIndexes.has(p.Index)) {
+              await Dex.addNewDexEntry(p.Index, entry.date);
+              newPokemons.push({ index: p.Index, name: p.NameFR || p.NameEN, date: entry.date + ' (weekly)' });
+              existingIndexes.add(p.Index);
             }
           }
         }
       }
 
       console.log('[Import] Force update complete, found', newPokemons.length, 'new Pokemon');
-      
-      // Show popup with results
       showImportResultPopup(newPokemons);
     } catch (e) {
       console.error('[Import] Error during force update:', e);
       alert('Erreur lors de l\'import: ' + e.message);
     }
+  }
+
+  // Expose reconstruction helpers (used by data.js for manual import + Dex update)
+  async function reconstructDailyList(dateStr) {
+    if (!allPokemons.length) await loadPokemons();
+    return getDailyListForDate(dateStr);
+  }
+
+  async function reconstructWeeklyList(weekDateStr) {
+    if (!allPokemons.length) await loadPokemons();
+    return getWeeklyListForDate(weekDateStr);
   }
 
   // Show popup with import results
@@ -219,6 +266,8 @@ const DailyToDexImport = (function () {
   }
 
   return {
-    forceUpdate
+    forceUpdate,
+    reconstructDailyList,
+    reconstructWeeklyList
   };
 })();

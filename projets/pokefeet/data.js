@@ -5,12 +5,14 @@ const DataManager = (function () {
   const COOKIE_BEST = 'pk_best';
   const EXPORT_VERSION = 'v1';
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 1;
+  const DB_VERSION = 2;
   const STORE_NAME = 'daily_results';
+  const WEEKLY_STORE = 'weekly_results';
   const COUNT = 5;
+  const WEEKLY_COUNT = 10;
   const basePoints = 10;
   const hintPenalty = 2;
-  const maxAttempts = 5; // used for fail marker when importing (consistent with daily.js)
+  const maxAttempts = 5;
 
   // --- IndexedDB helpers ---
   let dbInstance = null;
@@ -30,9 +32,65 @@ const DataManager = (function () {
       req.onupgradeneeded = (e) => {
         const db = e.target.result;
         if (!db.objectStoreNames.contains(STORE_NAME)) {
-          db.createObjectStore(STORE_NAME, { keyPath: 'date' });
+          db.createObjectStore(STORE_NAME,  { keyPath: 'date' });
+        }
+        if (!db.objectStoreNames.contains(WEEKLY_STORE)) {
+          db.createObjectStore(WEEKLY_STORE, { keyPath: 'date' });
         }
       };
+    });
+  }
+
+  // --- Weekly IndexedDB helpers ---
+  async function getAllWeeklyFromDB() {
+    const db = await getDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(WEEKLY_STORE, 'readonly');
+      const store = tx.objectStore(WEEKLY_STORE);
+      const req = store.getAll();
+      req.onsuccess = () => {
+        const obj = {};
+        req.result.forEach(item => {
+          obj[item.date] = { score: item.score, results: item.results, wrongGuesses: item.wrongGuesses };
+        });
+        resolve(obj);
+      };
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function saveWeeklyToDB(weeklyObj) {
+    const db = await getDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(WEEKLY_STORE, 'readwrite');
+      const store = tx.objectStore(WEEKLY_STORE);
+      const clearReq = store.clear();
+      clearReq.onsuccess = () => {
+        for (const date in weeklyObj) {
+          if (weeklyObj.hasOwnProperty(date)) {
+            store.put({ date, ...weeklyObj[date] });
+          }
+        }
+      };
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function updateWeeklyImportedInDex(date, value) {
+    const db = await getDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(WEEKLY_STORE, 'readwrite');
+      const store = tx.objectStore(WEEKLY_STORE);
+      const req = store.get(date);
+      req.onsuccess = () => {
+        const entry = req.result;
+        if (entry) {
+          entry.importedInDex = value;
+          store.put(entry).onsuccess = () => resolve();
+        } else { resolve(); }
+      };
+      req.onerror = () => reject(req.error);
     });
   }
 
@@ -140,11 +198,18 @@ const DataManager = (function () {
   // --- build export payload (reads from IndexedDB + cookie) ---
   async function buildPayloadObj() {
     let daily = {};
+    let weekly = {};
     try {
       daily = await getAllDailyFromDB();
     } catch (e) {
-      console.error('Error reading from IndexedDB:', e);
+      console.error('Error reading daily from IndexedDB:', e);
       daily = {};
+    }
+    try {
+      weekly = await getAllWeeklyFromDB();
+    } catch (e) {
+      console.error('Error reading weekly from IndexedDB:', e);
+      weekly = {};
     }
 
     const bestRaw = getCookie(COOKIE_BEST);
@@ -154,7 +219,7 @@ const DataManager = (function () {
       if (!Number.isNaN(n)) best = n;
     }
 
-    return { daily, best };
+    return { daily, weekly, best };
   }
 
   // --- create export file content (async) ---
@@ -308,6 +373,17 @@ const DataManager = (function () {
       console.error('Error saving updated importedInDex', e);
     }
 
+    // merge weekly
+    const fileWeekly = payload.weekly || {};
+    let existingWeekly = {};
+    try { existingWeekly = await getAllWeeklyFromDB(); } catch (e) { existingWeekly = {}; }
+    Object.keys(fileWeekly).forEach(date => {
+      if (existingWeekly[date] === undefined) {
+        existingWeekly[date] = fileWeekly[date];
+      }
+    });
+    try { await saveWeeklyToDB(existingWeekly); } catch (e) { console.error('Error saving weekly', e); }
+
     // handle best (stays in cookie)
     const fileBest = (typeof payload.best === 'number') ? payload.best : null;
     const existingBestRaw = getCookie(COOKIE_BEST);
@@ -401,6 +477,38 @@ const DataManager = (function () {
          .replace(/orange_square/gi, '🟧')
          .replace(/red_square/gi, '🟥');
     return s;
+  }
+
+  function parseWeeklyText(text) {
+    if (!text || typeof text !== 'string') return { error: 'Texte vide' };
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0 && !/^https?:\/\//i.test(l) && !/^R\d+\s*:/i.test(l));
+    if (lines.length < WEEKLY_COUNT + 1) return { error: `Format invalide : attendu header + ${WEEKLY_COUNT} lignes d'emoji` };
+    const header = lines[0];
+    const headerRegex = /(?:Pok[eé]Pied|Pokefeet) Weekly\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
+    const m = header.match(headerRegex);
+    if (!m) return { error: 'En-tête invalide. Format attendu : "Pokefeet Weekly — YYYY-MM-DD — score N"' };
+    const dateStr = m[1];
+    const declaredScore = parseInt(m[2], 10);
+    const rows = lines.slice(1, 1 + WEEKLY_COUNT);
+    if (rows.length < WEEKLY_COUNT) return { error: `Il faut ${WEEKLY_COUNT} lignes d'emoji après l'en-tête` };
+    const results = [];
+    let computedScore = 0;
+    for (let i = 0; i < WEEKLY_COUNT; i++) {
+      const raw = rows[i];
+      const normalized = normalizeLineToEmoji(raw);
+      const greens  = (normalized.match(/🟩/g) || []).length;
+      const oranges = (normalized.match(/🟧/g) || []).length;
+      const reds    = (normalized.match(/🟥/g) || []).length;
+      if (greens + oranges + reds !== 5) return { error: `Ligne ${i+1} invalide : attendu 5 carrés` };
+      if (reds === 5) {
+        results.push({ outcome: 'fail', attempts: maxAttempts });
+      } else {
+        const attempts = oranges;
+        results.push({ outcome: 'win', attempts });
+        computedScore += Math.max(basePoints - attempts * hintPenalty, 0);
+      }
+    }
+    return { date: dateStr, score: computedScore, declaredScore, scoreMismatch: computedScore !== declaredScore, results };
   }
 
   function parseDailyText(text) {
@@ -557,6 +665,47 @@ const DataManager = (function () {
     if (out) out.textContent = '';
   }
 
+  // --- import weekly from textarea ---
+  async function onImportWeeklyClick() {
+    const area = document.getElementById('weeklyImportArea');
+    const out  = document.getElementById('weeklyImportResult');
+    if (!area) return;
+    const txt = area.value.trim();
+    if (!txt) { out.textContent = 'Aucun texte collé.'; return; }
+    const parsed = parseWeeklyText(txt);
+    if (parsed.error) { out.textContent = parsed.error; notify(parsed.error, 'fail'); return; }
+    const dateKey = parsed.date;
+    const history = await getAllWeeklyFromDB() || {};
+    if (history[dateKey]) {
+      const msg = `Semaine ${dateKey} déjà en sauvegarde. Import annulé.`;
+      out.textContent = msg; notify(msg, 'fail'); return;
+    }
+    history[dateKey] = { score: parsed.score, results: parsed.results };
+    try {
+      await saveWeeklyToDB(history);
+      const msg = `Semaine ${dateKey} importée (score: ${parsed.score}${parsed.scoreMismatch ? ' — score déclaré différent' : ''}).`;
+      out.textContent = msg; notify(msg, 'success');
+      area.value = '';
+      await renderCurrentCookiesPreview();
+      try {
+        const pokemons = await DailyToDexImport.reconstructWeeklyList(dateKey);
+        for (const p of pokemons) { await Dex.markFound(p.Index); }
+        await updateWeeklyImportedInDex(dateKey, true);
+      } catch (e) { console.error('Error updating Dex from weekly import:', e); }
+    } catch (e) {
+      const err = 'Impossible de sauvegarder le weekly importé';
+      out.textContent = err; notify(err, 'fail');
+    }
+  }
+
+  // --- clear weekly textarea ---
+  function onClearWeeklyArea() {
+    const area = document.getElementById('weeklyImportArea');
+    const out  = document.getElementById('weeklyImportResult');
+    if (area) area.value = '';
+    if (out)  out.textContent = '';
+  }
+
   // --- delete best score (pk_best cookie) ---
   function onDeleteBestClick() {
     const confirmed = confirm('Warning: This action is irreversible. Are you sure?');
@@ -605,12 +754,14 @@ const DataManager = (function () {
 
   // --- init bindings ---
   function init() {
-    const exportBtn = document.getElementById('exportBtn');
-    const importFile = document.getElementById('importFile');
-    const previewBtn = document.getElementById('previewBtn');
+    const exportBtn      = document.getElementById('exportBtn');
+    const importFile     = document.getElementById('importFile');
+    const previewBtn     = document.getElementById('previewBtn');
     const importDailyBtn = document.getElementById('importDailyBtn');
-    const clearDailyBtn = document.getElementById('clearDailyArea');
-    const deleteBestBtn = document.getElementById('deleteBestBtn');
+    const clearDailyBtn  = document.getElementById('clearDailyArea');
+    const importWeeklyBtn = document.getElementById('importWeeklyBtn');
+    const clearWeeklyBtn  = document.getElementById('clearWeeklyArea');
+    const deleteBestBtn  = document.getElementById('deleteBestBtn');
     const deleteDailyBtn = document.getElementById('deleteDailyBtn');
 
     if (exportBtn) exportBtn.addEventListener('click', onExportClick);
@@ -621,13 +772,14 @@ const DataManager = (function () {
         importFile.value = '';
       });
     }
-    if (previewBtn) previewBtn.addEventListener('click', renderCurrentCookiesPreview);
+    if (previewBtn)     previewBtn.addEventListener('click', renderCurrentCookiesPreview);
     if (importDailyBtn) importDailyBtn.addEventListener('click', onImportDailyClick);
-    if (clearDailyBtn) clearDailyBtn.addEventListener('click', onClearDailyArea);
-    if (deleteBestBtn) deleteBestBtn.addEventListener('click', onDeleteBestClick);
+    if (clearDailyBtn)  clearDailyBtn.addEventListener('click', onClearDailyArea);
+    if (importWeeklyBtn) importWeeklyBtn.addEventListener('click', onImportWeeklyClick);
+    if (clearWeeklyBtn)  clearWeeklyBtn.addEventListener('click', onClearWeeklyArea);
+    if (deleteBestBtn)  deleteBestBtn.addEventListener('click', onDeleteBestClick);
     if (deleteDailyBtn) deleteDailyBtn.addEventListener('click', onDeleteDailyClick);
 
-    // initial preview hidden until user asks
     const preview = document.getElementById('dataPreview');
     if (preview) preview.style.display = 'none';
   }

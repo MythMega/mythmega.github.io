@@ -5,7 +5,7 @@
 const Migration = (function () {
   const COOKIE_DAILY = 'pk_daily_result_v2';
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 2;
+  const DB_VERSION = 3;
   const STORE_NAME = 'daily_results';
   const WEEKLY_STORE = 'weekly_results';
 
@@ -44,7 +44,15 @@ const Migration = (function () {
       const req = indexedDB.open(DB_NAME, DB_VERSION);
       
       req.onerror = () => reject(req.error);
-      req.onsuccess = () => resolve(req.result);
+      req.onblocked = () => {
+        console.warn('[PokefeetDB] Migration blocked — please close other Pokefeet tabs and reload.');
+        reject(new Error('IDB upgrade blocked'));
+      };
+      req.onsuccess = () => {
+        const db = req.result;
+        db.addEventListener('versionchange', () => { db.close(); });
+        resolve(db);
+      };
       
       req.onupgradeneeded = (e) => {
         const db = e.target.result;

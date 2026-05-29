@@ -87,13 +87,9 @@ const Daily = (function () {
     if (overrideDate) {
       return overrideDate;
     }
-    let y = d.getFullYear();
+    const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
-    // if in beta folder, subtract 5 years for different seed
-    if (window.location.pathname.includes('/beta/')) {
-      y = y - 5;
-    }
     return `${y}-${m}-${day}`;
   }
   function stringToSeed(s) {
@@ -262,7 +258,7 @@ const Daily = (function () {
   // stocke l'objet history complet dans le cookie
   // --- IndexedDB helpers (mirror from data.js) ---
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 2;
+  const DB_VERSION = 3;
   const STORE_NAME = 'daily_results';
   const WEEKLY_STORE = 'weekly_results';
   let dbInstance = null;
@@ -275,8 +271,16 @@ const Daily = (function () {
       }
       const req = indexedDB.open(DB_NAME, DB_VERSION);
       req.onerror = () => reject(req.error);
+      req.onblocked = () => {
+        console.warn('[PokefeetDB] Upgrade blocked — please close other Pokefeet tabs and reload.');
+        reject(new Error('IDB upgrade blocked'));
+      };
       req.onsuccess = () => {
         dbInstance = req.result;
+        dbInstance.addEventListener('versionchange', () => {
+          dbInstance.close();
+          dbInstance = null;
+        });
         resolve(dbInstance);
       };
       req.onupgradeneeded = (e) => {
@@ -793,6 +797,8 @@ const Daily = (function () {
 
   // main init
   async function init() {
+    // Guard: only run on the daily page (prevents crashes if daily.js is included elsewhere)
+    if (!document.getElementById('dailyImg')) return;
     // Get the date from URL parameter if provided
     overrideDate = getDateFromURL();
     

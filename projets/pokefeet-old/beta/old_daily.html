@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Poké-feet Daily Passés</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main id="app">
+    <header>
+      <h1 data-i18n="daily.title">Pokefeet Daily Passés</h1>
+      <i data-i18n="daily.includes">Rejoue les dailies manqués</i>
+    </header>
+
+    <section class="game-area">
+      <div class="center-card" style="max-width: 700px;">
+        <a href="index.html" class="back-button" data-i18n="common.backHome">← Retour</a>
+
+        <div id="dailiesContainer" class="daily-grid"></div>
+
+        <div id="noDailies" class="no-dailies hidden">
+          Aucun daily trouvé pour le moment.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="notifications"></div>
+
+  <script src="loader.js"></script>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script src="pokemon.js"></script>
+  <script src="daily.js"></script>
+  <script src="old_daily.js"></script>
+</html>

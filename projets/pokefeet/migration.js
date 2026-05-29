@@ -8,6 +8,7 @@ const Migration = (function () {
   const DB_VERSION = 3;
   const STORE_NAME = 'daily_results';
   const WEEKLY_STORE = 'weekly_results';
+  let idbTimedOut = false;
 
   // Get cookie by name
   function getCookie(name) {
@@ -41,9 +42,11 @@ const Migration = (function () {
   // Initialize IndexedDB with daily_results store
   function initDB() {
     return new Promise((resolve, reject) => {
+      if (idbTimedOut) { reject(new Error('IDB unavailable')); return; }
       let settled = false;
       const timer = setTimeout(() => {
         if (settled) return; settled = true;
+        idbTimedOut = true;
         console.warn('[PokefeetDB] indexedDB.open() timed out — skipping migration.');
         reject(new Error('IDB open timeout'));
       }, 5000);
@@ -159,11 +162,17 @@ const Migration = (function () {
       db.close();
     } catch (e) {
       console.error('Migration error:', e);
+    } finally {
+      _resolveReady();
     }
   }
 
+  let _resolveReady;
+  const ready = new Promise(resolve => { _resolveReady = resolve; });
+
   return {
-    run
+    run,
+    ready
   };
 })();
 

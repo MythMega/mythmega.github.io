@@ -43,13 +43,16 @@ const Weekly = (function () {
   const DB_VERSION = 3;
   const STORE_NAME = 'weekly_results';
   let dbInstance = null;
+  let idbTimedOut = false;
 
   function getDB() {
     return new Promise((resolve, reject) => {
+      if (idbTimedOut) { reject(new Error('IDB unavailable')); return; }
       if (dbInstance) { resolve(dbInstance); return; }
       let settled = false;
       const timer = setTimeout(() => {
         if (settled) return; settled = true;
+        idbTimedOut = true;
         console.warn('[PokefeetDB] indexedDB.open() timed out — running without DB.');
         reject(new Error('IDB open timeout'));
       }, 5000);
@@ -632,6 +635,8 @@ const Weekly = (function () {
   async function init() {
     // Guard: only run on the weekly page
     if (!document.getElementById('weeklyImg')) return;
+    // Wait for migration to finish before opening the DB (prevents concurrent IDB opens on Firefox)
+    if (typeof Migration !== 'undefined') await Migration.ready;
     overrideWeek = getWeekFromURL();
     try {
       const [pokemonsRes] = await Promise.all([

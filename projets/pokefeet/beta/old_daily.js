@@ -11,13 +11,16 @@ const OldDaily = (function () {
   const DB_NAME    = 'PokefeetDB';
   const DB_VERSION = 3;
   let dbInstance   = null;
+  let idbTimedOut  = false;
 
   function getDB() {
     return new Promise((resolve, reject) => {
+      if (idbTimedOut) { reject(new Error('IDB unavailable')); return; }
       if (dbInstance) { resolve(dbInstance); return; }
       let settled = false;
       const timer = setTimeout(() => {
         if (settled) return; settled = true;
+        idbTimedOut = true;
         console.warn('[PokefeetDB] indexedDB.open() timed out — running without DB.');
         reject(new Error('IDB open timeout'));
       }, 5000);
@@ -201,6 +204,8 @@ const OldDaily = (function () {
   async function init() {
     tabDailyBtn.addEventListener('click',  () => switchTab('daily'));
     tabWeeklyBtn.addEventListener('click', () => switchTab('weekly'));
+    // Wait for migration to finish before opening the DB (prevents concurrent IDB opens on Firefox)
+    if (typeof Migration !== 'undefined') await Migration.ready;
 
     try {
       await Promise.all([renderDailyTab(), renderWeeklyTab()]);

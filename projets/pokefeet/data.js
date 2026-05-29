@@ -16,9 +16,11 @@ const DataManager = (function () {
 
   // --- IndexedDB helpers ---
   let dbInstance = null;
+  let idbTimedOut = false;
 
   function getDB() {
     return new Promise((resolve, reject) => {
+      if (idbTimedOut) { reject(new Error('IDB unavailable')); return; }
       if (dbInstance) {
         resolve(dbInstance);
         return;
@@ -26,6 +28,7 @@ const DataManager = (function () {
       let settled = false;
       const timer = setTimeout(() => {
         if (settled) return; settled = true;
+        idbTimedOut = true;
         console.warn('[PokefeetDB] indexedDB.open() timed out — running without DB.');
         reject(new Error('IDB open timeout'));
       }, 5000);

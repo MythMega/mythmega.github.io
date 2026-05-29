@@ -262,9 +262,11 @@ const Daily = (function () {
   const STORE_NAME = 'daily_results';
   const WEEKLY_STORE = 'weekly_results';
   let dbInstance = null;
+  let idbTimedOut = false;
 
   function getDB() {
     return new Promise((resolve, reject) => {
+      if (idbTimedOut) { reject(new Error('IDB unavailable')); return; }
       if (dbInstance) {
         resolve(dbInstance);
         return;
@@ -273,6 +275,7 @@ const Daily = (function () {
       const timer = setTimeout(() => {
         if (settled) return;
         settled = true;
+        idbTimedOut = true;
         console.warn('[PokefeetDB] indexedDB.open() timed out — running without DB.');
         reject(new Error('IDB open timeout'));
       }, 5000);
@@ -808,6 +811,8 @@ const Daily = (function () {
   async function init() {
     // Guard: only run on the daily page (prevents crashes if daily.js is included elsewhere)
     if (!document.getElementById('dailyImg')) return;
+    // Wait for migration to finish before opening the DB (prevents concurrent IDB opens on Firefox)
+    if (typeof Migration !== 'undefined') await Migration.ready;
     // Get the date from URL parameter if provided
     overrideDate = getDateFromURL();
     

@@ -1,7 +1,7 @@
 // history.js
 (function () {
   const DB_NAME    = 'PokefeetDB';
-  const DB_VERSION = 2;
+  const DB_VERSION = 3;
   const STORE_NAME = 'daily_results';
   const WEEKLY_STORE = 'weekly_results';
   const COUNT        = 5;
@@ -16,8 +16,13 @@
       }
       const req = indexedDB.open(DB_NAME, DB_VERSION);
       req.onerror = () => reject(req.error);
+      req.onblocked = () => {
+        console.warn('[PokefeetDB] Upgrade blocked — please close other Pokefeet tabs and reload.');
+        reject(new Error('IDB upgrade blocked'));
+      };
       req.onsuccess = () => {
         dbInstance = req.result;
+        dbInstance.addEventListener('versionchange', () => { dbInstance.close(); dbInstance = null; });
         resolve(dbInstance);
       };
       req.onupgradeneeded = (e) => {

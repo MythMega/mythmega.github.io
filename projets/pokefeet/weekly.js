@@ -40,7 +40,7 @@ const Weekly = (function () {
 
   // --- IndexedDB helpers ---
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 2;
+  const DB_VERSION = 3;
   const STORE_NAME = 'weekly_results';
   let dbInstance = null;
 
@@ -49,7 +49,15 @@ const Weekly = (function () {
       if (dbInstance) { resolve(dbInstance); return; }
       const req = indexedDB.open(DB_NAME, DB_VERSION);
       req.onerror = () => reject(req.error);
-      req.onsuccess = () => { dbInstance = req.result; resolve(dbInstance); };
+      req.onblocked = () => {
+        console.warn('[PokefeetDB] Upgrade blocked — please close other Pokefeet tabs and reload.');
+        reject(new Error('IDB upgrade blocked'));
+      };
+      req.onsuccess = () => {
+        dbInstance = req.result;
+        dbInstance.addEventListener('versionchange', () => { dbInstance.close(); dbInstance = null; });
+        resolve(dbInstance);
+      };
       req.onupgradeneeded = (e) => {
         const db = e.target.result;
         if (!db.objectStoreNames.contains('daily_results')) {
@@ -202,8 +210,7 @@ const Weekly = (function () {
   function getWeekSeedStr(d = new Date()) {
     if (overrideWeek) return overrideWeek;
     const monday = getMondayOfWeek(d);
-    let y = monday.getFullYear();
-    if (window.location.pathname.includes('/beta/')) y = y - 5;
+    const y = monday.getFullYear();
     const m = String(monday.getMonth() + 1).padStart(2, '0');
     const day = String(monday.getDate()).padStart(2, '0');
     return `${y}-${m}-${day}`;
@@ -615,6 +622,8 @@ const Weekly = (function () {
   }
 
   async function init() {
+    // Guard: only run on the weekly page
+    if (!document.getElementById('weeklyImg')) return;
     overrideWeek = getWeekFromURL();
     try {
       const [pokemonsRes] = await Promise.all([

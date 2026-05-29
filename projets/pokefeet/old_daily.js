@@ -9,7 +9,7 @@ const OldDaily = (function () {
   const tabWeeklyBtn    = document.getElementById('tabWeeklyBtn');
 
   const DB_NAME    = 'PokefeetDB';
-  const DB_VERSION = 2;
+  const DB_VERSION = 3;
   let dbInstance   = null;
 
   function getDB() {
@@ -17,7 +17,15 @@ const OldDaily = (function () {
       if (dbInstance) { resolve(dbInstance); return; }
       const req = indexedDB.open(DB_NAME, DB_VERSION);
       req.onerror   = () => reject(req.error);
-      req.onsuccess = () => { dbInstance = req.result; resolve(dbInstance); };
+      req.onblocked = () => {
+        console.warn('[PokefeetDB] Upgrade blocked — please close other Pokefeet tabs and reload.');
+        reject(new Error('IDB upgrade blocked'));
+      };
+      req.onsuccess = () => {
+        dbInstance = req.result;
+        dbInstance.addEventListener('versionchange', () => { dbInstance.close(); dbInstance = null; });
+        resolve(dbInstance);
+      };
       req.onupgradeneeded = (e) => {
         const db = e.target.result;
         if (!db.objectStoreNames.contains('daily_results'))

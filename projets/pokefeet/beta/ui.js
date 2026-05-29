@@ -4,6 +4,7 @@ const UI = (function () {
   const scoreEl = document.getElementById('score');
   const streakEl = document.getElementById('streak');
   const bestEl = document.getElementById('bestScore');
+  const bestStreakEl = document.getElementById('bestStreakScore');
   const imgEl = document.getElementById('pokeImg');
   const hintsList = document.getElementById('hintsList');
   const revealDiv = document.getElementById('revealInfo');
@@ -61,9 +62,19 @@ const UI = (function () {
     bestEl.textContent = b;
   }
 
+  function setBestStreak(b) {
+    if (bestStreakEl) bestStreakEl.textContent = b;
+  }
+
   function addHint(text) {
     const li = document.createElement('li');
     li.textContent = text;
+    hintsList.appendChild(li);
+  }
+
+  function addHintHTML(html) {
+    const li = document.createElement('li');
+    li.innerHTML = html;
     hintsList.appendChild(li);
   }
 
@@ -154,7 +165,9 @@ const UI = (function () {
     setScore,
     setStreak,
     setBest,
+    setBestStreak,
     addHint,
+    addHintHTML,
     clearHints,
     showRevealInfo,
     hideRevealInfo,
@@ -165,5 +178,6 @@ const UI = (function () {
     enableSuivantBtn,
     showFailedAttemptsPractice,
     clearFailedAttemptsPractice,
+    setScorePreview,
   };
 })();

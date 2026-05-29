@@ -666,6 +666,8 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
 }
 .big-btn:hover { filter:brightness(1.1); box-shadow:0 6px 28px rgba(22,163,74,0.48); transform:translateY(-2px); }
 .big-btn:active { transform:scale(0.98) translateY(0); }
+.big-btn.golden { background:linear-gradient(135deg,#b8860b 0%,#ffd700 60%,#f0a500 100%); color:#1a0e00; border:none; box-shadow:0 4px 18px rgba(218,165,32,0.45); }
+.big-btn.golden:hover { filter:brightness(1.08); box-shadow:0 6px 28px rgba(218,165,32,0.65); transform:translateY(-2px); }
 .big-btn.secondary { background:rgba(255,255,255,0.04); color:var(--muted-light); border:1px solid var(--glass-border); box-shadow:none; }
 .big-btn.secondary:hover { background:rgba(255,255,255,0.08); color:#fff; box-shadow:none; filter:none; transform:translateY(-1px); }
 .row-buttons { display:flex; gap:10px; justify-content:space-between; margin-bottom:14px; }
@@ -681,7 +683,28 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
 .small-btn:hover { background:rgba(22,163,74,0.13); border-color:rgba(34,197,94,0.5); transform:translateY(-2px); }
 .subtitle { color:var(--muted); font-size:13px; margin-top:8px; }
 
-/* --- Old daily grid --- */
+/* --- News ticker / scrolling banner --- */
+.news-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 10px auto 0;
+  max-width: 420px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: var(--muted-light, #cbd5e1);
+}
+.news-ticker-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: tickerScroll 25s linear infinite;
+}
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
 .daily-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:600px; margin:24px auto; }
 .daily-button {
   padding:16px 12px; border-radius:10px; border:2px solid transparent;

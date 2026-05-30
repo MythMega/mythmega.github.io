@@ -1,0 +1,151 @@
+{
+  "bossName": "Absol",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Absol_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Absol_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-05-30 17:18:57",
+  "durationSec": 2216,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 73792,
+      "countAtk": 2,
+      "baseDmg": 24566,
+      "level": 18,
+      "raidCount": 777,
+      "luck": 1.5019132
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 13922,
+      "countAtk": 1,
+      "baseDmg": 13922,
+      "level": 18,
+      "raidCount": 458,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "santinopayta",
+      "damage": 291,
+      "countAtk": 1,
+      "baseDmg": 291,
+      "level": 3,
+      "raidCount": 8,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 87714
+    },
+    {
+      "platform": "youtube",
+      "damage": 291
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "santinopayta",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-30 17:21:57",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24566,
+      "pvAfter": 25434,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 17:49:16",
+      "pseudo": "santinopayta",
+      "platform": "youtube",
+      "damages": 291,
+      "pvAfter": 25143,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 17:54:53",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 13922,
+      "pvAfter": 11221,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 17:55:53",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 49226,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

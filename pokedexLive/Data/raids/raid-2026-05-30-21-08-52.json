@@ -1,0 +1,131 @@
+{
+  "bossName": "Maganon",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magmortar_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magmortar_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 30000,
+  "date": "2026-05-30 21:08:52",
+  "durationSec": 92,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 18059,
+      "countAtk": 4,
+      "baseDmg": 4490,
+      "level": 14,
+      "raidCount": 188,
+      "luck": 1.0055122
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14037,
+      "countAtk": 1,
+      "baseDmg": 14037,
+      "level": 18,
+      "raidCount": 460,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 32096
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-30 21:09:09",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14037,
+      "pvAfter": 15963,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 21:10:23",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4490,
+      "pvAfter": 11473,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 21:10:24",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4520,
+      "pvAfter": 6953,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 21:10:24",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4532,
+      "pvAfter": 2421,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 21:10:25",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4517,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

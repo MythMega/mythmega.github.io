@@ -470,6 +470,15 @@ const Daily = (function () {
     return header + lines.join('\n');
   }
 
+  // build minified emoji share text (one emoji per round, space-separated)
+  function buildShareTextMini(resArr, dateStr, totalScore) {
+    const emojiLine = resArr.map(r => {
+      if (!r || r.outcome === 'fail') return '🟥';
+      return r.attempts === 0 ? '🟩' : '🟧';
+    }).join(' ');
+    return `Pokefeet Daily (mini) — ${dateStr} — score ${totalScore}\n${emojiLine}`;
+  }
+
   // Recreate deterministic daily list for a given date (used when already played)
   function getDailyListForDate(dateStr) {
     const available = PokemonVersions.getAvailablePokemons(pokemons, dateStr);
@@ -965,9 +974,20 @@ const Daily = (function () {
       const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
       const fullText = txt + '\n' + url + (wrongGuessesText ? '\n' + wrongGuessesText : '');
       navigator.clipboard?.writeText(fullText).then(() => {
-        showNotification('Copié dans le presse-papier', 'success');
+        showNotification(Translator.get('daily.copied', 'Copié dans le presse-papier'), 'success');
       }, () => {
-        showNotification('Impossible de copier', 'fail');
+        showNotification(Translator.get('daily.copyFail', 'Impossible de copier'), 'fail');
+      });
+    });
+    document.getElementById('copyMiniShare').addEventListener('click', () => {
+      const miniText = buildShareTextMini(results, sessionDate || dateSeedStr(), score);
+      const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
+      const url = window.location.href;
+      const fullText = miniText + '\n' + url + (wrongGuessesText ? '\n' + wrongGuessesText : '');
+      navigator.clipboard?.writeText(fullText).then(() => {
+        showNotification(Translator.get('daily.copied', 'Copié dans le presse-papier'), 'success');
+      }, () => {
+        showNotification(Translator.get('daily.copyFail', 'Impossible de copier'), 'fail');
       });
     });
     document.getElementById('copyDiscordShare').addEventListener('click', () => {
@@ -976,13 +996,13 @@ const Daily = (function () {
       const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
       const fullText = txt + (wrongGuessesText ? '\n' + wrongGuessesText : '');
       navigator.clipboard?.writeText(fullText).then(() => {
-        showNotification('Copié dans le presse-papier', 'success');
+        showNotification(Translator.get('daily.copied', 'Copié dans le presse-papier'), 'success');
 
         // Ouvrir le lien dans un nouvel onglet
         window.open('https://discord.gg/yY3b8RYznN', '_blank');
 
       }, () => {
-        showNotification('Impossible de copier', 'fail');
+        showNotification(Translator.get('daily.copyFail', 'Impossible de copier'), 'fail');
       });
     });
     document.getElementById('viewDetails').addEventListener('click', () => {

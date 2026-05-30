@@ -498,13 +498,37 @@ const DataManager = (function () {
   function parseWeeklyText(text) {
     if (!text || typeof text !== 'string') return { error: 'Texte vide' };
     const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0 && !/^https?:\/\//i.test(l) && !/^R\d+\s*:/i.test(l));
-    if (lines.length < WEEKLY_COUNT + 1) return { error: `Format invalide : attendu header + ${WEEKLY_COUNT} lignes d'emoji` };
+    if (lines.length < 2) return { error: `Format invalide : attendu header + lignes d'emoji` };
     const header = lines[0];
+    const headerMiniRegex = /(?:Pok[eé]Pied|Pokefeet) Weekly \(mini\)\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
     const headerRegex = /(?:Pok[eé]Pied|Pokefeet) Weekly\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
-    const m = header.match(headerRegex);
+    const mMini = header.match(headerMiniRegex);
+    const m = mMini || header.match(headerRegex);
     if (!m) return { error: 'En-tête invalide. Format attendu : "Pokefeet Weekly — YYYY-MM-DD — score N"' };
+    const isMini = !!mMini;
     const dateStr = m[1];
     const declaredScore = parseInt(m[2], 10);
+
+    if (isMini) {
+      // mini format: one line with WEEKLY_COUNT emojis
+      if (lines.length < 2) return { error: 'Format mini invalide : ligne d\'emoji manquante' };
+      const normalized = normalizeLineToEmoji(lines[1]);
+      const chars = [...normalized].filter(c => c === '🟩' || c === '🟧' || c === '🟥');
+      if (chars.length !== WEEKLY_COUNT) return { error: `Format mini invalide : attendu ${WEEKLY_COUNT} emojis, trouvé ${chars.length}` };
+      const results = [];
+      for (const c of chars) {
+        if (c === '🟥') {
+          results.push({ outcome: 'fail', attempts: maxAttempts });
+        } else if (c === '🟩') {
+          results.push({ outcome: 'win', attempts: 0 });
+        } else {
+          results.push({ outcome: 'win', attempts: 1 });
+        }
+      }
+      return { date: dateStr, score: declaredScore, declaredScore, scoreMismatch: false, results, isMini: true };
+    }
+
+    if (lines.length < WEEKLY_COUNT + 1) return { error: `Format invalide : attendu header + ${WEEKLY_COUNT} lignes d'emoji` };
     const rows = lines.slice(1, 1 + WEEKLY_COUNT);
     if (rows.length < WEEKLY_COUNT) return { error: `Il faut ${WEEKLY_COUNT} lignes d'emoji après l'en-tête` };
     const results = [];
@@ -530,18 +554,39 @@ const DataManager = (function () {
   function parseDailyText(text) {
     if (!text || typeof text !== 'string') return { error: 'Texte vide' };
     const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0 && !/^https?:\/\//i.test(l) && !/^R\d+\s*:/i.test(l));
-    if (lines.length < 6) return { error: 'Format invalide : attendu header + 5 lignes d\'emoji' };
+    if (lines.length < 2) return { error: 'Format invalide : attendu header + lignes d\'emoji' };
 
-    // header: try to extract date and score
-    // accept "Pokefeet Daily — 2025-11-24 — score 38" with dash or em-dash
     const header = lines[0];
+    const headerMiniRegex = /(?:Pok[eé]Pied|Pokefeet) Daily \(mini\)\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
     const headerRegex = /(?:Pok[eé]Pied|Pokefeet) Daily\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
-    const m = header.match(headerRegex);
+    const mMini = header.match(headerMiniRegex);
+    const m = mMini || header.match(headerRegex);
     if (!m) return { error: 'En-tête invalide. Format attendu : "Pokefeet Daily — YYYY-MM-DD — score N"' };
+    const isMini = !!mMini;
     const dateStr = m[1];
     const declaredScore = parseInt(m[2], 10);
 
-    // next 5 lines are the emoji rows (we accept more but take first 5)
+    if (isMini) {
+      // mini format: one line with COUNT emojis
+      if (lines.length < 2) return { error: 'Format mini invalide : ligne d\'emoji manquante' };
+      const normalized = normalizeLineToEmoji(lines[1]);
+      const chars = [...normalized].filter(c => c === '🟩' || c === '🟧' || c === '🟥');
+      if (chars.length !== COUNT) return { error: `Format mini invalide : attendu ${COUNT} emojis, trouvé ${chars.length}` };
+      const results = [];
+      for (const c of chars) {
+        if (c === '🟥') {
+          results.push({ outcome: 'fail', attempts: maxAttempts });
+        } else if (c === '🟩') {
+          results.push({ outcome: 'win', attempts: 0 });
+        } else {
+          results.push({ outcome: 'win', attempts: 1 });
+        }
+      }
+      return { date: dateStr, score: declaredScore, declaredScore, scoreMismatch: false, results, isMini: true };
+    }
+
+    // classic format: header + 5 emoji lines
+    if (lines.length < COUNT + 1) return { error: 'Format invalide : attendu header + 5 lignes d\'emoji' };
     const rows = lines.slice(1, 1 + COUNT);
     if (rows.length < COUNT) return { error: 'Il faut 5 lignes d\'emoji après l\'en-tête' };
 
@@ -551,32 +596,25 @@ const DataManager = (function () {
     for (let i = 0; i < COUNT; i++) {
       const raw = rows[i];
       const normalized = normalizeLineToEmoji(raw);
-      // count occurrences
       const greens = (normalized.match(/🟩/g) || []).length;
       const oranges = (normalized.match(/🟧/g) || []).length;
       const reds = (normalized.match(/🟥/g) || []).length;
 
-      // validation: each line should contain exactly 5 squares (sum)
       if (greens + oranges + reds !== 5) {
         return { error: `Ligne ${i+1} invalide : attendu 5 carrés (ligne: "${raw}")` };
       }
 
       if (reds === 5) {
-        // fail
         results.push({ outcome: 'fail', attempts: maxAttempts });
-        // no points
       } else {
-        // win: number of oranges equals number of failed attempts before success
-        const attempts = oranges; // 0..4
+        const attempts = oranges;
         results.push({ outcome: 'win', attempts });
         const pts = Math.max(basePoints - attempts * hintPenalty, 0);
         computedScore += pts;
       }
     }
 
-    // optional: compare computedScore with declaredScore; if mismatch, warn but still allow
     const scoreMismatch = (computedScore !== declaredScore);
-
     return { date: dateStr, score: computedScore, declaredScore, scoreMismatch, results };
   }
 

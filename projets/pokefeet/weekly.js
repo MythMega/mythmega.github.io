@@ -602,6 +602,15 @@ const Weekly = (function () {
     return `Pokefeet Weekly — ${weekDateStr} — score ${totalScore}\n` + lines.join('\n');
   }
 
+  // build minified emoji share text (one emoji per round, space-separated)
+  function buildShareTextMini(resArr, weekDateStr, totalScore) {
+    const emojiLine = resArr.map(r => {
+      if (!r || r.outcome === 'fail') return '🟥';
+      return r.attempts === 0 ? '🟩' : '🟧';
+    }).join(' ');
+    return `Pokefeet Weekly (mini) — ${weekDateStr} — score ${totalScore}\n${emojiLine}`;
+  }
+
   function renderFinishedFromCookie(payload, weekDateStr) {
     const saved = payload || { score: 0, results: [] };
     const share = buildShareText(saved.results || [], weekDateStr, saved.score || 0);
@@ -765,8 +774,18 @@ const Weekly = (function () {
       const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
       const fullText = txt + '\n' + window.location.href + (wrongGuessesText ? '\n' + wrongGuessesText : '');
       navigator.clipboard?.writeText(fullText).then(
-        () => showNotification('Copié dans le presse-papier', 'success'),
-        () => showNotification('Impossible de copier', 'fail')
+        () => showNotification(Translator.get('daily.copied', 'Copié dans le presse-papier'), 'success'),
+        () => showNotification(Translator.get('daily.copyFail', 'Impossible de copier'), 'fail')
+      );
+    });
+    document.getElementById('copyMiniShare').addEventListener('click', () => {
+      const miniText = buildShareTextMini(results, sessionWeek || getWeekSeedStr(), score);
+      const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
+      const url = window.location.href;
+      const fullText = miniText + '\n' + url + (wrongGuessesText ? '\n' + wrongGuessesText : '');
+      navigator.clipboard?.writeText(fullText).then(
+        () => showNotification(Translator.get('daily.copied', 'Copié dans le presse-papier'), 'success'),
+        () => showNotification(Translator.get('daily.copyFail', 'Impossible de copier'), 'fail')
       );
     });
     document.getElementById('copyDiscordShare').addEventListener('click', () => {
@@ -775,9 +794,9 @@ const Weekly = (function () {
       const wrongGuessesText = buildWrongGuessesText(wrongGuessesPerSlot);
       const fullText = txt + (wrongGuessesText ? '\n' + wrongGuessesText : '');
       navigator.clipboard?.writeText(fullText).then(() => {
-        showNotification('Copié dans le presse-papier', 'success');
+        showNotification(Translator.get('daily.copied', 'Copié dans le presse-papier'), 'success');
         window.open('https://discord.gg/yY3b8RYznN', '_blank');
-      }, () => showNotification('Impossible de copier', 'fail'));
+      }, () => showNotification(Translator.get('daily.copyFail', 'Impossible de copier'), 'fail'));
     });
     document.getElementById('viewDetails').addEventListener('click', () => {
       let detail = '';

@@ -1,0 +1,71 @@
+{
+  "bossName": "Triopikeur",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dugtrio_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dugtrio_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-05-30 20:09:22",
+  "durationSec": 1901,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 60015,
+      "countAtk": 2,
+      "baseDmg": 24407,
+      "level": 18,
+      "raidCount": 780,
+      "luck": 1.2294629
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 60015
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-30 20:36:47",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24407,
+      "pvAfter": 25593,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 20:41:03",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35608,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

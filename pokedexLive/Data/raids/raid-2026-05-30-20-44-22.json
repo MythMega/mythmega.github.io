@@ -1,0 +1,71 @@
+{
+  "bossName": "Roucoups",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgeotto_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pidgeotto_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 25000,
+  "date": "2026-05-30 20:44:22",
+  "durationSec": 536,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 62454,
+      "countAtk": 2,
+      "baseDmg": 24432,
+      "level": 18,
+      "raidCount": 781,
+      "luck": 1.2781188
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 62454
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-30 20:48:33",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24432,
+      "pvAfter": 568,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 20:53:18",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 38022,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

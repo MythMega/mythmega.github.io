@@ -1,0 +1,272 @@
+{
+  "bossName": "Tyranocif",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tyranitar_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tyranitar_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 120000,
+  "date": "2026-05-30 22:05:52",
+  "durationSec": 1275,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 85806,
+      "countAtk": 4,
+      "baseDmg": 24936,
+      "level": 18,
+      "raidCount": 786,
+      "luck": 0.8602623
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 31260,
+      "countAtk": 2,
+      "baseDmg": 14090,
+      "level": 18,
+      "raidCount": 462,
+      "luck": 1.1092974
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 5201,
+      "countAtk": 9,
+      "baseDmg": 556,
+      "level": 7,
+      "raidCount": 35,
+      "luck": 1.0393685
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 117066
+    },
+    {
+      "platform": "youtube",
+      "damage": 5201
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 3
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 4
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-30 22:07:43",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24936,
+      "pvAfter": 95064,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-05-30 22:07:52",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 556,
+      "pvAfter": 94508,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-05-30 22:10:01",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 171,
+      "pvAfter": 94337,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu n\u0027as empoisonn\u00E9 personne. Il te reste 2 tours de poison."
+    },
+    {
+      "at": "2026-05-30 22:12:14",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18790,
+      "pvAfter": 75547,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 4 tours."
+    },
+    {
+      "at": "2026-05-30 22:12:14",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 147,
+      "pvAfter": 75400,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu n\u0027as empoisonn\u00E9 personne. Il te reste 1 tours de poison."
+    },
+    {
+      "at": "2026-05-30 22:14:30",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 159,
+      "pvAfter": 75241,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu n\u0027as empoisonn\u00E9 personne. Il te reste 0 tours de poison."
+    },
+    {
+      "at": "2026-05-30 22:16:44",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 961,
+      "pvAfter": 74280,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus empoisonn\u00E9 !"
+    },
+    {
+      "at": "2026-05-30 22:18:16",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 584,
+      "pvAfter": 73696,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 22:20:15",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24940,
+      "pvAfter": 48756,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 3 tours."
+    },
+    {
+      "at": "2026-05-30 22:21:30",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1221,
+      "pvAfter": 47535,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 22:24:02",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14090,
+      "pvAfter": 33445,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 22:24:06",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17140,
+      "pvAfter": 16305,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 2 tours."
+    },
+    {
+      "at": "2026-05-30 22:24:19",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 775,
+      "pvAfter": 15530,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 22:26:53",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 627,
+      "pvAfter": 14903,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 22:27:07",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 17170,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

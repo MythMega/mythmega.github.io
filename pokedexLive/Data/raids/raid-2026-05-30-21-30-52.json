@@ -1,0 +1,113 @@
+{
+  "bossName": "Tarinorme",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Probopass_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Probopass_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-05-30 21:30:52",
+  "durationSec": 194,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 66911,
+      "countAtk": 2,
+      "baseDmg": 24472,
+      "level": 18,
+      "raidCount": 784,
+      "luck": 1.367093
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 568,
+      "countAtk": 1,
+      "baseDmg": 568,
+      "level": 7,
+      "raidCount": 33,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 66911
+    },
+    {
+      "platform": "youtube",
+      "damage": 568
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-30 21:31:21",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24472,
+      "pvAfter": 15528,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 21:31:24",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 568,
+      "pvAfter": 14960,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 21:34:06",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 42439,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

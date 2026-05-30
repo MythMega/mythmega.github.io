@@ -1,0 +1,162 @@
+{
+  "bossName": "Pt\u00E9ra",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Aerodactyl_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Aerodactyl_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-05-30 20:56:22",
+  "durationSec": 557,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 73998,
+      "countAtk": 2,
+      "baseDmg": 24638,
+      "level": 18,
+      "raidCount": 782,
+      "luck": 1.5017047
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 13976,
+      "countAtk": 2,
+      "baseDmg": 13976,
+      "level": 18,
+      "raidCount": 459,
+      "luck": 0.5
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 205,
+      "countAtk": 1,
+      "baseDmg": 205,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 87974
+    },
+    {
+      "platform": "youtube",
+      "damage": 205
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-30 20:57:21",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 13976,
+      "pvAfter": 36024,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-05-30 20:57:49",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24638,
+      "pvAfter": 11386,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 20:59:10",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 11386,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 21h02:21."
+    },
+    {
+      "at": "2026-05-30 21:05:39",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 205,
+      "pvAfter": 11181,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 21:05:39",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 49360,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

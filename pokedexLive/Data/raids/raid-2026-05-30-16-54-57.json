@@ -1,0 +1,71 @@
+{
+  "bossName": "Hypocean",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seadra_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seadra_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-05-30 16:54:57",
+  "durationSec": 1011,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 72682,
+      "countAtk": 2,
+      "baseDmg": 24180,
+      "level": 18,
+      "raidCount": 775,
+      "luck": 1.5029364
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 72682
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-30 17:02:35",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24180,
+      "pvAfter": 25820,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-30 17:11:49",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 48502,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

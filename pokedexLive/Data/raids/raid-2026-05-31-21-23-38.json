@@ -1,0 +1,173 @@
+{
+  "bossName": "Zigzaton",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zigzagoon_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zigzagoon_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-05-31 21:23:38",
+  "durationSec": 463,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 64207,
+      "countAtk": 2,
+      "baseDmg": 25072,
+      "level": 18,
+      "raidCount": 791,
+      "luck": 1.2804523
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 2449,
+      "countAtk": 3,
+      "baseDmg": 690,
+      "level": 7,
+      "raidCount": 40,
+      "luck": 1.1830918
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Fafa_Sasa",
+      "damage": 215,
+      "countAtk": 1,
+      "baseDmg": 215,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 2664
+    },
+    {
+      "platform": "twitch",
+      "damage": 64207
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-31 21:24:19",
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "damages": 215,
+      "pvAfter": 39785,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:24:44",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 690,
+      "pvAfter": 39095,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:26:35",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25072,
+      "pvAfter": 14023,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:28:42",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1006,
+      "pvAfter": 13017,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:31:00",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 753,
+      "pvAfter": 12264,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:31:21",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 39135,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

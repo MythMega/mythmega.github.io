@@ -136,13 +136,19 @@ function render(root, d, platform, username) {
           ${d.Badges && d.Badges.length > 0 ? `
           <div class="sd-card">
             <div class="sd-card__body">
-              <h2 style="font-size:15px;margin:0 0 10px">Badges obtenus</h2>
+              <h2 style="font-size:15px;margin:0 0 10px">Badges</h2>
               <div style="display:flex;gap:6px;flex-wrap:wrap">
-                ${d.Badges.filter(b => b.Obtained).map(b =>
-            b.ImageUrl
-                ? `<img src="${SD.esc(b.ImageUrl)}" alt="${SD.esc(b.Name)}" title="${SD.esc(b.Name)}" style="height:40px;width:auto;" data-tooltip="${SD.esc(b.Name)}">`
-                : SD.badge(b.Name, 'gray')
-        ).join('')}
+                ${d.Badges.map(b => {
+            const tooltip = b.Obtained
+                ? (b.Description ? `${SD.esc(b.Description)} — ${SD.esc(b.Name)}` : SD.esc(b.Name))
+                : 'Obtenez ce badge pour voir sa description';
+            const style = b.Obtained
+                ? 'height:40px;width:auto;'
+                : 'height:40px;width:auto;filter:grayscale(100%) brightness(0.35);opacity:0.6;';
+            return b.ImageUrl
+                ? `<img src="${SD.esc(b.ImageUrl)}" alt="${SD.esc(b.Name)}" title="${tooltip}" style="${style}" data-tooltip="${tooltip}">`
+                : `<span title="${tooltip}" style="${b.Obtained ? '' : 'filter:grayscale(100%) brightness(0.4);opacity:0.55;'}">${SD.badge(b.Name, b.Obtained ? 'gray' : 'gray')}</span>`;
+        }).join('')}
               </div>
               ${d.Level ? `<div style="margin-top:12px">${SD.progressBar(d.CurrentXP, d.MaxXP)} <span style="font-size:11px;color:var(--text-muted)">Niveau ${d.Level}</span></div>` : ''}
             </div>

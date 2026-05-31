@@ -1,0 +1,109 @@
+{
+  "bossName": "Lucario",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lucario_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lucario_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 80000,
+  "date": "2026-05-31 21:54:08",
+  "durationSec": 946,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 75706,
+      "countAtk": 2,
+      "baseDmg": 25158,
+      "level": 18,
+      "raidCount": 794,
+      "luck": 1.5046109
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4452,
+      "countAtk": 1,
+      "baseDmg": 4452,
+      "level": 14,
+      "raidCount": 191,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 80158
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-31 22:00:57",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25158,
+      "pvAfter": 54842,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 22:01:37",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4452,
+      "pvAfter": 50390,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 22:09:55",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 50548,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

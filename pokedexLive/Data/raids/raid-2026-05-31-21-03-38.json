@@ -1,0 +1,321 @@
+{
+  "bossName": "Elektek",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Electabuzz_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Electabuzz_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 120000,
+  "date": "2026-05-31 21:03:38",
+  "durationSec": 1013,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 124428,
+      "countAtk": 3,
+      "baseDmg": 24810,
+      "level": 18,
+      "raidCount": 790,
+      "luck": 1.6717453
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 30137,
+      "countAtk": 6,
+      "baseDmg": 4585,
+      "level": 14,
+      "raidCount": 190,
+      "luck": 1.0954926
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 4737,
+      "countAtk": 5,
+      "baseDmg": 635,
+      "level": 7,
+      "raidCount": 39,
+      "luck": 1.4919685
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Fafa_Sasa",
+      "damage": 874,
+      "countAtk": 3,
+      "baseDmg": 179,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.6275606
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 154565
+    },
+    {
+      "platform": "youtube",
+      "damage": 5611
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-31 21:03:49",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24810,
+      "pvAfter": 95190,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:04:05",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 635,
+      "pvAfter": 94555,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:07:16",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1253,
+      "pvAfter": 93302,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:10:29",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 865,
+      "pvAfter": 92437,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:11:59",
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "damages": 179,
+      "pvAfter": 92258,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:12:22",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 49854,
+      "pvAfter": 42404,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:13:27",
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "damages": 220,
+      "pvAfter": 42184,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:16:42",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4585,
+      "pvAfter": 37599,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:16:44",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1199,
+      "pvAfter": 36400,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:16:45",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4655,
+      "pvAfter": 31745,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:16:46",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4636,
+      "pvAfter": 27109,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:16:49",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6952,
+      "pvAfter": 20157,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:16:50",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4623,
+      "pvAfter": 15534,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:16:51",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4686,
+      "pvAfter": 10848,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:19:29",
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "damages": 475,
+      "pvAfter": 10373,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-05-31 21:19:38",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 785,
+      "pvAfter": 9588,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:20:31",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 49764,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

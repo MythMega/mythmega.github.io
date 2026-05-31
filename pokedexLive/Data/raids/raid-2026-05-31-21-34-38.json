@@ -1,0 +1,113 @@
+{
+  "bossName": "Charmina",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Medicham_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Medicham_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 40000,
+  "date": "2026-05-31 21:34:38",
+  "durationSec": 415,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 70341,
+      "countAtk": 2,
+      "baseDmg": 25073,
+      "level": 18,
+      "raidCount": 792,
+      "luck": 1.402724
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 674,
+      "countAtk": 1,
+      "baseDmg": 674,
+      "level": 7,
+      "raidCount": 41,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 674
+    },
+    {
+      "platform": "twitch",
+      "damage": 70341
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-31 21:35:05",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 674,
+      "pvAfter": 39326,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-05-31 21:35:35",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25073,
+      "pvAfter": 14253,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 21:41:34",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45268,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

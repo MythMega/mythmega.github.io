@@ -1,0 +1,195 @@
+{
+  "bossName": "Dardargnan",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Beedrill_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Beedrill_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-05-31 20:45:08",
+  "durationSec": 921,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 74334,
+      "countAtk": 2,
+      "baseDmg": 24710,
+      "level": 18,
+      "raidCount": 789,
+      "luck": 1.5041279
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 4075,
+      "countAtk": 5,
+      "baseDmg": 663,
+      "level": 7,
+      "raidCount": 38,
+      "luck": 1.2292609
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Fafa_Sasa",
+      "damage": 254,
+      "countAtk": 1,
+      "baseDmg": 254,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 4329
+    },
+    {
+      "platform": "twitch",
+      "damage": 74334
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-05-31 20:45:33",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 663,
+      "pvAfter": 59337,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 20:45:40",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 24710,
+      "pvAfter": 34627,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 20:47:11",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1079,
+      "pvAfter": 33548,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 20:49:26",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 822,
+      "pvAfter": 32726,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 20:51:10",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 743,
+      "pvAfter": 31983,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 20:52:41",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 768,
+      "pvAfter": 31215,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-05-31 20:55:56",
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "damages": 254,
+      "pvAfter": 30961,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-05-31 21:00:30",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 49624,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

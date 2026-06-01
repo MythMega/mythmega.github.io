@@ -668,6 +668,17 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
 .big-btn:active { transform:scale(0.98) translateY(0); }
 .big-btn.golden { background:linear-gradient(135deg,#b8860b 0%,#ffd700 60%,#f0a500 100%); color:#1a0e00; border:none; box-shadow:0 4px 18px rgba(218,165,32,0.45); }
 .big-btn.golden:hover { filter:brightness(1.08); box-shadow:0 6px 28px rgba(218,165,32,0.65); transform:translateY(-2px); }
+.big-btn.blue {
+  background: linear-gradient(135deg, #0a3d62 0%, #1e90ff 60%, #4dafff 100%);
+  color: #001a33;
+  border: none;
+  box-shadow: 0 4px 18px rgba(30, 144, 255, 0.45);
+}
+.big-btn.blue:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 28px rgba(30, 144, 255, 0.65);
+  transform: translateY(-2px);
+}
 .big-btn.secondary { background:rgba(255,255,255,0.04); color:var(--muted-light); border:1px solid var(--glass-border); box-shadow:none; }
 .big-btn.secondary:hover { background:rgba(255,255,255,0.08); color:#fff; box-shadow:none; filter:none; transform:translateY(-1px); }
 .row-buttons { display:flex; gap:10px; justify-content:space-between; margin-bottom:14px; }

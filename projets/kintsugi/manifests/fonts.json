@@ -1,0 +1,27 @@
+{
+  "fonts": [
+    {
+      "key": "pixel_font",
+      "path": "medias/fonts/pixel_font.ttf",
+      "family": "PixelFont",
+      "usage": "Texte principal du jeu (UI, HUD, menus)",
+      "recommendedSizes": [8, 16, 24],
+      "alternative": "Press Start 2P (Google Fonts CDN: https://fonts.googleapis.com/css2?family=Press+Start+2P)",
+      "comment": "Si la police personnalisée n'est pas disponible, utiliser l'alternative Google Fonts"
+    },
+    {
+      "key": "pixel_font_jp",
+      "path": "medias/fonts/pixel_font_jp.ttf",
+      "family": "PixelFontJP",
+      "usage": "Texte japonais (noms d'environnements, texte de fin)",
+      "recommendedSizes": [8, 12, 16],
+      "alternative": "DotGothic16 (Google Fonts CDN: https://fonts.googleapis.com/css2?family=DotGothic16)",
+      "comment": "Supporte hiragana, katakana, kanji de base. Licence OFL."
+    }
+  ],
+  "googleFontsFallback": {
+    "enabled": true,
+    "comment": "Si les polices locales sont absentes, charger depuis Google Fonts",
+    "css": "@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&display=swap');"
+  }
+}

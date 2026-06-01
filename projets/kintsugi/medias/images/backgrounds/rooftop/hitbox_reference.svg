@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <!-- KOKORO GAME : KINTSUGI — Rooftop Environment Hitbox Reference -->
+  <!-- IMPORTANT: This env has GAPS (no ground) between roof sections -->
+
+  <text x="6" y="14" fill="#ff4444" font-family="monospace" font-size="11" font-weight="bold">ROOFTOP — HITBOX REFERENCE</text>
+  <text x="6" y="26" fill="#ff8888" font-family="monospace" font-size="9">RED=platform | GREEN=grindable | BLUE=rail | BLACK VOID=gap (fall zone)</text>
+
+  <!-- ROOF SECTION A: x=0–280, y=288 -->
+  <rect x="0" y="288" width="280" height="72" fill="rgba(255,60,60,0.18)" stroke="#ff4444" stroke-width="2"/>
+  <text x="6" y="304" fill="#ff4444" font-family="monospace" font-size="8">ROOF_A  x:0–280</text>
+
+  <!-- GAP 1: x=280–360 (80px wide — VOID, player falls here) -->
+  <rect x="280" y="0" width="80" height="360" fill="rgba(0,0,0,0.35)" stroke="#ff2222" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="282" y="180" fill="#ff2222" font-family="monospace" font-size="8" transform="rotate(-90,305,180)">GAP 80px — FALL ZONE</text>
+
+  <!-- ROOF SECTION B: x=360–640, y=288 -->
+  <rect x="360" y="288" width="280" height="72" fill="rgba(255,60,60,0.18)" stroke="#ff4444" stroke-width="2"/>
+  <text x="366" y="304" fill="#ff4444" font-family="monospace" font-size="8">ROOF_B  x:360–640</text>
+
+  <!-- LEDGE 1 (on ROOF_A): x=60–180, y=264–288 -->
+  <rect x="60" y="264" width="120" height="24" fill="rgba(255,60,60,0.15)" stroke="#ff8888" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <rect x="60" y="264" width="120" height="4" fill="rgba(60,255,120,0.45)" stroke="#44ff88" stroke-width="1.5"/>
+  <text x="62" y="260" fill="#44ff88" font-family="monospace" font-size="8">LEDGE_1  x:60–180  GRINDABLE y=264</text>
+
+  <!-- RAIL 1 (on ROOF_B): x=420–580, y=240–246 -->
+  <line x1="420" y1="240" x2="580" y2="240" stroke="#4488ff" stroke-width="4"/>
+  <rect x="420" y="240" width="160" height="6" fill="rgba(60,120,255,0.3)" stroke="none"/>
+  <text x="422" y="236" fill="#4488ff" font-family="monospace" font-size="8">RAIL_1  x:420–580  y=240</text>
+
+  <!-- Gap arrows for jumping -->
+  <line x1="240" y1="260" x2="360" y2="260" stroke="#ffff44" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+  <text x="272" y="256" fill="#ffff44" font-family="monospace" font-size="8">JUMP GAP</text>
+
+  <!-- Spawn -->
+  <circle cx="64" cy="256" r="6" fill="none" stroke="#ffff44" stroke-width="2"/>
+  <text x="72" y="261" fill="#ffff44" font-family="monospace" font-size="8">SPAWN (64,256)</text>
+
+  <!-- Off-screen indicators -->
+  <text x="580" y="250" fill="#666666" font-family="monospace" font-size="8">→ GAP_2 x:640</text>
+  <text x="580" y="260" fill="#666666" font-family="monospace" font-size="8">  ROOF_C</text>
+  <text x="580" y="270" fill="#666666" font-family="monospace" font-size="8">  RAIL_2</text>
+  <text x="580" y="280" fill="#666666" font-family="monospace" font-size="8">  GAP_3...</text>
+
+  <!-- World bounds -->
+  <rect x="0" y="0" width="640" height="360" fill="none" stroke="#444444" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="548" y="356" fill="#555555" font-family="monospace" font-size="8">VIEW x:0–640 / 1920</text>
+
+  <!-- WARNING for gap -->
+  <text x="280" y="345" fill="#ff4444" font-family="monospace" font-size="9" font-weight="bold">⚠ GAPS: Les tiles ground sont ABSENTES dans les zones noires</text>
+
+  <!-- Legend -->
+  <rect x="440" y="308" width="194" height="36" fill="rgba(0,0,0,0.6)" stroke="#333333" stroke-width="1"/>
+  <rect x="444" y="312" width="10" height="6" fill="rgba(255,60,60,0.3)" stroke="#ff4444" stroke-width="1"/>
+  <text x="457" y="318" fill="#ff4444" font-family="monospace" font-size="7">Roof platform</text>
+  <rect x="444" y="320" width="10" height="6" fill="rgba(60,255,120,0.5)" stroke="#44ff88" stroke-width="1"/>
+  <text x="457" y="326" fill="#44ff88" font-family="monospace" font-size="7">Grindable top</text>
+  <rect x="444" y="328" width="10" height="6" fill="rgba(0,0,0,0.6)" stroke="#ff2222" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="457" y="334" fill="#ff2222" font-family="monospace" font-size="7">Gap / Void (fall zone)</text>
+  <line x1="444" y1="341" x2="454" y2="341" stroke="#4488ff" stroke-width="3"/>
+  <text x="457" y="344" fill="#4488ff" font-family="monospace" font-size="7">Rail</text>
+</svg>

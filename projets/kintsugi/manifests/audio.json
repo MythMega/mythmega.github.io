@@ -1,0 +1,49 @@
+{
+  "sfx": [
+    { "key": "sfx_ollie", "path": "medias/audio/sfx/tricks/sfx_ollie.wav" },
+    { "key": "sfx_flip", "path": "medias/audio/sfx/tricks/sfx_flip.wav" },
+    { "key": "sfx_land_soft", "path": "medias/audio/sfx/tricks/sfx_land_soft.wav" },
+    { "key": "sfx_land_hard", "path": "medias/audio/sfx/tricks/sfx_land_hard.wav" },
+    { "key": "sfx_grind_start", "path": "medias/audio/sfx/tricks/sfx_grind_start.wav" },
+    { "key": "sfx_grind_loop", "path": "medias/audio/sfx/tricks/sfx_grind_loop.wav", "loop": true },
+    { "key": "sfx_grind_end", "path": "medias/audio/sfx/tricks/sfx_grind_end.wav" },
+    { "key": "sfx_manual_start", "path": "medias/audio/sfx/tricks/sfx_manual_start.wav" },
+    { "key": "sfx_manual_loop", "path": "medias/audio/sfx/tricks/sfx_manual_loop.wav", "loop": true },
+    { "key": "sfx_crash", "path": "medias/audio/sfx/tricks/sfx_crash.wav" },
+    { "key": "sfx_crack_appear", "path": "medias/audio/sfx/kintsugi/sfx_crack_appear.wav" },
+    { "key": "sfx_crack_gold", "path": "medias/audio/sfx/kintsugi/sfx_crack_gold.wav" },
+    { "key": "sfx_env_unlock", "path": "medias/audio/sfx/kintsugi/sfx_env_unlock.wav" },
+    { "key": "sfx_menu_select", "path": "medias/audio/sfx/ui/sfx_menu_select.wav" },
+    { "key": "sfx_menu_confirm", "path": "medias/audio/sfx/ui/sfx_menu_confirm.wav" },
+    { "key": "sfx_menu_back", "path": "medias/audio/sfx/ui/sfx_menu_back.wav" }
+  ],
+  "ambient": [
+    { "key": "amb_street", "path": "medias/audio/sfx/ambient/amb_street_loop.wav", "loop": true },
+    { "key": "amb_skatepark", "path": "medias/audio/sfx/ambient/amb_skatepark_loop.wav", "loop": true },
+    { "key": "amb_rooftop", "path": "medias/audio/sfx/ambient/amb_rooftop_loop.wav", "loop": true },
+    { "key": "amb_tunnel", "path": "medias/audio/sfx/ambient/amb_tunnel_loop.wav", "loop": true },
+    { "key": "amb_garden", "path": "medias/audio/sfx/ambient/amb_garden_loop.wav", "loop": true }
+  ],
+  "music": [
+    { "key": "music_menu", "path": "medias/audio/music/menu/music_menu.mp3", "loop": true },
+    { "key": "music_street", "path": "medias/audio/music/environments/music_street.mp3", "loop": true },
+    { "key": "music_skatepark", "path": "medias/audio/music/environments/music_skatepark.mp3", "loop": true },
+    { "key": "music_rooftop", "path": "medias/audio/music/environments/music_rooftop.mp3", "loop": true },
+    { "key": "music_tunnel", "path": "medias/audio/music/environments/music_tunnel.mp3", "loop": true },
+    { "key": "music_garden", "path": "medias/audio/music/environments/music_garden.mp3", "loop": true }
+  ],
+  "musicByEnv": {
+    "street": "music_street",
+    "skatepark": "music_skatepark",
+    "rooftop": "music_rooftop",
+    "tunnel": "music_tunnel",
+    "garden": "music_garden"
+  },
+  "ambientByEnv": {
+    "street": "amb_street",
+    "skatepark": "amb_skatepark",
+    "rooftop": "amb_rooftop",
+    "tunnel": "amb_tunnel",
+    "garden": "amb_garden"
+  }
+}

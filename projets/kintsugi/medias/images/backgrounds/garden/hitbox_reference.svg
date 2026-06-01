@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <!-- KOKORO GAME : KINTSUGI — Zen Garden Environment Hitbox Reference -->
+  <!-- Note: Bamboo rails have reduced snap range (16px instead of 24px) -->
+
+  <text x="6" y="14" fill="#ff4444" font-family="monospace" font-size="11" font-weight="bold">JARDIN ZEN — HITBOX REFERENCE</text>
+  <text x="6" y="26" fill="#ff8888" font-family="monospace" font-size="9">RED=platform | GREEN=grindable | CYAN=bamboo rail (snap 16px) | ORANGE=manual path</text>
+
+  <!-- GROUND -->
+  <rect x="0" y="288" width="640" height="72" fill="rgba(255,60,60,0.18)" stroke="#ff4444" stroke-width="2"/>
+  <text x="6" y="304" fill="#ff4444" font-family="monospace" font-size="9">GROUND  y=288</text>
+
+  <!-- STONE LEDGE 1 (x=80–160, y=272–288) -->
+  <rect x="80" y="272" width="80" height="16" fill="rgba(255,60,60,0.2)" stroke="#ff8888" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <rect x="80" y="272" width="80" height="4" fill="rgba(60,255,120,0.45)" stroke="#44ff88" stroke-width="1.5"/>
+  <text x="82" y="268" fill="#44ff88" font-family="monospace" font-size="8">STONE_LEDGE_1  x:80–160  GRINDABLE y=272</text>
+
+  <!-- BAMBOO RAIL 1 (x=260–380, y=248) — cyan to distinguish from steel rail, reduced snap -->
+  <line x1="260" y1="248" x2="380" y2="248" stroke="#00dddd" stroke-width="3"/>
+  <rect x="260" y="244" width="120" height="8" fill="rgba(0,220,220,0.2)" stroke="#00dddd" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="262" y="242" fill="#00dddd" font-family="monospace" font-size="8">BAMBOO_RAIL_1  x:260–380  y=248  ⚠ snapRange=16px</text>
+
+  <!-- BRIDGE / LONG LEDGE (x=500–640+, y=256–288) -->
+  <rect x="500" y="256" width="140" height="32" fill="rgba(255,60,60,0.18)" stroke="#ff8888" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <rect x="500" y="256" width="140" height="4" fill="rgba(60,255,120,0.4)" stroke="#44ff88" stroke-width="1.5"/>
+  <text x="502" y="252" fill="#44ff88" font-family="monospace" font-size="8">BRIDGE  x:500–700  GRINDABLE y=256  (continues off-screen)</text>
+
+  <!-- Spawn -->
+  <circle cx="64" cy="256" r="6" fill="none" stroke="#ffff44" stroke-width="2"/>
+  <text x="72" y="261" fill="#ffff44" font-family="monospace" font-size="8">SPAWN (64,256)</text>
+
+  <!-- Off-screen content -->
+  <text x="540" y="310" fill="#666666" font-family="monospace" font-size="8">→ x:640+:</text>
+  <text x="540" y="320" fill="#666666" font-family="monospace" font-size="8">BAMBOO_RAIL_2</text>
+  <text x="540" y="330" fill="#666666" font-family="monospace" font-size="8">STONE_LEDGE_2</text>
+  <text x="540" y="340" fill="#666666" font-family="monospace" font-size="8">MANUAL_PATH</text>
+
+  <!-- World bounds -->
+  <rect x="0" y="0" width="640" height="360" fill="none" stroke="#444444" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="548" y="356" fill="#555555" font-family="monospace" font-size="8">VIEW x:0–640 / 1920</text>
+
+  <!-- Important note about bamboo rails -->
+  <rect x="6" y="330" width="520" height="24" fill="rgba(0,0,0,0.5)" stroke="#00dddd" stroke-width="1"/>
+  <text x="10" y="341" fill="#00dddd" font-family="monospace" font-size="8">⚠ BAMBOO RAILS: snap range réduit à 16px (standard: 24px) — plus difficile à initier</text>
+  <text x="10" y="351" fill="#00dddd" font-family="monospace" font-size="8">   L'image finale doit montrer des rails plus fins et plus élégants que les rails métalliques</text>
+
+  <!-- Legend -->
+  <rect x="440" y="62" width="194" height="64" fill="rgba(0,0,0,0.6)" stroke="#333333" stroke-width="1"/>
+  <text x="444" y="74" fill="#aaaaaa" font-family="monospace" font-size="8" font-weight="bold">LÉGENDE</text>
+  <rect x="444" y="78" width="10" height="6" fill="rgba(255,60,60,0.4)" stroke="#ff4444" stroke-width="1"/>
+  <text x="457" y="84" fill="#ff4444" font-family="monospace" font-size="7">Platform (pierre/bois)</text>
+  <rect x="444" y="86" width="10" height="6" fill="rgba(60,255,120,0.4)" stroke="#44ff88" stroke-width="1"/>
+  <text x="457" y="92" fill="#44ff88" font-family="monospace" font-size="7">Grindable surface</text>
+  <line x1="444" y1="101" x2="454" y2="101" stroke="#00dddd" stroke-width="3"/>
+  <text x="457" y="104" fill="#00dddd" font-family="monospace" font-size="7">Bamboo rail (snapRange=16)</text>
+  <rect x="444" y="108" width="10" height="6" fill="rgba(255,160,40,0.4)" stroke="#ffa028" stroke-width="1"/>
+  <text x="457" y="114" fill="#ffa028" font-family="monospace" font-size="7">Manual path</text>
+  <circle cx="449" cy="122" r="4" fill="none" stroke="#ffff44" stroke-width="1.5"/>
+  <text x="457" y="126" fill="#ffff44" font-family="monospace" font-size="7">Spawn point</text>
+</svg>

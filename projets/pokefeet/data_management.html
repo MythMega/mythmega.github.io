@@ -15,8 +15,24 @@
       </div>
     </header>
 
-    <section class="game-area">
+    <section class="game-area d-flex flex-column align-items-center gap-3">
+
+      <!-- Données Section -->
       <div class="center-card" style="max-width:760px;">
+        
+
+        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="profile.title">Profil</h3>
+        <div class="profile-field" style="margin-bottom:12px;">
+          <label for="pseudoInput" style="display:block; font-size:13px; font-weight:600; color:var(--muted-light); margin-bottom:6px; text-align:left;" data-i18n="profile.pseudo">Pseudo</label>
+          <input id="pseudoInput" type="text" autocomplete="off" maxlength="30" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.04); color:var(--text); font-size:15px; font-family:inherit; outline:none; transition:border-color 200ms, box-shadow 200ms;" data-i18n-attr="placeholder:profile.placeholder" placeholder="Entrez votre pseudo..." />
+        </div>
+        <div style="display:flex; gap:8px; justify-content:center;">
+          <button id="savePseudoBtn" style="padding:9px 14px;" data-i18n="profile.save">Sauvegarder</button>
+          <button id="clearPseudoBtn" class="danger" style="padding:9px 14px;" data-i18n="profile.clear">Effacer</button>
+        </div>
+        <div id="profileStatus" style="margin-top:10px; font-size:13px; color:var(--accent); min-height:1.3em;"></div>
+        <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--glass-border); font-size:12px; color:var(--muted);" data-i18n="profile.info">Le pseudo est stocké dans un cookie et apparaîtra sur les partages.</div>
+
         <h3 data-i18n="dataManagement.saveRestore">Sauvegarder ou restaurer vos données</h3>
 
         <div class="data-controls" style="margin-top:12px;">
@@ -96,6 +112,7 @@
   <script src="footer.js"></script>
   <script src="i18n-setup.js"></script>
   <script src="migration.js"></script>
+  <script src="profile.js"></script>
   <script src="pokemon.js"></script>
   <script src="pokemon-versions.js"></script>
   <script src="Dex.js"></script>

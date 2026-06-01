@@ -1,0 +1,349 @@
+{
+  "categories": [
+    { "id": "flatground", "name": "Flatground", "nameJp": "フラット" },
+    { "id": "grind", "name": "Grinds", "nameJp": "グラインド" },
+    { "id": "slide", "name": "Slides", "nameJp": "スライド" },
+    { "id": "lip", "name": "Lip Tricks", "nameJp": "リップ" },
+    { "id": "manual", "name": "Manuals", "nameJp": "マニュアル" }
+  ],
+  "tricks": [
+    {
+      "id": "ollie", "name": "Ollie", "nameJp": "オーリー",
+      "category": "flatground", "difficulty": 1,
+      "input": { "type": "single", "keys": ["space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_ollie",
+      "environments": ["street", "skatepark", "rooftop", "tunnel", "garden"]
+    },
+    {
+      "id": "kickflip", "name": "Kickflip", "nameJp": "キックフリップ",
+      "category": "flatground", "difficulty": 2,
+      "input": { "type": "combo", "keys": ["modA", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_kickflip",
+      "environments": ["street", "skatepark", "rooftop", "tunnel", "garden"]
+    },
+    {
+      "id": "heelflip", "name": "Heelflip", "nameJp": "ヒールフリップ",
+      "category": "flatground", "difficulty": 2,
+      "input": { "type": "combo", "keys": ["modB", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_heelflip",
+      "environments": ["street", "skatepark", "rooftop", "tunnel", "garden"]
+    },
+    {
+      "id": "pop_shove_it", "name": "Pop Shove-it", "nameJp": "ポップショービット",
+      "category": "flatground", "difficulty": 2,
+      "input": { "type": "combo", "keys": ["down", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_shoveit",
+      "environments": ["street", "skatepark", "rooftop", "tunnel", "garden"]
+    },
+    {
+      "id": "front_shove_it", "name": "Front Shove-it", "nameJp": "フロントショービット",
+      "category": "flatground", "difficulty": 2,
+      "input": { "type": "combo", "keys": ["up", "modC", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_shoveit",
+      "environments": ["street", "skatepark"]
+    },
+    {
+      "id": "varial_kickflip", "name": "Varial Kickflip", "nameJp": "バリアルキック",
+      "category": "flatground", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["modA", "modC", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_kickflip",
+      "environments": ["street", "skatepark", "rooftop", "garden"]
+    },
+    {
+      "id": "varial_heelflip", "name": "Varial Heelflip", "nameJp": "バリアルヒール",
+      "category": "flatground", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["modB", "modC", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_heelflip",
+      "environments": ["street", "skatepark", "rooftop", "garden"]
+    },
+    {
+      "id": "nollie", "name": "Nollie", "nameJp": "ノーリー",
+      "category": "flatground", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["up", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_ollie",
+      "environments": ["street", "rooftop", "garden"]
+    },
+    {
+      "id": "360_flip", "name": "360 Flip", "nameJp": "トレフリップ",
+      "category": "flatground", "difficulty": 4,
+      "input": { "type": "combo", "keys": ["modA", "down", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 200, "animationKey": "trick_360flip",
+      "environments": ["rooftop", "garden"]
+    },
+    {
+      "id": "hardflip", "name": "Hardflip", "nameJp": "ハードフリップ",
+      "category": "flatground", "difficulty": 4,
+      "input": { "type": "combo", "keys": ["modA", "up", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 200, "animationKey": "trick_hardflip",
+      "environments": ["rooftop", "tunnel"]
+    },
+    {
+      "id": "inward_heelflip", "name": "Inward Heelflip", "nameJp": "インワードヒール",
+      "category": "flatground", "difficulty": 4,
+      "input": { "type": "combo", "keys": ["modB", "up", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 200, "animationKey": "trick_inward_heel",
+      "environments": ["rooftop", "garden"]
+    },
+    {
+      "id": "impossible", "name": "Impossible", "nameJp": "インポッシブル",
+      "category": "flatground", "difficulty": 5,
+      "input": { "type": "combo", "keys": ["modB", "modA", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 300, "animationKey": "trick_impossible",
+      "environments": ["rooftop", "garden"]
+    },
+    {
+      "id": "nollie_kickflip", "name": "Nollie Kickflip", "nameJp": "ノーリーキック",
+      "category": "flatground", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["up", "modA", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_kickflip",
+      "environments": ["garden"]
+    },
+    {
+      "id": "nollie_heelflip", "name": "Nollie Heelflip", "nameJp": "ノーリーヒール",
+      "category": "flatground", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["up", "modB", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "airTimeMin": 0, "animationKey": "trick_heelflip",
+      "environments": ["garden"]
+    },
+    {
+      "id": "fakie_kickflip", "name": "Fakie Kickflip", "nameJp": "フェイキーキック",
+      "category": "flatground", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["modA", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "requiresFakie": true,
+      "airTimeMin": 0, "animationKey": "trick_kickflip",
+      "environments": ["garden"]
+    },
+    {
+      "id": "fakie_heelflip", "name": "Fakie Heelflip", "nameJp": "フェイキーヒール",
+      "category": "flatground", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["modB", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": null,
+      "requiresFakie": true,
+      "airTimeMin": 0, "animationKey": "trick_heelflip",
+      "environments": ["garden"]
+    },
+    {
+      "id": "50_50_ledge", "name": "50-50 Grind (Ledge)", "nameJp": "フィフティ（レッジ）",
+      "category": "grind", "difficulty": 2,
+      "input": { "type": "combo", "keys": ["space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ledge",
+      "airTimeMin": 0, "animationKey": "grind_50_50",
+      "environments": ["street", "skatepark"]
+    },
+    {
+      "id": "noseslide", "name": "Noseslide", "nameJp": "ノーズスライド",
+      "category": "slide", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["left", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ledge",
+      "airTimeMin": 0, "animationKey": "slide_noseslide",
+      "environments": ["street", "skatepark"]
+    },
+    {
+      "id": "boardslide", "name": "Boardslide", "nameJp": "ボードスライド",
+      "category": "slide", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["down", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ledge",
+      "airTimeMin": 0, "animationKey": "slide_boardslide",
+      "environments": ["street", "skatepark", "rooftop"]
+    },
+    {
+      "id": "tailslide", "name": "Tailslide", "nameJp": "テールスライド",
+      "category": "slide", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["right", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ledge",
+      "airTimeMin": 0, "animationKey": "slide_tailslide",
+      "environments": ["skatepark", "tunnel"]
+    },
+    {
+      "id": "bluntslide", "name": "Bluntslide", "nameJp": "ブラントスライド",
+      "category": "slide", "difficulty": 4,
+      "input": { "type": "combo", "keys": ["up", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ledge",
+      "airTimeMin": 0, "animationKey": "slide_boardslide",
+      "environments": ["skatepark", "tunnel"]
+    },
+    {
+      "id": "darkslide", "name": "Darkslide", "nameJp": "ダークスライド",
+      "category": "slide", "difficulty": 5,
+      "input": { "type": "combo", "keys": ["modB", "modA", "down", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ledge",
+      "airTimeMin": 0, "animationKey": "slide_boardslide",
+      "environments": ["garden"]
+    },
+    {
+      "id": "primoslide", "name": "Primoslide", "nameJp": "プリモスライド",
+      "category": "slide", "difficulty": 5,
+      "input": { "type": "combo", "keys": ["modB", "up", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ledge",
+      "airTimeMin": 0, "animationKey": "slide_boardslide",
+      "environments": ["garden"]
+    },
+    {
+      "id": "50_50_rail", "name": "50-50 Grind (Rail)", "nameJp": "フィフティ（レール）",
+      "category": "grind", "difficulty": 2,
+      "input": { "type": "combo", "keys": ["space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "rail",
+      "airTimeMin": 0, "animationKey": "grind_50_50",
+      "environments": ["street", "skatepark", "rooftop", "tunnel"]
+    },
+    {
+      "id": "nosegrind_rail", "name": "Nosegrind", "nameJp": "ノーズグラインド",
+      "category": "grind", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["left", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "rail",
+      "airTimeMin": 0, "animationKey": "grind_nosegrind",
+      "environments": ["street", "skatepark", "rooftop", "tunnel"]
+    },
+    {
+      "id": "5_0_rail", "name": "5-0 Grind", "nameJp": "ファイブオー",
+      "category": "grind", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["right", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "rail",
+      "airTimeMin": 0, "animationKey": "grind_5_0",
+      "environments": ["street", "skatepark", "rooftop"]
+    },
+    {
+      "id": "crooked_grind", "name": "Crooked Grind", "nameJp": "クルックドグラインド",
+      "category": "grind", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["modA", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "rail",
+      "airTimeMin": 0, "animationKey": "grind_crooked",
+      "environments": ["skatepark", "rooftop", "tunnel"]
+    },
+    {
+      "id": "smith_grind", "name": "Smith Grind", "nameJp": "スミスグラインド",
+      "category": "grind", "difficulty": 4,
+      "input": { "type": "combo", "keys": ["modB", "right", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "rail",
+      "airTimeMin": 0, "animationKey": "grind_smith",
+      "environments": ["skatepark", "rooftop", "tunnel"]
+    },
+    {
+      "id": "feeble_grind", "name": "Feeble Grind", "nameJp": "フィーブルグラインド",
+      "category": "grind", "difficulty": 4,
+      "input": { "type": "combo", "keys": ["modB", "left", "space", "grind"] },
+      "requiredState": ["jumping"], "requiredObstacle": "rail",
+      "airTimeMin": 0, "animationKey": "grind_feeble",
+      "environments": ["skatepark", "tunnel"]
+    },
+    {
+      "id": "kickturn", "name": "Kickturn", "nameJp": "キックターン",
+      "category": "lip", "difficulty": 1,
+      "input": { "type": "single", "keys": ["left"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_stall",
+      "environments": ["skatepark", "tunnel"]
+    },
+    {
+      "id": "rock_to_fakie", "name": "Rock to Fakie", "nameJp": "ロック・トゥ・フェイキー",
+      "category": "lip", "difficulty": 2,
+      "input": { "type": "combo", "keys": ["up", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_rock",
+      "environments": ["skatepark"]
+    },
+    {
+      "id": "rock_n_roll", "name": "Rock n' Roll", "nameJp": "ロックンロール",
+      "category": "lip", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["up", "modC", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_rock",
+      "environments": ["skatepark", "tunnel"]
+    },
+    {
+      "id": "axle_stall", "name": "Axle Stall", "nameJp": "アクスルストール",
+      "category": "lip", "difficulty": 2,
+      "input": { "type": "single", "keys": ["space"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_stall",
+      "environments": ["skatepark"]
+    },
+    {
+      "id": "nose_stall", "name": "Nose Stall", "nameJp": "ノーズストール",
+      "category": "lip", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["left", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_stall",
+      "environments": ["skatepark", "tunnel"]
+    },
+    {
+      "id": "tail_stall", "name": "Tail Stall", "nameJp": "テールストール",
+      "category": "lip", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["right", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_stall",
+      "environments": ["skatepark", "tunnel"]
+    },
+    {
+      "id": "5_0_stall", "name": "5-0 Stall", "nameJp": "ファイブオーストール",
+      "category": "lip", "difficulty": 3,
+      "input": { "type": "combo", "keys": ["right", "grind", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_stall",
+      "environments": ["skatepark", "tunnel"]
+    },
+    {
+      "id": "nosepick", "name": "Nosepick", "nameJp": "ノーズピック",
+      "category": "lip", "difficulty": 4,
+      "input": { "type": "combo", "keys": ["modA", "left", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_stall",
+      "environments": ["tunnel"]
+    },
+    {
+      "id": "blunt_stall", "name": "Blunt Stall", "nameJp": "ブラントストール",
+      "category": "lip", "difficulty": 4,
+      "input": { "type": "combo", "keys": ["modB", "up", "space"] },
+      "requiredState": ["jumping"], "requiredObstacle": "ramp_lip",
+      "airTimeMin": 0, "animationKey": "lip_stall",
+      "environments": ["tunnel"]
+    },
+    {
+      "id": "manual", "name": "Manual", "nameJp": "マニュアル",
+      "category": "manual", "difficulty": 2,
+      "input": { "type": "hold", "keys": ["down"] },
+      "requiredState": ["rolling"], "requiredObstacle": null,
+      "minDuration": 800, "animationKey": "manual",
+      "environments": ["street", "skatepark", "rooftop", "tunnel", "garden"]
+    },
+    {
+      "id": "nose_manual", "name": "Nose Manual", "nameJp": "ノーズマニュアル",
+      "category": "manual", "difficulty": 2,
+      "input": { "type": "hold", "keys": ["up"] },
+      "requiredState": ["rolling"], "requiredObstacle": null,
+      "minDuration": 800, "animationKey": "nose_manual",
+      "environments": ["street", "skatepark", "rooftop", "tunnel", "garden"]
+    },
+    {
+      "id": "manual_combo_trick", "name": "Manual + Trick", "nameJp": "マニュアルコンボ",
+      "category": "manual", "difficulty": 4,
+      "input": { "type": "combo_sequence", "keys": ["down_hold", "space", "modA"] },
+      "requiredState": ["manual"], "requiredObstacle": null,
+      "minDuration": 500, "animationKey": "manual",
+      "environments": ["tunnel", "garden"]
+    },
+    {
+      "id": "nose_manual_combo", "name": "Nose Manual + Trick", "nameJp": "ノーズマニュアルコンボ",
+      "category": "manual", "difficulty": 4,
+      "input": { "type": "combo_sequence", "keys": ["up_hold", "space", "modA"] },
+      "requiredState": ["nose_manual"], "requiredObstacle": null,
+      "minDuration": 500, "animationKey": "nose_manual",
+      "environments": ["garden"]
+    }
+  ]
+}

@@ -1,0 +1,503 @@
+{
+  "_meta": {
+    "project": "Kokoro Game : Kintsugi",
+    "description": "Suivi des étapes de développement. Chaque 'step' est une unité de travail autonome qu'un agent IA peut implémenter indépendamment. Passer 'done' à true une fois l'étape terminée et testée.",
+    "howToUse": "Lire _specifications/README.md d'abord. Chaque step référence les fichiers _specifications/ pertinents. Traiter les steps dans l'ordre — les dépendances sont listées dans 'requires'.",
+    "lastUpdated": "2026-06-01",
+    "currentStep": "step-11"
+  },
+
+  "steps": [
+
+    {
+      "id": "step-01",
+      "title": "Setup du projet — structure fichiers + index.html",
+      "description": "Créer la structure de dossiers vide (src/, medias/, etc.), l'index.html avec Phaser 3.70 via CDN, et src/main.js minimal qui lance Phaser sans scène. Vérifier que le canvas s'affiche en 1280×720.",
+      "category": "setup",
+      "requires": [],
+      "files": [
+        "index.html",
+        "src/main.js",
+        "src/config.js"
+      ],
+      "orga": ["technical-architecture.md #1 #2"],
+      "done": true
+    },
+
+    {
+      "id": "step-02",
+      "title": "Utilitaires — EventBus, SaveManager, MathUtils",
+      "description": "Implémenter src/utils/EventBus.js (Phaser.Events.EventEmitter global), src/utils/SaveManager.js (wrapper localStorage avec clé 'kokoro_kintsugi_save', méthodes load/save/reset), src/utils/MathUtils.js (helpers : clamp, lerp, randomBetween).",
+      "category": "core",
+      "requires": ["step-01"],
+      "files": [
+        "src/utils/EventBus.js",
+        "src/utils/SaveManager.js",
+        "src/utils/MathUtils.js"
+      ],
+      "orga": ["technical-architecture.md #6", "coding-guidelines.md"],
+      "done": true
+    },
+
+    {
+      "id": "step-03",
+      "title": "BootScene — initialisation et détection de sauvegarde",
+      "description": "Créer src/scenes/BootScene.js. Charger progression.json comme template. Si aucune sauvegarde localStorage, copier le template. Lancer PreloadScene à la fin.",
+      "category": "scenes",
+      "requires": ["step-02"],
+      "files": [
+        "src/scenes/BootScene.js"
+      ],
+      "orga": ["technical-architecture.md #3", "progression-kintsugi.md #5"],
+      "done": true
+    },
+
+    {
+      "id": "step-04",
+      "title": "PreloadScene — chargement de tous les assets",
+      "description": "Créer src/scenes/PreloadScene.js. Lire manifests/images.json, manifests/audio.json, manifests/fonts.json et charger chaque asset via this.load. Afficher une barre de progression pixel art. Lancer MenuScene quand 100%.",
+      "category": "scenes",
+      "requires": ["step-03"],
+      "files": [
+        "src/scenes/PreloadScene.js"
+      ],
+      "orga": ["technical-architecture.md #3", "assets-specification.md"],
+      "done": true
+    },
+
+    {
+      "id": "step-05",
+      "title": "MenuScene — écran titre et navigation principale",
+      "description": "Créer src/scenes/MenuScene.js. Afficher logo, options JOUER / SKATEBOARD / OPTIONS. Navigation clavier (flèches + ENTER). Fond animé avec parallax simple. Sons UI. Transition fadeOut → BoardScene ou EnvSelectScene.",
+      "category": "scenes",
+      "requires": ["step-04"],
+      "files": [
+        "src/scenes/MenuScene.js",
+        "src/ui/MenuComponents.js"
+      ],
+      "orga": ["ui-screens.md #1", "coding-guidelines.md"],
+      "done": true
+    },
+
+    {
+      "id": "step-06",
+      "title": "GameScene — classe de base pour tous les environnements",
+      "description": "Créer src/scenes/environments/GameScene.js. Méthodes abstraites : _createWorld(), _createSkater(), _createSystems(), _createHUD(), _setupCollisions(), _setupEventListeners(). Gestion camera (follow + bounds). Méthode shutdown() avec cleanup EventBus. Ne pas instancier directement.",
+      "category": "core",
+      "requires": ["step-04"],
+      "files": [
+        "src/scenes/environments/GameScene.js"
+      ],
+      "orga": ["technical-architecture.md #4", "coding-guidelines.md #3"],
+      "done": true
+    },
+
+    {
+      "id": "step-07",
+      "title": "Entité Skater — physique et mouvement de base",
+      "description": "Créer src/entities/Skater.js. Physique Arcade : vitesse 200, saut velocity -620, maxSpeed 280, gravité 900. Machine à états : IDLE, PUSHING, ROLLING, JUMPING, LANDING, CRASHED. Mouvement gauche/droite, saut basique. Pas de tricks pour l'instant. Sprite placeholder (rectangle coloré).",
+      "category": "entities",
+      "requires": ["step-06"],
+      "files": [
+        "src/entities/Skater.js"
+      ],
+      "orga": ["tricks-system.md #2", "technical-architecture.md #5"],
+      "done": true
+    },
+
+    {
+      "id": "step-08",
+      "title": "InputSystem — buffer d'inputs et mapping clavier",
+      "description": "Créer src/systems/InputSystem.js. Mapping : ←→↑↓, SPACE=ollie, Z=modA, X=modB, C=modC, G=grind, M=manual. Buffer circulaire 400ms. Méthodes : update(), getBufferedSequence(), consumeBuffer(), isPressed(). Coyote time 120ms.",
+      "category": "systems",
+      "requires": ["step-07"],
+      "files": [
+        "src/systems/InputSystem.js"
+      ],
+      "orga": ["controls-input.md", "tricks-system.md #3"],
+      "done": true
+    },
+
+    {
+      "id": "step-09",
+      "title": "StreetScene — premier environnement jouable",
+      "description": "Créer src/scenes/environments/StreetScene.js héritant de GameScene. Tilemap Tiled (16×16px, layers: background/ground/objects/spawn_points). World 1920×360px. Ground y=288. Obstacles placeholder (rectangles). Caméra qui suit le skater. Collision sol fonctionnelle.",
+      "category": "environments",
+      "requires": ["step-07", "step-08"],
+      "files": [
+        "src/scenes/environments/StreetScene.js"
+      ],
+      "orga": ["environments.md #1", "technical-architecture.md #7"],
+      "done": true
+    },
+
+    {
+      "id": "step-10",
+      "title": "Obstacles — classes Rail, Ledge, Stair, ManualPad",
+      "description": "Créer src/entities/obstacles/Obstacle.js (classe de base avec propriétés : type, grindable, slideType, snapRange). Puis Rail.js, Ledge.js, Stair.js, ManualPad.js. Chaque obstacle lit ses propriétés depuis le tilemap (custom properties Tiled). Hitboxes exactes selon environments.md.",
+      "category": "entities",
+      "requires": ["step-09"],
+      "files": [
+        "src/entities/obstacles/Obstacle.js",
+        "src/entities/obstacles/Rail.js",
+        "src/entities/obstacles/Ledge.js",
+        "src/entities/obstacles/Stair.js",
+        "src/entities/obstacles/ManualPad.js"
+      ],
+      "orga": ["environments.md", "technical-architecture.md #5"],
+      "done": true
+    },
+
+    {
+      "id": "step-11",
+      "title": "TrickSystem — détection et validation des tricks",
+      "description": "Créer src/systems/TrickSystem.js. Charger src/data/tricks.json. Méthodes : update(), _detectTrick(), validateTrick(trickDef), _checkRequiredState(), _checkRequiredObstacle(), _checkAirTime(). Émettre EventBus 'trick:attempt', 'trick:success', 'trick:fail'. Commencer par ollie + 5 tricks de base.",
+      "category": "systems",
+      "requires": ["step-08", "step-10"],
+      "files": [
+        "src/systems/TrickSystem.js"
+      ],
+      "orga": ["tricks-system.md", "controls-input.md"],
+      "done": false
+    },
+
+    {
+      "id": "step-12",
+      "title": "États skater avancés — GRINDING, MANUAL, TRICK_AIR",
+      "description": "Étendre Skater.js avec les états : CROUCHING, TRICK_AIR, GRINDING, SLIDING, MANUAL, NOSE_MANUAL. Implémenter la logique de snap sur les rails (snapRange 24px, 16px pour bambou). Transition LANDING → state approprié. Gestion du crash (reset au dernier point stable).",
+      "category": "entities",
+      "requires": ["step-11"],
+      "files": [
+        "src/entities/Skater.js"
+      ],
+      "orga": ["tricks-system.md #2", "environments.md #5"],
+      "done": false
+    },
+
+    {
+      "id": "step-13",
+      "title": "KintsugiSystem — tracking des cracks gris et dorées",
+      "description": "Créer src/systems/KintsugiSystem.js. Écouter EventBus 'trick:success'. Identifier le crackId (trickId_envId). Transition absent → grey → gold selon progression.json. Émettre 'crack:grey' et 'crack:gold'. Persister via SaveManager. 60 cracks au total.",
+      "category": "systems",
+      "requires": ["step-11", "step-02"],
+      "files": [
+        "src/systems/KintsugiSystem.js"
+      ],
+      "orga": ["progression-kintsugi.md", "technical-architecture.md #6"],
+      "done": false
+    },
+
+    {
+      "id": "step-14",
+      "title": "ProgressionSystem — débloquage des environnements",
+      "description": "Créer src/systems/ProgressionSystem.js. Compter les cracks dorées. Seuils : 0=street, 5=skatepark, 17=rooftop, 29=tunnel, 42=garden. Écouter 'crack:gold'. Émettre 'env:unlock' si nouveau seuil atteint. Émettre 'board:complete' si 60 cracks or. Sauvegarder via SaveManager.",
+      "category": "systems",
+      "requires": ["step-13"],
+      "files": [
+        "src/systems/ProgressionSystem.js"
+      ],
+      "orga": ["progression-kintsugi.md #3", "environments.md"],
+      "done": false
+    },
+
+    {
+      "id": "step-15",
+      "title": "Tous les tricks — catalogue complet (40+ tricks)",
+      "description": "Compléter TrickSystem.js pour reconnaître tous les tricks définis dans src/data/tricks.json : flips (kickflip, heelflip...), grabs, grind tricks (50-50, nosegrind, 5-0...), manuel tricks, slides, fakie tricks. Algorithme de priorité (plus de touches = priorité plus haute).",
+      "category": "systems",
+      "requires": ["step-12"],
+      "files": [
+        "src/systems/TrickSystem.js"
+      ],
+      "orga": ["tricks-system.md #4", "controls-input.md #3"],
+      "done": false
+    },
+
+    {
+      "id": "step-16",
+      "title": "HUD — interface in-game",
+      "description": "Créer src/ui/HUD.js. Trick feed (coin haut-gauche, liste des 5 derniers tricks réussis, fade out). Mini board kintsugi (coin haut-droit, 60 pixels représentant les cracks). Nom de l'environnement (bas-gauche). Tout en font pixel_font. Se met à jour via EventBus.",
+      "category": "ui",
+      "requires": ["step-13"],
+      "files": [
+        "src/ui/HUD.js",
+        "src/ui/TrickFeed.js"
+      ],
+      "orga": ["ui-screens.md #4", "progression-kintsugi.md #4"],
+      "done": false
+    },
+
+    {
+      "id": "step-17",
+      "title": "BoardScene — vue du skateboard kintsugi",
+      "description": "Créer src/scenes/BoardScene.js et src/ui/KintsugiBoard.js. Afficher le skateboard 96×32px au centre avec 60 cracks colorées selon progression. Cliquer/sélectionner une crack affiche trickId + envId. Bouton retour vers MenuScene. Animation d'entrée.",
+      "category": "scenes",
+      "requires": ["step-13", "step-05"],
+      "files": [
+        "src/scenes/BoardScene.js",
+        "src/ui/KintsugiBoard.js"
+      ],
+      "orga": ["ui-screens.md #2", "progression-kintsugi.md #1 #2"],
+      "done": false
+    },
+
+    {
+      "id": "step-18",
+      "title": "EnvSelectScene — sélection de l'environnement",
+      "description": "Créer src/scenes/EnvSelectScene.js. Afficher 5 cartes d'environnements. Cartes verrouillées en gris (cadenas). Afficher le seuil de débloquage. Navigation clavier. Sélectionner un environnement → lancer la GameScene correspondante.",
+      "category": "scenes",
+      "requires": ["step-14", "step-05"],
+      "files": [
+        "src/scenes/EnvSelectScene.js"
+      ],
+      "orga": ["ui-screens.md #3", "environments.md #1"],
+      "done": false
+    },
+
+    {
+      "id": "step-19",
+      "title": "AudioSystem — sons et musique",
+      "description": "Créer src/systems/AudioSystem.js. Écouter EventBus : trick:success → son flip/grind/land. crack:grey → crack_appear. crack:gold → crack_gold. env:unlock → env_unlock. Musique ambiante par environnement (loop). Fondu entre scènes. Respect des settings (musicEnabled, sfxEnabled).",
+      "category": "systems",
+      "requires": ["step-11", "step-13"],
+      "files": [
+        "src/systems/AudioSystem.js"
+      ],
+      "orga": ["assets-specification.md #3", "technical-architecture.md #6"],
+      "done": false
+    },
+
+    {
+      "id": "step-20",
+      "title": "SkateparkScene — environnement skatepark",
+      "description": "Créer src/scenes/environments/SkateparkScene.js. World 1920px. Quarter pipes (ramps), Box_1/Box_2, manual pad, rail. Débloqué à 5 cracks dorées. Tous les obstacles selon environments.md #2.",
+      "category": "environments",
+      "requires": ["step-12", "step-14"],
+      "files": [
+        "src/scenes/environments/SkateparkScene.js",
+        "src/entities/obstacles/Ramp.js"
+      ],
+      "orga": ["environments.md #2"],
+      "done": false
+    },
+
+    {
+      "id": "step-21",
+      "title": "RooftopScene — environnement rooftop avec gaps",
+      "description": "Créer src/scenes/environments/RooftopScene.js. World 1920px. Sections de toit séparées par des gaps (vides — le joueur chute). Rail sur ROOF_B. Ledge sur ROOF_A. Le joueur doit sauter les gaps. Gestion de la chute dans le vide (crash).",
+      "category": "environments",
+      "requires": ["step-12", "step-14"],
+      "files": [
+        "src/scenes/environments/RooftopScene.js"
+      ],
+      "orga": ["environments.md #3"],
+      "done": false
+    },
+
+    {
+      "id": "step-22",
+      "title": "TunnelScene — environnement underground",
+      "description": "Créer src/scenes/environments/TunnelScene.js. World 2240px (plus large). Plafond à y=48 (collision). Half-pipe, longs rails, piliers dangereux. Débloqué à 29 cracks dorées.",
+      "category": "environments",
+      "requires": ["step-12", "step-14"],
+      "files": [
+        "src/scenes/environments/TunnelScene.js"
+      ],
+      "orga": ["environments.md #4"],
+      "done": false
+    },
+
+    {
+      "id": "step-23",
+      "title": "GardenScene — environnement jardin zen",
+      "description": "Créer src/scenes/environments/GardenScene.js. Rails en bambou avec snapRange=16px réduit. Stone ledges, bridge long, manual path. Ambiance calme. Débloqué à 42 cracks dorées.",
+      "category": "environments",
+      "requires": ["step-12", "step-14"],
+      "files": [
+        "src/scenes/environments/GardenScene.js"
+      ],
+      "orga": ["environments.md #5"],
+      "done": false
+    },
+
+    {
+      "id": "step-24",
+      "title": "Animations — intégration spritesheet skater",
+      "description": "Brancher le vrai spritesheet skater (32×48px/frame, 29 lignes d'animation) dans Skater.js. Créer les anims Phaser pour chaque état : idle, push, roll, ollie, kickflip, etc. Transitions d'animation entre états. Flip horizontal selon direction.",
+      "category": "visuals",
+      "requires": ["step-15"],
+      "files": [
+        "src/entities/Skater.js"
+      ],
+      "orga": ["assets-specification.md #1", "tricks-system.md #5"],
+      "done": false
+    },
+
+    {
+      "id": "step-25",
+      "title": "Particules — dust, sparks, stars",
+      "description": "Intégrer les particules Phaser 3 dans les moments clés : dust au push/land (4×4px), spark_grind pendant le grinding (4×4px), star_landing à l'atterrissage réussi d'un trick (8×8px). Configurer les emitters. Pas de new dans la boucle update.",
+      "category": "visuals",
+      "requires": ["step-12"],
+      "files": [
+        "src/systems/TrickSystem.js",
+        "src/entities/Skater.js"
+      ],
+      "orga": ["assets-specification.md #2"],
+      "done": false
+    },
+
+    {
+      "id": "step-26",
+      "title": "Animations kintsugi — crack grey + crack gold",
+      "description": "Dans KintsugiBoard.js et KintsugiSystem.js : animation grey (flash + fade 300ms), animation gold (particle burst + color tween 600ms + glow persistant). Déclencher depuis EventBus 'crack:grey' et 'crack:gold'. Optimisation : tint Phaser sur 60 sprites blanc-transparent.",
+      "category": "visuals",
+      "requires": ["step-16", "step-17"],
+      "files": [
+        "src/ui/KintsugiBoard.js",
+        "src/systems/KintsugiSystem.js"
+      ],
+      "orga": ["progression-kintsugi.md #4"],
+      "done": false
+    },
+
+    {
+      "id": "step-27",
+      "title": "Overlay débloquage d'environnement",
+      "description": "Créer une overlay animée dans MenuComponents.js qui s'affiche quand 'env:unlock' est émis. Séquence : fondu noir → texte ENV_NAME avec effet typewriter → thumbnail env → fermeture. Bloquer les inputs pendant l'animation.",
+      "category": "ui",
+      "requires": ["step-14", "step-05"],
+      "files": [
+        "src/ui/MenuComponents.js"
+      ],
+      "orga": ["ui-screens.md #5"],
+      "done": false
+    },
+
+    {
+      "id": "step-28",
+      "title": "Écran fin de jeu — board:complete (60 cracks or)",
+      "description": "Quand EventBus 'board:complete' est émis : afficher l'écran de fin avec le skateboard entièrement doré, le caractère 「完成」, l'animation de rotation du board. Pas de bouton rejeu — l'état final est contemplatif. Retour menu possible.",
+      "category": "ui",
+      "requires": ["step-14", "step-17"],
+      "files": [
+        "src/ui/MenuComponents.js",
+        "src/scenes/MenuScene.js"
+      ],
+      "orga": ["ui-screens.md #6"],
+      "done": false
+    },
+
+    {
+      "id": "step-29",
+      "title": "Écran options — paramètres audio et controls",
+      "description": "Ajouter l'écran Options accessible depuis MenuScene. Toggles : musique on/off, sfx on/off, buffer étendu on/off. Persister via SaveManager dans le champ 'settings'. Retour au menu.",
+      "category": "ui",
+      "requires": ["step-05", "step-02"],
+      "files": [
+        "src/scenes/MenuScene.js",
+        "src/ui/MenuComponents.js"
+      ],
+      "orga": ["ui-screens.md #7"],
+      "done": false
+    },
+
+    {
+      "id": "step-30",
+      "title": "Parallax backgrounds — décors défilants",
+      "description": "Intégrer les vraies images de background dans chaque GameScene. Configurer scrollFactorX par couche (far ~0.1, mid ~0.4, near ~0.8) selon environments.json. Tiling infini pour les couches qui se répètent.",
+      "category": "visuals",
+      "requires": ["step-09"],
+      "files": [
+        "src/scenes/environments/GameScene.js"
+      ],
+      "orga": ["environments.md", "assets-specification.md #4"],
+      "done": false
+    },
+
+    {
+      "id": "step-31",
+      "title": "Tilesets — remplacement des placeholders par les vrais assets",
+      "description": "Pour chaque environnement, remplacer le tilemap/tileset placeholder par les vrais fichiers (street_tiles.png, etc.). S'assurer que les layers Tiled correspondent : background, ground (collision), objects (custom props), spawn_points.",
+      "category": "visuals",
+      "requires": ["step-09", "step-20", "step-21", "step-22", "step-23"],
+      "files": [
+        "medias/images/tilesets/street/street_tiles.png",
+        "medias/images/tilesets/skatepark/skatepark_tiles.png",
+        "medias/images/tilesets/rooftop/rooftop_tiles.png",
+        "medias/images/tilesets/tunnel/tunnel_tiles.png",
+        "medias/images/tilesets/garden/garden_tiles.png"
+      ],
+      "orga": ["assets-specification.md #5", "environments.md"],
+      "done": false
+    },
+
+    {
+      "id": "step-32",
+      "title": "Polish et tests — boucle complète fonctionnelle",
+      "description": "Vérifier la boucle complète : Boot→Menu→EnvSelect→Jeu→Trick→Crack→Débloquage→BoardScene. Tester les 5 environnements. Vérifier la sauvegarde/restauration localStorage. Corriger les bugs de collision, de détection de tricks, d'états. Passer arcade debug:false.",
+      "category": "polish",
+      "requires": ["step-01", "step-02", "step-03", "step-04", "step-05", "step-06", "step-07", "step-08", "step-09", "step-10", "step-11", "step-12", "step-13", "step-14", "step-15", "step-16", "step-17", "step-18", "step-19", "step-20", "step-21", "step-22", "step-23"],
+      "files": [],
+      "orga": ["coding-guidelines.md #5"],
+      "done": false
+    },
+
+    {
+      "id": "step-33",
+      "title": "Optimisation performance — profiling et corrections",
+      "description": "Vérifier : pas de new dans update(), object pooling pour particules, setAlpha/setTint plutôt que destroy+create, désactiver les scènes inactives. Profiler avec Chrome DevTools. Cible : 60fps stable en 1280×720.",
+      "category": "polish",
+      "requires": ["step-32"],
+      "files": [],
+      "orga": ["coding-guidelines.md #4"],
+      "done": false
+    },
+
+    {
+      "id": "step-34",
+      "title": "Support gamepad (bonus)",
+      "description": "Étendre InputSystem.js pour accepter un gamepad via Phaser GamepadPlugin. Mapper les boutons selon controls-input.md. Tester avec une manette générique et Xbox. Optionnel — ne pas bloquer le reste du développement.",
+      "category": "bonus",
+      "requires": ["step-08"],
+      "files": [
+        "src/systems/InputSystem.js"
+      ],
+      "orga": ["controls-input.md #2"],
+      "done": false
+    },
+
+    {
+      "id": "step-35",
+      "title": "Build et déploiement GitHub Pages",
+      "description": "Configurer package.json + vite.config.js pour bundler le projet. Base URL pour GitHub Pages (/projets/kintsugi/). Commande npm run build → dist/. Vérifier que le jeu fonctionne en production (paths relatifs, assets chargés).",
+      "category": "deploy",
+      "requires": ["step-32"],
+      "files": [
+        "package.json",
+        "vite.config.js"
+      ],
+      "orga": ["technical-architecture.md #1"],
+      "done": false
+    }
+
+  ],
+
+  "summary": {
+    "total": 35,
+    "done": 10,
+    "categories": {
+      "setup": 1,
+      "core": 3,
+      "scenes": 4,
+      "entities": 3,
+      "systems": 5,
+      "environments": 5,
+      "ui": 5,
+      "visuals": 4,
+      "polish": 2,
+      "bonus": 1,
+      "deploy": 1
+    }
+  }
+}

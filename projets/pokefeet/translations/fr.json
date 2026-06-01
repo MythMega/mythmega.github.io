@@ -239,6 +239,28 @@
     "dark": "Ténèbre",
     "fairy": "Fée"
   },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Mon profil",
+    "pseudo": "Pseudo",
+    "placeholder": "Entrez votre pseudo...",
+    "save": "Sauvegarder",
+    "clear": "Effacer",
+    "info": "Le pseudo est stocké dans un cookie et apparaîtra sur les partages.",
+    "saved": "Pseudo sauvegardé !",
+    "cleared": "Pseudo effacé",
+    "emptyWarning": "Veuillez entrer un pseudo",
+    "tooLong": "Le pseudo ne doit pas dépasser 30 caractères"
+  },
+  "stats": {
+    "title": "Statistiques — Pokefeet",
+    "marathon": "Marathon",
+    "marathonBest": "Meilleurs scores Marathon",
+    "marathonInfo": "Ces scores correspondent à votre meilleure performance en mode Marathon (tous Pokémon).",
+    "pseudoLabel": "Joueur",
+    "viewDaily": "Voir ce daily",
+    "viewWeekly": "Voir ce weekly"
+  },
   "oldDaily": {
     "tabDaily": "Daily",
     "tabWeekly": "Weekly",

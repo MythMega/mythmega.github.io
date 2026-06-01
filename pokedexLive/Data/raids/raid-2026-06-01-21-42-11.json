@@ -1,0 +1,113 @@
+{
+  "bossName": "Serpang",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Huntail_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Huntail_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 45000,
+  "date": "2026-06-01 21:42:11",
+  "durationSec": 250,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 58899,
+      "countAtk": 2,
+      "baseDmg": 25275,
+      "level": 18,
+      "raidCount": 799,
+      "luck": 1.1651632
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "alexciel",
+      "damage": 883,
+      "countAtk": 1,
+      "baseDmg": 883,
+      "level": 11,
+      "raidCount": 31,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 58899
+    },
+    {
+      "platform": "youtube",
+      "damage": 883
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-01 21:42:44",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25275,
+      "pvAfter": 19725,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:44:39",
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "damages": 883,
+      "pvAfter": 18842,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:46:22",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 33624,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

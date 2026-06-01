@@ -1,0 +1,195 @@
+{
+  "bossName": "Donphan",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Donphan_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Donphan_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 25000,
+  "date": "2026-06-01 20:08:11",
+  "durationSec": 1614,
+  "players": [
+    {
+      "platform": "youtube",
+      "pseudo": "Mat-Yu",
+      "damage": 11797,
+      "countAtk": 1,
+      "baseDmg": 11797,
+      "level": 19,
+      "raidCount": 432,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 7905,
+      "countAtk": 1,
+      "baseDmg": 7905,
+      "level": 17,
+      "raidCount": 301,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 5570,
+      "countAtk": 6,
+      "baseDmg": 703,
+      "level": 7,
+      "raidCount": 42,
+      "luck": 1.320531
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 7905
+    },
+    {
+      "platform": "youtube",
+      "damage": 17367
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Mat-Yu",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-01 20:18:38",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 7905,
+      "pvAfter": 17095,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 20:20:26",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 703,
+      "pvAfter": 16392,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 20:24:46",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1199,
+      "pvAfter": 15193,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 20:28:46",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1076,
+      "pvAfter": 14117,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 20:31:01",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 827,
+      "pvAfter": 13290,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 20:32:25",
+      "pseudo": "Mat-Yu",
+      "platform": "youtube",
+      "damages": 11797,
+      "pvAfter": 1493,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 20:33:49",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 961,
+      "pvAfter": 532,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 20:35:06",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 804,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -239,6 +239,28 @@
     "dark": "Dark",
     "fairy": "Fairy"
   },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "My Profile",
+    "pseudo": "Username",
+    "placeholder": "Enter your username...",
+    "save": "Save",
+    "clear": "Clear",
+    "info": "Your username is stored in a cookie and will appear on shared results.",
+    "saved": "Username saved!",
+    "cleared": "Username cleared",
+    "emptyWarning": "Please enter a username",
+    "tooLong": "Username must be 30 characters or less"
+  },
+  "stats": {
+    "title": "Statistics — Pokefeet",
+    "marathon": "Marathon",
+    "marathonBest": "Best Marathon scores",
+    "marathonInfo": "These scores correspond to your best performances in Marathon mode (all Pokémon).",
+    "pseudoLabel": "Player",
+    "viewDaily": "View this daily",
+    "viewWeekly": "View this weekly"
+  },
   "oldDaily": {
     "tabDaily": "Daily",
     "tabWeekly": "Weekly",

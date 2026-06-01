@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <!-- KOKORO GAME : KINTSUGI — Street Environment Hitbox Reference -->
+  <!-- Resolution: 640x360px (internal), world width: 1920px (this SVG shows first 640px) -->
+  <!-- Color code: RED fill = ground/platform | GREEN fill = grindable surface | BLUE line = rail | ORANGE = stairs -->
+
+  <!-- Title -->
+  <text x="6" y="14" fill="#ff4444" font-family="monospace" font-size="11" font-weight="bold">STREET — HITBOX REFERENCE</text>
+  <text x="6" y="26" fill="#ff8888" font-family="monospace" font-size="9">RED=platform | GREEN=grindable top | BLUE=rail | ORANGE=stair step</text>
+  <text x="6" y="37" fill="#888888" font-family="monospace" font-size="8">World: 1920px wide — this view: x=0 to x=640</text>
+
+  <!-- GROUND (y=288, full width) -->
+  <rect x="0" y="288" width="640" height="72" fill="rgba(255,60,60,0.18)" stroke="#ff4444" stroke-width="2"/>
+  <text x="6" y="304" fill="#ff4444" font-family="monospace" font-size="9">GROUND  y=288</text>
+
+  <!-- LEDGE 1 (x=80–200, y=255, height=33) -->
+  <!-- Platform body -->
+  <rect x="80" y="255" width="120" height="33" fill="rgba(255,60,60,0.15)" stroke="#ff8888" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <!-- Grindable top surface -->
+  <rect x="80" y="255" width="120" height="5" fill="rgba(60,255,120,0.45)" stroke="#44ff88" stroke-width="1.5"/>
+  <text x="82" y="251" fill="#44ff88" font-family="monospace" font-size="8">LEDGE_1  x:80–200  y:255  GRINDABLE TOP</text>
+
+  <!-- 3-STAIR SET (x=380–500, touching ground at x=500) -->
+  <!-- Step 3 (highest, leftmost) -->
+  <rect x="380" y="264" width="40" height="24" fill="rgba(255,140,40,0.25)" stroke="#ff8c28" stroke-width="1.5"/>
+  <!-- Step 2 -->
+  <rect x="420" y="276" width="40" height="12" fill="rgba(255,140,40,0.25)" stroke="#ff8c28" stroke-width="1.5"/>
+  <!-- Step 1 (lowest) -->
+  <rect x="460" y="282" width="40" height="6" fill="rgba(255,140,40,0.25)" stroke="#ff8c28" stroke-width="1.5"/>
+  <text x="382" y="260" fill="#ff8c28" font-family="monospace" font-size="8">3-STAIR  x:380–500</text>
+  <!-- Step labels -->
+  <text x="385" y="275" fill="#ff8c28" font-family="monospace" font-size="7">S3</text>
+  <text x="425" y="285" fill="#ff8c28" font-family="monospace" font-size="7">S2</text>
+  <text x="463" y="287" fill="#ff8c28" font-family="monospace" font-size="7">S1</text>
+
+  <!-- RAIL 1 (x=620–780, y=238, height=6) — partially visible in this 640px view -->
+  <line x1="620" y1="238" x2="640" y2="238" stroke="#4488ff" stroke-width="4"/>
+  <text x="570" y="234" fill="#4488ff" font-family="monospace" font-size="8">RAIL_1 → x:620–780  y=238  (continues off-screen)</text>
+
+  <!-- Spawn point indicator -->
+  <circle cx="64" cy="256" r="6" fill="none" stroke="#ffff44" stroke-width="2"/>
+  <text x="72" y="261" fill="#ffff44" font-family="monospace" font-size="8">SPAWN (64,256)</text>
+
+  <!-- World bounds reminder -->
+  <rect x="0" y="0" width="640" height="360" fill="none" stroke="#444444" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="548" y="356" fill="#555555" font-family="monospace" font-size="8">VIEW x:0–640 / 1920</text>
+
+  <!-- Off-screen indicators -->
+  <text x="580" y="280" fill="#666666" font-family="monospace" font-size="8">→ x:640+</text>
+  <text x="580" y="290" fill="#666666" font-family="monospace" font-size="8">STAIR_5</text>
+  <text x="580" y="300" fill="#666666" font-family="monospace" font-size="8">MANUAL_PAD</text>
+
+  <!-- Legend box -->
+  <rect x="460" y="320" width="174" height="36" fill="rgba(0,0,0,0.6)" stroke="#333333" stroke-width="1"/>
+  <rect x="464" y="324" width="10" height="6" fill="rgba(255,60,60,0.5)" stroke="#ff4444" stroke-width="1"/>
+  <text x="477" y="330" fill="#ff4444" font-family="monospace" font-size="7">Ground / Platform</text>
+  <rect x="464" y="332" width="10" height="6" fill="rgba(60,255,120,0.5)" stroke="#44ff88" stroke-width="1"/>
+  <text x="477" y="338" fill="#44ff88" font-family="monospace" font-size="7">Grindable surface</text>
+  <line x1="464" y1="345" x2="474" y2="345" stroke="#4488ff" stroke-width="3"/>
+  <text x="477" y="348" fill="#4488ff" font-family="monospace" font-size="7">Rail</text>
+</svg>

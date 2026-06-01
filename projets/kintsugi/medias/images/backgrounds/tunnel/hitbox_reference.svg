@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <!-- KOKORO GAME : KINTSUGI — Underground/Tunnel Environment Hitbox Reference -->
+  <!-- Note: This env has a CEILING at y=48 + world is 2240px wide -->
+
+  <text x="6" y="14" fill="#ff4444" font-family="monospace" font-size="11" font-weight="bold">UNDERGROUND — HITBOX REFERENCE</text>
+  <text x="6" y="26" fill="#ff8888" font-family="monospace" font-size="9">RED=platform | GREEN=grindable | BLUE=rail | YELLOW=ceiling | RED dashed=pillar hazard</text>
+
+  <!-- CEILING (y=48) — low ceiling of the tunnel -->
+  <rect x="0" y="0" width="640" height="48" fill="rgba(255,220,0,0.12)" stroke="#ffcc00" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="6" y="42" fill="#ffcc00" font-family="monospace" font-size="8">CEILING  y=0–48  (player cannot go above this)</text>
+
+  <!-- GROUND -->
+  <rect x="0" y="288" width="640" height="72" fill="rgba(255,60,60,0.18)" stroke="#ff4444" stroke-width="2"/>
+  <text x="6" y="304" fill="#ff4444" font-family="monospace" font-size="9">GROUND  y=288</text>
+
+  <!-- Tunnel wall feel -->
+  <rect x="0" y="48" width="4" height="240" fill="rgba(255,60,60,0.3)" stroke="#ff4444" stroke-width="1"/>
+  <rect x="636" y="48" width="4" height="240" fill="rgba(255,60,60,0.3)" stroke="#ff4444" stroke-width="1"/>
+
+  <!-- HALF PIPE (x=200–456, y=160–288) -->
+  <!-- Left quarter -->
+  <path d="M 200 288 Q 200 160 264 160" fill="rgba(160,60,255,0.12)" stroke="#bb44ff" stroke-width="2"/>
+  <!-- Right quarter -->
+  <path d="M 456 288 Q 456 160 392 160" fill="rgba(160,60,255,0.12)" stroke="#bb44ff" stroke-width="2"/>
+  <!-- Flat bottom -->
+  <rect x="264" y="278" width="128" height="10" fill="rgba(160,60,255,0.12)" stroke="#bb44ff" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <!-- Grindable lips -->
+  <rect x="195" y="155" width="74" height="10" fill="rgba(60,255,120,0.4)" stroke="#44ff88" stroke-width="1.5"/>
+  <rect x="387" y="155" width="74" height="10" fill="rgba(60,255,120,0.4)" stroke="#44ff88" stroke-width="1.5"/>
+  <text x="202" y="152" fill="#bb44ff" font-family="monospace" font-size="8">HALF_PIPE  x:200–456  lips y=155</text>
+
+  <!-- RAIL LONG 1 (x=600–640+, y=240) — starts at edge of view -->
+  <line x1="600" y1="240" x2="640" y2="240" stroke="#4488ff" stroke-width="4"/>
+  <text x="558" y="236" fill="#4488ff" font-family="monospace" font-size="8">RAIL_LONG_1 x:600→(off-screen)</text>
+
+  <!-- Spawn -->
+  <circle cx="80" cy="256" r="6" fill="none" stroke="#ffff44" stroke-width="2"/>
+  <text x="88" y="261" fill="#ffff44" font-family="monospace" font-size="8">SPAWN (80,256)</text>
+
+  <!-- Off-screen content reminders -->
+  <text x="450" y="225" fill="#666666" font-family="monospace" font-size="8">→ x:640+ :</text>
+  <text x="450" y="235" fill="#666666" font-family="monospace" font-size="8">  PILLAR_1 x:1050</text>
+  <text x="450" y="245" fill="#666666" font-family="monospace" font-size="8">  RAIL_LONG_2 x:1200</text>
+  <text x="450" y="255" fill="#666666" font-family="monospace" font-size="8">  MANUAL_PATH x:1700</text>
+
+  <!-- World bounds -->
+  <rect x="0" y="0" width="640" height="360" fill="none" stroke="#444444" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="500" y="356" fill="#555555" font-family="monospace" font-size="8">VIEW x:0–640 / WORLD 2240px</text>
+
+  <!-- Pillar example (if one were visible) -->
+  <text x="6" y="348" fill="#ff8888" font-family="monospace" font-size="8">⚠ PILLARS: 24px wide vertical obstacles — player CRASHES on contact (not grindable)</text>
+
+  <!-- Legend -->
+  <rect x="440" y="295" width="194" height="52" fill="rgba(0,0,0,0.6)" stroke="#333333" stroke-width="1"/>
+  <rect x="444" y="299" width="10" height="6" fill="rgba(255,60,60,0.4)" stroke="#ff4444" stroke-width="1"/>
+  <text x="457" y="305" fill="#ff4444" font-family="monospace" font-size="7">Ground / Solid platform</text>
+  <rect x="444" y="307" width="10" height="6" fill="rgba(60,255,120,0.4)" stroke="#44ff88" stroke-width="1"/>
+  <text x="457" y="313" fill="#44ff88" font-family="monospace" font-size="7">Grindable lip</text>
+  <path d="M 444 323 Q 454 316 464 316" fill="none" stroke="#bb44ff" stroke-width="2"/>
+  <text x="468" y="320" fill="#bb44ff" font-family="monospace" font-size="7">Ramp half-pipe curve</text>
+  <line x1="444" y1="331" x2="454" y2="331" stroke="#4488ff" stroke-width="3"/>
+  <text x="457" y="334" fill="#4488ff" font-family="monospace" font-size="7">Rail (long)</text>
+  <rect x="444" y="336" width="10" height="8" fill="rgba(255,220,0,0.2)" stroke="#ffcc00" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="457" y="343" fill="#ffcc00" font-family="monospace" font-size="7">Ceiling boundary</text>
+</svg>

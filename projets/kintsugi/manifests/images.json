@@ -1,0 +1,120 @@
+{
+  "images": [
+    { "key": "logo", "path": "medias/images/ui/menu/logo.png" },
+    { "key": "menu_bg", "path": "medias/images/ui/menu/menu_bg.png" },
+    { "key": "btn_play", "path": "medias/images/ui/menu/btn_play.png" },
+    { "key": "btn_board", "path": "medias/images/ui/menu/btn_board.png" },
+    { "key": "lock_icon", "path": "medias/images/ui/menu/lock_icon.png" },
+    { "key": "board_base", "path": "medias/images/ui/board/board_base.png" },
+    { "key": "board_mini", "path": "medias/images/ui/hud/board_mini.png" },
+    { "key": "trick_feed_bg", "path": "medias/images/ui/hud/trick_feed_bg.png" },
+    { "key": "env_thumbnail_frame", "path": "medias/images/ui/hud/env_thumbnail_frame.png" },
+    { "key": "rail_left", "path": "medias/images/sprites/obstacles/rails/rail_left.png" },
+    { "key": "rail_mid", "path": "medias/images/sprites/obstacles/rails/rail_mid.png" },
+    { "key": "rail_right", "path": "medias/images/sprites/obstacles/rails/rail_right.png" },
+    { "key": "ledge_left", "path": "medias/images/sprites/obstacles/ledges/ledge_left.png" },
+    { "key": "ledge_mid", "path": "medias/images/sprites/obstacles/ledges/ledge_mid.png" },
+    { "key": "ledge_right", "path": "medias/images/sprites/obstacles/ledges/ledge_right.png" },
+    { "key": "ramp_quarter", "path": "medias/images/sprites/obstacles/ramps/ramp_quarter.png" },
+    { "key": "ramp_half", "path": "medias/images/sprites/obstacles/ramps/ramp_half.png" },
+    { "key": "stair_3", "path": "medias/images/sprites/obstacles/stairs/stair_3.png" },
+    { "key": "stair_5", "path": "medias/images/sprites/obstacles/stairs/stair_5.png" },
+    { "key": "manual_pad", "path": "medias/images/sprites/obstacles/manual_pad.png" },
+    { "key": "bg_street_far", "path": "medias/images/backgrounds/street/bg_street_far.png" },
+    { "key": "bg_street_mid", "path": "medias/images/backgrounds/street/bg_street_mid.png" },
+    { "key": "bg_street_near", "path": "medias/images/backgrounds/street/bg_street_near.png" },
+    { "key": "bg_skatepark_far", "path": "medias/images/backgrounds/skatepark/bg_skatepark_far.png" },
+    { "key": "bg_skatepark_mid", "path": "medias/images/backgrounds/skatepark/bg_skatepark_mid.png" },
+    { "key": "bg_skatepark_near", "path": "medias/images/backgrounds/skatepark/bg_skatepark_near.png" },
+    { "key": "bg_rooftop_far", "path": "medias/images/backgrounds/rooftop/bg_rooftop_far.png" },
+    { "key": "bg_rooftop_mid", "path": "medias/images/backgrounds/rooftop/bg_rooftop_mid.png" },
+    { "key": "bg_rooftop_near", "path": "medias/images/backgrounds/rooftop/bg_rooftop_near.png" },
+    { "key": "bg_tunnel_far", "path": "medias/images/backgrounds/tunnel/bg_tunnel_far.png" },
+    { "key": "bg_tunnel_mid", "path": "medias/images/backgrounds/tunnel/bg_tunnel_mid.png" },
+    { "key": "bg_tunnel_near", "path": "medias/images/backgrounds/tunnel/bg_tunnel_near.png" },
+    { "key": "bg_garden_far", "path": "medias/images/backgrounds/garden/bg_garden_far.png" },
+    { "key": "bg_garden_mid", "path": "medias/images/backgrounds/garden/bg_garden_mid.png" },
+    { "key": "bg_garden_near", "path": "medias/images/backgrounds/garden/bg_garden_near.png" }
+  ],
+  "spritesheets": [
+    {
+      "key": "skater",
+      "path": "medias/images/sprites/skater/skater_spritesheet.png",
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "comment": "29 rangées d'animations — voir assets-specification.md pour le détail"
+    },
+    {
+      "key": "skateboard",
+      "path": "medias/images/sprites/skater/skateboard_spritesheet.png",
+      "frameWidth": 32,
+      "frameHeight": 10,
+      "comment": "Board seul pour les animations de flip"
+    },
+    {
+      "key": "dust",
+      "path": "medias/images/sprites/particles/dust.png",
+      "frameWidth": 4,
+      "frameHeight": 4
+    },
+    {
+      "key": "spark_grind",
+      "path": "medias/images/sprites/particles/spark_grind.png",
+      "frameWidth": 4,
+      "frameHeight": 4
+    },
+    {
+      "key": "star_landing",
+      "path": "medias/images/sprites/particles/star_landing.png",
+      "frameWidth": 8,
+      "frameHeight": 8
+    }
+  ],
+  "cracks": {
+    "comment": "60 cracks individuelles (crack_00 à crack_59), 96×32px, blanc sur transparent. Colorées dynamiquement par Phaser (tint gris ou or).",
+    "basePath": "medias/images/ui/board/cracks/",
+    "keyPattern": "crack_{index}",
+    "count": 60,
+    "frameWidth": 96,
+    "frameHeight": 32
+  },
+  "tilesets": [
+    {
+      "key": "tileset_street",
+      "path": "medias/images/tilesets/street/street_tileset.png",
+      "tileWidth": 16,
+      "tileHeight": 16
+    },
+    {
+      "key": "tileset_skatepark",
+      "path": "medias/images/tilesets/skatepark/skatepark_tileset.png",
+      "tileWidth": 16,
+      "tileHeight": 16
+    },
+    {
+      "key": "tileset_rooftop",
+      "path": "medias/images/tilesets/rooftop/rooftop_tileset.png",
+      "tileWidth": 16,
+      "tileHeight": 16
+    },
+    {
+      "key": "tileset_tunnel",
+      "path": "medias/images/tilesets/tunnel/tunnel_tileset.png",
+      "tileWidth": 16,
+      "tileHeight": 16
+    },
+    {
+      "key": "tileset_garden",
+      "path": "medias/images/tilesets/garden/garden_tileset.png",
+      "tileWidth": 16,
+      "tileHeight": 16
+    }
+  ],
+  "env_thumbnails": [
+    { "key": "thumb_street", "path": "medias/images/backgrounds/street/bg_street_far.png" },
+    { "key": "thumb_skatepark", "path": "medias/images/backgrounds/skatepark/bg_skatepark_far.png" },
+    { "key": "thumb_rooftop", "path": "medias/images/backgrounds/rooftop/bg_rooftop_far.png" },
+    { "key": "thumb_tunnel", "path": "medias/images/backgrounds/tunnel/bg_tunnel_far.png" },
+    { "key": "thumb_garden", "path": "medias/images/backgrounds/garden/bg_garden_far.png" }
+  ]
+}

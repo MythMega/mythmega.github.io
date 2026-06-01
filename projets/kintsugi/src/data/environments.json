@@ -1,0 +1,284 @@
+{
+  "environments": [
+    {
+      "id": "street",
+      "name": "Street",
+      "nameJp": "ストリート",
+      "description": "Les rues de la ville la nuit. Bitume lisse, néons, lampadaires.",
+      "unlockRequirement": 0,
+      "worldWidth": 1920,
+      "groundY": 288,
+      "musicKey": "music_street",
+      "ambientKey": "amb_street",
+      "tilesetKey": "tileset_street",
+      "backgroundLayers": [
+        { "key": "bg_street_far",  "scrollFactorX": 0.1, "y": 0 },
+        { "key": "bg_street_mid",  "scrollFactorX": 0.4, "y": 0 },
+        { "key": "bg_street_near", "scrollFactorX": 0.7, "y": 0 }
+      ],
+      "spawnX": 64,
+      "spawnY": 256,
+      "obstacles": [
+        {
+          "id": "street_ledge_1", "type": "ledge",
+          "x": 80, "y": 255, "width": 120, "height": 33,
+          "grindable": true, "slideType": "ledge"
+        },
+        {
+          "id": "street_stair_3", "type": "stair",
+          "x": 380, "y": 288, "steps": 3, "stepWidth": 40, "stepHeight": 12,
+          "grindable": false
+        },
+        {
+          "id": "street_rail_1", "type": "rail",
+          "x": 620, "y": 238, "width": 160, "height": 6,
+          "grindable": true
+        },
+        {
+          "id": "street_stair_5", "type": "stair",
+          "x": 980, "y": 288, "steps": 5, "stepWidth": 40, "stepHeight": 12,
+          "grindable": false
+        },
+        {
+          "id": "street_manual_pad", "type": "manual_pad",
+          "x": 1300, "y": 268, "width": 100, "height": 20,
+          "grindable": false
+        }
+      ],
+      "availableCrackIds": [
+        "ollie_street", "kickflip_street", "heelflip_street",
+        "pop_shove_it_street", "varial_kickflip_street", "varial_heelflip_street",
+        "50_50_ledge_street", "noseslide_street", "boardslide_street",
+        "50_50_rail_street", "manual_street", "nose_manual_street"
+      ]
+    },
+    {
+      "id": "skatepark",
+      "name": "Skatepark",
+      "nameJp": "スケートパーク",
+      "description": "Un skatepark couvert dans un entrepôt industriel. Ramps, box, rails.",
+      "unlockRequirement": 5,
+      "worldWidth": 1920,
+      "groundY": 288,
+      "musicKey": "music_skatepark",
+      "ambientKey": "amb_skatepark",
+      "tilesetKey": "tileset_skatepark",
+      "backgroundLayers": [
+        { "key": "bg_skatepark_far",  "scrollFactorX": 0.05, "y": 0 },
+        { "key": "bg_skatepark_mid",  "scrollFactorX": 0.3,  "y": 0 },
+        { "key": "bg_skatepark_near", "scrollFactorX": 0.7,  "y": 0 }
+      ],
+      "spawnX": 200,
+      "spawnY": 256,
+      "obstacles": [
+        {
+          "id": "skate_quarter_left", "type": "ramp",
+          "x": 0, "y": 160, "width": 120, "height": 128,
+          "rampType": "quarter", "facing": "right", "grindable": true
+        },
+        {
+          "id": "skate_box_1", "type": "ledge",
+          "x": 250, "y": 248, "width": 150, "height": 40,
+          "grindable": true, "slideType": "ledge"
+        },
+        {
+          "id": "skate_manual_pad", "type": "manual_pad",
+          "x": 500, "y": 272, "width": 120, "height": 16,
+          "grindable": false
+        },
+        {
+          "id": "skate_box_2", "type": "ledge",
+          "x": 700, "y": 240, "width": 160, "height": 48,
+          "grindable": true, "slideType": "ledge"
+        },
+        {
+          "id": "skate_rail_box", "type": "rail",
+          "x": 730, "y": 228, "width": 100, "height": 6,
+          "grindable": true,
+          "comment": "Rail posé sur skate_box_2"
+        },
+        {
+          "id": "skate_quarter_right", "type": "ramp",
+          "x": 1680, "y": 160, "width": 120, "height": 128,
+          "rampType": "quarter", "facing": "left", "grindable": true
+        }
+      ],
+      "availableCrackIds": [
+        "rock_to_fakie_skatepark", "rock_n_roll_skatepark", "axle_stall_skatepark",
+        "nose_stall_skatepark", "5_0_rail_skatepark", "nosegrind_rail_skatepark",
+        "tailslide_skatepark", "boardslide_box_skatepark", "smith_grind_skatepark",
+        "crooked_grind_skatepark", "feeble_grind_skatepark", "bluntslide_skatepark"
+      ]
+    },
+    {
+      "id": "rooftop",
+      "name": "Rooftop",
+      "nameJp": "屋上",
+      "description": "Le toit d'un immeuble la nuit. Des gaps entre les sections. Horizon urbain.",
+      "unlockRequirement": 17,
+      "worldWidth": 1920,
+      "groundY": 288,
+      "musicKey": "music_rooftop",
+      "ambientKey": "amb_rooftop",
+      "tilesetKey": "tileset_rooftop",
+      "backgroundLayers": [
+        { "key": "bg_rooftop_far",  "scrollFactorX": 0.08, "y": 0 },
+        { "key": "bg_rooftop_mid",  "scrollFactorX": 0.35, "y": 0 },
+        { "key": "bg_rooftop_near", "scrollFactorX": 0.7,  "y": 0 }
+      ],
+      "spawnX": 64,
+      "spawnY": 256,
+      "gaps": [
+        { "x": 280, "width": 80, "comment": "Gap 1 entre ROOF_A et ROOF_B" },
+        { "x": 640, "width": 80, "comment": "Gap 2 entre ROOF_B et ROOF_C" },
+        { "x": 1000, "width": 80, "comment": "Gap 3 entre ROOF_C et ROOF_D" }
+      ],
+      "obstacles": [
+        {
+          "id": "rooftop_ledge_1", "type": "ledge",
+          "x": 60, "y": 264, "width": 120, "height": 24,
+          "grindable": true, "slideType": "ledge"
+        },
+        {
+          "id": "rooftop_rail_1", "type": "rail",
+          "x": 420, "y": 240, "width": 160, "height": 6,
+          "grindable": true
+        },
+        {
+          "id": "rooftop_ac_unit_1", "type": "ledge",
+          "x": 780, "y": 256, "width": 48, "height": 32,
+          "grindable": false, "comment": "AC unit — obstacle solide, non grindable"
+        },
+        {
+          "id": "rooftop_rail_2", "type": "rail",
+          "x": 1120, "y": 248, "width": 200, "height": 6,
+          "grindable": true
+        },
+        {
+          "id": "rooftop_ledge_2", "type": "ledge",
+          "x": 1500, "y": 260, "width": 100, "height": 28,
+          "grindable": true, "slideType": "ledge"
+        }
+      ],
+      "availableCrackIds": [
+        "360_flip_rooftop", "hardflip_rooftop", "inward_heelflip_rooftop",
+        "varial_heelflip_rooftop", "nollie_rooftop", "kickflip_gap_rooftop",
+        "nosegrind_rail_rooftop", "5_0_rail_rooftop", "crooked_grind_rooftop",
+        "smith_grind_rooftop", "feeble_grind_rooftop", "impossible_rooftop"
+      ]
+    },
+    {
+      "id": "tunnel",
+      "name": "Underground",
+      "nameJp": "地下",
+      "description": "Un tunnel souterrain abandonné. Plafond bas, half pipe, rails de tram.",
+      "unlockRequirement": 29,
+      "worldWidth": 2240,
+      "groundY": 288,
+      "ceilingY": 48,
+      "musicKey": "music_tunnel",
+      "ambientKey": "amb_tunnel",
+      "tilesetKey": "tileset_tunnel",
+      "backgroundLayers": [
+        { "key": "bg_tunnel_far",  "scrollFactorX": 0.05, "y": 0 },
+        { "key": "bg_tunnel_mid",  "scrollFactorX": 0.3,  "y": 0 },
+        { "key": "bg_tunnel_near", "scrollFactorX": 0.7,  "y": 0 }
+      ],
+      "spawnX": 80,
+      "spawnY": 256,
+      "obstacles": [
+        {
+          "id": "tunnel_half_pipe", "type": "ramp",
+          "x": 200, "y": 160, "width": 256, "height": 128,
+          "rampType": "half", "grindable": true
+        },
+        {
+          "id": "tunnel_rail_long_1", "type": "rail",
+          "x": 600, "y": 240, "width": 280, "height": 6,
+          "grindable": true, "comment": "Long rail de tram"
+        },
+        {
+          "id": "tunnel_pillar_1", "type": "pillar",
+          "x": 1050, "y": 160, "width": 24, "height": 128,
+          "grindable": false, "hazard": true
+        },
+        {
+          "id": "tunnel_rail_long_2", "type": "rail",
+          "x": 1200, "y": 240, "width": 280, "height": 6,
+          "grindable": true
+        },
+        {
+          "id": "tunnel_manual_section", "type": "manual_pad",
+          "x": 1700, "y": 276, "width": 200, "height": 12,
+          "grindable": false, "comment": "Longue section pour manuals"
+        }
+      ],
+      "availableCrackIds": [
+        "nosepick_tunnel", "blunt_stall_tunnel", "kickturn_tunnel",
+        "tail_stall_tunnel", "nose_stall_tunnel", "rock_n_roll_tunnel",
+        "manual_tunnel", "nose_manual_tunnel", "5_0_stall_tunnel",
+        "bluntslide_tunnel", "tailslide_tunnel", "crooked_grind_tunnel"
+      ]
+    },
+    {
+      "id": "garden",
+      "name": "Jardin Zen",
+      "nameJp": "禅庭",
+      "description": "Un jardin japonais à l'aube. Cerisiers, lanternes, pont de bois.",
+      "unlockRequirement": 42,
+      "worldWidth": 1920,
+      "groundY": 288,
+      "musicKey": "music_garden",
+      "ambientKey": "amb_garden",
+      "tilesetKey": "tileset_garden",
+      "backgroundLayers": [
+        { "key": "bg_garden_far",  "scrollFactorX": 0.05, "y": 0 },
+        { "key": "bg_garden_mid",  "scrollFactorX": 0.3,  "y": 0 },
+        { "key": "bg_garden_near", "scrollFactorX": 0.7,  "y": 0 }
+      ],
+      "spawnX": 64,
+      "spawnY": 256,
+      "obstacles": [
+        {
+          "id": "garden_stone_ledge_1", "type": "ledge",
+          "x": 80, "y": 272, "width": 80, "height": 16,
+          "grindable": true, "slideType": "ledge",
+          "comment": "Muret de pierre bas"
+        },
+        {
+          "id": "garden_bamboo_rail_1", "type": "rail",
+          "x": 260, "y": 248, "width": 120, "height": 6,
+          "grindable": true, "snapRange": 16,
+          "comment": "Rail bambou — tolérance réduite (snapRange 16 au lieu de 24)"
+        },
+        {
+          "id": "garden_bridge", "type": "ledge",
+          "x": 500, "y": 256, "width": 200, "height": 32,
+          "grindable": true, "slideType": "ledge",
+          "comment": "Pont en bois — long ledge"
+        },
+        {
+          "id": "garden_bamboo_rail_2", "type": "rail",
+          "x": 800, "y": 240, "width": 140, "height": 6,
+          "grindable": true, "snapRange": 16
+        },
+        {
+          "id": "garden_stone_ledge_2", "type": "ledge",
+          "x": 1100, "y": 264, "width": 100, "height": 24,
+          "grindable": true, "slideType": "ledge"
+        },
+        {
+          "id": "garden_manual_path", "type": "manual_pad",
+          "x": 1350, "y": 280, "width": 300, "height": 8,
+          "grindable": false, "comment": "Allée de gravier zen — parfaite pour manuals"
+        }
+      ],
+      "availableCrackIds": [
+        "impossible_garden", "nollie_kickflip_garden", "nollie_heelflip_garden",
+        "fakie_kickflip_garden", "fakie_heelflip_garden", "360_flip_garden",
+        "inward_heelflip_garden", "manual_combo_garden", "nose_manual_combo_garden",
+        "darkslide_garden", "primoslide_garden", "varial_kickflip_garden"
+      ]
+    }
+  ]
+}

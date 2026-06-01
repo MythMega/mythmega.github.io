@@ -1,0 +1,25 @@
+# _headers — HTTP headers pour Netlify / Cloudflare Pages
+# Référence : _specifications/technical-architecture.md §Intégration iframe
+#
+# Ce fichier est lu automatiquement par Netlify et Cloudflare Pages.
+# Pour d'autres hébergeurs, configurer le serveur web en conséquence.
+#
+# ⚠ GitHub Pages ne supporte PAS les headers HTTP personnalisés.
+#   Sur GitHub Pages, seul le guard JavaScript (index.html) est actif.
+#
+# Domaines autorisés pour l'intégration iframe :
+#   - localhost (développement)
+#   - jmdev.fr
+#   - web.jmdev.fr
+
+/*
+  # Interdit l'intégration en iframe sur tout domaine non listé
+  Content-Security-Policy: frame-ancestors 'self' http://localhost https://localhost https://jmdev.fr https://web.jmdev.fr
+
+  # X-Frame-Options est déprécié mais maintenu pour compatibilité anciens navigateurs.
+  # Ne supporte qu'une seule valeur — on utilise SAMEORIGIN + le guard JS pour les autres.
+  X-Frame-Options: SAMEORIGIN
+
+  # Sécurité supplémentaire
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

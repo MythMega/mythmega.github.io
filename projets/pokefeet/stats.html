@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Statistiques</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .stats-tabs { display:flex; gap:8px; justify-content:center; max-width:420px; margin:0 auto 1.5rem; }
+    .stats-tab-btn {
+      flex:1; padding:8px 0; border:1px solid rgba(255,255,255,0.1);
+      border-radius:8px; background:rgba(255,255,255,0.03);
+      color:var(--muted,#94a3b8); cursor:pointer; font-weight:600;
+      font-size:.9rem; transition:background .15s,color .15s;
+    }
+    .stats-tab-btn.active { background:var(--accent,#34d399); color:#052018; border-color:transparent; }
+    .pseudo-banner {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .pseudo-banner .pseudo-name {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(100deg, #e6eef8 0%, #22c55e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pseudo-banner .pseudo-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .marathon-card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 24px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(22,163,74,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
+      width: min(640px,100%);
+      margin: 0 auto;
+      text-align: center;
+    }
+    .level-card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 16px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.06);
+      width: min(420px,100%);
+      margin: 14px auto 0;
+      text-align: left;
+    }
+    .level-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .level-badge {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--accent-bright);
+    }
+    .level-xp-total {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .xp-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .xp-bar {
+      flex: 1;
+      height: 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #10b981);
+      border-radius: 999px;
+      transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 0 10px rgba(22,163,74,0.4);
+    }
+    .xp-bar-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-light);
+      white-space: nowrap;
+      min-width: 70px;
+      text-align: right;
+    }
+    .marathon-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent-bright);
+      margin: 0 0 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+    .marathon-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
+    .marathon-stat-item { text-align: center; }
+    .marathon-stat-item .stat-value { font-size: 28px; font-weight: 800; color: #fff; }
+    .marathon-stat-item .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1 data-i18n="stats.title">Statistiques — Pokefeet</h1>
+      <div class="scoreboard">
+        <div><span id="totalCountLabel" data-i18n="history.totalDays">Total entrées</span> : <span id="totalDays">0</span></div>
+      </div>
+    </header>
+
+    <div class="pseudo-banner">
+      <div class="pseudo-name" id="statsPseudo">—</div>
+      <div class="pseudo-label" data-i18n="stats.pseudoLabel">Joueur</div>
+      <!-- Level & XP -->
+      <div class="level-card">
+        <div class="level-header">
+          <span class="level-badge" id="statsLevel">Niveau 1</span>
+          <span class="level-xp-total" id="statsTotalXP">XP totale: 0</span>
+        </div>
+        <div class="xp-bar-wrap">
+          <div class="xp-bar">
+            <div class="xp-bar-fill" id="statsXPBarFill" style="width:0%;"></div>
+          </div>
+          <span class="xp-bar-text" id="statsXPBarText">0 / 100 XP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-tabs">
+      <button class="stats-tab-btn active" id="statsTabDailyBtn" data-i18n="oldDaily.tabDaily">Daily</button>
+      <button class="stats-tab-btn" id="statsTabWeeklyBtn" data-i18n="oldDaily.tabWeekly">Weekly</button>
+      <button class="stats-tab-btn" id="statsTabMarathonBtn" data-i18n="stats.marathon">Marathon</button>
+    </div>
+
+    <section class="game-area container py-3">
+      <div id="statsDailyPanel">
+        <section class="container py-2">
+          <div id="statsDetailedStats" class="mt-2"></div>
+        </section>
+      </div>
+      <div id="statsWeeklyPanel" style="display:none;">
+        <section class="container py-2">
+          <div id="statsWeeklyDetailedStats" class="mt-2"></div>
+        </section>
+      </div>
+      <div id="statsMarathonPanel" style="display:none;">
+        <div class="marathon-card">
+          <h3 data-i18n="stats.marathonBest">Meilleurs scores Marathon</h3>
+          <div class="marathon-stats">
+            <div class="marathon-stat-item">
+              <div class="stat-value" id="marathonBestScore">0</div>
+              <div class="stat-label" data-i18n="practice.best">Meilleur score</div>
+            </div>
+            <div class="marathon-stat-item">
+              <div class="stat-value" id="marathonBestStreak">0</div>
+              <div class="stat-label" data-i18n="practice.bestStreak">Meilleur Streak</div>
+            </div>
+          </div>
+          <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--glass-border); font-size:13px; color:var(--muted);" data-i18n="stats.marathonInfo">
+            Ces scores correspondent à votre meilleure performance en mode Marathon (tous Pokémon).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <a href="./index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
+    <div id="notifications" aria-live="polite"></div>
+  </main>
+
+  <script src="loader.js"></script>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="footer.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script src="migration.js"></script>
+  <script src="profile.js"></script>
+  <script src="pokemon-versions.js"></script>
+  <script src="stats.js"></script>
+</body>
+</html>

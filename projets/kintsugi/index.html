@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kokoro Game : Kintsugi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: #0a0a0a;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body>
+  <!--
+    Guard iframe — exécuté de manière synchrone AVANT le chargement de Phaser.
+    La liste des origines autorisées est dupliquée ici (inline, non-module)
+    car les modules ES6 sont différés (defer) et ne peuvent pas bloquer le rendu.
+    Source de vérité : src/embed-config.js
+  -->
+  <script>
+    (function () {
+      var ALLOWED_HOSTS = ['localhost', 'jmdev.fr', 'web.jmdev.fr'];
+      var ALLOWED_ORIGINS = [
+        'http://localhost',
+        'https://localhost',
+        'https://jmdev.fr',
+        'https://web.jmdev.fr',
+      ];
+
+      if (window === window.top) return; // Pas dans un iframe — OK
+
+      var allowed = false;
+
+      // Tentative 1 : accès direct (fonctionne si même origine)
+      try {
+        var parentHost = window.top.location.hostname;
+        allowed = ALLOWED_HOSTS.indexOf(parentHost) !== -1;
+      } catch (_) {
+        // Cross-origin → fallback sur document.referrer
+        var ref = document.referrer || '';
+        allowed = ref !== '' && ALLOWED_ORIGINS.some(function (o) {
+          return ref.indexOf(o) === 0;
+        });
+      }
+
+      if (!allowed) {
+        document.documentElement.innerHTML =
+          '<body style="margin:0;background:#0a0a0a;color:#8a8a9a;' +
+          'font-family:monospace;font-size:12px;display:flex;' +
+          'align-items:center;justify-content:center;height:100vh;">' +
+          '<p>Intégration non autorisée sur ce domaine.</p></body>';
+      }
+    })();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

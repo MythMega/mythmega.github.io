@@ -1,0 +1,233 @@
+{
+  "bossName": "Insecateur",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scyther_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scyther_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 150000,
+  "date": "2026-06-01 21:49:41",
+  "durationSec": 737,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 150165,
+      "countAtk": 4,
+      "baseDmg": 25255,
+      "level": 18,
+      "raidCount": 800,
+      "luck": 1.4864879
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "alexciel",
+      "damage": 2763,
+      "countAtk": 2,
+      "baseDmg": 897,
+      "level": 11,
+      "raidCount": 32,
+      "luck": 1.5401338
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "skayron_15",
+      "damage": 857,
+      "countAtk": 2,
+      "baseDmg": 334,
+      "level": 4,
+      "raidCount": 6,
+      "luck": 1.2829342
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Fafa_Sasa",
+      "damage": 241,
+      "countAtk": 1,
+      "baseDmg": 241,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 151022
+    },
+    {
+      "platform": "youtube",
+      "damage": 3004
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "skayron_15",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-01 21:49:50",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25255,
+      "pvAfter": 124745,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:50:47",
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "damages": 897,
+      "pvAfter": 123848,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:51:09",
+      "pseudo": "skayron_15",
+      "platform": "twitch",
+      "damages": 334,
+      "pvAfter": 123514,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:54:10",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37218,
+      "pvAfter": 86296,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:54:46",
+      "pseudo": "skayron_15",
+      "platform": "twitch",
+      "damages": 523,
+      "pvAfter": 85773,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:58:02",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 34855,
+      "pvAfter": 50918,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:58:12",
+      "pseudo": "Fafa_Sasa",
+      "platform": "youtube",
+      "damages": 241,
+      "pvAfter": 50677,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 21:58:34",
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "damages": 1866,
+      "pvAfter": 48811,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-01 22:01:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 52837,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

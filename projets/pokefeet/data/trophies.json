@@ -1,0 +1,377 @@
+[
+    {
+        "Id": 1,
+        "Name_en": "New Pokédex (5)",
+        "Name_fr": "Nouveau Pokédex (5)",
+        "Desc_en": "You filled 5 Pokédex entries.",
+        "Desc_fr": "Tu as rempli 5 entrées du Pokédex.",
+        "XP": 25,
+        "Obtention_Method": {
+            "Mode": "Dex_Count",
+            "Value": 5
+        },
+        "Rarity": 1,
+        "Picture": "./img/trophy/dex/bronze.png",
+        "Enabled": true
+    },
+    {
+        "Id": 2,
+        "Name_en": "Pokédex Connoisseur (100)",
+        "Name_fr": "Connaisseur Pokédex (100)",
+        "Desc_en": "You filled 100 Pokédex entries.",
+        "Desc_fr": "Tu as rempli 100 entrées du Pokédex.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Dex_Count",
+            "Value": 100
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/dex/silver.png",
+        "Enabled": true
+    },
+    {
+        "Id": 3,
+        "Name_en": "Pokédex expert (500)",
+        "Name_fr": "Connaisseur Pokédex (500)",
+        "Desc_en": "You filled 500 Pokédex entries.",
+        "Desc_fr": "Tu as rempli 500 entrées du Pokédex.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Dex_Count",
+            "Value": 500
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/dex/gold.png",
+        "Enabled": true
+    },
+    {
+        "Id": 4,
+        "Name_en": "Pokédex Master (735)",
+        "Name_fr": "Maitre Pokédex (735)",
+        "Desc_en": "You filled 735 Pokédex entries.",
+        "Desc_fr": "Tu as rempli 735 entrées du Pokédex.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Dex_Count",
+            "Value": 735
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/dex/platinum.png",
+        "Enabled": true
+    },
+    {
+        "Id": 11,
+        "Name_en": "Daily-scover (3)",
+        "Name_fr": "Daily-couverte (3)",
+        "Desc_en": "You completed 3 Dailies Challenges.",
+        "Desc_fr": "Tu as complété 3 Challenge Daily.",
+        "XP": 25,
+        "Obtention_Method": {
+            "Mode": "Daily_Count",
+            "Value": 3
+        },
+        "Rarity": 1,
+        "Picture": "./img/trophy/daily/bronze.png",
+        "Enabled": true
+    },
+    {
+        "Id": 12,
+        "Name_en": "Daily-man (30)",
+        "Name_fr": "MR Daily (30)",
+        "Desc_en": "You completed 30 Dailies Challenges.",
+        "Desc_fr": "Tu as complété 30 Challenge Daily.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Daily_Count",
+            "Value": 30
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/daily/silver.png",
+        "Enabled": true
+    },
+    {
+        "Id": 13,
+        "Name_en": "Daily Expert (180)",
+        "Name_fr": "Expert Daily (180)",
+        "Desc_en": "You completed 180 Dailies Challenges.",
+        "Desc_fr": "Tu as complété 180 Challenge Daily.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Daily_Count",
+            "Value": 180
+        },
+        "Rarity": 3,
+        "Picture": "./img/trophy/daily/gold.png",
+        "Enabled": true
+    },
+    {
+        "Id": 14,
+        "Name_en": "Daily Master (365)",
+        "Name_fr": "Maître Daily (365)",
+        "Desc_en": "You completed 365 Dailies Challenges.",
+        "Desc_fr": "Tu as complété 365 Challenge Daily.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Daily_Count",
+            "Value": 365
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/daily/platinum.png",
+        "Enabled": true
+    },
+    {
+        "Id": 21,
+        "Name_en": "Quadr-Weekly (4)",
+        "Name_fr": "Quadrimadaire (4)",
+        "Desc_en": "You completed 4 Weeklies Challenges.",
+        "Desc_fr": "Tu as complété 4 Challenge Weekly.",
+        "XP": 25,
+        "Obtention_Method": {
+            "Mode": "Weekly_Count",
+            "Value": 4
+        },
+        "Rarity": 1,
+        "Picture": "./img/trophy/weekly/bronze.png",
+        "Enabled": true
+    },
+    {
+        "Id": 22,
+        "Name_en": "Alexandrine (12)",
+        "Name_fr": "Alexandrin (12)",
+        "Desc_en": "You completed 12 Weeklies Challenges.",
+        "Desc_fr": "Tu as complété 12 Challenge Weekly.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Weekly_Count",
+            "Value": 12
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/weekly/silver.png",
+        "Enabled": true
+    },
+    {
+        "Id": 23,
+        "Name_en": "Expert of the week (24)",
+        "Name_fr": "Expert de la semaine (24)",
+        "Desc_en": "You completed 24 Weeklies Challenges.",
+        "Desc_fr": "Tu as complété 24 Challenge Weekly.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Weekly_Count",
+            "Value": 24
+        },
+        "Rarity": 3,
+        "Picture": "./img/trophy/weekly/gold.png",
+        "Enabled": true
+    },
+    {
+        "Id": 24,
+        "Name_en": "Legend of the week (52)",
+        "Name_fr": "Légende de la semaine (52)",
+        "Desc_en": "You completed 52 Weeklies Challenges.",
+        "Desc_fr": "Tu as complété 52 Challenge Weekly.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Weekly_Count",
+            "Value": 52
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/weekly/platinum.png",
+        "Enabled": true
+    },
+    {
+        "Id": 31,
+        "Name_en": "Hiker (25)",
+        "Name_fr": "Randonneur (25)",
+        "Desc_en": "Reach 25 streak in Marathon Mode.",
+        "Desc_fr": "Atteindre une série de 25 dans le mode marathon.",
+        "XP": 25,
+        "Obtention_Method": {
+            "Mode": "Marathon_Streak",
+            "Value": 25
+        },
+        "Rarity": 1,
+        "Picture": "./img/trophy/marathon/bronze.png",
+        "Enabled": true
+    },
+    {
+        "Id": 32,
+        "Name_en": "Jogger (100)",
+        "Name_fr": "Joggeur (100)",
+        "Desc_en": "Reach 100 streak in Marathon Mode.",
+        "Desc_fr": "Atteindre une série de 100 dans le mode marathon.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Marathon_Streak",
+            "Value": 100
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/marathon/silver.png",
+        "Enabled": true
+    },
+    {
+        "Id": 33,
+        "Name_en": "Runner (250)",
+        "Name_fr": "Coureur (250)",
+        "Desc_en": "Reach 250 streak in Marathon Mode.",
+        "Desc_fr": "Atteindre une série de 250 dans le mode marathon.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Marathon_Streak",
+            "Value": 250
+        },
+        "Rarity": 3,
+        "Picture": "./img/trophy/marathon/gold.png",
+        "Enabled": true
+    },
+    {
+        "Id": 34,
+        "Name_en": "Marathoner (735)",
+        "Name_fr": "Marathonien (735)",
+        "Desc_en": "Reach 735 streak in Marathon Mode.",
+        "Desc_fr": "Atteindre une série de 735 dans le mode marathon.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Marathon_Streak",
+            "Value": 735
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/marathon/platinum.png",
+        "Enabled": true
+    },
+    {
+        "Id": 41,
+        "Name_en": "Kanto-Dex (1G)",
+        "Name_fr": "Kanto-Dex (1G)",
+        "Desc_en": "Register all Kanto Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région de Kanto dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 1
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/1.png",
+        "Enabled": true
+    },
+    {
+        "Id": 42,
+        "Name_en": "Johto-Dex (2G)",
+        "Name_fr": "Johto-Dex (2G)",
+        "Desc_en": "Register all Johto Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région de Johto dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 2
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/2.png",
+        "Enabled": true
+    },
+    {
+    "Id": 43,
+    "Name_en": "Hoenn-Dex (3G)",
+    "Name_fr": "Hoenn-Dex (3G)",
+    "Desc_en": "Register all Hoenn Pokémons in dailies or weeklies.",
+    "Desc_fr": "Enregistrer tous les Pokémons de la région de Hoenn dans les dailies ou les weeklies.",
+    "XP": 500,
+    "Obtention_Method": {
+        "Mode": "Full_Generation_Register",
+        "Value": 3
+    },
+    "Rarity": 4,
+    "Picture": "./img/trophy/regiondex/3.png",
+    "Enabled": true
+    },
+    {
+        "Id": 44,
+        "Name_en": "Sinnoh-Dex (4G)",
+        "Name_fr": "Sinnoh-Dex (4G)",
+        "Desc_en": "Register all Sinnoh Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région de Sinnoh dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 4
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/4.png",
+        "Enabled": true
+    },
+    {
+        "Id": 45,
+        "Name_en": "Unova-Dex (5G)",
+        "Name_fr": "Unys-Dex (5G)",
+        "Desc_en": "Register all Unova Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région d'Unys dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 5
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/5.png",
+        "Enabled": true
+    },
+    {
+        "Id": 46,
+        "Name_en": "Kalos-Dex (6G) - Mega",
+        "Name_fr": "Kalos-Dex (6G) - Mega",
+        "Desc_en": "Register all Mega-Evolved Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons Méga-évolués dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 6
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/6.png",
+        "Enabled": true
+    },
+    {
+        "Id": 47,
+        "Name_en": "Alola-Dex (7G) - Regional Forms",
+        "Name_fr": "Alola-Dex (7G) - Formes Régionales",
+        "Desc_en": "Register all Alolan regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer toutes les formes régionales de Pokémons de la région d'Alola dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 7
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/7.png",
+        "Enabled": true
+    },
+    {
+        "Id": 48,
+        "Name_en": "Galar-Dex (8G) - Regional Forms",
+        "Name_fr": "Galar-Dex (8G) - Formes Régionales",
+        "Desc_en": "Register all Galarian regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer toutes les formes régionales de Pokémons de la région de Galar dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 8
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/8.png",
+        "Enabled": true
+    },
+    {
+        "Id": 49,
+        "Name_en": "Paldea-Dex (9G) - Regional Forms",
+        "Name_fr": "Paldea-Dex (9G) - Formes Régionales",
+        "Desc_en": "Register all Paldean regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les forme régionales de Pokémons de la région de Paldea dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 9
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/9.png",
+        "Enabled": true
+    }
+]

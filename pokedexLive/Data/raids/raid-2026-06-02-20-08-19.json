@@ -1,0 +1,189 @@
+{
+  "bossName": "Mamanbo",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Alomomola_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Alomomola_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 25000,
+  "date": "2026-06-02 20:08:19",
+  "durationSec": 1372,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 25381,
+      "countAtk": 1,
+      "baseDmg": 25381,
+      "level": 18,
+      "raidCount": 802,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Mat-Yu",
+      "damage": 11759,
+      "countAtk": 1,
+      "baseDmg": 11759,
+      "level": 19,
+      "raidCount": 433,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Mat__Yu",
+      "damage": 4812,
+      "countAtk": 1,
+      "baseDmg": 4812,
+      "level": 16,
+      "raidCount": 265,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 1811,
+      "countAtk": 2,
+      "baseDmg": 655,
+      "level": 7,
+      "raidCount": 44,
+      "luck": 1.3824427
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 13570
+    },
+    {
+      "platform": "twitch",
+      "damage": 30193
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Mat-Yu",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Mat__Yu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-02 20:18:25",
+      "pseudo": "Mat-Yu",
+      "platform": "youtube",
+      "damages": 11759,
+      "pvAfter": 13241,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-02 20:20:43",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 655,
+      "pvAfter": 12586,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-02 20:23:21",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1156,
+      "pvAfter": 11430,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-02 20:29:50",
+      "pseudo": "Mat__Yu",
+      "platform": "twitch",
+      "damages": 4812,
+      "pvAfter": 6618,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-02 20:31:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25381,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

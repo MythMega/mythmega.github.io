@@ -1,0 +1,71 @@
+{
+  "bossName": "Balignon",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shroomish_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shroomish_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 55000,
+  "date": "2026-06-02 21:54:50",
+  "durationSec": 949,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 76534,
+      "countAtk": 2,
+      "baseDmg": 25472,
+      "level": 18,
+      "raidCount": 805,
+      "luck": 1.5023162
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 76534
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-02 21:58:55",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25472,
+      "pvAfter": 29528,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-02 22:10:39",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 51062,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

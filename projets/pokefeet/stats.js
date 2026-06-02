@@ -1,4 +1,4 @@
-// stats.js — Page de statistiques (Daily, Weekly, Marathon) — avec Niveau / XP
+// stats.js — Page de statistiques (Daily, Weekly, Marathon) — avec Niveau / XP / Trophées
 (function () {
   const DB_NAME    = 'PokefeetDB';
   const DB_VERSION = 3;
@@ -11,6 +11,7 @@
   const XP_PER_LEVEL  = 100;
   let dbInstance = null;
   let idbTimedOut = false;
+  let trophiesData = [];
 
   function getDB() {
     return new Promise((resolve, reject) => {
@@ -79,71 +80,240 @@
     return v ? decodeURIComponent(v.pop()) : null;
   }
 
-  // ── XP & Level calculation ───────────────────────────────
-  function computeXP(dailyHistory, weeklyHistory) {
-    let xp = 0;
+  // ── Dex helpers ───────────────────────────────────────
+  async function loadDexEntries() {
+    try {
+      const dexDBName = 'PokefeetDexDB';
+      const dexReq = indexedDB.open(dexDBName, 1);
+      return new Promise((resolve, reject) => {
+        dexReq.onsuccess = () => {
+          const ddb = dexReq.result;
+          const tx = ddb.transaction('dex_entries', 'readonly');
+          const store = tx.objectStore('dex_entries');
+          const req = store.getAll();
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        };
+        dexReq.onerror = () => reject(dexReq.error);
+      });
+    } catch (e) { console.error('Error loading dex entries:', e); return []; }
+  }
 
-    // ― Daily XP ―
+  async function loadPokemonList() {
+    try {
+      const res = await fetch('data/pokemons.json');
+      return await res.json();
+    } catch (e) { console.error('Error loading pokemons.json:', e); return []; }
+  }
+
+  // ── XP & Level calculation ───────────────────────────────
+  function computeDailyXP(dailyHistory) {
+    let xp = 0;
     for (const date in dailyHistory) {
       const entry = dailyHistory[date];
       const results = entry.results || [];
       let dayPerfect = entry.score === MAX_SCORE;
-      let dayFinished = results.some(r => r && r.outcome === 'win') || results.length === COUNT;
-
-      // Si le daily est fini (tous les rounds ont un résultat)
-      if (results.length === COUNT) {
-        dayFinished = true;
-        // Vérifier si tous sont des wins
-        const allWins = results.every(r => r && r.outcome === 'win');
-        // Si tous wins et score max => parfait
-        dayPerfect = allWins && entry.score === MAX_SCORE;
-      }
-
-      if (dayFinished) xp += 3;                     // Daily fini
-      if (dayPerfect) xp += 2;                      // Daily parfait bonus
-
-      // Rounds parfaits (1er essai)
+      let dayFinished = results.length === COUNT;
+      if (dayFinished) xp += 3;
+      if (dayPerfect) xp += 2;
       for (let i = 0; i < results.length; i++) {
         const r = results[i];
-        if (r && r.outcome === 'win' && r.attempts === 0) {
-          xp += 1;  // +1 XP par round parfait
-        }
+        if (r && r.outcome === 'win' && r.attempts === 0) xp += 1;
       }
     }
+    return xp;
+  }
 
-    // ― Weekly XP (×2 par rapport au daily) ―
+  function computeWeeklyXP(weeklyHistory) {
+    let xp = 0;
     for (const date in weeklyHistory) {
       const entry = weeklyHistory[date];
       const results = entry.results || [];
-
-      // Weekly fini = results.length === WEEKLY_COUNT
       if (results.length === WEEKLY_COUNT) {
         const allWins = results.every(r => r && r.outcome === 'win');
-        xp += 3 * 2;  // Weekly fini = +6 XP
-        if (allWins && entry.score === WEEKLY_MAX) {
-          xp += 2 * 2; // Weekly parfait bonus = +4 XP
-        }
+        xp += 6;
+        if (allWins && entry.score === WEEKLY_MAX) xp += 4;
       }
-
-      // Rounds parfaits ×2
       for (let i = 0; i < results.length; i++) {
         const r = results[i];
-        if (r && r.outcome === 'win' && r.attempts === 0) {
-          xp += 1 * 2;  // +2 XP par round parfait weekly
-        }
+        if (r && r.outcome === 'win' && r.attempts === 0) xp += 2;
       }
     }
+    return xp;
+  }
 
-    // ― Marathon XP ―
+  function computeMarathonXP() {
     const bestScore = parseInt(getCookie('pk_best') || '0', 10);
     const bestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
     if (bestScore > 0 || bestStreak > 0) {
-      xp += Math.floor(bestScore / 5) + (bestStreak * 2);
+      return Math.floor(bestScore / 5) + (bestStreak * 2);
     }
-
-    return Math.max(0, xp);
+    return 0;
   }
 
+  // ── Trophy checking ───────────────────────────────────────
+  function countCompletedDailies(dailyHistory) {
+    let count = 0;
+    for (const date in dailyHistory) {
+      if ((dailyHistory[date].results || []).length === COUNT) count++;
+    }
+    return count;
+  }
+
+  function countCompletedWeeklies(weeklyHistory) {
+    let count = 0;
+    for (const date in weeklyHistory) {
+      if ((weeklyHistory[date].results || []).length === WEEKLY_COUNT) count++;
+    }
+    return count;
+  }
+
+  async function checkTrophies(dailyHistory, weeklyHistory) {
+    const T = (k, f) => typeof Translator !== 'undefined' ? Translator.get(k, f) : f;
+    const lang = typeof Translator !== 'undefined' ? Translator.getLanguage() : 'fr';
+
+    const completedDailies = countCompletedDailies(dailyHistory);
+    const completedWeeklies = countCompletedWeeklies(weeklyHistory);
+    const marathonStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
+
+    // Dex data
+    const dexEntries = await loadDexEntries();
+    const foundIndices = new Set(dexEntries.filter(e => e.found).map(e => String(e.index)));
+    const dexFoundCount = foundIndices.size;
+
+    // Pokemon data by generation
+    const pokemons = await loadPokemonList();
+    const gens = {};
+    for (const p of pokemons) {
+      const g = p.Generation;
+      if (!gens[g]) gens[g] = [];
+      gens[g].push(String(p.Index));
+    }
+
+    const results = [];
+    const progressMap = {}; // trophyId -> pct
+
+    for (const trophy of trophiesData) {
+      if (!trophy.Enabled) continue;
+      let earned = false;
+      const method = trophy.Obtention_Method;
+      const mode = method.Mode;
+      const value = method.Value;
+      let pct = 0;
+
+      switch (mode) {
+        case 'Dex_Count':
+          earned = dexFoundCount >= value;
+          pct = Math.min(100, (dexFoundCount / value) * 100);
+          break;
+        case 'Daily_Count':
+          earned = completedDailies >= value;
+          pct = Math.min(100, (completedDailies / value) * 100);
+          break;
+        case 'Weekly_Count':
+          earned = completedWeeklies >= value;
+          pct = Math.min(100, (completedWeeklies / value) * 100);
+          break;
+        case 'Marathon_Streak':
+          earned = marathonStreak >= value;
+          pct = Math.min(100, (marathonStreak / value) * 100);
+          break;
+        case 'Full_Generation_Register': {
+          const genIndices = gens[value] || [];
+          const foundGen = genIndices.filter(idx => foundIndices.has(idx)).length;
+          earned = genIndices.length > 0 && foundGen === genIndices.length;
+          pct = genIndices.length > 0 ? Math.min(100, (foundGen / genIndices.length) * 100) : 0;
+          break;
+        }
+      }
+
+      const name = lang === 'fr' ? trophy.Name_fr : trophy.Name_en;
+      const desc = lang === 'fr' ? trophy.Desc_fr : trophy.Desc_en;
+
+      results.push({
+        id: trophy.Id,
+        name: name,
+        desc: desc,
+        xp: trophy.XP,
+        picture: trophy.Picture,
+        earned: earned,
+        rarity: trophy.Rarity,
+        obtentionMode: mode
+      });
+      progressMap[trophy.Id] = pct;
+    }
+    return { results, progressMap };
+  }
+
+  // ── Render trophies (grouped by type, sorted by ID) ─────────
+  const TROPHY_TYPE_ORDER = ['Dex_Count', 'Daily_Count', 'Weekly_Count', 'Marathon_Streak', 'Full_Generation_Register'];
+  const TROPHY_TYPE_LABELS = {
+    'Dex_Count': 'Pokédex',
+    'Daily_Count': 'Daily',
+    'Weekly_Count': 'Weekly',
+    'Marathon_Streak': 'Marathon',
+    'Full_Generation_Register': 'Générations'
+  };
+
+  function renderTrophies(trophies, trophyProgress) {
+    const container = document.getElementById('trophiesGrid');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Group trophies by mode
+    const groups = {};
+    for (const t of trophies) {
+      const mode = t.obtentionMode || 'Other';
+      if (!groups[mode]) groups[mode] = [];
+      groups[mode].push(t);
+    }
+
+    // Render each type section
+    for (const mode of TROPHY_TYPE_ORDER) {
+      const list = groups[mode];
+      if (!list || !list.length) continue;
+      // Sort by ID within type
+      list.sort((a, b) => a.id - b.id);
+
+      const section = document.createElement('div');
+      section.className = 'trophies-section';
+
+      const title = document.createElement('div');
+      title.className = 'trophies-section-title';
+      title.textContent = TROPHY_TYPE_LABELS[mode] || mode;
+      section.appendChild(title);
+
+      const grid = document.createElement('div');
+      grid.className = 'trophies-grid';
+
+      for (const t of list) {
+        const div = document.createElement('div');
+        div.className = 'trophy-entry' + (t.earned ? '' : ' locked');
+
+        const iconSrc = t.picture || './icon.png';
+
+        let progressHtml = '';
+        if (!t.earned && trophyProgress && trophyProgress[t.id] !== undefined) {
+          const p = trophyProgress[t.id];
+          if (p > 0) progressHtml = '<div class="trophy-progress">' + Math.round(p) + '%</div>';
+        }
+
+        div.innerHTML =
+          '<img class="trophy-icon" src="' + iconSrc + '" alt="' + t.name + '" onerror="this.src=\'./icon.png\'" />' +
+          '<div class="trophy-name">' + t.name + '</div>' +
+          '<div class="trophy-desc">' + t.desc + '</div>' +
+          '<div class="trophy-xp">+' + t.xp + ' XP</div>' +
+          progressHtml;
+
+        grid.appendChild(div);
+      }
+
+      section.appendChild(grid);
+      container.appendChild(section);
+    }
+  }
+
+  // ── XP & Level display ───────────────────────────────────
   function getLevel(totalXP) {
     return Math.floor(totalXP / XP_PER_LEVEL) + 1;
   }
@@ -298,63 +468,131 @@
 
     updatePseudo();
 
-    // Charge les données pour calculer XP
+    // Load trophies data
+    try {
+      const res = await fetch('data/trophies.json');
+      trophiesData = await res.json();
+    } catch (e) {
+      console.error('Error loading trophies:', e);
+      trophiesData = [];
+    }
+
+    // Load game data
     const [dailyHistory, weeklyHistory] = await Promise.all([
       loadDailyHistory(),
       loadWeeklyHistory()
     ]);
 
-    const totalXP = computeXP(dailyHistory, weeklyHistory);
+    // Compute base XP
+    let totalXP = 0;
+    totalXP += computeDailyXP(dailyHistory);
+    totalXP += computeWeeklyXP(weeklyHistory);
+    totalXP += computeMarathonXP();
+
+    // Check trophies and add their XP
+    const trophyResult = await checkTrophies(dailyHistory, weeklyHistory);
+    const trophies = trophyResult.results;
+    const trophyProgress = trophyResult.progressMap;
+    let trophyXP = 0;
+    for (const t of trophies) {
+      if (t.earned) trophyXP += t.xp;
+    }
+    totalXP += trophyXP;
+
     renderLevelAndXP(totalXP);
+
+    // Store trophies for tab
+    window.__trophiesData = trophies;
+    window.__trophyProgress = trophyProgress;
 
     const tabDailyBtn    = document.getElementById('statsTabDailyBtn');
     const tabWeeklyBtn   = document.getElementById('statsTabWeeklyBtn');
     const tabMarathonBtn = document.getElementById('statsTabMarathonBtn');
+    const tabTrophiesBtn = document.getElementById('statsTabTrophiesBtn');
     const dailyPanel     = document.getElementById('statsDailyPanel');
     const weeklyPanel    = document.getElementById('statsWeeklyPanel');
     const marathonPanel  = document.getElementById('statsMarathonPanel');
+    const trophiesPanel  = document.getElementById('statsTrophiesPanel');
     const totalDaysEl    = document.getElementById('totalDays');
 
-    let weeklyRendered = false, marathonRendered = false;
+    let weeklyRendered = false, marathonRendered = false, trophiesRendered = false;
+
+    // Compute total Pokemon count for marathon display
+    let totalPokemonCount = 0;
+    try {
+      const pokemons = await loadPokemonList();
+      totalPokemonCount = pokemons.length;
+    } catch (e) { totalPokemonCount = 0; }
+
+    const trophyTotal = trophies.length;
+    const trophyEarned = trophies.filter(t => t.earned).length;
+    const marathonBestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
+
+    function setScoreboard(label, value) {
+      const lbl = document.getElementById('totalCountLabel');
+      if (lbl) lbl.textContent = label;
+      if (totalDaysEl) totalDaysEl.textContent = String(value);
+    }
 
     async function renderDaily() {
-      totalDaysEl.textContent = Object.keys(dailyHistory).length;
+      const total = Object.keys(dailyHistory).length;
+      setScoreboard(typeof Translator !== 'undefined' ? Translator.get('history.totalDays', 'Total jours') : 'Total jours', total);
       renderDetailedStats(dailyHistory, 'statsDetailedStats', COUNT, MAX_SCORE);
     }
 
     async function renderWeekly() {
-      totalDaysEl.textContent = Object.keys(weeklyHistory).length;
+      const total = Object.keys(weeklyHistory).length;
+      setScoreboard(typeof Translator !== 'undefined' ? Translator.get('history.totalWeeks', 'Total semaines') : 'Total semaines', total);
       renderDetailedStats(weeklyHistory, 'statsWeeklyDetailedStats', WEEKLY_COUNT, WEEKLY_MAX);
     }
 
+    function renderMarathonTab() {
+      renderMarathon();
+      setScoreboard(typeof Translator !== 'undefined' ? Translator.get('stats.bestStreakLabel', 'Best streak') : 'Best streak', marathonBestStreak);
+    }
+
+    function renderTrophiesTab() {
+      if (window.__trophiesData) renderTrophies(window.__trophiesData, window.__trophyProgress);
+      setScoreboard(typeof Translator !== 'undefined' ? Translator.get('stats.trophies', 'Troph\u00e9es') : 'Troph\u00e9es', trophyEarned + ' / ' + trophyTotal);
+    }
+
+    function onTabClick(activeBtn, panel, renderFn) {
+      [tabDailyBtn, tabWeeklyBtn, tabMarathonBtn, tabTrophiesBtn].forEach(b => b?.classList.remove('active'));
+      [dailyPanel, weeklyPanel, marathonPanel, trophiesPanel].forEach(p => { if (p) p.style.display = 'none'; });
+      if (activeBtn) activeBtn.classList.add('active');
+      if (panel) panel.style.display = '';
+      if (renderFn) renderFn();
+    }
+
     if (tabDailyBtn) tabDailyBtn.addEventListener('click', () => {
-      tabDailyBtn.classList.add('active'); tabWeeklyBtn.classList.remove('active'); tabMarathonBtn.classList.remove('active');
-      dailyPanel.style.display = ''; weeklyPanel.style.display = 'none'; marathonPanel.style.display = 'none';
-      const lbl = document.getElementById('totalCountLabel');
-      if (lbl) lbl.textContent = typeof Translator !== 'undefined' ? Translator.get('history.totalDays', 'Total jours') : 'Total jours';
-      renderDaily();
+      onTabClick(tabDailyBtn, dailyPanel, renderDaily);
     });
 
     if (tabWeeklyBtn) tabWeeklyBtn.addEventListener('click', () => {
-      tabWeeklyBtn.classList.add('active'); tabDailyBtn.classList.remove('active'); tabMarathonBtn.classList.remove('active');
-      weeklyPanel.style.display = ''; dailyPanel.style.display = 'none'; marathonPanel.style.display = 'none';
-      const lbl = document.getElementById('totalCountLabel');
-      if (lbl) lbl.textContent = typeof Translator !== 'undefined' ? Translator.get('history.totalWeeks', 'Total semaines') : 'Total semaines';
-      if (!weeklyRendered) { weeklyRendered = true; renderWeekly(); }
-      else {
-        loadWeeklyHistory().then(h => { totalDaysEl.textContent = Object.keys(h).length; });
-      }
+      onTabClick(tabWeeklyBtn, weeklyPanel, () => {
+        if (!weeklyRendered) { weeklyRendered = true; renderWeekly(); }
+        else {
+          const total = Object.keys(weeklyHistory).length;
+          setScoreboard(typeof Translator !== 'undefined' ? Translator.get('history.totalWeeks', 'Total semaines') : 'Total semaines', total);
+        }
+      });
     });
 
     if (tabMarathonBtn) tabMarathonBtn.addEventListener('click', () => {
-      tabMarathonBtn.classList.add('active'); tabDailyBtn.classList.remove('active'); tabWeeklyBtn.classList.remove('active');
-      marathonPanel.style.display = ''; dailyPanel.style.display = 'none'; weeklyPanel.style.display = 'none';
-      const lbl = document.getElementById('totalCountLabel');
-      if (lbl) lbl.textContent = typeof Translator !== 'undefined' ? Translator.get('stats.marathon', 'Marathon') : 'Marathon';
-      totalDaysEl.textContent = '';
-      if (!marathonRendered) { marathonRendered = true; renderMarathon(); }
+      onTabClick(tabMarathonBtn, marathonPanel, () => {
+        if (!marathonRendered) { marathonRendered = true; renderMarathonTab(); }
+        else { setScoreboard(typeof Translator !== 'undefined' ? Translator.get('stats.bestStreakLabel', 'Best streak') : 'Best streak', marathonBestStreak); }
+      });
     });
 
+    if (tabTrophiesBtn) tabTrophiesBtn.addEventListener('click', () => {
+      onTabClick(tabTrophiesBtn, trophiesPanel, () => {
+        if (!trophiesRendered) { trophiesRendered = true; renderTrophiesTab(); }
+        else { setScoreboard(typeof Translator !== 'undefined' ? Translator.get('stats.trophies', 'Troph\u00e9es') : 'Troph\u00e9es', trophyEarned + ' / ' + trophyTotal); }
+      });
+    });
+
+    // Initial render (daily)
     renderDaily();
   });
 })();

@@ -111,6 +111,42 @@
     .marathon-stat-item { text-align: center; }
     .marathon-stat-item .stat-value { font-size: 28px; font-weight: 800; color: #fff; }
     .marathon-stat-item .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .trophies-section { margin-bottom: 20px; }
+    .trophies-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 0 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .trophies-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (min-width: 768px) {
+      .trophies-grid { grid-template-columns: repeat(6, 1fr); }
+    }
+    .trophy-entry {
+      background: var(--card);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      transition: transform 200ms, box-shadow 200ms;
+    }
+    .trophy-entry:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+    .trophy-entry .trophy-icon { width: 48px; height: 48px; object-fit: contain; margin-bottom: 6px; }
+    .trophy-entry .trophy-name { font-size: 12px; font-weight: 700; color: #fff; }
+    .trophy-entry.locked { opacity: 0.45; }
+    .trophy-entry.locked .trophy-icon { filter: grayscale(1); }
+    .trophy-entry.locked .trophy-name { color: var(--muted); }
+    .trophy-entry .trophy-desc { font-size: 10px; color: var(--muted); margin-top: 3px; }
+    .trophy-entry .trophy-xp { font-size: 10px; color: var(--accent); font-weight: 600; margin-top: 2px; }
+    .trophy-entry .trophy-progress { font-size: 10px; color: var(--muted-light); margin-top: 2px; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -144,6 +180,7 @@
       <button class="stats-tab-btn active" id="statsTabDailyBtn" data-i18n="oldDaily.tabDaily">Daily</button>
       <button class="stats-tab-btn" id="statsTabWeeklyBtn" data-i18n="oldDaily.tabWeekly">Weekly</button>
       <button class="stats-tab-btn" id="statsTabMarathonBtn" data-i18n="stats.marathon">Marathon</button>
+      <button class="stats-tab-btn" id="statsTabTrophiesBtn" data-i18n="stats.trophies">Trophées</button>
     </div>
 
     <section class="game-area container py-3">
@@ -173,6 +210,12 @@
           <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--glass-border); font-size:13px; color:var(--muted);" data-i18n="stats.marathonInfo">
             Ces scores correspondent à votre meilleure performance en mode Marathon (tous Pokémon).
           </div>
+        </div>
+      </div>
+      <div id="statsTrophiesPanel" style="display:none;">
+        <div class="center-card" style="max-width:760px; width:100%; padding:20px; box-sizing:border-box; overflow:hidden;">
+          <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="stats.trophiesTitle">Trophées</h3>
+          <div id="trophiesGrid"></div>
         </div>
       </div>
     </section>

@@ -320,7 +320,7 @@
         "Name_fr": "Kalos-Dex (6G) - Mega",
         "Desc_en": "Register all Mega-Evolved Pokémons in dailies or weeklies.",
         "Desc_fr": "Enregistrer tous les Pokémons Méga-évolués dans les dailies ou les weeklies.",
-        "XP": 500,
+        "XP": 250,
         "Obtention_Method": {
             "Mode": "Full_Generation_Register",
             "Value": 6
@@ -335,7 +335,7 @@
         "Name_fr": "Alola-Dex (7G) - Formes Régionales",
         "Desc_en": "Register all Alolan regional forms Pokémons in dailies or weeklies.",
         "Desc_fr": "Enregistrer toutes les formes régionales de Pokémons de la région d'Alola dans les dailies ou les weeklies.",
-        "XP": 500,
+        "XP": 250,
         "Obtention_Method": {
             "Mode": "Full_Generation_Register",
             "Value": 7
@@ -350,7 +350,7 @@
         "Name_fr": "Galar-Dex (8G) - Formes Régionales",
         "Desc_en": "Register all Galarian regional forms Pokémons in dailies or weeklies.",
         "Desc_fr": "Enregistrer toutes les formes régionales de Pokémons de la région de Galar dans les dailies ou les weeklies.",
-        "XP": 500,
+        "XP": 100,
         "Obtention_Method": {
             "Mode": "Full_Generation_Register",
             "Value": 8
@@ -365,7 +365,7 @@
         "Name_fr": "Paldea-Dex (9G) - Formes Régionales",
         "Desc_en": "Register all Paldean regional forms Pokémons in dailies or weeklies.",
         "Desc_fr": "Enregistrer tous les forme régionales de Pokémons de la région de Paldea dans les dailies ou les weeklies.",
-        "XP": 500,
+        "XP": 100,
         "Obtention_Method": {
             "Mode": "Full_Generation_Register",
             "Value": 9

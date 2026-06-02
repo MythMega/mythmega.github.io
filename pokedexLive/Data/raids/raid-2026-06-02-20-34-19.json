@@ -1,0 +1,71 @@
+{
+  "bossName": "\u00C9touraptor",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Staraptor_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Staraptor_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 35000,
+  "date": "2026-06-02 20:34:19",
+  "durationSec": 1150,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 77138,
+      "countAtk": 2,
+      "baseDmg": 25662,
+      "level": 18,
+      "raidCount": 803,
+      "luck": 1.5029616
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 77138
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-02 20:45:46",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25662,
+      "pvAfter": 9338,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-02 20:53:30",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 51476,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

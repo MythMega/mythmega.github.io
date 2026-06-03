@@ -1,0 +1,136 @@
+{
+  "bossName": "Togekiss",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Togekiss_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Togekiss_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-06-03 21:43:31",
+  "durationSec": 1730,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 25943,
+      "countAtk": 1,
+      "baseDmg": 25943,
+      "level": 18,
+      "raidCount": 812,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14040,
+      "countAtk": 1,
+      "baseDmg": 14040,
+      "level": 18,
+      "raidCount": 464,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 1599,
+      "countAtk": 1,
+      "baseDmg": 1599,
+      "level": 12,
+      "raidCount": 100,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 41582
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-03 22:04:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25943,
+      "pvAfter": 14057,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-03 22:12:04",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1599,
+      "pvAfter": 12458,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-06-03 22:12:21",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14040,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

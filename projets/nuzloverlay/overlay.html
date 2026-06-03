@@ -62,7 +62,11 @@ function getQueryParams(){
     layout_count: Math.max(1, Math.min(5, parseInt(params.get('layout_count')||'1',10) || 1)),
     orientation: (params.get('orientation')||'h').toLowerCase(),
     // egg: true par défaut, false si &egg=false
-    egg: (params.get('egg') || 'true').toLowerCase() !== 'false'
+    egg: (params.get('egg') || 'true').toLowerCase() !== 'false',
+    // pokebackground: true par défaut, false si &pokebackground=false
+    pokebackground: (params.get('pokebackground') || 'true').toLowerCase() !== 'false',
+    // profilepic: true par défaut, false si &profilepic=false
+    profilepic: (params.get('profilepic') || 'true').toLowerCase() !== 'false'
   };
 }
 
@@ -266,6 +270,16 @@ function normalizeName(s){
   }
 
   buildSkeleton();
+
+  // Apply pokebackground visibility: si false, masque tous les .pokebg
+  if(!params.pokebackground){
+    document.querySelectorAll('.pokebg').forEach(el => el.style.display = 'none');
+  }
+
+  // Apply profilepic visibility: si false, masque les .name et .avatar
+  if(!params.profilepic){
+    document.querySelectorAll('.name, .avatar').forEach(el => el.style.display = 'none');
+  }
 
   // Fetch CSV and update DOM (initial + every 15s)
   async function fetchAndUpdate(){

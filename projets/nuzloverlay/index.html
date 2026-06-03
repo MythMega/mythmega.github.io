@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Soul Link Overlay Configurator</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1: #0f1724;
+    --bg-2: #071020;
+    --accent: #6ee7b7;
+    --accent-2: #7c5cff;
+    --glass: rgba(255,255,255,0.06);
+    --muted: #9aa4b2;
+    --card-radius: 14px;
+    --shadow-1: 0 10px 30px rgba(2,6,23,0.6);
+    --glow: 0 8px 30px rgba(124,92,255,0.18);
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.12), transparent 8%),
+                radial-gradient(900px 400px at 90% 90%, rgba(110,231,183,0.06), transparent 8%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    color:#e6eef6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px;
+    box-sizing:border-box;
+  }
+
+  .card{
+    width:100%;
+    max-width:820px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:var(--card-radius);
+    padding:22px;
+    box-shadow: var(--shadow-1);
+    border: 1px solid rgba(255,255,255,0.04);
+    position:relative;
+    overflow:hidden;
+    backdrop-filter: blur(8px) saturate(120%);
+  }
+
+  .card::before{
+    content:"";
+    position:absolute;
+    inset:-40%;
+    background: radial-gradient(600px 200px at 10% 10%, rgba(124,92,255,0.08), transparent 20%),
+                radial-gradient(500px 180px at 90% 90%, rgba(110,231,183,0.04), transparent 20%);
+    transform: translateZ(0);
+    pointer-events:none;
+  }
+
+  h2{
+    margin:0 0 8px 0;
+    font-size:20px;
+    letter-spacing:-0.2px;
+    color: #f8fbff;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .hint{
+    margin:0 0 18px 0;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  label{
+    display:block;
+    margin-top:12px;
+    font-weight:600;
+    font-size:13px;
+    color:#dfe9ff;
+  }
+
+  input[type="text"], select{
+    width:100%;
+    padding:12px 14px;
+    margin-top:8px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+    color:#eaf6ff;
+    outline:none;
+    transition: box-shadow .18s ease, transform .12s ease, border-color .12s ease;
+    box-shadow: inset 0 -6px 18px rgba(2,6,23,0.25);
+    font-size:14px;
+  }
+
+  input[type="text"]::placeholder{ color: rgba(230,240,255,0.35); font-weight:500; }
+
+  input[type="text"]:focus, select:focus{
+    box-shadow: 0 6px 30px rgba(124,92,255,0.12);
+    border-color: rgba(124,92,255,0.9);
+    transform: translateY(-1px);
+  }
+
+  .row{display:flex;gap:12px;margin-top:12px}
+  .row > *{flex:1}
+
+  button{
+    margin-top:18px;
+    padding:12px 16px;
+    border:0;
+    border-radius:12px;
+    background: linear-gradient(90deg, rgba(124,92,255,0.95), rgba(110,231,183,0.9));
+    color:#07102a;
+    font-weight:800;
+    letter-spacing:0.4px;
+    cursor:pointer;
+    box-shadow: var(--glow), 0 6px 18px rgba(2,6,23,0.5);
+    transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  button:hover{
+    transform: translateY(-3px);
+    filter:brightness(1.03);
+    box-shadow: 0 14px 40px rgba(124,92,255,0.18), 0 6px 18px rgba(2,6,23,0.6);
+  }
+
+  button:active{ transform: translateY(-1px); }
+
+  .result{
+    margin-top:14px;
+    padding:12px;
+    border-radius:10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    border:1px solid rgba(255,255,255,0.03);
+    color:#dff7ee;
+    font-size:13px;
+    word-break:break-all;
+  }
+
+  .example{font-size:13px;color:var(--muted);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));padding:10px;border-radius:8px;margin-top:10px;border:1px solid rgba(255,255,255,0.02);}
+
+  .title-icon{
+    width:36px;height:36px;border-radius:10px;display:inline-grid;place-items:center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: inset 0 -6px 18px rgba(2,6,23,0.25);
+  }
+
+  .link-button{
+    margin-top:12px;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.04);
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    color:var(--accent-2);
+    font-weight:700;
+    cursor:pointer;
+    display:inline-flex;
+    gap:8px;
+    align-items:center;
+  }
+
+  .link-button:hover{ box-shadow: 0 8px 30px rgba(124,92,255,0.06); transform:translateY(-2px); }
+
+  @media (max-width:720px){
+    .card{padding:16px}
+    .row{flex-direction:column}
+    button{width:100%}
+  }
+</style>
+</head>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <h2 id="title">
+      <span class="title-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13 2L3 14h7l-1 8L21 10h-7l-1-8z" fill="url(#g)"/>
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#6ee7b7"/></linearGradient></defs>
+        </svg>
+      </span>
+      Soul Link Overlay Configurator
+    </h2>
+
+    <p class="hint">Enter your public Google Sheet or CSV URL, choose participants and layout orientation.</p>
+
+    <label for="sheetUrl">Google Sheet / CSV URL</label>
+    <input id="sheetUrl" type="text" placeholder="https://docs.google.com/spreadsheets/d/ID/edit#gid=0 or https://.../file.csv" aria-label="Sheet or CSV URL" />
+
+    <div class="row" style="margin-top:14px;">
+      <div>
+        <label for="count">Number of participants</label>
+        <select id="count" aria-label="Number of participants">
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div>
+        <label for="orientation">Layout orientation</label>
+        <select id="orientation" aria-label="Layout orientation">
+          <option value="v">Vertical (columns)</option>
+          <option value="h" selected>Horizontal (rows)</option>
+        </select>
+      </div>
+    </div>
+
+    <button id="generate" aria-label="Generate overlay link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 2px 6px rgba(0,0,0,0.25));">
+        <path d="M10.59 13.41a1 1 0 0 0 1.41 0l4.24-4.24a4 4 0 0 0-5.66-5.66L6.34 7.75a1 1 0 1 0 1.41 1.41L11 6.91a2 2 0 0 1 2.83 2.83l-4.24 4.24z" fill="#07102a"/>
+        <path d="M13.41 10.59a1 1 0 0 0-1.41 0L7.76 15.83a4 4 0 1 0 5.66 5.66l4.24-4.24a1 1 0 1 0-1.41-1.41L12 20.09a2 2 0 1 1-2.83-2.83l4.24-4.24z" fill="#07102a"/>
+      </svg>
+      Generate overlay link
+    </button>
+
+    <div id="result" class="result" style="display:none" aria-live="polite"></div>
+
+    <div style="margin-top:12px;">
+      <button id="patternBtn" class="link-button" aria-label="Open pattern example">
+        Pattern example to copy
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="opacity:0.9">
+          <path d="M14 3h7v7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 14L21 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 21H3V3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+<script>
+(function(){
+  const sheetInput = document.getElementById('sheetUrl');
+  const countInput = document.getElementById('count');
+  const orientationInput = document.getElementById('orientation');
+  const btn = document.getElementById('generate');
+  const result = document.getElementById('result');
+  const patternBtn = document.getElementById('patternBtn');
+
+  function encodeParam(s){
+    return encodeURIComponent(s);
+  }
+
+  btn.addEventListener('click', ()=>{
+    const sheet = sheetInput.value.trim();
+    if(!sheet){
+      result.style.display = 'block';
+      result.textContent = 'Please provide the sheet or CSV URL.';
+      result.style.border = '1px solid rgba(255,80,80,0.18)';
+      result.style.background = 'linear-gradient(180deg, rgba(255,80,80,0.03), rgba(255,80,80,0.01))';
+      setTimeout(()=>{ result.style.display = 'none'; result.style.border=''; result.style.background=''; }, 3500);
+      return;
+    }
+    const count = Math.max(1, Math.min(5, parseInt(countInput.value,10) || 1));
+    const orientation = orientationInput.value === 'v' ? 'v' : 'h';
+    const overlayUrl = `./overlay.html?sheet=${encodeParam(sheet)}&layout_count=${count}&orientation=${orientation}`;
+    result.style.display = 'block';
+    result.style.border = '1px solid rgba(255,255,255,0.04)';
+    result.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005))';
+    result.innerHTML = `<strong style="color:#eaf6ff">Overlay link:</strong> <a href="${overlayUrl}" target="_blank" style="color:var(--accent-2);font-weight:700;text-decoration:none">${overlayUrl}</a>`;
+    window.open(overlayUrl, '_blank');
+  });
+
+  patternBtn.addEventListener('click', ()=>{
+    const url = 'https://docs.google.com/spreadsheets/d/1ESxMC6rcRzJtgq18IZgLo6oXZkdYzoB6LVQEgO-Zj28/edit?usp=sharing';
+    window.open(url, '_blank');
+  });
+})();
+</script>
+</body>
+</html>

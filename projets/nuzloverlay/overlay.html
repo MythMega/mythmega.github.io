@@ -60,7 +60,9 @@ function getQueryParams(){
   return {
     sheet: params.get('sheet') || '',
     layout_count: Math.max(1, Math.min(5, parseInt(params.get('layout_count')||'1',10) || 1)),
-    orientation: (params.get('orientation')||'h').toLowerCase()
+    orientation: (params.get('orientation')||'h').toLowerCase(),
+    // egg: true par défaut, false si &egg=false
+    egg: (params.get('egg') || 'true').toLowerCase() !== 'false'
   };
 }
 
@@ -148,6 +150,17 @@ function normalizeName(s){
     return shiny ? (found.Sprite_Shiny || found.Sprite_Normal) : (found.Sprite_Normal || found.Sprite_Shiny);
   }
 
+  // Helper pour définir l'image "vide" selon le paramètre egg
+  function setEmptyPokeImage(imgElement){
+    if(params.egg){
+      imgElement.src = './assets/img/app/egg.gif';
+      imgElement.onerror = ()=>{ imgElement.src = './assets/img/app/egg.gif'; };
+    } else {
+      imgElement.src = './assets/img/app/nothing.png';
+      imgElement.onerror = ()=>{ imgElement.src = './assets/img/app/nothing.png'; };
+    }
+  }
+
   /* Build static DOM skeleton according to orientation.
      For orientation 'v' -> each player is a column: avatar on top, then pokes stacked vertically.
      For orientation 'h' -> each player is a row: avatar left, pokes in a horizontal row to the right.
@@ -181,8 +194,14 @@ function normalizeName(s){
           const pokeImgWrap = document.createElement('div');
           pokeImgWrap.className = 'poke-img';
           const pokeImg = document.createElement('img');
-          pokeImg.src = './assets/img/app/egg.gif';
-          pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
+          // initial image depends on params.egg
+          if(params.egg){
+            pokeImg.src = './assets/img/app/egg.gif';
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/egg.gif'; };
+          } else {
+            pokeImg.src = './assets/img/app/empty.png';
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
+          }
           pokeImg.dataset.role = `poke-${i}-${p}`;
           pokeImgWrap.appendChild(pokeImg);
           pokeWrap.appendChild(pokebg);
@@ -225,8 +244,14 @@ function normalizeName(s){
           const pokeImgWrap = document.createElement('div');
           pokeImgWrap.className = 'poke-img';
           const pokeImg = document.createElement('img');
-          pokeImg.src = './assets/img/app/egg.gif';
-          pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
+          // initial image depends on params.egg
+          if(params.egg){
+            pokeImg.src = './assets/img/app/egg.gif';
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/egg.gif'; };
+          } else {
+            pokeImg.src = './assets/img/app/empty.png';
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
+          }
           pokeImg.dataset.role = `poke-${i}-${p}`;
           pokeImgWrap.appendChild(pokeImg);
           pokeWrap.appendChild(pokebg);
@@ -293,16 +318,16 @@ function normalizeName(s){
         if(!pokeImg) continue;
 
         if(!pokeName){
-          pokeImg.src = './assets/img/app/egg.gif';
-          pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
+          // pas de nom : afficher oeuf ou vide selon params.egg
+          setEmptyPokeImage(pokeImg);
         } else {
           const sprite = findSpriteFor(pokeName, shiny);
           if(sprite){
             pokeImg.src = sprite;
             pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
           } else {
-            pokeImg.src = './assets/img/app/egg.gif';
-            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/egg.gif'; };
+            // nom fourni mais sprite introuvable : afficher oeuf ou vide selon params.egg
+            setEmptyPokeImage(pokeImg);
           }
         }
       }

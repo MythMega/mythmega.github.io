@@ -169,6 +169,15 @@
           </ul>
         </li>
 
+        <!-- TOOLS -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">Outils</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item${active('./projets/nuzloverlay/index.html')}" href="./projets/nuzloverlay/index.html">Overlay Pokémon Soul-link Nuzlock</a></li>
+          </ul>
+        </li>
+
         <!-- MUSIQUES -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button"

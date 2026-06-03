@@ -1,0 +1,159 @@
+{
+  "bossName": "Armulys",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Silcoon_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Silcoon_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-06-03 23:19:31",
+  "durationSec": 3495,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 40194,
+      "countAtk": 10,
+      "baseDmg": 4669,
+      "level": 14,
+      "raidCount": 196,
+      "luck": 0.8608695
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 40194
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-04 00:17:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4669,
+      "pvAfter": 35331,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 00:17:02",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4731,
+      "pvAfter": 30600,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-06-04 00:17:02",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 30600,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 00h22:02."
+    },
+    {
+      "at": "2026-06-04 00:17:03",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 30600,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 00h22:02."
+    },
+    {
+      "at": "2026-06-04 00:17:41",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4745,
+      "pvAfter": 25855,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 00:17:43",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7165,
+      "pvAfter": 18690,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 00:17:44",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4690,
+      "pvAfter": 14000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 00:17:45",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4750,
+      "pvAfter": 9250,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 00:17:46",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4685,
+      "pvAfter": 4565,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 00:17:46",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4759,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "bossName": "Coxyclaque",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ledian_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ledian_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 25000,
+  "date": "2026-06-03 20:03:31",
+  "durationSec": 2132,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 24762,
+      "countAtk": 2,
+      "baseDmg": 8236,
+      "level": 17,
+      "raidCount": 307,
+      "luck": 1.5032783
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4494,
+      "countAtk": 1,
+      "baseDmg": 4494,
+      "level": 14,
+      "raidCount": 195,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Chatdhow",
+      "damage": 1869,
+      "countAtk": 2,
+      "baseDmg": 781,
+      "level": 10,
+      "raidCount": 19,
+      "luck": 1.1965429
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 1403,
+      "countAtk": 2,
+      "baseDmg": 659,
+      "level": 7,
+      "raidCount": 45,
+      "luck": 1.0644916
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 1403
+    },
+    {
+      "platform": "twitch",
+      "damage": 31125
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-03 20:14:34",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 659,
+      "pvAfter": 24341,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-03 20:15:50",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 744,
+      "pvAfter": 23597,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-03 20:25:51",
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "damages": 781,
+      "pvAfter": 22816,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-03 20:27:02",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8236,
+      "pvAfter": 14580,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-03 20:28:08",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4494,
+      "pvAfter": 10086,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-06-03 20:28:57",
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "damages": 1088,
+      "pvAfter": 8998,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-03 20:39:03",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 16526,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

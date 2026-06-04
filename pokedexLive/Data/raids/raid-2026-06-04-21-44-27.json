@@ -1,0 +1,211 @@
+{
+  "bossName": "Ronflex",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Snorlax_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Snorlax_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 105000,
+  "date": "2026-06-04 21:44:27",
+  "durationSec": 1972,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 133184,
+      "countAtk": 3,
+      "baseDmg": 26582,
+      "level": 18,
+      "raidCount": 821,
+      "luck": 1.6701026
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4792,
+      "countAtk": 1,
+      "baseDmg": 4792,
+      "level": 14,
+      "raidCount": 200,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 3019,
+      "countAtk": 2,
+      "baseDmg": 1214,
+      "level": 9,
+      "raidCount": 81,
+      "luck": 1.2434102
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Agscrow",
+      "damage": 170,
+      "countAtk": 1,
+      "baseDmg": 170,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 138146
+    },
+    {
+      "platform": "youtube",
+      "damage": 3019
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Agscrow",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-04 21:45:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 26582,
+      "pvAfter": 78418,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-06-04 21:48:37",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4792,
+      "pvAfter": 73626,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 22:01:28",
+      "pseudo": "Agscrow",
+      "platform": "twitch",
+      "damages": 170,
+      "pvAfter": 73456,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 22:05:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 53302,
+      "pvAfter": 20154,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-06-04 22:07:34",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1214,
+      "pvAfter": 18940,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 22:11:51",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1805,
+      "pvAfter": 17135,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 22:17:20",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 53300,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

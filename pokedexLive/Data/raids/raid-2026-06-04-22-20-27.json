@@ -1,0 +1,113 @@
+{
+  "bossName": "Drascore",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drapion_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drapion_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 50000,
+  "date": "2026-06-04 22:20:27",
+  "durationSec": 573,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 79533,
+      "countAtk": 2,
+      "baseDmg": 26475,
+      "level": 18,
+      "raidCount": 822,
+      "luck": 1.5020397
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 1165,
+      "countAtk": 1,
+      "baseDmg": 1165,
+      "level": 9,
+      "raidCount": 82,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 79533
+    },
+    {
+      "platform": "youtube",
+      "damage": 1165
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-04 22:20:55",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 26475,
+      "pvAfter": 23525,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 22:21:25",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1165,
+      "pvAfter": 22360,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-04 22:30:01",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 53058,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

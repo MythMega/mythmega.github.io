@@ -1,0 +1,400 @@
+/* ---------- Helpers ---------- */
+function getQueryParams(){
+  const params = new URLSearchParams(location.search);
+  return {
+    sheet: params.get('sheet') || '',
+    layout_count: Math.max(1, Math.min(5, parseInt(params.get('layout_count')||'1',10) || 1)),
+    orientation: (params.get('orientation')||'h').toLowerCase(),
+    egg: (params.get('egg') || 'true').toLowerCase() !== 'false',
+    pokebackground: (params.get('pokebackground') || 'true').toLowerCase() !== 'false',
+    profilepic: (params.get('profilepic') || 'true').toLowerCase() !== 'false'
+  };
+}
+
+let _cachedParams = null;
+function getQueryParamsCached(){
+  if(!_cachedParams) _cachedParams = getQueryParams();
+  return _cachedParams;
+}
+
+function isGoogleSheetUrl(u){
+  return /docs.google.com\/spreadsheets/.test(u);
+}
+
+function toCsvExportUrl(sheetUrl){
+  if(/\/export\?format=csv/.test(sheetUrl)) return sheetUrl;
+  const m = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]+)(?:\/.*gid=(\d+))?/);
+  if(m){
+    const id = m[1];
+    const gid = m[2] || '0';
+    return `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
+  }
+  return sheetUrl;
+}
+
+function parseCSV(text){
+  const lines = text.split(/\r?\n/).filter(l=>l.trim().length>0);
+  if(lines.length===0) return [];
+  const sep = lines[0].includes(';') ? ';' : ',';
+  const rows = lines.map(line=>{
+    const parts = [];
+    let cur = '', inQuotes=false;
+    for(let i=0;i<line.length;i++){
+      const ch = line[i];
+      if(ch === '"' ){ inQuotes = !inQuotes; continue; }
+      if(ch === sep && !inQuotes){ parts.push(cur); cur=''; continue; }
+      cur += ch;
+    }
+    parts.push(cur);
+    return parts.map(p=>p.trim());
+  });
+  return rows;
+}
+
+function normalizeName(s){
+  if(!s) return '';
+  return s.normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();
+}
+
+/* ---------- Taille adaptative ---------- */
+function computeElementSizes(){
+  const params = getQueryParamsCached();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const count = params.layout_count;
+  const orientation = params.orientation;
+  const profilepic = params.profilepic;
+  const root = document.documentElement;
+
+  if(vw === 0 || vh === 0) return;
+
+  let avatarSize, pokeSize, nameSize, gapPlayers, gapItems, gapPokes;
+
+  if(orientation === 'v'){
+    // Mode vertical : joueurs côte à côte horizontalement
+    // Chaque colonne : avatar + nom + 6 pokes empilés verticalement
+    // Largeur dispo par joueur = (vw - gaps entre colonnes) / count
+    // Dans chaque colonne, la largeur est partagée entre l'avatar et les pokes (même largeur = taille)
+    // Hauteur totale d'une colonne = avatar + nom + 6*pokes + gaps verticaux
+    // En mode 'v' avec profilepic, la hauteur peut vite devenir grande
+    // -> on limite par la hauteur disponible
+
+    const gapCols = 12;
+    const gapH = 8; // gap dans la colonne
+
+    // Approche : d'abord essayer de dimensionner par la hauteur dispo
+    // Hauteur dispo = vh - padding (on garde 5% marge)
+    const availH = vh * 0.95;
+    // Dans une colonne : avatar(h) + gapH + nom(1.2*nameSize) + gapH + 6*pokes(h) + 5*gapH
+    // Si profilepic false : pas d'avatar ni nom
+    let maxSizeByH;
+    if(profilepic){
+      // (1)*size + nameSize + (6)*size + 7*gapH ≤ availH
+      // 7*size + nameSize ≤ availH - 7*gapH
+      // on approxime nameSize ≈ size * 0.15
+      maxSizeByH = (availH - 7 * gapH) / (7 + 0.15);
+    } else {
+      // 6*size + 5*gapH ≤ availH
+      maxSizeByH = (availH - 5 * gapH) / 6;
+    }
+
+    // Largeur dispo par colonne
+    const availW = (vw - (count - 1) * gapCols) / count;
+    // Dans une colonne : avatar(w) ou pokes(w) = size
+    // Pas de contrainte horizontale forte, c'est size directement
+    const maxSizeByW = availW - 4; // petite marge
+
+    const size = Math.max(24, Math.min(maxSizeByH, maxSizeByW, 200));
+    avatarSize = size;
+    pokeSize = size;
+    nameSize = Math.max(8, Math.min(size * 0.17, 20));
+    gapPlayers = gapCols;
+    gapItems = gapH;
+    gapPokes = 8;
+  } else {
+    // Mode horizontal : joueurs empilés verticalement
+    // Chaque ligne : [avatar + nom empilés] + [6 pokes horizontaux]
+    // Hauteur dispo par joueur = (vh - gaps entre lignes) / count
+    // Dans une ligne : si profilepic, hauteur ≈ avatar(h) + nom + gaps
+    //                sinon hauteur ≈ pokes(h)
+    // Largeur d'une ligne = avatar + gap + 6*pokes + 5*gapPokes
+
+    const gapRows = 12;
+    const gapH = 8; // gap vertical entre avatar et nom
+    const gapBetween = 12; // gap entre avatar et pokes
+
+    const availH = (vh - (count - 1) * gapRows) / count;
+    let maxSizeByH;
+    if(profilepic){
+      // avatar(size) + gapH + nom(size*0.17) + un peu de marge ≤ availH * 0.9
+      maxSizeByH = (availH * 0.9 - gapH) / (1 + 0.17);
+    } else {
+      // que les pokes (taille) ≤ availH
+      maxSizeByH = availH * 0.9;
+    }
+
+    // Largeur dispo pour une ligne = vw - marge
+    const availW = vw * 0.98;
+    // Dans une ligne : avatar(size) + gapBetween + 6*pokes + 5*gapPokes ≤ availW
+    const maxSizeByW = (availW - gapBetween - 5 * 8) / 7;
+
+    const size = Math.max(24, Math.min(maxSizeByH, maxSizeByW, 200));
+    avatarSize = size;
+    pokeSize = size;
+    nameSize = Math.max(8, Math.min(size * 0.17, 20));
+    gapPlayers = gapRows;
+    gapItems = gapH;
+    gapPokes = 8;
+  }
+
+  root.style.setProperty('--avatar-size', avatarSize + 'px');
+  root.style.setProperty('--poke-size', pokeSize + 'px');
+  root.style.setProperty('--name-size', nameSize + 'px');
+  root.style.setProperty('--gap', gapPlayers + 'px');
+}
+
+/* ---------- Main ---------- */
+(async function main(){
+  const params = getQueryParamsCached();
+  const root = document.getElementById('root');
+  const playersContainer = document.getElementById('playersContainer');
+
+  // set orientation class
+  if(params.orientation === 'v') {
+    root.classList.remove('orientation-h');
+    root.classList.add('orientation-v');
+  } else {
+    root.classList.remove('orientation-v');
+    root.classList.add('orientation-h');
+  }
+
+  // Load pokedex data once
+  let pokedata = [];
+  try{
+    const res = await fetch('./assets/data.json');
+    pokedata = await res.json();
+    pokedata = pokedata.map(p=>{
+      return {
+        ...p,
+        _nfr: normalizeName(p.Name_FR || ''),
+        _nen: normalizeName(p.Name_EN || '')
+      };
+    });
+  }catch(e){
+    console.error('Impossible de charger assets/data.json', e);
+  }
+
+  // Build CSV URL
+  let sheetUrl = params.sheet || '';
+  if(isGoogleSheetUrl(sheetUrl)){
+    sheetUrl = toCsvExportUrl(sheetUrl);
+  }
+
+  function findSpriteFor(name, shiny){
+    if(!name) return null;
+    const n = normalizeName(name);
+    const found = pokedata.find(p => p._nfr === n || p._nen === n);
+    if(!found) return null;
+    return shiny ? (found.Sprite_Shiny || found.Sprite_Normal) : (found.Sprite_Normal || found.Sprite_Shiny);
+  }
+
+  // Helper pour dÃ©finir l'image "vide" selon le paramÃ¨tre egg
+  function setEmptyPokeImage(imgElement){
+    if(params.egg){
+      imgElement.src = './assets/img/app/egg.gif';
+      imgElement.onerror = ()=>{ imgElement.src = './assets/img/app/egg.gif'; };
+    } else {
+      imgElement.src = './assets/img/app/nothing.png';
+      imgElement.onerror = ()=>{ imgElement.src = './assets/img/app/nothing.png'; };
+    }
+  }
+
+  /* Build static DOM skeleton according to orientation.
+     For orientation 'v' -> each player is a column: avatar on top, then pokes stacked vertically.
+     For orientation 'h' -> each player is a row: avatar left, pokes in a horizontal row to the right.
+     We keep this skeleton stable and only update image src/text on refresh.
+  */
+  function buildSkeleton(){
+    playersContainer.innerHTML = '';
+    for(let i=0;i<params.layout_count;i++){
+      if(params.orientation === 'v'){
+        const col = document.createElement('div');
+        col.className = 'player-col';
+        const avatarWrap = document.createElement('div');
+        avatarWrap.className = 'avatar';
+        const avatarImg = document.createElement('img');
+        avatarImg.src = './assets/img/app/empty.png';
+        avatarImg.onerror = ()=>{ avatarImg.src = './assets/img/app/empty.png'; };
+        avatarImg.dataset.role = `avatar-${i}`;
+        avatarWrap.appendChild(avatarImg);
+        const nameEl = document.createElement('div');
+        nameEl.className = 'name';
+        nameEl.textContent = `Player ${i+1}`;
+        nameEl.dataset.role = `name-${i}`;
+        const pokesEl = document.createElement('div');
+        pokesEl.className = 'pokes vertical';
+        pokesEl.dataset.role = `pokes-${i}`;
+        for(let p=0;p<6;p++){
+          const pokeWrap = document.createElement('div');
+          pokeWrap.className = 'poke-wrap';
+          const pokebg = document.createElement('div');
+          pokebg.className = 'pokebg';
+          const pokeImgWrap = document.createElement('div');
+          pokeImgWrap.className = 'poke-img';
+          const pokeImg = document.createElement('img');
+          if(params.egg){
+            pokeImg.src = './assets/img/app/egg.gif';
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/egg.gif'; };
+          } else {
+            pokeImg.src = './assets/img/app/empty.png';
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
+          }
+          pokeImg.dataset.role = `poke-${i}-${p}`;
+          pokeImgWrap.appendChild(pokeImg);
+          pokeWrap.appendChild(pokebg);
+          pokeWrap.appendChild(pokeImgWrap);
+          pokesEl.appendChild(pokeWrap);
+        }
+        col.appendChild(avatarWrap);
+        col.appendChild(nameEl);
+        col.appendChild(pokesEl);
+        playersContainer.appendChild(col);
+      } else {
+        const row = document.createElement('div');
+        row.className = 'player-row';
+        const left = document.createElement('div');
+        left.style.display = 'flex';
+        left.style.flexDirection = 'column';
+        left.style.alignItems = 'center';
+        left.style.gap = '8px';
+        left.style.flexShrink = '0';
+        const avatarWrap = document.createElement('div');
+        avatarWrap.className = 'avatar';
+        const avatarImg = document.createElement('img');
+        avatarImg.src = './assets/img/app/empty.png';
+        avatarImg.onerror = ()=>{ avatarImg.src = './assets/img/app/empty.png'; };
+        avatarImg.dataset.role = `avatar-${i}`;
+        avatarWrap.appendChild(avatarImg);
+        const nameEl = document.createElement('div');
+        nameEl.className = 'name';
+        nameEl.textContent = `Player ${i+1}`;
+        nameEl.dataset.role = `name-${i}`;
+        left.appendChild(avatarWrap);
+        left.appendChild(nameEl);
+        const pokesEl = document.createElement('div');
+        pokesEl.className = 'pokes horizontal';
+        pokesEl.dataset.role = `pokes-${i}`;
+        for(let p=0;p<6;p++){
+          const pokeWrap = document.createElement('div');
+          pokeWrap.className = 'poke-wrap';
+          const pokebg = document.createElement('div');
+          pokebg.className = 'pokebg';
+          const pokeImgWrap = document.createElement('div');
+          pokeImgWrap.className = 'poke-img';
+          const pokeImg = document.createElement('img');
+          if(params.egg){
+            pokeImg.src = './assets/img/app/egg.gif';
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/egg.gif'; };
+          } else {
+            pokeImg.src = './assets/img/app/empty.png';
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
+          }
+          pokeImg.dataset.role = `poke-${i}-${p}`;
+          pokeImgWrap.appendChild(pokeImg);
+          pokeWrap.appendChild(pokebg);
+          pokeWrap.appendChild(pokeImgWrap);
+          pokesEl.appendChild(pokeWrap);
+        }
+        row.appendChild(left);
+        row.appendChild(pokesEl);
+        playersContainer.appendChild(row);
+      }
+    }
+  }
+
+  buildSkeleton();
+
+  // Calcul initial des tailles + au resize
+  computeElementSizes();
+  window.addEventListener('resize', computeElementSizes);
+
+  // Apply pokebackground visibility: si false, masque tous les .pokebg
+  if(!params.pokebackground){
+    document.querySelectorAll('.pokebg').forEach(el => el.style.display = 'none');
+  }
+
+  // Apply profilepic visibility: si false, masque les .name et .avatar
+  if(!params.profilepic){
+    document.querySelectorAll('.name, .avatar').forEach(el => el.style.display = 'none');
+  }
+
+  // Fetch CSV and update DOM (initial + every 15s)
+  async function fetchAndUpdate(){
+    if(!sheetUrl){
+      console.warn('Aucun sheet fourni');
+      return;
+    }
+    const url = sheetUrl + (sheetUrl.includes('?') ? '&_ts=' : '?_ts=') + Date.now();
+    let csvText = '';
+    try{
+      const resp = await fetch(url, {mode:'cors'});
+      if(!resp.ok) throw new Error('CSV fetch failed');
+      csvText = await resp.text();
+    }catch(e){
+      console.warn('Impossible de rÃ©cupÃ©rer le CSV depuis', url, e);
+      csvText = '';
+    }
+    const rows = csvText ? parseCSV(csvText) : [];
+    // IMPORTANT: ignore header row (ligne 1). Player 1 = ligne 2 du CSV.
+    const dataRows = rows.length > 0 ? rows.slice(1) : [];
+
+    for(let i=0;i<params.layout_count;i++){
+      const row = dataRows[i] || [];
+      let cols = row;
+      if(row.length === 1 && row[0].includes(',')){
+        cols = row[0].split(',').map(s=>s.trim());
+      }
+      const name = (cols[0] || `Player ${i+1}`).trim();
+      const photo = (cols[1] || '').trim();
+
+      // update avatar
+      const avatarImg = document.querySelector(`img[data-role="avatar-${i}"]`);
+      if(avatarImg){
+        avatarImg.src = photo || './assets/img/app/empty.png';
+        avatarImg.onerror = ()=>{ avatarImg.src = './assets/img/app/empty.png'; };
+      }
+      // update name
+      const nameEl = document.querySelector(`[data-role="name-${i}"]`);
+      if(nameEl) nameEl.textContent = name || `Player ${i+1}`;
+
+      // update pokes
+      for(let p=0;p<6;p++){
+        const nameIdx = 2 + p*2;
+        const shinyIdx = nameIdx + 1;
+        const pokeName = (cols[nameIdx] || '').trim();
+        const shinyVal = (cols[shinyIdx] || '').toLowerCase();
+        const shiny = (shinyVal === 'true' || shinyVal === '1' || shinyVal === 'oui' || shinyVal === 'yes');
+
+        const pokeImg = document.querySelector(`img[data-role="poke-${i}-${p}"]`);
+        if(!pokeImg) continue;
+
+        if(!pokeName){
+          setEmptyPokeImage(pokeImg);
+        } else {
+          const sprite = findSpriteFor(pokeName, shiny);
+          if(sprite){
+            pokeImg.src = sprite;
+            pokeImg.onerror = ()=>{ pokeImg.src = './assets/img/app/empty.png'; };
+          } else {
+            setEmptyPokeImage(pokeImg);
+          }
+        }
+      }
+    }
+  }
+
+  // initial + periodic
+  await fetchAndUpdate();
+  setInterval(fetchAndUpdate, 15000);
+
+})();

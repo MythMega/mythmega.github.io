@@ -4,8 +4,8 @@
 import { loadTranslations, t, getLang } from "../business/i18n.js";
 import { getLangPref, setLangPref } from "../business/settings.js";
 import { applyTranslations, setActiveNav, showToast, showConfirm, showModal, escapeHtml } from "../visual/ui.js";
-import { exportSave, importSave } from "../business/saveManager.js";
-import { clearAllDailyResults } from "../business/database.js";
+import { exportSave, importSave, parseDailyText } from "../business/saveManager.js";
+import { clearAllDailyResults, getDailyResult, saveDailyResult } from "../business/database.js";
 
 async function init() {
   const lang = getLangPref();
@@ -22,6 +22,7 @@ async function init() {
     document.getElementById("import-file").click()
   );
   document.getElementById("import-file").addEventListener("change", handleImport);
+  document.getElementById("btn-import-daily").addEventListener("click", handleImportDaily);
   document.getElementById("btn-delete").addEventListener("click", handleDelete);
 }
 
@@ -73,6 +74,41 @@ async function handleImport(e) {
     ${hsLine}`;
 
   showModal(t("settings.import_result_title"), html);
+}
+
+async function handleImportDaily() {
+  const textarea = document.getElementById("import-daily-text");
+  const text = textarea.value.trim();
+  if (!text) {
+    showToast(t("settings.import_daily_error"), "error");
+    return;
+  }
+
+  console.log("[settings page] Parsing daily text...");
+  const { result, error } = parseDailyText(text);
+  if (error || !result) {
+    showToast(t("settings.import_daily_error"), "error");
+    console.error("[settings page] Parse error:", error);
+    return;
+  }
+
+  // Check if this date already exists
+  const existing = await getDailyResult(result.date);
+  if (existing) {
+    const msg = t("settings.import_daily_exists").replace("{date}", result.date);
+    showToast(msg, "error", 4000);
+    textarea.value = "";
+    return;
+  }
+
+  // Save
+  await saveDailyResult(result);
+  const msg = t("settings.import_daily_success")
+    .replace("{date}", result.date)
+    .replace("{score}", String(result.scoreTotal));
+  showToast(msg, "success", 4000);
+  textarea.value = "";
+  console.log(`[settings page] Imported daily result for ${result.date}, score ${result.scoreTotal}`);
 }
 
 async function handleDelete() {

@@ -80,7 +80,13 @@
     "import_highscore_updated": "Meilleur score mis à jour",
     "import_highscore_ignored": "Meilleur score ignoré (score actuel plus élevé)",
     "lang_fr": "Français",
-    "lang_en": "Anglais"
+    "lang_en": "Anglais",
+    "import_daily_title": "Importer un résultat Daily",
+    "import_daily_placeholder": "Collez le texte partagé d'un résultat Daily ici...",
+    "import_daily_btn": "Importer le résultat",
+    "import_daily_success": "Résultat du {date} importé avec succès ! (score: {score})",
+    "import_daily_exists": "Ce daily ({date}) a déjà été joué.",
+    "import_daily_error": "Format de texte invalide. Impossible de parser le résultat."
   },
   "credits": {
     "title": "Crédits",

@@ -93,6 +93,118 @@ export async function importSave(file) {
   });
 }
 
+/**
+ * Parses a shared daily result text into a DailyResult object.
+ * Supports both emoji and GitHub shortcode variants (:green_square:, :orange_square:, :red_square:).
+ * @param {string} text - The shared text from a daily result
+ * @returns {{ result: DailyResult|null, error: string|null }}
+ */
+export function parseDailyText(text) {
+  if (!text || typeof text !== "string") {
+    return { result: null, error: "No text provided" };
+  }
+
+  const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length < 6) {
+    return { result: null, error: "Not enough lines (need header + 5 rounds)" };
+  }
+
+  // --- Parse header ---
+  // "Elden Description Daily — DD-MM-YYYY — score N"
+  const headerMatch = lines[0].match(/^Elden\s+Description\s+Daily\s*[—-]\s*(\d{2}-\d{2}-\d{4})\s*[—-]\s*score\s+(\d+)/i);
+  if (!headerMatch) {
+    return { result: null, error: "Invalid header format" };
+  }
+  const date = headerMatch[1];
+  const scoreTotal = parseInt(headerMatch[2], 10);
+
+  // --- Parse 5 round lines (lines 1-5) ---
+  const roundLines = lines.slice(1, 6);
+
+  /**
+   * Extracts up to 3 square emojis from a round line.
+   * Handles both actual emojis (🟩🟧🟥) and shortcodes (:green_square: etc.),
+   * including mixed patterns.
+   * @param {string} line
+   * @returns {string[]} Array of emoji characters, always length 3 on success
+   */
+  function extractSquares(line) {
+    // 1) Replace any shortcodes with actual emoji first
+    let processed = line
+      .replace(/:green_square:/g, "🟩")
+      .replace(/:orange_square:/g, "🟧")
+      .replace(/:red_square:/g, "🟥");
+
+    // 2) Scan the string for 🟩 🟧 🟥 characters
+    // Since emojis can span multiple UTF-16 code units, use [...str] to split grapheme clusters
+    const chars = [...processed];
+    const result = [];
+    for (const ch of chars) {
+      if (ch === "🟩" || ch === "🟧" || ch === "🟥") {
+        result.push(ch);
+        if (result.length === 3) break;
+      }
+    }
+    return result;
+  }
+
+  const rounds = [];
+  for (let i = 0; i < 5; i++) {
+    const rawLine = roundLines[i];
+    const squares = extractSquares(rawLine);
+
+    if (squares.length < 3) {
+      return { result: null, error: `Round ${i + 1} line has invalid format: "${rawLine}"` };
+    }
+
+    // Determine fails count based on pattern
+    let failsCount;
+    if (squares[0] === "🟩" && squares[1] === "🟩" && squares[2] === "🟩") failsCount = 0;       // perfect
+    else if (squares[0] === "🟧" && squares[1] === "🟩" && squares[2] === "🟩") failsCount = 1;   // 1 fail
+    else if (squares[0] === "🟧" && squares[1] === "🟧" && squares[2] === "🟩") failsCount = 2;   // 2 fails
+    else if (squares[0] === "🟥" && squares[1] === "🟥" && squares[2] === "🟥") failsCount = 3;   // failed
+    else failsCount = 3; // Unknown pattern, treat as fail
+
+    const scoreRound = failsCount === 0 ? 10 : failsCount === 1 ? 5 : failsCount === 2 ? 2 : 0;
+    const status = scoreRound > 0 ? "win" : "fail";
+
+    rounds.push({
+      round_number: i + 1,
+      score_round: scoreRound,
+      fails_count: failsCount,
+      status
+    });
+  }
+
+  // --- Parse optional wrong guess lines (R1 : || guess || - || guess ||) ---
+  const wrongGuesses = Array.from({ length: 5 }, () => []);
+  for (let j = 6; j < lines.length; j++) {
+    const line = lines[j];
+    const guessMatch = line.match(/^R(\d+)\s*:(.*)/i);
+    if (!guessMatch) continue;
+    const roundIdx = parseInt(guessMatch[1], 10) - 1;
+    if (roundIdx < 0 || roundIdx >= 5) continue;
+
+    // Extract guesses from spoiler markers || ... ||
+    // Also handle the "> *reveal*" marker
+    const spoilerRegex = /\|\|([^|]+)\|\||>\s*\*reveal\*/g;
+    let spoilerMatch;
+    const guesses = [];
+    while ((spoilerMatch = spoilerRegex.exec(guessMatch[2])) !== null) {
+      if (spoilerMatch[0] === "> *reveal*") {
+        guesses.push("> *reveal*");
+      } else if (spoilerMatch[1]) {
+        guesses.push(spoilerMatch[1].trim());
+      }
+    }
+
+    wrongGuesses[roundIdx] = guesses;
+  }
+
+  const result = new DailyResult(date, scoreTotal, rounds, wrongGuesses);
+  return { result, error: null };
+}
+
 /** Returns today's date as "jj-mm-yyyy". */
 function getTodayStr() {
   const now = new Date();

@@ -80,7 +80,13 @@
     "import_highscore_updated": "Highscore updated",
     "import_highscore_ignored": "Highscore ignored (current score is higher)",
     "lang_fr": "French",
-    "lang_en": "English"
+    "lang_en": "English",
+    "import_daily_title": "Import a Daily result",
+    "import_daily_placeholder": "Paste a shared Daily result text here...",
+    "import_daily_btn": "Import result",
+    "import_daily_success": "Result of {date} imported successfully! (score: {score})",
+    "import_daily_exists": "This daily ({date}) has already been played.",
+    "import_daily_error": "Invalid text format. Could not parse the result."
   },
   "credits": {
     "title": "Credits",

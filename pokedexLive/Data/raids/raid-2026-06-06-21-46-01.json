@@ -1,0 +1,184 @@
+{
+  "bossName": "Chinchidou",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Minccino_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Minccino_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 35000,
+  "date": "2026-06-06 21:46:01",
+  "durationSec": 1591,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 26843,
+      "countAtk": 1,
+      "baseDmg": 26843,
+      "level": 18,
+      "raidCount": 835,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14358,
+      "countAtk": 1,
+      "baseDmg": 14358,
+      "level": 18,
+      "raidCount": 468,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 4500,
+      "countAtk": 5,
+      "baseDmg": 700,
+      "level": 7,
+      "raidCount": 51,
+      "luck": 1.2857143
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 4500
+    },
+    {
+      "platform": "twitch",
+      "damage": 41201
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-06 21:48:28",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 700,
+      "pvAfter": 34300,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 21:50:58",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 877,
+      "pvAfter": 33423,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 21:52:10",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 26843,
+      "pvAfter": 6580,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 21:52:39",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 784,
+      "pvAfter": 5796,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 21:55:19",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 935,
+      "pvAfter": 4861,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-06-06 22:00:55",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1204,
+      "pvAfter": 3657,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-06-06 22:12:33",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14358,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

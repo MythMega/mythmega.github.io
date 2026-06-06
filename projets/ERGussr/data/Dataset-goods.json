@@ -553,7 +553,7 @@
   },
   {
     "ID": "Goods-480",
-    "NameFR": "",
+    "NameFR": "Pot glacial à cordon",
     "NameEN": "Roped Freezing Pot",
     "Desc1FR": "À lancer en arrière pour accumuler de la congélation.",
     "Desc1EN": "Throw behind to cause frostbite build-up",
@@ -959,19 +959,7 @@
     "Desc3EN": "A lump of animal flesh pickled in a medicinal solution mixed with fiery spices.\nCraftable item.\n\nTemporarily boosts physical attack.\n\nConsidered a delicacy in the badlands, this invigorating repast was for the exclusive benefit of those who they deem heroes.",
     "PictureURL": "./Assets/Goods/Chair_exaltée.png"
   },
-  {
-    "ID": "Goods-1220",
-    "NameFR": "",
-    "NameEN": "Deathsbane Jerky",
-    "Desc1FR": "Améliore temporairement la résistance à la malemort.",
-    "Desc1EN": "Boost instant death resistance for a short time",
-    "Desc2FR": "",
-    "Desc2EN": "",
-    "Desc3FR": "Du foie de bête grisâtre, séché après avoir été traité dans une décoction médicinale.\nObjet pouvant être fabriqué.\n\nAugmente temporairement la résistance à la malemort.",
-    "Desc3EN": "A grey colored cured liver, dried out\nafter pickling in a medicinal solution.\nCraftable item.\n\nBoosts instant death resistance\nfor a short time.",
-    "PictureURL": "./Assets/Goods/Deathsbane_Jerky.png"
-  },
-  {
+ {
     "ID": "Goods-1235",
     "NameFR": "Raviole de viande crue",
     "NameEN": "Raw Meat Dumpling",
@@ -4152,18 +4140,6 @@
     "PictureURL": "./Assets/Goods/Amnios_de_serpent.png"
   },
   {
-    "ID": "Goods-8130",
-    "NameFR": "",
-    "NameEN": "Rya's Necklace",
-    "Desc1FR": "Pendentif dont ne se sépare jamais Irina.",
-    "Desc1EN": "Necklace worn everywhere by Irina",
-    "Desc2FR": "",
-    "Desc2EN": "",
-    "Desc3FR": "Pendentif porté et chéri par Irina.\nIl lui fut remis en guise de cadeau d'adieu.",
-    "Desc3EN": "A necklace worn and treasured by Irina.\nGiven to her as a farewell gift.",
-    "PictureURL": "./Assets/Goods/Rya's_Necklace.png"
-  },
-  {
     "ID": "Goods-8131",
     "NameFR": "Lettre d'Irina",
     "NameEN": "Irina's Letter",
@@ -4190,7 +4166,7 @@
   {
     "ID": "Goods-8136",
     "NameFR": "Pendentif de Rya",
-    "NameEN": "",
+    "NameEN": "Rya's Necklace",
     "Desc1FR": "Pendentif de Rya, volé par un malfrat.",
     "Desc1EN": "Rya's necklace, stolen by a blackguard",
     "Desc2FR": "",
@@ -4260,18 +4236,6 @@
     "PictureURL": "./Assets/Goods/Ranni_miniature.png"
   },
   {
-    "ID": "Goods-8147",
-    "NameFR": "",
-    "NameEN": "Asimi, Silver Tear",
-    "Desc1FR": "Asimi ayant infecté un Sans-éclat.",
-    "Desc1EN": "Asimi that has infected a tarnished",
-    "Desc2FR": "",
-    "Desc2EN": "",
-    "Desc3FR": "Asimi ayant infecté un Sans-éclat.\n\nLes Asimi sont des Limons argentés intelligents, qui s'attachent aux corps des Sans-éclat et leur confèrent de la puissance.",
-    "Desc3EN": "An asimi that has infected a tarnished.\n\nAn intelligent silver sludge; asimi\ninfect the body of tarnished,\ngranting the host power.",
-    "PictureURL": "./Assets/Goods/Asimi,_Silver_Tear.png"
-  },
-  {
     "ID": "Goods-8154",
     "NameFR": "Faveur du seigneur du sang",
     "NameEN": "Lord of Blood's Favor",
@@ -4282,18 +4246,6 @@
     "Desc3FR": "Tisserment immaculé transmis par Varré. Ultime épreuve pour rejoindre les chevaliers de Mohg, seigneur du sang.\n\n\"Le sang de la première Servante venue fera l'affaire. Ce n'est pas comme si vous en possédiez une, de toute manière.\"",
     "Desc3EN": "Pure white oath-cloth given by Varré. The final trial to be anointed a Knight of Mohg, Lord of Blood.\n\n\"Soak the cloth with a maiden's blood... The blood of anyone's maiden will do. You are maidenless, after all.\"",
     "PictureURL": "./Assets/Goods/Faveur_du_seigneur_du_sang.png"
-  },
-  {
-    "ID": "Goods-8156",
-    "NameFR": "",
-    "NameEN": "Burial Crow's Letter",
-    "Desc1FR": "Lettre attachée à la patte d'un corbeau funèbre.",
-    "Desc1EN": "Letter affixed to a graveyard crow's leg",
-    "Desc2FR": "",
-    "Desc2EN": "",
-    "Desc3FR": "Lettre attachée à la patte d'un corbeau funèbre.\nObjet prisé par Kalé.",
-    "Desc3EN": "A letter affixed to a graveyard crow's leg.\nSought after by Kalé.",
-    "PictureURL": "./Assets/Goods/Burial_Crow's_Letter.png"
   },
   {
     "ID": "Goods-8158",
@@ -4315,7 +4267,7 @@
     "Desc1EN": "Hidden treasure of the Eternal City of Nokron",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Trésor secret de la Ville éternelle de Nokron : une lame que l'on prétend issue d'un cadavre.\n\nCe fétiche maculé de sang est la preuve que les Villes éternelles se sont rendues coupables de haute trahison et il symbolise leur chute.\n\nNe peut être maniée par qui ne possède pas de destinée, mais serait capable de nuire à la Volonté suprême et ses vassaux.",
+    "Desc3FR": "Trésor secret de la Ville éternelle de Nokron : une lame que l'on prétend issue d'un cadavre.\n\nCe fétiche maculé de sang est la preuve que les Villes éternelles se sont rendues coupables de haute trahison et il symbolise leur chute.\n\nNe peut être maniée par qui ne possède pas de destinée, mais serait capable de nuire à la Volonté suprême et ses vassaux.",
     "Desc3EN": "The hidden treasure of the Eternal City of Nokron; a blade said to have been born of a corpse.\n\nThis blood-drenched fetish is proof of the high treason committed by the Eternal City and symbolizes its downfall.\n\nCannot be wielded by those without a fate, but is said to be able to harm the Greater Will and its vassals.",
     "PictureURL": "./Assets/Goods/Lame_digicide.png"
   },
@@ -4464,18 +4416,6 @@
     "PictureURL": "./Assets/Goods/Médaillon_secret_de_l'Arbre-Sacré_(gauche).png"
   },
   {
-    "ID": "Goods-8181",
-    "NameFR": "Griffes déchirantes",
-    "NameEN": "",
-    "Desc1FR": "Lettre contenant des informations sur les caravanes.",
-    "Desc1EN": "Letter written about the caravans",
-    "Desc2FR": "",
-    "Desc2EN": "",
-    "Desc3FR": "Lettre contenant des informations sur les caravanes.\nElle semble avoir été envoyée depuis les souterrains de la capitale.",
-    "Desc3EN": "A letter written about the caravans.\nIt seems to have been sent from the\ncapital underground.",
-    "PictureURL": "./Assets/Goods/Griffes_déchirantes.png"
-  },
-  {
     "ID": "Goods-8182",
     "NameFR": "Rune de Restauration de l'Ordre suprême",
     "NameEN": "Mending Rune of Perfect Order",
@@ -4558,18 +4498,6 @@
     "Desc3FR": "Marque maudite gravée dans la chair abandonnée de Ranni la Sorcière. Cette plaie en forme de demi-roue est souvent comparée à la silhouette d'un centipède.\n\nCette marque maudite fut gravée à l'instant où périt le premier demi-dieu et aurait dû avoir la forme d'un cercle.\n\nOr, deux demi-dieux succombèrent en même temps et la marque maudite fut scindée.\n\nRanni vit sa chair mourir, tandis que le Prince de la Mort ne connut qu'un trépas spirituel.",
     "Desc3EN": "Cursemark carved into the discarded flesh of Ranni the Witch. Also known as the half-wheel wound of the centipede.\n\nThis cursemark was carved at the moment of Death of the first demigod, and should have taken the shape of a circle.\n\nHowever, two demigods perished at the same time, breaking the cursemark into two half-wheels.\n\nRanni was the first of the demigods whose flesh perished, while the Prince of Death perished in soul alone.",
     "PictureURL": "./Assets/Goods/Marque_maudite_de_Mort.png"
-  },
-  {
-    "ID": "Goods-8192",
-    "NameFR": "",
-    "NameEN": "Asimi's Husk",
-    "Desc1FR": "Exuvie d'une Asimi ayant infecté un Sans-éclat.",
-    "Desc1EN": "The shedding of an Asimi that infected a tarnished",
-    "Desc2FR": "",
-    "Desc2EN": "",
-    "Desc3FR": "Exuvie d'une Asimi ayant infecté un Sans-éclat.",
-    "Desc3EN": "The shedding of an Asimi that infected a tarnished.",
-    "PictureURL": "./Assets/Goods/Asimi's_Husk.png"
   },
   {
     "ID": "Goods-8193",
@@ -7297,7 +7225,7 @@
   },
   {
     "ID": "Goods-20780",
-    "NameFR": "",
+    "NameFR": "Cristal brisé",
     "NameEN": "Cracked Crystal",
     "Desc1FR": "Trouvable très facilement dans les galeries cristallines.",
     "Desc1EN": "Widely found in crystal tunnels",

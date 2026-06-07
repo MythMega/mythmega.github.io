@@ -1,0 +1,158 @@
+{
+  "bossName": "Toudoudou",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Igglybuff_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Igglybuff_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-06-05 22:22:18",
+  "durationSec": 2166,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 80591,
+      "countAtk": 2,
+      "baseDmg": 26857,
+      "level": 18,
+      "raidCount": 830,
+      "luck": 1.5003723
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 8513,
+      "countAtk": 1,
+      "baseDmg": 8513,
+      "level": 17,
+      "raidCount": 316,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "skayron_15",
+      "damage": 926,
+      "countAtk": 2,
+      "baseDmg": 383,
+      "level": 5,
+      "raidCount": 8,
+      "luck": 1.2088773
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 90030
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "skayron_15",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-05 22:24:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 26857,
+      "pvAfter": 13143,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-05 22:48:20",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8513,
+      "pvAfter": 4630,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-05 22:54:16",
+      "pseudo": "skayron_15",
+      "platform": "twitch",
+      "damages": 383,
+      "pvAfter": 4247,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-05 22:57:25",
+      "pseudo": "skayron_15",
+      "platform": "twitch",
+      "damages": 543,
+      "pvAfter": 3704,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-05 22:58:25",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 53734,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

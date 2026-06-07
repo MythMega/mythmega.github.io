@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeLeague - Challenger</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+    <div class="page-container">
+        <div id="matches-container"></div>
+        <div class="back-link" style="text-align: center; margin-top: 30px;">
+            <a href="users.html">← Retour aux challengers</a>
+        </div>
+    </div>
+
+    <script src="js/data/config.js"></script>
+    <script src="js/data/spreadsheet.js"></script>
+    <script src="js/business/utils.js"></script>
+    <script src="js/business/champions.js"></script>
+    <script src="js/business/users.js"></script>
+    <script src="js/visual/nav.js"></script>
+    <script src="js/visual/users-display.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            UsersDisplay.renderMatches();
+        });
+    </script>
+</body>
+</html>

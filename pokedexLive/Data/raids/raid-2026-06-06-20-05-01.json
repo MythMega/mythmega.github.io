@@ -1,0 +1,398 @@
+{
+  "bossName": "Staross",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Starmie_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Starmie_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-06 20:05:01",
+  "durationSec": 3854,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 27002,
+      "countAtk": 1,
+      "baseDmg": 27002,
+      "level": 18,
+      "raidCount": 831,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 14760,
+      "countAtk": 21,
+      "baseDmg": 693,
+      "level": 7,
+      "raidCount": 47,
+      "luck": 1.0142238
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14050,
+      "countAtk": 1,
+      "baseDmg": 14050,
+      "level": 18,
+      "raidCount": 467,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 8512,
+      "countAtk": 1,
+      "baseDmg": 8512,
+      "level": 17,
+      "raidCount": 317,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 14760
+    },
+    {
+      "platform": "twitch",
+      "damage": 49564
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 2,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 12
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-06 20:10:49",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 693,
+      "pvAfter": 49307,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 20:14:40",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1047,
+      "pvAfter": 48260,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 20:19:10",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1107,
+      "pvAfter": 47153,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 20:21:55",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 880,
+      "pvAfter": 46273,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-06-06 20:22:16",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14050,
+      "pvAfter": 32223,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-06-06 20:26:43",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 548,
+      "pvAfter": 31675,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 4 tours."
+    },
+    {
+      "at": "2026-06-06 20:29:35",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 418,
+      "pvAfter": 31257,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 3 tours."
+    },
+    {
+      "at": "2026-06-06 20:34:38",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 594,
+      "pvAfter": 30663,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 2 tours."
+    },
+    {
+      "at": "2026-06-06 20:37:25",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 450,
+      "pvAfter": 30213,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 1 tours."
+    },
+    {
+      "at": "2026-06-06 20:39:41",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 373,
+      "pvAfter": 29840,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 0 tours."
+    },
+    {
+      "at": "2026-06-06 20:41:13",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 785,
+      "pvAfter": 29055,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus br\u00FBl\u00E9 !"
+    },
+    {
+      "at": "2026-06-06 20:43:26",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 751,
+      "pvAfter": 28304,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 20:45:31",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1125,
+      "pvAfter": 27179,
+      "heal": false,
+      "critical": true,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-06-06 20:47:06",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 374,
+      "pvAfter": 26805,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 4 tours."
+    },
+    {
+      "at": "2026-06-06 20:48:55",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 349,
+      "pvAfter": 26456,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 3 tours."
+    },
+    {
+      "at": "2026-06-06 20:51:30",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 392,
+      "pvAfter": 26064,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 2 tours."
+    },
+    {
+      "at": "2026-06-06 20:55:52",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 844,
+      "pvAfter": 25220,
+      "heal": false,
+      "critical": true,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 1 tours."
+    },
+    {
+      "at": "2026-06-06 20:57:39",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 393,
+      "pvAfter": 24827,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 0 tours."
+    },
+    {
+      "at": "2026-06-06 21:00:35",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 912,
+      "pvAfter": 23915,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus br\u00FBl\u00E9 !"
+    },
+    {
+      "at": "2026-06-06 21:03:03",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8512,
+      "pvAfter": 15403,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 21:03:26",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 887,
+      "pvAfter": 14516,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 21:05:10",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 785,
+      "pvAfter": 13731,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-06 21:08:37",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1053,
+      "pvAfter": 12678,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-06-06 21:09:16",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27002,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

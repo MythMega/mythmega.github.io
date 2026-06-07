@@ -1,0 +1,109 @@
+{
+  "bossName": "Sorbouboul",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vanilluxe_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vanilluxe_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 25000,
+  "date": "2026-06-05 20:00:18",
+  "durationSec": 2076,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 25072,
+      "countAtk": 2,
+      "baseDmg": 8288,
+      "level": 17,
+      "raidCount": 311,
+      "luck": 1.5125482
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4702,
+      "countAtk": 1,
+      "baseDmg": 4702,
+      "level": 14,
+      "raidCount": 201,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 29774
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-05 20:11:43",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4702,
+      "pvAfter": 20298,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-05 20:19:59",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8288,
+      "pvAfter": 12010,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-05 20:34:54",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 16784,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

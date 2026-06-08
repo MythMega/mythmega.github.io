@@ -14,14 +14,10 @@
           }
         ],
         "Title_FR": "Un bon depart !",
-        "Description_FR": "Vous avez ouvert Pokefeet.",
+        "Description_FR": "Vous avez vu des pieds.",
         "Title_EN": "Nice start !",
-        "Description_EN": "You opened Pokefeet.",
-        "Button" : {
-          "TxtButton_FR": null,
-          "TxtButton_EN": null,
-          "UrlButton": null
-        }
+        "Description_EN": "You saw feet.",
+        "Button" : null
     },
     {
         "Level": 5,
@@ -42,5 +38,85 @@
           "TxtButton_EN": "Join the stream",
           "UrlButton": "https://twitch.tv/mythmega"
         }
+    },
+    {
+        "Level": 10,
+        "ImageUrl": "",
+        "Reward" : 
+        [
+          {
+            "Type": "Badge",
+            "Data" : "./assets/img/badges/elite.png"
+          },
+          {
+            "Type": "Title",
+            "Data": "Elite"
+          }
+        ],
+        "Title_FR": "Dresseur d'Élite !",
+        "Description_FR": "Vous maitrisez les pieds.",
+        "Title_EN": "Elite  Trainer!",
+        "Description_EN": "You know feet.",
+        "Button" : null
+    },
+    {
+        "Level": 25,
+        "ImageUrl": "",
+        "Reward" : 
+        [
+          {
+            "Type": "Badge",
+            "Data" : "./assets/img/badges/challenger.png"
+          },
+          {
+            "Type": "Title",
+            "Data": "Challenger"
+          }
+        ],
+        "Title_FR": "Dresseur Challenger !",
+        "Description_FR": "Vous parlez aux pieds.",
+        "Title_EN": "Challenger Trainer!",
+        "Description_EN": "You talk to feet.",
+        "Button" : null
+    },
+    {
+        "Level": 50,
+        "ImageUrl": "",
+        "Reward" : 
+        [
+          {
+            "Type": "Badge",
+            "Data" : "./assets/img/badges/champion.png"
+          },
+          {
+            "Type": "Title",
+            "Data": "Champion"
+          }
+        ],
+        "Title_FR": "Dresseur Champion !",
+        "Description_FR": "Vous parlez aux pieds.",
+        "Title_EN": "Champion Trainer!",
+        "Description_EN": "You understand feet.",
+        "Button" : null
+    },
+    {
+        "Level": 100,
+        "ImageUrl": "",
+        "Reward" : 
+        [
+          {
+            "Type": "Badge",
+            "Data" : "./assets/img/badges/master.png"
+          },
+          {
+            "Type": "Title",
+            "Data": "Master"
+          }
+        ],
+        "Title_FR": "Dresseur Maître !",
+        "Description_FR": "Vous êtes le pied.",
+        "Title_EN": "Master Trainer!",
+        "Description_EN": "You are feet.",
+        "Button" : null
     }
 ]

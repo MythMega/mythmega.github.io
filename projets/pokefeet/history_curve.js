@@ -139,7 +139,7 @@
     return Object.keys(historyObj).sort((a,b) => a.localeCompare(b)); // ascending dates
   }
 
-  function getLastNScores(historyObj, n = 45) {
+  function getLastNScores(historyObj, n = 60) {
     const dates = Object.keys(historyObj).sort((a,b) => a.localeCompare(b)); // ascending
     const lastDates = dates.slice(-n);
     const scores = lastDates.map(d => {
@@ -422,7 +422,7 @@
     versionData = PokemonVersions.getData();
     const history = await loadHistory();
     const allDates = buildHistoryList(history); // returns ascending dates
-    const last = getLastNScores(history, 45); // ascending
+    const last = getLastNScores(history, 60); // ascending
     drawChart(last);
     renderStats(history);
   }
@@ -685,12 +685,12 @@
     canvas.width  = Math.floor(canvas.clientWidth  * ratio);
     canvas.height = Math.floor(canvas.clientHeight * ratio);
     const history = await loadHistory();
-    drawChart(getLastNScores(history, 45));
+    drawChart(getLastNScores(history, 60));
     if (weeklyCanvas && weeklyCtx && weeklyCanvas.clientWidth > 0) {
       weeklyCanvas.width  = Math.floor(weeklyCanvas.clientWidth  * ratio);
       weeklyCanvas.height = Math.floor(weeklyCanvas.clientHeight * ratio);
       const wHistory = await loadWeeklyHistory();
-      drawWeeklyChart(getLastNScores(wHistory, 45));
+      drawWeeklyChart(getLastNScores(wHistory, 60));
     }
   });
 
@@ -708,7 +708,7 @@
       weeklyCanvas.width  = Math.floor(weeklyCanvas.clientWidth  * ratio);
       weeklyCanvas.height = Math.floor(weeklyCanvas.clientHeight * ratio);
       const wHistory = await loadWeeklyHistory();
-      drawWeeklyChart(getLastNScores(wHistory, 45));
+      drawWeeklyChart(getLastNScores(wHistory, 60));
       renderWeeklyStats(wHistory);
     }
   };

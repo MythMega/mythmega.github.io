@@ -34,15 +34,15 @@
     <section class="game-area container py-3">
 
       <div id="histDailyPanel">
-        <div class="center-card-history d-flex flex-column flex-lg-row gap-3 align-items-start">
-          <div id="historyChartWrap" class="flex-fill order-1 order-lg-2" style="min-width:260px;">
+        <div class="center-card-history d-flex flex-column gap-3">
+          <div id="historyChartWrap" order="1" style="min-width:260px;">
             <h3 class="h5" data-i18n="history.scoreChart">Scores (30 derniers jours)</h3>
             <div class="card p-2 bg-transparent border-0">
               <canvas id="historyChart" width="600" height="320" style="width:100%; height:320px; background:rgba(255,255,255,0.02); border-radius:8px;"></canvas>
               <div id="chartStats" class="mt-2 text-muted small"></div>
             </div>
           </div>
-          <div id="historyList" class="flex-fill order-2 order-lg-1" style="min-width:220px; max-width:520px;"></div>
+          <div id="historyList" order="2" style="min-width:220px;"></div>
         </div>
         <section class="container py-2">
           <div id="detailedStats" class="mt-2"></div>
@@ -50,15 +50,15 @@
       </div>
 
       <div id="histWeeklyPanel" style="display:none;">
-        <div class="center-card-history d-flex flex-column flex-lg-row gap-3 align-items-start">
-          <div id="weeklyChartWrap" class="flex-fill order-1 order-lg-2" style="min-width:260px;">
+        <div class="center-card-history d-flex flex-column gap-3">
+          <div id="weeklyChartWrap" order="1" style="min-width:260px;">
             <h3 class="h5" data-i18n="history.scoreChartWeekly">Scores (dernières semaines)</h3>
             <div class="card p-2 bg-transparent border-0">
               <canvas id="weeklyChart" width="600" height="320" style="width:100%; height:320px; background:rgba(255,255,255,0.02); border-radius:8px;"></canvas>
               <div id="weeklyChartStats" class="mt-2 text-muted small"></div>
             </div>
           </div>
-          <div id="weeklyHistoryList" class="flex-fill order-2 order-lg-1" style="min-width:220px; max-width:520px;"></div>
+          <div id="weeklyHistoryList" order="2" style="min-width:220px;"></div>
         </div>
         <section class="container py-2">
           <div id="weeklyDetailedStats" class="mt-2"></div>

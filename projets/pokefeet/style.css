@@ -72,7 +72,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px;
+  padding: 5px;
   position: relative;
 }
 
@@ -137,7 +137,8 @@ h1 {
   border-radius: 16px;
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow);
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   text-align: center;
   gap: 1rem;
 }
@@ -352,38 +353,10 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
 }
 #dataPreview { white-space:pre-wrap; word-break:break-word; }
 
-/* History page tweaks: keep default (mobile-first) graph above, side-by-side on large screens */
+/* History page: chart above list on all screens */
 .center-card-history {
   gap: 1rem;
 }
-
-/* Canvas card style (léger fond + arrondis correspondant au thème existant) */
-#historyChartWrap .card {
-  background: rgba(255,255,255,0.02);
-  border-radius: 8px;
-  padding: .5rem;
-}
-
-/* Make canvas responsive while preserving aspect ratio */
-#historyChart {
-  width: 100% !important;
-  height: 320px; /* fixed visual height; chart library will scale */
-  max-height: 420px;
-  display: block;
-  border-radius: 8px;
-}
-
-/* Force a readable min width on small devices for the list, while letting it grow on large screens */
-#historyList {
-  width: 100%;
-}
-
-/* Optional: tighten spacing inside history list entries if present */
-#historyList .history-row {
-  padding: .5rem .75rem;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
-}
-
 .failed-attempts { color: var(--muted); font-size: 14px; margin-top:8px; text-align:left; }
 .danger { background: #b91c1c; color: #fff; }
 
@@ -486,43 +459,15 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
 
 .daily-full-images img { max-height:64px; border-radius:6px; background: rgba(255,255,255,0.02); padding:4px; }
 
-/* Accessibility / small-screen tweaks */
-@media (max-width: 992px) {
-  /* On md and smaller (<= 991px) ensure the chart is visually above list */
-  /* We already render chart first in the DOM; this keeps spacing tidy */
-  #historyChartWrap {
-    order: 1;
-    width: 100%;
-  }
-  #historyList {
-    order: 2;
-    width: 100%;
-  }
-}
-
-/* On very large screens, allow the two columns to feel balanced */
-@media (min-width: 992px) {
-  /* On large screens: make the chart area 60% and list 40% */
-  .center-card-history {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-  .center-card-history > #historyChartWrap {
-    width: 54%;
-    order: 2;
-  }
-  .center-card-history > #historyList {
-    width: 44%;
-    order: 1;
-  }
-}
-
-/* --- History page --- */
-.center-card-history { gap:1rem; }
+/* --- History list: centers scores --- */
+#historyList { width:100%; text-align:center; }
+#historyList > div { justify-content:center; }
+#weeklyHistoryList { width:100%; text-align:center; }
+#weeklyHistoryList > div { justify-content:center; }
 #historyChartWrap .card { background:rgba(255,255,255,0.02); border-radius:8px; padding:.5rem; }
-#historyChart { width:100% !important; height:320px; max-height:420px; display:block; border-radius:8px; }
-#historyList { width:100%; }
-#historyList .history-row { padding:.5rem .75rem; border-bottom:1px solid rgba(255,255,255,0.03); }
+#historyChartWrap canvas,
+#weeklyChartWrap canvas { width:100% !important; height:auto; display:block; border-radius:8px; background:rgba(255,255,255,0.02); }
+#weeklyChartWrap .card { background:rgba(255,255,255,0.02); border-radius:8px; padding:.5rem; }
 
 /* --- Emoji tooltips --- */
 .emoji-tooltip { position:relative; cursor:help; }
@@ -760,20 +705,11 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
 .loader-logo { font-size:22px; font-weight:800; letter-spacing:-0.02em; color:var(--accent-bright); }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* --- Responsive history --- */
-@media (max-width:992px) {
-  #historyChartWrap { order:1; width:100%; }
-  #historyList { order:2; width:100%; }
-}
-@media (min-width:992px) {
-  .center-card-history { flex-direction:row; align-items:flex-start; }
-  .center-card-history > #historyChartWrap { width:54%; order:2; }
-  .center-card-history > #historyList { width:44%; order:1; }
-}
-@media (min-width:1400px) {
-  .center-card-history > #historyChartWrap { max-width:70%; }
-  .center-card-history > #historyList { max-width:40rem; }
-}
+/* --- Responsive history: always column (chart above list) --- */
+#historyChartWrap { width:100%; }
+#historyList { width:100%; }
+#weeklyChartWrap { width:100%; }
+#weeklyHistoryList { width:100%; }
 @media (max-width:480px) {
   .home-card { width:92%; padding:22px; }
   .big-btn { padding:14px; font-size:15px; }

@@ -358,6 +358,17 @@ const Game = (function () {
     guessInput.addEventListener('blur', () => {
       setTimeout(closePracticeDropdown, 150);
     });
+
+    // Espace → next (si le bouton Suivant est actif et qu'on n'est pas en train de taper dans l'input)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.code === 'Space') {
+        const nextBtn = document.getElementById('nextBtn');
+        if (nextBtn && !nextBtn.disabled && document.activeElement !== guessInput) {
+          e.preventDefault(); // empêche le scroll
+          nextBtn.click();
+        }
+      }
+    });
   }
 
   function loadBestScore() {
@@ -416,6 +427,9 @@ const Game = (function () {
     UI.enableInput(true);
     UI.setSubmitEnabled(true);
     UI.enableSuivantBtn(false);
+    // Focus direct sur l'input pour le round suivant
+    const guessInput = document.getElementById('guessInput');
+    if (guessInput) guessInput.focus();
   }
 
   function revealAllAndResetScore() {

@@ -1,0 +1,46 @@
+[
+    {
+        "Level": 1,
+        "ImageUrl": "",
+        "Reward" : 
+        [
+          {
+            "Type": "Badge",
+            "Data" : "./assets/img/badges/newcomer.png"
+          },
+          {
+            "Type": "Title",
+            "Data": "Trainer"
+          }
+        ],
+        "Title_FR": "Un bon depart !",
+        "Description_FR": "Vous avez ouvert Pokefeet.",
+        "Title_EN": "Nice start !",
+        "Description_EN": "You opened Pokefeet.",
+        "Button" : {
+          "TxtButton_FR": null,
+          "TxtButton_EN": null,
+          "UrlButton": null
+        }
+    },
+    {
+        "Level": 5,
+        "ImageUrl": "",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "!claim PF05LVLN3WKD0RXS"
+          }
+        ],
+        "Title_FR": "Cadeau de bienvenu !",
+        "Description_FR": "Recuperez les 3 starters de Kanto Shiny sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Welcome Gift !",
+        "Description_EN": "Get all 3 Kanto starters Shiny on MythMega's when he's streaming and paste this code into his chat.",
+        "Button" : {
+          "TxtButton_FR": "Rejoindre le stream",
+          "TxtButton_EN": "Join the stream",
+          "UrlButton": "https://twitch.tv/mythmega"
+        }
+    }
+]

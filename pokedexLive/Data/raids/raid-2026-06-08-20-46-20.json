@@ -1,0 +1,140 @@
+{
+  "bossName": "Bras\u00E9gali",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blaziken_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blaziken_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 35000,
+  "date": "2026-06-08 20:46:20",
+  "durationSec": 148,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 27123,
+      "countAtk": 1,
+      "baseDmg": 27123,
+      "level": 18,
+      "raidCount": 839,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 8573,
+      "countAtk": 1,
+      "baseDmg": 8573,
+      "level": 17,
+      "raidCount": 319,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "santino81582",
+      "damage": 275,
+      "countAtk": 1,
+      "baseDmg": 275,
+      "level": 3,
+      "raidCount": 10,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 35696
+    },
+    {
+      "platform": "youtube",
+      "damage": 275
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "santino81582",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-08 20:47:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27123,
+      "pvAfter": 7877,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-06-08 20:47:56",
+      "pseudo": "santino81582",
+      "platform": "youtube",
+      "damages": 275,
+      "pvAfter": 7602,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-08 20:48:49",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8573,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

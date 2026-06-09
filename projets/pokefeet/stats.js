@@ -225,10 +225,43 @@
           pct = genIndices.length > 0 ? Math.min(100, (foundGen / genIndices.length) * 100) : 0;
           break;
         }
+        case 'Type_Registered': {
+          const targetType = method.Type;
+          if (!targetType) {
+            console.warn(`[Trophy:${trophy.Id}] Type_Registered missing "Type" field, skipping.`);
+            break;
+          }
+          // Compter les pokémons du dex qui ont ce type (type1 ou type2)
+          const typePokemonIndices = pokemons
+            .filter(p => {
+              const t1 = (p.Type1 || '').toLowerCase();
+              const t2 = (p.Type2 || '').toLowerCase();
+              const target = targetType.toLowerCase();
+              return t1 === target || t2 === target;
+            })
+            .map(p => String(p.Index));
+          const typePokemonSet = new Set(typePokemonIndices);
+          const totalOfType = typePokemonSet.size;
+
+          // Compter combien l'utilisateur a trouvé parmi ceux-ci
+          const foundOfType = [...typePokemonSet].filter(idx => foundIndices.has(idx)).length;
+
+          const threshold = (value === null || value === undefined || value === -1) ? totalOfType : value;
+
+          console.log(
+            `[Trophy:${trophy.Id}] Type_Registered "${targetType}": found ${foundOfType}/${totalOfType} (threshold:${threshold})`
+          );
+
+          earned = foundOfType >= threshold;
+          pct = totalOfType > 0 ? Math.min(100, (foundOfType / totalOfType) * 100) : 0;
+          break;
+        }
       }
 
       const name = lang === 'fr' ? trophy.Name_fr : trophy.Name_en;
       const desc = lang === 'fr' ? trophy.Desc_fr : trophy.Desc_en;
+
+      const subType = (mode === 'Type_Registered') ? (method.Type || 'Unknown') : null;
 
       results.push({
         id: trophy.Id,
@@ -238,7 +271,8 @@
         picture: trophy.Picture,
         earned: earned,
         rarity: trophy.Rarity,
-        obtentionMode: mode
+        obtentionMode: mode,
+        subType: subType
       });
       progressMap[trophy.Id] = pct;
     }
@@ -255,29 +289,41 @@
     'Full_Generation_Register': 'Générations'
   };
 
+  // Liste ordonnée des types Pokémon pour l'affichage
+  const TYPE_DISPLAY_ORDER = ['Fire', 'Water', 'Grass', 'Electric', 'Rock', 'Ground', 'Flying', 'Bug', 'Poison', 'Normal', 'Steel', 'Dragon', 'Fighting', 'Dark', 'Ice', 'Ghost', 'Psychic', 'Fairy'];
+
   function renderTrophies(trophies, trophyProgress) {
     const container = document.getElementById('trophiesGrid');
     if (!container) return;
     container.innerHTML = '';
 
-    // Group trophies by mode
-    const groups = {};
+    // Séparer les trophées Type_Registered des autres
+    const typeRegisteredTrophies = [];
+    const otherTrophies = [];
+
     for (const t of trophies) {
+      if (t.obtentionMode === 'Type_Registered') {
+        typeRegisteredTrophies.push(t);
+      } else {
+        otherTrophies.push(t);
+      }
+    }
+
+    // --- Render non-Type_Registered trophies (grouped by mode) ---
+    const groups = {};
+    for (const t of otherTrophies) {
       const mode = t.obtentionMode || 'Other';
       if (!groups[mode]) groups[mode] = [];
       groups[mode].push(t);
     }
 
-    // Render each type section
     for (const mode of TROPHY_TYPE_ORDER) {
       const list = groups[mode];
       if (!list || !list.length) continue;
-      // Sort by ID within type
       list.sort((a, b) => a.id - b.id);
 
       const section = document.createElement('div');
       section.className = 'trophies-section';
-
       const title = document.createElement('div');
       title.className = 'trophies-section-title';
       title.textContent = TROPHY_TYPE_LABELS[mode] || mode;
@@ -285,32 +331,66 @@
 
       const grid = document.createElement('div');
       grid.className = 'trophies-grid';
-
       for (const t of list) {
-        const div = document.createElement('div');
-        div.className = 'trophy-entry' + (t.earned ? '' : ' locked');
-
-        const iconSrc = t.picture || './icon.png';
-
-        let progressHtml = '';
-        if (!t.earned && trophyProgress && trophyProgress[t.id] !== undefined) {
-          const p = trophyProgress[t.id];
-          if (p > 0) progressHtml = '<div class="trophy-progress">' + Math.round(p) + '%</div>';
-        }
-
-        div.innerHTML =
-          '<img class="trophy-icon" src="' + iconSrc + '" alt="' + t.name + '" onerror="this.src=\'./icon.png\'" />' +
-          '<div class="trophy-name">' + t.name + '</div>' +
-          '<div class="trophy-desc">' + t.desc + '</div>' +
-          '<div class="trophy-xp">+' + t.xp + ' XP</div>' +
-          progressHtml;
-
-        grid.appendChild(div);
+        appendTrophyCard(grid, t, trophyProgress);
       }
-
       section.appendChild(grid);
       container.appendChild(section);
     }
+
+    // --- Render Type_Registered trophies, grouped by sub-type ---
+    const typeGroups = {};
+    for (const t of typeRegisteredTrophies) {
+      const st = t.subType || 'Unknown';
+      if (!typeGroups[st]) typeGroups[st] = [];
+      typeGroups[st].push(t);
+    }
+
+    for (const typeName of TYPE_DISPLAY_ORDER) {
+      const list = typeGroups[typeName];
+      if (!list || !list.length) continue;
+      list.sort((a, b) => a.id - b.id);
+
+      const section = document.createElement('div');
+      section.className = 'trophies-section';
+      const title = document.createElement('div');
+      title.className = 'trophies-section-title';
+      // Traduire le nom du type (utilise la clé "types" existante des traductions)
+      const T = (k, f) => typeof Translator !== 'undefined' ? Translator.get(k, f) : f;
+      const translatedType = T('types.' + typeName.toLowerCase(), typeName);
+      title.textContent = translatedType;
+      section.appendChild(title);
+
+      const grid = document.createElement('div');
+      grid.className = 'trophies-grid';
+      for (const t of list) {
+        appendTrophyCard(grid, t, trophyProgress);
+      }
+      section.appendChild(grid);
+      container.appendChild(section);
+    }
+  }
+
+  function appendTrophyCard(grid, t, trophyProgress) {
+    const div = document.createElement('div');
+    div.className = 'trophy-entry' + (t.earned ? '' : ' locked');
+
+    const iconSrc = t.picture || './icon.png';
+
+    let progressHtml = '';
+    if (!t.earned && trophyProgress && trophyProgress[t.id] !== undefined) {
+      const p = trophyProgress[t.id];
+      if (p > 0) progressHtml = '<div class="trophy-progress">' + Math.round(p) + '%</div>';
+    }
+
+    div.innerHTML =
+      '<img class="trophy-icon" src="' + iconSrc + '" alt="' + t.name + '" onerror="this.src=\'./icon.png\'" />' +
+      '<div class="trophy-name">' + t.name + '</div>' +
+      '<div class="trophy-desc">' + t.desc + '</div>' +
+      '<div class="trophy-xp">+' + t.xp + ' XP</div>' +
+      progressHtml;
+
+    grid.appendChild(div);
   }
 
   // ── XP & Level display ───────────────────────────────────

@@ -264,6 +264,26 @@
     "viewDaily": "Voir ce daily",
     "viewWeekly": "Voir ce weekly"
   },
+  "type": {
+    "fire": "Feu",
+    "water": "Eau",
+    "grass": "Plante",
+    "electric": "Électrik",
+    "rock": "Roche",
+    "ground": "Sol",
+    "flying": "Vol",
+    "bug": "Insecte",
+    "poison": "Poison",
+    "normal": "Normal",
+    "steel": "Acier",
+    "dragon": "Dragon",
+    "fighting": "Combat",
+    "dark": "Ténèbres",
+    "ice": "Glace",
+    "ghost": "Spectre",
+    "psychic": "Psy",
+    "fairy": "Fée"
+  },
   "oldDaily": {
     "tabDaily": "Daily",
     "tabWeekly": "Weekly",

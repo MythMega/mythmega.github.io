@@ -60,6 +60,26 @@
         "Button" : null
     },
     {
+        "Level": 20,
+        "ImageUrl": "",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "!claim F3ET3XPER5"
+          }
+        ],
+        "Title_FR": "Cadeau pédestre !",
+        "Description_FR": "Recuperez la famille de Tarsal Shiny sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Pedestrian Gift !",
+        "Description_EN": "Get Shiny Tarsal's Family on MythMega's when he's streaming and paste this code into his chat.",
+        "Button" : {
+          "TxtButton_FR": "Rejoindre le stream",
+          "TxtButton_EN": "Join the stream",
+          "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
         "Level": 25,
         "ImageUrl": "",
         "Reward" : 

@@ -1,377 +1,1242 @@
 [
+
     {
-        "Id": 1,
-        "Name_en": "New Pokédex (5)",
-        "Name_fr": "Nouveau Pokédex (5)",
-        "Desc_en": "You filled 5 Pokédex entries.",
-        "Desc_fr": "Tu as rempli 5 entrées du Pokédex.",
-        "XP": 25,
-        "Obtention_Method": {
-            "Mode": "Dex_Count",
-            "Value": 5
+        "Id":1,
+        "Name_en":"New Pokédex (5)",
+        "Name_fr":"Nouveau Pokédex (5)",
+        "Desc_en":"You filled 5 Pokédex entries.",
+        "Desc_fr":"Tu as rempli 5 entrées du Pokédex.",
+        "XP":25,
+        "Obtention_Method":{
+            "Mode":"Dex_Count",
+            "Value":5
         },
-        "Rarity": 1,
-        "Picture": "./img/trophy/dex/bronze.png",
-        "Enabled": true
+        "Rarity":1,
+        "Picture":"./img/trophy/dex/bronze.png",
+        "Enabled":true
     },
     {
-        "Id": 2,
-        "Name_en": "Pokédex Connoisseur (100)",
-        "Name_fr": "Connaisseur Pokédex (100)",
-        "Desc_en": "You filled 100 Pokédex entries.",
-        "Desc_fr": "Tu as rempli 100 entrées du Pokédex.",
-        "XP": 100,
-        "Obtention_Method": {
-            "Mode": "Dex_Count",
-            "Value": 100
+        "Id":2,
+        "Name_en":"Pokédex Connoisseur (100)",
+        "Name_fr":"Connaisseur Pokédex (100)",
+        "Desc_en":"You filled 100 Pokédex entries.",
+        "Desc_fr":"Tu as rempli 100 entrées du Pokédex.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Dex_Count",
+            "Value":100
         },
-        "Rarity": 2,
-        "Picture": "./img/trophy/dex/silver.png",
-        "Enabled": true
+        "Rarity":2,
+        "Picture":"./img/trophy/dex/silver.png",
+        "Enabled":true
     },
     {
-        "Id": 3,
-        "Name_en": "Pokédex expert (500)",
-        "Name_fr": "Expert Pokédex (500)",
-        "Desc_en": "You filled 500 Pokédex entries.",
-        "Desc_fr": "Tu as rempli 500 entrées du Pokédex.",
-        "XP": 250,
-        "Obtention_Method": {
-            "Mode": "Dex_Count",
-            "Value": 500
+        "Id":3,
+        "Name_en":"Pokédex expert (500)",
+        "Name_fr":"Expert Pokédex (500)",
+        "Desc_en":"You filled 500 Pokédex entries.",
+        "Desc_fr":"Tu as rempli 500 entrées du Pokédex.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Dex_Count",
+            "Value":500
         },
-        "Rarity": 2,
-        "Picture": "./img/trophy/dex/gold.png",
-        "Enabled": true
+        "Rarity":2,
+        "Picture":"./img/trophy/dex/gold.png",
+        "Enabled":true
     },
     {
-        "Id": 4,
-        "Name_en": "Pokédex Master (735)",
-        "Name_fr": "Maitre Pokédex (735)",
-        "Desc_en": "You filled 735 Pokédex entries.",
-        "Desc_fr": "Tu as rempli 735 entrées du Pokédex.",
-        "XP": 500,
-        "Obtention_Method": {
-            "Mode": "Dex_Count",
-            "Value": 735
+        "Id":4,
+        "Name_en":"Pokédex Master (735)",
+        "Name_fr":"Maitre Pokédex (735)",
+        "Desc_en":"You filled 735 Pokédex entries.",
+        "Desc_fr":"Tu as rempli 735 entrées du Pokédex.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Dex_Count",
+            "Value":735
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/dex/platinum.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/dex/platinum.png",
+        "Enabled":true
     },
     {
-        "Id": 11,
-        "Name_en": "Daily-scover (3)",
-        "Name_fr": "Daily-couverte (3)",
-        "Desc_en": "You completed 3 Dailies Challenges.",
-        "Desc_fr": "Tu as complété 3 Challenge Daily.",
-        "XP": 25,
-        "Obtention_Method": {
-            "Mode": "Daily_Count",
-            "Value": 3
+        "Id":11,
+        "Name_en":"Daily-scover (3)",
+        "Name_fr":"Daily-couverte (3)",
+        "Desc_en":"You completed 3 Dailies Challenges.",
+        "Desc_fr":"Tu as complété 3 Challenge Daily.",
+        "XP":25,
+        "Obtention_Method":{
+            "Mode":"Daily_Count",
+            "Value":3
         },
-        "Rarity": 1,
-        "Picture": "./img/trophy/daily/bronze.png",
-        "Enabled": true
+        "Rarity":1,
+        "Picture":"./img/trophy/daily/bronze.png",
+        "Enabled":true
     },
     {
-        "Id": 12,
-        "Name_en": "Daily-man (30)",
-        "Name_fr": "MR Daily (30)",
-        "Desc_en": "You completed 30 Dailies Challenges.",
-        "Desc_fr": "Tu as complété 30 Challenge Daily.",
-        "XP": 100,
-        "Obtention_Method": {
-            "Mode": "Daily_Count",
-            "Value": 30
+        "Id":12,
+        "Name_en":"Daily-man (30)",
+        "Name_fr":"MR Daily (30)",
+        "Desc_en":"You completed 30 Dailies Challenges.",
+        "Desc_fr":"Tu as complété 30 Challenge Daily.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Daily_Count",
+            "Value":30
         },
-        "Rarity": 2,
-        "Picture": "./img/trophy/daily/silver.png",
-        "Enabled": true
+        "Rarity":2,
+        "Picture":"./img/trophy/daily/silver.png",
+        "Enabled":true
     },
     {
-        "Id": 13,
-        "Name_en": "Daily Expert (180)",
-        "Name_fr": "Expert Daily (180)",
-        "Desc_en": "You completed 180 Dailies Challenges.",
-        "Desc_fr": "Tu as complété 180 Challenge Daily.",
-        "XP": 250,
-        "Obtention_Method": {
-            "Mode": "Daily_Count",
-            "Value": 180
+        "Id":13,
+        "Name_en":"Daily Expert (180)",
+        "Name_fr":"Expert Daily (180)",
+        "Desc_en":"You completed 180 Dailies Challenges.",
+        "Desc_fr":"Tu as complété 180 Challenge Daily.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Daily_Count",
+            "Value":180
         },
-        "Rarity": 3,
-        "Picture": "./img/trophy/daily/gold.png",
-        "Enabled": true
+        "Rarity":3,
+        "Picture":"./img/trophy/daily/gold.png",
+        "Enabled":true
     },
     {
-        "Id": 14,
-        "Name_en": "Daily Master (365)",
-        "Name_fr": "Maître Daily (365)",
-        "Desc_en": "You completed 365 Dailies Challenges.",
-        "Desc_fr": "Tu as complété 365 Challenge Daily.",
-        "XP": 500,
-        "Obtention_Method": {
-            "Mode": "Daily_Count",
-            "Value": 365
+        "Id":14,
+        "Name_en":"Daily Master (365)",
+        "Name_fr":"Maître Daily (365)",
+        "Desc_en":"You completed 365 Dailies Challenges.",
+        "Desc_fr":"Tu as complété 365 Challenge Daily.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Daily_Count",
+            "Value":365
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/daily/platinum.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/daily/platinum.png",
+        "Enabled":true
     },
     {
-        "Id": 21,
-        "Name_en": "Quadr-Weekly (4)",
-        "Name_fr": "Quadrimadaire (4)",
-        "Desc_en": "You completed 4 Weeklies Challenges.",
-        "Desc_fr": "Tu as complété 4 Challenge Weekly.",
-        "XP": 25,
-        "Obtention_Method": {
-            "Mode": "Weekly_Count",
-            "Value": 4
+        "Id":21,
+        "Name_en":"Quadr-Weekly (4)",
+        "Name_fr":"Quadrimadaire (4)",
+        "Desc_en":"You completed 4 Weeklies Challenges.",
+        "Desc_fr":"Tu as complété 4 Challenge Weekly.",
+        "XP":25,
+        "Obtention_Method":{
+            "Mode":"Weekly_Count",
+            "Value":4
         },
-        "Rarity": 1,
-        "Picture": "./img/trophy/weekly/bronze.png",
-        "Enabled": true
+        "Rarity":1,
+        "Picture":"./img/trophy/weekly/bronze.png",
+        "Enabled":true
     },
     {
-        "Id": 22,
-        "Name_en": "Alexandrine (12)",
-        "Name_fr": "Alexandrin (12)",
-        "Desc_en": "You completed 12 Weeklies Challenges.",
-        "Desc_fr": "Tu as complété 12 Challenge Weekly.",
-        "XP": 100,
-        "Obtention_Method": {
-            "Mode": "Weekly_Count",
-            "Value": 12
+        "Id":22,
+        "Name_en":"Alexandrine (12)",
+        "Name_fr":"Alexandrin (12)",
+        "Desc_en":"You completed 12 Weeklies Challenges.",
+        "Desc_fr":"Tu as complété 12 Challenge Weekly.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Weekly_Count",
+            "Value":12
         },
-        "Rarity": 2,
-        "Picture": "./img/trophy/weekly/silver.png",
-        "Enabled": true
+        "Rarity":2,
+        "Picture":"./img/trophy/weekly/silver.png",
+        "Enabled":true
     },
     {
-        "Id": 23,
-        "Name_en": "Expert of the week (24)",
-        "Name_fr": "Expert de la semaine (24)",
-        "Desc_en": "You completed 24 Weeklies Challenges.",
-        "Desc_fr": "Tu as complété 24 Challenge Weekly.",
-        "XP": 250,
-        "Obtention_Method": {
-            "Mode": "Weekly_Count",
-            "Value": 24
+        "Id":23,
+        "Name_en":"Expert of the week (24)",
+        "Name_fr":"Expert de la semaine (24)",
+        "Desc_en":"You completed 24 Weeklies Challenges.",
+        "Desc_fr":"Tu as complété 24 Challenge Weekly.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Weekly_Count",
+            "Value":24
         },
-        "Rarity": 3,
-        "Picture": "./img/trophy/weekly/gold.png",
-        "Enabled": true
+        "Rarity":3,
+        "Picture":"./img/trophy/weekly/gold.png",
+        "Enabled":true
     },
     {
-        "Id": 24,
-        "Name_en": "Legend of the week (52)",
-        "Name_fr": "Légende de la semaine (52)",
-        "Desc_en": "You completed 52 Weeklies Challenges.",
-        "Desc_fr": "Tu as complété 52 Challenge Weekly.",
-        "XP": 500,
-        "Obtention_Method": {
-            "Mode": "Weekly_Count",
-            "Value": 52
+        "Id":24,
+        "Name_en":"Legend of the week (52)",
+        "Name_fr":"Légende de la semaine (52)",
+        "Desc_en":"You completed 52 Weeklies Challenges.",
+        "Desc_fr":"Tu as complété 52 Challenge Weekly.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Weekly_Count",
+            "Value":52
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/weekly/platinum.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/weekly/platinum.png",
+        "Enabled":true
     },
     {
-        "Id": 31,
-        "Name_en": "Hiker (25)",
-        "Name_fr": "Randonneur (25)",
-        "Desc_en": "Reach 25 streak in Marathon Mode.",
-        "Desc_fr": "Atteindre une série de 25 dans le mode marathon.",
-        "XP": 25,
-        "Obtention_Method": {
-            "Mode": "Marathon_Streak",
-            "Value": 25
+        "Id":31,
+        "Name_en":"Hiker (25)",
+        "Name_fr":"Randonneur (25)",
+        "Desc_en":"Reach 25 streak in Marathon Mode.",
+        "Desc_fr":"Atteindre une série de 25 dans le mode marathon.",
+        "XP":25,
+        "Obtention_Method":{
+            "Mode":"Marathon_Streak",
+            "Value":25
         },
-        "Rarity": 1,
-        "Picture": "./img/trophy/marathon/bronze.png",
-        "Enabled": true
+        "Rarity":1,
+        "Picture":"./img/trophy/marathon/bronze.png",
+        "Enabled":true
     },
     {
-        "Id": 32,
-        "Name_en": "Jogger (100)",
-        "Name_fr": "Joggeur (100)",
-        "Desc_en": "Reach 100 streak in Marathon Mode.",
-        "Desc_fr": "Atteindre une série de 100 dans le mode marathon.",
-        "XP": 100,
-        "Obtention_Method": {
-            "Mode": "Marathon_Streak",
-            "Value": 100
+        "Id":32,
+        "Name_en":"Jogger (100)",
+        "Name_fr":"Joggeur (100)",
+        "Desc_en":"Reach 100 streak in Marathon Mode.",
+        "Desc_fr":"Atteindre une série de 100 dans le mode marathon.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Marathon_Streak",
+            "Value":100
         },
-        "Rarity": 2,
-        "Picture": "./img/trophy/marathon/silver.png",
-        "Enabled": true
+        "Rarity":2,
+        "Picture":"./img/trophy/marathon/silver.png",
+        "Enabled":true
     },
     {
-        "Id": 33,
-        "Name_en": "Runner (250)",
-        "Name_fr": "Coureur (250)",
-        "Desc_en": "Reach 250 streak in Marathon Mode.",
-        "Desc_fr": "Atteindre une série de 250 dans le mode marathon.",
-        "XP": 250,
-        "Obtention_Method": {
-            "Mode": "Marathon_Streak",
-            "Value": 250
+        "Id":33,
+        "Name_en":"Runner (250)",
+        "Name_fr":"Coureur (250)",
+        "Desc_en":"Reach 250 streak in Marathon Mode.",
+        "Desc_fr":"Atteindre une série de 250 dans le mode marathon.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Marathon_Streak",
+            "Value":250
         },
-        "Rarity": 3,
-        "Picture": "./img/trophy/marathon/gold.png",
-        "Enabled": true
+        "Rarity":3,
+        "Picture":"./img/trophy/marathon/gold.png",
+        "Enabled":true
     },
     {
-        "Id": 34,
-        "Name_en": "Marathoner (735)",
-        "Name_fr": "Marathonien (735)",
-        "Desc_en": "Reach 735 streak in Marathon Mode.",
-        "Desc_fr": "Atteindre une série de 735 dans le mode marathon.",
-        "XP": 500,
-        "Obtention_Method": {
-            "Mode": "Marathon_Streak",
-            "Value": 735
+        "Id":34,
+        "Name_en":"Marathoner (735)",
+        "Name_fr":"Marathonien (735)",
+        "Desc_en":"Reach 735 streak in Marathon Mode.",
+        "Desc_fr":"Atteindre une série de 735 dans le mode marathon.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Marathon_Streak",
+            "Value":735
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/marathon/platinum.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/marathon/platinum.png",
+        "Enabled":true
     },
     {
-        "Id": 41,
-        "Name_en": "Kanto-Dex (1G)",
-        "Name_fr": "Kanto-Dex (1G)",
-        "Desc_en": "Register all Kanto Pokémons in dailies or weeklies.",
-        "Desc_fr": "Enregistrer tous les Pokémons de la région de Kanto dans les dailies ou les weeklies.",
-        "XP": 500,
-        "Obtention_Method": {
-            "Mode": "Full_Generation_Register",
-            "Value": 1
+        "Id":41,
+        "Name_en":"Kanto-Dex (1G)",
+        "Name_fr":"Kanto-Dex (1G)",
+        "Desc_en":"Register all Kanto Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer tous les Pokémons de la région de Kanto dans les dailies ou les weeklies.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":1
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/regiondex/1.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/1.png",
+        "Enabled":true
     },
     {
-        "Id": 42,
-        "Name_en": "Johto-Dex (2G)",
-        "Name_fr": "Johto-Dex (2G)",
-        "Desc_en": "Register all Johto Pokémons in dailies or weeklies.",
-        "Desc_fr": "Enregistrer tous les Pokémons de la région de Johto dans les dailies ou les weeklies.",
-        "XP": 500,
-        "Obtention_Method": {
-            "Mode": "Full_Generation_Register",
-            "Value": 2
+        "Id":42,
+        "Name_en":"Johto-Dex (2G)",
+        "Name_fr":"Johto-Dex (2G)",
+        "Desc_en":"Register all Johto Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer tous les Pokémons de la région de Johto dans les dailies ou les weeklies.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":2
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/regiondex/2.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/2.png",
+        "Enabled":true
     },
     {
-    "Id": 43,
-    "Name_en": "Hoenn-Dex (3G)",
-    "Name_fr": "Hoenn-Dex (3G)",
-    "Desc_en": "Register all Hoenn Pokémons in dailies or weeklies.",
-    "Desc_fr": "Enregistrer tous les Pokémons de la région de Hoenn dans les dailies ou les weeklies.",
-    "XP": 500,
-    "Obtention_Method": {
-        "Mode": "Full_Generation_Register",
-        "Value": 3
-    },
-    "Rarity": 4,
-    "Picture": "./img/trophy/regiondex/3.png",
-    "Enabled": true
-    },
-    {
-        "Id": 44,
-        "Name_en": "Sinnoh-Dex (4G)",
-        "Name_fr": "Sinnoh-Dex (4G)",
-        "Desc_en": "Register all Sinnoh Pokémons in dailies or weeklies.",
-        "Desc_fr": "Enregistrer tous les Pokémons de la région de Sinnoh dans les dailies ou les weeklies.",
-        "XP": 500,
-        "Obtention_Method": {
-            "Mode": "Full_Generation_Register",
-            "Value": 4
+        "Id":43,
+        "Name_en":"Hoenn-Dex (3G)",
+        "Name_fr":"Hoenn-Dex (3G)",
+        "Desc_en":"Register all Hoenn Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer tous les Pokémons de la région de Hoenn dans les dailies ou les weeklies.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":3
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/regiondex/4.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/3.png",
+        "Enabled":true
     },
     {
-        "Id": 45,
-        "Name_en": "Unova-Dex (5G)",
-        "Name_fr": "Unys-Dex (5G)",
-        "Desc_en": "Register all Unova Pokémons in dailies or weeklies.",
-        "Desc_fr": "Enregistrer tous les Pokémons de la région d'Unys dans les dailies ou les weeklies.",
-        "XP": 500,
-        "Obtention_Method": {
-            "Mode": "Full_Generation_Register",
-            "Value": 5
+        "Id":44,
+        "Name_en":"Sinnoh-Dex (4G)",
+        "Name_fr":"Sinnoh-Dex (4G)",
+        "Desc_en":"Register all Sinnoh Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer tous les Pokémons de la région de Sinnoh dans les dailies ou les weeklies.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":4
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/regiondex/5.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/4.png",
+        "Enabled":true
     },
     {
-        "Id": 46,
-        "Name_en": "Kalos-Dex (6G) - Mega",
-        "Name_fr": "Kalos-Dex (6G) - Mega",
-        "Desc_en": "Register all Mega-Evolved Pokémons in dailies or weeklies.",
-        "Desc_fr": "Enregistrer tous les Pokémons Méga-évolués dans les dailies ou les weeklies.",
-        "XP": 250,
-        "Obtention_Method": {
-            "Mode": "Full_Generation_Register",
-            "Value": 6
+        "Id":45,
+        "Name_en":"Unova-Dex (5G)",
+        "Name_fr":"Unys-Dex (5G)",
+        "Desc_en":"Register all Unova Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer tous les Pokémons de la région d'Unys dans les dailies ou les weeklies.",
+        "XP":500,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":5
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/regiondex/6.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/5.png",
+        "Enabled":true
     },
     {
-        "Id": 47,
-        "Name_en": "Alola-Dex (7G) - Regional Forms",
-        "Name_fr": "Alola-Dex (7G) - Formes Régionales",
-        "Desc_en": "Register all Alolan regional forms Pokémons in dailies or weeklies.",
-        "Desc_fr": "Enregistrer toutes les formes régionales de Pokémons de la région d'Alola dans les dailies ou les weeklies.",
-        "XP": 250,
-        "Obtention_Method": {
-            "Mode": "Full_Generation_Register",
-            "Value": 7
+        "Id":46,
+        "Name_en":"Kalos-Dex (6G) - Mega",
+        "Name_fr":"Kalos-Dex (6G) - Mega",
+        "Desc_en":"Register all Mega-Evolved Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer tous les Pokémons Méga-évolués dans les dailies ou les weeklies.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":6
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/regiondex/7.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/6.png",
+        "Enabled":true
     },
     {
-        "Id": 48,
-        "Name_en": "Galar-Dex (8G) - Regional Forms",
-        "Name_fr": "Galar-Dex (8G) - Formes Régionales",
-        "Desc_en": "Register all Galarian regional forms Pokémons in dailies or weeklies.",
-        "Desc_fr": "Enregistrer toutes les formes régionales de Pokémons de la région de Galar dans les dailies ou les weeklies.",
-        "XP": 100,
-        "Obtention_Method": {
-            "Mode": "Full_Generation_Register",
-            "Value": 8
+        "Id":47,
+        "Name_en":"Alola-Dex (7G) - Regional Forms",
+        "Name_fr":"Alola-Dex (7G) - Formes Régionales",
+        "Desc_en":"Register all Alolan regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer toutes les formes régionales de Pokémons de la région d'Alola dans les dailies ou les weeklies.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":7
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/regiondex/8.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/7.png",
+        "Enabled":true
     },
     {
-        "Id": 49,
-        "Name_en": "Paldea-Dex (9G) - Regional Forms",
-        "Name_fr": "Paldea-Dex (9G) - Formes Régionales",
-        "Desc_en": "Register all Paldean regional forms Pokémons in dailies or weeklies.",
-        "Desc_fr": "Enregistrer tous les forme régionales de Pokémons de la région de Paldea dans les dailies ou les weeklies.",
-        "XP": 100,
-        "Obtention_Method": {
-            "Mode": "Full_Generation_Register",
-            "Value": 9
+        "Id":48,
+        "Name_en":"Galar-Dex (8G) - Regional Forms",
+        "Name_fr":"Galar-Dex (8G) - Formes Régionales",
+        "Desc_en":"Register all Galarian regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer toutes les formes régionales de Pokémons de la région de Galar dans les dailies ou les weeklies.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":8
         },
-        "Rarity": 4,
-        "Picture": "./img/trophy/regiondex/9.png",
-        "Enabled": true
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/8.png",
+        "Enabled":true
+    },
+    {
+        "Id":49,
+        "Name_en":"Paldea-Dex (9G) - Regional Forms",
+        "Name_fr":"Paldea-Dex (9G) - Formes Régionales",
+        "Desc_en":"Register all Paldean regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr":"Enregistrer tous les forme régionales de Pokémons de la région de Paldea dans les dailies ou les weeklies.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Full_Generation_Register",
+            "Value":9
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/regiondex/9.png",
+        "Enabled":true
+    },
+    {
+        "Id":100,
+        "Name_en":"Fire Type Enthusiast",
+        "Name_fr":"Amateur de Type de feu",
+        "Desc_en":"Register 10 Fire Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de types feu.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fire",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/fire.png",
+        "Enabled":true
+    },
+    {
+        "Id":101,
+        "Name_en":"Fire Type Enthusiast",
+        "Name_fr":"Amateur de Type de feu",
+        "Desc_en":"Register 25 Fire Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de types feu.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fire",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/fire.png",
+        "Enabled":true
+    },
+    {
+        "Id":102,
+        "Name_en":"Fire Type Expert",
+        "Name_fr":"Expert de Type de feu",
+        "Desc_en":"Register all Fire Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type feu.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fire",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/fire.png",
+        "Enabled":true
+    },
+    {
+        "Id":110,
+        "Name_en":"Water Type Enthusiast",
+        "Name_fr":"Amateur de Type Eau",
+        "Desc_en":"Register 10 Water Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type eau.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Water",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/water.png",
+        "Enabled":true
+    },
+    {
+        "Id":111,
+        "Name_en":"Water Type Enthusiast",
+        "Name_fr":"Amateur de Type Eau",
+        "Desc_en":"Register 25 Water Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type eau.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Water",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/water.png",
+        "Enabled":true
+    },
+    {
+        "Id":112,
+        "Name_en":"Water Type Expert",
+        "Name_fr":"Expert de Type Eau",
+        "Desc_en":"Register all Water Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type eau.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Water",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/water.png",
+        "Enabled":true
+    },
+    {
+        "Id":120,
+        "Name_en":"Grass Type Enthusiast",
+        "Name_fr":"Amateur de Type Plante",
+        "Desc_en":"Register 10 Grass Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type plante.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Grass",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/grass.png",
+        "Enabled":true
+    },
+    {
+        "Id":121,
+        "Name_en":"Grass Type Enthusiast",
+        "Name_fr":"Amateur de Type Plante",
+        "Desc_en":"Register 25 Grass Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type plante.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Grass",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/grass.png",
+        "Enabled":true
+    },
+    {
+        "Id":122,
+        "Name_en":"Grass Type Expert",
+        "Name_fr":"Expert de Type Plante",
+        "Desc_en":"Register all Grass Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type plante.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Grass",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/grass.png",
+        "Enabled":true
+    },
+    {
+        "Id":130,
+        "Name_en":"Electric Type Enthusiast",
+        "Name_fr":"Amateur de Type Électrik",
+        "Desc_en":"Register 10 Electric Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type électrik.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Electric",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/electric.png",
+        "Enabled":true
+    },
+    {
+        "Id":131,
+        "Name_en":"Electric Type Enthusiast",
+        "Name_fr":"Amateur de Type Électrik",
+        "Desc_en":"Register 25 Electric Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type électrik.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Electric",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/electric.png",
+        "Enabled":true
+    },
+    {
+        "Id":132,
+        "Name_en":"Electric Type Expert",
+        "Name_fr":"Expert de Type Électrik",
+        "Desc_en":"Register all Electric Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type électrik.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Electric",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/electric.png",
+        "Enabled":true
+    },
+    {
+        "Id":140,
+        "Name_en":"Rock Type Enthusiast",
+        "Name_fr":"Amateur de Type Roche",
+        "Desc_en":"Register 10 Rock Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type roche.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Rock",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/rock.png",
+        "Enabled":true
+    },
+    {
+        "Id":141,
+        "Name_en":"Rock Type Enthusiast",
+        "Name_fr":"Amateur de Type Roche",
+        "Desc_en":"Register 25 Rock Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type roche.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Rock",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/rock.png",
+        "Enabled":true
+    },
+    {
+        "Id":142,
+        "Name_en":"Rock Type Expert",
+        "Name_fr":"Expert de Type Roche",
+        "Desc_en":"Register all Rock Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type roche.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Rock",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/rock.png",
+        "Enabled":true
+    },
+    {
+        "Id":150,
+        "Name_en":"Ground Type Enthusiast",
+        "Name_fr":"Amateur de Type Sol",
+        "Desc_en":"Register 10 Ground Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type sol.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ground",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/ground.png",
+        "Enabled":true
+    },
+    {
+        "Id":151,
+        "Name_en":"Ground Type Enthusiast",
+        "Name_fr":"Amateur de Type Sol",
+        "Desc_en":"Register 25 Ground Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type sol.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ground",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/ground.png",
+        "Enabled":true
+    },
+    {
+        "Id":152,
+        "Name_en":"Ground Type Expert",
+        "Name_fr":"Expert de Type Sol",
+        "Desc_en":"Register all Ground Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type sol.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ground",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/ground.png",
+        "Enabled":true
+    },
+    {
+        "Id":160,
+        "Name_en":"Flying Type Enthusiast",
+        "Name_fr":"Amateur de Type Vol",
+        "Desc_en":"Register 10 Flying Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type vol.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Flying",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/flying.png",
+        "Enabled":true
+    },
+    {
+        "Id":161,
+        "Name_en":"Flying Type Enthusiast",
+        "Name_fr":"Amateur de Type Vol",
+        "Desc_en":"Register 25 Flying Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type vol.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Flying",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/flying.png",
+        "Enabled":true
+    },
+    {
+        "Id":162,
+        "Name_en":"Flying Type Expert",
+        "Name_fr":"Expert de Type Vol",
+        "Desc_en":"Register all Flying Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type vol.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Flying",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/flying.png",
+        "Enabled":true
+    },
+    {
+        "Id":170,
+        "Name_en":"Bug Type Enthusiast",
+        "Name_fr":"Amateur de Type Insecte",
+        "Desc_en":"Register 10 Bug Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type insecte.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Bug",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/bug.png",
+        "Enabled":true
+    },
+    {
+        "Id":171,
+        "Name_en":"Bug Type Enthusiast",
+        "Name_fr":"Amateur de Type Insecte",
+        "Desc_en":"Register 25 Bug Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type insecte.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Bug",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/bug.png",
+        "Enabled":true
+    },
+    {
+        "Id":172,
+        "Name_en":"Bug Type Expert",
+        "Name_fr":"Expert de Type Insecte",
+        "Desc_en":"Register all Bug Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type insecte.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Bug",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/bug.png",
+        "Enabled":true
+    },
+    {
+        "Id":180,
+        "Name_en":"Poison Type Enthusiast",
+        "Name_fr":"Amateur de Type Poison",
+        "Desc_en":"Register 10 Poison Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type poison.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Poison",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/poison.png",
+        "Enabled":true
+    },
+    {
+        "Id":181,
+        "Name_en":"Poison Type Enthusiast",
+        "Name_fr":"Amateur de Type Poison",
+        "Desc_en":"Register 25 Poison Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type poison.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Poison",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/poison.png",
+        "Enabled":true
+    },
+    {
+        "Id":182,
+        "Name_en":"Poison Type Expert",
+        "Name_fr":"Expert de Type Poison",
+        "Desc_en":"Register all Poison Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type poison.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Poison",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/poison.png",
+        "Enabled":true
+    },
+    {
+        "Id":190,
+        "Name_en":"Normal Type Enthusiast",
+        "Name_fr":"Amateur de Type Normal",
+        "Desc_en":"Register 10 Normal Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type normal.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Normal",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/normal.png",
+        "Enabled":true
+    },
+    {
+        "Id":191,
+        "Name_en":"Normal Type Enthusiast",
+        "Name_fr":"Amateur de Type Normal",
+        "Desc_en":"Register 25 Normal Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type normal.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Normal",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/normal.png",
+        "Enabled":true
+    },
+    {
+        "Id":192,
+        "Name_en":"Normal Type Expert",
+        "Name_fr":"Expert de Type Normal",
+        "Desc_en":"Register all Normal Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type normal.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Normal",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/normal.png",
+        "Enabled":true
+    },
+    {
+        "Id":200,
+        "Name_en":"Steel Type Enthusiast",
+        "Name_fr":"Amateur de Type Acier",
+        "Desc_en":"Register 10 Steel Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type acier.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Steel",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/steel.png",
+        "Enabled":true
+    },
+    {
+        "Id":201,
+        "Name_en":"Steel Type Enthusiast",
+        "Name_fr":"Amateur de Type Acier",
+        "Desc_en":"Register 25 Steel Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type acier.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Steel",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/steel.png",
+        "Enabled":true
+    },
+    {
+        "Id":202,
+        "Name_en":"Steel Type Expert",
+        "Name_fr":"Expert de Type Acier",
+        "Desc_en":"Register all Steel Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type acier.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Steel",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/steel.png",
+        "Enabled":true
+    },
+    {
+        "Id":210,
+        "Name_en":"Dragon Type Enthusiast",
+        "Name_fr":"Amateur de Type Dragon",
+        "Desc_en":"Register 10 Dragon Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type dragon.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Dragon",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/dragon.png",
+        "Enabled":true
+    },
+    {
+        "Id":211,
+        "Name_en":"Dragon Type Enthusiast",
+        "Name_fr":"Amateur de Type Dragon",
+        "Desc_en":"Register 25 Dragon Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type dragon.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Dragon",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/dragon.png",
+        "Enabled":true
+    },
+    {
+        "Id":212,
+        "Name_en":"Dragon Type Expert",
+        "Name_fr":"Expert de Type Dragon",
+        "Desc_en":"Register all Dragon Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type dragon.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Dragon",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/dragon.png",
+        "Enabled":true
+    },
+    {
+        "Id":220,
+        "Name_en":"Fighting Type Enthusiast",
+        "Name_fr":"Amateur de Type Combat",
+        "Desc_en":"Register 10 Fighting Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type combat.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fighting",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/fighting.png",
+        "Enabled":true
+    },
+    {
+        "Id":221,
+        "Name_en":"Fighting Type Enthusiast",
+        "Name_fr":"Amateur de Type Combat",
+        "Desc_en":"Register 25 Fighting Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type combat.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fighting",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/fighting.png",
+        "Enabled":true
+    },
+    {
+        "Id":222,
+        "Name_en":"Fighting Type Expert",
+        "Name_fr":"Expert de Type Combat",
+        "Desc_en":"Register all Fighting Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type combat.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fighting",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/fighting.png",
+        "Enabled":true
+    },
+    {
+        "Id":230,
+        "Name_en":"Dark Type Enthusiast",
+        "Name_fr":"Amateur de Type Ténèbres",
+        "Desc_en":"Register 10 Dark Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type ténèbres.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Dark",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/dark.png",
+        "Enabled":true
+    },
+    {
+        "Id":231,
+        "Name_en":"Dark Type Enthusiast",
+        "Name_fr":"Amateur de Type Ténèbres",
+        "Desc_en":"Register 25 Dark Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type ténèbres.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Dark",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/dark.png",
+        "Enabled":true
+    },
+    {
+        "Id":232,
+        "Name_en":"Dark Type Expert",
+        "Name_fr":"Expert de Type Ténèbres",
+        "Desc_en":"Register all Dark Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type ténèbres.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Dark",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/dark.png",
+        "Enabled":true
+    },
+    {
+        "Id":240,
+        "Name_en":"Ice Type Enthusiast",
+        "Name_fr":"Amateur de Type Glace",
+        "Desc_en":"Register 10 Ice Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type glace.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ice",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/ice.png",
+        "Enabled":true
+    },
+    {
+        "Id":241,
+        "Name_en":"Ice Type Enthusiast",
+        "Name_fr":"Amateur de Type Glace",
+        "Desc_en":"Register 25 Ice Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type glace.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ice",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/ice.png",
+        "Enabled":true
+    },
+    {
+        "Id":242,
+        "Name_en":"Ice Type Expert",
+        "Name_fr":"Expert de Type Glace",
+        "Desc_en":"Register all Ice Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type glace.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ice",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/ice.png",
+        "Enabled":true
+    },
+    {
+        "Id":250,
+        "Name_en":"Ghost Type Enthusiast",
+        "Name_fr":"Amateur de Type Spectre",
+        "Desc_en":"Register 10 Ghost Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type spectre.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ghost",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/ghost.png",
+        "Enabled":true
+    },
+    {
+        "Id":251,
+        "Name_en":"Ghost Type Enthusiast",
+        "Name_fr":"Amateur de Type Spectre",
+        "Desc_en":"Register 25 Ghost Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type spectre.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ghost",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/ghost.png",
+        "Enabled":true
+    },
+    {
+        "Id":252,
+        "Name_en":"Ghost Type Expert",
+        "Name_fr":"Expert de Type Spectre",
+        "Desc_en":"Register all Ghost Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type spectre.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Ghost",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/ghost.png",
+        "Enabled":true
+    },
+    {
+        "Id":260,
+        "Name_en":"Psychic Type Enthusiast",
+        "Name_fr":"Amateur de Type Psy",
+        "Desc_en":"Register 10 Psychic Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type psy.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Psychic",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/psychic.png",
+        "Enabled":true
+    },
+    {
+        "Id":261,
+        "Name_en":"Psychic Type Enthusiast",
+        "Name_fr":"Amateur de Type Psy",
+        "Desc_en":"Register 25 Psychic Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type psy.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Psychic",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/psychic.png",
+        "Enabled":true
+    },
+    {
+        "Id":262,
+        "Name_en":"Psychic Type Expert",
+        "Name_fr":"Expert de Type Psy",
+        "Desc_en":"Register all Psychic Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type psy.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Psychic",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/psychic.png",
+        "Enabled":true
+    },
+    {
+        "Id":270,
+        "Name_en":"Fairy Type Enthusiast",
+        "Name_fr":"Amateur de Type Fée",
+        "Desc_en":"Register 10 Fairy Type Pokémons.",
+        "Desc_fr":"Enregistrer 10 Pokémons de type fée.",
+        "XP":50,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fairy",
+            "Value":10
+        },
+        "Rarity":2,
+        "Picture":"./img/trophy/type/fan/fairy.png",
+        "Enabled":true
+    },
+    {
+        "Id":271,
+        "Name_en":"Fairy Type Enthusiast",
+        "Name_fr":"Amateur de Type Fée",
+        "Desc_en":"Register 25 Fairy Type Pokémons.",
+        "Desc_fr":"Enregistrer 25 Pokémons de type fée.",
+        "XP":100,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fairy",
+            "Value":25
+        },
+        "Rarity":3,
+        "Picture":"./img/trophy/type/enthusiast/fairy.png",
+        "Enabled":true
+    },
+    {
+        "Id":272,
+        "Name_en":"Fairy Type Expert",
+        "Name_fr":"Expert de Type Fée",
+        "Desc_en":"Register all Fairy Type Pokémons.",
+        "Desc_fr":"Enregistrer tous les Pokémons de type fée.",
+        "XP":250,
+        "Obtention_Method":{
+            "Mode":"Type_Registered",
+            "Type":"Fairy",
+            "Value":-1
+        },
+        "Rarity":4,
+        "Picture":"./img/trophy/type/expert/fairy.png",
+        "Enabled":true
     }
 ]

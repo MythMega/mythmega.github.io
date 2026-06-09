@@ -1,0 +1,342 @@
+{
+  "bossName": "Bor\u00E9as",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tornadus_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tornadus_shiny.gif",
+  "bossRarity": "LEGENDARY",
+  "shiny": true,
+  "pvMax": 310000,
+  "date": "2026-06-09 21:28:04",
+  "durationSec": 2596,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 260425,
+      "countAtk": 6,
+      "baseDmg": 27704,
+      "level": 18,
+      "raidCount": 848,
+      "luck": 1.5667112
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 25877,
+      "countAtk": 2,
+      "baseDmg": 8599,
+      "level": 17,
+      "raidCount": 321,
+      "luck": 1.5046517
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14290,
+      "countAtk": 1,
+      "baseDmg": 14290,
+      "level": 18,
+      "raidCount": 470,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 8537,
+      "countAtk": 3,
+      "baseDmg": 1643,
+      "level": 12,
+      "raidCount": 104,
+      "luck": 1.7319944
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4802,
+      "countAtk": 1,
+      "baseDmg": 4802,
+      "level": 14,
+      "raidCount": 204,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "MercantileCharredAirSalmonRodd",
+      "damage": 267,
+      "countAtk": 1,
+      "baseDmg": 267,
+      "level": 1,
+      "raidCount": 5,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 313931
+    },
+    {
+      "platform": "youtube",
+      "damage": 267
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MercantileCharredAirSalmonRodd",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-09 21:28:07",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4802,
+      "pvAfter": 305198,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:28:22",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27704,
+      "pvAfter": 277494,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:29:20",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1643,
+      "pvAfter": 275851,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:30:17",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27789,
+      "pvAfter": 248062,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:41:16",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8599,
+      "pvAfter": 239463,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:47:50",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 83328,
+      "pvAfter": 156135,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:50:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 32205,
+      "pvAfter": 123930,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:51:30",
+      "pseudo": "MercantileCharredAirSalmonRodd",
+      "platform": "youtube",
+      "damages": 267,
+      "pvAfter": 123663,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:52:10",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14290,
+      "pvAfter": 109373,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:53:18",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 3364,
+      "pvAfter": 106009,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 21:53:44",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 33837,
+      "pvAfter": 72172,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 22:07:57",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 3530,
+      "pvAfter": 68642,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 22:08:20",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 55562,
+      "pvAfter": 13080,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 22:11:21",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 17278,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    }
+  ]
+}

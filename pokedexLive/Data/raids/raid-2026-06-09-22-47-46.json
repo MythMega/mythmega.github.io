@@ -1,0 +1,196 @@
+{
+  "bossName": "Krabboss",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingler_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingler_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 100000,
+  "date": "2026-06-09 22:47:46",
+  "durationSec": 380,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 65690,
+      "countAtk": 2,
+      "baseDmg": 27500,
+      "level": 18,
+      "raidCount": 851,
+      "luck": 1.1943636
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "batgo_",
+      "damage": 44855,
+      "countAtk": 2,
+      "baseDmg": 18082,
+      "level": 19,
+      "raidCount": 567,
+      "luck": 1.2403219
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 8496,
+      "countAtk": 1,
+      "baseDmg": 8496,
+      "level": 17,
+      "raidCount": 323,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 1752,
+      "countAtk": 1,
+      "baseDmg": 1752,
+      "level": 12,
+      "raidCount": 107,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 120793
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "batgo_",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-09 22:48:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27500,
+      "pvAfter": 72500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 22:49:42",
+      "pseudo": "batgo_",
+      "platform": "twitch",
+      "damages": 18082,
+      "pvAfter": 54418,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 22:50:28",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8496,
+      "pvAfter": 45922,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 22:52:23",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 38190,
+      "pvAfter": 7732,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 22:52:35",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1752,
+      "pvAfter": 5980,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-09 22:54:06",
+      "pseudo": "batgo_",
+      "platform": "twitch",
+      "damages": 26773,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -6,6 +6,14 @@
   'use strict';
 
   /* ──────────────────────────────────────
+     PRIDE OVERLAY (June only)
+  ────────────────────────────────────── */
+  var prideScript = document.createElement('script');
+  prideScript.src = 'pride-overlay.js';
+  prideScript.async = false;
+  document.head.appendChild(prideScript);
+
+  /* ──────────────────────────────────────
      PAGE LOADER
   ────────────────────────────────────── */
   const loader = document.createElement('div');

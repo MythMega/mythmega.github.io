@@ -1,0 +1,109 @@
+{
+  "bossName": "Chovsourir",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Woobat_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Woobat_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-10 22:43:00",
+  "durationSec": 568,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 82535,
+      "countAtk": 2,
+      "baseDmg": 28244,
+      "level": 18,
+      "raidCount": 859,
+      "luck": 1.4611068
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 1843,
+      "countAtk": 1,
+      "baseDmg": 1843,
+      "level": 12,
+      "raidCount": 112,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 84378
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-10 22:45:52",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28244,
+      "pvAfter": 21756,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 22:50:21",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1843,
+      "pvAfter": 19913,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 22:52:28",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 54291,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -60,6 +60,26 @@
         "Button" : null
     },
     {
+        "Level": 15,
+        "ImageUrl": "./img/badges/pokegg_15.png",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "BR4V03UF"
+          }
+        ],
+        "Title_FR": "Pokefeet x Pokegg Tarsal",
+        "Description_FR": "Récuperez les 4 membres de la famille de tarsal + 3 oeufs épiques sur Pokegg.",
+        "Title_EN": "Pokefeet x Pokegg Ralts",
+        "Description_EN": "Get all 4 members of Ralts family + 3 epic eggs on pokegg.",
+        "Button" : {
+          "TxtButton_FR": "Réclamer la récompense",
+          "TxtButton_EN": "Claim the reward",
+          "UrlButton": "https://web.jmdev.fr/projets/pokegg/redeem.html"
+        }
+    },
+    {
         "Level": 20,
         "ImageUrl": "./img/badges/gift_20.png",
         "Reward" : 
@@ -120,6 +140,26 @@
         }
     },
     {
+        "Level": 45,
+        "ImageUrl": "./img/badges/pokegg_45.png",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "3XC3L03UF"
+          }
+        ],
+        "Title_FR": "Pokefeet x Pokegg Regi-Hoenn",
+        "Description_FR": "Récuperez les 3 golems Regi de Hoenn + 3 oeufs épiques sur Pokegg.",
+        "Title_EN": "Pokefeet x Pokegg Regi-Hoenn",
+        "Description_EN": "Get all 3 Hoenn Regi golems + 3 epic eggs on pokegg.",
+        "Button" : {
+          "TxtButton_FR": "Réclamer la récompense",
+          "TxtButton_EN": "Claim the reward",
+          "UrlButton": "https://web.jmdev.fr/projets/pokegg/redeem.html"
+        }
+    },
+    {
         "Level": 50,
         "ImageUrl": "./img/badges/champion.png",
         "Reward" : 
@@ -160,6 +200,26 @@
         }
     },
     {
+        "Level": 75,
+        "ImageUrl": "./img/badges/pokegg_75.png",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "HYP03UF"
+          }
+        ],
+        "Title_FR": "Pokefeet x Pokegg Regi-Sinnoh",
+        "Description_FR": "Récuperez Regigigas + 3 oeufs épiques sur Pokegg.",
+        "Title_EN": "Pokefeet x Pokegg Regi-Hoenn",
+        "Description_EN": "Get Regigigas + 3 epic eggs on pokegg.",
+        "Button" : {
+          "TxtButton_FR": "Réclamer la récompense",
+          "TxtButton_EN": "Claim the reward",
+          "UrlButton": "https://web.jmdev.fr/projets/pokegg/redeem.html"
+        }
+    },
+    {
         "Level": 80,
         "ImageUrl": "./img/badges/gift_80.png",
         "Reward" : 
@@ -177,6 +237,26 @@
           "TxtButton_FR": "Rejoindre le stream",
           "TxtButton_EN": "Join the stream",
           "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
+        "Level": 90,
+        "ImageUrl": "./img/badges/pokegg_90.png",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "M4ST03UF"
+          }
+        ],
+        "Title_FR": "Pokefeet x Pokegg Meloetta",
+        "Description_FR": "Récuperez Meloetta + 3 oeufs épiques sur Pokegg.",
+        "Title_EN": "Pokefeet x Pokegg Meloetta",
+        "Description_EN": "Get Meloetta + 3 epic eggs on pokegg.",
+        "Button" : {
+          "TxtButton_FR": "Réclamer la récompense",
+          "TxtButton_EN": "Claim the reward",
+          "UrlButton": "https://web.jmdev.fr/projets/pokegg/redeem.html"
         }
     },
     {

@@ -1,0 +1,169 @@
+{
+  "bossName": "Serpang",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Huntail_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Huntail_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 50000,
+  "date": "2026-06-10 22:55:30",
+  "durationSec": 924,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 111660,
+      "countAtk": 2,
+      "baseDmg": 27900,
+      "level": 18,
+      "raidCount": 860,
+      "luck": 2.0010753
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 9768,
+      "countAtk": 2,
+      "baseDmg": 4860,
+      "level": 14,
+      "raidCount": 208,
+      "luck": 1.0049382
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 4470,
+      "countAtk": 2,
+      "baseDmg": 1738,
+      "level": 12,
+      "raidCount": 113,
+      "luck": 1.2859609
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 125898
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-10 22:56:56",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1738,
+      "pvAfter": 48262,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 22:57:22",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4860,
+      "pvAfter": 43402,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 22:57:31",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27900,
+      "pvAfter": 15502,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 22:59:08",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4908,
+      "pvAfter": 10594,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 23:01:19",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 2732,
+      "pvAfter": 7862,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 23:10:54",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 83760,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

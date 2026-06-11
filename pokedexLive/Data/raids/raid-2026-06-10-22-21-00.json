@@ -1,0 +1,207 @@
+{
+  "bossName": "Dracaufeu",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Charizard_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Charizard_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": true,
+  "pvMax": 135000,
+  "date": "2026-06-10 22:21:00",
+  "durationSec": 1112,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 115040,
+      "countAtk": 4,
+      "baseDmg": 28249,
+      "level": 18,
+      "raidCount": 858,
+      "luck": 1.0180892
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14440,
+      "countAtk": 1,
+      "baseDmg": 14440,
+      "level": 18,
+      "raidCount": 472,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4824,
+      "countAtk": 1,
+      "baseDmg": 4824,
+      "level": 14,
+      "raidCount": 207,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 1676,
+      "countAtk": 1,
+      "baseDmg": 1676,
+      "level": 12,
+      "raidCount": 111,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 135980
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-10 22:21:15",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28249,
+      "pvAfter": 106751,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-06-10 22:21:24",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4824,
+      "pvAfter": 101927,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 22:23:19",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28611,
+      "pvAfter": 73316,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus gel\u00E9 !"
+    },
+    {
+      "at": "2026-06-10 22:25:35",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 29835,
+      "pvAfter": 43481,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 22:30:05",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1676,
+      "pvAfter": 41805,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-10 22:39:26",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28345,
+      "pvAfter": 13460,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-06-10 22:39:32",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14440,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

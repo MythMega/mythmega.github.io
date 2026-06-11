@@ -262,7 +262,19 @@
     "trophiesTitle": "Trophies",
     "bestStreakLabel": "Best streak",
     "viewDaily": "View this daily",
-    "viewWeekly": "View this weekly"
+    "viewWeekly": "View this weekly",
+    "rewards": "Rewards",
+    "rewardsTitle": "Rewards"
+  },
+  "reward": {
+    "badgeUnlocked": "Profile badge unlocked",
+    "titleUnlocked": "New title unlocked",
+    "streamdexCmdUnlocked": "New giveaway unlocked",
+    "copyCommand": "Copy giveaway command",
+    "copied": "Copied!",
+    "level": "Level",
+    "view": "View",
+    "comingSoon": "Coming soon"
   },
   "oldDaily": {
     "tabDaily": "Daily",

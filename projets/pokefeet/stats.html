@@ -147,6 +147,114 @@
     .trophy-entry .trophy-desc { font-size: 10px; color: var(--muted); margin-top: 3px; }
     .trophy-entry .trophy-xp { font-size: 10px; color: var(--accent); font-weight: 600; margin-top: 2px; }
     .trophy-entry .trophy-progress { font-size: 10px; color: var(--muted-light); margin-top: 2px; font-weight: 600; }
+
+    /* Reward styles */
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (min-width: 576px) {
+      .rewards-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .reward-card {
+      background: var(--card);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+      transition: transform 200ms, box-shadow 200ms;
+    }
+    .reward-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+    .reward-card.unlocked { border-color: rgba(52,211,153,0.3); }
+    .reward-card.locked { opacity: 0.5; }
+    .reward-card.locked .reward-card-img { filter: grayscale(1); }
+    .reward-card-img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px; }
+    .reward-card-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .reward-progress-container { margin-bottom: 8px; }
+    .reward-progress-text { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .reward-progress-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .reward-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #10b981);
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+    .reward-view-btn {
+      background: var(--accent);
+      color: #052018;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .reward-view-btn:hover { opacity: 0.85; }
+
+    /* Reward popup */
+    .reward-popup-content { text-align: center; padding: 10px 0; }
+    .reward-popup-img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 12px; }
+    .reward-popup-title { font-size: 18px; font-weight: 800; color: #fff; margin: 0 0 8px; }
+    .reward-popup-desc { font-size: 13px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
+    .reward-popup-items { margin: 16px 0; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .reward-item-display { padding: 10px; background: rgba(255,255,255,0.04); border-radius: 8px; width: 100%; max-width: 320px; }
+    .reward-item-label { font-size: 12px; font-weight: 600; color: var(--accent-bright); margin-bottom: 4px; }
+    .reward-badge-img { width: 48px; height: 48px; object-fit: contain; margin-top: 4px; }
+    .reward-title-text { font-size: 16px; font-weight: 700; color: #fff; margin-top: 4px; }
+    .reward-streamdex-cmd { font-size: 13px; color: #fff; font-family: monospace; margin: 4px 0; word-break: break-all; }
+    .reward-copy-btn {
+      background: rgba(52,211,153,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(52,211,153,0.3);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 4px;
+    }
+    .reward-copy-btn:hover { background: rgba(52,211,153,0.25); }
+    .reward-action-btn {
+      background: var(--accent);
+      color: #052018;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      margin-top: 12px;
+    }
+    .reward-action-btn:hover { opacity: 0.85; }
+
+    /* Profile badges */
+    .profile-badges {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      min-height: 0;
+    }
+    .profile-badges .profile-badge-icon {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      border-radius: 4px;
+      transition: transform 150ms;
+    }
+    .profile-badges .profile-badge-icon:hover {
+      transform: scale(1.2);
+    }
   </style>
 </head>
 <body>
@@ -160,7 +268,8 @@
 
     <div class="pseudo-banner">
       <div class="pseudo-name" id="statsPseudo">—</div>
-      <div class="pseudo-label" data-i18n="stats.pseudoLabel">Joueur</div>
+      <div class="pseudo-label" id="statsPseudoLabel" data-i18n="stats.pseudoLabel">Joueur</div>
+      <div id="profileBadges" class="profile-badges"></div>
       <!-- Level & XP -->
       <div class="level-card">
         <div class="level-header">
@@ -181,6 +290,7 @@
       <button class="stats-tab-btn" id="statsTabWeeklyBtn" data-i18n="oldDaily.tabWeekly">Weekly</button>
       <button class="stats-tab-btn" id="statsTabMarathonBtn" data-i18n="stats.marathon">Marathon</button>
       <button class="stats-tab-btn" id="statsTabTrophiesBtn" data-i18n="stats.trophies">Trophées</button>
+      <button class="stats-tab-btn" id="statsTabRewardsBtn" data-i18n="stats.rewards">Récompenses</button>
     </div>
 
     <section class="game-area container py-3">
@@ -218,13 +328,31 @@
           <div id="trophiesGrid"></div>
         </div>
       </div>
+      <div id="statsRewardsPanel" style="display:none;">
+        <div class="center-card" style="max-width:760px; width:100%; padding:20px; box-sizing:border-box; overflow:hidden;">
+          <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="stats.rewardsTitle">Récompenses</h3>
+          <div id="rewardComingSoon" style="display:none; text-align:center; color:var(--muted); padding:30px 0; font-size:15px;" data-i18n="reward.comingSoon">Arrive bientôt</div>
+          <div id="rewardsGrid" class="rewards-grid"></div>
+        </div>
+      </div>
     </section>
+
+    <!-- Popup for reward details -->
+    <div id="rewardPopup" class="popup" style="display:none;">
+      <div class="popup-content">
+        <button id="closeRewardPopup" class="close-btn">&times;</button>
+        <div id="rewardPopupDetails"></div>
+      </div>
+    </div>
 
     <a href="./index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
     <div id="notifications" aria-live="polite"></div>
   </main>
 
   <script src="loader.js"></script>
+  <script src="entity/reward/rewardButton.js"></script>
+  <script src="entity/reward/rewardItem.js"></script>
+  <script src="entity/reward/reward.js"></script>
   <script src="translate.js"></script>
   <script src="language-switcher.js"></script>
   <script src="footer.js"></script>

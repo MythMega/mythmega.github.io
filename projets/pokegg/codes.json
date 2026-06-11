@@ -61,5 +61,97 @@
             }
         ],
         "Expiration": null
+    },
+    {
+        "Code": "BR4V03UF",
+        "IsUnique": true,
+        "Pokes": [
+            {
+                "Index": "280",
+                "Count": 3
+            },
+            {
+                "Index": "281",
+                "Count": 3
+            },
+            {
+                "Index": "282",
+                "Count": 3
+            },
+            {
+                "Index": "475",
+                "Count": 3
+            }
+        ],
+        "Money": 10,
+        "Items": [
+            {
+                "Name": "Epic Egg",
+                "Count": 3
+            }
+        ],
+        "Expiration": null
+    },
+    {
+        "Code": "3XC3L03UF",
+        "IsUnique": true,
+        "Pokes": [
+            {
+                "Index": "377",
+                "Count": 1
+            },
+            {
+                "Index": "378",
+                "Count": 1
+            },
+            {
+                "Index": "379",
+                "Count": 1
+            }
+        ],
+        "Money": 10,
+        "Items": [
+            {
+                "Name": "Epic Egg",
+                "Count": 3
+            }
+        ],
+        "Expiration": null
+    },
+    {
+        "Code": "HYP03UF",
+        "IsUnique": true,
+        "Pokes": [
+            {
+                "Index": "486",
+                "Count": 1
+            }
+        ],
+        "Money": 100,
+        "Items": [
+            {
+                "Name": "Epic Egg",
+                "Count": 3
+            }
+        ],
+        "Expiration": null
+    },
+    {
+        "Code": "M4ST03UF",
+        "IsUnique": true,
+        "Pokes": [
+            {
+                "Index": "648",
+                "Count": 1
+            }
+        ],
+        "Money": 50,
+        "Items": [
+            {
+                "Name": "Epic Egg",
+                "Count": 3
+            }
+        ],
+        "Expiration": null
     }
 ]

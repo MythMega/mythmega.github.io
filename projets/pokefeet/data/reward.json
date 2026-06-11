@@ -1,12 +1,12 @@
 [
     {
         "Level": 1,
-        "ImageUrl": "",
+        "ImageUrl": "./img/badges/newcomer.png",
         "Reward" : 
         [
           {
             "Type": "Badge",
-            "Data" : "./assets/img/badges/newcomer.png"
+            "Data" : "./img/badges/newcomer.png"
           },
           {
             "Type": "Title",
@@ -21,12 +21,12 @@
     },
     {
         "Level": 5,
-        "ImageUrl": "",
+        "ImageUrl": "./img/badges/gift_05.png",
         "Reward" : 
         [
           {
             "Type": "StreamdexCMD",
-            "Data" : "!claim PF05LVLN3WKD0RXS"
+            "Data" : "!PokeClaim PF05LVLN3WKD0RXS"
           }
         ],
         "Title_FR": "Cadeau de bienvenu !",
@@ -41,12 +41,12 @@
     },
     {
         "Level": 10,
-        "ImageUrl": "",
+        "ImageUrl": "./img/badges/elite.png",
         "Reward" : 
         [
           {
             "Type": "Badge",
-            "Data" : "./assets/img/badges/elite.png"
+            "Data" : "./img/badges/elite.png"
           },
           {
             "Type": "Title",
@@ -61,12 +61,12 @@
     },
     {
         "Level": 20,
-        "ImageUrl": "",
+        "ImageUrl": "./img/badges/gift_20.png",
         "Reward" : 
         [
           {
             "Type": "StreamdexCMD",
-            "Data" : "!claim F3ET3XPER5"
+            "Data" : "!PokeClaim F3ET3XPER5"
           }
         ],
         "Title_FR": "Cadeau pédestre !",
@@ -81,12 +81,12 @@
     },
     {
         "Level": 25,
-        "ImageUrl": "",
+        "ImageUrl": "./img/badges/challenger.png",
         "Reward" : 
         [
           {
             "Type": "Badge",
-            "Data" : "./assets/img/badges/challenger.png"
+            "Data" : "./img/badges/challenger.png"
           },
           {
             "Type": "Title",
@@ -100,13 +100,33 @@
         "Button" : null
     },
     {
+        "Level": 35,
+        "ImageUrl": "./img/badges/gift_35.png",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "!PokeClaim B1GF0OTH03N"
+          }
+        ],
+        "Title_FR": "Cadeau Géant Hoenn!",
+        "Description_FR": "Recuperez les trois Golems 3G Shiny sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Giant Gift Hoenn !",
+        "Description_EN": "Get Shiny Golems Family 3G on MythMega's when he's streaming and paste this code into his chat.",
+        "Button" : {
+          "TxtButton_FR": "Rejoindre le stream",
+          "TxtButton_EN": "Join the stream",
+          "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
         "Level": 50,
-        "ImageUrl": "",
+        "ImageUrl": "./img/badges/champion.png",
         "Reward" : 
         [
           {
             "Type": "Badge",
-            "Data" : "./assets/img/badges/champion.png"
+            "Data" : "./img/badges/champion.png"
           },
           {
             "Type": "Title",
@@ -120,13 +140,53 @@
         "Button" : null
     },
     {
+        "Level": 65,
+        "ImageUrl": "./img/badges/gift_65.png",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "!PokeClaim B1GF0OTS1NN0H"
+          }
+        ],
+        "Title_FR": "Cadeau Géant Sinnoh!",
+        "Description_FR": "Recuperez Regigigas Shiny + 100 pokédollars sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Giant Gift Sinnoh !",
+        "Description_EN": "Get Shiny Regigigas + 100 pokédollars on MythMega's when he's streaming and paste this code into his chat.",
+        "Button" : {
+          "TxtButton_FR": "Rejoindre le stream",
+          "TxtButton_EN": "Join the stream",
+          "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
+        "Level": 80,
+        "ImageUrl": "./img/badges/gift_80.png",
+        "Reward" : 
+        [
+          {
+            "Type": "StreamdexCMD",
+            "Data" : "!PokeClaim B1GF0OTCR0WDTHUNDRA"
+          }
+        ],
+        "Title_FR": "Cadeau Géant du Futur !",
+        "Description_FR": "Recuperez les trois Golems 8G Shiny sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Giant Gift Futuristic !",
+        "Description_EN": "Get Shiny Golems Family 8G on MythMega's when he's streaming and paste this code into his chat.",
+        "Button" : {
+          "TxtButton_FR": "Rejoindre le stream",
+          "TxtButton_EN": "Join the stream",
+          "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
         "Level": 100,
-        "ImageUrl": "",
+        "ImageUrl": "./img/badges/master.png",
         "Reward" : 
         [
           {
             "Type": "Badge",
-            "Data" : "./assets/img/badges/master.png"
+            "Data" : "./img/badges/master.png"
           },
           {
             "Type": "Title",

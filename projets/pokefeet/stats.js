@@ -88,6 +88,11 @@
       return new Promise((resolve, reject) => {
         dexReq.onsuccess = () => {
           const ddb = dexReq.result;
+          // Si l'object store n'existe pas encore (nouveau profil), retourner un tableau vide
+          if (!ddb.objectStoreNames.contains('dex_entries')) {
+            resolve([]);
+            return;
+          }
           const tx = ddb.transaction('dex_entries', 'readonly');
           const store = tx.objectStore('dex_entries');
           const req = store.getAll();
@@ -535,6 +540,67 @@
     document.getElementById('marathonBestStreak').textContent = parseInt(getCookie('pk_best_streak') || '0', 10);
   }
 
+  // ── Profile badges & title from rewards ────────────────────
+  async function loadRewardsData() {
+    try {
+      const res = await fetch('data/reward.json');
+      return await res.json();
+    } catch (e) {
+      console.error('[Rewards] Error loading reward.json:', e);
+      return [];
+    }
+  }
+
+  async function updateProfileBadgesAndTitle(currentLevel) {
+    const badgesContainer = document.getElementById('profileBadges');
+    const pseudoLabel = document.getElementById('statsPseudoLabel');
+    if (!badgesContainer) return;
+
+    const rawData = await loadRewardsData();
+    if (!rawData || rawData.length === 0) return;
+
+    const rewards = rawData.map(d => new Reward(d));
+    const unlocked = rewards.filter(r => r.isUnlocked(currentLevel));
+
+    // ── Afficher les badges ─────────────────────────────────
+    badgesContainer.innerHTML = '';
+    const badgeImages = [];
+    for (const reward of unlocked) {
+      for (const item of reward.items) {
+        if (item.type === 'Badge' && item.data) {
+          badgeImages.push(item.data);
+        }
+      }
+    }
+    for (const src of badgeImages) {
+      const img = document.createElement('img');
+      img.className = 'profile-badge-icon';
+      img.src = src;
+      img.alt = 'Badge';
+      img.onerror = function() { this.style.display = 'none'; };
+      badgesContainer.appendChild(img);
+    }
+
+    // ── Trouver le titre du plus haut level débloqué ────────
+    let highestTitle = null;
+    for (const reward of unlocked) {
+      for (const item of reward.items) {
+        if (item.type === 'Title' && item.data) {
+          if (!highestTitle || reward.level > highestTitle.level) {
+            highestTitle = { level: reward.level, title: item.data };
+          }
+        }
+      }
+    }
+
+    if (highestTitle && pseudoLabel) {
+      console.log('[Profile] Title found:', highestTitle.title, '(level', highestTitle.level + ')');
+      // Enlever data-i18n pour ne pas écraser avec la trad
+      pseudoLabel.removeAttribute('data-i18n');
+      pseudoLabel.textContent = highestTitle.title;
+    }
+  }
+
   // --- Pseudo display ---
   function updatePseudo() {
     const pseudo = getCookie('pk_pseudo');
@@ -581,6 +647,11 @@
 
     renderLevelAndXP(totalXP);
 
+    // Update profile badges & title from rewards
+    const currentLevel = getLevel(totalXP);
+    console.log('[Profile] Level:', currentLevel, '- Updating badges & title...');
+    await updateProfileBadgesAndTitle(currentLevel);
+
     // Store trophies for tab
     window.__trophiesData = trophies;
     window.__trophyProgress = trophyProgress;
@@ -589,13 +660,15 @@
     const tabWeeklyBtn   = document.getElementById('statsTabWeeklyBtn');
     const tabMarathonBtn = document.getElementById('statsTabMarathonBtn');
     const tabTrophiesBtn = document.getElementById('statsTabTrophiesBtn');
+    const tabRewardsBtn  = document.getElementById('statsTabRewardsBtn');
     const dailyPanel     = document.getElementById('statsDailyPanel');
     const weeklyPanel    = document.getElementById('statsWeeklyPanel');
     const marathonPanel  = document.getElementById('statsMarathonPanel');
     const trophiesPanel  = document.getElementById('statsTrophiesPanel');
+    const rewardsPanel   = document.getElementById('statsRewardsPanel');
     const totalDaysEl    = document.getElementById('totalDays');
 
-    let weeklyRendered = false, marathonRendered = false, trophiesRendered = false;
+    let weeklyRendered = false, marathonRendered = false, trophiesRendered = false, rewardsRendered = false;
 
     // Compute total Pokemon count for marathon display
     let totalPokemonCount = 0;
@@ -637,8 +710,8 @@
     }
 
     function onTabClick(activeBtn, panel, renderFn) {
-      [tabDailyBtn, tabWeeklyBtn, tabMarathonBtn, tabTrophiesBtn].forEach(b => b?.classList.remove('active'));
-      [dailyPanel, weeklyPanel, marathonPanel, trophiesPanel].forEach(p => { if (p) p.style.display = 'none'; });
+      [tabDailyBtn, tabWeeklyBtn, tabMarathonBtn, tabTrophiesBtn, tabRewardsBtn].forEach(b => b?.classList.remove('active'));
+      [dailyPanel, weeklyPanel, marathonPanel, trophiesPanel, rewardsPanel].forEach(p => { if (p) p.style.display = 'none'; });
       if (activeBtn) activeBtn.classList.add('active');
       if (panel) panel.style.display = '';
       if (renderFn) renderFn();
@@ -669,6 +742,91 @@
       onTabClick(tabTrophiesBtn, trophiesPanel, () => {
         if (!trophiesRendered) { trophiesRendered = true; renderTrophiesTab(); }
         else { setScoreboard(typeof Translator !== 'undefined' ? Translator.get('stats.trophies', 'Troph\u00e9es') : 'Troph\u00e9es', trophyEarned + ' / ' + trophyTotal); }
+      });
+    });
+
+    // ═══════════════════════════════════════════════════════════
+    //  Tab Récompenses
+    // ═══════════════════════════════════════════════════════════
+    const rewardPopup = document.getElementById('rewardPopup');
+    const closeRewardPopupBtn = document.getElementById('closeRewardPopup');
+
+    function openRewardPopup(reward) {
+      const detailsContainer = document.getElementById('rewardPopupDetails');
+      if (!detailsContainer) return;
+      detailsContainer.innerHTML = '';
+      detailsContainer.appendChild(reward.renderPopupContent());
+      if (rewardPopup) rewardPopup.style.display = '';
+    }
+
+    function closeRewardPopup() {
+      if (rewardPopup) rewardPopup.style.display = 'none';
+    }
+
+    if (closeRewardPopupBtn) {
+      closeRewardPopupBtn.addEventListener('click', closeRewardPopup);
+    }
+
+    // Fermer la popup en cliquant à l'extérieur
+    if (rewardPopup) {
+      rewardPopup.addEventListener('click', (e) => {
+        if (e.target === rewardPopup) closeRewardPopup();
+      });
+    }
+
+    async function renderRewardsTab() {
+      const T = (k, f) => typeof Translator !== 'undefined' ? Translator.get(k, f) : f;
+      const rewardsGrid = document.getElementById('rewardsGrid');
+      const comingSoon = document.getElementById('rewardComingSoon');
+      if (!rewardsGrid || !comingSoon) return;
+
+      // Charger les récompenses depuis le JSON
+      let rewardsData = [];
+      try {
+        const res = await fetch('data/reward.json');
+        rewardsData = await res.json();
+      } catch (e) {
+        console.error('Error loading rewards:', e);
+        rewardsData = [];
+      }
+
+      if (!rewardsData || rewardsData.length === 0) {
+        comingSoon.style.display = '';
+        rewardsGrid.style.display = 'none';
+        setScoreboard(T('stats.rewards', 'Récompenses'), '0');
+        return;
+      }
+
+      comingSoon.style.display = 'none';
+      rewardsGrid.style.display = '';
+      rewardsGrid.innerHTML = '';
+
+      const currentLevel = getLevel(totalXP);
+      const rewardObjects = rewardsData.map(d => new Reward(d));
+
+      // Trier par niveau croissant
+      rewardObjects.sort((a, b) => a.level - b.level);
+
+      let unlockedCount = 0;
+      for (const reward of rewardObjects) {
+        if (reward.isUnlocked(currentLevel)) unlockedCount++;
+        const card = reward.renderCard(currentLevel, (rewardObj) => {
+          openRewardPopup(rewardObj);
+        });
+        rewardsGrid.appendChild(card);
+      }
+
+      setScoreboard(T('stats.rewards', 'Récompenses'), unlockedCount + ' / ' + rewardObjects.length);
+      if (typeof applyTranslations === 'function') applyTranslations();
+    }
+
+    if (tabRewardsBtn) tabRewardsBtn.addEventListener('click', () => {
+      onTabClick(tabRewardsBtn, rewardsPanel, () => {
+        if (!rewardsRendered) { rewardsRendered = true; renderRewardsTab(); }
+        else {
+          const T = (k, f) => typeof Translator !== 'undefined' ? Translator.get(k, f) : f;
+          setScoreboard(T('stats.rewards', 'Récompenses'), '—');
+        }
       });
     });
 

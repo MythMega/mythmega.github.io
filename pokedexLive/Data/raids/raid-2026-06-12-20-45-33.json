@@ -1,0 +1,71 @@
+{
+  "bossName": "Arbok",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Arbok_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Arbok_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-06-12 20:45:33",
+  "durationSec": 1694,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 84720,
+      "countAtk": 2,
+      "baseDmg": 28202,
+      "level": 18,
+      "raidCount": 862,
+      "luck": 1.5020211
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 84720
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-12 21:05:34",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28202,
+      "pvAfter": 46798,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-12 21:13:47",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 56518,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "bossName": "Crustabri",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cloyster_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cloyster_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-12 21:27:03",
+  "durationSec": 603,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 79301,
+      "countAtk": 2,
+      "baseDmg": 28505,
+      "level": 18,
+      "raidCount": 865,
+      "luck": 1.3910016
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 4996,
+      "countAtk": 1,
+      "baseDmg": 4996,
+      "level": 14,
+      "raidCount": 210,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 84297
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-12 21:29:20",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4996,
+      "pvAfter": 45004,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-12 21:31:13",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28505,
+      "pvAfter": 16499,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-12 21:37:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 50796,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

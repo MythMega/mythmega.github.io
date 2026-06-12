@@ -443,6 +443,16 @@ const Game = (function () {
     UI.enableInput(false);
   }
 
+  function isFastMode() {
+    return getCookie('pk_fast_mode') === 'true';
+  }
+
+  function getCurrentLanguageName(pokemon) {
+    if (!pokemon) return '';
+    const lang = typeof Translator !== 'undefined' ? Translator.getLanguage() : 'fr';
+    return lang === 'fr' ? (pokemon.NameFR || pokemon.NameEN) : (pokemon.NameEN || pokemon.NameFR);
+  }
+
   function onSubmit() {
     const input = document.getElementById('guessInput').value.trim();
     if (!current || !input) return;
@@ -471,14 +481,27 @@ const Game = (function () {
       foundCount++;
       UI.setScore(score);
       UI.setStreak(streak);
-      UI.showNotification('+' + points + ' points', 'success');
-      UI.showRevealInfo(current); // afficher infos
+      
+      // Notification avec le nom du Pokémon dans la langue courante
+      const pokemonName = getCurrentLanguageName(current);
+      UI.showNotification('+' + points + ' points — ' + pokemonName, 'success');
+      
       saveBestIfNeeded();
       saveSession();
       updateProgressBar();
-      UI.enableSuivantBtn(true);
-      UI.enableInput(false);
-      UI.showPokemonImage(current ? current.FullImage : '');
+
+      if (isFastMode()) {
+        // Fast Mode : passer directement au suivant sans écran de résultat
+        UI.enableInput(false);
+        setTimeout(() => {
+          next();
+        }, 400);
+      } else {
+        UI.showRevealInfo(current);
+        UI.enableSuivantBtn(true);
+        UI.enableInput(false);
+        UI.showPokemonImage(current ? current.FullImage : '');
+      }
     } else {
       // incorrect
       // record wrong guess for display

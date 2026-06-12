@@ -255,6 +255,159 @@
     .profile-badges .profile-badge-icon:hover {
       transform: scale(1.2);
     }
+
+    /* XP help button */
+    .xp-help-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      color: var(--muted-light);
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 8px;
+      vertical-align: middle;
+      transition: background 0.15s, color 0.15s;
+      line-height: 1;
+      padding: 0;
+    }
+    .xp-help-btn:hover {
+      background: var(--accent);
+      color: #052018;
+      border-color: var(--accent);
+    }
+
+    /* XP Scale modal */
+    .xp-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .xp-modal.open { display: flex; }
+    .xp-modal-content {
+      background: var(--card);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .xp-modal-close {
+      position: absolute;
+      top: 12px; right: 16px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      transition: color 0.15s;
+    }
+    .xp-modal-close:hover { color: #fff; }
+    .xp-modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 4px;
+    }
+    .xp-modal-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 20px;
+    }
+    .xp-section {
+      margin-bottom: 20px;
+    }
+    .xp-section:last-child { margin-bottom: 0; }
+    .xp-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-bright);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .xp-section-desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .xp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .xp-table th {
+      text-align: left;
+      padding: 5px 8px;
+      color: var(--muted-light);
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .xp-table td {
+      padding: 5px 8px;
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .xp-table tr:last-child td { border-bottom: none; }
+    .xp-table .xp-value {
+      text-align: right;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .xp-formula {
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #fff;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .xp-formula span {
+      color: var(--accent);
+    }
+
+    /* Reward popup - overrides forcés pour couvrir TOUTE la fenêtre */
+    #rewardPopup.popup {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 10000 !important;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,8,0.82);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    #rewardPopup .popup-content {
+      max-width: 520px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
   </style>
 </head>
 <body>
@@ -273,7 +426,7 @@
       <!-- Level & XP -->
       <div class="level-card">
         <div class="level-header">
-          <span class="level-badge" id="statsLevel">Niveau 1</span>
+          <span class="level-badge" id="statsLevel">Niveau 1 <button class="xp-help-btn" id="xpHelpBtn" title="Barème d'XP">?</button></span>
           <span class="level-xp-total" id="statsTotalXP">XP totale: 0</span>
         </div>
         <div class="xp-bar-wrap">
@@ -337,17 +490,74 @@
       </div>
     </section>
 
-    <!-- Popup for reward details -->
-    <div id="rewardPopup" class="popup" style="display:none;">
-      <div class="popup-content">
-        <button id="closeRewardPopup" class="close-btn">&times;</button>
-        <div id="rewardPopupDetails"></div>
+    <!-- XP Scale modal -->
+    <div class="xp-modal" id="xpScaleModal">
+      <div class="xp-modal-content">
+        <button class="xp-modal-close" id="xpModalClose">&times;</button>
+        <div class="xp-modal-title" data-i18n="xpScale.title">Barème d'XP</div>
+        <div class="xp-modal-subtitle" data-i18n="xpScale.subtitle">Comment gagner de l'expérience</div>
+
+        <!-- Daily -->
+        <div class="xp-section">
+          <div class="xp-section-title" data-i18n="xpScale.daily">Daily</div>
+          <div class="xp-section-desc" data-i18n="xpScale.dailyDesc">XP gagnée chaque jour en fonction du nombre de parfaits :</div>
+          <table class="xp-table">
+            <tr><th data-i18n="xpScale.perfects">Parfaits</th><th class="xp-value">XP</th></tr>
+            <tr><td data-i18n="xpScale.perfects_0">0 parfait</td><td class="xp-value">3</td></tr>
+            <tr><td>1 parfait</td><td class="xp-value">4</td></tr>
+            <tr><td>2 parfaits</td><td class="xp-value">5</td></tr>
+            <tr><td>3 parfaits</td><td class="xp-value">6</td></tr>
+            <tr><td>4 parfaits</td><td class="xp-value">7</td></tr>
+            <tr><td>5 parfaits</td><td class="xp-value">10</td></tr>
+          </table>
+        </div>
+
+        <!-- Weekly -->
+        <div class="xp-section">
+          <div class="xp-section-title" data-i18n="xpScale.weekly">Weekly</div>
+          <div class="xp-section-desc" data-i18n="xpScale.weeklyDesc">XP gagnée chaque semaine en fonction du nombre de parfaits :</div>
+          <table class="xp-table">
+            <tr><th data-i18n="xpScale.perfects">Parfaits</th><th class="xp-value">XP</th></tr>
+            <tr><td data-i18n="xpScale.perfects_0">0 parfait</td><td class="xp-value">6</td></tr>
+            <tr><td>1 parfait</td><td class="xp-value">8</td></tr>
+            <tr><td>2 parfaits</td><td class="xp-value">10</td></tr>
+            <tr><td>3 parfaits</td><td class="xp-value">12</td></tr>
+            <tr><td>4 parfaits</td><td class="xp-value">14</td></tr>
+            <tr><td>5 parfaits</td><td class="xp-value">16</td></tr>
+            <tr><td>6 parfaits</td><td class="xp-value">18</td></tr>
+            <tr><td>7 parfaits</td><td class="xp-value">20</td></tr>
+            <tr><td>8 parfaits</td><td class="xp-value">22</td></tr>
+            <tr><td>9 parfaits</td><td class="xp-value">24</td></tr>
+            <tr><td>10 parfaits</td><td class="xp-value">30</td></tr>
+          </table>
+        </div>
+
+        <!-- Marathon -->
+        <div class="xp-section">
+          <div class="xp-section-title" data-i18n="xpScale.marathon">Marathon</div>
+          <div class="xp-section-desc" data-i18n="xpScale.marathonDesc">XP calculée à partir de vos meilleures performances Marathon :</div>
+          <div class="xp-formula" data-i18n="xpScale.marathonFormula">Meilleur score ÷ 5 + Meilleure série × 2</div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="xp-section">
+          <div class="xp-section-title" data-i18n="xpScale.achievements">Succès</div>
+          <div class="xp-section-desc" data-i18n="xpScale.achievementsDesc">Chaque succès débloqué donne l'XP indiquée sur sa carte.</div>
+        </div>
       </div>
     </div>
 
     <a href="./index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
     <div id="notifications" aria-live="polite"></div>
   </main>
+
+  <!-- Popup for reward details (hors du main pour couvrir toute la fenêtre) -->
+  <div id="rewardPopup" class="popup" style="display:none;">
+    <div class="popup-content" style="max-height:80vh; overflow-y:auto;">
+      <button id="closeRewardPopup" class="close-btn">&times;</button>
+      <div id="rewardPopupDetails"></div>
+    </div>
+  </div>
 
   <script src="loader.js"></script>
   <script src="entity/reward/rewardButton.js"></script>

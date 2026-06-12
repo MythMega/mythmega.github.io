@@ -1,0 +1,71 @@
+{
+  "bossName": "Crustabri",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cloyster_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cloyster_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-12 22:00:03",
+  "durationSec": 755,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 85423,
+      "countAtk": 2,
+      "baseDmg": 28425,
+      "level": 18,
+      "raidCount": 868,
+      "luck": 1.5026033
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 85423
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-12 22:00:57",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28425,
+      "pvAfter": 21575,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-12 22:12:39",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 56998,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

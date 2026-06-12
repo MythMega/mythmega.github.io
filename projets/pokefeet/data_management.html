@@ -33,6 +33,25 @@
         <div id="profileStatus" style="margin-top:10px; font-size:13px; color:var(--accent); min-height:1.3em;"></div>
         <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--glass-border); font-size:12px; color:var(--muted);" data-i18n="profile.info">Le pseudo est stocké dans un cookie et apparaîtra sur les partages.</div>
 
+        <!-- Fast Mode toggle pour le Mode Marathon -->
+        <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--glass-border);">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="flex:1;">
+              <label for="fastModeToggle" style="font-size:14px; font-weight:600; color:var(--text); cursor:pointer;">
+                ⚡ <span data-i18n="dataManagement.fastMode">Mode rapide (Marathon)</span>
+              </label>
+              <div style="font-size:12px; color:var(--muted); margin-top:4px;" data-i18n="dataManagement.fastModeDesc">
+                En mode Marathon, passer directement au Pokémon suivant sans écran de résultat intermédiaire.
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input id="fastModeToggle" type="checkbox" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div id="fastModeStatus" style="margin-top:6px; font-size:12px; color:var(--muted); min-height:1.3em;"></div>
+        </div>
+
         <h3 data-i18n="dataManagement.saveRestore">Sauvegarder ou restaurer vos données</h3>
 
         <div class="data-controls" style="margin-top:12px;">
@@ -106,6 +125,36 @@
     <div id="notifications" aria-live="polite"></div>
   </main>
 
+  <script>
+    // Gestion du toggle Fast Mode pour le Mode Marathon
+    (function() {
+      function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days || 365) * 24 * 60 * 60 * 1000);
+        document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/';
+      }
+      function getCookie(name) {
+        const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return v ? decodeURIComponent(v.pop()) : null;
+      }
+
+      const toggle = document.getElementById('fastModeToggle');
+      const status = document.getElementById('fastModeStatus');
+      if (toggle && status) {
+        // Charger l'état sauvegardé
+        const saved = getCookie('pk_fast_mode');
+        toggle.checked = saved === 'true';
+        status.textContent = toggle.checked ? 'Mode rapide activé' : 'Mode rapide désactivé';
+
+        // Sauvegarder au changement
+        toggle.addEventListener('change', function() {
+          const val = this.checked ? 'true' : 'false';
+          setCookie('pk_fast_mode', val, 365);
+          status.textContent = this.checked ? 'Mode rapide activé' : 'Mode rapide désactivé';
+        });
+      }
+    })();
+  </script>
   <script src="loader.js"></script>
   <script src="translate.js"></script>
   <script src="language-switcher.js"></script>

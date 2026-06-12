@@ -412,7 +412,13 @@
     const xpInLevel = getXPInLevel(totalXP);
     const pct = (xpInLevel / XP_PER_LEVEL) * 100;
 
-    document.getElementById('statsLevel').textContent = 'Niveau ' + level;
+    const statsLevel = document.getElementById('statsLevel');
+    if (statsLevel) {
+      // Preserve the "?" help button inside the level badge
+      const btn = statsLevel.querySelector('.xp-help-btn');
+      statsLevel.textContent = 'Niveau ' + level;
+      if (btn) statsLevel.appendChild(btn);
+    }
     document.getElementById('statsTotalXP').textContent = 'XP totale: ' + totalXP;
     document.getElementById('statsXPBarFill').style.width = pct + '%';
     document.getElementById('statsXPBarText').textContent = xpInLevel + ' / ' + XP_PER_LEVEL + ' XP';
@@ -652,6 +658,35 @@
     console.log('[Profile] Level:', currentLevel, '- Updating badges & title...');
     await updateProfileBadgesAndTitle(currentLevel);
 
+    // ── XP Scale modal ────────────────────────────────────────
+    const xpModal = document.getElementById('xpScaleModal');
+    const xpHelpBtn = document.getElementById('xpHelpBtn');
+    const xpModalClose = document.getElementById('xpModalClose');
+
+    function openXpScaleModal() {
+      if (xpModal) xpModal.classList.add('open');
+    }
+    function closeXpScaleModal() {
+      if (xpModal) xpModal.classList.remove('open');
+    }
+    if (xpHelpBtn) {
+      xpHelpBtn.addEventListener('click', openXpScaleModal);
+    }
+    if (xpModalClose) {
+      xpModalClose.addEventListener('click', closeXpScaleModal);
+    }
+    if (xpModal) {
+      xpModal.addEventListener('click', (e) => {
+        if (e.target === xpModal) closeXpScaleModal();
+      });
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && xpModal.classList.contains('open')) {
+          closeXpScaleModal();
+        }
+      });
+    }
+
     // Store trophies for tab
     window.__trophiesData = trophies;
     window.__trophyProgress = trophyProgress;
@@ -756,7 +791,7 @@
       if (!detailsContainer) return;
       detailsContainer.innerHTML = '';
       detailsContainer.appendChild(reward.renderPopupContent());
-      if (rewardPopup) rewardPopup.style.display = '';
+      if (rewardPopup) rewardPopup.style.display = 'flex';
     }
 
     function closeRewardPopup() {

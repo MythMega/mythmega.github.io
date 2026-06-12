@@ -1,0 +1,71 @@
+{
+  "bossName": "Griknot",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gible_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gible_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-06-12 21:47:33",
+  "durationSec": 561,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 76214,
+      "countAtk": 2,
+      "baseDmg": 28601,
+      "level": 18,
+      "raidCount": 867,
+      "luck": 1.332366
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 76214
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-12 21:51:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28601,
+      "pvAfter": 46399,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-12 21:56:55",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 47613,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    }
+  ]
+}

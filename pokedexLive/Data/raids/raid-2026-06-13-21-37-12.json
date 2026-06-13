@@ -1,0 +1,131 @@
+{
+  "bossName": "Grolem",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Golem_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Golem_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 80000,
+  "date": "2026-06-13 21:37:12",
+  "durationSec": 2360,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 88535,
+      "countAtk": 3,
+      "baseDmg": 28800,
+      "level": 18,
+      "raidCount": 871,
+      "luck": 1.0247107
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 5791,
+      "countAtk": 2,
+      "baseDmg": 1855,
+      "level": 12,
+      "raidCount": 114,
+      "luck": 1.5609164
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 94326
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-13 21:47:37",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28800,
+      "pvAfter": 51200,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 21:49:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30935,
+      "pvAfter": 20265,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-06-13 21:50:12",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1855,
+      "pvAfter": 18410,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:06:16",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 3936,
+      "pvAfter": 14474,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:16:33",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28800,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 4 tours."
+    }
+  ]
+}

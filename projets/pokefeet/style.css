@@ -532,15 +532,18 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
 
 /* --- New Pokémon discovery banner --- */
 .new-pokemon-banner {
-  position: fixed; top:0; left:50%;
-  transform: translateX(-50%) translateY(-110%);
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
   background: linear-gradient(135deg,#064e25 0%,#16a34a 100%);
-  color: #fff; padding:18px 32px; border-radius:0 0 20px 20px;
+  color: #fff; padding:16px 28px; border-radius:0 0 18px 18px;
   box-shadow: 0 12px 40px rgba(22,163,74,0.5), 0 2px 0 rgba(255,255,255,0.1) inset;
   z-index:300; text-align:center;
   min-width:220px; max-width:380px; width:90%;
   animation: npb-slide 3.4s cubic-bezier(0.22,1,0.36,1) forwards;
   pointer-events:none;
+  margin: 0;
 }
 .npb-star  { font-size:28px; line-height:1; margin-bottom:4px; }
 .npb-label { font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; opacity:0.8; margin-bottom:4px; }

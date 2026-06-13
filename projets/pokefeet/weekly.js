@@ -479,12 +479,14 @@ const Weekly = (function () {
   }
 
   function showNewPokemonBanner(p) {
-    const name = p.NameFR || p.NameEN || '?';
+    const lang = typeof Translator !== 'undefined' ? Translator.getLanguage() : 'fr';
+    const name = lang === 'fr' ? (p.NameFR || p.NameEN || '?') : (p.NameEN || p.NameFR || '?');
+    const label = typeof Translator !== 'undefined' ? Translator.get('daily.newPokemon', 'Nouveau Pokémon !') : 'Nouveau Pokémon !';
     const banner = document.createElement('div');
     banner.className = 'new-pokemon-banner';
     banner.innerHTML =
       '<div class="npb-star">&#10024;</div>' +
-      '<div class="npb-label">Nouveau Pok\u00e9mon !</div>' +
+      '<div class="npb-label">' + label + '</div>' +
       '<div class="npb-name">' + name + '</div>';
     document.body.appendChild(banner);
     setTimeout(() => { try { document.body.removeChild(banner); } catch (e) {} }, 3400);

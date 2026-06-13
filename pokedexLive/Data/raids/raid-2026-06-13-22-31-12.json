@@ -1,0 +1,109 @@
+{
+  "bossName": "Mesm\u00E9rella",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gothorita_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gothorita_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 45000,
+  "date": "2026-06-13 22:31:12",
+  "durationSec": 1208,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 116119,
+      "countAtk": 2,
+      "baseDmg": 28955,
+      "level": 18,
+      "raidCount": 873,
+      "luck": 2.0051632
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 1854,
+      "countAtk": 1,
+      "baseDmg": 1854,
+      "level": 12,
+      "raidCount": 116,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 117973
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-13 22:32:21",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1854,
+      "pvAfter": 43146,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:34:39",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28955,
+      "pvAfter": 14191,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:51:21",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 87164,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

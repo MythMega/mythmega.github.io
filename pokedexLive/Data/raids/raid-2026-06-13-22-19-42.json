@@ -1,0 +1,184 @@
+{
+  "bossName": "Toudoudou",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Igglybuff_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Igglybuff_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 40000,
+  "date": "2026-06-13 22:19:42",
+  "durationSec": 491,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 28585,
+      "countAtk": 1,
+      "baseDmg": 28585,
+      "level": 18,
+      "raidCount": 872,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 9416,
+      "countAtk": 4,
+      "baseDmg": 1795,
+      "level": 12,
+      "raidCount": 115,
+      "luck": 1.3114206
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "nolhangonnehaut2301",
+      "damage": 4580,
+      "countAtk": 2,
+      "baseDmg": 2275,
+      "level": 13,
+      "raidCount": 97,
+      "luck": 1.0065935
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 4580
+    },
+    {
+      "platform": "twitch",
+      "damage": 38001
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-13 22:20:39",
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "damages": 2275,
+      "pvAfter": 37725,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:20:47",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28585,
+      "pvAfter": 9140,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:21:25",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1795,
+      "pvAfter": 7345,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:22:00",
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "damages": 2305,
+      "pvAfter": 5040,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:23:08",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 2705,
+      "pvAfter": 2335,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:25:41",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 2062,
+      "pvAfter": 273,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 22:27:54",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 2854,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    }
+  ]
+}

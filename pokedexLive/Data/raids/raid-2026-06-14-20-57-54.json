@@ -1,0 +1,158 @@
+{
+  "bossName": "Rhinof\u00E9ros",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhydon_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhydon_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-06-14 20:57:54",
+  "durationSec": 3270,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 114572,
+      "countAtk": 2,
+      "baseDmg": 28692,
+      "level": 18,
+      "raidCount": 876,
+      "luck": 1.9965844
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 26115,
+      "countAtk": 2,
+      "baseDmg": 8649,
+      "level": 17,
+      "raidCount": 325,
+      "luck": 1.5097121
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14457,
+      "countAtk": 1,
+      "baseDmg": 14457,
+      "level": 18,
+      "raidCount": 474,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 155144
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-14 21:15:11",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8649,
+      "pvAfter": 66351,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-14 21:44:52",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14457,
+      "pvAfter": 51894,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-14 21:45:04",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 17466,
+      "pvAfter": 34428,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-14 21:45:28",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28692,
+      "pvAfter": 5736,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-14 21:52:25",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 85880,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

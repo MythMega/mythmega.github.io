@@ -1,0 +1,169 @@
+{
+  "bossName": "Morpheo",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Castform_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Castform_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 45000,
+  "date": "2026-06-13 23:02:12",
+  "durationSec": 2537,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 28811,
+      "countAtk": 1,
+      "baseDmg": 28811,
+      "level": 18,
+      "raidCount": 875,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 12484,
+      "countAtk": 4,
+      "baseDmg": 1892,
+      "level": 12,
+      "raidCount": 117,
+      "luck": 1.6495771
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 5009,
+      "countAtk": 1,
+      "baseDmg": 5009,
+      "level": 14,
+      "raidCount": 211,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 46304
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-13 23:16:09",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 28811,
+      "pvAfter": 16189,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 23:23:17",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1892,
+      "pvAfter": 14297,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 23:24:56",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 2884,
+      "pvAfter": 11413,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 23:37:02",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 3900,
+      "pvAfter": 7513,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-13 23:44:22",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5009,
+      "pvAfter": 2504,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-06-13 23:44:30",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 3808,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

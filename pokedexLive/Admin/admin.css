@@ -1,0 +1,385 @@
+/* ============================================
+   PKServ Admin Dashboard — admin.css
+   ============================================ */
+
+:root {
+  --bg-primary:    #0d1117;
+  --bg-secondary:  #161b22;
+  --bg-card:       #1c2128;
+  --bg-input:      #0d1117;
+  --border:        #30363d;
+  --text:          #e6edf3;
+  --text-muted:    #8b949e;
+  --accent-blue:   #58a6ff;
+  --accent-green:  #3fb950;
+  --accent-orange: #d29922;
+  --accent-red:    #f85149;
+  --accent-purple: #bc8cff;
+  --accent-cyan:   #79c0ff;
+  --radius:        8px;
+  --transition:    0.18s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ── Topbar ─────────────────────────────────────────────────── */
+.adm-topbar {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  height: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.adm-topbar__brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+.adm-topbar__brand:hover { color: var(--accent-cyan); text-decoration: none; }
+.adm-topbar__spacer { flex: 1; }
+.adm-topbar__port {
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2px 12px;
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.adm-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: calc(100vh - 52px);
+}
+
+/* ── Sidebar (onglets) ──────────────────────────────────────── */
+.adm-sidebar {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto;
+}
+.adm-sidebar__section {
+  padding: 0 12px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--text-muted);
+}
+.adm-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 16px;
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.adm-nav-btn .icon { font-size: 15px; width: 20px; text-align: center; }
+.adm-nav-btn:hover { background: var(--bg-card); color: var(--text); }
+.adm-nav-btn.active {
+  background: var(--bg-card);
+  color: var(--accent-blue);
+  border-left-color: var(--accent-blue);
+  font-weight: 600;
+}
+.adm-sidebar__sep { margin: 8px 16px; border: none; border-top: 1px solid var(--border); }
+
+/* ── Content ────────────────────────────────────────────────── */
+.adm-content { padding: 28px 32px; overflow-y: auto; }
+
+.adm-tab { display: none; }
+.adm-tab.active { display: block; }
+
+/* ── Section header ─────────────────────────────────────────── */
+.adm-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.adm-section-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+.adm-section-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.adm-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+.adm-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.adm-card__title .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot--blue   { background: var(--accent-blue); }
+.dot--green  { background: var(--accent-green); }
+.dot--orange { background: var(--accent-orange); }
+.dot--red    { background: var(--accent-red); }
+.dot--purple { background: var(--accent-purple); }
+
+.adm-grid { display: grid; gap: 16px; }
+.adm-grid--2 { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+.adm-grid--3 { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+
+/* ── Buttons ────────────────────────────────────────────────── */
+.adm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), opacity var(--transition);
+  white-space: nowrap;
+}
+.adm-btn:hover { background: var(--bg-card); border-color: var(--accent-blue); }
+.adm-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.adm-btn--primary  { background: var(--accent-blue);   border-color: var(--accent-blue);   color: #fff; }
+.adm-btn--primary:hover  { background: #4493e4; border-color: #4493e4; }
+.adm-btn--danger   { background: var(--accent-red);    border-color: var(--accent-red);    color: #fff; }
+.adm-btn--danger:hover   { background: #d93f35; border-color: #d93f35; }
+.adm-btn--success  { background: var(--accent-green);  border-color: var(--accent-green);  color: #fff; }
+.adm-btn--success:hover  { background: #36a245; border-color: #36a245; }
+.adm-btn--warning  { background: var(--accent-orange); border-color: var(--accent-orange); color: #fff; }
+.adm-btn--warning:hover  { background: #bb8519; border-color: #bb8519; }
+.adm-btn--sm { padding: 4px 10px; font-size: 12px; }
+
+.adm-btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+
+/* ── Form controls ──────────────────────────────────────────── */
+.adm-form-row  { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 12px; }
+.adm-form-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+.adm-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+.adm-input, .adm-select {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 7px 10px;
+  font-size: 13px;
+  transition: border-color var(--transition);
+  width: 100%;
+}
+.adm-input:focus, .adm-select:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+.adm-select option { background: var(--bg-secondary); }
+
+.adm-checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.adm-checkbox-row input[type="checkbox"] { accent-color: var(--accent-blue); }
+
+/* ── Response / log ─────────────────────────────────────────── */
+.adm-response {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  min-height: 32px;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  word-break: break-word;
+}
+.adm-response.ok    { border-color: var(--accent-green);  color: var(--accent-green);  background: rgba(63,185,80,.08); }
+.adm-response.error { border-color: var(--accent-red);    color: var(--accent-red);    background: rgba(248,81,73,.08); }
+.adm-response.info  { border-color: var(--accent-blue);   color: var(--accent-blue);   background: rgba(88,166,255,.08); }
+
+/* ── Status badge ───────────────────────────────────────────── */
+.adm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+.adm-badge--active  { background: rgba(63,185,80,.15);  color: var(--accent-green);  border: 1px solid rgba(63,185,80,.3); }
+.adm-badge--idle    { background: rgba(110,118,129,.15); color: var(--text-muted);    border: 1px solid var(--border); }
+.adm-badge--warn    { background: rgba(210,153,34,.15);  color: var(--accent-orange); border: 1px solid rgba(210,153,34,.3); }
+
+/* ── HP Bar ─────────────────────────────────────────────────── */
+.adm-hp-wrap { margin: 10px 0; }
+.adm-hp-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.adm-hp-bar { height: 10px; border-radius: 5px; background: var(--border); overflow: hidden; }
+.adm-hp-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: var(--accent-green);
+  transition: width .4s ease, background .4s ease;
+}
+.adm-hp-fill.warn   { background: var(--accent-orange); }
+.adm-hp-fill.danger { background: var(--accent-red); }
+
+/* ── Table ──────────────────────────────────────────────────── */
+.adm-table-wrap { overflow-x: auto; }
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.adm-table th {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.adm-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.adm-table tr:last-child td { border-bottom: none; }
+.adm-table tr:hover td { background: var(--bg-secondary); }
+
+/* ── Search bar ─────────────────────────────────────────────── */
+.adm-search-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.adm-search-bar .adm-input { max-width: 320px; }
+
+/* ── Stat row ───────────────────────────────────────────────── */
+.adm-stat-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.adm-stat-row span { color: var(--text-muted); }
+.adm-stat-row strong { color: var(--text); }
+
+/* ── Sprite small ───────────────────────────────────────────── */
+.adm-sprite { height: 40px; width: auto; image-rendering: pixelated; }
+
+/* ── Scrollbars ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── Separator ──────────────────────────────────────────────── */
+.adm-sep { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+/* ── Tag pill ───────────────────────────────────────────────── */
+.adm-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.adm-tag--shiny  { color: var(--shiny-gold, #ffd700); border-color: var(--shiny-gold, #ffd700); }
+.adm-tag--normal { color: var(--accent-cyan); border-color: var(--accent-cyan); }
+
+/* ── Searchable Select ──────────────────────────────────────── */
+.adm-ss {
+  position: relative;
+  width: 100%;
+}
+.adm-ss__input {
+  width: 100%;
+  cursor: text;
+}
+.adm-ss__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-blue);
+  border-radius: var(--radius);
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-md);
+}
+.adm-ss__option {
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background var(--transition);
+}
+.adm-ss__option:hover,
+.adm-ss__option.focused   { background: var(--bg-card); color: var(--text); }
+.adm-ss__option.selected  { color: var(--accent-blue); font-weight: 600; }
+.adm-ss__empty {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+}

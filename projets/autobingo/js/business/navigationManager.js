@@ -38,16 +38,15 @@
         },
 
         /**
-         * Navigate to another page with optional parameters
-         * @param {string} page - Page path
+         * Navigate to another page with optional parameters (relative path)
+         * @param {string} page - Page path (e.g. "bingo.html")
          * @param {Object} params - Query parameters
          */
         navigateTo(page, params = {}) {
-            const url = new URL(page, window.location.origin);
-            for (const [k, v] of Object.entries(params)) {
-                url.searchParams.set(k, v);
-            }
-            window.location.href = url;
+            const queryString = Object.entries(params)
+                .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+                .join('&');
+            window.location.href = queryString ? `${page}?${queryString}` : page;
         }
     };
 

@@ -1,15 +1,15 @@
 [
   {
-    "Name": "Elden Ring Full",
-    "Category": "Elden Ring",
-    "Subcategory": "Main & DLC",
-    "Location": "./data/eldenring/eldenring_full.json"
-  },
-  {
     "Name": "Elden Ring Armor",
     "Category": "Elden Ring",
     "Subcategory": "Main & DLC",
     "Location": "./data/eldenring/eldenring_armor.json"
+  },
+  {
+    "Name": "Elden Ring Full",
+    "Category": "Elden Ring",
+    "Subcategory": "Main & DLC",
+    "Location": "./data/eldenring/eldenring_full.json"
   },
   {
     "Name": "Elden Ring Goods",
@@ -22,6 +22,54 @@
     "Category": "Elden Ring",
     "Subcategory": "Main & DLC",
     "Location": "./data/eldenring/eldenring_weapon.json"
+  },
+  {
+    "Name": "SM64 - 1st Floor",
+    "Category": "Mario",
+    "Subcategory": "Super Mario 64",
+    "Location": "./data/mario/sm64_1stfloor.json"
+  },
+  {
+    "Name": "SM64 - All Stars",
+    "Category": "Mario",
+    "Subcategory": "Super Mario 64",
+    "Location": "./data/mario/sm64_allstars.json"
+  },
+  {
+    "Name": "SM64 - Main Levels Stars",
+    "Category": "Mario",
+    "Subcategory": "Super Mario 64",
+    "Location": "./data/mario/sm64_mainlevels.json"
+  },
+  {
+    "Name": "SM64 - Main Stars 100Coinless",
+    "Category": "Mario",
+    "Subcategory": "Super Mario 64",
+    "Location": "./data/mario/sm64_main_without_100c.json"
+  },
+  {
+    "Name": "SM64 - Main Stars Coinless (no 100, no red)",
+    "Category": "Mario",
+    "Subcategory": "Super Mario 64",
+    "Location": "./data/mario/sm64_coinless.json"
+  },
+  {
+    "Name": "Minecraft 1.21.11 - Mounts of Mayhem",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc1-21-11.json"
+  },
+  {
+    "Name": "Minecraft 1.21.9 - The Copper Age",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc1.21.9.json"
+  },
+  {
+    "Name": "Minecraft 26.2 - Chaos Cubed",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26-2.json"
   },
   {
     "Name": "PokeFull",
@@ -94,11 +142,5 @@
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_unys.json"
-  },
-  {
-    "Name": "Minecraft 26.2",
-    "Category": "Minecraft",
-    "Subcategory": "Minecraft Vanilla",
-    "Location": "./data/minecraft/mc26-2.json"
   }
 ]

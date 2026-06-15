@@ -1,5 +1,5 @@
 @echo off
-echo Lancement du serveur Python sur le port 5499...
+echo Lancement du serveur Python sur le port 5497...
 
 REM Vérifie si python est disponible
 python --version >nul 2>&1
@@ -10,12 +10,12 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 REM Lance le serveur en arrière-plan
-start "" python -m http.server 5499
+start "" python -m http.server 5497
 
 REM Attend une seconde pour laisser le serveur démarrer
 timeout /t 1 >nul
 
 REM Ouvre la page dans le navigateur
-start http://localhost:5499
+start http://localhost:5497
 
 echo Serveur lance. Appuyez sur CTRL+C dans la console du serveur pour l'arreter.

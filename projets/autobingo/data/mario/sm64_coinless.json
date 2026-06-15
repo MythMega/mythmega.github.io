@@ -1,0 +1,451 @@
+{
+  "Name": "SM64 - Main Stars Coinless (no 100, no red)",
+  "Category": "Mario",
+  "Subcategory": "Super Mario 64",
+  "Items": [
+    {
+      "Index": 1,
+      "Name_FR": "Roi Bob-Omb du sommet",
+      "Name_EN": "Big Bob-omb on the Summit",
+      "PictureMain": "./assets/category/mario/sm64/1.png"
+    },
+    {
+      "Index": 2,
+      "Name_FR": "Course contre Koopa-Rapido",
+      "Name_EN": "Footrace with Koopa the Quick",
+      "PictureMain": "./assets/category/mario/sm64/2.png"
+    },
+    {
+      "Index": 3,
+      "Name_FR": "Canon vers l'île perchée",
+      "Name_EN": "Shoot to the Island in the Sky",
+      "PictureMain": "./assets/category/mario/sm64/3.png"
+    },
+    {
+      "Index": 5,
+      "Name_FR": "Vol du Mario Ailé",
+      "Name_EN": "Mario Wings to the Sky",
+      "PictureMain": "./assets/category/mario/sm64/5.png"
+    },
+    {
+      "Index": 6,
+      "Name_FR": "Derrière la cage de Chomp",
+      "Name_EN": "Behind Chain Chomp’s Gate",
+      "PictureMain": "./assets/category/mario/sm64/6.png"
+    },
+    {
+      "Index": 8,
+      "Name_FR": "Destruction du gros Whomp",
+      "Name_EN": "Chip off Whomp’s Block",
+      "PictureMain": "./assets/category/mario/sm64/8.png"
+    },
+    {
+      "Index": 9,
+      "Name_FR": "En haut de la forteresse",
+      "Name_EN": "To the Top of the Fortress",
+      "PictureMain": "./assets/category/mario/sm64/9.png"
+    },
+    {
+      "Index": 10,
+      "Name_FR": "Canon vers les cieux",
+      "Name_EN": "Shoot into the Wild Blue",
+      "PictureMain": "./assets/category/mario/sm64/10.png"
+    },
+    {
+      "Index": 12,
+      "Name_FR": "Tombez dans la cage perchée",
+      "Name_EN": "Fall onto the Caged Island",
+      "PictureMain": "./assets/category/mario/sm64/12.png"
+    },
+    {
+      "Index": 13,
+      "Name_FR": "Canon vers un mur…",
+      "Name_EN": "Blast Away the Wall",
+      "PictureMain": "./assets/category/mario/sm64/13.png"
+    },
+    {
+      "Index": 15,
+      "Name_FR": "Pillez le bateau coulé",
+      "Name_EN": "Plunder in the Sunken Ship",
+      "PictureMain": "./assets/category/mario/sm64/15.png"
+    },
+    {
+      "Index": 16,
+      "Name_FR": "L'anguille veut faire joujou ?",
+      "Name_EN": "Can the Eel Come out and Play?",
+      "PictureMain": "./assets/category/mario/sm64/16.png"
+    },
+    {
+      "Index": 17,
+      "Name_FR": "Trésor de la caverne",
+      "Name_EN": "Treasure of the Ocean Cave",
+      "PictureMain": "./assets/category/mario/sm64/17.png"
+    },
+    {
+      "Index": 19,
+      "Name_FR": "Canon vers les piliers",
+      "Name_EN": "Blast to the Stone Pillar",
+      "PictureMain": "./assets/category/mario/sm64/19.png"
+    },
+    {
+      "Index": 20,
+      "Name_FR": "Dans le Geyser",
+      "Name_EN": "Through the Jet Stream",
+      "PictureMain": "./assets/category/mario/sm64/20.png"
+    },
+    {
+      "Index": 22,
+      "Name_FR": "Glissade sur glace",
+      "Name_EN": "Slip Slidin’ Away",
+      "PictureMain": "./assets/category/mario/sm64/22.png"
+    },
+    {
+      "Index": 23,
+      "Name_FR": "Petit pingouin perdu",
+      "Name_EN": "Li’l Penguin Lost",
+      "PictureMain": "./assets/category/mario/sm64/23.png"
+    },
+    {
+      "Index": 24,
+      "Name_FR": "Course du pingouin",
+      "Name_EN": "Big Penguin Race",
+      "PictureMain": "./assets/category/mario/sm64/24.png"
+    },
+    {
+      "Index": 26,
+      "Name_FR": "Bonhomme de neige sans tête",
+      "Name_EN": "Snowman’s Lost his Head",
+      "PictureMain": "./assets/category/mario/sm64/26.png"
+    },
+    {
+      "Index": 27,
+      "Name_FR": "Rebonds sur les murs",
+      "Name_EN": "Wall Kicks will Work",
+      "PictureMain": "./assets/category/mario/sm64/27.png"
+    },
+    {
+      "Index": 29,
+      "Name_FR": "Cherchez le Big Boo",
+      "Name_EN": "Go on a Ghost Hunt",
+      "PictureMain": "./assets/category/mario/sm64/29.png"
+    },
+    {
+      "Index": 30,
+      "Name_FR": "Manège des Boos pas beaux",
+      "Name_EN": "Ride Big Boo’s Merry-Go-Round",
+      "PictureMain": "./assets/category/mario/sm64/30.png"
+    },
+    {
+      "Index": 31,
+      "Name_FR": "Secret des livres hantés",
+      "Name_EN": "Secret of the Haunted Books",
+      "PictureMain": "./assets/category/mario/sm64/31.png"
+    },
+    {
+      "Index": 33,
+      "Name_FR": "Balcon de Big Boo",
+      "Name_EN": "Big Boo’s Balcony",
+      "PictureMain": "./assets/category/mario/sm64/33.png"
+    },
+    {
+      "Index": 34,
+      "Name_FR": "Un œil sur les salles secrètes",
+      "Name_EN": "Eye to Eye in the Secret Room",
+      "PictureMain": "./assets/category/mario/sm64/34.png"
+    },
+    {
+      "Index": 36,
+      "Name_FR": "Gros Bibi de la caverne",
+      "Name_EN": "Swimming Beast in the Cavern",
+      "PictureMain": "./assets/category/mario/sm64/36.png"
+    },
+    {
+      "Index": 38,
+      "Name_FR": "Course de Métal Mario",
+      "Name_EN": "Metal-Head Mario Can Move!",
+      "PictureMain": "./assets/category/mario/sm64/38.png"
+    },
+    {
+      "Index": 39,
+      "Name_FR": "Dans le labyrinthe toxique",
+      "Name_EN": "Navigating the Toxic Maze",
+      "PictureMain": "./assets/category/mario/sm64/39.png"
+    },
+    {
+      "Index": 40,
+      "Name_FR": "Au-dessus des gaz…",
+      "Name_EN": "A-Maze-ing Emergency Exit",
+      "PictureMain": "./assets/category/mario/sm64/40.png"
+    },
+    {
+      "Index": 41,
+      "Name_FR": "Attention aux boulets !",
+      "Name_EN": "Watch for the Rolling Rocks",
+      "PictureMain": "./assets/category/mario/sm64/41.png"
+    },
+    {
+      "Index": 43,
+      "Name_FR": "Cramez le Gros Moche",
+      "Name_EN": "Boil the Big Bully",
+      "PictureMain": "./assets/category/mario/sm64/43.png"
+    },
+    {
+      "Index": 44,
+      "Name_FR": "Poussez les Petits Moches",
+      "Name_EN": "Bully the Bullies",
+      "PictureMain": "./assets/category/mario/sm64/44.png"
+    },
+    {
+      "Index": 47,
+      "Name_FR": "Chaud dans le volcan",
+      "Name_EN": "Hot-Foot-It into the Volcano",
+      "PictureMain": "./assets/category/mario/sm64/47.png"
+    },
+    {
+      "Index": 48,
+      "Name_FR": "Ascenseur dans le volcan",
+      "Name_EN": "Elevator Tour in the Volcano",
+      "PictureMain": "./assets/category/mario/sm64/48.png"
+    },
+    {
+      "Index": 50,
+      "Name_FR": "Dans les griffes du vautour",
+      "Name_EN": "In the Talons of the Big Bird",
+      "PictureMain": "./assets/category/mario/sm64/50.png"
+    },
+    {
+      "Index": 51,
+      "Name_FR": "Au sommet de la pyramide",
+      "Name_EN": "Shining Atop the Pyramid",
+      "PictureMain": "./assets/category/mario/sm64/51.png"
+    },
+    {
+      "Index": 52,
+      "Name_FR": "Dans l'ancienne pyramide",
+      "Name_EN": "Inside the Ancient Pyramid",
+      "PictureMain": "./assets/category/mario/sm64/52.png"
+    },
+    {
+      "Index": 53,
+      "Name_FR": "Les Quatre Piliers de la Foi",
+      "Name_EN": "Stand Tall on the Four Pillars",
+      "PictureMain": "./assets/category/mario/sm64/53.png"
+    },
+    {
+      "Index": 55,
+      "Name_FR": "Énigme de la pyramide",
+      "Name_EN": "Pyramid Puzzle",
+      "PictureMain": "./assets/category/mario/sm64/55.png"
+    },
+    {
+      "Index": 57,
+      "Name_FR": "Sous-marin de Bowser",
+      "Name_EN": "Board Bowser’s Sub",
+      "PictureMain": "./assets/category/mario/sm64/57.png"
+    },
+    {
+      "Index": 58,
+      "Name_FR": "Coffres dans le courant",
+      "Name_EN": "Chests in the Current",
+      "PictureMain": "./assets/category/mario/sm64/58.png"
+    },
+    {
+      "Index": 60,
+      "Name_FR": "Dans le Geyser",
+      "Name_EN": "Through the Jet Stream",
+      "PictureMain": "./assets/category/mario/sm64/60.png"
+    },
+    {
+      "Index": 61,
+      "Name_FR": "Récompense de la raie",
+      "Name_EN": "The Manta Ray’s Reward",
+      "PictureMain": "./assets/category/mario/sm64/61.png"
+    },
+    {
+      "Index": 62,
+      "Name_FR": "Combinaison de casquettes",
+      "Name_EN": "Collect the Caps",
+      "PictureMain": "./assets/category/mario/sm64/62.png"
+    },
+    {
+      "Index": 64,
+      "Name_FR": "Grosse tête du bonhomme",
+      "Name_EN": "Snowman’s Big Head",
+      "PictureMain": "./assets/category/mario/sm64/64.png"
+    },
+    {
+      "Index": 65,
+      "Name_FR": "Combattez le Gros Moche givré",
+      "Name_EN": "Chill with the Bully",
+      "PictureMain": "./assets/category/mario/sm64/65.png"
+    },
+    {
+      "Index": 66,
+      "Name_FR": "Dans le glaçon",
+      "Name_EN": "In the Deep Freeze",
+      "PictureMain": "./assets/category/mario/sm64/66.png"
+    },
+    {
+      "Index": 67,
+      "Name_FR": "Vrille depuis le lac",
+      "Name_EN": "Whirl from the Freezing Pond",
+      "PictureMain": "./assets/category/mario/sm64/67.png"
+    },
+    {
+      "Index": 69,
+      "Name_FR": "Dans l'Igloo",
+      "Name_EN": "Into the Igloo",
+      "PictureMain": "./assets/category/mario/sm64/69.png"
+    },
+    {
+      "Index": 71,
+      "Name_FR": "Mini plates-formes fléchées !",
+      "Name_EN": "Shocking Arrow Lifts!",
+      "PictureMain": "./assets/category/mario/sm64/71.png"
+    },
+    {
+      "Index": 72,
+      "Name_FR": "Sur les toits",
+      "Name_EN": "Top O’ The Town",
+      "PictureMain": "./assets/category/mario/sm64/72.png"
+    },
+    {
+      "Index": 73,
+      "Name_FR": "Énigme des chiffres cachés",
+      "Name_EN": "Secrets in the Shallows & Sky",
+      "PictureMain": "./assets/category/mario/sm64/73.png"
+    },
+    {
+      "Index": 74,
+      "Name_FR": "Ascenseur express !",
+      "Name_EN": "Express Elevators–Hurry Up!",
+      "PictureMain": "./assets/category/mario/sm64/74.png"
+    },
+    {
+      "Index": 76,
+      "Name_FR": "Course en ville",
+      "Name_EN": "Quick Race through Downtown",
+      "PictureMain": "./assets/category/mario/sm64/76.png"
+    },
+    {
+      "Index": 78,
+      "Name_FR": "Escaladez la montagne",
+      "Name_EN": "Scale the Mountain",
+      "PictureMain": "./assets/category/mario/sm64/78.png"
+    },
+    {
+      "Index": 79,
+      "Name_FR": "Mystère de la cage du singe",
+      "Name_EN": "Mystery of the Monkey Cage",
+      "PictureMain": "./assets/category/mario/sm64/79.png"
+    },
+    {
+      "Index": 81,
+      "Name_FR": "Paroi mystérieuse",
+      "Name_EN": "Mysterious Mountainside",
+      "PictureMain": "./assets/category/mario/sm64/81.png"
+    },
+    {
+      "Index": 82,
+      "Name_FR": "Panorama du pont",
+      "Name_EN": "Breathtaking View from Bridge",
+      "PictureMain": "./assets/category/mario/sm64/82.png"
+    },
+    {
+      "Index": 83,
+      "Name_FR": "Canon vers le champignon",
+      "Name_EN": "Blast to the Lonely Mushroom",
+      "PictureMain": "./assets/category/mario/sm64/83.png"
+    },
+    {
+      "Index": 85,
+      "Name_FR": "Détruisez les Maxi-Carnivores",
+      "Name_EN": "Pluck the Piranha Flower",
+      "PictureMain": "./assets/category/mario/sm64/85.png"
+    },
+    {
+      "Index": 86,
+      "Name_FR": "Au sommet de l'Île des Géants",
+      "Name_EN": "The Tip Top of the Huge Island",
+      "PictureMain": "./assets/category/mario/sm64/86.png"
+    },
+    {
+      "Index": 87,
+      "Name_FR": "Koopa-Rapido : la revanche",
+      "Name_EN": "Rematch with Koopa the Quick",
+      "PictureMain": "./assets/category/mario/sm64/87.png"
+    },
+    {
+      "Index": 88,
+      "Name_FR": "Cinq tout petits secrets",
+      "Name_EN": "Five Itty Bitty Secrets",
+      "PictureMain": "./assets/category/mario/sm64/88.png"
+    },
+    {
+      "Index": 90,
+      "Name_FR": "Énervez le gigoteur",
+      "Name_EN": "Make Wiggler Squirm",
+      "PictureMain": "./assets/category/mario/sm64/90.png"
+    },
+    {
+      "Index": 92,
+      "Name_FR": "Roulements dans la cage",
+      "Name_EN": "Roll into the Cage",
+      "PictureMain": "./assets/category/mario/sm64/92.png"
+    },
+    {
+      "Index": 93,
+      "Name_FR": "Les trous et le pendule",
+      "Name_EN": "The Pit and the Pendulums",
+      "PictureMain": "./assets/category/mario/sm64/93.png"
+    },
+    {
+      "Index": 94,
+      "Name_FR": "Chevauchez l'aiguille",
+      "Name_EN": "Get a Hand",
+      "PictureMain": "./assets/category/mario/sm64/94.png"
+    },
+    {
+      "Index": 95,
+      "Name_FR": "L'écrabouilleur",
+      "Name_EN": "Stomp on the Thwomp",
+      "PictureMain": "./assets/category/mario/sm64/95.png"
+    },
+    {
+      "Index": 96,
+      "Name_FR": "Sauts synchronisés",
+      "Name_EN": "Timed Jumps on Moving Bars",
+      "PictureMain": "./assets/category/mario/sm64/96.png"
+    },
+    {
+      "Index": 99,
+      "Name_FR": "Croisière sur l'arc-en-ciel",
+      "Name_EN": "Cruiser Crossing the Rainbow",
+      "PictureMain": "./assets/category/mario/sm64/99.png"
+    },
+    {
+      "Index": 100,
+      "Name_FR": "Manoir dans les airs",
+      "Name_EN": "The Big House in the Sky",
+      "PictureMain": "./assets/category/mario/sm64/100.png"
+    },
+    {
+      "Index": 102,
+      "Name_FR": "Balançoire céleste",
+      "Name_EN": "Swingin’ in the Breeze",
+      "PictureMain": "./assets/category/mario/sm64/102.png"
+    },
+    {
+      "Index": 103,
+      "Name_FR": "Vicieux triangles !",
+      "Name_EN": "Tricky Triangles!",
+      "PictureMain": "./assets/category/mario/sm64/103.png"
+    },
+    {
+      "Index": 104,
+      "Name_FR": "L'arc-en-ciel et au-delà",
+      "Name_EN": "Somewhere over the Rainbow",
+      "PictureMain": "./assets/category/mario/sm64/104.png"
+    }
+  ]
+}

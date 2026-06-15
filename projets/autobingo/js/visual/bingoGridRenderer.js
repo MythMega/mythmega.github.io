@@ -567,7 +567,7 @@
             // Update name
             const nameSpan = el.querySelector('.cell-name');
             if (nameSpan) {
-                if (this.gameManager.hideItems && !cell.validated) {
+                if ((this.gameManager.hideItems || this.gameManager.blurItems ) && !cell.validated) {
                     nameSpan.textContent = '??????';
                 } else {
                     const lang = autobingo.translationManager ? autobingo.translationManager.currentLang : 'en';

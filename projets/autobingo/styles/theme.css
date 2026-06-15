@@ -1,0 +1,41 @@
+/* Theme variables - Dark (default) and Light */
+:root,
+[data-theme="dark"] {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-card: #0f3460;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0b8;
+    --accent: #e94560;
+    --accent-hover: #ff6b81;
+    --nav-bg: #0f0f23;
+    --nav-text: #e0e0e0;
+    --nav-active: #e94560;
+    --border: #2a2a4a;
+    --input-bg: #1a1a3e;
+    --input-text: #e0e0e0;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --floating-bg: #0f3460;
+    --floating-text: #e0e0e0;
+    --floating-hover: #e94560;
+}
+
+[data-theme="light"] {
+    --bg-primary: #f5f5f5;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --accent: #e94560;
+    --accent-hover: #d63050;
+    --nav-bg: #ffffff;
+    --nav-text: #333333;
+    --nav-active: #e94560;
+    --border: #dddddd;
+    --input-bg: #ffffff;
+    --input-text: #333333;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --floating-bg: #ffffff;
+    --floating-text: #333333;
+    --floating-hover: #e94560;
+}

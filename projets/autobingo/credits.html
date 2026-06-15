@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBingo - Credits</title>
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/nav.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="card">
+            <h1 class="page-title" data-i18n="credits.title">Credits</h1>
+            <p class="page-subtitle" data-i18n="credits.subtitle">People and resources that made this project possible</p>
+
+            <div id="credits-container"></div>
+        </div>
+    </main>
+
+    <!-- Scripts - Entity -->
+    <script src="js/entity/DatasetDefinition.js"></script>
+    <script src="js/entity/DatasetItem.js"></script>
+    <script src="js/entity/BingoGame.js"></script>
+    <script src="js/entity/ChangelogEntry.js"></script>
+    <script src="js/entity/CreditEntry.js"></script>
+
+    <!-- Scripts - Business -->
+    <script src="js/business/cookieManager.js"></script>
+    <script src="js/business/translationManager.js"></script>
+    <script src="js/business/themeManager.js"></script>
+    <script src="js/business/datasetManager.js"></script>
+    <script src="js/business/navigationManager.js"></script>
+    <script src="js/business/creditManager.js"></script>
+
+    <!-- Scripts - Visual -->
+    <script src="js/visual/navRenderer.js"></script>
+    <script src="js/visual/themeToggle.js"></script>
+    <script src="js/visual/languageToggle.js"></script>
+    <script src="js/visual/creditRenderer.js"></script>
+
+    <!-- Init -->
+    <script>
+        (async function() {
+            'use strict';
+
+            // Init managers
+            AutoBingo.ThemeManager.init();
+
+            const lang = AutoBingo.CookieManager.get('bingo_lang') || 'en';
+            const translator = new AutoBingo.TranslationManager();
+            AutoBingo.translationManager = translator;
+            await translator.load(lang);
+
+            // Render navigation
+            AutoBingo.NavRenderer.render(document.getElementById('nav-container'));
+
+            // Create floating toggles
+            AutoBingo.ThemeToggle.create();
+            AutoBingo.LanguageToggle.create();
+
+            // Load and render credits
+            const creditManager = new AutoBingo.CreditManager();
+            const entries = await creditManager.load();
+            AutoBingo.CreditRenderer.render(document.getElementById('credits-container'), entries);
+
+            // Translate page
+            translator.translatePage();
+        })();
+    </script>
+</body>
+</html>

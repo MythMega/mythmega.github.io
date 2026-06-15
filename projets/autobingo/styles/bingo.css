@@ -1,0 +1,396 @@
+/* Bingo grid styles */
+.bingo-controls-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 12px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.bingo-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    user-select: none;
+}
+
+.bingo-toggle input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.bingo-toggle input[type="checkbox"]:disabled + span {
+    opacity: 0.4;
+}
+
+/* Timer bar */
+.bingo-timer-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.timer-display {
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    color: var(--accent);
+    min-width: 70px;
+}
+
+.timer-btn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    min-width: 36px;
+}
+
+/* Search bar */
+.bingo-search-bar {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.bingo-search-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.bingo-search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0 0 8px 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 50;
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.search-result-item {
+    padding: 8px 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.15s;
+    color: var(--text-primary);
+}
+
+.search-result-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+.in-grid-badge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background-color: var(--accent);
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+/* Grid */
+.bingo-grid-wrapper {
+    overflow-x: auto;
+}
+
+.bingo-grid {
+    display: grid;
+    gap: 8px;
+    margin: 0 auto;
+}
+
+/* Cell */
+.bingo-cell {
+    position: relative;
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+    aspect-ratio: 1;
+    overflow: hidden;
+    min-width: 80px;
+    min-height: 80px;
+}
+
+.bingo-cell:hover {
+    transform: scale(1.03);
+    border-color: var(--accent);
+}
+
+.bingo-cell.validated {
+    background-color: rgba(233, 69, 96, 0.2);
+    border-color: var(--accent);
+}
+
+.cell-switch-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    padding: 2px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.bingo-cell:hover .cell-switch-btn {
+    opacity: 1;
+}
+
+.cell-switch-btn:hover {
+    background-color: var(--accent);
+}
+
+.cell-switch-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.cell-image {
+    width: 100%;
+    height: auto;
+    max-height: 70%;
+    object-fit: contain;
+    transition: filter 0.3s;
+}
+
+/* Non-validated: apply hide (black) and/or blur as requested */
+.cell-image.effect-hide {
+    filter: brightness(0) !important;
+}
+
+.cell-image.effect-blur {
+    filter: blur(8px) !important;
+}
+
+.cell-image.effect-hide.effect-blur {
+    filter: brightness(0) blur(8px) !important;
+}
+
+/* Validated cell: always normal image, no effects */
+.bingo-cell.validated .cell-image,
+.bingo-cell.validated .cell-image.effect-hide,
+.bingo-cell.validated .cell-image.effect-blur,
+.bingo-cell.validated .cell-image.effect-hide.effect-blur {
+    filter: none !important;
+}
+
+.cell-name {
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--text-primary);
+    margin-top: 4px;
+    line-height: 1.2;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+/* Search modal */
+.search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+}
+
+.search-modal-content {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px var(--shadow);
+}
+
+.search-modal-content h3 {
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+
+.modal-search-results {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 8px;
+}
+
+/* Bingo popup */
+.bingo-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 600;
+}
+
+.bingo-popup-content {
+    background-color: var(--bg-card);
+    border: 2px solid var(--accent);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 8px 32px var(--shadow);
+    animation: popup-bounce 0.4s ease;
+}
+
+@keyframes popup-bounce {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.bingo-popup-content h2 {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+
+.bingo-popup-content p {
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.bingo-line-items {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+/* Notification container */
+.notification-container {
+    position: relative;
+    min-height: 0;
+}
+
+.notification {
+    position: fixed;
+    top: 80px;
+    left: 24px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    z-index: 300;
+    box-shadow: 0 4px 16px var(--shadow);
+    animation: notif-in 0.3s ease;
+    max-width: 400px;
+}
+
+.notification-success {
+    background-color: #2ecc71;
+    color: #ffffff;
+    border: 1px solid #27ae60;
+}
+
+.notification-error {
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: 1px solid #c0392b;
+}
+
+.notification-hide {
+    animation: notif-out 0.3s ease forwards;
+}
+
+@keyframes notif-in {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes notif-out {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-100%); opacity: 0; }
+}
+
+/* Shake animation for search input */
+.shake-animation {
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+}
+
+/* Responsive grid */
+@media (max-width: 600px) {
+    .bingo-cell {
+        min-width: 60px;
+        min-height: 60px;
+        padding: 4px;
+    }
+    .cell-name {
+        font-size: 0.65rem;
+    }
+    .bingo-controls-bar {
+        gap: 4px;
+    }
+    .bingo-toggle {
+        font-size: 0.75rem;
+    }
+}

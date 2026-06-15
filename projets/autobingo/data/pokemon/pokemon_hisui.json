@@ -1,0 +1,189 @@
+{
+  "Name": "Pokémon Hisui",
+  "Category": "Pokemon",
+  "Subcategory": "Generation Dex",
+  "Items": [
+    {
+      "Name_EN": "Wyrdeer",
+      "Name_FR": "Cerbyllin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wyrdeer_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wyrdeer_shiny.gif",
+      "Index": 899
+    },
+    {
+      "Name_EN": "Kleavor",
+      "Name_FR": "Hachécateur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kleavor_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kleavor_shiny.gif",
+      "Index": 900
+    },
+    {
+      "Name_EN": "Ursaluna",
+      "Name_FR": "Ursaking",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ursaluna_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ursaluna_shiny.gif",
+      "Index": 901
+    },
+    {
+      "Name_EN": "Basculegion",
+      "Name_FR": "Paragruel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Basculegion_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Basculegion_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Sneasler",
+      "Name_FR": "Farfurex",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sneasler_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sneasler_shiny.gif",
+      "Index": 903
+    },
+    {
+      "Name_EN": "Overqwil",
+      "Name_FR": "Qwilpik",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Overqwil_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Overqwil_shiny.gif",
+      "Index": 904
+    },
+    {
+      "Name_EN": "Enamorus",
+      "Name_FR": "Amovénus",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Enamorus_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Enamorus_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Growlithe",
+      "Name_FR": "Caninos de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Growlithe_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Growlithe_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Arcanine",
+      "Name_FR": "Arcanin de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Arcanine_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Arcanine_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Voltorb",
+      "Name_FR": "Voltorbe de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Voltorb_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Voltorb_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Electrode",
+      "Name_FR": "Électrode de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Electrode_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Electrode_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Typhlosion",
+      "Name_FR": "Typhlosion de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Typhlosion_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Typhlosion_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Qwilfish",
+      "Name_FR": "Qwilfish de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Qwilfish_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Qwilfish_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Sneasel",
+      "Name_FR": "Farfuret de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Sneasel_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Sneasel_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Dialga Origin",
+      "Name_FR": "Dialga Originel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dialga Origin_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dialga Origin_shiny.gif",
+      "Index": 10245
+    },
+    {
+      "Name_EN": "Palkia Origin",
+      "Name_FR": "Palkia Originel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Palkia Origin_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Palkia Origin_shiny.gif",
+      "Index": 10246
+    },
+    {
+      "Name_EN": "Giratina Origin",
+      "Name_FR": "Giratina Originel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Giratina Origin_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Giratina Origin_shiny.gif",
+      "Index": 10007
+    },
+    {
+      "Name_EN": "Hisuian Samurott",
+      "Name_FR": "Clamiral de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Samurott_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Samurott_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Lilligant",
+      "Name_FR": "Fragilady de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Lilligant_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Lilligant_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Zorua",
+      "Name_FR": "Zorua de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Zorua_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Zorua_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Zoroark",
+      "Name_FR": "Zoroark de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Zoroark_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Zoroark_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Braviary",
+      "Name_FR": "Gueriaigle de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Braviary_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Braviary_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Sliggoo",
+      "Name_FR": "Colimucus de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Sliggoo_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Sliggoo_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Goodra",
+      "Name_FR": "Muplodocus de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Goodra_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Goodra_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Avalugg",
+      "Name_FR": "Séracrawl de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Avalugg_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Avalugg_shiny.gif",
+      "Index": null
+    },
+    {
+      "Name_EN": "Hisuian Decidueye",
+      "Name_FR": "Archéduc de Hisui",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Decidueye_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hisuian Decidueye_shiny.gif",
+      "Index": null
+    }
+  ]
+}

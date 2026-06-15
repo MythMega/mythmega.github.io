@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBingo - Create Bingo</title>
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/nav.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="card">
+            <h1 class="page-title" data-i18n="create.title">Create a Bingo</h1>
+
+            <!-- Category selector will be rendered here -->
+            <div id="selector-container"></div>
+
+            <!-- Create button -->
+            <div class="text-center mt-24">
+                <button id="create-bingo-btn" class="btn btn-primary" disabled data-i18n="create.create_button">
+                    Create Bingo
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts - Entity -->
+    <script src="js/entity/DatasetDefinition.js"></script>
+    <script src="js/entity/DatasetItem.js"></script>
+    <script src="js/entity/BingoGame.js"></script>
+
+    <!-- Scripts - Business -->
+    <script src="js/business/cookieManager.js"></script>
+    <script src="js/business/translationManager.js"></script>
+    <script src="js/business/themeManager.js"></script>
+    <script src="js/business/datasetManager.js"></script>
+    <script src="js/business/navigationManager.js"></script>
+
+    <!-- Scripts - Visual -->
+    <script src="js/visual/navRenderer.js"></script>
+    <script src="js/visual/themeToggle.js"></script>
+    <script src="js/visual/languageToggle.js"></script>
+    <script src="js/visual/categorySelector.js"></script>
+
+    <!-- Init -->
+    <script>
+        (async function() {
+            'use strict';
+
+            // Init managers
+            AutoBingo.ThemeManager.init();
+
+            const lang = AutoBingo.CookieManager.get('bingo_lang') || 'en';
+            const translator = new AutoBingo.TranslationManager();
+            AutoBingo.translationManager = translator;
+            await translator.load(lang);
+
+            // Render navigation
+            AutoBingo.NavRenderer.render(document.getElementById('nav-container'));
+
+            // Create floating toggles
+            AutoBingo.ThemeToggle.create();
+            AutoBingo.LanguageToggle.create();
+
+            // Init dataset manager
+            const datasetManager = new AutoBingo.DatasetManager();
+            await datasetManager.loadDefinitions();
+
+            // Render category selector
+            const container = document.getElementById('selector-container');
+            const selector = new AutoBingo.CategorySelector(container, datasetManager);
+            selector.onReady = (def, items) => {
+                document.getElementById('create-bingo-btn').disabled = false;
+            };
+            await selector.render();
+
+            // Translate page
+            translator.translatePage();
+
+            // Create bingo button handler
+            document.getElementById('create-bingo-btn').addEventListener('click', () => {
+                const def = selector.getSelectedDataset();
+                if (def) {
+                    const size = selector.getSelectedSize();
+                    AutoBingo.NavigationManager.navigateTo('bingo.html', { id: def.name, size: size });
+                }
+            });
+
+            // Store reference
+            AutoBingo.currentSelector = selector;
+
+            // After rendering, check the button state
+            // If URL had a dataset that auto-selected, enable button
+            setTimeout(() => {
+                if (selector.getSelectedDataset()) {
+                    document.getElementById('create-bingo-btn').disabled = false;
+                }
+            }, 300);
+        })();
+    </script>
+</body>
+</html>

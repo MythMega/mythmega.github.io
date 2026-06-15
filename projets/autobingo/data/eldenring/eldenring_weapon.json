@@ -1,0 +1,2719 @@
+{
+  "Name": "Elden Ring Weapon",
+  "Category": "Elden Ring",
+  "Subcategory": "Main & DLC",
+  "Items": [
+    {
+      "Index": "Weapons-110000",
+      "Name_FR": "Sans arme",
+      "Name_EN": "Unarmed",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sans_arme.png"
+    },
+    {
+      "Index": "Weapons-1000000",
+      "Name_FR": "Dague",
+      "Name_EN": "Dagger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Dague.png"
+    },
+    {
+      "Index": "Weapons-1010000",
+      "Name_FR": "Couteau noir",
+      "Name_EN": "Black Knife",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Couteau_noir.png"
+    },
+    {
+      "Index": "Weapons-1020000",
+      "Name_FR": "Dague de parade",
+      "Name_EN": "Parrying Dagger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Dague_de_parade.png"
+    },
+    {
+      "Index": "Weapons-1030000",
+      "Name_FR": "Miséricorde",
+      "Name_EN": "Miséricorde",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Miséricorde.png"
+    },
+    {
+      "Index": "Weapons-1040000",
+      "Name_FR": "Reduvia",
+      "Name_EN": "Reduvia",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Reduvia.png"
+    },
+    {
+      "Index": "Weapons-1050000",
+      "Name_FR": "Couteau de cristal",
+      "Name_EN": "Crystal Knife",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Couteau_de_cristal.png"
+    },
+    {
+      "Index": "Weapons-1060000",
+      "Name_FR": "Faucille de l'officiant",
+      "Name_EN": "Celebrant's Sickle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Faucille_de_l'officiant.png"
+    },
+    {
+      "Index": "Weapons-1070000",
+      "Name_FR": "Kriss de pierre d'éclat",
+      "Name_EN": "Glintstone Kris",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Kriss_de_pierre_d'éclat.png"
+    },
+    {
+      "Index": "Weapons-1080000",
+      "Name_FR": "Aiguillon de scorpion",
+      "Name_EN": "Scorpion's Stinger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Aiguillon_de_scorpion.png"
+    },
+    {
+      "Index": "Weapons-1090000",
+      "Name_FR": "Grand couteau",
+      "Name_EN": "Great Knife",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_couteau.png"
+    },
+    {
+      "Index": "Weapons-1100000",
+      "Name_FR": "Wakizashi",
+      "Name_EN": "Wakizashi",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Wakizashi.png"
+    },
+    {
+      "Index": "Weapons-1110000",
+      "Name_FR": "Cinquedea",
+      "Name_EN": "Cinquedea",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Cinquedea.png"
+    },
+    {
+      "Index": "Weapons-1130000",
+      "Name_FR": "Faucille en ivoire",
+      "Name_EN": "Ivory Sickle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Faucille_en_ivoire.png"
+    },
+    {
+      "Index": "Weapons-1140000",
+      "Name_FR": "Dague maculée de sang",
+      "Name_EN": "Bloodstained Dagger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Dague_maculée_de_sang.png"
+    },
+    {
+      "Index": "Weapons-1150000",
+      "Name_FR": "Dague en acier-monde",
+      "Name_EN": "Erdsteel Dagger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Dague_en_acier-monde.png"
+    },
+    {
+      "Index": "Weapons-1160000",
+      "Name_FR": "Lame de convocation",
+      "Name_EN": "Blade of Calling",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_de_convocation.png"
+    },
+    {
+      "Index": "Weapons-2000000",
+      "Name_FR": "Épée longue",
+      "Name_EN": "Longsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_longue.png"
+    },
+    {
+      "Index": "Weapons-2010000",
+      "Name_FR": "Épée courte",
+      "Name_EN": "Short Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_courte.png"
+    },
+    {
+      "Index": "Weapons-2020000",
+      "Name_FR": "Épée large",
+      "Name_EN": "Broadsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_large.png"
+    },
+    {
+      "Index": "Weapons-2030000",
+      "Name_FR": "Couteau d'os",
+      "Name_EN": "Royal Soldier Straight Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Couteau_d'os.png"
+    },
+    {
+      "Index": "Weapons-2040000",
+      "Name_FR": "Épée droite seigneuriale",
+      "Name_EN": "Lordsworn's Straight Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_droite_seigneuriale.png"
+    },
+    {
+      "Index": "Weapons-2050000",
+      "Name_FR": "Épée droite usée",
+      "Name_EN": "Weathered Straight Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_droite_usée.png"
+    },
+    {
+      "Index": "Weapons-2060000",
+      "Name_FR": "Épée droite ornementale",
+      "Name_EN": "Ornamental Straight Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_droite_ornementale.png"
+    },
+    {
+      "Index": "Weapons-2070000",
+      "Name_FR": "Épitaphe dorée",
+      "Name_EN": "Golden Epitaph",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épitaphe_dorée.png"
+    },
+    {
+      "Index": "Weapons-2080000",
+      "Name_FR": "Épée nokrienne",
+      "Name_EN": "Nox Flowing Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_nokrienne.png"
+    },
+    {
+      "Index": "Weapons-2090000",
+      "Name_FR": "Épée en alliage",
+      "Name_EN": "Inseparable Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_en_alliage.png"
+    },
+    {
+      "Index": "Weapons-2090100",
+      "Name_FR": "Bracelet de Rennala, Sorcière de la Pleine lune.",
+      "Name_EN": "Heavy Inseparable Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bracelet_de_Rennala,_Sorcière_de_la_Pleine_lune..png"
+    },
+    {
+      "Index": "Weapons-2110000",
+      "Name_FR": "Épée cryptée",
+      "Name_EN": "Coded Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_cryptée.png"
+    },
+    {
+      "Index": "Weapons-2140000",
+      "Name_FR": "Épée de la nuit ardente",
+      "Name_EN": "Sword of Night and Flame",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_la_nuit_ardente.png"
+    },
+    {
+      "Index": "Weapons-2150000",
+      "Name_FR": "Épée de cristal",
+      "Name_EN": "Crystal Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_cristal.png"
+    },
+    {
+      "Index": "Weapons-2180000",
+      "Name_FR": "Épée de chevalier de Caria",
+      "Name_EN": "Carian Knight's Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_chevalier_de_Caria.png"
+    },
+    {
+      "Index": "Weapons-2190000",
+      "Name_FR": "Épée de sainte Trina",
+      "Name_EN": "Sword of St. Trina",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_sainte_Trina.png"
+    },
+    {
+      "Index": "Weapons-2200000",
+      "Name_FR": "Épée de chevalier de Miquella",
+      "Name_EN": "Miquellan Knight's Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_chevalier_de_Miquella.png"
+    },
+    {
+      "Index": "Weapons-2210000",
+      "Name_FR": "Épée-canne",
+      "Name_EN": "Cane Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée-canne.png"
+    },
+    {
+      "Index": "Weapons-2220000",
+      "Name_FR": "Joyau d'Eochaid",
+      "Name_EN": "Regalia of Eochaid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Joyau_d'Eochaid.png"
+    },
+    {
+      "Index": "Weapons-2230000",
+      "Name_FR": "Épée fine de noble",
+      "Name_EN": "Noble's Slender Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_fine_de_noble.png"
+    },
+    {
+      "Index": "Weapons-2240000",
+      "Name_FR": "Serre de faucon de guerre",
+      "Name_EN": "Warhawk's Talon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Serre_de_faucon_de_guerre.png"
+    },
+    {
+      "Index": "Weapons-2250000",
+      "Name_FR": "Épée de pierre d'éclat de Lazuli",
+      "Name_EN": "Lazuli Glintstone Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_pierre_d'éclat_de_Lazuli.png"
+    },
+    {
+      "Index": "Weapons-2260000",
+      "Name_FR": "Épée de cristal putréfiée",
+      "Name_EN": "Rotten Crystal Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_cristal_putréfiée.png"
+    },
+    {
+      "Index": "Weapons-3000000",
+      "Name_FR": "Épée bâtarde",
+      "Name_EN": "Bastard Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_bâtarde.png"
+    },
+    {
+      "Index": "Weapons-3010000",
+      "Name_FR": "Espadon fourchu",
+      "Name_EN": "Forked Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_fourchu.png"
+    },
+    {
+      "Index": "Weapons-3020000",
+      "Name_FR": "Espadon en fer",
+      "Name_EN": "Iron Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_en_fer.png"
+    },
+    {
+      "Index": "Weapons-3040000",
+      "Name_FR": "Espadon de chevalier",
+      "Name_EN": "Knight's Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_de_chevalier.png"
+    },
+    {
+      "Index": "Weapons-3050000",
+      "Name_FR": "Flamberge",
+      "Name_EN": "Flamberge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flamberge.png"
+    },
+    {
+      "Index": "Weapons-3060000",
+      "Name_FR": "Espadon d'Ordovis",
+      "Name_EN": "Ordovis's Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_d'Ordovis.png"
+    },
+    {
+      "Index": "Weapons-3070000",
+      "Name_FR": "Espadon de seigneur d'albâtre",
+      "Name_EN": "Alabaster Lord's Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_de_seigneur_d'albâtre.png"
+    },
+    {
+      "Index": "Weapons-3080000",
+      "Name_FR": "Espadon de chevalier banni",
+      "Name_EN": "Banished Knight's Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_de_chevalier_banni.png"
+    },
+    {
+      "Index": "Weapons-3090000",
+      "Name_FR": "Espadon de la lune obscure",
+      "Name_EN": "Dark Moon Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_de_la_lune_obscure.png"
+    },
+    {
+      "Index": "Weapons-3100000",
+      "Name_FR": "Lame-relique sacrée",
+      "Name_EN": "Sacred Relic Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame-relique_sacrée.png"
+    },
+    {
+      "Index": "Weapons-3130000",
+      "Name_FR": "Clocher d'Helfen",
+      "Name_EN": "Helphen's Steeple",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Clocher_d'Helfen.png"
+    },
+    {
+      "Index": "Weapons-3140000",
+      "Name_FR": "Lame blasphématoire",
+      "Name_EN": "Blasphemous Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_blasphématoire.png"
+    },
+    {
+      "Index": "Weapons-3150000",
+      "Name_FR": "Épée d'exécution des Tourbier",
+      "Name_EN": "Marais Executioner's Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_d'exécution_des_Tourbier.png"
+    },
+    {
+      "Index": "Weapons-3160000",
+      "Name_FR": "Épée de Milos",
+      "Name_EN": "Sword of Milos",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_Milos.png"
+    },
+    {
+      "Index": "Weapons-3160100",
+      "Name_FR": "Déploie une grande épée magique défensive qui flotte autour de vous.",
+      "Name_EN": "Heavy Sword of Milos",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Déploie_une_grande_épée_magique_défensive_qui_flotte_autour_de_vous..png"
+    },
+    {
+      "Index": "Weapons-3170000",
+      "Name_FR": "Espadon de l'Ordre d'or",
+      "Name_EN": "Golden Order Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_de_l'Ordre_d'or.png"
+    },
+    {
+      "Index": "Weapons-3180000",
+      "Name_FR": "Claymore",
+      "Name_EN": "Claymore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Claymore.png"
+    },
+    {
+      "Index": "Weapons-3190000",
+      "Name_FR": "Espadon de gargouille",
+      "Name_EN": "Gargoyle's Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_de_gargouille.png"
+    },
+    {
+      "Index": "Weapons-3200000",
+      "Name_FR": "Aiguillon funeste",
+      "Name_EN": "Death's Poker",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Aiguillon_funeste.png"
+    },
+    {
+      "Index": "Weapons-3210000",
+      "Name_FR": "Lame sombre de gargouille",
+      "Name_EN": "Gargoyle's Blackblade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_sombre_de_gargouille.png"
+    },
+    {
+      "Index": "Weapons-3210100",
+      "Name_FR": "Invoque encore plus de spectres qui attaquent les ennemis.",
+      "Name_EN": "Heavy Gargoyle's Blackblade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Invoque_encore_plus_de_spectres_qui_attaquent_les_ennemis..png"
+    },
+    {
+      "Index": "Weapons-4000000",
+      "Name_FR": "Grand espadon",
+      "Name_EN": "Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_espadon.png"
+    },
+    {
+      "Index": "Weapons-4010000",
+      "Name_FR": "Espadon de veilleur",
+      "Name_EN": "Watchdog's Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_de_veilleur.png"
+    },
+    {
+      "Index": "Weapons-4020000",
+      "Name_FR": "Lame d'ébène de Maliketh",
+      "Name_EN": "Maliketh's Black Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_d'ébène_de_Maliketh.png"
+    },
+    {
+      "Index": "Weapons-4030000",
+      "Name_FR": "Épée dorée de troll",
+      "Name_EN": "Troll's Golden Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_dorée_de_troll.png"
+    },
+    {
+      "Index": "Weapons-4040000",
+      "Name_FR": "Épée à deux mains",
+      "Name_EN": "Zweihander",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_à_deux_mains.png"
+    },
+    {
+      "Index": "Weapons-4050000",
+      "Name_FR": "Espadon du Fléau des astres",
+      "Name_EN": "Starscourge Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_du_Fléau_des_astres.png"
+    },
+    {
+      "Index": "Weapons-4060000",
+      "Name_FR": "Espadon royal",
+      "Name_EN": "Royal Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_royal.png"
+    },
+    {
+      "Index": "Weapons-4070000",
+      "Name_FR": "Espadon du déicide",
+      "Name_EN": "Godslayer's Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_du_déicide.png"
+    },
+    {
+      "Index": "Weapons-4080000",
+      "Name_FR": "Espadon des ruines",
+      "Name_EN": "Ruins Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_des_ruines.png"
+    },
+    {
+      "Index": "Weapons-4100000",
+      "Name_FR": "Espadon fusionné",
+      "Name_EN": "Grafted Blade Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_fusionné.png"
+    },
+    {
+      "Index": "Weapons-4110000",
+      "Name_FR": "Épée de chevalier troll",
+      "Name_EN": "Troll Knight's Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_chevalier_troll.png"
+    },
+    {
+      "Index": "Weapons-5000000",
+      "Name_FR": "Estoc",
+      "Name_EN": "Estoc",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Estoc.png"
+    },
+    {
+      "Index": "Weapons-5010000",
+      "Name_FR": "Épée de la Noble putréfaction",
+      "Name_EN": "Cleanrot Knight's Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_de_la_Noble_putréfaction.png"
+    },
+    {
+      "Index": "Weapons-5020000",
+      "Name_FR": "Rapière",
+      "Name_EN": "Rapier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rapière.png"
+    },
+    {
+      "Index": "Weapons-5030000",
+      "Name_FR": "Rapière de Rogier",
+      "Name_EN": "Rogier's Rapier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rapière_de_Rogier.png"
+    },
+    {
+      "Index": "Weapons-5040000",
+      "Name_FR": "Rapière myrmicéenne",
+      "Name_EN": "Antspur Rapier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rapière_myrmicéenne.png"
+    },
+    {
+      "Index": "Weapons-5050000",
+      "Name_FR": "Aiguille givrée",
+      "Name_EN": "Frozen Needle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Aiguille_givrée.png"
+    },
+    {
+      "Index": "Weapons-5060000",
+      "Name_FR": "Rapière de noble",
+      "Name_EN": "Noble's Estoc",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rapière_de_noble.png"
+    },
+    {
+      "Index": "Weapons-6000000",
+      "Name_FR": "Spirale sanglante",
+      "Name_EN": "Bloody Helice",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Spirale_sanglante.png"
+    },
+    {
+      "Index": "Weapons-6010000",
+      "Name_FR": "Aiguille sanctechair",
+      "Name_EN": "Godskin Stitcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Aiguille_sanctechair.png"
+    },
+    {
+      "Index": "Weapons-6020000",
+      "Name_FR": "Grande rapière",
+      "Name_EN": "Great Épée",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_rapière.png"
+    },
+    {
+      "Index": "Weapons-6040000",
+      "Name_FR": "Lame rocheuse du Roi des dragons",
+      "Name_EN": "Dragon King's Cragblade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_rocheuse_du_Roi_des_dragons.png"
+    },
+    {
+      "Index": "Weapons-7000000",
+      "Name_FR": "Fauchon",
+      "Name_EN": "Falchion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fauchon.png"
+    },
+    {
+      "Index": "Weapons-7010000",
+      "Name_FR": "Épée courbée d'homme-bête",
+      "Name_EN": "Beastman's Curved Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_courbée_d'homme-bête.png"
+    },
+    {
+      "Index": "Weapons-7020000",
+      "Name_FR": "Shotel",
+      "Name_EN": "Shotel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Shotel.png"
+    },
+    {
+      "Index": "Weapons-7030000",
+      "Name_FR": "Shamshir",
+      "Name_EN": "Shamshir",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Shamshir.png"
+    },
+    {
+      "Index": "Weapons-7040000",
+      "Name_FR": "Épée courbée de bandit",
+      "Name_EN": "Bandit's Curved Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_courbée_de_bandit.png"
+    },
+    {
+      "Index": "Weapons-7050000",
+      "Name_FR": "Lame de magma",
+      "Name_EN": "Magma Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_de_magma.png"
+    },
+    {
+      "Index": "Weapons-7060000",
+      "Name_FR": "Épée courbée gracieuse",
+      "Name_EN": "Flowing Curved Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_courbée_gracieuse.png"
+    },
+    {
+      "Index": "Weapons-7070000",
+      "Name_FR": "Aile d'Astel",
+      "Name_EN": "Wing of Astel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Aile_d'Astel.png"
+    },
+    {
+      "Index": "Weapons-7080000",
+      "Name_FR": "Épée courbée du charognard",
+      "Name_EN": "Scavenger's Curved Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_courbée_du_charognard.png"
+    },
+    {
+      "Index": "Weapons-7100000",
+      "Name_FR": "Shotel de l'éclipse",
+      "Name_EN": "Eclipse Shotel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Shotel_de_l'éclipse.png"
+    },
+    {
+      "Index": "Weapons-7110000",
+      "Name_FR": "Épée courbée du dieu-serpent",
+      "Name_EN": "Serpent-God's Curved Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_courbée_du_dieu-serpent.png"
+    },
+    {
+      "Index": "Weapons-7120000",
+      "Name_FR": "Lame de la mante",
+      "Name_EN": "Mantis Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_de_la_mante.png"
+    },
+    {
+      "Index": "Weapons-7140000",
+      "Name_FR": "Cimeterre",
+      "Name_EN": "Scimitar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Cimeterre.png"
+    },
+    {
+      "Index": "Weapons-7150000",
+      "Name_FR": "Messer",
+      "Name_EN": "Grossmesser",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Messer.png"
+    },
+    {
+      "Index": "Weapons-8010000",
+      "Name_FR": "Espadon de seigneur d'onyx",
+      "Name_EN": "Onyx Lord's Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Espadon_de_seigneur_d'onyx.png"
+    },
+    {
+      "Index": "Weapons-8020000",
+      "Name_FR": "Désarçonneur",
+      "Name_EN": "Dismounter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Désarçonneur.png"
+    },
+    {
+      "Index": "Weapons-8030000",
+      "Name_FR": "Croc de limier",
+      "Name_EN": "Bloodhound's Fang",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Croc_de_limier.png"
+    },
+    {
+      "Index": "Weapons-8040000",
+      "Name_FR": "Lame-écaille du Dragon du magma",
+      "Name_EN": "Magma Wyrm's Scalesword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame-écaille_du_Dragon_du_magma.png"
+    },
+    {
+      "Index": "Weapons-8050000",
+      "Name_FR": "Épée courbée de Zamor",
+      "Name_EN": "Zamor Curved Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_courbée_de_Zamor.png"
+    },
+    {
+      "Index": "Weapons-8060000",
+      "Name_FR": "Fendoir de Réprouvé",
+      "Name_EN": "Omen Cleaver",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fendoir_de_Réprouvé.png"
+    },
+    {
+      "Index": "Weapons-8070000",
+      "Name_FR": "Lame ardente de moine",
+      "Name_EN": "Monk's Flameblade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_ardente_de_moine.png"
+    },
+    {
+      "Index": "Weapons-8080000",
+      "Name_FR": "Fendoir d'homme-bête",
+      "Name_EN": "Beastman's Cleaver",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fendoir_d'homme-bête.png"
+    },
+    {
+      "Index": "Weapons-8100000",
+      "Name_FR": "Épée maudite de Morgott",
+      "Name_EN": "Morgott's Cursed Sword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_maudite_de_Morgott.png"
+    },
+    {
+      "Index": "Weapons-8110000",
+      "Name_FR": "Invoque un Sorcier noble",
+      "Name_EN": "Holy Inferno Greatsword",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Invoque_un_Sorcier_noble.png"
+    },
+    {
+      "Index": "Weapons-9000000",
+      "Name_FR": "Uchigatana",
+      "Name_EN": "Uchigatana",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Uchigatana.png"
+    },
+    {
+      "Index": "Weapons-9010000",
+      "Name_FR": "Nagakiba",
+      "Name_EN": "Nagakiba",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Nagakiba.png"
+    },
+    {
+      "Index": "Weapons-9020000",
+      "Name_FR": "Main de Malenia",
+      "Name_EN": "Hand of Malenia",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Main_de_Malenia.png"
+    },
+    {
+      "Index": "Weapons-9030000",
+      "Name_FR": "Lame météorique",
+      "Name_EN": "Meteoric Ore Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_météorique.png"
+    },
+    {
+      "Index": "Weapons-9040000",
+      "Name_FR": "Rivière sanglante",
+      "Name_EN": "Rivers of Blood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rivière_sanglante.png"
+    },
+    {
+      "Index": "Weapons-9060000",
+      "Name_FR": "Éclipse lunaire",
+      "Name_EN": "Moonveil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Éclipse_lunaire.png"
+    },
+    {
+      "Index": "Weapons-9070000",
+      "Name_FR": "Lame en écailles de dragon",
+      "Name_EN": "Dragonscale Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_en_écailles_de_dragon.png"
+    },
+    {
+      "Index": "Weapons-9080000",
+      "Name_FR": "Katana vipérin",
+      "Name_EN": "Serpentbone Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Katana_vipérin.png"
+    },
+    {
+      "Index": "Weapons-10000000",
+      "Name_FR": "Lame double",
+      "Name_EN": "Twinblade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_double.png"
+    },
+    {
+      "Index": "Weapons-10010000",
+      "Name_FR": "Écorcheur sanctechair",
+      "Name_EN": "Godskin Peeler",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Écorcheur_sanctechair.png"
+    },
+    {
+      "Index": "Weapons-10030000",
+      "Name_FR": "Épées géminées de chevalier",
+      "Name_EN": "Twinned Knight Swords",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épées_géminées_de_chevalier.png"
+    },
+    {
+      "Index": "Weapons-10050000",
+      "Name_FR": "Lame double d'Eleonora",
+      "Name_EN": "Eleonora's Poleblade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_double_d'Eleonora.png"
+    },
+    {
+      "Index": "Weapons-10080000",
+      "Name_FR": "Lame double de gargouille",
+      "Name_EN": "Gargoyle's Twinblade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_double_de_gargouille.png"
+    },
+    {
+      "Index": "Weapons-10090000",
+      "Name_FR": "Lame double noire de gargouille",
+      "Name_EN": "Gargoyle's Black Blades",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lame_double_noire_de_gargouille.png"
+    },
+    {
+      "Index": "Weapons-11000000",
+      "Name_FR": "Masse",
+      "Name_EN": "Mace",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Masse.png"
+    },
+    {
+      "Index": "Weapons-11010000",
+      "Name_FR": "Gourdin",
+      "Name_EN": "Club",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Gourdin.png"
+    },
+    {
+      "Index": "Weapons-11030000",
+      "Name_FR": "Gourdin courbé",
+      "Name_EN": "Curved Club",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Gourdin_courbé.png"
+    },
+    {
+      "Index": "Weapons-11040000",
+      "Name_FR": "Pic de guerre",
+      "Name_EN": "Warpick",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pic_de_guerre.png"
+    },
+    {
+      "Index": "Weapons-11050000",
+      "Name_FR": "Morgenstern",
+      "Name_EN": "Morning Star",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Morgenstern.png"
+    },
+    {
+      "Index": "Weapons-11060000",
+      "Name_FR": "Bouquet de Varré",
+      "Name_EN": "Varré's Bouquet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouquet_de_Varré.png"
+    },
+    {
+      "Index": "Weapons-11060100",
+      "Name_FR": "Bouquet de Varré lourd",
+      "Name_EN": "Heavy Varré's Bouquet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouquet_de_Varré_lourd.png"
+    },
+    {
+      "Index": "Weapons-11070000",
+      "Name_FR": "Gourdin à pointes",
+      "Name_EN": "Spiked Club",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Gourdin_à_pointes.png"
+    },
+    {
+      "Index": "Weapons-11080000",
+      "Name_FR": "Marteau",
+      "Name_EN": "Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Marteau.png"
+    },
+    {
+      "Index": "Weapons-11090000",
+      "Name_FR": "Heurtoir ardent de moine",
+      "Name_EN": "Monk's Flamemace",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Heurtoir_ardent_de_moine.png"
+    },
+    {
+      "Index": "Weapons-11100000",
+      "Name_FR": "Corne de l'émissaire",
+      "Name_EN": "Envoy's Horn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Corne_de_l'émissaire.png"
+    },
+    {
+      "Index": "Weapons-11110000",
+      "Name_FR": "Sceptre de l'Omniscient",
+      "Name_EN": "Scepter of the All-Knowing",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceptre_de_l'Omniscient.png"
+    },
+    {
+      "Index": "Weapons-11120000",
+      "Name_FR": "Marteau nokrien",
+      "Name_EN": "Nox Flowing Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Marteau_nokrien.png"
+    },
+    {
+      "Index": "Weapons-11130000",
+      "Name_FR": "Annulaire",
+      "Name_EN": "Ringed Finger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Annulaire.png"
+    },
+    {
+      "Index": "Weapons-11140000",
+      "Name_FR": "Gourdin en pierre",
+      "Name_EN": "Stone Club",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Gourdin_en_pierre.png"
+    },
+    {
+      "Index": "Weapons-11150000",
+      "Name_FR": "Marteau de Marika",
+      "Name_EN": "Marika's Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Marteau_de_Marika.png"
+    },
+    {
+      "Index": "Weapons-11160000",
+      "Name_FR": "Dans une fiole, augmente la puissance des attaques chargées.",
+      "Name_EN": "Father Marika's Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Dans_une_fiole,_augmente_la_puissance_des_attaques_chargées..png"
+    },
+    {
+      "Index": "Weapons-11161200",
+      "Name_FR": "Dans une fiole, facilite brièvement les ruptures de posture.",
+      "Name_EN": "Occult Marika's Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Dans_une_fiole,_facilite_brièvement_les_ruptures_de_posture..png"
+    },
+    {
+      "Index": "Weapons-12000000",
+      "Name_FR": "Grand gourdin",
+      "Name_EN": "Large Club",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_gourdin.png"
+    },
+    {
+      "Index": "Weapons-12010000",
+      "Name_FR": "Marteau cornu",
+      "Name_EN": "Greathorn Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Marteau_cornu.png"
+    },
+    {
+      "Index": "Weapons-12020000",
+      "Name_FR": "Marteau de guerre",
+      "Name_EN": "Battle Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Marteau_de_guerre.png"
+    },
+    {
+      "Index": "Weapons-12060000",
+      "Name_FR": "Grande masse",
+      "Name_EN": "Great Mace",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_masse.png"
+    },
+    {
+      "Index": "Weapons-12080000",
+      "Name_FR": "Grand gourdin courbé",
+      "Name_EN": "Curved Great Club",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_gourdin_courbé.png"
+    },
+    {
+      "Index": "Weapons-12130000",
+      "Name_FR": "Crâne de l'officiant",
+      "Name_EN": "Celebrant's Skull",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Crâne_de_l'officiant.png"
+    },
+    {
+      "Index": "Weapons-12140000",
+      "Name_FR": "Pioche",
+      "Name_EN": "Pickaxe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pioche.png"
+    },
+    {
+      "Index": "Weapons-12150000",
+      "Name_FR": "Grand marteau griffu",
+      "Name_EN": "Beastclaw Greathammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_marteau_griffu.png"
+    },
+    {
+      "Index": "Weapons-12160000",
+      "Name_FR": "Corne de l'émissaire longue",
+      "Name_EN": "Envoy's Long Horn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Corne_de_l'émissaire_longue.png"
+    },
+    {
+      "Index": "Weapons-12170000",
+      "Name_FR": "Chandelier crânien",
+      "Name_EN": "Cranial Vessel Candlestand",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Chandelier_crânien.png"
+    },
+    {
+      "Index": "Weapons-12180000",
+      "Name_FR": "Gourdin hérissé",
+      "Name_EN": "Great Stars",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Gourdin_hérissé.png"
+    },
+    {
+      "Index": "Weapons-12190000",
+      "Name_FR": "Marteau en pierre",
+      "Name_EN": "Brick Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Marteau_en_pierre.png"
+    },
+    {
+      "Index": "Weapons-12200000",
+      "Name_FR": "Spectre du dévoreur",
+      "Name_EN": "Devourer's Scepter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Spectre_du_dévoreur.png"
+    },
+    {
+      "Index": "Weapons-12210000",
+      "Name_FR": "Marteau de guerre putréfié",
+      "Name_EN": "Rotten Battle Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Marteau_de_guerre_putréfié.png"
+    },
+    {
+      "Index": "Weapons-13000000",
+      "Name_FR": "Fléau de cavalier crépusculaire",
+      "Name_EN": "Nightrider Flail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fléau_de_cavalier_crépusculaire.png"
+    },
+    {
+      "Index": "Weapons-13010000",
+      "Name_FR": "Fléau d'armes",
+      "Name_EN": "Flail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fléau_d'armes.png"
+    },
+    {
+      "Index": "Weapons-13020000",
+      "Name_FR": "Têtes du clan",
+      "Name_EN": "Family Heads",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Têtes_du_clan.png"
+    },
+    {
+      "Index": "Weapons-13030000",
+      "Name_FR": "Étoiles du bâtard",
+      "Name_EN": "Bastard's Stars",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Étoiles_du_bâtard.png"
+    },
+    {
+      "Index": "Weapons-13040000",
+      "Name_FR": "Fléau d'armes articulé",
+      "Name_EN": "Chainlink Flail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fléau_d'armes_articulé.png"
+    },
+    {
+      "Index": "Weapons-14000000",
+      "Name_FR": "Hache de guerre",
+      "Name_EN": "Battle Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_de_guerre.png"
+    },
+    {
+      "Index": "Weapons-14010000",
+      "Name_FR": "Faucille fourchue",
+      "Name_EN": "Forked Hatchet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Faucille_fourchue.png"
+    },
+    {
+      "Index": "Weapons-14020000",
+      "Name_FR": "Hache légère",
+      "Name_EN": "Hand Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_légère.png"
+    },
+    {
+      "Index": "Weapons-14030000",
+      "Name_FR": "Hache dentelée",
+      "Name_EN": "Jawbone Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_dentelée.png"
+    },
+    {
+      "Index": "Weapons-14040000",
+      "Name_FR": "Fendoir en fer",
+      "Name_EN": "Iron Cleaver",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fendoir_en_fer.png"
+    },
+    {
+      "Index": "Weapons-14050000",
+      "Name_FR": "Épée ondulée",
+      "Name_EN": "Ripple Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée_ondulée.png"
+    },
+    {
+      "Index": "Weapons-14060000",
+      "Name_FR": "Fendoir de l'officiant",
+      "Name_EN": "Celebrant's Cleaver",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fendoir_de_l'officiant.png"
+    },
+    {
+      "Index": "Weapons-14080000",
+      "Name_FR": "Hachette auréolée de glace",
+      "Name_EN": "Icerind Hatchet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hachette_auréolée_de_glace.png"
+    },
+    {
+      "Index": "Weapons-14100000",
+      "Name_FR": "Hache des montagnes",
+      "Name_EN": "Highland Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_des_montagnes.png"
+    },
+    {
+      "Index": "Weapons-14110000",
+      "Name_FR": "Hache sacrificielle",
+      "Name_EN": "Sacrificial Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_sacrificielle.png"
+    },
+    {
+      "Index": "Weapons-14120000",
+      "Name_FR": "Hache de Rosus",
+      "Name_EN": "Rosus' Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_de_Rosus.png"
+    },
+    {
+      "Index": "Weapons-14140000",
+      "Name_FR": "Hache de faucon des tempêtes",
+      "Name_EN": "Stormhawk Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_de_faucon_des_tempêtes.png"
+    },
+    {
+      "Index": "Weapons-15000000",
+      "Name_FR": "Grande hache",
+      "Name_EN": "Greataxe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_hache.png"
+    },
+    {
+      "Index": "Weapons-15010000",
+      "Name_FR": "Hache distordue",
+      "Name_EN": "Warped Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_distordue.png"
+    },
+    {
+      "Index": "Weapons-15020000",
+      "Name_FR": "Réprouvicide",
+      "Name_EN": "Great Omenkiller Cleaver",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Réprouvicide.png"
+    },
+    {
+      "Index": "Weapons-15030000",
+      "Name_FR": "Hache lunaire",
+      "Name_EN": "Crescent Moon Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_lunaire.png"
+    },
+    {
+      "Index": "Weapons-15040000",
+      "Name_FR": "Hache de Godrick",
+      "Name_EN": "Axe of Godrick",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_de_Godrick.png"
+    },
+    {
+      "Index": "Weapons-15050000",
+      "Name_FR": "Hache longue",
+      "Name_EN": "Longhaft Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_longue.png"
+    },
+    {
+      "Index": "Weapons-15060000",
+      "Name_FR": "Ancre rouillée",
+      "Name_EN": "Rusted Anchor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Ancre_rouillée.png"
+    },
+    {
+      "Index": "Weapons-15080000",
+      "Name_FR": "Hache du bourreau",
+      "Name_EN": "Executioner's Greataxe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_du_bourreau.png"
+    },
+    {
+      "Index": "Weapons-15110000",
+      "Name_FR": "Grande corne ailée",
+      "Name_EN": "Winged Greathorn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_corne_ailée.png"
+    },
+    {
+      "Index": "Weapons-15120000",
+      "Name_FR": "Couteau de boucher",
+      "Name_EN": "Butchering Knife",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Couteau_de_boucher.png"
+    },
+    {
+      "Index": "Weapons-15130000",
+      "Name_FR": "Grande hache de gargouille",
+      "Name_EN": "Gargoyle's Great Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_hache_de_gargouille.png"
+    },
+    {
+      "Index": "Weapons-15140000",
+      "Name_FR": "Hache noire de gargouille",
+      "Name_EN": "Gargoyle's Black Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_noire_de_gargouille.png"
+    },
+    {
+      "Index": "Weapons-16000000",
+      "Name_FR": "Lance courte",
+      "Name_EN": "Short Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_courte.png"
+    },
+    {
+      "Index": "Weapons-16010000",
+      "Name_FR": "Lance",
+      "Name_EN": "Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance.png"
+    },
+    {
+      "Index": "Weapons-16020000",
+      "Name_FR": "Lance de cristal",
+      "Name_EN": "Crystal Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_de_cristal.png"
+    },
+    {
+      "Index": "Weapons-16030000",
+      "Name_FR": "Harpon de boueux",
+      "Name_EN": "Clayman's Harpoon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Harpon_de_boueux.png"
+    },
+    {
+      "Index": "Weapons-16040000",
+      "Name_FR": "Lance de la Noble putréfaction",
+      "Name_EN": "Cleanrot Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_de_la_Noble_putréfaction.png"
+    },
+    {
+      "Index": "Weapons-16050000",
+      "Name_FR": "Pertuisane",
+      "Name_EN": "Partisan",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pertuisane.png"
+    },
+    {
+      "Index": "Weapons-16060000",
+      "Name_FR": "Râteau d'os de l'officiant",
+      "Name_EN": "Celebrant's Rib-Rake",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Râteau_d'os_de_l'officiant.png"
+    },
+    {
+      "Index": "Weapons-16070000",
+      "Name_FR": "Pique",
+      "Name_EN": "Pike",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pique.png"
+    },
+    {
+      "Index": "Weapons-16080000",
+      "Name_FR": "Flambeau",
+      "Name_EN": "Torchpole",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flambeau.png"
+    },
+    {
+      "Index": "Weapons-16090000",
+      "Name_FR": "Carreau de Gransax",
+      "Name_EN": "Bolt of Gransax",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_de_Gransax.png"
+    },
+    {
+      "Index": "Weapons-16110000",
+      "Name_FR": "Yari",
+      "Name_EN": "Cross-Naginata",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Yari.png"
+    },
+    {
+      "Index": "Weapons-16120000",
+      "Name_FR": "Lance de rite funéraire",
+      "Name_EN": "Death Ritual Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_de_rite_funéraire.png"
+    },
+    {
+      "Index": "Weapons-16130000",
+      "Name_FR": "Girandole du tortionnaire",
+      "Name_EN": "Inquisitor's Girandole",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Girandole_du_tortionnaire.png"
+    },
+    {
+      "Index": "Weapons-16140000",
+      "Name_FR": "Lance à pointes",
+      "Name_EN": "Spiked Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_à_pointes.png"
+    },
+    {
+      "Index": "Weapons-16150000",
+      "Name_FR": "Lance en fer",
+      "Name_EN": "Iron Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_en_fer.png"
+    },
+    {
+      "Index": "Weapons-16160000",
+      "Name_FR": "Lance de cristal putréfiée",
+      "Name_EN": "Rotten Crystal Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_de_cristal_putréfiée.png"
+    },
+    {
+      "Index": "Weapons-17010000",
+      "Name_FR": "Lance sacrée de Mohgwyn",
+      "Name_EN": "Mohgwyn's Sacred Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_sacrée_de_Mohgwyn.png"
+    },
+    {
+      "Index": "Weapons-17020000",
+      "Name_FR": "Arbre de Siluria",
+      "Name_EN": "Siluria's Tree",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arbre_de_Siluria.png"
+    },
+    {
+      "Index": "Weapons-17030000",
+      "Name_FR": "Traque-vipère",
+      "Name_EN": "Serpent-Hunter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Traque-vipère.png"
+    },
+    {
+      "Index": "Weapons-17050000",
+      "Name_FR": "Lance de guerre de Vyke",
+      "Name_EN": "Vyke's War Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_de_guerre_de_Vyke.png"
+    },
+    {
+      "Index": "Weapons-17060000",
+      "Name_FR": "Lance de cavalerie",
+      "Name_EN": "Lance",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_de_cavalerie.png"
+    },
+    {
+      "Index": "Weapons-17070000",
+      "Name_FR": "Lance arborescente",
+      "Name_EN": "Treespear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_arborescente.png"
+    },
+    {
+      "Index": "Weapons-18000000",
+      "Name_FR": "Hallebarde",
+      "Name_EN": "Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hallebarde.png"
+    },
+    {
+      "Index": "Weapons-18010000",
+      "Name_FR": "Insectolame",
+      "Name_EN": "Pest's Glaive",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Insectolame.png"
+    },
+    {
+      "Index": "Weapons-18020000",
+      "Name_FR": "Bec-de-corbin",
+      "Name_EN": "Lucerne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bec-de-corbin.png"
+    },
+    {
+      "Index": "Weapons-18030000",
+      "Name_FR": "Hallebarde de chevalier banni",
+      "Name_EN": "Banished Knight's Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hallebarde_de_chevalier_banni.png"
+    },
+    {
+      "Index": "Weapons-18040000",
+      "Name_FR": "Étendard de commandant",
+      "Name_EN": "Commander's Standard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Étendard_de_commandant.png"
+    },
+    {
+      "Index": "Weapons-18050000",
+      "Name_FR": "Vouge de cavalier crépusculaire",
+      "Name_EN": "Nightrider Glaive",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Vouge_de_cavalier_crépusculaire.png"
+    },
+    {
+      "Index": "Weapons-18060000",
+      "Name_FR": "Hallebarde lunaire",
+      "Name_EN": "Ripple Crescent Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hallebarde_lunaire.png"
+    },
+    {
+      "Index": "Weapons-18070000",
+      "Name_FR": "Scie de milicien vulgaire",
+      "Name_EN": "Vulgar Militia Saw",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Scie_de_milicien_vulgaire.png"
+    },
+    {
+      "Index": "Weapons-18080000",
+      "Name_FR": "Hallebarde dorée",
+      "Name_EN": "Golden Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hallebarde_dorée.png"
+    },
+    {
+      "Index": "Weapons-18090000",
+      "Name_FR": "Glaive",
+      "Name_EN": "Glaive",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Glaive.png"
+    },
+    {
+      "Index": "Weapons-18100000",
+      "Name_FR": "Faucille de guerre de Loretta",
+      "Name_EN": "Loretta's War Sickle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Faucille_de_guerre_de_Loretta.png"
+    },
+    {
+      "Index": "Weapons-18110000",
+      "Name_FR": "Épée-lance du gardien",
+      "Name_EN": "Guardian's Swordspear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Épée-lance_du_gardien.png"
+    },
+    {
+      "Index": "Weapons-18130000",
+      "Name_FR": "Shotel de milicien vulgaire",
+      "Name_EN": "Vulgar Militia Shotel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Shotel_de_milicien_vulgaire.png"
+    },
+    {
+      "Index": "Weapons-18140000",
+      "Name_FR": "Hallebarde draconique",
+      "Name_EN": "Dragon Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hallebarde_draconique.png"
+    },
+    {
+      "Index": "Weapons-18140100",
+      "Name_FR": "Hallebarde draconique Lourde",
+      "Name_EN": "Heavy Dragon Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Heavy_Dragon_Halberd.png"
+    },
+    {
+      "Index": "Weapons-18150000",
+      "Name_FR": "Hallebarde de gargouille",
+      "Name_EN": "Gargoyle's Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hallebarde_de_gargouille.png"
+    },
+    {
+      "Index": "Weapons-18160000",
+      "Name_FR": "Hallebarde noire de gargouille",
+      "Name_EN": "Gargoyle's Black Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hallebarde_noire_de_gargouille.png"
+    },
+    {
+      "Index": "Weapons-19000000",
+      "Name_FR": "Faux",
+      "Name_EN": "Scythe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Faux.png"
+    },
+    {
+      "Index": "Weapons-19010000",
+      "Name_FR": "Faux mortuaire",
+      "Name_EN": "Grave Scythe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Faux_mortuaire.png"
+    },
+    {
+      "Index": "Weapons-19020000",
+      "Name_FR": "Faux de la nuit",
+      "Name_EN": "Halo Scythe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Faux_de_la_nuit.png"
+    },
+    {
+      "Index": "Weapons-19060000",
+      "Name_FR": "Faux ailée",
+      "Name_EN": "Winged Scythe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Faux_ailée.png"
+    },
+    {
+      "Index": "Weapons-20000000",
+      "Name_FR": "Fouet",
+      "Name_EN": "Whip",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fouet.png"
+    },
+    {
+      "Index": "Weapons-20020000",
+      "Name_FR": "Fouet épineux",
+      "Name_EN": "Thorned Whip",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fouet_épineux.png"
+    },
+    {
+      "Index": "Weapons-20030000",
+      "Name_FR": "Chandelier-fouet volcanique",
+      "Name_EN": "Magma Whip Candlestick",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Chandelier-fouet_volcanique.png"
+    },
+    {
+      "Index": "Weapons-20030100",
+      "Name_FR": "",
+      "Name_EN": "Heavy Lava Whip",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Heavy_Lava_Whip.png"
+    },
+    {
+      "Index": "Weapons-20050000",
+      "Name_FR": "Fouet floral des Hoslow",
+      "Name_EN": "Hoslow's Petal Whip",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fouet_floral_des_Hoslow.png"
+    },
+    {
+      "Index": "Weapons-20060000",
+      "Name_FR": "Tresse rousse de Géant",
+      "Name_EN": "Giant's Red Braid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Tresse_rousse_de_Géant.png"
+    },
+    {
+      "Index": "Weapons-20070000",
+      "Name_FR": "Urumi",
+      "Name_EN": "Urumi",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Urumi.png"
+    },
+    {
+      "Index": "Weapons-21000000",
+      "Name_FR": "Ceste",
+      "Name_EN": "Caestus",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Ceste.png"
+    },
+    {
+      "Index": "Weapons-21010000",
+      "Name_FR": "Ceste à pointes",
+      "Name_EN": "Spiked Caestus",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Ceste_à_pointes.png"
+    },
+    {
+      "Index": "Weapons-21060000",
+      "Name_FR": "Dragon greffé",
+      "Name_EN": "Grafted Dragon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Dragon_greffé.png"
+    },
+    {
+      "Index": "Weapons-21070000",
+      "Name_FR": "Globe en fer",
+      "Name_EN": "Iron Ball",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Globe_en_fer.png"
+    },
+    {
+      "Index": "Weapons-21080000",
+      "Name_FR": "Globe hérissé",
+      "Name_EN": "Star Fist",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Globe_hérissé.png"
+    },
+    {
+      "Index": "Weapons-21100000",
+      "Name_FR": "Katar",
+      "Name_EN": "Katar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Katar.png"
+    },
+    {
+      "Index": "Weapons-21110000",
+      "Name_FR": "Main agrippée",
+      "Name_EN": "Clinging Bone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Main_agrippée.png"
+    },
+    {
+      "Index": "Weapons-21120000",
+      "Name_FR": "Prothèse de vétéran",
+      "Name_EN": "Veteran's Prosthesis",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Prothèse_de_vétéran.png"
+    },
+    {
+      "Index": "Weapons-21130000",
+      "Name_FR": "Pata runique",
+      "Name_EN": "Cipher Pata",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pata_runique.png"
+    },
+    {
+      "Index": "Weapons-22000000",
+      "Name_FR": "Griffes",
+      "Name_EN": "Hookclaws",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Griffes.png"
+    },
+    {
+      "Index": "Weapons-22010000",
+      "Name_FR": "Croc venimeux",
+      "Name_EN": "Venomous Fang",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Croc_venimeux.png"
+    },
+    {
+      "Index": "Weapons-22020000",
+      "Name_FR": "Griffes de limier",
+      "Name_EN": "Bloodhound Claws",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Griffes_de_limier.png"
+    },
+    {
+      "Index": "Weapons-22030000",
+      "Name_FR": "Serres de rapace",
+      "Name_EN": "Raptor Talons",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Serres_de_rapace.png"
+    },
+    {
+      "Index": "Weapons-23000000",
+      "Name_FR": "Grand marteau de prélat",
+      "Name_EN": "Prelate's Inferno Crozier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_marteau_de_prélat.png"
+    },
+    {
+      "Index": "Weapons-23010000",
+      "Name_FR": "Crosse de veilleur",
+      "Name_EN": "Watchdog's Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Crosse_de_veilleur.png"
+    },
+    {
+      "Index": "Weapons-23010100",
+      "Name_FR": "Crosse de veilleur lourde",
+      "Name_EN": "Heavy Watchdog's Crosier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Crosse_de_veilleur_lourde.png"
+    },
+    {
+      "Index": "Weapons-23020000",
+      "Name_FR": "",
+      "Name_EN": "Great Club",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Great_Club.png"
+    },
+    {
+      "Index": "Weapons-23030000",
+      "Name_FR": "Grande corne de l'émissaire",
+      "Name_EN": "Envoy's Greathorn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_corne_de_l'émissaire.png"
+    },
+    {
+      "Index": "Weapons-23040000",
+      "Name_FR": "Grande hache de gladiateur",
+      "Name_EN": "Duelist Greataxe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_hache_de_gladiateur.png"
+    },
+    {
+      "Index": "Weapons-23050000",
+      "Name_FR": "Hache de Godfrey",
+      "Name_EN": "Axe of Godfrey",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Hache_de_Godfrey.png"
+    },
+    {
+      "Index": "Weapons-23060000",
+      "Name_FR": "Griffe draconique",
+      "Name_EN": "Dragon Greatclaw",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Griffe_draconique.png"
+    },
+    {
+      "Index": "Weapons-23070000",
+      "Name_FR": "Bâton de l'avatar",
+      "Name_EN": "Staff of the Avatar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_de_l'avatar.png"
+    },
+    {
+      "Index": "Weapons-23080000",
+      "Name_FR": "Mâchoire de créature stellaire",
+      "Name_EN": "Fallingstar Beast Jaw",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Mâchoire_de_créature_stellaire.png"
+    },
+    {
+      "Index": "Weapons-23100000",
+      "Name_FR": "Rouet de Ghiza",
+      "Name_EN": "Ghiza's Wheel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rouet_de_Ghiza.png"
+    },
+    {
+      "Index": "Weapons-23110000",
+      "Name_FR": "Fléau des Géants",
+      "Name_EN": "Giant-Crusher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Fléau_des_Géants.png"
+    },
+    {
+      "Index": "Weapons-23120000",
+      "Name_FR": "Arme d'hast de golem",
+      "Name_EN": "Golem's Halberd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arme_d'hast_de_golem.png"
+    },
+    {
+      "Index": "Weapons-23130000",
+      "Name_FR": "Marteau de troll",
+      "Name_EN": "Troll's Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Marteau_de_troll.png"
+    },
+    {
+      "Index": "Weapons-23140000",
+      "Name_FR": "Bâton putréfié",
+      "Name_EN": "Rotten Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_putréfié.png"
+    },
+    {
+      "Index": "Weapons-23150000",
+      "Name_FR": "Grande hache putréfiée",
+      "Name_EN": "Rotten Greataxe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_hache_putréfiée.png"
+    },
+    {
+      "Index": "Weapons-24000000",
+      "Name_FR": "Torche",
+      "Name_EN": "Torch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Torche.png"
+    },
+    {
+      "Index": "Weapons-24020000",
+      "Name_FR": "Torche barbelée",
+      "Name_EN": "Steel-Wire Torch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Torche_barbelée.png"
+    },
+    {
+      "Index": "Weapons-24040000",
+      "Name_FR": "Torche de sainte Trina",
+      "Name_EN": "St. Trina's Torch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Torche_de_sainte_Trina.png"
+    },
+    {
+      "Index": "Weapons-24050000",
+      "Name_FR": "Torche de flamme spectrale",
+      "Name_EN": "Ghostflame Torch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Torche_de_flamme_spectrale.png"
+    },
+    {
+      "Index": "Weapons-24060000",
+      "Name_FR": "Torche anti-bêtes",
+      "Name_EN": "Beast-Repellent Torch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Torche_anti-bêtes.png"
+    },
+    {
+      "Index": "Weapons-24070000",
+      "Name_FR": "Torche de Sentinelle",
+      "Name_EN": "Sentry's Torch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Torche_de_Sentinelle.png"
+    },
+    {
+      "Index": "Weapons-30000000",
+      "Name_FR": "Rondache",
+      "Name_EN": "Buckler",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rondache.png"
+    },
+    {
+      "Index": "Weapons-30010000",
+      "Name_FR": "Bouclier de Parfumeur",
+      "Name_EN": "Perfumer's Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_Parfumeur.png"
+    },
+    {
+      "Index": "Weapons-30020000",
+      "Name_FR": "Bouclier de reptilien",
+      "Name_EN": "Man-Serpent's Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_reptilien.png"
+    },
+    {
+      "Index": "Weapons-30030000",
+      "Name_FR": "Bouclier croulant",
+      "Name_EN": "Rickety Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_croulant.png"
+    },
+    {
+      "Index": "Weapons-30040000",
+      "Name_FR": "Bouclier-pilori",
+      "Name_EN": "Pillory Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier-pilori.png"
+    },
+    {
+      "Index": "Weapons-30060000",
+      "Name_FR": "Bouclier-jarre d'homme-bête",
+      "Name_EN": "Beastman's Jar-Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier-jarre_d'homme-bête.png"
+    },
+    {
+      "Index": "Weapons-30070000",
+      "Name_FR": "Bouclier rond aux épines rouges",
+      "Name_EN": "Red Thorn Roundshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_rond_aux_épines_rouges.png"
+    },
+    {
+      "Index": "Weapons-30080000",
+      "Name_FR": "Bouclier rond gravé",
+      "Name_EN": "Scripture Wooden Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_rond_gravé.png"
+    },
+    {
+      "Index": "Weapons-30090000",
+      "Name_FR": "Bouclier rond renforcé",
+      "Name_EN": "Riveted Wooden Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_rond_renforcé.png"
+    },
+    {
+      "Index": "Weapons-30100000",
+      "Name_FR": "Bouclier rond bleuté",
+      "Name_EN": "Blue-White Wooden Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_rond_bleuté.png"
+    },
+    {
+      "Index": "Weapons-30110000",
+      "Name_FR": "Bouclier de la faille",
+      "Name_EN": "Rift Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_la_faille.png"
+    },
+    {
+      "Index": "Weapons-30120000",
+      "Name_FR": "Bouclier rond en métal",
+      "Name_EN": "Iron Roundshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_rond_en_métal.png"
+    },
+    {
+      "Index": "Weapons-30130000",
+      "Name_FR": "Bouclier en fer doré",
+      "Name_EN": "Gilded Iron Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_en_fer_doré.png"
+    },
+    {
+      "Index": "Weapons-30140000",
+      "Name_FR": "Bouclier du flocon",
+      "Name_EN": "Ice Crest Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_du_flocon.png"
+    },
+    {
+      "Index": "Weapons-30150000",
+      "Name_FR": "Bouclier de lave",
+      "Name_EN": "Smoldering Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_lave.png"
+    },
+    {
+      "Index": "Weapons-30190000",
+      "Name_FR": "Bouclier à ramures",
+      "Name_EN": "Spiralhorn Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_à_ramures.png"
+    },
+    {
+      "Index": "Weapons-30200000",
+      "Name_FR": "Bouclier serpentin",
+      "Name_EN": "Coil Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_serpentin.png"
+    },
+    {
+      "Index": "Weapons-31000000",
+      "Name_FR": "Rempart",
+      "Name_EN": "Kite Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rempart.png"
+    },
+    {
+      "Index": "Weapons-31010000",
+      "Name_FR": "Bouclier de cuir entaché",
+      "Name_EN": "Marred Leather Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_cuir_entaché.png"
+    },
+    {
+      "Index": "Weapons-31020000",
+      "Name_FR": "Bouclier en bois entaché",
+      "Name_EN": "Marred Wooden Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_en_bois_entaché.png"
+    },
+    {
+      "Index": "Weapons-31030000",
+      "Name_FR": "Bouclier de chevalier banni",
+      "Name_EN": "Banished Knight's Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_chevalier_banni.png"
+    },
+    {
+      "Index": "Weapons-31040000",
+      "Name_FR": "Bouclier d'Albinaurique",
+      "Name_EN": "Albinauric Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_d'Albinaurique.png"
+    },
+    {
+      "Index": "Weapons-31050000",
+      "Name_FR": "Bouclier de la cité solaire",
+      "Name_EN": "Sun Realm Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_la_cité_solaire.png"
+    },
+    {
+      "Index": "Weapons-31060000",
+      "Name_FR": "Bouclier-miroir en argent",
+      "Name_EN": "Silver Mirrorshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier-miroir_en_argent.png"
+    },
+    {
+      "Index": "Weapons-31070000",
+      "Name_FR": "Bouclier rond",
+      "Name_EN": "Round Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_rond.png"
+    },
+    {
+      "Index": "Weapons-31080000",
+      "Name_FR": "Rempart du scorpion",
+      "Name_EN": "Scorpion Kite Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rempart_du_scorpion.png"
+    },
+    {
+      "Index": "Weapons-31090000",
+      "Name_FR": "Rempart de l'oiseau bicéphale",
+      "Name_EN": "Twinbird Kite Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rempart_de_l'oiseau_bicéphale.png"
+    },
+    {
+      "Index": "Weapons-31100000",
+      "Name_FR": "Rempart azur",
+      "Name_EN": "Blue-Gold Kite Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Rempart_azur.png"
+    },
+    {
+      "Index": "Weapons-31130000",
+      "Name_FR": "Bouclier en cuivre",
+      "Name_EN": "Brass Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_en_cuivre.png"
+    },
+    {
+      "Index": "Weapons-31140000",
+      "Name_FR": "Grande carapace",
+      "Name_EN": "Great Turtle Shell",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_carapace.png"
+    },
+    {
+      "Index": "Weapons-31170000",
+      "Name_FR": "Bouclier de culpabilité",
+      "Name_EN": "Shield of the Guilty",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_culpabilité.png"
+    },
+    {
+      "Index": "Weapons-31190000",
+      "Name_FR": "Bouclier de chevalier de Caria",
+      "Name_EN": "Carian Knight's Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_chevalier_de_Caria.png"
+    },
+    {
+      "Index": "Weapons-31230000",
+      "Name_FR": "Grand bouclier de cuir",
+      "Name_EN": "Large Leather Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_bouclier_de_cuir.png"
+    },
+    {
+      "Index": "Weapons-31240000",
+      "Name_FR": "Bouclier en bois chevalin",
+      "Name_EN": "Horse Crest Wooden Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_en_bois_chevalin.png"
+    },
+    {
+      "Index": "Weapons-31250000",
+      "Name_FR": "Bouclier du candélarbre",
+      "Name_EN": "Candletree Wooden Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_du_candélarbre.png"
+    },
+    {
+      "Index": "Weapons-31260000",
+      "Name_FR": "Bouclier en bois flamboyant",
+      "Name_EN": "Flame Crest Wooden Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_en_bois_flamboyant.png"
+    },
+    {
+      "Index": "Weapons-31270000",
+      "Name_FR": "Bouclier en bois aquilin",
+      "Name_EN": "Hawk Crest Wooden Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_en_bois_aquilin.png"
+    },
+    {
+      "Index": "Weapons-31280000",
+      "Name_FR": "Écu bestial",
+      "Name_EN": "Beast Crest Heater Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Écu_bestial.png"
+    },
+    {
+      "Index": "Weapons-31290000",
+      "Name_FR": "Écu à motif rouge",
+      "Name_EN": "Red Crest Heater Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Écu_à_motif_rouge.png"
+    },
+    {
+      "Index": "Weapons-31300000",
+      "Name_FR": "Écu à motif bleu",
+      "Name_EN": "Blue Crest Heater Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Écu_à_motif_bleu.png"
+    },
+    {
+      "Index": "Weapons-31310000",
+      "Name_FR": "Écu de l'éclipse",
+      "Name_EN": "Eclipse Crest Heater Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Écu_de_l'éclipse.png"
+    },
+    {
+      "Index": "Weapons-31320000",
+      "Name_FR": "Écu aquilin inversé",
+      "Name_EN": "Inverted Hawk Heater Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Écu_aquilin_inversé.png"
+    },
+    {
+      "Index": "Weapons-31330000",
+      "Name_FR": "Écu",
+      "Name_EN": "Heater Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Écu.png"
+    },
+    {
+      "Index": "Weapons-31340000",
+      "Name_FR": "Bouclier de cuir noir",
+      "Name_EN": "Black Leather Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_cuir_noir.png"
+    },
+    {
+      "Index": "Weapons-32000000",
+      "Name_FR": "Égide draconique",
+      "Name_EN": "Dragon Towershield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Égide_draconique.png"
+    },
+    {
+      "Index": "Weapons-32020000",
+      "Name_FR": "Pavois distingué",
+      "Name_EN": "Distinguished Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_distingué.png"
+    },
+    {
+      "Index": "Weapons-32030000",
+      "Name_FR": "Bouclier à corne du Creuset",
+      "Name_EN": "Crucible Hornshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_à_corne_du_Creuset.png"
+    },
+    {
+      "Index": "Weapons-32040000",
+      "Name_FR": "Bouclier griffe de dragon",
+      "Name_EN": "Dragonclaw Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_griffe_de_dragon.png"
+    },
+    {
+      "Index": "Weapons-32050000",
+      "Name_FR": "Pavois des ronces",
+      "Name_EN": "Briar Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_des_ronces.png"
+    },
+    {
+      "Index": "Weapons-32080000",
+      "Name_FR": "Pavois de l'Arbre-Monde",
+      "Name_EN": "Erdtree Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_de_l'Arbre-Monde.png"
+    },
+    {
+      "Index": "Weapons-32080100",
+      "Name_FR": "Pavois lourd de l'Arbre-Monde",
+      "Name_EN": "Heavy Erdtree Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_lourd_de_l'Arbre-Monde.png"
+    },
+    {
+      "Index": "Weapons-32090000",
+      "Name_FR": "Bouclier bestial doré",
+      "Name_EN": "Golden Beast Crest Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_bestial_doré.png"
+    },
+    {
+      "Index": "Weapons-32120000",
+      "Name_FR": "Bouclier de la méduse",
+      "Name_EN": "Jellyfish Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_la_méduse.png"
+    },
+    {
+      "Index": "Weapons-32130000",
+      "Name_FR": "Bouclier des empreintes",
+      "Name_EN": "Fingerprint Stone Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_des_empreintes.png"
+    },
+    {
+      "Index": "Weapons-32140000",
+      "Name_FR": "Bouclier de l'icône",
+      "Name_EN": "Icon Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_de_l'icône.png"
+    },
+    {
+      "Index": "Weapons-32150000",
+      "Name_FR": "Bouclier cyclope",
+      "Name_EN": "One-Eyed Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_cyclope.png"
+    },
+    {
+      "Index": "Weapons-32160000",
+      "Name_FR": "Bouclier-visage",
+      "Name_EN": "Visage Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier-visage.png"
+    },
+    {
+      "Index": "Weapons-32170000",
+      "Name_FR": "Bouclier-bastion hérissé",
+      "Name_EN": "Spiked Palisade Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier-bastion_hérissé.png"
+    },
+    {
+      "Index": "Weapons-32190000",
+      "Name_FR": "Égide du Manoir",
+      "Name_EN": "Manor Towershield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Égide_du_Manoir.png"
+    },
+    {
+      "Index": "Weapons-32200000",
+      "Name_FR": "Égide enchevêtrée",
+      "Name_EN": "Crossed-Tree Towershield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Égide_enchevêtrée.png"
+    },
+    {
+      "Index": "Weapons-32210000",
+      "Name_FR": "Égide aquiline inversée",
+      "Name_EN": "Inverted Hawk Towershield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Égide_aquiline_inversée.png"
+    },
+    {
+      "Index": "Weapons-32220000",
+      "Name_FR": "Targe de la fourmi",
+      "Name_EN": "Ant's Skull Plate",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Targe_de_la_fourmi.png"
+    },
+    {
+      "Index": "Weapons-32230000",
+      "Name_FR": "Pavois du Lion rouge",
+      "Name_EN": "Redmane Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_du_Lion_rouge.png"
+    },
+    {
+      "Index": "Weapons-32240000",
+      "Name_FR": "Pavois de l'éclipse",
+      "Name_EN": "Eclipse Crest Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_de_l'éclipse.png"
+    },
+    {
+      "Index": "Weapons-32250000",
+      "Name_FR": "Pavois du Coucou",
+      "Name_EN": "Cuckoo Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_du_Coucou.png"
+    },
+    {
+      "Index": "Weapons-32260000",
+      "Name_FR": "Pavois doré",
+      "Name_EN": "Golden Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_doré.png"
+    },
+    {
+      "Index": "Weapons-32270000",
+      "Name_FR": "Pavois à dorures",
+      "Name_EN": "Gilded Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_à_dorures.png"
+    },
+    {
+      "Index": "Weapons-32280000",
+      "Name_FR": "Pavois de l'Arbre-Sacré",
+      "Name_EN": "Haligtree Crest Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_de_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Weapons-32290000",
+      "Name_FR": "Pavois en bois",
+      "Name_EN": "Wooden Greatshield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Pavois_en_bois.png"
+    },
+    {
+      "Index": "Weapons-32300000",
+      "Name_FR": "Bouclier seigneurial",
+      "Name_EN": "Lordsworn's Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bouclier_seigneurial.png"
+    },
+    {
+      "Index": "Weapons-33000000",
+      "Name_FR": "Bâton d'éclat",
+      "Name_EN": "Glintstone Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'éclat.png"
+    },
+    {
+      "Index": "Weapons-33040000",
+      "Name_FR": "Bâton de cristal",
+      "Name_EN": "Crystal Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_de_cristal.png"
+    },
+    {
+      "Index": "Weapons-33050000",
+      "Name_FR": "Bâton d'éclat de Gelmir",
+      "Name_EN": "Gelmir Glintstone Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'éclat_de_Gelmir.png"
+    },
+    {
+      "Index": "Weapons-33060000",
+      "Name_FR": "Bâton de la reine semi-humaine",
+      "Name_EN": "Demi-Human Queen's Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_de_la_reine_semi-humaine.png"
+    },
+    {
+      "Index": "Weapons-33090000",
+      "Name_FR": "Sceptre royal de Caria",
+      "Name_EN": "Carian Regal Scepter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceptre_royal_de_Caria.png"
+    },
+    {
+      "Index": "Weapons-33120000",
+      "Name_FR": "Bâton d'excavateur",
+      "Name_EN": "Digger's Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'excavateur.png"
+    },
+    {
+      "Index": "Weapons-33130000",
+      "Name_FR": "Bâton d'astrologue",
+      "Name_EN": "Astrologer's Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'astrologue.png"
+    },
+    {
+      "Index": "Weapons-33170000",
+      "Name_FR": "Bâton-laméclat de Caria",
+      "Name_EN": "Carian Glintblade Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton-laméclat_de_Caria.png"
+    },
+    {
+      "Index": "Weapons-33180000",
+      "Name_FR": "Bâton du Prince de la Mort",
+      "Name_EN": "Prince of Death's Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_du_Prince_de_la_Mort.png"
+    },
+    {
+      "Index": "Weapons-33190000",
+      "Name_FR": "Bâton d'Albinaurique",
+      "Name_EN": "Albinauric Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'Albinaurique.png"
+    },
+    {
+      "Index": "Weapons-33200000",
+      "Name_FR": "Bâton d'éclat de l'Académie",
+      "Name_EN": "Academy Glintstone Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'éclat_de_l'Académie.png"
+    },
+    {
+      "Index": "Weapons-33210000",
+      "Name_FR": "Bâton d'éclat de Caria",
+      "Name_EN": "Carian Glintstone Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'éclat_de_Caria.png"
+    },
+    {
+      "Index": "Weapons-33230000",
+      "Name_FR": "Bâton d'éclat d'Azur",
+      "Name_EN": "Azur's Glintstone Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'éclat_d'Azur.png"
+    },
+    {
+      "Index": "Weapons-33240000",
+      "Name_FR": "Bâton d'éclat de Lusat",
+      "Name_EN": "Lusat's Glintstone Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_d'éclat_de_Lusat.png"
+    },
+    {
+      "Index": "Weapons-33250000",
+      "Name_FR": "Bâton météorique",
+      "Name_EN": "Meteorite Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_météorique.png"
+    },
+    {
+      "Index": "Weapons-33260000",
+      "Name_FR": "Bâton de culpabilité",
+      "Name_EN": "Staff of the Guilty",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_de_culpabilité.png"
+    },
+    {
+      "Index": "Weapons-33270000",
+      "Name_FR": "Bâton de cristal putréfié",
+      "Name_EN": "Rotten Crystal Staff",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_de_cristal_putréfié.png"
+    },
+    {
+      "Index": "Weapons-33280000",
+      "Name_FR": "Bâton de revers",
+      "Name_EN": "Staff of Loss",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Bâton_de_revers.png"
+    },
+    {
+      "Index": "Weapons-34000000",
+      "Name_FR": "Sceau des Doigts",
+      "Name_EN": "Finger Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceau_des_Doigts.png"
+    },
+    {
+      "Index": "Weapons-34010000",
+      "Name_FR": "Sceau du déicide",
+      "Name_EN": "Godslayer's Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceau_du_déicide.png"
+    },
+    {
+      "Index": "Weapons-34020000",
+      "Name_FR": "Sceau des Géants",
+      "Name_EN": "Giant's Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceau_des_Géants.png"
+    },
+    {
+      "Index": "Weapons-34030000",
+      "Name_FR": "Sceau de granite",
+      "Name_EN": "Gravel Stone Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceau_de_granite.png"
+    },
+    {
+      "Index": "Weapons-34040000",
+      "Name_FR": "Sceau de griffure",
+      "Name_EN": "Clawmark Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceau_de_griffure.png"
+    },
+    {
+      "Index": "Weapons-34060000",
+      "Name_FR": "Sceau de l'Ordre d'or",
+      "Name_EN": "Golden Order Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceau_de_l'Ordre_d'or.png"
+    },
+    {
+      "Index": "Weapons-34070000",
+      "Name_FR": "Sceau de l'Arbre-Monde",
+      "Name_EN": "Erdtree Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceau_de_l'Arbre-Monde.png"
+    },
+    {
+      "Index": "Weapons-34080000",
+      "Name_FR": "Sceau de communion draconique",
+      "Name_EN": "Dragon Communion Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Sceau_de_communion_draconique.png"
+    },
+    {
+      "Index": "Weapons-34090000",
+      "Name_FR": "Étincelle exaltée",
+      "Name_EN": "Frenzied Flame Seal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Étincelle_exaltée.png"
+    },
+    {
+      "Index": "Weapons-40000000",
+      "Name_FR": "Arc court",
+      "Name_EN": "Shortbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_court.png"
+    },
+    {
+      "Index": "Weapons-40010000",
+      "Name_FR": "Arc court de chimère",
+      "Name_EN": "Misbegotten Shortbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_court_de_chimère.png"
+    },
+    {
+      "Index": "Weapons-40020000",
+      "Name_FR": "Arc court en bois rouge",
+      "Name_EN": "Red Branch Shortbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_court_en_bois_rouge.png"
+    },
+    {
+      "Index": "Weapons-40030000",
+      "Name_FR": "Arc-lyre",
+      "Name_EN": "Harp Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc-lyre.png"
+    },
+    {
+      "Index": "Weapons-40050000",
+      "Name_FR": "Arc composite",
+      "Name_EN": "Composite Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_composite.png"
+    },
+    {
+      "Index": "Weapons-41000000",
+      "Name_FR": "Arc long",
+      "Name_EN": "Longbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_long.png"
+    },
+    {
+      "Index": "Weapons-41010000",
+      "Name_FR": "Arc d'Albinaurique",
+      "Name_EN": "Albinauric Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_d'Albinaurique.png"
+    },
+    {
+      "Index": "Weapons-41020000",
+      "Name_FR": "Arc en corne",
+      "Name_EN": "Horn Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_en_corne.png"
+    },
+    {
+      "Index": "Weapons-41030000",
+      "Name_FR": "Arc de l'Arbre-Monde",
+      "Name_EN": "Erdtree Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_de_l'Arbre-Monde.png"
+    },
+    {
+      "Index": "Weapons-41040000",
+      "Name_FR": "Arc serpentin",
+      "Name_EN": "Serpent Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_serpentin.png"
+    },
+    {
+      "Index": "Weapons-41060000",
+      "Name_FR": "Arc à poulies",
+      "Name_EN": "Pulley Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_à_poulies.png"
+    },
+    {
+      "Index": "Weapons-41070000",
+      "Name_FR": "Arc noir",
+      "Name_EN": "Black Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_noir.png"
+    },
+    {
+      "Index": "Weapons-42000000",
+      "Name_FR": "Arc géant léonin",
+      "Name_EN": "Lion Greatbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_géant_léonin.png"
+    },
+    {
+      "Index": "Weapons-42010000",
+      "Name_FR": "Arc géant de golem",
+      "Name_EN": "Golem Greatbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_géant_de_golem.png"
+    },
+    {
+      "Index": "Weapons-42030000",
+      "Name_FR": "Grand arc de l'Arbre-Monde",
+      "Name_EN": "Erdtree Greatbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_arc_de_l'Arbre-Monde.png"
+    },
+    {
+      "Index": "Weapons-42040000",
+      "Name_FR": "Arc géant",
+      "Name_EN": "Greatbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arc_géant.png"
+    },
+    {
+      "Index": "Weapons-43000000",
+      "Name_FR": "Arbalète de soldat",
+      "Name_EN": "Soldier's Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arbalète_de_soldat.png"
+    },
+    {
+      "Index": "Weapons-43020000",
+      "Name_FR": "Arbalète légère",
+      "Name_EN": "Light Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arbalète_légère.png"
+    },
+    {
+      "Index": "Weapons-43030000",
+      "Name_FR": "Arbalète lourde",
+      "Name_EN": "Heavy Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arbalète_lourde.png"
+    },
+    {
+      "Index": "Weapons-43050000",
+      "Name_FR": "Arbalète à poulies",
+      "Name_EN": "Pulley Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arbalète_à_poulies.png"
+    },
+    {
+      "Index": "Weapons-43060000",
+      "Name_FR": "Arbalète de la pleine lune",
+      "Name_EN": "Full Moon Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arbalète_de_la_pleine_lune.png"
+    },
+    {
+      "Index": "Weapons-43080000",
+      "Name_FR": "Arbalète ordinaire",
+      "Name_EN": "Arbalest",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arbalète_ordinaire.png"
+    },
+    {
+      "Index": "Weapons-43110000",
+      "Name_FR": "Arbalète noire de Crepus",
+      "Name_EN": "Crepus's Black-Key Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Arbalète_noire_de_Crepus.png"
+    },
+    {
+      "Index": "Weapons-44000000",
+      "Name_FR": "Baliste portative",
+      "Name_EN": "Hand Ballista",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Baliste_portative.png"
+    },
+    {
+      "Index": "Weapons-44010000",
+      "Name_FR": "Canon jarre",
+      "Name_EN": "Jar Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Canon_jarre.png"
+    },
+    {
+      "Index": "Weapons-50000000",
+      "Name_FR": "Flèche",
+      "Name_EN": "Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche.png"
+    },
+    {
+      "Index": "Weapons-50010000",
+      "Name_FR": "Flèche de feu",
+      "Name_EN": "Fire Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_de_feu.png"
+    },
+    {
+      "Index": "Weapons-50020000",
+      "Name_FR": "Flèche serpentine",
+      "Name_EN": "Serpent Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_serpentine.png"
+    },
+    {
+      "Index": "Weapons-50030000",
+      "Name_FR": "Flèche en os empennée",
+      "Name_EN": "Bone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_empennée.png"
+    },
+    {
+      "Index": "Weapons-50040000",
+      "Name_FR": "Flèche de Trina",
+      "Name_EN": "St. Trina's Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_de_Trina.png"
+    },
+    {
+      "Index": "Weapons-50060000",
+      "Name_FR": "Flèche fragmentée empennée",
+      "Name_EN": "Shattershard Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_fragmentée_empennée.png"
+    },
+    {
+      "Index": "Weapons-50080000",
+      "Name_FR": "Flèche arc-en-ciel empennée",
+      "Name_EN": "Rainbow Stone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_arc-en-ciel_empennée.png"
+    },
+    {
+      "Index": "Weapons-50090000",
+      "Name_FR": "Flèche dorée",
+      "Name_EN": "Golden Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_dorée.png"
+    },
+    {
+      "Index": "Weapons-50100000",
+      "Name_FR": "Flèche hantée",
+      "Name_EN": "Dwelling Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_hantée.png"
+    },
+    {
+      "Index": "Weapons-50110000",
+      "Name_FR": "Flèche en os",
+      "Name_EN": "Bone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os.png"
+    },
+    {
+      "Index": "Weapons-50130000",
+      "Name_FR": "Flèche en os enflammée empennée",
+      "Name_EN": "Firebone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_enflammée_empennée.png"
+    },
+    {
+      "Index": "Weapons-50140000",
+      "Name_FR": "Flèche en os enflammée",
+      "Name_EN": "Firebone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_enflammée.png"
+    },
+    {
+      "Index": "Weapons-50150000",
+      "Name_FR": "Flèche en os empoisonnée empennée",
+      "Name_EN": "Poisonbone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_empoisonnée_empennée.png"
+    },
+    {
+      "Index": "Weapons-50160000",
+      "Name_FR": "Flèche en os empoisonnée",
+      "Name_EN": "Poisonbone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_empoisonnée.png"
+    },
+    {
+      "Index": "Weapons-50170000",
+      "Name_FR": "Flèche en os soporifique empennée",
+      "Name_EN": "Sleepbone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_soporifique_empennée.png"
+    },
+    {
+      "Index": "Weapons-50180000",
+      "Name_FR": "Flèche en os soporifique",
+      "Name_EN": "Sleepbone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_soporifique.png"
+    },
+    {
+      "Index": "Weapons-50190000",
+      "Name_FR": "Flèche en os des tempêtes",
+      "Name_EN": "Stormwing Bone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_des_tempêtes.png"
+    },
+    {
+      "Index": "Weapons-50200000",
+      "Name_FR": "Flèche en os foudroyante empennée",
+      "Name_EN": "Lightningbone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_foudroyante_empennée.png"
+    },
+    {
+      "Index": "Weapons-50210000",
+      "Name_FR": "Flèche en os foudroyante",
+      "Name_EN": "Lightningbone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_foudroyante.png"
+    },
+    {
+      "Index": "Weapons-50220000",
+      "Name_FR": "Flèche arc-en-ciel",
+      "Name_EN": "Rainbow Stone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_arc-en-ciel.png"
+    },
+    {
+      "Index": "Weapons-50230000",
+      "Name_FR": "Flèche fragmentée",
+      "Name_EN": "Shattershard Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_fragmentée.png"
+    },
+    {
+      "Index": "Weapons-50240000",
+      "Name_FR": "Flèche de flamme spirituelle",
+      "Name_EN": "Spiritflame Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_de_flamme_spirituelle.png"
+    },
+    {
+      "Index": "Weapons-50260000",
+      "Name_FR": "Flèche en os magique empennée",
+      "Name_EN": "Magicbone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_magique_empennée.png"
+    },
+    {
+      "Index": "Weapons-50270000",
+      "Name_FR": "Flèche en os magique",
+      "Name_EN": "Magicbone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_magique.png"
+    },
+    {
+      "Index": "Weapons-50280000",
+      "Name_FR": "Flèche en os sacrée empennée",
+      "Name_EN": "Haligbone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_sacrée_empennée.png"
+    },
+    {
+      "Index": "Weapons-50290000",
+      "Name_FR": "Flèche en os sacrée",
+      "Name_EN": "Haligbone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_sacrée.png"
+    },
+    {
+      "Index": "Weapons-50300000",
+      "Name_FR": "Flèche en os sanguine empennée",
+      "Name_EN": "Bloodbone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_sanguine_empennée.png"
+    },
+    {
+      "Index": "Weapons-50310000",
+      "Name_FR": "Flèche en os sanguine",
+      "Name_EN": "Bloodbone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_sanguine.png"
+    },
+    {
+      "Index": "Weapons-50320000",
+      "Name_FR": "Flèche en os de glace empennée",
+      "Name_EN": "Coldbone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_de_glace_empennée.png"
+    },
+    {
+      "Index": "Weapons-50330000",
+      "Name_FR": "Flèche en os de glace",
+      "Name_EN": "Coldbone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_de_glace.png"
+    },
+    {
+      "Index": "Weapons-50340000",
+      "Name_FR": "Flèche en os putréfiée empennée",
+      "Name_EN": "Rotbone Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_putréfiée_empennée.png"
+    },
+    {
+      "Index": "Weapons-50350000",
+      "Name_FR": "Flèche en os putréfiée",
+      "Name_EN": "Rotbone Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_en_os_putréfiée.png"
+    },
+    {
+      "Index": "Weapons-51000000",
+      "Name_FR": "Grande flèche",
+      "Name_EN": "Great Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_flèche.png"
+    },
+    {
+      "Index": "Weapons-51010000",
+      "Name_FR": "Grande flèche du golem",
+      "Name_EN": "Golem's Great Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_flèche_du_golem.png"
+    },
+    {
+      "Index": "Weapons-51020000",
+      "Name_FR": "Grande flèche dorée",
+      "Name_EN": "Golden Great Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_flèche_dorée.png"
+    },
+    {
+      "Index": "Weapons-51030000",
+      "Name_FR": "Flèche magique du golem",
+      "Name_EN": "Golem's Magic Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Flèche_magique_du_golem.png"
+    },
+    {
+      "Index": "Weapons-51040000",
+      "Name_FR": "Lance de Radahn",
+      "Name_EN": "Radahn's Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Lance_de_Radahn.png"
+    },
+    {
+      "Index": "Weapons-51050000",
+      "Name_FR": "Grande flèche en os empennée",
+      "Name_EN": "Bone Great Arrow (Fletched)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_flèche_en_os_empennée.png"
+    },
+    {
+      "Index": "Weapons-51060000",
+      "Name_FR": "Grande flèche en os",
+      "Name_EN": "Bone Great Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grande_flèche_en_os.png"
+    },
+    {
+      "Index": "Weapons-52000000",
+      "Name_FR": "Carreau",
+      "Name_EN": "Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau.png"
+    },
+    {
+      "Index": "Weapons-52010000",
+      "Name_FR": "Carreau de foudre",
+      "Name_EN": "Lightning Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_de_foudre.png"
+    },
+    {
+      "Index": "Weapons-52020000",
+      "Name_FR": "Carreau de Parfumeur",
+      "Name_EN": "Perfumer's Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_de_Parfumeur.png"
+    },
+    {
+      "Index": "Weapons-52030000",
+      "Name_FR": "Carreau torsadé noir",
+      "Name_EN": "Black-Key Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_torsadé_noir.png"
+    },
+    {
+      "Index": "Weapons-52040000",
+      "Name_FR": "Carreau barbelé",
+      "Name_EN": "Burred Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_barbelé.png"
+    },
+    {
+      "Index": "Weapons-52050000",
+      "Name_FR": "Carreau météorique",
+      "Name_EN": "Meteor Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_météorique.png"
+    },
+    {
+      "Index": "Weapons-52060000",
+      "Name_FR": "Carreau explosif",
+      "Name_EN": "Explosive Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_explosif.png"
+    },
+    {
+      "Index": "Weapons-52070000",
+      "Name_FR": "Carreau doré",
+      "Name_EN": "Golden Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_doré.png"
+    },
+    {
+      "Index": "Weapons-52080000",
+      "Name_FR": "Carreau seigneurial",
+      "Name_EN": "Lordsworn's Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_seigneurial.png"
+    },
+    {
+      "Index": "Weapons-52090000",
+      "Name_FR": "Carreau en os",
+      "Name_EN": "Bone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os.png"
+    },
+    {
+      "Index": "Weapons-52100000",
+      "Name_FR": "Carreau en os enflammé",
+      "Name_EN": "Firebone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_enflammé.png"
+    },
+    {
+      "Index": "Weapons-52110000",
+      "Name_FR": "Carreau en os foudroyant",
+      "Name_EN": "Lightningbone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_foudroyant.png"
+    },
+    {
+      "Index": "Weapons-52120000",
+      "Name_FR": "Carreau en os magique",
+      "Name_EN": "Magicbone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_magique.png"
+    },
+    {
+      "Index": "Weapons-52130000",
+      "Name_FR": "Carreau en os sacré",
+      "Name_EN": "Haligbone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_sacré.png"
+    },
+    {
+      "Index": "Weapons-52140000",
+      "Name_FR": "Carreau en os empoisonné",
+      "Name_EN": "Poisonbone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_empoisonné.png"
+    },
+    {
+      "Index": "Weapons-52150000",
+      "Name_FR": "Carreau en os sanguin",
+      "Name_EN": "Bloodbone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_sanguin.png"
+    },
+    {
+      "Index": "Weapons-52160000",
+      "Name_FR": "Carreau en os de glace",
+      "Name_EN": "Coldbone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_de_glace.png"
+    },
+    {
+      "Index": "Weapons-52170000",
+      "Name_FR": "Carreau en os putréfié",
+      "Name_EN": "Rotbone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_putréfié.png"
+    },
+    {
+      "Index": "Weapons-52180000",
+      "Name_FR": "Carreau en os soporifique",
+      "Name_EN": "Sleepbone Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_en_os_soporifique.png"
+    },
+    {
+      "Index": "Weapons-52190000",
+      "Name_FR": "Carreau enflammé",
+      "Name_EN": "Flaming Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_enflammé.png"
+    },
+    {
+      "Index": "Weapons-53000000",
+      "Name_FR": "Carreau de baliste",
+      "Name_EN": "Ballista Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_de_baliste.png"
+    },
+    {
+      "Index": "Weapons-53010000",
+      "Name_FR": "Grand carreau de foudre",
+      "Name_EN": "Lightning Greatbolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_carreau_de_foudre.png"
+    },
+    {
+      "Index": "Weapons-53020000",
+      "Name_FR": "Grand carreau explosif",
+      "Name_EN": "Explosive Greatbolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Grand_carreau_explosif.png"
+    },
+    {
+      "Index": "Weapons-53030000",
+      "Name_FR": "Carreau de baliste en os",
+      "Name_EN": "Bone Ballista Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Weapons/Carreau_de_baliste_en_os.png"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBingo</title>
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/nav.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="card text-center">
+            <h1 class="page-title" data-i18n="home.title">AutoBingo</h1>
+            <p class="page-subtitle" data-i18n="home.subtitle">Create and play bingo games from your favorite datasets!</p>
+
+            <button class="btn btn-primary mt-24" onclick="window.location.href='create_bingo.html'" data-i18n="home.create_button">
+                Create a Bingo Grid
+            </button>
+        </div>
+    </main>
+
+    <!-- Scripts - Entity -->
+    <script src="js/entity/DatasetDefinition.js"></script>
+    <script src="js/entity/DatasetItem.js"></script>
+    <script src="js/entity/BingoGame.js"></script>
+
+    <!-- Scripts - Business -->
+    <script src="js/business/cookieManager.js"></script>
+    <script src="js/business/translationManager.js"></script>
+    <script src="js/business/themeManager.js"></script>
+    <script src="js/business/datasetManager.js"></script>
+    <script src="js/business/navigationManager.js"></script>
+
+    <!-- Scripts - Visual -->
+    <script src="js/visual/navRenderer.js"></script>
+    <script src="js/visual/themeToggle.js"></script>
+    <script src="js/visual/languageToggle.js"></script>
+
+    <!-- Init -->
+    <script>
+        (async function() {
+            'use strict';
+
+            // Init cookie-based managers
+            AutoBingo.ThemeManager.init();
+
+            // Init translation from cookie
+            const lang = AutoBingo.CookieManager.get('bingo_lang') || 'en';
+            const translator = new AutoBingo.TranslationManager();
+            AutoBingo.translationManager = translator;
+            await translator.load(lang);
+
+            // Render navigation
+            AutoBingo.NavRenderer.render(document.getElementById('nav-container'));
+
+            // Create floating toggles
+            AutoBingo.ThemeToggle.create();
+            AutoBingo.LanguageToggle.create();
+
+            // Translate page
+            translator.translatePage();
+        })();
+    </script>
+</body>
+</html>

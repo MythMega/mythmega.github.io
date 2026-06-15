@@ -84,6 +84,18 @@
             autobingo.NavigationManager.setParam('id', id);
             autobingo.NavigationManager.setParam('size', size);
             autobingo.NavigationManager.setParam('items', encoded);
+            this._updateControlsUrl();
+        },
+
+        /**
+         * Update the controls param in URL
+         */
+        _updateControlsUrl() {
+            const gm = this.gameManager;
+            const h = gm.hideItems ? '1' : '0';
+            const b = gm.blurItems ? '1' : '0';
+            const l = gm.locked ? '1' : '0';
+            autobingo.NavigationManager.setParam('controls', h + b + l);
         },
 
         /**
@@ -166,12 +178,12 @@
             bar.appendChild(randOrderBtn);
 
             // Lock grid toggle
+            const lockCheckbox = this._createControlCheckbox('lockCheckbox', this.gameManager.locked);
             const lockToggle = document.createElement('label');
             lockToggle.className = 'bingo-toggle';
-            const lockCheckbox = document.createElement('input');
-            lockCheckbox.type = 'checkbox';
             lockCheckbox.addEventListener('change', () => {
                 this.gameManager.locked = lockCheckbox.checked;
+                this._updateControlsUrl();
             });
             const lockSpan = document.createElement('span');
             lockSpan.setAttribute('data-i18n', 'bingo.lock_grid');
@@ -188,13 +200,13 @@
             bar.appendChild(resetBtn);
 
             // Hide items toggle
+            const hideCheckbox = this._createControlCheckbox('hideCheckbox', this.gameManager.hideItems);
             const hideToggle = document.createElement('label');
             hideToggle.className = 'bingo-toggle';
-            const hideCheckbox = document.createElement('input');
-            hideCheckbox.type = 'checkbox';
             hideCheckbox.addEventListener('change', () => {
                 this.gameManager.hideItems = hideCheckbox.checked;
                 this.refreshCells();
+                this._updateControlsUrl();
             });
             const hideSpan = document.createElement('span');
             hideSpan.setAttribute('data-i18n', 'bingo.hide_items');
@@ -204,13 +216,13 @@
             bar.appendChild(hideToggle);
 
             // Blur items toggle
+            const blurCheckbox = this._createControlCheckbox('blurCheckbox', this.gameManager.blurItems);
             const blurToggle = document.createElement('label');
             blurToggle.className = 'bingo-toggle';
-            const blurCheckbox = document.createElement('input');
-            blurCheckbox.type = 'checkbox';
             blurCheckbox.addEventListener('change', () => {
                 this.gameManager.blurItems = blurCheckbox.checked;
                 this.refreshCells();
+                this._updateControlsUrl();
             });
             const blurSpan = document.createElement('span');
             blurSpan.setAttribute('data-i18n', 'bingo.blur_items');
@@ -220,6 +232,17 @@
             bar.appendChild(blurToggle);
 
             return bar;
+        },
+
+        /**
+         * Create a checkbox with id for controls tracking
+         */
+        _createControlCheckbox(id, checked) {
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.id = id;
+            cb.checked = checked;
+            return cb;
         },
 
         /**
@@ -366,8 +389,6 @@
                 this.gameManager.allItems.indexOf(c.item) === allItemsIndex
             );
 
-            const container = document.getElementById('notification-container');
-
             if (cellIndex >= 0) {
                 // Found in grid! Activate it
                 this.gameManager.toggleCell(cellIndex);
@@ -390,7 +411,6 @@
                 const input = document.getElementById('bingo-search-input');
                 if (input) {
                     input.classList.remove('shake-animation');
-                    // Force reflow for re-trigger
                     void input.offsetWidth;
                     input.classList.add('shake-animation');
                     setTimeout(() => input.classList.remove('shake-animation'), 500);
@@ -400,8 +420,6 @@
 
         /**
          * Show a floating notification
-         * @param {string} message
-         * @param {string} type - 'success' or 'error'
          */
         _showNotification(message, type) {
             const container = document.getElementById('notification-container');
@@ -412,7 +430,6 @@
             notif.textContent = message;
             container.appendChild(notif);
 
-            // Remove after animation
             setTimeout(() => {
                 notif.classList.add('notification-hide');
                 setTimeout(() => notif.remove(), 300);
@@ -529,7 +546,6 @@
                 img.classList.remove('effect-hide', 'effect-blur');
 
                 if (!cell.validated) {
-                    // Non-validated items: apply effects based on toggles
                     const hide = this.gameManager.hideItems;
                     const blur = this.gameManager.blurItems;
 
@@ -540,7 +556,6 @@
                         img.classList.add('effect-blur');
                     }
                 }
-                // Validated items: no effects at all (CSS handles with filter: none)
 
                 if (this.gameManager.useAltImages && this.gameManager.hasAltImages && cell.item.pictureAlt) {
                     img.src = cell.item.pictureAlt;
@@ -549,7 +564,7 @@
                 }
             }
 
-            // Update name: show ?????? when hidden (only if NOT validated), otherwise localized name
+            // Update name
             const nameSpan = el.querySelector('.cell-name');
             if (nameSpan) {
                 if (this.gameManager.hideItems && !cell.validated) {
@@ -578,7 +593,6 @@
             `;
             modal.classList.remove('hidden');
 
-            // Translate the modal
             if (autobingo.translationManager) {
                 setTimeout(() => autobingo.translationManager.translatePage(), 0);
             }
@@ -597,8 +611,9 @@
                     const matches = this.gameManager.allItems
                         .map((item, idx) => ({ item, idx }))
                         .filter(({ item }) => {
-                            const name = lang === 'fr' ? item.nameFr : item.nameEn;
-                            return name && name.toLowerCase().includes(q);
+                            const nameEn = (item.nameEn || '').toLowerCase();
+                            const nameFr = (item.nameFr || '').toLowerCase();
+                            return nameEn.includes(q) || nameFr.includes(q);
                         })
                         .slice(0, 20);
 
@@ -631,7 +646,6 @@
                 modal.classList.add('hidden');
             });
 
-            // Close on outside click
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) modal.classList.add('hidden');
             });

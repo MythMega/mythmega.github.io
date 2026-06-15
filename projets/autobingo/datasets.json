@@ -94,5 +94,11 @@
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_unys.json"
+  },
+  {
+    "Name": "Minecraft 26.2",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26-2.json"
   }
 ]

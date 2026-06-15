@@ -197,6 +197,8 @@
     max-height: 70%;
     object-fit: contain;
     transition: filter 0.3s;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
 
 /* Non-validated: apply hide (black) and/or blur as requested */
@@ -205,11 +207,11 @@
 }
 
 .cell-image.effect-blur {
-    filter: blur(8px) !important;
+    filter: blur(24px) !important;
 }
 
 .cell-image.effect-hide.effect-blur {
-    filter: brightness(0) blur(8px) !important;
+    filter: brightness(0) blur(24px) !important;
 }
 
 /* Validated cell: always normal image, no effects */

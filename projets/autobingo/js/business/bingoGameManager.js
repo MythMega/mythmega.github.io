@@ -29,11 +29,17 @@
             const id = autobingo.NavigationManager.getParam('id');
             const sizeParam = autobingo.NavigationManager.getParam('size');
             const itemsParam = autobingo.NavigationManager.getParam('items');
+            const controlsParam = autobingo.NavigationManager.getParam('controls');
 
             if (!id) return false;
 
             this.gridSize = sizeParam ? parseInt(sizeParam) : 5;
             if (![3,4,5,6,7].includes(this.gridSize)) this.gridSize = 5;
+
+            // Load controls from URL (hide, blur, lock)
+            if (controlsParam) {
+                this._decodeControls(controlsParam);
+            }
 
             // Load dataset
             const dm = new autobingo.DatasetManager();
@@ -54,6 +60,28 @@
             // Otherwise generate random items
             this._generateRandomGrid();
             return true;
+        }
+
+        /**
+         * Encode current controls state (hide, blur, locked) as a 3-char string "101"
+         * @returns {string}
+         */
+        _encodeControls() {
+            const h = this.hideItems ? '1' : '0';
+            const b = this.blurItems ? '1' : '0';
+            const l = this.locked ? '1' : '0';
+            return h + b + l;
+        }
+
+        /**
+         * Decode controls string "101" and apply to state
+         * @param {string} str
+         */
+        _decodeControls(str) {
+            if (!str || str.length < 3) return;
+            this.hideItems = str[0] === '1';
+            this.blurItems = str[1] === '1';
+            this.locked = str[2] === '1';
         }
 
         /**

@@ -6,8 +6,19 @@
         }, 
         "Name_FR": "Pre-Test - Tests préliminaires",
         "Name_EN": "Pre-Test - Preliminary Tests",
-        "Desc_FR": "Premier tests de structure",
-        "Desc_EN": "First Structure Tests",
+        "Desc_FR": "Premier tests de structure, compatibilité Elden Ring, compatibilité Pokémon",
+        "Desc_EN": "First Structure Tests, Elden Ring support, Pokémon support",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/52035f5698ebe90efd9e4a494dde2d40ad520b19"
+    },
+    {
+        "Version": {
+            "ID": 2,
+            "Number": "Alpha a0.2"
+        }, 
+        "Name_FR": "Pre-Test - ShareGrid Controls",
+        "Name_EN": "Pre-Test - ShareGrid Controls",
+        "Desc_FR": "Partage avec controle Flou, Lock & Masque, compatibilité Minecraft",
+        "Desc_EN": "Share with Blur Lock & Hide, Minecarft Support",
         "Link": "https://github.com/MythMega/mythmega.github.io/commit/d1035ffb6e8d6f47454d2c202866436e84087400"
     }
 ]

@@ -1,5 +1,5 @@
 {
-  "Name": "Minecraft 26.2 - Chaos Cubed",
+  "Name": "Minecraft 1.21.9 - The Copper Age",
   "Category": "Minecraft",
   "Subcategory": "Minecraft Vanilla",
   "Items": [
@@ -424,12 +424,6 @@
     "PictureMain": "./assets/category/minecraft/Copper_Shovel.png"
   },
   {
-    "Index": 87,
-    "Name_FR": "Lance en cuivre",
-    "Name_EN": "Copper Spear",
-    "PictureMain": "./assets/category/minecraft/Copper_Spear.png"
-  },
-  {
     "Index": 88,
     "Name_FR": "Épée en cuivre",
     "Name_EN": "Copper Sword",
@@ -512,12 +506,6 @@
     "Name_FR": "Pelle en diamant",
     "Name_EN": "Diamond Shovel",
     "PictureMain": "./assets/category/minecraft/Diamond_Shovel.png"
-  },
-  {
-    "Index": 105,
-    "Name_FR": "Lance en diamant",
-    "Name_EN": "Diamond Spear",
-    "PictureMain": "./assets/category/minecraft/Diamond_Spear.png"
   },
   {
     "Index": 106,
@@ -754,12 +742,6 @@
     "PictureMain": "./assets/category/minecraft/Golden_Shovel.png"
   },
   {
-    "Index": 158,
-    "Name_FR": "Lance en or",
-    "Name_EN": "Golden Spear",
-    "PictureMain": "./assets/category/minecraft/Golden_Spear.png"
-  },
-  {
     "Index": 159,
     "Name_FR": "Épée en or",
     "Name_EN": "Golden Sword",
@@ -872,12 +854,6 @@
     "Name_FR": "Pelle en fer",
     "Name_EN": "Iron Shovel",
     "PictureMain": "./assets/category/minecraft/Iron_Shovel.png"
-  },
-  {
-    "Index": 184,
-    "Name_FR": "Lance en fer",
-    "Name_EN": "Iron Spear",
-    "PictureMain": "./assets/category/minecraft/Iron_Spear.png"
   },
   {
     "Index": 185,
@@ -1270,12 +1246,6 @@
     "PictureMain": "./assets/category/minecraft/Netherite_Hoe.png"
   },
   {
-    "Index": 255,
-    "Name_FR": "Armure en Netherite pour cheval",
-    "Name_EN": "Netherite Horse Armor",
-    "PictureMain": "./assets/category/minecraft/Netherite_Horse_Armor.png"
-  },
-  {
     "Index": 256,
     "Name_FR": "Lingot de Netherite",
     "Name_EN": "Netherite Ingot",
@@ -1304,12 +1274,6 @@
     "Name_FR": "Pelle en Netherite",
     "Name_EN": "Netherite Shovel",
     "PictureMain": "./assets/category/minecraft/Netherite_Shovel.png"
-  },
-  {
-    "Index": 261,
-    "Name_FR": "Lance en Netherite",
-    "Name_EN": "Netherite Spear",
-    "PictureMain": "./assets/category/minecraft/Netherite_Spear.png"
   },
   {
     "Index": 262,
@@ -1618,12 +1582,6 @@
     "PictureMain": "./assets/category/minecraft/Stone_Shovel.png"
   },
   {
-    "Index": 338,
-    "Name_FR": "Lance en pierre",
-    "Name_EN": "Stone Spear",
-    "PictureMain": "./assets/category/minecraft/Stone_Spear.png"
-  },
-  {
     "Index": 339,
     "Name_FR": "Épée en pierre",
     "Name_EN": "Stone Sword",
@@ -1742,12 +1700,6 @@
     "Name_FR": "Pelle en bois",
     "Name_EN": "Wooden Shovel",
     "PictureMain": "./assets/category/minecraft/Wooden_Shovel.png"
-  },
-  {
-    "Index": 374,
-    "Name_FR": "Lance en bois",
-    "Name_EN": "Wooden Spear",
-    "PictureMain": "./assets/category/minecraft/Wooden_Spear.png"
   },
   {
     "Index": 375,

@@ -19,6 +19,17 @@
         "Name_EN": "Pre-Test - ShareGrid Controls",
         "Desc_FR": "Partage avec controle Flou, Lock & Masque, compatibilité Minecraft",
         "Desc_EN": "Share with Blur Lock & Hide, Minecarft Support",
-        "Link": "https://github.com/MythMega/mythmega.github.io/commit/d1035ffb6e8d6f47454d2c202866436e84087400"
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/d51532ee337aef2e580cfc789e8d9a0223989184"
+    },
+    {
+        "Version": {
+            "ID": 3,
+            "Number": "Alpha a0.3"
+        }, 
+        "Name_FR": "Pre-Test - More Control",
+        "Name_EN": "Pre-Test - More Control",
+        "Desc_FR": "Correction des effets de flou et Hide avec le nom, compatibilité SM64, compatibilité Minecraft 1.21.9 + 1.21.11",
+        "Desc_EN": "Fixed blur and hide effects with name, SM64 compatibility, Minecraft 1.21.9 + 1.21.11 compatibility",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/13a5306f34dcf73f8c3736b6a5115d1820975a51"
     }
 ]

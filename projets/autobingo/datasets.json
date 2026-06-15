@@ -1,0 +1,98 @@
+[
+  {
+    "Name": "Elden Ring Full",
+    "Category": "Elden Ring",
+    "Subcategory": "Main & DLC",
+    "Location": "./data/eldenring/eldenring_full.json"
+  },
+  {
+    "Name": "Elden Ring Armor",
+    "Category": "Elden Ring",
+    "Subcategory": "Main & DLC",
+    "Location": "./data/eldenring/eldenring_armor.json"
+  },
+  {
+    "Name": "Elden Ring Goods",
+    "Category": "Elden Ring",
+    "Subcategory": "Main & DLC",
+    "Location": "./data/eldenring/eldenring_goods.json"
+  },
+  {
+    "Name": "Elden Ring Weapon",
+    "Category": "Elden Ring",
+    "Subcategory": "Main & DLC",
+    "Location": "./data/eldenring/eldenring_weapon.json"
+  },
+  {
+    "Name": "PokeFull",
+    "Category": "Pokemon",
+    "Subcategory": "Dexes",
+    "Location": "./data/pokemon/pokemon_home.json"
+  },
+  {
+    "Name": "Pokémon Alola",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_alola.json"
+  },
+  {
+    "Name": "Pokémon Galar",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_galar.json"
+  },
+  {
+    "Name": "Pokémon Hisui",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_hisui.json"
+  },
+  {
+    "Name": "Pokémon Hoenn",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_hoenn.json"
+  },
+  {
+    "Name": "Pokémon Johto",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_johto.json"
+  },
+  {
+    "Name": "Pokémon Kalos",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_kalos.json"
+  },
+  {
+    "Name": "Pokémon Kanto",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_kanto.json"
+  },
+  {
+    "Name": "Pokémon Mega",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_mega.json"
+  },
+  {
+    "Name": "Pokémon Paldea",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_paldea.json"
+  },
+  {
+    "Name": "Pokémon Sinnoh",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_sinnoh.json"
+  },
+  {
+    "Name": "Pokémon Unys",
+    "Category": "Pokemon",
+    "Subcategory": "Generation Dex",
+    "Location": "./data/pokemon/pokemon_unys.json"
+  }
+]

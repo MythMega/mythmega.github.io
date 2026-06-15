@@ -1,0 +1,2971 @@
+{
+  "Name": "Elden Ring Armor",
+  "Category": "Elden Ring",
+  "Subcategory": "Main & DLC",
+  "Items": [
+    {
+      "Index": "Armor-40000",
+      "Name_FR": "Casque en fer",
+      "Name_EN": "Iron Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_en_fer.png"
+    },
+    {
+      "Index": "Armor-40100",
+      "Name_FR": "Armure d'écailles",
+      "Name_EN": "Scale Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_d'écailles.png"
+    },
+    {
+      "Index": "Armor-40200",
+      "Name_FR": "Gantelets en fer",
+      "Name_EN": "Iron Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_en_fer.png"
+    },
+    {
+      "Index": "Armor-40300",
+      "Name_FR": "Pantalon en cuir",
+      "Name_EN": "Leather Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_en_cuir.png"
+    },
+    {
+      "Index": "Armor-50000",
+      "Name_FR": "Casque de Kaiden",
+      "Name_EN": "Kaiden Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_Kaiden.png"
+    },
+    {
+      "Index": "Armor-50100",
+      "Name_FR": "Armure de Kaiden",
+      "Name_EN": "Kaiden Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Kaiden.png"
+    },
+    {
+      "Index": "Armor-50200",
+      "Name_FR": "Gantelets de Kaiden",
+      "Name_EN": "Kaiden Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Kaiden.png"
+    },
+    {
+      "Index": "Armor-50300",
+      "Name_FR": "Pantalon de Kaiden",
+      "Name_EN": "Kaiden Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_Kaiden.png"
+    },
+    {
+      "Index": "Armor-60000",
+      "Name_FR": "Casque de chevalier draconique",
+      "Name_EN": "Drake Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_chevalier_draconique.png"
+    },
+    {
+      "Index": "Armor-60100",
+      "Name_FR": "Armure de chevalier draconique",
+      "Name_EN": "Drake Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_draconique.png"
+    },
+    {
+      "Index": "Armor-60200",
+      "Name_FR": "Gantelets de chevalier draconique",
+      "Name_EN": "Drake Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_draconique.png"
+    },
+    {
+      "Index": "Armor-60300",
+      "Name_FR": "Jambières de chevalier draconique",
+      "Name_EN": "Drake Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_draconique.png"
+    },
+    {
+      "Index": "Armor-80000",
+      "Name_FR": "Heaume en écailles",
+      "Name_EN": "Scaled Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_en_écailles.png"
+    },
+    {
+      "Index": "Armor-80100",
+      "Name_FR": "Armure en écailles",
+      "Name_EN": "Scaled Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_en_écailles.png"
+    },
+    {
+      "Index": "Armor-80200",
+      "Name_FR": "Gantelets en écailles",
+      "Name_EN": "Scaled Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_en_écailles.png"
+    },
+    {
+      "Index": "Armor-80300",
+      "Name_FR": "Jambières en écailles",
+      "Name_EN": "Scaled Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_en_écailles.png"
+    },
+    {
+      "Index": "Armor-90000",
+      "Name_FR": "Capuche de Parfumeur",
+      "Name_EN": "Perfumer Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_Parfumeur.png"
+    },
+    {
+      "Index": "Armor-90100",
+      "Name_FR": "Toge de Parfumeur",
+      "Name_EN": "Perfumer Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Toge_de_Parfumeur.png"
+    },
+    {
+      "Index": "Armor-90200",
+      "Name_FR": "Gants de Parfumeur",
+      "Name_EN": "Perfumer Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_Parfumeur.png"
+    },
+    {
+      "Index": "Armor-90300",
+      "Name_FR": "Sarong de Parfumeur",
+      "Name_EN": "Perfumer Sarong",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Sarong_de_Parfumeur.png"
+    },
+    {
+      "Index": "Armor-100000",
+      "Name_FR": "Chapeau de voyageur",
+      "Name_EN": "Traveler's Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chapeau_de_voyageur.png"
+    },
+    {
+      "Index": "Armor-100100",
+      "Name_FR": "Tenue de voyage de Parfumeur",
+      "Name_EN": "Perfumer's Traveling Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tenue_de_voyage_de_Parfumeur.png"
+    },
+    {
+      "Index": "Armor-100200",
+      "Name_FR": "Gants de voyageur",
+      "Name_EN": "Traveler's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_voyageur.png"
+    },
+    {
+      "Index": "Armor-100300",
+      "Name_FR": "Pantalon de voyageur",
+      "Name_EN": "Traveler's Slops",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_voyageur.png"
+    },
+    {
+      "Index": "Armor-120000",
+      "Name_FR": "Chapeau pointu d'Alberich",
+      "Name_EN": "Alberich's Pointed Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chapeau_pointu_d'Alberich.png"
+    },
+    {
+      "Index": "Armor-120100",
+      "Name_FR": "Robe d'Alberich",
+      "Name_EN": "Alberich's Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_d'Alberich.png"
+    },
+    {
+      "Index": "Armor-120200",
+      "Name_FR": "Brassards d'Alberich",
+      "Name_EN": "Alberich's Bracers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Brassards_d'Alberich.png"
+    },
+    {
+      "Index": "Armor-120300",
+      "Name_FR": "Pantalon d'Alberich",
+      "Name_EN": "Alberich's Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_d'Alberich.png"
+    },
+    {
+      "Index": "Armor-130000",
+      "Name_FR": "Chapeau pointu de lamesort",
+      "Name_EN": "Spellblade's Pointed Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chapeau_pointu_de_lamesort.png"
+    },
+    {
+      "Index": "Armor-130100",
+      "Name_FR": "Tenue de voyage de lamesort",
+      "Name_EN": "Spellblade's Traveling Attire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tenue_de_voyage_de_lamesort.png"
+    },
+    {
+      "Index": "Armor-130200",
+      "Name_FR": "Gants de lamesort",
+      "Name_EN": "Spellblade's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_lamesort.png"
+    },
+    {
+      "Index": "Armor-130300",
+      "Name_FR": "Pantalon de lamesort",
+      "Name_EN": "Spellblade's Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_lamesort.png"
+    },
+    {
+      "Index": "Armor-140000",
+      "Name_FR": "Casque du mouflon",
+      "Name_EN": "Bull-Goat Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_du_mouflon.png"
+    },
+    {
+      "Index": "Armor-140100",
+      "Name_FR": "Armure du mouflon",
+      "Name_EN": "Bull-Goat Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_du_mouflon.png"
+    },
+    {
+      "Index": "Armor-140200",
+      "Name_FR": "Gantelets du mouflon",
+      "Name_EN": "Bull-Goat Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_du_mouflon.png"
+    },
+    {
+      "Index": "Armor-140300",
+      "Name_FR": "Jambières du mouflon",
+      "Name_EN": "Bull-Goat Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_du_mouflon.png"
+    },
+    {
+      "Index": "Armor-150000",
+      "Name_FR": "Kasa en fer",
+      "Name_EN": "Iron Kasa",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Kasa_en_fer.png"
+    },
+    {
+      "Index": "Armor-150100",
+      "Name_FR": "Armure de ronin",
+      "Name_EN": "Ronin's Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_ronin.png"
+    },
+    {
+      "Index": "Armor-150200",
+      "Name_FR": "Gantelets de ronin",
+      "Name_EN": "Ronin's Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_ronin.png"
+    },
+    {
+      "Index": "Armor-150300",
+      "Name_FR": "Jambières de ronin",
+      "Name_EN": "Ronin's Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_ronin.png"
+    },
+    {
+      "Index": "Armor-160000",
+      "Name_FR": "Capuche de coupable",
+      "Name_EN": "Guilty Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_coupable.png"
+    },
+    {
+      "Index": "Armor-160100",
+      "Name_FR": "Costume en tissu",
+      "Name_EN": "Cloth Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Costume_en_tissu.png"
+    },
+    {
+      "Index": "Armor-160200",
+      "Name_FR": "",
+      "Name_EN": "Tarnished Wrap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tarnished_Wrap.png"
+    },
+    {
+      "Index": "Armor-160300",
+      "Name_FR": "Pantalon en tissu",
+      "Name_EN": "Cloth Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_en_tissu.png"
+    },
+    {
+      "Index": "Armor-170000",
+      "Name_FR": "Masque lupin noir",
+      "Name_EN": "Black Wolf Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_lupin_noir.png"
+    },
+    {
+      "Index": "Armor-170100",
+      "Name_FR": "Armure de Blaidd",
+      "Name_EN": "Blaidd's Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Blaidd.png"
+    },
+    {
+      "Index": "Armor-170200",
+      "Name_FR": "Gantelets de Blaidd",
+      "Name_EN": "Blaidd's Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Blaidd.png"
+    },
+    {
+      "Index": "Armor-170300",
+      "Name_FR": "Jambières de Blaidd",
+      "Name_EN": "Blaidd's Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Blaidd.png"
+    },
+    {
+      "Index": "Armor-180000",
+      "Name_FR": "Capuche des Couteaux noirs",
+      "Name_EN": "Black Knife Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_des_Couteaux_noirs.png"
+    },
+    {
+      "Index": "Armor-180100",
+      "Name_FR": "Armure des Couteaux noirs",
+      "Name_EN": "Black Knife Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_des_Couteaux_noirs.png"
+    },
+    {
+      "Index": "Armor-180200",
+      "Name_FR": "Gantelets des Couteaux noirs",
+      "Name_EN": "Black Knife Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_des_Couteaux_noirs.png"
+    },
+    {
+      "Index": "Armor-180300",
+      "Name_FR": "Jambières des Couteaux noirs",
+      "Name_EN": "Black Knife Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_des_Couteaux_noirs.png"
+    },
+    {
+      "Index": "Armor-190000",
+      "Name_FR": "Capuche d'exilé",
+      "Name_EN": "Exile Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_d'exilé.png"
+    },
+    {
+      "Index": "Armor-190100",
+      "Name_FR": "Armure d'exilé",
+      "Name_EN": "Exile Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_d'exilé.png"
+    },
+    {
+      "Index": "Armor-190200",
+      "Name_FR": "Gantelets d'exilé",
+      "Name_EN": "Exile Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_d'exilé.png"
+    },
+    {
+      "Index": "Armor-190300",
+      "Name_FR": "Jambières d'exilé",
+      "Name_EN": "Exile Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_d'exilé.png"
+    },
+    {
+      "Index": "Armor-200000",
+      "Name_FR": "Casque de chevalier banni",
+      "Name_EN": "Banished Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_chevalier_banni.png"
+    },
+    {
+      "Index": "Armor-200100",
+      "Name_FR": "Armure de chevalier banni",
+      "Name_EN": "Banished Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_banni.png"
+    },
+    {
+      "Index": "Armor-200200",
+      "Name_FR": "Gantelets de chevalier banni",
+      "Name_EN": "Banished Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_banni.png"
+    },
+    {
+      "Index": "Armor-200300",
+      "Name_FR": "Jambières de chevalier banni",
+      "Name_EN": "Banished Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_banni.png"
+    },
+    {
+      "Index": "Armor-210000",
+      "Name_FR": "Heaume du Roncier",
+      "Name_EN": "Briar Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_du_Roncier.png"
+    },
+    {
+      "Index": "Armor-210100",
+      "Name_FR": "Armure du Roncier",
+      "Name_EN": "Briar Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_du_Roncier.png"
+    },
+    {
+      "Index": "Armor-210200",
+      "Name_FR": "Gantelets du Roncier",
+      "Name_EN": "Briar Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_du_Roncier.png"
+    },
+    {
+      "Index": "Armor-210300",
+      "Name_FR": "Jambières du Roncier",
+      "Name_EN": "Briar Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_du_Roncier.png"
+    },
+    {
+      "Index": "Armor-220000",
+      "Name_FR": "Capuchon de page",
+      "Name_EN": "Page Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuchon_de_page.png"
+    },
+    {
+      "Index": "Armor-220100",
+      "Name_FR": "Costume de page",
+      "Name_EN": "Page Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Costume_de_page.png"
+    },
+    {
+      "Index": "Armor-220300",
+      "Name_FR": "Pantalon de page",
+      "Name_EN": "Page Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_page.png"
+    },
+    {
+      "Index": "Armor-230000",
+      "Name_FR": "Heaume de cavalier crépusculaire",
+      "Name_EN": "Night's Cavalry Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_cavalier_crépusculaire.png"
+    },
+    {
+      "Index": "Armor-230100",
+      "Name_FR": "Armure de cavalier crépusculaire",
+      "Name_EN": "Night's Cavalry Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_cavalier_crépusculaire.png"
+    },
+    {
+      "Index": "Armor-230200",
+      "Name_FR": "Gantelets de cavalier crépusculaire",
+      "Name_EN": "Night's Cavalry Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_cavalier_crépusculaire.png"
+    },
+    {
+      "Index": "Armor-230300",
+      "Name_FR": "Jambières de cavalier crépusculaire",
+      "Name_EN": "Night's Cavalry Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_cavalier_crépusculaire.png"
+    },
+    {
+      "Index": "Armor-240000",
+      "Name_FR": "Capuchon de mailles en argent bleuté",
+      "Name_EN": "Blue Silver Mail Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuchon_de_mailles_en_argent_bleuté.png"
+    },
+    {
+      "Index": "Armor-240100",
+      "Name_FR": "Armure de mailles en argent bleuté",
+      "Name_EN": "Blue Silver Mail Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_mailles_en_argent_bleuté.png"
+    },
+    {
+      "Index": "Armor-240200",
+      "Name_FR": "Bracelets en argent bleuté",
+      "Name_EN": "Blue Silver Bracelets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bracelets_en_argent_bleuté.png"
+    },
+    {
+      "Index": "Armor-240300",
+      "Name_FR": "Jupe de mailles en argent bleuté",
+      "Name_EN": "Blue Silver Mail Skirt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jupe_de_mailles_en_argent_bleuté.png"
+    },
+    {
+      "Index": "Armor-250000",
+      "Name_FR": "Chapeau de marchand nomade",
+      "Name_EN": "Nomadic Merchant's Chapeau",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chapeau_de_marchand_nomade.png"
+    },
+    {
+      "Index": "Armor-250100",
+      "Name_FR": "Atours de marchand nomade",
+      "Name_EN": "Nomadic Merchant's Finery",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Atours_de_marchand_nomade.png"
+    },
+    {
+      "Index": "Armor-250300",
+      "Name_FR": "Pantalon de marchand nomade",
+      "Name_EN": "Nomadic Merchant's Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_marchand_nomade.png"
+    },
+    {
+      "Index": "Armor-260000",
+      "Name_FR": "Heaume draconique difforme",
+      "Name_EN": "Malformed Dragon Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_draconique_difforme.png"
+    },
+    {
+      "Index": "Armor-260100",
+      "Name_FR": "Armure draconique difforme",
+      "Name_EN": "Malformed Dragon Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_draconique_difforme.png"
+    },
+    {
+      "Index": "Armor-260200",
+      "Name_FR": "Gantelets draconiques difformes",
+      "Name_EN": "Malformed Dragon Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_draconiques_difformes.png"
+    },
+    {
+      "Index": "Armor-260300",
+      "Name_FR": "Jambières draconiques difformes",
+      "Name_EN": "Malformed Dragon Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_draconiques_difformes.png"
+    },
+    {
+      "Index": "Armor-270000",
+      "Name_FR": "Heaume de Sentinelle de l'Arbre",
+      "Name_EN": "Tree Sentinel Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_Sentinelle_de_l'Arbre.png"
+    },
+    {
+      "Index": "Armor-270100",
+      "Name_FR": "Armure de Sentinelle de l'Arbre",
+      "Name_EN": "Tree Sentinel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Sentinelle_de_l'Arbre.png"
+    },
+    {
+      "Index": "Armor-270200",
+      "Name_FR": "Gantelets de Sentinelle de l'Arbre",
+      "Name_EN": "Tree Sentinel Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Sentinelle_de_l'Arbre.png"
+    },
+    {
+      "Index": "Armor-270300",
+      "Name_FR": "Jambières de Sentinelle de l'Arbre",
+      "Name_EN": "Tree Sentinel Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Sentinelle_de_l'Arbre.png"
+    },
+    {
+      "Index": "Armor-280000",
+      "Name_FR": "Heaume de chevalier royal",
+      "Name_EN": "Royal Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier_royal.png"
+    },
+    {
+      "Index": "Armor-280100",
+      "Name_FR": "Armure de chevalier royal",
+      "Name_EN": "Royal Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_royal.png"
+    },
+    {
+      "Index": "Armor-280200",
+      "Name_FR": "Gantelets de chevalier royal",
+      "Name_EN": "Royal Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_royal.png"
+    },
+    {
+      "Index": "Armor-280300",
+      "Name_FR": "Jambières de chevalier royal",
+      "Name_EN": "Royal Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_royal.png"
+    },
+    {
+      "Index": "Armor-290000",
+      "Name_FR": "Capuche de moine nokrien",
+      "Name_EN": "Nox Monk Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_moine_nokrien.png"
+    },
+    {
+      "Index": "Armor-290100",
+      "Name_FR": "Armure de moine nokrien",
+      "Name_EN": "Nox Monk Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_moine_nokrien.png"
+    },
+    {
+      "Index": "Armor-290200",
+      "Name_FR": "Bracelets de moine nokrien",
+      "Name_EN": "Nox Monk Bracelets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bracelets_de_moine_nokrien.png"
+    },
+    {
+      "Index": "Armor-290300",
+      "Name_FR": "Jambières de moine nokrien",
+      "Name_EN": "Nox Monk Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_moine_nokrien.png"
+    },
+    {
+      "Index": "Armor-292000",
+      "Name_FR": "Hennin d'épéiste nokrienne",
+      "Name_EN": "Nox Swordstress Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Hennin_d'épéiste_nokrienne.png"
+    },
+    {
+      "Index": "Armor-292100",
+      "Name_FR": "Armure d'épéiste nokrienne",
+      "Name_EN": "Nox Swordstress Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_d'épéiste_nokrienne.png"
+    },
+    {
+      "Index": "Armor-293000",
+      "Name_FR": "Double hennin de noctedame",
+      "Name_EN": "Night Maiden Twin Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Double_hennin_de_noctedame.png"
+    },
+    {
+      "Index": "Armor-293100",
+      "Name_FR": "Armure de noctedame",
+      "Name_EN": "Night Maiden Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_noctedame.png"
+    },
+    {
+      "Index": "Armor-300000",
+      "Name_FR": "Grand bandeau à cornes",
+      "Name_EN": "Great Horned Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Grand_bandeau_à_cornes.png"
+    },
+    {
+      "Index": "Armor-300100",
+      "Name_FR": "Tunique en fourrure",
+      "Name_EN": "Fur Raiment",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_en_fourrure.png"
+    },
+    {
+      "Index": "Armor-300300",
+      "Name_FR": "Pantalon en fourrure",
+      "Name_EN": "Fur Leggings",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_en_fourrure.png"
+    },
+    {
+      "Index": "Armor-301000",
+      "Name_FR": "Bandeau à cornes lumineux",
+      "Name_EN": "Shining Horned Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bandeau_à_cornes_lumineux.png"
+    },
+    {
+      "Index": "Armor-301100",
+      "Name_FR": "Peaux de chaman",
+      "Name_EN": "Shaman Furs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Peaux_de_chaman.png"
+    },
+    {
+      "Index": "Armor-301300",
+      "Name_FR": "Bottes de chaman",
+      "Name_EN": "Shaman Leggings",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_chaman.png"
+    },
+    {
+      "Index": "Armor-310000",
+      "Name_FR": "Casque de Duelliste",
+      "Name_EN": "Duelist Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_Duelliste.png"
+    },
+    {
+      "Index": "Armor-310100",
+      "Name_FR": "Cape de gardien des tombes",
+      "Name_EN": "Gravekeeper Cloak",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Cape_de_gardien_des_tombes.png"
+    },
+    {
+      "Index": "Armor-310300",
+      "Name_FR": "Jambières de Duelliste",
+      "Name_EN": "Duelist Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Duelliste.png"
+    },
+    {
+      "Index": "Armor-320000",
+      "Name_FR": "Capuchon de noble sanglant",
+      "Name_EN": "Sanguine Noble Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuchon_de_noble_sanglant.png"
+    },
+    {
+      "Index": "Armor-320100",
+      "Name_FR": "Toge de noble sanglant",
+      "Name_EN": "Sanguine Noble Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Toge_de_noble_sanglant.png"
+    },
+    {
+      "Index": "Armor-320300",
+      "Name_FR": "Couvre-jambes de noble sanglant",
+      "Name_EN": "Sanguine Noble Waistcloth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Couvre-jambes_de_noble_sanglant.png"
+    },
+    {
+      "Index": "Armor-330000",
+      "Name_FR": "Masque de gardien",
+      "Name_EN": "Guardian Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_gardien.png"
+    },
+    {
+      "Index": "Armor-330100",
+      "Name_FR": "Costume de gardien (en fleur)",
+      "Name_EN": "Guardian Garb (Full Bloom)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Costume_de_gardien_(en_fleur).png"
+    },
+    {
+      "Index": "Armor-330200",
+      "Name_FR": "Brassards de gardien",
+      "Name_EN": "Guardian Bracers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Brassards_de_gardien.png"
+    },
+    {
+      "Index": "Armor-330300",
+      "Name_FR": "Jambières de gardien",
+      "Name_EN": "Guardian Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_gardien.png"
+    },
+    {
+      "Index": "Armor-331100",
+      "Name_FR": "Costume de gardien",
+      "Name_EN": "Guardian Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Costume_de_gardien.png"
+    },
+    {
+      "Index": "Armor-340000",
+      "Name_FR": "Heaume de la Noble putréfaction",
+      "Name_EN": "Cleanrot Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_la_Noble_putréfaction.png"
+    },
+    {
+      "Index": "Armor-340100",
+      "Name_FR": "Armure de la Noble putréfaction",
+      "Name_EN": "Cleanrot Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_la_Noble_putréfaction.png"
+    },
+    {
+      "Index": "Armor-340200",
+      "Name_FR": "Gantelets de la Noble putréfaction",
+      "Name_EN": "Cleanrot Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_la_Noble_putréfaction.png"
+    },
+    {
+      "Index": "Armor-340300",
+      "Name_FR": "Jambières de la Noble putréfaction",
+      "Name_EN": "Cleanrot Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_la_Noble_putréfaction.png"
+    },
+    {
+      "Index": "Armor-350000",
+      "Name_FR": "Capuchon de moine-gardien du feu",
+      "Name_EN": "Fire Monk Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuchon_de_moine-gardien_du_feu.png"
+    },
+    {
+      "Index": "Armor-350100",
+      "Name_FR": "Armure de moine-gardien du feu",
+      "Name_EN": "Fire Monk Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_moine-gardien_du_feu.png"
+    },
+    {
+      "Index": "Armor-350200",
+      "Name_FR": "Gantelets de moine-gardien du feu",
+      "Name_EN": "Fire Monk Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_moine-gardien_du_feu.png"
+    },
+    {
+      "Index": "Armor-350300",
+      "Name_FR": "Jambières de moine-gardien du feu",
+      "Name_EN": "Fire Monk Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_moine-gardien_du_feu.png"
+    },
+    {
+      "Index": "Armor-351000",
+      "Name_FR": "Capuchon de moine de la Flamme noire",
+      "Name_EN": "Blackflame Monk Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuchon_de_moine_de_la_Flamme_noire.png"
+    },
+    {
+      "Index": "Armor-351100",
+      "Name_FR": "Armure de moine de la Flamme noire",
+      "Name_EN": "Blackflame Monk Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_moine_de_la_Flamme_noire.png"
+    },
+    {
+      "Index": "Armor-351200",
+      "Name_FR": "Gantelets de moine de Flamme noire",
+      "Name_EN": "Blackflame Monk Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_moine_de_Flamme_noire.png"
+    },
+    {
+      "Index": "Armor-351300",
+      "Name_FR": "Jambières de moine de la Flamme noire",
+      "Name_EN": "Blackflame Monk Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_moine_de_la_Flamme_noire.png"
+    },
+    {
+      "Index": "Armor-360000",
+      "Name_FR": "Heaume de prélat de feu",
+      "Name_EN": "Fire Prelate Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_prélat_de_feu.png"
+    },
+    {
+      "Index": "Armor-360100",
+      "Name_FR": "Armure de prélat de feu",
+      "Name_EN": "Fire Prelate Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_prélat_de_feu.png"
+    },
+    {
+      "Index": "Armor-360200",
+      "Name_FR": "Gantelets de prélat de feu",
+      "Name_EN": "Fire Prelate Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_prélat_de_feu.png"
+    },
+    {
+      "Index": "Armor-360300",
+      "Name_FR": "Jambières de prélat de feu",
+      "Name_EN": "Fire Prelate Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_prélat_de_feu.png"
+    },
+    {
+      "Index": "Armor-370000",
+      "Name_FR": "Bandeau d'aristocrate",
+      "Name_EN": "Aristocrat Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bandeau_d'aristocrate.png"
+    },
+    {
+      "Index": "Armor-370100",
+      "Name_FR": "Costume d'aristocrate",
+      "Name_EN": "Aristocrat Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Costume_d'aristocrate.png"
+    },
+    {
+      "Index": "Armor-370300",
+      "Name_FR": "Bottes d'aristocrate",
+      "Name_EN": "Aristocrat Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_d'aristocrate.png"
+    },
+    {
+      "Index": "Armor-380000",
+      "Name_FR": "Chapeau d'aristocrate",
+      "Name_EN": "Aristocrat Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chapeau_d'aristocrate.png"
+    },
+    {
+      "Index": "Armor-380100",
+      "Name_FR": "Manteau d'aristocrate",
+      "Name_EN": "Aristocrat Coat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manteau_d'aristocrate.png"
+    },
+    {
+      "Index": "Armor-390000",
+      "Name_FR": "Vieux chapeau d'aristocrate",
+      "Name_EN": "Old Aristocrat Cowl",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Vieux_chapeau_d'aristocrate.png"
+    },
+    {
+      "Index": "Armor-390100",
+      "Name_FR": "Vieille tenue d'aristocrate",
+      "Name_EN": "Old Aristocrat Gown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Vieille_tenue_d'aristocrate.png"
+    },
+    {
+      "Index": "Armor-390300",
+      "Name_FR": "Vieilles chaussures d'aristocrate",
+      "Name_EN": "Old Aristocrat Shoes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Vieilles_chaussures_d'aristocrate.png"
+    },
+    {
+      "Index": "Armor-420000",
+      "Name_FR": "Casque de milicien vulgaire",
+      "Name_EN": "Vulgar Militia Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_milicien_vulgaire.png"
+    },
+    {
+      "Index": "Armor-420100",
+      "Name_FR": "Armure de milicien vulgaire",
+      "Name_EN": "Vulgar Militia Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_milicien_vulgaire.png"
+    },
+    {
+      "Index": "Armor-420200",
+      "Name_FR": "Gantelets de milicien vulgaire",
+      "Name_EN": "Vulgar Militia Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_milicien_vulgaire.png"
+    },
+    {
+      "Index": "Armor-420300",
+      "Name_FR": "Jambières de milicien vulgaire",
+      "Name_EN": "Vulgar Militia Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_milicien_vulgaire.png"
+    },
+    {
+      "Index": "Armor-430000",
+      "Name_FR": "Capuche de sage",
+      "Name_EN": "Sage Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_sage.png"
+    },
+    {
+      "Index": "Armor-430100",
+      "Name_FR": "Robe de sage",
+      "Name_EN": "Sage Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_sage.png"
+    },
+    {
+      "Index": "Armor-430300",
+      "Name_FR": "Pantalon de sage",
+      "Name_EN": "Sage Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_sage.png"
+    },
+    {
+      "Index": "Armor-440000",
+      "Name_FR": "Casque de citrouille",
+      "Name_EN": "Pumpkin Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_citrouille.png"
+    },
+    {
+      "Index": "Armor-460000",
+      "Name_FR": "Couronne de Seigneur d'Elden",
+      "Name_EN": "Elden Lord Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Couronne_de_Seigneur_d'Elden.png"
+    },
+    {
+      "Index": "Armor-460100",
+      "Name_FR": "Armure de Seigneur d'Elden",
+      "Name_EN": "Elden Lord Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Seigneur_d'Elden.png"
+    },
+    {
+      "Index": "Armor-460200",
+      "Name_FR": "Brassards de Seigneur d'Elden",
+      "Name_EN": "Elden Lord Bracers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Brassards_de_Seigneur_d'Elden.png"
+    },
+    {
+      "Index": "Armor-460300",
+      "Name_FR": "Jambières de Seigneur d'Elden",
+      "Name_EN": "Elden Lord Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Seigneur_d'Elden.png"
+    },
+    {
+      "Index": "Armor-470000",
+      "Name_FR": "Crinière rouge de Radahn",
+      "Name_EN": "Radahn's Redmane Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Crinière_rouge_de_Radahn.png"
+    },
+    {
+      "Index": "Armor-470100",
+      "Name_FR": "Armure léonine de Radahn",
+      "Name_EN": "Radahn's Lion Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_léonine_de_Radahn.png"
+    },
+    {
+      "Index": "Armor-470200",
+      "Name_FR": "Gantelets de Radahn",
+      "Name_EN": "Radahn's Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Radahn.png"
+    },
+    {
+      "Index": "Armor-470300",
+      "Name_FR": "Jambières de Radahn",
+      "Name_EN": "Radahn's Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Radahn.png"
+    },
+    {
+      "Index": "Armor-480100",
+      "Name_FR": "Robe du seigneur du sang",
+      "Name_EN": "Lord of Blood's Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_du_seigneur_du_sang.png"
+    },
+    {
+      "Index": "Armor-510000",
+      "Name_FR": "Couronne lunaire de la reine",
+      "Name_EN": "Queen's Crescent Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Couronne_lunaire_de_la_reine.png"
+    },
+    {
+      "Index": "Armor-510100",
+      "Name_FR": "Robe de la reine",
+      "Name_EN": "Queen's Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_la_reine.png"
+    },
+    {
+      "Index": "Armor-510200",
+      "Name_FR": "Bracelets de la reine",
+      "Name_EN": "Queen's Bracelets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bracelets_de_la_reine.png"
+    },
+    {
+      "Index": "Armor-510300",
+      "Name_FR": "Pantalon de la reine",
+      "Name_EN": "Queen's Leggings",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_la_reine.png"
+    },
+    {
+      "Index": "Armor-520000",
+      "Name_FR": "Capuche d'apôtre sanctechair",
+      "Name_EN": "Godskin Apostle Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_d'apôtre_sanctechair.png"
+    },
+    {
+      "Index": "Armor-520100",
+      "Name_FR": "Robe d'apôtre sanctechair",
+      "Name_EN": "Godskin Apostle Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_d'apôtre_sanctechair.png"
+    },
+    {
+      "Index": "Armor-520200",
+      "Name_FR": "Bracelets d'apôtre sanctechair",
+      "Name_EN": "Godskin Apostle Bracelets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bracelets_d'apôtre_sanctechair.png"
+    },
+    {
+      "Index": "Armor-520300",
+      "Name_FR": "Pantalon d'apôtre sanctechair",
+      "Name_EN": "Godskin Apostle Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_d'apôtre_sanctechair.png"
+    },
+    {
+      "Index": "Armor-530000",
+      "Name_FR": "Capuche de noble sanctechair",
+      "Name_EN": "Godskin Noble Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_noble_sanctechair.png"
+    },
+    {
+      "Index": "Armor-530100",
+      "Name_FR": "Robe de noble sanctechair",
+      "Name_EN": "Godskin Noble Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_noble_sanctechair.png"
+    },
+    {
+      "Index": "Armor-530200",
+      "Name_FR": "Bracelets de noble sanctechair",
+      "Name_EN": "Godskin Noble Bracelets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bracelets_de_noble_sanctechair.png"
+    },
+    {
+      "Index": "Armor-530300",
+      "Name_FR": "Pantalon de noble sanctechair",
+      "Name_EN": "Godskin Noble Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_noble_sanctechair.png"
+    },
+    {
+      "Index": "Armor-540000",
+      "Name_FR": "Couvre-chef de Parfumeur déchu",
+      "Name_EN": "Depraved Perfumer Headscarf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Couvre-chef_de_Parfumeur_déchu.png"
+    },
+    {
+      "Index": "Armor-540100",
+      "Name_FR": "Robe de Parfumeur déchu",
+      "Name_EN": "Depraved Perfumer Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_Parfumeur_déchu.png"
+    },
+    {
+      "Index": "Armor-540200",
+      "Name_FR": "Gants de Parfumeur déchu",
+      "Name_EN": "Depraved Perfumer Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_Parfumeur_déchu.png"
+    },
+    {
+      "Index": "Armor-540300",
+      "Name_FR": "Pantalon de Parfumeur déchu",
+      "Name_EN": "Depraved Perfumer Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_Parfumeur_déchu.png"
+    },
+    {
+      "Index": "Armor-570000",
+      "Name_FR": "Heaume-hache du Creuset",
+      "Name_EN": "Crucible Axe Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume-hache_du_Creuset.png"
+    },
+    {
+      "Index": "Armor-570100",
+      "Name_FR": "Armure-hache du Creuset",
+      "Name_EN": "Crucible Axe Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure-hache_du_Creuset.png"
+    },
+    {
+      "Index": "Armor-570200",
+      "Name_FR": "Gantelets du Creuset",
+      "Name_EN": "Crucible Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_du_Creuset.png"
+    },
+    {
+      "Index": "Armor-570300",
+      "Name_FR": "Jambières du Creuset",
+      "Name_EN": "Crucible Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_du_Creuset.png"
+    },
+    {
+      "Index": "Armor-571000",
+      "Name_FR": "Heaume arboriforme du Creuset",
+      "Name_EN": "Crucible Tree Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_arboriforme_du_Creuset.png"
+    },
+    {
+      "Index": "Armor-571100",
+      "Name_FR": "Armure arboriforme du Creuset",
+      "Name_EN": "Crucible Tree Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_arboriforme_du_Creuset.png"
+    },
+    {
+      "Index": "Armor-580000",
+      "Name_FR": "Masque de pierre d'éclat de Lusat",
+      "Name_EN": "Lusat's Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_de_Lusat.png"
+    },
+    {
+      "Index": "Armor-580100",
+      "Name_FR": "Robe de Lusat",
+      "Name_EN": "Lusat's Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_Lusat.png"
+    },
+    {
+      "Index": "Armor-580200",
+      "Name_FR": "Manchettes de Lusat",
+      "Name_EN": "Lusat's Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_de_Lusat.png"
+    },
+    {
+      "Index": "Armor-580300",
+      "Name_FR": "Jambards de vieux sorcier",
+      "Name_EN": "Old Sorcerer's Legwraps",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambards_de_vieux_sorcier.png"
+    },
+    {
+      "Index": "Armor-581000",
+      "Name_FR": "Masque de pierre d'éclat d'Azur",
+      "Name_EN": "Azur's Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_d'Azur.png"
+    },
+    {
+      "Index": "Armor-581100",
+      "Name_FR": "Robe de pierre d'éclat d'Azur",
+      "Name_EN": "Azur's Glintstone Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_pierre_d'éclat_d'Azur.png"
+    },
+    {
+      "Index": "Armor-581200",
+      "Name_FR": "Manchettes d'Azur",
+      "Name_EN": "Azur's Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_d'Azur.png"
+    },
+    {
+      "Index": "Armor-590000",
+      "Name_FR": "Casque de l'Omniscient",
+      "Name_EN": "All-Knowing Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_l'Omniscient.png"
+    },
+    {
+      "Index": "Armor-590100",
+      "Name_FR": "Armure de l'Omniscient",
+      "Name_EN": "All-Knowing Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_l'Omniscient.png"
+    },
+    {
+      "Index": "Armor-590200",
+      "Name_FR": "Gantelets de l'Omniscient",
+      "Name_EN": "All-Knowing Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_l'Omniscient.png"
+    },
+    {
+      "Index": "Armor-590300",
+      "Name_FR": "Jambières de l'Omniscient",
+      "Name_EN": "All-Knowing Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_l'Omniscient.png"
+    },
+    {
+      "Index": "Armor-600000",
+      "Name_FR": "Casque géminé",
+      "Name_EN": "Twinned Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_géminé.png"
+    },
+    {
+      "Index": "Armor-600100",
+      "Name_FR": "Cuirasse géminée",
+      "Name_EN": "Twinned Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Cuirasse_géminée.png"
+    },
+    {
+      "Index": "Armor-600200",
+      "Name_FR": "Gantelets géminés",
+      "Name_EN": "Twinned Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_géminés.png"
+    },
+    {
+      "Index": "Armor-600300",
+      "Name_FR": "Jambières géminées",
+      "Name_EN": "Twinned Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_géminées.png"
+    },
+    {
+      "Index": "Armor-610000",
+      "Name_FR": "Chapeau élimé",
+      "Name_EN": "Ragged Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chapeau_élimé.png"
+    },
+    {
+      "Index": "Armor-610100",
+      "Name_FR": "Armure élimée",
+      "Name_EN": "Ragged Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_élimée.png"
+    },
+    {
+      "Index": "Armor-610200",
+      "Name_FR": "Gants élimés",
+      "Name_EN": "Ragged Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_élimés.png"
+    },
+    {
+      "Index": "Armor-610300",
+      "Name_FR": "Pagne élimé",
+      "Name_EN": "Ragged Loincloth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pagne_élimé.png"
+    },
+    {
+      "Index": "Armor-620000",
+      "Name_FR": "Bandeau de prophète",
+      "Name_EN": "Prophet Blindfold",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bandeau_de_prophète.png"
+    },
+    {
+      "Index": "Armor-620100",
+      "Name_FR": "Robe de Corhyn",
+      "Name_EN": "Corhyn's Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_Corhyn.png"
+    },
+    {
+      "Index": "Armor-620300",
+      "Name_FR": "Pantalon de prophète",
+      "Name_EN": "Prophet Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_prophète.png"
+    },
+    {
+      "Index": "Armor-622100",
+      "Name_FR": "Robe de prophète",
+      "Name_EN": "Prophet Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_prophète.png"
+    },
+    {
+      "Index": "Armor-630000",
+      "Name_FR": "Capuche d'astrologue",
+      "Name_EN": "Astrologer Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_d'astrologue.png"
+    },
+    {
+      "Index": "Armor-630100",
+      "Name_FR": "Robe d'astrologue",
+      "Name_EN": "Astrologer Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_d'astrologue.png"
+    },
+    {
+      "Index": "Armor-630200",
+      "Name_FR": "Gants d'astrologue",
+      "Name_EN": "Astrologer Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_d'astrologue.png"
+    },
+    {
+      "Index": "Armor-630300",
+      "Name_FR": "Pantalon d'astrologue",
+      "Name_EN": "Astrologer Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_d'astrologue.png"
+    },
+    {
+      "Index": "Armor-640000",
+      "Name_FR": "Heaume de Lionel",
+      "Name_EN": "Lionel's Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_Lionel.png"
+    },
+    {
+      "Index": "Armor-640100",
+      "Name_FR": "Armure de Lionel",
+      "Name_EN": "Lionel's Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Lionel.png"
+    },
+    {
+      "Index": "Armor-640200",
+      "Name_FR": "Gantelets de Lionel",
+      "Name_EN": "Lionel's Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Lionel.png"
+    },
+    {
+      "Index": "Armor-640300",
+      "Name_FR": "Jambières de Lionel",
+      "Name_EN": "Lionel's Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Lionel.png"
+    },
+    {
+      "Index": "Armor-650000",
+      "Name_FR": "Heaume des Hoslow",
+      "Name_EN": "Hoslow's Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_des_Hoslow.png"
+    },
+    {
+      "Index": "Armor-650100",
+      "Name_FR": "Armure des Hoslow",
+      "Name_EN": "Hoslow's Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_des_Hoslow.png"
+    },
+    {
+      "Index": "Armor-650200",
+      "Name_FR": "Gantelets des Hoslow",
+      "Name_EN": "Hoslow's Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_des_Hoslow.png"
+    },
+    {
+      "Index": "Armor-650300",
+      "Name_FR": "Jambières des Hoslow",
+      "Name_EN": "Hoslow's Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_des_Hoslow.png"
+    },
+    {
+      "Index": "Armor-651000",
+      "Name_FR": "Masque de Diallos",
+      "Name_EN": "Diallos's Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_Diallos.png"
+    },
+    {
+      "Index": "Armor-660000",
+      "Name_FR": "Heaume de chevalier errant",
+      "Name_EN": "Vagabond Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier_errant.png"
+    },
+    {
+      "Index": "Armor-660100",
+      "Name_FR": "Armure de chevalier errant",
+      "Name_EN": "Vagabond Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_errant.png"
+    },
+    {
+      "Index": "Armor-660200",
+      "Name_FR": "Gantelets de chevalier errant",
+      "Name_EN": "Vagabond Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_errant.png"
+    },
+    {
+      "Index": "Armor-660300",
+      "Name_FR": "Jambières de chevalier errant",
+      "Name_EN": "Vagabond Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_errant.png"
+    },
+    {
+      "Index": "Armor-670000",
+      "Name_FR": "Capuche en tissu bleu",
+      "Name_EN": "Blue Cloth Cowl",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_en_tissu_bleu.png"
+    },
+    {
+      "Index": "Armor-670100",
+      "Name_FR": "Gilet en tissu bleu",
+      "Name_EN": "Blue Cloth Vest",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gilet_en_tissu_bleu.png"
+    },
+    {
+      "Index": "Armor-670200",
+      "Name_FR": "Gantelets de guerrier",
+      "Name_EN": "Warrior Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_guerrier.png"
+    },
+    {
+      "Index": "Armor-670300",
+      "Name_FR": "Bottes de guerrier",
+      "Name_EN": "Warrior Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_guerrier.png"
+    },
+    {
+      "Index": "Armor-680000",
+      "Name_FR": "Masque blanc",
+      "Name_EN": "White Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_blanc.png"
+    },
+    {
+      "Index": "Armor-680100",
+      "Name_FR": "Tenue de médecin de guerre",
+      "Name_EN": "War Surgeon Gown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tenue_de_médecin_de_guerre.png"
+    },
+    {
+      "Index": "Armor-680200",
+      "Name_FR": "Gants de médecin de guerre",
+      "Name_EN": "War Surgeon Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_médecin_de_guerre.png"
+    },
+    {
+      "Index": "Armor-680300",
+      "Name_FR": "Pantalon de médecin de guerre",
+      "Name_EN": "War Surgeon Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_médecin_de_guerre.png"
+    },
+    {
+      "Index": "Armor-690000",
+      "Name_FR": "Casque de la dépouille royale",
+      "Name_EN": "Royal Remains Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_la_dépouille_royale.png"
+    },
+    {
+      "Index": "Armor-690100",
+      "Name_FR": "Armure de la dépouille royale",
+      "Name_EN": "Royal Remains Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_la_dépouille_royale.png"
+    },
+    {
+      "Index": "Armor-690200",
+      "Name_FR": "Gantelets de la dépouille royale",
+      "Name_EN": "Royal Remains Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_la_dépouille_royale.png"
+    },
+    {
+      "Index": "Armor-690300",
+      "Name_FR": "Jambières de la dépouille royale",
+      "Name_EN": "Royal Remains Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_la_dépouille_royale.png"
+    },
+    {
+      "Index": "Armor-700000",
+      "Name_FR": "Bandeau en corde de brave",
+      "Name_EN": "Brave's Cord Circlet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bandeau_en_corde_de_brave.png"
+    },
+    {
+      "Index": "Armor-700100",
+      "Name_FR": "Tenue de combat de brave",
+      "Name_EN": "Brave's Battlewear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tenue_de_combat_de_brave.png"
+    },
+    {
+      "Index": "Armor-700200",
+      "Name_FR": "Brassards de brave",
+      "Name_EN": "Brave's Bracer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Brassards_de_brave.png"
+    },
+    {
+      "Index": "Armor-700300",
+      "Name_FR": "Guêtres de brave",
+      "Name_EN": "Brave's Legwraps",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Guêtres_de_brave.png"
+    },
+    {
+      "Index": "Armor-701000",
+      "Name_FR": "Casque en cuir de brave",
+      "Name_EN": "Brave's Leather Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_en_cuir_de_brave.png"
+    },
+    {
+      "Index": "Armor-720000",
+      "Name_FR": "Heaume du champion bestial",
+      "Name_EN": "Beast Champion Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_du_champion_bestial.png"
+    },
+    {
+      "Index": "Armor-720100",
+      "Name_FR": "Armure du champion bestial",
+      "Name_EN": "Beast Champion Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_du_champion_bestial.png"
+    },
+    {
+      "Index": "Armor-720200",
+      "Name_FR": "Gantelets du champion bestial",
+      "Name_EN": "Beast Champion Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_du_champion_bestial.png"
+    },
+    {
+      "Index": "Armor-720300",
+      "Name_FR": "Jambières du champion bestial",
+      "Name_EN": "Beast Champion Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_du_champion_bestial.png"
+    },
+    {
+      "Index": "Armor-730000",
+      "Name_FR": "Bandeau de champion",
+      "Name_EN": "Champion Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bandeau_de_champion.png"
+    },
+    {
+      "Index": "Armor-730100",
+      "Name_FR": "Spalière de champion",
+      "Name_EN": "Champion Pauldron",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Spalière_de_champion.png"
+    },
+    {
+      "Index": "Armor-730200",
+      "Name_FR": "Brassards de champion",
+      "Name_EN": "Champion Bracers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Brassards_de_champion.png"
+    },
+    {
+      "Index": "Armor-730300",
+      "Name_FR": "Guêtres de champion",
+      "Name_EN": "Champion Gaiters",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Guêtres_de_champion.png"
+    },
+    {
+      "Index": "Armor-740000",
+      "Name_FR": "Capuche pourpre",
+      "Name_EN": "Crimson Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_pourpre.png"
+    },
+    {
+      "Index": "Armor-740100",
+      "Name_FR": "Costume de voyage de noble",
+      "Name_EN": "Noble's Traveling Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Costume_de_voyage_de_noble.png"
+    },
+    {
+      "Index": "Armor-740200",
+      "Name_FR": "Gants de noble",
+      "Name_EN": "Noble's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_noble.png"
+    },
+    {
+      "Index": "Armor-740300",
+      "Name_FR": "Pantalon de noble",
+      "Name_EN": "Noble's Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_noble.png"
+    },
+    {
+      "Index": "Armor-741000",
+      "Name_FR": "Capuche bleu marine",
+      "Name_EN": "Navy Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_bleu_marine.png"
+    },
+    {
+      "Index": "Armor-760000",
+      "Name_FR": "Casque de Maliketh",
+      "Name_EN": "Maliketh's Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_Maliketh.png"
+    },
+    {
+      "Index": "Armor-760100",
+      "Name_FR": "Armure de Maliketh",
+      "Name_EN": "Maliketh's Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Maliketh.png"
+    },
+    {
+      "Index": "Armor-760200",
+      "Name_FR": "Gantelets de Maliketh",
+      "Name_EN": "Maliketh's Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Maliketh.png"
+    },
+    {
+      "Index": "Armor-760300",
+      "Name_FR": "Jambières de Maliketh",
+      "Name_EN": "Maliketh's Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Maliketh.png"
+    },
+    {
+      "Index": "Armor-770000",
+      "Name_FR": "Casque ailé de Malenia",
+      "Name_EN": "Malenia's Winged Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_ailé_de_Malenia.png"
+    },
+    {
+      "Index": "Armor-770100",
+      "Name_FR": "Armure de Malenia",
+      "Name_EN": "Malenia's Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Malenia.png"
+    },
+    {
+      "Index": "Armor-770200",
+      "Name_FR": "Gantelet de Malenia",
+      "Name_EN": "Malenia's Gauntlet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelet_de_Malenia.png"
+    },
+    {
+      "Index": "Armor-770300",
+      "Name_FR": "Jambières de Malenia",
+      "Name_EN": "Malenia's Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Malenia.png"
+    },
+    {
+      "Index": "Armor-780000",
+      "Name_FR": "Casque de vétéran",
+      "Name_EN": "Veteran's Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_vétéran.png"
+    },
+    {
+      "Index": "Armor-780100",
+      "Name_FR": "Armure de vétéran",
+      "Name_EN": "Veteran's Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_vétéran.png"
+    },
+    {
+      "Index": "Armor-780200",
+      "Name_FR": "Gantelets de vétéran",
+      "Name_EN": "Veteran's Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_vétéran.png"
+    },
+    {
+      "Index": "Armor-780300",
+      "Name_FR": "Jambières de vétéran",
+      "Name_EN": "Veteran's Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_vétéran.png"
+    },
+    {
+      "Index": "Armor-790000",
+      "Name_FR": "Heaume de Chevalier-limier",
+      "Name_EN": "Bloodhound Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_Chevalier-limier.png"
+    },
+    {
+      "Index": "Armor-790100",
+      "Name_FR": "Armure de Chevalier-limier",
+      "Name_EN": "Bloodhound Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Chevalier-limier.png"
+    },
+    {
+      "Index": "Armor-790200",
+      "Name_FR": "Gantelets de Chevalier-limier",
+      "Name_EN": "Bloodhound Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Chevalier-limier.png"
+    },
+    {
+      "Index": "Armor-790300",
+      "Name_FR": "Jambières de Chevalier-limier",
+      "Name_EN": "Bloodhound Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Chevalier-limier.png"
+    },
+    {
+      "Index": "Armor-800000",
+      "Name_FR": "Capuche festive",
+      "Name_EN": "Festive Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_festive.png"
+    },
+    {
+      "Index": "Armor-800100",
+      "Name_FR": "Costume festif",
+      "Name_EN": "Festive Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Costume_festif.png"
+    },
+    {
+      "Index": "Armor-802000",
+      "Name_FR": "Capuche festive bleue",
+      "Name_EN": "Blue Festive Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_festive_bleue.png"
+    },
+    {
+      "Index": "Armor-802100",
+      "Name_FR": "Costume festif bleu",
+      "Name_EN": "Blue Festive Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Costume_festif_bleu.png"
+    },
+    {
+      "Index": "Armor-810000",
+      "Name_FR": "Bandeau de sujet",
+      "Name_EN": "Commoner's Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bandeau_de_sujet.png"
+    },
+    {
+      "Index": "Armor-810100",
+      "Name_FR": "Vêtements de sujet",
+      "Name_EN": "Commoner's Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Vêtements_de_sujet.png"
+    },
+    {
+      "Index": "Armor-810300",
+      "Name_FR": "Chaussures de sujet",
+      "Name_EN": "Commoner's Shoes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chaussures_de_sujet.png"
+    },
+    {
+      "Index": "Armor-812000",
+      "Name_FR": "Chemise ordinaire de sujet",
+      "Name_EN": "Commoner's Simple Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chemise_ordinaire_de_sujet.png"
+    },
+    {
+      "Index": "Armor-820000",
+      "Name_FR": "Turban d'émissaire",
+      "Name_EN": "Envoy Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Turban_d'émissaire.png"
+    },
+    {
+      "Index": "Armor-830000",
+      "Name_FR": "Masque de pierre d'éclat de sorcier bicéphale",
+      "Name_EN": "Twinsage Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_de_sorcier_bicéphale.png"
+    },
+    {
+      "Index": "Armor-830100",
+      "Name_FR": "Toge de Raya Lucaria",
+      "Name_EN": "Raya Lucarian Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Toge_de_Raya_Lucaria.png"
+    },
+    {
+      "Index": "Armor-830200",
+      "Name_FR": "Manchettes de sorcier",
+      "Name_EN": "Sorcerer Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_de_sorcier.png"
+    },
+    {
+      "Index": "Armor-830300",
+      "Name_FR": "Pantalon de sorcier",
+      "Name_EN": "Sorcerer Leggings",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_sorcier.png"
+    },
+    {
+      "Index": "Armor-831000",
+      "Name_FR": "Masque de pierre d'éclat d'Olivinus",
+      "Name_EN": "Olivinus Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_d'Olivinus.png"
+    },
+    {
+      "Index": "Armor-832000",
+      "Name_FR": "Masque de pierre d'éclat de Lazuli",
+      "Name_EN": "Lazuli Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_de_Lazuli.png"
+    },
+    {
+      "Index": "Armor-833000",
+      "Name_FR": "Masque de pierre d'éclat de Karolos",
+      "Name_EN": "Karolos Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_de_Karolos.png"
+    },
+    {
+      "Index": "Armor-834000",
+      "Name_FR": "Masque de pierre d'éclat de sorcière",
+      "Name_EN": "Witch's Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_de_sorcière.png"
+    },
+    {
+      "Index": "Armor-840000",
+      "Name_FR": "Heaume de soldat pantin",
+      "Name_EN": "Marionette Soldier Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_soldat_pantin.png"
+    },
+    {
+      "Index": "Armor-840100",
+      "Name_FR": "Armure de soldat pantin",
+      "Name_EN": "Marionette Soldier Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_soldat_pantin.png"
+    },
+    {
+      "Index": "Armor-850000",
+      "Name_FR": "Heaume de soldat pantin aviaire",
+      "Name_EN": "Marionette Soldier Birdhelm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_soldat_pantin_aviaire.png"
+    },
+    {
+      "Index": "Armor-860000",
+      "Name_FR": "Casque du Loup enragé",
+      "Name_EN": "Raging Wolf Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_du_Loup_enragé.png"
+    },
+    {
+      "Index": "Armor-860100",
+      "Name_FR": "Armure du Loup enragé",
+      "Name_EN": "Raging Wolf Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_du_Loup_enragé.png"
+    },
+    {
+      "Index": "Armor-860200",
+      "Name_FR": "Gantelets du Loup enragé",
+      "Name_EN": "Raging Wolf Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_du_Loup_enragé.png"
+    },
+    {
+      "Index": "Armor-860300",
+      "Name_FR": "Jambières du Loup enragé",
+      "Name_EN": "Raging Wolf Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_du_Loup_enragé.png"
+    },
+    {
+      "Index": "Armor-870000",
+      "Name_FR": "Casque des Terres des roseaux",
+      "Name_EN": "Land of Reeds Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_des_Terres_des_roseaux.png"
+    },
+    {
+      "Index": "Armor-870100",
+      "Name_FR": "Armure des Terres des roseaux",
+      "Name_EN": "Land of Reeds Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_des_Terres_des_roseaux.png"
+    },
+    {
+      "Index": "Armor-870200",
+      "Name_FR": "Gantelets des Terres des roseaux",
+      "Name_EN": "Land of Reeds Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_des_Terres_des_roseaux.png"
+    },
+    {
+      "Index": "Armor-870300",
+      "Name_FR": "Jambières des Terres des roseaux",
+      "Name_EN": "Land of Reeds Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_des_Terres_des_roseaux.png"
+    },
+    {
+      "Index": "Armor-872000",
+      "Name_FR": "Masque d'Okina",
+      "Name_EN": "Okina Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_d'Okina.png"
+    },
+    {
+      "Index": "Armor-872100",
+      "Name_FR": "Armure blanche des Terres des roseaux",
+      "Name_EN": "White Reed Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_blanche_des_Terres_des_roseaux.png"
+    },
+    {
+      "Index": "Armor-872200",
+      "Name_FR": "Gantelets blancs des Terres des roseaux",
+      "Name_EN": "White Reed Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_blancs_des_Terres_des_roseaux.png"
+    },
+    {
+      "Index": "Armor-872300",
+      "Name_FR": "Jambières blanches des Terres des roseaux",
+      "Name_EN": "White Reed Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_blanches_des_Terres_des_roseaux.png"
+    },
+    {
+      "Index": "Armor-880000",
+      "Name_FR": "Capuche de confesseur",
+      "Name_EN": "Confessor Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_confesseur.png"
+    },
+    {
+      "Index": "Armor-880100",
+      "Name_FR": "Armure de confesseur",
+      "Name_EN": "Confessor Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_confesseur.png"
+    },
+    {
+      "Index": "Armor-880200",
+      "Name_FR": "Gants de confesseur",
+      "Name_EN": "Confessor Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_confesseur.png"
+    },
+    {
+      "Index": "Armor-880300",
+      "Name_FR": "Bottes de confesseur",
+      "Name_EN": "Confessor Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_confesseur.png"
+    },
+    {
+      "Index": "Armor-890000",
+      "Name_FR": "Masque en fer de prisonnier",
+      "Name_EN": "Prisoner Iron Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_en_fer_de_prisonnier.png"
+    },
+    {
+      "Index": "Armor-890100",
+      "Name_FR": "Habits de prisonnier",
+      "Name_EN": "Prisoner Clothing",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Habits_de_prisonnier.png"
+    },
+    {
+      "Index": "Armor-890300",
+      "Name_FR": "Pantalon de prisonnier",
+      "Name_EN": "Prisoner Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_prisonnier.png"
+    },
+    {
+      "Index": "Armor-891000",
+      "Name_FR": "Masque en fer de malfrat",
+      "Name_EN": "Blackguard's Iron Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_en_fer_de_malfrat.png"
+    },
+    {
+      "Index": "Armor-900000",
+      "Name_FR": "Capuche de Servante itinérante",
+      "Name_EN": "Traveling Maiden Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_Servante_itinérante.png"
+    },
+    {
+      "Index": "Armor-900100",
+      "Name_FR": "Robe de Servante itinérante",
+      "Name_EN": "Traveling Maiden Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_Servante_itinérante.png"
+    },
+    {
+      "Index": "Armor-900200",
+      "Name_FR": "Gants de Servante itinérante",
+      "Name_EN": "Traveling Maiden Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_Servante_itinérante.png"
+    },
+    {
+      "Index": "Armor-900300",
+      "Name_FR": "Bottes de Servante itinérante",
+      "Name_EN": "Traveling Maiden Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_Servante_itinérante.png"
+    },
+    {
+      "Index": "Armor-902000",
+      "Name_FR": "Toque de Servante",
+      "Name_EN": "Finger Maiden Fillet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Toque_de_Servante.png"
+    },
+    {
+      "Index": "Armor-902100",
+      "Name_FR": "Robe de Servante",
+      "Name_EN": "Finger Maiden Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_Servante.png"
+    },
+    {
+      "Index": "Armor-902300",
+      "Name_FR": "Chaussures de Servante",
+      "Name_EN": "Finger Maiden Shoes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chaussures_de_Servante.png"
+    },
+    {
+      "Index": "Armor-910000",
+      "Name_FR": "Galurin de précepteur",
+      "Name_EN": "Preceptor's Big Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Galurin_de_précepteur.png"
+    },
+    {
+      "Index": "Armor-910100",
+      "Name_FR": "Longue robe de précepteur",
+      "Name_EN": "Preceptor's Long Gown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Longue_robe_de_précepteur.png"
+    },
+    {
+      "Index": "Armor-910200",
+      "Name_FR": "Gants de précepteur",
+      "Name_EN": "Preceptor's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_précepteur.png"
+    },
+    {
+      "Index": "Armor-910300",
+      "Name_FR": "Pantalon de précepteur",
+      "Name_EN": "Preceptor's Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_précepteur.png"
+    },
+    {
+      "Index": "Armor-911000",
+      "Name_FR": "Masque de confiance",
+      "Name_EN": "Mask of Confidence",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_confiance.png"
+    },
+    {
+      "Index": "Armor-930000",
+      "Name_FR": "Masque squelettique",
+      "Name_EN": "Skeletal Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_squelettique.png"
+    },
+    {
+      "Index": "Armor-930100",
+      "Name_FR": "Plumes noires de rapace",
+      "Name_EN": "Raptor's Black Feathers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Plumes_noires_de_rapace.png"
+    },
+    {
+      "Index": "Armor-930200",
+      "Name_FR": "Manchettes de bandit",
+      "Name_EN": "Bandit Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_de_bandit.png"
+    },
+    {
+      "Index": "Armor-930300",
+      "Name_FR": "Bottes de bandit",
+      "Name_EN": "Bandit Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_bandit.png"
+    },
+    {
+      "Index": "Armor-931100",
+      "Name_FR": "Tenue de bandit",
+      "Name_EN": "Bandit Garb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tenue_de_bandit.png"
+    },
+    {
+      "Index": "Armor-940000",
+      "Name_FR": "Capuche d'excentrique",
+      "Name_EN": "Eccentric's Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_d'excentrique.png"
+    },
+    {
+      "Index": "Armor-940100",
+      "Name_FR": "Armure d'excentrique",
+      "Name_EN": "Eccentric's Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_d'excentrique.png"
+    },
+    {
+      "Index": "Armor-940200",
+      "Name_FR": "Manchettes d'excentrique",
+      "Name_EN": "Eccentric's Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_d'excentrique.png"
+    },
+    {
+      "Index": "Armor-940300",
+      "Name_FR": "Hauts-de-chausses d'excentrique",
+      "Name_EN": "Eccentric's Breeches",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Hauts-de-chausses_d'excentrique.png"
+    },
+    {
+      "Index": "Armor-950000",
+      "Name_FR": "Heaume des Doigts",
+      "Name_EN": "Fingerprint Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_des_Doigts.png"
+    },
+    {
+      "Index": "Armor-950100",
+      "Name_FR": "Armure des Doigts",
+      "Name_EN": "Fingerprint Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_des_Doigts.png"
+    },
+    {
+      "Index": "Armor-950200",
+      "Name_FR": "Gantelets des Doigts",
+      "Name_EN": "Fingerprint Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_des_Doigts.png"
+    },
+    {
+      "Index": "Armor-950300",
+      "Name_FR": "Jambières des Doigts",
+      "Name_EN": "Fingerprint Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_des_Doigts.png"
+    },
+    {
+      "Index": "Armor-960000",
+      "Name_FR": "Masque de consort",
+      "Name_EN": "Consort's Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_consort.png"
+    },
+    {
+      "Index": "Armor-960100",
+      "Name_FR": "Robe de consort",
+      "Name_EN": "Consort's Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_consort.png"
+    },
+    {
+      "Index": "Armor-960300",
+      "Name_FR": "Pantalon de consort",
+      "Name_EN": "Consort's Trousers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Pantalon_de_consort.png"
+    },
+    {
+      "Index": "Armor-961000",
+      "Name_FR": "Masque de suzerain",
+      "Name_EN": "Ruler's Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_suzerain.png"
+    },
+    {
+      "Index": "Armor-961100",
+      "Name_FR": "Robe de suzerain",
+      "Name_EN": "Ruler's Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_suzerain.png"
+    },
+    {
+      "Index": "Armor-962100",
+      "Name_FR": "Robe bourgeoise",
+      "Name_EN": "Upper-Class Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_bourgeoise.png"
+    },
+    {
+      "Index": "Armor-963000",
+      "Name_FR": "Masque des Tourbier",
+      "Name_EN": "Marais Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_des_Tourbier.png"
+    },
+    {
+      "Index": "Armor-963100",
+      "Name_FR": "Robe des Tourbier",
+      "Name_EN": "Marais Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_des_Tourbier.png"
+    },
+    {
+      "Index": "Armor-963200",
+      "Name_FR": "Manchettes gorgées de sang",
+      "Name_EN": "Bloodsoaked Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_gorgées_de_sang.png"
+    },
+    {
+      "Index": "Armor-964000",
+      "Name_FR": "Masque gorgé de sang",
+      "Name_EN": "Bloodsoaked Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_gorgé_de_sang.png"
+    },
+    {
+      "Index": "Armor-964100",
+      "Name_FR": "Atours de dignitaire",
+      "Name_EN": "Official's Attire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Atours_de_dignitaire.png"
+    },
+    {
+      "Index": "Armor-970000",
+      "Name_FR": "Casque de Réprouvé",
+      "Name_EN": "Omen Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_Réprouvé.png"
+    },
+    {
+      "Index": "Armor-970100",
+      "Name_FR": "Armure de Réprouvé",
+      "Name_EN": "Omen Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Réprouvé.png"
+    },
+    {
+      "Index": "Armor-970200",
+      "Name_FR": "Gantelets de Réprouvé",
+      "Name_EN": "Omen Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Réprouvé.png"
+    },
+    {
+      "Index": "Armor-970300",
+      "Name_FR": "Jambières de Réprouvé",
+      "Name_EN": "Omen Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Réprouvé.png"
+    },
+    {
+      "Index": "Armor-980000",
+      "Name_FR": "Casque de chevalier de Caria",
+      "Name_EN": "Carian Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_chevalier_de_Caria.png"
+    },
+    {
+      "Index": "Armor-980100",
+      "Name_FR": "Armure de chevalier de Caria",
+      "Name_EN": "Carian Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_de_Caria.png"
+    },
+    {
+      "Index": "Armor-980200",
+      "Name_FR": "Gantelets de chevalier de Caria",
+      "Name_EN": "Carian Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_de_Caria.png"
+    },
+    {
+      "Index": "Armor-980300",
+      "Name_FR": "Bottes de chevalier de Caria",
+      "Name_EN": "Carian Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_chevalier_de_Caria.png"
+    },
+    {
+      "Index": "Armor-990000",
+      "Name_FR": "Masque de pierre d'éclat de Hierodas",
+      "Name_EN": "Hierodas Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_de_Hierodas.png"
+    },
+    {
+      "Index": "Armor-990100",
+      "Name_FR": "Robe de sorcier errant",
+      "Name_EN": "Errant Sorcerer Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_sorcier_errant.png"
+    },
+    {
+      "Index": "Armor-990200",
+      "Name_FR": "Manchettes de sorcier errant",
+      "Name_EN": "Errant Sorcerer Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_de_sorcier_errant.png"
+    },
+    {
+      "Index": "Armor-990300",
+      "Name_FR": "Bottes de sorcier errant",
+      "Name_EN": "Errant Sorcerer Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_sorcier_errant.png"
+    },
+    {
+      "Index": "Armor-1000000",
+      "Name_FR": "Masque de pierre d'éclat de Haima",
+      "Name_EN": "Haima Glintstone Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_pierre_d'éclat_de_Haima.png"
+    },
+    {
+      "Index": "Armor-1000100",
+      "Name_FR": "Robe de mage de bataille",
+      "Name_EN": "Battlemage Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_mage_de_bataille.png"
+    },
+    {
+      "Index": "Armor-1000200",
+      "Name_FR": "Manchettes de mage de bataille",
+      "Name_EN": "Battlemage Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_de_mage_de_bataille.png"
+    },
+    {
+      "Index": "Armor-1000300",
+      "Name_FR": "Guêtres de mage de bataille",
+      "Name_EN": "Battlemage Legwraps",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Guêtres_de_mage_de_bataille.png"
+    },
+    {
+      "Index": "Armor-1010000",
+      "Name_FR": "Chapeau de sorcière des neiges",
+      "Name_EN": "Snow Witch Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chapeau_de_sorcière_des_neiges.png"
+    },
+    {
+      "Index": "Armor-1010100",
+      "Name_FR": "Robe de sorcière des neiges",
+      "Name_EN": "Snow Witch Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_sorcière_des_neiges.png"
+    },
+    {
+      "Index": "Armor-1010300",
+      "Name_FR": "Jupe de sorcière des neiges",
+      "Name_EN": "Snow Witch Skirt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jupe_de_sorcière_des_neiges.png"
+    },
+    {
+      "Index": "Armor-1020100",
+      "Name_FR": "Vêtements de voyageur",
+      "Name_EN": "Traveler's Clothes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Vêtements_de_voyageur.png"
+    },
+    {
+      "Index": "Armor-1020200",
+      "Name_FR": "Manchettes de voyageur",
+      "Name_EN": "Traveler's Manchettes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Manchettes_de_voyageur.png"
+    },
+    {
+      "Index": "Armor-1020300",
+      "Name_FR": "Bottes de voyageur",
+      "Name_EN": "Traveler's Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_voyageur.png"
+    },
+    {
+      "Index": "Armor-1030000",
+      "Name_FR": "Couvre-chef d'érudit néophyte",
+      "Name_EN": "Juvenile Scholar Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Couvre-chef_d'érudit_néophyte.png"
+    },
+    {
+      "Index": "Armor-1030100",
+      "Name_FR": "Robe d'érudit néophyte",
+      "Name_EN": "Juvenile Scholar Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_d'érudit_néophyte.png"
+    },
+    {
+      "Index": "Armor-1040000",
+      "Name_FR": "Masque d'or radieux",
+      "Name_EN": "Radiant Gold Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_d'or_radieux.png"
+    },
+    {
+      "Index": "Armor-1040100",
+      "Name_FR": "Guenilles du Masque d'or",
+      "Name_EN": "Goldmask's Rags",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Guenilles_du_Masque_d'or.png"
+    },
+    {
+      "Index": "Armor-1040200",
+      "Name_FR": "Bracelets dorés",
+      "Name_EN": "Gold Bracelets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bracelets_dorés.png"
+    },
+    {
+      "Index": "Armor-1040300",
+      "Name_FR": "Écharpe dorée",
+      "Name_EN": "Gold Waistwrap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Écharpe_dorée.png"
+    },
+    {
+      "Index": "Armor-1050100",
+      "Name_FR": "Cape du Déchu",
+      "Name_EN": "Fell Omen Cloak",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Cape_du_Déchu.png"
+    },
+    {
+      "Index": "Armor-1060000",
+      "Name_FR": "Masque d'Albinaurique",
+      "Name_EN": "Albinauric Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_d'Albinaurique.png"
+    },
+    {
+      "Index": "Armor-1060100",
+      "Name_FR": "Cotte de mailles crasseuse",
+      "Name_EN": "Dirty Chainmail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Cotte_de_mailles_crasseuse.png"
+    },
+    {
+      "Index": "Armor-1070000",
+      "Name_FR": "Masque de Zamor",
+      "Name_EN": "Zamor Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_Zamor.png"
+    },
+    {
+      "Index": "Armor-1070100",
+      "Name_FR": "Armure de Zamor",
+      "Name_EN": "Zamor Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_Zamor.png"
+    },
+    {
+      "Index": "Armor-1070200",
+      "Name_FR": "Bracelets de Zamor",
+      "Name_EN": "Zamor Bracelets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bracelets_de_Zamor.png"
+    },
+    {
+      "Index": "Armor-1070300",
+      "Name_FR": "Guêtres de Zamor",
+      "Name_EN": "Zamor Legwraps",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Guêtres_de_Zamor.png"
+    },
+    {
+      "Index": "Armor-1080000",
+      "Name_FR": "Tête de diablotin (chat)",
+      "Name_EN": "Imp Head (Cat)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tête_de_diablotin_(chat).png"
+    },
+    {
+      "Index": "Armor-1081000",
+      "Name_FR": "Tête de diablotin à crocs",
+      "Name_EN": "Imp Head (Fanged)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tête_de_diablotin_à_crocs.png"
+    },
+    {
+      "Index": "Armor-1082000",
+      "Name_FR": "Tête de diablotin à langue",
+      "Name_EN": "Imp Head (Long-Tongued)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tête_de_diablotin_à_langue.png"
+    },
+    {
+      "Index": "Armor-1083000",
+      "Name_FR": "Tête de diablotin (cadavre)",
+      "Name_EN": "Imp Head (Corpse)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tête_de_diablotin_(cadavre).png"
+    },
+    {
+      "Index": "Armor-1084000",
+      "Name_FR": "Tête de diablotin (loup)",
+      "Name_EN": "Imp Head (Wolf)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tête_de_diablotin_(loup).png"
+    },
+    {
+      "Index": "Armor-1085000",
+      "Name_FR": "Tête de diablotin (ancien)",
+      "Name_EN": "Imp Head (Elder)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tête_de_diablotin_(ancien).png"
+    },
+    {
+      "Index": "Armor-1090000",
+      "Name_FR": "Masque de larme d'argent",
+      "Name_EN": "Silver Tear Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_larme_d'argent.png"
+    },
+    {
+      "Index": "Armor-1100000",
+      "Name_FR": "Coiffe de mailles",
+      "Name_EN": "Chain Coif",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Coiffe_de_mailles.png"
+    },
+    {
+      "Index": "Armor-1100100",
+      "Name_FR": "Cotte de mailles",
+      "Name_EN": "Chain Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Cotte_de_mailles.png"
+    },
+    {
+      "Index": "Armor-1100200",
+      "Name_FR": "Gantelets",
+      "Name_EN": "Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets.png"
+    },
+    {
+      "Index": "Armor-1100300",
+      "Name_FR": "Jambières de mailles",
+      "Name_EN": "Chain Leggings",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_mailles.png"
+    },
+    {
+      "Index": "Armor-1101000",
+      "Name_FR": "Grand heaume",
+      "Name_EN": "Greathelm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Grand_heaume.png"
+    },
+    {
+      "Index": "Armor-1101100",
+      "Name_FR": "Tunique frappée d'un œil",
+      "Name_EN": "Eye Surcoat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_frappée_d'un_œil.png"
+    },
+    {
+      "Index": "Armor-1102100",
+      "Name_FR": "Tunique frappée d'un arbre",
+      "Name_EN": "Tree Surcoat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_frappée_d'un_arbre.png"
+    },
+    {
+      "Index": "Armor-1110000",
+      "Name_FR": "Tête de pieuvre",
+      "Name_EN": "Octopus Head",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tête_de_pieuvre.png"
+    },
+    {
+      "Index": "Armor-1120000",
+      "Name_FR": "Jarre",
+      "Name_EN": "Jar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jarre.png"
+    },
+    {
+      "Index": "Armor-1130000",
+      "Name_FR": "Tête fongique",
+      "Name_EN": "Mushroom Head",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tête_fongique.png"
+    },
+    {
+      "Index": "Armor-1130100",
+      "Name_FR": "Corps fongique",
+      "Name_EN": "Mushroom Body",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Corps_fongique.png"
+    },
+    {
+      "Index": "Armor-1130200",
+      "Name_FR": "Bras fongiques",
+      "Name_EN": "Mushroom Arms",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bras_fongiques.png"
+    },
+    {
+      "Index": "Armor-1130300",
+      "Name_FR": "Jambes fongiques",
+      "Name_EN": "Mushroom Legs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambes_fongiques.png"
+    },
+    {
+      "Index": "Armor-1300000",
+      "Name_FR": "Heaume-miroir nokrien",
+      "Name_EN": "Nox Mirrorhelm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume-miroir_nokrien.png"
+    },
+    {
+      "Index": "Armor-1301000",
+      "Name_FR": "Heaume-miroir d'Iji",
+      "Name_EN": "Iji's Mirrorhelm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume-miroir_d'Iji.png"
+    },
+    {
+      "Index": "Armor-1400000",
+      "Name_FR": "Capuche noire",
+      "Name_EN": "Black Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_noire.png"
+    },
+    {
+      "Index": "Armor-1400100",
+      "Name_FR": "Armure de cuir",
+      "Name_EN": "Leather Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_cuir.png"
+    },
+    {
+      "Index": "Armor-1400200",
+      "Name_FR": "Gants de cuir",
+      "Name_EN": "Leather Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_de_cuir.png"
+    },
+    {
+      "Index": "Armor-1400300",
+      "Name_FR": "Bottes de cuir",
+      "Name_EN": "Leather Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_cuir.png"
+    },
+    {
+      "Index": "Armor-1401000",
+      "Name_FR": "Masque de bandit",
+      "Name_EN": "Bandit Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Masque_de_bandit.png"
+    },
+    {
+      "Index": "Armor-1500000",
+      "Name_FR": "Heaume de chevalier",
+      "Name_EN": "Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier.png"
+    },
+    {
+      "Index": "Armor-1500100",
+      "Name_FR": "Armure de chevalier",
+      "Name_EN": "Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier.png"
+    },
+    {
+      "Index": "Armor-1500200",
+      "Name_FR": "Gantelets de chevalier",
+      "Name_EN": "Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier.png"
+    },
+    {
+      "Index": "Armor-1500300",
+      "Name_FR": "Jambières de chevalier",
+      "Name_EN": "Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier.png"
+    },
+    {
+      "Index": "Armor-1600000",
+      "Name_FR": "Grande capuche",
+      "Name_EN": "Greathood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Grande_capuche.png"
+    },
+    {
+      "Index": "Armor-1700000",
+      "Name_FR": "Casque de soldat de Godrick",
+      "Name_EN": "Godrick Soldier Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_soldat_de_Godrick.png"
+    },
+    {
+      "Index": "Armor-1700100",
+      "Name_FR": "Tunique avec arbre et bête",
+      "Name_EN": "Tree-and-Beast Surcoat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_avec_arbre_et_bête.png"
+    },
+    {
+      "Index": "Armor-1700200",
+      "Name_FR": "Gantelets de soldat de Godrick",
+      "Name_EN": "Godrick Soldier Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_soldat_de_Godrick.png"
+    },
+    {
+      "Index": "Armor-1700300",
+      "Name_FR": "Jambières de soldat de Godrick",
+      "Name_EN": "Godrick Soldier Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_soldat_de_Godrick.png"
+    },
+    {
+      "Index": "Armor-1710000",
+      "Name_FR": "Casque de Raya Lucaria",
+      "Name_EN": "Raya Lucarian Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_Raya_Lucaria.png"
+    },
+    {
+      "Index": "Armor-1710100",
+      "Name_FR": "Tunique du Coucou",
+      "Name_EN": "Cuckoo Surcoat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_du_Coucou.png"
+    },
+    {
+      "Index": "Armor-1710200",
+      "Name_FR": "Gantelets de Raya Lucaria",
+      "Name_EN": "Raya Lucarian Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_Raya_Lucaria.png"
+    },
+    {
+      "Index": "Armor-1710300",
+      "Name_FR": "Jambières de Raya Lucaria",
+      "Name_EN": "Raya Lucarian Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Raya_Lucaria.png"
+    },
+    {
+      "Index": "Armor-1720000",
+      "Name_FR": "Casque de soldat de Leyndell",
+      "Name_EN": "Leyndell Soldier Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_soldat_de_Leyndell.png"
+    },
+    {
+      "Index": "Armor-1720100",
+      "Name_FR": "Tunique de l'Arbre-Monde",
+      "Name_EN": "Erdtree Surcoat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_de_l'Arbre-Monde.png"
+    },
+    {
+      "Index": "Armor-1720200",
+      "Name_FR": "Gantelets de soldat de Leyndell",
+      "Name_EN": "Leyndell Soldier Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_soldat_de_Leyndell.png"
+    },
+    {
+      "Index": "Armor-1720300",
+      "Name_FR": "Jambières de soldat de Leyndell",
+      "Name_EN": "Leyndell Soldier Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_soldat_de_Leyndell.png"
+    },
+    {
+      "Index": "Armor-1730000",
+      "Name_FR": "Casque de soldat de Radahn",
+      "Name_EN": "Radahn Soldier Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_soldat_de_Radahn.png"
+    },
+    {
+      "Index": "Armor-1730100",
+      "Name_FR": "Tunique du Lion rouge",
+      "Name_EN": "Redmane Surcoat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_du_Lion_rouge.png"
+    },
+    {
+      "Index": "Armor-1730200",
+      "Name_FR": "Gantelets de soldat de Radahn",
+      "Name_EN": "Radahn Soldier Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_soldat_de_Radahn.png"
+    },
+    {
+      "Index": "Armor-1730300",
+      "Name_FR": "Jambières de soldat de Radahn",
+      "Name_EN": "Radahn Soldier Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_soldat_de_Radahn.png"
+    },
+    {
+      "Index": "Armor-1740100",
+      "Name_FR": "Tunique du Mausolée",
+      "Name_EN": "Mausoleum Surcoat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_du_Mausolée.png"
+    },
+    {
+      "Index": "Armor-1740200",
+      "Name_FR": "Gantelets du Mausolée",
+      "Name_EN": "Mausoleum Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_du_Mausolée.png"
+    },
+    {
+      "Index": "Armor-1740300",
+      "Name_FR": "Jambières du Mausolée",
+      "Name_EN": "Mausoleum Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_du_Mausolée.png"
+    },
+    {
+      "Index": "Armor-1750000",
+      "Name_FR": "Casque de l'Arbre-Sacré",
+      "Name_EN": "Haligtree Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Armor-1750100",
+      "Name_FR": "Tunique de l'Arbre-Sacré",
+      "Name_EN": "Haligtree Crest Surcoat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tunique_de_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Armor-1750200",
+      "Name_FR": "Gantelets de l'Arbre-Sacré",
+      "Name_EN": "Haligtree Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Armor-1750300",
+      "Name_FR": "Jambières de l'Arbre-Sacré",
+      "Name_EN": "Haligtree Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Armor-1760000",
+      "Name_FR": "Heaume de chevalier de Gelmir",
+      "Name_EN": "Gelmir Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier_de_Gelmir.png"
+    },
+    {
+      "Index": "Armor-1760100",
+      "Name_FR": "Armure de chevalier de Gelmir",
+      "Name_EN": "Gelmir Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_de_Gelmir.png"
+    },
+    {
+      "Index": "Armor-1760200",
+      "Name_FR": "Gantelets de chevalier de Gelmir",
+      "Name_EN": "Gelmir Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_de_Gelmir.png"
+    },
+    {
+      "Index": "Armor-1760300",
+      "Name_FR": "Jambières de chevalier de Gelmir",
+      "Name_EN": "Gelmir Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_de_Gelmir.png"
+    },
+    {
+      "Index": "Armor-1770000",
+      "Name_FR": "Heaume de chevalier de Godrick",
+      "Name_EN": "Godrick Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier_de_Godrick.png"
+    },
+    {
+      "Index": "Armor-1770100",
+      "Name_FR": "Armure de chevalier de Godrick",
+      "Name_EN": "Godrick Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_de_Godrick.png"
+    },
+    {
+      "Index": "Armor-1770200",
+      "Name_FR": "Gantelets de chevalier de Godrick",
+      "Name_EN": "Godrick Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_de_Godrick.png"
+    },
+    {
+      "Index": "Armor-1770300",
+      "Name_FR": "Jambières de chevalier de Godrick",
+      "Name_EN": "Godrick Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_de_Godrick.png"
+    },
+    {
+      "Index": "Armor-1780000",
+      "Name_FR": "Heaume de chevalier du Coucou",
+      "Name_EN": "Cuckoo Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier_du_Coucou.png"
+    },
+    {
+      "Index": "Armor-1780100",
+      "Name_FR": "Armure de chevalier du Coucou",
+      "Name_EN": "Cuckoo Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_du_Coucou.png"
+    },
+    {
+      "Index": "Armor-1780200",
+      "Name_FR": "Gantelets de chevalier du Coucou",
+      "Name_EN": "Cuckoo Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_du_Coucou.png"
+    },
+    {
+      "Index": "Armor-1780300",
+      "Name_FR": "Jambières de chevalier du Coucou",
+      "Name_EN": "Cuckoo Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_du_Coucou.png"
+    },
+    {
+      "Index": "Armor-1790000",
+      "Name_FR": "Heaume de chevalier de Leyndell",
+      "Name_EN": "Leyndell Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier_de_Leyndell.png"
+    },
+    {
+      "Index": "Armor-1790100",
+      "Name_FR": "Armure de chevalier de Leyndell",
+      "Name_EN": "Leyndell Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_de_Leyndell.png"
+    },
+    {
+      "Index": "Armor-1790200",
+      "Name_FR": "Gantelets de chevalier de Leyndell",
+      "Name_EN": "Leyndell Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_de_Leyndell.png"
+    },
+    {
+      "Index": "Armor-1790300",
+      "Name_FR": "Jambières de chevalier de Leyndell",
+      "Name_EN": "Leyndell Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_de_Leyndell.png"
+    },
+    {
+      "Index": "Armor-1800000",
+      "Name_FR": "Heaume de chevalier du Lion rouge",
+      "Name_EN": "Redmane Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier_du_Lion_rouge.png"
+    },
+    {
+      "Index": "Armor-1800100",
+      "Name_FR": "Armure de chevalier du Lion rouge",
+      "Name_EN": "Redmane Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_du_Lion_rouge.png"
+    },
+    {
+      "Index": "Armor-1800200",
+      "Name_FR": "Gantelets de chevalier du Lion rouge",
+      "Name_EN": "Redmane Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_du_Lion_rouge.png"
+    },
+    {
+      "Index": "Armor-1800300",
+      "Name_FR": "Jambières de chevalier du Lion rouge",
+      "Name_EN": "Redmane Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_du_Lion_rouge.png"
+    },
+    {
+      "Index": "Armor-1810100",
+      "Name_FR": "Armure de chevalier du Mausolée",
+      "Name_EN": "Mausoleum Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_du_Mausolée.png"
+    },
+    {
+      "Index": "Armor-1810200",
+      "Name_FR": "Gantelets de chevalier du Mausolée",
+      "Name_EN": "Mausoleum Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_du_Mausolée.png"
+    },
+    {
+      "Index": "Armor-1810300",
+      "Name_FR": "Jambières de chevalier du Mausolée",
+      "Name_EN": "Mausoleum Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_du_Mausolée.png"
+    },
+    {
+      "Index": "Armor-1820000",
+      "Name_FR": "Heaume de chevalier de l'Arbre-Sacré",
+      "Name_EN": "Haligtree Knight Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Heaume_de_chevalier_de_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Armor-1820100",
+      "Name_FR": "Armure de chevalier de l'Arbre-Sacré",
+      "Name_EN": "Haligtree Knight Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_de_chevalier_de_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Armor-1820200",
+      "Name_FR": "Gantelets de chevalier de l'Arbre-Sacré",
+      "Name_EN": "Haligtree Knight Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_chevalier_de_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Armor-1820300",
+      "Name_FR": "Jambières de chevalier l'Arbre-Sacré",
+      "Name_EN": "Haligtree Knight Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_chevalier_l'Arbre-Sacré.png"
+    },
+    {
+      "Index": "Armor-1830000",
+      "Name_FR": "Chapel de fantassin",
+      "Name_EN": "Foot Soldier Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Chapel_de_fantassin.png"
+    },
+    {
+      "Index": "Armor-1830100",
+      "Name_FR": "Tabard drapé de mailles",
+      "Name_EN": "Chain-Draped Tabard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tabard_drapé_de_mailles.png"
+    },
+    {
+      "Index": "Armor-1830200",
+      "Name_FR": "Gantelets de fantassin",
+      "Name_EN": "Foot Soldier Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_fantassin.png"
+    },
+    {
+      "Index": "Armor-1830300",
+      "Name_FR": "Jambières de fantassin",
+      "Name_EN": "Foot Soldier Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_fantassin.png"
+    },
+    {
+      "Index": "Armor-1840000",
+      "Name_FR": "Cervelière de fantassin",
+      "Name_EN": "Foot Soldier Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Cervelière_de_fantassin.png"
+    },
+    {
+      "Index": "Armor-1840100",
+      "Name_FR": "Tabard de fantassin",
+      "Name_EN": "Foot Soldier Tabard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tabard_de_fantassin.png"
+    },
+    {
+      "Index": "Armor-1850000",
+      "Name_FR": "Morion doré de fantassin",
+      "Name_EN": "Gilded Foot Soldier Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Morion_doré_de_fantassin.png"
+    },
+    {
+      "Index": "Armor-1850100",
+      "Name_FR": "Tabard drapé de cuir",
+      "Name_EN": "Leather-Draped Tabard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tabard_drapé_de_cuir.png"
+    },
+    {
+      "Index": "Armor-1860000",
+      "Name_FR": "Barbute de fantassin",
+      "Name_EN": "Foot Soldier Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Barbute_de_fantassin.png"
+    },
+    {
+      "Index": "Armor-1860100",
+      "Name_FR": "Tabard écarlate",
+      "Name_EN": "Scarlet Tabard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tabard_écarlate.png"
+    },
+    {
+      "Index": "Armor-1870100",
+      "Name_FR": "Tabard maculé de sang",
+      "Name_EN": "Bloodsoaked Tabard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tabard_maculé_de_sang.png"
+    },
+    {
+      "Index": "Armor-1880000",
+      "Name_FR": "Morion sacré",
+      "Name_EN": "Sacred Crown Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Morion_sacré.png"
+    },
+    {
+      "Index": "Armor-1880100",
+      "Name_FR": "Tabard drapé d'ivoire",
+      "Name_EN": "Ivory-Draped Tabard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Tabard_drapé_d'ivoire.png"
+    },
+    {
+      "Index": "Armor-1890000",
+      "Name_FR": "Cauchemar des Réprouvés",
+      "Name_EN": "Omensmirk Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Cauchemar_des_Réprouvés.png"
+    },
+    {
+      "Index": "Armor-1890100",
+      "Name_FR": "Robe de tueur de Réprouvés",
+      "Name_EN": "Omenkiller Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_tueur_de_Réprouvés.png"
+    },
+    {
+      "Index": "Armor-1890200",
+      "Name_FR": "Gants longs de tueur de Réprouvés",
+      "Name_EN": "Omenkiller Long Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gants_longs_de_tueur_de_Réprouvés.png"
+    },
+    {
+      "Index": "Armor-1890300",
+      "Name_FR": "Bottes de tueur de Réprouvés",
+      "Name_EN": "Omenkiller Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Bottes_de_tueur_de_Réprouvés.png"
+    },
+    {
+      "Index": "Armor-1900000",
+      "Name_FR": "Scarabée cendreux de guerre",
+      "Name_EN": "Ash-of-War Scarab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Scarabée_cendreux_de_guerre.png"
+    },
+    {
+      "Index": "Armor-1901000",
+      "Name_FR": "Scarabée incantatoire",
+      "Name_EN": "Incantation Scarab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Scarabée_incantatoire.png"
+    },
+    {
+      "Index": "Armor-1902000",
+      "Name_FR": "Scarabée de pierre d'éclat",
+      "Name_EN": "Glintstone Scarab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Scarabée_de_pierre_d'éclat.png"
+    },
+    {
+      "Index": "Armor-1910000",
+      "Name_FR": "Scarabée larmoyant pourpre",
+      "Name_EN": "Crimson Tear Scarab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Scarabée_larmoyant_pourpre.png"
+    },
+    {
+      "Index": "Armor-1920000",
+      "Name_FR": "Scarabée larmoyant céruléen",
+      "Name_EN": "Cerulean Tear Scarab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Scarabée_larmoyant_céruléen.png"
+    },
+    {
+      "Index": "Armor-1930100",
+      "Name_FR": "Robe mortuaire",
+      "Name_EN": "Deathbed Dress",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_mortuaire.png"
+    },
+    {
+      "Index": "Armor-1930300",
+      "Name_FR": "",
+      "Name_EN": "Deathbed Smalls",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Deathbed_Smalls.png"
+    },
+    {
+      "Index": "Armor-1940000",
+      "Name_FR": "Capuche de Fia",
+      "Name_EN": "Fia's Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_Fia.png"
+    },
+    {
+      "Index": "Armor-1940100",
+      "Name_FR": "Robe de Fia",
+      "Name_EN": "Fia's Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_Fia.png"
+    },
+    {
+      "Index": "Armor-1980000",
+      "Name_FR": "Capuche de brigand",
+      "Name_EN": "Highwayman Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_brigand.png"
+    },
+    {
+      "Index": "Armor-1980100",
+      "Name_FR": "Armure en tissu de brigand",
+      "Name_EN": "Highwayman Cloth Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Armure_en_tissu_de_brigand.png"
+    },
+    {
+      "Index": "Armor-1980200",
+      "Name_FR": "Gantelets de brigand",
+      "Name_EN": "Highwayman Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Gantelets_de_brigand.png"
+    },
+    {
+      "Index": "Armor-1990000",
+      "Name_FR": "Capuche de page noble",
+      "Name_EN": "High Page Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Capuche_de_page_noble.png"
+    },
+    {
+      "Index": "Armor-1990100",
+      "Name_FR": "Atours de page noble",
+      "Name_EN": "High Page Clothes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Atours_de_page_noble.png"
+    },
+    {
+      "Index": "Armor-2000000",
+      "Name_FR": "Casque de Duelliste putréfié",
+      "Name_EN": "Rotten Duelist Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Casque_de_Duelliste_putréfié.png"
+    },
+    {
+      "Index": "Armor-2000100",
+      "Name_FR": "Cape de gardien des tombes putréfiée",
+      "Name_EN": "Rotten Gravekeeper Cloak",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Cape_de_gardien_des_tombes_putréfiée.png"
+    },
+    {
+      "Index": "Armor-2000300",
+      "Name_FR": "Jambières de Duelliste putréfié",
+      "Name_EN": "Rotten Duelist Greaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Jambières_de_Duelliste_putréfié.png"
+    },
+    {
+      "Index": "Armor-2010000",
+      "Name_FR": "Couronne fongique",
+      "Name_EN": "Mushroom Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Couronne_fongique.png"
+    },
+    {
+      "Index": "Armor-2020000",
+      "Name_FR": "Paupiette noire",
+      "Name_EN": "Black Dumpling",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Paupiette_noire.png"
+    },
+    {
+      "Index": "Armor-2030000",
+      "Name_FR": "Robe de Lazuli",
+      "Name_EN": "Lazuli Robe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/ERGussr/./Assets/Armors/Robe_de_Lazuli.png"
+    }
+  ]
+}

@@ -207,11 +207,11 @@
 }
 
 .cell-image.effect-blur {
-    filter: blur(24px) !important;
+    filter: blur(18px) !important;
 }
 
 .cell-image.effect-hide.effect-blur {
-    filter: brightness(0) blur(24px) !important;
+    filter: brightness(0) blur(18px) !important;
 }
 
 /* Validated cell: always normal image, no effects */

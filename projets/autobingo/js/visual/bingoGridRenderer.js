@@ -177,13 +177,14 @@
             });
             bar.appendChild(randOrderBtn);
 
-            // Lock grid toggle
+            // Lock grid toggle - rebuilds grid to show/hide switch buttons
             const lockCheckbox = this._createControlCheckbox('lockCheckbox', this.gameManager.locked);
             const lockToggle = document.createElement('label');
             lockToggle.className = 'bingo-toggle';
             lockCheckbox.addEventListener('change', () => {
                 this.gameManager.locked = lockCheckbox.checked;
                 this._updateControlsUrl();
+                this.rebuildGrid();
             });
             const lockSpan = document.createElement('span');
             lockSpan.setAttribute('data-i18n', 'bingo.lock_grid');
@@ -391,6 +392,7 @@
 
             if (cellIndex >= 0) {
                 // Found in grid! Activate it
+                this.gameManager.startTimer();
                 this.gameManager.toggleCell(cellIndex);
                 this.refreshCells();
                 this._checkBingoAndShow();
@@ -437,11 +439,13 @@
         },
 
         /**
-         * Check for bingo and show popup
+         * Check for bingo and show popup - pause timer on bingo
          */
         _checkBingoAndShow() {
             const result = this.gameManager.checkBingo();
             if (result) {
+                this.gameManager.pauseTimer();
+                this._updateTimerDisplay();
                 this._showBingoPopup(result);
             }
         },
@@ -485,23 +489,20 @@
             div.className = 'bingo-cell';
             div.dataset.index = index;
 
-            // Switch button (top-right) - hidden when locked
-            const switchBtn = document.createElement('button');
-            switchBtn.className = 'cell-switch-btn';
-            switchBtn.title = 'Change item';
-            fetch('assets/switch-vertical.svg')
-                .then(r => r.text())
-                .then(svg => { switchBtn.innerHTML = svg; });
-            switchBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (!this.gameManager.locked) {
+            // Switch button (top-right) - only created if NOT locked
+            if (!this.gameManager.locked) {
+                const switchBtn = document.createElement('button');
+                switchBtn.className = 'cell-switch-btn';
+                switchBtn.title = 'Change item';
+                fetch('assets/switch-vertical.svg')
+                    .then(r => r.text())
+                    .then(svg => { switchBtn.innerHTML = svg; });
+                switchBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     this._openSearchModal(index);
-                }
-            });
-            if (this.gameManager.locked) {
-                switchBtn.style.display = 'none';
+                });
+                div.appendChild(switchBtn);
             }
-            div.appendChild(switchBtn);
 
             // Image
             const img = document.createElement('img');
@@ -524,6 +525,8 @@
             // Click to validate
             div.addEventListener('click', (e) => {
                 if (e.target.closest('.cell-switch-btn')) return;
+                this.gameManager.startTimer();
+                this._updateTimerDisplay();
                 this.gameManager.toggleCell(index);
                 this._updateCellVisual(div, cell);
                 this._checkBingoAndShow();

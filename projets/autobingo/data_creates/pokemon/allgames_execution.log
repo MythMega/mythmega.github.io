@@ -1,0 +1,83 @@
+[2026-06-16 05:27:18.169559] ===== DÉBUT DE L’EXÉCUTION =====
+[2026-06-16 05:27:18.173632] 
+📄 Construction du JSON : pla.json
+[2026-06-16 05:27:18.173632] CSV utilisés : pla.csv
+[2026-06-16 05:27:18.176146] ✔ Total Pokémon : 242
+[2026-06-16 05:27:18.176146] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.176146] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.177147] 
+📄 Construction du JSON : sv_no_dlc.json
+[2026-06-16 05:27:18.177147] CSV utilisés : sv_no_dlc.csv
+[2026-06-16 05:27:18.178148] 🔍 Correspondance approximative trouvée : 'Gimmighoul' → 'Gimmighoul (Chest Form)'
+[2026-06-16 05:27:18.180661] ✔ Total Pokémon : 400
+[2026-06-16 05:27:18.180661] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.180661] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.181664] 
+📄 Construction du JSON : sv_tealmask.json
+[2026-06-16 05:27:18.181664] CSV utilisés : sv_only_dlc_tealmask.csv
+[2026-06-16 05:27:18.182730] 🔍 Correspondance approximative trouvée : 'Ogerpon' → 'Ogerpon Teal Mask'
+[2026-06-16 05:27:18.183730] ✔ Total Pokémon : 200
+[2026-06-16 05:27:18.183730] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.185267] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.185267] 
+📄 Construction du JSON : sv_indigodisk.json
+[2026-06-16 05:27:18.185267] CSV utilisés : sv_only_dlc_indigodisk.csv
+[2026-06-16 05:27:18.187776] ✔ Total Pokémon : 243
+[2026-06-16 05:27:18.189289] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.189289] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.189289] 
+📄 Construction du JSON : sv_fullgame.json
+[2026-06-16 05:27:18.189289] CSV utilisés : sv_no_dlc.csv, sv_only_dlc_tealmask.csv, sv_only_dlc_indigodisk.csv
+[2026-06-16 05:27:18.190295] 🔍 Correspondance approximative trouvée : 'Gimmighoul' → 'Gimmighoul (Chest Form)'
+[2026-06-16 05:27:18.191296] 🔍 Correspondance approximative trouvée : 'Ogerpon' → 'Ogerpon Teal Mask'
+[2026-06-16 05:27:18.195894] ✔ Total Pokémon : 664
+[2026-06-16 05:27:18.195894] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.196898] 🔁 Doublons ignorés : 179
+[2026-06-16 05:27:18.196898] 
+📄 Construction du JSON : swsh_no_dlc.json
+[2026-06-16 05:27:18.196898] CSV utilisés : swsh_no_dlc.csv
+[2026-06-16 05:27:18.200412] ✔ Total Pokémon : 400
+[2026-06-16 05:27:18.200412] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.201414] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.201414] 
+📄 Construction du JSON : swsh_ia.json
+[2026-06-16 05:27:18.201414] CSV utilisés : swsh_only_dlc_ia.csv
+[2026-06-16 05:27:18.202910] 🔍 Correspondance approximative trouvée : 'Urshifu' → 'Urshifu Single Strike'
+[2026-06-16 05:27:18.204420] ✔ Total Pokémon : 211
+[2026-06-16 05:27:18.204420] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.205421] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.205421] 
+📄 Construction du JSON : swsh_tc.json
+[2026-06-16 05:27:18.205421] CSV utilisés : swsh_only_dlc_ct.csv
+[2026-06-16 05:27:18.207432] ✔ Total Pokémon : 210
+[2026-06-16 05:27:18.207432] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.207432] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.207432] 
+📄 Construction du JSON : swsh_fullgame.json
+[2026-06-16 05:27:18.207432] CSV utilisés : swsh_no_dlc.csv, swsh_only_dlc_ct.csv, swsh_only_dlc_ia.csv
+[2026-06-16 05:27:18.209465] 🔍 Correspondance approximative trouvée : 'Urshifu' → 'Urshifu Single Strike'
+[2026-06-16 05:27:18.212510] ✔ Total Pokémon : 584
+[2026-06-16 05:27:18.212510] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.212510] 🔁 Doublons ignorés : 237
+[2026-06-16 05:27:18.214016] 
+📄 Construction du JSON : za_no_dlc.json
+[2026-06-16 05:27:18.214016] CSV utilisés : za_no_dlc.csv
+[2026-06-16 05:27:18.216540] ✔ Total Pokémon : 232
+[2026-06-16 05:27:18.216540] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.216540] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.216540] 
+📄 Construction du JSON : za_dlc.json
+[2026-06-16 05:27:18.216540] CSV utilisés : za_only_dlc.csv
+[2026-06-16 05:27:18.217613] 🔍 Correspondance approximative trouvée : 'Gimmighoul' → 'Gimmighoul (Chest Form)'
+[2026-06-16 05:27:18.218612] ✔ Total Pokémon : 132
+[2026-06-16 05:27:18.218612] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.218612] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.218612] 
+📄 Construction du JSON : za_fullgame.json
+[2026-06-16 05:27:18.218612] CSV utilisés : za_no_dlc.csv, za_only_dlc.csv
+[2026-06-16 05:27:18.220364] 🔍 Correspondance approximative trouvée : 'Gimmighoul' → 'Gimmighoul (Chest Form)'
+[2026-06-16 05:27:18.221372] ✔ Total Pokémon : 364
+[2026-06-16 05:27:18.222984] ⚠ Introuvables : 0
+[2026-06-16 05:27:18.222984] 🔁 Doublons ignorés : 0
+[2026-06-16 05:27:18.222984] 
+===== FIN DE L’EXÉCUTION =====

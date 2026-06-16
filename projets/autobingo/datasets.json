@@ -54,6 +54,42 @@
     "Location": "./data/mario/sm64_coinless.json"
   },
   {
+    "Name": "SMS - All Shine (Including Blue Coins)",
+    "Category": "Mario",
+    "Subcategory": "Super Mario Sunshine",
+    "Location": "./data/mario/sms_allshine.json"
+  },
+  {
+    "Name": "SMS - All Shine BlueCoinless",
+    "Category": "Mario",
+    "Subcategory": "Super Mario Sunshine",
+    "Location": "./data/mario/sms_allshine_without_bc.json"
+  },
+  {
+    "Name": "SMS - Delfino Shine",
+    "Category": "Mario",
+    "Subcategory": "Super Mario Sunshine",
+    "Location": "./data/mario/sms_delfino.json"
+  },
+  {
+    "Name": "SMS - Main Levels Shine",
+    "Category": "Mario",
+    "Subcategory": "Super Mario Sunshine",
+    "Location": "./data/mario/sms_mainlevels.json"
+  },
+  {
+    "Name": "SMS - Main Shines 100Coinless",
+    "Category": "Mario",
+    "Subcategory": "Super Mario Sunshine",
+    "Location": "./data/mario/sms_100coinless.json"
+  },
+  {
+    "Name": "SMS - Main Shines Coinless (no 100, no red)",
+    "Category": "Mario",
+    "Subcategory": "Super Mario Sunshine",
+    "Location": "./data/mario/sms_coinless.json"
+  },
+  {
     "Name": "Minecraft 1.21.11 - Mounts of Mayhem",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
@@ -142,5 +178,119 @@
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_unys.json"
+  },
+  {
+    "Name": "Pokémon Diamond / Pearl / Shining Diamond / Shining Pearl",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/pokemon_game_dpbdsp.json"
+  },
+  {
+    "Name": "Pokémon Gold / Silver / Crystal",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/pokemon_game_gsc.json"
+  },
+  {
+    "Name": "Pokémon Legends : Arceus",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/pla.json"
+  },
+  {
+    "Name": "Pokémon Legends: Z-A (no DLC)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/za_no_dlc.json"
+  },
+  {
+    "Name": "Pokémon Legends: Z-A : Full Game (Game + DLC)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/za_fullgame.json"
+  },
+  {
+    "Name": "Pokémon Legends: Z-A : Mega Dimension (DLC Only)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/za_dlc.json"
+  },
+  {
+    "Name": "Pokémon Red / Blue / Yellow / Let's Go",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/pokemon_game_rb.json"
+  },
+  {
+    "Name": "Pokémon Ruby / Saphirr / Emerald",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/pokemon_game_rse.json"
+  },
+  {
+    "Name": "Pokémon Scarlet / Violet (no DLC)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/sv_no_dlc.json"
+  },
+  {
+    "Name": "Pokémon Scarlet / Violet : Full Game (Game + DLC)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/sv_fullgame.json"
+  },
+  {
+    "Name": "Pokémon Scarlet / Violet : Indigo Disk (DLC Only)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/sv_indigodisk.json"
+  },
+  {
+    "Name": "Pokémon Scarlet / Violet : The Teal Mask (DLC Only)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/sv_tealmask.json"
+  },
+  {
+    "Name": "Pokémon Soleil / Lune / Ultra Soleil / Ultra Lune",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/pokemon_game_bwb2w2.json"
+  },
+  {
+    "Name": "Pokémon Soleil / Lune / Ultra Soleil / Ultra Lune",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/pokemon_game_usul.json"
+  },
+  {
+    "Name": "Pokémon Sword / Shield (no DLC)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/swsh_no_dlc.json"
+  },
+  {
+    "Name": "Pokémon Sword / Shield : Crown Toundra (DLC Only)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/swsh_tc.json"
+  },
+  {
+    "Name": "Pokémon Sword / Shield : Full Game (Game + DLC)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/swsh_fullgame.json"
+  },
+  {
+    "Name": "Pokémon Sword / Shield : Isle of Armor (DLC Only)",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/games/swsh_ia.json"
+  },
+  {
+    "Name": "Pokémon X / Y",
+    "Category": "Pokemon",
+    "Subcategory": "Pokémon Full Game",
+    "Location": "./data/pokemon/pokemon_game_xy.json"
   }
 ]

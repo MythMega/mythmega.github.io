@@ -1,0 +1,1484 @@
+{
+  "Name": "Pokémon Sword / Shield : Isle of Armor (DLC Only)",
+  "Category": "Pokemon",
+  "Subcategory": "Pokémon Full Game",
+  "Items": [
+    {
+      "Index": 1,
+      "Name_EN": "Slowpoke",
+      "Name_FR": "Ramoloss",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slowpoke_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slowpoke_shiny.gif"
+    },
+    {
+      "Index": 2,
+      "Name_EN": "Slowbro",
+      "Name_FR": "Flagadoss",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slowbro_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slowbro_shiny.gif"
+    },
+    {
+      "Index": 3,
+      "Name_EN": "Slowking",
+      "Name_FR": "Roigada",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slowking_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Slowking_shiny.gif"
+    },
+    {
+      "Index": 4,
+      "Name_EN": "Buneary",
+      "Name_FR": "Laporeille",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Buneary_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Buneary_shiny.gif"
+    },
+    {
+      "Index": 5,
+      "Name_EN": "Lopunny",
+      "Name_FR": "Lockpin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lopunny_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lopunny_shiny.gif"
+    },
+    {
+      "Index": 6,
+      "Name_EN": "Happiny",
+      "Name_FR": "Ptiravi",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Happiny_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Happiny_shiny.gif"
+    },
+    {
+      "Index": 7,
+      "Name_EN": "Chansey",
+      "Name_FR": "Leveinard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Chansey_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Chansey_shiny.gif"
+    },
+    {
+      "Index": 8,
+      "Name_EN": "Blissey",
+      "Name_FR": "Leuphorie",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blissey_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blissey_shiny.gif"
+    },
+    {
+      "Index": 9,
+      "Name_EN": "Skwovet",
+      "Name_FR": "Rongourmand",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skwovet_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skwovet_shiny.gif"
+    },
+    {
+      "Index": 10,
+      "Name_EN": "Greedent",
+      "Name_FR": "Rongrigou",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Greedent_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Greedent_shiny.gif"
+    },
+    {
+      "Index": 11,
+      "Name_EN": "Igglybuff",
+      "Name_FR": "Toudoudou",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Igglybuff_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Igglybuff_shiny.gif"
+    },
+    {
+      "Index": 12,
+      "Name_EN": "Jigglypuff",
+      "Name_FR": "Rondoudou",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jigglypuff_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jigglypuff_shiny.gif"
+    },
+    {
+      "Index": 13,
+      "Name_EN": "Wigglytuff",
+      "Name_FR": "Grodoudou",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wigglytuff_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wigglytuff_shiny.gif"
+    },
+    {
+      "Index": 14,
+      "Name_EN": "Blipbug",
+      "Name_FR": "Larvadar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blipbug_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blipbug_shiny.gif"
+    },
+    {
+      "Index": 15,
+      "Name_EN": "Dottler",
+      "Name_FR": "Coléodôme",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dottler_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dottler_shiny.gif"
+    },
+    {
+      "Index": 16,
+      "Name_EN": "Orbeetle",
+      "Name_FR": "Astronelle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Orbeetle_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Orbeetle_shiny.gif"
+    },
+    {
+      "Index": 17,
+      "Name_EN": "Fomantis",
+      "Name_FR": "Mimantis",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Fomantis_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Fomantis_shiny.gif"
+    },
+    {
+      "Index": 18,
+      "Name_EN": "Lurantis",
+      "Name_FR": "Floramantis",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lurantis_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lurantis_shiny.gif"
+    },
+    {
+      "Index": 19,
+      "Name_EN": "Applin",
+      "Name_FR": "Verpom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Applin_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Applin_shiny.gif"
+    },
+    {
+      "Index": 20,
+      "Name_EN": "Flapple",
+      "Name_FR": "Pomdrapi",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Flapple_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Flapple_shiny.gif"
+    },
+    {
+      "Index": 21,
+      "Name_EN": "Appletun",
+      "Name_FR": "Dratatin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Appletun_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Appletun_shiny.gif"
+    },
+    {
+      "Index": 22,
+      "Name_EN": "Fletchling",
+      "Name_FR": "Passerouge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Fletchling_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Fletchling_shiny.gif"
+    },
+    {
+      "Index": 23,
+      "Name_EN": "Fletchinder",
+      "Name_FR": "Braisillon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Fletchinder_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Fletchinder_shiny.gif"
+    },
+    {
+      "Index": 24,
+      "Name_EN": "Talonflame",
+      "Name_FR": "Flambusard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Talonflame_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Talonflame_shiny.gif"
+    },
+    {
+      "Index": 25,
+      "Name_EN": "Shinx",
+      "Name_FR": "Lixy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shinx_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shinx_shiny.gif"
+    },
+    {
+      "Index": 26,
+      "Name_EN": "Luxio",
+      "Name_FR": "Luxio",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Luxio_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Luxio_shiny.gif"
+    },
+    {
+      "Index": 27,
+      "Name_EN": "Luxray",
+      "Name_FR": "Luxray",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Luxray_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Luxray_shiny.gif"
+    },
+    {
+      "Index": 28,
+      "Name_EN": "Klefki",
+      "Name_FR": "Trousselin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Klefki_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Klefki_shiny.gif"
+    },
+    {
+      "Index": 29,
+      "Name_EN": "Pawniard",
+      "Name_FR": "Scalpion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pawniard_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pawniard_shiny.gif"
+    },
+    {
+      "Index": 30,
+      "Name_EN": "Bisharp",
+      "Name_FR": "Scalproie",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bisharp_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bisharp_shiny.gif"
+    },
+    {
+      "Index": 31,
+      "Name_EN": "Abra",
+      "Name_FR": "Abra",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Abra_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Abra_shiny.gif"
+    },
+    {
+      "Index": 32,
+      "Name_EN": "Kadabra",
+      "Name_FR": "Kadabra",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kadabra_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kadabra_shiny.gif"
+    },
+    {
+      "Index": 33,
+      "Name_EN": "Alakazam",
+      "Name_FR": "Alakazam",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Alakazam_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Alakazam_shiny.gif"
+    },
+    {
+      "Index": 34,
+      "Name_EN": "Ralts",
+      "Name_FR": "Tarsal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ralts_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ralts_shiny.gif"
+    },
+    {
+      "Index": 35,
+      "Name_EN": "Kirlia",
+      "Name_FR": "Kirlia",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kirlia_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kirlia_shiny.gif"
+    },
+    {
+      "Index": 36,
+      "Name_EN": "Gardevoir",
+      "Name_FR": "Gardevoir",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gardevoir_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gardevoir_shiny.gif"
+    },
+    {
+      "Index": 37,
+      "Name_EN": "Gallade",
+      "Name_FR": "Gallame",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gallade_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gallade_shiny.gif"
+    },
+    {
+      "Index": 38,
+      "Name_EN": "Krabby",
+      "Name_FR": "Krabby",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Krabby_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Krabby_shiny.gif"
+    },
+    {
+      "Index": 39,
+      "Name_EN": "Kingler",
+      "Name_FR": "Krabboss",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingler_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingler_shiny.gif"
+    },
+    {
+      "Index": 40,
+      "Name_EN": "Tentacool",
+      "Name_FR": "Tentacool",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacool_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacool_shiny.gif"
+    },
+    {
+      "Index": 41,
+      "Name_EN": "Tentacruel",
+      "Name_FR": "Tentacruel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacruel_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacruel_shiny.gif"
+    },
+    {
+      "Index": 42,
+      "Name_EN": "Magikarp",
+      "Name_FR": "Magicarpe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magikarp_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magikarp_shiny.gif"
+    },
+    {
+      "Index": 43,
+      "Name_EN": "Gyarados",
+      "Name_FR": "Léviator",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gyarados_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gyarados_shiny.gif"
+    },
+    {
+      "Index": 44,
+      "Name_EN": "Remoraid",
+      "Name_FR": "Rémoraid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Remoraid_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Remoraid_shiny.gif"
+    },
+    {
+      "Index": 45,
+      "Name_EN": "Octillery",
+      "Name_FR": "Octillery",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Octillery_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Octillery_shiny.gif"
+    },
+    {
+      "Index": 46,
+      "Name_EN": "Mantyke",
+      "Name_FR": "Babimanta",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mantyke_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mantyke_shiny.gif"
+    },
+    {
+      "Index": 47,
+      "Name_EN": "Mantine",
+      "Name_FR": "Démanta",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mantine_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mantine_shiny.gif"
+    },
+    {
+      "Index": 48,
+      "Name_EN": "Wingull",
+      "Name_FR": "Goélise",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wingull_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wingull_shiny.gif"
+    },
+    {
+      "Index": 49,
+      "Name_EN": "Pelipper",
+      "Name_FR": "Bekipan",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pelipper_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pelipper_shiny.gif"
+    },
+    {
+      "Index": 50,
+      "Name_EN": "Skorupi",
+      "Name_FR": "Rapion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skorupi_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skorupi_shiny.gif"
+    },
+    {
+      "Index": 51,
+      "Name_EN": "Drapion",
+      "Name_FR": "Drascore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drapion_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drapion_shiny.gif"
+    },
+    {
+      "Index": 52,
+      "Name_EN": "Dunsparce",
+      "Name_FR": "Insolourdo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dunsparce_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dunsparce_shiny.gif"
+    },
+    {
+      "Index": 53,
+      "Name_EN": "Bouffalant",
+      "Name_FR": "Frison",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bouffalant_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bouffalant_shiny.gif"
+    },
+    {
+      "Index": 54,
+      "Name_EN": "Lickitung",
+      "Name_FR": "Excelangue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lickitung_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lickitung_shiny.gif"
+    },
+    {
+      "Index": 55,
+      "Name_EN": "Lickilicky",
+      "Name_FR": "Coudlangue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lickilicky_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lickilicky_shiny.gif"
+    },
+    {
+      "Index": 56,
+      "Name_EN": "Chewtle",
+      "Name_FR": "Khélocrok",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Chewtle_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Chewtle_shiny.gif"
+    },
+    {
+      "Index": 57,
+      "Name_EN": "Drednaw",
+      "Name_FR": "Torgamord",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drednaw_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drednaw_shiny.gif"
+    },
+    {
+      "Index": 58,
+      "Name_EN": "Wooper",
+      "Name_FR": "Axoloto",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wooper_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wooper_shiny.gif"
+    },
+    {
+      "Index": 59,
+      "Name_EN": "Quagsire",
+      "Name_FR": "Maraiste",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Quagsire_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Quagsire_shiny.gif"
+    },
+    {
+      "Index": 60,
+      "Name_EN": "Goomy",
+      "Name_FR": "Mucuscule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Goomy_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Goomy_shiny.gif"
+    },
+    {
+      "Index": 61,
+      "Name_EN": "Sliggoo",
+      "Name_FR": "Colimucus",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sliggoo_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sliggoo_shiny.gif"
+    },
+    {
+      "Index": 62,
+      "Name_EN": "Goodra",
+      "Name_FR": "Muplodocus",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Goodra_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Goodra_shiny.gif"
+    },
+    {
+      "Index": 63,
+      "Name_EN": "Druddigon",
+      "Name_FR": "Drakkarmin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Druddigon_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Druddigon_shiny.gif"
+    },
+    {
+      "Index": 64,
+      "Name_EN": "Shelmet",
+      "Name_FR": "Escargaume",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shelmet_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shelmet_shiny.gif"
+    },
+    {
+      "Index": 65,
+      "Name_EN": "Accelgor",
+      "Name_FR": "Limaspeed",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Accelgor_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Accelgor_shiny.gif"
+    },
+    {
+      "Index": 66,
+      "Name_EN": "Karrablast",
+      "Name_FR": "Carabing",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Karrablast_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Karrablast_shiny.gif"
+    },
+    {
+      "Index": 67,
+      "Name_EN": "Escavalier",
+      "Name_FR": "Lançargot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Escavalier_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Escavalier_shiny.gif"
+    },
+    {
+      "Index": 68,
+      "Name_EN": "Bulbasaur",
+      "Name_FR": "Bulbizarre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bulbasaur_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bulbasaur_shiny.gif"
+    },
+    {
+      "Index": 69,
+      "Name_EN": "Ivysaur",
+      "Name_FR": "Herbizarre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ivysaur_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ivysaur_shiny.gif"
+    },
+    {
+      "Index": 70,
+      "Name_EN": "Venusaur",
+      "Name_FR": "Florizarre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venusaur_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venusaur_shiny.gif"
+    },
+    {
+      "Index": 71,
+      "Name_EN": "Squirtle",
+      "Name_FR": "Carapuce",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Squirtle_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Squirtle_shiny.gif"
+    },
+    {
+      "Index": 72,
+      "Name_EN": "Wartortle",
+      "Name_FR": "Carabaffe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wartortle_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wartortle_shiny.gif"
+    },
+    {
+      "Index": 73,
+      "Name_EN": "Blastoise",
+      "Name_FR": "Tortank",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blastoise_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blastoise_shiny.gif"
+    },
+    {
+      "Index": 74,
+      "Name_EN": "Venipede",
+      "Name_FR": "Venipatte",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venipede_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venipede_shiny.gif"
+    },
+    {
+      "Index": 75,
+      "Name_EN": "Whirlipede",
+      "Name_FR": "Scobolide",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Whirlipede_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Whirlipede_shiny.gif"
+    },
+    {
+      "Index": 76,
+      "Name_EN": "Scolipede",
+      "Name_FR": "Brutapode",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scolipede_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scolipede_shiny.gif"
+    },
+    {
+      "Index": 77,
+      "Name_EN": "Foongus",
+      "Name_FR": "Trompignon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Foongus_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Foongus_shiny.gif"
+    },
+    {
+      "Index": 78,
+      "Name_EN": "Amoonguss",
+      "Name_FR": "Gaulet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Amoonguss_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Amoonguss_shiny.gif"
+    },
+    {
+      "Index": 79,
+      "Name_EN": "Comfey",
+      "Name_FR": "Guérilande",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Comfey_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Comfey_shiny.gif"
+    },
+    {
+      "Index": 80,
+      "Name_EN": "Tangela",
+      "Name_FR": "Saquedeneu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tangela_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tangela_shiny.gif"
+    },
+    {
+      "Index": 81,
+      "Name_EN": "Tangrowth",
+      "Name_FR": "Bouldeneu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tangrowth_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tangrowth_shiny.gif"
+    },
+    {
+      "Index": 82,
+      "Name_EN": "Croagunk",
+      "Name_FR": "Cradopaud",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Croagunk_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Croagunk_shiny.gif"
+    },
+    {
+      "Index": 83,
+      "Name_EN": "Toxicroak",
+      "Name_FR": "Coatox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Toxicroak_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Toxicroak_shiny.gif"
+    },
+    {
+      "Index": 84,
+      "Name_EN": "Pichu",
+      "Name_FR": "Pichu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pichu_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pichu_shiny.gif"
+    },
+    {
+      "Index": 85,
+      "Name_EN": "Pikachu",
+      "Name_FR": "Pikachu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pikachu_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pikachu_shiny.gif"
+    },
+    {
+      "Index": 86,
+      "Name_EN": "Raichu",
+      "Name_FR": "Raichu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Raichu_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Raichu_shiny.gif"
+    },
+    {
+      "Index": 87,
+      "Name_EN": "Zorua",
+      "Name_FR": "Zorua",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zorua_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zorua_shiny.gif"
+    },
+    {
+      "Index": 88,
+      "Name_EN": "Zoroark",
+      "Name_FR": "Zoroark",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zoroark_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zoroark_shiny.gif"
+    },
+    {
+      "Index": 89,
+      "Name_EN": "Oranguru",
+      "Name_FR": "Gouroutan",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Oranguru_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Oranguru_shiny.gif"
+    },
+    {
+      "Index": 90,
+      "Name_EN": "Passimian",
+      "Name_FR": "Quartermac",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Passimian_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Passimian_shiny.gif"
+    },
+    {
+      "Index": 91,
+      "Name_EN": "Corphish",
+      "Name_FR": "Écrapince",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Corphish_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Corphish_shiny.gif"
+    },
+    {
+      "Index": 92,
+      "Name_EN": "Crawdaunt",
+      "Name_FR": "Colhomard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Crawdaunt_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Crawdaunt_shiny.gif"
+    },
+    {
+      "Index": 93,
+      "Name_EN": "Cramorant",
+      "Name_FR": "Nigosier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cramorant_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cramorant_shiny.gif"
+    },
+    {
+      "Index": 94,
+      "Name_EN": "Goldeen",
+      "Name_FR": "Poissirène",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Goldeen_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Goldeen_shiny.gif"
+    },
+    {
+      "Index": 95,
+      "Name_EN": "Seaking",
+      "Name_FR": "Poissoroy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seaking_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seaking_shiny.gif"
+    },
+    {
+      "Index": 96,
+      "Name_EN": "Arrokuda",
+      "Name_FR": "Embrochet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Arrokuda_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Arrokuda_shiny.gif"
+    },
+    {
+      "Index": 97,
+      "Name_EN": "Barraskewda",
+      "Name_FR": "Hastacuda",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Barraskewda_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Barraskewda_shiny.gif"
+    },
+    {
+      "Index": 98,
+      "Name_EN": "Staryu",
+      "Name_FR": "Stari",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Staryu_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Staryu_shiny.gif"
+    },
+    {
+      "Index": 99,
+      "Name_EN": "Starmie",
+      "Name_FR": "Staross",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Starmie_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Starmie_shiny.gif"
+    },
+    {
+      "Index": 100,
+      "Name_EN": "Kubfu",
+      "Name_FR": "Wushours",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kubfu_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kubfu_shiny.gif"
+    },
+    {
+      "Index": 101,
+      "Name_EN": "Urshifu",
+      "Name_FR": "Shifours Poing Final",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Urshifu Single Strike_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Urshifu Single Strike_shiny.gif"
+    },
+    {
+      "Index": 102,
+      "Name_EN": "Emolga",
+      "Name_FR": "Emolga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Emolga_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Emolga_shiny.gif"
+    },
+    {
+      "Index": 103,
+      "Name_EN": "Dedenne",
+      "Name_FR": "Dedenne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dedenne_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dedenne_shiny.gif"
+    },
+    {
+      "Index": 104,
+      "Name_EN": "Morpeko",
+      "Name_FR": "Morpeko",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Morpeko_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Morpeko_shiny.gif"
+    },
+    {
+      "Index": 105,
+      "Name_EN": "Magnemite",
+      "Name_FR": "Magnéti",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magnemite_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magnemite_shiny.gif"
+    },
+    {
+      "Index": 106,
+      "Name_EN": "Magneton",
+      "Name_FR": "Magnéton",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magneton_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magneton_shiny.gif"
+    },
+    {
+      "Index": 107,
+      "Name_EN": "Magnezone",
+      "Name_FR": "Magnézone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magnezone_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magnezone_shiny.gif"
+    },
+    {
+      "Index": 108,
+      "Name_EN": "Inkay",
+      "Name_FR": "Sepiatop",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Inkay_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Inkay_shiny.gif"
+    },
+    {
+      "Index": 109,
+      "Name_EN": "Malamar",
+      "Name_FR": "Sepiatroce",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Malamar_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Malamar_shiny.gif"
+    },
+    {
+      "Index": 110,
+      "Name_EN": "Wishiwashi",
+      "Name_FR": "Froussardine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wishiwashi_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wishiwashi_shiny.gif"
+    },
+    {
+      "Index": 111,
+      "Name_EN": "Carvanha",
+      "Name_FR": "Carvanha",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Carvanha_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Carvanha_shiny.gif"
+    },
+    {
+      "Index": 112,
+      "Name_EN": "Sharpedo",
+      "Name_FR": "Sharpedo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sharpedo_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sharpedo_shiny.gif"
+    },
+    {
+      "Index": 113,
+      "Name_EN": "Lillipup",
+      "Name_FR": "Ponchiot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lillipup_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lillipup_shiny.gif"
+    },
+    {
+      "Index": 114,
+      "Name_EN": "Herdier",
+      "Name_FR": "Ponchien",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Herdier_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Herdier_shiny.gif"
+    },
+    {
+      "Index": 115,
+      "Name_EN": "Stoutland",
+      "Name_FR": "Mastouffe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Stoutland_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Stoutland_shiny.gif"
+    },
+    {
+      "Index": 116,
+      "Name_EN": "Tauros",
+      "Name_FR": "Tauros",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tauros_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tauros_shiny.gif"
+    },
+    {
+      "Index": 117,
+      "Name_EN": "Miltank",
+      "Name_FR": "Écrémeuh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Miltank_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Miltank_shiny.gif"
+    },
+    {
+      "Index": 118,
+      "Name_EN": "Scyther",
+      "Name_FR": "Insecateur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scyther_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scyther_shiny.gif"
+    },
+    {
+      "Index": 119,
+      "Name_EN": "Scizor",
+      "Name_FR": "Cizayox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scizor_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scizor_shiny.gif"
+    },
+    {
+      "Index": 120,
+      "Name_EN": "Pinsir",
+      "Name_FR": "Scarabrute",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pinsir_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pinsir_shiny.gif"
+    },
+    {
+      "Index": 121,
+      "Name_EN": "Heracross",
+      "Name_FR": "Scarhino",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Heracross_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Heracross_shiny.gif"
+    },
+    {
+      "Index": 122,
+      "Name_EN": "Dwebble",
+      "Name_FR": "Crabicoque",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dwebble_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dwebble_shiny.gif"
+    },
+    {
+      "Index": 123,
+      "Name_EN": "Crustle",
+      "Name_FR": "Crabaraque",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Crustle_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Crustle_shiny.gif"
+    },
+    {
+      "Index": 124,
+      "Name_EN": "Wimpod",
+      "Name_FR": "Sovkipou",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wimpod_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wimpod_shiny.gif"
+    },
+    {
+      "Index": 125,
+      "Name_EN": "Golisopod",
+      "Name_FR": "Sarmuraï",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Golisopod_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Golisopod_shiny.gif"
+    },
+    {
+      "Index": 126,
+      "Name_EN": "Pincurchin",
+      "Name_FR": "Wattapik",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pincurchin_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pincurchin_shiny.gif"
+    },
+    {
+      "Index": 127,
+      "Name_EN": "Mareanie",
+      "Name_FR": "Vorastérie",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mareanie_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mareanie_shiny.gif"
+    },
+    {
+      "Index": 128,
+      "Name_EN": "Toxapex",
+      "Name_FR": "Prédastérie",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Toxapex_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Toxapex_shiny.gif"
+    },
+    {
+      "Index": 129,
+      "Name_EN": "Clobbopus",
+      "Name_FR": "Poulpaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clobbopus_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clobbopus_shiny.gif"
+    },
+    {
+      "Index": 130,
+      "Name_EN": "Grapploct",
+      "Name_FR": "Krakos",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Grapploct_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Grapploct_shiny.gif"
+    },
+    {
+      "Index": 131,
+      "Name_EN": "Shellder",
+      "Name_FR": "Kokiyas",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shellder_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shellder_shiny.gif"
+    },
+    {
+      "Index": 132,
+      "Name_EN": "Cloyster",
+      "Name_FR": "Crustabri",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cloyster_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cloyster_shiny.gif"
+    },
+    {
+      "Index": 133,
+      "Name_EN": "Sandygast",
+      "Name_FR": "Bacabouh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandygast_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandygast_shiny.gif"
+    },
+    {
+      "Index": 134,
+      "Name_EN": "Palossand",
+      "Name_FR": "Trépassable",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Palossand_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Palossand_shiny.gif"
+    },
+    {
+      "Index": 135,
+      "Name_EN": "Drifloon",
+      "Name_FR": "Baudrive",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drifloon_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drifloon_shiny.gif"
+    },
+    {
+      "Index": 136,
+      "Name_EN": "Drifblim",
+      "Name_FR": "Grodrive",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drifblim_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Drifblim_shiny.gif"
+    },
+    {
+      "Index": 137,
+      "Name_EN": "Barboach",
+      "Name_FR": "Barloche",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Barboach_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Barboach_shiny.gif"
+    },
+    {
+      "Index": 138,
+      "Name_EN": "Whiscash",
+      "Name_FR": "Barbicha",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Whiscash_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Whiscash_shiny.gif"
+    },
+    {
+      "Index": 139,
+      "Name_EN": "Azurill",
+      "Name_FR": "Azurill",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Azurill_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Azurill_shiny.gif"
+    },
+    {
+      "Index": 140,
+      "Name_EN": "Marill",
+      "Name_FR": "Marill",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Marill_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Marill_shiny.gif"
+    },
+    {
+      "Index": 141,
+      "Name_EN": "Azumarill",
+      "Name_FR": "Azumarill",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Azumarill_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Azumarill_shiny.gif"
+    },
+    {
+      "Index": 142,
+      "Name_EN": "Poliwag",
+      "Name_FR": "Ptitard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Poliwag_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Poliwag_shiny.gif"
+    },
+    {
+      "Index": 143,
+      "Name_EN": "Poliwhirl",
+      "Name_FR": "Têtarte",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Poliwhirl_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Poliwhirl_shiny.gif"
+    },
+    {
+      "Index": 144,
+      "Name_EN": "Poliwrath",
+      "Name_FR": "Tartard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Poliwrath_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Poliwrath_shiny.gif"
+    },
+    {
+      "Index": 145,
+      "Name_EN": "Politoed",
+      "Name_FR": "Tarpaud",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Politoed_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Politoed_shiny.gif"
+    },
+    {
+      "Index": 146,
+      "Name_EN": "Psyduck",
+      "Name_FR": "Psykokwak",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Psyduck_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Psyduck_shiny.gif"
+    },
+    {
+      "Index": 147,
+      "Name_EN": "Golduck",
+      "Name_FR": "Akwakwak",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Golduck_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Golduck_shiny.gif"
+    },
+    {
+      "Index": 148,
+      "Name_EN": "Whismur",
+      "Name_FR": "Chuchmur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Whismur_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Whismur_shiny.gif"
+    },
+    {
+      "Index": 149,
+      "Name_EN": "Loudred",
+      "Name_FR": "Ramboum",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Loudred_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Loudred_shiny.gif"
+    },
+    {
+      "Index": 150,
+      "Name_EN": "Exploud",
+      "Name_FR": "Brouhabam",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Exploud_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Exploud_shiny.gif"
+    },
+    {
+      "Index": 151,
+      "Name_EN": "Woobat",
+      "Name_FR": "Chovsourir",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Woobat_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Woobat_shiny.gif"
+    },
+    {
+      "Index": 152,
+      "Name_EN": "Swoobat",
+      "Name_FR": "Rhinolove",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Swoobat_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Swoobat_shiny.gif"
+    },
+    {
+      "Index": 153,
+      "Name_EN": "Skarmory",
+      "Name_FR": "Airmure",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skarmory_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skarmory_shiny.gif"
+    },
+    {
+      "Index": 154,
+      "Name_EN": "Roggenrola",
+      "Name_FR": "Nodulithe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Roggenrola_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Roggenrola_shiny.gif"
+    },
+    {
+      "Index": 155,
+      "Name_EN": "Boldore",
+      "Name_FR": "Géolithe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Boldore_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Boldore_shiny.gif"
+    },
+    {
+      "Index": 156,
+      "Name_EN": "Gigalith",
+      "Name_FR": "Gigalithe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gigalith_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gigalith_shiny.gif"
+    },
+    {
+      "Index": 157,
+      "Name_EN": "Rockruff",
+      "Name_FR": "Rocabot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rockruff_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rockruff_shiny.gif"
+    },
+    {
+      "Index": 158,
+      "Name_EN": "Lycanroc",
+      "Name_FR": "Lougaroc",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lycanroc_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lycanroc_shiny.gif"
+    },
+    {
+      "Index": 159,
+      "Name_EN": "Salandit",
+      "Name_FR": "Tritox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Salandit_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Salandit_shiny.gif"
+    },
+    {
+      "Index": 160,
+      "Name_EN": "Salazzle",
+      "Name_FR": "Malamandre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Salazzle_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Salazzle_shiny.gif"
+    },
+    {
+      "Index": 161,
+      "Name_EN": "Scraggy",
+      "Name_FR": "Baggiguane",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scraggy_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scraggy_shiny.gif"
+    },
+    {
+      "Index": 162,
+      "Name_EN": "Scrafty",
+      "Name_FR": "Baggaïd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scrafty_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Scrafty_shiny.gif"
+    },
+    {
+      "Index": 163,
+      "Name_EN": "Mienfoo",
+      "Name_FR": "Kungfouine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mienfoo_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mienfoo_shiny.gif"
+    },
+    {
+      "Index": 164,
+      "Name_EN": "Mienshao",
+      "Name_FR": "Shaofouine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mienshao_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mienshao_shiny.gif"
+    },
+    {
+      "Index": 165,
+      "Name_EN": "Jangmo-o",
+      "Name_FR": "Bébécaille",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jangmo-o_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jangmo-o_shiny.gif"
+    },
+    {
+      "Index": 166,
+      "Name_EN": "Hakamo-o",
+      "Name_FR": "Écaïd",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hakamo-o_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hakamo-o_shiny.gif"
+    },
+    {
+      "Index": 167,
+      "Name_EN": "Kommo-o",
+      "Name_FR": "Ékaïser",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kommo-o_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kommo-o_shiny.gif"
+    },
+    {
+      "Index": 168,
+      "Name_EN": "Sandshrew",
+      "Name_FR": "Sabelette",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandshrew_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandshrew_shiny.gif"
+    },
+    {
+      "Index": 169,
+      "Name_EN": "Sandslash",
+      "Name_FR": "Sablaireau",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandslash_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandslash_shiny.gif"
+    },
+    {
+      "Index": 170,
+      "Name_EN": "Cubone",
+      "Name_FR": "Osselait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cubone_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cubone_shiny.gif"
+    },
+    {
+      "Index": 171,
+      "Name_EN": "Marowak",
+      "Name_FR": "Ossatueur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Marowak_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Marowak_shiny.gif"
+    },
+    {
+      "Index": 172,
+      "Name_EN": "Kangaskhan",
+      "Name_FR": "Kangourex",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kangaskhan_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kangaskhan_shiny.gif"
+    },
+    {
+      "Index": 173,
+      "Name_EN": "Torkoal",
+      "Name_FR": "Chartor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Torkoal_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Torkoal_shiny.gif"
+    },
+    {
+      "Index": 174,
+      "Name_EN": "Silicobra",
+      "Name_FR": "Dunaja",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Silicobra_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Silicobra_shiny.gif"
+    },
+    {
+      "Index": 175,
+      "Name_EN": "Sandaconda",
+      "Name_FR": "Dunaconda",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandaconda_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandaconda_shiny.gif"
+    },
+    {
+      "Index": 176,
+      "Name_EN": "Sandile",
+      "Name_FR": "Mascaïman",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandile_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandile_shiny.gif"
+    },
+    {
+      "Index": 177,
+      "Name_EN": "Krokorok",
+      "Name_FR": "Escroco",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Krokorok_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Krokorok_shiny.gif"
+    },
+    {
+      "Index": 178,
+      "Name_EN": "Krookodile",
+      "Name_FR": "Crocorible",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Krookodile_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Krookodile_shiny.gif"
+    },
+    {
+      "Index": 179,
+      "Name_EN": "Rufflet",
+      "Name_FR": "Furaiglon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rufflet_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rufflet_shiny.gif"
+    },
+    {
+      "Index": 180,
+      "Name_EN": "Braviary",
+      "Name_FR": "Gueriaigle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Braviary_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Braviary_shiny.gif"
+    },
+    {
+      "Index": 181,
+      "Name_EN": "Vullaby",
+      "Name_FR": "Vostourno",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vullaby_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vullaby_shiny.gif"
+    },
+    {
+      "Index": 182,
+      "Name_EN": "Mandibuzz",
+      "Name_FR": "Vaututrice",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mandibuzz_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mandibuzz_shiny.gif"
+    },
+    {
+      "Index": 183,
+      "Name_EN": "Rhyhorn",
+      "Name_FR": "Rhinocorne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyhorn_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyhorn_shiny.gif"
+    },
+    {
+      "Index": 184,
+      "Name_EN": "Rhydon",
+      "Name_FR": "Rhinoféros",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhydon_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhydon_shiny.gif"
+    },
+    {
+      "Index": 185,
+      "Name_EN": "Rhyperior",
+      "Name_FR": "Rhinastoc",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyperior_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyperior_shiny.gif"
+    },
+    {
+      "Index": 186,
+      "Name_EN": "Larvesta",
+      "Name_FR": "Pyronille",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Larvesta_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Larvesta_shiny.gif"
+    },
+    {
+      "Index": 187,
+      "Name_EN": "Volcarona",
+      "Name_FR": "Pyrax",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Volcarona_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Volcarona_shiny.gif"
+    },
+    {
+      "Index": 188,
+      "Name_EN": "Chinchou",
+      "Name_FR": "Loupio",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Chinchou_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Chinchou_shiny.gif"
+    },
+    {
+      "Index": 189,
+      "Name_EN": "Lanturn",
+      "Name_FR": "Lanturn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lanturn_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lanturn_shiny.gif"
+    },
+    {
+      "Index": 190,
+      "Name_EN": "Wailmer",
+      "Name_FR": "Wailmer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wailmer_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wailmer_shiny.gif"
+    },
+    {
+      "Index": 191,
+      "Name_EN": "Wailord",
+      "Name_FR": "Wailord",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wailord_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wailord_shiny.gif"
+    },
+    {
+      "Index": 192,
+      "Name_EN": "Frillish",
+      "Name_FR": "Viskuse",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Frillish_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Frillish_shiny.gif"
+    },
+    {
+      "Index": 193,
+      "Name_EN": "Jellicent",
+      "Name_FR": "Moyade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jellicent_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Jellicent_shiny.gif"
+    },
+    {
+      "Index": 194,
+      "Name_EN": "Skrelp",
+      "Name_FR": "Venalgue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skrelp_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Skrelp_shiny.gif"
+    },
+    {
+      "Index": 195,
+      "Name_EN": "Dragalge",
+      "Name_FR": "Kravarech",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dragalge_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dragalge_shiny.gif"
+    },
+    {
+      "Index": 196,
+      "Name_EN": "Clauncher",
+      "Name_FR": "Flingouste",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clauncher_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clauncher_shiny.gif"
+    },
+    {
+      "Index": 197,
+      "Name_EN": "Clawitzer",
+      "Name_FR": "Gamblast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clawitzer_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clawitzer_shiny.gif"
+    },
+    {
+      "Index": 198,
+      "Name_EN": "Horsea",
+      "Name_FR": "Hypotrempe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Horsea_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Horsea_shiny.gif"
+    },
+    {
+      "Index": 199,
+      "Name_EN": "Seadra",
+      "Name_FR": "Hypocean",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seadra_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seadra_shiny.gif"
+    },
+    {
+      "Index": 200,
+      "Name_EN": "Kingdra",
+      "Name_FR": "Hyporoi",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingdra_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kingdra_shiny.gif"
+    },
+    {
+      "Index": 201,
+      "Name_EN": "Petilil",
+      "Name_FR": "Chlorobule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Petilil_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Petilil_shiny.gif"
+    },
+    {
+      "Index": 202,
+      "Name_EN": "Lilligant",
+      "Name_FR": "Fragilady",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lilligant_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lilligant_shiny.gif"
+    },
+    {
+      "Index": 203,
+      "Name_EN": "Combee",
+      "Name_FR": "Apitrini",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Combee_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Combee_shiny.gif"
+    },
+    {
+      "Index": 204,
+      "Name_EN": "Vespiquen",
+      "Name_FR": "Apireine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vespiquen_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Vespiquen_shiny.gif"
+    },
+    {
+      "Index": 205,
+      "Name_EN": "Exeggcute",
+      "Name_FR": "Noeunoeuf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Exeggcute_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Exeggcute_shiny.gif"
+    },
+    {
+      "Index": 206,
+      "Name_EN": "Exeggutor",
+      "Name_FR": "Noadkoko",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Exeggutor_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Exeggutor_shiny.gif"
+    },
+    {
+      "Index": 207,
+      "Name_EN": "Ditto",
+      "Name_FR": "Métamorph",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ditto_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ditto_shiny.gif"
+    },
+    {
+      "Index": 208,
+      "Name_EN": "Porygon",
+      "Name_FR": "Porygon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Porygon_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Porygon_shiny.gif"
+    },
+    {
+      "Index": 209,
+      "Name_EN": "Porygon2",
+      "Name_FR": "Porygon2",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Porygon2_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Porygon2_shiny.gif"
+    },
+    {
+      "Index": 210,
+      "Name_EN": "Porygon-Z",
+      "Name_FR": "Porygon-Z",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Porygon-Z_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Porygon-Z_shiny.gif"
+    },
+    {
+      "Index": 211,
+      "Name_EN": "Zarude",
+      "Name_FR": "Zarude",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zarude_normal.gif",
+      "PictureAlt": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zarude_shiny.gif"
+    }
+  ]
+}

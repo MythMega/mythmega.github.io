@@ -235,13 +235,31 @@ a:hover {
 
 .changelog-badge {
     display: inline-block;
-    background-color: var(--accent);
-    color: #ffffff;
     font-size: 0.85rem;
     font-weight: 700;
     padding: 4px 12px;
     border-radius: 20px;
     white-space: nowrap;
+}
+
+.badge-gray {
+    background-color: #6c757d;
+    color: #ffffff;
+}
+
+.badge-blue {
+    background-color: #2196f3;
+    color: #ffffff;
+}
+
+.badge-red {
+    background-color: var(--accent);
+    color: #ffffff;
+}
+
+.badge-green {
+    background-color: #4caf50;
+    color: #ffffff;
 }
 
 .changelog-name {
@@ -254,6 +272,36 @@ a:hover {
     font-size: 0.95rem;
     color: var(--text-secondary);
     margin-bottom: 12px;
+}
+
+.changelog-desc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+}
+
+.changelog-desc-list li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    padding: 2px 0 2px 16px;
+    position: relative;
+}
+
+.changelog-desc-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.changelog-game-item {
+    color: #ffd700 !important;
+}
+
+.changelog-game-item::before {
+    color: #ffd700 !important;
+    content: '★' !important;
 }
 
 .changelog-link {

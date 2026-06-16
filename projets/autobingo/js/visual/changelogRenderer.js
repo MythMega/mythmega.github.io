@@ -1,5 +1,5 @@
 /**
- * Renders the changelog page
+ * Renders the changelog page with comma-separated descriptions split into bullet points
  * AutoBingo.ChangelogRenderer
  */
 (function(autobingo) {
@@ -22,7 +22,7 @@
                 header.className = 'changelog-header';
 
                 const badge = document.createElement('span');
-                badge.className = 'changelog-badge';
+                badge.className = 'changelog-badge ' + this._getBadgeClass(entry.number);
                 badge.textContent = `v${entry.number}`;
                 header.appendChild(badge);
 
@@ -34,11 +34,20 @@
 
                 card.appendChild(header);
 
-                const desc = document.createElement('p');
-                desc.className = 'changelog-desc';
-                desc.setAttribute('data-i18n-raw', entry.descEn);
-                desc.textContent = entry.descEn;
-                card.appendChild(desc);
+                // Description list (split by comma)
+                const descList = document.createElement('ul');
+                descList.className = 'changelog-desc-list';
+                descList.setAttribute('data-i18n-raw-desc', entry.descEn);
+                const items = this._splitDesc(entry.descEn);
+                items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    if (this._isGameItem(item)) {
+                        li.classList.add('changelog-game-item');
+                    }
+                    descList.appendChild(li);
+                });
+                card.appendChild(descList);
 
                 if (entry.link) {
                     const link = document.createElement('a');
@@ -61,6 +70,65 @@
         },
 
         /**
+         * Get the CSS class for the badge based on version number content
+         * @param {string} number - Version number (e.g. "Alpha a0.1", "Beta 1.0", "Release 2.0")
+         * @returns {string}
+         */
+        _getBadgeClass(number) {
+            if (!number) return 'badge-gray';
+            const lower = number.toLowerCase();
+            if (lower.includes('alpha')) return 'badge-blue';
+            if (lower.includes('beta')) return 'badge-red';
+            if (lower.includes('release') || lower.includes('rc') || lower.includes('stable')) return 'badge-green';
+            return 'badge-gray';
+        },
+
+        /**
+         * Split a description string by commas, trim each part, capitalize first letter
+         * @param {string} text
+         * @returns {string[]}
+         */
+        _splitDesc(text) {
+            if (!text) return [];
+            return text.split(',').map(part => {
+                part = part.trim();
+                if (part.length > 0) {
+                    part = part.charAt(0).toUpperCase() + part.slice(1);
+                }
+                return part;
+            }).filter(p => p.length > 0);
+        },
+
+        /**
+         * Check if an item text contains "Jeu" or "Game"
+         * @param {string} text
+         * @returns {boolean}
+         */
+        _isGameItem(text) {
+            if (!text) return false;
+            const lower = text.toLowerCase();
+            return lower.includes('jeu') || lower.includes('game');
+        },
+
+        /**
+         * Update description list from comma-separated text
+         * @param {HTMLElement} listEl
+         * @param {string} text
+         */
+        _updateDescList(listEl, text) {
+            const items = this._splitDesc(text);
+            listEl.innerHTML = '';
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                if (this._isGameItem(item)) {
+                    li.classList.add('changelog-game-item');
+                }
+                listEl.appendChild(li);
+            });
+        },
+
+        /**
          * Translate dynamic content (names, descriptions) based on current language
          * @param {Array} entries
          */
@@ -73,14 +141,18 @@
                 const entry = entries[i];
 
                 const nameEl = card.querySelector('.changelog-name');
-                const descEl = card.querySelector('.changelog-desc');
+                const descList = card.querySelector('.changelog-desc-list');
 
                 if (lang === 'fr') {
                     if (nameEl && entry.nameFr) nameEl.textContent = entry.nameFr;
-                    if (descEl && entry.descFr) descEl.textContent = entry.descFr;
+                    if (descList && entry.descFr) {
+                        this._updateDescList(descList, entry.descFr);
+                    }
                 } else {
                     if (nameEl && entry.nameEn) nameEl.textContent = entry.nameEn;
-                    if (descEl && entry.descEn) descEl.textContent = entry.descEn;
+                    if (descList && entry.descEn) {
+                        this._updateDescList(descList, entry.descEn);
+                    }
                 }
             });
         }

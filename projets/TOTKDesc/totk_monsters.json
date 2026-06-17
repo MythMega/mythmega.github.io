@@ -1,0 +1,667 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Monsters",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "Enemy_Chuchu_Junior",
+      "Name_EN": "Chuchu",
+      "Name_FR": "Chuchu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/chuchu/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Chuchu_Fire_Junior",
+      "Name_EN": "Fire Chuchu",
+      "Name_FR": "Chuchu de feu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire_chuchu/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Chuchu_Ice_Junior",
+      "Name_EN": "Ice Chuchu",
+      "Name_FR": "Chuchu de glace",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice_chuchu/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Chuchu_Electric_Junior",
+      "Name_EN": "Electric Chuchu",
+      "Name_FR": "Chuchu électrique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_chuchu/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Keese",
+      "Name_EN": "Keese",
+      "Name_FR": "Chauve-souris",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/keese/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Keese_Fire",
+      "Name_EN": "Fire Keese",
+      "Name_FR": "Chauve-souris de feu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire_keese/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Keese_Ice",
+      "Name_EN": "Ice Keese",
+      "Name_FR": "Chauve-souris de glace",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice_keese/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Keese_Electric",
+      "Name_EN": "Electric Keese",
+      "Name_FR": "Chauve-souris électrique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_keese/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Octarock",
+      "Name_EN": "Water Octorok",
+      "Name_FR": "Octoflot",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/water_octorok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Octarock_Forest",
+      "Name_EN": "Forest Octorok",
+      "Name_FR": "Octofourré",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/forest_octorok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Octarock_Stone",
+      "Name_EN": "Rock Octorok",
+      "Name_FR": "Octopierre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rock_octorok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Octarock_Snow",
+      "Name_EN": "Snow Octorok",
+      "Name_FR": "Octoneige",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/snow_octorok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Octarock_Desert",
+      "Name_EN": "Treasure Octorok",
+      "Name_FR": "Octocoffre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/treasure_octorok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Wizzrobe_Fire",
+      "Name_EN": "Fire Wizzrobe",
+      "Name_FR": "Sorcier de feu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire_wizzrobe/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Wizzrobe_Ice",
+      "Name_EN": "Ice Wizzrobe",
+      "Name_FR": "Sorcier de glace",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice_wizzrobe/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Wizzrobe_Electric",
+      "Name_EN": "Electric Wizzrobe",
+      "Name_FR": "Sorcier électrique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_wizzrobe/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Wizzrobe_Fire_Senior",
+      "Name_EN": "Meteo Wizzrobe",
+      "Name_FR": "Sorcier brasero",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/meteo_wizzrobe/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Wizzrobe_Ice_Senior",
+      "Name_EN": "Blizzrobe",
+      "Name_FR": "Sorcier blizzaro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blizzrobe/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Wizzrobe_Electric_Senior",
+      "Name_EN": "Thunder Wizzrobe",
+      "Name_FR": "Sorcier fulguro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/thunder_wizzrobe/image?game=totk"
+    },
+    {
+      "Index": "Enemy_LikeLike_Plane",
+      "Name_EN": "Like Like",
+      "Name_FR": "Like like",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/like_like/image?game=totk"
+    },
+    {
+      "Index": "Enemy_LikeLike_Fire",
+      "Name_EN": "Fire Like",
+      "Name_FR": "Pyrolike",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire_like/image?game=totk"
+    },
+    {
+      "Index": "Enemy_LikeLike_Ice",
+      "Name_EN": "Ice Like",
+      "Name_FR": "Cryolike",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice_like/image?game=totk"
+    },
+    {
+      "Index": "Enemy_LikeLike_Electric",
+      "Name_EN": "Shock Like",
+      "Name_FR": "Électrolike",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/shock_like/image?game=totk"
+    },
+    {
+      "Index": "Enemy_LikeLike_Crack",
+      "Name_EN": "Rock Like",
+      "Name_FR": "Litholike",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rock_like/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Treant_Broadleaf",
+      "Name_EN": "Evermean",
+      "Name_FR": "Tronc-peur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/evermean/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Toby_Junior",
+      "Name_EN": "Aerocuda",
+      "Name_FR": "Kakuda",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/aerocuda/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zombie_Junior",
+      "Name_EN": "Gibdo",
+      "Name_FR": "Gibdo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gibdo/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zombie_Boss_Junior",
+      "Name_EN": "Moth Gibdo",
+      "Name_FR": "Gibdo ailé",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/moth_gibdo/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Junior",
+      "Name_EN": "Bokoblin",
+      "Name_FR": "Bokoblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bokoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Middle",
+      "Name_EN": "Blue Bokoblin",
+      "Name_FR": "Bokoblin bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_bokoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Senior",
+      "Name_EN": "Black Bokoblin",
+      "Name_FR": "Bokoblin noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_bokoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Bone_Junior",
+      "Name_EN": "Stalkoblin",
+      "Name_FR": "Stalbokoblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stalkoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Dark",
+      "Name_EN": "Silver Bokoblin",
+      "Name_FR": "Bokoblin d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_bokoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Boss_Junior",
+      "Name_EN": "Boss Bokoblin",
+      "Name_FR": "Chef boko",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/boss_bokoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Boss_Middle",
+      "Name_EN": "Blue Boss Bokoblin",
+      "Name_FR": "Chef boko bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_boss_bokoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Boss_Senior",
+      "Name_EN": "Black Boss Bokoblin",
+      "Name_FR": "Chef boko noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_boss_bokoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Bokoblin_Boss_Dark",
+      "Name_EN": "Silver Boss Bokoblin",
+      "Name_FR": "Chef boko d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_boss_bokoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Moriblin_Junior",
+      "Name_EN": "Moblin",
+      "Name_FR": "Moblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/moblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Moriblin_Middle",
+      "Name_EN": "Blue Moblin",
+      "Name_FR": "Moblin bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_moblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Moriblin_Senior",
+      "Name_EN": "Black Moblin",
+      "Name_FR": "Moblin noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_moblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Moriblin_Bone_Junior",
+      "Name_EN": "Stalmoblin",
+      "Name_FR": "Stalmoblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stalmoblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Moriblin_Dark",
+      "Name_EN": "Silver Moblin",
+      "Name_FR": "Moblin d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_moblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lizalfos_Junior",
+      "Name_EN": "Lizalfos",
+      "Name_FR": "Lézalfos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lizalfos/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lizalfos_Middle",
+      "Name_EN": "Blue Lizalfos",
+      "Name_FR": "Lézalfos bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_lizalfos/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lizalfos_Senior",
+      "Name_EN": "Black Lizalfos",
+      "Name_FR": "Lézalfos noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_lizalfos/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lizalfos_Bone_Junior",
+      "Name_EN": "Stalizalfos",
+      "Name_FR": "Stalézalfos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stalizalfos/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lizalfos_Fire",
+      "Name_EN": "Fire-Breath Lizalfos",
+      "Name_FR": "Lézalfos de feu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire-breath_lizalfos/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lizalfos_Ice",
+      "Name_EN": "Ice-Breath Lizalfos",
+      "Name_FR": "Lézalfos de glace",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice-breath_lizalfos/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lizalfos_Electric",
+      "Name_EN": "Electric Lizalfos",
+      "Name_FR": "Lézalfos électrique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_lizalfos/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lizalfos_Dark",
+      "Name_EN": "Silver Lizalfos",
+      "Name_FR": "Lézalfos d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_lizalfos/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Horablin_Junior",
+      "Name_EN": "Horriblin",
+      "Name_FR": "Trogloblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/horriblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Horablin_Middle",
+      "Name_EN": "Blue Horriblin",
+      "Name_FR": "Trogloblin bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_horriblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Horablin_Senior",
+      "Name_EN": "Black Horriblin",
+      "Name_FR": "Trogloblin noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_horriblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Horablin_Dark",
+      "Name_EN": "Silver Horriblin",
+      "Name_FR": "Trogloblin d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_horriblin/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lynel_Junior",
+      "Name_EN": "Lynel",
+      "Name_FR": "Lynel",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lynel/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lynel_Middle",
+      "Name_EN": "Blue-Maned Lynel",
+      "Name_FR": "Lynel bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue-maned_lynel/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lynel_Senior",
+      "Name_EN": "White-Maned Lynel",
+      "Name_FR": "Lynel blanc",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/white-maned_lynel/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Lynel_Dark",
+      "Name_EN": "Silver Lynel",
+      "Name_FR": "Lynel d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_lynel/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_Robot_Junior",
+      "Name_EN": "Soldier Construct I",
+      "Name_FR": "Golem soldat",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier_construct_i/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_Robot_Middle",
+      "Name_EN": "Soldier Construct II",
+      "Name_FR": "Golem caporal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier_construct_ii/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_Robot_Senior",
+      "Name_EN": "Soldier Construct III",
+      "Name_FR": "Golem sergent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier_construct_iii/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_Robot_Dark",
+      "Name_EN": "Soldier Construct IV",
+      "Name_FR": "Golem major",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier_construct_iv/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_Golem_Junior",
+      "Name_EN": "Captain Construct I",
+      "Name_FR": "Golem lieutenant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/captain_construct_i/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_Golem_Middle",
+      "Name_EN": "Captain Construct II",
+      "Name_FR": "Golem capitaine",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/captain_construct_ii/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_Golem_Senior",
+      "Name_EN": "Captain Construct III",
+      "Name_FR": "Golem commandant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/captain_construct_iii/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_Golem_Dark",
+      "Name_EN": "Captain Construct IV",
+      "Name_FR": "Golem colonel",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/captain_construct_iv/image?game=totk"
+    },
+    {
+      "Index": "Enemy_CDungeon_Practice",
+      "Name_EN": "Training Construct",
+      "Name_FR": "Golem supérieur spécial",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/training_construct/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_BlockMaster_Junior",
+      "Name_EN": "Flux Construct I",
+      "Name_FR": "Golemax",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/flux_construct_i/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_BlockMaster_Middle",
+      "Name_EN": "Flux Construct II",
+      "Name_FR": "Golemax amélioré",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/flux_construct_ii/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Zonau_BlockMaster_Senior",
+      "Name_EN": "Flux Construct III",
+      "Name_FR": "Golemax ultime",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/flux_construct_iii/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Assassin_Junior",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Assassin_Middle",
+      "Name_EN": "Yiga Blademaster",
+      "Name_FR": "Officier yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_blademaster/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Assassin_Senior",
+      "Name_EN": "Master Kohga",
+      "Name_FR": "Le grand Kohga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/master_kohga/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Little",
+      "Name_EN": "Stone Pebblit",
+      "Name_FR": "Tilhorok",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stone_pebblit/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Little_Fire",
+      "Name_EN": "Igneo Pebblit",
+      "Name_FR": "Migrok",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/igneo_pebblit/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Little_Ice",
+      "Name_EN": "Frost Pebblit",
+      "Name_FR": "Givrok",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/frost_pebblit/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Junior",
+      "Name_EN": "Stone Talus",
+      "Name_FR": "Lithorok",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stone_talus/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Middle",
+      "Name_EN": "Stone Talus (Luminous)",
+      "Name_FR": "Lithorok nox",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stone_talus_(luminous)/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Senior",
+      "Name_EN": "Stone Talus (Rare)",
+      "Name_FR": "Lithorok rare",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stone_talus_(rare)/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Fort_A",
+      "Name_EN": "Battle Talus",
+      "Name_FR": "Lithorok fortifié",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/battle_talus/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Fire",
+      "Name_EN": "Igneo Talus",
+      "Name_FR": "Magrok",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/igneo_talus/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Golem_Ice",
+      "Name_EN": "Frost Talus",
+      "Name_FR": "Cryorok",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/frost_talus/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Giant_Junior",
+      "Name_EN": "Hinox",
+      "Name_FR": "Hinox",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hinox/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Giant_Middle",
+      "Name_EN": "Blue Hinox",
+      "Name_FR": "Hinox bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_hinox/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Giant_Senior",
+      "Name_EN": "Black Hinox",
+      "Name_FR": "Hinox noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_hinox/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Giant_Bone",
+      "Name_EN": "Stalnox",
+      "Name_FR": "Stalhinox",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stalnox/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Sandworm",
+      "Name_EN": "Molduga",
+      "Name_FR": "Moldarquor",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/molduga/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Drake_Fire",
+      "Name_EN": "Flame Gleeok",
+      "Name_FR": "Griock des flammes",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/flame_gleeok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Drake_Ice",
+      "Name_EN": "Frost Gleeok",
+      "Name_FR": "Griock des glaces",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/frost_gleeok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Drake_Electric",
+      "Name_EN": "Thunder Gleeok",
+      "Name_FR": "Griock électrique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/thunder_gleeok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Drake_Mix",
+      "Name_EN": "King Gleeok",
+      "Name_FR": "Roi griock",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/king_gleeok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Mogurudo_Baby_Junior",
+      "Name_EN": "Little Frox",
+      "Name_FR": "Minitracien",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/little_frox/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Mogurudo_Junior",
+      "Name_EN": "Frox",
+      "Name_FR": "Gigatracien",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/frox/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Mogurudo_Middle",
+      "Name_EN": "Obsidian Frox",
+      "Name_FR": "Gigatracien anthracite",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/obsidian_frox/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Mogurudo_Senior",
+      "Name_EN": "Blue-White Frox",
+      "Name_FR": "Gigatracien opalin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue-white_frox/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Dragon_Fire",
+      "Name_EN": "Dinraal",
+      "Name_FR": "Ordrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/dinraal/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Dragon_Ice",
+      "Name_EN": "Naydra",
+      "Name_FR": "Nedrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/naydra/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Dragon_Electric",
+      "Name_EN": "Farosh",
+      "Name_FR": "Rordrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/farosh/image?game=totk"
+    },
+    {
+      "Index": "Enemy_DungeonBoss_Rito",
+      "Name_EN": "Colgera",
+      "Name_FR": "Glagayla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/colgera/image?game=totk"
+    },
+    {
+      "Index": "Enemy_MiddleBoss_Goron",
+      "Name_EN": "Moragia",
+      "Name_FR": "Angania",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/moragia/image?game=totk"
+    },
+    {
+      "Index": "Enemy_DungeonBoss_Goron",
+      "Name_EN": "Marbled Gohma",
+      "Name_FR": "Lithogohma",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/marbled_gohma/image?game=totk"
+    },
+    {
+      "Index": "Enemy_LikeLike_Tar",
+      "Name_EN": "Sludge Like",
+      "Name_FR": "Like de vase",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sludge_like/image?game=totk"
+    },
+    {
+      "Index": "Enemy_DungeonBoss_Zora",
+      "Name_EN": "Mucktorok",
+      "Name_FR": "Octopoulpos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mucktorok/image?game=totk"
+    },
+    {
+      "Index": "Enemy_DungeonBoss_Gerudo",
+      "Name_EN": "Queen Gibdo",
+      "Name_FR": "Reine gibdo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/queen_gibdo/image?game=totk"
+    },
+    {
+      "Index": "Enemy_DungeonBoss_Zonau",
+      "Name_EN": "Seized Construct",
+      "Name_FR": "Golem corrompu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/seized_construct/image?game=totk"
+    },
+    {
+      "Index": "Enemy_PhantomGanon",
+      "Name_EN": "Phantom Ganon",
+      "Name_FR": "Fantôme de Ganon",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/phantom_ganon/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Ganondorf",
+      "Name_EN": "Demon King Ganondorf",
+      "Name_FR": "Ganondorf, roi démon",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/demon_king_ganondorf/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Ganondorf_Miasma",
+      "Name_EN": "Demon King Ganondorf (2nd Form)",
+      "Name_FR": "Ganondorf, roi démon (2ͤ forme)",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/demon_king_ganondorf_(2nd_form)/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Dragon_Darkness",
+      "Name_EN": "Demon Dragon",
+      "Name_FR": "Dragon noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/demon_dragon/image?game=totk"
+    },
+    {
+      "Index": "Enemy_Dragon_Light_001",
+      "Name_EN": "Light Dragon",
+      "Name_FR": "Dragon blanc",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/light_dragon/image?game=totk"
+    }
+  ]
+}

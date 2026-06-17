@@ -1,0 +1,187 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Bows and Arrows",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "Weapon_Bow_001",
+      "Name_EN": "Traveler's Bow",
+      "Name_FR": "Arc de voyageur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Bow/Traveler_s_Bow.png"
+    },
+    {
+      "Index": "Weapon_Bow_002",
+      "Name_EN": "Soldier’s Bow",
+      "Name_FR": "Arc de soldat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Bow/Soldier_s_Bow.png"
+    },
+    {
+      "Index": "Weapon_Bow_003",
+      "Name_EN": "Spiked Boko Bow",
+      "Name_FR": "Arc à pointes boko",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/spiked_boko_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_004",
+      "Name_EN": "Boko Bow",
+      "Name_FR": "Arc boko",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/boko_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_006",
+      "Name_EN": "Lizal Bow",
+      "Name_FR": "Arc lézal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lizal_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_009",
+      "Name_EN": "Lynel Bow",
+      "Name_FR": "Arc de Lynel",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lynel_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_011",
+      "Name_EN": "Strengthened Lizal Bow",
+      "Name_FR": "Arc lézal robuste",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/strengthened_lizal_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_013",
+      "Name_EN": "Forest Dweller's Bow",
+      "Name_FR": "Arc des sylvains",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Bow/Forest_Dweller_s_Bow.png"
+    },
+    {
+      "Index": "Weapon_Bow_014",
+      "Name_EN": "Zora Bow",
+      "Name_FR": "Arc zora",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zora_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_015",
+      "Name_EN": "Gerudo Bow",
+      "Name_FR": "Arc gerudo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gerudo_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_016",
+      "Name_EN": "Swallow Bow",
+      "Name_FR": "Arc de l'hirondelle",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/swallow_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_017",
+      "Name_EN": "Falcon Bow",
+      "Name_FR": "Arc du faucon",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/falcon_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_026",
+      "Name_EN": "Mighty Lynel Bow",
+      "Name_FR": "Arc du roi bestial",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_lynel_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_027",
+      "Name_EN": "Dragonbone Boko Bow",
+      "Name_FR": "Draco-arc boko",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/dragonbone_boko_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_028",
+      "Name_EN": "Great Eagle Bow",
+      "Name_FR": "Arc de l'aigle",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/great_eagle_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_029",
+      "Name_EN": "Phrenic Bow",
+      "Name_FR": "Arc de la dévotion",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/phrenic_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_030",
+      "Name_EN": "Steel Lizal Bow",
+      "Name_FR": "Arc lézal en acier",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/steel_lizal_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_032",
+      "Name_EN": "Savage Lynel Bow",
+      "Name_FR": "Arc du dieu bestial",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/savage_lynel_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_033",
+      "Name_EN": "Royal Guard's Bow",
+      "Name_FR": "Arc de garde royal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Bow/Royal_Guard_s_Bow.png"
+    },
+    {
+      "Index": "Weapon_Bow_035",
+      "Name_EN": "Knight's Bow",
+      "Name_FR": "Arc de chevalier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Bow/Knight_s_Bow.png"
+    },
+    {
+      "Index": "Weapon_Bow_036",
+      "Name_EN": "Royal Bow",
+      "Name_FR": "Arc royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_038",
+      "Name_EN": "Wooden Bow",
+      "Name_FR": "Arc en bois",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/wooden_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_040",
+      "Name_EN": "Duplex Bow",
+      "Name_FR": "Arc à double encoche",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/duplex_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_072",
+      "Name_EN": "Dusk Bow",
+      "Name_FR": "Arc crépusculaire",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/dusk_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_101",
+      "Name_EN": "Zonaite Bow",
+      "Name_FR": "Arc de sonium",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zonaite_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_104",
+      "Name_EN": "Construct Bow",
+      "Name_FR": "Arc de Golem",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/construct_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_105",
+      "Name_EN": "Strong Construct Bow",
+      "Name_FR": "Arc de Golem renforcé",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/strong_construct_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_106",
+      "Name_EN": "Mighty Construct Bow",
+      "Name_FR": "Arc de Golem surpuissant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_construct_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_107",
+      "Name_EN": "Old Wooden Bow",
+      "Name_FR": "Vieil arc en bois",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/old_wooden_bow/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Bow_166",
+      "Name_EN": "Demon King's Bow",
+      "Name_FR": "Arc du roi démon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Bow/Demon_King_s_Bow.png"
+    }
+  ]
+}

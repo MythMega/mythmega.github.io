@@ -90,22 +90,76 @@
     "Location": "./data/mario/sms_coinless.json"
   },
   {
-    "Name": "Minecraft 1.21.11 - Mounts of Mayhem",
+    "Name": "Minecraft 1.21.11 - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
-    "Location": "./data/minecraft/mc1-21-11.json"
+    "Location": "./data/minecraft/mc1.21.11-full.json"
   },
   {
-    "Name": "Minecraft 1.21.9 - The Copper Age",
+    "Name": "Minecraft 1.21.9 - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
-    "Location": "./data/minecraft/mc1.21.9.json"
+    "Location": "./data/minecraft/mc1.21.9-full.json"
+  },
+  {
+    "Name": "Minecraft 26.1 - Chaos Cubed",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26.1-full.json"
   },
   {
     "Name": "Minecraft 26.2 - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
-    "Location": "./data/minecraft/mc26-2.json"
+    "Location": "./data/minecraft/mc26.2-full.json"
+  },
+  {
+    "Name": "Minecraft 1.21.9 - Blocks - the Copper Age",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc1.21.9-blocks.json"
+  },
+  {
+    "Name": "Minecraft 26.1 - Blocks - Tiny Takeover",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc26.1-blocks.json"
+  },
+  {
+    "Name": "Minecraft 26.2 - Blocks - Chaos Cubed",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc26.2-blocks.json"
+  },
+  {
+    "Name": "Minecraft 26.2 - Blocks - Mounts of Mayhem",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc1.21.11-blocks.json"
+  },
+  {
+    "Name": "Minecraft 1.21.11 - Items - Mounts of Mayhem",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc1.21.11-items.json"
+  },
+  {
+    "Name": "Minecraft 1.21.9 - Items -The Copper Age",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc1.21.9-items.json"
+  },
+  {
+    "Name": "Minecraft 26.1 - Items - Tiny Takeover",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.1-items.json"
+  },
+  {
+    "Name": "Minecraft 26.2 - items - Chaos Cubed",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.2-items.json"
   },
   {
     "Name": "PokeFull",
@@ -292,5 +346,107 @@
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/pokemon_game_xy.json"
+  },
+  {
+    "Name": "Zelda Ocarina Of Time - Key items",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Ocarina Of Time",
+    "Location": "./data/zelda/oot/oot_items.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - All Equipments",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_all_equipments.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - All Locations",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_all_locations.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - All items",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_all.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Armor",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_armor.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Bows and Arrows",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_bows_and_arrows.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Creatures",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_creatures.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Food",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_food.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Key Items",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_key_items.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Lightroot",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_lightroot.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Materials",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_materials.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Monsters",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_monsters.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Shields",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_shields.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Shrine",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_shrine.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Skyview Tower",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_skyview_tower.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Weapons",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_weapons.json"
+  },
+  {
+    "Name": "Zelda Tears Of the Kingdom - Zonai Devices",
+    "Category": "Zelda",
+    "Subcategory": "Zelda Tears Of the Kingdom",
+    "Location": "./data/zelda/totk/totk_zonai_devices.json"
   }
 ]

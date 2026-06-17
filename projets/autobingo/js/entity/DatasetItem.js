@@ -16,8 +16,8 @@
         constructor(nameEn, nameFr, pictureMain, pictureAlt, index) {
             this.nameEn = nameEn;
             this.nameFr = nameFr;
-            this.pictureMain = pictureMain;
-            this.pictureAlt = pictureAlt;
+            this.pictureMain = pictureMain ? pictureMain.replace("'", "_") : pictureMain;
+            this.pictureAlt = pictureAlt ? pictureAlt.replace("'", "_") : pictureAlt;
             this.index = index;
         }
 

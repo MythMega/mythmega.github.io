@@ -1,0 +1,1753 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Materials",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "Animal_Insect_A",
+      "Name_EN": "Hot-Footed Frog",
+      "Name_FR": "Grenouille tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hot-footed_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_A",
+      "Name_EN": "Hot-Footed Frog",
+      "Name_FR": "Grenouille tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hot-footed_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AA",
+      "Name_EN": "Energetic Rhino Beetle",
+      "Name_FR": "Scarabée enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/energetic_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AA",
+      "Name_EN": "Energetic Rhino Beetle",
+      "Name_FR": "Scarabée enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/energetic_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AB",
+      "Name_EN": "Smotherwing Butterfly",
+      "Name_FR": "Papillon ignifus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/smotherwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AB",
+      "Name_EN": "Smotherwing Butterfly",
+      "Name_FR": "Papillon ignifus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/smotherwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AG",
+      "Name_EN": "Sticky Frog",
+      "Name_FR": "Grenouille adhésio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sticky_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AG",
+      "Name_EN": "Sticky Frog",
+      "Name_FR": "Grenouille adhésio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sticky_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AH",
+      "Name_EN": "Sticky Lizard",
+      "Name_FR": "Lézard adhésio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sticky_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AH",
+      "Name_EN": "Sticky Lizard",
+      "Name_FR": "Lézard adhésio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sticky_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AI",
+      "Name_EN": "Deep Firefly",
+      "Name_FR": "Luciole de l'ombre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/deep_firefly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AI",
+      "Name_EN": "Deep Firefly",
+      "Name_FR": "Luciole de l'ombre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/deep_firefly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_B",
+      "Name_EN": "Tireless Frog",
+      "Name_FR": "Grenouille vigueur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/tireless_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_B",
+      "Name_EN": "Tireless Frog",
+      "Name_FR": "Grenouille vigueur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/tireless_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_C",
+      "Name_EN": "Cold Darner",
+      "Name_FR": "Libellule glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cold_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_C",
+      "Name_EN": "Cold Darner",
+      "Name_FR": "Libellule glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cold_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_E",
+      "Name_EN": "Sunset Firefly",
+      "Name_FR": "Luciole de la sérénité",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sunset_firefly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_E",
+      "Name_EN": "Sunset Firefly",
+      "Name_FR": "Luciole de la sérénité",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sunset_firefly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_F",
+      "Name_EN": "Fairy",
+      "Name_FR": "Fée",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fairy/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_F",
+      "Name_EN": "Fairy",
+      "Name_FR": "Fée",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fairy/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_G",
+      "Name_EN": "Bladed Rhino Beetle",
+      "Name_FR": "Scarabée lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bladed_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_G",
+      "Name_EN": "Bladed Rhino Beetle",
+      "Name_FR": "Scarabée lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bladed_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_H",
+      "Name_EN": "Restless Cricket",
+      "Name_FR": "Sauterelle enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/restless_cricket/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_H",
+      "Name_EN": "Restless Cricket",
+      "Name_FR": "Sauterelle enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/restless_cricket/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_I",
+      "Name_EN": "Electric Darner",
+      "Name_FR": "Libellule volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_I",
+      "Name_EN": "Electric Darner",
+      "Name_FR": "Libellule volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_M",
+      "Name_EN": "Hearty Lizard",
+      "Name_FR": "Lézard max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_M",
+      "Name_EN": "Hearty Lizard",
+      "Name_FR": "Lézard max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_N",
+      "Name_EN": "Winterwing Butterfly",
+      "Name_FR": "Papillon glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/winterwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_N",
+      "Name_EN": "Winterwing Butterfly",
+      "Name_FR": "Papillon glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/winterwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_P",
+      "Name_EN": "Rugged Rhino Beetle",
+      "Name_FR": "Scarabée armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rugged_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_P",
+      "Name_EN": "Rugged Rhino Beetle",
+      "Name_FR": "Scarabée armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rugged_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_Q",
+      "Name_EN": "Summerwing Butterfly",
+      "Name_FR": "Papillon piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/summerwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_Q",
+      "Name_EN": "Summerwing Butterfly",
+      "Name_FR": "Papillon piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/summerwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_R",
+      "Name_EN": "Thunderwing Butterfly",
+      "Name_FR": "Papillon volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/thunderwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_R",
+      "Name_EN": "Thunderwing Butterfly",
+      "Name_FR": "Papillon volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/thunderwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_S",
+      "Name_EN": "Hightail Lizard",
+      "Name_FR": "Lézard tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hightail_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_S",
+      "Name_EN": "Hightail Lizard",
+      "Name_FR": "Lézard tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hightail_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_T",
+      "Name_EN": "Warm Darner",
+      "Name_FR": "Libellule piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/warm_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_T",
+      "Name_EN": "Warm Darner",
+      "Name_FR": "Libellule piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/warm_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_X",
+      "Name_EN": "Fireproof Lizard",
+      "Name_FR": "Lézard ignifus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fireproof_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_X",
+      "Name_EN": "Fireproof Lizard",
+      "Name_FR": "Lézard ignifus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fireproof_lizard/image?game=totk"
+    },
+    {
+      "Index": "BeeHome",
+      "Name_EN": "Courser Bee Honey",
+      "Name_FR": "Rayon de miel enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/courser_bee honey/image?game=totk"
+    },
+    {
+      "Index": "BombFruit",
+      "Name_EN": "Bomb Flower",
+      "Name_FR": "Fleur bombe",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bomb_flower/image?game=totk"
+    },
+    {
+      "Index": "ConfusionFruit",
+      "Name_EN": "Muddle Bud",
+      "Name_FR": "Fleur de confusion",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/muddle_bud/image?game=totk"
+    },
+    {
+      "Index": "ElectricalFruit",
+      "Name_EN": "Shock Fruit",
+      "Name_FR": "Fruit de foudre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/shock_fruit/image?game=totk"
+    },
+    {
+      "Index": "FireFruit",
+      "Name_EN": "Fire Fruit",
+      "Name_FR": "Fruit de feu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire_fruit/image?game=totk"
+    },
+    {
+      "Index": "FldObj_Pinecone_A_01",
+      "Name_EN": "Hylian Pine Cone",
+      "Name_FR": "Pomme de pin d'Hyrule",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hylian_pine cone/image?game=totk"
+    },
+    {
+      "Index": "IceFruit",
+      "Name_EN": "Ice Fruit",
+      "Name_FR": "Fruit de gel",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice_fruit/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_01",
+      "Name_EN": "Bokoblin Fang",
+      "Name_FR": "Croc de Bokoblin",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_02",
+      "Name_EN": "Bokoblin Guts",
+      "Name_FR": "Viscère de Bokoblin",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_04",
+      "Name_EN": "Lizalfos Talon",
+      "Name_FR": "Griffe de Lézalfos",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_05",
+      "Name_EN": "Lizalfos Tail",
+      "Name_FR": "Queue de Lézalfos",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_07",
+      "Name_EN": "Moblin Fang",
+      "Name_FR": "Croc de Moblin",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_08",
+      "Name_EN": "Moblin Guts",
+      "Name_FR": "Viscère de Moblin",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_100",
+      "Name_EN": "Horriblin Horn",
+      "Name_FR": "Corne de Trogloblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/horriblin_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_101",
+      "Name_EN": "Blue Horriblin Horn",
+      "Name_FR": "Corne de Trogloblin bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_horriblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_102",
+      "Name_EN": "Black Horriblin Horn",
+      "Name_FR": "Corne de Trogloblin noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_horriblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_103",
+      "Name_EN": "Silver Horriblin Horn",
+      "Name_FR": "Corne de Trogloblin d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_horriblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_104",
+      "Name_EN": "Horriblin Claw",
+      "Name_FR": "Griffe de Trogloblin",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_105",
+      "Name_EN": "Horriblin Guts",
+      "Name_FR": "Viscère de Trogloblin",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_106",
+      "Name_EN": "Lizalfos Horn",
+      "Name_FR": "Corne de Lézalfos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lizalfos_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_107",
+      "Name_EN": "Blue Lizalfos Horn",
+      "Name_FR": "Corne de Lézalfos bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_lizalfos horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_108",
+      "Name_EN": "Black Lizalfos Horn",
+      "Name_FR": "Corne de Lézalfos noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_lizalfos horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_109",
+      "Name_EN": "Silver Lizalfos Horn",
+      "Name_FR": "Corne de Lézalfos d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_lizalfos horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_114",
+      "Name_EN": "Blue Lizalfos Tail",
+      "Name_FR": "Queue de Lézalfos bleu",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_115",
+      "Name_EN": "Black Lizalfos Tail",
+      "Name_FR": "Queue de Lézalfos noir",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_116",
+      "Name_EN": "Silver Lizalfos Tail",
+      "Name_FR": "Queue de Lézalfos d'argent",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_117",
+      "Name_EN": "Fire Keese Eyeball",
+      "Name_FR": "Œil de feu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire_keese eyeball/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_118",
+      "Name_EN": "Electric Keese Eyeball",
+      "Name_FR": "Œil électrique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_keese eyeball/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_119",
+      "Name_EN": "Ice Keese Eyeball",
+      "Name_FR": "Œil de glace",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice_keese eyeball/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_121",
+      "Name_EN": "Gibdo Guts",
+      "Name_FR": "Viscère de Gibdo",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_123",
+      "Name_EN": "Gibdo Wing",
+      "Name_FR": "Aile de Gibdo",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_124",
+      "Name_EN": "Aerocuda Wing",
+      "Name_FR": "Aile de Kakuda",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_13",
+      "Name_EN": "Lynel Hoof",
+      "Name_FR": "Sabot de Lynel",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_130",
+      "Name_EN": "Zonai Charge",
+      "Name_FR": "Orbe d'énergie soneau",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_131",
+      "Name_EN": "Large Zonai Charge",
+      "Name_FR": "Grand orbe d'énergie soneau",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_132",
+      "Name_EN": "Blue Boss Bokoblin Horn",
+      "Name_FR": "Corne de Chef boko bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_boss bokoblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_133",
+      "Name_EN": "Black Boss Bokoblin Horn",
+      "Name_FR": "Corne de Chef boko noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_boss bokoblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_134",
+      "Name_EN": "Silver Boss Bokoblin Horn",
+      "Name_FR": "Corne de Chef boko d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_boss bokoblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_135",
+      "Name_EN": "Boss Bokoblin Fang",
+      "Name_FR": "Croc de Chef boko",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_136",
+      "Name_EN": "Boss Bokoblin Guts",
+      "Name_FR": "Viscère de Chef boko",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_14",
+      "Name_EN": "Lynel Guts",
+      "Name_FR": "Viscère de Lynel",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_142",
+      "Name_EN": "Hinox Horn",
+      "Name_FR": "Corne d'Hinox",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hinox_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_143",
+      "Name_EN": "Blue Hinox Horn",
+      "Name_FR": "Corne d'Hinox bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_hinox horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_144",
+      "Name_EN": "Black Hinox Horn",
+      "Name_FR": "Corne d'Hinox noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_hinox horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_148",
+      "Name_EN": "Lynel Saber Horn",
+      "Name_FR": "Corne affilée de Lynel",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lynel_saber horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_149",
+      "Name_EN": "Blue-Maned Lynel Saber Horn",
+      "Name_FR": "Corne affilée de Lynel bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue-maned_lynel saber horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_15",
+      "Name_EN": "Red Chuchu Jelly",
+      "Name_FR": "Gelée chuchu rouge",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/red_chuchu jelly/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_150",
+      "Name_EN": "White-Maned Lynel Saber Horn",
+      "Name_FR": "Corne affilée de Lynel blanc",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/white-maned_lynel saber horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_151",
+      "Name_EN": "Silver Lynel Saber Horn",
+      "Name_FR": "Corne affilée de Lynel d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_lynel saber horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_153",
+      "Name_EN": "Gleeok Flame Horn",
+      "Name_FR": "Corne de Griock des flammes",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gleeok_flame horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_154",
+      "Name_EN": "Gleeok Frost Horn",
+      "Name_FR": "Corne de Griock des glaces",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gleeok_frost horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_155",
+      "Name_EN": "Gleeok Thunder Horn",
+      "Name_FR": "Corne de Griock électrique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gleeok_thunder horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_156",
+      "Name_EN": "Gleeok Wing",
+      "Name_FR": "Aile de Griock",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_157",
+      "Name_EN": "Gleeok Guts",
+      "Name_FR": "Viscère de Griock",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_158",
+      "Name_EN": "Light Dragon's Scale",
+      "Name_FR": "Écaille du dragon blanc",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_159",
+      "Name_EN": "Light Dragon's Talon",
+      "Name_FR": "Griffe du dragon blanc",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_16",
+      "Name_EN": "Yellow Chuchu Jelly",
+      "Name_FR": "Gelée chuchu jaune",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yellow_chuchu jelly/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_160",
+      "Name_EN": "Shard of Light Dragon's Fang",
+      "Name_FR": "Éclat de croc du dragon blanc",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_166",
+      "Name_EN": "Soldier Construct Horn",
+      "Name_FR": "Corne de Golem soldat",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier_construct horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_167",
+      "Name_EN": "Soldier Construct II Horn",
+      "Name_FR": "Corne de Golem caporal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier_construct ii horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_168",
+      "Name_EN": "Soldier Construct III Horn",
+      "Name_FR": "Corne de Golem sergent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier_construct iii horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_169",
+      "Name_EN": "Soldier Construct IV Horn",
+      "Name_FR": "Corne de Golem major",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier_construct iv horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_17",
+      "Name_EN": "White Chuchu Jelly",
+      "Name_FR": "Gelée chuchu blanche",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/white_chuchu jelly/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_18",
+      "Name_EN": "Keese Wing",
+      "Name_FR": "Aile griffue",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_181",
+      "Name_EN": "Like Like Stone",
+      "Name_FR": "Gastrolithe de Like like",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/like_like stone/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_182",
+      "Name_EN": "Fire Like Stone",
+      "Name_FR": "Gastrolithe de Pyrolike",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire_like stone/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_183",
+      "Name_EN": "Shock Like Stone",
+      "Name_FR": "Gastrolithe d'Électrolike",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/shock_like stone/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_184",
+      "Name_EN": "Ice Like Stone",
+      "Name_FR": "Gastrolithe de Cryolike",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice_like stone/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_186",
+      "Name_EN": "Frox Fang",
+      "Name_FR": "Dent de Gigatracien",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/frox_fang/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_187",
+      "Name_EN": "Obsidian Frox Fang",
+      "Name_FR": "Dent de Gigatracien anthracite",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/obsidian_frox fang/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_188",
+      "Name_EN": "Blue-White Frox Fang",
+      "Name_FR": "Dent de Gigatracien opalin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue-white_frox fang/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_189",
+      "Name_EN": "Frox Fingernail",
+      "Name_FR": "Ongle de Gigatracien",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_19",
+      "Name_EN": "Keese Eyeball",
+      "Name_FR": "Œil de Chauve-souris",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/keese_eyeball/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_190",
+      "Name_EN": "Frox Guts",
+      "Name_FR": "Viscère de Gigatracien",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_191",
+      "Name_EN": "Captain Construct II Horn",
+      "Name_FR": "Corne de Golem capitaine",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/captain_construct ii horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_192",
+      "Name_EN": "Captain Construct III Horn",
+      "Name_FR": "Corne de Golem commandant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/captain_construct iii horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_193",
+      "Name_EN": "Captain Construct IV Horn",
+      "Name_FR": "Corne de Golem colonel",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/captain_construct iv horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_20",
+      "Name_EN": "Octorok Tentacle",
+      "Name_FR": "Tentacule octo",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_208",
+      "Name_EN": "Stalnox Horn",
+      "Name_FR": "Corne de Stalhinox",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stalnox_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_21",
+      "Name_EN": "Octorok Eyeball",
+      "Name_FR": "Œil octo",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_210",
+      "Name_EN": "Molduga Jaw",
+      "Name_FR": "Mâchoire de Moldarquor",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/molduga_jaw/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_211",
+      "Name_EN": "Dinraal's Horn",
+      "Name_FR": "Corne d'Ordrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/dinraal's_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_212",
+      "Name_EN": "Naydra's Horn",
+      "Name_FR": "Corne de Nedrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/naydra's_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_213",
+      "Name_EN": "Farosh's Horn",
+      "Name_FR": "Corne de Rordrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/farosh's_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_214",
+      "Name_EN": "Light Dragon's Horn",
+      "Name_FR": "Corne du dragon blanc",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/light_dragon's horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_215",
+      "Name_EN": "Lynel Mace Horn",
+      "Name_FR": "Corne briseuse de Lynel",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lynel_mace horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_216",
+      "Name_EN": "Blue-Maned Lynel Mace Horn",
+      "Name_FR": "Corne briseuse de Lynel bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue-maned_lynel mace horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_217",
+      "Name_EN": "White-Maned Lynel Mace Horn",
+      "Name_FR": "Corne briseuse de Lynel blanc",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/white-maned_lynel mace horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_218",
+      "Name_EN": "Silver Lynel Mace Horn",
+      "Name_FR": "Corne briseuse de Lynel d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_lynel mace horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_228",
+      "Name_EN": "Shard of Dinraal's Spike",
+      "Name_FR": "Dracoroche d'Ordrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/shard_of dinraal's spike/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_229",
+      "Name_EN": "Shard of Naydra's Spike",
+      "Name_FR": "Dracoroche de Nedrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/shard_of naydra's spike/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_230",
+      "Name_EN": "Shard of Farosh's Spike",
+      "Name_FR": "Dracoroche de Rordrac",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/shard_of farosh's spike/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_231",
+      "Name_EN": "Shard of Light Dragon's Spike",
+      "Name_FR": "Dracoroche du dragon blanc",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/shard_of light dragon's spike/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_24",
+      "Name_EN": "Molduga Fin",
+      "Name_FR": "Aileron de Moldarquor",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_25",
+      "Name_EN": "Molduga Guts",
+      "Name_FR": "Viscère de Moldarquor",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_32",
+      "Name_EN": "Hinox Toenail",
+      "Name_FR": "Ongle d'Hinox",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_33",
+      "Name_EN": "Hinox Tooth",
+      "Name_FR": "Dent d'Hinox",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_34",
+      "Name_EN": "Hinox Guts",
+      "Name_FR": "Viscère d'Hinox",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_38",
+      "Name_EN": "Dinraal's Scale",
+      "Name_FR": "Écaille d'Ordrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_39",
+      "Name_EN": "Dinraal's Claw",
+      "Name_FR": "Griffe d'Ordrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_40",
+      "Name_EN": "Chuchu Jelly",
+      "Name_FR": "Gelée chuchu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/chuchu_jelly/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_41",
+      "Name_EN": "Fire-Breath Lizalfos Tail",
+      "Name_FR": "Queue de Lézalfos de feu",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_42",
+      "Name_EN": "Ice-Breath Lizalfos Tail",
+      "Name_FR": "Queue de Lézalfos de glace",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_43",
+      "Name_EN": "Electric Lizalfos Tail",
+      "Name_FR": "Queue de Lézalfos électrique",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_44",
+      "Name_EN": "Fire Keese Wing",
+      "Name_FR": "Aile de feu",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_45",
+      "Name_EN": "Electric Keese Wing",
+      "Name_FR": "Aile électrique",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_46",
+      "Name_EN": "Ice Keese Wing",
+      "Name_FR": "Aile de glace",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_47",
+      "Name_EN": "Shard of Dinraal's Fang",
+      "Name_FR": "Éclat de croc d'Ordrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_49",
+      "Name_EN": "Naydra's Scale",
+      "Name_FR": "Écaille de Nedrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_50",
+      "Name_EN": "Naydra's Claw",
+      "Name_FR": "Griffe de Nedrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_51",
+      "Name_EN": "Shard of Naydra's Fang",
+      "Name_FR": "Éclat de croc de Nedrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_53",
+      "Name_EN": "Farosh's Scale",
+      "Name_FR": "Écaille de Rordrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_54",
+      "Name_EN": "Farosh's Claw",
+      "Name_FR": "Griffe de Rordrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_55",
+      "Name_EN": "Shard of Farosh's Fang",
+      "Name_FR": "Éclat de croc de Rordrac",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_57",
+      "Name_EN": "Octo Balloon",
+      "Name_FR": "Baudruche octo",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Enemy_58",
+      "Name_EN": "Fire-Breath Lizalfos Horn",
+      "Name_FR": "Corne de Lézalfos de feu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fire-breath_lizalfos horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_59",
+      "Name_EN": "Ice-Breath Lizalfos Horn",
+      "Name_FR": "Corne de Lézalfos de glace",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ice-breath_lizalfos horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_60",
+      "Name_EN": "Electric Lizalfos Horn",
+      "Name_FR": "Corne de Lézalfos électrique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_lizalfos horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_64",
+      "Name_EN": "Boss Bokoblin Horn",
+      "Name_FR": "Corne de Chef boko",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/boss_bokoblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_66",
+      "Name_EN": "Aerocuda Eyeball",
+      "Name_FR": "Œil de Kakuda",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/aerocuda_eyeball/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_67",
+      "Name_EN": "Captain Construct I Horn",
+      "Name_FR": "Corne de Golem lieutenant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/captain_construct i horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_69",
+      "Name_EN": "Gibdo Bone",
+      "Name_FR": "Côtes de Gibdo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gibdo_bone/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_77",
+      "Name_EN": "Bokoblin Horn",
+      "Name_FR": "Corne de Bokoblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bokoblin_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_78",
+      "Name_EN": "Blue Bokoblin Horn",
+      "Name_FR": "Corne de Bokoblin bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_bokoblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_79",
+      "Name_EN": "Black Bokoblin Horn",
+      "Name_FR": "Corne de Bokoblin noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_bokoblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_80",
+      "Name_EN": "Silver Bokoblin Horn",
+      "Name_FR": "Corne de Bokoblin d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_bokoblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_89",
+      "Name_EN": "Moblin Horn",
+      "Name_FR": "Corne de Moblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/moblin_horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_90",
+      "Name_EN": "Blue Moblin Horn",
+      "Name_FR": "Corne de Moblin bleu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_moblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_91",
+      "Name_EN": "Black Moblin Horn",
+      "Name_FR": "Corne de Moblin noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/black_moblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_Enemy_92",
+      "Name_EN": "Silver Moblin Horn",
+      "Name_FR": "Corne de Moblin d'argent",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silver_moblin horn/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_A",
+      "Name_EN": "Hyrule Bass",
+      "Name_FR": "Perche d'Hyrule",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hyrule_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_A",
+      "Name_EN": "Hyrule Bass",
+      "Name_FR": "Perche d'Hyrule",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hyrule_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_AA",
+      "Name_EN": "Ancient Arowana",
+      "Name_FR": "Arowana ancien",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ancient_arowana/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_AA",
+      "Name_EN": "Ancient Arowana",
+      "Name_FR": "Arowana ancien",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ancient_arowana/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_AC",
+      "Name_EN": "Glowing Cave Fish",
+      "Name_FR": "Troglodus lumos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/glowing_cave fish/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_AC",
+      "Name_EN": "Glowing Cave Fish",
+      "Name_FR": "Troglodus lumos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/glowing_cave fish/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_B",
+      "Name_EN": "Hearty Bass",
+      "Name_FR": "Perche max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_B",
+      "Name_EN": "Hearty Bass",
+      "Name_FR": "Perche max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_C",
+      "Name_EN": "Chillfin Trout",
+      "Name_FR": "Truite glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/chillfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_C",
+      "Name_EN": "Chillfin Trout",
+      "Name_FR": "Truite glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/chillfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_D",
+      "Name_EN": "Voltfin Trout",
+      "Name_FR": "Truite volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/voltfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_D",
+      "Name_EN": "Voltfin Trout",
+      "Name_FR": "Truite volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/voltfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_E",
+      "Name_EN": "Mighty Carp",
+      "Name_FR": "Carpe lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_E",
+      "Name_EN": "Mighty Carp",
+      "Name_FR": "Carpe lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_F",
+      "Name_EN": "Mighty Porgy",
+      "Name_FR": "Daurade lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_porgy/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_F",
+      "Name_EN": "Mighty Porgy",
+      "Name_FR": "Daurade lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_porgy/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_G",
+      "Name_EN": "Armored Porgy",
+      "Name_FR": "Daurade armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armored_porgy/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_G",
+      "Name_EN": "Armored Porgy",
+      "Name_FR": "Daurade armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armored_porgy/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_H",
+      "Name_EN": "Armored Carp",
+      "Name_FR": "Carpe armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armored_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_H",
+      "Name_EN": "Armored Carp",
+      "Name_FR": "Carpe armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armored_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_I",
+      "Name_EN": "Hearty Salmon",
+      "Name_FR": "Saumon max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_salmon/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_I",
+      "Name_EN": "Hearty Salmon",
+      "Name_FR": "Saumon max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_salmon/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_J",
+      "Name_EN": "Sizzlefin Trout",
+      "Name_FR": "Truite piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sizzlefin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_J",
+      "Name_EN": "Sizzlefin Trout",
+      "Name_FR": "Truite piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sizzlefin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_L",
+      "Name_EN": "Staminoka Bass",
+      "Name_FR": "Perche enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/staminoka_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_L",
+      "Name_EN": "Staminoka Bass",
+      "Name_FR": "Perche enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/staminoka_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_M",
+      "Name_EN": "Sneaky River Snail",
+      "Name_FR": "Escargot silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sneaky_river snail/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_M",
+      "Name_EN": "Sneaky River Snail",
+      "Name_FR": "Escargot silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sneaky_river snail/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_X",
+      "Name_EN": "Stealthfin Trout",
+      "Name_FR": "Truite silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stealthfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_X",
+      "Name_EN": "Stealthfin Trout",
+      "Name_FR": "Truite silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stealthfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_Z",
+      "Name_EN": "Sanke Carp",
+      "Name_FR": "Carpe tricolore",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sanke_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_Z",
+      "Name_EN": "Sanke Carp",
+      "Name_FR": "Carpe tricolore",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sanke_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_A",
+      "Name_EN": "Apple",
+      "Name_FR": "Pomme",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/apple/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_B",
+      "Name_EN": "Wildberry",
+      "Name_FR": "Baie",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/wildberry/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_C",
+      "Name_EN": "Voltfruit",
+      "Name_FR": "Fruit volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/voltfruit/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_E",
+      "Name_EN": "Fleet-Lotus Seeds",
+      "Name_FR": "Fruit de lotus tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fleet-lotus_seeds/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_F",
+      "Name_EN": "Hydromelon",
+      "Name_FR": "Melon glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hydromelon/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_G",
+      "Name_EN": "Palm Fruit",
+      "Name_FR": "Noix de coco",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/palm_fruit/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_H",
+      "Name_EN": "Mighty Bananas",
+      "Name_FR": "Bananes lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_bananas/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_I",
+      "Name_EN": "Spicy Pepper",
+      "Name_FR": "Piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/spicy_pepper/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_J",
+      "Name_EN": "Fortified Pumpkin",
+      "Name_FR": "Citrouille armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fortified_pumpkin/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_K",
+      "Name_EN": "Acorn",
+      "Name_FR": "Gland",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Fruit_L",
+      "Name_EN": "Chickaloo Tree Nut",
+      "Name_FR": "Fruit d'oiseau",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Fruit_M",
+      "Name_EN": "Hylian Tomato",
+      "Name_FR": "Grappe de tomates d'Hyrule",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hylian_tomato/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_N",
+      "Name_EN": "Sun Pumpkin",
+      "Name_FR": "Citrouille radieuse",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sun_pumpkin/image?game=totk"
+    },
+    {
+      "Index": "Item_Fruit_P",
+      "Name_EN": "Golden Apple",
+      "Name_FR": "Pomme d'or",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/golden_apple/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_K",
+      "Name_EN": "Razorclaw Crab",
+      "Name_FR": "Crabe lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/razorclaw_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_K",
+      "Name_EN": "Razorclaw Crab",
+      "Name_FR": "Crabe lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/razorclaw_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_O",
+      "Name_EN": "Ironshell Crab",
+      "Name_FR": "Crabe armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ironshell_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_O",
+      "Name_EN": "Ironshell Crab",
+      "Name_FR": "Crabe armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ironshell_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_Z",
+      "Name_EN": "Bright-Eyed Crab",
+      "Name_FR": "Crabe enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bright-eyed_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_Z",
+      "Name_EN": "Bright-Eyed Crab",
+      "Name_FR": "Crabe enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bright-eyed_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_KingScale",
+      "Name_EN": "King's Scale",
+      "Name_FR": "Écaille royale",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_01",
+      "Name_EN": "Cane Sugar",
+      "Name_FR": "Canne à sucre",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_02",
+      "Name_EN": "Goron Spice",
+      "Name_FR": "Flacon d'épices gorons",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_03",
+      "Name_EN": "Hylian Rice",
+      "Name_FR": "Boisseau de riz",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_04",
+      "Name_EN": "Bird Egg",
+      "Name_FR": "Œuf de volatile",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_05",
+      "Name_EN": "Fresh Milk",
+      "Name_FR": "Bouteille de lait frais",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_06",
+      "Name_EN": "Goat Butter",
+      "Name_FR": "Motte de beurre",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_07",
+      "Name_EN": "Tabantha Wheat",
+      "Name_FR": "Boisseau de blé",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_08",
+      "Name_EN": "Monster Extract",
+      "Name_FR": "Extrait de monstre",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_09",
+      "Name_EN": "Oil Jar",
+      "Name_FR": "Bouteille d'huile",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_10",
+      "Name_EN": "Hateno Cheese",
+      "Name_FR": "Fromage d'Elimith",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Material_11",
+      "Name_EN": "Dark Clump",
+      "Name_FR": "Amas de ténèbres",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Meat_01",
+      "Name_EN": "Raw Meat",
+      "Name_FR": "Venaison",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Meat_02",
+      "Name_EN": "Raw Prime Meat",
+      "Name_FR": "Venaison fine",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Meat_06",
+      "Name_EN": "Raw Bird Drumstick",
+      "Name_FR": "Viande de volaille",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Meat_07",
+      "Name_EN": "Raw Bird Thigh",
+      "Name_FR": "Viande de volaille fine",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Meat_11",
+      "Name_EN": "Raw Gourmet Meat",
+      "Name_FR": "Venaison divine",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Meat_12",
+      "Name_EN": "Raw Whole Bird",
+      "Name_FR": "Volaille divine",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_MushroomGet_D",
+      "Name_EN": "Rushroom",
+      "Name_FR": "Champi tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rushroom/image?game=totk"
+    },
+    {
+      "Index": "Item_MushroomGet_K",
+      "Name_EN": "Brightcap",
+      "Name_FR": "Champi lumos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/brightcap/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_A",
+      "Name_EN": "Stamella Shroom",
+      "Name_FR": "Champi enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stamella_shroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_B",
+      "Name_EN": "Chillshroom",
+      "Name_FR": "Champi glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/chillshroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_C",
+      "Name_EN": "Sunshroom",
+      "Name_FR": "Champi piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sunshroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_E",
+      "Name_EN": "Hylian Shroom",
+      "Name_FR": "Champi d'Hyrule",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hylian_shroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_F",
+      "Name_EN": "Hearty Truffle",
+      "Name_FR": "Truffe max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_truffle/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_H",
+      "Name_EN": "Zapshroom",
+      "Name_FR": "Champi volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zapshroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_J",
+      "Name_EN": "Silent Shroom",
+      "Name_FR": "Champi silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silent_shroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_L",
+      "Name_EN": "Razorshroom",
+      "Name_FR": "Champi lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/razorshroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_M",
+      "Name_EN": "Ironshroom",
+      "Name_FR": "Champi armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ironshroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_N",
+      "Name_EN": "Big Hearty Truffle",
+      "Name_FR": "Grosse truffe max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/big_hearty truffle/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_O",
+      "Name_EN": "Endura Shroom",
+      "Name_FR": "Champi vigueur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/endura_shroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Mushroom_P",
+      "Name_EN": "Skyshroom",
+      "Name_FR": "Champi céleste",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/skyshroom/image?game=totk"
+    },
+    {
+      "Index": "Item_Ore_A",
+      "Name_EN": "Diamond",
+      "Name_FR": "Diamant brut",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_B",
+      "Name_EN": "Ruby",
+      "Name_FR": "Rubis brut",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_C",
+      "Name_EN": "Sapphire",
+      "Name_FR": "Saphir brut",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_D",
+      "Name_EN": "Topaz",
+      "Name_FR": "Topaze brute",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_E",
+      "Name_EN": "Opal",
+      "Name_FR": "Opale brute",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_F",
+      "Name_EN": "Amber",
+      "Name_FR": "Ambre brut",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_G",
+      "Name_EN": "Luminous Stone",
+      "Name_FR": "Gemme nox",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/luminous_stone deposit/image?game=totk"
+    },
+    {
+      "Index": "Item_Ore_H",
+      "Name_EN": "Rock Salt",
+      "Name_FR": "Cristal de sel",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_I",
+      "Name_EN": "Flint",
+      "Name_FR": "Silex",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_J",
+      "Name_EN": "Star Fragment",
+      "Name_FR": "Fragment d'étoile",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_Ore_L",
+      "Name_EN": "Zonaite",
+      "Name_FR": "Sonium",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_zonaite_sword/image?game=totk"
+    },
+    {
+      "Index": "Item_Ore_M",
+      "Name_EN": "Large Zonaite",
+      "Name_FR": "Sonium supérieur",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "Item_PlantGet_A",
+      "Name_EN": "Hyrule Herb",
+      "Name_FR": "Herbes d'Hyrule",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hyrule_herb/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_B",
+      "Name_EN": "Hearty Radish",
+      "Name_FR": "Radis max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_radish/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_C",
+      "Name_EN": "Big Hearty Radish",
+      "Name_FR": "Gros radis max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/big_hearty radish/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_E",
+      "Name_EN": "Cool Safflina",
+      "Name_FR": "Herbes glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cool_safflina/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_F",
+      "Name_EN": "Warm Safflina",
+      "Name_FR": "Herbes piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/warm_safflina/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_G",
+      "Name_EN": "Mighty Thistle",
+      "Name_FR": "Fleur lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_thistle/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_H",
+      "Name_EN": "Armoranth",
+      "Name_FR": "Fleur armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armoranth/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_I",
+      "Name_EN": "Blue Nightshade",
+      "Name_FR": "Fleur silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_nightshade/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_J",
+      "Name_EN": "Silent Princess",
+      "Name_FR": "Princesse de la sérénité",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/silent_princess/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_L",
+      "Name_EN": "Electric Safflina",
+      "Name_FR": "Herbes volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_safflina/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_M",
+      "Name_EN": "Swift Carrot",
+      "Name_FR": "Carotte tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/swift_carrot/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_O",
+      "Name_EN": "Swift Violet",
+      "Name_FR": "Violettes tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/swift_violet/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_Q",
+      "Name_EN": "Endura Carrot",
+      "Name_FR": "Carotte vigueur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/endura_carrot/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_R",
+      "Name_EN": "Sundelion",
+      "Name_FR": "Fleur radieuse",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sundelion/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_S",
+      "Name_EN": "Stambulb",
+      "Name_FR": "Gousse enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stambulb/image?game=totk"
+    },
+    {
+      "Index": "Item_PlantGet_U",
+      "Name_EN": "Korok Frond",
+      "Name_FR": "Feuille korogu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/korok_frond/image?game=totk"
+    },
+    {
+      "Index": "Item_Weapon_01",
+      "Name_EN": "Ancient Blade",
+      "Name_FR": "Lame ancestrale",
+      "PictureMain": "Materials.png"
+    },
+    {
+      "Index": "LightBall_Large",
+      "Name_EN": "Giant Brightbloom Seed",
+      "Name_FR": "Graine lumos géante",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/giant_brightbloom seed/image?game=totk"
+    },
+    {
+      "Index": "LightBall_Small",
+      "Name_EN": "Brightbloom Seed",
+      "Name_FR": "Graine lumos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/brightbloom_seed/image?game=totk"
+    },
+    {
+      "Index": "LightFruit",
+      "Name_EN": "Dazzlefruit",
+      "Name_FR": "Fruit de clarté",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/dazzlefruit/image?game=totk"
+    },
+    {
+      "Index": "Obj_FireWoodBundle",
+      "Name_EN": "Wood",
+      "Name_FR": "Fagot de bois",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/wood_pigeon/image?game=totk"
+    },
+    {
+      "Index": "SmokeFruit",
+      "Name_EN": "Puffshroom",
+      "Name_FR": "Champi fumigène",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/puffshroom/image?game=totk"
+    },
+    {
+      "Index": "WaterFruit",
+      "Name_EN": "Splash Fruit",
+      "Name_FR": "Fruit d'eau",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/splash_fruit/image?game=totk"
+    }
+  ]
+}

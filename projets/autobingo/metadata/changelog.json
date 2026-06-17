@@ -4,6 +4,7 @@
             "ID": 1,
             "Number": "Alpha a0.0.1"
         }, 
+        "Date": "2026-06-15",
         "Name_FR": "Pre-Test - Tests préliminaires",
         "Name_EN": "Pre-Test - Preliminary Tests",
         "Desc_FR": "Premier tests de structure, compatibilité Jeu Elden Ring, compatibilité Jeu Pokémon",
@@ -15,10 +16,11 @@
             "ID": 2,
             "Number": "Alpha a0.0.2"
         }, 
+        "Date": "2026-06-15",
         "Name_FR": "Pre-Test - ShareGrid Controls",
         "Name_EN": "Pre-Test - ShareGrid Controls",
-        "Desc_FR": "Partage avec controle Flou, Lock & Masque, compatibilité Jeu Minecraft",
-        "Desc_EN": "Share with Blur Lock & Hide, Minecarft Game Support",
+        "Desc_FR": "[MAJOR] Partage avec controle Flou, [MAJOR] Lock & Masque, compatibilité Jeu Minecraft",
+        "Desc_EN": "[MAJOR] Share with Blur, [MAJOR] Lock & Hide, Minecarft Game Support",
         "Link": "https://github.com/MythMega/mythmega.github.io/commit/d51532ee337aef2e580cfc789e8d9a0223989184"
     },
     {
@@ -26,6 +28,7 @@
             "ID": 3,
             "Number": "Alpha a0.0.3"
         }, 
+        "Date": "2026-06-15",
         "Name_FR": "Pre-Test - More Control",
         "Name_EN": "Pre-Test - More Control",
         "Desc_FR": "Correction des effets de flou et Hide avec le nom, compatibilité Jeu Super Mario 64, compatibilité Jeu Minecraft 1.21.9 + 1.21.11",
@@ -36,11 +39,12 @@
         "Version": {
             "ID": 4,
             "Number": "Beta b0.1"
-        }, 
-        "Name_FR": "beta - Timer Bingo",
+        },
+        "Date": "2026-06-15",
+        "Name_FR": "Beta - Timer Bingo",
         "Name_EN": "Beta - Timer Bingo",
-        "Desc_FR": "Correction de la page Changelog, Auto-lancement du Timer en cas de validation, stop du timer en cas de bingo, Support Jeu Super Mario Sunshine",
-        "Desc_EN": "Changelog page correction, automatic timer start upon validation, timer stop upon bingo, Super Mario Sunshine Game support",
+        "Desc_FR": "Correction de la page Changelog, [MAJOR] Auto-lancement du Timer en cas de validation, Stop du timer en cas de bingo, Support Jeu Super Mario Sunshine",
+        "Desc_EN": "Changelog page correction, [MAJOR] Automatic timer start upon validation, Timer stop upon bingo, Super Mario Sunshine Game support",
         "Link": "https://github.com/MythMega/mythmega.github.io/commit/13a5306f34dcf73f8c3736b6a5115d1820975a51"
     },
     {
@@ -48,10 +52,23 @@
             "ID": 5,
             "Number": "Beta b0.2"
         }, 
-        "Name_FR": "beta - Poke-Lock",
-        "Name_EN": "Beta - Poke-Locl",
+        "Date": "2026-06-16",
+        "Name_FR": "Beta - Poke-Lock",
+        "Name_EN": "Beta - Poke-Lock",
         "Desc_FR": "Correction finale du lock, Support de chaque Jeu Pokémon",
         "Desc_EN": "Final lock fixes, Every Pokémon Game Support",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/13a5306f34dcf73f8c3736b6a5115d1820975a51"
+    },
+    {
+        "Version": {
+            "ID": 6,
+            "Number": "Beta b0.3"
+        }, 
+        "Date": "2026-06-17",
+        "Name_FR": "Beta - Accés Rapides",
+        "Name_EN": "Beta - Fast Pins",
+        "Desc_FR": "[MAJOR] Ajout d'un système de sauvegarde de favoris pour épingler des preset, Correction du flou, Support chaque version de Jeu Minecraft - Block / Items / Tout, Support Jeu The Legend Of Zelda: Tears Of The Kingdom (Ultra large choix de dataset), Support Jeu The Legend Of Zelda: Ocarina of Time, Amélioration globale du changelog",
+        "Desc_EN": "[MAJOR] Added a favorites save system to pin presets, Blur correction, Support for every version of the Minecraft game – Blocks / Items / Everything, Support for The Legend of Zelda: Tears of the Kingdom (Very large dataset selection), Support for The Legend of Zelda: Ocarina of Time, Overall changelog improvements",
         "Link": "https://github.com/MythMega/mythmega.github.io/commit/13a5306f34dcf73f8c3736b6a5115d1820975a51"
     }
 ]

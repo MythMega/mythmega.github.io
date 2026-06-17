@@ -55,6 +55,14 @@ a:hover {
     color: var(--text-primary);
 }
 
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    text-align: left;
+}
+
 .page-subtitle {
     font-size: 1.1rem;
     color: var(--text-secondary);
@@ -304,6 +312,23 @@ a:hover {
     content: '★' !important;
 }
 
+.changelog-major-item {
+    color: #92ff95 !important;
+    font-weight: 700 !important;
+}
+
+.changelog-major-item::before {
+    color: #92ff95 !important;
+    content: '◆' !important;
+}
+
+.changelog-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
 .changelog-link {
     display: inline-flex;
     align-items: center;
@@ -318,6 +343,66 @@ a:hover {
 .changelog-link:hover {
     color: var(--accent-hover);
     text-decoration: underline;
+}
+
+/* Presets section */
+.preset-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.preset-item:hover {
+    background-color: var(--bg-card);
+}
+
+.preset-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+.preset-dataset {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.preset-detail {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.preset-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+
+.preset-btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.preset-delete {
+    opacity: 0.7;
+}
+
+.preset-delete:hover {
+    opacity: 1;
+    background-color: #e74c3c;
+    color: #fff;
 }
 
 /* Utility */

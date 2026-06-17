@@ -1,0 +1,655 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Key Items",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "CaveMasterMedal",
+      "Name_EN": "Bubbul Gem",
+      "Name_FR": "Cristal d'Elusis",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Bubbul_Gem.png"
+    },
+    {
+      "Index": "Energy_Material_01",
+      "Name_EN": "Crystallized Charge",
+      "Name_FR": "Cristal d'énergie soneau",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Crystallized_Charge.png"
+    },
+    {
+      "Index": "Energy_Material_03",
+      "Name_EN": "Large Crystallized Charge",
+      "Name_FR": "Grand cristal d'énergie soneau",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Large_Crystallized_Charge.png"
+    },
+    {
+      "Index": "Energy_Material_04",
+      "Name_EN": "Huge Crystallized Charge",
+      "Name_FR": "Énorme cristal d'énergie soneau",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Huge_Crystallized_Charge.png"
+    },
+    {
+      "Index": "GameRomHorseReins_01",
+      "Name_EN": "Traveler's Bridle",
+      "Name_FR": "Filet de voyage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Traveler_s_Bridle.png"
+    },
+    {
+      "Index": "GameRomHorseReins_02",
+      "Name_EN": "Royal Bridle",
+      "Name_FR": "Filet royal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Royal_Bridle.png"
+    },
+    {
+      "Index": "GameRomHorseReins_03",
+      "Name_EN": "Knight's Bridle",
+      "Name_FR": "Filet martial",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Knight_s_Bridle.png"
+    },
+    {
+      "Index": "GameRomHorseReins_04",
+      "Name_EN": "Monster Bridle",
+      "Name_FR": "Filet monstrueux",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Monster_Bridle.png"
+    },
+    {
+      "Index": "GameRomHorseReins_05",
+      "Name_EN": "Extravagant Bridle",
+      "Name_FR": "Filet d'apparat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Extravagant_Bridle.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_01",
+      "Name_EN": "Traveler's Saddle",
+      "Name_FR": "Selle de voyage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Traveler_s_Saddle.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_02",
+      "Name_EN": "Royal Saddle",
+      "Name_FR": "Selle royale",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Royal_Saddle.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_03",
+      "Name_EN": "Knight's Saddle",
+      "Name_FR": "Selle martiale",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Knight_s_Saddle.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_04",
+      "Name_EN": "Monster Saddle",
+      "Name_FR": "Selle monstrueuse",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Monster_Saddle.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_05",
+      "Name_EN": "Extravagant Saddle",
+      "Name_FR": "Selle d'apparat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Extravagant_Saddle.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_07",
+      "Name_EN": "Towing Harness",
+      "Name_FR": "Harnais d'attelage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Towing_Harness.png"
+    },
+    {
+      "Index": "Item_StableHostelAccommodationCoupon_A",
+      "Name_EN": "Sleepover Ticket",
+      "Name_FR": "Bon pour une nuit gratuite",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Sleepover_Ticket.png"
+    },
+    {
+      "Index": "KeySmall",
+      "Name_EN": "Small Key",
+      "Name_FR": "Petite clé",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Small_Key.png"
+    },
+    {
+      "Index": "MinusRupee_00",
+      "Name_EN": "Poe",
+      "Name_FR": "Esprit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Poe.png"
+    },
+    {
+      "Index": "MinusRupee_01",
+      "Name_EN": "Large Poe",
+      "Name_FR": "Grand esprit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Large_Poe.png"
+    },
+    {
+      "Index": "MinusRupee_02",
+      "Name_EN": "Grand Poe",
+      "Name_FR": "Esprit démesuré",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Grand_Poe.png"
+    },
+    {
+      "Index": "Obj_AutoBuilderDraftAssassin_00",
+      "Name_EN": "Yiga Schematic",
+      "Name_FR": "Plan d'assemblage yiga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Yiga_Schematic.png"
+    },
+    {
+      "Index": "Obj_AutoBuilderDraft_00",
+      "Name_EN": "Schema Stone",
+      "Name_FR": "Gravure d'assemblage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Schema_Stone.png"
+    },
+    {
+      "Index": "Obj_Camera",
+      "Name_EN": "Camera",
+      "Name_FR": "Appareil photo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Camera.png"
+    },
+    {
+      "Index": "Obj_CaveWellHonor_00",
+      "Name_EN": "All's Well",
+      "Name_FR": "Trophée de l'expert des puits",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/All_s_Well.png"
+    },
+    {
+      "Index": "Obj_CheckPointHonor_00",
+      "Name_EN": "Dispelling Darkness Medal",
+      "Name_FR": "Emblème de la lumière",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Dispelling_Darkness_Medal.png"
+    },
+    {
+      "Index": "Obj_DRStone_Get",
+      "Name_EN": "Purah Pad",
+      "Name_FR": "Tablette Pru'ha",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Purah_Pad.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_00",
+      "Name_EN": "Stone Talus Monster Medal",
+      "Name_FR": "Médaille (Lithorok)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Stone_Talus_Monster_Medal.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_01",
+      "Name_EN": "Hinox Monster Medal",
+      "Name_FR": "Médaille (Hinox)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Hinox_Monster_Medal.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_02",
+      "Name_EN": "Molduga Monster Medal",
+      "Name_FR": "Médaille (Moldarquor)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Molduga_Monster_Medal.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_03",
+      "Name_EN": "Frox Monster Medal",
+      "Name_FR": "Médaille (Gigatracien)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Frox_Monster_Medal.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_04",
+      "Name_EN": "Flux Construct Monster Medal",
+      "Name_FR": "Médaille (Golemax)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Flux_Construct_Monster_Medal.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_05",
+      "Name_EN": "Gleeok Monster Medal",
+      "Name_FR": "Médaille (Griock)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Gleeok_Monster_Medal.png"
+    },
+    {
+      "Index": "Obj_DungeonClearSeal",
+      "Name_EN": "Light of Blessing",
+      "Name_FR": "Lueur bienfaisante",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Light_of_Blessing.png"
+    },
+    {
+      "Index": "Obj_EnergyUtuwa_A_01",
+      "Name_EN": "Energy Well",
+      "Name_FR": "Cellule de batterie",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Energy_Well.png"
+    },
+    {
+      "Index": "Obj_HeartUtuwa_A_01",
+      "Name_EN": "Heart Container",
+      "Name_FR": "Réceptacle de cœur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Heart_Container.png"
+    },
+    {
+      "Index": "Obj_HiddenScroll_00",
+      "Name_EN": "Earthwake Manual",
+      "Name_FR": "Manuscrit du choc tellurique",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Earthwake_Manual.png"
+    },
+    {
+      "Index": "Obj_KorokNuts",
+      "Name_EN": "Korok Seed",
+      "Name_FR": "Noix korogu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Korok_Seed.png"
+    },
+    {
+      "Index": "Obj_Photo_Animal",
+      "Name_EN": "Fauna Picture",
+      "Name_FR": "Photo d'animal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Fauna_Picture.png"
+    },
+    {
+      "Index": "Obj_Photo_BossEnemy",
+      "Name_EN": "Elite Enemy Picture",
+      "Name_FR": "Photo d'ennemi fort",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Elite_Enemy_Picture.png"
+    },
+    {
+      "Index": "Obj_Photo_Enemy",
+      "Name_EN": "Enemy Picture",
+      "Name_FR": "Photo de monstre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Enemy_Picture.png"
+    },
+    {
+      "Index": "Obj_Photo_Material",
+      "Name_EN": "Material Picture",
+      "Name_FR": "Photo de matériau",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Material_Picture.png"
+    },
+    {
+      "Index": "Obj_Photo_Other",
+      "Name_EN": "Other Picture",
+      "Name_FR": "Photo de trésor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Other_Picture.png"
+    },
+    {
+      "Index": "Obj_Photo_Weapon",
+      "Name_EN": "Weapon Picture",
+      "Name_FR": "Photo d'arme",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Weapon_Picture.png"
+    },
+    {
+      "Index": "Obj_ProofKorok",
+      "Name_EN": "Hestu's Gift",
+      "Name_FR": "Noix de Noïa",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Hestu_s_Gift.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Gerudo",
+      "Name_EN": "Solemn Vow of Riju, Sage of Lightning",
+      "Name_FR": "Serment éternel de Riju, Sage de la foudre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Solemn_Vow_of_Riju,_Sage_of_Lightning.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Goron",
+      "Name_EN": "Solemn Vow of Yunobo, Sage of Fire",
+      "Name_FR": "Serment éternel de Yunobo, Sage du feu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Solemn_Vow_of_Yunobo,_Sage_of_Fire.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Rito",
+      "Name_EN": "Solemn Vow of Tulin, Sage of Wind",
+      "Name_FR": "Serment éternel de Babil, Sage du vent",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Solemn_Vow_of_Tulin,_Sage_of_Wind.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Zonau",
+      "Name_EN": "Solemn Vow of Mineru, Sage of Spirit",
+      "Name_FR": "Serment éternel de Mineru, Sage de l'esprit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Solemn_Vow_of_Mineru,_Sage_of_Spirit.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Zora",
+      "Name_EN": "Solemn Vow of Sidon, Sage of Water",
+      "Name_FR": "Serment éternel de Sidon, Sage de l'eau",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Solemn_Vow_of_Sidon,_Sage_of_Water.png"
+    },
+    {
+      "Index": "Obj_SageWill",
+      "Name_EN": "Sage's Will",
+      "Name_FR": "Vœu des Sages",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Sage_s_Will.png"
+    },
+    {
+      "Index": "Obj_StableHostlePointCard",
+      "Name_EN": "Pony Points Card",
+      "Name_FR": "Carte de fidélité des relais",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Pony_Points_Card.png"
+    },
+    {
+      "Index": "Obj_StaminaUtuwa_A_01",
+      "Name_EN": "Stamina Vessel",
+      "Name_FR": "Réceptacle d'endurance",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Stamina_Vessel.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_00",
+      "Name_EN": "Goron Fabric",
+      "Name_FR": "Tissu goron",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Goron_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_01",
+      "Name_EN": "Zora Fabric",
+      "Name_FR": "Tissu zora",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Zora_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_02",
+      "Name_EN": "Gerudo Fabric",
+      "Name_FR": "Tissu gerudo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Gerudo_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_03",
+      "Name_EN": "Royal Hyrulean Fabric",
+      "Name_FR": "Tissu royal d'Hyrule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Royal_Hyrulean_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_04",
+      "Name_EN": "Zonai Fabric",
+      "Name_FR": "Tissu soneau",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Zonai_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_05",
+      "Name_EN": "Sheikah Fabric",
+      "Name_FR": "Tissu sheikah",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Sheikah_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_06",
+      "Name_EN": "Yiga Fabric",
+      "Name_FR": "Tissu yiga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Yiga_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_07",
+      "Name_EN": "Monster-Control-Crew Fabric",
+      "Name_FR": "Tissu de la brigade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Monster-Control-Crew_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_08",
+      "Name_EN": "Zonai Survey Team Fabric",
+      "Name_FR": "Tissu des archéologues",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Zonai_Survey_Team_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_09",
+      "Name_EN": "Horse-God Fabric",
+      "Name_FR": "Tissu de la divinité équine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Horse-God_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_10",
+      "Name_EN": "Lurelin Village Fabric",
+      "Name_FR": "Tissu d'Écaraille",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Lurelin_Village_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_11",
+      "Name_EN": "Lucky Clover Gazette Fabric",
+      "Name_FR": "Tissu La Gazette des bois",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Lucky_Clover_Gazette_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_12",
+      "Name_EN": "Hudson Construction Fabric",
+      "Name_FR": "Tissu Grosaillieh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Hudson_Construction_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_13",
+      "Name_EN": "Koltin's Fabric",
+      "Name_FR": "Tissu de Koltin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Koltin_s_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_14",
+      "Name_EN": "Korok Fabric",
+      "Name_FR": "Tissu korogu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Korok_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_15",
+      "Name_EN": "Grizzlemaw-Bear Fabric",
+      "Name_FR": "Tissu ours empereurs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Grizzlemaw-Bear_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_16",
+      "Name_EN": "Robbie's Fabric",
+      "Name_FR": "Tissu de Faras",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Robbie_s_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_17",
+      "Name_EN": "Cece Fabric",
+      "Name_FR": "Tissu Goutiée",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Cece_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_18",
+      "Name_EN": "Aerocuda Fabric",
+      "Name_FR": "Tissu kakuda",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Aerocuda_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_19",
+      "Name_EN": "Eldin-Ostrich Fabric",
+      "Name_FR": "Tissu autruche d'Ordinn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Eldin-Ostrich_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_20",
+      "Name_EN": "Cucco Fabric",
+      "Name_FR": "Tissu cocotte",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Cucco_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_21",
+      "Name_EN": "Horse Fabric",
+      "Name_FR": "Tissu chevaux",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Horse_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_22",
+      "Name_EN": "Chuchu Fabric",
+      "Name_FR": "Tissu chuchu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Chuchu_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_23",
+      "Name_EN": "Lynel Fabric",
+      "Name_FR": "Tissu lynel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Lynel_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_24",
+      "Name_EN": "Gleeok Fabric",
+      "Name_FR": "Tissu griock",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Gleeok_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_25",
+      "Name_EN": "Stalnox Fabric",
+      "Name_FR": "Tissu stalhinox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Stalnox_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_26",
+      "Name_EN": "Tunic of Memories Fabric",
+      "Name_FR": "Tissu tunique nostalgique",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Tunic_of_Memories_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_27",
+      "Name_EN": "Hylian-Hood Fabric",
+      "Name_FR": "Tissu capuche hylienne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Hylian-Hood_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_28",
+      "Name_EN": "Hyrule-Princess Fabric",
+      "Name_FR": "Tissu de la princesse d'Hyrule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Hyrule-Princess_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_29",
+      "Name_EN": "Goron-Champion Fabric",
+      "Name_FR": "Tissu du Prodige goron",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Goron-Champion_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_30",
+      "Name_EN": "Rito-Champion Fabric",
+      "Name_FR": "Tissu du Prodige piaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Rito-Champion_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_31",
+      "Name_EN": "Zora-Champion Fabric",
+      "Name_FR": "Tissu du Prodige zora",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Zora-Champion_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_32",
+      "Name_EN": "Gerudo-Champion Fabric",
+      "Name_FR": "Tissu du Prodige gerudo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Gerudo-Champion_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_33",
+      "Name_EN": "Ancient-Sheikah Fabric",
+      "Name_FR": "Tissu à motifs sheikahs antiques",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Ancient-Sheikah_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_34",
+      "Name_EN": "Bokoblin Fabric",
+      "Name_FR": "Tissu bokoblin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Bokoblin_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_35",
+      "Name_EN": "Demon King Fabric",
+      "Name_FR": "Tissu du roi démon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Demon_King_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_36",
+      "Name_EN": "King of Red Lions Fabric",
+      "Name_FR": "Tissu du Lion Rouge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/King_of_Red_Lions_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_37",
+      "Name_EN": "Sheik Fabric",
+      "Name_FR": "Tissu de Sheik",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Sheik_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_38",
+      "Name_EN": "Mirror of Twilight Fabric",
+      "Name_FR": "Tissu du miroir des ombres",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Mirror_of_Twilight_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_39",
+      "Name_EN": "Princess of Twilight Fabric",
+      "Name_FR": "Tissu princesse du Crépuscule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Princess_of_Twilight_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_40",
+      "Name_EN": "Lon Lon Ranch Fabric",
+      "Name_FR": "Tissu Lon Lon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Lon_Lon_Ranch_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_41",
+      "Name_EN": "Majora's Mask Fabric",
+      "Name_FR": "Tissu du masque de Majora",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Majora_s_Mask_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_43",
+      "Name_EN": "Bygone-Royal Fabric",
+      "Name_FR": "Tissu de la dynastie disparue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Bygone-Royal_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_45",
+      "Name_EN": "Sword-Spirit Fabric",
+      "Name_FR": "Tissu de l'esprit de l'épée",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Sword-Spirit_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_46",
+      "Name_EN": "Pixel Fabric",
+      "Name_FR": "Tissu pixelisé",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Pixel_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_48",
+      "Name_EN": "Egg Fabric",
+      "Name_FR": "Tissu œuf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Egg_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_49",
+      "Name_EN": "Goddess Fabric",
+      "Name_FR": "Tissu de la Déesse",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Goddess_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_51",
+      "Name_EN": "Champion's Leathers Fabric",
+      "Name_FR": "Tissu nouvelle tunique de Prodige",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Champion_s_Leathers_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_52",
+      "Name_EN": "Princess Zelda Fabric",
+      "Name_FR": "Tissu de la princesse Zelda",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Princess_Zelda_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_53",
+      "Name_EN": "Gerudo-King Fabric",
+      "Name_FR": "Tissu du roi gerudo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Gerudo-King_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_55",
+      "Name_EN": "Nostalgic Fabric",
+      "Name_FR": "Tissu nostalgique",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Nostalgic_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_56",
+      "Name_EN": "Addison's Fabric",
+      "Name_FR": "Tissu de Boulieh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Addison_s_Fabric.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_Default",
+      "Name_EN": "Ordinary Fabric",
+      "Name_FR": "Tissu ordinaire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Ordinary_Fabric.png"
+    },
+    {
+      "Index": "Obj_TreasureMap_00",
+      "Name_EN": "Old Map",
+      "Name_FR": "Vieille carte",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Old_Map.png"
+    },
+    {
+      "Index": "Obj_WarpDLC_Prototype",
+      "Name_EN": "Travel Medallion Prototype",
+      "Name_FR": "Prototype d'amulette",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Travel_Medallion_Prototype.png"
+    },
+    {
+      "Index": "Parasail",
+      "Name_EN": "Paraglider",
+      "Name_FR": "Paravoile",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Keyitems/Paraglider.png"
+    }
+  ]
+}

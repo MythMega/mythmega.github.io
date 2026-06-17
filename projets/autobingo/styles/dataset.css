@@ -1,0 +1,125 @@
+/* Dataset viewer styles */
+.dataset-viewer-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 20px 0 16px 0;
+    padding: 12px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.dataset-total {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.dataset-hide-toggle {
+    white-space: nowrap;
+}
+
+/* Table */
+.dataset-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.dataset-table th {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+    position: sticky;
+    top: 60px;
+    z-index: 5;
+}
+
+.dataset-table td {
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    vertical-align: middle;
+    color: var(--text-primary);
+}
+
+.dataset-table tbody tr:hover {
+    background-color: rgba(233, 69, 96, 0.08);
+}
+
+.dataset-th-label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+    user-select: none;
+}
+
+.dataset-th-label:hover {
+    color: var(--accent);
+}
+
+.dataset-filter-input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    font-size: 0.8rem;
+}
+
+.dataset-filter-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.dataset-thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    display: block;
+    margin: 0 auto 4px auto;
+}
+
+.dataset-img-path {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    word-break: break-all;
+    max-width: 160px;
+    line-height: 1.2;
+}
+
+.dataset-copy-btn {
+    display: block;
+    width: 100%;
+    padding: 4px 6px;
+    margin-bottom: 6px;
+    font-size: 0.75rem;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dataset-copy-btn:hover {
+    background-color: var(--accent);
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dataset-table {
+        font-size: 0.75rem;
+    }
+    .dataset-thumb {
+        width: 40px;
+        height: 40px;
+    }
+}

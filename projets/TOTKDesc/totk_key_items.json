@@ -1,0 +1,685 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Key Items",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "CaveMasterMedal",
+      "Name_EN": "Bubbul Gem",
+      "Name_FR": "Cristal d'Elusis",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Energy_Material_01",
+      "Name_EN": "Crystallized Charge",
+      "Name_FR": "Cristal d'énergie soneau",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Energy_Material_03",
+      "Name_EN": "Large Crystallized Charge",
+      "Name_FR": "Grand cristal d'énergie soneau",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Energy_Material_04",
+      "Name_EN": "Huge Crystallized Charge",
+      "Name_FR": "Énorme cristal d'énergie soneau",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseReins_01",
+      "Name_EN": "Traveler's Bridle",
+      "Name_FR": "Filet de voyage",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseReins_02",
+      "Name_EN": "Royal Bridle",
+      "Name_FR": "Filet royal",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseReins_03",
+      "Name_EN": "Knight's Bridle",
+      "Name_FR": "Filet martial",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseReins_04",
+      "Name_EN": "Monster Bridle",
+      "Name_FR": "Filet monstrueux",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseReins_05",
+      "Name_EN": "Extravagant Bridle",
+      "Name_FR": "Filet d'apparat",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_01",
+      "Name_EN": "Traveler's Saddle",
+      "Name_FR": "Selle de voyage",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_02",
+      "Name_EN": "Royal Saddle",
+      "Name_FR": "Selle royale",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_03",
+      "Name_EN": "Knight's Saddle",
+      "Name_FR": "Selle martiale",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_04",
+      "Name_EN": "Monster Saddle",
+      "Name_FR": "Selle monstrueuse",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_05",
+      "Name_EN": "Extravagant Saddle",
+      "Name_FR": "Selle d'apparat",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "GameRomHorseSaddle_07",
+      "Name_EN": "Towing Harness",
+      "Name_FR": "Harnais d'attelage",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Item_StableHostelAccommodationCoupon_A",
+      "Name_EN": "Sleepover Ticket",
+      "Name_FR": "Bon pour une nuit gratuite",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "KeySmall",
+      "Name_EN": "Small Key",
+      "Name_FR": "Petite clé",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "MinusRupee_00",
+      "Name_EN": "Poe",
+      "Name_FR": "Esprit",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "MinusRupee_01",
+      "Name_EN": "Large Poe",
+      "Name_FR": "Grand esprit",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "MinusRupee_02",
+      "Name_EN": "Grand Poe",
+      "Name_FR": "Esprit démesuré",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_AutoBuilderDraftAssassin_00",
+      "Name_EN": "Yiga Schematic",
+      "Name_FR": "Plan d'assemblage yiga",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_AutoBuilderDraft_00",
+      "Name_EN": "Schema Stone",
+      "Name_FR": "Gravure d'assemblage",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_Camera",
+      "Name_EN": "Camera",
+      "Name_FR": "Appareil photo",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_CaveWellHonor_00",
+      "Name_EN": "All's Well",
+      "Name_FR": "Trophée de l'expert des puits",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_CheckPointHonor_00",
+      "Name_EN": "Dispelling Darkness Medal",
+      "Name_FR": "Emblème de la lumière",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_DRStone_Get",
+      "Name_EN": "Purah Pad",
+      "Name_FR": "Tablette Pru'ha",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_00",
+      "Name_EN": "Stone Talus Monster Medal",
+      "Name_FR": "Médaille (Lithorok)",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_01",
+      "Name_EN": "Hinox Monster Medal",
+      "Name_FR": "Médaille (Hinox)",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_02",
+      "Name_EN": "Molduga Monster Medal",
+      "Name_FR": "Médaille (Moldarquor)",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_03",
+      "Name_EN": "Frox Monster Medal",
+      "Name_FR": "Médaille (Gigatracien)",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_04",
+      "Name_EN": "Flux Construct Monster Medal",
+      "Name_FR": "Médaille (Golemax)",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_DefeatHonor_05",
+      "Name_EN": "Gleeok Monster Medal",
+      "Name_FR": "Médaille (Griock)",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_DungeonClearSeal",
+      "Name_EN": "Light of Blessing",
+      "Name_FR": "Lueur bienfaisante",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_EnergyUtuwa_A_01",
+      "Name_EN": "Energy Well",
+      "Name_FR": "Cellule de batterie",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_HeartUtuwa_A_01",
+      "Name_EN": "Heart Container",
+      "Name_FR": "Réceptacle de cœur",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_HiddenScroll_00",
+      "Name_EN": "Earthwake Manual",
+      "Name_FR": "Manuscrit du choc tellurique",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_KorokNuts",
+      "Name_EN": "Korok Seed",
+      "Name_FR": "Noix korogu",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_Photo_Animal",
+      "Name_EN": "Fauna Picture",
+      "Name_FR": "Photo d'animal",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_Photo_BossEnemy",
+      "Name_EN": "Elite Enemy Picture",
+      "Name_FR": "Photo d'ennemi fort",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_Photo_Enemy",
+      "Name_EN": "Enemy Picture",
+      "Name_FR": "Photo de monstre",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_Photo_Material",
+      "Name_EN": "Material Picture",
+      "Name_FR": "Photo de matériau",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_Photo_Other",
+      "Name_EN": "Other Picture",
+      "Name_FR": "Photo de trésor",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_Photo_Weapon",
+      "Name_EN": "Weapon Picture",
+      "Name_FR": "Photo d'arme",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_ProofKorok",
+      "Name_EN": "Hestu's Gift",
+      "Name_FR": "Noix de Noïa",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Gerudo",
+      "Name_EN": "Solemn Vow of Riju, Sage of Lightning",
+      "Name_FR": "Serment éternel de Riju, Sage de la foudre",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Goron",
+      "Name_EN": "Solemn Vow of Yunobo, Sage of Fire",
+      "Name_FR": "Serment éternel de Yunobo, Sage du feu",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Rito",
+      "Name_EN": "Solemn Vow of Tulin, Sage of Wind",
+      "Name_FR": "Serment éternel de Babil, Sage du vent",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Zonau",
+      "Name_EN": "Solemn Vow of Mineru, Sage of Spirit",
+      "Name_FR": "Serment éternel de Mineru, Sage de l'esprit",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoulPlus_Zora",
+      "Name_EN": "Solemn Vow of Sidon, Sage of Water",
+      "Name_FR": "Serment éternel de Sidon, Sage de l'eau",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoul_Gerudo",
+      "Name_EN": "Vow of Riju, Sage of Lightning",
+      "Name_FR": "Serment de Riju, Sage de la foudre",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoul_Goron",
+      "Name_EN": "Vow of Yunobo, Sage of Fire",
+      "Name_FR": "Serment de Yunobo, Sage du feu",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoul_Rito",
+      "Name_EN": "Vow of Tulin, Sage of Wind",
+      "Name_FR": "Serment de Babil, Sage du vent",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoul_Zonau",
+      "Name_EN": "Vow of Mineru, Sage of Spirit",
+      "Name_FR": "Serment de Mineru, Sage de l'esprit",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageSoul_Zora",
+      "Name_EN": "Vow of Sidon, Sage of Water",
+      "Name_FR": "Serment de Sidon, Sage de l'eau",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SageWill",
+      "Name_EN": "Sage's Will",
+      "Name_FR": "Vœu des Sages",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_StableHostlePointCard",
+      "Name_EN": "Pony Points Card",
+      "Name_FR": "Carte de fidélité des relais",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_StaminaUtuwa_A_01",
+      "Name_EN": "Stamina Vessel",
+      "Name_FR": "Réceptacle d'endurance",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_00",
+      "Name_EN": "Goron Fabric",
+      "Name_FR": "Tissu goron",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_01",
+      "Name_EN": "Zora Fabric",
+      "Name_FR": "Tissu zora",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_02",
+      "Name_EN": "Gerudo Fabric",
+      "Name_FR": "Tissu gerudo",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_03",
+      "Name_EN": "Royal Hyrulean Fabric",
+      "Name_FR": "Tissu royal d'Hyrule",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_04",
+      "Name_EN": "Zonai Fabric",
+      "Name_FR": "Tissu soneau",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_05",
+      "Name_EN": "Sheikah Fabric",
+      "Name_FR": "Tissu sheikah",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_06",
+      "Name_EN": "Yiga Fabric",
+      "Name_FR": "Tissu yiga",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_07",
+      "Name_EN": "Monster-Control-Crew Fabric",
+      "Name_FR": "Tissu de la brigade",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_08",
+      "Name_EN": "Zonai Survey Team Fabric",
+      "Name_FR": "Tissu des archéologues",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_09",
+      "Name_EN": "Horse-God Fabric",
+      "Name_FR": "Tissu de la divinité équine",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_10",
+      "Name_EN": "Lurelin Village Fabric",
+      "Name_FR": "Tissu d'Écaraille",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_11",
+      "Name_EN": "Lucky Clover Gazette Fabric",
+      "Name_FR": "Tissu La Gazette des bois",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_12",
+      "Name_EN": "Hudson Construction Fabric",
+      "Name_FR": "Tissu Grosaillieh",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_13",
+      "Name_EN": "Koltin's Fabric",
+      "Name_FR": "Tissu de Koltin",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_14",
+      "Name_EN": "Korok Fabric",
+      "Name_FR": "Tissu korogu",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_15",
+      "Name_EN": "Grizzlemaw-Bear Fabric",
+      "Name_FR": "Tissu ours empereurs",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_16",
+      "Name_EN": "Robbie's Fabric",
+      "Name_FR": "Tissu de Faras",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_17",
+      "Name_EN": "Cece Fabric",
+      "Name_FR": "Tissu Goutiée",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_18",
+      "Name_EN": "Aerocuda Fabric",
+      "Name_FR": "Tissu kakuda",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_19",
+      "Name_EN": "Eldin-Ostrich Fabric",
+      "Name_FR": "Tissu autruche d'Ordinn",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_20",
+      "Name_EN": "Cucco Fabric",
+      "Name_FR": "Tissu cocotte",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_21",
+      "Name_EN": "Horse Fabric",
+      "Name_FR": "Tissu chevaux",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_22",
+      "Name_EN": "Chuchu Fabric",
+      "Name_FR": "Tissu chuchu",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_23",
+      "Name_EN": "Lynel Fabric",
+      "Name_FR": "Tissu lynel",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_24",
+      "Name_EN": "Gleeok Fabric",
+      "Name_FR": "Tissu griock",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_25",
+      "Name_EN": "Stalnox Fabric",
+      "Name_FR": "Tissu stalhinox",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_26",
+      "Name_EN": "Tunic of Memories Fabric",
+      "Name_FR": "Tissu tunique nostalgique",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_27",
+      "Name_EN": "Hylian-Hood Fabric",
+      "Name_FR": "Tissu capuche hylienne",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_28",
+      "Name_EN": "Hyrule-Princess Fabric",
+      "Name_FR": "Tissu de la princesse d'Hyrule",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_29",
+      "Name_EN": "Goron-Champion Fabric",
+      "Name_FR": "Tissu du Prodige goron",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_30",
+      "Name_EN": "Rito-Champion Fabric",
+      "Name_FR": "Tissu du Prodige piaf",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_31",
+      "Name_EN": "Zora-Champion Fabric",
+      "Name_FR": "Tissu du Prodige zora",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_32",
+      "Name_EN": "Gerudo-Champion Fabric",
+      "Name_FR": "Tissu du Prodige gerudo",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_33",
+      "Name_EN": "Ancient-Sheikah Fabric",
+      "Name_FR": "Tissu à motifs sheikahs antiques",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_34",
+      "Name_EN": "Bokoblin Fabric",
+      "Name_FR": "Tissu bokoblin",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_35",
+      "Name_EN": "Demon King Fabric",
+      "Name_FR": "Tissu du roi démon",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_36",
+      "Name_EN": "King of Red Lions Fabric",
+      "Name_FR": "Tissu du Lion Rouge",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_37",
+      "Name_EN": "Sheik Fabric",
+      "Name_FR": "Tissu de Sheik",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_38",
+      "Name_EN": "Mirror of Twilight Fabric",
+      "Name_FR": "Tissu du miroir des ombres",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_39",
+      "Name_EN": "Princess of Twilight Fabric",
+      "Name_FR": "Tissu princesse du Crépuscule",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_40",
+      "Name_EN": "Lon Lon Ranch Fabric",
+      "Name_FR": "Tissu Lon Lon",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_41",
+      "Name_EN": "Majora's Mask Fabric",
+      "Name_FR": "Tissu du masque de Majora",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_43",
+      "Name_EN": "Bygone-Royal Fabric",
+      "Name_FR": "Tissu de la dynastie disparue",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_45",
+      "Name_EN": "Sword-Spirit Fabric",
+      "Name_FR": "Tissu de l'esprit de l'épée",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_46",
+      "Name_EN": "Pixel Fabric",
+      "Name_FR": "Tissu pixelisé",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_48",
+      "Name_EN": "Egg Fabric",
+      "Name_FR": "Tissu œuf",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_49",
+      "Name_EN": "Goddess Fabric",
+      "Name_FR": "Tissu de la Déesse",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_51",
+      "Name_EN": "Champion's Leathers Fabric",
+      "Name_FR": "Tissu nouvelle tunique de Prodige",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_52",
+      "Name_EN": "Princess Zelda Fabric",
+      "Name_FR": "Tissu de la princesse Zelda",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_53",
+      "Name_EN": "Gerudo-King Fabric",
+      "Name_FR": "Tissu du roi gerudo",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_55",
+      "Name_EN": "Nostalgic Fabric",
+      "Name_FR": "Tissu nostalgique",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_56",
+      "Name_EN": "Addison's Fabric",
+      "Name_FR": "Tissu de Boulieh",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_SubstituteCloth_Default",
+      "Name_EN": "Ordinary Fabric",
+      "Name_FR": "Tissu ordinaire",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_TreasureMap_00",
+      "Name_EN": "Old Map",
+      "Name_FR": "Vieille carte",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Obj_WarpDLC_Prototype",
+      "Name_EN": "Travel Medallion Prototype",
+      "Name_FR": "Prototype d'amulette",
+      "PictureMain": "Key Items.png"
+    },
+    {
+      "Index": "Parasail",
+      "Name_EN": "Paraglider",
+      "Name_FR": "Paravoile",
+      "PictureMain": "Key Items.png"
+    }
+  ]
+}

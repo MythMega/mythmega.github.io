@@ -1,0 +1,823 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Armor",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "Armor_001_Head",
+      "Name_EN": "Hylian Hood",
+      "Name_FR": "Capuche hylienne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Hylian_Hood.png"
+    },
+    {
+      "Index": "Armor_001_Lower",
+      "Name_EN": "Hylian Trousers",
+      "Name_FR": "Pantalon hylien",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Hylian_Trousers.png"
+    },
+    {
+      "Index": "Armor_001_Upper",
+      "Name_EN": "Hylian Tunic",
+      "Name_FR": "Tunique hylienne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Hylian_Tunic.png"
+    },
+    {
+      "Index": "Armor_005_Head",
+      "Name_EN": "Cap of the Wild",
+      "Name_FR": "Coiffe des landes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Cap_of_the_Wild.png"
+    },
+    {
+      "Index": "Armor_005_Lower",
+      "Name_EN": "Trousers of the Wild",
+      "Name_FR": "Culotte des landes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Trousers_of_the_Wild.png"
+    },
+    {
+      "Index": "Armor_005_Upper",
+      "Name_EN": "Tunic of the Wild",
+      "Name_FR": "Tunique des landes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_the_Wild.png"
+    },
+    {
+      "Index": "Armor_006_Head",
+      "Name_EN": "Zora Helm",
+      "Name_FR": "Casque zora",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Zora_Helm.png"
+    },
+    {
+      "Index": "Armor_006_Lower",
+      "Name_EN": "Zora Greaves",
+      "Name_FR": "Jambières zoras",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Zora_Greaves.png"
+    },
+    {
+      "Index": "Armor_006_Upper",
+      "Name_EN": "Zora Armor",
+      "Name_FR": "Armure zora",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Zora_Armor.png"
+    },
+    {
+      "Index": "Armor_008_Head",
+      "Name_EN": "Desert Voe Headband",
+      "Name_FR": "Parure des sablons",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Desert_Voe_Headband.png"
+    },
+    {
+      "Index": "Armor_008_Lower",
+      "Name_EN": "Desert Voe Trousers",
+      "Name_FR": "Pantalon des sablons",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Desert_Voe_Trousers.png"
+    },
+    {
+      "Index": "Armor_008_Upper",
+      "Name_EN": "Desert Voe Spaulder",
+      "Name_FR": "Épaulière des sablons",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Desert_Voe_Spaulder.png"
+    },
+    {
+      "Index": "Armor_009_Head",
+      "Name_EN": "Snowquill Headdress",
+      "Name_FR": "Bijou à plumes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Snowquill_Headdress.png"
+    },
+    {
+      "Index": "Armor_009_Lower",
+      "Name_EN": "Snowquill Trousers",
+      "Name_FR": "Pantalon duveteux piaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Snowquill_Trousers.png"
+    },
+    {
+      "Index": "Armor_009_Upper",
+      "Name_EN": "Snowquill Tunic",
+      "Name_FR": "Tunique duveteuse piaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Snowquill_Tunic.png"
+    },
+    {
+      "Index": "Armor_011_Head",
+      "Name_EN": "Flamebreaker Helm",
+      "Name_FR": "Casque de pierre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Flamebreaker_Helm.png"
+    },
+    {
+      "Index": "Armor_011_Lower",
+      "Name_EN": "Flamebreaker Boots",
+      "Name_FR": "Bottes de pierre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Flamebreaker_Boots.png"
+    },
+    {
+      "Index": "Armor_011_Upper",
+      "Name_EN": "Flamebreaker Armor",
+      "Name_FR": "Armure de pierre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Flamebreaker_Armor.png"
+    },
+    {
+      "Index": "Armor_012_Head",
+      "Name_EN": "Stealth Mask",
+      "Name_FR": "Masque furtif",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Stealth_Mask.png"
+    },
+    {
+      "Index": "Armor_012_Lower",
+      "Name_EN": "Stealth Tights",
+      "Name_FR": "Chausses furtives",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Stealth_Tights.png"
+    },
+    {
+      "Index": "Armor_012_Upper",
+      "Name_EN": "Stealth Chest Guard",
+      "Name_FR": "Combinaison furtive",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Stealth_Chest_Guard.png"
+    },
+    {
+      "Index": "Armor_014_Head",
+      "Name_EN": "Climber's Bandanna",
+      "Name_FR": "Bandana d'escalade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Climber's_Bandanna.png"
+    },
+    {
+      "Index": "Armor_014_Lower",
+      "Name_EN": "Climbing Boots",
+      "Name_FR": "Souliers d'escalade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Climbing_Boots.png"
+    },
+    {
+      "Index": "Armor_014_Upper",
+      "Name_EN": "Climbing Gear",
+      "Name_FR": "Gant d'escalade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Climbing_Gear.png"
+    },
+    {
+      "Index": "Armor_017_Head",
+      "Name_EN": "Radiant Mask",
+      "Name_FR": "Masque nox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Radiant_Mask.png"
+    },
+    {
+      "Index": "Armor_017_Lower",
+      "Name_EN": "Radiant Tights",
+      "Name_FR": "Chausses nox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Radiant_Tights.png"
+    },
+    {
+      "Index": "Armor_017_Upper",
+      "Name_EN": "Radiant Shirt",
+      "Name_FR": "Combinaison nox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Radiant_Shirt.png"
+    },
+    {
+      "Index": "Armor_020_Head",
+      "Name_EN": "Soldier's Helm",
+      "Name_FR": "Casque de soldat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Soldier's_Helm.png"
+    },
+    {
+      "Index": "Armor_020_Lower",
+      "Name_EN": "Soldier's Greaves",
+      "Name_FR": "Jambières de soldat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Soldier's_Greaves.png"
+    },
+    {
+      "Index": "Armor_020_Upper",
+      "Name_EN": "Soldier's Armor",
+      "Name_FR": "Armure de soldat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Soldier's_Armor.png"
+    },
+    {
+      "Index": "Armor_022_Head",
+      "Name_EN": "Bokoblin Mask",
+      "Name_FR": "Masque de Bokoblin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Bokoblin_Mask.png"
+    },
+    {
+      "Index": "Armor_024_Head",
+      "Name_EN": "Diamond Circlet",
+      "Name_FR": "Diadème diamant",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Diamond_Circlet.png"
+    },
+    {
+      "Index": "Armor_025_Head",
+      "Name_EN": "Ruby Circlet",
+      "Name_FR": "Diadème rubis",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Ruby_Circlet.png"
+    },
+    {
+      "Index": "Armor_026_Head",
+      "Name_EN": "Sapphire Circlet",
+      "Name_FR": "Diadème saphir",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Sapphire_Circlet.png"
+    },
+    {
+      "Index": "Armor_027_Head",
+      "Name_EN": "Topaz Earrings",
+      "Name_FR": "Boucles de topaze",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Topaz_Earrings.png"
+    },
+    {
+      "Index": "Armor_028_Head",
+      "Name_EN": "Opal Earrings",
+      "Name_FR": "Boucles d'opale",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Opal_Earrings.png"
+    },
+    {
+      "Index": "Armor_029_Head",
+      "Name_EN": "Amber Earrings",
+      "Name_FR": "Boucles d'ambre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Amber_Earrings.png"
+    },
+    {
+      "Index": "Armor_045_Head",
+      "Name_EN": "Moblin Mask",
+      "Name_FR": "Masque de Moblin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Moblin_Mask.png"
+    },
+    {
+      "Index": "Armor_046_Head",
+      "Name_EN": "Rubber Helm",
+      "Name_FR": "Casque isolant",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Rubber_Helm.png"
+    },
+    {
+      "Index": "Armor_046_Lower",
+      "Name_EN": "Rubber Tights",
+      "Name_FR": "Pantalon isolant",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Rubber_Tights.png"
+    },
+    {
+      "Index": "Armor_046_Upper",
+      "Name_EN": "Rubber Armor",
+      "Name_FR": "Combinaison isolante",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Rubber_Armor.png"
+    },
+    {
+      "Index": "Armor_048_Head",
+      "Name_EN": "Barbarian Helm",
+      "Name_FR": "Casque barbare",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Barbarian_Helm.png"
+    },
+    {
+      "Index": "Armor_048_Lower",
+      "Name_EN": "Barbarian Leg Wraps",
+      "Name_FR": "Culotte barbare",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Barbarian_Leg_Wraps.png"
+    },
+    {
+      "Index": "Armor_048_Upper",
+      "Name_EN": "Barbarian Armor",
+      "Name_FR": "Gilet barbare",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Barbarian_Armor.png"
+    },
+    {
+      "Index": "Armor_049_Lower",
+      "Name_EN": "Sand Boots",
+      "Name_FR": "Bottes des sables",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Sand_Boots.png"
+    },
+    {
+      "Index": "Armor_055_Head",
+      "Name_EN": "Lizalfos Mask",
+      "Name_FR": "Masque de Lézalfos",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Lizalfos_Mask.png"
+    },
+    {
+      "Index": "Armor_056_Head",
+      "Name_EN": "Lynel Mask",
+      "Name_FR": "Masque de Lynel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Lynel_Mask.png"
+    },
+    {
+      "Index": "Armor_1006_Head",
+      "Name_EN": "Glide Mask",
+      "Name_FR": "Masque de chute libre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Glide_Mask.png"
+    },
+    {
+      "Index": "Armor_1006_Lower",
+      "Name_EN": "Glide Tights",
+      "Name_FR": "Chausses de chute libre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Glide_Tights.png"
+    },
+    {
+      "Index": "Armor_1006_Upper",
+      "Name_EN": "Glide Shirt",
+      "Name_FR": "Combinaison de chute libre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Glide_Shirt.png"
+    },
+    {
+      "Index": "Armor_1036_Head",
+      "Name_EN": "Ancient Hero's Aspect",
+      "Name_FR": "Esprit du héros ancestral",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Ancient_Hero's_Aspect.png"
+    },
+    {
+      "Index": "Armor_1043_Lower",
+      "Name_EN": "Archaic Legwear",
+      "Name_FR": "Vieilles spartiates",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Archaic_Legwear.png"
+    },
+    {
+      "Index": "Armor_1043_Upper",
+      "Name_EN": "Archaic Tunic",
+      "Name_FR": "Vieille toge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Archaic_Tunic.png"
+    },
+    {
+      "Index": "Armor_1044_Lower",
+      "Name_EN": "Archaic Warm Greaves",
+      "Name_FR": "Vieilles chausses doublées",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Archaic_Warm_Greaves.png"
+    },
+    {
+      "Index": "Armor_1046_Head",
+      "Name_EN": "Froggy Hood",
+      "Name_FR": "Capuche de batracien",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Froggy_Hood.png"
+    },
+    {
+      "Index": "Armor_1046_Lower",
+      "Name_EN": "Froggy Leggings",
+      "Name_FR": "Jambières de batracien",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Froggy_Leggings.png"
+    },
+    {
+      "Index": "Armor_1046_Upper",
+      "Name_EN": "Froggy Sleeve",
+      "Name_FR": "Épaulière de batracien",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Froggy_Sleeve.png"
+    },
+    {
+      "Index": "Armor_1051_Head",
+      "Name_EN": "Miner's Mask",
+      "Name_FR": "Masque de mineur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Miner's_Mask.png"
+    },
+    {
+      "Index": "Armor_1051_Lower",
+      "Name_EN": "Miner's Trousers",
+      "Name_FR": "Pantalon de mineur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Miner's_Trousers.png"
+    },
+    {
+      "Index": "Armor_1051_Upper",
+      "Name_EN": "Miner's Top",
+      "Name_FR": "Plastron de mineur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Miner's_Top.png"
+    },
+    {
+      "Index": "Armor_1061_Head",
+      "Name_EN": "Ember Headdress",
+      "Name_FR": "Coiffe du brasier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Ember_Headdress.png"
+    },
+    {
+      "Index": "Armor_1061_Lower",
+      "Name_EN": "Ember Trousers",
+      "Name_FR": "Pantalon du brasier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Ember_Trousers.png"
+    },
+    {
+      "Index": "Armor_1061_Upper",
+      "Name_EN": "Ember Shirt",
+      "Name_FR": "Manteau du brasier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Ember_Shirt.png"
+    },
+    {
+      "Index": "Armor_1066_Head",
+      "Name_EN": "Charged Headdress",
+      "Name_FR": "Coiffe de la foudre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Charged_Headdress.png"
+    },
+    {
+      "Index": "Armor_1066_Lower",
+      "Name_EN": "Charged Trousers",
+      "Name_FR": "Culotte de la foudre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Charged_Trousers.png"
+    },
+    {
+      "Index": "Armor_1066_Upper",
+      "Name_EN": "Charged Shirt",
+      "Name_FR": "Parure de la foudre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Charged_Shirt.png"
+    },
+    {
+      "Index": "Armor_1071_Head",
+      "Name_EN": "Frostbite Headdress",
+      "Name_FR": "Coiffe du blizzard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Frostbite_Headdress.png"
+    },
+    {
+      "Index": "Armor_1071_Lower",
+      "Name_EN": "Frostbite Trousers",
+      "Name_FR": "Pantalon du blizzard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Frostbite_Trousers.png"
+    },
+    {
+      "Index": "Armor_1071_Upper",
+      "Name_EN": "Frostbite Shirt",
+      "Name_FR": "Robe du blizzard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Frostbite_Shirt.png"
+    },
+    {
+      "Index": "Armor_1076_Head",
+      "Name_EN": "Cece Hat",
+      "Name_FR": "Chapeau de Goutiée",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Cece_Hat.png"
+    },
+    {
+      "Index": "Armor_1086_Head",
+      "Name_EN": "Mystic Headpiece",
+      "Name_FR": "Coiffe des esprits",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Mystic_Headpiece.png"
+    },
+    {
+      "Index": "Armor_1086_Lower",
+      "Name_EN": "Mystic Trousers",
+      "Name_FR": "Chausses des esprits",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Mystic_Trousers.png"
+    },
+    {
+      "Index": "Armor_1086_Upper",
+      "Name_EN": "Mystic Robe",
+      "Name_FR": "Tunique des esprits",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Mystic_Robe.png"
+    },
+    {
+      "Index": "Armor_1091_Head",
+      "Name_EN": "Zonaite Helm",
+      "Name_FR": "Casque de sonium",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Zonaite_Helm.png"
+    },
+    {
+      "Index": "Armor_1091_Lower",
+      "Name_EN": "Zonaite Shin Guards",
+      "Name_FR": "Genouillères de sonium",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Zonaite_Shin_Guards.png"
+    },
+    {
+      "Index": "Armor_1091_Upper",
+      "Name_EN": "Zonaite Waistguard",
+      "Name_FR": "Flancart de sonium",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Zonaite_Waistguard.png"
+    },
+    {
+      "Index": "Armor_1096_Head",
+      "Name_EN": "Mask of Awakening",
+      "Name_FR": "Masque du rêve",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Mask_of_Awakening.png"
+    },
+    {
+      "Index": "Armor_1096_Lower",
+      "Name_EN": "Trousers of Awakening",
+      "Name_FR": "Chausses du rêve",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Trousers_of_Awakening.png"
+    },
+    {
+      "Index": "Armor_1096_Upper",
+      "Name_EN": "Tunic of Awakening",
+      "Name_FR": "Tunique du rêve",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_Awakening.png"
+    },
+    {
+      "Index": "Armor_1106_Upper",
+      "Name_EN": "Champion's Leathers",
+      "Name_FR": "Nouvelle tunique de Prodige",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Champion's_Leathers.png"
+    },
+    {
+      "Index": "Armor_1125_Head",
+      "Name_EN": "Horriblin Mask",
+      "Name_FR": "Masque de Trogloblin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Horriblin_Mask.png"
+    },
+    {
+      "Index": "Armor_1141_Head",
+      "Name_EN": "Hood of the Depths",
+      "Name_FR": "Capuche des ténèbres",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Hood_of_the_Depths.png"
+    },
+    {
+      "Index": "Armor_1141_Lower",
+      "Name_EN": "Gaiters of the Depths",
+      "Name_FR": "Guêtres des ténèbres",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Gaiters_of_the_Depths.png"
+    },
+    {
+      "Index": "Armor_1141_Upper",
+      "Name_EN": "Tunic of the Depths",
+      "Name_FR": "Tunique des ténèbres",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_the_Depths.png"
+    },
+    {
+      "Index": "Armor_1151_Head",
+      "Name_EN": "Well-Worn Hair Band",
+      "Name_FR": "Vieil anneau capillaire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Well-Worn_Hair_Band.png"
+    },
+    {
+      "Index": "Armor_1152_Head",
+      "Name_EN": "Hylian Hood",
+      "Name_FR": "Capuche hylienne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Hylian_Hood.png"
+    },
+    {
+      "Index": "Armor_115_Head",
+      "Name_EN": "Lightning Helm",
+      "Name_FR": "Masque anti-tonnerre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Lightning_Helm.png"
+    },
+    {
+      "Index": "Armor_116_Upper",
+      "Name_EN": "Tunic of Memories",
+      "Name_FR": "Tunique nostalgique",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_Memories.png"
+    },
+    {
+      "Index": "Armor_1300_Head",
+      "Name_EN": "Yiga Mask",
+      "Name_FR": "Masque yiga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Yiga_Mask.png"
+    },
+    {
+      "Index": "Armor_1300_Lower",
+      "Name_EN": "Yiga Tights",
+      "Name_FR": "Collant yiga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Yiga_Tights.png"
+    },
+    {
+      "Index": "Armor_1300_Upper",
+      "Name_EN": "Yiga Armor",
+      "Name_FR": "Justaucorps yiga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Yiga_Armor.png"
+    },
+    {
+      "Index": "Armor_141_Lower",
+      "Name_EN": "Snow Boots",
+      "Name_FR": "Bottes de neige",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Snow_Boots.png"
+    },
+    {
+      "Index": "Armor_160_Head",
+      "Name_EN": "Dark Hood",
+      "Name_FR": "Capuche noire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Dark_Hood.png"
+    },
+    {
+      "Index": "Armor_160_Lower",
+      "Name_EN": "Dark Trousers",
+      "Name_FR": "Pantalon noir",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Dark_Trousers.png"
+    },
+    {
+      "Index": "Armor_160_Upper",
+      "Name_EN": "Dark Tunic",
+      "Name_FR": "Tunique noire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Dark_Tunic.png"
+    },
+    {
+      "Index": "Armor_171_Head",
+      "Name_EN": "Phantom Helmet",
+      "Name_FR": "Casque de Spectre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Phantom_Helmet.png"
+    },
+    {
+      "Index": "Armor_171_Lower",
+      "Name_EN": "Phantom Greaves",
+      "Name_FR": "Jambières de Spectre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Phantom_Greaves.png"
+    },
+    {
+      "Index": "Armor_171_Upper",
+      "Name_EN": "Phantom Armor",
+      "Name_FR": "Armure de Spectre",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Phantom_Armor.png"
+    },
+    {
+      "Index": "Armor_172_Head",
+      "Name_EN": "Majora's Mask",
+      "Name_FR": "Masque de Majora",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Majora's_Mask.png"
+    },
+    {
+      "Index": "Armor_173_Head",
+      "Name_EN": "Midna's Helmet",
+      "Name_FR": "Couronne de Midona",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Midna's_Helmet.png"
+    },
+    {
+      "Index": "Armor_174_Head",
+      "Name_EN": "Tingle's Hood",
+      "Name_FR": "Cagoule de Tingle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tingle's_Hood.png"
+    },
+    {
+      "Index": "Armor_174_Lower",
+      "Name_EN": "Tingle's Tights",
+      "Name_FR": "Chausses de Tingle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tingle's_Tights.png"
+    },
+    {
+      "Index": "Armor_174_Upper",
+      "Name_EN": "Tingle's Shirt",
+      "Name_FR": "Combinaison de Tingle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tingle's_Shirt.png"
+    },
+    {
+      "Index": "Armor_175_Upper",
+      "Name_EN": "Island Lobster Shirt",
+      "Name_FR": "Tunique bleue de homard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Island_Lobster_Shirt.png"
+    },
+    {
+      "Index": "Armor_176_Head",
+      "Name_EN": "Korok Mask",
+      "Name_FR": "Masque de Korogu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Korok_Mask.png"
+    },
+    {
+      "Index": "Armor_177_Head",
+      "Name_EN": "Ravio's Hood",
+      "Name_FR": "Capuche de Lavio",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Ravio's_Hood.png"
+    },
+    {
+      "Index": "Armor_178_Head",
+      "Name_EN": "Zant's Helmet",
+      "Name_FR": "Casque de Xanto",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Zant's_Helmet.png"
+    },
+    {
+      "Index": "Armor_179_Head",
+      "Name_EN": "Royal Guard Cap",
+      "Name_FR": "Béret de garde royal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Royal_Guard_Cap.png"
+    },
+    {
+      "Index": "Armor_179_Lower",
+      "Name_EN": "Royal Guard Boots",
+      "Name_FR": "Bottes de garde royal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Royal_Guard_Boots.png"
+    },
+    {
+      "Index": "Armor_179_Upper",
+      "Name_EN": "Royal Guard Uniform",
+      "Name_FR": "Uniforme de garde royal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Royal_Guard_Uniform.png"
+    },
+    {
+      "Index": "Armor_180_Head",
+      "Name_EN": "Evil Spirit Mask",
+      "Name_FR": "Masque spectral",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Evil_Spirit_Mask.png"
+    },
+    {
+      "Index": "Armor_180_Lower",
+      "Name_EN": "Evil Spirit Greaves",
+      "Name_FR": "Grèves spectrales",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Evil_Spirit_Greaves.png"
+    },
+    {
+      "Index": "Armor_180_Upper",
+      "Name_EN": "Evil Spirit Armor",
+      "Name_FR": "Armure spectrale",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Evil_Spirit_Armor.png"
+    },
+    {
+      "Index": "Armor_181_Head",
+      "Name_EN": "Vah Ruta Divine Helm",
+      "Name_FR": "Heaume divin de Ruta",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Vah_Ruta_Divine_Helm.png"
+    },
+    {
+      "Index": "Armor_182_Head",
+      "Name_EN": "Vah Medoh Divine Helm",
+      "Name_FR": "Heaume divin de Medoh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Vah_Medoh_Divine_Helm.png"
+    },
+    {
+      "Index": "Armor_183_Head",
+      "Name_EN": "Vah Rudania Divine Helm",
+      "Name_FR": "Heaume divin de Rudania",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Vah_Rudania_Divine_Helm.png"
+    },
+    {
+      "Index": "Armor_184_Head",
+      "Name_EN": "Vah Naboris Divine Helm",
+      "Name_FR": "Heaume divin de Naboris",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Vah_Naboris_Divine_Helm.png"
+    },
+    {
+      "Index": "Armor_200_Head",
+      "Name_EN": "Cap of Time",
+      "Name_FR": "Coiffe du temps",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Cap_of_Time.png"
+    },
+    {
+      "Index": "Armor_200_Lower",
+      "Name_EN": "Trousers of Time",
+      "Name_FR": "Chausses du temps",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Trousers_of_Time.png"
+    },
+    {
+      "Index": "Armor_200_Upper",
+      "Name_EN": "Tunic of Time",
+      "Name_FR": "Tunique du temps",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_Time.png"
+    },
+    {
+      "Index": "Armor_205_Head",
+      "Name_EN": "Cap of the Wind",
+      "Name_FR": "Coiffe du vent",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Cap_of_the_Wind.png"
+    },
+    {
+      "Index": "Armor_205_Lower",
+      "Name_EN": "Trousers of the Wind",
+      "Name_FR": "Chausses du vent",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Trousers_of_the_Wind.png"
+    },
+    {
+      "Index": "Armor_205_Upper",
+      "Name_EN": "Tunic of the Wind",
+      "Name_FR": "Tunique du vent",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_the_Wind.png"
+    },
+    {
+      "Index": "Armor_210_Head",
+      "Name_EN": "Cap of Twilight",
+      "Name_FR": "Coiffe du Crépuscule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Cap_of_Twilight.png"
+    },
+    {
+      "Index": "Armor_210_Lower",
+      "Name_EN": "Trousers of Twilight",
+      "Name_FR": "Chausses du Crépuscule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Trousers_of_Twilight.png"
+    },
+    {
+      "Index": "Armor_210_Upper",
+      "Name_EN": "Tunic of Twilight",
+      "Name_FR": "Tunique du Crépuscule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_Twilight.png"
+    },
+    {
+      "Index": "Armor_215_Head",
+      "Name_EN": "Cap of the Sky",
+      "Name_FR": "Coiffe du ciel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Cap_of_the_Sky.png"
+    },
+    {
+      "Index": "Armor_215_Lower",
+      "Name_EN": "Trousers of the Sky",
+      "Name_FR": "Pantalon du ciel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Trousers_of_the_Sky.png"
+    },
+    {
+      "Index": "Armor_215_Upper",
+      "Name_EN": "Tunic of the Sky",
+      "Name_FR": "Tunique du ciel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_the_Sky.png"
+    },
+    {
+      "Index": "Armor_220_Head",
+      "Name_EN": "Sheik's Mask",
+      "Name_FR": "Masque de Sheik",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Sheik's_Mask.png"
+    },
+    {
+      "Index": "Armor_225_Head",
+      "Name_EN": "Fierce Deity Mask",
+      "Name_FR": "Masque du Dieu démon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Fierce_Deity_Mask.png"
+    },
+    {
+      "Index": "Armor_225_Lower",
+      "Name_EN": "Fierce Deity Boots",
+      "Name_FR": "Bottes du Dieu démon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Fierce_Deity_Boots.png"
+    },
+    {
+      "Index": "Armor_225_Upper",
+      "Name_EN": "Fierce Deity Armor",
+      "Name_FR": "Armure du Dieu démon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Fierce_Deity_Armor.png"
+    },
+    {
+      "Index": "Armor_230_Head",
+      "Name_EN": "Cap of the Hero",
+      "Name_FR": "Coiffe du Prélude",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Cap_of_the_Hero.png"
+    },
+    {
+      "Index": "Armor_230_Lower",
+      "Name_EN": "Trousers of the Hero",
+      "Name_FR": "Culotte du Prélude",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Trousers_of_the_Hero.png"
+    },
+    {
+      "Index": "Armor_230_Upper",
+      "Name_EN": "Tunic of the Hero",
+      "Name_FR": "Tunique du Prélude",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/zelda/totk/Armor/Tunic_of_the_Hero.png"
+    }
+  ]
+}

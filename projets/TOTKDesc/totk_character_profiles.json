@@ -1,0 +1,4339 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Character Profiles",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "Npc_oasis048",
+      "Name_EN": "Aaqlet",
+      "Name_FR": "Élarka",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_CraftSignboard001",
+      "Name_EN": "Addison",
+      "Name_FR": "Boulieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_004",
+      "Name_EN": "Agus",
+      "Name_FR": "Paragus",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp003",
+      "Name_EN": "Aja",
+      "Name_FR": "Raja",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron005",
+      "Name_EN": "Aji",
+      "Name_FR": "Kamaxor",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleWestHatago004",
+      "Name_EN": "Akrah",
+      "Name_FR": "Bomgo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleDepthHatago006",
+      "Name_EN": "Aliza",
+      "Name_FR": "Aliza",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stalizalfos/image?game=totk"
+    },
+    {
+      "Index": "Npc_HighMountain036",
+      "Name_EN": "Amali",
+      "Name_FR": "Camailla",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NorthHatelHatago002",
+      "Name_EN": "Ami",
+      "Name_FR": "Triere",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/staminoka_bass/image?game=totk"
+    },
+    {
+      "Index": "Npc_HatenoVillage020",
+      "Name_EN": "Amira",
+      "Name_FR": "Amarylli",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoDesert003",
+      "Name_EN": "Anche",
+      "Name_FR": "Aubarn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_LakeSideHatago004",
+      "Name_EN": "Anly",
+      "Name_FR": "Gamène",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp006",
+      "Name_EN": "Anson",
+      "Name_FR": "Pandanieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis043",
+      "Name_EN": "Ardin",
+      "Name_FR": "Araj",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RitoHatago002",
+      "Name_EN": "Ariane",
+      "Name_FR": "Ariane",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage004",
+      "Name_EN": "Armes",
+      "Name_FR": "Armis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisTeacher",
+      "Name_EN": "Ashai",
+      "Name_FR": "Azahl",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyrulePlain005",
+      "Name_EN": "Ashe",
+      "Name_FR": "Risou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage026",
+      "Name_EN": "Aster",
+      "Name_FR": "Aster",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/master_sword/image?game=totk"
+    },
+    {
+      "Index": "Npc_NewsPaper003",
+      "Name_EN": "Atin",
+      "Name_FR": "Nitor",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia001B",
+      "Name_EN": "Atmus",
+      "Name_FR": "Tramou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron015",
+      "Name_EN": "Axyl",
+      "Name_FR": "Pikoro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourHatago001",
+      "Name_EN": "Aya",
+      "Name_FR": "Bourelle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage027",
+      "Name_EN": "Azu",
+      "Name_FR": "Lariz",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisSoldier_C",
+      "Name_EN": "Babi",
+      "Name_FR": "Borodo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_035",
+      "Name_EN": "Baddek",
+      "Name_FR": "Seymon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_F",
+      "Name_EN": "Bahni",
+      "Name_FR": "Bebene",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Gerudo006",
+      "Name_EN": "Bandaga",
+      "Name_FR": "Dyod",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaBridgeHatago001",
+      "Name_EN": "Banji",
+      "Name_FR": "Cuirée",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Eldin_Hylia003",
+      "Name_EN": "Banksha",
+      "Name_FR": "Banxya",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron021",
+      "Name_EN": "Bargoh",
+      "Name_FR": "Pelgo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron_Cafe03",
+      "Name_EN": "Barin",
+      "Name_FR": "Digon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoCanyon002",
+      "Name_EN": "Barles",
+      "Name_FR": "Bléa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoDesert004",
+      "Name_EN": "Barta",
+      "Name_FR": "Brihk",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_046",
+      "Name_EN": "Basel",
+      "Name_FR": "Bazel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_040",
+      "Name_EN": "Baumar",
+      "Name_FR": "Bambo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora032",
+      "Name_EN": "Bazz",
+      "Name_FR": "Sébass",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain012",
+      "Name_EN": "Bedoli",
+      "Name_FR": "Della",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TripMaster_00",
+      "Name_EN": "Beedle",
+      "Name_FR": "Terry",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Orchestra_M_P",
+      "Name_EN": "Beetz",
+      "Name_FR": "Nambour",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis006",
+      "Name_EN": "Benja",
+      "Name_FR": "Benjamin",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NorthHateru_around001",
+      "Name_EN": "Benny",
+      "Name_FR": "Benni",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisStep_B",
+      "Name_EN": "Bertri",
+      "Name_FR": "Marantih",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Ichikara_Scholar_B",
+      "Name_EN": "Bide",
+      "Name_FR": "Dibent",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Cannon02_02",
+      "Name_EN": "Billson",
+      "Name_FR": "Piquieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Cannon09_02",
+      "Name_EN": "Billson",
+      "Name_FR": "Piquieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryCannon02_A_01",
+      "Name_EN": "Billson's Records",
+      "Name_FR": "Journal de Piquieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_VolcanicRoad_AncientAssistant",
+      "Name_EN": "Bissi",
+      "Name_FR": "Hybis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron010",
+      "Name_EN": "Bladon",
+      "Name_FR": "Landonn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron006",
+      "Name_EN": "Bludo",
+      "Name_FR": "Buldo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper006",
+      "Name_EN": "Bluni",
+      "Name_FR": "Chloa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FaronWoods010",
+      "Name_EN": "Blynne",
+      "Name_FR": "Œilla",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron014",
+      "Name_EN": "Bohrin",
+      "Name_FR": "Bohlinn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_028",
+      "Name_EN": "Boldon",
+      "Name_FR": "Uldon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage032",
+      "Name_EN": "Bolson",
+      "Name_FR": "Sérasieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis014",
+      "Name_EN": "Boraa",
+      "Name_FR": "Félide",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Eldin_Hylia002",
+      "Name_EN": "Borrs",
+      "Name_FR": "Thopos",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_001",
+      "Name_EN": "Botrick",
+      "Name_FR": "Oudeau",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_AkkareRoad_AncientAssistant",
+      "Name_EN": "Bougan",
+      "Name_FR": "Bougain",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisHylia_002",
+      "Name_EN": "Bozai",
+      "Name_FR": "Tuska",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Minigame_BirdMan001",
+      "Name_EN": "Branli",
+      "Name_FR": "Remigon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "HorseAssociationCustum004",
+      "Name_EN": "Breen",
+      "Name_FR": "Brienn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_018",
+      "Name_EN": "Brokka",
+      "Name_FR": "Roblico",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper002",
+      "Name_EN": "Brozhan",
+      "Name_FR": "Ambrose",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper001",
+      "Name_EN": "Brusso",
+      "Name_FR": "Pyrif",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Camper003",
+      "Name_EN": "Budder",
+      "Name_FR": "Maëzu",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko_Road_019",
+      "Name_EN": "Bugut",
+      "Name_FR": "Bugri",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis007",
+      "Name_EN": "Buliara",
+      "Name_FR": "Beterah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp001",
+      "Name_EN": "Burmano",
+      "Name_FR": "Rosero",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCampSoldier_Hylia002",
+      "Name_EN": "Burwar",
+      "Name_FR": "Grasset",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko005",
+      "Name_EN": "Cado",
+      "Name_FR": "Vocah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoGate001",
+      "Name_EN": "Calip",
+      "Name_FR": "Caly",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "FldObj_HatenoGateBook",
+      "Name_EN": "Calip's Journal",
+      "Name_FR": "Journal de Caly",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_012",
+      "Name_EN": "Calisa",
+      "Name_FR": "Rhubask",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisWaterChannel",
+      "Name_EN": "Calyban",
+      "Name_FR": "Kajouah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_024",
+      "Name_EN": "Cambo",
+      "Name_FR": "Caleb",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "HorseAssociationCustum003",
+      "Name_EN": "Canni",
+      "Name_FR": "Koral",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "NPC_oasis004_fr01",
+      "Name_EN": "Canolo",
+      "Name_FR": "Calzo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Zora004",
+      "Name_EN": "Capelo",
+      "Name_FR": "Cappella",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis012",
+      "Name_EN": "Cara",
+      "Name_FR": "Kora",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron041",
+      "Name_EN": "Carban",
+      "Name_FR": "Charp",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_ZonauChallenge_00",
+      "Name_EN": "Caretaker Construct",
+      "Name_FR": "Golem administrateur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage019_SisterA",
+      "Name_EN": "Cece",
+      "Name_FR": "Goutiée",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain020",
+      "Name_EN": "Cecili",
+      "Name_FR": "Sélestie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_022",
+      "Name_EN": "Celessa",
+      "Name_FR": "Ricelle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_005",
+      "Name_EN": "Chabi",
+      "Name_FR": "Chavie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "FldObj_GerudoTownBook2",
+      "Name_EN": "Chef Aurie Taamu, Vol. 1",
+      "Name_FR": "Recettes de la cité, 1",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "FldObj_GerudoTownBook",
+      "Name_EN": "Chef Aurie Taamu, Vol. 2",
+      "Name_FR": "Recettes de la cité, 2",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage001",
+      "Name_EN": "Chessica",
+      "Name_FR": "Chala",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kokiri008",
+      "Name_EN": "Chio",
+      "Name_FR": "Papistus",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron037",
+      "Name_EN": "Chipson",
+      "Name_FR": "Gravionieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleWestHatago006",
+      "Name_EN": "Chork",
+      "Name_FR": "Chuck",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper007",
+      "Name_EN": "Chrisa",
+      "Name_FR": "Chrysa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora_Attendant001",
+      "Name_EN": "Chroma",
+      "Name_FR": "Hifumi",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_015",
+      "Name_EN": "Chumin",
+      "Name_FR": "Biazis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_LakeSideHatago006",
+      "Name_EN": "Cima",
+      "Name_FR": "Shimina",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko012",
+      "Name_EN": "Claree",
+      "Name_FR": "Canni",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage018",
+      "Name_EN": "Clavia",
+      "Name_FR": "Clévia",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora002",
+      "Name_EN": "Cleff",
+      "Name_FR": "Klefah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillageGambler",
+      "Name_EN": "Cloyne",
+      "Name_FR": "Kabara",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron_Cafe001",
+      "Name_EN": "Cooke",
+      "Name_FR": "Pibich",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCampSoldier_Hylia003",
+      "Name_EN": "Coppora",
+      "Name_FR": "Corpo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_C",
+      "Name_EN": "Cori",
+      "Name_FR": "Coryne",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HorseBuyer_02",
+      "Name_EN": "Cormus",
+      "Name_FR": "Acoran",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko004",
+      "Name_EN": "Cottla",
+      "Name_FR": "Pricota",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain034",
+      "Name_EN": "Cree",
+      "Name_FR": "Kuigri",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron050",
+      "Name_EN": "Cubo",
+      "Name_FR": "Mehkub",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_03",
+      "Name_EN": "Culinary Construct",
+      "Name_FR": "Golem cuisiner",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaBridgeHatago006",
+      "Name_EN": "Dabi",
+      "Name_FR": "Byder",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FirstColony004",
+      "Name_EN": "Dai",
+      "Name_FR": "Dahi",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis016",
+      "Name_EN": "Dalia",
+      "Name_FR": "Tiklama",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kokiri011",
+      "Name_EN": "Damia",
+      "Name_FR": "Damia",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis002",
+      "Name_EN": "Danda",
+      "Name_FR": "Renora",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaHatago003",
+      "Name_EN": "Danton",
+      "Name_FR": "Danto",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage016",
+      "Name_EN": "Dantz",
+      "Name_FR": "Rhodo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HutagoHatago_002",
+      "Name_EN": "Darton",
+      "Name_FR": "Otroh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_E",
+      "Name_EN": "Daval",
+      "Name_FR": "Gerpin",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_027",
+      "Name_EN": "Dayto",
+      "Name_FR": "Magnol",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_kokiri003",
+      "Name_EN": "Daz",
+      "Name_FR": "Esamus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/dazzlefruit/image?game=totk"
+    },
+    {
+      "Index": "TwnObj_Village_InvestigatorDiary_A_03",
+      "Name_EN": "Deciphered Slabs",
+      "Name_FR": "Traduction de la dalle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Village_InvestigatorDiary_A_04",
+      "Name_EN": "Deciphered Slabs",
+      "Name_FR": "Traduction de la dalle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Village_InvestigatorDiary_A_05",
+      "Name_EN": "Deciphered Slabs",
+      "Name_FR": "Traduction de la dalle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Village_InvestigatorDiary_A_06",
+      "Name_EN": "Deciphered Slabs",
+      "Name_FR": "Traduction de la dalle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Village_InvestigatorDiary_A_07",
+      "Name_EN": "Deciphered Slabs",
+      "Name_FR": "Traduction de la dalle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RoadShop_01",
+      "Name_EN": "Deenya",
+      "Name_FR": "Jascap",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisMilk_D",
+      "Name_EN": "Deltan",
+      "Name_FR": "Delflam",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora033",
+      "Name_EN": "Dento",
+      "Name_FR": "Nelto",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp009",
+      "Name_EN": "Deon",
+      "Name_FR": "Dénio",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia002B",
+      "Name_EN": "Derbos",
+      "Name_FR": "Debysis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Village_SheikerHeirDiary_A_03",
+      "Name_EN": "Diary of a Chief",
+      "Name_FR": "Journal de la chef Pahya",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_002",
+      "Name_EN": "Dillie",
+      "Name_FR": "Cornie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisStudent_C",
+      "Name_EN": "Dina",
+      "Name_FR": "Danaha",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourPlainHatago_004",
+      "Name_EN": "Dmitri",
+      "Name_FR": "Carvach",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "subchallnpc000",
+      "Name_EN": "Domidak",
+      "Name_FR": "Domida",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper011",
+      "Name_EN": "Dophi",
+      "Name_FR": "Dophy",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora003",
+      "Name_EN": "Dorephan",
+      "Name_FR": "Dorefah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko007",
+      "Name_EN": "Dorian",
+      "Name_FR": "Durann",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron012",
+      "Name_EN": "Dorill",
+      "Name_FR": "Perk",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HorseBuyer_04",
+      "Name_EN": "Doritt",
+      "Name_FR": "Nourée",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis024",
+      "Name_EN": "Dorrah",
+      "Name_FR": "Drosine",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Lanayru003",
+      "Name_EN": "Douma",
+      "Name_FR": "Florette",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron030",
+      "Name_EN": "Drak",
+      "Name_FR": "Forjann",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_LanayruRoad_AncientAssistant",
+      "Name_EN": "Drant",
+      "Name_FR": "Vayène",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_H",
+      "Name_EN": "Drenja",
+      "Name_FR": "Hortent",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCampSoldier_Hylia001",
+      "Name_EN": "Drozer",
+      "Name_FR": "Dross",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron031",
+      "Name_EN": "Dugby",
+      "Name_FR": "Plèle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora037",
+      "Name_EN": "Dunma",
+      "Name_FR": "Remuse",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_A",
+      "Name_EN": "Ebah",
+      "Name_FR": "Hébert",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Cannon13_01",
+      "Name_EN": "Elmerson",
+      "Name_FR": "Zelkovieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Cannon_03",
+      "Name_EN": "Elmerson",
+      "Name_FR": "Zelkovieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RiverSideHatago003",
+      "Name_EN": "Ember",
+      "Name_FR": "Makem",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleDepthHatago005",
+      "Name_EN": "Embry",
+      "Name_FR": "Ibreauvor",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis010",
+      "Name_EN": "Emri",
+      "Name_FR": "Emireil",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaBridgeHatago003",
+      "Name_EN": "Ena",
+      "Name_FR": "Nah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_025",
+      "Name_EN": "Endai",
+      "Name_FR": "Bok",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Lanayru004",
+      "Name_EN": "Eryck",
+      "Name_FR": "Guerlac",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis032",
+      "Name_EN": "Essa",
+      "Name_FR": "Ekvis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis046",
+      "Name_EN": "Estan",
+      "Name_FR": "Ohmates",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Orchestra_M_H",
+      "Name_EN": "Eustus",
+      "Name_FR": "Coréo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_037",
+      "Name_EN": "Falmark",
+      "Name_FR": "Corge",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis013",
+      "Name_EN": "Faundi",
+      "Name_FR": "Catorène",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis022",
+      "Name_EN": "Fegran",
+      "Name_FR": "Frambra",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoGate_AncientAssistant003",
+      "Name_EN": "Fenlin",
+      "Name_FR": "Corette",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_WellMania",
+      "Name_EN": "Fera",
+      "Name_FR": "Pernège",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Ichikara_Scholar_C",
+      "Name_EN": "Fernison",
+      "Name_FR": "Fougieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_CafeHylia004",
+      "Name_EN": "Fico",
+      "Name_FR": "Micar",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "NPC_Lanayru002",
+      "Name_EN": "Fin",
+      "Name_FR": "Finn",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/voltfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Npc_Zora026",
+      "Name_EN": "Finley",
+      "Name_FR": "Alfine",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia004",
+      "Name_EN": "Flahva",
+      "Name_FR": "Flava",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage012",
+      "Name_EN": "Flavi",
+      "Name_FR": "Flahmi",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "NPC_oasis004_fr02",
+      "Name_EN": "Flaxel",
+      "Name_FR": "Linum",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCampSoldier_Hylia007",
+      "Name_EN": "Flesi",
+      "Name_FR": "Raff",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_21",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0012",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0013",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0014",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0015",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0016",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0017",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0018",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0019",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0020",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0026",
+      "Name_EN": "Forge Construct",
+      "Name_FR": "Golem raffineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis020",
+      "Name_EN": "Frelly",
+      "Name_FR": "Fressah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisHighMountain_001",
+      "Name_EN": "Frita",
+      "Name_FR": "Fauvitt",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora006",
+      "Name_EN": "Fronk",
+      "Name_FR": "Nelsice",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron017",
+      "Name_EN": "Fugo",
+      "Name_FR": "Fuhgo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisMilk_E",
+      "Name_EN": "Furosa",
+      "Name_FR": "Furosa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain010",
+      "Name_EN": "Fyson",
+      "Name_FR": "Pervieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora034",
+      "Name_EN": "Gaddison",
+      "Name_FR": "Octavieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_AncientAssistant001",
+      "Name_EN": "Gagaim",
+      "Name_FR": "Métap",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DeathEastHatago_003",
+      "Name_EN": "Gaile",
+      "Name_FR": "Zalbane",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RitoHatago004",
+      "Name_EN": "Galli",
+      "Name_FR": "Pagol",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoGate003",
+      "Name_EN": "Garill",
+      "Name_FR": "Euptus",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage014",
+      "Name_EN": "Garini",
+      "Name_FR": "Argose",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleWestHatago002",
+      "Name_EN": "Garshon",
+      "Name_FR": "Gamyo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_030",
+      "Name_EN": "Gartan",
+      "Name_FR": "Capsi",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleDepthHatago004",
+      "Name_EN": "Geggle",
+      "Name_FR": "Kasah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain033",
+      "Name_EN": "Genli",
+      "Name_FR": "Ghenkott",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain037",
+      "Name_EN": "Gesane",
+      "Name_FR": "Ghipa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FaronWoods007",
+      "Name_EN": "Giro",
+      "Name_FR": "Giroccho",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_CaveTraveler001",
+      "Name_EN": "Gladis",
+      "Name_FR": "Glaï",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourPlainHatago_003",
+      "Name_EN": "Gleema",
+      "Name_FR": "Suya",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_017",
+      "Name_EN": "Glendo",
+      "Name_FR": "Guiff",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron_Cafe002",
+      "Name_EN": "Gomo",
+      "Name_FR": "Ountone",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron009",
+      "Name_EN": "Gonguron",
+      "Name_FR": "Bégron",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_SpecialPartsShopNPC",
+      "Name_EN": "Gordi",
+      "Name_FR": "Jiaolan",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RiverSideHatago001",
+      "Name_EN": "Gotter",
+      "Name_FR": "Gottah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Eldin_Hylia004",
+      "Name_EN": "Gozzber",
+      "Name_FR": "Grosereau",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia001",
+      "Name_EN": "Gralens",
+      "Name_FR": "Tronel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_AncientAssistant003",
+      "Name_EN": "Grantéson",
+      "Name_FR": "Nadieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron032",
+      "Name_EN": "Grapp",
+      "Name_FR": "Tractop",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Village_Korok_DekuTree_A_01",
+      "Name_EN": "Great Deku Tree",
+      "Name_FR": "Vénérable Arbre Mojo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DressFairy_00",
+      "Name_EN": "Great Fairy Cotera",
+      "Name_FR": "Grande fée Cotura",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_FairySpringClose_A_01",
+      "Name_EN": "Great Fairy Cotera",
+      "Name_FR": "Grande fée Cotura",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DressFairy_02",
+      "Name_EN": "Great Fairy Kaysa",
+      "Name_FR": "Grande fée Caesa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_FairySpringClose_B_01",
+      "Name_EN": "Great Fairy Kaysa",
+      "Name_FR": "Grande fée Caesa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DressFairy_01",
+      "Name_EN": "Great Fairy Mija",
+      "Name_FR": "Grande fée Mijah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_FairySpringClose_C_01",
+      "Name_EN": "Great Fairy Mija",
+      "Name_FR": "Grande fée Mijah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DressFairy_03",
+      "Name_EN": "Great Fairy Tera",
+      "Name_FR": "Grande fée Tera",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_FairySpringClose_D_01",
+      "Name_EN": "Great Fairy Tera",
+      "Name_FR": "Grande fée Tera",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis005",
+      "Name_EN": "Greta",
+      "Name_FR": "Egrouss",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron023",
+      "Name_EN": "Greyson",
+      "Name_FR": "Shantieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_AncientAssistant002",
+      "Name_EN": "Grunyon",
+      "Name_FR": "Kujoh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora029",
+      "Name_EN": "Gruve",
+      "Name_FR": "Gruve",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoGate_AncientAssistant004",
+      "Name_EN": "Guspar",
+      "Name_FR": "Sperge",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis002",
+      "Name_EN": "Guy",
+      "Name_FR": "Migaro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_UMiiVillage009",
+      "Name_EN": "Hagie",
+      "Name_FR": "Deza",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleDepthHatago001",
+      "Name_EN": "Haite",
+      "Name_FR": "Baih",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia009",
+      "Name_EN": "Hamata",
+      "Name_FR": "Hamata",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaHatago002",
+      "Name_EN": "Harlow",
+      "Name_FR": "Auven",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain009",
+      "Name_EN": "Harth",
+      "Name_FR": "Harfor",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Goron002B",
+      "Name_EN": "Hercus",
+      "Name_FR": "Cakons",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OldKorok",
+      "Name_EN": "Hestu",
+      "Name_FR": "Noïa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthHateru007",
+      "Name_EN": "Hino",
+      "Name_FR": "Tabaga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bladed_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Npc_TamourHatago004",
+      "Name_EN": "Hoz",
+      "Name_FR": "Hoz",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain013",
+      "Name_EN": "Huck",
+      "Name_FR": "Éhong",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_UMiiVillage003",
+      "Name_EN": "Hunnie",
+      "Name_FR": "Annie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Wanderer",
+      "Name_EN": "Impa",
+      "Name_FR": "Impa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis001",
+      "Name_EN": "Isha",
+      "Name_FR": "Azasha",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage003",
+      "Name_EN": "Ivee",
+      "Name_FR": "Lirriz",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NorthHatelHatago001",
+      "Name_EN": "Izra",
+      "Name_FR": "Elos",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp012",
+      "Name_EN": "Jambo",
+      "Name_FR": "Banjam",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourPlainHatago_002",
+      "Name_EN": "Jana",
+      "Name_FR": "Jun",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCampSoldier_Hylia004",
+      "Name_EN": "Jasz",
+      "Name_FR": "Jass",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_KorokFly006",
+      "Name_EN": "Jatora",
+      "Name_FR": "Jatora",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron013",
+      "Name_EN": "Jengo",
+      "Name_FR": "Tonjaga",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_AncientAssistant004",
+      "Name_EN": "Jerrin",
+      "Name_FR": "Jérine",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora035",
+      "Name_EN": "Jiahto",
+      "Name_FR": "Jitato",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FaronWoods009",
+      "Name_EN": "Jini",
+      "Name_FR": "Zininn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Gerudo002",
+      "Name_EN": "Jirba",
+      "Name_FR": "Tregna",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain040",
+      "Name_EN": "Jogo",
+      "Name_FR": "Johgo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_007",
+      "Name_EN": "Jora",
+      "Name_FR": "Jolaine",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Assistant",
+      "Name_EN": "Josha",
+      "Name_FR": "Josha",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Village_SheikerHeirDiary_A_02",
+      "Name_EN": "Journal of Various Worries",
+      "Name_FR": "Recueil de soucis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_021",
+      "Name_EN": "Joute",
+      "Name_FR": "Ephèdre",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Hunters_Lost",
+      "Name_EN": "Juannelle",
+      "Name_FR": "Fruguette",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabanthaRoad_AncientAssistant",
+      "Name_EN": "Juga",
+      "Name_FR": "Laurine",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisHylia_001",
+      "Name_EN": "Jules",
+      "Name_FR": "Lhys",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain041",
+      "Name_EN": "Juney",
+      "Name_FR": "Junoh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryGoron_Npc_Gaman03",
+      "Name_EN": "Kabetta's Diary",
+      "Name_FR": "Journal de Mécahn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Road_Scholar_A",
+      "Name_EN": "Kabok",
+      "Name_FR": "Kabok",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis004",
+      "Name_EN": "Kachoo",
+      "Name_FR": "Cajou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked02_002",
+      "Name_EN": "Kaffi",
+      "Name_FR": "Vombaca",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourPlainHatago_001",
+      "Name_EN": "Kaifa",
+      "Name_FR": "Kaifa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_007",
+      "Name_EN": "Kairo",
+      "Name_FR": "Charroh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron039",
+      "Name_EN": "Kalamp",
+      "Name_FR": "Gersoin",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis013",
+      "Name_EN": "Kalani",
+      "Name_FR": "Kuiverl",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_LakeSideHatago005",
+      "Name_EN": "Kampo",
+      "Name_FR": "Campo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain004",
+      "Name_EN": "Kaneli",
+      "Name_FR": "Kaï",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_005",
+      "Name_EN": "Kanny",
+      "Name_FR": "Kulinn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora005",
+      "Name_EN": "Kapson",
+      "Name_FR": "Klavieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage029",
+      "Name_EN": "Karin",
+      "Name_FR": "Koryl",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_029",
+      "Name_EN": "Karsh",
+      "Name_FR": "Zébaie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage030",
+      "Name_EN": "Karson",
+      "Name_FR": "Frobasieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisStep_A",
+      "Name_EN": "Katta",
+      "Name_FR": "Cinehl",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora020",
+      "Name_EN": "Kayden",
+      "Name_FR": "Gama",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_023",
+      "Name_EN": "Kazul",
+      "Name_FR": "Sarmet",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaBridgeHatago002",
+      "Name_EN": "Kenyo",
+      "Name_FR": "Kann",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora012",
+      "Name_EN": "Keye",
+      "Name_FR": "Neiro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain035",
+      "Name_EN": "Kheel",
+      "Name_FR": "Quill",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourHatago003",
+      "Name_EN": "Khini",
+      "Name_FR": "Bakhini",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora_Attendant002",
+      "Name_EN": "Khira",
+      "Name_FR": "Imu",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage007",
+      "Name_EN": "Kiana",
+      "Name_FR": "Plati",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp014",
+      "Name_EN": "Kiimo",
+      "Name_FR": "Maniok",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MamonoShop",
+      "Name_EN": "Kilton",
+      "Name_FR": "Kilton",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DeathEastHatago_002",
+      "Name_EN": "Kima",
+      "Name_FR": "Mark",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage008",
+      "Name_EN": "Kinov",
+      "Name_FR": "Romba",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DeathWestHatago_002",
+      "Name_EN": "Kish",
+      "Name_FR": "Kilou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora008",
+      "Name_EN": "Kodah",
+      "Name_FR": "Kodah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "KohgaNoTitle",
+      "Name_EN": "Kohga",
+      "Name_FR": "Kohga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/master_kohga/image?game=totk"
+    },
+    {
+      "Index": "Npc_oasis029",
+      "Name_EN": "Kohm",
+      "Name_FR": "Rucombe",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko003",
+      "Name_EN": "Koko",
+      "Name_FR": "Coconoa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NushiShop",
+      "Name_EN": "Koltin",
+      "Name_FR": "Koltin",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MiniGame_Crosscountry",
+      "Name_EN": "Konba",
+      "Name_FR": "Bouhlo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis012",
+      "Name_EN": "Konora",
+      "Name_FR": "Cottera",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Gerudo001",
+      "Name_EN": "Kora",
+      "Name_FR": "Palgane",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "KorokCarryPassenger_Pair",
+      "Name_EN": "Korok",
+      "Name_FR": "Korogu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/korok_frond/image?game=totk"
+    },
+    {
+      "Index": "KorokCarry_Destination",
+      "Name_EN": "Korok",
+      "Name_FR": "Korogu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/korok_frond/image?game=totk"
+    },
+    {
+      "Index": "Npc_HiddenKorokGround",
+      "Name_EN": "Korok",
+      "Name_FR": "Korogu",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/korok_frond/image?game=totk"
+    },
+    {
+      "Index": "Npc_BaseCamp004",
+      "Name_EN": "Kosi",
+      "Name_FR": "Ehler",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis041",
+      "Name_EN": "Kotta",
+      "Name_FR": "Coclie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain032",
+      "Name_EN": "Kotts",
+      "Name_FR": "Kuhis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage025",
+      "Name_EN": "Koyin",
+      "Name_FR": "Naye",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron022",
+      "Name_EN": "Krane",
+      "Name_FR": "Grukren",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron051",
+      "Name_EN": "Kresh",
+      "Name_FR": "Konka",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_kokiri012",
+      "Name_EN": "Kula",
+      "Name_FR": "Almus",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_011",
+      "Name_EN": "Kyra",
+      "Name_FR": "Zinnia",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora015",
+      "Name_EN": "Laflat",
+      "Name_FR": "Mébol",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis009",
+      "Name_EN": "Laine",
+      "Name_FR": "Lamenn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain030",
+      "Name_EN": "Laissa",
+      "Name_FR": "Solilès",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FutagoRoad_AncientAssistant",
+      "Name_EN": "Lammz",
+      "Name_FR": "Épiance",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia003B",
+      "Name_EN": "Landi",
+      "Name_FR": "Landy",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_043",
+      "Name_EN": "Laroba",
+      "Name_FR": "Zannelle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora007",
+      "Name_EN": "Laruta",
+      "Name_FR": "Narutel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis023",
+      "Name_EN": "Lashley",
+      "Name_FR": "Lammech",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko016",
+      "Name_EN": "Lasli",
+      "Name_FR": "Amboise",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NorthHatelHatago006",
+      "Name_EN": "Lawdon",
+      "Name_FR": "Galsen",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RidgeRoad_AncientAssistant",
+      "Name_EN": "Lecia",
+      "Name_FR": "Lycia",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora013",
+      "Name_EN": "Ledo",
+      "Name_FR": "Telago",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_001",
+      "Name_EN": "Leekah",
+      "Name_FR": "Areau",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis040",
+      "Name_EN": "Leena",
+      "Name_FR": "Inelle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage010",
+      "Name_EN": "Leop",
+      "Name_FR": "Opar",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RitoHatago001",
+      "Name_EN": "Lester",
+      "Name_FR": "Pistou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_009",
+      "Name_EN": "Letty",
+      "Name_FR": "Slaeda",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis042",
+      "Name_EN": "Liana",
+      "Name_FR": "Lobinn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryAssassin_A_04",
+      "Name_EN": "Lightning Helm Journal",
+      "Name_FR": "Journal de développement",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoGate_AncientAssistant002",
+      "Name_EN": "Livo",
+      "Name_FR": "Livier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_045",
+      "Name_EN": "Lonni",
+      "Name_FR": "Cibline",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryGerudo_A_03",
+      "Name_EN": "Lookout Post Logbook",
+      "Name_FR": "Journal de surveillance",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Remains_Fancier001",
+      "Name_EN": "Loone",
+      "Name_FR": "Lune",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis045",
+      "Name_EN": "Lorn",
+      "Name_FR": "Vermilla",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoRoad_AncientAssistant",
+      "Name_EN": "Lourda",
+      "Name_FR": "Cordieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_032",
+      "Name_EN": "Lukan",
+      "Name_FR": "Rouka",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisGoron_001",
+      "Name_EN": "Lyndae",
+      "Name_FR": "Kavatlin",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_kokiri005",
+      "Name_EN": "Maca",
+      "Name_FR": "Makus",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Challenge093Lady",
+      "Name_EN": "Magda",
+      "Name_FR": "Magda",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_KorokFly005",
+      "Name_EN": "Maheli",
+      "Name_FR": "Madhelin",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis009",
+      "Name_EN": "Maike",
+      "Name_FR": "Menaccly",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_06",
+      "Name_EN": "Maker Construct",
+      "Name_FR": "Golem charpentier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_07",
+      "Name_EN": "Maker Construct",
+      "Name_FR": "Golem charpentier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_12",
+      "Name_EN": "Maker Construct",
+      "Name_FR": "Golem charpentier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_13",
+      "Name_EN": "Maker Construct",
+      "Name_FR": "Golem charpentier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_14",
+      "Name_EN": "Maker Construct",
+      "Name_FR": "Golem charpentier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_18",
+      "Name_EN": "Maker Construct",
+      "Name_FR": "Golem charpentier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_23",
+      "Name_EN": "Maker Construct",
+      "Name_FR": "Golem charpentier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis011",
+      "Name_EN": "Makure",
+      "Name_FR": "Millie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "HorseGod001",
+      "Name_EN": "Malanya",
+      "Name_FR": "Marlon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis028",
+      "Name_EN": "Malena",
+      "Name_FR": "Merveila",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage022",
+      "Name_EN": "Manny",
+      "Name_FR": "Hamel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora009",
+      "Name_EN": "Marot",
+      "Name_FR": "Orestrech",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisSoldier_A",
+      "Name_EN": "Marta",
+      "Name_FR": "Makma",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia002A",
+      "Name_EN": "Mashmo",
+      "Name_FR": "Massima",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Orchestra_M_00",
+      "Name_EN": "Mastro",
+      "Name_FR": "Maïstro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_UMiiVillage033",
+      "Name_EN": "Mattison",
+      "Name_FR": "Tinieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_UMiiVillage033_Gerudo",
+      "Name_EN": "Mattison",
+      "Name_FR": "Tinieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_UMiiVillage033Book",
+      "Name_EN": "Mattison's Notebook",
+      "Name_FR": "Journal de Tinieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_031",
+      "Name_EN": "Maypin",
+      "Name_FR": "Poiron",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DeathMt001",
+      "Name_EN": "Mayro",
+      "Name_FR": "Mero",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain011",
+      "Name_EN": "Mazli",
+      "Name_FR": "Nazuri",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage012",
+      "Name_EN": "Medda",
+      "Name_FR": "Filip",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_013",
+      "Name_EN": "Meeshy",
+      "Name_FR": "Shysim",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_009",
+      "Name_EN": "Meghyn",
+      "Name_FR": "Uscade",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora010",
+      "Name_EN": "Mei",
+      "Name_FR": "Majeurie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko008",
+      "Name_EN": "Mellie",
+      "Name_FR": "Melo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Camper002",
+      "Name_EN": "Menter",
+      "Name_FR": "Mendair",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis010",
+      "Name_EN": "Merina",
+      "Name_FR": "Marisa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_002_Road",
+      "Name_EN": "Mezer",
+      "Name_FR": "Bongo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_006",
+      "Name_EN": "Mils",
+      "Name_FR": "Nirva",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FarthestIsland002",
+      "Name_EN": "Mimo",
+      "Name_FR": "Érab",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoGate002",
+      "Name_EN": "Mimos",
+      "Name_FR": "Acassa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_011",
+      "Name_EN": "Mina",
+      "Name_FR": "Themen",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Dm_Npc_Raumi",
+      "Name_EN": "Mineru",
+      "Name_FR": "Mineru",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RaumiGolem_Sage",
+      "Name_EN": "Mineru",
+      "Name_FR": "Mineru",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_08",
+      "Name_EN": "Mining Construct",
+      "Name_FR": "Golem mineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_15",
+      "Name_EN": "Mining Construct",
+      "Name_FR": "Golem mineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_16",
+      "Name_EN": "Mining Construct",
+      "Name_FR": "Golem mineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_ZonauChallenge_02",
+      "Name_EN": "Mining Construct",
+      "Name_FR": "Golem mineur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia007",
+      "Name_EN": "Mino",
+      "Name_FR": "Minohr",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/staminoka_bass/image?game=totk"
+    },
+    {
+      "Index": "Npc_HighMountain021",
+      "Name_EN": "Misa",
+      "Name_FR": "Mésa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryRito001_A_01",
+      "Name_EN": "Misa's Recipe Book",
+      "Name_FR": "Recettes de Mésa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "LambdaTextNpc",
+      "Name_EN": "Misko's Letter",
+      "Name_FR": "Message de Lambda",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MiniGame_Golf",
+      "Name_EN": "Modar",
+      "Name_FR": "Mota",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_UMiiVillage008",
+      "Name_EN": "Moggs",
+      "Name_FR": "Mogg",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_KorokFly003",
+      "Name_EN": "Mokka",
+      "Name_FR": "Mattari",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain003",
+      "Name_EN": "Molli",
+      "Name_FR": "Mohino",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyrulePlain006",
+      "Name_EN": "Molo",
+      "Name_FR": "Molokhia",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_UMiiVillage007",
+      "Name_EN": "Monari",
+      "Name_FR": "Monalie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCampSoldier_Hylia006",
+      "Name_EN": "Mondi",
+      "Name_FR": "Drudy",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaHatago001",
+      "Name_EN": "Monkton",
+      "Name_FR": "Monquie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp011",
+      "Name_EN": "Monte",
+      "Name_FR": "Clemis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_KorokFly001",
+      "Name_EN": "Mopu",
+      "Name_FR": "Moresup",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron040",
+      "Name_EN": "Mota",
+      "Name_FR": "Mohtar",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Strange_Beacon",
+      "Name_EN": "Moza",
+      "Name_FR": "Moza",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisGoddess",
+      "Name_EN": "Muava",
+      "Name_FR": "Malva",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage005",
+      "Name_EN": "Mubs",
+      "Name_FR": "Oriace",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora004",
+      "Name_EN": "Muzu",
+      "Name_FR": "Meryth",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_AncientAssistant003",
+      "Name_EN": "Mylle",
+      "Name_FR": "Camille",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "UnknownNPC_MysteryVoice",
+      "Name_EN": "Mysterious Voice",
+      "Name_FR": "Voix mystérieuse",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleDepthHatago002",
+      "Name_EN": "Myti",
+      "Name_FR": "Maneigor",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage005",
+      "Name_EN": "Nack",
+      "Name_FR": "Baschua",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_042",
+      "Name_EN": "Naddon",
+      "Name_FR": "Godon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoGate_Soldier001",
+      "Name_EN": "Naia",
+      "Name_FR": "Karna",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_KorokFly002",
+      "Name_EN": "Nako",
+      "Name_FR": "Nako",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis021",
+      "Name_EN": "Nali",
+      "Name_FR": "Etrevis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko015",
+      "Name_EN": "Nanna",
+      "Name_FR": "Bah Nahna",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Gerudo004",
+      "Name_EN": "Nanoa",
+      "Name_FR": "Matie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp007",
+      "Name_EN": "Nappin",
+      "Name_FR": "Penth",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage007",
+      "Name_EN": "Narah",
+      "Name_FR": "Êchenn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked02_003",
+      "Name_EN": "Nars",
+      "Name_FR": "Sarnice",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_008",
+      "Name_EN": "Nat",
+      "Name_FR": "Musca",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_kokiri004",
+      "Name_EN": "Natie",
+      "Name_FR": "Tainis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_033",
+      "Name_EN": "Nazbi",
+      "Name_FR": "Bergin",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage008",
+      "Name_EN": "Nebb",
+      "Name_FR": "Erhêt",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain008",
+      "Name_EN": "Nekk",
+      "Name_FR": "Beck",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_012",
+      "Name_EN": "Nell",
+      "Name_FR": "Fenouh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis018",
+      "Name_EN": "Nellie",
+      "Name_FR": "Lava",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HorseBuyer_01",
+      "Name_EN": "Nembis",
+      "Name_FR": "Tulos",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoGate_AncientAssistant001",
+      "Name_EN": "Nenea",
+      "Name_FR": "Manéone",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage006",
+      "Name_EN": "Nikki",
+      "Name_FR": "Coria",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis007",
+      "Name_EN": "Nobiro",
+      "Name_FR": "Allium",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourHatago002",
+      "Name_EN": "Nobo",
+      "Name_FR": "Lasto",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_Notepad_Tips_A_01",
+      "Name_EN": "Note on the Table",
+      "Name_FR": "Note sur la table",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryTamul_A_09",
+      "Name_EN": "Notes on the Upheaval",
+      "Name_FR": "Étude du cataclysme",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain031",
+      "Name_EN": "Notts",
+      "Name_FR": "Elle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage010",
+      "Name_EN": "Numar",
+      "Name_FR": "Nufar",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Zora001",
+      "Name_EN": "Numien",
+      "Name_FR": "Numien",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_kokiri009",
+      "Name_EN": "Oaki",
+      "Name_FR": "Azettis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron033",
+      "Name_EN": "Offrak",
+      "Name_FR": "Vator",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "NPC_oasis004_fr04",
+      "Name_EN": "Oliff",
+      "Name_FR": "Kartham",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko006",
+      "Name_EN": "Olkin",
+      "Name_FR": "Tiron",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko011",
+      "Name_EN": "Ollie",
+      "Name_FR": "Olive",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis019",
+      "Name_EN": "Olu",
+      "Name_FR": "Ormillon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleWestHatago003",
+      "Name_EN": "Onya",
+      "Name_FR": "Nyon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper013",
+      "Name_EN": "Onyn",
+      "Name_FR": "Cambole",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MiniGame_Basketball",
+      "Name_EN": "Ornest",
+      "Name_FR": "Nidus",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_DeathEastHatago_001",
+      "Name_EN": "Ozunda",
+      "Name_FR": "Anseau",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis047",
+      "Name_EN": "Padda",
+      "Name_FR": "Pavro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FaronHatago_001",
+      "Name_EN": "Padok",
+      "Name_FR": "Kopad",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper005",
+      "Name_EN": "Pahla",
+      "Name_FR": "Becky",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "NPC_oasis004_fr03",
+      "Name_EN": "Palme",
+      "Name_FR": "Plame",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RiverSideHatago002",
+      "Name_EN": "Parcy",
+      "Name_FR": "Parisse",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HorseBuyer_03",
+      "Name_EN": "Parga",
+      "Name_FR": "Aspa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisStudent_A",
+      "Name_EN": "Pasha",
+      "Name_FR": "Pisanso",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis017",
+      "Name_EN": "Pearle",
+      "Name_FR": "Porupah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kokiri007",
+      "Name_EN": "Peeks",
+      "Name_FR": "Pecanis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron025",
+      "Name_EN": "Pelison",
+      "Name_FR": "Mohrtieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Rito_Postman_001",
+      "Name_EN": "Penn",
+      "Name_FR": "Penn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_kokiri006",
+      "Name_EN": "Pepp",
+      "Name_FR": "Povia",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/spicy_pepper/image?game=totk"
+    },
+    {
+      "Index": "Npc_SouthernVillage015",
+      "Name_EN": "Perda",
+      "Name_FR": "Radima",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FaronWoods001",
+      "Name_EN": "Perosa",
+      "Name_FR": "Surosse",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "HorseAssociationCustum002",
+      "Name_EN": "Phanna",
+      "Name_FR": "Fanfa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoCanyonHatago001",
+      "Name_EN": "Piaffe",
+      "Name_FR": "Peiffa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "NPC_artist_001",
+      "Name_EN": "Pikango",
+      "Name_FR": "Kangis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora_NewFaceSoldier002",
+      "Name_EN": "Pinoa",
+      "Name_FR": "Pinoa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_gerudovalley001",
+      "Name_EN": "Pirou",
+      "Name_FR": "Pirou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_041",
+      "Name_EN": "Pitar",
+      "Name_FR": "Erzil",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Gerudo_Hylia001",
+      "Name_EN": "Platt",
+      "Name_FR": "Plaère",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron042",
+      "Name_EN": "Pleer",
+      "Name_FR": "Peince",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis026",
+      "Name_EN": "Ploka",
+      "Name_FR": "Roseillah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoDesert002",
+      "Name_EN": "Pokki",
+      "Name_FR": "Pohrpi",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Bowling",
+      "Name_EN": "Pondo",
+      "Name_FR": "Pondo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_G",
+      "Name_EN": "Ponnick",
+      "Name_FR": "Alune",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_RitoHatago003",
+      "Name_EN": "Ponthos",
+      "Name_FR": "Arassos",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_UmayadoBook_07",
+      "Name_EN": "Pony Points Ledger",
+      "Name_FR": "Registre des relais",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage014",
+      "Name_EN": "Prima",
+      "Name_FR": "Onag",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "subchallnpc000_twin",
+      "Name_EN": "Prissen",
+      "Name_FR": "Prissène",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis008",
+      "Name_EN": "Pritana",
+      "Name_FR": "Pavah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage002",
+      "Name_EN": "Pruce",
+      "Name_FR": "Epicèle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp008",
+      "Name_EN": "Pulcho",
+      "Name_FR": "Dropi",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_AncientDoctor",
+      "Name_EN": "Purah",
+      "Name_FR": "Pru'ha",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_AncientDoctorDiary_A_01",
+      "Name_EN": "Purah Pad Manual",
+      "Name_FR": "Manuel de la tablette",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryTamul_A_01",
+      "Name_EN": "Purah's Diary",
+      "Name_FR": "Journal de Pru'ha",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia005",
+      "Name_EN": "Purpen",
+      "Name_FR": "Sapour",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_goron003",
+      "Name_EN": "Pyle",
+      "Name_FR": "Taroc",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Orchestra_BT_F",
+      "Name_EN": "Pyper",
+      "Name_FR": "Fluol",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisMilk_C",
+      "Name_EN": "Pyra",
+      "Name_FR": "Pyroh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NorthHateru005",
+      "Name_EN": "Quince",
+      "Name_FR": "Meles",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia008B",
+      "Name_EN": "Raffa",
+      "Name_FR": "Raffalel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_KorokFly004",
+      "Name_EN": "Raha",
+      "Name_FR": "Rarha",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoCanyon003",
+      "Name_EN": "Rahdo",
+      "Name_FR": "Diblan",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage024",
+      "Name_EN": "Ralera",
+      "Name_FR": "Lorelo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage024_AssassinFake",
+      "Name_EN": "Ralera",
+      "Name_FR": "Lorelo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_Hateno_MessageBook",
+      "Name_EN": "Ralera's Letter",
+      "Name_FR": "Message de Lorelo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron018",
+      "Name_EN": "Ramella",
+      "Name_FR": "Labira",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_02",
+      "Name_EN": "Ranger Construct",
+      "Name_FR": "Golem chasseur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_04",
+      "Name_EN": "Ranger Construct",
+      "Name_FR": "Golem chasseur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_17",
+      "Name_EN": "Ranger Construct",
+      "Name_FR": "Golem chasseur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia005A",
+      "Name_EN": "Raseno",
+      "Name_FR": "Raceny",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Dm_Npc_Raul",
+      "Name_EN": "Rauru",
+      "Name_FR": "Rauru",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Goron001B",
+      "Name_EN": "Raybun",
+      "Name_FR": "Briro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_ZoraGoron_001",
+      "Name_EN": "Reagah",
+      "Name_FR": "Tainer",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCampSoldier_Hylia005",
+      "Name_EN": "Redhran",
+      "Name_FR": "Narou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage",
+      "Name_EN": "Reede",
+      "Name_FR": "Baldinn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage_Armed",
+      "Name_EN": "Reede",
+      "Name_FR": "Baldinn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_HatenoVillage_MayorDiary_A_01",
+      "Name_EN": "Reede's Diary",
+      "Name_FR": "Journal de Baldinn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis036",
+      "Name_EN": "Reeza",
+      "Name_FR": "Aubash",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_003",
+      "Name_EN": "Regan",
+      "Name_FR": "Rigan",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthHateru006",
+      "Name_EN": "Rensa",
+      "Name_FR": "Nagache",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Zora002",
+      "Name_EN": "Resco",
+      "Name_FR": "Tycion",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_001",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_008",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_009",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_011",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_012",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_013",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_014",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_015",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_016",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_017",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_018",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_019",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_020",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_021",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_022",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_023",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Minus_Scholar_A",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Minus_Scholar_C",
+      "Name_EN": "Researcher",
+      "Name_FR": "Archéologue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourHatago2_001",
+      "Name_EN": "Rex",
+      "Name_FR": "Reks",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage017",
+      "Name_EN": "Rhodes",
+      "Name_FR": "Rhodanth",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis050",
+      "Name_EN": "Rhondson",
+      "Name_FR": "Kornuieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_GerudoTown_RougeDiary_A_02",
+      "Name_EN": "Riju's Diary",
+      "Name_FR": "Journal de Riju",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_003",
+      "Name_EN": "Rik",
+      "Name_FR": "Cumis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis014",
+      "Name_EN": "Rima",
+      "Name_FR": "Rubica",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis011",
+      "Name_EN": "Ripp",
+      "Name_FR": "Lavrie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisStudent_B",
+      "Name_EN": "Risa",
+      "Name_FR": "Licoh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_RitoRecordsBook",
+      "Name_EN": "Rito Records",
+      "Name_FR": "Texte piaf",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora031",
+      "Name_EN": "Rivan",
+      "Name_FR": "Byrotan",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_AncientDoctor_Hateno",
+      "Name_EN": "Robbie",
+      "Name_FR": "Faras",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis005",
+      "Name_EN": "Robsten",
+      "Name_FR": "Lobstenn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_goron004",
+      "Name_EN": "Rogaro",
+      "Name_FR": "Rolouro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron016",
+      "Name_EN": "Rohan",
+      "Name_FR": "Brathan",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko010",
+      "Name_EN": "Rola",
+      "Name_FR": "Cherrola",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis006",
+      "Name_EN": "Romah",
+      "Name_FR": "Brasiera",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_034",
+      "Name_EN": "Ronn",
+      "Name_FR": "Ron",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis027",
+      "Name_EN": "Rotana",
+      "Name_FR": "Rhodoni",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage013",
+      "Name_EN": "Rozel",
+      "Name_FR": "Biscus",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TamourHatago005",
+      "Name_EN": "Rudi",
+      "Name_FR": "Riselle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper009",
+      "Name_EN": "Rugle",
+      "Name_FR": "Quérot",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Circuit_Ichikara_RuleBook",
+      "Name_EN": "Rulebook",
+      "Name_FR": "Règles du rallye",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Circuit_Uotori_RuleBook",
+      "Name_EN": "Rulebook",
+      "Name_FR": "Règles du rallye",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_UMiiVillage010",
+      "Name_EN": "Ruli",
+      "Name_FR": "Lespe",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_BackNumberBook",
+      "Name_EN": "Rumor Mill",
+      "Name_FR": "Bourgette sait tout",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "NPC_Lanayru001",
+      "Name_EN": "Russ",
+      "Name_FR": "Russel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HutagoHatago_Woman_01",
+      "Name_EN": "Sagessa",
+      "Name_FR": "Sagesa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_B",
+      "Name_EN": "Saguru",
+      "Name_FR": "Sagaro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain005",
+      "Name_EN": "Saki",
+      "Name_FR": "Dézelle",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewVolcanicRoad_AncientAssistant",
+      "Name_EN": "Sango",
+      "Name_FR": "Jurneas",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia006",
+      "Name_EN": "Sanov",
+      "Name_FR": "Sanové",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron036",
+      "Name_EN": "Sanson",
+      "Name_FR": "Poncieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Bottle_Mes001",
+      "Name_EN": "Sasan",
+      "Name_FR": "Mabbou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis015",
+      "Name_EN": "Saula",
+      "Name_FR": "Rogorj",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_036",
+      "Name_EN": "Savelle",
+      "Name_FR": "Savy",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked02_001",
+      "Name_EN": "Savrey",
+      "Name_FR": "Sarriet",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Cannon02_01",
+      "Name_EN": "Sawson",
+      "Name_FR": "Chênieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia002",
+      "Name_EN": "Sawtu",
+      "Name_FR": "Sotous",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage001",
+      "Name_EN": "Sayge",
+      "Name_FR": "Soje",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_HatenoVillage_ZeldaDiary_A_02",
+      "Name_EN": "School Notes",
+      "Name_FR": "Journal de classe",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCampSoldier_Hylia013",
+      "Name_EN": "Scorpis",
+      "Name_FR": "Foskor",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage006",
+      "Name_EN": "Sebasto",
+      "Name_FR": "Bacchyas",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage021",
+      "Name_EN": "Sefaro",
+      "Name_FR": "Sépharo",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora014",
+      "Name_EN": "Seggin",
+      "Name_FR": "Étorpe",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage004",
+      "Name_EN": "Seldon",
+      "Name_FR": "Cycas",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_IceVillage011",
+      "Name_EN": "Selmie",
+      "Name_FR": "Selmie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_KarakaraRoad_AncientAssistant",
+      "Name_EN": "Senia",
+      "Name_FR": "Sylvis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage009",
+      "Name_EN": "Senna",
+      "Name_FR": "Seym",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "NPC_oasis004",
+      "Name_EN": "Sesami",
+      "Name_FR": "Cézam",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_D",
+      "Name_EN": "Setari",
+      "Name_FR": "Staire",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis039",
+      "Name_EN": "Shabonne",
+      "Name_FR": "Sibur",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis003",
+      "Name_EN": "Shaillu",
+      "Name_FR": "Meris",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyrulePlain004",
+      "Name_EN": "Shamae",
+      "Name_FR": "Shamae",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia004A",
+      "Name_EN": "Sharce",
+      "Name_FR": "Danquin",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FaronWoods003",
+      "Name_EN": "Shay",
+      "Name_FR": "Pratue",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper008",
+      "Name_EN": "Sheeko",
+      "Name_FR": "Chicora",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthHateru005",
+      "Name_EN": "Shibo",
+      "Name_FR": "Opah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron019",
+      "Name_EN": "Shmid",
+      "Name_FR": "Shimidt",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaBridgeHatago004",
+      "Name_EN": "Sho",
+      "Name_FR": "Son",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/shock_fruit/image?game=totk"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia008",
+      "Name_EN": "Siceno",
+      "Name_FR": "Sicinatta",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_ZoraB001",
+      "Name_EN": "Sidon",
+      "Name_FR": "Sidon",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp002",
+      "Name_EN": "Sila",
+      "Name_FR": "Cilas",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron011",
+      "Name_EN": "Slergo",
+      "Name_FR": "Tokach",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisSoldier_B",
+      "Name_EN": "Smaude",
+      "Name_FR": "Rhodie",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_ZonauChallenge_01",
+      "Name_EN": "Smithing Construct",
+      "Name_FR": "Golem forgeron",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage019",
+      "Name_EN": "Sophie",
+      "Name_FR": "Sophora",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_010",
+      "Name_EN": "Sorelia",
+      "Name_FR": "Ozille",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis044",
+      "Name_EN": "Spera",
+      "Name_FR": "Ébis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_014",
+      "Name_EN": "Spinch",
+      "Name_FR": "Narep",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_026",
+      "Name_EN": "Spoone",
+      "Name_FR": "Dianel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleWestHatago005",
+      "Name_EN": "Sprinn",
+      "Name_FR": "Ullare",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_044",
+      "Name_EN": "Stamm",
+      "Name_FR": "Nip",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko013",
+      "Name_EN": "Steen",
+      "Name_FR": "Goustan",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_BaseCamp_01",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_00",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_10",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_11",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_19",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_20",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_FirstIsland_22",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0001",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0002",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0003",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0004",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0005",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0006",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0007",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0008",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0009",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0010",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0021",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0022",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0024",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Minus0025",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Shrine_00",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_Shrine_01",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_SkyIsland0001",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_SkyIsland0002",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zonau_Golem_Servant_SkyIsland0003",
+      "Name_EN": "Steward Construct",
+      "Name_FR": "Golem assistant",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SmallOasis001",
+      "Name_EN": "Strade",
+      "Name_FR": "Portorok",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_FaronWoods008",
+      "Name_EN": "Straia",
+      "Name_FR": "Staille",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_002",
+      "Name_EN": "Stylish Person",
+      "Name_FR": "Fashionista",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_004",
+      "Name_EN": "Stylish Person",
+      "Name_FR": "Fashionista",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_010",
+      "Name_EN": "Stylish Person",
+      "Name_FR": "Dandy",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_GerudoDesert001",
+      "Name_EN": "Sudrey",
+      "Name_FR": "Saum",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisMilk_B",
+      "Name_EN": "Sumati",
+      "Name_FR": "Gamagy",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_Firone002",
+      "Name_EN": "Suzuna",
+      "Name_FR": "Anassa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_AncientAssistant001",
+      "Name_EN": "Symin",
+      "Name_FR": "Canel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MiniGame_BasketBall_Launcher",
+      "Name_EN": "Tabult",
+      "Name_FR": "Tabult",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis038",
+      "Name_EN": "Tali",
+      "Name_FR": "Pihmène",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stalizalfos/image?game=totk"
+    },
+    {
+      "Index": "Npc_HatenoVillage033",
+      "Name_EN": "Tamana",
+      "Name_FR": "Chuflor",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_goron002",
+      "Name_EN": "Tanko",
+      "Name_FR": "Citek",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_kokiri001",
+      "Name_EN": "Tasho",
+      "Name_FR": "Coquis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HutagoHatago_001",
+      "Name_EN": "Tasseren",
+      "Name_FR": "Gachane",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "FldObj_DevoteSpring_Book",
+      "Name_EN": "Tattered Notebook",
+      "Name_FR": "Vieux cahier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryKakariko004_A_01",
+      "Name_EN": "Tattered Notebook",
+      "Name_FR": "Vieux cahier",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_Notepad_Assassin_A_02",
+      "Name_EN": "Tattered Notebook",
+      "Name_FR": "Carnet endommagé",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisHylia_003",
+      "Name_EN": "Tauma",
+      "Name_FR": "Tabuma",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_AncientAssistant003_K1",
+      "Name_EN": "Tauro",
+      "Name_FR": "Tauro",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis025",
+      "Name_EN": "Teake",
+      "Name_FR": "Cherisah",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_ValleyVillage010",
+      "Name_EN": "Teba",
+      "Name_FR": "Teba",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage028",
+      "Name_EN": "Teebo",
+      "Name_FR": "Pico",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_020",
+      "Name_EN": "Teli",
+      "Name_FR": "Bérice",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "HorseAssociationCustum001",
+      "Name_EN": "Tenne",
+      "Name_FR": "Tenn",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage015",
+      "Name_EN": "Thadd",
+      "Name_FR": "Renou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Gerudo003",
+      "Name_EN": "Tharatera",
+      "Name_FR": "Soliera",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_BaseCamp_Zora003",
+      "Name_EN": "Tie",
+      "Name_FR": "Sailion",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper012",
+      "Name_EN": "Tilla",
+      "Name_FR": "Orcynthe",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleDepthHatago007",
+      "Name_EN": "Toffa",
+      "Name_FR": "Tabos",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage013",
+      "Name_EN": "Tokk",
+      "Name_FR": "Theyer",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_008",
+      "Name_EN": "Toma",
+      "Name_FR": "Thorma",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hylian_tomato/image?game=totk"
+    },
+    {
+      "Index": "Npc_Zora025",
+      "Name_EN": "Tona",
+      "Name_FR": "Klessol",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaBridgeHatago005",
+      "Name_EN": "Toren",
+      "Name_FR": "Tholu",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora036",
+      "Name_EN": "Torfeau",
+      "Name_FR": "Poréa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_016",
+      "Name_EN": "Totsuna",
+      "Name_FR": "Chicorine",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora001",
+      "Name_EN": "Tottika",
+      "Name_FR": "Tacca",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_003",
+      "Name_EN": "Traveler",
+      "Name_FR": "Voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_005",
+      "Name_EN": "Traveler",
+      "Name_FR": "Voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_006",
+      "Name_EN": "Traveler",
+      "Name_FR": "Voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_007",
+      "Name_EN": "Traveler",
+      "Name_FR": "Voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Npc_goron001",
+      "Name_EN": "Tray",
+      "Name_FR": "Rorc",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_oasis037",
+      "Name_EN": "Traysi",
+      "Name_FR": "Bourgette",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora027",
+      "Name_EN": "Trello",
+      "Name_FR": "Mordan",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kakariko014",
+      "Name_EN": "Trissa",
+      "Name_FR": "Citra",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleDepthHatago003",
+      "Name_EN": "Trott",
+      "Name_FR": "Trott",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron035",
+      "Name_EN": "Trucson",
+      "Name_FR": "Chargieh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora028",
+      "Name_EN": "Tula",
+      "Name_FR": "Taol",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Goron034",
+      "Name_EN": "Tule",
+      "Name_FR": "Tiou",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain001",
+      "Name_EN": "Tulin",
+      "Name_FR": "Babil",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Zora011",
+      "Name_EN": "Tumbo",
+      "Name_FR": "Pemto",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked_004",
+      "Name_EN": "Tye",
+      "Name_FR": "Thim",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage023",
+      "Name_EN": "Uma",
+      "Name_FR": "Florène",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_TabantaHatago004",
+      "Name_EN": "Varke",
+      "Name_FR": "Varken",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia009B",
+      "Name_EN": "Ventry",
+      "Name_FR": "Ventosa",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_NewsPaper004",
+      "Name_EN": "Veria",
+      "Name_FR": "Mimina",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HighMountain025",
+      "Name_EN": "Verla",
+      "Name_FR": "Balley",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Orchestra_W_00",
+      "Name_EN": "Violynne",
+      "Name_FR": "Violaine",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_goron026",
+      "Name_EN": "Volcon",
+      "Name_FR": "Konvoh",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage016",
+      "Name_EN": "Wabbin",
+      "Name_FR": "Kamis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Attacked02_004",
+      "Name_EN": "Wadder",
+      "Name_FR": "Utric",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_kokiri002",
+      "Name_EN": "Walton",
+      "Name_FR": "Cernus",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia003",
+      "Name_EN": "Wingo",
+      "Name_FR": "Élange",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HatenoVillage011",
+      "Name_EN": "Worten",
+      "Name_FR": "Douveth",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_AncientAssistant005",
+      "Name_EN": "Wortsworth",
+      "Name_FR": "Lizron",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Umii_Kakariko_Scholar_J",
+      "Name_EN": "Xalis",
+      "Name_FR": "Xalis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_OasisMilk_A",
+      "Name_EN": "Yaido",
+      "Name_FR": "Ycla",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_010",
+      "Name_EN": "Yammo",
+      "Name_FR": "Yam",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_Middle_001",
+      "Name_EN": "Yiga Blademaster",
+      "Name_FR": "Officier yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_blademaster/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Middle_002",
+      "Name_EN": "Yiga Blademaster",
+      "Name_FR": "Officier yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_blademaster/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Middle_003",
+      "Name_EN": "Yiga Blademaster",
+      "Name_FR": "Officier yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_blademaster/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Middle_004",
+      "Name_EN": "Yiga Blademaster",
+      "Name_FR": "Officier yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_blademaster/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Middle_Azito001",
+      "Name_EN": "Yiga Blademaster",
+      "Name_FR": "Officier yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_blademaster/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Middle_Azito002",
+      "Name_EN": "Yiga Blademaster",
+      "Name_FR": "Officier yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_blademaster/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Middle_Azito003",
+      "Name_EN": "Yiga Blademaster",
+      "Name_FR": "Officier yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_blademaster/image?game=totk"
+    },
+    {
+      "Index": "Obj_DiaryAssassin_A_01",
+      "Name_EN": "Yiga Clan Journal",
+      "Name_FR": "Journal des Yigas",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_Notepad_Assassin_A_01",
+      "Name_EN": "Yiga Clan Notebook",
+      "Name_FR": "Carnet yiga",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Assassin_Junior",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_001",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_002",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_003",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito001",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito002",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito003",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito004",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito005",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito006",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito007",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito008",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Azito009",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_Assassin_Junior_Tribune",
+      "Name_EN": "Yiga Footsoldier",
+      "Name_FR": "Sous-fifre yiga",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/yiga_footsoldier/image?game=totk"
+    },
+    {
+      "Index": "Npc_NorthHateru003",
+      "Name_EN": "Yolero",
+      "Name_FR": "Yolel",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Obj_DiaryGoronYunbo_A_01",
+      "Name_EN": "Yunobo's Diary",
+      "Name_FR": "Journal de Yun",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_MercenarySoldier_Hylia003A",
+      "Name_EN": "Yutas",
+      "Name_FR": "Eutas",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_Village_InvestigatorDiary_A_01",
+      "Name_EN": "ZST: Three Big Ideas",
+      "Name_FR": "Règles des archéologues",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Dm_Npc_Zelda_Search_Improve",
+      "Name_EN": "Zelda",
+      "Name_FR": "Zelda",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_HatenoVillage_ZeldaDiary_A_03",
+      "Name_EN": "Zelda's Diary",
+      "Name_FR": "Journal de Zelda",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "TwnObj_HatenoVillage_ZeldaDiary_A_01",
+      "Name_EN": "Zelda's Journal",
+      "Name_FR": "Journal de Zelda",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "UnknownNPC_Zelda",
+      "Name_EN": "Zelda's Voice",
+      "Name_FR": "Voix de Zelda",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "UnknownNPC_Mineru",
+      "Name_EN": "Zonai Relic",
+      "Name_FR": "Vestige soneau",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Kokiri010",
+      "Name_EN": "Zooki",
+      "Name_FR": "Glanis",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_Road_006",
+      "Name_EN": "Zorona",
+      "Name_FR": "Mahety",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HyruleWestHatago001",
+      "Name_EN": "Zumi",
+      "Name_FR": "Paturi",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_SouthernVillage009",
+      "Name_EN": "Zuta",
+      "Name_FR": "Edera",
+      "PictureMain": "Character Profiles.png"
+    },
+    {
+      "Index": "Npc_HorseBuyer",
+      "Name_EN": "Zyle",
+      "Name_FR": "Zucchi",
+      "PictureMain": "Character Profiles.png"
+    }
+  ]
+}

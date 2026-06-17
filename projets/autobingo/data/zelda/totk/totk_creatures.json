@@ -1,0 +1,799 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Creatures",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "GameRomHorse",
+      "Name_EN": "Horse",
+      "Name_FR": "Cheval",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/horse/image?game=totk"
+    },
+    {
+      "Index": "GameRomHorse00L",
+      "Name_EN": "Giant Horse",
+      "Name_FR": "Cheval géant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/giant_horse/image?game=totk"
+    },
+    {
+      "Index": "GameRomHorseZelda",
+      "Name_EN": "White Horse",
+      "Name_FR": "Cheval blanc",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/white_horse/image?game=totk"
+    },
+    {
+      "Index": "GameRomHorse01L",
+      "Name_EN": "Giant White Stallion",
+      "Name_FR": "Cheval blanc géant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/giant_white stallion/image?game=totk"
+    },
+    {
+      "Index": "GameRomHorseGold",
+      "Name_EN": "Golden Horse",
+      "Name_FR": "Cheval doré",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/golden_horse/image?game=totk"
+    },
+    {
+      "Index": "GameRomHorseBone",
+      "Name_EN": "Stalhorse",
+      "Name_FR": "Staldestrier",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stalhorse/image?game=totk"
+    },
+    {
+      "Index": "GameRomHorse00S",
+      "Name_EN": "Donkey",
+      "Name_FR": "Âne",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/donkey/image?game=totk"
+    },
+    {
+      "Index": "Animal_Sunazarashi_A",
+      "Name_EN": "Sand Seal",
+      "Name_FR": "Morse des sables",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sand_seal/image?game=totk"
+    },
+    {
+      "Index": "Animal_SunazarashiSP_C",
+      "Name_EN": "Patricia",
+      "Name_FR": "Madame Patricia",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/patricia/image?game=totk"
+    },
+    {
+      "Index": "Animal_Squirrel_A",
+      "Name_EN": "Bushy-Tailed Squirrel",
+      "Name_FR": "Écureuil dresse-panache",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bushy-tailed_squirrel/image?game=totk"
+    },
+    {
+      "Index": "Animal_Boar_A",
+      "Name_EN": "Woodland Boar",
+      "Name_FR": "Sanglier sylvestre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/woodland_boar/image?game=totk"
+    },
+    {
+      "Index": "Animal_Boar_B",
+      "Name_EN": "Red-Tusked Boar",
+      "Name_FR": "Sanglier à crocs rouges",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/red-tusked_boar/image?game=totk"
+    },
+    {
+      "Index": "Animal_WildGoat_A",
+      "Name_EN": "Mountain Goat",
+      "Name_FR": "Chèvre à dos noir",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mountain_goat/image?game=totk"
+    },
+    {
+      "Index": "Animal_Goat_A",
+      "Name_EN": "White Goat",
+      "Name_FR": "Chèvre blanche",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/white_goat/image?game=totk"
+    },
+    {
+      "Index": "Animal_Deer_A",
+      "Name_EN": "Mountain Buck",
+      "Name_FR": "Cerf des montagnes",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mountain_buck/image?game=totk"
+    },
+    {
+      "Index": "Animal_Doe_A",
+      "Name_EN": "Mountain Doe",
+      "Name_FR": "Biche des montagnes",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mountain_doe/image?game=totk"
+    },
+    {
+      "Index": "Animal_Bull_A",
+      "Name_EN": "Water Buffalo",
+      "Name_FR": "Buffle des marais",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/water_buffalo/image?game=totk"
+    },
+    {
+      "Index": "Animal_Cow_A",
+      "Name_EN": "Hateno Cow",
+      "Name_FR": "Vache d'Elimith",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hateno_cow/image?game=totk"
+    },
+    {
+      "Index": "Animal_Sheep_A",
+      "Name_EN": "Highland Sheep",
+      "Name_FR": "Mouton des plateaux",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/highland_sheep/image?game=totk"
+    },
+    {
+      "Index": "Animal_Fox_A",
+      "Name_EN": "Grassland Fox",
+      "Name_FR": "Renard des plaines",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/grassland_fox/image?game=totk"
+    },
+    {
+      "Index": "Animal_Fox_B",
+      "Name_EN": "Snowcoat Fox",
+      "Name_FR": "Renard neigeux",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/snowcoat_fox/image?game=totk"
+    },
+    {
+      "Index": "Animal_Wolf_A",
+      "Name_EN": "Maraudo Wolf",
+      "Name_FR": "Loup brigand",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/maraudo_wolf/image?game=totk"
+    },
+    {
+      "Index": "Animal_Wolf_B",
+      "Name_EN": "Wasteland Coyote",
+      "Name_FR": "Coyote Assek",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/wasteland_coyote/image?game=totk"
+    },
+    {
+      "Index": "Animal_Wolf_C",
+      "Name_EN": "Cold-Footed Wolf",
+      "Name_FR": "Loup des neiges",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cold-footed_wolf/image?game=totk"
+    },
+    {
+      "Index": "Animal_Elk_A",
+      "Name_EN": "Tabantha Moose",
+      "Name_FR": "Élan de Tabanta",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/tabantha_moose/image?game=totk"
+    },
+    {
+      "Index": "Animal_Pao_A",
+      "Name_EN": "Dondon",
+      "Name_FR": "Gondon",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/dondon/image?game=totk"
+    },
+    {
+      "Index": "Animal_Bear_A",
+      "Name_EN": "Honeyvore Bear",
+      "Name_FR": "Ours mellivore",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/honeyvore_bear/image?game=totk"
+    },
+    {
+      "Index": "Animal_Bear_B",
+      "Name_EN": "Grizzlemaw Bear",
+      "Name_FR": "Ours empereur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/grizzlemaw_bear/image?game=totk"
+    },
+    {
+      "Index": "Animal_Dog_A",
+      "Name_EN": "Hylian Retriever",
+      "Name_FR": "Chien hylien",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hylian_retriever/image?game=totk"
+    },
+    {
+      "Index": "Animal_RupeeRabbit_A",
+      "Name_EN": "Blupee",
+      "Name_FR": "Rumy",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blupee/image?game=totk"
+    },
+    {
+      "Index": "Enemy_CaveMaster_000",
+      "Name_EN": "Bubbulfrog",
+      "Name_FR": "Elusis",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bubbulfrog/image?game=totk"
+    },
+    {
+      "Index": "Animal_LittleBird_A",
+      "Name_EN": "Common Sparrow",
+      "Name_FR": "Moineau ordinaire",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/common_sparrow/image?game=totk"
+    },
+    {
+      "Index": "Animal_LittleBird_B",
+      "Name_EN": "Red Sparrow",
+      "Name_FR": "Moineau carné",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/red_sparrow/image?game=totk"
+    },
+    {
+      "Index": "Animal_LittleBird_C",
+      "Name_EN": "Blue Sparrow",
+      "Name_FR": "Moineau bleu vague",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue_sparrow/image?game=totk"
+    },
+    {
+      "Index": "Animal_LittleBird_D",
+      "Name_EN": "Rainbow Sparrow",
+      "Name_FR": "Moineau pentacolore",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rainbow_sparrow/image?game=totk"
+    },
+    {
+      "Index": "Animal_LittleBird_E",
+      "Name_EN": "Sand Sparrow",
+      "Name_FR": "Moineau fouisseur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sand_sparrow/image?game=totk"
+    },
+    {
+      "Index": "Animal_LittleBird_F",
+      "Name_EN": "Golden Sparrow",
+      "Name_FR": "Moineau doré",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/golden_sparrow/image?game=totk"
+    },
+    {
+      "Index": "Animal_Pigeon_A",
+      "Name_EN": "Wood Pigeon",
+      "Name_FR": "Pigeon commun",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/wood_pigeon/image?game=totk"
+    },
+    {
+      "Index": "Animal_Pigeon_B",
+      "Name_EN": "Rainbow Pigeon",
+      "Name_FR": "Pigeon arc-en-ciel",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rainbow_pigeon/image?game=totk"
+    },
+    {
+      "Index": "Animal_Ptarmigan_B",
+      "Name_EN": "Hotfeather Pigeon",
+      "Name_FR": "Pigeon flamboyant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hotfeather_pigeon/image?game=totk"
+    },
+    {
+      "Index": "Animal_Ptarmigan_A",
+      "Name_EN": "White Pigeon",
+      "Name_FR": "Pigeon immaculé",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/white_pigeon/image?game=totk"
+    },
+    {
+      "Index": "Animal_SkyPigeon_A",
+      "Name_EN": "Accented Pigeon",
+      "Name_FR": "Pigeon rustique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/accented_pigeon/image?game=totk"
+    },
+    {
+      "Index": "Animal_Crow_A",
+      "Name_EN": "Mountain Crow",
+      "Name_FR": "Corbeau des montagnes",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mountain_crow/image?game=totk"
+    },
+    {
+      "Index": "Animal_WildDuck_A",
+      "Name_EN": "Bright-Chested Duck",
+      "Name_FR": "Canard à taches blanches",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bright-chested_duck/image?game=totk"
+    },
+    {
+      "Index": "Animal_Heron_A",
+      "Name_EN": "Blue-Winged Heron",
+      "Name_FR": "Aigrette à ailes bleues",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue-winged_heron/image?game=totk"
+    },
+    {
+      "Index": "Animal_Heron_B",
+      "Name_EN": "Pink Heron",
+      "Name_FR": "Aigrette rose",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/pink_heron/image?game=totk"
+    },
+    {
+      "Index": "Animal_Hawk_A",
+      "Name_EN": "Islander Hawk",
+      "Name_FR": "Faucon à queue rayée",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/islander_hawk/image?game=totk"
+    },
+    {
+      "Index": "Animal_Gull_A",
+      "Name_EN": "Seagull",
+      "Name_FR": "Mouette marine",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/seagull/image?game=totk"
+    },
+    {
+      "Index": "Animal_SkyGull_A",
+      "Name_EN": "Cloud Seagull",
+      "Name_FR": "Mouette nébuleuse",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cloud_seagull/image?game=totk"
+    },
+    {
+      "Index": "Animal_Cassowary_A",
+      "Name_EN": "Eldin Ostrich",
+      "Name_FR": "Autruche d'Ordinn",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/eldin_ostrich/image?game=totk"
+    },
+    {
+      "Index": "Animal_SkyCassowary_A",
+      "Name_EN": "Forest Ostrich",
+      "Name_FR": "Autruche sylvestre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/forest_ostrich/image?game=totk"
+    },
+    {
+      "Index": "Animal_Kokko_A",
+      "Name_EN": "Cucco",
+      "Name_FR": "Cocotte",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cucco/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_A",
+      "Name_EN": "Hyrule Bass",
+      "Name_FR": "Perche d'Hyrule",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hyrule_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_A",
+      "Name_EN": "Hyrule Bass",
+      "Name_FR": "Perche d'Hyrule",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hyrule_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_B",
+      "Name_EN": "Hearty Bass",
+      "Name_FR": "Perche max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_B",
+      "Name_EN": "Hearty Bass",
+      "Name_FR": "Perche max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_L",
+      "Name_EN": "Staminoka Bass",
+      "Name_FR": "Perche enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/staminoka_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_L",
+      "Name_EN": "Staminoka Bass",
+      "Name_FR": "Perche enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/staminoka_bass/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_I",
+      "Name_EN": "Hearty Salmon",
+      "Name_FR": "Saumon max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_salmon/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_I",
+      "Name_EN": "Hearty Salmon",
+      "Name_FR": "Saumon max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_salmon/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_C",
+      "Name_EN": "Chillfin Trout",
+      "Name_FR": "Truite glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/chillfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_C",
+      "Name_EN": "Chillfin Trout",
+      "Name_FR": "Truite glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/chillfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_J",
+      "Name_EN": "Sizzlefin Trout",
+      "Name_FR": "Truite piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sizzlefin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_J",
+      "Name_EN": "Sizzlefin Trout",
+      "Name_FR": "Truite piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sizzlefin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_D",
+      "Name_EN": "Voltfin Trout",
+      "Name_FR": "Truite volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/voltfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_D",
+      "Name_EN": "Voltfin Trout",
+      "Name_FR": "Truite volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/voltfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_X",
+      "Name_EN": "Stealthfin Trout",
+      "Name_FR": "Truite silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stealthfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_X",
+      "Name_EN": "Stealthfin Trout",
+      "Name_FR": "Truite silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/stealthfin_trout/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_E",
+      "Name_EN": "Mighty Carp",
+      "Name_FR": "Carpe lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_E",
+      "Name_EN": "Mighty Carp",
+      "Name_FR": "Carpe lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_H",
+      "Name_EN": "Armored Carp",
+      "Name_FR": "Carpe armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armored_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_H",
+      "Name_EN": "Armored Carp",
+      "Name_FR": "Carpe armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armored_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_Z",
+      "Name_EN": "Sanke Carp",
+      "Name_FR": "Carpe tricolore",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sanke_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_Z",
+      "Name_EN": "Sanke Carp",
+      "Name_FR": "Carpe tricolore",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sanke_carp/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_AA",
+      "Name_EN": "Ancient Arowana",
+      "Name_FR": "Arowana ancien",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ancient_arowana/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_AA",
+      "Name_EN": "Ancient Arowana",
+      "Name_FR": "Arowana ancien",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ancient_arowana/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_AC",
+      "Name_EN": "Glowing Cave Fish",
+      "Name_FR": "Troglodus lumos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/glowing_cave fish/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_AC",
+      "Name_EN": "Glowing Cave Fish",
+      "Name_FR": "Troglodus lumos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/glowing_cave fish/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_F",
+      "Name_EN": "Mighty Porgy",
+      "Name_FR": "Daurade lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_porgy/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_F",
+      "Name_EN": "Mighty Porgy",
+      "Name_FR": "Daurade lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_porgy/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_G",
+      "Name_EN": "Armored Porgy",
+      "Name_FR": "Daurade armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armored_porgy/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_G",
+      "Name_EN": "Armored Porgy",
+      "Name_FR": "Daurade armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/armored_porgy/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_M",
+      "Name_EN": "Sneaky River Snail",
+      "Name_FR": "Escargot silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sneaky_river snail/image?game=totk"
+    },
+    {
+      "Index": "Item_FishGet_M",
+      "Name_EN": "Sneaky River Snail",
+      "Name_FR": "Escargot silencio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sneaky_river snail/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_K",
+      "Name_EN": "Razorclaw Crab",
+      "Name_FR": "Crabe lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/razorclaw_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_K",
+      "Name_EN": "Razorclaw Crab",
+      "Name_FR": "Crabe lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/razorclaw_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_O",
+      "Name_EN": "Ironshell Crab",
+      "Name_FR": "Crabe armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ironshell_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_O",
+      "Name_EN": "Ironshell Crab",
+      "Name_FR": "Crabe armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/ironshell_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_Z",
+      "Name_EN": "Bright-Eyed Crab",
+      "Name_FR": "Crabe enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bright-eyed_crab/image?game=totk"
+    },
+    {
+      "Index": "Item_InsectGet_Z",
+      "Name_EN": "Bright-Eyed Crab",
+      "Name_FR": "Crabe enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bright-eyed_crab/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_F",
+      "Name_EN": "Fairy",
+      "Name_FR": "Fée",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fairy/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_F",
+      "Name_EN": "Fairy",
+      "Name_FR": "Fée",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fairy/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_N",
+      "Name_EN": "Winterwing Butterfly",
+      "Name_FR": "Papillon glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/winterwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_N",
+      "Name_EN": "Winterwing Butterfly",
+      "Name_FR": "Papillon glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/winterwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_Q",
+      "Name_EN": "Summerwing Butterfly",
+      "Name_FR": "Papillon piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/summerwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_Q",
+      "Name_EN": "Summerwing Butterfly",
+      "Name_FR": "Papillon piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/summerwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_R",
+      "Name_EN": "Thunderwing Butterfly",
+      "Name_FR": "Papillon volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/thunderwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_R",
+      "Name_EN": "Thunderwing Butterfly",
+      "Name_FR": "Papillon volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/thunderwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AB",
+      "Name_EN": "Smotherwing Butterfly",
+      "Name_FR": "Papillon ignifus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/smotherwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AB",
+      "Name_EN": "Smotherwing Butterfly",
+      "Name_FR": "Papillon ignifus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/smotherwing_butterfly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_C",
+      "Name_EN": "Cold Darner",
+      "Name_FR": "Libellule glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cold_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_C",
+      "Name_EN": "Cold Darner",
+      "Name_FR": "Libellule glagla",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cold_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_T",
+      "Name_EN": "Warm Darner",
+      "Name_FR": "Libellule piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/warm_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_T",
+      "Name_EN": "Warm Darner",
+      "Name_FR": "Libellule piment",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/warm_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_I",
+      "Name_EN": "Electric Darner",
+      "Name_FR": "Libellule volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_I",
+      "Name_EN": "Electric Darner",
+      "Name_FR": "Libellule volt",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/electric_darner/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_H",
+      "Name_EN": "Restless Cricket",
+      "Name_FR": "Sauterelle enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/restless_cricket/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_H",
+      "Name_EN": "Restless Cricket",
+      "Name_FR": "Sauterelle enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/restless_cricket/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_G",
+      "Name_EN": "Bladed Rhino Beetle",
+      "Name_FR": "Scarabée lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bladed_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_G",
+      "Name_EN": "Bladed Rhino Beetle",
+      "Name_FR": "Scarabée lame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bladed_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_P",
+      "Name_EN": "Rugged Rhino Beetle",
+      "Name_FR": "Scarabée armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rugged_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_P",
+      "Name_EN": "Rugged Rhino Beetle",
+      "Name_FR": "Scarabée armo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rugged_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AA",
+      "Name_EN": "Energetic Rhino Beetle",
+      "Name_FR": "Scarabée enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/energetic_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AA",
+      "Name_EN": "Energetic Rhino Beetle",
+      "Name_FR": "Scarabée enduro",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/energetic_rhino beetle/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_E",
+      "Name_EN": "Sunset Firefly",
+      "Name_FR": "Luciole de la sérénité",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sunset_firefly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_E",
+      "Name_EN": "Sunset Firefly",
+      "Name_FR": "Luciole de la sérénité",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sunset_firefly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AI",
+      "Name_EN": "Deep Firefly",
+      "Name_FR": "Luciole de l'ombre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/deep_firefly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AI",
+      "Name_EN": "Deep Firefly",
+      "Name_FR": "Luciole de l'ombre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/deep_firefly/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_A",
+      "Name_EN": "Hot-Footed Frog",
+      "Name_FR": "Grenouille tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hot-footed_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_A",
+      "Name_EN": "Hot-Footed Frog",
+      "Name_FR": "Grenouille tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hot-footed_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_B",
+      "Name_EN": "Tireless Frog",
+      "Name_FR": "Grenouille vigueur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/tireless_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_B",
+      "Name_EN": "Tireless Frog",
+      "Name_FR": "Grenouille vigueur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/tireless_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AG",
+      "Name_EN": "Sticky Frog",
+      "Name_FR": "Grenouille adhésio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sticky_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AG",
+      "Name_EN": "Sticky Frog",
+      "Name_FR": "Grenouille adhésio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sticky_frog/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_S",
+      "Name_EN": "Hightail Lizard",
+      "Name_FR": "Lézard tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hightail_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_S",
+      "Name_EN": "Hightail Lizard",
+      "Name_FR": "Lézard tempo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hightail_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_M",
+      "Name_EN": "Hearty Lizard",
+      "Name_FR": "Lézard max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_M",
+      "Name_EN": "Hearty Lizard",
+      "Name_FR": "Lézard max",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/hearty_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_X",
+      "Name_EN": "Fireproof Lizard",
+      "Name_FR": "Lézard ignifus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fireproof_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_X",
+      "Name_EN": "Fireproof Lizard",
+      "Name_FR": "Lézard ignifus",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fireproof_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AH",
+      "Name_EN": "Sticky Lizard",
+      "Name_FR": "Lézard adhésio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sticky_lizard/image?game=totk"
+    },
+    {
+      "Index": "Animal_Insect_AH",
+      "Name_EN": "Sticky Lizard",
+      "Name_FR": "Lézard adhésio",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sticky_lizard/image?game=totk"
+    }
+  ]
+}

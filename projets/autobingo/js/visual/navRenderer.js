@@ -30,6 +30,7 @@
             const pages = [
                 { href: 'index.html', i18n: 'nav.home' },
                 { href: 'create_bingo.html', i18n: 'nav.create' },
+                { href: 'dataset.html', i18n: 'nav.datasets' },
                 { href: 'credits.html', i18n: 'nav.credits' },
                 { href: 'changelog.html', i18n: 'nav.changelog' }
             ];

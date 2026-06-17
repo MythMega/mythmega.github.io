@@ -22,6 +22,12 @@
                 Create a Bingo Grid
             </button>
         </div>
+
+        <!-- Presets Section -->
+        <div class="card mt-24" id="presets-section" style="display:none;">
+            <h2 class="card-title" data-i18n="home.presets_title">Saved Presets</h2>
+            <div id="presets-list"></div>
+        </div>
     </main>
 
     <!-- Scripts - Entity -->
@@ -35,6 +41,7 @@
     <script src="js/business/themeManager.js"></script>
     <script src="js/business/datasetManager.js"></script>
     <script src="js/business/navigationManager.js"></script>
+    <script src="js/business/presetManager.js"></script>
 
     <!-- Scripts - Visual -->
     <script src="js/visual/navRenderer.js"></script>
@@ -62,9 +69,87 @@
             AutoBingo.ThemeToggle.create();
             AutoBingo.LanguageToggle.create();
 
+            // Render presets
+            renderPresets();
+
             // Translate page
             translator.translatePage();
         })();
+
+        function renderPresets() {
+            const presets = AutoBingo.PresetManager.loadAll();
+            const section = document.getElementById('presets-section');
+            const list = document.getElementById('presets-list');
+
+            if (presets.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            list.innerHTML = '';
+
+            presets.forEach(preset => {
+                const item = document.createElement('div');
+                item.className = 'preset-item';
+
+                const info = document.createElement('div');
+                info.className = 'preset-info';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'preset-dataset';
+                nameSpan.textContent = preset.dataset;
+                info.appendChild(nameSpan);
+
+                const detailSpan = document.createElement('span');
+                detailSpan.className = 'preset-detail';
+                const lang = AutoBingo.translationManager ? AutoBingo.translationManager.currentLang : 'en';
+                detailSpan.textContent = `${preset.category} › ${preset.subcategory} — ${preset.size}x${preset.size}`;
+                info.appendChild(detailSpan);
+
+                item.appendChild(info);
+
+                const actions = document.createElement('div');
+                actions.className = 'preset-actions';
+
+                // Play button
+                const playBtn = document.createElement('button');
+                playBtn.className = 'btn btn-primary preset-btn';
+                playBtn.setAttribute('data-i18n', 'home.preset_play');
+                playBtn.textContent = '▶ Play';
+                playBtn.addEventListener('click', () => {
+                    AutoBingo.NavigationManager.navigateTo('bingo.html', { id: preset.dataset, size: preset.size });
+                });
+                actions.appendChild(playBtn);
+
+                // Configure button
+                const configBtn = document.createElement('button');
+                configBtn.className = 'btn btn-secondary preset-btn';
+                configBtn.setAttribute('data-i18n', 'home.preset_configure');
+                configBtn.textContent = '⚙ Configure';
+                configBtn.addEventListener('click', () => {
+                    AutoBingo.NavigationManager.navigateTo('create_bingo.html', { Dataset: preset.dataset, Size: preset.size });
+                });
+                actions.appendChild(configBtn);
+
+                // Delete button
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn btn-secondary preset-btn preset-delete';
+                delBtn.setAttribute('data-i18n', 'home.preset_delete');
+                delBtn.textContent = '✕ Delete';
+                delBtn.addEventListener('click', () => {
+                    AutoBingo.PresetManager.delete(preset.id);
+                    renderPresets();
+                    if (AutoBingo.translationManager) {
+                        AutoBingo.translationManager.translatePage();
+                    }
+                });
+                actions.appendChild(delBtn);
+
+                item.appendChild(actions);
+                list.appendChild(item);
+            });
+        }
     </script>
 </body>
 </html>

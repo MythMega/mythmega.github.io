@@ -25,6 +25,9 @@
                 <button id="create-bingo-btn" class="btn btn-primary" disabled data-i18n="create.create_button">
                     Create Bingo
                 </button>
+                <button id="pin-preset-btn" class="btn btn-secondary" disabled style="display:none;" data-i18n="create.pin_preset">
+                    Pin Configuration
+                </button>
             </div>
         </div>
     </main>
@@ -40,6 +43,7 @@
     <script src="js/business/themeManager.js"></script>
     <script src="js/business/datasetManager.js"></script>
     <script src="js/business/navigationManager.js"></script>
+    <script src="js/business/presetManager.js"></script>
 
     <!-- Scripts - Visual -->
     <script src="js/visual/navRenderer.js"></script>
@@ -76,6 +80,8 @@
             const selector = new AutoBingo.CategorySelector(container, datasetManager);
             selector.onReady = (def, items) => {
                 document.getElementById('create-bingo-btn').disabled = false;
+                document.getElementById('pin-preset-btn').disabled = false;
+                document.getElementById('pin-preset-btn').style.display = 'inline-block';
             };
             await selector.render();
 
@@ -91,14 +97,37 @@
                 }
             });
 
+            // Pin preset button handler
+            document.getElementById('pin-preset-btn').addEventListener('click', () => {
+                const def = selector.getSelectedDataset();
+                if (def) {
+                    const size = selector.getSelectedSize();
+                    const cat = def.category;
+                    const sub = def.subcategory;
+                    AutoBingo.PresetManager.save(def.name, size, cat, sub);
+                    
+                    // Visual feedback
+                    const btn = document.getElementById('pin-preset-btn');
+                    btn.textContent = '✅';
+                    setTimeout(() => {
+                        if (AutoBingo.translationManager) {
+                            btn.textContent = AutoBingo.translationManager.t('create.pin_preset');
+                        } else {
+                            btn.textContent = '📌 Pin Configuration';
+                        }
+                    }, 1500);
+                }
+            });
+
             // Store reference
             AutoBingo.currentSelector = selector;
 
             // After rendering, check the button state
-            // If URL had a dataset that auto-selected, enable button
             setTimeout(() => {
                 if (selector.getSelectedDataset()) {
                     document.getElementById('create-bingo-btn').disabled = false;
+                    document.getElementById('pin-preset-btn').disabled = false;
+                    document.getElementById('pin-preset-btn').style.display = 'inline-block';
                 }
             }, 300);
         })();

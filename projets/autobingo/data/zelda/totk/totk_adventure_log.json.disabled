@@ -1,0 +1,1525 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Adventure Log",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "LookingForLightSpot",
+      "Name_EN": "The Closed Door",
+      "Name_FR": "La porte close",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GOToTheCastleOfHyrule",
+      "Name_EN": "To the Kingdom of Hyrule",
+      "Name_FR": "Retour en Hyrule",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SurveyOfFourVillages",
+      "Name_EN": "Regional Phenomena",
+      "Name_FR": "Enquêtes régionales",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ClueTotheSixthSage",
+      "Name_EN": "Find the Fifth Sage",
+      "Name_FR": "Le cinquième Sage",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HyruleCastleIncident",
+      "Name_EN": "Crisis at Hyrule Castle",
+      "Name_FR": "Étrange phénomène au château",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MasterSwordClues",
+      "Name_EN": "Trail of the Master Sword",
+      "Name_FR": "Sur les traces de l'épée de légende",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GetMasterSword",
+      "Name_EN": "Recovering the Hero's Sword",
+      "Name_FR": "La lame perdue du héros",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SageOfWind",
+      "Name_EN": "Tulin of Rito Village",
+      "Name_FR": "Babil, du village Piaf",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SageOfFire",
+      "Name_EN": "Yunobo of Goron City",
+      "Name_FR": "Yunobo, du village Goron",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CleanStatue",
+      "Name_EN": "The Sludge-Covered Statue",
+      "Name_FR": "La statue couverte de vase",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DividedSlate",
+      "Name_EN": "The Broken Slate",
+      "Name_FR": "La gravure cassée",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "RepairArmor",
+      "Name_EN": "Restoring the Zora Armor",
+      "Name_FR": "Pour restaurer l'armure zora",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "WaterBridgePlace",
+      "Name_EN": "Clues to the Sky",
+      "Name_FR": "La piste vers le ciel",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SageOfZora",
+      "Name_EN": "Sidon of the Zora",
+      "Name_FR": "Sidon, du domaine Zora",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SageOfGerudo",
+      "Name_EN": "Riju of Gerudo Town",
+      "Name_FR": "Riju, de la cité Gerudo",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GotoFironeZonauRemains",
+      "Name_EN": "Secret of the Ring Ruins",
+      "Name_FR": "Le secret des vestiges circulaires",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SageOfSoul",
+      "Name_EN": "Guidance from Ages Past",
+      "Name_FR": "La voix venue du passé",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GetCamera",
+      "Name_EN": "Camera Work in the Depths",
+      "Name_FR": "Des gens dans les profondeurs ?",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DeepHoleSurvey2",
+      "Name_EN": "A Mystery in the Depths",
+      "Name_FR": "Le temple des profondeurs",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GroundPaintingAir01",
+      "Name_EN": "Impa and the Geoglyphs",
+      "Name_FR": "Impa et les géoglyphes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MemoryOfTheDragon",
+      "Name_EN": "The Dragon's Tears",
+      "Name_FR": "Les larmes du dragon",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DefeatGanondorf",
+      "Name_EN": "Destroy Ganondorf",
+      "Name_FR": "Abattre Ganondorf",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MainChallenge",
+      "Name_EN": "Find Princess Zelda",
+      "Name_FR": "À la recherche de Zelda",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "FindWithSensors",
+      "Name_EN": "Hateno Village Research Lab",
+      "Name_FR": "Le laboratoire Pru'ha d'Elimith",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HatenoPurchasePicture",
+      "Name_EN": "Filling Out the Compendium",
+      "Name_FR": "Votre encyclopédie personnelle",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GetWarpMarker",
+      "Name_EN": "Presenting: The Travel Medallion!",
+      "Name_FR": "Activer l'amulette de téléportation",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GetWalker",
+      "Name_EN": "Presenting: Hero's Path Mode!",
+      "Name_FR": "Activer le mode empreintes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GetSensorPlus",
+      "Name_EN": "Presenting: Sensor +!",
+      "Name_FR": "Le détecteur encyclopédique",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "IchikaraChallenge01",
+      "Name_EN": "Mattison's Independence",
+      "Name_FR": "Le départ de Tinieh",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_Cheese",
+      "Name_EN": "A Letter to Koyin",
+      "Name_FR": "Les malheurs de Naye",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_RevitalizeByNewSpeciality",
+      "Name_EN": "A New Signature Food",
+      "Name_FR": "Tout un fromage !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_SecretLifeOfKusayoshi",
+      "Name_EN": "Reede's Secret",
+      "Name_FR": "Le secret de Baldinn",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_SecretLifeOfSagono",
+      "Name_EN": "Cece's Secret",
+      "Name_FR": "Le secret de Goutiée",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_VillageMayorElection",
+      "Name_EN": "Team Cece or Team Reede?",
+      "Name_FR": "Goutiée ou Baldinn ?",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_LetUsElection",
+      "Name_EN": "The Mayoral Election",
+      "Name_FR": "Le grand débat",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TauraChallenge001",
+      "Name_EN": "Ruffian-Infested Village",
+      "Name_FR": "Invasion de pirates !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Uotori_RevivePlan",
+      "Name_EN": "Lurelin Village Restoration Project",
+      "Name_FR": "Reconstruction d'Écaraille",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "NewsPaper_Mitsuba",
+      "Name_EN": "Potential Princess Sightings!",
+      "Name_FR": "En quête de vérité !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune07",
+      "Name_EN": "The Beckoning Woman",
+      "Name_FR": "Personne en détresse",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune04",
+      "Name_EN": "Gourmets Gone Missing",
+      "Name_FR": "Les gourmets n'arrivent pas",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune06",
+      "Name_EN": "The Beast and the Princess",
+      "Name_FR": "La princesse chevauchant une bête",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune09",
+      "Name_EN": "Zelda's Golden Horse",
+      "Name_FR": "Le cheval doré de Zelda",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune03",
+      "Name_EN": "White Goats Gone Missing",
+      "Name_FR": "Les chèvres en fuite",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune11",
+      "Name_EN": "For Our Princess!",
+      "Name_FR": "Pour l'amour de la princesse",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune10",
+      "Name_EN": "The All-Clucking Cucco",
+      "Name_FR": "L'oracle cocotte",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune05",
+      "Name_EN": "The Missing Farm Tools",
+      "Name_FR": "Les outils disparus",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune02",
+      "Name_EN": "Princess Zelda Kidnapped?!",
+      "Name_FR": "L'enlèvement de Zelda ?!",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune13",
+      "Name_EN": "An Eerie Voice",
+      "Name_FR": "Un sinistre chant",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune14",
+      "Name_EN": "The Blocked Well",
+      "Name_FR": "Le puits hors service",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Orchestra03",
+      "Name_EN": "The Flute Player's Plan",
+      "Name_FR": "Le joueur de flûte des alpages",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Orchestra02",
+      "Name_EN": "Honey, Bee Mine",
+      "Name_FR": "La danse des abeilles",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Orchestra04",
+      "Name_EN": "The Hornist's Dramatic Escape",
+      "Name_FR": "Le sauvetage du joueur de cor",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune16",
+      "Name_EN": "Serenade to a Great Fairy",
+      "Name_FR": "Sérénade pour une grande fée",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Fairy4",
+      "Name_EN": "Serenade to Kaysa",
+      "Name_FR": "Sérénade pour Caesa",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Fairy3",
+      "Name_EN": "Serenade to Cotera",
+      "Name_FR": "Sérénade pour Cotura",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Fairy2",
+      "Name_EN": "Serenade to Mija",
+      "Name_FR": "Sérénade pour Mijah",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MercenaryChallenge_HyrulePlain",
+      "Name_EN": "Bring Peace to Hyrule Field!",
+      "Name_FR": "Pacification de la plaine",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MercenaryChallenge_Hebra",
+      "Name_EN": "Bring Peace to Necluda!",
+      "Name_FR": "Pacification de Necluda",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MercenaryChallenge_Eldin",
+      "Name_EN": "Bring Peace to Eldin!",
+      "Name_FR": "Pacification d'Ordinn",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MercenaryChallenge_Akkare",
+      "Name_EN": "Bring Peace to Akkala!",
+      "Name_FR": "Pacification d'Akkala",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MercenaryChallenge_Firone",
+      "Name_EN": "Bring Peace to Faron!",
+      "Name_FR": "Pacification de Firone",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MercenaryChallenge_Hateru",
+      "Name_EN": "Bring Peace to Hebra!",
+      "Name_FR": "Pacification d'Hébra",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "OldKorokHelp",
+      "Name_EN": "Hestu's Concerns",
+      "Name_FR": "Les ennuis de Noïa",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "NushiShop_Tutorial",
+      "Name_EN": "The Hunt for Bubbul Gems!",
+      "Name_FR": "En quête d'un cristal d'Elusis",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "NushiShop_Challenge00",
+      "Name_EN": "The Search for Koltin",
+      "Name_FR": "Les pérégrinations de Koltin",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MonsterFigures01",
+      "Name_EN": "A Monstrous Collection I",
+      "Name_FR": "Le collectionneur de monstres",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MonsterFigures02",
+      "Name_EN": "A Monstrous Collection II",
+      "Name_FR": "Le collectionneur de monstres 2",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MonsterFigures03",
+      "Name_EN": "A Monstrous Collection III",
+      "Name_FR": "Le collectionneur de monstres 3",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MonsterFigures04",
+      "Name_EN": "A Monstrous Collection IV",
+      "Name_FR": "Le collectionneur de monstres 4",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MonsterFigures05",
+      "Name_EN": "A Monstrous Collection V",
+      "Name_FR": "Le collectionneur de monstres 5",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "BlindRuinsTreasure",
+      "Name_EN": "Investigate the Thyphlo Ruins",
+      "Name_FR": "Fouille des ruines des Obscurcies",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "BlindRuinsTreasure_Rito",
+      "Name_EN": "The Owl Protected by Dragons",
+      "Name_FR": "Sous la garde des dragons",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "BlindRuinsTreasure_Goron",
+      "Name_EN": "The Corridor between Two Dragons",
+      "Name_FR": "Entre les deux dragons",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "BlindRuinsTreasure_Zora",
+      "Name_EN": "The Six Dragons",
+      "Name_FR": "En présence des six dragons",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "BlindRuinsTreasure_Gerudo",
+      "Name_EN": "The Long Dragon",
+      "Name_FR": "À la pointe du long dragon",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "FirstskyislandReturns",
+      "Name_EN": "Legend of the Great Sky Island",
+      "Name_FR": "L'île céleste du Prélude",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ZonauReliefSearch",
+      "Name_EN": "Messages from an Ancient Era",
+      "Name_FR": "Un message des temps anciens",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "StatueDevilTutorial",
+      "Name_EN": "A Deal With the Statue",
+      "Name_FR": "Négociations diaboliques",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "LookingForTheVoiceLord",
+      "Name_EN": "Who Goes There?",
+      "Name_FR": "La voix du démon",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Connect_FirstIsland",
+      "Name_EN": "A Call from the Depths",
+      "Name_FR": "L'appel des profondeurs",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "AssassinGerudoBase",
+      "Name_EN": "Infiltrating the Yiga Clan",
+      "Name_FR": "Infiltration chez les Yigas",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GerudoCanyon_Adventure",
+      "Name_EN": "The Yiga Clan Exam",
+      "Name_FR": "L'examen d'officier yiga",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MinusYiga",
+      "Name_EN": "Master Kohga of the Yiga Clan",
+      "Name_FR": "Les plans du grand Kohga",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine09",
+      "Name_EN": "The Satori Mountain Crystal",
+      "Name_FR": "Le sanctuaire du mont Satori",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Rito_ShadowCave",
+      "Name_EN": "The White Bird's Guidance",
+      "Name_FR": "L'oiseau blanc et la grotte",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine02",
+      "Name_EN": "The Gisa Crater Crystal",
+      "Name_FR": "Le sanctuaire du cratère d'Oriolo",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine15",
+      "Name_EN": "The North Hebra Mountains Crystal",
+      "Name_FR": "Le sanctuaire d'Hébra nord",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine16",
+      "Name_EN": "The Northwest Hebra Cave Crystal",
+      "Name_FR": "Le sanctuaire d'Hébra ouest",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Korok_CarryToShrine",
+      "Name_EN": "A Pretty Stone and Five Golden Apples",
+      "Name_FR": "La jolie pierre et les pommes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "NoTrespassing",
+      "Name_EN": "None Shall Pass?",
+      "Name_FR": "On ne passe pas !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "InfiltrationFromTheSky",
+      "Name_EN": "Maca's Special Place",
+      "Name_FR": "Le refuge de Makus",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine01",
+      "Name_EN": "The Death Caldera Crystal",
+      "Name_FR": "Le sanctuaire de la caldeira de la Mort",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine03",
+      "Name_EN": "The Lake Intenoch Cave Crystal",
+      "Name_FR": "Le sanctuaire du lac de Torgol",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "IchikaraChallenge03",
+      "Name_EN": "Rock for Sale",
+      "Name_FR": "Un rocher à vendre",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CraftShadowPicture",
+      "Name_EN": "Dyeing to Find It",
+      "Name_FR": "En noir et blanc",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SnowyMountain_Surfing",
+      "Name_EN": "The High Spring and the Light Rings",
+      "Name_FR": "La légende de la source et des anneaux",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine10",
+      "Name_EN": "The Lanayru Road Crystal",
+      "Name_FR": "Le sanctuaire de Lanelle",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine08_Zora",
+      "Name_EN": "The Ralis Channel Crystal",
+      "Name_FR": "Le sanctuaire de la veine de Lars",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "IceMaking",
+      "Name_EN": "Keys Born of Water",
+      "Name_FR": "Les clés nées de l'eau",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine13",
+      "Name_EN": "The Oakle's Navel Cave Crystal",
+      "Name_FR": "Le sanctuaire du lac Nêche",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GiantHorse",
+      "Name_EN": "Ride the Giant Horse",
+      "Name_FR": "À dos de géant",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine06",
+      "Name_EN": "The Lake Hylia Crystal",
+      "Name_FR": "Le sanctuaire du lac Hylia",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DevoteSpring",
+      "Name_EN": "Legend of the Soaring Spear",
+      "Name_FR": "La légende du javelot",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine07",
+      "Name_EN": "The Gerudo Canyon Crystal",
+      "Name_FR": "Le sanctuaire du canyon Gerudo",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine19",
+      "Name_EN": "The North Hyrule Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste d'Hyrule nord",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine11",
+      "Name_EN": "The South Hyrule Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste d'Hyrule sud",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine20",
+      "Name_EN": "The Tabantha Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste de Tabanta",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine21",
+      "Name_EN": "The East Hebra Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste d'Hébra est",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine14",
+      "Name_EN": "The Sky Mine Crystal",
+      "Name_FR": "Le sanctuaire de l'île de la Carrière",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine17",
+      "Name_EN": "The Sokkala Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste d'Akkala sud",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine23",
+      "Name_EN": "The South Lanayru Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste de Lanelle sud",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine12",
+      "Name_EN": "The North Necluda Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste de Necluda nord",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine22",
+      "Name_EN": "The West Necluda Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste de Necluda ouest",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryToShrine05",
+      "Name_EN": "The Necluda Sky Crystal",
+      "Name_FR": "Le sanctuaire céleste de Necluda",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "FindWhiteHorse",
+      "Name_EN": "Spotting Spot",
+      "Name_FR": "La jument perdue",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "NowInTheVillageOfLurelin",
+      "Name_EN": "Village Attacked by Pirates",
+      "Name_FR": "Un village en détresse",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CookAtBaseCamp",
+      "Name_EN": "Today's Menu",
+      "Name_FR": "Le menu du jour",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "BuildingMaterialsTutorial",
+      "Name_EN": "The Incomplete Stable",
+      "Name_FR": "L'écurie inachevée",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DefeatHugeEnemy_1",
+      "Name_EN": "WANTED: Stone Talus",
+      "Name_FR": "À la chasse au Lithorok",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DefeatHugeEnemy_2",
+      "Name_EN": "WANTED: Molduga",
+      "Name_FR": "À la chasse au Moldarquor",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DefeatHugeEnemy_3",
+      "Name_EN": "WANTED: Hinox",
+      "Name_FR": "À la chasse à l'Hinox",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DefeatHugeEnemy_4",
+      "Name_EN": "Unknown Sky Giant",
+      "Name_FR": "Le mystérieux géant du ciel",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DefeatHugeEnemy_5",
+      "Name_EN": "Unknown Three-Headed Monster",
+      "Name_FR": "Le mystérieux monstre à trois têtes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "DefeatHugeEnemy_6",
+      "Name_EN": "Unknown Huge Silhouette",
+      "Name_FR": "L'énorme silhouette mystérieuse",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TakeAnimals",
+      "Name_EN": "The Horse Guard's Request",
+      "Name_FR": "Les animaux de Tabos",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_04",
+      "Name_EN": "A Picture for Outskirt Stable",
+      "Name_FR": "Décorer le relais de l'orée de la plaine",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HorseInnChallenge005",
+      "Name_EN": "Feathered Fugitives",
+      "Name_FR": "Objectif : cocottes !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_05",
+      "Name_EN": "A Picture for Riverside Stable",
+      "Name_FR": "Décorer le relais de la rivière",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HorseInnChallenge001",
+      "Name_EN": "Horse-Drawn Dreams",
+      "Name_FR": "Si j'avais un chariot",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_01",
+      "Name_EN": "A Picture for New Serenne Stable",
+      "Name_FR": "Décorer le nouveau relais de Delass",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Genkos_Kitchen",
+      "Name_EN": "Genli's Home Cooking",
+      "Name_FR": "Le plat maison de Ghenkott",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Rito_MedoArmor",
+      "Name_EN": "Treasure of the Secret Springs",
+      "Name_FR": "Le trésor dormant des sources",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ArrowMeister_Momo",
+      "Name_EN": "Molli the Fletcher's Quest",
+      "Name_FR": "La requête de Mohino",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Rito_RevaliWeapon",
+      "Name_EN": "Legacy of the Rito",
+      "Name_FR": "L'arc de l'aigle des Piafs",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Rito_ItemExchange",
+      "Name_EN": "Fish for Fletching",
+      "Name_FR": "Troc chez les Piafs",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "RitoBridgeRepair",
+      "Name_EN": "The Rito Rope Bridge",
+      "Name_FR": "Un pont à réparer",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_07",
+      "Name_EN": "A Picture for Tabantha Bridge Stable",
+      "Name_FR": "Décorer le relais du pont de Tabanta",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_14",
+      "Name_EN": "A Picture for Snowfield Stable",
+      "Name_FR": "Décorer le relais des prairies gelées",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Neck_IceWaterCave",
+      "Name_EN": "Crossing the Cold Pool",
+      "Name_FR": "Traversée en eaux froides",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Lodge_Chemical001",
+      "Name_EN": "Open the Door",
+      "Name_FR": "Barricadés dans la cabane",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hack_GuardGoods",
+      "Name_EN": "Supply-Eyeing Fliers",
+      "Name_FR": "Des provisions convoitées",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Nazley_DigCave",
+      "Name_EN": "The Blocked Cave",
+      "Name_FR": "La grotte bloquée",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GoneSnowQueen",
+      "Name_EN": "The Duchess Who Disappeared",
+      "Name_FR": "L'impératrice disparue",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hebra_SkyRingChallenge",
+      "Name_EN": "Kaneli's Flight Training",
+      "Name_FR": "Nouvel entraînement piaf",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MushroomSisters_1",
+      "Name_EN": "Cave Mushrooms That Glow",
+      "Name_FR": "Des champignons brillants",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MushroomSisters_2",
+      "Name_EN": "The Captured Tent",
+      "Name_FR": "La tente accaparée",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MushroomSisters_3",
+      "Name_EN": "Who Finds the Haven?",
+      "Name_FR": "À la recherche du paradis",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Big_Rotate",
+      "Name_EN": "Whirly Swirly Things",
+      "Name_FR": "Les cercles qui tournent",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Mack_SecretBase",
+      "Name_EN": "The Secret Room",
+      "Name_FR": "La cachette dans l'Arbre Mojo",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureHunt_kokiri",
+      "Name_EN": "Walton's Treasure Hunt",
+      "Name_FR": "La chasse aux trésors de Cernus",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "AmberCollector",
+      "Name_EN": "Amber Dealer",
+      "Name_FR": "L'acheteuse d'ambre",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryGoronKid1",
+      "Name_EN": "The Ancient City Gorondia!",
+      "Name_FR": "La cité antique de Gorondia !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryGoronKid2",
+      "Name_EN": "The Ancient City Gorondia?",
+      "Name_FR": "La cité antique de Gorondia ?",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MakeAChampionsWeapon_Goron",
+      "Name_EN": "Soul of the Gorons",
+      "Name_FR": "Brise-montagne, l'âme des Gorons",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GoronReturntoNature",
+      "Name_EN": "Moon-Gazing Gorons",
+      "Name_FR": "Les Gorons et la lune",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GoronPond",
+      "Name_EN": "The Hidden Treasure at Lizard Lakes",
+      "Name_FR": "Le trésor des étangs lézards",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HotSpringEgg",
+      "Name_EN": "Simmerstone Springs",
+      "Name_FR": "Les bains secrets",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "FullyRipenedFlintstones",
+      "Name_EN": "Cash In on Ripened Flint",
+      "Name_FR": "Un silex au goût riche",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ResearchEldin",
+      "Name_EN": "Meat for Meat",
+      "Name_FR": "On ne gâche pas la viande !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MeatRock",
+      "Name_EN": "Rock Roast or Dust",
+      "Name_FR": "Un gigot de caillasse ou rien !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Goron_MiniGame_Tutorial_01",
+      "Name_EN": "Mine-Cart Land: Open for Business!",
+      "Name_FR": "Bienvenue à Wagoland !",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Goron_MiniGame_Tutorial_02",
+      "Name_EN": "Mine-Cart Land: Quickshot Course",
+      "Name_FR": "Parcours intermédiaire",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Goron_MiniGame_Tutorial_03",
+      "Name_EN": "Mine-Cart Land: Death Mountain",
+      "Name_FR": "Parcours expert",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_02",
+      "Name_EN": "A Picture for Woodland Stable",
+      "Name_FR": "Décorer le relais de la forêt",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_08",
+      "Name_EN": "A Picture for Foothill Stable",
+      "Name_FR": "Décorer le relais du pied de la montagne",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "RescueWell",
+      "Name_EN": "Fell into a Well!",
+      "Name_FR": "En plein dans le puits",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "RescueVehicle01",
+      "Name_EN": "The Abandoned Laborer",
+      "Name_FR": "Le mineur abandonné",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Our_Treasure",
+      "Name_EN": "The Treasure Hunters",
+      "Name_FR": "Notre trésor",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureOfLambda",
+      "Name_EN": "Misko's Cave of Chests",
+      "Name_FR": "Sus au trésor de Lambda",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureOfLamda_FierceDeity",
+      "Name_EN": "Misko's Treasure: The Fierce Deity",
+      "Name_FR": "La tenue du Dieu démon",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureOfLamda_DuelPeak",
+      "Name_EN": "Misko's Treasure: Twins Manuscript",
+      "Name_FR": "Trésor de Lambda : les jumeaux",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureOfLamda_Pirate",
+      "Name_EN": "Misko's Treasure: Pirate Manuscript",
+      "Name_FR": "Trésor de Lambda : les pirates",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureOfLamda_Gerudo",
+      "Name_EN": "Misko's Treasure: Heroines Manuscript",
+      "Name_FR": "Trésor de Lambda : les héroïnes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureOfLamda_Dream",
+      "Name_EN": "Misko's Treasure of Awakening I",
+      "Name_FR": "Le trésor de rêve de Lambda 1",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureOfLamda_Dream2",
+      "Name_EN": "Misko's Treasure of Awakening II",
+      "Name_FR": "Le trésor de rêve de Lambda 2",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TreasureOfLamda_Dream3",
+      "Name_EN": "Misko's Treasure of Awakening III",
+      "Name_FR": "Le trésor de rêve de Lambda 3",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Circuit_Ichikara",
+      "Name_EN": "The Tarrey Town Race Is On!",
+      "Name_FR": "Le rallye d'Euzero",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HorseInnChallenge003",
+      "Name_EN": "Secrets Within",
+      "Name_FR": "Qu'est-ce qu'il y a dedans ?",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "IchikaraCircuit_Tutorial",
+      "Name_EN": "Master the Vehicle Prototype",
+      "Name_FR": "L'artéfact soneau maîtrisé",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "BuildHouse",
+      "Name_EN": "Home on Arrange",
+      "Name_FR": "Une maison de rêve",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TheStrongestWeapon",
+      "Name_EN": "Strongest in the World",
+      "Name_FR": "L'arme ultime",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Tribune01",
+      "Name_EN": "The Gathering Pirates",
+      "Name_FR": "La horde de pirates",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_12",
+      "Name_EN": "A Picture for East Akkala Stable",
+      "Name_FR": "Décorer le relais de l'est d'Akkala",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ExcavateFossil1",
+      "Name_EN": "Eldin's Colossal Fossil",
+      "Name_FR": "Le grand fossile d'Ordinn",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ExcavateFossil2",
+      "Name_EN": "Hebra's Colossal Fossil",
+      "Name_FR": "Le grand fossile d'Hébra",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ExcavateFossil3",
+      "Name_EN": "Gerudo's Colossal Fossil",
+      "Name_FR": "Le grand fossile du désert",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HourseInnChallenge004",
+      "Name_EN": "One-Hit Wonder!",
+      "Name_FR": "D'un coup d'un seul",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_13",
+      "Name_EN": "A Picture for South Akkala Stable",
+      "Name_FR": "Décorer le relais du sud d'Akkala",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Zora_MessageBottle",
+      "Name_EN": "True Treasure",
+      "Name_FR": "Un généreux trésor",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Zora_RuttaTreasure",
+      "Name_EN": "Secret Treasure under the Great Fish",
+      "Name_FR": "Le trésor du poisson géant",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Createshinguard",
+      "Name_EN": "The Never-Ending Lecture",
+      "Name_FR": "Remontrances sans fin",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ZoraStatue_Picture",
+      "Name_EN": "The Moonlit Princess",
+      "Name_FR": "La princesse zora au clair de lune",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Zora_Enemy_hunt",
+      "Name_EN": "The Fort at Ja'Abu Ridge",
+      "Name_FR": "Le fort du plateau de Jarbu",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GeniusWeapon_Zora",
+      "Name_EN": "Glory of the Zora",
+      "Name_FR": "La lance d'écailles radieuse",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "gather_Insect_Z",
+      "Name_EN": "A Crabulous Deal",
+      "Name_FR": "Une crabuleuse affaire",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HuntSalmon",
+      "Name_EN": "A Wife Wafted Away",
+      "Name_FR": "L'épouse montée au ciel",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CreateArmor",
+      "Name_EN": "A Token of Friendship",
+      "Name_FR": "Un symbole d'amitié",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_03",
+      "Name_EN": "A Picture for Wetland Stable",
+      "Name_FR": "Décorer le relais des marécages",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HorseInnChallenge002",
+      "Name_EN": "An Uninvited Guest",
+      "Name_FR": "Angoisses nocturnes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CarryStone",
+      "Name_EN": "The Blue Stone",
+      "Name_FR": "La pierre bleue",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "RestaurantInTheWell",
+      "Name_EN": "The Ultimate Dish?",
+      "Name_FR": "Le plat ultime... ?",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "ResearchLanayru",
+      "Name_EN": "Mired in Muck",
+      "Name_FR": "Couvert de vase",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "InnNeverReturns",
+      "Name_EN": "Out of the Inn",
+      "Name_FR": "L'aubergiste disparu",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "KokkoGuidePost",
+      "Name_EN": "Follow the Cuccos",
+      "Name_FR": "Les œufs des cocottes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Know_FourStonePlates",
+      "Name_EN": "A Trip through History",
+      "Name_FR": "Les dalles ancestrales",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "WhichIsStronger",
+      "Name_EN": "Codgers' Quarrel",
+      "Name_FR": "La meilleure stratégie",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "IllnessStartsWithFeelings",
+      "Name_EN": "Gloom-Borne Illness",
+      "Name_FR": "Le mal des miasmes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_NewCostume",
+      "Name_EN": "A New Champion's Tunic",
+      "Name_FR": "Une nouvelle tunique de Prodige",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_TellMeTeacher01",
+      "Name_EN": "Teach Me a Lesson I",
+      "Name_FR": "Les joies de l'enseignement",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_TellMeTeacher02",
+      "Name_EN": "Teach Me a Lesson II",
+      "Name_FR": "Les joies de l'enseignement 2",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_FreshMilk",
+      "Name_EN": "Dantz's Prize Cows",
+      "Name_FR": "Rhodo, maître crémier",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_NewSpecialty",
+      "Name_EN": "Homegrown in Hateno",
+      "Name_FR": "La fierté d'Elimith",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Parasail_ChuchuDesign",
+      "Name_EN": "Photographing a Chuchu",
+      "Name_FR": "Un modèle de Chuchu",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_WhatToPlant",
+      "Name_EN": "Uma's Garden",
+      "Name_FR": "Le potager de Florène",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Hateno_CoolGuy",
+      "Name_EN": "Manny's Beloved",
+      "Name_FR": "Le désir secret d'Hamel",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Uotori_ResortPlan",
+      "Name_EN": "Lurelin Resort Project",
+      "Name_FR": "La nouvelle attraction d'Écaraille",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Uotori_WhiteLineGame",
+      "Name_EN": "Dad's Blue Shirt",
+      "Name_FR": "La chemise bleue de Papa",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "WashedAwayBusinessTools",
+      "Name_EN": "A Way to Trade, Washed Away",
+      "Name_FR": "Le bateau à la dérive",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Uotori_Designer",
+      "Name_EN": "Rattled Ralera",
+      "Name_FR": "Le projet de Lorelo",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_06",
+      "Name_EN": "A Picture for Dueling Peaks Stable",
+      "Name_FR": "Décorer le relais des Géminés",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MessageBottle_SOS",
+      "Name_EN": "A Bottled Cry for Help",
+      "Name_FR": "Une bouteille à la mer",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SaihateSubjugation",
+      "Name_EN": "Seeking the Pirate Hideout",
+      "Name_FR": "Le repaire des pirates",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "HorseInnChallenge007",
+      "Name_EN": "Ousting the Giants",
+      "Name_FR": "Les trois frères des grottes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_10",
+      "Name_EN": "A Picture for Lakeside Stable",
+      "Name_FR": "Décorer le relais du lac",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_11",
+      "Name_EN": "A Picture for Highland Stable",
+      "Name_FR": "Décorer le relais des alpages",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "EightHeroStatues",
+      "Name_EN": "The Heroines' Secret",
+      "Name_FR": "Le secret des héroïnes",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GerudoDesertTreasure",
+      "Name_EN": "Treasure of the Gerudo Desert",
+      "Name_FR": "Le trésor caché du désert Gerudo",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Gerudo_UrbosaWeapon",
+      "Name_EN": "Pride of the Gerudo",
+      "Name_FR": "La fierté des Gerudos",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "FindSunaNui",
+      "Name_EN": "Dalia's Game",
+      "Name_FR": "Le défi de Tiklama",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "EightHeroStatues_After",
+      "Name_EN": "The Mysterious Eighth",
+      "Name_FR": "L'âme à l'héroïsme véritable",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "AisyaRescue",
+      "Name_EN": "The Missing Owner",
+      "Name_FR": "La propriétaire disparue",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "JobSunazarashi",
+      "Name_EN": "To the Ruins!",
+      "Name_FR": "Conduis-moi jusqu'aux ruines",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "MakeChemicalWeapon",
+      "Name_EN": "Decorate with Passion",
+      "Name_FR": "Passion déco",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "SearchCaravan",
+      "Name_EN": "Lost in the Dunes",
+      "Name_FR": "Le caravanier disparu",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_09",
+      "Name_EN": "A Picture for the Closed Stable I",
+      "Name_FR": "Décorer le relais du canyon Gerudo 1",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "PhotoSpot_Challenge_09_2",
+      "Name_EN": "A Picture for the Closed Stable II",
+      "Name_FR": "Décorer le relais du canyon Gerudo 2",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "RescueHost",
+      "Name_EN": "Piaffe, Packed Away",
+      "Name_FR": "Au secours de Peiffa",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GerudoCanyon_GleeokLiver",
+      "Name_EN": "Gleeok Guts",
+      "Name_FR": "Des viscères de Griock",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "NewCanyonMissingPersonsCase",
+      "Name_EN": "Disaster in Gerudo Canyon",
+      "Name_FR": "Les égarés du canyon Gerudo",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GerudoCanyon_TumbleweedSweep",
+      "Name_EN": "The Great Tumbleweed Purge",
+      "Name_FR": "Adieu les virevoltants",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GerudoCanyon_24hEnduranceComparison",
+      "Name_EN": "Heat-Endurance Contest!",
+      "Name_FR": "À l'épreuve de la chaleur",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "GerudoCanyon_ColdEnduranceComparison",
+      "Name_EN": "Cold-Endurance Contest!",
+      "Name_FR": "À l'épreuve du froid",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "TakeOfIce",
+      "Name_EN": "The Iceless Icehouse",
+      "Name_FR": "Des glaçons pour la glacière",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "WellCollection",
+      "Name_EN": "Where Are the Wells?",
+      "Name_FR": "Pour l'amour des puits",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Zonau_GeniusWeapon",
+      "Name_EN": "Ancient Blades Below",
+      "Name_FR": "Lames ancestrales des profondeurs",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Connect_TabantaMaze",
+      "Name_EN": "The North Lomei Prophecy",
+      "Name_FR": "La prophétie d'Edal - Nord",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Connect_AkkareMaze",
+      "Name_EN": "The Lomei Labyrinth Island Prophecy",
+      "Name_FR": "La prophétie de l'île d'Edal",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Connect_GerudoMaze",
+      "Name_EN": "The South Lomei Prophecy",
+      "Name_FR": "La prophétie d'Edal - Sud",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Raise_GoddesStatue_Wisdom",
+      "Name_EN": "Goddess Statue of Wisdom",
+      "Name_FR": "La statue de la source de la Sagesse",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Raise_GoddesStatue_Power",
+      "Name_EN": "Goddess Statue of Power",
+      "Name_FR": "La statue de la source de la Force",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Raise_GoddesStatue_Courage",
+      "Name_EN": "Goddess Statue of Courage",
+      "Name_FR": "La statue de la source du Courage",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "Raise_GoddesStatue",
+      "Name_EN": "The Mother Goddess Statue",
+      "Name_FR": "La statue matriarche",
+      "PictureMain": "Adventure Log.png"
+    },
+    {
+      "Index": "CDungeon_AllDone",
+      "Name_EN": "The Shrine Explorer",
+      "Name_FR": "Et il triompha de toutes les épreuves",
+      "PictureMain": "Adventure Log.png"
+    }
+  ]
+}

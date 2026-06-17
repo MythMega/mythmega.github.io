@@ -1,0 +1,703 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Weapons",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "Weapon_Lsword_001",
+      "Name_EN": "Traveler's Claymore",
+      "Name_FR": "Espadon de voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_002",
+      "Name_EN": "Soldier's Claymore",
+      "Name_FR": "Espadon de soldat",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_003",
+      "Name_EN": "Knight's Claymore",
+      "Name_FR": "Espadon de chevalier",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/knight's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_019",
+      "Name_EN": "Moblin Arm",
+      "Name_FR": "Os de Moblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/moblin_arm/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_020",
+      "Name_EN": "Rusty Claymore",
+      "Name_FR": "Espadon rouillé",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rusty_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_024",
+      "Name_EN": "Royal Claymore",
+      "Name_FR": "Espadon royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_027",
+      "Name_EN": "Zora Longsword",
+      "Name_FR": "Longue épée zora",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zora_longsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_029",
+      "Name_EN": "Gerudo Claymore",
+      "Name_FR": "Espadon gerudo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gerudo_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_036",
+      "Name_EN": "Cobble Crusher",
+      "Name_FR": "Casse-pierre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cobble_crusher/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_038",
+      "Name_EN": "Boat Oar",
+      "Name_FR": "Rame",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/boat_oar/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_041",
+      "Name_EN": "Eightfold Longblade",
+      "Name_FR": "Sabre de la défiance",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/eightfold_longblade/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_045",
+      "Name_EN": "Farming Hoe",
+      "Name_FR": "Houe",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/farming_hoe/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_047",
+      "Name_EN": "Royal Guard's Claymore",
+      "Name_FR": "Espadon de garde royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_guard's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_051",
+      "Name_EN": "Giant Boomerang",
+      "Name_FR": "Grand boomerang",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/giant_boomerang/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_054",
+      "Name_EN": "Boulder Breaker",
+      "Name_FR": "Brise-montagne",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/boulder_breaker/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_057",
+      "Name_EN": "Dusk Claymore",
+      "Name_FR": "Longue épée crépusculaire",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/dusk_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_059",
+      "Name_EN": "Biggoron's Sword",
+      "Name_FR": "Épée de Biggoron",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/biggoron's_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_060",
+      "Name_EN": "Fierce Deity Sword",
+      "Name_FR": "Espadon du Dieu démon",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fierce_deity_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_101",
+      "Name_EN": "Zonaite Longsword",
+      "Name_FR": "Espadon de sonium",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zonaite_longsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_103",
+      "Name_EN": "Thick Stick",
+      "Name_FR": "Gourdin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/thick_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_106",
+      "Name_EN": "Traveler's Claymore",
+      "Name_FR": "Espadon de voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_108",
+      "Name_EN": "Sturdy Thick Stick",
+      "Name_FR": "Gourdin solide",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sturdy_thick_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_109",
+      "Name_EN": "Gnarled Thick Stick",
+      "Name_FR": "Gourdin noueux",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gnarled_thick_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_112",
+      "Name_EN": "Soldier's Claymore",
+      "Name_FR": "Espadon de soldat",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_113",
+      "Name_EN": "Knight's Claymore",
+      "Name_FR": "Espadon de chevalier",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/knight's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_114",
+      "Name_EN": "Eightfold Longblade",
+      "Name_FR": "Sabre de la défiance",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/eightfold_longblade/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_124",
+      "Name_EN": "Royal Claymore",
+      "Name_FR": "Espadon royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_127",
+      "Name_EN": "Zora Longsword",
+      "Name_FR": "Longue épée zora",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zora_longsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_129",
+      "Name_EN": "Gerudo Claymore",
+      "Name_FR": "Espadon gerudo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gerudo_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_136",
+      "Name_EN": "Cobble Crusher",
+      "Name_FR": "Casse-pierre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/cobble_crusher/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_147",
+      "Name_EN": "Royal Guard's Claymore",
+      "Name_FR": "Espadon de garde royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_guard's_claymore/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_161",
+      "Name_EN": "Magic Scepter",
+      "Name_FR": "Grande baguette magique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/magic_scepter/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_163",
+      "Name_EN": "Strong Zonaite Longsword",
+      "Name_FR": "Espadon de sonium robuste",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/strong_zonaite_longsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_164",
+      "Name_EN": "Mighty Zonaite Longsword",
+      "Name_FR": "Espadon de sonium surpuissant",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_zonaite_longsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_166",
+      "Name_EN": "Gloom Club",
+      "Name_FR": "Massue miasmatique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gloom_club/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_168",
+      "Name_EN": "Thick Stick",
+      "Name_FR": "Gourdin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/thick_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Lsword_174",
+      "Name_EN": "Giant Boomerang",
+      "Name_FR": "Grand boomerang",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/giant_boomerang/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_001",
+      "Name_EN": "Traveler's Spear",
+      "Name_FR": "Lance de voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_002",
+      "Name_EN": "Soldier's Spear",
+      "Name_FR": "Lance de soldat",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier's_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_003",
+      "Name_EN": "Knight's Halberd",
+      "Name_FR": "Hallebarde de chevalier",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/knight's_halberd/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_021",
+      "Name_EN": "Rusty Halberd",
+      "Name_FR": "Hallebarde rouillée",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rusty_halberd/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_022",
+      "Name_EN": "Farmer's Pitchfork",
+      "Name_FR": "Fourche",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/farmer's_pitchfork/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_024",
+      "Name_EN": "Royal Halberd",
+      "Name_FR": "Hallebarde royale",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_halberd/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_025",
+      "Name_EN": "Forest Dweller's Spear",
+      "Name_FR": "Lance des sylvains",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/forest_dweller's_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_027",
+      "Name_EN": "Zora Spear",
+      "Name_FR": "Lance zora",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zora_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_029",
+      "Name_EN": "Gerudo Spear",
+      "Name_FR": "Trident gerudo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gerudo_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_030",
+      "Name_EN": "Throwing Spear",
+      "Name_FR": "Javelot",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/throwing_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_032",
+      "Name_EN": "Feathered Spear",
+      "Name_FR": "Lance rémige",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/feathered_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_036",
+      "Name_EN": "Wooden Mop",
+      "Name_FR": "Balai à franges",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/wooden_mop/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_038",
+      "Name_EN": "Fishing Harpoon",
+      "Name_FR": "Harpon de pêcheur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/fishing_harpoon/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_047",
+      "Name_EN": "Royal Guard's Spear",
+      "Name_FR": "Hallebarde de garde royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_guard's_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_050",
+      "Name_EN": "Lightscale Trident",
+      "Name_FR": "Lance d'écailles radieuse",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lightscale_trident/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_101",
+      "Name_EN": "Zonaite Spear",
+      "Name_FR": "Lance de sonium",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zonaite_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_103",
+      "Name_EN": "Long Stick",
+      "Name_FR": "Long bâton",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/long_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_106",
+      "Name_EN": "Traveler's Spear",
+      "Name_FR": "Lance de voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_108",
+      "Name_EN": "Sturdy Long Stick",
+      "Name_FR": "Long bâton solide",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sturdy_long_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_109",
+      "Name_EN": "Gnarled Long Stick",
+      "Name_FR": "Long bâton noueux",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gnarled_long_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_112",
+      "Name_EN": "Soldier's Spear",
+      "Name_FR": "Lance de soldat",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier's_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_113",
+      "Name_EN": "Knight's Halberd",
+      "Name_FR": "Hallebarde de chevalier",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/knight's_halberd/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_124",
+      "Name_EN": "Royal Halberd",
+      "Name_FR": "Hallebarde royale",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_halberd/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_125",
+      "Name_EN": "Forest Dweller's Spear",
+      "Name_FR": "Lance des sylvains",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/forest_dweller's_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_127",
+      "Name_EN": "Zora Spear",
+      "Name_FR": "Lance zora",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zora_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_129",
+      "Name_EN": "Gerudo Spear",
+      "Name_FR": "Trident gerudo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gerudo_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_132",
+      "Name_EN": "Feathered Spear",
+      "Name_FR": "Lance rémige",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/feathered_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_147",
+      "Name_EN": "Royal Guard's Spear",
+      "Name_FR": "Hallebarde de garde royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_guard's_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_161",
+      "Name_EN": "Magic Staff",
+      "Name_FR": "Longue baguette magique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/magic_staff/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_163",
+      "Name_EN": "Strong Zonaite Spear",
+      "Name_FR": "Lance de sonium robuste",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/strong_zonaite_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_164",
+      "Name_EN": "Mighty Zonaite Spear",
+      "Name_FR": "Lance de sonium surpuissante",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_zonaite_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_166",
+      "Name_EN": "Gloom Spear",
+      "Name_FR": "Hallebarde miasmatique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gloom_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_168",
+      "Name_EN": "Long Stick",
+      "Name_FR": "Long bâton",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/long_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Spear_173",
+      "Name_EN": "Throwing Spear",
+      "Name_FR": "Javelot",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/throwing_spear/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_001",
+      "Name_EN": "Traveler's Sword",
+      "Name_FR": "Épée de voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_002",
+      "Name_EN": "Soldier's Broadsword",
+      "Name_FR": "Épée de soldat",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier's_broadsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_003",
+      "Name_EN": "Knight's Broadsword",
+      "Name_FR": "Épée de chevalier",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/knight's_broadsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_019",
+      "Name_EN": "Bokoblin Arm",
+      "Name_FR": "Os de Bokoblin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/bokoblin_arm/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_020",
+      "Name_EN": "Lizalfos Arm",
+      "Name_FR": "Os de Lézalfos",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lizalfos_arm/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_021",
+      "Name_EN": "Rusty Broadsword",
+      "Name_FR": "Épée rouillée",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/rusty_broadsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_022",
+      "Name_EN": "Soup Ladle",
+      "Name_FR": "Louche",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soup_ladle/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_024",
+      "Name_EN": "Royal Broadsword",
+      "Name_FR": "Épée royale",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_broadsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_025",
+      "Name_EN": "Forest Dweller's Sword",
+      "Name_FR": "Épée des sylvains",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/forest_dweller's_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_027",
+      "Name_EN": "Zora Sword",
+      "Name_FR": "Épée zora",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zora_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_029",
+      "Name_EN": "Gerudo Scimitar",
+      "Name_FR": "Cimeterre gerudo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gerudo_scimitar/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_031",
+      "Name_EN": "Feathered Edge",
+      "Name_FR": "Lame rémige",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/feathered_edge/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_041",
+      "Name_EN": "Eightfold Blade",
+      "Name_FR": "Petit sabre de la défiance",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/eightfold_blade/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_043",
+      "Name_EN": "Torch",
+      "Name_FR": "Torche",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/torch/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_044",
+      "Name_EN": "Tree Branch",
+      "Name_FR": "Branche d'arbre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/tree_branch/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_047",
+      "Name_EN": "Royal Guard's Sword",
+      "Name_FR": "Épée de garde royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_guard's_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_051",
+      "Name_EN": "Boomerang",
+      "Name_FR": "Boomerang",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/boomerang/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_052",
+      "Name_EN": "Scimitar of the Seven",
+      "Name_FR": "Cimeterre des sept joyaux",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/scimitar_of_the_seven/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_057",
+      "Name_EN": "White Sword of the Sky",
+      "Name_FR": "Blanche épée céleste",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/white_sword_of_the_sky/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_058",
+      "Name_EN": "Sword of the Hero",
+      "Name_FR": "Épée du Prélude",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sword_of_the_hero/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_059",
+      "Name_EN": "Sea-Breeze Boomerang",
+      "Name_FR": "Boomerang du vent marin",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sea-breeze_boomerang/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_070",
+      "Name_EN": "Master Sword",
+      "Name_FR": "Épée de légende",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/master_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_070_Broken",
+      "Name_EN": "Decayed Master Sword",
+      "Name_FR": "Épée de légende corrodée",
+      "PictureMain": "Weapons.png"
+    },
+    {
+      "Index": "Weapon_Sword_101",
+      "Name_EN": "Zonaite Sword",
+      "Name_FR": "Épée de sonium",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zonaite_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_103",
+      "Name_EN": "Wooden Stick",
+      "Name_FR": "Bâton",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/wooden_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_105",
+      "Name_EN": "Boomerang",
+      "Name_FR": "Boomerang",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/boomerang/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_106",
+      "Name_EN": "Traveler's Sword",
+      "Name_FR": "Épée de voyageur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/traveler's_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_107",
+      "Name_EN": "Lizal Boomerang",
+      "Name_FR": "Boomerang lézal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lizal_boomerang/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_108",
+      "Name_EN": "Sturdy Wooden Stick",
+      "Name_FR": "Bâton solide",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/sturdy_wooden_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_109",
+      "Name_EN": "Gnarled Wooden Stick",
+      "Name_FR": "Bâton noueux",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gnarled_wooden_stick/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_112",
+      "Name_EN": "Soldier's Broadsword",
+      "Name_FR": "Épée de soldat",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/soldier's_broadsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_113",
+      "Name_EN": "Knight's Broadsword",
+      "Name_FR": "Épée de chevalier",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/knight's_broadsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_114",
+      "Name_EN": "Eightfold Blade",
+      "Name_FR": "Petit sabre de la défiance",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/eightfold_blade/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_124",
+      "Name_EN": "Royal Broadsword",
+      "Name_FR": "Épée royale",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_broadsword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_125",
+      "Name_EN": "Forest Dweller's Sword",
+      "Name_FR": "Épée des sylvains",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/forest_dweller's_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_127",
+      "Name_EN": "Zora Sword",
+      "Name_FR": "Épée zora",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/zora_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_129",
+      "Name_EN": "Gerudo Scimitar",
+      "Name_FR": "Cimeterre gerudo",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gerudo_scimitar/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_131",
+      "Name_EN": "Feathered Edge",
+      "Name_FR": "Lame rémige",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/feathered_edge/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_147",
+      "Name_EN": "Royal Guard's Sword",
+      "Name_FR": "Épée de garde royal",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/royal_guard's_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_161",
+      "Name_EN": "Magic Rod",
+      "Name_FR": "Baguette magique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/magic_rod/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_163",
+      "Name_EN": "Strong Zonaite Sword",
+      "Name_FR": "Épée de sonium robuste",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/strong_zonaite_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_164",
+      "Name_EN": "Mighty Zonaite Sword",
+      "Name_FR": "Épée de sonium surpuissante",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/mighty_zonaite_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_166",
+      "Name_EN": "Gloom Sword",
+      "Name_FR": "Sabre miasmatique",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/gloom_sword/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_167",
+      "Name_EN": "Tree Branch",
+      "Name_FR": "Branche d'arbre",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/tree_branch/image?game=totk"
+    },
+    {
+      "Index": "Weapon_Sword_168",
+      "Name_EN": "Wooden Stick",
+      "Name_FR": "Bâton",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/wooden_stick/image?game=totk"
+    }
+  ]
+}

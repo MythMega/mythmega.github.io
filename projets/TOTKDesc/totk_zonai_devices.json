@@ -1,0 +1,169 @@
+{
+  "Name": "Zelda Tears Of the Kingdom - Zonai Devices",
+  "Category": "Zelda",
+  "Subcategory": "Zelda Tears Of the Kingdom",
+  "Items": [
+    {
+      "Index": "SpObj_BalloonEnvelope_A_01",
+      "Name_EN": "Balloon",
+      "Name_FR": "Montgolfière",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Balloon.png"
+    },
+    {
+      "Index": "SpObj_Beamos_A_01",
+      "Name_EN": "Beam Emitter",
+      "Name_FR": "Lance-laser",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Beam_Emitter.png"
+    },
+    {
+      "Index": "SpObj_Cannon_A_01",
+      "Name_EN": "Cannon",
+      "Name_FR": "Canon",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Cannon.png"
+    },
+    {
+      "Index": "SpObj_Cart_A_01",
+      "Name_EN": "Cart",
+      "Name_FR": "Convoyeur",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Cart.png"
+    },
+    {
+      "Index": "SpObj_Chaser_A_01",
+      "Name_EN": "Homing Cart",
+      "Name_FR": "Convoyeur autoguidé",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Homing_Cart.png"
+    },
+    {
+      "Index": "SpObj_ControlStick_A_01",
+      "Name_EN": "Steering Stick",
+      "Name_FR": "Gouvernail",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Steering_Stick.png"
+    },
+    {
+      "Index": "SpObj_CookSetOnFire_A_01",
+      "Name_EN": "Portable Pot",
+      "Name_FR": "Marmite de voyage",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Portable_Pot.png"
+    },
+    {
+      "Index": "SpObj_ElectricBoxGenerator",
+      "Name_EN": "Shock Emitter",
+      "Name_FR": "Lance-foudre",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Shock_Emitter.png"
+    },
+    {
+      "Index": "SpObj_EnergyBank_A_01",
+      "Name_EN": "Battery",
+      "Name_FR": "Batterie de rechange",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Battery.png"
+    },
+    {
+      "Index": "SpObj_EnergyBank_A_02",
+      "Name_EN": "Big Battery",
+      "Name_FR": "Batterie haute capacité",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Big_Battery.png"
+    },
+    {
+      "Index": "SpObj_FastWheel_A_01",
+      "Name_EN": "Small Wheel",
+      "Name_FR": "Roulette",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Small_Wheel.png"
+    },
+    {
+      "Index": "SpObj_SwitchWheel_B_01",
+      "Name_EN": "Big Wheel",
+      "Name_FR": "Roue",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Big_Wheel.png"
+    },
+    {
+      "Index": "SpObj_FlameThrower_A_01",
+      "Name_EN": "Flame Emitter",
+      "Name_FR": "Lance-flamme",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Flame_Emitter.png"
+    },
+    {
+      "Index": "SpObj_FlashLight_A_01",
+      "Name_EN": "Light",
+      "Name_FR": "Projecteur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/lightscale_trident/image?game=totk"
+    },
+    {
+      "Index": "SpObj_FloatingStone_A_01",
+      "Name_EN": "Hover Stone",
+      "Name_FR": "Plateforme lévitante",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Hover_Stone.png"
+    },
+    {
+      "Index": "SpObj_GolemHead_A_01",
+      "Name_EN": "Construct Head",
+      "Name_FR": "Tête de Golem",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Construct_Head.png"
+    },
+    {
+      "Index": "SpObj_LiftGeneratorWing_A_01",
+      "Name_EN": "Wing",
+      "Name_FR": "Planeur",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/blue-winged_heron/image?game=totk"
+    },
+    {
+      "Index": "SpObj_WaterPump_A_01",
+      "Name_EN": "Hydrant",
+      "Name_FR": "Déverseur",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Hydrant.png"
+    },
+    {
+      "Index": "SpObj_LightMirror_A_01",
+      "Name_EN": "Mirror",
+      "Name_FR": "Miroir",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Mirror.png"
+    },
+    {
+      "Index": "SpObj_Pile_A_01",
+      "Name_EN": "Stake",
+      "Name_FR": "Pieu",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Stake.png"
+    },
+    {
+      "Index": "SpObj_Rocket_A_01",
+      "Name_EN": "Rocket",
+      "Name_FR": "Propulseur",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Rocket.png"
+    },
+    {
+      "Index": "SpObj_SlipBoard_A_01",
+      "Name_EN": "Sled",
+      "Name_FR": "Glisseur",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Sled.png"
+    },
+    {
+      "Index": "SpObj_SnowMachine_A_01",
+      "Name_EN": "Frost Emitter",
+      "Name_FR": "Lance-glace",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Frost_Emitter.png"
+    },
+    {
+      "Index": "SpObj_SpringPiston_A_01",
+      "Name_EN": "Spring",
+      "Name_FR": "Ressort",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Spring.png"
+    },
+    {
+      "Index": "SpObj_TiltingDoll_A_01",
+      "Name_EN": "Stabilizer",
+      "Name_FR": "Ramponeau",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Stabilizer.png"
+    },
+    {
+      "Index": "SpObj_TimerBomb_A_01",
+      "Name_EN": "Time Bomb",
+      "Name_FR": "Bombe à retardement",
+      "PictureMain": "./assets/category/zelda/totk/Zonai_Devices/Time_Bomb.png"
+    },
+    {
+      "Index": "SpObj_WindGenerator_A_01",
+      "Name_EN": "Fan",
+      "Name_FR": "Turbine",
+      "PictureMain": "https://api.hyrule-compendium.com/v3/compendium/entry/obsidian_frox fang/image?game=totk"
+    }
+  ]
+}

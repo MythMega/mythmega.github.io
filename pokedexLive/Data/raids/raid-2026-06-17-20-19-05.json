@@ -1,0 +1,71 @@
+{
+  "bossName": "Mimitoss",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venonat_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Venonat_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-17 20:19:05",
+  "durationSec": 922,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 88120,
+      "countAtk": 2,
+      "baseDmg": 29360,
+      "level": 18,
+      "raidCount": 881,
+      "luck": 1.5006812
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 88120
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-17 20:23:16",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 29360,
+      "pvAfter": 20640,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-17 20:34:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 58760,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

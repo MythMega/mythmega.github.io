@@ -1,0 +1,71 @@
+{
+  "bossName": "Bastiodon",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bastiodon_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bastiodon_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-06-17 20:37:35",
+  "durationSec": 609,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 87960,
+      "countAtk": 2,
+      "baseDmg": 29306,
+      "level": 18,
+      "raidCount": 882,
+      "luck": 1.5007166
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 87960
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-17 20:38:15",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 29306,
+      "pvAfter": 45694,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-17 20:47:44",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 58654,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

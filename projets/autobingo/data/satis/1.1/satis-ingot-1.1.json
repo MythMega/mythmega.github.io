@@ -1,0 +1,43 @@
+{
+  "Name": "Satisfactory - Ingot - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Lingot de fer",
+      "Name_EN": "Iron Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_ingot.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Lingot de cuivre",
+      "Name_EN": "Copper Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/copper_ingot.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Lingot de caterium",
+      "Name_EN": "Caterium Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/caterium_ingot.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Lingot d'acier",
+      "Name_EN": "Steel Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/steel_ingot.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Lingot d'aluminium",
+      "Name_EN": "Aluminum Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/aluminum_ingot.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Lingot de ficsite",
+      "Name_EN": "Ficsite Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ficsite_ingot.png"
+    }
+  ]
+}

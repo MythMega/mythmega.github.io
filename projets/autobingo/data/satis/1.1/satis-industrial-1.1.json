@@ -1,0 +1,49 @@
+{
+  "Name": "Satisfactory - Industrial - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Rotor",
+      "Name_EN": "Rotor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/rotor.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Stator",
+      "Name_EN": "Stator",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/stator.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Batterie",
+      "Name_EN": "Battery",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/battery.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Moteur",
+      "Name_EN": "Motor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/motor.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Dissipateur de chaleur",
+      "Name_EN": "Heat Sink",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/heat_sink.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Système de refroidissement",
+      "Name_EN": "Cooling System",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/cooling_system.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Turbomoteur",
+      "Name_EN": "Turbo Motor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/turbo_motor.png"
+    }
+  ]
+}

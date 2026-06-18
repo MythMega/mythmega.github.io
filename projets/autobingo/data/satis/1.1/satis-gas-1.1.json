@@ -1,0 +1,37 @@
+{
+  "Name": "Satisfactory - Gas - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Azote",
+      "Name_EN": "Nitrogen Gas",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nitrogen_gas.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Carburant de fusée",
+      "Name_EN": "Rocket Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/rocket_fuel.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Carburant ionisé",
+      "Name_EN": "Ionized Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ionized_fuel.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Résidus de matière noire",
+      "Name_EN": "Dark Matter Residue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/dark_matter_residue.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Matière photonique agitée",
+      "Name_EN": "Excited Photonic Matter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/excited_photonic_matter.png"
+    }
+  ]
+}

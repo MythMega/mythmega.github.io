@@ -1,0 +1,103 @@
+{
+  "Name": "Satisfactory - Fuel - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Feuilles",
+      "Name_EN": "Leaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/leaves.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Mycélium",
+      "Name_EN": "Mycelia",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/mycelia.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Pétales de fleurs",
+      "Name_EN": "Flower Petals",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/flower_petals.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Bois",
+      "Name_EN": "Wood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/wood.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Biomasse",
+      "Name_EN": "Biomass",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/biomass.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Charbon compacté",
+      "Name_EN": "Compacted Coal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/compacted_coal.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Pétrole conditionné",
+      "Name_EN": "Packaged Oil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_oil.png"
+    },
+    {
+      "Index": 10008,
+      "Name_FR": "Résidus de pétrole lourd conditionnés",
+      "Name_EN": "Packaged Heavy Oil Residue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_heavy_oil_residue.png"
+    },
+    {
+      "Index": 10009,
+      "Name_FR": "Biocarburant solide",
+      "Name_EN": "Solid Biofuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/solid_biofuel.png"
+    },
+    {
+      "Index": 10010,
+      "Name_FR": "Carburant conditionné",
+      "Name_EN": "Packaged Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_fuel.png"
+    },
+    {
+      "Index": 10011,
+      "Name_FR": "Biocarburant liquide conditionné",
+      "Name_EN": "Packaged Liquid Biofuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_liquid_biofuel.png"
+    },
+    {
+      "Index": 10012,
+      "Name_FR": "Turbocarburant conditionné",
+      "Name_EN": "Packaged Turbofuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_turbofuel.png"
+    },
+    {
+      "Index": 10013,
+      "Name_FR": "Carburant de fusée conditionné",
+      "Name_EN": "Packaged Rocket Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_rocket_fuel.png"
+    },
+    {
+      "Index": 10014,
+      "Name_FR": "Carburant ionisé conditionné",
+      "Name_EN": "Packaged Ionized Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_ionized_fuel.png"
+    },
+    {
+      "Index": 10015,
+      "Name_FR": "Barre de combustible d'Uranium",
+      "Name_EN": "Uranium Fuel Rod",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/uranium_fuel_rod.png"
+    },
+    {
+      "Index": 10016,
+      "Name_FR": "Barre de plutonium",
+      "Name_EN": "Plutonium Fuel Rod",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/plutonium_fuel_rod.png"
+    }
+  ]
+}

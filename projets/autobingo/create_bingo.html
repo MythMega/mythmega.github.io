@@ -20,6 +20,22 @@
             <!-- Category selector will be rendered here -->
             <div id="selector-container"></div>
 
+            <!-- Controls checkboxes -->
+            <div id="controls-container" style="margin-top: 16px; display: flex; gap: 16px; flex-wrap: wrap;">
+                <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="ctrl-lock" class="control-checkbox">
+                    <span data-i18n="bingo.lock_grid">Lock Grid</span>
+                </label>
+                <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="ctrl-hide" class="control-checkbox">
+                    <span data-i18n="bingo.hide_items">Hide</span>
+                </label>
+                <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="ctrl-blur" class="control-checkbox">
+                    <span data-i18n="bingo.blur_items">Blur</span>
+                </label>
+            </div>
+
             <!-- Create button -->
             <div class="text-center mt-24">
                 <button id="create-bingo-btn" class="btn btn-primary" disabled data-i18n="create.create_button">
@@ -93,7 +109,14 @@
                 const def = selector.getSelectedDataset();
                 if (def) {
                     const size = selector.getSelectedSize();
-                    AutoBingo.NavigationManager.navigateTo('bingo.html', { id: def.name, size: size });
+                    const params = { id: def.name, size: size };
+                    const lock = document.getElementById('ctrl-lock').checked;
+                    const hide = document.getElementById('ctrl-hide').checked;
+                    const blur = document.getElementById('ctrl-blur').checked;
+                    if (lock || hide || blur) {
+                        params.controls = (lock ? '1' : '0') + (hide ? '1' : '0') + (blur ? '1' : '0');
+                    }
+                    AutoBingo.NavigationManager.navigateTo('bingo.html', params);
                 }
             });
 
@@ -104,7 +127,10 @@
                     const size = selector.getSelectedSize();
                     const cat = def.category;
                     const sub = def.subcategory;
-                    AutoBingo.PresetManager.save(def.name, size, cat, sub);
+                    const lock = document.getElementById('ctrl-lock').checked;
+                    const hide = document.getElementById('ctrl-hide').checked;
+                    const blur = document.getElementById('ctrl-blur').checked;
+                    AutoBingo.PresetManager.save(def.name, size, cat, sub, lock, hide, blur);
                     
                     // Visual feedback
                     const btn = document.getElementById('pin-preset-btn');

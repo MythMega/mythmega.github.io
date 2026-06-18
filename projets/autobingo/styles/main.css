@@ -405,6 +405,19 @@ a:hover {
     color: #fff;
 }
 
+.preset-share:hover {
+    background-color: #2196f3;
+    color: #fff;
+}
+
+/* Control checkboxes */
+.control-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent);
+}
+
 /* Utility */
 .text-center {
     text-align: center;

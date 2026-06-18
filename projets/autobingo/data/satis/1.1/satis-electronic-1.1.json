@@ -1,0 +1,55 @@
+{
+  "Name": "Satisfactory - Electronic - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Fil électrique",
+      "Name_EN": "Wire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/wire.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Câble",
+      "Name_EN": "Cable",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/cable.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Filactif",
+      "Name_EN": "Quickwire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/quickwire.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Circuit imprimé",
+      "Name_EN": "Circuit Board",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/circuit_board.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Contrôleur d'I.A.",
+      "Name_EN": "AI Limiter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ai_limiter.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Connecteur haute vitesse",
+      "Name_EN": "High-Speed Connector",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/high_speed_connector.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "É.M.E. réanimée",
+      "Name_EN": "Reanimated SAM",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/reanimated_sam.png"
+    },
+    {
+      "Index": 10008,
+      "Name_FR": "Fluctuateur d'É.M.E.",
+      "Name_EN": "SAM Fluctuator",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/sam_fluctuator.png"
+    }
+  ]
+}

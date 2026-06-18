@@ -1,0 +1,79 @@
+{
+  "Name": "Satisfactory - Ammo - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Barre d'armature en fer",
+      "Name_EN": "Iron Rebar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_rebar.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Barre d'armature paralysante",
+      "Name_EN": "Stun Rebar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/stun_rebar.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Barre d'armature à fragmentation",
+      "Name_EN": "Shatter Rebar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/shatter_rebar.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Barre d'armature explosive",
+      "Name_EN": "Explosive Rebar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/explosive_rebar.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Munitions de fusil",
+      "Name_EN": "Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/rifle_ammo.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Munitions de fusil à têtes chercheuses",
+      "Name_EN": "Homing Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/homing_rifle_ammo.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Munitions de fusil turbo",
+      "Name_EN": "Turbo Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/turbo_rifle_ammo.png"
+    },
+    {
+      "Index": 10008,
+      "Name_FR": "Nobélisque",
+      "Name_EN": "Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nobelisk.png"
+    },
+    {
+      "Index": 10009,
+      "Name_FR": "Nobélisque à gaz",
+      "Name_EN": "Gas Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/gas_nobelisk.png"
+    },
+    {
+      "Index": 10010,
+      "Name_FR": "Nobélisque à impulsion",
+      "Name_EN": "Pulse Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/pulse_nobelisk.png"
+    },
+    {
+      "Index": 10011,
+      "Name_FR": "Nobélisque à fragmentation",
+      "Name_EN": "Cluster Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/cluster_nobelisk.png"
+    },
+    {
+      "Index": 10012,
+      "Name_FR": "Nobélisque nucléaire",
+      "Name_EN": "Nuke Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nuke_nobelisk.png"
+    }
+  ]
+}

@@ -29,8 +29,11 @@
          * @param {number} gridSize - Grid size
          * @param {string} category - Category name
          * @param {string} subcategory - Subcategory name
+         * @param {boolean} lock - Lock grid state
+         * @param {boolean} hide - Hide items state
+         * @param {boolean} blur - Blur items state
          */
-        save(datasetName, gridSize, category, subcategory) {
+        save(datasetName, gridSize, category, subcategory, lock, hide, blur) {
             const presets = this.loadAll();
             
             // Don't add if identical to last preset
@@ -43,6 +46,9 @@
                 size: gridSize,
                 category: category,
                 subcategory: subcategory,
+                lock: !!lock,
+                hide: !!hide,
+                blur: !!blur,
                 created: new Date().toISOString()
             };
             
@@ -71,6 +77,23 @@
          */
         clearAll() {
             autobingo.CookieManager.set(PRESET_COOKIE, JSON.stringify([]));
+        },
+
+        /**
+         * Build a shareable URL for a preset
+         * @param {Object} preset - Preset object
+         * @returns {string} Full URL to bingo.html with parameters
+         */
+        getShareUrl(preset) {
+            const params = new URLSearchParams();
+            params.set('id', preset.dataset);
+            params.set('size', preset.size);
+            if (preset.lock || preset.hide || preset.blur) {
+                const controls = (preset.lock ? '1' : '0') + (preset.hide ? '1' : '0') + (preset.blur ? '1' : '0');
+                params.set('controls', controls);
+            }
+            const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/bingo.html');
+            return `${baseUrl}?${params.toString()}`;
         }
     };
 

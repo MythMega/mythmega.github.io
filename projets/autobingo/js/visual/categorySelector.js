@@ -369,6 +369,17 @@
             await new Promise(r => setTimeout(r, 50));
             this.datasetSelect.value = def.name;
             await this._onDatasetChange();
+
+            // Restore control checkboxes from URL
+            const controlsParam = autobingo.NavigationManager.getParam('controls');
+            if (controlsParam && controlsParam.length === 3) {
+                const lockCb = document.getElementById('ctrl-lock');
+                const hideCb = document.getElementById('ctrl-hide');
+                const blurCb = document.getElementById('ctrl-blur');
+                if (lockCb) lockCb.checked = controlsParam[0] === '1';
+                if (hideCb) hideCb.checked = controlsParam[1] === '1';
+                if (blurCb) blurCb.checked = controlsParam[2] === '1';
+            }
         }
 
         /**

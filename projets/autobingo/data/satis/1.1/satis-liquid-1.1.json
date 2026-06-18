@@ -1,0 +1,67 @@
+{
+  "Name": "Satisfactory - Liquid - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Eau",
+      "Name_EN": "Water",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/water.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Pétrole brut",
+      "Name_EN": "Crude Oil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/crude_oil.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Résidus de pétrole lourd",
+      "Name_EN": "Heavy Oil Residue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/heavy_oil_residue.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Carburant",
+      "Name_EN": "Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/fuel.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Biocarburant liquide",
+      "Name_EN": "Liquid Biofuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/liquid_biofuel.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Turbocarburant",
+      "Name_EN": "Turbofuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/turbofuel.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Solution d'alumine",
+      "Name_EN": "Alumina Solution",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/alumina_solution.png"
+    },
+    {
+      "Index": 10008,
+      "Name_FR": "Acide sulfurique",
+      "Name_EN": "Sulfuric Acid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/sulfuric_acid.png"
+    },
+    {
+      "Index": 10009,
+      "Name_FR": "Acide nitrique",
+      "Name_EN": "Nitric Acid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nitric_acid.png"
+    },
+    {
+      "Index": 10010,
+      "Name_FR": "Silice dissoute",
+      "Name_EN": "Dissolved Silica",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/dissolved_silica.png"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "Name": "Satisfactory - Consumed - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Poudre noire",
+      "Name_EN": "Black Powder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/black_powder.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Poudre sans fumée",
+      "Name_EN": "Smokeless Powder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/smokeless_powder.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Filtre à gaz",
+      "Name_EN": "Gas Filter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/gas_filter.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Cartouche de peinture",
+      "Name_EN": "Color Cartridge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/color_cartridge.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Balise",
+      "Name_EN": "Beacon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/beacon.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Filtre à infusion d'iode",
+      "Name_EN": "Iodine-Infused Filter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iodine_infused_filter.png"
+    }
+  ]
+}

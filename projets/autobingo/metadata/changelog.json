@@ -45,7 +45,7 @@
         "Name_EN": "Beta - Timer Bingo",
         "Desc_FR": "Correction de la page Changelog, [MAJOR] Auto-lancement du Timer en cas de validation, Stop du timer en cas de bingo, Support Jeu Super Mario Sunshine",
         "Desc_EN": "Changelog page correction, [MAJOR] Automatic timer start upon validation, Timer stop upon bingo, Super Mario Sunshine Game support",
-        "Link": "https://github.com/MythMega/mythmega.github.io/commit/13a5306f34dcf73f8c3736b6a5115d1820975a51"
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/0a7b0c33311a8645727865b613785a2d574fbc80"
     },
     {
         "Version": {
@@ -57,7 +57,7 @@
         "Name_EN": "Beta - Poke-Lock",
         "Desc_FR": "Correction finale du lock, Support de chaque Jeu Pokémon",
         "Desc_EN": "Final lock fixes, Every Pokémon Game Support",
-        "Link": "https://github.com/MythMega/mythmega.github.io/commit/13a5306f34dcf73f8c3736b6a5115d1820975a51"
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/0a7b0c33311a8645727865b613785a2d574fbc80"
     },
     {
         "Version": {
@@ -69,6 +69,18 @@
         "Name_EN": "Beta - Fast Pins",
         "Desc_FR": "[MAJOR] Ajout d'un système de sauvegarde de favoris pour épingler des preset, Correction du flou, Support chaque version de Jeu Minecraft - Block / Items / Tout, Support Jeu The Legend Of Zelda: Tears Of The Kingdom (Ultra large choix de dataset), Support Jeu The Legend Of Zelda: Ocarina of Time, Amélioration globale du changelog",
         "Desc_EN": "[MAJOR] Added a favorites save system to pin presets, Blur correction, Support for every version of the Minecraft game – Blocks / Items / Everything, Support for The Legend of Zelda: Tears of the Kingdom (Very large dataset selection), Support for The Legend of Zelda: Ocarina of Time, Overall changelog improvements",
-        "Link": "https://github.com/MythMega/mythmega.github.io/commit/13a5306f34dcf73f8c3736b6a5115d1820975a51"
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/0a7b0c33311a8645727865b613785a2d574fbc80"
+    },
+    {
+        "Version": {
+            "ID": 7,
+            "Number": "Beta b0.3.1"
+        }, 
+        "Date": "2026-06-17",
+        "Name_FR": "Beta - Fondation de béton",
+        "Name_EN": "Beta - Concrete Fundations",
+        "Desc_FR": "Support du jeu Satisfactory, [MAJOR] Possibilité de construire une grille directement avec des settings d'affichages préchoisis, [MAJOR] Possibilité de partager un preset pour construire une grille de preset directement avec un lien",
+        "Desc_EN": "Game Support : Satisfactory, [MAJOR] Ability to build grid with predetermined settings, also thoses settings are saved in presets, [MAJOR] Ability to share preset to directly build a grid with link",
+        "Link": "#"
     }
 ]

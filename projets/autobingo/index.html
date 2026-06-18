@@ -104,7 +104,15 @@
                 const detailSpan = document.createElement('span');
                 detailSpan.className = 'preset-detail';
                 const lang = AutoBingo.translationManager ? AutoBingo.translationManager.currentLang : 'en';
-                detailSpan.textContent = `${preset.category} › ${preset.subcategory} — ${preset.size}x${preset.size}`;
+                let detailText = `${preset.category} › ${preset.subcategory} — ${preset.size}x${preset.size}`;
+                const controls = [];
+                if (preset.lock) controls.push(lang === 'fr' ? 'Verrouillé' : 'Locked');
+                if (preset.hide) controls.push(lang === 'fr' ? 'Caché' : 'Hidden');
+                if (preset.blur) controls.push(lang === 'fr' ? 'Flou' : 'Blurred');
+                if (controls.length > 0) {
+                    detailText += ` (${controls.join(', ')})`;
+                }
+                detailSpan.textContent = detailText;
                 info.appendChild(detailSpan);
 
                 item.appendChild(info);
@@ -118,7 +126,11 @@
                 playBtn.setAttribute('data-i18n', 'home.preset_play');
                 playBtn.textContent = '▶ Play';
                 playBtn.addEventListener('click', () => {
-                    AutoBingo.NavigationManager.navigateTo('bingo.html', { id: preset.dataset, size: preset.size });
+                    const params = { id: preset.dataset, size: preset.size };
+                    if (preset.lock || preset.hide || preset.blur) {
+                        params.controls = (preset.lock ? '1' : '0') + (preset.hide ? '1' : '0') + (preset.blur ? '1' : '0');
+                    }
+                    AutoBingo.NavigationManager.navigateTo('bingo.html', params);
                 });
                 actions.appendChild(playBtn);
 
@@ -128,7 +140,11 @@
                 configBtn.setAttribute('data-i18n', 'home.preset_configure');
                 configBtn.textContent = '⚙ Configure';
                 configBtn.addEventListener('click', () => {
-                    AutoBingo.NavigationManager.navigateTo('create_bingo.html', { Dataset: preset.dataset, Size: preset.size });
+                    const params = { Dataset: preset.dataset, Size: preset.size };
+                    if (preset.lock || preset.hide || preset.blur) {
+                        params.controls = (preset.lock ? '1' : '0') + (preset.hide ? '1' : '0') + (preset.blur ? '1' : '0');
+                    }
+                    AutoBingo.NavigationManager.navigateTo('create_bingo.html', params);
                 });
                 actions.appendChild(configBtn);
 
@@ -145,6 +161,36 @@
                     }
                 });
                 actions.appendChild(delBtn);
+
+                // Share button
+                const shareBtn = document.createElement('button');
+                shareBtn.className = 'btn btn-secondary preset-btn preset-share';
+                shareBtn.setAttribute('data-i18n', 'home.preset_share');
+                shareBtn.textContent = '🔗 Share';
+                shareBtn.addEventListener('click', () => {
+                    const url = AutoBingo.PresetManager.getShareUrl(preset);
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'AutoBingo Grid',
+                            text: `Check out this ${preset.size}x${preset.size} ${preset.dataset} bingo grid!`,
+                            url: url
+                        }).catch(() => {});
+                    } else {
+                        navigator.clipboard.writeText(url).then(() => {
+                            shareBtn.textContent = '✓ Copied!';
+                            setTimeout(() => {
+                                shareBtn.textContent = '🔗 Share';
+                                if (AutoBingo.translationManager) {
+                                    shareBtn.setAttribute('data-i18n', 'home.preset_share');
+                                    AutoBingo.translationManager.translatePage();
+                                }
+                            }, 2000);
+                        }).catch(() => {
+                            prompt('Copy this link:', url);
+                        });
+                    }
+                });
+                actions.appendChild(shareBtn);
 
                 item.appendChild(actions);
                 list.appendChild(item);

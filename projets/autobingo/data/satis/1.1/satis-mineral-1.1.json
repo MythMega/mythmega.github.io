@@ -1,0 +1,49 @@
+{
+  "Name": "Satisfactory - Mineral - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Béton",
+      "Name_EN": "Concrete",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/concrete.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Cristal de quartz",
+      "Name_EN": "Quartz Crystal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/quartz_crystal.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Silice",
+      "Name_EN": "Silica",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/silica.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Poudre de cuivre",
+      "Name_EN": "Copper Powder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/copper_powder.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Résine polymère",
+      "Name_EN": "Polymer Resin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/polymer_resin.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Coke de pétrole",
+      "Name_EN": "Petroleum Coke",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/petroleum_coke.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Rebuts d'aluminium",
+      "Name_EN": "Aluminum Scrap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/aluminum_scrap.png"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "Name": "Satisfactory - Ore - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Calcaire",
+      "Name_EN": "Limestone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/limestone.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Minerai de fer",
+      "Name_EN": "Iron Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_ore.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Minerai de cuivre",
+      "Name_EN": "Copper Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/copper_ore.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Minerai de caterium",
+      "Name_EN": "Caterium Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/caterium_ore.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Charbon",
+      "Name_EN": "Coal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/coal.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Quartz brut",
+      "Name_EN": "Raw Quartz",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/raw_quartz.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Soufre",
+      "Name_EN": "Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/sulfur.png"
+    },
+    {
+      "Index": 10008,
+      "Name_FR": "Bauxite",
+      "Name_EN": "Bauxite",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/bauxite.png"
+    },
+    {
+      "Index": 10009,
+      "Name_FR": "É.M.E.",
+      "Name_EN": "SAM",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/sam.png"
+    },
+    {
+      "Index": 10010,
+      "Name_FR": "Uranium",
+      "Name_EN": "Uranium",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/uranium.png"
+    }
+  ]
+}

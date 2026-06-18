@@ -1,0 +1,19 @@
+{
+  "Name": "Satisfactory - Waste - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Déchets d'uranium",
+      "Name_EN": "Uranium Waste",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/uranium_waste.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Déchets de plutonium",
+      "Name_EN": "Plutonium Waste",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/plutonium_waste.png"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "Name": "Satisfactory - Container - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Bidon vide",
+      "Name_EN": "Empty Canister",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/empty_canister.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Réservoir vide",
+      "Name_EN": "Empty Fluid Tank",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/empty_fluid_tank.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Cube de conversion de pression",
+      "Name_EN": "Pressure Conversion Cube",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/pressure_conversion_cube.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Eau conditionnée",
+      "Name_EN": "Packaged Water",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_water.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Solution d'aluminium conditionnée",
+      "Name_EN": "Packaged Alumina Solution",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_alumina_solution.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Acide sulfurique conditionné",
+      "Name_EN": "Packaged Sulfuric Acid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_sulfuric_acid.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Acide nitrique conditionné",
+      "Name_EN": "Packaged Nitric Acid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_nitric_acid.png"
+    },
+    {
+      "Index": 10008,
+      "Name_FR": "Azote gazeux conditionné",
+      "Name_EN": "Packaged Nitrogen Gas",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_nitrogen_gas.png"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "Name": "Satisfactory - Nuclear - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Tige de contrôle électromagnétique",
+      "Name_EN": "Electromagnetic Control Rod",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/electromagnetic_control_rod.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Cellule d'uranium compactée",
+      "Name_EN": "Encased Uranium Cell",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/encased_uranium_cell.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Uranium non fissile",
+      "Name_EN": "Non-Fissile Uranium",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/non_fissile_uranium.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Granulés de plutonium",
+      "Name_EN": "Plutonium Pellet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/plutonium_pellet.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Cellule de plutonium encastré",
+      "Name_EN": "Encased Plutonium Cell",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/encased_plutonium_cell.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Ficsonium",
+      "Name_EN": "Ficsonium",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ficsonium.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Barre de ficsonium",
+      "Name_EN": "Ficsonium Fuel Rod",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ficsonium_fuel_rod.png"
+    }
+  ]
+}

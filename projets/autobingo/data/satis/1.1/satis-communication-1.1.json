@@ -1,0 +1,37 @@
+{
+  "Name": "Satisfactory - Communication - 1.1",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - 1.1",
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Ordinateur",
+      "Name_EN": "Computer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/computer.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Superordinateur",
+      "Name_EN": "Supercomputer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/supercomputer.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Unité de contrôle radio",
+      "Name_EN": "Radio Control Unit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/radio_control_unit.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Oscillateur à cristal",
+      "Name_EN": "Crystal Oscillator",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/crystal_oscillator.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Oscillateur de superposition",
+      "Name_EN": "Superposition Oscillator",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/superposition_oscillator.png"
+    }
+  ]
+}

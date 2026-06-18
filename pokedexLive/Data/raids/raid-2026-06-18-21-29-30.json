@@ -1,0 +1,109 @@
+{
+  "bossName": "Saquedeneu",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tangela_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tangela_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-18 21:29:30",
+  "durationSec": 1447,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 89244,
+      "countAtk": 2,
+      "baseDmg": 29670,
+      "level": 18,
+      "raidCount": 892,
+      "luck": 1.5039433
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14402,
+      "countAtk": 1,
+      "baseDmg": 14402,
+      "level": 18,
+      "raidCount": 476,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 103646
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-18 21:31:31",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 29670,
+      "pvAfter": 20330,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-18 21:34:47",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14402,
+      "pvAfter": 5928,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-06-18 21:53:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 59574,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

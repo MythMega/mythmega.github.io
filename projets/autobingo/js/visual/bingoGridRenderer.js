@@ -663,7 +663,10 @@
                 <div class="search-modal-content">
                     <h3 data-i18n="bingo.replace_item">Replace Item</h3>
                     ${quantitySectionHtml}
-                    <input type="text" class="bingo-search-input" id="modal-search-input" placeholder="Search..." autofocus>
+                    <div style="display:flex;gap:8px;margin-bottom:8px;">
+                        <input type="text" class="bingo-search-input" id="modal-search-input" placeholder="Search..." autofocus style="flex:1;">
+                        <button class="btn btn-secondary" id="modal-random-btn" data-i18n="bingo.random_item" title="Random item">${lang === 'fr' ? '🎲 Aléatoire' : '🎲 Random'}</button>
+                    </div>
                     <div class="modal-search-results" id="modal-search-results"></div>
                     <button class="btn btn-secondary mt-16" id="modal-close">Close</button>
                 </div>
@@ -727,6 +730,24 @@
                         results.appendChild(div);
                     });
                 }, 150);
+            });
+
+            // Random item button
+            document.getElementById('modal-random-btn').addEventListener('click', () => {
+                const randomItem = this.gameManager.allItems[Math.floor(Math.random() * this.gameManager.allItems.length)];
+                this.gameManager.cells[index].item = randomItem;
+                if (this.gameManager.isQuantizable) {
+                    const qInput = document.getElementById('modal-quantity-input');
+                    if (qInput) {
+                        const num = parseInt(qInput.value);
+                        this.gameManager.cells[index].quantity = (!isNaN(num) && num > 0) ? num : 0;
+                    } else {
+                        this.gameManager.cells[index].quantity = this.gameManager._randomQuantityForItem(randomItem);
+                    }
+                }
+                this.refreshCells();
+                this.updateUrl();
+                modal.classList.add('hidden');
             });
 
             document.getElementById('modal-close').addEventListener('click', () => {

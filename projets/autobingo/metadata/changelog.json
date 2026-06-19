@@ -76,11 +76,23 @@
             "ID": 7,
             "Number": "Beta b0.3.1"
         }, 
-        "Date": "2026-06-17",
+        "Date": "2026-06-18",
         "Name_FR": "Beta - Fondation de béton",
         "Name_EN": "Beta - Concrete Fundations",
         "Desc_FR": "Support du jeu Satisfactory, [MAJOR] Possibilité de construire une grille directement avec des settings d'affichages préchoisis, [MAJOR] Possibilité de partager un preset pour construire une grille de preset directement avec un lien",
         "Desc_EN": "Game Support : Satisfactory, [MAJOR] Ability to build grid with predetermined settings, also thoses settings are saved in presets, [MAJOR] Ability to share preset to directly build a grid with link",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/65d357d2a1d5b3f1704fca89a3cc209369ab440e"
+    },
+    {
+        "Version": {
+            "ID": 8,
+            "Number": "Beta b0.4.0"
+        }, 
+        "Date": "2026-06-19",
+        "Name_FR": "Beta - Quantization",
+        "Name_EN": "Beta - Quantization",
+        "Desc_FR": "[MAJOR] Possibilité d'avoir des grilles avec quantités aléatoire pour un item",
+        "Desc_EN": "[MAJOR] Possibility to create grid with random amount of item",
         "Link": "#"
     }
 ]

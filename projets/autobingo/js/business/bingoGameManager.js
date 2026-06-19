@@ -19,6 +19,7 @@
             this.timerSeconds = 0;
             this.timerRunning = false;
             this.timerInterval = null;
+            this.isQuantizable = false;
         }
 
         /**
@@ -30,6 +31,7 @@
             const sizeParam = autobingo.NavigationManager.getParam('size');
             const itemsParam = autobingo.NavigationManager.getParam('items');
             const controlsParam = autobingo.NavigationManager.getParam('controls');
+            const quantitiesParam = autobingo.NavigationManager.getParam('quantities');
 
             if (!id) return false;
 
@@ -49,12 +51,19 @@
 
             this.allItems = await dm.loadDatasetItems(this.datasetDefinition);
 
+            // Check for quantizable
+            this.isQuantizable = this.datasetDefinition.quantizable === true;
+
             // Check for alt images
             this.hasAltImages = this.allItems.length > 0 && this.allItems[0].pictureAlt != null;
 
             // If items are passed in URL, decode and use them
             if (itemsParam) {
-                return this._loadItemsFromBase64(itemsParam);
+                const success = this._loadItemsFromBase64(itemsParam);
+                if (quantitiesParam && this.isQuantizable) {
+                    this._loadQuantitiesFromBase64(quantitiesParam);
+                }
+                return success;
             }
 
             // Otherwise generate random items
@@ -108,6 +117,9 @@
             }
 
             this._setGridItems(selected);
+            if (this.isQuantizable) {
+                this._generateQuantities();
+            }
         }
 
         /**
@@ -155,6 +167,65 @@
         }
 
         /**
+         * Encode quantities to base64 URL param
+         * @returns {string}
+         */
+        encodeQuantitiesToBase64() {
+            if (!this.isQuantizable) return '';
+            const q = this.cells.map(cell => cell.quantity || 0);
+            const str = q.join(';');
+            return btoa(str);
+        }
+
+        /**
+         * Load quantities from base64 encoded string
+         * @param {string} base64
+         */
+        _loadQuantitiesFromBase64(base64) {
+            try {
+                const str = atob(base64);
+                const quantities = str.split(';').map(s => parseInt(s.trim()));
+                this.cells.forEach((cell, i) => {
+                    if (i < quantities.length && quantities[i] > 0) {
+                        cell.quantity = quantities[i];
+                    }
+                });
+            } catch (e) {
+                // ignore, quantities will be regenerated
+            }
+        }
+
+        /**
+         * Generate random quantities for all cells
+         */
+        _generateQuantities() {
+            if (!this.isQuantizable) return;
+            this.cells.forEach(cell => {
+                cell.quantity = this._randomQuantityForItem(cell.item);
+            });
+        }
+
+        /**
+         * Get a random quantity for a given item
+         * @param {autobingo.DatasetItem} item
+         * @returns {number}
+         */
+        _randomQuantityForItem(item) {
+            const def = this.datasetDefinition;
+            const defaults = def.defaultQuantities || { Min: 1, Max: 999 };
+            const itemQ = item.quantity || {};
+
+            const min = itemQ.Min !== undefined ? itemQ.Min : (defaults.Min !== undefined ? defaults.Min : 1);
+            const max = itemQ.Max !== undefined ? itemQ.Max : (defaults.Max !== undefined ? defaults.Max : 999);
+
+            // Ensure min <= max
+            const actualMin = Math.min(min, max);
+            const actualMax = Math.max(min, max);
+
+            return Math.floor(Math.random() * (actualMax - actualMin + 1)) + actualMin;
+        }
+
+        /**
          * Randomize the items (new selection)
          */
         randomizeItems() {
@@ -166,8 +237,21 @@
          */
         randomizeOrder() {
             const items = this.cells.map(c => c.item);
-            const shuffled = this._shuffle(items);
-            this._setGridItems(shuffled);
+            const quantities = this.cells.map(c => c.quantity);
+            const shuffled = this._shuffle(items.map((item, i) => ({ item, q: quantities[i] })));
+            this.cells = shuffled.map(({ item, q }, index) => {
+                const cell = new autobingo.BingoCell(index, item);
+                cell.quantity = q;
+                return cell;
+            });
+        }
+
+        /**
+         * Randomize quantities only
+         */
+        randomizeQuantities() {
+            if (!this.isQuantizable) return;
+            this._generateQuantities();
         }
 
         /**

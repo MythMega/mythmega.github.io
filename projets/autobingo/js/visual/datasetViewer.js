@@ -9,6 +9,7 @@
         container: null,
         datasetManager: null,
         items: [],
+        currentDefinition: null,
         filterValues: {},
         sortColumn: null,
         sortAsc: true,
@@ -32,9 +33,11 @@
         /**
          * Called when a dataset is selected
          * @param {Array} items
+         * @param {autobingo.DatasetDefinition} definition
          */
-        async onDatasetSelected(items) {
+        async onDatasetSelected(items, definition) {
             this.items = items;
+            this.currentDefinition = definition;
             this.imageStatus = {};
             this.filterValues = {};
             this.sortColumn = null;
@@ -42,6 +45,28 @@
             this.hideValidImages = false;
             await this._preloadImages();
             this.render();
+        },
+
+        /**
+         * Check if current dataset is quantizable
+         * @returns {boolean}
+         */
+        _isQuantizable() {
+            return this.currentDefinition && this.currentDefinition.quantizable === true;
+        },
+
+        /**
+         * Get resolved Min/Max for an item (respecting item-level override)
+         * @param {autobingo.DatasetItem} item
+         * @returns {{min: number, max: number}}
+         */
+        _getQuantityBounds(item) {
+            const def = this.currentDefinition;
+            const defaults = (def && def.defaultQuantities) || { Min: 1, Max: 999 };
+            const itemQ = item.quantity || {};
+            const min = itemQ.Min !== undefined ? itemQ.Min : (defaults.Min !== undefined ? defaults.Min : 1);
+            const max = itemQ.Max !== undefined ? itemQ.Max : (defaults.Max !== undefined ? defaults.Max : 999);
+            return { min, max };
         },
 
         /**
@@ -83,6 +108,36 @@
          */
         render() {
             this.container.innerHTML = '';
+
+            // --- Quantizable info bar ---
+            const isQuantizable = this._isQuantizable();
+            if (isQuantizable) {
+                const def = this.currentDefinition;
+                const defaults = def.defaultQuantities || { Min: 1, Max: 999 };
+                const lang = autobingo.translationManager ? autobingo.translationManager.currentLang : 'en';
+
+                const infoBar = document.createElement('div');
+                infoBar.className = 'quantizable-info-bar';
+                infoBar.style.cssText = 'margin-bottom:12px;padding:8px 14px;background:rgba(220,20,20,0.1);border:1px solid rgba(220,20,20,0.3);border-radius:8px;font-size:0.9rem;';
+
+                const icon = document.createElement('span');
+                icon.textContent = '🔢 ';
+                infoBar.appendChild(icon);
+
+                const label = document.createElement('strong');
+                label.textContent = lang === 'fr' ? 'Dataset quantifiable' : 'Quantizable dataset';
+                infoBar.appendChild(label);
+
+                infoBar.appendChild(document.createTextNode(' — '));
+
+                const minMax = document.createElement('span');
+                minMax.textContent = lang === 'fr'
+                    ? `Quantités par défaut : Min ${defaults.Min}, Max ${defaults.Max}`
+                    : `Default quantities: Min ${defaults.Min}, Max ${defaults.Max}`;
+                infoBar.appendChild(minMax);
+
+                this.container.appendChild(infoBar);
+            }
 
             // Controls bar
             const controls = document.createElement('div');
@@ -135,6 +190,11 @@
                 { key: 'pictureMain', label: 'Picture Main', filter: false },
                 { key: 'pictureAlt', label: 'Picture Alt', filter: false }
             ];
+
+            if (isQuantizable) {
+                columns.push({ key: 'qtyMin', label: 'Min', filter: false });
+                columns.push({ key: 'qtyMax', label: 'Max', filter: false });
+            }
 
             columns.forEach(col => {
                 const th = document.createElement('th');
@@ -226,6 +286,25 @@
                 }
                 row.appendChild(td4);
 
+                // Quantizable columns: Min / Max
+                if (isQuantizable) {
+                    const bounds = this._getQuantityBounds(item);
+                    
+                    // Min
+                    const tdMin = document.createElement('td');
+                    tdMin.style.textAlign = 'center';
+                    tdMin.style.fontWeight = '600';
+                    tdMin.textContent = bounds.min;
+                    row.appendChild(tdMin);
+
+                    // Max
+                    const tdMax = document.createElement('td');
+                    tdMax.style.textAlign = 'center';
+                    tdMax.style.fontWeight = '600';
+                    tdMax.textContent = bounds.max;
+                    row.appendChild(tdMax);
+                }
+
                 tbody.appendChild(row);
             });
             table.appendChild(tbody);
@@ -279,7 +358,7 @@
                 const label = e.target.closest('.dataset-th-label');
                 if (!label || !label.dataset.column) return;
                 const col = label.dataset.column;
-                if (col === 'pictureMain' || col === 'pictureAlt') return;
+                if (col === 'pictureMain' || col === 'pictureAlt' || col === 'qtyMin' || col === 'qtyMax') return;
                 if (this.sortColumn === col) {
                     this.sortAsc = !this.sortAsc;
                 } else {
@@ -306,11 +385,8 @@
          * @returns {string}
          */
         _extractFilename(url) {
-            // Get last part of URL after /
             let filename = url.split('/').pop() || '';
-            // Remove query string if any
             filename = filename.split('?')[0];
-            // Remove extension
             const dotIndex = filename.lastIndexOf('.');
             if (dotIndex > 0) {
                 filename = filename.substring(0, dotIndex);
@@ -336,7 +412,6 @@
                         btn.textContent = '📋 Copy filename';
                     }, 1500);
                 }).catch(() => {
-                    // Fallback for older browsers
                     const textarea = document.createElement('textarea');
                     textarea.value = filename;
                     textarea.style.position = 'fixed';

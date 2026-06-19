@@ -1,0 +1,396 @@
+{
+  "Name": "Satisfactory - Phase0+ and Under Items - 1.2",
+  "Category": "Satisfactory",
+  "Subcategory": "Satisfactory - Phases Unlocked - 1.2",
+  "Quantizable": true,
+  "DefaultQuantities": {
+    "Max": 15,
+    "Min": 1
+  },
+  "Items": [
+    {
+      "Index": 10001,
+      "Name_FR": "Calcaire",
+      "Name_EN": "Limestone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/limestone.png"
+    },
+    {
+      "Index": 10002,
+      "Name_FR": "Minerai de fer",
+      "Name_EN": "Iron Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_ore.png"
+    },
+    {
+      "Index": 10003,
+      "Name_FR": "Minerai de cuivre",
+      "Name_EN": "Copper Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/copper_ore.png"
+    },
+    {
+      "Index": 10004,
+      "Name_FR": "Minerai de caterium",
+      "Name_EN": "Caterium Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/caterium_ore.png"
+    },
+    {
+      "Index": 10005,
+      "Name_FR": "Charbon",
+      "Name_EN": "Coal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/coal.png"
+    },
+    {
+      "Index": 10006,
+      "Name_FR": "Quartz brut",
+      "Name_EN": "Raw Quartz",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/raw_quartz.png"
+    },
+    {
+      "Index": 10007,
+      "Name_FR": "Soufre",
+      "Name_EN": "Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/sulfur.png"
+    },
+    {
+      "Index": 10008,
+      "Name_FR": "Bauxite",
+      "Name_EN": "Bauxite",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/bauxite.png"
+    },
+    {
+      "Index": 10009,
+      "Name_FR": "É.M.E.",
+      "Name_EN": "SAM",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/sam.png"
+    },
+    {
+      "Index": 10010,
+      "Name_FR": "Uranium",
+      "Name_EN": "Uranium",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/uranium.png"
+    },
+    {
+      "Index": 10011,
+      "Name_FR": "Lingot de fer",
+      "Name_EN": "Iron Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_ingot.png"
+    },
+    {
+      "Index": 10012,
+      "Name_FR": "Lingot de cuivre",
+      "Name_EN": "Copper Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/copper_ingot.png"
+    },
+    {
+      "Index": 10013,
+      "Name_FR": "Lingot de caterium",
+      "Name_EN": "Caterium Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/caterium_ingot.png"
+    },
+    {
+      "Index": 10017,
+      "Name_FR": "Béton",
+      "Name_EN": "Concrete",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/concrete.png"
+    },
+    {
+      "Index": 10018,
+      "Name_FR": "Cristal de quartz",
+      "Name_EN": "Quartz Crystal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/quartz_crystal.png"
+    },
+    {
+      "Index": 10019,
+      "Name_FR": "Silice",
+      "Name_EN": "Silica",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/silica.png"
+    },
+    {
+      "Index": 10024,
+      "Name_FR": "Eau",
+      "Name_EN": "Water",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/water.png"
+    },
+    {
+      "Index": 10025,
+      "Name_FR": "Pétrole brut",
+      "Name_EN": "Crude Oil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/crude_oil.png"
+    },
+    {
+      "Index": 10029,
+      "Name_FR": "Turbocarburant",
+      "Name_EN": "Turbofuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/turbofuel.png"
+    },
+    {
+      "Index": 10033,
+      "Name_FR": "Silice dissoute",
+      "Name_EN": "Dissolved Silica",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/dissolved_silica.png"
+    },
+    {
+      "Index": 10034,
+      "Name_FR": "Azote",
+      "Name_EN": "Nitrogen Gas",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nitrogen_gas.png"
+    },
+    {
+      "Index": 10035,
+      "Name_FR": "Carburant de fusée",
+      "Name_EN": "Rocket Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/rocket_fuel.png"
+    },
+    {
+      "Index": 10036,
+      "Name_FR": "Carburant ionisé",
+      "Name_EN": "Ionized Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ionized_fuel.png"
+    },
+    {
+      "Index": 10039,
+      "Name_FR": "Barre de fer",
+      "Name_EN": "Iron Rod",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_rod.png"
+    },
+    {
+      "Index": 10040,
+      "Name_FR": "Vis",
+      "Name_EN": "Screws",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/screws.png"
+    },
+    {
+      "Index": 10041,
+      "Name_FR": "Plaque de fer",
+      "Name_EN": "Iron Plate",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_plate.png"
+    },
+    {
+      "Index": 10042,
+      "Name_FR": "Plaque de fer renforcée",
+      "Name_EN": "Reinforced Iron Plate",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/reinforced_iron_plate.png"
+    },
+    {
+      "Index": 10053,
+      "Name_FR": "Tissu",
+      "Name_EN": "Fabric",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/fabric.png"
+    },
+    {
+      "Index": 10063,
+      "Name_FR": "Fil électrique",
+      "Name_EN": "Wire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/wire.png"
+    },
+    {
+      "Index": 10064,
+      "Name_FR": "Câble",
+      "Name_EN": "Cable",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/cable.png"
+    },
+    {
+      "Index": 10065,
+      "Name_FR": "Filactif",
+      "Name_EN": "Quickwire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/quickwire.png"
+    },
+    {
+      "Index": 10067,
+      "Name_FR": "Contrôleur d'I.A.",
+      "Name_EN": "AI Limiter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ai_limiter.png"
+    },
+    {
+      "Index": 10068,
+      "Name_FR": "Connecteur haute vitesse",
+      "Name_EN": "High-Speed Connector",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/high_speed_connector.png"
+    },
+    {
+      "Index": 10074,
+      "Name_FR": "Oscillateur à cristal",
+      "Name_EN": "Crystal Oscillator",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/crystal_oscillator.png"
+    },
+    {
+      "Index": 10081,
+      "Name_FR": "Matrice de charge extraterrestre",
+      "Name_EN": "Alien Power Matrix",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/alien_power_matrix.png"
+    },
+    {
+      "Index": 10090,
+      "Name_FR": "Feuilles",
+      "Name_EN": "Leaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/leaves.png"
+    },
+    {
+      "Index": 10091,
+      "Name_FR": "Mycélium",
+      "Name_EN": "Mycelia",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/mycelia.png"
+    },
+    {
+      "Index": 10093,
+      "Name_FR": "Bois",
+      "Name_EN": "Wood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/wood.png"
+    },
+    {
+      "Index": 10094,
+      "Name_FR": "Biomasse",
+      "Name_EN": "Biomass",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/biomass.png"
+    },
+    {
+      "Index": 10095,
+      "Name_FR": "Charbon compacté",
+      "Name_EN": "Compacted Coal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/compacted_coal.png"
+    },
+    {
+      "Index": 10101,
+      "Name_FR": "Turbocarburant conditionné",
+      "Name_EN": "Packaged Turbofuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_turbofuel.png"
+    },
+    {
+      "Index": 10102,
+      "Name_FR": "Carburant de fusée conditionné",
+      "Name_EN": "Packaged Rocket Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_rocket_fuel.png"
+    },
+    {
+      "Index": 10103,
+      "Name_FR": "Carburant ionisé conditionné",
+      "Name_EN": "Packaged Ionized Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_ionized_fuel.png"
+    },
+    {
+      "Index": 10106,
+      "Name_FR": "Poudre noire",
+      "Name_EN": "Black Powder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/black_powder.png"
+    },
+    {
+      "Index": 10107,
+      "Name_FR": "Poudre sans fumée",
+      "Name_EN": "Smokeless Powder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/smokeless_powder.png"
+    },
+    {
+      "Index": 10108,
+      "Name_FR": "Filtre à gaz",
+      "Name_EN": "Gas Filter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/gas_filter.png"
+    },
+    {
+      "Index": 10112,
+      "Name_FR": "Barre d'armature en fer",
+      "Name_EN": "Iron Rebar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_rebar.png"
+    },
+    {
+      "Index": 10113,
+      "Name_FR": "Barre d'armature paralysante",
+      "Name_EN": "Stun Rebar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/stun_rebar.png"
+    },
+    {
+      "Index": 10114,
+      "Name_FR": "Barre d'armature à fragmentation",
+      "Name_EN": "Shatter Rebar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/shatter_rebar.png"
+    },
+    {
+      "Index": 10115,
+      "Name_FR": "Barre d'armature explosive",
+      "Name_EN": "Explosive Rebar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/explosive_rebar.png"
+    },
+    {
+      "Index": 10116,
+      "Name_FR": "Munitions de fusil",
+      "Name_EN": "Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/rifle_ammo.png"
+    },
+    {
+      "Index": 10117,
+      "Name_FR": "Munitions de fusil à têtes chercheuses",
+      "Name_EN": "Homing Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/homing_rifle_ammo.png"
+    },
+    {
+      "Index": 10118,
+      "Name_FR": "Munitions de fusil turbo",
+      "Name_EN": "Turbo Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/turbo_rifle_ammo.png"
+    },
+    {
+      "Index": 10119,
+      "Name_FR": "Nobélisque",
+      "Name_EN": "Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nobelisk.png"
+    },
+    {
+      "Index": 10120,
+      "Name_FR": "Nobélisque à gaz",
+      "Name_EN": "Gas Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/gas_nobelisk.png"
+    },
+    {
+      "Index": 10121,
+      "Name_FR": "Nobélisque à impulsion",
+      "Name_EN": "Pulse Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/pulse_nobelisk.png"
+    },
+    {
+      "Index": 10122,
+      "Name_FR": "Nobélisque à fragmentation",
+      "Name_EN": "Cluster Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/cluster_nobelisk.png"
+    },
+    {
+      "Index": 10123,
+      "Name_FR": "Nobélisque nucléaire",
+      "Name_EN": "Nuke Nobelisk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nuke_nobelisk.png"
+    },
+    {
+      "Index": 10131,
+      "Name_FR": "Déchets d'uranium",
+      "Name_EN": "Uranium Waste",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/uranium_waste.png"
+    },
+    {
+      "Index": 10133,
+      "Name_FR": "Électrolimace bleue",
+      "Name_EN": "Blue Power Slug",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/blue_power_slug.png"
+    },
+    {
+      "Index": 10134,
+      "Name_FR": "Électrolimace jaune",
+      "Name_EN": "Yellow Power Slug",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/yellow_power_slug.png"
+    },
+    {
+      "Index": 10135,
+      "Name_FR": "Électrolimace violette",
+      "Name_EN": "Purple Power Slug",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/purple_power_slug.png"
+    },
+    {
+      "Index": 10136,
+      "Name_FR": "Éclat de charge",
+      "Name_EN": "Power Shard",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/power_shard.png"
+    },
+    {
+      "Index": 10137,
+      "Name_FR": "Bon FICSIT",
+      "Name_EN": "FICSIT Coupon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ficsit_coupon.png"
+    }
+  ]
+}

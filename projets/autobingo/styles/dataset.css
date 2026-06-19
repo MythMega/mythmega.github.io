@@ -22,6 +22,16 @@
 }
 
 /* Table */
+.quantizable-info-bar {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: rgba(220, 20, 20, 0.08);
+    border: 1px solid rgba(220, 20, 20, 0.35);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
 .dataset-table {
     width: 100%;
     border-collapse: collapse;

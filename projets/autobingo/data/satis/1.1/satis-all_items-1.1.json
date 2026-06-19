@@ -1,7 +1,7 @@
 {
-  "Name": "Satisfactory - All Items - 1.1",
+  "Name": "Satisfactory - All Items - 1.2",
   "Category": "Satisfactory",
-  "Subcategory": "Satisfactory - 1.1",
+  "Subcategory": "Satisfactory - 1.2",
   "Items": [
     {
       "Index": 10001,
@@ -550,12 +550,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/mycelia.png"
     },
     {
-      "Index": 10092,
-      "Name_FR": "Pétales de fleurs",
-      "Name_EN": "Flower Petals",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/flower_petals.png"
-    },
-    {
       "Index": 10093,
       "Name_FR": "Bois",
       "Name_EN": "Wood",
@@ -650,18 +644,6 @@
       "Name_FR": "Filtre à gaz",
       "Name_EN": "Gas Filter",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/gas_filter.png"
-    },
-    {
-      "Index": 10109,
-      "Name_FR": "Cartouche de peinture",
-      "Name_EN": "Color Cartridge",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/color_cartridge.png"
-    },
-    {
-      "Index": 10110,
-      "Name_FR": "Balise",
-      "Name_EN": "Beacon",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/beacon.png"
     },
     {
       "Index": 10111,

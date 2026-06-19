@@ -1,5 +1,5 @@
 {
-  "Name": "Minecraft 26.1 - Chaos Cubed",
+  "Name": "Minecraft 26.1 - Tiny Takeover",
   "Category": "Minecraft",
   "Subcategory": "Minecraft Vanilla",
   "Items": [
@@ -910,12 +910,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Kelp.png"
     },
     {
-      "Index": 190,
-      "Name_FR": "Livre des connaissances",
-      "Name_EN": "Knowledge Book",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Knowledge_Book.png"
-    },
-    {
       "Index": 191,
       "Name_FR": "Lapis-lazuli",
       "Name_EN": "Lapis Lazuli",
@@ -1042,12 +1036,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_Chest.png"
     },
     {
-      "Index": 214,
-      "Name_FR": "Wagonnet à bloc de commande",
-      "Name_EN": "Minecart with Command Block",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_Command_Block.png"
-    },
-    {
       "Index": 215,
       "Name_FR": "Wagonnet motorisé",
       "Name_EN": "Minecart with Furnace",
@@ -1112,12 +1100,6 @@
       "Name_FR": "Disque chirp",
       "Name_EN": "Music Disc chirp",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_chirp.png"
-    },
-    {
-      "Index": 228,
-      "Name_FR": "Disque Creator (boîte à musique)",
-      "Name_EN": "Music Disc Creator (Music Box)",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Creator_(Music_Box).png"
     },
     {
       "Index": 229,
@@ -2026,12 +2008,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Beacon.png"
     },
     {
-      "Index": 100050,
-      "Name_FR": "Bedrock",
-      "Name_EN": "Bedrock",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bedrock.png"
-    },
-    {
       "Index": 100051,
       "Name_FR": "Nid d'abeilles",
       "Name_EN": "Bee Nest",
@@ -2414,12 +2390,6 @@
       "Name_FR": "Terre cuite bleue",
       "Name_EN": "Blue Terracotta",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Terracotta.png"
-    },
-    {
-      "Index": 1000119,
-      "Name_FR": "Torche bleue",
-      "Name_EN": "Blue Torch",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Torch.png"
     },
     {
       "Index": 1000120,
@@ -3008,12 +2978,6 @@
       "Name_FR": "Composteur",
       "Name_EN": "Composter",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Composter.png"
-    },
-    {
-      "Index": 1000234,
-      "Name_FR": "Créateur de corps composés",
-      "Name_EN": "Compound Creator",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Compound_Creator.png"
     },
     {
       "Index": 1000236,
@@ -3748,12 +3712,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dropper.png"
     },
     {
-      "Index": 1000363,
-      "Name_FR": "Constructeur d'éléments",
-      "Name_EN": "Element Constructor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Element_Constructor.png"
-    },
-    {
       "Index": 1000364,
       "Name_FR": "Minerai d'émeraude",
       "Name_EN": "Emerald Ore",
@@ -3764,24 +3722,6 @@
       "Name_FR": "Table d'enchantement",
       "Name_EN": "Enchanting Table",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Enchanting_Table.png"
-    },
-    {
-      "Index": 1000366,
-      "Name_FR": "Passerelle de l'End (bloc)",
-      "Name_EN": "End Gateway (block)",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Gateway_(block).png"
-    },
-    {
-      "Index": 1000367,
-      "Name_FR": "Portail de l'End (bloc)",
-      "Name_EN": "End Portal (block)",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Portal_(block).png"
-    },
-    {
-      "Index": 1000368,
-      "Name_FR": "Cadre de portail de l'End",
-      "Name_EN": "End Portal Frame",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Portal_Frame.png"
     },
     {
       "Index": 1000369,
@@ -4210,12 +4150,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Terracotta.png"
     },
     {
-      "Index": 1000451,
-      "Name_FR": "Torche verte",
-      "Name_EN": "Green Torch",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Torch.png"
-    },
-    {
       "Index": 1000452,
       "Name_FR": "Laine verte",
       "Name_EN": "Green Wool",
@@ -4232,114 +4166,6 @@
       "Name_FR": "Racines suspendues",
       "Name_EN": "Hanging Roots",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hanging_Roots.png"
-    },
-    {
-      "Index": 1000455,
-      "Name_FR": "Verre trempé noir",
-      "Name_EN": "Hardened Black Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Black_Stained_Glass.png"
-    },
-    {
-      "Index": 1000456,
-      "Name_FR": "Verre trempé bleu",
-      "Name_EN": "Hardened Blue Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Blue_Stained_Glass.png"
-    },
-    {
-      "Index": 1000457,
-      "Name_FR": "Verre trempé marron",
-      "Name_EN": "Hardened Brown Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Brown_Stained_Glass.png"
-    },
-    {
-      "Index": 1000458,
-      "Name_FR": "Verre trempé cyan",
-      "Name_EN": "Hardened Cyan Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Cyan_Stained_Glass.png"
-    },
-    {
-      "Index": 1000459,
-      "Name_FR": "Verre trempé",
-      "Name_EN": "Hardened Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Glass.png"
-    },
-    {
-      "Index": 1000460,
-      "Name_FR": "Verre trempé gris",
-      "Name_EN": "Hardened Gray Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Gray_Stained_Glass.png"
-    },
-    {
-      "Index": 1000461,
-      "Name_FR": "Verre trempé vert",
-      "Name_EN": "Hardened Green Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Green_Stained_Glass.png"
-    },
-    {
-      "Index": 1000462,
-      "Name_FR": "Verre trempé bleu clair",
-      "Name_EN": "Hardened Light Blue Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Light_Blue_Stained_Glass.png"
-    },
-    {
-      "Index": 1000463,
-      "Name_FR": "Verre trempé gris clair",
-      "Name_EN": "Hardened Light Gray Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Light_Gray_Stained_Glass.png"
-    },
-    {
-      "Index": 1000464,
-      "Name_FR": "Verre trempé vert clair",
-      "Name_EN": "Hardened Lime Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Lime_Stained_Glass.png"
-    },
-    {
-      "Index": 1000465,
-      "Name_FR": "Verre trempé magenta",
-      "Name_EN": "Hardened Magenta Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Magenta_Stained_Glass.png"
-    },
-    {
-      "Index": 1000466,
-      "Name_FR": "Verre trempé orange",
-      "Name_EN": "Hardened Orange Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Orange_Stained_Glass.png"
-    },
-    {
-      "Index": 1000467,
-      "Name_FR": "Verre trempé rose",
-      "Name_EN": "Hardened Pink Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Pink_Stained_Glass.png"
-    },
-    {
-      "Index": 1000468,
-      "Name_FR": "Verre trempé violet",
-      "Name_EN": "Hardened Purple Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Purple_Stained_Glass.png"
-    },
-    {
-      "Index": 1000469,
-      "Name_FR": "Verre trempé rouge",
-      "Name_EN": "Hardened Red Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Red_Stained_Glass.png"
-    },
-    {
-      "Index": 1000470,
-      "Name_FR": "Verre trempé blanc",
-      "Name_EN": "Hardened White Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_White_Stained_Glass.png"
-    },
-    {
-      "Index": 1000471,
-      "Name_FR": "Verre trempé jaune",
-      "Name_EN": "Hardened Yellow Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Hardened_Yellow_Stained_Glass.png"
-    },
-    {
-      "Index": 1000472,
-      "Name_FR": "Bloc chauffant",
-      "Name_EN": "Heat Block",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Heat_Block.png"
     },
     {
       "Index": 1000473,
@@ -4520,12 +4346,6 @@
       "Name_FR": "Algue",
       "Name_EN": "Kelp",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Kelp.png"
-    },
-    {
-      "Index": 1000503,
-      "Name_FR": "Table de laboratoire",
-      "Name_EN": "Lab Table",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lab_Table.png"
     },
     {
       "Index": 1000504,
@@ -4978,34 +4798,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Trapdoor.png"
     },
     {
-      "Index": 1000580,
-      "Name_FR": "Déconstructeur de matériaux",
-      "Name_EN": "Material Reducer",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Material_Reducer.png"
-    },
-    {
       "Index": 1000581,
       "Name_FR": "Pastèque",
       "Name_EN": "Melon",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Melon.png"
-    },
-    {
-      "Index": 1000582,
-      "Name_FR": "Mine Crafteur",
-      "Name_EN": "Mine Crafter",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mine_Crafter.png"
-    },
-    {
-      "Index": 1000583,
-      "Name_FR": "Mine Revisitor",
-      "Name_EN": "Mine Revisitor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mine_Revisitor.png"
-    },
-    {
-      "Index": 1000584,
-      "Name_FR": "Générateur de créatures",
-      "Name_EN": "Monster Spawner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Monster_Spawner.png"
     },
     {
       "Index": 1000585,
@@ -5980,12 +5776,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Terracotta.png"
     },
     {
-      "Index": 1000797,
-      "Name_FR": "Torche violette",
-      "Name_EN": "Purple Torch",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Torch.png"
-    },
-    {
       "Index": 1000798,
       "Name_FR": "Laine violette",
       "Name_EN": "Purple Wool",
@@ -6176,12 +5966,6 @@
       "Name_FR": "Terre cuite rouge",
       "Name_EN": "Red Terracotta",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Terracotta.png"
-    },
-    {
-      "Index": 1000831,
-      "Name_FR": "Torche rouge",
-      "Name_EN": "Red Torch",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Torch.png"
     },
     {
       "Index": 1000832,
@@ -6872,18 +6656,6 @@
       "Name_FR": "Lianes tortueuses",
       "Name_EN": "Twisting Vines",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Twisting_Vines.png"
-    },
-    {
-      "Index": 1000971,
-      "Name_FR": "TNT aquatique",
-      "Name_EN": "Underwater TNT",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Underwater_TNT.png"
-    },
-    {
-      "Index": 1000972,
-      "Name_FR": "Torche sous-marine",
-      "Name_EN": "Underwater Torch",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Underwater_Torch.png"
     },
     {
       "Index": 1000973,

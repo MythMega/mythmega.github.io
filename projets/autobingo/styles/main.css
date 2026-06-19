@@ -418,6 +418,97 @@ a:hover {
     accent-color: var(--accent);
 }
 
+/* Custom dataset dropdown with badges */
+.dataset-select-wrapper {
+    position: relative;
+}
+
+.custom-dataset-dropdown {
+    position: relative;
+}
+
+.custom-dataset-trigger {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.custom-dataset-trigger:hover:not(:disabled) {
+    border-color: var(--accent);
+}
+
+.custom-dataset-trigger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.custom-dataset-trigger::after {
+    content: '▼';
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-left: 8px;
+}
+
+.custom-dataset-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0 0 8px 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 50;
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.custom-dataset-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    color: var(--text-primary);
+}
+
+.custom-dataset-option:hover {
+    background-color: var(--bg-secondary);
+}
+
+.custom-dataset-option-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dataset-qty-badge {
+    flex-shrink: 0;
+    background-color: #dc1414;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
 /* Utility */
 .text-center {
     text-align: center;

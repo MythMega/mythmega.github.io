@@ -93,7 +93,7 @@
         "Name_EN": "Beta - Quantization",
         "Desc_FR": "[MAJOR] Possibilité d'avoir des grilles avec quantités aléatoire pour un item",
         "Desc_EN": "[MAJOR] Possibility to create grid with random amount of item",
-        "Link": "#"
+        "Link": "https://github.com/MythMega/mythmega.github.io/tree/bbd3c01e8a097212cf88b54c912ac9ef74813093"
     },
     {
         "Version": {
@@ -105,6 +105,18 @@
         "Name_EN": "Beta - Randomitemn",
         "Desc_FR": "Possibilité de choisir un item au hasard en remplacement d'un autre items",
         "Desc_EN": "Ability to replace an item in the grid by another one random",
+        "Link": "https://github.com/MythMega/mythmega.github.io/tree/9e5a979aa97d49f3517ad13a5d427260c3fbf4db"
+    },
+    {
+        "Version": {
+            "ID": 10,
+            "Number": "Beta b0.4.2"
+        }, 
+        "Date": "2026-06-19",
+        "Name_FR": "Beta - QuantizedTiers",
+        "Name_EN": "Beta - QuantizedTiers",
+        "Desc_FR": "Badge Dataset compatible quantité affiché sur la liste des datasets, Fix Minecraft + Quantizables Items + Block + All pour 26.2, Satisfactory Filtres Tiers",
+        "Desc_EN": "Dataset badge compatible with quantity display on the dataset list, Minecraft Fix + Quantizable Items + Block + All for 26.2, Satisfactory Tier Filters",
         "Link": "#"
     }
 ]

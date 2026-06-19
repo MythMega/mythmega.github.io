@@ -12,13 +12,15 @@
          * @param {string} pictureMain - Main picture URL
          * @param {string} pictureAlt - Alternative picture URL (shiny/alt)
          * @param {number|null} index - Optional index
+         * @param {Object|null} quantity - Optional Quantity override {Min?, Max?}
          */
-        constructor(nameEn, nameFr, pictureMain, pictureAlt, index) {
+        constructor(nameEn, nameFr, pictureMain, pictureAlt, index, quantity) {
             this.nameEn = nameEn;
             this.nameFr = nameFr;
             this.pictureMain = pictureMain ? pictureMain.replace("'", "_") : pictureMain;
             this.pictureAlt = pictureAlt ? pictureAlt.replace("'", "_") : pictureAlt;
             this.index = index;
+            this.quantity = quantity || null;
         }
 
         /**
@@ -32,7 +34,8 @@
                 raw.Name_FR,
                 raw.PictureMain,
                 raw.PictureAlt,
-                raw.Index
+                raw.Index,
+                raw.Quantity || null
             );
         }
     }

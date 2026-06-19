@@ -85,6 +85,7 @@
             autobingo.NavigationManager.setParam('size', size);
             autobingo.NavigationManager.setParam('items', encoded);
             this._updateControlsUrl();
+            this._updateQuantitiesUrl();
         },
 
         /**
@@ -96,6 +97,17 @@
             const b = gm.blurItems ? '1' : '0';
             const l = gm.locked ? '1' : '0';
             autobingo.NavigationManager.setParam('controls', h + b + l);
+        },
+
+        /**
+         * Update the quantities param in URL
+         */
+        _updateQuantitiesUrl() {
+            if (!this.gameManager.isQuantizable) return;
+            const encoded = this.gameManager.encodeQuantitiesToBase64();
+            if (encoded) {
+                autobingo.NavigationManager.setParam('quantities', encoded);
+            }
         },
 
         /**
@@ -176,6 +188,15 @@
                 this.rebuildGrid();
             });
             bar.appendChild(randOrderBtn);
+
+            // Randomize quantities (only if quantizable)
+            if (this.gameManager.isQuantizable) {
+                const randQuantBtn = this._createButton('bingo.randomize_quantities', 'Randomize Quantities', () => {
+                    this.gameManager.randomizeQuantities();
+                    this.rebuildGrid();
+                });
+                bar.appendChild(randQuantBtn);
+            }
 
             // Lock grid toggle - rebuilds grid to show/hide switch buttons
             const lockCheckbox = this._createControlCheckbox('lockCheckbox', this.gameManager.locked);
@@ -259,20 +280,20 @@
             display.textContent = this.gameManager.getTimerDisplay();
             bar.appendChild(display);
 
-            const playBtn = this._createButton('bingo.timer_play', '▶', () => {
+            const playBtn = this._createButton('bingo.timer_play', '\u25B6', () => {
                 this.gameManager.startTimer();
                 this._updateTimerDisplay();
             });
             playBtn.className = 'btn btn-secondary timer-btn';
             bar.appendChild(playBtn);
 
-            const pauseBtn = this._createButton('bingo.timer_pause', '⏸', () => {
+            const pauseBtn = this._createButton('bingo.timer_pause', '\u23F8', () => {
                 this.gameManager.pauseTimer();
             });
             pauseBtn.className = 'btn btn-secondary timer-btn';
             bar.appendChild(pauseBtn);
 
-            const stopBtn = this._createButton('bingo.timer_stop', '⏹', () => {
+            const stopBtn = this._createButton('bingo.timer_stop', '\u23F9', () => {
                 this.gameManager.stopTimer();
                 this._updateTimerDisplay();
             });
@@ -466,7 +487,7 @@
 
             popup.innerHTML = `
                 <div class="bingo-popup-content">
-                    <h2>🎉 BINGO! 🎉</h2>
+                    <h2>\uD83C\uDF89 BINGO! \uD83C\uDF89</h2>
                     <p>${result.type}</p>
                     <p>${validatedCount} / ${this.gameManager.cells.length} items validated</p>
                     <p>${this.gameManager.getTimerDisplay()}</p>
@@ -489,6 +510,22 @@
             div.className = 'bingo-cell';
             div.dataset.index = index;
 
+            // Quantity badge (top-left) - only if quantizable and quantity > 1
+            if (this.gameManager.isQuantizable && cell.quantity !== null && cell.quantity > 1) {
+                const quantityBadge = document.createElement('span');
+                quantityBadge.className = 'cell-quantity-badge';
+                quantityBadge.textContent = cell.quantity;
+                // Dynamic font-size reduction for large numbers
+                const digits = String(cell.quantity).length;
+                if (digits >= 4) {
+                    quantityBadge.style.fontSize = '0.75em';
+                }
+                if (digits >= 6) {
+                    quantityBadge.style.fontSize = '0.55em';
+                }
+                div.appendChild(quantityBadge);
+            }
+
             // Switch button (top-right) - only created if NOT locked
             if (!this.gameManager.locked) {
                 const switchBtn = document.createElement('button');
@@ -499,7 +536,7 @@
                     .then(svg => { switchBtn.innerHTML = svg; });
                 switchBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    this._openSearchModal(index);
+                    this._onCellSwitchClick(index, switchBtn);
                 });
                 div.appendChild(switchBtn);
             }
@@ -525,6 +562,7 @@
             // Click to validate
             div.addEventListener('click', (e) => {
                 if (e.target.closest('.cell-switch-btn')) return;
+                if (e.target.closest('.cell-quantity-badge')) return;
                 this.gameManager.startTimer();
                 this._updateTimerDisplay();
                 this.gameManager.toggleCell(index);
@@ -535,6 +573,28 @@
             this._updateCellVisual(div, cell);
 
             return div;
+        },
+
+        /**
+         * Handle click on the cell switch button: open search modal (with quantity input if quantizable)
+         */
+        _onCellSwitchClick(index, btn) {
+            this._openSearchModal(index);
+        },
+
+        /**
+         * Commit a quantity value to a cell and update URL
+         */
+        _commitQuantity(index, value) {
+            const cell = this.gameManager.cells[index];
+            const num = parseInt(value);
+            if (!isNaN(num) && num > 0) {
+                cell.quantity = num;
+            } else {
+                cell.quantity = 0;
+            }
+            this.updateUrl();
+            this.rebuildGrid();
         },
 
         /**
@@ -586,9 +646,23 @@
             const modal = document.getElementById('search-modal');
             if (!modal) return;
 
+            const lang = autobingo.translationManager ? autobingo.translationManager.currentLang : 'en';
+            const currentCell = this.gameManager.cells[index];
+
+            let quantitySectionHtml = '';
+            if (this.gameManager.isQuantizable) {
+                quantitySectionHtml = `
+                    <div class="quantity-edit-section" style="margin-bottom:12px;padding:8px;background:var(--bg-secondary);border-radius:8px;display:flex;align-items:center;gap:8px;">
+                        <label data-i18n="bingo.quantity_label" style="font-weight:600;">${lang === 'fr' ? 'Quantité' : 'Quantity'}:</label>
+                        <input type="number" id="modal-quantity-input" class="bingo-search-input" style="width:80px;flex:none;" value="${currentCell.quantity || 1}" min="1">
+                    </div>
+                `;
+            }
+
             modal.innerHTML = `
                 <div class="search-modal-content">
                     <h3 data-i18n="bingo.replace_item">Replace Item</h3>
+                    ${quantitySectionHtml}
                     <input type="text" class="bingo-search-input" id="modal-search-input" placeholder="Search..." autofocus>
                     <div class="modal-search-results" id="modal-search-results"></div>
                     <button class="btn btn-secondary mt-16" id="modal-close">Close</button>
@@ -636,6 +710,16 @@
                         }
                         div.addEventListener('click', () => {
                             this.gameManager.cells[index].item = item;
+                            // Use quantity from modal input if quantizable
+                            if (this.gameManager.isQuantizable) {
+                                const qInput = document.getElementById('modal-quantity-input');
+                                if (qInput) {
+                                    const num = parseInt(qInput.value);
+                                    this.gameManager.cells[index].quantity = (!isNaN(num) && num > 0) ? num : 0;
+                                } else {
+                                    this.gameManager.cells[index].quantity = this.gameManager._randomQuantityForItem(item);
+                                }
+                            }
                             this.refreshCells();
                             this.updateUrl();
                             modal.classList.add('hidden');
@@ -646,11 +730,26 @@
             });
 
             document.getElementById('modal-close').addEventListener('click', () => {
+                // Save quantity before closing if quantizable
+                if (this.gameManager.isQuantizable) {
+                    const qInput = document.getElementById('modal-quantity-input');
+                    if (qInput) {
+                        this._commitQuantity(index, qInput.value);
+                    }
+                }
                 modal.classList.add('hidden');
             });
 
             modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.add('hidden');
+                if (e.target === modal) {
+                    if (this.gameManager.isQuantizable) {
+                        const qInput = document.getElementById('modal-quantity-input');
+                        if (qInput) {
+                            this._commitQuantity(index, qInput.value);
+                        }
+                    }
+                    modal.classList.add('hidden');
+                }
             });
         },
 

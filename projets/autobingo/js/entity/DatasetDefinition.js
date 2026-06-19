@@ -11,12 +11,16 @@
          * @param {string} category - Category name
          * @param {string} subcategory - Subcategory name
          * @param {string} location - File path to the dataset JSON
+         * @param {boolean} quantizable - Whether items can have quantities
+         * @param {Object|null} defaultQuantities - Default {Min, Max} for quantities
          */
-        constructor(name, category, subcategory, location) {
+        constructor(name, category, subcategory, location, quantizable, defaultQuantities) {
             this.name = name;
             this.category = category;
             this.subcategory = subcategory;
             this.location = location;
+            this.quantizable = quantizable || false;
+            this.defaultQuantities = defaultQuantities || null;
         }
 
         /**
@@ -29,7 +33,9 @@
                 raw.Name,
                 raw.Category,
                 raw.Subcategory,
-                raw.Location
+                raw.Location,
+                raw.Quantizable,
+                raw.DefaultQuantities || null
             );
         }
     }

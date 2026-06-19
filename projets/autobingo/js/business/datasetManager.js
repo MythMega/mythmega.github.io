@@ -77,6 +77,13 @@
             const raw = await response.json();
             const items = (raw.Items || []).map(autobingo.DatasetItem.fromRaw);
             this.loadedData[definition.name] = items;
+
+            // Update definition with quantizable info from the data file root
+            if (raw.Quantizable) {
+                definition.quantizable = true;
+                definition.defaultQuantities = raw.DefaultQuantities || null;
+            }
+
             return items;
         }
     }

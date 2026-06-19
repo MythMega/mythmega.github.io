@@ -1,19 +1,30 @@
 {
-  "Name": "Minecraft 1.21.11 - Mounts of Mayhem",
+  "Name": "Minecraft 26.2 - Chaos Cubed (With Quantity)",
   "Category": "Minecraft",
   "Subcategory": "Minecraft Vanilla",
+  "Quantizable": true,
+  "DefaultQuantities": {
+    "Max": 64,
+    "Min": 1
+  },
   "Items": [
     {
       "Index": 1,
       "Name_FR": "Bateau de stockage en acacia",
       "Name_EN": "Acacia Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Acacia_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Acacia_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 2,
       "Name_FR": "Bateau en acacia",
       "Name_EN": "Acacia Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Acacia_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Acacia_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 5,
@@ -49,13 +60,19 @@
       "Index": 12,
       "Name_FR": "Radeau de stockage en bambou",
       "Name_EN": "Bamboo Raft with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bamboo_Raft_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bamboo_Raft_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 13,
       "Name_FR": "Radeau en bambou",
       "Name_EN": "Bamboo Raft",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bamboo_Raft.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bamboo_Raft.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 14,
@@ -73,7 +90,10 @@
       "Index": 18,
       "Name_FR": "Soupe de betteraves",
       "Name_EN": "Beetroot Soup",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Beetroot_Soup.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Beetroot_Soup.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 19,
@@ -85,13 +105,19 @@
       "Index": 20,
       "Name_FR": "Bateau de stockage en bouleau",
       "Name_EN": "Birch Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Birch_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Birch_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 21,
       "Name_FR": "Bateau en bouleau",
       "Name_EN": "Birch Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Birch_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Birch_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 22,
@@ -121,7 +147,10 @@
       "Index": 27,
       "Name_FR": "Oeuf bleu",
       "Name_EN": "Blue Egg",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Blue_Egg.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Blue_Egg.png",
+      "Quantity": {
+        "Max": 16
+      }
     },
     {
       "Index": 29,
@@ -139,7 +168,10 @@
       "Index": 31,
       "Name_FR": "Livre vierge",
       "Name_EN": "Book and Quill",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Book_and_Quill.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Book_and_Quill.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 32,
@@ -163,7 +195,10 @@
       "Index": 35,
       "Name_FR": "Bol",
       "Name_EN": "Bowl",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bowl.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bowl.png",
+      "Quantity": {
+        "Max": 16
+      }
     },
     {
       "Index": 36,
@@ -187,61 +222,91 @@
       "Index": 40,
       "Name_FR": "Oeuf brun",
       "Name_EN": "Brown Egg",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Brown_Egg.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Brown_Egg.png",
+      "Quantity": {
+        "Max": 16
+      }
     },
     {
       "Index": 41,
       "Name_FR": "Axolotl dans un seau",
       "Name_EN": "Bucket of Axolotl",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Axolotl.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Axolotl.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 42,
       "Name_FR": "Morue dans un seau",
       "Name_EN": "Bucket of Cod",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Cod.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Cod.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 43,
       "Name_FR": "Poisson-globe dans un seau",
       "Name_EN": "Bucket of Pufferfish",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Pufferfish.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Pufferfish.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 44,
       "Name_FR": "Saumon dans un seau",
       "Name_EN": "Bucket of Salmon",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Salmon.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Salmon.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 45,
       "Name_FR": "Têtard dans un seau",
       "Name_EN": "Bucket of Tadpole",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Tadpole.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Tadpole.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 46,
       "Name_FR": "Poisson tropical dans un seau",
       "Name_EN": "Bucket of Tropical Fish",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Tropical_Fish.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket_of_Tropical_Fish.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 47,
       "Name_FR": "Seau",
       "Name_EN": "Bucket",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bucket.png",
+      "Quantity": {
+        "Max": 16
+      }
     },
     {
       "Index": 48,
       "Name_FR": "Sac",
       "Name_EN": "Bundle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bundle.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Bundle.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 51,
       "Name_FR": "Carotte sur un bâton",
       "Name_EN": "Carrot on a Stick",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Carrot_on_a_Stick.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Carrot_on_a_Stick.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 52,
@@ -253,25 +318,37 @@
       "Index": 55,
       "Name_FR": "Bottes de mailles",
       "Name_EN": "Chainmail Boots",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Chainmail_Boots.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Chainmail_Boots.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 56,
       "Name_FR": "Cotte de mailles",
       "Name_EN": "Chainmail Chestplate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Chainmail_Chestplate.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Chainmail_Chestplate.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 57,
       "Name_FR": "Casque de mailles",
       "Name_EN": "Chainmail Helmet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Chainmail_Helmet.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Chainmail_Helmet.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 58,
       "Name_FR": "Jambières de mailles",
       "Name_EN": "Chainmail Leggings",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Chainmail_Leggings.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Chainmail_Leggings.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 59,
@@ -283,13 +360,19 @@
       "Index": 60,
       "Name_FR": "Bateau de stockage en cerisier",
       "Name_EN": "Cherry Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Cherry_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Cherry_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 61,
       "Name_FR": "Bateau en cerisier",
       "Name_EN": "Cherry Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Cherry_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Cherry_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 63,
@@ -307,7 +390,10 @@
       "Index": 65,
       "Name_FR": "Montre",
       "Name_EN": "Clock",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Clock.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Clock.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 66,
@@ -367,79 +453,118 @@
       "Index": 76,
       "Name_FR": "Hache en cuivre",
       "Name_EN": "Copper Axe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Axe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Axe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 77,
       "Name_FR": "Bottes en cuivre",
       "Name_EN": "Copper Boots",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Boots.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Boots.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 78,
       "Name_FR": "Plastron en cuivre",
       "Name_EN": "Copper Chestplate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Chestplate.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Chestplate.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 80,
       "Name_FR": "Casque en cuivre",
       "Name_EN": "Copper Helmet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Helmet.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Helmet.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 81,
       "Name_FR": "Houe en cuivre",
       "Name_EN": "Copper Hoe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Hoe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Hoe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 82,
       "Name_FR": "Armure en cuivre pour cheval",
       "Name_EN": "Copper Horse Armor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Horse_Armor.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Horse_Armor.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 83,
       "Name_FR": "Lingot de cuivre",
       "Name_EN": "Copper Ingot",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Ingot.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Ingot.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 84,
       "Name_FR": "Jambières en cuivre",
       "Name_EN": "Copper Leggings",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Leggings.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Leggings.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 85,
       "Name_FR": "Pioche en cuivre",
       "Name_EN": "Copper Pickaxe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Pickaxe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Pickaxe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 86,
       "Name_FR": "Pelle en cuivre",
       "Name_EN": "Copper Shovel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Shovel.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Shovel.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 87,
       "Name_FR": "Lance en cuivre",
       "Name_EN": "Copper Spear",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Spear.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Spear.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 88,
       "Name_FR": "Épée en cuivre",
       "Name_EN": "Copper Sword",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Sword.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Sword.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 92,
       "Name_FR": "Arbalète",
       "Name_EN": "Crossbow",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Crossbow.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Crossbow.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 93,
@@ -451,79 +576,118 @@
       "Index": 94,
       "Name_FR": "Bateau de stockage en chêne noir",
       "Name_EN": "Dark Oak Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Dark_Oak_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Dark_Oak_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 95,
       "Name_FR": "Bateau en chêne noir",
       "Name_EN": "Dark Oak Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Dark_Oak_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Dark_Oak_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 96,
       "Name_FR": "Hache en diamant",
       "Name_EN": "Diamond Axe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Axe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Axe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 97,
       "Name_FR": "Bottes en diamant",
       "Name_EN": "Diamond Boots",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Boots.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Boots.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 98,
       "Name_FR": "Plastron en diamant",
       "Name_EN": "Diamond Chestplate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Chestplate.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Chestplate.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 99,
       "Name_FR": "Casque en diamant",
       "Name_EN": "Diamond Helmet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Helmet.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Helmet.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 100,
       "Name_FR": "Houe en diamant",
       "Name_EN": "Diamond Hoe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Hoe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Hoe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 101,
       "Name_FR": "Armure en diamant pour cheval",
       "Name_EN": "Diamond Horse Armor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Horse_Armor.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Horse_Armor.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 102,
       "Name_FR": "Jambières en diamant",
       "Name_EN": "Diamond Leggings",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Leggings.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Leggings.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 103,
       "Name_FR": "Pioche en diamant",
       "Name_EN": "Diamond Pickaxe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Pickaxe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Pickaxe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 104,
       "Name_FR": "Pelle en diamant",
       "Name_EN": "Diamond Shovel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Shovel.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Shovel.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 105,
       "Name_FR": "Lance en diamant",
       "Name_EN": "Diamond Spear",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Spear.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Spear.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 106,
       "Name_FR": "Épée en diamant",
       "Name_EN": "Diamond Sword",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Sword.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Sword.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 107,
@@ -547,13 +711,19 @@
       "Index": 113,
       "Name_FR": "Oeuf",
       "Name_EN": "Egg",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Egg.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Egg.png",
+      "Quantity": {
+        "Max": 16
+      }
     },
     {
       "Index": 115,
       "Name_FR": "Élytres",
       "Name_EN": "Elytra",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Elytra.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Elytra.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 116,
@@ -565,7 +735,10 @@
       "Index": 117,
       "Name_FR": "Livre enchanté",
       "Name_EN": "Enchanted Book",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Enchanted_Book.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Enchanted_Book.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 118,
@@ -583,7 +756,10 @@
       "Index": 121,
       "Name_FR": "Perle de l'Ender",
       "Name_EN": "Ender Pearl",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Ender_Pearl.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Ender_Pearl.png",
+      "Quantity": {
+        "Max": 16
+      }
     },
     {
       "Index": 125,
@@ -625,13 +801,19 @@
       "Index": 131,
       "Name_FR": "Canne à pêche",
       "Name_EN": "Fishing Rod",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Fishing_Rod.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Fishing_Rod.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 132,
       "Name_FR": "Briquet",
       "Name_EN": "Flint and Steel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Flint_and_Steel.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Flint_and_Steel.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 133,
@@ -673,13 +855,19 @@
       "Index": 143,
       "Name_FR": "Corne de chèvre",
       "Name_EN": "Goat Horn",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Goat_Horn.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Goat_Horn.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 145,
       "Name_FR": "Armure en or pour cheval",
       "Name_EN": "Golden Horse Armor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Horse_Armor.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Horse_Armor.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 146,
@@ -703,13 +891,19 @@
       "Index": 149,
       "Name_FR": "Hache en or",
       "Name_EN": "Golden Axe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Axe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Axe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 150,
       "Name_FR": "Bottes en or",
       "Name_EN": "Golden Boots",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Boots.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Boots.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 151,
@@ -721,49 +915,73 @@
       "Index": 152,
       "Name_FR": "Plastron en or",
       "Name_EN": "Golden Chestplate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Chestplate.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Chestplate.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 153,
       "Name_FR": "Casque en or",
       "Name_EN": "Golden Helmet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Helmet.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Helmet.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 154,
       "Name_FR": "Houe en or",
       "Name_EN": "Golden Hoe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Hoe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Hoe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 155,
       "Name_FR": "Jambières en or",
       "Name_EN": "Golden Leggings",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Leggings.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Leggings.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 156,
       "Name_FR": "Pioche en or",
       "Name_EN": "Golden Pickaxe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Pickaxe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Pickaxe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 157,
       "Name_FR": "Pelle en or",
       "Name_EN": "Golden Shovel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Shovel.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Shovel.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 158,
       "Name_FR": "Lance en or",
       "Name_EN": "Golden Spear",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Spear.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Spear.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 159,
       "Name_FR": "Épée en or",
       "Name_EN": "Golden Sword",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Sword.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Sword.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 160,
@@ -793,7 +1011,10 @@
       "Index": 167,
       "Name_FR": "Fiole de miel",
       "Name_EN": "Honey Bottle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Honey_Bottle.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Honey_Bottle.png",
+      "Quantity": {
+        "Max": 16
+      }
     },
     {
       "Index": 168,
@@ -811,49 +1032,73 @@
       "Index": 172,
       "Name_FR": "Hache en fer",
       "Name_EN": "Iron Axe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Axe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Axe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 173,
       "Name_FR": "Bottes en fer",
       "Name_EN": "Iron Boots",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Boots.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Boots.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 174,
       "Name_FR": "Plastron en fer",
       "Name_EN": "Iron Chestplate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Chestplate.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Chestplate.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 176,
       "Name_FR": "Casque en fer",
       "Name_EN": "Iron Helmet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Helmet.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Helmet.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 177,
       "Name_FR": "Houe en fer",
       "Name_EN": "Iron Hoe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Hoe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Hoe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 178,
       "Name_FR": "Armure en fer pour cheval",
       "Name_EN": "Iron Horse Armor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Horse_Armor.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Horse_Armor.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 179,
       "Name_FR": "Lingot de fer",
       "Name_EN": "Iron Ingot",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Ingot.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Ingot.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 180,
       "Name_FR": "Jambières en fer",
       "Name_EN": "Iron Leggings",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Leggings.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Leggings.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 181,
@@ -865,25 +1110,37 @@
       "Index": 182,
       "Name_FR": "Pioche en fer",
       "Name_EN": "Iron Pickaxe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Pickaxe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Pickaxe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 183,
       "Name_FR": "Pelle en fer",
       "Name_EN": "Iron Shovel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Shovel.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Shovel.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 184,
       "Name_FR": "Lance en fer",
       "Name_EN": "Iron Spear",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Spear.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Spear.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 185,
       "Name_FR": "Épée en fer",
       "Name_EN": "Iron Sword",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Sword.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Sword.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 186,
@@ -895,13 +1152,19 @@
       "Index": 187,
       "Name_FR": "Bateau de stockage en acajou",
       "Name_EN": "Jungle Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Jungle_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Jungle_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 188,
       "Name_FR": "Bateau en acajou",
       "Name_EN": "Jungle Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Jungle_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Jungle_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 189,
@@ -919,7 +1182,10 @@
       "Index": 192,
       "Name_FR": "Seau de lave",
       "Name_EN": "Lava Bucket",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Lava_Bucket.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Lava_Bucket.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 193,
@@ -931,31 +1197,46 @@
       "Index": 194,
       "Name_FR": "Bottes en cuir",
       "Name_EN": "Leather Boots",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Boots.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Boots.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 195,
       "Name_FR": "Chapeau en cuir",
       "Name_EN": "Leather Cap",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Cap.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Cap.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 196,
       "Name_FR": "Armure en cuir pour cheval",
       "Name_EN": "Leather Horse Armor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Horse_Armor.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Horse_Armor.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 197,
       "Name_FR": "Pantalon en cuir",
       "Name_EN": "Leather Pants",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Pants.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Pants.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 198,
       "Name_FR": "Tunique en cuir",
       "Name_EN": "Leather Tunic",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Tunic.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather_Tunic.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 199,
@@ -997,19 +1278,28 @@
       "Index": 207,
       "Name_FR": "Bateau de stockage en palétuvier",
       "Name_EN": "Mangrove Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Mangrove_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Mangrove_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 208,
       "Name_FR": "Bateau en palétuvier",
       "Name_EN": "Mangrove Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Mangrove_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Mangrove_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 209,
       "Name_FR": "Carte",
       "Name_EN": "Map",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Map.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Map.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 210,
@@ -1027,169 +1317,249 @@
       "Index": 212,
       "Name_FR": "Seau de lait",
       "Name_EN": "Milk Bucket",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Milk_Bucket.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Milk_Bucket.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 213,
       "Name_FR": "Wagonnet de stockage",
       "Name_EN": "Minecart with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 215,
       "Name_FR": "Wagonnet motorisé",
       "Name_EN": "Minecart with Furnace",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_Furnace.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_Furnace.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 216,
       "Name_FR": "Wagonnet à entonnoir",
       "Name_EN": "Minecart with Hopper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_Hopper.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_Hopper.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 217,
       "Name_FR": "Wagonnet à TNT",
       "Name_EN": "Minecart with TNT",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_TNT.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart_with_TNT.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 218,
       "Name_FR": "Wagonnet",
       "Name_EN": "Minecart",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Minecart.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 221,
       "Name_FR": "Soupe de champignons",
       "Name_EN": "Mushroom Stew",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Mushroom_Stew.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Mushroom_Stew.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 222,
       "Name_FR": "Disque 11",
       "Name_EN": "Music Disc 11",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_11.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_11.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 223,
       "Name_FR": "Disque 13",
       "Name_EN": "Music Disc 13",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_13.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_13.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 224,
       "Name_FR": "Disque 5",
       "Name_EN": "Music Disc 5",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_5.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_5.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 225,
       "Name_FR": "Disque blocks",
       "Name_EN": "Music Disc blocks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_blocks.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_blocks.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 226,
       "Name_FR": "Disque cat",
       "Name_EN": "Music Disc cat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_cat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_cat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 227,
       "Name_FR": "Disque chirp",
       "Name_EN": "Music Disc chirp",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_chirp.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_chirp.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 229,
       "Name_FR": "Disque Creator",
       "Name_EN": "Music Disc Creator",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Creator.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Creator.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 230,
       "Name_FR": "Disque far",
       "Name_EN": "Music Disc far",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_far.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_far.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 231,
       "Name_FR": "Disque Lava Chicken",
       "Name_EN": "Music Disc Lava Chicken",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Lava_Chicken.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Lava_Chicken.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 232,
       "Name_FR": "Disque mall",
       "Name_EN": "Music Disc mall",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_mall.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_mall.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 233,
       "Name_FR": "Disque mellohi",
       "Name_EN": "Music Disc mellohi",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_mellohi.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_mellohi.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 234,
       "Name_FR": "Disque otherside",
       "Name_EN": "Music Disc otherside",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_otherside.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_otherside.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 235,
       "Name_FR": "Disque Pigstep",
       "Name_EN": "Music Disc Pigstep",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Pigstep.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Pigstep.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 236,
       "Name_FR": "Disque Precipice",
       "Name_EN": "Music Disc Precipice",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Precipice.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Precipice.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 237,
       "Name_FR": "Disque Relic",
       "Name_EN": "Music Disc Relic",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Relic.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Relic.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 238,
       "Name_FR": "Disque stal",
       "Name_EN": "Music Disc stal",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_stal.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_stal.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 239,
       "Name_FR": "Disque strad",
       "Name_EN": "Music Disc strad",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_strad.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_strad.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 240,
       "Name_FR": "Disque Tears",
       "Name_EN": "Music Disc Tears",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Tears.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_Tears.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 241,
       "Name_FR": "Disque wait",
       "Name_EN": "Music Disc wait",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_wait.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_wait.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 242,
       "Name_FR": "Disque ward",
       "Name_EN": "Music Disc ward",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_ward.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Music_Disc_ward.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 243,
       "Name_FR": "Étiquette",
-      "Name_EN": "Name Tag",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Name_Tag.png"
+      "Name_EN": "Name Tag"
     },
     {
       "Index": 244,
@@ -1225,37 +1595,55 @@
       "Index": 250,
       "Name_FR": "Hache en Netherite",
       "Name_EN": "Netherite Axe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Axe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Axe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 251,
       "Name_FR": "Bottes en Netherite",
       "Name_EN": "Netherite Boots",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Boots.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Boots.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 252,
       "Name_FR": "Plastron en Netherite",
       "Name_EN": "Netherite Chestplate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Chestplate.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Chestplate.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 253,
       "Name_FR": "Casque en Netherite",
       "Name_EN": "Netherite Helmet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Helmet.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Helmet.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 254,
       "Name_FR": "Houe en Netherite",
       "Name_EN": "Netherite Hoe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Hoe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Hoe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 255,
       "Name_FR": "Armure en Netherite pour cheval",
       "Name_EN": "Netherite Horse Armor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Horse_Armor.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Horse_Armor.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 256,
@@ -1267,13 +1655,19 @@
       "Index": 257,
       "Name_FR": "Jambières en Netherite",
       "Name_EN": "Netherite Leggings",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Leggings.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Leggings.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 258,
       "Name_FR": "Pioche en Netherite",
       "Name_EN": "Netherite Pickaxe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Pickaxe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Pickaxe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 259,
@@ -1285,31 +1679,46 @@
       "Index": 260,
       "Name_FR": "Pelle en Netherite",
       "Name_EN": "Netherite Shovel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Shovel.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Shovel.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 261,
       "Name_FR": "Lance en Netherite",
       "Name_EN": "Netherite Spear",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Spear.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Spear.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 262,
       "Name_FR": "Épée en Netherite",
       "Name_EN": "Netherite Sword",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Sword.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Sword.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 264,
       "Name_FR": "Bateau de stockage en chêne",
       "Name_EN": "Oak Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Oak_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Oak_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 265,
       "Name_FR": "Bateau en chêne",
       "Name_EN": "Oak Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Oak_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Oak_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 267,
@@ -1327,13 +1736,19 @@
       "Index": 269,
       "Name_FR": "Bateau de stockage en chêne pâle",
       "Name_EN": "Pale Oak Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Pale_Oak_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Pale_Oak_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 270,
       "Name_FR": "Bateau en chêne pâle",
       "Name_EN": "Pale Oak Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Pale_Oak_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Pale_Oak_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 272,
@@ -1362,7 +1777,7 @@
     {
       "Index": 283,
       "Name_FR": "Pomme de terre empoisonnée",
-      "Name_EN": "Potato of Knowledge",
+      "Name_EN": "Poisonous Potato",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Potato_of_Knowledge.png"
     },
     {
@@ -1495,19 +1910,28 @@
       "Index": 309,
       "Name_FR": "Selle",
       "Name_EN": "Saddle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Saddle.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Saddle.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 311,
       "Name_FR": "Cisailles",
       "Name_EN": "Shears",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Shears.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Shears.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 313,
       "Name_FR": "Bouclier",
       "Name_EN": "Shield",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Shield.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Shield.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 314,
@@ -1543,25 +1967,37 @@
       "Index": 327,
       "Name_FR": "Potion jetable",
       "Name_EN": "Splash Potion",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Splash_Potion.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Splash_Potion.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 328,
       "Name_FR": "Bateau de stockage en sapin",
       "Name_EN": "Spruce Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Spruce_Boat_with_Chest.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Spruce_Boat_with_Chest.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 329,
       "Name_FR": "Bateau en sapin",
       "Name_EN": "Spruce Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Spruce_Boat.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Spruce_Boat.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 330,
       "Name_FR": "Longue-vue",
       "Name_EN": "Spyglass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Spyglass.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Spyglass.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 332,
@@ -1572,44 +2008,62 @@
     {
       "Index": 333,
       "Name_FR": "Bâton",
-      "Name_EN": "Displacement Wand",
+      "Name_EN": "Stick",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Displacement_Wand.png"
     },
     {
       "Index": 334,
       "Name_FR": "Hache en pierre",
       "Name_EN": "Stone Axe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Axe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Axe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 335,
       "Name_FR": "Houe en pierre",
       "Name_EN": "Stone Hoe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Hoe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Hoe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 336,
       "Name_FR": "Pioche en pierre",
       "Name_EN": "Stone Pickaxe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Pickaxe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Pickaxe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 337,
       "Name_FR": "Pelle en pierre",
       "Name_EN": "Stone Shovel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Shovel.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Shovel.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 338,
       "Name_FR": "Lance en pierre",
       "Name_EN": "Stone Spear",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Spear.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Spear.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 339,
       "Name_FR": "Épée en pierre",
       "Name_EN": "Stone Sword",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Sword.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Sword.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 342,
@@ -1627,7 +2081,10 @@
       "Index": 344,
       "Name_FR": "Soupe suspecte",
       "Name_EN": "Suspicious Stew",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Suspicious_Stew.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Suspicious_Stew.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 345,
@@ -1645,18 +2102,24 @@
       "Index": 348,
       "Name_FR": "Totem d'immortalité",
       "Name_EN": "Totem of Undying",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Totem_of_Undying.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Totem_of_Undying.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 350,
       "Name_FR": "Trident",
       "Name_EN": "Trident",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Trident.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Trident.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 352,
       "Name_FR": "Poisson tropical",
-      "Name_EN": "Tropical Fish (item)",
+      "Name_EN": "Tropical Fish",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Tropical_Fish_(item).png"
     },
     {
@@ -1675,13 +2138,19 @@
       "Index": 361,
       "Name_FR": "Potion",
       "Name_EN": "Water Bottle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Water_Bottle.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Water_Bottle.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 362,
       "Name_FR": "Seau d'eau",
       "Name_EN": "Water Bucket",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Water_Bucket.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Water_Bucket.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 363,
@@ -1705,43 +2174,64 @@
       "Index": 370,
       "Name_FR": "Hache en bois",
       "Name_EN": "Wooden Axe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Axe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Axe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 371,
       "Name_FR": "Houe en bois",
       "Name_EN": "Wooden Hoe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Hoe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Hoe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 372,
       "Name_FR": "Pioche en bois",
       "Name_EN": "Wooden Pickaxe",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Pickaxe.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Pickaxe.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 373,
       "Name_FR": "Pelle en bois",
       "Name_EN": "Wooden Shovel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Shovel.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Shovel.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 374,
       "Name_FR": "Lance en bois",
       "Name_EN": "Wooden Spear",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Spear.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Spear.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 375,
       "Name_FR": "Épée en bois",
       "Name_EN": "Wooden Sword",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Sword.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Sword.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 376,
       "Name_FR": "Livre édité",
       "Name_EN": "Written Book",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Written_Book.png"
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Written_Book.png",
+      "Quantity": {
+        "Max": 1
+      }
     },
     {
       "Index": 377,
@@ -2824,6 +3314,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Bookshelf.png"
     },
     {
+      "Index": 1000198,
+      "Name_FR": "Cinabre sculpté",
+      "Name_EN": "Chiseled Cinnabar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Cinnabar.png"
+    },
+    {
       "Index": 1000199,
       "Name_FR": "Cuivre sculpté",
       "Name_EN": "Chiseled Copper",
@@ -2878,6 +3374,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Stone_Bricks.png"
     },
     {
+      "Index": 1000208,
+      "Name_FR": "Soufre sculpté",
+      "Name_EN": "Chiseled Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Sulfur.png"
+    },
+    {
       "Index": 1000209,
       "Name_FR": "Tuf sculpté",
       "Name_EN": "Chiseled Tuff",
@@ -2900,6 +3402,54 @@
       "Name_FR": "Plante de chorus",
       "Name_EN": "Chorus Plant",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chorus_Plant.png"
+    },
+    {
+      "Index": 1000213,
+      "Name_FR": "Cinabre",
+      "Name_EN": "Cinnabar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar.png"
+    },
+    {
+      "Index": 1000214,
+      "Name_FR": "Dalle de cinabre taillé",
+      "Name_EN": "Cinnabar Brick Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Brick_Slab.png"
+    },
+    {
+      "Index": 1000215,
+      "Name_FR": "Escalier en cinabre taillé",
+      "Name_EN": "Cinnabar Brick Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Brick_Stairs.png"
+    },
+    {
+      "Index": 1000216,
+      "Name_FR": "Muret de cinabre taillé",
+      "Name_EN": "Cinnabar Brick Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Brick_Wall.png"
+    },
+    {
+      "Index": 1000217,
+      "Name_FR": "Cinabre taillé",
+      "Name_EN": "Cinnabar Bricks",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Bricks.png"
+    },
+    {
+      "Index": 1000218,
+      "Name_FR": "Dalle de cinabre",
+      "Name_EN": "Cinnabar Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Slab.png"
+    },
+    {
+      "Index": 1000219,
+      "Name_FR": "Escalier en cinabre",
+      "Name_EN": "Cinnabar Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Stairs.png"
+    },
+    {
+      "Index": 1000220,
+      "Name_FR": "Muret de cinabre",
+      "Name_EN": "Cinnabar Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Wall.png"
     },
     {
       "Index": 1000221,
@@ -3968,6 +4518,12 @@
       "Name_FR": "Minerai d'or",
       "Name_EN": "Gold Ore",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gold_Ore.png"
+    },
+    {
+      "Index": 1000420,
+      "Name_FR": "Pissenlit doré",
+      "Name_EN": "Golden Dandelion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Golden_Dandelion.png"
     },
     {
       "Index": 1000421,
@@ -5554,6 +6110,30 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Blackstone_Wall.png"
     },
     {
+      "Index": 1000723,
+      "Name_FR": "Cinabre poli",
+      "Name_EN": "Polished Cinnabar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Cinnabar.png"
+    },
+    {
+      "Index": 1000724,
+      "Name_FR": "Dalle de cinabre poli",
+      "Name_EN": "Polished Cinnabar Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Cinnabar_Slab.png"
+    },
+    {
+      "Index": 1000725,
+      "Name_FR": "Escalier en cinabre poli",
+      "Name_EN": "Polished Cinnabar Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Cinnabar_Stairs.png"
+    },
+    {
+      "Index": 1000726,
+      "Name_FR": "Muret de cinabre poli",
+      "Name_EN": "Polished Cinnabar Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Cinnabar_Wall.png"
+    },
+    {
       "Index": 1000727,
       "Name_FR": "Ardoise des abîmes polie",
       "Name_EN": "Polished Deepslate",
@@ -5614,6 +6194,30 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Granite_Stairs.png"
     },
     {
+      "Index": 1000737,
+      "Name_FR": "Soufre poli",
+      "Name_EN": "Polished Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Sulfur.png"
+    },
+    {
+      "Index": 1000738,
+      "Name_FR": "Dalle de soufre poli",
+      "Name_EN": "Polished Sulfur Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Sulfur_Slab.png"
+    },
+    {
+      "Index": 1000739,
+      "Name_FR": "Escalier en soufre poli",
+      "Name_EN": "Polished Sulfur Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Sulfur_Stairs.png"
+    },
+    {
+      "Index": 1000740,
+      "Name_FR": "Muret de soufre poli",
+      "Name_EN": "Polished Sulfur Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Sulfur_Wall.png"
+    },
+    {
       "Index": 1000741,
       "Name_FR": "Tuf poli",
       "Name_EN": "Polished Tuff",
@@ -5642,6 +6246,12 @@
       "Name_FR": "Coquelicot",
       "Name_EN": "Poppy",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poppy.png"
+    },
+    {
+      "Index": 1000764,
+      "Name_FR": "Soufre concentré",
+      "Name_EN": "Potent Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Potent_Sulfur.png"
     },
     {
       "Index": 1000775,
@@ -6502,22 +7112,58 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sugar_Cane.png"
     },
     {
+      "Index": 1000927,
+      "Name_FR": "Soufre",
+      "Name_EN": "Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur.png"
+    },
+    {
+      "Index": 1000928,
+      "Name_FR": "Dalle de soufre taillé",
+      "Name_EN": "Sulfur Brick Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Brick_Slab.png"
+    },
+    {
+      "Index": 1000929,
+      "Name_FR": "Escalier en soufre taillé",
+      "Name_EN": "Sulfur Brick Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Brick_Stairs.png"
+    },
+    {
+      "Index": 1000930,
+      "Name_FR": "Muret de soufre taillé",
+      "Name_EN": "Sulfur Brick Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Brick_Wall.png"
+    },
+    {
+      "Index": 1000931,
+      "Name_FR": "Soufre taillé",
+      "Name_EN": "Sulfur Bricks",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Bricks.png"
+    },
+    {
+      "Index": 1000932,
+      "Name_FR": "Dalle de soufre",
+      "Name_EN": "Sulfur Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Slab.png"
+    },
+    {
+      "Index": 1000933,
+      "Name_FR": "Escalier en soufre",
+      "Name_EN": "Sulfur Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Stairs.png"
+    },
+    {
+      "Index": 1000934,
+      "Name_FR": "Muret de soufre",
+      "Name_EN": "Sulfur Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Wall.png"
+    },
+    {
       "Index": 1000935,
       "Name_FR": "Tournesol",
       "Name_EN": "Sunflower",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sunflower.png"
-    },
-    {
-      "Index": 1000936,
-      "Name_FR": "Gravier suspect",
-      "Name_EN": "Suspicious Gravel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Suspicious_Gravel.png"
-    },
-    {
-      "Index": 1000937,
-      "Name_FR": "Sable suspect",
-      "Name_EN": "Suspicious Sand",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Suspicious_Sand.png"
     },
     {
       "Index": 1000939,

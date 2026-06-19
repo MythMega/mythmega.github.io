@@ -53,10 +53,8 @@
             this.subcategorySelect.disabled = true;
             this.container.appendChild(this.subcategorySelect);
 
-            // Dataset select
-            this.datasetSelect = this._createSelect('dataset', 'create.select_dataset', 'create.no_dataset');
-            this.datasetSelect.disabled = true;
-            this.container.appendChild(this.datasetSelect);
+            // Dataset select - custom dropdown with quantity badges
+            this.datasetSelect = this._createDatasetSelect();
 
             // Grid size select
             this.sizeSelect = this._createSizeSelect();
@@ -176,13 +174,119 @@
         }
 
         /**
+         * Create a custom dataset dropdown with quantity badges
+         * @returns {HTMLElement} The custom dropdown root element
+         */
+        _createDatasetSelect() {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'select-wrapper dataset-select-wrapper';
+
+            const label = document.createElement('label');
+            label.setAttribute('data-i18n', 'create.select_dataset');
+            wrapper.appendChild(label);
+
+            // Custom dropdown container
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-dataset-dropdown';
+
+            // Trigger button (looks like a select)
+            const trigger = document.createElement('button');
+            trigger.type = 'button';
+            trigger.className = 'custom-dataset-trigger';
+            trigger.disabled = true;
+            trigger.setAttribute('data-i18n', 'create.no_dataset');
+            trigger.textContent = '-- Select a dataset --';
+
+            // Options list
+            const optionsList = document.createElement('div');
+            optionsList.className = 'custom-dataset-options hidden';
+
+            dropdown.appendChild(trigger);
+            dropdown.appendChild(optionsList);
+            wrapper.appendChild(dropdown);
+            this.container.appendChild(wrapper);
+
+            // Store references
+            this._datasetDropdown = dropdown;
+            this._datasetTrigger = trigger;
+            this._datasetOptionsList = optionsList;
+
+            // Toggle dropdown on click
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (trigger.disabled) return;
+                optionsList.classList.toggle('hidden');
+            });
+
+            // Close on outside click
+            document.addEventListener('click', () => {
+                optionsList.classList.add('hidden');
+            });
+
+            if (autobingo.translationManager) {
+                setTimeout(() => autobingo.translationManager.translatePage(), 0);
+            }
+
+            return dropdown;
+        }
+
+        /**
+         * Update dataset select options, adding quantity badges to quantizable ones
+         * @param {Array} datasets - Array of DatasetDefinition
+         */
+        _populateDatasetOptions(datasets) {
+            const optionsList = this._datasetOptionsList;
+            optionsList.innerHTML = '';
+
+            const lang = autobingo.translationManager ? autobingo.translationManager.currentLang : 'en';
+            const qLabel = lang === 'fr' ? 'avec quantité' : 'with quantity';
+
+            datasets.forEach(ds => {
+                const item = document.createElement('div');
+                item.className = 'custom-dataset-option';
+                item.dataset.value = ds.name;
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'custom-dataset-option-name';
+                nameSpan.textContent = ds.name;
+                item.appendChild(nameSpan);
+
+                if (ds.quantizable === true) {
+                    const badge = document.createElement('span');
+                    badge.className = 'dataset-qty-badge';
+                    badge.textContent = qLabel;
+                    item.appendChild(badge);
+                }
+
+                item.addEventListener('click', () => {
+                    this._datasetTrigger.textContent = ds.name;
+                    this._datasetTrigger.dataset.value = ds.name;
+                    optionsList.classList.add('hidden');
+                    this._onDatasetChange();
+                });
+
+                optionsList.appendChild(item);
+            });
+
+            this._datasetTrigger.disabled = false;
+
+            if (autobingo.translationManager) {
+                setTimeout(() => autobingo.translationManager.translatePage(), 0);
+            }
+        }
+
+        /**
          * Handle category change
          */
         _onCategoryChange() {
             const cat = this.categorySelect.value;
             this.subcategorySelect.innerHTML = '';
-            this.datasetSelect.innerHTML = '';
-            this.datasetSelect.disabled = true;
+            if (this._datasetOptionsList) this._datasetOptionsList.innerHTML = '';
+            if (this._datasetTrigger) {
+                this._datasetTrigger.textContent = '-- Select a dataset --';
+                this._datasetTrigger.dataset.value = '';
+                this._datasetTrigger.disabled = true;
+            }
             this._currentItems = null;
             this._hideWarning();
 
@@ -223,7 +327,12 @@
         _onSubcategoryChange() {
             const cat = this.categorySelect.value;
             const sub = this.subcategorySelect.value;
-            this.datasetSelect.innerHTML = '';
+            if (this._datasetOptionsList) this._datasetOptionsList.innerHTML = '';
+            if (this._datasetTrigger) {
+                this._datasetTrigger.textContent = '-- Select a dataset --';
+                this._datasetTrigger.dataset.value = '';
+                this._datasetTrigger.disabled = true;
+            }
             this._currentItems = null;
             this._hideWarning();
 
@@ -235,21 +344,7 @@
             }
 
             const datasets = this.datasetManager.getDatasets(cat, sub);
-            datasets.forEach(ds => {
-                const opt = document.createElement('option');
-                opt.value = ds.name;
-                opt.textContent = ds.name;
-                this.datasetSelect.appendChild(opt);
-            });
-            this.datasetSelect.disabled = false;
-
-            const placeholder = document.createElement('option');
-            placeholder.value = '';
-            placeholder.disabled = true;
-            placeholder.selected = true;
-            placeholder.setAttribute('data-i18n', 'create.no_dataset');
-            this.datasetSelect.insertBefore(placeholder, this.datasetSelect.firstChild);
-            if (autobingo.translationManager) autobingo.translationManager.translatePage();
+            this._populateDatasetOptions(datasets);
 
             this.infoDisplay.setAttribute('data-i18n', 'create.select_dataset');
             if (autobingo.translationManager) autobingo.translationManager.translatePage();
@@ -261,7 +356,7 @@
          * Handle dataset change
          */
         async _onDatasetChange() {
-            const name = this.datasetSelect.value;
+            const name = this._datasetTrigger ? this._datasetTrigger.dataset.value : null;
             this._currentItems = null;
             this._hideWarning();
 
@@ -387,7 +482,7 @@
          * @returns {DatasetDefinition|null}
          */
         getSelectedDataset() {
-            const name = this.datasetSelect ? this.datasetSelect.value : null;
+            const name = this._datasetTrigger ? this._datasetTrigger.dataset.value : null;
             return name ? this.datasetManager.getDatasetByName(name) : null;
         }
 

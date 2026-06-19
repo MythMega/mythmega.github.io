@@ -1,7 +1,12 @@
 {
-  "Name": "Satisfactory - All Items - 1.2",
+  "Name": "Satisfactory - Phase2+ and Under Items - 1.2",
   "Category": "Satisfactory",
-  "Subcategory": "Satisfactory - 1.2",
+  "Subcategory": "Satisfactory - Phases Unlocked - 1.2",
+  "Quantizable": true,
+  "DefaultQuantities": {
+    "Max": 15,
+    "Min": 1
+  },
   "Items": [
     {
       "Index": 10001,
@@ -88,18 +93,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/steel_ingot.png"
     },
     {
-      "Index": 10015,
-      "Name_FR": "Lingot d'aluminium",
-      "Name_EN": "Aluminum Ingot",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/aluminum_ingot.png"
-    },
-    {
-      "Index": 10016,
-      "Name_FR": "Lingot de ficsite",
-      "Name_EN": "Ficsite Ingot",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ficsite_ingot.png"
-    },
-    {
       "Index": 10017,
       "Name_FR": "Béton",
       "Name_EN": "Concrete",
@@ -118,30 +111,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/silica.png"
     },
     {
-      "Index": 10020,
-      "Name_FR": "Poudre de cuivre",
-      "Name_EN": "Copper Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/copper_powder.png"
-    },
-    {
-      "Index": 10021,
-      "Name_FR": "Résine polymère",
-      "Name_EN": "Polymer Resin",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/polymer_resin.png"
-    },
-    {
-      "Index": 10022,
-      "Name_FR": "Coke de pétrole",
-      "Name_EN": "Petroleum Coke",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/petroleum_coke.png"
-    },
-    {
-      "Index": 10023,
-      "Name_FR": "Rebuts d'aluminium",
-      "Name_EN": "Aluminum Scrap",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/aluminum_scrap.png"
-    },
-    {
       "Index": 10024,
       "Name_FR": "Eau",
       "Name_EN": "Water",
@@ -154,46 +123,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/crude_oil.png"
     },
     {
-      "Index": 10026,
-      "Name_FR": "Résidus de pétrole lourd",
-      "Name_EN": "Heavy Oil Residue",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/heavy_oil_residue.png"
-    },
-    {
-      "Index": 10027,
-      "Name_FR": "Carburant",
-      "Name_EN": "Fuel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/fuel.png"
-    },
-    {
-      "Index": 10028,
-      "Name_FR": "Biocarburant liquide",
-      "Name_EN": "Liquid Biofuel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/liquid_biofuel.png"
-    },
-    {
       "Index": 10029,
       "Name_FR": "Turbocarburant",
       "Name_EN": "Turbofuel",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/turbofuel.png"
-    },
-    {
-      "Index": 10030,
-      "Name_FR": "Solution d'alumine",
-      "Name_EN": "Alumina Solution",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/alumina_solution.png"
-    },
-    {
-      "Index": 10031,
-      "Name_FR": "Acide sulfurique",
-      "Name_EN": "Sulfuric Acid",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/sulfuric_acid.png"
-    },
-    {
-      "Index": 10032,
-      "Name_FR": "Acide nitrique",
-      "Name_EN": "Nitric Acid",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nitric_acid.png"
     },
     {
       "Index": 10033,
@@ -218,18 +151,6 @@
       "Name_FR": "Carburant ionisé",
       "Name_EN": "Ionized Fuel",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ionized_fuel.png"
-    },
-    {
-      "Index": 10037,
-      "Name_FR": "Résidus de matière noire",
-      "Name_EN": "Dark Matter Residue",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/dark_matter_residue.png"
-    },
-    {
-      "Index": 10038,
-      "Name_FR": "Matière photonique agitée",
-      "Name_EN": "Excited Photonic Matter",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/excited_photonic_matter.png"
     },
     {
       "Index": 10039,
@@ -262,18 +183,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/copper_sheet.png"
     },
     {
-      "Index": 10044,
-      "Name_FR": "Tôle d'aluminium en alliage Alclad",
-      "Name_EN": "Alclad Aluminum Sheet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/alclad_aluminum_sheet.png"
-    },
-    {
-      "Index": 10045,
-      "Name_FR": "Boîtiers en aluminium",
-      "Name_EN": "Aluminum Casing",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/aluminum_casing.png"
-    },
-    {
       "Index": 10046,
       "Name_FR": "Tuyau en acier",
       "Name_EN": "Steel Pipe",
@@ -298,40 +207,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/modular_frame.png"
     },
     {
-      "Index": 10050,
-      "Name_FR": "Cadre modulaire lourd",
-      "Name_EN": "Heavy Modular Frame",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/heavy_modular_frame.png"
-    },
-    {
-      "Index": 10051,
-      "Name_FR": "Cadre modulaire fusionné",
-      "Name_EN": "Fused Modular Frame",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/fused_modular_frame.png"
-    },
-    {
-      "Index": 10052,
-      "Name_FR": "Trigon en ficsite",
-      "Name_EN": "Ficsite Trigon",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ficsite_trigon.png"
-    },
-    {
       "Index": 10053,
       "Name_FR": "Tissu",
       "Name_EN": "Fabric",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/fabric.png"
-    },
-    {
-      "Index": 10054,
-      "Name_FR": "Plastique",
-      "Name_EN": "Plastic",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/plastic.png"
-    },
-    {
-      "Index": 10055,
-      "Name_FR": "Caoutchouc",
-      "Name_EN": "Rubber",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/rubber.png"
     },
     {
       "Index": 10056,
@@ -346,34 +225,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/stator.png"
     },
     {
-      "Index": 10058,
-      "Name_FR": "Batterie",
-      "Name_EN": "Battery",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/battery.png"
-    },
-    {
       "Index": 10059,
       "Name_FR": "Moteur",
       "Name_EN": "Motor",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/motor.png"
-    },
-    {
-      "Index": 10060,
-      "Name_FR": "Dissipateur de chaleur",
-      "Name_EN": "Heat Sink",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/heat_sink.png"
-    },
-    {
-      "Index": 10061,
-      "Name_FR": "Système de refroidissement",
-      "Name_EN": "Cooling System",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/cooling_system.png"
-    },
-    {
-      "Index": 10062,
-      "Name_FR": "Turbomoteur",
-      "Name_EN": "Turbo Motor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/turbo_motor.png"
     },
     {
       "Index": 10063,
@@ -394,12 +249,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/quickwire.png"
     },
     {
-      "Index": 10066,
-      "Name_FR": "Circuit imprimé",
-      "Name_EN": "Circuit Board",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/circuit_board.png"
-    },
-    {
       "Index": 10067,
       "Name_FR": "Contrôleur d'I.A.",
       "Name_EN": "AI Limiter",
@@ -412,130 +261,16 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/high_speed_connector.png"
     },
     {
-      "Index": 10069,
-      "Name_FR": "É.M.E. réanimée",
-      "Name_EN": "Reanimated SAM",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/reanimated_sam.png"
-    },
-    {
-      "Index": 10070,
-      "Name_FR": "Fluctuateur d'É.M.E.",
-      "Name_EN": "SAM Fluctuator",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/sam_fluctuator.png"
-    },
-    {
-      "Index": 10071,
-      "Name_FR": "Ordinateur",
-      "Name_EN": "Computer",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/computer.png"
-    },
-    {
-      "Index": 10072,
-      "Name_FR": "Superordinateur",
-      "Name_EN": "Supercomputer",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/supercomputer.png"
-    },
-    {
-      "Index": 10073,
-      "Name_FR": "Unité de contrôle radio",
-      "Name_EN": "Radio Control Unit",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/radio_control_unit.png"
-    },
-    {
       "Index": 10074,
       "Name_FR": "Oscillateur à cristal",
       "Name_EN": "Crystal Oscillator",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/crystal_oscillator.png"
     },
     {
-      "Index": 10075,
-      "Name_FR": "Oscillateur de superposition",
-      "Name_EN": "Superposition Oscillator",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/superposition_oscillator.png"
-    },
-    {
-      "Index": 10076,
-      "Name_FR": "Diamants",
-      "Name_EN": "Diamonds",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/diamonds.png"
-    },
-    {
-      "Index": 10077,
-      "Name_FR": "Cristal temporel",
-      "Name_EN": "Time Crystal",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/time_crystal.png"
-    },
-    {
-      "Index": 10078,
-      "Name_FR": "Cristal de matière noire",
-      "Name_EN": "Dark Matter Crystal",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/dark_matter_crystal.png"
-    },
-    {
-      "Index": 10079,
-      "Name_FR": "Cellule de singularité",
-      "Name_EN": "Singularity Cell",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/singularity_cell.png"
-    },
-    {
-      "Index": 10080,
-      "Name_FR": "Processeur neuro-quantique",
-      "Name_EN": "Neural-Quantum Processor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/neural_quantum_processor.png"
-    },
-    {
       "Index": 10081,
       "Name_FR": "Matrice de charge extraterrestre",
       "Name_EN": "Alien Power Matrix",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/alien_power_matrix.png"
-    },
-    {
-      "Index": 10082,
-      "Name_FR": "Bidon vide",
-      "Name_EN": "Empty Canister",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/empty_canister.png"
-    },
-    {
-      "Index": 10083,
-      "Name_FR": "Réservoir vide",
-      "Name_EN": "Empty Fluid Tank",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/empty_fluid_tank.png"
-    },
-    {
-      "Index": 10084,
-      "Name_FR": "Cube de conversion de pression",
-      "Name_EN": "Pressure Conversion Cube",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/pressure_conversion_cube.png"
-    },
-    {
-      "Index": 10085,
-      "Name_FR": "Eau conditionnée",
-      "Name_EN": "Packaged Water",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_water.png"
-    },
-    {
-      "Index": 10086,
-      "Name_FR": "Solution d'aluminium conditionnée",
-      "Name_EN": "Packaged Alumina Solution",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_alumina_solution.png"
-    },
-    {
-      "Index": 10087,
-      "Name_FR": "Acide sulfurique conditionné",
-      "Name_EN": "Packaged Sulfuric Acid",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_sulfuric_acid.png"
-    },
-    {
-      "Index": 10088,
-      "Name_FR": "Acide nitrique conditionné",
-      "Name_EN": "Packaged Nitric Acid",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_nitric_acid.png"
-    },
-    {
-      "Index": 10089,
-      "Name_FR": "Azote gazeux conditionné",
-      "Name_EN": "Packaged Nitrogen Gas",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_nitrogen_gas.png"
     },
     {
       "Index": 10090,
@@ -568,34 +303,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/compacted_coal.png"
     },
     {
-      "Index": 10096,
-      "Name_FR": "Pétrole conditionné",
-      "Name_EN": "Packaged Oil",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_oil.png"
-    },
-    {
-      "Index": 10097,
-      "Name_FR": "Résidus de pétrole lourd conditionnés",
-      "Name_EN": "Packaged Heavy Oil Residue",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_heavy_oil_residue.png"
-    },
-    {
       "Index": 10098,
       "Name_FR": "Biocarburant solide",
       "Name_EN": "Solid Biofuel",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/solid_biofuel.png"
-    },
-    {
-      "Index": 10099,
-      "Name_FR": "Carburant conditionné",
-      "Name_EN": "Packaged Fuel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_fuel.png"
-    },
-    {
-      "Index": 10100,
-      "Name_FR": "Biocarburant liquide conditionné",
-      "Name_EN": "Packaged Liquid Biofuel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_liquid_biofuel.png"
     },
     {
       "Index": 10101,
@@ -616,18 +327,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/packaged_ionized_fuel.png"
     },
     {
-      "Index": 10104,
-      "Name_FR": "Barre de combustible d'Uranium",
-      "Name_EN": "Uranium Fuel Rod",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/uranium_fuel_rod.png"
-    },
-    {
-      "Index": 10105,
-      "Name_FR": "Barre de plutonium",
-      "Name_EN": "Plutonium Fuel Rod",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/plutonium_fuel_rod.png"
-    },
-    {
       "Index": 10106,
       "Name_FR": "Poudre noire",
       "Name_EN": "Black Powder",
@@ -644,12 +343,6 @@
       "Name_FR": "Filtre à gaz",
       "Name_EN": "Gas Filter",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/gas_filter.png"
-    },
-    {
-      "Index": 10111,
-      "Name_FR": "Filtre à infusion d'iode",
-      "Name_EN": "Iodine-Infused Filter",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iodine_infused_filter.png"
     },
     {
       "Index": 10112,
@@ -724,58 +417,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nuke_nobelisk.png"
     },
     {
-      "Index": 10124,
-      "Name_FR": "Tige de contrôle électromagnétique",
-      "Name_EN": "Electromagnetic Control Rod",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/electromagnetic_control_rod.png"
-    },
-    {
-      "Index": 10125,
-      "Name_FR": "Cellule d'uranium compactée",
-      "Name_EN": "Encased Uranium Cell",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/encased_uranium_cell.png"
-    },
-    {
-      "Index": 10126,
-      "Name_FR": "Uranium non fissile",
-      "Name_EN": "Non-Fissile Uranium",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/non_fissile_uranium.png"
-    },
-    {
-      "Index": 10127,
-      "Name_FR": "Granulés de plutonium",
-      "Name_EN": "Plutonium Pellet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/plutonium_pellet.png"
-    },
-    {
-      "Index": 10128,
-      "Name_FR": "Cellule de plutonium encastré",
-      "Name_EN": "Encased Plutonium Cell",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/encased_plutonium_cell.png"
-    },
-    {
-      "Index": 10129,
-      "Name_FR": "Ficsonium",
-      "Name_EN": "Ficsonium",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ficsonium.png"
-    },
-    {
-      "Index": 10130,
-      "Name_FR": "Barre de ficsonium",
-      "Name_EN": "Ficsonium Fuel Rod",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ficsonium_fuel_rod.png"
-    },
-    {
       "Index": 10131,
       "Name_FR": "Déchets d'uranium",
       "Name_EN": "Uranium Waste",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/uranium_waste.png"
-    },
-    {
-      "Index": 10132,
-      "Name_FR": "Déchets de plutonium",
-      "Name_EN": "Plutonium Waste",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/plutonium_waste.png"
     },
     {
       "Index": 10133,
@@ -824,60 +469,6 @@
       "Name_FR": "Câblage automatisé",
       "Name_EN": "Automated Wiring",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/automated_wiring.png"
-    },
-    {
-      "Index": 10141,
-      "Name_FR": "Moteur modulaire",
-      "Name_EN": "Modular Engine",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/modular_engine.png"
-    },
-    {
-      "Index": 10142,
-      "Name_FR": "Unité de contrôle adaptative",
-      "Name_EN": "Adaptive Control Unit",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/adaptive_control_unit.png"
-    },
-    {
-      "Index": 10143,
-      "Name_FR": "Système de Directeur d'Assemblage",
-      "Name_EN": "Assembly Director System",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/assembly_director_system.png"
-    },
-    {
-      "Index": 10144,
-      "Name_FR": "Générateur de champ magnétique",
-      "Name_EN": "Magnetic Field Generator",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/magnetic_field_generator.png"
-    },
-    {
-      "Index": 10145,
-      "Name_FR": "Fusée à propulsion thermique",
-      "Name_EN": "Thermal Propulsion Rocket",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/thermal_propulsion_rocket.png"
-    },
-    {
-      "Index": 10146,
-      "Name_FR": "Pâte nucléaire",
-      "Name_EN": "Nuclear Pasta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/nuclear_pasta.png"
-    },
-    {
-      "Index": 10147,
-      "Name_FR": "Sculptrice biochimique",
-      "Name_EN": "Biochemical Sculptor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/biochemical_sculptor.png"
-    },
-    {
-      "Index": 10148,
-      "Name_FR": "Moteur à distorsion balistique",
-      "Name_EN": "Ballistic Warp Drive",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ballistic_warp_drive.png"
-    },
-    {
-      "Index": 10149,
-      "Name_FR": "Serveur d'expansion d'I.A.",
-      "Name_EN": "AI Expansion Server",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/ai_expansion_server.png"
     }
   ]
 }

@@ -28,8 +28,7 @@ def scan_versions():
     """
     versions = {}
 
-    pattern = r"mc([0-9]+(?:\.[0-9]+)+)-(items|blocks)\.json"
-
+    pattern = r"mc([0-9]+(?:\.[0-9]+)+(?:\.q)?)-(items|blocks)(?:\.json)?"
     for filename in os.listdir(DATA_FOLDER):
         match = re.match(pattern, filename)
         if match:
@@ -86,10 +85,13 @@ def merge_files(version, versions):
         )
     }
 
-    output_path = os.path.join(DATA_FOLDER, f"mc{version}-full.json")
-    save_json(output_path, merged)
+    # 🔧 Si la version contient ".q", on garde le suffixe dans le nom du fichier
+    suffix = ".q" if ".q" in items_file or ".q" in blocks_file else ""
+    output_path = os.path.join(DATA_FOLDER, f"mc{version}{suffix}-full.json")
 
+    save_json(output_path, merged)
     print(f"\nFusion terminée ! Fichier généré : {output_path}")
+
 
 
 def main():

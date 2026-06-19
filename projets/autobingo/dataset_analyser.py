@@ -29,12 +29,15 @@ def main():
                 if not isinstance(data, dict):
                     continue
 
+                quantizable = data.get("Quantizable") is True
+
                 if is_valid_dataset(data):
                     datasets.append({
                         "Name": data["Name"],
                         "Category": data["Category"],
                         "Subcategory": data["Subcategory"],
-                        "Location": "./" + relative_path.replace("\\", "/")
+                        "Location": "./" + relative_path.replace("\\", "/"),
+                        "Quantizable" : quantizable
                     })
 
             except Exception as e:

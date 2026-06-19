@@ -175,7 +175,7 @@
                 const def = datasetManager.getDatasetByName(name);
                 if (def) {
                     const items = await datasetManager.loadDatasetItems(def);
-                    AutoBingo.DatasetViewer.onDatasetSelected(items);
+                    AutoBingo.DatasetViewer.onDatasetSelected(items, def);
                 }
             });
 

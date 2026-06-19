@@ -1,7 +1,7 @@
 {
-  "Name": "Satisfactory - All Items Quantizables - 1.1",
+  "Name": "Satisfactory - All Items Quantizables - 1.2",
   "Category": "Satisfactory",
-  "Subcategory": "Satisfactory - 1.1",
+  "Subcategory": "Satisfactory - 1.2",
   "Quantizable": true,
   "DefaultQuantities": {
     "Max": 100,
@@ -12,19 +12,13 @@
       "Index": 10001,
       "Name_FR": "Calcaire",
       "Name_EN": "Limestone",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/limestone.png",
-      "Quantity": {
-        "Max": 64
-      }
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/limestone.png"
     },
     {
       "Index": 10002,
       "Name_FR": "Minerai de fer",
       "Name_EN": "Iron Ore",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_ore.png",
-      "Quantity": {
-        "Min": 16
-      }
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/iron_ore.png"
     },
     {
       "Index": 10003,
@@ -561,12 +555,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/mycelia.png"
     },
     {
-      "Index": 10092,
-      "Name_FR": "Pétales de fleurs",
-      "Name_EN": "Flower Petals",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/flower_petals.png"
-    },
-    {
       "Index": 10093,
       "Name_FR": "Bois",
       "Name_EN": "Wood",
@@ -661,18 +649,6 @@
       "Name_FR": "Filtre à gaz",
       "Name_EN": "Gas Filter",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/gas_filter.png"
-    },
-    {
-      "Index": 10109,
-      "Name_FR": "Cartouche de peinture",
-      "Name_EN": "Color Cartridge",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/color_cartridge.png"
-    },
-    {
-      "Index": 10110,
-      "Name_FR": "Balise",
-      "Name_EN": "Beacon",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/satis//items/beacon.png"
     },
     {
       "Index": 10111,

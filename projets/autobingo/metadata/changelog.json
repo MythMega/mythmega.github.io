@@ -86,13 +86,25 @@
     {
         "Version": {
             "ID": 8,
-            "Number": "Beta b0.4.0"
+            "Number": "Beta b0.4"
         }, 
         "Date": "2026-06-19",
         "Name_FR": "Beta - Quantization",
         "Name_EN": "Beta - Quantization",
         "Desc_FR": "[MAJOR] Possibilité d'avoir des grilles avec quantités aléatoire pour un item",
         "Desc_EN": "[MAJOR] Possibility to create grid with random amount of item",
+        "Link": "#"
+    },
+    {
+        "Version": {
+            "ID": 9,
+            "Number": "Beta b0.4.1"
+        }, 
+        "Date": "2026-06-19",
+        "Name_FR": "Beta - Randomitems",
+        "Name_EN": "Beta - Randomitemn",
+        "Desc_FR": "Possibilité de choisir un item au hasard en remplacement d'un autre items",
+        "Desc_EN": "Ability to replace an item in the grid by another one random",
         "Link": "#"
     }
 ]

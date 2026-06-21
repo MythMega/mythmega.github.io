@@ -126,13 +126,6 @@
     "Quantizable": false
   },
   {
-    "Name": "Minecraft 26.2 - Chaos Cubed",
-    "Category": "Minecraft",
-    "Subcategory": "Minecraft Vanilla",
-    "Location": "./data/minecraft/mc26.2-full.json",
-    "Quantizable": false
-  },
-  {
     "Name": "Minecraft 26.2 - Chaos Cubed (With Quantity)",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
@@ -151,13 +144,6 @@
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
     "Location": "./data/minecraft/mc26.1-blocks.json",
-    "Quantizable": false
-  },
-  {
-    "Name": "Minecraft 26.2 - Blocks - Chaos Cubed",
-    "Category": "Minecraft",
-    "Subcategory": "Minecraft Vanilla - Blocks Only",
-    "Location": "./data/minecraft/mc26.2-blocks.json",
     "Quantizable": false
   },
   {
@@ -196,16 +182,9 @@
     "Quantizable": false
   },
   {
-    "Name": "Minecraft 26.2 - items - Chaos Cubed",
+    "Name": "Minecraft 26.2 - Items - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
-    "Location": "./data/minecraft/mc26.2-items.json",
-    "Quantizable": false
-  },
-  {
-    "Name": "Minecraft 26.2 - items Qauntized - Chaos Cubed",
-    "Category": "Minecraft",
-    "Subcategory": "Minecraft Vanilla - Items Only - Quantized",
     "Location": "./data/minecraft/mc26.2.q-items.json",
     "Quantizable": true
   },

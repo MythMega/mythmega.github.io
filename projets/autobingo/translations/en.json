@@ -2,7 +2,9 @@
   "app.title": "AutoBingo",
   "nav.home": "Home",
   "nav.create": "Create Bingo",
+  "nav.custom_bingo": "Custom Bingo",
   "nav.credits": "Credits",
+  "nav.info": "Info",
   "nav.datasets": "Datasets",
   "nav.changelog": "Changelog",
   "home.title": "AutoBingo",
@@ -74,6 +76,10 @@
   "creator.qty_default": "Default",
   "creator.qty_unique": "Unique (1)",
   "creator.qty_custom": "Custom",
+  "custombingo.create_title": "Custom Bingo",
+  "custombingo.create_subtitle": "Upload a dataset JSON and choose grid size",
+  "custombingo.grid_size": "Grid Size",
+  "custombingo.start_game": "Start Game",
   "lang.en": "English",
   "lang.fr": "Français"
 }

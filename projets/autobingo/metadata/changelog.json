@@ -117,6 +117,18 @@
         "Name_EN": "Beta - QuantizedTiers",
         "Desc_FR": "Badge Dataset compatible quantité affiché sur la liste des datasets, Fix Minecraft + Quantizables Items + Block + All pour 26.2, Satisfactory Filtres Tiers",
         "Desc_EN": "Dataset badge compatible with quantity display on the dataset list, Minecraft Fix + Quantizable Items + Block + All for 26.2, Satisfactory Tier Filters",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/d74606c6806d578bd12f46f2b70175611d3c6221"
+    },
+    {
+        "Version": {
+            "ID": 11,
+            "Number": "Beta b0.5.0"
+        }, 
+        "Date": "2026-06-21",
+        "Name_FR": "Beta - Bingo Datasets Creator",
+        "Name_EN": "Beta - Bingo Datasets Creator",
+        "Desc_FR": "[MAJOR] Page de Createur de json de dataset",
+        "Desc_EN": "[MAJOR] Bingo Datasets Creator Page",
         "Link": "#"
     }
 ]

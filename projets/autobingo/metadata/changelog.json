@@ -129,6 +129,18 @@
         "Name_EN": "Beta - Bingo Datasets Creator",
         "Desc_FR": "[MAJOR] Page de Createur de json de dataset",
         "Desc_EN": "[MAJOR] Bingo Datasets Creator Page",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/f91f0b21c1003ccf0c5922f3e4adab96bd225ce3"
+    },
+    {
+        "Version": {
+            "ID": 12,
+            "Number": "Beta b0.6.0"
+        }, 
+        "Date": "2026-06-21",
+        "Name_FR": "Beta - Bingo Custom Datasets Player",
+        "Name_EN": "Beta - Bingo Custom Datasets Creator",
+        "Desc_FR": "[MAJOR] Page de jeux de json custom de dataset",
+        "Desc_EN": "[MAJOR] Bingo Custom Datasets Player Page",
         "Link": "#"
     }
 ]

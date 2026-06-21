@@ -2,7 +2,9 @@
   "app.title": "AutoBingo",
   "nav.home": "Accueil",
   "nav.create": "Créer un Bingo",
+  "nav.custom_bingo": "Bingo Personnalisé",
   "nav.credits": "Crédits",
+  "nav.info": "Info",
   "nav.datasets": "Datasets",
   "nav.changelog": "Changelog",
   "home.title": "AutoBingo",
@@ -74,6 +76,10 @@
   "creator.qty_default": "Par défaut",
   "creator.qty_unique": "Unique (1)",
   "creator.qty_custom": "Personnalisé",
+  "custombingo.create_title": "Bingo Personnalisé",
+  "custombingo.create_subtitle": "Uploadez un JSON de dataset et choisissez la taille de grille",
+  "custombingo.grid_size": "Taille de la Grille",
+  "custombingo.start_game": "Démarrer la Partie",
   "lang.en": "English",
   "lang.fr": "Français"
 }

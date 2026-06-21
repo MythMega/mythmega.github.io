@@ -39,7 +39,8 @@
             // Simple page links
             const simplePages = [
                 { href: 'index.html', i18n: 'nav.home' },
-                { href: 'create_bingo.html', i18n: 'nav.create' }
+                { href: 'create_bingo.html', i18n: 'nav.create' },
+                { href: 'custom_bingo.html', i18n: 'nav.custom_bingo' }
             ];
 
             simplePages.forEach(page => {
@@ -103,19 +104,53 @@
                 }
             });
 
-            // Remaining simple links
-            const remainingPages = [
-                { href: 'credits.html', i18n: 'nav.credits' },
-                { href: 'changelog.html', i18n: 'nav.changelog' }
+            // --- Info dropdown ---
+            const infoWrapper = document.createElement('div');
+            infoWrapper.className = 'nav-dropdown-wrapper';
+
+            const infoToggle = document.createElement('button');
+            infoToggle.type = 'button';
+            infoToggle.className = 'nav-dropdown-toggle';
+            infoToggle.setAttribute('data-i18n', 'nav.info');
+            infoToggle.textContent = 'Info';
+            if (currentPath === 'credits.html' || currentPath === 'changelog.html') {
+                infoToggle.classList.add('active');
+            }
+
+            const infoMenu = document.createElement('div');
+            infoMenu.className = 'nav-dropdown-menu';
+
+            const infoItems = [
+                { href: 'changelog.html', i18n: 'nav.changelog' },
+                { href: 'credits.html', i18n: 'nav.credits' }
             ];
 
-            remainingPages.forEach(page => {
+            infoItems.forEach(item => {
                 const a = document.createElement('a');
-                a.href = page.href;
-                a.setAttribute('data-i18n', page.i18n);
-                a.className = currentPath === page.href ? 'nav-link active' : 'nav-link';
+                a.href = item.href;
+                a.className = 'nav-dropdown-item';
+                a.setAttribute('data-i18n', item.i18n);
                 a.addEventListener('click', closeMobile);
-                links.appendChild(a);
+                if (currentPath === item.href) {
+                    a.classList.add('active');
+                }
+                infoMenu.appendChild(a);
+            });
+
+            infoWrapper.appendChild(infoToggle);
+            infoWrapper.appendChild(infoMenu);
+            links.appendChild(infoWrapper);
+
+            infoToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                infoMenu.classList.toggle('open');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!infoWrapper.contains(e.target)) {
+                    infoMenu.classList.remove('open');
+                }
             });
 
             // Hamburger button

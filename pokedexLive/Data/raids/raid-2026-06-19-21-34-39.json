@@ -1,0 +1,186 @@
+{
+  "bossName": "Arch\u00E9odong",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bronzong_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bronzong_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-19 21:34:39",
+  "durationSec": 163,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 26088,
+      "countAtk": 8,
+      "baseDmg": 5142,
+      "level": 14,
+      "raidCount": 218,
+      "luck": 0.634189
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 25000,
+      "countAtk": 2,
+      "baseDmg": 29954,
+      "level": 18,
+      "raidCount": 898,
+      "luck": 0.41730654
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 51088
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 4
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-19 21:35:04",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 37500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-19 21:37:03",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5142,
+      "pvAfter": 32358,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-19 21:37:07",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5267,
+      "pvAfter": 27091,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-06-19 21:37:08",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 27091,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 2 tours."
+    },
+    {
+      "at": "2026-06-19 21:37:11",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 14591,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-06-19 21:37:14",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 14591,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 1 tours."
+    },
+    {
+      "at": "2026-06-19 21:37:15",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 14591,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 0 tours."
+    },
+    {
+      "at": "2026-06-19 21:37:19",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5222,
+      "pvAfter": 9369,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus paralys\u00E9 !"
+    },
+    {
+      "at": "2026-06-19 21:37:22",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5264,
+      "pvAfter": 4105,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-19 21:37:23",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5193,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

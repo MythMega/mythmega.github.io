@@ -1,0 +1,142 @@
+{
+  "bossName": "Riolu",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Riolu_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Riolu_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 110000,
+  "date": "2026-06-22 21:43:49",
+  "durationSec": 1597,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 110000,
+      "countAtk": 4,
+      "baseDmg": 30416,
+      "level": 18,
+      "raidCount": 905,
+      "luck": 0.9041294
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 5552,
+      "countAtk": 2,
+      "baseDmg": 1878,
+      "level": 12,
+      "raidCount": 119,
+      "luck": 1.4781682
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 115552
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-22 21:44:41",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27500,
+      "pvAfter": 82500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-22 21:51:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27500,
+      "pvAfter": 55000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-22 22:00:23",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27500,
+      "pvAfter": 27500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-22 22:03:47",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1878,
+      "pvAfter": 25622,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-22 22:10:07",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 3674,
+      "pvAfter": 21948,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-22 22:10:26",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 27500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    }
+  ]
+}

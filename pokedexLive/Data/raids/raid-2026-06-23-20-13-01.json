@@ -1,0 +1,93 @@
+{
+  "bossName": "Hypocean",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seadra_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seadra_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 100000,
+  "date": "2026-06-23 20:13:01",
+  "durationSec": 3181,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 100000,
+      "countAtk": 4,
+      "baseDmg": 30287,
+      "level": 18,
+      "raidCount": 910,
+      "luck": 0.82543665
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 100000
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-23 20:21:43",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 75000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 20:24:58",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 50000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 20:50:11",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 25000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 21:06:03",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    }
+  ]
+}

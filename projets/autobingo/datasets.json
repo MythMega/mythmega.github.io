@@ -126,11 +126,25 @@
     "Quantizable": false
   },
   {
-    "Name": "Minecraft 26.2 - Chaos Cubed (With Quantity)",
+    "Name": "Minecraft 26.2 - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
     "Location": "./data/minecraft/mc26.2.q-full.json",
     "Quantizable": true
+  },
+  {
+    "Name": "Minecraft 26.3 - Unknown Version 3rd Drop",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26.3.q-full.json",
+    "Quantizable": true
+  },
+  {
+    "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc1.21.11-blocks.json",
+    "Quantizable": false
   },
   {
     "Name": "Minecraft 1.21.9 - Blocks - the Copper Age",
@@ -154,11 +168,11 @@
     "Quantizable": true
   },
   {
-    "Name": "Minecraft 26.2 - Blocks - Mounts of Mayhem",
+    "Name": "Minecraft 26.3 - Blocks - Unknown Name",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
-    "Location": "./data/minecraft/mc1.21.11-blocks.json",
-    "Quantizable": false
+    "Location": "./data/minecraft/mc26.3.q-blocks.json",
+    "Quantizable": true
   },
   {
     "Name": "Minecraft 1.21.11 - Items - Mounts of Mayhem",
@@ -186,6 +200,13 @@
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
     "Location": "./data/minecraft/mc26.2.q-items.json",
+    "Quantizable": true
+  },
+  {
+    "Name": "Minecraft 26.3 - Items - Unknown Name",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.3.q-items.json",
     "Quantizable": true
   },
   {

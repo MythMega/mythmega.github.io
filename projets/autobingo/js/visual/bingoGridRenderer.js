@@ -8,17 +8,34 @@
     const BingoGridRenderer = {
         container: null,
         gameManager: null,
+        isOverlay: false,
+        overrideLang: null,
 
         /**
          * Initialize and render the grid
          * @param {HTMLElement} container
          * @param {BingoGameManager} gameManager
+         * @param {Object} [options] - Optional settings
+         * @param {boolean} [options.isOverlay] - OBS overlay mode (hide all controls except input)
+         * @param {string} [options.overrideLang] - Force language from URL
          */
-        init(container, gameManager) {
+        init(container, gameManager, options) {
             this.container = container;
             this.gameManager = gameManager;
+            this.isOverlay = options && options.isOverlay === true;
+            this.overrideLang = options ? (options.overrideLang || null) : null;
             this.container.innerHTML = '';
             this.render();
+        },
+
+        /**
+         * Get the effective language (overlay override > URL param > translationManager > fallback)
+         * @returns {string}
+         */
+        _getCurrentLang() {
+            if (this.overrideLang) return this.overrideLang;
+            if (autobingo.translationManager) return autobingo.translationManager.currentLang;
+            return 'en';
         },
 
         /**
@@ -27,23 +44,29 @@
         render() {
             this.container.innerHTML = '';
 
-            // Top controls bar
-            const controlsBar = this._createControlsBar();
-            this.container.appendChild(controlsBar);
+            if (!this.isOverlay) {
+                // Top controls bar (only in normal mode)
+                const controlsBar = this._createControlsBar();
+                this.container.appendChild(controlsBar);
 
-            // Timer
-            const timerBar = this._createTimerBar();
-            this.container.appendChild(timerBar);
+                // Timer (only in normal mode)
+                const timerBar = this._createTimerBar();
+                this.container.appendChild(timerBar);
+            }
 
-            // Search autocomplete
-            const searchBar = this._createSearchBar();
-            this.container.appendChild(searchBar);
+            // Search autocomplete (hidden in overlay unless hide or blur is on)
+            if (!this.isOverlay || this.gameManager.hideItems || this.gameManager.blurItems) {
+                const searchBar = this._createSearchBar();
+                this.container.appendChild(searchBar);
+            }
 
             // Notification container (floating top-left)
-            const notifContainer = document.createElement('div');
-            notifContainer.className = 'notification-container';
-            notifContainer.id = 'notification-container';
-            this.container.appendChild(notifContainer);
+            if (!this.isOverlay) {
+                const notifContainer = document.createElement('div');
+                notifContainer.className = 'notification-container';
+                notifContainer.id = 'notification-container';
+                this.container.appendChild(notifContainer);
+            }
 
             // Grid
             const gridContainer = document.createElement('div');
@@ -61,17 +84,70 @@
             gridContainer.appendChild(grid);
             this.container.appendChild(gridContainer);
 
-            // Hidden div for search modal
-            const searchModal = document.createElement('div');
-            searchModal.className = 'search-modal hidden';
-            searchModal.id = 'search-modal';
-            document.body.appendChild(searchModal);
+            // OBS overlay button row (only in normal mode)
+            if (!this.isOverlay) {
+                const obsRow = document.createElement('div');
+                obsRow.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap;';
+
+                const obsBtn = document.createElement('button');
+                obsBtn.className = 'btn btn-secondary';
+                obsBtn.setAttribute('data-i18n', 'bingo.obs_overlay');
+                obsBtn.textContent = 'Get OBS Overlay URL';
+                obsBtn.addEventListener('click', () => this._copyOverlayUrl(obsBtn));
+                obsRow.appendChild(obsBtn);
+
+                // Help tooltip
+                const helpBtn = document.createElement('button');
+                helpBtn.className = 'btn btn-secondary';
+                helpBtn.textContent = '?';
+                helpBtn.style.cssText = 'width:28px;height:28px;padding:0;font-weight:700;border-radius:50%;font-size:0.9rem;';
+                helpBtn.setAttribute('data-i18n', 'bingo.obs_help');
+                helpBtn.title = this._getObsHelpText();
+                helpBtn.addEventListener('click', () => this._showObsHelp());
+                obsRow.appendChild(helpBtn);
+
+                // Custom CSS button
+                const cssBtn = document.createElement('button');
+                cssBtn.className = 'btn btn-secondary';
+                cssBtn.setAttribute('data-i18n', 'bingo.css_custom');
+                cssBtn.textContent = 'Custom CSS';
+                cssBtn.addEventListener('click', () => this._openCustomCssPopup());
+                obsRow.appendChild(cssBtn);
+
+                this.container.appendChild(obsRow);
+            }
+
+            // Hidden div for search modal (only in normal mode)
+            if (!this.isOverlay) {
+                const searchModal = document.createElement('div');
+                searchModal.className = 'search-modal hidden';
+                searchModal.id = 'search-modal';
+                document.body.appendChild(searchModal);
+            }
 
             // Hidden div for bingo popup
             const bingoPopup = document.createElement('div');
             bingoPopup.className = 'bingo-popup hidden';
             bingoPopup.id = 'bingo-popup';
             document.body.appendChild(bingoPopup);
+        },
+
+        /**
+         * Copy the OBS overlay URL to clipboard
+         */
+        _copyOverlayUrl(btn) {
+            const currentUrl = new URL(window.location.href);
+            const lang = this._getCurrentLang();
+            currentUrl.searchParams.set('overlay', '1');
+            currentUrl.searchParams.set('lang', lang);
+            navigator.clipboard.writeText(currentUrl.toString()).then(() => {
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    if (btn) {
+                        btn.textContent = '📋 Get OBS Overlay URL';
+                    }
+                }, 1500);
+            });
         },
 
         /**
@@ -526,8 +602,8 @@
                 div.appendChild(quantityBadge);
             }
 
-            // Switch button (top-right) - only created if NOT locked
-            if (!this.gameManager.locked) {
+            // Switch button (top-right) - only created if NOT locked and NOT overlay
+            if (!this.gameManager.locked && !this.isOverlay) {
                 const switchBtn = document.createElement('button');
                 switchBtn.className = 'cell-switch-btn';
                 switchBtn.title = 'Change item';
@@ -784,6 +860,255 @@
             btn.textContent = fallbackText;
             btn.addEventListener('click', onClick);
             return btn;
+        },
+
+        /**
+         * Get help text for OBS setup
+         */
+        _getObsHelpText() {
+            const lang = this._getCurrentLang();
+            return lang === 'fr'
+                ? 'Ajouter une source navigateur avec l\'url copiée via le bouton, de largeur 900, hauteur 930. Pour intéragir avec la grille, clic droit sur la source navigateur > Intéragir.'
+                : 'Add a Browser Source with the copied URL, width 900, height 930. To interact, right-click the Browser Source > Interact.';
+        },
+
+        /**
+         * Show OBS help as an alert
+         */
+        _showObsHelp() {
+            alert(this._getObsHelpText());
+        },
+
+        /**
+         * Open custom CSS popup with color pickers and preview
+         */
+        _openCustomCssPopup() {
+            const lang = this._getCurrentLang();
+            const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+
+            // Default values based on theme
+            const defaults = {
+                bg: isDark ? 'rgba(15,52,96,1)' : 'rgba(255,255,255,1)',
+                bgValidated: 'rgba(233,69,96,0.2)',
+                border: 'rgba(233,69,96,1)'
+            };
+
+            // Parse defaults into components
+            const parseRgba = (str) => {
+                const m = str.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+                if (!m) return { r: 0, g: 0, b: 0, a: 1 };
+                return { r: parseInt(m[1]), g: parseInt(m[2]), b: parseInt(m[3]), a: m[4] !== undefined ? parseFloat(m[4]) : 1 };
+            };
+
+            // Format as hex (without alpha)
+            const rgbToHex = (r, g, b) => '#' + [r,g,b].map(c => Math.round(c).toString(16).padStart(2,'0')).join('');
+
+            // Format as rgba string
+            const toRgba = (r,g,b,a) => `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)},${a})`;
+
+            // Current state
+            const state = {
+                bg: parseRgba(defaults.bg),
+                bgv: parseRgba(defaults.bgValidated),
+                border: parseRgba(defaults.border)
+            };
+
+            // Build overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'search-modal'; // reuse existing modal style
+            overlay.style.zIndex = '700';
+            overlay.id = 'css-picker-overlay';
+
+            const content = document.createElement('div');
+            content.className = 'search-modal-content';
+            content.style.maxWidth = '650px';
+            content.style.backgroundColor = 'rgba(40, 40, 45, 0.95)';
+
+            const title = document.createElement('h3');
+            title.textContent = lang === 'fr' ? 'CSS Personnalisé' : 'Custom CSS';
+            title.style.marginBottom = '16px';
+            content.appendChild(title);
+
+            // Preview row with 2 example cells
+            const previewRow = document.createElement('div');
+            previewRow.style.cssText = 'display:flex;gap:16px;justify-content:center;margin-bottom:20px;';
+
+            const createPreviewCell = (label, isValidated) => {
+                const cell = document.createElement('div');
+                cell.className = 'bingo-cell';
+                if (isValidated) cell.classList.add('validated');
+                cell.style.cssText = 'width:120px;height:120px;aspect-ratio:1;cursor:default;display:flex;flex-direction:column;align-items:center;justify-content:center;';
+                const img = document.createElement('div');
+                img.style.cssText = 'width:60%;height:60%;background:#ccc;border-radius:4px;margin-bottom:4px;';
+                img.textContent = '📷';
+                img.style.cssText = 'width:60%;height:60%;display:flex;align-items:center;justify-content:center;font-size:2rem;';
+                cell.appendChild(img);
+                const name = document.createElement('span');
+                name.className = 'cell-name';
+                name.textContent = label;
+                cell.appendChild(name);
+                return cell;
+            };
+
+            const cellUnchecked = createPreviewCell(lang === 'fr' ? 'Pas encore' : 'Not yet', false);
+            const cellChecked = createPreviewCell(lang === 'fr' ? 'Obtenu' : 'Got', true);
+            previewRow.appendChild(cellUnchecked);
+            previewRow.appendChild(cellChecked);
+            content.appendChild(previewRow);
+
+            // Color pickers
+            const pickersDiv = document.createElement('div');
+            pickersDiv.style.cssText = 'display:flex;flex-direction:column;gap:12px;margin-bottom:16px;';
+
+            const createColorRow = (label, rgbaState, onChange) => {
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex;align-items:center;gap:10px;flex-wrap:wrap;';
+
+                const lbl = document.createElement('label');
+                lbl.style.cssText = 'min-width:140px;font-weight:600;font-size:0.85rem;';
+                lbl.textContent = label;
+                row.appendChild(lbl);
+
+                const hexInput = document.createElement('input');
+                hexInput.type = 'color';
+                hexInput.value = rgbToHex(rgbaState.r, rgbaState.g, rgbaState.b);
+                hexInput.style.cssText = 'width:40px;height:40px;border:none;padding:0;cursor:pointer;background:none;';
+                row.appendChild(hexInput);
+
+                const alphaLabel = document.createElement('span');
+                alphaLabel.style.fontSize = '0.8rem';
+                alphaLabel.textContent = lang === 'fr' ? 'Alpha:' : 'Alpha:';
+                row.appendChild(alphaLabel);
+
+                const alphaInput = document.createElement('input');
+                alphaInput.type = 'range';
+                alphaInput.min = '0';
+                alphaInput.max = '100';
+                alphaInput.value = Math.round(rgbaState.a * 100);
+                alphaInput.style.cssText = 'width:80px;cursor:pointer;';
+                row.appendChild(alphaInput);
+
+                const alphaVal = document.createElement('span');
+                alphaVal.style.fontSize = '0.8rem';
+                alphaVal.textContent = Math.round(rgbaState.a * 100) + '%';
+                row.appendChild(alphaVal);
+
+                const update = () => {
+                    const hex = hexInput.value;
+                    const r = parseInt(hex.substring(1,3), 16);
+                    const g = parseInt(hex.substring(3,5), 16);
+                    const b = parseInt(hex.substring(5,7), 16);
+                    const a = parseInt(alphaInput.value) / 100;
+                    rgbaState.r = r; rgbaState.g = g; rgbaState.b = b; rgbaState.a = a;
+                    alphaVal.textContent = Math.round(a * 100) + '%';
+                    onChange(r, g, b, a);
+                };
+
+                hexInput.addEventListener('input', update);
+                alphaInput.addEventListener('input', update);
+
+                return row;
+            };
+
+            // Update preview cells
+            const applyStyles = () => {
+                const bgStr = toRgba(state.bg.r, state.bg.g, state.bg.b, state.bg.a);
+                const bgvStr = toRgba(state.bgv.r, state.bgv.g, state.bgv.b, state.bgv.a);
+                const borderStr = toRgba(state.border.r, state.border.g, state.border.b, state.border.a);
+
+                cellUnchecked.style.backgroundColor = bgStr;
+                cellUnchecked.style.borderColor = 'var(--border)';
+                cellChecked.style.backgroundColor = bgvStr;
+                cellChecked.style.borderColor = borderStr;
+
+                // Update code block
+                updateCode(bgStr, bgvStr, borderStr);
+            };
+
+            // BG non-validated
+            pickersDiv.appendChild(createColorRow(
+                lang === 'fr' ? 'Fond (pas obtenu)' : 'Background (not got)',
+                state.bg, () => applyStyles()
+            ));
+            // BG validated
+            pickersDiv.appendChild(createColorRow(
+                lang === 'fr' ? 'Fond (obtenu)' : 'Background (got)',
+                state.bgv, () => applyStyles()
+            ));
+            // Border
+            pickersDiv.appendChild(createColorRow(
+                lang === 'fr' ? 'Bordure' : 'Border',
+                state.border, () => applyStyles()
+            ));
+
+            content.appendChild(pickersDiv);
+
+            // Code display
+            const codeLabel = document.createElement('p');
+            codeLabel.style.cssText = 'font-size:0.85rem;font-weight:600;margin-bottom:6px;';
+            codeLabel.textContent = lang === 'fr' ? 'Code CSS à copier :' : 'CSS code to copy:';
+            content.appendChild(codeLabel);
+
+            const codeBlock = document.createElement('pre');
+            codeBlock.id = 'css-code-block';
+            codeBlock.style.cssText = 'background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:0.8rem;overflow-x:auto;white-space:pre-wrap;word-break:break-all;margin-bottom:12px;';
+            content.appendChild(codeBlock);
+
+            const updateCode = (bgStr, bgvStr, borderStr) => {
+                const c1 = lang === 'fr' ? '/* Pas encore obtenu */' : '/* Not yet got */';
+                const c2 = lang === 'fr' ? '/* Obtenu */' : '/* Got */';
+                const cBg = lang === 'fr' ? '/* fond */' : '/* background */';
+                const cBdr = lang === 'fr' ? '/* bordure */' : '/* border */';
+                codeBlock.textContent = `body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }\n\n${c1}\n.bingo-cell { background-color: ${bgStr}; }\n\n${c2}\n.bingo-cell.validated {\n  ${cBg}\n  background-color: ${bgvStr};\n  ${cBdr}\n  border-color: ${borderStr};\n}`;
+            };
+
+            // Buttons row
+            const btnRow = document.createElement('div');
+            btnRow.style.cssText = 'display:flex;gap:8px;margin-top:8px;';
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'btn btn-primary';
+            copyBtn.textContent = lang === 'fr' ? '📋 Copier le CSS' : '📋 Copy CSS';
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                    copyBtn.textContent = '✅ ' + (lang === 'fr' ? 'Copié!' : 'Copied!');
+                    setTimeout(() => { copyBtn.textContent = lang === 'fr' ? '📋 Copier le CSS' : '📋 Copy CSS'; }, 1500);
+                });
+            });
+            btnRow.appendChild(copyBtn);
+
+            // Help button for where to paste
+            const cssHelp = document.createElement('button');
+            cssHelp.className = 'btn btn-secondary';
+            cssHelp.textContent = '?';
+            cssHelp.style.cssText = 'width:28px;height:28px;padding:0;font-weight:700;border-radius:50%;font-size:0.9rem;';
+            cssHelp.title = lang === 'fr'
+                ? 'À ajouter dans la partie CSS personnalisé de la source navigateur OBS'
+                : 'Add this to the Custom CSS section of the OBS Browser Source';
+            cssHelp.addEventListener('click', () => {
+                alert(cssHelp.title);
+            });
+            btnRow.appendChild(cssHelp);
+
+            // Close button
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'btn btn-secondary';
+            closeBtn.textContent = lang === 'fr' ? 'Fermer' : 'Close';
+            closeBtn.addEventListener('click', () => overlay.remove());
+            btnRow.appendChild(closeBtn);
+
+            content.appendChild(btnRow);
+
+            overlay.appendChild(content);
+            document.body.appendChild(overlay);
+
+            // Initial apply
+            applyStyles();
+
+            // Close on outside click
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.remove();
+            });
         }
     };
 

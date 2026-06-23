@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/bingo.css">
 </head>
-<body>
+<body class="custom-bingo-page">
     <!-- Navigation -->
     <div id="nav-container"></div>
 
@@ -43,23 +43,43 @@
         (async function() {
             'use strict';
 
+            // Check overlay mode from URL
+            const overlayParam = AutoBingo.NavigationManager.getParam('overlay');
+            const isOverlay = overlayParam === '1';
+
+            // Check language override from URL
+            const langUrl = AutoBingo.NavigationManager.getParam('lang');
+            const lang = langUrl || AutoBingo.CookieManager.get('bingo_lang') || 'en';
+
             // Init managers
             AutoBingo.ThemeManager.init();
 
-            const lang = AutoBingo.CookieManager.get('bingo_lang') || 'en';
             const translator = new AutoBingo.TranslationManager();
             AutoBingo.translationManager = translator;
             await translator.load(lang);
 
-            // Render navigation
-            AutoBingo.NavRenderer.render(document.getElementById('nav-container'));
+            // Render navigation (hidden in overlay mode)
+            if (!isOverlay) {
+                AutoBingo.NavRenderer.render(document.getElementById('nav-container'));
+            }
 
-            // Create floating toggles
-            AutoBingo.ThemeToggle.create();
-            AutoBingo.LanguageToggle.create();
+            // Create floating toggles (hidden in overlay mode)
+            if (!isOverlay) {
+                AutoBingo.ThemeToggle.create();
+                AutoBingo.LanguageToggle.create();
+            }
+
+            // Store overlay/lang info for the custom app
+            AutoBingo._customBingoOverlay = isOverlay;
+            AutoBingo._customBingoOverrideLang = langUrl || null;
 
             // Init custom bingo app
             AutoBingo.CustomBingoApp.init();
+
+            // Apply overlay CSS class to body
+            if (isOverlay) {
+                document.body.classList.add('overlay-mode');
+            }
 
             // Translate page
             translator.translatePage();

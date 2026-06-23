@@ -398,6 +398,47 @@
     80% { transform: translateX(5px); }
 }
 
+/* Overlay mode: hide everything except grid + search input */
+body.overlay-mode .nav-bar,
+body.overlay-mode .floating-btn,
+body.overlay-mode .theme-btn,
+body.overlay-mode .lang-btn {
+    display: none !important;
+}
+
+body.overlay-mode .main-content {
+    max-width: 100%;
+    padding: 8px;
+}
+
+body.overlay-mode .bingo-grid-wrapper {
+    overflow: hidden !important;
+}
+
+body.overlay-mode .bingo-controls-bar,
+body.overlay-mode .bingo-timer-bar,
+body.overlay-mode .notification-container {
+    display: none !important;
+}
+
+body.overlay-mode .bingo-search-bar {
+    margin-bottom: 8px;
+}
+
+body.overlay-mode .bingo-search-bar .bingo-search-input {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+}
+
+/* Custom bingo page: disable OBS buttons */
+body.custom-bingo-page .btn[data-i18n="bingo.obs_overlay"],
+body.custom-bingo-page .btn[data-i18n="bingo.obs_help"],
+body.custom-bingo-page .btn[data-i18n="bingo.css_custom"] {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
 /* Responsive grid */
 @media (max-width: 600px) {
     .bingo-cell {

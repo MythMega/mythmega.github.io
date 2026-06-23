@@ -45,20 +45,31 @@
         (async function() {
             'use strict';
 
+            // Check overlay mode from URL
+            const overlayParam = AutoBingo.NavigationManager.getParam('overlay');
+            const isOverlay = overlayParam === '1';
+
+            // Check language override from URL
+            const langUrl = AutoBingo.NavigationManager.getParam('lang');
+            const lang = langUrl || AutoBingo.CookieManager.get('bingo_lang') || 'en';
+
             // Init managers
             AutoBingo.ThemeManager.init();
 
-            const lang = AutoBingo.CookieManager.get('bingo_lang') || 'en';
             const translator = new AutoBingo.TranslationManager();
             AutoBingo.translationManager = translator;
             await translator.load(lang);
 
-            // Render navigation
-            AutoBingo.NavRenderer.render(document.getElementById('nav-container'));
+            // Render navigation (hidden in overlay mode)
+            if (!isOverlay) {
+                AutoBingo.NavRenderer.render(document.getElementById('nav-container'));
+            }
 
-            // Create floating toggles
-            AutoBingo.ThemeToggle.create();
-            AutoBingo.LanguageToggle.create();
+            // Create floating toggles (hidden in overlay mode)
+            if (!isOverlay) {
+                AutoBingo.ThemeToggle.create();
+                AutoBingo.LanguageToggle.create();
+            }
 
             // Init bingo game from URL
             const gameManager = new AutoBingo.BingoGameManager();
@@ -73,12 +84,22 @@
             // Store for language toggle refresh
             AutoBingo.bingoGameManager = gameManager;
 
-            // Render the grid
+            // Render the grid with overlay options
             const container = document.getElementById('bingo-content');
-            AutoBingo.BingoGridRenderer.init(container, gameManager);
+            AutoBingo.BingoGridRenderer.init(container, gameManager, {
+                isOverlay: isOverlay,
+                overrideLang: langUrl || null
+            });
 
-            // Update URL with initial items
-            AutoBingo.BingoGridRenderer.updateUrl();
+            // Update URL with initial items (only in normal mode)
+            if (!isOverlay) {
+                AutoBingo.BingoGridRenderer.updateUrl();
+            }
+
+            // Apply overlay CSS class to body
+            if (isOverlay) {
+                document.body.classList.add('overlay-mode');
+            }
 
             // Translate page
             translator.translatePage();

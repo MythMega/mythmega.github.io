@@ -153,6 +153,18 @@
         "Name_EN": "Beta - Minecraft Automnal Sun",
         "Desc_FR": "Support Jeu Minecraft 26.3 Snapshot 1, corrections diverses dans les datasets minecraft",
         "Desc_EN": "Game Support Minecraft 26.3 Snapshot 1, various minecraft dataset fixes",
-        "Link": "https://github.com/MythMega/mythmega.github.io/commit/aaa01670d9a27e8e9e98d309fd49f1f9b508977b"
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/dcad14efde0b568fb65e271fd07792074d5855f2"
+    },
+    {
+        "Version": {
+            "ID": 14,
+            "Number": "Beta b0.7.0"
+        }, 
+        "Date": "2026-06-24",
+        "Name_FR": "Beta - OBS Overlay + Overlay Style CSS",
+        "Name_EN": "Beta - OBS Overlay + Overlay Style CSS",
+        "Desc_FR": "[MAJOR] Générateur d’overlay pour la grille de bingo du jeu de données intégré, [MAJOR] Générateur de CSS pour des overlays OBS personnalisés",
+        "Desc_EN": "[MAJOR] Overlay Generator For Integrated Dataset's Bingo Grid, [MAJOR] CSS Generator for custom OBS Overlays",
+        "Link": "#"
     }
 ]

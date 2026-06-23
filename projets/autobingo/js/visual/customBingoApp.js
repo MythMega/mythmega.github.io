@@ -221,11 +221,16 @@
             console.log('CustomBingo: cells created:', this.gameManager.cells.length);
 
             try {
-                // Initialize grid renderer (BingoGridRenderer is an object, not a class)
+                // Initialize grid renderer with overlay/lang options
                 console.log('CustomBingo: getting BingoGridRenderer');
                 this.gridRenderer = autobingo.BingoGridRenderer;
-                console.log('CustomBingo: calling init');
-                this.gridRenderer.init(content, this.gameManager);
+                console.log('CustomBingo: calling init with options');
+                const isOverlay = window.AutoBingo && window.AutoBingo._customBingoOverlay === true;
+                const overrideLang = window.AutoBingo ? (window.AutoBingo._customBingoOverrideLang || null) : null;
+                this.gridRenderer.init(content, this.gameManager, {
+                    isOverlay: isOverlay,
+                    overrideLang: overrideLang
+                });
                 console.log('CustomBingo: init done');
                 
                 // Force a manual check

@@ -1,0 +1,186 @@
+{
+  "bossName": "Teddiursa",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Teddiursa_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Teddiursa_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 65000,
+  "date": "2026-06-23 22:34:01",
+  "durationSec": 1141,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 50926,
+      "countAtk": 9,
+      "baseDmg": 5307,
+      "level": 14,
+      "raidCount": 222,
+      "luck": 1.0662228
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14485,
+      "countAtk": 1,
+      "baseDmg": 14485,
+      "level": 18,
+      "raidCount": 478,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 65411
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-23 22:51:20",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14485,
+      "pvAfter": 50515,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:51:31",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5307,
+      "pvAfter": 45208,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:51:33",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5392,
+      "pvAfter": 39816,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:51:33",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5357,
+      "pvAfter": 34459,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:52:53",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5401,
+      "pvAfter": 29058,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:52:59",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5398,
+      "pvAfter": 23660,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:53:00",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5323,
+      "pvAfter": 18337,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:53:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5378,
+      "pvAfter": 12959,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:53:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5367,
+      "pvAfter": 7592,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-23 22:53:02",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8003,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

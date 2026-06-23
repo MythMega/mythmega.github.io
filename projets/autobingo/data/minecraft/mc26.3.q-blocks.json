@@ -1,7 +1,12 @@
 {
-  "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem",
+  "Name": "Minecraft 26.3 - Blocks - Unknown Name",
   "Category": "Minecraft",
   "Subcategory": "Minecraft Vanilla - Blocks Only",
+  "Quantizable": true,
+  "DefaultQuantities": {
+    "Max": 64,
+    "Min": 1
+  },
   "Items": [
     {
       "Index": 10001,
@@ -1078,6 +1083,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Bookshelf.png"
     },
     {
+      "Index": 1000198,
+      "Name_FR": "Cinabre sculpté",
+      "Name_EN": "Chiseled Cinnabar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Cinnabar.png"
+    },
+    {
       "Index": 1000199,
       "Name_FR": "Cuivre sculpté",
       "Name_EN": "Chiseled Copper",
@@ -1132,6 +1143,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Stone_Bricks.png"
     },
     {
+      "Index": 1000208,
+      "Name_FR": "Soufre sculpté",
+      "Name_EN": "Chiseled Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Sulfur.png"
+    },
+    {
       "Index": 1000209,
       "Name_FR": "Tuf sculpté",
       "Name_EN": "Chiseled Tuff",
@@ -1154,6 +1171,54 @@
       "Name_FR": "Plante de chorus",
       "Name_EN": "Chorus Plant",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chorus_Plant.png"
+    },
+    {
+      "Index": 1000213,
+      "Name_FR": "Cinabre",
+      "Name_EN": "Cinnabar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar.png"
+    },
+    {
+      "Index": 1000214,
+      "Name_FR": "Dalle de cinabre taillé",
+      "Name_EN": "Cinnabar Brick Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Brick_Slab.png"
+    },
+    {
+      "Index": 1000215,
+      "Name_FR": "Escalier en cinabre taillé",
+      "Name_EN": "Cinnabar Brick Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Brick_Stairs.png"
+    },
+    {
+      "Index": 1000216,
+      "Name_FR": "Muret de cinabre taillé",
+      "Name_EN": "Cinnabar Brick Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Brick_Wall.png"
+    },
+    {
+      "Index": 1000217,
+      "Name_FR": "Cinabre taillé",
+      "Name_EN": "Cinnabar Bricks",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Bricks.png"
+    },
+    {
+      "Index": 1000218,
+      "Name_FR": "Dalle de cinabre",
+      "Name_EN": "Cinnabar Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Slab.png"
+    },
+    {
+      "Index": 1000219,
+      "Name_FR": "Escalier en cinabre",
+      "Name_EN": "Cinnabar Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Stairs.png"
+    },
+    {
+      "Index": 1000220,
+      "Name_FR": "Muret de cinabre",
+      "Name_EN": "Cinnabar Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cinnabar_Wall.png"
     },
     {
       "Index": 1000221,
@@ -2222,6 +2287,12 @@
       "Name_FR": "Minerai d'or",
       "Name_EN": "Gold Ore",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gold_Ore.png"
+    },
+    {
+      "Index": 1000420,
+      "Name_FR": "Pissenlit doré",
+      "Name_EN": "Golden Dandelion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Golden_Dandelion.png"
     },
     {
       "Index": 1000421,
@@ -3808,6 +3879,30 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Blackstone_Wall.png"
     },
     {
+      "Index": 1000723,
+      "Name_FR": "Cinabre poli",
+      "Name_EN": "Polished Cinnabar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Cinnabar.png"
+    },
+    {
+      "Index": 1000724,
+      "Name_FR": "Dalle de cinabre poli",
+      "Name_EN": "Polished Cinnabar Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Cinnabar_Slab.png"
+    },
+    {
+      "Index": 1000725,
+      "Name_FR": "Escalier en cinabre poli",
+      "Name_EN": "Polished Cinnabar Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Cinnabar_Stairs.png"
+    },
+    {
+      "Index": 1000726,
+      "Name_FR": "Muret de cinabre poli",
+      "Name_EN": "Polished Cinnabar Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Cinnabar_Wall.png"
+    },
+    {
       "Index": 1000727,
       "Name_FR": "Ardoise des abîmes polie",
       "Name_EN": "Polished Deepslate",
@@ -3868,6 +3963,30 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Granite_Stairs.png"
     },
     {
+      "Index": 1000737,
+      "Name_FR": "Soufre poli",
+      "Name_EN": "Polished Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Sulfur.png"
+    },
+    {
+      "Index": 1000738,
+      "Name_FR": "Dalle de soufre poli",
+      "Name_EN": "Polished Sulfur Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Sulfur_Slab.png"
+    },
+    {
+      "Index": 1000739,
+      "Name_FR": "Escalier en soufre poli",
+      "Name_EN": "Polished Sulfur Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Sulfur_Stairs.png"
+    },
+    {
+      "Index": 1000740,
+      "Name_FR": "Muret de soufre poli",
+      "Name_EN": "Polished Sulfur Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Sulfur_Wall.png"
+    },
+    {
       "Index": 1000741,
       "Name_FR": "Tuf poli",
       "Name_EN": "Polished Tuff",
@@ -3896,6 +4015,12 @@
       "Name_FR": "Coquelicot",
       "Name_EN": "Poppy",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poppy.png"
+    },
+    {
+      "Index": 1000764,
+      "Name_FR": "Soufre concentré",
+      "Name_EN": "Potent Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Potent_Sulfur.png"
     },
     {
       "Index": 1000775,
@@ -4756,22 +4881,58 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sugar_Cane.png"
     },
     {
+      "Index": 1000927,
+      "Name_FR": "Soufre",
+      "Name_EN": "Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur.png"
+    },
+    {
+      "Index": 1000928,
+      "Name_FR": "Dalle de soufre taillé",
+      "Name_EN": "Sulfur Brick Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Brick_Slab.png"
+    },
+    {
+      "Index": 1000929,
+      "Name_FR": "Escalier en soufre taillé",
+      "Name_EN": "Sulfur Brick Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Brick_Stairs.png"
+    },
+    {
+      "Index": 1000930,
+      "Name_FR": "Muret de soufre taillé",
+      "Name_EN": "Sulfur Brick Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Brick_Wall.png"
+    },
+    {
+      "Index": 1000931,
+      "Name_FR": "Soufre taillé",
+      "Name_EN": "Sulfur Bricks",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Bricks.png"
+    },
+    {
+      "Index": 1000932,
+      "Name_FR": "Dalle de soufre",
+      "Name_EN": "Sulfur Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Slab.png"
+    },
+    {
+      "Index": 1000933,
+      "Name_FR": "Escalier en soufre",
+      "Name_EN": "Sulfur Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Stairs.png"
+    },
+    {
+      "Index": 1000934,
+      "Name_FR": "Muret de soufre",
+      "Name_EN": "Sulfur Wall",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sulfur_Wall.png"
+    },
+    {
       "Index": 1000935,
       "Name_FR": "Tournesol",
       "Name_EN": "Sunflower",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sunflower.png"
-    },
-    {
-      "Index": 1000936,
-      "Name_FR": "Gravier suspect",
-      "Name_EN": "Suspicious Gravel",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Suspicious_Gravel.png"
-    },
-    {
-      "Index": 1000937,
-      "Name_FR": "Sable suspect",
-      "Name_EN": "Suspicious Sand",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Suspicious_Sand.png"
     },
     {
       "Index": 1000939,
@@ -4910,18 +5071,6 @@
       "Name_FR": "Muret de tuf",
       "Name_EN": "Tuff Wall",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Tuff_Wall.png"
-    },
-    {
-      "Index": 1000970,
-      "Name_FR": "Lianes tortueuses",
-      "Name_EN": "Twisting Vines",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Twisting_Vines.png"
-    },
-    {
-      "Index": 1000973,
-      "Name_FR": "Coffre-fort",
-      "Name_EN": "Vault",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Vault.png"
     },
     {
       "Index": 1000974,
@@ -5288,6 +5437,172 @@
       "Name_FR": "Tête de zombie",
       "Name_EN": "Zombie Head",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Zombie_Head.png"
-    }
+    },
+    {
+      "Index": "26.3-b-1",
+      "Name_FR": "Pousse de peuplier",
+      "Name_EN": "Poplar Sapling",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Sapling.png"
+    },
+    {
+      "Index": "26.3-b-2-a",
+      "Name_FR": "Feuilles Rouges de peuplier",
+      "Name_EN": "Red Poplar Leaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Poplar_Leaves.png"
+    },
+    {
+      "Index": "26.3-b-2-b",
+      "Name_FR": "Feuilles Jaunes de peuplier",
+      "Name_EN": "Yellow Poplar Leaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Poplar_Leaves.png"
+    },
+    {
+      "Index": "26.3-b-2-c",
+      "Name_FR": "Feuilles Oranges de peuplier",
+      "Name_EN": "Orange Poplar Leaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Poplar_Leaves.png"
+    },
+    {
+      "Index": "26.3-b-3",
+      "Name_FR": "Bûche de peuplier",
+      "Name_EN": "Poplar Log",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Log.png"
+    },
+    {
+      "Index": "26.3-b-4",
+      "Name_FR": "Bûche de peuplier écorcée",
+      "Name_EN": "Stripped Poplar Log",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Poplar_Log.png"
+    },
+    {
+      "Index": "26.3-b-5",
+      "Name_FR": "Bois de peuplier",
+      "Name_EN": "Poplar Wood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Wood.png"
+    },
+    {
+      "Index": "26.3-b-6",
+      "Name_FR": "Bois de peuplier écorcé",
+      "Name_EN": "Stripped Poplar Wood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Poplar_Wood.png"
+    },
+    {
+      "Index": "26.3-b-7",
+      "Name_FR": "Planches de peuplier",
+      "Name_EN": "Poplar Planks",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Planks.png"
+    },
+    {
+      "Index": "26.3-b-8",
+      "Name_FR": "Escaliers en peuplier",
+      "Name_EN": "Poplar Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Stairs.png"
+    },
+    {
+      "Index": "26.3-b-9",
+      "Name_FR": "Dalle en peuplier",
+      "Name_EN": "Poplar Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Slab.png"
+    },
+    {
+      "Index": "26.3-b-10",
+      "Name_FR": "Pancarte en peuplier",
+      "Name_EN": "Poplar Sign",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Sign.png"
+    },
+    {
+      "Index": "26.3-b-11",
+      "Name_FR": "Pancarte suspendue en peuplier",
+      "Name_EN": "Poplar Hanging Sign",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Hanging_Sign.png"
+    },
+    {
+      "Index": "26.3-b-12",
+      "Name_FR": "Bouton en peuplier",
+      "Name_EN": "Poplar Button",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Button.png"
+    },
+    {
+      "Index": "26.3-b-13",
+      "Name_FR": "Plaque de pression en peuplier",
+      "Name_EN": "Poplar Pressure Plate",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Pressure_Plate.png"
+    },
+    {
+      "Index": "26.3-b-14",
+      "Name_FR": "Porte en peuplier",
+      "Name_EN": "Poplar Door",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Door.png"
+    },
+    {
+      "Index": "26.3-b-15",
+      "Name_FR": "Barrière en peuplier",
+      "Name_EN": "Poplar Fence",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Fence.png"
+    },
+    {
+      "Index": "26.3-b-16",
+      "Name_FR": "Portillon en peuplier",
+      "Name_EN": "Poplar Fence Gate",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Fence_Gate.png"
+    },
+    {
+      "Index": "26.3-b-17",
+      "Name_FR": "Trappe en peuplier",
+      "Name_EN": "Poplar Trapdoor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Trapdoor.png"
+    },
+    {
+      "Index": "26.3-b-18",
+      "Name_FR": "Étagère en peuplier",
+      "Name_EN": "Poplar Shelf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poplar_Shelf.png"
+    },
+    {
+      "Index": "26.3-b-19",
+      "Name_FR": "Arbuste rouge",
+      "Name_EN": "Red Shrub",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Shrub.png"
+    },
+    {
+      "Index": "26.3-b-20",
+      "Name_FR": "Champignon en étagère",
+      "Name_EN": "Shelf Mushroom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Shelf_Mushroom.png"
+    },
+
+    { "Index": "26.3-b-21", "Name_FR": "Escaliers en laine blanche", "Name_EN": "White Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Wool_Stairs.png" },
+    { "Index": "26.3-b-22", "Name_FR": "Escaliers en laine orange", "Name_EN": "Orange Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Wool_Stairs.png" },
+    { "Index": "26.3-b-23", "Name_FR": "Escaliers en laine magenta", "Name_EN": "Magenta Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Wool_Stairs.png" },
+    { "Index": "26.3-b-24", "Name_FR": "Escaliers en laine bleue claire", "Name_EN": "Light Blue Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Wool_Stairs.png" },
+    { "Index": "26.3-b-25", "Name_FR": "Escaliers en laine jaune", "Name_EN": "Yellow Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Wool_Stairs.png" },
+    { "Index": "26.3-b-26", "Name_FR": "Escaliers en laine vert clair", "Name_EN": "Lime Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Wool_Stairs.png" },
+    { "Index": "26.3-b-27", "Name_FR": "Escaliers en laine rose", "Name_EN": "Pink Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Wool_Stairs.png" },
+    { "Index": "26.3-b-28", "Name_FR": "Escaliers en laine grise", "Name_EN": "Gray Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Wool_Stairs.png" },
+    { "Index": "26.3-b-29", "Name_FR": "Escaliers en laine gris clair", "Name_EN": "Light Gray Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Wool_Stairs.png" },
+    { "Index": "26.3-b-30", "Name_FR": "Escaliers en laine cyan", "Name_EN": "Cyan Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Wool_Stairs.png" },
+    { "Index": "26.3-b-31", "Name_FR": "Escaliers en laine violette", "Name_EN": "Purple Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Wool_Stairs.png" },
+    { "Index": "26.3-b-32", "Name_FR": "Escaliers en laine bleue", "Name_EN": "Blue Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Wool_Stairs.png" },
+    { "Index": "26.3-b-33", "Name_FR": "Escaliers en laine marron", "Name_EN": "Brown Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Wool_Stairs.png" },
+    { "Index": "26.3-b-34", "Name_FR": "Escaliers en laine verte", "Name_EN": "Green Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Wool_Stairs.png" },
+    { "Index": "26.3-b-35", "Name_FR": "Escaliers en laine rouge", "Name_EN": "Red Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Wool_Stairs.png" },
+    { "Index": "26.3-b-36", "Name_FR": "Escaliers en laine noire", "Name_EN": "Black Wool Stairs", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Wool_Stairs.png" },
+
+    { "Index": "26.3-b-37", "Name_FR": "Dalle en laine blanche", "Name_EN": "White Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Wool_Slab.png" },
+    { "Index": "26.3-b-38", "Name_FR": "Dalle en laine orange", "Name_EN": "Orange Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Wool_Slab.png" },
+    { "Index": "26.3-b-39", "Name_FR": "Dalle en laine magenta", "Name_EN": "Magenta Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Wool_Slab.png" },
+    { "Index": "26.3-b-40", "Name_FR": "Dalle en laine bleue claire", "Name_EN": "Light Blue Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Wool_Slab.png" },
+    { "Index": "26.3-b-41", "Name_FR": "Dalle en laine jaune", "Name_EN": "Yellow Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Wool_Slab.png" },
+    { "Index": "26.3-b-42", "Name_FR": "Dalle en laine vert clair", "Name_EN": "Lime Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Wool_Slab.png" },
+    { "Index": "26.3-b-43", "Name_FR": "Dalle en laine rose", "Name_EN": "Pink Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Wool_Slab.png" },
+    { "Index": "26.3-b-44", "Name_FR": "Dalle en laine grise", "Name_EN": "Gray Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Wool_Slab.png" },
+    { "Index": "26.3-b-45", "Name_FR": "Dalle en laine gris clair", "Name_EN": "Light Gray Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Wool_Slab.png" },
+    { "Index": "26.3-b-46", "Name_FR": "Dalle en laine cyan", "Name_EN": "Cyan Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Wool_Slab.png" },
+    { "Index": "26.3-b-47", "Name_FR": "Dalle en laine violette", "Name_EN": "Purple Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Wool_Slab.png" },
+    { "Index": "26.3-b-48", "Name_FR": "Dalle en laine bleue", "Name_EN": "Blue Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Wool_Slab.png" },
+    { "Index": "26.3-b-49", "Name_FR": "Dalle en laine marron", "Name_EN": "Brown Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Wool_Slab.png" },
+    { "Index": "26.3-b-50", "Name_FR": "Dalle en laine verte", "Name_EN": "Green Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Wool_Slab.png" },
+    { "Index": "26.3-b-51", "Name_FR": "Dalle en laine rouge", "Name_EN": "Red Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Wool_Slab.png" },
+    { "Index": "26.3-b-52", "Name_FR": "Dalle en laine noire", "Name_EN": "Black Wool Slab", "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Wool_Slab.png" }
   ]
 }

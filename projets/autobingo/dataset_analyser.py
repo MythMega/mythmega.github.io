@@ -10,6 +10,24 @@ def is_valid_dataset(json_data):
     """Vérifie que le JSON contient les champs obligatoires."""
     return all(field in json_data for field in REQUIRED_FIELDS)
 
+def normalize_flags(value):
+    """
+    Retourne une liste de flags selon la règle :
+    - si la valeur est None ou une liste vide -> []
+    - si la valeur est une liste non vide -> la même liste (éléments convertis en str)
+    - sinon -> [str(value)]
+    """
+    if value is None:
+        return []
+    if isinstance(value, list):
+        # si liste vide -> []
+        if len(value) == 0:
+            return []
+        # normaliser les éléments en string
+        return [str(x) for x in value]
+    # autre type (string, int, bool, ...) -> mettre en liste
+    return [str(value)]
+
 def main():
     datasets = []
 
@@ -32,12 +50,16 @@ def main():
                 quantizable = data.get("Quantizable") is True
 
                 if is_valid_dataset(data):
+                    raw_flags = data.get("Flags", None)
+                    flags_list = normalize_flags(raw_flags)
+
                     datasets.append({
                         "Name": data["Name"],
                         "Category": data["Category"],
                         "Subcategory": data["Subcategory"],
                         "Location": "./" + relative_path.replace("\\", "/"),
-                        "Quantizable" : quantizable
+                        "Quantizable": quantizable,
+                        "Flags": flags_list
                     })
 
             except Exception as e:
@@ -50,7 +72,7 @@ def main():
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(datasets, f, indent=2, ensure_ascii=False)
 
-    print(f"✔ datasets.json généré avec {len(datasets)} entrées.")
+    print(f"✔ {OUTPUT_FILE} généré avec {len(datasets)} entrées.")
 
 if __name__ == "__main__":
     main()

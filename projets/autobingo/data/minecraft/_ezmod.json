@@ -1,0 +1,477 @@
+[
+  {
+    "Delete": { "IDS": ["block-000116","block-000149","block-000173","block-000311","block-000441","block-000453","block-000502","block-000514","block-000530","block-000544","block-000617","block-000667","block-000732","block-000753","block-000930","block-000945"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-001",
+        "Name_FR": "Bannière",
+        "Name_EN": "Banner",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Banner.gif",
+        "Quantity": { "Max": 16 }
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000117","block-000150","block-000174","block-000312","block-000442","block-000454","block-000503","block-000515","block-000531","block-000545","block-000618","block-000668","block-000733","block-000754","block-000931","block-000946"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-002",
+        "Name_FR": "Lit",
+        "Name_EN": "Bed",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Bed.gif",
+        "Quantity": { "Max": 1 }
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000118","block-000151","block-000175","block-000211","block-000313","block-000443","block-000455","block-000504","block-000516","block-000532","block-000546","block-000619","block-000669","block-000734","block-000755","block-000932","block-000947"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-003",
+        "Name_FR": "Bougie",
+        "Name_EN": "Candles",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Candles.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000119","block-000152","block-000176","block-000314","block-000444","block-000456","block-000505","block-000517","block-000533","block-000547","block-000620","block-000670","block-000735","block-000756","block-000933","block-000948"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-004",
+        "Name_FR": "Tapis",
+        "Name_EN": "Carpet",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Carpet.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000120","block-000153","block-000177","block-000315","block-000445","block-000457","block-000506","block-000518","block-000534","block-000548","block-000621","block-000671","block-000736","block-000757","block-000934","block-000949"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-005",
+        "Name_FR": "Béton",
+        "Name_EN": "Concrete",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Concrete.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000121","block-000154","block-000178","block-000316","block-000446","block-000458","block-000507","block-000519","block-000535","block-000549","block-000622","block-000672","block-000737","block-000758","block-000935","block-000950"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-006",
+        "Name_FR": "Poudre de béton",
+        "Name_EN": "Concrete Powder",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Concrete_Powder.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000270","block-000402","block-000633","block-000916"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-007",
+        "Name_FR": "Barre de cuivre",
+        "Name_EN": "Copper Bar",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Bar.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000135", "block-000401", "block-000632", "block-000915"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-008",
+        "Name_FR": "Bloc de cuivre",
+        "Name_EN": "Copper Block",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Block.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000271","block-000403","block-000634","block-000917"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-009",
+        "Name_FR": "Ampoule de cuivre",
+        "Name_EN": "Copper Bulb",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Bulb.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000272","block-000404","block-000635","block-000918"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-010",
+        "Name_FR": "Chaîne de cuivre",
+        "Name_EN": "Copper Chain",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Chain.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000275","block-000407","block-000638","block-000921"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-011",
+        "Name_FR": "Golem de cuivre",
+        "Name_EN": "Copper Golem",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Golem.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000276","block-000408","block-000639","block-000922"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-012",
+        "Name_FR": "Grille de cuivre",
+        "Name_EN": "Copper Grate",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Grate.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000277","block-000409","block-000640","block-000923"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-013",
+        "Name_FR": "Lanterne de cuivre",
+        "Name_EN": "Copper Lantern",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Lantern.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000280","block-000410","block-000641","block-000924"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-014",
+        "Name_FR": "Trappe de cuivre",
+        "Name_EN": "Copper Trapdoor",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Trapdoor.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000304", "block-000411", "block-000642", "block-000925"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-015",
+        "Name_FR": "Cuivre taillé",
+        "Name_EN": "Cut Copper",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cut_Copper.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000305","block-000412","block-000643","block-000926"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-016",
+        "Name_FR": "Dalle de cuivre taillé",
+        "Name_EN": "Cut Copper Slab",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cut_Copper_Slab.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000306","block-000413","block-000644","block-000927"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-017",
+        "Name_FR": "Escalier de cuivre taillé",
+        "Name_EN": "Cut Copper Stairs",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cut_Copper_Stairs.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000070","block-000080","block-000157","block-000192","block-000256","block-000281","block-000324","block-000434","block-000528","block-000529","block-000616","block-000628","block-000630","block-000665","block-000678","block-000681","block-000720","block-000775","block-000788","block-000827","block-000873","block-000881","block-000941","block-000943"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-018",
+        "Name_FR": "Fleurs",
+        "Name_EN": "Flowers",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Flowers.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000122","block-000155","block-000179","block-000317","block-000447","block-000459","block-000508","block-000520","block-000536","block-000550","block-000623","block-000673","block-000738","block-000759","block-000936","block-000951"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-019",
+        "Name_FR": "Terre cuite émaillée",
+        "Name_EN": "Glazed Terracotta",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Glazed_Terracotta.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000013","block-000059","block-000085","block-000106","block-000220","block-000293","block-000329","block-000486","block-000560","block-000603","block-000654","block-000832","block-000903"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-020",
+        "Name_FR": "Panneau suspendu",
+        "Name_EN": "Hanging Sign",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Hanging_Sign.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000002","block-000003","block-000004","block-000060","block-000079","block-000107","block-000221","block-000424","block-000487","block-000561","block-000604","block-000655","block-000833"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-021",
+        "Name_FR": "Feuilles",
+        "Name_EN": "Leaves",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Leaves.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000005","block-000061","block-000108","block-000222","block-000330","block-000488","block-000562","block-000605","block-000656","block-000834"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-022",
+        "Name_FR": "Bûche",
+        "Name_EN": "Log",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Log.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000837","block-000659","block-000608","block-000491","block-000333","block-000225","block-000111","block-000064","block-000001"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-023",
+        "Name_FR": "Pousse",
+        "Name_EN": "Sapling",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Sapling.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000952","block-000937","block-000800","block-000771","block-000739","block-000674","block-000624","block-000551","block-000537","block-000521","block-000509","block-000460","block-000448","block-000318","block-000182","block-000158","block-000123"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-024",
+        "Name_FR": "Boîte de Shulker",
+        "Name_EN": "Shulkers Box",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Shulkers_Box.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000953","block-000938","block-000772","block-000740","block-000675","block-000625","block-000552","block-000538","block-000522","block-000510","block-000461","block-000449","block-000319","block-000183","block-000159","block-000124"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-025",
+        "Name_FR": "Verre teinté",
+        "Name_EN": "Stained Glass",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Stained_Glass.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000954","block-000939","block-000773","block-000741","block-000676","block-000626","block-000553","block-000539","block-000523","block-000511","block-000462","block-000450","block-000320","block-000184","block-000160","block-000125"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-026",
+        "Name_FR": "Panneau de verre teinté",
+        "Name_EN": "Stained Glass Pane",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Stained_Glass_Pane.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000862","block-000861","block-000860","block-000859","block-000858","block-000857","block-000855","block-000854","block-000853","block-000148","block-000006"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-027",
+        "Name_FR": "Bûche écorcée",
+        "Name_EN": "Stripped Log",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Stripped_Log.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000955","block-000940","block-000877","block-000774","block-000742","block-000677","block-000627","block-000554","block-000540","block-000524","block-000512","block-000463","block-000451","block-000321","block-000185","block-000161","block-000126"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-028",
+        "Name_FR": "Terre cuite",
+        "Name_EN": "Terracotta",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Terracotta.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000899","block-000828","block-000650","block-000599","block-000556","block-000482","block-000325","block-000289","block-000216","block-000102","block-000081","block-000055","block-000014"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-029",
+        "Name_FR": "Bouton en bois",
+        "Name_EN": "Wooden Button",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Button.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000902","block-000831","block-000653","block-000602","block-000559","block-000485","block-000328","block-000292","block-000219","block-000105","block-000084","block-000058","block-000018"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-030",
+        "Name_FR": "Portillon en bois",
+        "Name_EN": "Wooden Fence Gates",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Fence_Gates.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000901","block-000830","block-000652","block-000601","block-000558","block-000484","block-000327","block-000291","block-000218","block-000104","block-000083","block-000057","block-000017"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-031",
+        "Name_FR": "Clôture en bois",
+        "Name_EN": "Wooden Fences",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Fences.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000906","block-000835","block-000657","block-000606","block-000563","block-000489","block-000331","block-000296","block-000223","block-000109","block-000089","block-000062","block-000009"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-032",
+        "Name_FR": "Planches en bois",
+        "Name_EN": "Wooden Planks",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Planks.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000907","block-000836","block-000658","block-000607","block-000564","block-000490","block-000332","block-000297","block-000224","block-000110","block-000090","block-000063","block-000015"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-033",
+        "Name_FR": "Plaque de pression en bois",
+        "Name_EN": "Wooden Pressure Plate",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Pressure_Plate.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000909","block-000838","block-000660","block-000609","block-000567","block-000492","block-000334","block-000299","block-000226","block-000112","block-000091","block-000065","block-000012"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-034",
+        "Name_FR": "Panneau en bois",
+        "Name_EN": "Wooden Sign",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Sign.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000839","block-000661","block-000610","block-000568","block-000493","block-000335","block-000227","block-000113","block-000092","block-000066","block-000011","block-000910","block-000300"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-035",
+        "Name_FR": "Dalle en bois",
+        "Name_EN": "Wooden Slab",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Slab.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000911","block-000301","block-000840","block-000662","block-000611","block-000569","block-000494","block-000336","block-000228","block-000114","block-000093","block-000088","block-000067","block-000010"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-036",
+        "Name_FR": "Escalier en bois",
+        "Name_EN": "Wooden Stairs",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Stairs.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000912","block-000841","block-000663","block-000641","block-000612","block-000570","block-000495","block-000410","block-000337","block-000302","block-000280","block-000229","block-000115","block-000094","block-000068","block-000019"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-037",
+        "Name_FR": "Trappe en bois",
+        "Name_EN": "Wooden Trapdoor",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Trapdoor.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000956","block-000942","block-000776","block-000743","block-000679","block-000629","block-000555","block-000541","block-000525","block-000513","block-000464","block-000452","block-000322","block-000186","block-000162","block-000127"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-038",
+        "Name_FR": "Laine",
+        "Name_EN": "Wool",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wool.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000054","block-000053","block-000052","block-000051","block-000050","block-000049","block-000048","block-000047","block-000046","block-000045","block-000044","block-000043","block-000042","block-000041","block-000040","block-000039"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-039",
+        "Name_FR": "Dalle de laine",
+        "Name_EN": "Wool Slab",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wool_Slab.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000038","block-000037","block-000036","block-000035","block-000034","block-000033","block-000032","block-000031","block-000030","block-000029","block-000028","block-000027","block-000026","block-000025","block-000024","block-000023"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-040",
+        "Name_FR": "Escalier de laine",
+        "Name_EN": "Wool Stair",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wool_Stair.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["item-000261","item-000224","item-000220","item-000169","item-000152","item-000078","item-000050","item-000021","item-000015","item-000002"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "itemtype-001",
+        "Name_FR": "Bâteau",
+        "Name_EN": "Boat",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items_types/Boat.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["item-000260","item-000223","item-000219","item-000168","item-000151","item-000077","item-000049","item-000020","item-000014","item-000001"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "itemtype-002",
+        "Name_FR": "Bâteau avec coffre",
+        "Name_EN": "Boat With Chest",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items_types/Boat_With_Chest.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["item-000293","item-000285","item-000248","item-000237","item-000227","item-000221","item-000166","item-000165","item-000164","item-000163","item-000131","item-000130","item-000076","item-000032","item-000019","item-000016"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "itemtype-003",
+        "Name_FR": "Colorant",
+        "Name_EN": "Dye",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items_types/Dye.gif"
+      }
+    ]
+  }
+]

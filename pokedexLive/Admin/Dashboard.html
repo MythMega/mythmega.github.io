@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -31,6 +31,9 @@
     </button>
     <button class="adm-nav-btn" data-tab="giveaway">
       <span class="icon">🎁</span> Giveaway
+    </button>
+    <button class="adm-nav-btn" data-tab="user">
+      <span class="icon">👤</span> Utilisateur
     </button>
     <button class="adm-nav-btn" data-tab="system">
       <span class="icon">⚙️</span> Système
@@ -283,6 +286,80 @@
       </div>
     </div><!-- /tab-giveaway -->
 
+    <!-- ══════════════ TAB : Utilisateur ════════════════════ -->
+    <div class="adm-tab" id="tab-user">
+      <div class="adm-section-header">
+        <div>
+          <h2>👤 Utilisateur</h2>
+          <p>Fusionner des comptes ou supprimer les comptes vides</p>
+        </div>
+      </div>
+
+      <div class="adm-grid adm-grid--2">
+
+        <!-- Transfer Account -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--orange"></span>Fusionner deux comptes</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 14px">
+            Toutes les données du compte source seront transférées vers le compte cible.
+            Le compte source sera supprimé après le transfert.
+          </p>
+
+          <!-- Compte source -->
+          <div style="margin-bottom:16px;padding:12px;background:var(--bg-secondary);border-radius:var(--radius)">
+            <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px;font-weight:600">Compte à transférer (source)</p>
+            <div class="adm-form-row">
+              <div class="adm-form-group" style="flex:1">
+                <label class="adm-label" for="transfer-platform-from">Plateforme</label>
+                <select id="transfer-platform-from" class="adm-input"></select>
+              </div>
+              <div class="adm-form-group" style="flex:2;position:relative">
+                <label class="adm-label" for="transfer-pseudo-from">Pseudo</label>
+                <input type="text" id="transfer-pseudo-from" class="adm-input" placeholder="Commencez à taper…" autocomplete="off">
+                <div id="transfer-suggestions-from" class="user-suggestions"></div>
+              </div>
+            </div>
+            <div id="transfer-info-from" class="transfer-user-info"></div>
+          </div>
+
+          <!-- Compte cible -->
+          <div style="margin-bottom:14px;padding:12px;background:var(--bg-secondary);border-radius:var(--radius)">
+            <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px;font-weight:600">Compte qui recevra les données (cible)</p>
+            <div class="adm-form-row">
+              <div class="adm-form-group" style="flex:1">
+                <label class="adm-label" for="transfer-platform-to">Plateforme</label>
+                <select id="transfer-platform-to" class="adm-input"></select>
+              </div>
+              <div class="adm-form-group" style="flex:2;position:relative">
+                <label class="adm-label" for="transfer-pseudo-to">Pseudo</label>
+                <input type="text" id="transfer-pseudo-to" class="adm-input" placeholder="Commencez à taper…" autocomplete="off">
+                <div id="transfer-suggestions-to" class="user-suggestions"></div>
+              </div>
+            </div>
+            <div id="transfer-info-to" class="transfer-user-info"></div>
+          </div>
+
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--danger" id="btn-transfer-account">⚠️ Fusionner les comptes</button>
+          </div>
+          <div class="adm-response" id="resp-transfer">—</div>
+        </div>
+
+        <!-- Clear Empty Accounts -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--red"></span>Supprimer les comptes vides</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            Supprime tous les comptes qui n'ont jamais lancé de ball via <code>System/ClearEmptyAccounts</code>.
+          </p>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--danger" id="btn-clear-empty">🗑️ Supprimer les comptes vides</button>
+          </div>
+          <div class="adm-response" id="resp-clear-empty">—</div>
+        </div>
+
+      </div>
+    </div><!-- /tab-user -->
+
     <!-- ══════════════ TAB : Système ═══════════════════════ -->
     <div class="adm-tab" id="tab-system">
       <div class="adm-section-header">
@@ -383,6 +460,7 @@
 <script src="Scripts/searchable-select.js"></script>
 <script src="Scripts/raid.js"></script>
 <script src="Scripts/giveaway.js"></script>
+<script src="Scripts/user.js"></script>
 <script src="Scripts/system.js"></script>
 <script src="Scripts/history.js"></script>
 <script>

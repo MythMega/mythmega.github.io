@@ -167,8 +167,11 @@ function setNestedValue(obj, path, value) {
     if (arrayMatch) {
       const key = arrayMatch[1];
       const index = parseInt(arrayMatch[2]);
+      if (!current[key]) current[key] = [];
+      if (!current[key][index]) current[key][index] = {};
       current = current[key][index];
     } else {
+      if (!current[part]) current[part] = {};
       current = current[part];
     }
   }
@@ -179,6 +182,7 @@ function setNestedValue(obj, path, value) {
   if (arrayMatch) {
     const key = arrayMatch[1];
     const index = parseInt(arrayMatch[2]);
+    if (!current[key]) current[key] = [];
     current[key][index] = value;
   } else {
     current[lastPart] = value;

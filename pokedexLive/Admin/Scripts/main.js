@@ -13,6 +13,10 @@ const ADM = {
   // Shared data
   users:     [],
   creatures: [],
+  balls:     [],
+
+  // SearchableSelect instances
+  ss: {},
 };
 
 // ── Cookie helpers ───────────────────────────────────────────
@@ -156,6 +160,18 @@ async function loadCreatures(respEl) {
   }
 }
 
+async function loadBalls(respEl) {
+  try {
+    const text = await apiPost('Interface/GetAll/Balls', {});
+    ADM.balls = JSON.parse(text);
+    if (respEl) showResp(respEl, `✅ ${ADM.balls.length} balls chargées.`, 'ok');
+    dispatchEvent(new CustomEvent('adm:balls-loaded'));
+    return ADM.balls;
+  } catch (e) {
+    if (respEl) showResp(respEl, `❌ ${e.message}`, 'error');
+  }
+}
+
 // ── Boot ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
   // 1. Lire le port avant tout appel API
@@ -166,21 +182,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Wire global loaders
   const respUsers     = document.getElementById('resp-users');
   const respCreatures = document.getElementById('resp-creatures');
+  const respBalls     = document.getElementById('resp-balls');
 
   document.getElementById('btn-load-users')?.addEventListener('click', () =>
     loadUsers(respUsers));
   document.getElementById('btn-load-creatures')?.addEventListener('click', () =>
     loadCreatures(respCreatures));
+  document.getElementById('btn-load-balls')?.addEventListener('click', () =>
+    loadBalls(respBalls));
 
   // Auto-load après que le port est résolu
   addEventListener('adm:config-loaded', () => {
     loadUsers(respUsers);
     loadCreatures(respCreatures);
+    loadBalls(respBalls);
   });
 
   // Bouton connecter dans la topbar
   document.getElementById('btn-connect')?.addEventListener('click', async () => {
     await loadUsers(respUsers);
     await loadCreatures(respCreatures);
+    await loadBalls(respBalls);
+
+    // Charger les settings si l'onglet est actif
+    const settingsTab = document.getElementById('tab-settings');
+    if (settingsTab && settingsTab.classList.contains('active')) {
+      const btnLoad = document.getElementById('btn-settings-load');
+      if (btnLoad) btnLoad.click();
+    }
   });
 });

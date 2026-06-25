@@ -16,8 +16,9 @@ function initGiveaway() {
   addEventListener('adm:users-loaded', populateGiveawayUsers);
   if (ADM.users.length) populateGiveawayUsers();
 
-  // Charger les balls uniquement quand le port est connu
-  addEventListener('adm:config-loaded', loadBalls);
+  // Populate ball select when data arrives
+  addEventListener('adm:balls-loaded', populateGiveawayBalls);
+  if (ADM.balls.length) populateGiveawayBalls();
 
   // Populate creature select
   addEventListener('adm:creatures-loaded', populateGiveawayCreatures);
@@ -43,14 +44,12 @@ function populateGiveawayUsers() {
   ADM.ss['giveaway-user-poke']?.setOptions(items);
 }
 
-async function loadBalls() {
-  try {
-    const text  = await apiPost('Interface/GetAll/Balls', {});
-    const balls = JSON.parse(text);
-    ADM.ss['giveaway-ball-name']?.setOptions(
-      balls.map(b => ({ value: b.Name, label: b.Name }))
-    );
-  } catch { /* silencieux */ }
+function populateGiveawayBalls() {
+  const items = ADM.balls.map(b => ({
+    value: b.Name ?? b.name,
+    label: b.Name ?? b.name,
+  }));
+  ADM.ss['giveaway-ball-name']?.setOptions(items);
 }
 
 function populateGiveawayCreatures() {
@@ -123,31 +122,6 @@ async function giveCreature() {
 // ── Init ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', initGiveaway);
 
-
-'use strict';
-
-function initGiveaway() {
-  // Populate user selects when data arrives
-  addEventListener('adm:users-loaded', populateGiveawayUsers);
-  if (ADM.users.length) populateGiveawayUsers();
-
-  // Charger les balls uniquement quand le port est connu
-  addEventListener('adm:config-loaded', loadBalls);
-
-  // Populate creature select
-  addEventListener('adm:creatures-loaded', populateGiveawayCreatures);
-  if (ADM.creatures.length) populateGiveawayCreatures();
-
-  // Buttons
-  document.getElementById('btn-giveaway-ball')?.addEventListener('click', () => {
-    withBtn(document.getElementById('btn-giveaway-ball'), launchBall);
-  });
-  document.getElementById('btn-giveaway-poke')?.addEventListener('click', () => {
-    withBtn(document.getElementById('btn-giveaway-poke'), giveCreature);
-  });
-}
-
-// ── Populate helpers ─────────────────────────────────────────
 
 function populateGiveawayUsers() {
   ['giveaway-user-ball', 'giveaway-user-poke'].forEach(id => {

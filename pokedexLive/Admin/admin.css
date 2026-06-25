@@ -169,6 +169,7 @@ body {
 .dot--orange { background: var(--accent-orange); }
 .dot--red    { background: var(--accent-red); }
 .dot--purple { background: var(--accent-purple); }
+.dot--cyan   { background: var(--accent-cyan); }
 
 .adm-grid { display: grid; gap: 16px; }
 .adm-grid--2 { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
@@ -392,6 +393,54 @@ body {
   color: var(--text-muted);
   margin-top: 4px;
   min-height: 18px;
+}
+
+/* ── Settings form ───────────────────────────────────────── */
+.settings-group {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 12px;
+  background: var(--bg-secondary);
+}
+.settings-group__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.settings-array {
+  margin-bottom: 16px;
+}
+.settings-array__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.settings-array__item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: var(--bg-card);
+  position: relative;
+}
+.settings-array__remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent-red);
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: opacity var(--transition);
+}
+.settings-array__remove:hover {
+  opacity: 0.8;
 }
   left: 0;
   right: 0;

@@ -14,6 +14,7 @@
   <span style="color:var(--text-muted);font-size:13px">/ Admin Dashboard</span>
   <div class="adm-topbar__spacer"></div>
   <span class="adm-topbar__port" id="topbar-port">port …</span>
+  <button class="adm-btn adm-btn--sm" id="btn-connect" style="margin-left:12px">🔌 Connecter</button>
 </header>
 
 <!-- ══ Layout ════════════════════════════════════════════════ -->
@@ -408,6 +409,25 @@
             <button class="adm-btn adm-btn--warning" id="btn-sys-reload">🔃 Recharger</button>
           </div>
           <div class="adm-response" id="resp-sys-reload">—</div>
+        </div>
+
+        <!-- Changer de port -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--purple"></span>Changer le port de connexion</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            Modifie le port utilisé pour communiquer avec le serveur PKServ.
+            Cette valeur est sauvegardée dans un cookie local.
+          </p>
+          <div class="adm-form-row">
+            <div class="adm-form-group">
+              <label class="adm-label" for="sys-change-port">Nouveau port</label>
+              <input type="number" id="sys-change-port" class="adm-input" placeholder="4501" min="1" max="65535">
+            </div>
+          </div>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--primary" id="btn-sys-change-port">🔌 Appliquer le port</button>
+          </div>
+          <div class="adm-response" id="resp-sys-change-port">—</div>
         </div>
 
       </div>

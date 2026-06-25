@@ -15,17 +15,37 @@ const ADM = {
   creatures: [],
 };
 
+// ── Cookie helpers ───────────────────────────────────────────
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+}
+
+function setCookie(name, value, days = 365) {
+  const d = new Date();
+  d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+  document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
+}
+
 // ── Port detection ───────────────────────────────────────────
-// Chargé depuis data.json (même dossier que la page).
-// La valeur est définie dès que loadConfig() résout.
+// Priorité : cookie > window.location.port > data.json (fallback)
 ADM.port = 80; // valeur provisoire remplacée par loadConfig()
 
 async function loadConfig() {
-  // Priorité : port de l'URL courante (mode serveur /admin)
+  // 1) Cookie (priorité absolue)
+  const cookiePort = getCookie('adm_port');
+  if (cookiePort) {
+    ADM.port = Number(cookiePort);
+    updatePortDisplay();
+    dispatchEvent(new CustomEvent('adm:config-loaded'));
+    return;
+  }
+
+  // 2) Port de l'URL courante (mode serveur /admin)
   const locPort = Number(window.location.port || 0);
   if (locPort > 0) ADM.port = locPort;
 
-  // Fallback optionnel : data.json (mode fichier local / legacy)
+  // 3) Fallback optionnel : data.json (mode fichier local / legacy)
   try {
     const res  = await fetch('./data.json');
     if (res.ok) {
@@ -36,11 +56,23 @@ async function loadConfig() {
     // silencieux : normal en mode /admin bundlé
   }
 
-  const el = document.getElementById('topbar-port');
-  if (el) el.textContent = `port ${ADM.port}`;
-
+  updatePortDisplay();
   // Signaler à tous les modules que le port est prêt
   dispatchEvent(new CustomEvent('adm:config-loaded'));
+}
+
+function updatePortDisplay() {
+  const el = document.getElementById('topbar-port');
+  if (el) el.textContent = `port ${ADM.port}`;
+}
+
+function changePort(newPort) {
+  if (!newPort || newPort < 1 || newPort > 65535) return false;
+  ADM.port = Number(newPort);
+  setCookie('adm_port', ADM.port);
+  updatePortDisplay();
+  dispatchEvent(new CustomEvent('adm:config-loaded'));
+  return true;
 }
 
 // ── API helpers ──────────────────────────────────────────────
@@ -144,5 +176,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   addEventListener('adm:config-loaded', () => {
     loadUsers(respUsers);
     loadCreatures(respCreatures);
+  });
+
+  // Bouton connecter dans la topbar
+  document.getElementById('btn-connect')?.addEventListener('click', async () => {
+    await loadUsers(respUsers);
+    await loadCreatures(respCreatures);
   });
 });

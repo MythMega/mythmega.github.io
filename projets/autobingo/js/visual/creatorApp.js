@@ -16,6 +16,8 @@
         _imgCache: {},
         /** @type {number} Refresh counter for redraw */
         _updateCounter: 0,
+        /** @type {Object} Flag definitions from metadata/flags.json */
+        _flagDefs: null,
 
         /**
          * Initialize the creator
@@ -35,7 +37,8 @@
                 subcategory: '',
                 quantizable: false,
                 defaultMin: 1,
-                defaultMax: 999
+                defaultMax: 999,
+                flags: ['Custom']
             };
             this.items = [];
             this._nextItemId = 1;
@@ -200,6 +203,7 @@
             this.data.quantizable = raw.Quantizable === true;
             this.data.defaultMin = (raw.DefaultQuantities && raw.DefaultQuantities.Min) || 1;
             this.data.defaultMax = (raw.DefaultQuantities && raw.DefaultQuantities.Max) || 999;
+            this.data.flags = Array.isArray(raw.Flags) && raw.Flags.length > 0 ? [...raw.Flags] : ['Custom'];
 
             // Fill items
             this.items = (raw.Items || []).map(rawItem => {
@@ -282,6 +286,10 @@
                     Min: this.data.defaultMin,
                     Max: this.data.defaultMax
                 };
+            }
+
+            if (this.data.flags && this.data.flags.length > 0) {
+                result.Flags = this.data.flags.filter(f => f && f.trim());
             }
 
             result.Items = itemsJson;
@@ -398,6 +406,9 @@
             importBar.style.marginTop = '16px';
             importBar.style.borderTop = '1px solid var(--border)';
             importBar.style.paddingTop = '16px';
+            importBar.style.display = 'flex';
+            importBar.style.flexDirection = 'column';
+            importBar.style.gap = '8px';
 
             const importLabel = document.createElement('span');
             importLabel.setAttribute('data-i18n', 'creator.import_label');
@@ -406,10 +417,20 @@
             importLabel.style.fontSize = '0.85rem';
             importBar.appendChild(importLabel);
 
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.placeholder = 'Search dataset...';
+            searchInput.className = 'styled-select';
+            searchInput.style.flex = '1';
+            searchInput.style.maxWidth = '300px';
+            searchInput.style.padding = '8px 10px';
+            importBar.appendChild(searchInput);
+
             const dsSelect = document.createElement('select');
             dsSelect.className = 'styled-select';
             dsSelect.style.flex = '1';
             dsSelect.style.maxWidth = '300px';
+            dsSelect.size = Math.min(8, 20);
             const placeholderOpt = document.createElement('option');
             placeholderOpt.value = '';
             placeholderOpt.textContent = '-- Dataset --';
@@ -427,15 +448,31 @@
             });
             importBar.appendChild(importBtn);
 
-            // Load datasets for the select
+            // Load datasets for the select (with search filter)
+            let allDefs = [];
             (async () => {
                 const dm = new autobingo.DatasetManager();
                 await dm.loadDefinitions();
-                dm.definitions.forEach(def => {
-                    const opt = document.createElement('option');
-                    opt.value = def.name;
-                    opt.textContent = def.name;
-                    dsSelect.appendChild(opt);
+                allDefs = dm.definitions;
+                const renderOptions = (filterText = '') => {
+                    dsSelect.innerHTML = '';
+                    const placeholder = document.createElement('option');
+                    placeholder.value = '';
+                    placeholder.textContent = '-- Dataset --';
+                    dsSelect.appendChild(placeholder);
+                    const text = filterText.toLowerCase();
+                    allDefs
+                        .filter(def => !text || def.name.toLowerCase().includes(text))
+                        .forEach(def => {
+                            const opt = document.createElement('option');
+                            opt.value = def.name;
+                            opt.textContent = def.name;
+                            dsSelect.appendChild(opt);
+                        });
+                };
+                renderOptions();
+                searchInput.addEventListener('input', () => {
+                    renderOptions(searchInput.value);
                 });
             })();
 
@@ -494,6 +531,94 @@
                 qDefaults.appendChild(maxInput);
                 section.appendChild(qDefaults);
             }
+
+            // Flags section
+            const flagsRow = document.createElement('div');
+            flagsRow.className = 'creator-flags-row';
+            flagsRow.style.marginTop = '16px';
+            flagsRow.style.borderTop = '1px solid var(--border)';
+            flagsRow.style.paddingTop = '16px';
+
+            const flagsLabel = document.createElement('span');
+            flagsLabel.textContent = 'Flags:';
+            flagsLabel.style.fontWeight = '600';
+            flagsLabel.style.fontSize = '0.85rem';
+            flagsRow.appendChild(flagsLabel);
+
+            const flagsList = document.createElement('div');
+            flagsList.className = 'creator-flags-list';
+            flagsList.style.display = 'flex';
+            flagsList.style.flexWrap = 'wrap';
+            flagsList.style.gap = '8px';
+            flagsList.style.marginTop = '8px';
+            flagsList.style.marginBottom = '8px';
+
+            const renderFlags = () => {
+                flagsList.innerHTML = '';
+                (this.data.flags || []).forEach((flag, idx) => {
+                    const chip = document.createElement('span');
+                    chip.className = 'creator-flag-chip';
+                    chip.textContent = flag;
+                    chip.style.display = 'inline-flex';
+                    chip.style.alignItems = 'center';
+                    chip.style.gap = '6px';
+                    chip.style.padding = '4px 8px';
+                    chip.style.borderRadius = '999px';
+                    chip.style.background = 'var(--surface-hover)';
+                    chip.style.border = '1px solid var(--border)';
+                    chip.style.fontSize = '0.85rem';
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = '✕';
+                    removeBtn.style.background = 'transparent';
+                    removeBtn.style.border = 'none';
+                    removeBtn.style.color = 'inherit';
+                    removeBtn.style.cursor = 'pointer';
+                    removeBtn.style.fontSize = '0.75rem';
+                    removeBtn.addEventListener('click', () => {
+                        this.data.flags.splice(idx, 1);
+                        renderFlags();
+                    });
+                    chip.appendChild(removeBtn);
+                    flagsList.appendChild(chip);
+                });
+            };
+
+            const addFlag = () => {
+                const val = flagInput.value.trim();
+                if (!val) return;
+                if (!this.data.flags.includes(val)) {
+                    this.data.flags.push(val);
+                }
+                flagInput.value = '';
+                renderFlags();
+            };
+
+            const flagInput = document.createElement('input');
+            flagInput.type = 'text';
+            flagInput.placeholder = 'Add flag...';
+            flagInput.style.flex = '1';
+            flagInput.style.minWidth = '140px';
+            flagInput.style.padding = '6px 10px';
+            flagInput.style.borderRadius = '6px';
+            flagInput.style.border = '1px solid var(--border)';
+            flagInput.style.background = 'var(--surface)';
+            flagInput.style.color = 'var(--text)';
+            flagInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') addFlag();
+            });
+
+            const addFlagBtn = document.createElement('button');
+            addFlagBtn.className = 'btn btn-secondary';
+            addFlagBtn.textContent = 'Add';
+            addFlagBtn.addEventListener('click', addFlag);
+
+            flagsRow.appendChild(flagsList);
+            flagsRow.appendChild(flagInput);
+            flagsRow.appendChild(addFlagBtn);
+            section.appendChild(flagsRow);
+
+            renderFlags();
 
             return section;
         },

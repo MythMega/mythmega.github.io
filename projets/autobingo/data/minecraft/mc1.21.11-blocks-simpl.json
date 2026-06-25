@@ -1,14 +1,11 @@
 {
-  "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem",
+  "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem - Simple",
   "Category": "Minecraft",
   "Subcategory": "Minecraft Vanilla - Blocks Only",
+  "Flags": [
+    "Simplified"
+  ],
   "Items": [
-    {
-      "Index": "block-000055",
-      "Name_FR": "Bouton en acacia",
-      "Name_EN": "Acacia Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Button.png"
-    },
     {
       "Index": "block-000056",
       "Name_FR": "Porte en acacia",
@@ -16,88 +13,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Door.png"
     },
     {
-      "Index": "block-000057",
-      "Name_FR": "Barrière en acacia",
-      "Name_EN": "Acacia Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Fence.png"
-    },
-    {
-      "Index": "block-000058",
-      "Name_FR": "Portillon en acacia",
-      "Name_EN": "Acacia Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000059",
-      "Name_FR": "Pancarte suspendue en acacia",
-      "Name_EN": "Acacia Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000060",
-      "Name_FR": "Feuilles d'acacia",
-      "Name_EN": "Acacia Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Leaves.png"
-    },
-    {
-      "Index": "block-000061",
-      "Name_FR": "Bûche d'acacia",
-      "Name_EN": "Acacia Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Log.png"
-    },
-    {
-      "Index": "block-000062",
-      "Name_FR": "Planches d'acacia",
-      "Name_EN": "Acacia Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Planks.png"
-    },
-    {
-      "Index": "block-000063",
-      "Name_FR": "Plaque de pression en acacia",
-      "Name_EN": "Acacia Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000064",
-      "Name_FR": "Pousse d'acacia",
-      "Name_EN": "Acacia Sapling",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Sapling.png"
-    },
-    {
-      "Index": "block-000065",
-      "Name_FR": "Pancarte en acacia",
-      "Name_EN": "Acacia Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Sign.png"
-    },
-    {
-      "Index": "block-000066",
-      "Name_FR": "Dalle en acacia",
-      "Name_EN": "Acacia Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Slab.png"
-    },
-    {
-      "Index": "block-000067",
-      "Name_FR": "Escalier en acacia",
-      "Name_EN": "Acacia Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Stairs.png"
-    },
-    {
-      "Index": "block-000068",
-      "Name_FR": "Trappe en acacia",
-      "Name_EN": "Acacia Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Acacia_Trapdoor.png"
-    },
-    {
       "Index": "block-000069",
       "Name_FR": "Rails déclencheurs",
       "Name_EN": "Activator Rail",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Activator_Rail.png"
-    },
-    {
-      "Index": "block-000070",
-      "Name_FR": "Allium",
-      "Name_EN": "Allium",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Allium.png"
     },
     {
       "Index": "block-000071",
@@ -148,46 +67,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Azalea.png"
     },
     {
-      "Index": "block-000079",
-      "Name_FR": "Feuilles d'azalée",
-      "Name_EN": "Azalea Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Azalea_Leaves.png"
-    },
-    {
-      "Index": "block-000080",
-      "Name_FR": "Houstonie bleue",
-      "Name_EN": "Azure Bluet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Azure_Bluet.png"
-    },
-    {
-      "Index": "block-000081",
-      "Name_FR": "Bouton en bambou",
-      "Name_EN": "Bamboo Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Button.png"
-    },
-    {
       "Index": "block-000082",
       "Name_FR": "Porte en bambou",
       "Name_EN": "Bamboo Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Door.png"
-    },
-    {
-      "Index": "block-000083",
-      "Name_FR": "Barrière en bambou",
-      "Name_EN": "Bamboo Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Fence.png"
-    },
-    {
-      "Index": "block-000084",
-      "Name_FR": "Portillon en bambou",
-      "Name_EN": "Bamboo Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000085",
-      "Name_FR": "Pancarte suspendue en bambou",
-      "Name_EN": "Bamboo Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Hanging_Sign.png"
     },
     {
       "Index": "block-000086",
@@ -200,48 +83,6 @@
       "Name_FR": "Dalle de mosaïque de bambou",
       "Name_EN": "Bamboo Mosaic Slab",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Mosaic_Slab.png"
-    },
-    {
-      "Index": "block-000088",
-      "Name_FR": "Escalier en mosaïque de bambou",
-      "Name_EN": "Bamboo Mosaic Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Mosaic_Stairs.png"
-    },
-    {
-      "Index": "block-000089",
-      "Name_FR": "Planches de bambou",
-      "Name_EN": "Bamboo Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Planks.png"
-    },
-    {
-      "Index": "block-000090",
-      "Name_FR": "Plaque de pression en bambou",
-      "Name_EN": "Bamboo Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000091",
-      "Name_FR": "Pancarte en bambou",
-      "Name_EN": "Bamboo Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Sign.png"
-    },
-    {
-      "Index": "block-000092",
-      "Name_FR": "Dalle en bambou",
-      "Name_EN": "Bamboo Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Slab.png"
-    },
-    {
-      "Index": "block-000093",
-      "Name_FR": "Escalier en bambou",
-      "Name_EN": "Bamboo Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Stairs.png"
-    },
-    {
-      "Index": "block-000094",
-      "Name_FR": "Trappe en bambou",
-      "Name_EN": "Bamboo Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Trapdoor.png"
     },
     {
       "Index": "block-000095",
@@ -286,160 +127,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Big_Dripleaf.png"
     },
     {
-      "Index": "block-000102",
-      "Name_FR": "Bouton en bouleau",
-      "Name_EN": "Birch Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Button.png"
-    },
-    {
       "Index": "block-000103",
       "Name_FR": "Porte en bouleau",
       "Name_EN": "Birch Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Door.png"
-    },
-    {
-      "Index": "block-000104",
-      "Name_FR": "Barrière en bouleau",
-      "Name_EN": "Birch Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Fence.png"
-    },
-    {
-      "Index": "block-000105",
-      "Name_FR": "Portillon en bouleau",
-      "Name_EN": "Birch Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000106",
-      "Name_FR": "Pancarte suspendue en bouleau",
-      "Name_EN": "Birch Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000107",
-      "Name_FR": "Feuilles de bouleau",
-      "Name_EN": "Birch Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Leaves.png"
-    },
-    {
-      "Index": "block-000108",
-      "Name_FR": "Bûche de bouleau",
-      "Name_EN": "Birch Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Log.png"
-    },
-    {
-      "Index": "block-000109",
-      "Name_FR": "Planches de bouleau",
-      "Name_EN": "Birch Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Planks.png"
-    },
-    {
-      "Index": "block-000110",
-      "Name_FR": "Plaque de pression en bouleau",
-      "Name_EN": "Birch Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000111",
-      "Name_FR": "Pousse de bouleau",
-      "Name_EN": "Birch Sapling",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Sapling.png"
-    },
-    {
-      "Index": "block-000112",
-      "Name_FR": "Pancarte en bouleau",
-      "Name_EN": "Birch Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Sign.png"
-    },
-    {
-      "Index": "block-000113",
-      "Name_FR": "Dalle en bouleau",
-      "Name_EN": "Birch Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Slab.png"
-    },
-    {
-      "Index": "block-000114",
-      "Name_FR": "Escalier en bouleau",
-      "Name_EN": "Birch Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Stairs.png"
-    },
-    {
-      "Index": "block-000115",
-      "Name_FR": "Trappe en bouleau",
-      "Name_EN": "Birch Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Birch_Trapdoor.png"
-    },
-    {
-      "Index": "block-000116",
-      "Name_FR": "Bannière noire",
-      "Name_EN": "Black Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Banner.png"
-    },
-    {
-      "Index": "block-000117",
-      "Name_FR": "Lit noir",
-      "Name_EN": "Black Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Bed.png"
-    },
-    {
-      "Index": "block-000118",
-      "Name_FR": "Bougie noire",
-      "Name_EN": "Black Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Candle.png"
-    },
-    {
-      "Index": "block-000119",
-      "Name_FR": "Tapis noir",
-      "Name_EN": "Black Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Carpet.png"
-    },
-    {
-      "Index": "block-000120",
-      "Name_FR": "Béton noir",
-      "Name_EN": "Black Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Concrete.png"
-    },
-    {
-      "Index": "block-000121",
-      "Name_FR": "Béton noir en poudre",
-      "Name_EN": "Black Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000122",
-      "Name_FR": "Terre cuite émaillée noire",
-      "Name_EN": "Black Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000123",
-      "Name_FR": "Boîte de Shulker noire",
-      "Name_EN": "Black Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000124",
-      "Name_FR": "Verre noir",
-      "Name_EN": "Black Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000125",
-      "Name_FR": "Vitre noire",
-      "Name_EN": "Black Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000126",
-      "Name_FR": "Terre cuite noire",
-      "Name_EN": "Black Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Terracotta.png"
-    },
-    {
-      "Index": "block-000127",
-      "Name_FR": "Laine noire",
-      "Name_EN": "Black Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Black_Wool.png"
     },
     {
       "Index": "block-000128",
@@ -482,12 +173,6 @@
       "Name_FR": "Bloc de charbon",
       "Name_EN": "Block of Coal",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Coal.png"
-    },
-    {
-      "Index": "block-000135",
-      "Name_FR": "Bloc de cuivre",
-      "Name_EN": "Block of Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Copper.png"
     },
     {
       "Index": "block-000136",
@@ -562,94 +247,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Resin.png"
     },
     {
-      "Index": "block-000148",
-      "Name_FR": "Bloc de bambou écorcé",
-      "Name_EN": "Block of Stripped Bamboo",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Stripped_Bamboo.png"
-    },
-    {
-      "Index": "block-000149",
-      "Name_FR": "Bannière bleue",
-      "Name_EN": "Blue Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Banner.png"
-    },
-    {
-      "Index": "block-000150",
-      "Name_FR": "Lit bleu",
-      "Name_EN": "Blue Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Bed.png"
-    },
-    {
-      "Index": "block-000151",
-      "Name_FR": "Bougie bleue",
-      "Name_EN": "Blue Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Candle.png"
-    },
-    {
-      "Index": "block-000152",
-      "Name_FR": "Tapis bleu",
-      "Name_EN": "Blue Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Carpet.png"
-    },
-    {
-      "Index": "block-000153",
-      "Name_FR": "Béton bleu",
-      "Name_EN": "Blue Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Concrete.png"
-    },
-    {
-      "Index": "block-000154",
-      "Name_FR": "Béton bleu en poudre",
-      "Name_EN": "Blue Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000155",
-      "Name_FR": "Terre cuite émaillée bleue",
-      "Name_EN": "Blue Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Glazed_Terracotta.png"
-    },
-    {
       "Index": "block-000156",
       "Name_FR": "Glace bleue",
       "Name_EN": "Blue Ice",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Ice.png"
-    },
-    {
-      "Index": "block-000157",
-      "Name_FR": "Orchidée bleue",
-      "Name_EN": "Blue Orchid",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Orchid.png"
-    },
-    {
-      "Index": "block-000158",
-      "Name_FR": "Boîte de Shulker bleue",
-      "Name_EN": "Blue Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000159",
-      "Name_FR": "Verre bleu",
-      "Name_EN": "Blue Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000160",
-      "Name_FR": "Vitre bleue",
-      "Name_EN": "Blue Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000161",
-      "Name_FR": "Terre cuite bleue",
-      "Name_EN": "Blue Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Terracotta.png"
-    },
-    {
-      "Index": "block-000162",
-      "Name_FR": "Laine bleue",
-      "Name_EN": "Blue Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Wool.png"
     },
     {
       "Index": "block-000163",
@@ -712,48 +313,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bricks.png"
     },
     {
-      "Index": "block-000173",
-      "Name_FR": "Bannière marron",
-      "Name_EN": "Brown Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Banner.png"
-    },
-    {
-      "Index": "block-000174",
-      "Name_FR": "Lit marron",
-      "Name_EN": "Brown Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Bed.png"
-    },
-    {
-      "Index": "block-000175",
-      "Name_FR": "Bougie marron",
-      "Name_EN": "Brown Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Candle.png"
-    },
-    {
-      "Index": "block-000176",
-      "Name_FR": "Tapis marron",
-      "Name_EN": "Brown Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Carpet.png"
-    },
-    {
-      "Index": "block-000177",
-      "Name_FR": "Béton marron",
-      "Name_EN": "Brown Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Concrete.png"
-    },
-    {
-      "Index": "block-000178",
-      "Name_FR": "Béton marron en poudre",
-      "Name_EN": "Brown Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000179",
-      "Name_FR": "Terre cuite émaillée marron",
-      "Name_EN": "Brown Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Glazed_Terracotta.png"
-    },
-    {
       "Index": "block-000180",
       "Name_FR": "Champignon brun",
       "Name_EN": "Brown Mushroom",
@@ -764,36 +323,6 @@
       "Name_FR": "Bloc de champignon brun",
       "Name_EN": "Brown Mushroom Block",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Mushroom_Block.png"
-    },
-    {
-      "Index": "block-000182",
-      "Name_FR": "Boîte de Shulker marron",
-      "Name_EN": "Brown Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000183",
-      "Name_FR": "Verre marron",
-      "Name_EN": "Brown Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000184",
-      "Name_FR": "Vitre marron",
-      "Name_EN": "Brown Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000185",
-      "Name_FR": "Terre cuite marron",
-      "Name_EN": "Brown Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Terracotta.png"
-    },
-    {
-      "Index": "block-000186",
-      "Name_FR": "Laine marron",
-      "Name_EN": "Brown Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Brown_Wool.png"
     },
     {
       "Index": "block-000187",
@@ -824,12 +353,6 @@
       "Name_FR": "Cactus",
       "Name_EN": "Cactus",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cactus.png"
-    },
-    {
-      "Index": "block-000192",
-      "Name_FR": "Fleur de cactus",
-      "Name_EN": "Cactus Flower",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cactus_Flower.png"
     },
     {
       "Index": "block-000193",
@@ -940,12 +463,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Campfire.png"
     },
     {
-      "Index": "block-000211",
-      "Name_FR": "Bougie",
-      "Name_EN": "Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Candle.png"
-    },
-    {
       "Index": "block-000212",
       "Name_FR": "Table de cartographie",
       "Name_EN": "Cartography Table",
@@ -970,88 +487,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cave_Vines.png"
     },
     {
-      "Index": "block-000216",
-      "Name_FR": "Bouton en cerisier",
-      "Name_EN": "Cherry Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Button.png"
-    },
-    {
       "Index": "block-000217",
       "Name_FR": "Porte en cerisier",
       "Name_EN": "Cherry Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Door.png"
-    },
-    {
-      "Index": "block-000218",
-      "Name_FR": "Barrière en cerisier",
-      "Name_EN": "Cherry Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Fence.png"
-    },
-    {
-      "Index": "block-000219",
-      "Name_FR": "Portillon en cerisier",
-      "Name_EN": "Cherry Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000220",
-      "Name_FR": "Pancarte suspendue en cerisier",
-      "Name_EN": "Cherry Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000221",
-      "Name_FR": "Feuilles de cerisier",
-      "Name_EN": "Cherry Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Leaves.png"
-    },
-    {
-      "Index": "block-000222",
-      "Name_FR": "Bûche de cerisier",
-      "Name_EN": "Cherry Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Log.png"
-    },
-    {
-      "Index": "block-000223",
-      "Name_FR": "Planches de cerisier",
-      "Name_EN": "Cherry Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Planks.png"
-    },
-    {
-      "Index": "block-000224",
-      "Name_FR": "Plaque de pression en cerisier",
-      "Name_EN": "Cherry Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000225",
-      "Name_FR": "Pousse de cerisier",
-      "Name_EN": "Cherry Sapling",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Sapling.png"
-    },
-    {
-      "Index": "block-000226",
-      "Name_FR": "Pancarte en cerisier",
-      "Name_EN": "Cherry Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Sign.png"
-    },
-    {
-      "Index": "block-000227",
-      "Name_FR": "Dalle en cerisier",
-      "Name_EN": "Cherry Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Slab.png"
-    },
-    {
-      "Index": "block-000228",
-      "Name_FR": "Escalier en cerisier",
-      "Name_EN": "Cherry Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Stairs.png"
-    },
-    {
-      "Index": "block-000229",
-      "Name_FR": "Trappe en cerisier",
-      "Name_EN": "Cherry Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cherry_Trapdoor.png"
     },
     {
       "Index": "block-000230",
@@ -1150,12 +589,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chorus_Plant.png"
     },
     {
-      "Index": "block-000256",
-      "Name_FR": "Oeilchidée fermée",
-      "Name_EN": "Closed Eyeblossom",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Closed_Eyeblossom.png"
-    },
-    {
       "Index": "block-000257",
       "Name_FR": "Minerai de charbon",
       "Name_EN": "Coal Ore",
@@ -1234,24 +667,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Conduit.png"
     },
     {
-      "Index": "block-000270",
-      "Name_FR": "Barreaux de cuivre",
-      "Name_EN": "Copper Bars",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Bars.png"
-    },
-    {
-      "Index": "block-000271",
-      "Name_FR": "Ampoule en cuivre",
-      "Name_EN": "Copper Bulb",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Bulb.png"
-    },
-    {
-      "Index": "block-000272",
-      "Name_FR": "Chaîne en cuivre",
-      "Name_EN": "Copper Chain",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Chain.png"
-    },
-    {
       "Index": "block-000273",
       "Name_FR": "Coffre en cuivre",
       "Name_EN": "Copper Chest",
@@ -1264,24 +679,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Door.png"
     },
     {
-      "Index": "block-000275",
-      "Name_FR": "Statue de golem de cuivre",
-      "Name_EN": "Copper Golem Statue",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Golem_Statue.png"
-    },
-    {
-      "Index": "block-000276",
-      "Name_FR": "Grille en cuivre",
-      "Name_EN": "Copper Grate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Grate.png"
-    },
-    {
-      "Index": "block-000277",
-      "Name_FR": "Lanterne en cuivre",
-      "Name_EN": "Copper Lantern",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Lantern.png"
-    },
-    {
       "Index": "block-000278",
       "Name_FR": "Minerai de cuivre",
       "Name_EN": "Copper Ore",
@@ -1292,18 +689,6 @@
       "Name_FR": "Torche de cuivre",
       "Name_EN": "Copper Torch",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Torch.png"
-    },
-    {
-      "Index": "block-000280",
-      "Name_FR": "Trappe en cuivre",
-      "Name_EN": "Copper Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Copper_Trapdoor.png"
-    },
-    {
-      "Index": "block-000281",
-      "Name_FR": "Bleuet",
-      "Name_EN": "Cornflower",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cornflower.png"
     },
     {
       "Index": "block-000282",
@@ -1348,34 +733,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Creeper_Head.png"
     },
     {
-      "Index": "block-000289",
-      "Name_FR": "Bouton carmin",
-      "Name_EN": "Crimson Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Button.png"
-    },
-    {
       "Index": "block-000290",
       "Name_FR": "Porte carmin",
       "Name_EN": "Crimson Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Door.png"
-    },
-    {
-      "Index": "block-000291",
-      "Name_FR": "Barrière carmin",
-      "Name_EN": "Crimson Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Fence.png"
-    },
-    {
-      "Index": "block-000292",
-      "Name_FR": "Portillon carmin",
-      "Name_EN": "Crimson Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000293",
-      "Name_FR": "Pancarte suspendue carmin",
-      "Name_EN": "Crimson Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Hanging_Sign.png"
     },
     {
       "Index": "block-000294",
@@ -1390,70 +751,16 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Nylium.png"
     },
     {
-      "Index": "block-000296",
-      "Name_FR": "Planches carmin",
-      "Name_EN": "Crimson Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Planks.png"
-    },
-    {
-      "Index": "block-000297",
-      "Name_FR": "Plaque de pression carmin",
-      "Name_EN": "Crimson Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Pressure_Plate.png"
-    },
-    {
       "Index": "block-000298",
       "Name_FR": "Racines carmin",
       "Name_EN": "Crimson Roots",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Roots.png"
     },
     {
-      "Index": "block-000299",
-      "Name_FR": "Pancarte carmin",
-      "Name_EN": "Crimson Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Sign.png"
-    },
-    {
-      "Index": "block-000300",
-      "Name_FR": "Dalle carmin",
-      "Name_EN": "Crimson Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Slab.png"
-    },
-    {
-      "Index": "block-000301",
-      "Name_FR": "Escalier carmin",
-      "Name_EN": "Crimson Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Stairs.png"
-    },
-    {
-      "Index": "block-000302",
-      "Name_FR": "Trappe carmin",
-      "Name_EN": "Crimson Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crimson_Trapdoor.png"
-    },
-    {
       "Index": "block-000303",
       "Name_FR": "Obsidienne pleureuse",
       "Name_EN": "Crying Obsidian",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crying_Obsidian.png"
-    },
-    {
-      "Index": "block-000304",
-      "Name_FR": "Cuivre taillé",
-      "Name_EN": "Cut Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cut_Copper.png"
-    },
-    {
-      "Index": "block-000305",
-      "Name_FR": "Dalle de cuivre taillé",
-      "Name_EN": "Cut Copper Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cut_Copper_Slab.png"
-    },
-    {
-      "Index": "block-000306",
-      "Name_FR": "Escalier en cuivre taillé",
-      "Name_EN": "Cut Copper Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cut_Copper_Stairs.png"
     },
     {
       "Index": "block-000307",
@@ -1480,166 +787,16 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cut_Sandstone_Slab.png"
     },
     {
-      "Index": "block-000311",
-      "Name_FR": "Bannière cyan",
-      "Name_EN": "Cyan Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Banner.png"
-    },
-    {
-      "Index": "block-000312",
-      "Name_FR": "Lit cyan",
-      "Name_EN": "Cyan Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Bed.png"
-    },
-    {
-      "Index": "block-000313",
-      "Name_FR": "Bougie cyan",
-      "Name_EN": "Cyan Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Candle.png"
-    },
-    {
-      "Index": "block-000314",
-      "Name_FR": "Tapis cyan",
-      "Name_EN": "Cyan Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Carpet.png"
-    },
-    {
-      "Index": "block-000315",
-      "Name_FR": "Béton cyan",
-      "Name_EN": "Cyan Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Concrete.png"
-    },
-    {
-      "Index": "block-000316",
-      "Name_FR": "Béton cyan en poudre",
-      "Name_EN": "Cyan Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000317",
-      "Name_FR": "Terre cuite émaillée cyan",
-      "Name_EN": "Cyan Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000318",
-      "Name_FR": "Boîte de Shulker cyan",
-      "Name_EN": "Cyan Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000319",
-      "Name_FR": "Verre cyan",
-      "Name_EN": "Cyan Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000320",
-      "Name_FR": "Vitre cyan",
-      "Name_EN": "Cyan Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000321",
-      "Name_FR": "Terre cuite cyan",
-      "Name_EN": "Cyan Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Terracotta.png"
-    },
-    {
-      "Index": "block-000322",
-      "Name_FR": "Laine cyan",
-      "Name_EN": "Cyan Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cyan_Wool.png"
-    },
-    {
       "Index": "block-000323",
       "Name_FR": "Enclume endommagée",
       "Name_EN": "Damaged Anvil",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Damaged_Anvil.png"
     },
     {
-      "Index": "block-000324",
-      "Name_FR": "Pissenlit",
-      "Name_EN": "Dandelion",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dandelion.png"
-    },
-    {
-      "Index": "block-000325",
-      "Name_FR": "Bouton en chêne noir",
-      "Name_EN": "Dark Oak Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Button.png"
-    },
-    {
       "Index": "block-000326",
       "Name_FR": "Porte en chêne noir",
       "Name_EN": "Dark Oak Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Door.png"
-    },
-    {
-      "Index": "block-000327",
-      "Name_FR": "Barrière en chêne noir",
-      "Name_EN": "Dark Oak Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Fence.png"
-    },
-    {
-      "Index": "block-000328",
-      "Name_FR": "Portillon en chêne noir",
-      "Name_EN": "Dark Oak Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000329",
-      "Name_FR": "Pancarte suspendue en chêne noir",
-      "Name_EN": "Dark Oak Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000330",
-      "Name_FR": "Bûche de chêne noir",
-      "Name_EN": "Dark Oak Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Log.png"
-    },
-    {
-      "Index": "block-000331",
-      "Name_FR": "Planches de chêne noir",
-      "Name_EN": "Dark Oak Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Planks.png"
-    },
-    {
-      "Index": "block-000332",
-      "Name_FR": "Plaque de pression en chêne noir",
-      "Name_EN": "Dark Oak Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000333",
-      "Name_FR": "Pousse de chêne noir",
-      "Name_EN": "Dark Oak Sapling",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Sapling.png"
-    },
-    {
-      "Index": "block-000334",
-      "Name_FR": "Pancarte en chêne noir",
-      "Name_EN": "Dark Oak Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Sign.png"
-    },
-    {
-      "Index": "block-000335",
-      "Name_FR": "Dalle en chêne noir",
-      "Name_EN": "Dark Oak Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Slab.png"
-    },
-    {
-      "Index": "block-000336",
-      "Name_FR": "Escalier en chêne noir",
-      "Name_EN": "Dark Oak Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Stairs.png"
-    },
-    {
-      "Index": "block-000337",
-      "Name_FR": "Trappe en chêne noir",
-      "Name_EN": "Dark Oak Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dark_Oak_Trapdoor.png"
     },
     {
       "Index": "block-000338",
@@ -2020,30 +1177,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Chiseled_Copper.png"
     },
     {
-      "Index": "block-000401",
-      "Name_FR": "Cuivre exposé",
-      "Name_EN": "Exposed Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper.png"
-    },
-    {
-      "Index": "block-000402",
-      "Name_FR": "Barreaux de cuivre exposé",
-      "Name_EN": "Exposed Copper Bars",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper_Bars.png"
-    },
-    {
-      "Index": "block-000403",
-      "Name_FR": "Ampoule en cuivre exposé",
-      "Name_EN": "Exposed Copper Bulb",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper_Bulb.png"
-    },
-    {
-      "Index": "block-000404",
-      "Name_FR": "Chaîne en cuivre exposé",
-      "Name_EN": "Exposed Copper Chain",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper_Chain.png"
-    },
-    {
       "Index": "block-000405",
       "Name_FR": "Coffre en cuivre exposé",
       "Name_EN": "Exposed Copper Chest",
@@ -2054,48 +1187,6 @@
       "Name_FR": "Porte en cuivre exposé",
       "Name_EN": "Exposed Copper Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper_Door.png"
-    },
-    {
-      "Index": "block-000407",
-      "Name_FR": "Statue de golem de cuivre exposé",
-      "Name_EN": "Exposed Copper Golem Statue",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper_Golem_Statue.png"
-    },
-    {
-      "Index": "block-000408",
-      "Name_FR": "Grille en cuivre exposé",
-      "Name_EN": "Exposed Copper Grate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper_Grate.png"
-    },
-    {
-      "Index": "block-000409",
-      "Name_FR": "Lanterne en cuivre exposé",
-      "Name_EN": "Exposed Copper Lantern",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper_Lantern.png"
-    },
-    {
-      "Index": "block-000410",
-      "Name_FR": "Trappe en cuivre exposé",
-      "Name_EN": "Exposed Copper Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Copper_Trapdoor.png"
-    },
-    {
-      "Index": "block-000411",
-      "Name_FR": "Cuivre taillé exposé",
-      "Name_EN": "Exposed Cut Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Cut_Copper.png"
-    },
-    {
-      "Index": "block-000412",
-      "Name_FR": "Dalle de cuivre taillé exposé",
-      "Name_EN": "Exposed Cut Copper Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Cut_Copper_Slab.png"
-    },
-    {
-      "Index": "block-000413",
-      "Name_FR": "Escalier en cuivre taillé exposé",
-      "Name_EN": "Exposed Cut Copper Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Exposed_Cut_Copper_Stairs.png"
     },
     {
       "Index": "block-000414",
@@ -2156,12 +1247,6 @@
       "Name_FR": "Azalée fleurie",
       "Name_EN": "Flowering Azalea",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Flowering_Azalea.png"
-    },
-    {
-      "Index": "block-000424",
-      "Name_FR": "Feuilles d'azalée fleurie",
-      "Name_EN": "Flowering Azalea Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Flowering_Azalea_Leaves.png"
     },
     {
       "Index": "block-000425",
@@ -2252,150 +1337,6 @@
       "Name_FR": "Gravier",
       "Name_EN": "Gravel",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gravel.png"
-    },
-    {
-      "Index": "block-000441",
-      "Name_FR": "Bannière grise",
-      "Name_EN": "Gray Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Banner.png"
-    },
-    {
-      "Index": "block-000442",
-      "Name_FR": "Lit gris",
-      "Name_EN": "Gray Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Bed.png"
-    },
-    {
-      "Index": "block-000443",
-      "Name_FR": "Bougie grise",
-      "Name_EN": "Gray Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Candle.png"
-    },
-    {
-      "Index": "block-000444",
-      "Name_FR": "Tapis gris",
-      "Name_EN": "Gray Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Carpet.png"
-    },
-    {
-      "Index": "block-000445",
-      "Name_FR": "Béton gris",
-      "Name_EN": "Gray Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Concrete.png"
-    },
-    {
-      "Index": "block-000446",
-      "Name_FR": "Béton gris en poudre",
-      "Name_EN": "Gray Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000447",
-      "Name_FR": "Terre cuite émaillée grise",
-      "Name_EN": "Gray Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000448",
-      "Name_FR": "Boîte de Shulker grise",
-      "Name_EN": "Gray Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000449",
-      "Name_FR": "Verre gris",
-      "Name_EN": "Gray Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000450",
-      "Name_FR": "Vitre grise",
-      "Name_EN": "Gray Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000451",
-      "Name_FR": "Terre cuite grise",
-      "Name_EN": "Gray Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Terracotta.png"
-    },
-    {
-      "Index": "block-000452",
-      "Name_FR": "Laine grise",
-      "Name_EN": "Gray Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Gray_Wool.png"
-    },
-    {
-      "Index": "block-000453",
-      "Name_FR": "Bannière verte",
-      "Name_EN": "Green Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Banner.png"
-    },
-    {
-      "Index": "block-000454",
-      "Name_FR": "Lit vert",
-      "Name_EN": "Green Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Bed.png"
-    },
-    {
-      "Index": "block-000455",
-      "Name_FR": "Bougie verte",
-      "Name_EN": "Green Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Candle.png"
-    },
-    {
-      "Index": "block-000456",
-      "Name_FR": "Tapis vert",
-      "Name_EN": "Green Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Carpet.png"
-    },
-    {
-      "Index": "block-000457",
-      "Name_FR": "Béton vert",
-      "Name_EN": "Green Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Concrete.png"
-    },
-    {
-      "Index": "block-000458",
-      "Name_FR": "Béton vert en poudre",
-      "Name_EN": "Green Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000459",
-      "Name_FR": "Terre cuite émaillée verte",
-      "Name_EN": "Green Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000460",
-      "Name_FR": "Boîte de Shulker verte",
-      "Name_EN": "Green Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000461",
-      "Name_FR": "Verre vert",
-      "Name_EN": "Green Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000462",
-      "Name_FR": "Vitre verte",
-      "Name_EN": "Green Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000463",
-      "Name_FR": "Terre cuite verte",
-      "Name_EN": "Green Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Terracotta.png"
-    },
-    {
-      "Index": "block-000464",
-      "Name_FR": "Laine verte",
-      "Name_EN": "Green Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Green_Wool.png"
     },
     {
       "Index": "block-000465",
@@ -2500,88 +1441,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jukebox.png"
     },
     {
-      "Index": "block-000482",
-      "Name_FR": "Bouton en acajou",
-      "Name_EN": "Jungle Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Button.png"
-    },
-    {
       "Index": "block-000483",
       "Name_FR": "Porte en acajou",
       "Name_EN": "Jungle Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Door.png"
-    },
-    {
-      "Index": "block-000484",
-      "Name_FR": "Barrière en acajou",
-      "Name_EN": "Jungle Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Fence.png"
-    },
-    {
-      "Index": "block-000485",
-      "Name_FR": "Portillon en acajou",
-      "Name_EN": "Jungle Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000486",
-      "Name_FR": "Pancarte suspendue en acajou",
-      "Name_EN": "Jungle Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000487",
-      "Name_FR": "Feuilles d'acajou",
-      "Name_EN": "Jungle Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Leaves.png"
-    },
-    {
-      "Index": "block-000488",
-      "Name_FR": "Bûche d'acajou",
-      "Name_EN": "Jungle Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Log.png"
-    },
-    {
-      "Index": "block-000489",
-      "Name_FR": "Planches d'acajou",
-      "Name_EN": "Jungle Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Planks.png"
-    },
-    {
-      "Index": "block-000490",
-      "Name_FR": "Plaque de pression en acajou",
-      "Name_EN": "Jungle Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000491",
-      "Name_FR": "Pousse d'acajou",
-      "Name_EN": "Jungle Sapling",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Sapling.png"
-    },
-    {
-      "Index": "block-000492",
-      "Name_FR": "Pancarte en acajou",
-      "Name_EN": "Jungle Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Sign.png"
-    },
-    {
-      "Index": "block-000493",
-      "Name_FR": "Dalle en acajou",
-      "Name_EN": "Jungle Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Slab.png"
-    },
-    {
-      "Index": "block-000494",
-      "Name_FR": "Escalier en acajou",
-      "Name_EN": "Jungle Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Stairs.png"
-    },
-    {
-      "Index": "block-000495",
-      "Name_FR": "Trappe en acajou",
-      "Name_EN": "Jungle Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Jungle_Trapdoor.png"
     },
     {
       "Index": "block-000496",
@@ -2620,150 +1483,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lectern.png"
     },
     {
-      "Index": "block-000502",
-      "Name_FR": "Bannière bleu clair",
-      "Name_EN": "Light Blue Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Banner.png"
-    },
-    {
-      "Index": "block-000503",
-      "Name_FR": "Lit bleu clair",
-      "Name_EN": "Light Blue Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Bed.png"
-    },
-    {
-      "Index": "block-000504",
-      "Name_FR": "Bougie bleu clair",
-      "Name_EN": "Light Blue Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Candle.png"
-    },
-    {
-      "Index": "block-000505",
-      "Name_FR": "Tapis bleu clair",
-      "Name_EN": "Light Blue Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Carpet.png"
-    },
-    {
-      "Index": "block-000506",
-      "Name_FR": "Béton bleu clair",
-      "Name_EN": "Light Blue Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Concrete.png"
-    },
-    {
-      "Index": "block-000507",
-      "Name_FR": "Béton bleu clair en poudre",
-      "Name_EN": "Light Blue Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000508",
-      "Name_FR": "Terre cuite émaillée bleu clair",
-      "Name_EN": "Light Blue Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000509",
-      "Name_FR": "Boîte de Shulker bleu clair",
-      "Name_EN": "Light Blue Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000510",
-      "Name_FR": "Verre bleu clair",
-      "Name_EN": "Light Blue Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000511",
-      "Name_FR": "Vitre bleu clair",
-      "Name_EN": "Light Blue Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000512",
-      "Name_FR": "Terre cuite bleu clair",
-      "Name_EN": "Light Blue Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Terracotta.png"
-    },
-    {
-      "Index": "block-000513",
-      "Name_FR": "Laine bleu clair",
-      "Name_EN": "Light Blue Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Blue_Wool.png"
-    },
-    {
-      "Index": "block-000514",
-      "Name_FR": "Bannière gris clair",
-      "Name_EN": "Light Gray Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Banner.png"
-    },
-    {
-      "Index": "block-000515",
-      "Name_FR": "Lit gris clair",
-      "Name_EN": "Light Gray Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Bed.png"
-    },
-    {
-      "Index": "block-000516",
-      "Name_FR": "Bougie gris clair",
-      "Name_EN": "Light Gray Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Candle.png"
-    },
-    {
-      "Index": "block-000517",
-      "Name_FR": "Tapis gris clair",
-      "Name_EN": "Light Gray Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Carpet.png"
-    },
-    {
-      "Index": "block-000518",
-      "Name_FR": "Béton gris clair",
-      "Name_EN": "Light Gray Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Concrete.png"
-    },
-    {
-      "Index": "block-000519",
-      "Name_FR": "Béton gris clair en poudre",
-      "Name_EN": "Light Gray Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000520",
-      "Name_FR": "Terre cuite émaillée gris clair",
-      "Name_EN": "Light Gray Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000521",
-      "Name_FR": "Boîte de Shulker gris clair",
-      "Name_EN": "Light Gray Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000522",
-      "Name_FR": "Verre gris clair",
-      "Name_EN": "Light Gray Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000523",
-      "Name_FR": "Vitre gris clair",
-      "Name_EN": "Light Gray Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000524",
-      "Name_FR": "Terre cuite gris clair",
-      "Name_EN": "Light Gray Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Terracotta.png"
-    },
-    {
-      "Index": "block-000525",
-      "Name_FR": "Laine gris clair",
-      "Name_EN": "Light Gray Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Light_Gray_Wool.png"
-    },
-    {
       "Index": "block-000526",
       "Name_FR": "Plaque de pression pondérée légère",
       "Name_EN": "Light Weighted Pressure Plate",
@@ -2774,90 +1493,6 @@
       "Name_FR": "Paratonnerre",
       "Name_EN": "Lightning Rod",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lightning_Rod.png"
-    },
-    {
-      "Index": "block-000528",
-      "Name_FR": "Lilas",
-      "Name_EN": "Lilac",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lilac.png"
-    },
-    {
-      "Index": "block-000529",
-      "Name_FR": "Muguet",
-      "Name_EN": "Lily of the Valley",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lily_of_the_Valley.png"
-    },
-    {
-      "Index": "block-000530",
-      "Name_FR": "Bannière vert clair",
-      "Name_EN": "Lime Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Banner.png"
-    },
-    {
-      "Index": "block-000531",
-      "Name_FR": "Lit vert clair",
-      "Name_EN": "Lime Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Bed.png"
-    },
-    {
-      "Index": "block-000532",
-      "Name_FR": "Bougie vert clair",
-      "Name_EN": "Lime Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Candle.png"
-    },
-    {
-      "Index": "block-000533",
-      "Name_FR": "Tapis vert clair",
-      "Name_EN": "Lime Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Carpet.png"
-    },
-    {
-      "Index": "block-000534",
-      "Name_FR": "Béton vert clair",
-      "Name_EN": "Lime Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Concrete.png"
-    },
-    {
-      "Index": "block-000535",
-      "Name_FR": "Béton vert clair en poudre",
-      "Name_EN": "Lime Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000536",
-      "Name_FR": "Terre cuite émaillée vert clair",
-      "Name_EN": "Lime Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000537",
-      "Name_FR": "Boîte de Shulker vert clair",
-      "Name_EN": "Lime Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000538",
-      "Name_FR": "Verre vert clair",
-      "Name_EN": "Lime Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000539",
-      "Name_FR": "Vitre vert clair",
-      "Name_EN": "Lime Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000540",
-      "Name_FR": "Terre cuite vert clair",
-      "Name_EN": "Lime Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Terracotta.png"
-    },
-    {
-      "Index": "block-000541",
-      "Name_FR": "Laine vert clair",
-      "Name_EN": "Lime Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Lime_Wool.png"
     },
     {
       "Index": "block-000542",
@@ -2872,130 +1507,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Loom.png"
     },
     {
-      "Index": "block-000544",
-      "Name_FR": "Bannière magenta",
-      "Name_EN": "Magenta Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Banner.png"
-    },
-    {
-      "Index": "block-000545",
-      "Name_FR": "Lit magenta",
-      "Name_EN": "Magenta Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Bed.png"
-    },
-    {
-      "Index": "block-000546",
-      "Name_FR": "Bougie magenta",
-      "Name_EN": "Magenta Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Candle.png"
-    },
-    {
-      "Index": "block-000547",
-      "Name_FR": "Tapis magenta",
-      "Name_EN": "Magenta Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Carpet.png"
-    },
-    {
-      "Index": "block-000548",
-      "Name_FR": "Béton magenta",
-      "Name_EN": "Magenta Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Concrete.png"
-    },
-    {
-      "Index": "block-000549",
-      "Name_FR": "Béton magenta en poudre",
-      "Name_EN": "Magenta Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000550",
-      "Name_FR": "Terre cuite émaillée magenta",
-      "Name_EN": "Magenta Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000551",
-      "Name_FR": "Boîte de Shulker magenta",
-      "Name_EN": "Magenta Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000552",
-      "Name_FR": "Verre magenta",
-      "Name_EN": "Magenta Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000553",
-      "Name_FR": "Vitre magenta",
-      "Name_EN": "Magenta Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000554",
-      "Name_FR": "Terre cuite magenta",
-      "Name_EN": "Magenta Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Terracotta.png"
-    },
-    {
-      "Index": "block-000555",
-      "Name_FR": "Laine magenta",
-      "Name_EN": "Magenta Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Magenta_Wool.png"
-    },
-    {
-      "Index": "block-000556",
-      "Name_FR": "Bouton en palétuvier",
-      "Name_EN": "Mangrove Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Button.png"
-    },
-    {
       "Index": "block-000557",
       "Name_FR": "Porte en palétuvier",
       "Name_EN": "Mangrove Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Door.png"
-    },
-    {
-      "Index": "block-000558",
-      "Name_FR": "Barrière en palétuvier",
-      "Name_EN": "Mangrove Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Fence.png"
-    },
-    {
-      "Index": "block-000559",
-      "Name_FR": "Portillon en palétuvier",
-      "Name_EN": "Mangrove Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000560",
-      "Name_FR": "Pancarte suspendue en palétuvier",
-      "Name_EN": "Mangrove Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000561",
-      "Name_FR": "Feuilles de palétuvier",
-      "Name_EN": "Mangrove Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Leaves.png"
-    },
-    {
-      "Index": "block-000562",
-      "Name_FR": "Bûche de palétuvier",
-      "Name_EN": "Mangrove Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Log.png"
-    },
-    {
-      "Index": "block-000563",
-      "Name_FR": "Planches de palétuvier",
-      "Name_EN": "Mangrove Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Planks.png"
-    },
-    {
-      "Index": "block-000564",
-      "Name_FR": "Plaque de pression en palétuvier",
-      "Name_EN": "Mangrove Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Pressure_Plate.png"
     },
     {
       "Index": "block-000565",
@@ -3008,30 +1523,6 @@
       "Name_FR": "Racines de palétuvier",
       "Name_EN": "Mangrove Roots",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Roots.png"
-    },
-    {
-      "Index": "block-000567",
-      "Name_FR": "Pancarte en palétuvier",
-      "Name_EN": "Mangrove Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Sign.png"
-    },
-    {
-      "Index": "block-000568",
-      "Name_FR": "Dalle en palétuvier",
-      "Name_EN": "Mangrove Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Slab.png"
-    },
-    {
-      "Index": "block-000569",
-      "Name_FR": "Escalier en palétuvier",
-      "Name_EN": "Mangrove Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Stairs.png"
-    },
-    {
-      "Index": "block-000570",
-      "Name_FR": "Trappe en palétuvier",
-      "Name_EN": "Mangrove Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mangrove_Trapdoor.png"
     },
     {
       "Index": "block-000571",
@@ -3202,88 +1693,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Netherrack.png"
     },
     {
-      "Index": "block-000599",
-      "Name_FR": "Bouton en chêne",
-      "Name_EN": "Oak Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Button.png"
-    },
-    {
       "Index": "block-000600",
       "Name_FR": "Porte en chêne",
       "Name_EN": "Oak Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Door.png"
-    },
-    {
-      "Index": "block-000601",
-      "Name_FR": "Barrière en chêne",
-      "Name_EN": "Oak Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Fence.png"
-    },
-    {
-      "Index": "block-000602",
-      "Name_FR": "Portillon en chêne",
-      "Name_EN": "Oak Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000603",
-      "Name_FR": "Pancarte suspendue en chêne",
-      "Name_EN": "Oak Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000604",
-      "Name_FR": "Feuilles de chêne",
-      "Name_EN": "Oak Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Leaves.png"
-    },
-    {
-      "Index": "block-000605",
-      "Name_FR": "Bûche de chêne",
-      "Name_EN": "Oak Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Log.png"
-    },
-    {
-      "Index": "block-000606",
-      "Name_FR": "Planches de chêne",
-      "Name_EN": "Oak Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Planks.png"
-    },
-    {
-      "Index": "block-000607",
-      "Name_FR": "Plaque de pression en chêne",
-      "Name_EN": "Oak Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000608",
-      "Name_FR": "Pousse de chêne",
-      "Name_EN": "Oak Sapling",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Sapling.png"
-    },
-    {
-      "Index": "block-000609",
-      "Name_FR": "Pancarte en chêne",
-      "Name_EN": "Oak Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Sign.png"
-    },
-    {
-      "Index": "block-000610",
-      "Name_FR": "Dalle en chêne",
-      "Name_EN": "Oak Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Slab.png"
-    },
-    {
-      "Index": "block-000611",
-      "Name_FR": "Escalier en chêne",
-      "Name_EN": "Oak Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Stairs.png"
-    },
-    {
-      "Index": "block-000612",
-      "Name_FR": "Trappe en chêne",
-      "Name_EN": "Oak Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oak_Trapdoor.png"
     },
     {
       "Index": "block-000613",
@@ -3304,124 +1717,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Ochre_Froglight.png"
     },
     {
-      "Index": "block-000616",
-      "Name_FR": "Oeilchidée ouverte",
-      "Name_EN": "Open Eyeblossom",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Open_Eyeblossom.png"
-    },
-    {
-      "Index": "block-000617",
-      "Name_FR": "Bannière orange",
-      "Name_EN": "Orange Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Banner.png"
-    },
-    {
-      "Index": "block-000618",
-      "Name_FR": "Lit orange",
-      "Name_EN": "Orange Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Bed.png"
-    },
-    {
-      "Index": "block-000619",
-      "Name_FR": "Bougie orange",
-      "Name_EN": "Orange Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Candle.png"
-    },
-    {
-      "Index": "block-000620",
-      "Name_FR": "Tapis orange",
-      "Name_EN": "Orange Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Carpet.png"
-    },
-    {
-      "Index": "block-000621",
-      "Name_FR": "Béton orange",
-      "Name_EN": "Orange Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Concrete.png"
-    },
-    {
-      "Index": "block-000622",
-      "Name_FR": "Béton orange en poudre",
-      "Name_EN": "Orange Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000623",
-      "Name_FR": "Terre cuite émaillée orange",
-      "Name_EN": "Orange Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000624",
-      "Name_FR": "Boîte de Shulker orange",
-      "Name_EN": "Orange Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000625",
-      "Name_FR": "Verre orange",
-      "Name_EN": "Orange Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000626",
-      "Name_FR": "Vitre orange",
-      "Name_EN": "Orange Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000627",
-      "Name_FR": "Terre cuite orange",
-      "Name_EN": "Orange Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Terracotta.png"
-    },
-    {
-      "Index": "block-000628",
-      "Name_FR": "Tulipe orange",
-      "Name_EN": "Orange Tulip",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Tulip.png"
-    },
-    {
-      "Index": "block-000629",
-      "Name_FR": "Laine orange",
-      "Name_EN": "Orange Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Orange_Wool.png"
-    },
-    {
-      "Index": "block-000630",
-      "Name_FR": "Marguerite",
-      "Name_EN": "Oxeye Daisy",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxeye_Daisy.png"
-    },
-    {
       "Index": "block-000631",
       "Name_FR": "Cuivre sculpté oxydé",
       "Name_EN": "Oxidized Chiseled Copper",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Chiseled_Copper.png"
-    },
-    {
-      "Index": "block-000632",
-      "Name_FR": "Cuivre oxydé",
-      "Name_EN": "Oxidized Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper.png"
-    },
-    {
-      "Index": "block-000633",
-      "Name_FR": "Barreaux de cuivre oxydé",
-      "Name_EN": "Oxidized Copper Bars",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper_Bars.png"
-    },
-    {
-      "Index": "block-000634",
-      "Name_FR": "Ampoule en cuivre oxydé",
-      "Name_EN": "Oxidized Copper Bulb",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper_Bulb.png"
-    },
-    {
-      "Index": "block-000635",
-      "Name_FR": "Chaîne en cuivre oxydé",
-      "Name_EN": "Oxidized Copper Chain",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper_Chain.png"
     },
     {
       "Index": "block-000636",
@@ -3434,48 +1733,6 @@
       "Name_FR": "Porte en cuivre oxydé",
       "Name_EN": "Oxidized Copper Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper_Door.png"
-    },
-    {
-      "Index": "block-000638",
-      "Name_FR": "Statue de golem de cuivre oxydé",
-      "Name_EN": "Oxidized Copper Golem Statue",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper_Golem_Statue.png"
-    },
-    {
-      "Index": "block-000639",
-      "Name_FR": "Grille en cuivre oxydé",
-      "Name_EN": "Oxidized Copper Grate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper_Grate.png"
-    },
-    {
-      "Index": "block-000640",
-      "Name_FR": "Lanterne en cuivre oxydé",
-      "Name_EN": "Oxidized Copper Lantern",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper_Lantern.png"
-    },
-    {
-      "Index": "block-000641",
-      "Name_FR": "Trappe en cuivre oxydé",
-      "Name_EN": "Oxidized Copper Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Copper_Trapdoor.png"
-    },
-    {
-      "Index": "block-000642",
-      "Name_FR": "Cuivre taillé oxydé",
-      "Name_EN": "Oxidized Cut Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Cut_Copper.png"
-    },
-    {
-      "Index": "block-000643",
-      "Name_FR": "Dalle de cuivre taillé oxydé",
-      "Name_EN": "Oxidized Cut Copper Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Cut_Copper_Slab.png"
-    },
-    {
-      "Index": "block-000644",
-      "Name_FR": "Escalier en cuivre taillé oxydé",
-      "Name_EN": "Oxidized Cut Copper Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Oxidized_Cut_Copper_Stairs.png"
     },
     {
       "Index": "block-000645",
@@ -3508,88 +1765,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Moss_Carpet.png"
     },
     {
-      "Index": "block-000650",
-      "Name_FR": "Bouton en chêne pâle",
-      "Name_EN": "Pale Oak Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Button.png"
-    },
-    {
       "Index": "block-000651",
       "Name_FR": "Porte en chêne pâle",
       "Name_EN": "Pale Oak Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Door.png"
-    },
-    {
-      "Index": "block-000652",
-      "Name_FR": "Barrière en chêne pâle",
-      "Name_EN": "Pale Oak Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Fence.png"
-    },
-    {
-      "Index": "block-000653",
-      "Name_FR": "Portillon en chêne pâle",
-      "Name_EN": "Pale Oak Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000654",
-      "Name_FR": "Pancarte suspendue en chêne pâle",
-      "Name_EN": "Pale Oak Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000655",
-      "Name_FR": "Feuilles de chêne pâle",
-      "Name_EN": "Pale Oak Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Leaves.png"
-    },
-    {
-      "Index": "block-000656",
-      "Name_FR": "Bûche de chêne pâle",
-      "Name_EN": "Pale Oak Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Log.png"
-    },
-    {
-      "Index": "block-000657",
-      "Name_FR": "Planches de chêne pâle",
-      "Name_EN": "Pale Oak Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Planks.png"
-    },
-    {
-      "Index": "block-000658",
-      "Name_FR": "Plaque de pression en chêne pâle",
-      "Name_EN": "Pale Oak Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000659",
-      "Name_FR": "Pousse de chêne pâle",
-      "Name_EN": "Pale Oak Sapling",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Sapling.png"
-    },
-    {
-      "Index": "block-000660",
-      "Name_FR": "Pancarte en chêne pâle",
-      "Name_EN": "Pale Oak Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Sign.png"
-    },
-    {
-      "Index": "block-000661",
-      "Name_FR": "Dalle en chêne pâle",
-      "Name_EN": "Pale Oak Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Slab.png"
-    },
-    {
-      "Index": "block-000662",
-      "Name_FR": "Escalier en chêne pâle",
-      "Name_EN": "Pale Oak Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Stairs.png"
-    },
-    {
-      "Index": "block-000663",
-      "Name_FR": "Trappe en chêne pâle",
-      "Name_EN": "Pale Oak Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Oak_Trapdoor.png"
     },
     {
       "Index": "block-000664",
@@ -3598,106 +1777,16 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pearlescent_Froglight.png"
     },
     {
-      "Index": "block-000665",
-      "Name_FR": "Pivoine",
-      "Name_EN": "Peony",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Peony.png"
-    },
-    {
       "Index": "block-000666",
       "Name_FR": "Tête de Piglin",
       "Name_EN": "Piglin Head",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Piglin_Head.png"
     },
     {
-      "Index": "block-000667",
-      "Name_FR": "Bannière rose",
-      "Name_EN": "Pink Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Banner.png"
-    },
-    {
-      "Index": "block-000668",
-      "Name_FR": "Lit rose",
-      "Name_EN": "Pink Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Bed.png"
-    },
-    {
-      "Index": "block-000669",
-      "Name_FR": "Bougie rose",
-      "Name_EN": "Pink Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Candle.png"
-    },
-    {
-      "Index": "block-000670",
-      "Name_FR": "Tapis rose",
-      "Name_EN": "Pink Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Carpet.png"
-    },
-    {
-      "Index": "block-000671",
-      "Name_FR": "Béton rose",
-      "Name_EN": "Pink Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Concrete.png"
-    },
-    {
-      "Index": "block-000672",
-      "Name_FR": "Béton rose en poudre",
-      "Name_EN": "Pink Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000673",
-      "Name_FR": "Terre cuite émaillée rose",
-      "Name_EN": "Pink Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000674",
-      "Name_FR": "Boîte de Shulker rose",
-      "Name_EN": "Pink Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000675",
-      "Name_FR": "Verre rose",
-      "Name_EN": "Pink Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000676",
-      "Name_FR": "Vitre rose",
-      "Name_EN": "Pink Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000677",
-      "Name_FR": "Terre cuite rose",
-      "Name_EN": "Pink Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Terracotta.png"
-    },
-    {
-      "Index": "block-000678",
-      "Name_FR": "Tulipe rose",
-      "Name_EN": "Pink Tulip",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Tulip.png"
-    },
-    {
-      "Index": "block-000679",
-      "Name_FR": "Laine rose",
-      "Name_EN": "Pink Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pink_Wool.png"
-    },
-    {
       "Index": "block-000680",
       "Name_FR": "Piston",
       "Name_EN": "Piston",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Piston.png"
-    },
-    {
-      "Index": "block-000681",
-      "Name_FR": "Planturne",
-      "Name_EN": "Pitcher Plant",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pitcher_Plant.png"
     },
     {
       "Index": "block-000682",
@@ -3880,12 +1969,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Polished_Tuff_Wall.png"
     },
     {
-      "Index": "block-000720",
-      "Name_FR": "Coquelicot",
-      "Name_EN": "Poppy",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Poppy.png"
-    },
-    {
       "Index": "block-000722",
       "Name_FR": "Neige poudreuse",
       "Name_EN": "Powder Snow",
@@ -3946,78 +2029,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pumpkin.png"
     },
     {
-      "Index": "block-000732",
-      "Name_FR": "Bannière violette",
-      "Name_EN": "Purple Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Banner.png"
-    },
-    {
-      "Index": "block-000733",
-      "Name_FR": "Lit violet",
-      "Name_EN": "Purple Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Bed.png"
-    },
-    {
-      "Index": "block-000734",
-      "Name_FR": "Bougie violette",
-      "Name_EN": "Purple Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Candle.png"
-    },
-    {
-      "Index": "block-000735",
-      "Name_FR": "Tapis violet",
-      "Name_EN": "Purple Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Carpet.png"
-    },
-    {
-      "Index": "block-000736",
-      "Name_FR": "Béton violet",
-      "Name_EN": "Purple Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Concrete.png"
-    },
-    {
-      "Index": "block-000737",
-      "Name_FR": "Béton violet en poudre",
-      "Name_EN": "Purple Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000738",
-      "Name_FR": "Terre cuite émaillée violette",
-      "Name_EN": "Purple Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000739",
-      "Name_FR": "Boîte de Shulker violette",
-      "Name_EN": "Purple Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000740",
-      "Name_FR": "Verre violet",
-      "Name_EN": "Purple Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000741",
-      "Name_FR": "Vitre violette",
-      "Name_EN": "Purple Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000742",
-      "Name_FR": "Terre cuite violette",
-      "Name_EN": "Purple Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Terracotta.png"
-    },
-    {
-      "Index": "block-000743",
-      "Name_FR": "Laine violette",
-      "Name_EN": "Purple Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purple_Wool.png"
-    },
-    {
       "Index": "block-000744",
       "Name_FR": "Bloc de purpur",
       "Name_EN": "Purpur Block",
@@ -4070,48 +2081,6 @@
       "Name_FR": "Rails",
       "Name_EN": "Rail",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Rail.png"
-    },
-    {
-      "Index": "block-000753",
-      "Name_FR": "Bannière rouge",
-      "Name_EN": "Red Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Banner.png"
-    },
-    {
-      "Index": "block-000754",
-      "Name_FR": "Lit rouge",
-      "Name_EN": "Red Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Bed.png"
-    },
-    {
-      "Index": "block-000755",
-      "Name_FR": "Bougie rouge",
-      "Name_EN": "Red Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Candle.png"
-    },
-    {
-      "Index": "block-000756",
-      "Name_FR": "Tapis rouge",
-      "Name_EN": "Red Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Carpet.png"
-    },
-    {
-      "Index": "block-000757",
-      "Name_FR": "Béton rouge",
-      "Name_EN": "Red Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Concrete.png"
-    },
-    {
-      "Index": "block-000758",
-      "Name_FR": "Béton rouge en poudre",
-      "Name_EN": "Red Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000759",
-      "Name_FR": "Terre cuite émaillée rouge",
-      "Name_EN": "Red Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Glazed_Terracotta.png"
     },
     {
       "Index": "block-000760",
@@ -4180,42 +2149,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Sandstone_Wall.png"
     },
     {
-      "Index": "block-000771",
-      "Name_FR": "Boîte de Shulker rouge",
-      "Name_EN": "Red Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000772",
-      "Name_FR": "Verre rouge",
-      "Name_EN": "Red Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000773",
-      "Name_FR": "Vitre rouge",
-      "Name_EN": "Red Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000774",
-      "Name_FR": "Terre cuite rouge",
-      "Name_EN": "Red Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Terracotta.png"
-    },
-    {
-      "Index": "block-000775",
-      "Name_FR": "Tulipe rouge",
-      "Name_EN": "Red Tulip",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Tulip.png"
-    },
-    {
-      "Index": "block-000776",
-      "Name_FR": "Laine rouge",
-      "Name_EN": "Red Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Wool.png"
-    },
-    {
       "Index": "block-000777",
       "Name_FR": "Comparateur de redstone",
       "Name_EN": "Redstone Comparator",
@@ -4282,12 +2215,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Rooted_Dirt.png"
     },
     {
-      "Index": "block-000788",
-      "Name_FR": "Rosier",
-      "Name_EN": "Rose Bush",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Rose_Bush.png"
-    },
-    {
       "Index": "block-000789",
       "Name_FR": "Sable",
       "Name_EN": "Sand",
@@ -4352,12 +2279,6 @@
       "Name_FR": "Herbes courtes sèches",
       "Name_EN": "Short Dry Grass",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Short_Dry_Grass.png"
-    },
-    {
-      "Index": "block-000800",
-      "Name_FR": "Boîte de shulker",
-      "Name_EN": "Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Shulker_Box.png"
     },
     {
       "Index": "block-000801",
@@ -4516,94 +2437,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Soul_Torch.png"
     },
     {
-      "Index": "block-000827",
-      "Name_FR": "Fleur sporifère",
-      "Name_EN": "Spore Blossom",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spore_Blossom.png"
-    },
-    {
-      "Index": "block-000828",
-      "Name_FR": "Bouton en sapin",
-      "Name_EN": "Spruce Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Button.png"
-    },
-    {
       "Index": "block-000829",
       "Name_FR": "Porte en sapin",
       "Name_EN": "Spruce Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Door.png"
-    },
-    {
-      "Index": "block-000830",
-      "Name_FR": "Barrière en sapin",
-      "Name_EN": "Spruce Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Fence.png"
-    },
-    {
-      "Index": "block-000831",
-      "Name_FR": "Portillon en sapin",
-      "Name_EN": "Spruce Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000832",
-      "Name_FR": "Pancarte suspendue en sapin",
-      "Name_EN": "Spruce Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Hanging_Sign.png"
-    },
-    {
-      "Index": "block-000833",
-      "Name_FR": "Feuilles de sapin",
-      "Name_EN": "Spruce Leaves",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Leaves.png"
-    },
-    {
-      "Index": "block-000834",
-      "Name_FR": "Bûche de sapin",
-      "Name_EN": "Spruce Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Log.png"
-    },
-    {
-      "Index": "block-000835",
-      "Name_FR": "Planches de sapin",
-      "Name_EN": "Spruce Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Planks.png"
-    },
-    {
-      "Index": "block-000836",
-      "Name_FR": "Plaque de pression en sapin",
-      "Name_EN": "Spruce Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Pressure_Plate.png"
-    },
-    {
-      "Index": "block-000837",
-      "Name_FR": "Pousse de sapin",
-      "Name_EN": "Spruce Sapling",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Sapling.png"
-    },
-    {
-      "Index": "block-000838",
-      "Name_FR": "Pancarte en sapin",
-      "Name_EN": "Spruce Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Sign.png"
-    },
-    {
-      "Index": "block-000839",
-      "Name_FR": "Dalle en sapin",
-      "Name_EN": "Spruce Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Slab.png"
-    },
-    {
-      "Index": "block-000840",
-      "Name_FR": "Escalier en sapin",
-      "Name_EN": "Spruce Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Stairs.png"
-    },
-    {
-      "Index": "block-000841",
-      "Name_FR": "Trappe en sapin",
-      "Name_EN": "Spruce Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Spruce_Trapdoor.png"
     },
     {
       "Index": "block-000842",
@@ -4672,64 +2509,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stonecutter.png"
     },
     {
-      "Index": "block-000853",
-      "Name_FR": "Bûche d'acacia écorcée",
-      "Name_EN": "Stripped Acacia Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Acacia_Log.png"
-    },
-    {
-      "Index": "block-000854",
-      "Name_FR": "Bûche de bouleau écorcée",
-      "Name_EN": "Stripped Birch Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Birch_Log.png"
-    },
-    {
-      "Index": "block-000855",
-      "Name_FR": "Bûche de cerisier écorcée",
-      "Name_EN": "Stripped Cherry Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Cherry_Log.png"
-    },
-    {
       "Index": "block-000856",
       "Name_FR": "Tige carmin dénudée",
       "Name_EN": "Stripped Crimson Hyphae",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Crimson_Hyphae.png"
-    },
-    {
-      "Index": "block-000857",
-      "Name_FR": "Bûche de chêne noir écorcée",
-      "Name_EN": "Stripped Dark Oak Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Dark_Oak_Log.png"
-    },
-    {
-      "Index": "block-000858",
-      "Name_FR": "Bûche d'acajou écorcée",
-      "Name_EN": "Stripped Jungle Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Jungle_Log.png"
-    },
-    {
-      "Index": "block-000859",
-      "Name_FR": "Bûche de palétuvier écorcée",
-      "Name_EN": "Stripped Mangrove Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Mangrove_Log.png"
-    },
-    {
-      "Index": "block-000860",
-      "Name_FR": "Bûche de chêne écorcée",
-      "Name_EN": "Stripped Oak Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Oak_Log.png"
-    },
-    {
-      "Index": "block-000861",
-      "Name_FR": "Bûche de chêne pâle écorcée",
-      "Name_EN": "Stripped Pale Oak Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Pale_Oak_Log.png"
-    },
-    {
-      "Index": "block-000862",
-      "Name_FR": "Bûche de sapin écorcée",
-      "Name_EN": "Stripped Spruce Log",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Stripped_Spruce_Log.png"
     },
     {
       "Index": "block-000863",
@@ -4742,12 +2525,6 @@
       "Name_FR": "Canne à sucre",
       "Name_EN": "Sugar Cane",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sugar_Cane.png"
-    },
-    {
-      "Index": "block-000873",
-      "Name_FR": "Tournesol",
-      "Name_EN": "Sunflower",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sunflower.png"
     },
     {
       "Index": 1000936,
@@ -4780,12 +2557,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Tall_Seagrass.png"
     },
     {
-      "Index": "block-000877",
-      "Name_FR": "Terre cuite",
-      "Name_EN": "Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Terracotta.png"
-    },
-    {
       "Index": "block-000878",
       "Name_FR": "Verre teinté",
       "Name_EN": "Tinted Glass",
@@ -4802,12 +2573,6 @@
       "Name_FR": "Torche",
       "Name_EN": "Torch",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Torch.png"
-    },
-    {
-      "Index": "block-000881",
-      "Name_FR": "Torche-fleur",
-      "Name_EN": "Torchflower",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Torchflower.png"
     },
     {
       "Index": "block-000882",
@@ -4924,34 +2689,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Vines.png"
     },
     {
-      "Index": "block-000899",
-      "Name_FR": "Bouton biscornu",
-      "Name_EN": "Warped Button",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Button.png"
-    },
-    {
       "Index": "block-000900",
       "Name_FR": "Porte biscornue",
       "Name_EN": "Warped Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Door.png"
-    },
-    {
-      "Index": "block-000901",
-      "Name_FR": "Barrière biscornue",
-      "Name_EN": "Warped Fence",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Fence.png"
-    },
-    {
-      "Index": "block-000902",
-      "Name_FR": "Portillon biscornu",
-      "Name_EN": "Warped Fence Gate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Fence_Gate.png"
-    },
-    {
-      "Index": "block-000903",
-      "Name_FR": "Pancarte suspendue biscornue",
-      "Name_EN": "Warped Hanging Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Hanging_Sign.png"
     },
     {
       "Index": "block-000904",
@@ -4966,46 +2707,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Nylium.png"
     },
     {
-      "Index": "block-000906",
-      "Name_FR": "Planches biscornues",
-      "Name_EN": "Warped Planks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Planks.png"
-    },
-    {
-      "Index": "block-000907",
-      "Name_FR": "Plaque de pression biscornue",
-      "Name_EN": "Warped Pressure Plate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Pressure_Plate.png"
-    },
-    {
       "Index": "block-000908",
       "Name_FR": "Racines biscornues",
       "Name_EN": "Warped Roots",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Roots.png"
-    },
-    {
-      "Index": "block-000909",
-      "Name_FR": "Pancarte biscornue",
-      "Name_EN": "Warped Sign",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Sign.png"
-    },
-    {
-      "Index": "block-000910",
-      "Name_FR": "Dalle biscornue",
-      "Name_EN": "Warped Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Slab.png"
-    },
-    {
-      "Index": "block-000911",
-      "Name_FR": "Escalier biscornu",
-      "Name_EN": "Warped Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Stairs.png"
-    },
-    {
-      "Index": "block-000912",
-      "Name_FR": "Trappe biscornue",
-      "Name_EN": "Warped Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Warped_Trapdoor.png"
     },
     {
       "Index": "block-000913",
@@ -5020,30 +2725,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Chiseled_Copper.png"
     },
     {
-      "Index": "block-000915",
-      "Name_FR": "Cuivre érodé",
-      "Name_EN": "Waxed Weathered Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper.png"
-    },
-    {
-      "Index": "block-000916",
-      "Name_FR": "Barreaux de cuivre érodé",
-      "Name_EN": "Waxed Weathered Copper Bars",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper_Bars.png"
-    },
-    {
-      "Index": "block-000917",
-      "Name_FR": "Ampoule en cuivre érodé",
-      "Name_EN": "Waxed Weathered Copper Bulb",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper_Bulb.png"
-    },
-    {
-      "Index": "block-000918",
-      "Name_FR": "Chaîne en cuivre érodé",
-      "Name_EN": "Waxed Weathered Copper Chain",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper_Chain.png"
-    },
-    {
       "Index": "block-000919",
       "Name_FR": "Coffre en cuivre érodé",
       "Name_EN": "Waxed Weathered Copper Chest",
@@ -5054,48 +2735,6 @@
       "Name_FR": "Porte en cuivre érodé",
       "Name_EN": "Waxed Weathered Copper Door",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper_Door.png"
-    },
-    {
-      "Index": "block-000921",
-      "Name_FR": "Statue de golem de cuivre érodé",
-      "Name_EN": "Waxed Weathered Copper Golem Statue",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper_Golem_Statue.png"
-    },
-    {
-      "Index": "block-000922",
-      "Name_FR": "Grille en cuivre érodé",
-      "Name_EN": "Waxed Weathered Copper Grate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper_Grate.png"
-    },
-    {
-      "Index": "block-000923",
-      "Name_FR": "Lanterne en cuivre érodé",
-      "Name_EN": "Waxed Weathered Copper Lantern",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper_Lantern.png"
-    },
-    {
-      "Index": "block-000924",
-      "Name_FR": "Trappe en cuivre érodé",
-      "Name_EN": "Waxed Weathered Copper Trapdoor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Copper_Trapdoor.png"
-    },
-    {
-      "Index": "block-000925",
-      "Name_FR": "Cuivre taillé érodé",
-      "Name_EN": "Waxed Weathered Cut Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Cut_Copper.png"
-    },
-    {
-      "Index": "block-000926",
-      "Name_FR": "Dalle de cuivre taillé érodé",
-      "Name_EN": "Waxed Weathered Cut Copper Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Cut_Copper_Slab.png"
-    },
-    {
-      "Index": "block-000927",
-      "Name_FR": "Escalier en cuivre taillé érodé",
-      "Name_EN": "Waxed Weathered Cut Copper Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Waxed_Weathered_Cut_Copper_Stairs.png"
     },
     {
       "Index": "block-000928",
@@ -5110,172 +2749,250 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Weeping_Vines.png"
     },
     {
-      "Index": "block-000930",
-      "Name_FR": "Bannière blanche",
-      "Name_EN": "White Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Banner.png"
-    },
-    {
-      "Index": "block-000931",
-      "Name_FR": "Lit blanc",
-      "Name_EN": "White Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Bed.png"
-    },
-    {
-      "Index": "block-000932",
-      "Name_FR": "Bougie blanche",
-      "Name_EN": "White Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Candle.png"
-    },
-    {
-      "Index": "block-000933",
-      "Name_FR": "Tapis blanc",
-      "Name_EN": "White Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Carpet.png"
-    },
-    {
-      "Index": "block-000934",
-      "Name_FR": "Béton blanc",
-      "Name_EN": "White Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Concrete.png"
-    },
-    {
-      "Index": "block-000935",
-      "Name_FR": "Béton blanc en poudre",
-      "Name_EN": "White Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000936",
-      "Name_FR": "Terre cuite émaillée blanche",
-      "Name_EN": "White Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000937",
-      "Name_FR": "Boîte de Shulker blanche",
-      "Name_EN": "White Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000938",
-      "Name_FR": "Verre blanc",
-      "Name_EN": "White Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000939",
-      "Name_FR": "Vitre blanche",
-      "Name_EN": "White Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000940",
-      "Name_FR": "Terre cuite blanche",
-      "Name_EN": "White Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Terracotta.png"
-    },
-    {
-      "Index": "block-000941",
-      "Name_FR": "Tulipe blanche",
-      "Name_EN": "White Tulip",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Tulip.png"
-    },
-    {
-      "Index": "block-000942",
-      "Name_FR": "Laine blanche",
-      "Name_EN": "White Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/White_Wool.png"
-    },
-    {
-      "Index": "block-000943",
-      "Name_FR": "Rose de Wither",
-      "Name_EN": "Wither Rose",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Wither_Rose.png"
-    },
-    {
       "Index": "block-000944",
       "Name_FR": "Crâne de wither squelette",
       "Name_EN": "Wither Skeleton Skull",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Wither_Skeleton_Skull.png"
     },
     {
-      "Index": "block-000945",
-      "Name_FR": "Bannière jaune",
-      "Name_EN": "Yellow Banner",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Banner.png"
-    },
-    {
-      "Index": "block-000946",
-      "Name_FR": "Lit jaune",
-      "Name_EN": "Yellow Bed",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Bed.png"
-    },
-    {
-      "Index": "block-000947",
-      "Name_FR": "Bougie jaune",
-      "Name_EN": "Yellow Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Candle.png"
-    },
-    {
-      "Index": "block-000948",
-      "Name_FR": "Tapis jaune",
-      "Name_EN": "Yellow Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Carpet.png"
-    },
-    {
-      "Index": "block-000949",
-      "Name_FR": "Béton jaune",
-      "Name_EN": "Yellow Concrete",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Concrete.png"
-    },
-    {
-      "Index": "block-000950",
-      "Name_FR": "Béton jaune en poudre",
-      "Name_EN": "Yellow Concrete Powder",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Concrete_Powder.png"
-    },
-    {
-      "Index": "block-000951",
-      "Name_FR": "Terre cuite émaillée jaune",
-      "Name_EN": "Yellow Glazed Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Glazed_Terracotta.png"
-    },
-    {
-      "Index": "block-000952",
-      "Name_FR": "Boîte de Shulker jaune",
-      "Name_EN": "Yellow Shulker Box",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Shulker_Box.png"
-    },
-    {
-      "Index": "block-000953",
-      "Name_FR": "Verre jaune",
-      "Name_EN": "Yellow Stained Glass",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Stained_Glass.png"
-    },
-    {
-      "Index": "block-000954",
-      "Name_FR": "Vitre jaune",
-      "Name_EN": "Yellow Stained Glass Pane",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Stained_Glass_Pane.png"
-    },
-    {
-      "Index": "block-000955",
-      "Name_FR": "Terre cuite jaune",
-      "Name_EN": "Yellow Terracotta",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Terracotta.png"
-    },
-    {
-      "Index": "block-000956",
-      "Name_FR": "Laine jaune",
-      "Name_EN": "Yellow Wool",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Yellow_Wool.png"
-    },
-    {
       "Index": "block-000957",
       "Name_FR": "Tête de zombie",
       "Name_EN": "Zombie Head",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Zombie_Head.png"
+    },
+    {
+      "Index": "blocktype-001",
+      "Name_FR": "Bannière",
+      "Name_EN": "Banner",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Banner.gif",
+      "Quantity": {
+        "Max": 16
+      }
+    },
+    {
+      "Index": "blocktype-002",
+      "Name_FR": "Lit",
+      "Name_EN": "Bed",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Bed.gif",
+      "Quantity": {
+        "Max": 1
+      }
+    },
+    {
+      "Index": "blocktype-003",
+      "Name_FR": "Bougie",
+      "Name_EN": "Candles",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Candles.gif"
+    },
+    {
+      "Index": "blocktype-004",
+      "Name_FR": "Tapis",
+      "Name_EN": "Carpet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Carpet.gif"
+    },
+    {
+      "Index": "blocktype-005",
+      "Name_FR": "Béton",
+      "Name_EN": "Concrete",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Concrete.gif"
+    },
+    {
+      "Index": "blocktype-006",
+      "Name_FR": "Poudre de béton",
+      "Name_EN": "Concrete Powder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Concrete_Powder.gif"
+    },
+    {
+      "Index": "blocktype-007",
+      "Name_FR": "Barre de cuivre",
+      "Name_EN": "Copper Bar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Bar.gif"
+    },
+    {
+      "Index": "blocktype-008",
+      "Name_FR": "Bloc de cuivre",
+      "Name_EN": "Copper Block",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Block.gif"
+    },
+    {
+      "Index": "blocktype-009",
+      "Name_FR": "Ampoule de cuivre",
+      "Name_EN": "Copper Bulb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Bulb.gif"
+    },
+    {
+      "Index": "blocktype-010",
+      "Name_FR": "Chaîne de cuivre",
+      "Name_EN": "Copper Chain",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Chain.gif"
+    },
+    {
+      "Index": "blocktype-011",
+      "Name_FR": "Golem de cuivre",
+      "Name_EN": "Copper Golem",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Golem.gif"
+    },
+    {
+      "Index": "blocktype-012",
+      "Name_FR": "Grille de cuivre",
+      "Name_EN": "Copper Grate",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Grate.gif"
+    },
+    {
+      "Index": "blocktype-013",
+      "Name_FR": "Lanterne de cuivre",
+      "Name_EN": "Copper Lantern",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Lantern.gif"
+    },
+    {
+      "Index": "blocktype-014",
+      "Name_FR": "Trappe de cuivre",
+      "Name_EN": "Copper Trapdoor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Trapdoor.gif"
+    },
+    {
+      "Index": "blocktype-015",
+      "Name_FR": "Cuivre taillé",
+      "Name_EN": "Cut Copper",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cut_Copper.gif"
+    },
+    {
+      "Index": "blocktype-016",
+      "Name_FR": "Dalle de cuivre taillé",
+      "Name_EN": "Cut Copper Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cut_Copper_Slab.gif"
+    },
+    {
+      "Index": "blocktype-017",
+      "Name_FR": "Escalier de cuivre taillé",
+      "Name_EN": "Cut Copper Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cut_Copper_Stairs.gif"
+    },
+    {
+      "Index": "blocktype-018",
+      "Name_FR": "Fleurs",
+      "Name_EN": "Flowers",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Flowers.gif"
+    },
+    {
+      "Index": "blocktype-019",
+      "Name_FR": "Terre cuite émaillée",
+      "Name_EN": "Glazed Terracotta",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Glazed_Terracotta.gif"
+    },
+    {
+      "Index": "blocktype-020",
+      "Name_FR": "Panneau suspendu",
+      "Name_EN": "Hanging Sign",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Hanging_Sign.gif"
+    },
+    {
+      "Index": "blocktype-021",
+      "Name_FR": "Feuilles",
+      "Name_EN": "Leaves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Leaves.gif"
+    },
+    {
+      "Index": "blocktype-022",
+      "Name_FR": "Bûche",
+      "Name_EN": "Log",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Log.gif"
+    },
+    {
+      "Index": "blocktype-023",
+      "Name_FR": "Pousse",
+      "Name_EN": "Sapling",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Sapling.gif"
+    },
+    {
+      "Index": "blocktype-024",
+      "Name_FR": "Boîte de Shulker",
+      "Name_EN": "Shulkers Box",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Shulkers_Box.gif"
+    },
+    {
+      "Index": "blocktype-025",
+      "Name_FR": "Verre teinté",
+      "Name_EN": "Stained Glass",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Stained_Glass.gif"
+    },
+    {
+      "Index": "blocktype-026",
+      "Name_FR": "Panneau de verre teinté",
+      "Name_EN": "Stained Glass Pane",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Stained_Glass_Pane.gif"
+    },
+    {
+      "Index": "blocktype-027",
+      "Name_FR": "Bûche écorcée",
+      "Name_EN": "Stripped Log",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Stripped_Log.gif"
+    },
+    {
+      "Index": "blocktype-028",
+      "Name_FR": "Terre cuite",
+      "Name_EN": "Terracotta",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Terracotta.gif"
+    },
+    {
+      "Index": "blocktype-029",
+      "Name_FR": "Bouton en bois",
+      "Name_EN": "Wooden Button",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Button.gif"
+    },
+    {
+      "Index": "blocktype-030",
+      "Name_FR": "Portillon en bois",
+      "Name_EN": "Wooden Fence Gates",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Fence_Gates.gif"
+    },
+    {
+      "Index": "blocktype-031",
+      "Name_FR": "Clôture en bois",
+      "Name_EN": "Wooden Fences",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Fences.gif"
+    },
+    {
+      "Index": "blocktype-032",
+      "Name_FR": "Planches en bois",
+      "Name_EN": "Wooden Planks",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Planks.gif"
+    },
+    {
+      "Index": "blocktype-033",
+      "Name_FR": "Plaque de pression en bois",
+      "Name_EN": "Wooden Pressure Plate",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Pressure_Plate.gif"
+    },
+    {
+      "Index": "blocktype-034",
+      "Name_FR": "Panneau en bois",
+      "Name_EN": "Wooden Sign",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Sign.gif"
+    },
+    {
+      "Index": "blocktype-035",
+      "Name_FR": "Dalle en bois",
+      "Name_EN": "Wooden Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Slab.gif"
+    },
+    {
+      "Index": "blocktype-036",
+      "Name_FR": "Escalier en bois",
+      "Name_EN": "Wooden Stairs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Stairs.gif"
+    },
+    {
+      "Index": "blocktype-037",
+      "Name_FR": "Trappe en bois",
+      "Name_EN": "Wooden Trapdoor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Trapdoor.gif"
+    },
+    {
+      "Index": "blocktype-038",
+      "Name_FR": "Laine",
+      "Name_EN": "Wool",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wool.gif"
     }
   ]
 }

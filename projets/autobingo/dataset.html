@@ -154,7 +154,8 @@
                 datasetManager.getDatasets(cat, sub).forEach(ds => {
                     const opt = document.createElement('option');
                     opt.value = ds.name;
-                    opt.textContent = ds.name;
+                    const flags = (ds.flags || []).join(', ');
+                    opt.textContent = flags ? `${ds.name} [${flags}]` : ds.name;
                     dsSel.appendChild(opt);
                 });
                 dsSel.disabled = false;

@@ -11,6 +11,7 @@
         items: [],
         currentDefinition: null,
         filterValues: {},
+        invertFilterValues: {},
         sortColumn: null,
         sortAsc: true,
         hideValidImages: false,
@@ -40,6 +41,7 @@
             this.currentDefinition = definition;
             this.imageStatus = {};
             this.filterValues = {};
+            this.invertFilterValues = {};
             this.sortColumn = null;
             this.sortAsc = true;
             this.hideValidImages = false;
@@ -107,6 +109,15 @@
          * Render the table
          */
         render() {
+            // Save active element info for focus restoration
+            const activeEl = document.activeElement;
+            let savedFocusId = null;
+            let savedColumn = null;
+            if (activeEl) {
+                savedColumn = activeEl.dataset ? activeEl.dataset.column : null;
+                savedFocusId = activeEl.id;
+            }
+
             this.container.innerHTML = '';
 
             // --- Quantizable info bar ---
@@ -182,13 +193,13 @@
             const thead = document.createElement('thead');
             const tr = document.createElement('tr');
 
-            // Columns config
+            // Columns config — now all columns are filterable
             const columns = [
                 { key: 'index', label: 'Index', filter: true },
                 { key: 'nameEn', label: 'Name EN', filter: true },
                 { key: 'nameFr', label: 'Name FR', filter: true },
-                { key: 'pictureMain', label: 'Picture Main', filter: false },
-                { key: 'pictureAlt', label: 'Picture Alt', filter: false }
+                { key: 'pictureMain', label: 'Picture Main', filter: true },
+                { key: 'pictureAlt', label: 'Picture Alt', filter: true }
             ];
 
             if (isQuantizable) {
@@ -198,7 +209,7 @@
 
             columns.forEach(col => {
                 const th = document.createElement('th');
-                
+
                 // Sort label
                 const label = document.createElement('span');
                 label.className = 'dataset-th-label';
@@ -212,14 +223,28 @@
                 }
                 th.appendChild(label);
 
-                // Filter input
+                // Filter input (normal)
                 if (col.filter) {
                     const inp = document.createElement('input');
                     inp.type = 'text';
                     inp.className = 'dataset-filter-input';
                     inp.dataset.column = col.key;
+                    inp.dataset.filterType = 'normal';
                     inp.value = this.filterValues[col.key] || '';
+                    inp.placeholder = 'include...';
                     th.appendChild(inp);
+                }
+
+                // Inverse filter input (red background)
+                if (col.filter) {
+                    const invInp = document.createElement('input');
+                    invInp.type = 'text';
+                    invInp.className = 'dataset-filter-input dataset-filter-inverse';
+                    invInp.dataset.column = col.key;
+                    invInp.dataset.filterType = 'inverse';
+                    invInp.value = this.invertFilterValues[col.key] || '';
+                    invInp.placeholder = 'exclude...';
+                    th.appendChild(invInp);
                 }
 
                 tr.appendChild(th);
@@ -229,7 +254,7 @@
 
             // Body
             const tbody = document.createElement('tbody');
-            filtered.forEach((item, idx) => {
+            filtered.forEach((item) => {
                 const row = document.createElement('tr');
                 const origIdx = this.items.indexOf(item);
 
@@ -289,7 +314,7 @@
                 // Quantizable columns: Min / Max
                 if (isQuantizable) {
                     const bounds = this._getQuantityBounds(item);
-                    
+
                     // Min
                     const tdMin = document.createElement('td');
                     tdMin.style.textAlign = 'center';
@@ -344,6 +369,31 @@
 
             // Bind events on the table using delegation
             this._bindTableEvents();
+
+            // Restore focus to the previously active filter input
+            if (savedColumn || savedFocusId) {
+                requestAnimationFrame(() => {
+                    // Try to find by same column + filterType first
+                    let target = null;
+                    if (savedColumn && activeEl && activeEl.dataset) {
+                        const filterType = activeEl.dataset.filterType || 'normal';
+                        target = document.querySelector(
+                            `input.dataset-filter-input[data-column="${savedColumn}"][data-filter-type="${filterType}"]`
+                        );
+                    }
+                    if (!target && savedFocusId) {
+                        target = document.getElementById(savedFocusId);
+                    }
+                    if (target) {
+                        target.focus();
+                        // Place cursor at the end
+                        const len = target.value.length;
+                        if (target.setSelectionRange) {
+                            target.setSelectionRange(len, len);
+                        }
+                    }
+                });
+            }
         },
 
         /**
@@ -368,14 +418,23 @@
                 this.render();
             });
 
-            // Filter input - delegation
+            // Filter input - delegation with 500ms debounce
             table.addEventListener('input', (e) => {
                 const inp = e.target.closest('.dataset-filter-input');
                 if (!inp || !inp.dataset.column) return;
-                this.filterValues[inp.dataset.column] = inp.value;
-                // Debounce rendering
+
+                const col = inp.dataset.column;
+                const filterType = inp.dataset.filterType || 'normal';
+
+                if (filterType === 'inverse') {
+                    this.invertFilterValues[col] = inp.value;
+                } else {
+                    this.filterValues[col] = inp.value;
+                }
+
+                // Debounce rendering with 500ms
                 clearTimeout(this._filterTimer);
-                this._filterTimer = setTimeout(() => this.render(), 200);
+                this._filterTimer = setTimeout(() => this.render(), 500);
             });
         },
 
@@ -430,21 +489,40 @@
         },
 
         /**
+         * Get the field value for an item by column key
+         */
+        _getItemField(item, key) {
+            if (key === 'index') return item.index != null ? String(item.index) : '-';
+            if (key === 'nameEn') return item.nameEn || '';
+            if (key === 'nameFr') return item.nameFr || '';
+            if (key === 'pictureMain') return item.pictureMain || '';
+            if (key === 'pictureAlt') return item.pictureAlt || '';
+            return '';
+        },
+
+        /**
          * Get filtered and sorted data
          */
         _getFilteredData() {
             let data = [...this.items];
 
-            // Apply filters
+            // Apply normal filters (include)
             for (const [key, value] of Object.entries(this.filterValues)) {
                 if (!value) continue;
                 const q = value.toLowerCase();
                 data = data.filter(item => {
-                    let field = '';
-                    if (key === 'index') field = String(item.index != null ? item.index : '-');
-                    else if (key === 'nameEn') field = item.nameEn || '';
-                    else if (key === 'nameFr') field = item.nameFr || '';
-                    return field.toLowerCase().includes(q);
+                    const field = this._getItemField(item, key).toLowerCase();
+                    return field.includes(q);
+                });
+            }
+
+            // Apply inverse filters (exclude)
+            for (const [key, value] of Object.entries(this.invertFilterValues)) {
+                if (!value) continue;
+                const q = value.toLowerCase();
+                data = data.filter(item => {
+                    const field = this._getItemField(item, key).toLowerCase();
+                    return !field.includes(q);
                 });
             }
 

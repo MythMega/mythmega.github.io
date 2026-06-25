@@ -496,6 +496,19 @@ a:hover {
     white-space: nowrap;
 }
 
+.dataset-flag-badge {
+    flex-shrink: 0;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background-color: #0e9c10;
+}
+
 .dataset-qty-badge {
     flex-shrink: 0;
     background-color: #dc1414;

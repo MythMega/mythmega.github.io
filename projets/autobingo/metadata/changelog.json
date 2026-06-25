@@ -165,6 +165,18 @@
         "Name_EN": "Beta - OBS Overlay + Overlay Style CSS",
         "Desc_FR": "[MAJOR] Générateur d’overlay pour la grille de bingo du jeu de données intégré, [MAJOR] Générateur de CSS pour des overlays OBS personnalisés",
         "Desc_EN": "[MAJOR] Overlay Generator For Integrated Dataset's Bingo Grid, [MAJOR] CSS Generator for custom OBS Overlays",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/611836567b223942e466e06a4ece4e7686b5ffd7"
+    },
+    {
+        "Version": {
+            "ID": 15,
+            "Number": "Beta b0.8.0"
+        }, 
+        "Date": "2026-06-25",
+        "Name_FR": "Beta - Flags sur Dataset",
+        "Name_EN": "Beta - Dataset's Flags",
+        "Desc_FR": "[MAJOR] Possibilité d'ajouter des flags à des datasets pour mieux comprendre ce que c'est",
+        "Desc_EN": "[MAJOR] Ability to add Flags on datasets to give more information about it",
         "Link": "#"
     }
 ]

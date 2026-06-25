@@ -4,741 +4,997 @@
     "Category": "Elden Ring",
     "Subcategory": "Main & DLC",
     "Location": "./data/eldenring/eldenring_armor.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Elden Ring Full",
     "Category": "Elden Ring",
     "Subcategory": "Main & DLC",
     "Location": "./data/eldenring/eldenring_full.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Elden Ring Goods",
     "Category": "Elden Ring",
     "Subcategory": "Main & DLC",
     "Location": "./data/eldenring/eldenring_goods.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Elden Ring Weapon",
     "Category": "Elden Ring",
     "Subcategory": "Main & DLC",
     "Location": "./data/eldenring/eldenring_weapon.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SM64 - 1st Floor",
     "Category": "Mario",
     "Subcategory": "Super Mario 64",
     "Location": "./data/mario/sm64_1stfloor.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SM64 - All Stars",
     "Category": "Mario",
     "Subcategory": "Super Mario 64",
     "Location": "./data/mario/sm64_allstars.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SM64 - Main Levels Stars",
     "Category": "Mario",
     "Subcategory": "Super Mario 64",
     "Location": "./data/mario/sm64_mainlevels.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SM64 - Main Stars 100Coinless",
     "Category": "Mario",
     "Subcategory": "Super Mario 64",
     "Location": "./data/mario/sm64_main_without_100c.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SM64 - Main Stars Coinless (no 100, no red)",
     "Category": "Mario",
     "Subcategory": "Super Mario 64",
     "Location": "./data/mario/sm64_coinless.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SMS - All Shine (Including Blue Coins)",
     "Category": "Mario",
     "Subcategory": "Super Mario Sunshine",
     "Location": "./data/mario/sms_allshine.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SMS - All Shine BlueCoinless",
     "Category": "Mario",
     "Subcategory": "Super Mario Sunshine",
     "Location": "./data/mario/sms_allshine_without_bc.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SMS - Delfino Shine",
     "Category": "Mario",
     "Subcategory": "Super Mario Sunshine",
     "Location": "./data/mario/sms_delfino.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SMS - Main Levels Shine",
     "Category": "Mario",
     "Subcategory": "Super Mario Sunshine",
     "Location": "./data/mario/sms_mainlevels.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SMS - Main Shines 100Coinless",
     "Category": "Mario",
     "Subcategory": "Super Mario Sunshine",
     "Location": "./data/mario/sms_100coinless.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "SMS - Main Shines Coinless (no 100, no red)",
     "Category": "Mario",
     "Subcategory": "Super Mario Sunshine",
     "Location": "./data/mario/sms_coinless.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Minecraft 1.21.11 - Mounts of Mayhem",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
     "Location": "./data/minecraft/mc1.21.11-full.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 1.21.11 - Mounts of Mayhem - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc1.21.11-full-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 1.21.9 - the Copper Age",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
     "Location": "./data/minecraft/mc1.21.9-full.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 1.21.9 - the Copper Age - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc1.21.9-full-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.1 - Tiny Takeover",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
     "Location": "./data/minecraft/mc26.1-full.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.1 - Tiny Takeover - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26.1-full-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.2 - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
     "Location": "./data/minecraft/mc26.2.q-full.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.2 - Chaos Cubed - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26.2.q-full-simpl.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.3 - Unknown Version 3rd Drop",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
     "Location": "./data/minecraft/mc26.3.q-full.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.3 - Unknown Version 3rd Drop - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26.3.q-full-simpl.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
     "Location": "./data/minecraft/mc1.21.11-blocks.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc1.21.11-blocks-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 1.21.9 - Blocks - the Copper Age",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
     "Location": "./data/minecraft/mc1.21.9-blocks.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 1.21.9 - Blocks - the Copper Age - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc1.21.9-blocks-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.1 - Blocks - Tiny Takeover",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
     "Location": "./data/minecraft/mc26.1-blocks.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.1 - Blocks - Tiny Takeover - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc26.1-blocks-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.2 - Blocks - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
     "Location": "./data/minecraft/mc26.2.q-blocks.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.2 - Blocks - Chaos Cubed - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc26.2.q-blocks-simpl.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.3 - Blocks - Unknown Name",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
     "Location": "./data/minecraft/mc26.3.q-blocks.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.3 - Blocks - Unknown Name - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc26.3.q-blocks-simpl.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 1.21.11 - Items - Mounts of Mayhem",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
     "Location": "./data/minecraft/mc1.21.11-items.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 1.21.11 - Items - Mounts of Mayhem - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc1.21.11-items-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 1.21.9 - Items -The Copper Age",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
     "Location": "./data/minecraft/mc1.21.9-items.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 1.21.9 - Items -The Copper Age - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc1.21.9-items-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.1 - Items - Tiny Takeover",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
     "Location": "./data/minecraft/mc26.1-items.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.1 - Items - Tiny Takeover - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.1-items-simpl.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.2 - Items - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
     "Location": "./data/minecraft/mc26.2.q-items.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.2 - Items - Chaos Cubed - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.2.q-items-simpl.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "Minecraft 26.3 - Items - Unknown Name",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
     "Location": "./data/minecraft/mc26.3.q-items.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Minecraft 26.3 - Items - Unknown Name - Simple",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.3.q-items-simpl.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified"
+    ]
   },
   {
     "Name": "PokeFull",
     "Category": "Pokemon",
     "Subcategory": "Dexes",
     "Location": "./data/pokemon/pokemon_home.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Alola",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_alola.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Galar",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_galar.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Hisui",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_hisui.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Hoenn",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_hoenn.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Johto",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_johto.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Kalos",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_kalos.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Kanto",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_kanto.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Mega",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_mega.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Paldea",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_paldea.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Sinnoh",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_sinnoh.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Unys",
     "Category": "Pokemon",
     "Subcategory": "Generation Dex",
     "Location": "./data/pokemon/pokemon_unys.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Diamond / Pearl / Shining Diamond / Shining Pearl",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/pokemon_game_dpbdsp.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Gold / Silver / Crystal",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/pokemon_game_gsc.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Legends : Arceus",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/pla.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Legends: Z-A (no DLC)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/za_no_dlc.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Legends: Z-A : Full Game (Game + DLC)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/za_fullgame.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Legends: Z-A : Mega Dimension (DLC Only)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/za_dlc.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Red / Blue / Yellow / Let's Go",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/pokemon_game_rb.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Ruby / Saphirr / Emerald",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/pokemon_game_rse.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Scarlet / Violet (no DLC)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/sv_no_dlc.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Scarlet / Violet : Full Game (Game + DLC)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/sv_fullgame.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Scarlet / Violet : Indigo Disk (DLC Only)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/sv_indigodisk.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Scarlet / Violet : The Teal Mask (DLC Only)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/sv_tealmask.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Soleil / Lune / Ultra Soleil / Ultra Lune",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/pokemon_game_bwb2w2.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Soleil / Lune / Ultra Soleil / Ultra Lune",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/pokemon_game_usul.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Sword / Shield (no DLC)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/swsh_no_dlc.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Sword / Shield : Crown Toundra (DLC Only)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/swsh_tc.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Sword / Shield : Full Game (Game + DLC)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/swsh_fullgame.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon Sword / Shield : Isle of Armor (DLC Only)",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/games/swsh_ia.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Pokémon X / Y",
     "Category": "Pokemon",
     "Subcategory": "Pokémon Full Game",
     "Location": "./data/pokemon/pokemon_game_xy.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - All Creatures - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-all_creatures-1.1.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - All Items - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-all_items-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - All Items Quantizables - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-all_items-quantizable-1.1.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Ammo - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-ammo-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Animal - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-animal-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Communication - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-communication-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Consumed - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-consumed-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Container - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-container-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Electronic - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-electronic-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Enemy - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-enemy-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Fuel - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-fuel-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Gas - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-gas-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Industrial - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-industrial-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Ingot - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-ingot-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Liquid - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-liquid-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Mineral - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-mineral-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Nuclear - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-nuclear-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Ore - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-ore-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Quantum - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-quantum-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Special - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-special-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Standard - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-standard-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Waste - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-waste-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Wildlife - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
     "Location": "./data/satis/1.1/satis-wildlife-1.1.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Phase0+ and Under Items - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - Phases Unlocked - 1.2",
     "Location": "./data/satis/1.1/satis-Phase0-all-quantizable-1.2.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Phase1+ and Under Items - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - Phases Unlocked - 1.2",
     "Location": "./data/satis/1.1/satis-Phase1-all-quantizable-1.2.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Phase2+ and Under Items - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - Phases Unlocked - 1.2",
     "Location": "./data/satis/1.1/satis-Phase2-all-quantizable-1.2.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Phase3+ and Under Items - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - Phases Unlocked - 1.2",
     "Location": "./data/satis/1.1/satis-Phase3-all-quantizable-1.2.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
   },
   {
     "Name": "Satisfactory - Phase4+ and Under Items - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - Phases Unlocked - 1.2",
     "Location": "./data/satis/1.1/satis-Phase4-all-quantizable-1.2.json",
-    "Quantizable": true
+    "Quantizable": true,
+    "Flags": []
   },
   {
     "Name": "Zelda Ocarina Of Time - Key items",
     "Category": "Zelda",
     "Subcategory": "Zelda Ocarina Of Time",
     "Location": "./data/zelda/oot/oot_items.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - All Equipments",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_all_equipments.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - All Locations",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_all_locations.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - All items",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_all.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Armor",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_armor.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Bows and Arrows",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_bows_and_arrows.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Creatures",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_creatures.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Food",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_food.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Key Items",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_key_items.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Lightroot",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_lightroot.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Materials",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_materials.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Monsters",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_monsters.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Shields",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_shields.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Shrine",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_shrine.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Skyview Tower",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_skyview_tower.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Weapons",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_weapons.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   },
   {
     "Name": "Zelda Tears Of the Kingdom - Zonai Devices",
     "Category": "Zelda",
     "Subcategory": "Zelda Tears Of the Kingdom",
     "Location": "./data/zelda/totk/totk_zonai_devices.json",
-    "Quantizable": false
+    "Quantizable": false,
+    "Flags": []
   }
 ]

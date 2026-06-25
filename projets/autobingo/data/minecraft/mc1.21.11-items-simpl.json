@@ -1,20 +1,11 @@
 {
-  "Name": "Minecraft 1.21.9 - Items -The Copper Age",
+  "Name": "Minecraft 1.21.11 - Items - Mounts of Mayhem - Simple",
   "Category": "Minecraft",
   "Subcategory": "Minecraft Vanilla - Items Only",
+  "Flags": [
+    "Simplified"
+  ],
   "Items": [
-    {
-      "Index": "item-000001",
-      "Name_FR": "Bateau de stockage en acacia",
-      "Name_EN": "Acacia Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Acacia_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000002",
-      "Name_FR": "Bateau en acacia",
-      "Name_EN": "Acacia Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Acacia_Boat.png"
-    },
     {
       "Index": "item-000003",
       "Name_FR": "Éclat d'améthyste",
@@ -82,24 +73,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Beetroot.png"
     },
     {
-      "Index": "item-000014",
-      "Name_FR": "Bateau de stockage en bouleau",
-      "Name_EN": "Birch Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Birch_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000015",
-      "Name_FR": "Bateau en bouleau",
-      "Name_EN": "Birch Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Birch_Boat.png"
-    },
-    {
-      "Index": "item-000016",
-      "Name_FR": "Teinture noire",
-      "Name_EN": "Black Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Black_Dye.png"
-    },
-    {
       "Index": "item-000017",
       "Name_FR": "Poudre de Blaze",
       "Name_EN": "Blaze Powder",
@@ -110,12 +83,6 @@
       "Name_FR": "Bâton de Blaze",
       "Name_EN": "Fire Wand",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Fire_Wand.png"
-    },
-    {
-      "Index": "item-000019",
-      "Name_FR": "Teinture bleue",
-      "Name_EN": "Blue Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Blue_Dye.png"
     },
     {
       "Index": "item-000022",
@@ -176,12 +143,6 @@
       "Name_FR": "Brique",
       "Name_EN": "Brick",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Brick.png"
-    },
-    {
-      "Index": "item-000032",
-      "Name_FR": "Teinture marron",
-      "Name_EN": "Brown Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Brown_Dye.png"
     },
     {
       "Index": "item-000033",
@@ -278,18 +239,6 @@
       "Name_FR": "Charbon de bois",
       "Name_EN": "Charcoal",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Charcoal.png"
-    },
-    {
-      "Index": "item-000049",
-      "Name_FR": "Bateau de stockage en cerisier",
-      "Name_EN": "Cherry Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Cherry_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000050",
-      "Name_FR": "Bateau en cerisier",
-      "Name_EN": "Cherry Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Cherry_Boat.png"
     },
     {
       "Index": "item-000051",
@@ -424,6 +373,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Shovel.png"
     },
     {
+      "Index": "item-000073",
+      "Name_FR": "Lance en cuivre",
+      "Name_EN": "Copper Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Copper_Spear.png"
+    },
+    {
       "Index": "item-000074",
       "Name_FR": "Épée en cuivre",
       "Name_EN": "Copper Sword",
@@ -434,24 +389,6 @@
       "Name_FR": "Arbalète",
       "Name_EN": "Crossbow",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Crossbow.png"
-    },
-    {
-      "Index": "item-000076",
-      "Name_FR": "Teinture cyan",
-      "Name_EN": "Cyan Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Cyan_Dye.png"
-    },
-    {
-      "Index": "item-000077",
-      "Name_FR": "Bateau de stockage en chêne noir",
-      "Name_EN": "Dark Oak Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Dark_Oak_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000078",
-      "Name_FR": "Bateau en chêne noir",
-      "Name_EN": "Dark Oak Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Dark_Oak_Boat.png"
     },
     {
       "Index": "item-000079",
@@ -506,6 +443,12 @@
       "Name_FR": "Pelle en diamant",
       "Name_EN": "Diamond Shovel",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Shovel.png"
+    },
+    {
+      "Index": "item-000088",
+      "Name_FR": "Lance en diamant",
+      "Name_EN": "Diamond Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond_Spear.png"
     },
     {
       "Index": "item-000089",
@@ -742,22 +685,16 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Shovel.png"
     },
     {
+      "Index": "item-000128",
+      "Name_FR": "Lance en or",
+      "Name_EN": "Golden Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Spear.png"
+    },
+    {
       "Index": "item-000129",
       "Name_FR": "Épée en or",
       "Name_EN": "Golden Sword",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Golden_Sword.png"
-    },
-    {
-      "Index": "item-000130",
-      "Name_FR": "Teinture grise",
-      "Name_EN": "Gray Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Gray_Dye.png"
-    },
-    {
-      "Index": "item-000131",
-      "Name_FR": "Teinture verte",
-      "Name_EN": "Green Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Green_Dye.png"
     },
     {
       "Index": "item-000132",
@@ -856,6 +793,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Shovel.png"
     },
     {
+      "Index": "item-000148",
+      "Name_FR": "Lance en fer",
+      "Name_EN": "Iron Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Iron_Spear.png"
+    },
+    {
       "Index": "item-000149",
       "Name_FR": "Épée en fer",
       "Name_EN": "Iron Sword",
@@ -866,18 +809,6 @@
       "Name_FR": "Cadre",
       "Name_EN": "Item Frame",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Item_Frame.png"
-    },
-    {
-      "Index": "item-000151",
-      "Name_FR": "Bateau de stockage en acajou",
-      "Name_EN": "Jungle Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Jungle_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000152",
-      "Name_FR": "Bateau en acajou",
-      "Name_EN": "Jungle Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Jungle_Boat.png"
     },
     {
       "Index": "item-000153",
@@ -940,46 +871,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Leather.png"
     },
     {
-      "Index": "item-000163",
-      "Name_FR": "Teinture bleu clair",
-      "Name_EN": "Light Blue Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Light_Blue_Dye.png"
-    },
-    {
-      "Index": "item-000164",
-      "Name_FR": "Teinture gris clair",
-      "Name_EN": "Light Gray Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Light_Gray_Dye.png"
-    },
-    {
-      "Index": "item-000165",
-      "Name_FR": "Teinture vert clair",
-      "Name_EN": "Lime Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Lime_Dye.png"
-    },
-    {
-      "Index": "item-000166",
-      "Name_FR": "Teinture magenta",
-      "Name_EN": "Magenta Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Magenta_Dye.png"
-    },
-    {
       "Index": "item-000167",
       "Name_FR": "Crème de magma",
       "Name_EN": "Magma Cream",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Magma_Cream.png"
-    },
-    {
-      "Index": "item-000168",
-      "Name_FR": "Bateau de stockage en palétuvier",
-      "Name_EN": "Mangrove Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Mangrove_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000169",
-      "Name_FR": "Bateau en palétuvier",
-      "Name_EN": "Mangrove Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Mangrove_Boat.png"
     },
     {
       "Index": "item-000170",
@@ -1228,6 +1123,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Hoe.png"
     },
     {
+      "Index": "item-000211",
+      "Name_FR": "Armure en Netherite pour cheval",
+      "Name_EN": "Netherite Horse Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Horse_Armor.png"
+    },
+    {
       "Index": "item-000212",
       "Name_FR": "Lingot de Netherite",
       "Name_EN": "Netherite Ingot",
@@ -1258,46 +1159,22 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Shovel.png"
     },
     {
+      "Index": "item-000217",
+      "Name_FR": "Lance en Netherite",
+      "Name_EN": "Netherite Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Spear.png"
+    },
+    {
       "Index": "item-000218",
       "Name_FR": "Épée en Netherite",
       "Name_EN": "Netherite Sword",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Netherite_Sword.png"
     },
     {
-      "Index": "item-000219",
-      "Name_FR": "Bateau de stockage en chêne",
-      "Name_EN": "Oak Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Oak_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000220",
-      "Name_FR": "Bateau en chêne",
-      "Name_EN": "Oak Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Oak_Boat.png"
-    },
-    {
-      "Index": "item-000221",
-      "Name_FR": "Teinture orange",
-      "Name_EN": "Orange Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Orange_Dye.png"
-    },
-    {
       "Index": "item-000222",
       "Name_FR": "Tableau",
       "Name_EN": "Painting",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Painting.png"
-    },
-    {
-      "Index": "item-000223",
-      "Name_FR": "Bateau de stockage en chêne pâle",
-      "Name_EN": "Pale Oak Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Pale_Oak_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000224",
-      "Name_FR": "Bateau en chêne pâle",
-      "Name_EN": "Pale Oak Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Pale_Oak_Boat.png"
     },
     {
       "Index": "item-000225",
@@ -1310,12 +1187,6 @@
       "Name_FR": "Membrane de Phantom",
       "Name_EN": "Phantom Membrane",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Phantom_Membrane.png"
-    },
-    {
-      "Index": "item-000227",
-      "Name_FR": "Teinture rose",
-      "Name_EN": "Pink Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Pink_Dye.png"
     },
     {
       "Index": "item-000228",
@@ -1370,12 +1241,6 @@
       "Name_FR": "Graines de citrouille",
       "Name_EN": "Pumpkin Seeds",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Pumpkin_Seeds.png"
-    },
-    {
-      "Index": "item-000237",
-      "Name_FR": "Teinture violette",
-      "Name_EN": "Purple Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Purple_Dye.png"
     },
     {
       "Index": "item-000238",
@@ -1436,12 +1301,6 @@
       "Name_FR": "Saumon cru",
       "Name_EN": "Raw Salmon",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Raw_Salmon.png"
-    },
-    {
-      "Index": "item-000248",
-      "Name_FR": "Teinture rouge",
-      "Name_EN": "Red Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Red_Dye.png"
     },
     {
       "Index": "item-000249",
@@ -1510,18 +1369,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Splash_Potion.png"
     },
     {
-      "Index": "item-000260",
-      "Name_FR": "Bateau de stockage en sapin",
-      "Name_EN": "Spruce Boat with Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Spruce_Boat_with_Chest.png"
-    },
-    {
-      "Index": "item-000261",
-      "Name_FR": "Bateau en sapin",
-      "Name_EN": "Spruce Boat",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Spruce_Boat.png"
-    },
-    {
       "Index": "item-000262",
       "Name_FR": "Longue-vue",
       "Name_EN": "Spyglass",
@@ -1562,6 +1409,12 @@
       "Name_FR": "Pelle en pierre",
       "Name_EN": "Stone Shovel",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Shovel.png"
+    },
+    {
+      "Index": "item-000269",
+      "Name_FR": "Lance en pierre",
+      "Name_EN": "Stone Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Stone_Spear.png"
     },
     {
       "Index": "item-000270",
@@ -1654,12 +1507,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wheat.png"
     },
     {
-      "Index": "item-000285",
-      "Name_FR": "Teinture blanche",
-      "Name_EN": "White Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/White_Dye.png"
-    },
-    {
       "Index": "item-000286",
       "Name_FR": "Hache en bois",
       "Name_EN": "Wooden Axe",
@@ -1684,6 +1531,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Shovel.png"
     },
     {
+      "Index": "item-000290",
+      "Name_FR": "Lance en bois",
+      "Name_EN": "Wooden Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Wooden_Spear.png"
+    },
+    {
       "Index": "item-000291",
       "Name_FR": "Épée en bois",
       "Name_EN": "Wooden Sword",
@@ -1696,10 +1549,22 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Written_Book.png"
     },
     {
-      "Index": "item-000293",
-      "Name_FR": "Teinture jaune",
-      "Name_EN": "Yellow Dye",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Yellow_Dye.png"
+      "Index": "itemtype-001",
+      "Name_FR": "Bâteau",
+      "Name_EN": "Boat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items_types/Boat.gif"
+    },
+    {
+      "Index": "itemtype-002",
+      "Name_FR": "Bâteau avec coffre",
+      "Name_EN": "Boat With Chest",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items_types/Boat_With_Chest.gif"
+    },
+    {
+      "Index": "itemtype-003",
+      "Name_FR": "Colorant",
+      "Name_EN": "Dye",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items_types/Dye.gif"
     }
   ]
 }

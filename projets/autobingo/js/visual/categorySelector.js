@@ -174,6 +174,24 @@
         }
 
         /**
+         * Load metadata/flags.json definitions (cached)
+         * @returns {Promise<Object>} Map of flag name -> {color, text: {FR, EN}}
+         */
+        async _loadFlagDefs() {
+            if (this._flagDefsCache) return this._flagDefsCache;
+            try {
+                const resp = await fetch('metadata/flags.json');
+                const list = await resp.json();
+                const map = {};
+                list.forEach(f => { map[f.Name] = f; });
+                this._flagDefsCache = map;
+                return map;
+            } catch (e) {
+                return {};
+            }
+        }
+
+        /**
          * Create a custom dataset dropdown with quantity badges
          * @returns {HTMLElement} The custom dropdown root element
          */
@@ -231,15 +249,18 @@
         }
 
         /**
-         * Update dataset select options, adding quantity badges to quantizable ones
+         * Update dataset select options, adding flag badges then quantizable badge
          * @param {Array} datasets - Array of DatasetDefinition
          */
-        _populateDatasetOptions(datasets) {
+        async _populateDatasetOptions(datasets) {
             const optionsList = this._datasetOptionsList;
             optionsList.innerHTML = '';
 
             const lang = autobingo.translationManager ? autobingo.translationManager.currentLang : 'en';
             const qLabel = lang === 'fr' ? 'avec quantité' : 'with quantity';
+
+            // Fetch flag definitions (colors, translations) once
+            const flagDefs = await this._loadFlagDefs();
 
             datasets.forEach(ds => {
                 const item = document.createElement('div');
@@ -251,6 +272,21 @@
                 nameSpan.textContent = ds.name;
                 item.appendChild(nameSpan);
 
+                // Flag badges (add before quantity) — flags are directly on ds.flags
+                const dsFlags = ds.flags || [];
+                dsFlags.forEach(flagName => {
+                    const flagDef = flagDefs[flagName];
+                    if (!flagDef) return;
+                    const badge = document.createElement('span');
+                    badge.className = 'dataset-flag-badge';
+                    badge.textContent = lang === 'fr' ? (flagDef.TextDisplay.FR || flagName) : (flagDef.TextDisplay.EN || flagName);
+                    if (flagDef.Color) {
+                        badge.style.backgroundColor = flagDef.Color;
+                    }
+                    item.appendChild(badge);
+                });
+
+                // Quantity badge (after flags)
                 if (ds.quantizable === true) {
                     const badge = document.createElement('span');
                     badge.className = 'dataset-qty-badge';
@@ -324,7 +360,7 @@
         /**
          * Handle subcategory change
          */
-        _onSubcategoryChange() {
+        async _onSubcategoryChange() {
             const cat = this.categorySelect.value;
             const sub = this.subcategorySelect.value;
             if (this._datasetOptionsList) this._datasetOptionsList.innerHTML = '';
@@ -344,7 +380,7 @@
             }
 
             const datasets = this.datasetManager.getDatasets(cat, sub);
-            this._populateDatasetOptions(datasets);
+            await this._populateDatasetOptions(datasets);
 
             this.infoDisplay.setAttribute('data-i18n', 'create.select_dataset');
             if (autobingo.translationManager) autobingo.translationManager.translatePage();

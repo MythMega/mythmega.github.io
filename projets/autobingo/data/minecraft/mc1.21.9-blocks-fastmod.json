@@ -1,9 +1,10 @@
 {
-  "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem - Simple",
+  "Name": "Minecraft 1.21.9 - Blocks - the Copper Age - Simple - F",
   "Category": "Minecraft",
   "Subcategory": "Minecraft Vanilla - Blocks Only",
   "Flags": [
-    "Simplified"
+    "Simplified",
+    "FastMode"
   ],
   "Items": [
     {
@@ -49,24 +50,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Anvil.png"
     },
     {
-      "Index": "block-000078",
-      "Name_FR": "Azalée",
-      "Name_EN": "Azalea",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Azalea.png"
-    },
-    {
-      "Index": "block-000086",
-      "Name_FR": "Mosaïque de bambou",
-      "Name_EN": "Bamboo Mosaic",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Mosaic.png"
-    },
-    {
-      "Index": "block-000087",
-      "Name_FR": "Dalle de mosaïque de bambou",
-      "Name_EN": "Bamboo Mosaic Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bamboo_Mosaic_Slab.png"
-    },
-    {
       "Index": "block-000095",
       "Name_FR": "Tonneau",
       "Name_EN": "Barrel",
@@ -77,12 +60,6 @@
       "Name_FR": "Basalte",
       "Name_EN": "Basalt",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Basalt.png"
-    },
-    {
-      "Index": "block-000097",
-      "Name_FR": "Balise",
-      "Name_EN": "Beacon",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Beacon.png"
     },
     {
       "Index": "block-000098",
@@ -139,12 +116,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blast_Furnace.png"
     },
     {
-      "Index": "block-000133",
-      "Name_FR": "Bloc de bambou",
-      "Name_EN": "Block of Bamboo",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Bamboo.png"
-    },
-    {
       "Index": "block-000134",
       "Name_FR": "Bloc de charbon",
       "Name_EN": "Block of Coal",
@@ -181,12 +152,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Lapis_Lazuli.png"
     },
     {
-      "Index": "block-000141",
-      "Name_FR": "Bloc de netherite",
-      "Name_EN": "Block of Netherite",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Netherite.png"
-    },
-    {
       "Index": "block-000142",
       "Name_FR": "Bloc de quartz",
       "Name_EN": "Block of Quartz",
@@ -215,18 +180,6 @@
       "Name_FR": "Bloc de redstone",
       "Name_EN": "Block of Redstone",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Redstone.png"
-    },
-    {
-      "Index": "block-000147",
-      "Name_FR": "Bloc de résine",
-      "Name_EN": "Block of Resin",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Block_of_Resin.png"
-    },
-    {
-      "Index": "block-000156",
-      "Name_FR": "Glace bleue",
-      "Name_EN": "Blue Ice",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Blue_Ice.png"
     },
     {
       "Index": "block-000163",
@@ -283,112 +236,16 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Bush.png"
     },
     {
-      "Index": "block-000191",
-      "Name_FR": "Cactus",
-      "Name_EN": "Cactus",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cactus.png"
-    },
-    {
       "Index": "block-000193",
       "Name_FR": "Gâteau",
       "Name_EN": "Cake",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake.png"
     },
     {
-      "Index": "block-000194",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Candle.png"
-    },
-    {
-      "Index": "block-000195",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Cyan Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Cyan_Candle.png"
-    },
-    {
-      "Index": "block-000196",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Gray Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Gray_Candle.png"
-    },
-    {
-      "Index": "block-000197",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Green Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Green_Candle.png"
-    },
-    {
-      "Index": "block-000198",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Light Blue Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Light_Blue_Candle.png"
-    },
-    {
-      "Index": "block-000199",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Light Gray Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Light_Gray_Candle.png"
-    },
-    {
-      "Index": "block-000200",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Lime Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Lime_Candle.png"
-    },
-    {
-      "Index": "block-000201",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Magenta Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Magenta_Candle.png"
-    },
-    {
-      "Index": "block-000202",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Orange Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Orange_Candle.png"
-    },
-    {
-      "Index": "block-000203",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Pink Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Pink_Candle.png"
-    },
-    {
-      "Index": "block-000204",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Purple Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Purple_Candle.png"
-    },
-    {
-      "Index": "block-000205",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Red Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Red_Candle.png"
-    },
-    {
-      "Index": "block-000206",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with White Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_White_Candle.png"
-    },
-    {
-      "Index": "block-000207",
-      "Name_FR": "Gâteau à bougie",
-      "Name_EN": "Cake with Yellow Candle",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cake_with_Yellow_Candle.png"
-    },
-    {
       "Index": "block-000208",
       "Name_FR": "Calcite",
       "Name_EN": "Calcite",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Calcite.png"
-    },
-    {
-      "Index": "block-000209",
-      "Name_FR": "Capteur sculk calibré",
-      "Name_EN": "Calibrated Sculk Sensor",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Calibrated_Sculk_Sensor.png"
     },
     {
       "Index": "block-000210",
@@ -413,12 +270,6 @@
       "Name_FR": "Chaudron",
       "Name_EN": "Cauldron",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cauldron.png"
-    },
-    {
-      "Index": "block-000215",
-      "Name_FR": "Lianes des cavernes",
-      "Name_EN": "Cave Vines",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cave_Vines.png"
     },
     {
       "Index": "block-000230",
@@ -463,12 +314,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Quartz_Block.png"
     },
     {
-      "Index": "block-000239",
-      "Name_FR": "Grès rouge sculpté",
-      "Name_EN": "Chiseled Red Sandstone",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Red_Sandstone.png"
-    },
-    {
       "Index": "block-000240",
       "Name_FR": "Briques de résine sculptées",
       "Name_EN": "Chiseled Resin Bricks",
@@ -497,18 +342,6 @@
       "Name_FR": "Tuf taillé sculpté",
       "Name_EN": "Chiseled Tuff Bricks",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chiseled_Tuff_Bricks.png"
-    },
-    {
-      "Index": "block-000246",
-      "Name_FR": "Fleur de chorus",
-      "Name_EN": "Chorus Flower",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chorus_Flower.png"
-    },
-    {
-      "Index": "block-000247",
-      "Name_FR": "Plante de chorus",
-      "Name_EN": "Chorus Plant",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Chorus_Plant.png"
     },
     {
       "Index": "block-000257",
@@ -583,12 +416,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Composter.png"
     },
     {
-      "Index": "block-000269",
-      "Name_FR": "Conduit",
-      "Name_EN": "Conduit",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Conduit.png"
-    },
-    {
       "Index": "block-000278",
       "Name_FR": "Minerai de cuivre",
       "Name_EN": "Copper Ore",
@@ -637,12 +464,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crafting_Table.png"
     },
     {
-      "Index": "block-000288",
-      "Name_FR": "Tête de creeper",
-      "Name_EN": "Creeper Head",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Creeper_Head.png"
-    },
-    {
       "Index": "block-000294",
       "Name_FR": "Tige carmin",
       "Name_EN": "Crimson Hyphae",
@@ -667,18 +488,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Crying_Obsidian.png"
     },
     {
-      "Index": "block-000307",
-      "Name_FR": "Grès rouge taillé",
-      "Name_EN": "Cut Red Sandstone",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cut_Red_Sandstone.png"
-    },
-    {
-      "Index": "block-000308",
-      "Name_FR": "Dalle de grès rouge taillé",
-      "Name_EN": "Cut Red Sandstone Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cut_Red_Sandstone_Slab.png"
-    },
-    {
       "Index": "block-000309",
       "Name_FR": "Grès taillé",
       "Name_EN": "Cut Sandstone",
@@ -689,12 +498,6 @@
       "Name_FR": "Dalle de grès taillé",
       "Name_EN": "Cut Sandstone Slab",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Cut_Sandstone_Slab.png"
-    },
-    {
-      "Index": "block-000323",
-      "Name_FR": "Enclume endommagée",
-      "Name_EN": "Damaged Anvil",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Damaged_Anvil.png"
     },
     {
       "Index": "block-000338",
@@ -725,36 +528,6 @@
       "Name_FR": "Buisson mort",
       "Name_EN": "Dead Bush",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dead_Bush.png"
-    },
-    {
-      "Index": "block-000358",
-      "Name_FR": "Vase décoré",
-      "Name_EN": "Decorated Pot",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Decorated_Pot.png"
-    },
-    {
-      "Index": "block-000359",
-      "Name_FR": "Ardoise des abîmes",
-      "Name_EN": "Deepslate",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Deepslate.png"
-    },
-    {
-      "Index": "block-000360",
-      "Name_FR": "Dalle d'ardoise des abîmes taillée",
-      "Name_EN": "Deepslate Brick Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Deepslate_Brick_Slab.png"
-    },
-    {
-      "Index": "block-000361",
-      "Name_FR": "Escalier en ardoise des abîmes taillée",
-      "Name_EN": "Deepslate Brick Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Deepslate_Brick_Stairs.png"
-    },
-    {
-      "Index": "block-000362",
-      "Name_FR": "Muret d'ardoise des abîmes taillée",
-      "Name_EN": "Deepslate Brick Wall",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Deepslate_Brick_Wall.png"
     },
     {
       "Index": "block-000363",
@@ -889,18 +662,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dispenser.png"
     },
     {
-      "Index": "block-000387",
-      "Name_FR": "Oeuf de dragon",
-      "Name_EN": "Dragon Egg",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dragon_Egg.png"
-    },
-    {
-      "Index": "block-000388",
-      "Name_FR": "Tête de dragon",
-      "Name_EN": "Dragon Head",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Dragon_Head.png"
-    },
-    {
       "Index": "block-000389",
       "Name_FR": "Bloc de spéléothème",
       "Name_EN": "Dripstone Block",
@@ -923,42 +684,6 @@
       "Name_FR": "Table d'enchantement",
       "Name_EN": "Enchanting Table",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Enchanting_Table.png"
-    },
-    {
-      "Index": "block-000393",
-      "Name_FR": "Barre de l'End",
-      "Name_EN": "End Rod",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Rod.png"
-    },
-    {
-      "Index": "block-000394",
-      "Name_FR": "Pierre de l'End",
-      "Name_EN": "End Stone",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Stone.png"
-    },
-    {
-      "Index": "block-000395",
-      "Name_FR": "Dalle de pierre taillée de l'End",
-      "Name_EN": "End Stone Brick Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Stone_Brick_Slab.png"
-    },
-    {
-      "Index": "block-000396",
-      "Name_FR": "Escalier en pierre taillée de l'End",
-      "Name_EN": "End Stone Brick Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Stone_Brick_Stairs.png"
-    },
-    {
-      "Index": "block-000397",
-      "Name_FR": "Muret de pierre taillée de l'End",
-      "Name_EN": "End Stone Brick Wall",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Stone_Brick_Wall.png"
-    },
-    {
-      "Index": "block-000398",
-      "Name_FR": "Pierre taillée de l'End",
-      "Name_EN": "End Stone Bricks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/End_Stone_Bricks.png"
     },
     {
       "Index": "block-000399",
@@ -1297,12 +1022,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Mossy_Stone_Brick_Wall.png"
     },
     {
-      "Index": "block-000581",
-      "Name_FR": "Pierre taillée moussue",
-      "Name_EN": "Infested Mossy Stone Bricks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Infested_Mossy_Stone_Bricks.png"
-    },
-    {
       "Index": "block-000582",
       "Name_FR": "Dalle de briques de terre crue",
       "Name_EN": "Mud Brick Slab",
@@ -1429,34 +1148,10 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Packed_Mud.png"
     },
     {
-      "Index": "block-000648",
-      "Name_FR": "Bloc de mousse pâle",
-      "Name_EN": "Pale Moss Block",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Moss_Block.png"
-    },
-    {
-      "Index": "block-000649",
-      "Name_FR": "Tapis de mousse pâle",
-      "Name_EN": "Pale Moss Carpet",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pale_Moss_Carpet.png"
-    },
-    {
-      "Index": "block-000666",
-      "Name_FR": "Tête de Piglin",
-      "Name_EN": "Piglin Head",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Piglin_Head.png"
-    },
-    {
       "Index": "block-000680",
       "Name_FR": "Piston",
       "Name_EN": "Piston",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Piston.png"
-    },
-    {
-      "Index": "block-000682",
-      "Name_FR": "Tête de joueur",
-      "Name_EN": "Player Head",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Player_Head.png"
     },
     {
       "Index": "block-000683",
@@ -1693,30 +1388,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Pumpkin.png"
     },
     {
-      "Index": "block-000744",
-      "Name_FR": "Bloc de purpur",
-      "Name_EN": "Purpur Block",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purpur_Block.png"
-    },
-    {
-      "Index": "block-000745",
-      "Name_FR": "Pilier de purpur",
-      "Name_EN": "Purpur Pillar",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purpur_Pillar.png"
-    },
-    {
-      "Index": "block-000746",
-      "Name_FR": "Dalle de purpur",
-      "Name_EN": "Purpur Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purpur_Slab.png"
-    },
-    {
-      "Index": "block-000747",
-      "Name_FR": "Escalier en purpur",
-      "Name_EN": "Purpur Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Purpur_Stairs.png"
-    },
-    {
       "Index": "block-000748",
       "Name_FR": "Briques de quartz",
       "Name_EN": "Quartz Bricks",
@@ -1783,36 +1454,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Nether_Bricks.png"
     },
     {
-      "Index": "block-000766",
-      "Name_FR": "Sable rouge",
-      "Name_EN": "Red Sand",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Sand.png"
-    },
-    {
-      "Index": "block-000767",
-      "Name_FR": "Grès rouge",
-      "Name_EN": "Red Sandstone",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Sandstone.png"
-    },
-    {
-      "Index": "block-000768",
-      "Name_FR": "Dalle de grès rouge",
-      "Name_EN": "Red Sandstone Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Sandstone_Slab.png"
-    },
-    {
-      "Index": "block-000769",
-      "Name_FR": "Escalier en grès rouge",
-      "Name_EN": "Red Sandstone Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Sandstone_Stairs.png"
-    },
-    {
-      "Index": "block-000770",
-      "Name_FR": "Muret de grès rouge",
-      "Name_EN": "Red Sandstone Wall",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Red_Sandstone_Wall.png"
-    },
-    {
       "Index": "block-000777",
       "Name_FR": "Comparateur de redstone",
       "Name_EN": "Redstone Comparator",
@@ -1841,30 +1482,6 @@
       "Name_FR": "Torche de redstone",
       "Name_EN": "Redstone Torch",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Redstone_Torch.png"
-    },
-    {
-      "Index": "block-000783",
-      "Name_FR": "Dalle de briques de résine",
-      "Name_EN": "Resin Brick Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Resin_Brick_Slab.png"
-    },
-    {
-      "Index": "block-000784",
-      "Name_FR": "Escalier en briques de résine",
-      "Name_EN": "Resin Brick Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Resin_Brick_Stairs.png"
-    },
-    {
-      "Index": "block-000785",
-      "Name_FR": "Muret de briques de résine",
-      "Name_EN": "Resin Brick Wall",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Resin_Brick_Wall.png"
-    },
-    {
-      "Index": "block-000786",
-      "Name_FR": "Briques de résine",
-      "Name_EN": "Resin Bricks",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Resin_Bricks.png"
     },
     {
       "Index": "block-000787",
@@ -1939,12 +1556,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Short_Dry_Grass.png"
     },
     {
-      "Index": "block-000801",
-      "Name_FR": "Crâne de squelette",
-      "Name_EN": "Skeleton Skull",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Skeleton_Skull.png"
-    },
-    {
       "Index": "block-000802",
       "Name_FR": "Bloc de slime",
       "Name_EN": "Slime Block",
@@ -1993,24 +1604,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Smooth_Quartz_Stairs.png"
     },
     {
-      "Index": "block-000810",
-      "Name_FR": "Grès rouge lisse",
-      "Name_EN": "Smooth Red Sandstone",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Smooth_Red_Sandstone.png"
-    },
-    {
-      "Index": "block-000811",
-      "Name_FR": "Dalle de grès rouge lisse",
-      "Name_EN": "Smooth Red Sandstone Slab",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Smooth_Red_Sandstone_Slab.png"
-    },
-    {
-      "Index": "block-000812",
-      "Name_FR": "Escalier en grès rouge lisse",
-      "Name_EN": "Smooth Red Sandstone Stairs",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Smooth_Red_Sandstone_Stairs.png"
-    },
-    {
       "Index": "block-000813",
       "Name_FR": "Grès lisse",
       "Name_EN": "Smooth Sandstone",
@@ -2041,12 +1634,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Smooth_Stone_Slab.png"
     },
     {
-      "Index": "block-000818",
-      "Name_FR": "Oeuf de renifleur",
-      "Name_EN": "Sniffer Egg",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Sniffer_Egg.png"
-    },
-    {
       "Index": "block-000819",
       "Name_FR": "Neige",
       "Name_EN": "Snow",
@@ -2063,12 +1650,6 @@
       "Name_FR": "Feu de camp des âmes",
       "Name_EN": "Soul Campfire",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Soul_Campfire.png"
-    },
-    {
-      "Index": "block-000822",
-      "Name_FR": "Feu des âmes",
-      "Name_EN": "Soul Fire",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Soul_Fire.png"
     },
     {
       "Index": "block-000823",
@@ -2347,18 +1928,6 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Weeping_Vines.png"
     },
     {
-      "Index": "block-000944",
-      "Name_FR": "Crâne de wither squelette",
-      "Name_EN": "Wither Skeleton Skull",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Wither_Skeleton_Skull.png"
-    },
-    {
-      "Index": "block-000957",
-      "Name_FR": "Tête de zombie",
-      "Name_EN": "Zombie Head",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Zombie_Head.png"
-    },
-    {
       "Index": "blocktype-001",
       "Name_FR": "Bannière",
       "Name_EN": "Banner",
@@ -2591,78 +2160,6 @@
       "Name_FR": "Laine",
       "Name_EN": "Wool",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wool.gif"
-    },
-    {
-      "Index": "blocktype-041",
-      "Name_FR": "Coffre en cuivre",
-      "Name_EN": "Copper Chest",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Chest.gif"
-    },
-    {
-      "Index": "blocktype-042",
-      "Name_FR": "Cuivre ciselé",
-      "Name_EN": "Chiseled Copper",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Chiseled_Copper.gif"
-    },
-    {
-      "Index": "blocktype-043",
-      "Name_FR": "Corail mort",
-      "Name_EN": "Dead Coral",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Dead_Coral.gif"
-    },
-    {
-      "Index": "blocktype-044",
-      "Name_FR": "Corail",
-      "Name_EN": "Coral",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Coral.gif"
-    },
-    {
-      "Index": "blocktype-045",
-      "Name_FR": "Éventail de corail mort",
-      "Name_EN": "Dead Coral Fan",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Dead_Coral_Fan.gif"
-    },
-    {
-      "Index": "blocktype-046",
-      "Name_FR": "Gorgone de corail",
-      "Name_EN": "Coral Fan",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Coral_Fan.gif"
-    },
-    {
-      "Index": "blocktype-047",
-      "Name_FR": "Bloc de corail mort",
-      "Name_EN": "Dead Coral Block",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Dead_Coral_Block.gif"
-    },
-    {
-      "Index": "blocktype-048",
-      "Name_FR": "Bloc de corail",
-      "Name_EN": "Coral Block",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Coral_Block.gif"
-    },
-    {
-      "Index": "blocktype-049",
-      "Name_FR": "Paratonnerre",
-      "Name_EN": "Lightning Rod",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Lightning_Rod.gif"
-    },
-    {
-      "Index": "blocktype-050",
-      "Name_FR": "Bloc de lumière de grenouille",
-      "Name_EN": "Froglight",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Froglight.gif"
-    },
-    {
-      "Index": "blocktype-051",
-      "Name_FR": "Porte en cuivre",
-      "Name_EN": "Copper Door",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Door.gif"
-    },
-    {
-      "Index": "blocktype-052",
-      "Name_FR": "Porte en bois",
-      "Name_EN": "Wooden Door",
-      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Door.gif"
     }
   ]
 }

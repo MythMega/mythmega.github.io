@@ -177,6 +177,18 @@
         "Name_EN": "Beta - Dataset's Flags",
         "Desc_FR": "[MAJOR] Possibilité d'ajouter des flags à des datasets pour mieux comprendre ce que c'est",
         "Desc_EN": "[MAJOR] Ability to add Flags on datasets to give more information about it",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/07c23166c3974556de72c4245025dea154c29343"
+    },
+    {
+        "Version": {
+            "ID": 16,
+            "Number": "Beta b0.8.1"
+        }, 
+        "Date": "2026-06-26",
+        "Name_FR": "Beta - Plus de pixel",
+        "Name_EN": "Beta - More Pixel",
+        "Desc_FR": "Minecraft : Suppression d'items créatif uniquement / dispo que en april fool snapshot, Minecraft : Datasets Fast Mode, [MAJOR] Possibilité d'importer ses propres dataset et des les éditer dans le dataset maker",
+        "Desc_EN": "Minecraft : Removing creative only or april fool snapshot items, Minecraft : Fast Mode Datasets, [MAJOR] Edit your own dataset in the dataset maker by importing your own file",
         "Link": "#"
     }
 ]

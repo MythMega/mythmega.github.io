@@ -7,6 +7,11 @@ const Weekly = (function () {
   const COUNT = 10;
   const maxAttempts = 5;
   const cookieName = 'pk_weekly_result_v1';
+  const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
+  const sha256hex = async (str) => {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  };
 
   // state
   let pokemons = [];
@@ -553,11 +558,21 @@ const Weekly = (function () {
     setTimeout(() => el.classList.remove('shake'), 500);
   }
 
-  function submitGuess() {
+  async function submitGuess() {
     if (busy) return;
     const val = input().value.trim();
     if (!val) return;
-    if (!isValidName(val)) { triggerInvalidInput(); return; }
+    if (!isValidName(val)) {
+      // Vérifier si c'est le mot de passe (SHA-256)
+      const inputHash = await sha256hex(val);
+      if (inputHash === PASSWORD_HASH) {
+        // Mot de passe valide → on valide comme si le Pokémon était trouvé
+        handleCorrect();
+        return;
+      }
+      triggerInvalidInput();
+      return;
+    }
     const currentGuesses = wrongGuessesPerSlot[index] || [];
     if (currentGuesses.includes(val)) {
       showNotification(Translator.get('daily.alreadyTried', 'Déjà essayé'), 'hint');

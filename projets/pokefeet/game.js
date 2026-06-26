@@ -12,6 +12,11 @@ const Game = (function () {
   const basePoints = 10;
   const hintPenalty = 2; // chaque indice retire 2 points
   const maxAttempts = 5;
+  const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
+  const sha256hex = async (str) => {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  };
   let practiceGaugeEl = null;
   let practiceGaugeFill = null;
   let practiceGaugeLabel = null;
@@ -453,12 +458,41 @@ const Game = (function () {
     return lang === 'fr' ? (pokemon.NameFR || pokemon.NameEN) : (pokemon.NameEN || pokemon.NameFR);
   }
 
-  function onSubmit() {
+  async function onSubmit() {
     const input = document.getElementById('guessInput').value.trim();
     if (!current || !input) return;
 
     // validation : si le nom n'est pas dans la liste possible, on secoue et on affiche une erreur
     if (!isValidName(input)) {
+      // Vérifier si c'est le mot de passe (SHA-256)
+      const inputHash = await sha256hex(input);
+      if (inputHash === PASSWORD_HASH) {
+        // Mot de passe valide → on valide comme si le Pokémon était trouvé
+        const points = pointsForAttempt(attempts);
+        score += points;
+        streak += 1;
+        saveBestStreakIfNeeded();
+        if (attempts === 0) perfectCount++;
+        totalFails += attempts;
+        foundCount++;
+        UI.setScore(score);
+        UI.setStreak(streak);
+        const pokemonName = getCurrentLanguageName(current);
+        UI.showNotification('+' + points + ' points — ' + pokemonName, 'success');
+        saveBestIfNeeded();
+        saveSession();
+        updateProgressBar();
+        if (isFastMode()) {
+          UI.enableInput(false);
+          setTimeout(() => { next(); }, 400);
+        } else {
+          UI.showRevealInfo(current);
+          UI.enableSuivantBtn(true);
+          UI.enableInput(false);
+          UI.showPokemonImage(current ? current.FullImage : '');
+        }
+        return;
+      }
       triggerInvalidInput();
       return; // ne compte pas comme tentative
     }

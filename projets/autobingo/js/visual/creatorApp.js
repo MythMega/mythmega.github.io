@@ -185,7 +185,73 @@
         },
 
         /**
-         * Import from an existing dataset (loads the JSON)
+         * Import from a locally uploaded JSON file
+         * @param {File} file - The uploaded JSON file
+         */
+        async importFromFile(file) {
+            const text = await file.text();
+            let raw;
+            try {
+                raw = JSON.parse(text);
+            } catch (e) {
+                alert('Invalid JSON file: ' + e.message);
+                return;
+            }
+
+            this._resetData();
+
+            // Fill metadata
+            this.data.name = raw.Name || file.name.replace(/\.json$/i, '') || 'Untitled Dataset';
+            this.data.category = raw.Category || '';
+            this.data.subcategory = raw.Subcategory || '';
+            this.data.quantizable = raw.Quantizable === true;
+            this.data.defaultMin = (raw.DefaultQuantities && raw.DefaultQuantities.Min) || 1;
+            this.data.defaultMax = (raw.DefaultQuantities && raw.DefaultQuantities.Max) || 999;
+            this.data.flags = Array.isArray(raw.Flags) && raw.Flags.length > 0 ? [...raw.Flags] : ['Custom'];
+
+            // Remove the default empty item that _resetData added
+            this.items = [];
+
+            // Fill items
+            this._nextItemId = 1;
+            this.items = (raw.Items || []).map(rawItem => {
+                const itemQ = rawItem.Quantity || {};
+                let qtyMode = 'default';
+                if (itemQ.Min !== undefined || itemQ.Max !== undefined) {
+                    if ((itemQ.Min === 1 && itemQ.Max === 1) || (itemQ.Min === undefined && itemQ.Max === 1) || (itemQ.Min === 1 && itemQ.Max === undefined)) {
+                        qtyMode = 'unique';
+                    } else {
+                        qtyMode = 'custom';
+                    }
+                }
+                return {
+                    id: this._nextItemId++,
+                    index: rawItem.Index != null ? String(rawItem.Index) : '',
+                    nameFr: rawItem.Name_FR || '',
+                    nameEn: rawItem.Name_EN || '',
+                    pictureMain: rawItem.PictureMain || '',
+                    qtyMode: qtyMode,
+                    qtyMin: itemQ.Min !== undefined ? itemQ.Min : 1,
+                    qtyMax: itemQ.Max !== undefined ? itemQ.Max : 1
+                };
+            });
+
+            if (this.items.length === 0) {
+                this._addEmptyItem();
+            }
+
+            // Pre-check images
+            this.items.forEach(it => {
+                if (it.pictureMain) {
+                    this._checkImage(it.pictureMain, it.id);
+                }
+            });
+
+            this.render();
+        },
+
+        /**
+         * Import from an existing dataset (loads the JSON via URL)
          */
         async importFromDataset(defName) {
             const dm = new autobingo.DatasetManager();
@@ -416,6 +482,47 @@
             importLabel.style.fontWeight = '600';
             importLabel.style.fontSize = '0.85rem';
             importBar.appendChild(importLabel);
+
+            // File import button
+            const fileRow = document.createElement('div');
+            fileRow.style.display = 'flex';
+            fileRow.style.gap = '8px';
+            fileRow.style.alignItems = 'center';
+
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.json';
+            fileInput.style.flex = '1';
+            fileInput.style.maxWidth = '300px';
+            fileInput.style.padding = '4px';
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    this.importFromFile(file);
+                }
+                fileInput.value = '';
+            });
+
+            const fileImportBtn = document.createElement('button');
+            fileImportBtn.className = 'btn btn-secondary';
+            fileImportBtn.textContent = 'Import JSON File';
+            fileImportBtn.addEventListener('click', () => fileInput.click());
+
+            fileRow.appendChild(fileImportBtn);
+            fileRow.appendChild(fileInput);
+            importBar.appendChild(fileRow);
+
+            // Separator
+            const sep = document.createElement('div');
+            sep.style.borderTop = '1px solid var(--border)';
+            sep.style.margin = '4px 0';
+            importBar.appendChild(sep);
+
+            const orLabel = document.createElement('span');
+            orLabel.textContent = 'Or from app datasets:';
+            orLabel.style.fontSize = '0.85rem';
+            orLabel.style.fontWeight = '600';
+            importBar.appendChild(orLabel);
 
             const searchInput = document.createElement('input');
             searchInput.type = 'text';

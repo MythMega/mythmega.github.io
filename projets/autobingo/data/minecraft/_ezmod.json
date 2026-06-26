@@ -430,6 +430,138 @@
       }
     ]
   },
+    {
+    "Delete": { "IDS": ["block-000273","block-000405","block-000636","block-000919"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-041",
+        "Name_FR": "Coffre en cuivre",
+        "Name_EN": "Copper Chest",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Chest.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000234","block-000400","block-000631","block-000914"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-042",
+        "Name_FR": "Cuivre ciselé",
+        "Name_EN": "Chiseled Copper",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Chiseled_Copper.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000342","block-000345","block-000349","block-000352","block-000355"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-043",
+        "Name_FR": "Corail mort",
+        "Name_EN": "Dead Coral",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Dead_Coral.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000165","block-000187","block-000417","block-000472","block-000886"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-044",
+        "Name_FR": "Corail",
+        "Name_EN": "Coral",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Coral.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000344","block-000347","block-000351","block-000354","block-000357"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-045",
+        "Name_FR": "Éventail de corail mort",
+        "Name_EN": "Dead Coral Fan",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Dead_Coral_Fan.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000167","block-000189","block-000419","block-000474","block-000888"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-046",
+        "Name_FR": "Gorgone de corail",
+        "Name_EN": "Coral Fan",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Coral_Fan.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000343","block-000346","block-000350","block-000353","block-000356"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-047",
+        "Name_FR": "Bloc de corail mort",
+        "Name_EN": "Dead Coral Block",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Dead_Coral_Block.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000166","block-000188","block-000418","block-000473","block-000887"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-048",
+        "Name_FR": "Bloc de corail",
+        "Name_EN": "Coral Block",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Coral_Block.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000414","block-000527","block-000645","block-000928"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-049",
+        "Name_FR": "Paratonnerre",
+        "Name_EN": "Lightning Rod",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Lightning_Rod.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000615","block-000664","block-000897"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-050",
+        "Name_FR": "Bloc de lumière de grenouille",
+        "Name_EN": "Froglight",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Froglight.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000274","block-000406","block-000637","block-000920"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-051",
+        "Name_FR": "Porte en cuivre",
+        "Name_EN": "Copper Door",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Copper_Door.gif"
+      }
+    ]
+  },
+  {
+    "Delete": { "IDS": ["block-000016","block-000056","block-000082","block-000103","block-000217","block-000290","block-000326","block-000483","block-000557","block-000600","block-000651","block-000829","block-000900"] },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-052",
+        "Name_FR": "Porte en bois",
+        "Name_EN": "Wooden Door",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wooden_Door.gif"
+      }
+    ]
+  },
   {
     "Delete": { "IDS": ["block-000038","block-000037","block-000036","block-000035","block-000034","block-000033","block-000032","block-000031","block-000030","block-000029","block-000028","block-000027","block-000026","block-000025","block-000024","block-000023"] },
     "ReplaceIfFound": [

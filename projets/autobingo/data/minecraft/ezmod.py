@@ -34,7 +34,6 @@ def build_ezmod_rules(path):
     return rules
 
 def normalize_flags_value(flags):
-    """Retourne une liste de flags contenant 'Simplified' à partir d'une valeur quelconque."""
     if flags is None:
         return ["Simplified"]
     if isinstance(flags, list):
@@ -42,7 +41,6 @@ def normalize_flags_value(flags):
         if "Simplified" not in normalized:
             normalized.append("Simplified")
         return normalized
-    # autre type -> convertir en string et garder + Simplified
     try:
         s = str(flags)
         if s.strip() == "":
@@ -52,6 +50,19 @@ def normalize_flags_value(flags):
         return [s, "Simplified"]
     except Exception:
         return ["Simplified"]
+
+def ensure_name_simple(original_name):
+    if original_name is None:
+        return " - Simple"
+    try:
+        s = str(original_name)
+    except Exception:
+        s = ""
+    if s.endswith(" - Simple"):
+        return s
+    if s.strip() == "":
+        return " - Simple"
+    return s + " - Simple"
 
 def process_file(src_path, ezmod_rules):
     try:
@@ -104,39 +115,44 @@ def process_file(src_path, ezmod_rules):
             index_to_item[repl_idx] = repl
             total_added += 1
 
-    # Préparer la valeur finale de Flags (à partir de la valeur existante dans src si présente)
     original_flags = src.get("Flags", None)
     final_flags = normalize_flags_value(original_flags)
 
-    # Construire un OrderedDict pour forcer l'ordre des clés : 
-    # on parcourt les clés d'origine et on insère Flags AVANT Items.
+    original_name = src.get("Name", None)
+    final_name = ensure_name_simple(original_name)
+
+    # --- Construire la sortie en forçant Name en première clé ---
     out = OrderedDict()
+    out["Name"] = final_name   # FORCER Name en première propriété
     flags_inserted = False
     items_inserted = False
 
+    # Parcourir les clés d'origine, ignorer Name (déjà inséré)
     for key in src.keys():
+        if key == "Name":
+            continue
         if key == "Flags":
-            # on saute l'ajout ici : on insérera la version normalisée au moment opportun (avant Items)
+            # on insérera Flags juste avant Items si nécessaire, donc on saute ici
             continue
         if key == "Items":
-            # avant d'insérer Items, s'assurer d'avoir inséré Flags
+            # Avant d'insérer Items, s'assurer d'avoir inséré Flags
             if not flags_inserted:
                 out["Flags"] = final_flags
                 flags_inserted = True
+            # Items après Name et Flags
             out["Items"] = final_items
             items_inserted = True
             continue
-        # copie des autres clés telles quelles (valeurs inchangées)
-        out[key] = src[key]
+        # copier les autres clés telles quelles, en évitant de réécrire Name/Flags/Items
+        if key not in out:
+            out[key] = src[key]
 
-    # Si le fichier source n'avait pas de clé Items (cas improbable), on ajoute Flags si pas encore ajouté
+    # Si Flags n'a pas encore été inséré (parce que src n'avait pas Items), on l'ajoute maintenant
     if not flags_inserted:
-        # insérer Flags avant Items position (Items non présent) -> on ajoute Flags maintenant
-        # pour rester cohérent, on place Flags juste avant la fin
         out["Flags"] = final_flags
         flags_inserted = True
 
-    # Si Items n'a pas été inséré (parce que src n'avait pas Items), on l'ajoute maintenant
+    # Si Items n'a pas été inséré (src n'avait pas Items), on l'ajoute maintenant
     if not items_inserted:
         out["Items"] = final_items
 
@@ -157,14 +173,16 @@ def process_file(src_path, ezmod_rules):
         unique_items.append(it)
     out["Items"] = unique_items
 
-    # Sauvegarder
+    # Sauvegarder : écrase le fichier -simpl.json existant
     base = os.path.basename(src_path)
     name, ext = os.path.splitext(base)
     out_name = f"{name}-simpl{ext}"
     out_path = os.path.join(os.path.dirname(src_path), out_name)
-    save_json(out_path, out)
-
-    print(f"{base} -> {out_name}  (deleted: {total_deleted}, added: {total_added}, duplicates_removed: {duplicates})")
+    try:
+        save_json(out_path, out)
+        print(f"{base} -> {out_name}  (deleted: {total_deleted}, added: {total_added}, duplicates_removed: {duplicates})")
+    except Exception as e:
+        print(f"Erreur écriture {out_path}: {e}")
 
 def main():
     ezmod_rules = build_ezmod_rules(EZMOD_FILE)

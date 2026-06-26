@@ -138,6 +138,17 @@
     ]
   },
   {
+    "Name": "Minecraft 1.21.11 - Mounts of Mayhem - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc1.21.11-full-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
+    ]
+  },
+  {
     "Name": "Minecraft 1.21.9 - the Copper Age",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
@@ -153,6 +164,17 @@
     "Quantizable": false,
     "Flags": [
       "Simplified"
+    ]
+  },
+  {
+    "Name": "Minecraft 1.21.9 - the Copper Age - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc1.21.9-full-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
     ]
   },
   {
@@ -174,6 +196,17 @@
     ]
   },
   {
+    "Name": "Minecraft 26.1 - Tiny Takeover - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26.1-full-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
+    ]
+  },
+  {
     "Name": "Minecraft 26.2 - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla",
@@ -189,6 +222,17 @@
     "Quantizable": true,
     "Flags": [
       "Simplified"
+    ]
+  },
+  {
+    "Name": "Minecraft 26.2 - Chaos Cubed - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26.2.q-full-fastmod.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified",
+      "FastMode"
     ]
   },
   {
@@ -210,6 +254,17 @@
     ]
   },
   {
+    "Name": "Minecraft 26.3 - Unknown Version 3rd Drop - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla",
+    "Location": "./data/minecraft/mc26.3.q-full-fastmod.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified",
+      "FastMode"
+    ]
+  },
+  {
     "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
@@ -225,6 +280,17 @@
     "Quantizable": false,
     "Flags": [
       "Simplified"
+    ]
+  },
+  {
+    "Name": "Minecraft 1.21.11 - Blocks - Mounts of Mayhem - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc1.21.11-blocks-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
     ]
   },
   {
@@ -246,6 +312,17 @@
     ]
   },
   {
+    "Name": "Minecraft 1.21.9 - Blocks - the Copper Age - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc1.21.9-blocks-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
+    ]
+  },
+  {
     "Name": "Minecraft 26.1 - Blocks - Tiny Takeover",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
@@ -261,6 +338,17 @@
     "Quantizable": false,
     "Flags": [
       "Simplified"
+    ]
+  },
+  {
+    "Name": "Minecraft 26.1 - Blocks - Tiny Takeover - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc26.1-blocks-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
     ]
   },
   {
@@ -282,6 +370,17 @@
     ]
   },
   {
+    "Name": "Minecraft 26.2 - Blocks - Chaos Cubed - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc26.2.q-blocks-fastmod.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified",
+      "FastMode"
+    ]
+  },
+  {
     "Name": "Minecraft 26.3 - Blocks - Unknown Name",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Blocks Only",
@@ -297,6 +396,17 @@
     "Quantizable": true,
     "Flags": [
       "Simplified"
+    ]
+  },
+  {
+    "Name": "Minecraft 26.3 - Blocks - Unknown Name - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Blocks Only",
+    "Location": "./data/minecraft/mc26.3.q-blocks-fastmod.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified",
+      "FastMode"
     ]
   },
   {
@@ -318,6 +428,17 @@
     ]
   },
   {
+    "Name": "Minecraft 1.21.11 - Items - Mounts of Mayhem - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc1.21.11-items-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
+    ]
+  },
+  {
     "Name": "Minecraft 1.21.9 - Items -The Copper Age",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
@@ -333,6 +454,17 @@
     "Quantizable": false,
     "Flags": [
       "Simplified"
+    ]
+  },
+  {
+    "Name": "Minecraft 1.21.9 - Items -The Copper Age - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc1.21.9-items-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
     ]
   },
   {
@@ -354,6 +486,17 @@
     ]
   },
   {
+    "Name": "Minecraft 26.1 - Items - Tiny Takeover - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.1-items-fastmod.json",
+    "Quantizable": false,
+    "Flags": [
+      "Simplified",
+      "FastMode"
+    ]
+  },
+  {
     "Name": "Minecraft 26.2 - Items - Chaos Cubed",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
@@ -372,6 +515,17 @@
     ]
   },
   {
+    "Name": "Minecraft 26.2 - Items - Chaos Cubed - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.2.q-items-fastmod.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified",
+      "FastMode"
+    ]
+  },
+  {
     "Name": "Minecraft 26.3 - Items - Unknown Name",
     "Category": "Minecraft",
     "Subcategory": "Minecraft Vanilla - Items Only",
@@ -387,6 +541,17 @@
     "Quantizable": true,
     "Flags": [
       "Simplified"
+    ]
+  },
+  {
+    "Name": "Minecraft 26.3 - Items - Unknown Name - Simple - F",
+    "Category": "Minecraft",
+    "Subcategory": "Minecraft Vanilla - Items Only",
+    "Location": "./data/minecraft/mc26.3.q-items-fastmod.json",
+    "Quantizable": true,
+    "Flags": [
+      "Simplified",
+      "FastMode"
     ]
   },
   {

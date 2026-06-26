@@ -64,7 +64,15 @@ NAMES_TO_REMOVE = {
     "Structure Air",
     "End Portal (block)",
     "End Gateway (block)",
-    "End Portal Frame"
+    "End Portal Frame",
+    "Allow",
+    "Border",
+    "Deny",
+    "Dimension Control",
+    "Fire",
+    "Soul Fire"
+    "Player Head",
+    "Reinforced Deepslate"
 }
 
 def process_json_file(path):

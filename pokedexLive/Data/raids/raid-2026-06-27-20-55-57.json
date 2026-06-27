@@ -1,0 +1,304 @@
+{
+  "bossName": "Cobaltium",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cobalion_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cobalion_shiny.gif",
+  "bossRarity": "LEGENDARY",
+  "shiny": false,
+  "pvMax": 340000,
+  "date": "2026-06-27 20:55:57",
+  "durationSec": 2798,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 301434,
+      "countAtk": 5,
+      "baseDmg": 30864,
+      "level": 18,
+      "raidCount": 916,
+      "luck": 1.9533049
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 45219,
+      "countAtk": 3,
+      "baseDmg": 8975,
+      "level": 17,
+      "raidCount": 341,
+      "luck": 1.6794429
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14586,
+      "countAtk": 1,
+      "baseDmg": 14586,
+      "level": 18,
+      "raidCount": 481,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 5390,
+      "countAtk": 1,
+      "baseDmg": 5390,
+      "level": 14,
+      "raidCount": 225,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 4453,
+      "countAtk": 3,
+      "baseDmg": 819,
+      "level": 8,
+      "raidCount": 54,
+      "luck": 1.8123728
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 4453
+    },
+    {
+      "platform": "twitch",
+      "damage": 366629
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-27 20:55:57",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 819,
+      "pvAfter": 339181,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:00:46",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30864,
+      "pvAfter": 308317,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:07:37",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14586,
+      "pvAfter": 293731,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:10:32",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 61760,
+      "pvAfter": 231971,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:11:19",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1748,
+      "pvAfter": 230223,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:11:21",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5390,
+      "pvAfter": 224833,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:11:27",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8975,
+      "pvAfter": 215858,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:19:32",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 61922,
+      "pvAfter": 153936,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:20:22",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 18124,
+      "pvAfter": 135812,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:31:01",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 18120,
+      "pvAfter": 117692,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:31:02",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 85000,
+      "pvAfter": 32692,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:33:47",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1886,
+      "pvAfter": 30806,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 21:42:35",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 61888,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

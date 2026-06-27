@@ -1,0 +1,131 @@
+{
+  "bossName": "Castorno",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bibarel_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bibarel_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 90000,
+  "date": "2026-06-27 23:42:23",
+  "durationSec": 974,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 90000,
+      "countAtk": 4,
+      "baseDmg": 30662,
+      "level": 18,
+      "raidCount": 919,
+      "luck": 0.7338073
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 1931,
+      "countAtk": 1,
+      "baseDmg": 1931,
+      "level": 12,
+      "raidCount": 123,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 91931
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-27 23:43:44",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 67500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 23:45:06",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1931,
+      "pvAfter": 65569,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 23:48:57",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 43069,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 23:53:40",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 20569,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 23:58:37",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

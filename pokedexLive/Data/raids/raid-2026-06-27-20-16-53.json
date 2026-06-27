@@ -1,0 +1,249 @@
+{
+  "bossName": "Kapoera",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmontop_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmontop_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-27 20:16:53",
+  "durationSec": 2302,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 21494,
+      "countAtk": 2,
+      "baseDmg": 8994,
+      "level": 17,
+      "raidCount": 340,
+      "luck": 1.1949077
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 12500,
+      "countAtk": 1,
+      "baseDmg": 14711,
+      "level": 18,
+      "raidCount": 480,
+      "luck": 0.8497043
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 12500,
+      "countAtk": 1,
+      "baseDmg": 30558,
+      "level": 18,
+      "raidCount": 915,
+      "luck": 0.40905818
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 5305,
+      "countAtk": 1,
+      "baseDmg": 5305,
+      "level": 14,
+      "raidCount": 224,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 3750,
+      "countAtk": 3,
+      "baseDmg": 806,
+      "level": 8,
+      "raidCount": 53,
+      "luck": 1.5508685
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 51799
+    },
+    {
+      "platform": "youtube",
+      "damage": 3750
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-27 20:30:48",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5305,
+      "pvAfter": 44695,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-06-27 20:32:28",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 32195,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 20:33:06",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 8994,
+      "pvAfter": 23201,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 20:33:40",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 806,
+      "pvAfter": 22395,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-06-27 20:44:04",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1656,
+      "pvAfter": 20739,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-06-27 20:48:02",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1288,
+      "pvAfter": 19451,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 20:55:03",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 6951,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-27 20:55:16",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    }
+  ]
+}

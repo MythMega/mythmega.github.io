@@ -1,0 +1,131 @@
+{
+  "bossName": "M. Mime",
+  "bossSprite": "https://img.pokemondb.net/sprites/black-white/anim/normal/mr-mime.gif",
+  "bossSpriteShiny": "https://img.pokemondb.net/sprites/black-white/anim/shiny/mr-mime.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 140000,
+  "date": "2026-06-29 21:30:56",
+  "durationSec": 2096,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 135963,
+      "countAtk": 4,
+      "baseDmg": 30963,
+      "level": 18,
+      "raidCount": 921,
+      "luck": 1.0977861
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14582,
+      "countAtk": 1,
+      "baseDmg": 14582,
+      "level": 18,
+      "raidCount": 483,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 150545
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-29 21:31:06",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14582,
+      "pvAfter": 125418,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 21:38:03",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30963,
+      "pvAfter": 94455,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 21:44:31",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 59455,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 21:58:53",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 24455,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 22:05:53",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

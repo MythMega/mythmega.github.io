@@ -1,0 +1,293 @@
+{
+  "bossName": "Chamallot",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Numel_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Numel_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-06-29 20:06:56",
+  "durationSec": 4848,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 25000,
+      "countAtk": 4,
+      "baseDmg": 30723,
+      "level": 18,
+      "raidCount": 920,
+      "luck": 0.20343065
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 12500,
+      "countAtk": 1,
+      "baseDmg": 14540,
+      "level": 18,
+      "raidCount": 482,
+      "luck": 0.8596974
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 9177,
+      "countAtk": 1,
+      "baseDmg": 9177,
+      "level": 17,
+      "raidCount": 343,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 3317,
+      "countAtk": 3,
+      "baseDmg": 784,
+      "level": 8,
+      "raidCount": 55,
+      "luck": 1.410289
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "jmdevfr",
+      "damage": 249,
+      "countAtk": 1,
+      "baseDmg": 249,
+      "level": 3,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 3317
+    },
+    {
+      "platform": "twitch",
+      "damage": 46926
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-29 20:26:56",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 784,
+      "pvAfter": 49216,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 20:28:20",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 845,
+      "pvAfter": 48371,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 20:32:09",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9177,
+      "pvAfter": 39194,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 20:50:26",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1688,
+      "pvAfter": 37506,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 21:00:34",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 25006,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-06-29 21:04:01",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 25006,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 2 tours."
+    },
+    {
+      "at": "2026-06-29 21:12:48",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 25006,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "sansanhijab s\u0027est soign\u00E9 (que lui)"
+    },
+    {
+      "at": "2026-06-29 21:12:52",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 12506,
+      "heal": false,
+      "critical": true,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-06-29 21:17:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 12506,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 21h17:52."
+    },
+    {
+      "at": "2026-06-29 21:18:23",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 249,
+      "pvAfter": 12257,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 21:18:24",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 12257,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "jmdevfr a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-06-29 21:27:45",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

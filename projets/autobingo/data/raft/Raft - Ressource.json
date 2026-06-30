@@ -1,0 +1,60 @@
+{
+  "Name": "Raft - Ressource",
+  "Category": "Raft",
+  "Subcategory": "Raft 1.0",
+  "Quantizable": true,
+  "DefaultQuantities": {
+    "Max": 99,
+    "Min": 1
+  },
+  "Items": [
+    {
+      "Index": "raft-66",
+      "Name_FR": "Rope",
+      "Name_EN": "Rope",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Rope.png"
+    },
+    {
+      "Index": "raft-67",
+      "Name_FR": "Bolt",
+      "Name_EN": "Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Bolt.png"
+    },
+    {
+      "Index": "raft-68",
+      "Name_FR": "Wet Brick",
+      "Name_EN": "Wet Brick",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Wet_Brick.png"
+    },
+    {
+      "Index": "raft-69",
+      "Name_FR": "Nail",
+      "Name_EN": "Nail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Nail.png"
+    },
+    {
+      "Index": "raft-70",
+      "Name_FR": "Hinge",
+      "Name_EN": "Hinge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Hinge.png"
+    },
+    {
+      "Index": "raft-71",
+      "Name_FR": "Circuit Board",
+      "Name_EN": "Circuit Board",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Circuit_Board.png"
+    },
+    {
+      "Index": "raft-72",
+      "Name_FR": "Battery",
+      "Name_EN": "Battery",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Battery.png"
+    },
+    {
+      "Index": "raft-73",
+      "Name_FR": "Honey",
+      "Name_EN": "Honey",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Honey.png"
+    }
+  ]
+}

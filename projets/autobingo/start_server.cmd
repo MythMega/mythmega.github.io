@@ -1,6 +1,6 @@
 @echo off
 echo Selection d'un port aleatoire...
-
+py dataset_analyser.py
 REM Définition des bornes
 set min=5480
 set max=5499

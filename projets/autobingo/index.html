@@ -3,10 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoBingo</title>
+    <meta name="description" content="AutoBingo - Create customizable bingo grids for 25+ games including Minecraft, Pokémon, Zelda, Elden Ring and more. Streamer-friendly with OBS overlay support. Free and open source.">
+    <meta name="keywords" content="bingo, bingo generator, minecraft bingo, pokemon bingo, zelda bingo, elden ring bingo, streamer tools, OBS overlay, gaming bingo, custom bingo, random bingo">
+    <meta name="author" content="AutoBingo">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="AutoBingo - Free Customizable Bingo Generator for Gamers">
+    <meta property="og:description" content="Create bingo grids for 25+ games with 300+ presets. Streamer-friendly OBS overlay support. Free and open source.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mythmega.github.io/">
+    <meta property="og:image" content="https://mythmega.github.io/assets/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AutoBingo - Free Customizable Bingo Generator">
+    <meta name="twitter:description" content="Create bingo grids for 25+ games. Streamer-friendly with OBS overlay.">
+    <link rel="canonical" href="https://mythmega.github.io/">
+    <title>AutoBingo - Free Customizable Bingo Generator for 25+ Games</title>
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/nav.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "AutoBingo",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        },
+        "description": "Free customizable bingo grid generator for gamers and streamers. Supports 25+ games with 300+ presets.",
+        "featureList": [
+            "300+ bingo presets",
+            "25+ supported games",
+            "OBS overlay support",
+            "Custom bingo creation",
+            "Randomizable grids",
+            "Multi-language (EN/FR)"
+        ]
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -18,9 +54,28 @@
             <h1 class="page-title" data-i18n="home.title">AutoBingo</h1>
             <p class="page-subtitle" data-i18n="home.subtitle">Create and play bingo games from your favorite datasets!</p>
 
+            <div class="home-games-count mt-16">
+                <span id="games-count-text">Supported games: --</span>
+                <button class="btn-games-info" id="games-info-btn" title="View all supported games">?</button>
+            </div>
+            <div class="home-datasets-count">
+                <span id="datasets-count-text">Datasets: --</span>
+            </div>
+
             <button class="btn btn-primary mt-24" onclick="window.location.href='create_bingo.html'" data-i18n="home.create_button">
                 Create a Bingo Grid
             </button>
+        </div>
+
+        <!-- Games list popup -->
+        <div class="games-popup hidden" id="games-popup">
+            <div class="games-popup-content">
+                <div class="games-popup-header">
+                    <h3 data-i18n="home.games_list_title">Supported Games</h3>
+                    <button class="games-popup-close" id="games-popup-close">&times;</button>
+                </div>
+                <div class="games-popup-list" id="games-popup-list"></div>
+            </div>
         </div>
 
         <!-- Presets Section -->
@@ -69,12 +124,76 @@
             AutoBingo.ThemeToggle.create();
             AutoBingo.LanguageToggle.create();
 
+            // Load stats (games count, datasets count)
+            await loadStats();
+
             // Render presets
             renderPresets();
 
             // Translate page
             translator.translatePage();
         })();
+
+        async function loadStats() {
+            const lang = AutoBingo.translationManager ? AutoBingo.translationManager.currentLang : 'en';
+
+            try {
+                // Load games count
+                const resp = await fetch('metadata/games.json');
+                const games = await resp.json();
+                const countSpan = document.getElementById('games-count-text');
+                if (lang === 'fr') {
+                    countSpan.textContent = `${games.length} jeux supportés`;
+                } else {
+                    countSpan.textContent = `${games.length} supported games`;
+                }
+
+                // Popup toggle
+                const infoBtn = document.getElementById('games-info-btn');
+                const popup = document.getElementById('games-popup');
+                const closeBtn = document.getElementById('games-popup-close');
+                const list = document.getElementById('games-popup-list');
+
+                infoBtn.addEventListener('click', () => {
+                    popup.classList.toggle('hidden');
+                });
+
+                closeBtn.addEventListener('click', () => {
+                    popup.classList.add('hidden');
+                });
+
+                popup.addEventListener('click', (e) => {
+                    if (e.target === popup) {
+                        popup.classList.add('hidden');
+                    }
+                });
+
+                // Populate list
+                list.innerHTML = '';
+                games.forEach(game => {
+                    const div = document.createElement('div');
+                    div.className = 'games-popup-item';
+                    div.textContent = game;
+                    list.appendChild(div);
+                });
+            } catch (e) {
+                console.warn('Failed to load games.json', e);
+            }
+
+            try {
+                // Load datasets count
+                const dsResp = await fetch('datasets.json');
+                const datasets = await dsResp.json();
+                const dsSpan = document.getElementById('datasets-count-text');
+                if (lang === 'fr') {
+                    dsSpan.textContent = `${datasets.length} datasets`;
+                } else {
+                    dsSpan.textContent = `${datasets.length} datasets`;
+                }
+            } catch (e) {
+                console.warn('Failed to load datasets.json', e);
+            }
+        }
 
         function renderPresets() {
             const presets = AutoBingo.PresetManager.loadAll();

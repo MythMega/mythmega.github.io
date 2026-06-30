@@ -1,0 +1,68 @@
+{
+  "Name": "Slay The Spire - Elites",
+  "Category": "Slay The Spire",
+  "Subcategory": "Enemies",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "1",
+      "Name_FR": "Gremlin Nob",
+      "Name_EN": "Gremlin Nob",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Gremlin_Nob.png"
+    },
+    {
+      "Index": "2",
+      "Name_FR": "Lagavulin",
+      "Name_EN": "Lagavulin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Lagavulin.png"
+    },
+    {
+      "Index": "3",
+      "Name_FR": "Sentries",
+      "Name_EN": "Sentries",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Sentries.png"
+    },
+    {
+      "Index": "4",
+      "Name_FR": "Book of Stabbing",
+      "Name_EN": "Book of Stabbing",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Book_of_Stabbing.png"
+    },
+    {
+      "Index": "5",
+      "Name_FR": "Gremlin Leader",
+      "Name_EN": "Gremlin Leader",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Gremlin_Leader.png"
+    },
+    {
+      "Index": "6",
+      "Name_FR": "Taskmaster",
+      "Name_EN": "Taskmaster",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Taskmaster.png"
+    },
+    {
+      "Index": "7",
+      "Name_FR": "Giant Head",
+      "Name_EN": "Giant Head",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Giant_Head.png"
+    },
+    {
+      "Index": "8",
+      "Name_FR": "Nemesis",
+      "Name_EN": "Nemesis",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Nemesis.png"
+    },
+    {
+      "Index": "9",
+      "Name_FR": "Reptomancer",
+      "Name_EN": "Reptomancer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Reptomancer.png"
+    },
+    {
+      "Index": "10",
+      "Name_FR": "Spire Shield and Spire Spear",
+      "Name_EN": "Spire Shield and Spire Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts/elites/Spire_Shield_and_Spire_Spear.png"
+    }
+  ]
+}

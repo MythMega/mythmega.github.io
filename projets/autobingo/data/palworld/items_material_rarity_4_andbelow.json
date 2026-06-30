@@ -1,0 +1,896 @@
+{
+  "Name": "Palworld - Items material/rarity 4 and below",
+  "Category": "Palworld",
+  "Subcategory": "Items - Materials",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "gold_coin",
+      "Name_FR": "Gold Coin",
+      "Name_EN": "Gold Coin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gold Coin.png"
+    },
+    {
+      "Index": "animal_skin",
+      "Name_FR": "Animal Skin",
+      "Name_EN": "Animal Skin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Animal Skin.png"
+    },
+    {
+      "Index": "charcoal",
+      "Name_FR": "Charcoal",
+      "Name_EN": "Charcoal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Charcoal.png"
+    },
+    {
+      "Index": "claw",
+      "Name_FR": "Claw",
+      "Name_EN": "Claw",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Claw.png"
+    },
+    {
+      "Index": "cloth",
+      "Name_FR": "Cloth",
+      "Name_EN": "Cloth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cloth.png"
+    },
+    {
+      "Index": "coal",
+      "Name_FR": "Coal",
+      "Name_EN": "Coal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Coal.png"
+    },
+    {
+      "Index": "ingot",
+      "Name_FR": "Ingot",
+      "Name_EN": "Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ingot.png"
+    },
+    {
+      "Index": "ore",
+      "Name_FR": "Ore",
+      "Name_EN": "Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ore.png"
+    },
+    {
+      "Index": "fang",
+      "Name_FR": "Fang",
+      "Name_EN": "Fang",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fang.png"
+    },
+    {
+      "Index": "fiber",
+      "Name_FR": "Fiber",
+      "Name_EN": "Fiber",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fiber.png"
+    },
+    {
+      "Index": "gunpowder",
+      "Name_FR": "Gunpowder",
+      "Name_EN": "Gunpowder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gunpowder.png"
+    },
+    {
+      "Index": "gunpowder",
+      "Name_FR": "Gunpowder",
+      "Name_EN": "Gunpowder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gunpowder.png"
+    },
+    {
+      "Index": "beautiful_flower",
+      "Name_FR": "Beautiful Flower",
+      "Name_EN": "Beautiful Flower",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Beautiful Flower.png"
+    },
+    {
+      "Index": "refined_ingot",
+      "Name_FR": "Refined Ingot",
+      "Name_EN": "Refined Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Refined Ingot.png"
+    },
+    {
+      "Index": "leather",
+      "Name_FR": "Leather",
+      "Name_EN": "Leather",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Leather.png"
+    },
+    {
+      "Index": "nail",
+      "Name_FR": "Nail",
+      "Name_EN": "Nail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nail.png"
+    },
+    {
+      "Index": "circuit_board",
+      "Name_FR": "Circuit Board",
+      "Name_EN": "Circuit Board",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Circuit Board.png"
+    },
+    {
+      "Index": "pal_metal_ingot",
+      "Name_FR": "Pal Metal Ingot",
+      "Name_EN": "Pal Metal Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Metal Ingot.png"
+    },
+    {
+      "Index": "stone",
+      "Name_FR": "Stone",
+      "Name_EN": "Stone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stone.png"
+    },
+    {
+      "Index": "paldium_fragment",
+      "Name_FR": "Paldium Fragment",
+      "Name_EN": "Paldium Fragment",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Paldium Fragment.png"
+    },
+    {
+      "Index": "paldium_clump",
+      "Name_FR": "Paldium Clump",
+      "Name_EN": "Paldium Clump",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Paldium Clump.png"
+    },
+    {
+      "Index": "dung",
+      "Name_FR": "Dung",
+      "Name_EN": "Dung",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dung.png"
+    },
+    {
+      "Index": "huge_dung",
+      "Name_FR": "Huge Dung",
+      "Name_EN": "Huge Dung",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Dung.png"
+    },
+    {
+      "Index": "berry_seeds",
+      "Name_FR": "Berry Seeds",
+      "Name_EN": "Berry Seeds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Berry Seeds.png"
+    },
+    {
+      "Index": "potatoseedpotatoes",
+      "Name_FR": "PotatoSeedPotatoes",
+      "Name_EN": "PotatoSeedPotatoes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/PotatoSeedPotatoes.png"
+    },
+    {
+      "Index": "tomato_seeds",
+      "Name_FR": "Tomato Seeds",
+      "Name_EN": "Tomato Seeds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tomato Seeds.png"
+    },
+    {
+      "Index": "lettuce_seeds",
+      "Name_FR": "Lettuce Seeds",
+      "Name_EN": "Lettuce Seeds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lettuce Seeds.png"
+    },
+    {
+      "Index": "wheat_seeds",
+      "Name_FR": "Wheat Seeds",
+      "Name_EN": "Wheat Seeds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wheat Seeds.png"
+    },
+    {
+      "Index": "wood",
+      "Name_FR": "Wood",
+      "Name_EN": "Wood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wood.png"
+    },
+    {
+      "Index": "wool",
+      "Name_FR": "Wool",
+      "Name_EN": "Wool",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wool.png"
+    },
+    {
+      "Index": "crude_oil",
+      "Name_FR": "Crude Oil",
+      "Name_EN": "Crude Oil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Crude Oil.png"
+    },
+    {
+      "Index": "plasteel",
+      "Name_FR": "Plasteel",
+      "Name_EN": "Plasteel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasteel.png"
+    },
+    {
+      "Index": "computer",
+      "Name_FR": "Computer",
+      "Name_EN": "Computer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Computer.png"
+    },
+    {
+      "Index": "common_egg",
+      "Name_FR": "Common Egg",
+      "Name_EN": "Common Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Common Egg.png"
+    },
+    {
+      "Index": "scorching_egg",
+      "Name_FR": "Scorching Egg",
+      "Name_EN": "Scorching Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Scorching Egg.png"
+    },
+    {
+      "Index": "damp_egg",
+      "Name_FR": "Damp Egg",
+      "Name_EN": "Damp Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Damp Egg.png"
+    },
+    {
+      "Index": "verdant_egg",
+      "Name_FR": "Verdant Egg",
+      "Name_EN": "Verdant Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Verdant Egg.png"
+    },
+    {
+      "Index": "electric_egg",
+      "Name_FR": "Electric Egg",
+      "Name_EN": "Electric Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Egg.png"
+    },
+    {
+      "Index": "frozen_egg",
+      "Name_FR": "Frozen Egg",
+      "Name_EN": "Frozen Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Frozen Egg.png"
+    },
+    {
+      "Index": "rocky_egg",
+      "Name_FR": "Rocky Egg",
+      "Name_EN": "Rocky Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rocky Egg.png"
+    },
+    {
+      "Index": "dark_egg",
+      "Name_FR": "Dark Egg",
+      "Name_EN": "Dark Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Egg.png"
+    },
+    {
+      "Index": "dragon_egg",
+      "Name_FR": "Dragon Egg",
+      "Name_EN": "Dragon Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Egg.png"
+    },
+    {
+      "Index": "sulfur",
+      "Name_FR": "Sulfur",
+      "Name_EN": "Sulfur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Sulfur.png"
+    },
+    {
+      "Index": "pure_quartz",
+      "Name_FR": "Pure Quartz",
+      "Name_EN": "Pure Quartz",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pure Quartz.png"
+    },
+    {
+      "Index": "polymer",
+      "Name_FR": "Polymer",
+      "Name_EN": "Polymer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Polymer.png"
+    },
+    {
+      "Index": "electric_organ",
+      "Name_FR": "Electric Organ",
+      "Name_EN": "Electric Organ",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Organ.png"
+    },
+    {
+      "Index": "venom_gland",
+      "Name_FR": "Venom Gland",
+      "Name_EN": "Venom Gland",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Venom Gland.png"
+    },
+    {
+      "Index": "flame_organ",
+      "Name_FR": "Flame Organ",
+      "Name_EN": "Flame Organ",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Flame Organ.png"
+    },
+    {
+      "Index": "ice_organ",
+      "Name_FR": "Ice Organ",
+      "Name_EN": "Ice Organ",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Organ.png"
+    },
+    {
+      "Index": "bone",
+      "Name_FR": "Bone",
+      "Name_EN": "Bone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bone.png"
+    },
+    {
+      "Index": "silicon",
+      "Name_FR": "Silicon",
+      "Name_EN": "Silicon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Silicon.png"
+    },
+    {
+      "Index": "cement",
+      "Name_FR": "Cement",
+      "Name_EN": "Cement",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cement.png"
+    },
+    {
+      "Index": "carbon_fiber",
+      "Name_FR": "Carbon Fiber",
+      "Name_EN": "Carbon Fiber",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Carbon Fiber.png"
+    },
+    {
+      "Index": "horn",
+      "Name_FR": "Horn",
+      "Name_EN": "Horn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Horn.png"
+    },
+    {
+      "Index": "pal_fluids",
+      "Name_FR": "Pal Fluids",
+      "Name_EN": "Pal Fluids",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Fluids.png"
+    },
+    {
+      "Index": "tocotoco_feather",
+      "Name_FR": "Tocotoco Feather",
+      "Name_EN": "Tocotoco Feather",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tocotoco Feather.png"
+    },
+    {
+      "Index": "gumoss_leaf",
+      "Name_FR": "Gumoss Leaf",
+      "Name_EN": "Gumoss Leaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gumoss Leaf.png"
+    },
+    {
+      "Index": "penking_plume",
+      "Name_FR": "Penking Plume",
+      "Name_EN": "Penking Plume",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Penking Plume.png"
+    },
+    {
+      "Index": "katress_hair",
+      "Name_FR": "Katress Hair",
+      "Name_EN": "Katress Hair",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Katress Hair.png"
+    },
+    {
+      "Index": "ribbuny_ribbon",
+      "Name_FR": "Ribbuny Ribbon",
+      "Name_EN": "Ribbuny Ribbon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ribbuny Ribbon.png"
+    },
+    {
+      "Index": "swee_hair",
+      "Name_FR": "Swee Hair",
+      "Name_EN": "Swee Hair",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Swee Hair.png"
+    },
+    {
+      "Index": "killamari_tentacle",
+      "Name_FR": "Killamari Tentacle",
+      "Name_EN": "Killamari Tentacle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Killamari Tentacle.png"
+    },
+    {
+      "Index": "dazzi_cloud",
+      "Name_FR": "Dazzi Cloud",
+      "Name_EN": "Dazzi Cloud",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dazzi Cloud.png"
+    },
+    {
+      "Index": "leezpunk_crest",
+      "Name_FR": "Leezpunk Crest",
+      "Name_EN": "Leezpunk Crest",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Leezpunk Crest.png"
+    },
+    {
+      "Index": "_",
+      "Name_FR": "-",
+      "Name_EN": "-",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/-.png"
+    },
+    {
+      "Index": "_",
+      "Name_FR": "-",
+      "Name_EN": "-",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/-.png"
+    },
+    {
+      "Index": "meteorite_fragment",
+      "Name_FR": "Meteorite Fragment",
+      "Name_EN": "Meteorite Fragment",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Meteorite Fragment.png"
+    },
+    {
+      "Index": "potato_seeds",
+      "Name_FR": "Potato Seeds",
+      "Name_EN": "Potato Seeds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Potato Seeds.png"
+    },
+    {
+      "Index": "carrot_seeds",
+      "Name_FR": "Carrot Seeds",
+      "Name_EN": "Carrot Seeds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Carrot Seeds.png"
+    },
+    {
+      "Index": "onion_seeds",
+      "Name_FR": "Onion Seeds",
+      "Name_EN": "Onion Seeds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Onion Seeds.png"
+    },
+    {
+      "Index": "chromite",
+      "Name_FR": "Chromite",
+      "Name_EN": "Chromite",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Chromite.png"
+    },
+    {
+      "Index": "hexolite",
+      "Name_FR": "Hexolite",
+      "Name_EN": "Hexolite",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hexolite.png"
+    },
+    {
+      "Index": "nightstar_sand",
+      "Name_FR": "Nightstar Sand",
+      "Name_EN": "Nightstar Sand",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nightstar Sand.png"
+    },
+    {
+      "Index": "dark_fragment",
+      "Name_FR": "Dark Fragment",
+      "Name_EN": "Dark Fragment",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Fragment.png"
+    },
+    {
+      "Index": "hexolite_quartz",
+      "Name_FR": "Hexolite Quartz",
+      "Name_EN": "Hexolite Quartz",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hexolite Quartz.png"
+    },
+    {
+      "Index": "scrapped_tissue_sample",
+      "Name_FR": "Scrapped Tissue Sample",
+      "Name_EN": "Scrapped Tissue Sample",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Scrapped Tissue Sample.png"
+    },
+    {
+      "Index": "hallowed_bar",
+      "Name_FR": "Hallowed Bar",
+      "Name_EN": "Hallowed Bar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Bar.png"
+    },
+    {
+      "Index": "luminite_bar",
+      "Name_FR": "Luminite Bar",
+      "Name_EN": "Luminite Bar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Luminite Bar.png"
+    },
+    {
+      "Index": "coralum_ore",
+      "Name_FR": "Coralum Ore",
+      "Name_EN": "Coralum Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Coralum Ore.png"
+    },
+    {
+      "Index": "coralum_ingot",
+      "Name_FR": "Coralum Ingot",
+      "Name_EN": "Coralum Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Coralum Ingot.png"
+    },
+    {
+      "Index": "high_quality_cloth",
+      "Name_FR": "High Quality Cloth",
+      "Name_EN": "High Quality Cloth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/High Quality Cloth.png"
+    },
+    {
+      "Index": "common_egg",
+      "Name_FR": "Common Egg",
+      "Name_EN": "Common Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Common Egg.png"
+    },
+    {
+      "Index": "scorching_egg",
+      "Name_FR": "Scorching Egg",
+      "Name_EN": "Scorching Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Scorching Egg.png"
+    },
+    {
+      "Index": "damp_egg",
+      "Name_FR": "Damp Egg",
+      "Name_EN": "Damp Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Damp Egg.png"
+    },
+    {
+      "Index": "verdant_egg",
+      "Name_FR": "Verdant Egg",
+      "Name_EN": "Verdant Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Verdant Egg.png"
+    },
+    {
+      "Index": "electric_egg",
+      "Name_FR": "Electric Egg",
+      "Name_EN": "Electric Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Egg.png"
+    },
+    {
+      "Index": "frozen_egg",
+      "Name_FR": "Frozen Egg",
+      "Name_EN": "Frozen Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Frozen Egg.png"
+    },
+    {
+      "Index": "rocky_egg",
+      "Name_FR": "Rocky Egg",
+      "Name_EN": "Rocky Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rocky Egg.png"
+    },
+    {
+      "Index": "dark_egg",
+      "Name_FR": "Dark Egg",
+      "Name_EN": "Dark Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Egg.png"
+    },
+    {
+      "Index": "dragon_egg",
+      "Name_FR": "Dragon Egg",
+      "Name_EN": "Dragon Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Egg.png"
+    },
+    {
+      "Index": "small_pal_soul",
+      "Name_FR": "Small Pal Soul",
+      "Name_EN": "Small Pal Soul",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Small Pal Soul.png"
+    },
+    {
+      "Index": "high_quality_pal_oil",
+      "Name_FR": "High Quality Pal Oil",
+      "Name_EN": "High Quality Pal Oil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/High Quality Pal Oil.png"
+    },
+    {
+      "Index": "ruby",
+      "Name_FR": "Ruby",
+      "Name_EN": "Ruby",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ruby.png"
+    },
+    {
+      "Index": "sapphire",
+      "Name_FR": "Sapphire",
+      "Name_EN": "Sapphire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Sapphire.png"
+    },
+    {
+      "Index": "large_common_egg",
+      "Name_FR": "Large Common Egg",
+      "Name_EN": "Large Common Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Common Egg.png"
+    },
+    {
+      "Index": "large_scorching_egg",
+      "Name_FR": "Large Scorching Egg",
+      "Name_EN": "Large Scorching Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Scorching Egg.png"
+    },
+    {
+      "Index": "large_damp_egg",
+      "Name_FR": "Large Damp Egg",
+      "Name_EN": "Large Damp Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Damp Egg.png"
+    },
+    {
+      "Index": "large_verdant_egg",
+      "Name_FR": "Large Verdant Egg",
+      "Name_EN": "Large Verdant Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Verdant Egg.png"
+    },
+    {
+      "Index": "large_electric_egg",
+      "Name_FR": "Large Electric Egg",
+      "Name_EN": "Large Electric Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Electric Egg.png"
+    },
+    {
+      "Index": "large_frozen_egg",
+      "Name_FR": "Large Frozen Egg",
+      "Name_EN": "Large Frozen Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Frozen Egg.png"
+    },
+    {
+      "Index": "large_rocky_egg",
+      "Name_FR": "Large Rocky Egg",
+      "Name_EN": "Large Rocky Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Rocky Egg.png"
+    },
+    {
+      "Index": "large_dark_egg",
+      "Name_FR": "Large Dark Egg",
+      "Name_EN": "Large Dark Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Dark Egg.png"
+    },
+    {
+      "Index": "large_dragon_egg",
+      "Name_FR": "Large Dragon Egg",
+      "Name_EN": "Large Dragon Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Dragon Egg.png"
+    },
+    {
+      "Index": "ancient_civilization_parts",
+      "Name_FR": "Ancient Civilization Parts",
+      "Name_EN": "Ancient Civilization Parts",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ancient Civilization Parts.png"
+    },
+    {
+      "Index": "medium_pal_soul",
+      "Name_FR": "Medium Pal Soul",
+      "Name_EN": "Medium Pal Soul",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Medium Pal Soul.png"
+    },
+    {
+      "Index": "precious_dragon_stone",
+      "Name_FR": "Precious Dragon Stone",
+      "Name_EN": "Precious Dragon Stone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Precious Dragon Stone.png"
+    },
+    {
+      "Index": "precious_plume",
+      "Name_FR": "Precious Plume",
+      "Name_EN": "Precious Plume",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Precious Plume.png"
+    },
+    {
+      "Index": "precious_entrails",
+      "Name_FR": "Precious Entrails",
+      "Name_EN": "Precious Entrails",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Precious Entrails.png"
+    },
+    {
+      "Index": "precious_claw",
+      "Name_FR": "Precious Claw",
+      "Name_EN": "Precious Claw",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Precious Claw.png"
+    },
+    {
+      "Index": "precious_pelt",
+      "Name_FR": "Precious Pelt",
+      "Name_EN": "Precious Pelt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Precious Pelt.png"
+    },
+    {
+      "Index": "ancient_pal_manuscript",
+      "Name_FR": "Ancient Pal Manuscript",
+      "Name_EN": "Ancient Pal Manuscript",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ancient Pal Manuscript.png"
+    },
+    {
+      "Index": "emerald",
+      "Name_FR": "Emerald",
+      "Name_EN": "Emerald",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Emerald.png"
+    },
+    {
+      "Index": "diamond",
+      "Name_FR": "Diamond",
+      "Name_EN": "Diamond",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Diamond.png"
+    },
+    {
+      "Index": "large_common_egg",
+      "Name_FR": "Large Common Egg",
+      "Name_EN": "Large Common Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Common Egg.png"
+    },
+    {
+      "Index": "large_scorching_egg",
+      "Name_FR": "Large Scorching Egg",
+      "Name_EN": "Large Scorching Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Scorching Egg.png"
+    },
+    {
+      "Index": "large_damp_egg",
+      "Name_FR": "Large Damp Egg",
+      "Name_EN": "Large Damp Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Damp Egg.png"
+    },
+    {
+      "Index": "large_verdant_egg",
+      "Name_FR": "Large Verdant Egg",
+      "Name_EN": "Large Verdant Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Verdant Egg.png"
+    },
+    {
+      "Index": "large_electric_egg",
+      "Name_FR": "Large Electric Egg",
+      "Name_EN": "Large Electric Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Electric Egg.png"
+    },
+    {
+      "Index": "large_frozen_egg",
+      "Name_FR": "Large Frozen Egg",
+      "Name_EN": "Large Frozen Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Frozen Egg.png"
+    },
+    {
+      "Index": "large_rocky_egg",
+      "Name_FR": "Large Rocky Egg",
+      "Name_EN": "Large Rocky Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Rocky Egg.png"
+    },
+    {
+      "Index": "large_dark_egg",
+      "Name_FR": "Large Dark Egg",
+      "Name_EN": "Large Dark Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Dark Egg.png"
+    },
+    {
+      "Index": "large_dragon_egg",
+      "Name_FR": "Large Dragon Egg",
+      "Name_EN": "Large Dragon Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Dragon Egg.png"
+    },
+    {
+      "Index": "large_pal_soul",
+      "Name_FR": "Large Pal Soul",
+      "Name_EN": "Large Pal Soul",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Pal Soul.png"
+    },
+    {
+      "Index": "life_lotus_s",
+      "Name_FR": "Life Lotus (S)",
+      "Name_EN": "Life Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Life Lotus (S).png"
+    },
+    {
+      "Index": "stamina_lotus_s",
+      "Name_FR": "Stamina Lotus (S)",
+      "Name_EN": "Stamina Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stamina Lotus (S).png"
+    },
+    {
+      "Index": "power_lotus_s",
+      "Name_FR": "Power Lotus (S)",
+      "Name_EN": "Power Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Power Lotus (S).png"
+    },
+    {
+      "Index": "speed_lotus_s",
+      "Name_FR": "Speed Lotus (S)",
+      "Name_EN": "Speed Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Speed Lotus (S).png"
+    },
+    {
+      "Index": "carrying_lotus_s",
+      "Name_FR": "Carrying Lotus (S)",
+      "Name_EN": "Carrying Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Carrying Lotus (S).png"
+    },
+    {
+      "Index": "dog_coin",
+      "Name_FR": "Dog Coin",
+      "Name_EN": "Dog Coin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dog Coin.png"
+    },
+    {
+      "Index": "predator_core",
+      "Name_FR": "Predator Core",
+      "Name_EN": "Predator Core",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Predator Core.png"
+    },
+    {
+      "Index": "successful_bounty_token",
+      "Name_FR": "Successful Bounty Token",
+      "Name_EN": "Successful Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Successful Bounty Token.png"
+    },
+    {
+      "Index": "battle_ticket",
+      "Name_FR": "Battle Ticket",
+      "Name_EN": "Battle Ticket",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Battle Ticket.png"
+    },
+    {
+      "Index": "huge_common_egg",
+      "Name_FR": "Huge Common Egg",
+      "Name_EN": "Huge Common Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Common Egg.png"
+    },
+    {
+      "Index": "huge_scorching_egg",
+      "Name_FR": "Huge Scorching Egg",
+      "Name_EN": "Huge Scorching Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Scorching Egg.png"
+    },
+    {
+      "Index": "huge_damp_egg",
+      "Name_FR": "Huge Damp Egg",
+      "Name_EN": "Huge Damp Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Damp Egg.png"
+    },
+    {
+      "Index": "huge_verdant_egg",
+      "Name_FR": "Huge Verdant Egg",
+      "Name_EN": "Huge Verdant Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Verdant Egg.png"
+    },
+    {
+      "Index": "huge_electric_egg",
+      "Name_FR": "Huge Electric Egg",
+      "Name_EN": "Huge Electric Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Electric Egg.png"
+    },
+    {
+      "Index": "huge_frozen_egg",
+      "Name_FR": "Huge Frozen Egg",
+      "Name_EN": "Huge Frozen Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Frozen Egg.png"
+    },
+    {
+      "Index": "huge_rocky_egg",
+      "Name_FR": "Huge Rocky Egg",
+      "Name_EN": "Huge Rocky Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Rocky Egg.png"
+    },
+    {
+      "Index": "huge_dark_egg",
+      "Name_FR": "Huge Dark Egg",
+      "Name_EN": "Huge Dark Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Dark Egg.png"
+    },
+    {
+      "Index": "huge_dragon_egg",
+      "Name_FR": "Huge Dragon Egg",
+      "Name_EN": "Huge Dragon Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Dragon Egg.png"
+    },
+    {
+      "Index": "ancient_civilization_core",
+      "Name_FR": "Ancient Civilization Core",
+      "Name_EN": "Ancient Civilization Core",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ancient Civilization Core.png"
+    },
+    {
+      "Index": "life_lotus_l",
+      "Name_FR": "Life Lotus (L)",
+      "Name_EN": "Life Lotus (L)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Life Lotus (L).png"
+    },
+    {
+      "Index": "stamina_lotus_l",
+      "Name_FR": "Stamina Lotus (L)",
+      "Name_EN": "Stamina Lotus (L)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stamina Lotus (L).png"
+    },
+    {
+      "Index": "power_lotus_l",
+      "Name_FR": "Power Lotus (L)",
+      "Name_EN": "Power Lotus (L)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Power Lotus (L).png"
+    },
+    {
+      "Index": "speed_lotus_l",
+      "Name_FR": "Speed Lotus (L)",
+      "Name_EN": "Speed Lotus (L)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Speed Lotus (L).png"
+    },
+    {
+      "Index": "carrying_lotus_l",
+      "Name_FR": "Carrying Lotus (L)",
+      "Name_EN": "Carrying Lotus (L)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Carrying Lotus (L).png"
+    },
+    {
+      "Index": "giant_pal_soul",
+      "Name_FR": "Giant Pal Soul",
+      "Name_EN": "Giant Pal Soul",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Giant Pal Soul.png"
+    }
+  ]
+}

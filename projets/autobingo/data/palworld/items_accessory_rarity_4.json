@@ -1,0 +1,26 @@
+{
+  "Name": "Palworld - Items accessory/rarity 4",
+  "Category": "Palworld",
+  "Subcategory": "Items - Accessorys",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "quadruple_jump_boots",
+      "Name_FR": "Quadruple Jump Boots",
+      "Name_EN": "Quadruple Jump Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Quadruple Jump Boots.png"
+    },
+    {
+      "Index": "triple_air_dash_boots",
+      "Name_FR": "Triple Air Dash Boots",
+      "Name_EN": "Triple Air Dash Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Triple Air Dash Boots.png"
+    },
+    {
+      "Index": "quadruple_air_dash_boots",
+      "Name_FR": "Quadruple Air Dash Boots",
+      "Name_EN": "Quadruple Air Dash Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Quadruple Air Dash Boots.png"
+    }
+  ]
+}

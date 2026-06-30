@@ -1,0 +1,122 @@
+{
+  "Name": "Palworld - Items consumable/rarity 0",
+  "Category": "Palworld",
+  "Subcategory": "Items - Consumables",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "low_grade_medical_supplies",
+      "Name_FR": "Low Grade Medical Supplies",
+      "Name_EN": "Low Grade Medical Supplies",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Low Grade Medical Supplies.png"
+    },
+    {
+      "Index": "medical_supplies",
+      "Name_FR": "Medical Supplies",
+      "Name_EN": "Medical Supplies",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Medical Supplies.png"
+    },
+    {
+      "Index": "high_grade_medical_supplies",
+      "Name_FR": "High Grade Medical Supplies",
+      "Name_EN": "High Grade Medical Supplies",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/High Grade Medical Supplies.png"
+    },
+    {
+      "Index": "mind_control_meds",
+      "Name_FR": "Mind Control Meds",
+      "Name_EN": "Mind Control Meds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mind Control Meds.png"
+    },
+    {
+      "Index": "suspicious_juice",
+      "Name_FR": "Suspicious Juice",
+      "Name_EN": "Suspicious Juice",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Suspicious Juice.png"
+    },
+    {
+      "Index": "strange_juice",
+      "Name_FR": "Strange Juice",
+      "Name_EN": "Strange Juice",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Strange Juice.png"
+    },
+    {
+      "Index": "memory_wiping_medicine",
+      "Name_FR": "Memory Wiping Medicine",
+      "Name_EN": "Memory Wiping Medicine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Memory Wiping Medicine.png"
+    },
+    {
+      "Index": "antibiotic_normal",
+      "Name_FR": "Antibiotic_Normal",
+      "Name_EN": "Antibiotic_Normal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Antibiotic_Normal.png"
+    },
+    {
+      "Index": "antibiotic_good",
+      "Name_FR": "Antibiotic_Good",
+      "Name_EN": "Antibiotic_Good",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Antibiotic_Good.png"
+    },
+    {
+      "Index": "antibiotic_super",
+      "Name_FR": "Antibiotic_Super",
+      "Name_EN": "Antibiotic_Super",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Antibiotic_Super.png"
+    },
+    {
+      "Index": "repair_kit",
+      "Name_FR": "Repair Kit",
+      "Name_EN": "Repair Kit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Repair Kit.png"
+    },
+    {
+      "Index": "low_quality_recovery_meds",
+      "Name_FR": "Low Quality Recovery Meds",
+      "Name_EN": "Low Quality Recovery Meds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Low Quality Recovery Meds.png"
+    },
+    {
+      "Index": "mysterious_mushroom_juice",
+      "Name_FR": "Mysterious Mushroom Juice",
+      "Name_EN": "Mysterious Mushroom Juice",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mysterious Mushroom Juice.png"
+    },
+    {
+      "Index": "treasure_map",
+      "Name_FR": "Treasure Map",
+      "Name_EN": "Treasure Map",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Treasure Map.png"
+    },
+    {
+      "Index": "simple_bait",
+      "Name_FR": "Simple Bait",
+      "Name_EN": "Simple Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Simple Bait.png"
+    },
+    {
+      "Index": "beginner_bait",
+      "Name_FR": "Beginner Bait",
+      "Name_EN": "Beginner Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Beginner Bait.png"
+    },
+    {
+      "Index": "sweet_bait",
+      "Name_FR": "Sweet Bait",
+      "Name_EN": "Sweet Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Sweet Bait.png"
+    },
+    {
+      "Index": "lucky_bait",
+      "Name_FR": "Lucky Bait",
+      "Name_EN": "Lucky Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lucky Bait.png"
+    },
+    {
+      "Index": "quick_bait",
+      "Name_FR": "Quick Bait",
+      "Name_EN": "Quick Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Quick Bait.png"
+    }
+  ]
+}

@@ -114,6 +114,22 @@
                 cssBtn.addEventListener('click', () => this._openCustomCssPopup());
                 obsRow.appendChild(cssBtn);
 
+                // Check unicity button
+                const unicityBtn = document.createElement('button');
+                unicityBtn.className = 'btn btn-secondary';
+                unicityBtn.setAttribute('data-i18n', 'bingo.check_unicity');
+                unicityBtn.textContent = 'Check unicity';
+                unicityBtn.addEventListener('click', () => this._checkUnicity());
+                obsRow.appendChild(unicityBtn);
+
+                // Share grid button
+                const shareBtn = document.createElement('button');
+                shareBtn.className = 'btn btn-secondary';
+                shareBtn.setAttribute('data-i18n', 'bingo.share_grid');
+                shareBtn.textContent = 'Share grid';
+                shareBtn.addEventListener('click', () => this._shareGrid());
+                obsRow.appendChild(shareBtn);
+
                 this.container.appendChild(obsRow);
             }
 
@@ -272,6 +288,18 @@
                     this.rebuildGrid();
                 });
                 bar.appendChild(randQuantBtn);
+
+                // Set all quantities to 1
+                const setOneBtn = this._createButton('bingo.set_quantities_one', 'Set all to 1', () => {
+                    this.gameManager.setAllQuantitiesToOne();
+                    this.refreshCells();
+                    this.updateUrl();
+                    const msg = autobingo.translationManager
+                        ? autobingo.translationManager.t('bingo.set_quantities_one')
+                        : 'All quantities set to 1';
+                    this._showNotification(msg, 'success');
+                });
+                bar.appendChild(setOneBtn);
             }
 
             // Lock grid toggle - rebuilds grid to show/hide switch buttons
@@ -624,7 +652,10 @@
             img.src = cell.item.pictureMain;
             img.alt = cell.item.nameEn;
             img.addEventListener('error', () => {
-                img.src = '';
+                img.classList.add('cell-image-error');
+            });
+            img.addEventListener('load', () => {
+                img.classList.remove('cell-image-error');
             });
             div.appendChild(img);
 
@@ -696,6 +727,8 @@
                     }
                 }
 
+                // Reset error state before setting new src
+                img.classList.remove('cell-image-error');
                 if (this.gameManager.useAltImages && this.gameManager.hasAltImages && cell.item.pictureAlt) {
                     img.src = cell.item.pictureAlt;
                 } else {
@@ -713,16 +746,40 @@
                     nameSpan.textContent = lang === 'fr' ? (cell.item.nameFr || cell.item.nameEn) : cell.item.nameEn;
                 }
             }
+
+            // Update quantity badge
+            const existingBadge = el.querySelector('.cell-quantity-badge');
+            if (this.gameManager.isQuantizable && cell.quantity !== null && cell.quantity > 1) {
+                if (existingBadge) {
+                    existingBadge.textContent = cell.quantity;
+                    const digits = String(cell.quantity).length;
+                    existingBadge.style.fontSize = '';
+                    if (digits >= 4) existingBadge.style.fontSize = '0.75em';
+                    if (digits >= 6) existingBadge.style.fontSize = '0.55em';
+                } else {
+                    const badge = document.createElement('span');
+                    badge.className = 'cell-quantity-badge';
+                    badge.textContent = cell.quantity;
+                    const digits = String(cell.quantity).length;
+                    if (digits >= 4) badge.style.fontSize = '0.75em';
+                    if (digits >= 6) badge.style.fontSize = '0.55em';
+                    el.insertBefore(badge, el.firstChild);
+                }
+            } else {
+                if (existingBadge) {
+                    existingBadge.remove();
+                }
+            }
         },
 
         /**
-         * Open search modal for replacing a cell
+         * Open the search modal for replacing an item
          */
         _openSearchModal(index) {
             const modal = document.getElementById('search-modal');
             if (!modal) return;
 
-            const lang = autobingo.translationManager ? autobingo.translationManager.currentLang : 'en';
+            const lang = this._getCurrentLang();
             const currentCell = this.gameManager.cells[index];
 
             let quantitySectionHtml = '';
@@ -737,14 +794,14 @@
 
             modal.innerHTML = `
                 <div class="search-modal-content">
-                    <h3 data-i18n="bingo.replace_item">Replace Item</h3>
+                    <h3 data-i18n="bingo.replace_item">${lang === 'fr' ? 'Remplacer l\'objet' : 'Replace Item'}</h3>
                     ${quantitySectionHtml}
                     <div style="display:flex;gap:8px;margin-bottom:8px;">
-                        <input type="text" class="bingo-search-input" id="modal-search-input" placeholder="Search..." autofocus style="flex:1;">
-                        <button class="btn btn-secondary" id="modal-random-btn" data-i18n="bingo.random_item" title="Random item">${lang === 'fr' ? '🎲 Aléatoire' : '🎲 Random'}</button>
+                        <input type="text" class="bingo-search-input" id="modal-search-input" placeholder="${lang === 'fr' ? 'Rechercher...' : 'Search...'}" autofocus style="flex:1;">
+                        <button class="btn btn-secondary" id="modal-random-btn" data-i18n="bingo.random_item" title="${lang === 'fr' ? 'Objet aléatoire' : 'Random item'}">${lang === 'fr' ? '🎲 Aléatoire' : '🎲 Random'}</button>
                     </div>
                     <div class="modal-search-results" id="modal-search-results"></div>
-                    <button class="btn btn-secondary mt-16" id="modal-close">Close</button>
+                    <button class="btn btn-secondary mt-16" id="modal-close">${lang === 'fr' ? 'Fermer' : 'Close'}</button>
                 </div>
             `;
             modal.classList.remove('hidden');
@@ -784,7 +841,7 @@
                             const badge = document.createElement('span');
                             badge.className = 'in-grid-badge';
                             badge.setAttribute('data-i18n', 'bingo.in_grid');
-                            badge.textContent = 'in grid';
+                            badge.textContent = lang === 'fr' ? 'dans la grille' : 'in grid';
                             div.appendChild(badge);
                         }
                         div.addEventListener('click', () => {
@@ -1109,8 +1166,75 @@
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) overlay.remove();
             });
-        }
+        },
+        /**
+         * Check unicity - flash duplicate cells 3 times and scroll to top
+         */
+        _checkUnicity() {
+            const duplicateIndices = this.gameManager.findDuplicateCells();
+            if (duplicateIndices.length === 0) {
+                const msg = autobingo.translationManager
+                    ? autobingo.translationManager.t('bingo.check_unicity') + ' \u2713'
+                    : 'No duplicates found \u2713';
+                this._showNotification(msg, 'success');
+                return;
+            }
+            const grid = document.getElementById('bingo-grid');
+            if (!grid) return;
+            const cells = grid.querySelectorAll('.bingo-cell');
+            let flashCount = 0;
+            const maxFlashes = 3;
+            const doFlash = () => {
+                duplicateIndices.forEach(idx => {
+                    if (cells[idx]) cells[idx].classList.add('flash-duplicate');
+                });
+                flashCount++;
+                if (flashCount < maxFlashes) {
+                    setTimeout(() => {
+                        duplicateIndices.forEach(idx => {
+                            if (cells[idx]) cells[idx].classList.remove('flash-duplicate');
+                        });
+                        setTimeout(doFlash, 200);
+                    }, 600);
+                } else {
+                    setTimeout(() => {
+                        duplicateIndices.forEach(idx => {
+                            if (cells[idx]) cells[idx].classList.remove('flash-duplicate');
+                        });
+                    }, 600);
+                }
+            };
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            doFlash();
+            const lang = autobingo.translationManager ? autobingo.translationManager.currentLang : 'en';
+            const msg = lang === 'fr'
+                ? duplicateIndices.length + ' doublon(s) trouv\u00e9(s)'
+                : duplicateIndices.length + ' duplicate(s) found';
+            this._showNotification(msg, 'error');
+        },
+
+        /**
+         * Share grid - copy current exact URL to clipboard
+         */
+        _shareGrid() {
+            const currentUrl = window.location.href;
+            navigator.clipboard.writeText(currentUrl).then(() => {
+                const lang = autobingo.translationManager ? autobingo.translationManager.currentLang : 'en';
+                const msg = lang === 'fr' ? 'URL copi\u00e9e \u2713' : 'URL copied \u2713';
+                this._showNotification(msg, 'success');
+            }).catch(() => {
+                const input = document.createElement('input');
+                input.value = currentUrl;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                this._showNotification('URL copied \u2713', 'success');
+            });
+        },
+
     };
+
 
     autobingo.BingoGridRenderer = BingoGridRenderer;
 

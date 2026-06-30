@@ -1,0 +1,210 @@
+{
+  "Name": "Raft - Ressource & Materials",
+  "Category": "Raft",
+  "Subcategory": "Raft 1.0",
+  "Quantizable": true,
+  "DefaultQuantities": {
+    "Max": 99,
+    "Min": 1
+  },
+  "Items": [
+    {
+      "Index": "raft-66",
+      "Name_FR": "Rope",
+      "Name_EN": "Rope",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Rope.png"
+    },
+    {
+      "Index": "raft-67",
+      "Name_FR": "Bolt",
+      "Name_EN": "Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Bolt.png"
+    },
+    {
+      "Index": "raft-68",
+      "Name_FR": "Wet Brick",
+      "Name_EN": "Wet Brick",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Wet_Brick.png"
+    },
+    {
+      "Index": "raft-69",
+      "Name_FR": "Nail",
+      "Name_EN": "Nail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Nail.png"
+    },
+    {
+      "Index": "raft-70",
+      "Name_FR": "Hinge",
+      "Name_EN": "Hinge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Hinge.png"
+    },
+    {
+      "Index": "raft-71",
+      "Name_FR": "Circuit Board",
+      "Name_EN": "Circuit Board",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Circuit_Board.png"
+    },
+    {
+      "Index": "raft-72",
+      "Name_FR": "Battery",
+      "Name_EN": "Battery",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Battery.png"
+    },
+    {
+      "Index": "raft-73",
+      "Name_FR": "Honey",
+      "Name_EN": "Honey",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Honey.png"
+    },
+    {
+      "Index": "raft-123",
+      "Name_FR": "Bee Jar",
+      "Name_EN": "Bee Jar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Bee_Jar.png"
+    },
+    {
+      "Index": "raft-124",
+      "Name_FR": "Copper",
+      "Name_EN": "Copper",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Copper.png"
+    },
+    {
+      "Index": "raft-125",
+      "Name_FR": "Copper Ingot",
+      "Name_EN": "Copper Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Copper_Ingot.png"
+    },
+    {
+      "Index": "raft-126",
+      "Name_FR": "Dirt",
+      "Name_EN": "Dirt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Dirt.png"
+    },
+    {
+      "Index": "raft-127",
+      "Name_FR": "Dry Brick",
+      "Name_EN": "Dry Brick",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Dry_Brick.png"
+    },
+    {
+      "Index": "raft-128",
+      "Name_FR": "Explosive Goo",
+      "Name_EN": "Explosive Goo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Explosive_Goo.png"
+    },
+    {
+      "Index": "raft-129",
+      "Name_FR": "Explosive Powder",
+      "Name_EN": "Explosive Powder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Explosive_Powder.png"
+    },
+    {
+      "Index": "raft-130",
+      "Name_FR": "Feather",
+      "Name_EN": "Feather",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Feather.png"
+    },
+    {
+      "Index": "raft-131",
+      "Name_FR": "Giant Clam",
+      "Name_EN": "Giant Clam",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Giant_Clam.png"
+    },
+    {
+      "Index": "raft-132",
+      "Name_FR": "Glass",
+      "Name_EN": "Glass",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Glass.png"
+    },
+    {
+      "Index": "raft-133",
+      "Name_FR": "Honeycomb",
+      "Name_EN": "Honeycomb",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Honeycomb.png"
+    },
+    {
+      "Index": "raft-134",
+      "Name_FR": "Leather",
+      "Name_EN": "Leather",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Leather.png"
+    },
+    {
+      "Index": "raft-135",
+      "Name_FR": "Metal Ore",
+      "Name_EN": "Metal Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Metal_Ore.png"
+    },
+    {
+      "Index": "raft-136",
+      "Name_FR": "Metal Ingot",
+      "Name_EN": "Metal Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Metal_Ingot.png"
+    },
+    {
+      "Index": "raft-137",
+      "Name_FR": "Titanium Ore",
+      "Name_EN": "Titanium Ore",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Titanium_Ore.png"
+    },
+    {
+      "Index": "raft-138",
+      "Name_FR": "Titanium Ingot",
+      "Name_EN": "Titanium Ingot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Titanium_Ingot.png"
+    },
+    {
+      "Index": "raft-139",
+      "Name_FR": "Palm Leaf",
+      "Name_EN": "Palm Leaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Palm_Leaf.png"
+    },
+    {
+      "Index": "raft-140",
+      "Name_FR": "Plank",
+      "Name_EN": "Plank",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Plank.png"
+    },
+    {
+      "Index": "raft-141",
+      "Name_FR": "Plastic",
+      "Name_EN": "Plastic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Plastic.png"
+    },
+    {
+      "Index": "raft-142",
+      "Name_FR": "Sand",
+      "Name_EN": "Sand",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Sand.png"
+    },
+    {
+      "Index": "raft-143",
+      "Name_FR": "Scrap",
+      "Name_EN": "Scrap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Scrap.png"
+    },
+    {
+      "Index": "raft-144",
+      "Name_FR": "Seaweed",
+      "Name_EN": "Seaweed",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Seaweed.png"
+    },
+    {
+      "Index": "raft-145",
+      "Name_FR": "Stone",
+      "Name_EN": "Stone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Stone.png"
+    },
+    {
+      "Index": "raft-146",
+      "Name_FR": "Vine Goo",
+      "Name_EN": "Vine Goo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Vine_Goo.png"
+    },
+    {
+      "Index": "raft-147",
+      "Name_FR": "Wool",
+      "Name_EN": "Wool",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Wool.png"
+    }
+  ]
+}

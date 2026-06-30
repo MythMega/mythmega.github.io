@@ -1,0 +1,80 @@
+{
+  "Name": "Palworld - Items material/rarity 1",
+  "Category": "Palworld",
+  "Subcategory": "Items - Materials",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "high_quality_cloth",
+      "Name_FR": "High Quality Cloth",
+      "Name_EN": "High Quality Cloth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/High Quality Cloth.png"
+    },
+    {
+      "Index": "common_egg",
+      "Name_FR": "Common Egg",
+      "Name_EN": "Common Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Common Egg.png"
+    },
+    {
+      "Index": "scorching_egg",
+      "Name_FR": "Scorching Egg",
+      "Name_EN": "Scorching Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Scorching Egg.png"
+    },
+    {
+      "Index": "damp_egg",
+      "Name_FR": "Damp Egg",
+      "Name_EN": "Damp Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Damp Egg.png"
+    },
+    {
+      "Index": "verdant_egg",
+      "Name_FR": "Verdant Egg",
+      "Name_EN": "Verdant Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Verdant Egg.png"
+    },
+    {
+      "Index": "electric_egg",
+      "Name_FR": "Electric Egg",
+      "Name_EN": "Electric Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Egg.png"
+    },
+    {
+      "Index": "frozen_egg",
+      "Name_FR": "Frozen Egg",
+      "Name_EN": "Frozen Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Frozen Egg.png"
+    },
+    {
+      "Index": "rocky_egg",
+      "Name_FR": "Rocky Egg",
+      "Name_EN": "Rocky Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rocky Egg.png"
+    },
+    {
+      "Index": "dark_egg",
+      "Name_FR": "Dark Egg",
+      "Name_EN": "Dark Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Egg.png"
+    },
+    {
+      "Index": "dragon_egg",
+      "Name_FR": "Dragon Egg",
+      "Name_EN": "Dragon Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Egg.png"
+    },
+    {
+      "Index": "small_pal_soul",
+      "Name_FR": "Small Pal Soul",
+      "Name_EN": "Small Pal Soul",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Small Pal Soul.png"
+    },
+    {
+      "Index": "high_quality_pal_oil",
+      "Name_FR": "High Quality Pal Oil",
+      "Name_EN": "High Quality Pal Oil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/High Quality Pal Oil.png"
+    }
+  ]
+}

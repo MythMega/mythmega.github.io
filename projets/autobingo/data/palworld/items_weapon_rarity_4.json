@@ -1,0 +1,248 @@
+{
+  "Name": "Palworld - Items weapon/rarity 4",
+  "Category": "Palworld",
+  "Subcategory": "Items - Weapons",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "old_bow",
+      "Name_FR": "Old Bow",
+      "Name_EN": "Old Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Old Bow.png"
+    },
+    {
+      "Index": "crossbow",
+      "Name_FR": "Crossbow",
+      "Name_EN": "Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Crossbow.png"
+    },
+    {
+      "Index": "assault_rifle",
+      "Name_FR": "Assault Rifle",
+      "Name_EN": "Assault Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Assault Rifle.png"
+    },
+    {
+      "Index": "pump_action_shotgun",
+      "Name_FR": "Pump-Action Shotgun",
+      "Name_EN": "Pump-Action Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pump-Action Shotgun.png"
+    },
+    {
+      "Index": "handgun",
+      "Name_FR": "Handgun",
+      "Name_EN": "Handgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Handgun.png"
+    },
+    {
+      "Index": "rocket_launcher",
+      "Name_FR": "Rocket Launcher",
+      "Name_EN": "Rocket Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rocket Launcher.png"
+    },
+    {
+      "Index": "musket",
+      "Name_FR": "Musket",
+      "Name_EN": "Musket",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Musket.png"
+    },
+    {
+      "Index": "double_barreled_shotgun",
+      "Name_FR": "Double-Barreled Shotgun",
+      "Name_EN": "Double-Barreled Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Double-Barreled Shotgun.png"
+    },
+    {
+      "Index": "single_shot_rifle",
+      "Name_FR": "Single-Shot Rifle",
+      "Name_EN": "Single-Shot Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Single-Shot Rifle.png"
+    },
+    {
+      "Index": "makeshift_handgun",
+      "Name_FR": "Makeshift Handgun",
+      "Name_EN": "Makeshift Handgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Handgun.png"
+    },
+    {
+      "Index": "laser_rifle",
+      "Name_FR": "Laser Rifle",
+      "Name_EN": "Laser Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laser Rifle.png"
+    },
+    {
+      "Index": "grenade_launcher",
+      "Name_FR": "Grenade Launcher",
+      "Name_EN": "Grenade Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grenade Launcher.png"
+    },
+    {
+      "Index": "guided_missile_launcher",
+      "Name_FR": "Guided Missile Launcher",
+      "Name_EN": "Guided Missile Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Guided Missile Launcher.png"
+    },
+    {
+      "Index": "multi_guided_missile_launcher",
+      "Name_FR": "Multi Guided Missile Launcher",
+      "Name_EN": "Multi Guided Missile Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Multi Guided Missile Launcher.png"
+    },
+    {
+      "Index": "gatling_gun",
+      "Name_FR": "Gatling Gun",
+      "Name_EN": "Gatling Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gatling Gun.png"
+    },
+    {
+      "Index": "poison_arrow_crossbow",
+      "Name_FR": "Poison Arrow Crossbow",
+      "Name_EN": "Poison Arrow Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Poison Arrow Crossbow.png"
+    },
+    {
+      "Index": "fire_arrow_crossbow",
+      "Name_FR": "Fire Arrow Crossbow",
+      "Name_EN": "Fire Arrow Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Arrow Crossbow.png"
+    },
+    {
+      "Index": "laser_gatling_gun",
+      "Name_FR": "Laser Gatling Gun",
+      "Name_EN": "Laser Gatling Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laser Gatling Gun.png"
+    },
+    {
+      "Index": "plasma_cannon",
+      "Name_FR": "Plasma Cannon",
+      "Name_EN": "Plasma Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasma Cannon.png"
+    },
+    {
+      "Index": "semi_auto_shotgun",
+      "Name_FR": "Semi-Auto Shotgun",
+      "Name_EN": "Semi-Auto Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Semi-Auto Shotgun.png"
+    },
+    {
+      "Index": "old_revolver",
+      "Name_FR": "Old Revolver",
+      "Name_EN": "Old Revolver",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Old Revolver.png"
+    },
+    {
+      "Index": "makeshift_assault_rifle",
+      "Name_FR": "Makeshift Assault Rifle",
+      "Name_EN": "Makeshift Assault Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Assault Rifle.png"
+    },
+    {
+      "Index": "semi_auto_rifle",
+      "Name_FR": "Semi-Auto Rifle",
+      "Name_EN": "Semi-Auto Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Semi-Auto Rifle.png"
+    },
+    {
+      "Index": "makeshift_smg",
+      "Name_FR": "Makeshift SMG",
+      "Name_EN": "Makeshift SMG",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift SMG.png"
+    },
+    {
+      "Index": "smg",
+      "Name_FR": "SMG",
+      "Name_EN": "SMG",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/SMG.png"
+    },
+    {
+      "Index": "makeshift_shotgun",
+      "Name_FR": "Makeshift Shotgun",
+      "Name_EN": "Makeshift Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Shotgun.png"
+    },
+    {
+      "Index": "meowmere",
+      "Name_FR": "Meowmere",
+      "Name_EN": "Meowmere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Meowmere.png"
+    },
+    {
+      "Index": "advanced_bow",
+      "Name_FR": "Advanced Bow",
+      "Name_EN": "Advanced Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Advanced Bow.png"
+    },
+    {
+      "Index": "compound_bow",
+      "Name_FR": "Compound Bow",
+      "Name_EN": "Compound Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Compound Bow.png"
+    },
+    {
+      "Index": "energy_shotgun",
+      "Name_FR": "Energy Shotgun",
+      "Name_EN": "Energy Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Energy Shotgun.png"
+    },
+    {
+      "Index": "charge_rifle",
+      "Name_FR": "Charge Rifle",
+      "Name_EN": "Charge Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Charge Rifle.png"
+    },
+    {
+      "Index": "overheat_rifle",
+      "Name_FR": "Overheat Rifle",
+      "Name_EN": "Overheat Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Overheat Rifle.png"
+    },
+    {
+      "Index": "legendary_meowmere",
+      "Name_FR": "Legendary Meowmere",
+      "Name_EN": "Legendary Meowmere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Legendary Meowmere.png"
+    },
+    {
+      "Index": "ultra_grappling_gun",
+      "Name_FR": "Ultra Grappling Gun",
+      "Name_EN": "Ultra Grappling Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ultra Grappling Gun.png"
+    },
+    {
+      "Index": "terra_blade",
+      "Name_FR": "Terra Blade",
+      "Name_EN": "Terra Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Terra Blade.png"
+    },
+    {
+      "Index": "terraprisma",
+      "Name_FR": "Terraprisma",
+      "Name_EN": "Terraprisma",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Terraprisma.png"
+    },
+    {
+      "Index": "vortex_beater",
+      "Name_FR": "Vortex Beater",
+      "Name_EN": "Vortex Beater",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Vortex Beater.png"
+    },
+    {
+      "Index": "nightglow",
+      "Name_FR": "Nightglow",
+      "Name_EN": "Nightglow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nightglow.png"
+    },
+    {
+      "Index": "excalibur",
+      "Name_FR": "Excalibur",
+      "Name_EN": "Excalibur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Excalibur.png"
+    },
+    {
+      "Index": "meteor_launcher",
+      "Name_FR": "Meteor Launcher",
+      "Name_EN": "Meteor Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Meteor Launcher.png"
+    }
+  ]
+}

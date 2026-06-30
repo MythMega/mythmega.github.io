@@ -1,0 +1,20 @@
+{
+  "Name": "Palworld - Items essential/rarity 0 and below",
+  "Category": "Palworld",
+  "Subcategory": "Items - Essentials",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "small_feed_bag",
+      "Name_FR": "Small Feed Bag",
+      "Name_EN": "Small Feed Bag",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Small Feed Bag.png"
+    },
+    {
+      "Index": "small_pouch",
+      "Name_FR": "Small Pouch",
+      "Name_EN": "Small Pouch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Small Pouch.png"
+    }
+  ]
+}

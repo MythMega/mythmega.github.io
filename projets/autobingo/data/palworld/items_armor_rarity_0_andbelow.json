@@ -1,0 +1,392 @@
+{
+  "Name": "Palworld - Items armor/rarity 0 and below",
+  "Category": "Palworld",
+  "Subcategory": "Items - Armors",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "cloth_outfit",
+      "Name_FR": "Cloth Outfit",
+      "Name_EN": "Cloth Outfit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cloth Outfit.png"
+    },
+    {
+      "Index": "metal_armor",
+      "Name_FR": "Metal Armor",
+      "Name_EN": "Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Metal Armor.png"
+    },
+    {
+      "Index": "metal_helm",
+      "Name_FR": "Metal Helm",
+      "Name_EN": "Metal Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Metal Helm.png"
+    },
+    {
+      "Index": "pelt_armor",
+      "Name_FR": "Pelt Armor",
+      "Name_EN": "Pelt Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pelt Armor.png"
+    },
+    {
+      "Index": "feathered_hair_band",
+      "Name_FR": "Feathered Hair Band",
+      "Name_EN": "Feathered Hair Band",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Feathered Hair Band.png"
+    },
+    {
+      "Index": "refined_metal_armor",
+      "Name_FR": "Refined Metal Armor",
+      "Name_EN": "Refined Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Refined Metal Armor.png"
+    },
+    {
+      "Index": "refined_metal_helm",
+      "Name_FR": "Refined Metal Helm",
+      "Name_EN": "Refined Metal Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Refined Metal Helm.png"
+    },
+    {
+      "Index": "pal_metal_armor",
+      "Name_FR": "Pal Metal Armor",
+      "Name_EN": "Pal Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Metal Armor.png"
+    },
+    {
+      "Index": "pal_metal_helm",
+      "Name_FR": "Pal Metal Helm",
+      "Name_EN": "Pal Metal Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Metal Helm.png"
+    },
+    {
+      "Index": "lightz_helmet",
+      "Name_FR": "Lightz Helmet",
+      "Name_EN": "Lightz Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lightz Helmet.png"
+    },
+    {
+      "Index": "common_shield",
+      "Name_FR": "Common Shield",
+      "Name_EN": "Common Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Common Shield.png"
+    },
+    {
+      "Index": "monarchs_crown",
+      "Name_FR": "Monarch's Crown",
+      "Name_EN": "Monarch's Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Monarch's Crown.png"
+    },
+    {
+      "Index": "golden_crown",
+      "Name_FR": "Golden Crown",
+      "Name_EN": "Golden Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Golden Crown.png"
+    },
+    {
+      "Index": "long_eared_headband",
+      "Name_FR": "Long-Eared Headband",
+      "Name_EN": "Long-Eared Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Long-Eared Headband.png"
+    },
+    {
+      "Index": "witch_hat",
+      "Name_FR": "Witch Hat",
+      "Name_EN": "Witch Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Witch Hat.png"
+    },
+    {
+      "Index": "soft_hat",
+      "Name_FR": "Soft Hat",
+      "Name_EN": "Soft Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Soft Hat.png"
+    },
+    {
+      "Index": "helmet",
+      "Name_FR": "Helmet",
+      "Name_EN": "Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Helmet.png"
+    },
+    {
+      "Index": "silk_hat",
+      "Name_FR": "Silk Hat",
+      "Name_EN": "Silk Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Silk Hat.png"
+    },
+    {
+      "Index": "tricorne",
+      "Name_FR": "Tricorne",
+      "Name_EN": "Tricorne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tricorne.png"
+    },
+    {
+      "Index": "explorer_cap",
+      "Name_FR": "Explorer Cap",
+      "Name_EN": "Explorer Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Explorer Cap.png"
+    },
+    {
+      "Index": "graduation_cap",
+      "Name_FR": "Graduation Cap",
+      "Name_EN": "Graduation Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Graduation Cap.png"
+    },
+    {
+      "Index": "farming_hat",
+      "Name_FR": "Farming Hat",
+      "Name_EN": "Farming Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Farming Hat.png"
+    },
+    {
+      "Index": "bowler_hat",
+      "Name_FR": "Bowler Hat",
+      "Name_EN": "Bowler Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bowler Hat.png"
+    },
+    {
+      "Index": "tocotoco_cap",
+      "Name_FR": "Tocotoco Cap",
+      "Name_EN": "Tocotoco Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tocotoco Cap.png"
+    },
+    {
+      "Index": "grinning_tocotoco_cap",
+      "Name_FR": "Grinning Tocotoco Cap",
+      "Name_EN": "Grinning Tocotoco Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grinning Tocotoco Cap.png"
+    },
+    {
+      "Index": "gumoss_cap",
+      "Name_FR": "Gumoss Cap",
+      "Name_EN": "Gumoss Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gumoss Cap.png"
+    },
+    {
+      "Index": "penking_cap",
+      "Name_FR": "Penking Cap",
+      "Name_EN": "Penking Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Penking Cap.png"
+    },
+    {
+      "Index": "katress_cap",
+      "Name_FR": "Katress Cap",
+      "Name_EN": "Katress Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Katress Cap.png"
+    },
+    {
+      "Index": "tropical_outfit",
+      "Name_FR": "Tropical Outfit",
+      "Name_EN": "Tropical Outfit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tropical Outfit.png"
+    },
+    {
+      "Index": "tundra_outfit",
+      "Name_FR": "Tundra Outfit",
+      "Name_EN": "Tundra Outfit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tundra Outfit.png"
+    },
+    {
+      "Index": "heat_resistant_pelt_armor",
+      "Name_FR": "Heat Resistant Pelt Armor",
+      "Name_EN": "Heat Resistant Pelt Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Pelt Armor.png"
+    },
+    {
+      "Index": "cold_resistant_pelt_armor",
+      "Name_FR": "Cold Resistant Pelt Armor",
+      "Name_EN": "Cold Resistant Pelt Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Pelt Armor.png"
+    },
+    {
+      "Index": "heat_resistant_metal_armor",
+      "Name_FR": "Heat Resistant Metal Armor",
+      "Name_EN": "Heat Resistant Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Metal Armor.png"
+    },
+    {
+      "Index": "cold_resistant_metal_armor",
+      "Name_FR": "Cold Resistant Metal Armor",
+      "Name_EN": "Cold Resistant Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Metal Armor.png"
+    },
+    {
+      "Index": "heat_resistant_refined_metal_armor",
+      "Name_FR": "Heat Resistant Refined Metal Armor",
+      "Name_EN": "Heat Resistant Refined Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Refined Metal Armor.png"
+    },
+    {
+      "Index": "cold_resistant_refined_metal_armor",
+      "Name_FR": "Cold Resistant Refined Metal Armor",
+      "Name_EN": "Cold Resistant Refined Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Refined Metal Armor.png"
+    },
+    {
+      "Index": "heat_resistant_pal_metal_armor",
+      "Name_FR": "Heat Resistant Pal Metal Armor",
+      "Name_EN": "Heat Resistant Pal Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Pal Metal Armor.png"
+    },
+    {
+      "Index": "cold_resistant_pal_metal_armor",
+      "Name_FR": "Cold Resistant Pal Metal Armor",
+      "Name_EN": "Cold Resistant Pal Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Pal Metal Armor.png"
+    },
+    {
+      "Index": "lyleen_floral_cap",
+      "Name_FR": "Lyleen Floral Cap",
+      "Name_EN": "Lyleen Floral Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lyleen Floral Cap.png"
+    },
+    {
+      "Index": "sibelyx_hat",
+      "Name_FR": "Sibelyx Hat",
+      "Name_EN": "Sibelyx Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Sibelyx Hat.png"
+    },
+    {
+      "Index": "leezpunk_hood",
+      "Name_FR": "Leezpunk Hood",
+      "Name_EN": "Leezpunk Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Leezpunk Hood.png"
+    },
+    {
+      "Index": "killamari_cap",
+      "Name_FR": "Killamari Cap",
+      "Name_EN": "Killamari Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Killamari Cap.png"
+    },
+    {
+      "Index": "cawgnito_hat",
+      "Name_FR": "Cawgnito Hat",
+      "Name_EN": "Cawgnito Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cawgnito Hat.png"
+    },
+    {
+      "Index": "ribbuny_headband",
+      "Name_FR": "Ribbuny Headband",
+      "Name_EN": "Ribbuny Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ribbuny Headband.png"
+    },
+    {
+      "Index": "lamball_helm",
+      "Name_FR": "Lamball Helm",
+      "Name_EN": "Lamball Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lamball Helm.png"
+    },
+    {
+      "Index": "dumud_helm",
+      "Name_FR": "Dumud Helm",
+      "Name_EN": "Dumud Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dumud Helm.png"
+    },
+    {
+      "Index": "swee_cap",
+      "Name_FR": "Swee Cap",
+      "Name_EN": "Swee Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Swee Cap.png"
+    },
+    {
+      "Index": "dazzi_hat",
+      "Name_FR": "Dazzi Hat",
+      "Name_EN": "Dazzi Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dazzi Hat.png"
+    },
+    {
+      "Index": "cattiva_hat",
+      "Name_FR": "Cattiva Hat",
+      "Name_EN": "Cattiva Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cattiva Hat.png"
+    },
+    {
+      "Index": "plasteel_armor",
+      "Name_FR": "Plasteel Armor",
+      "Name_EN": "Plasteel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasteel Armor.png"
+    },
+    {
+      "Index": "plasteel_helmet",
+      "Name_FR": "Plasteel Helmet",
+      "Name_EN": "Plasteel Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasteel Helmet.png"
+    },
+    {
+      "Index": "heat_resistant_plasteel_armor",
+      "Name_FR": "Heat Resistant Plasteel Armor",
+      "Name_EN": "Heat Resistant Plasteel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Plasteel Armor.png"
+    },
+    {
+      "Index": "cold_resistant_plasteel_armor",
+      "Name_FR": "Cold Resistant Plasteel Armor",
+      "Name_EN": "Cold Resistant Plasteel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Plasteel Armor.png"
+    },
+    {
+      "Index": "lightweight_plasteel_armor",
+      "Name_FR": "Lightweight Plasteel Armor",
+      "Name_EN": "Lightweight Plasteel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lightweight Plasteel Armor.png"
+    },
+    {
+      "Index": "hexolite_armor",
+      "Name_FR": "Hexolite Armor",
+      "Name_EN": "Hexolite Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hexolite Armor.png"
+    },
+    {
+      "Index": "heat_resistant_hexolite_armor",
+      "Name_FR": "Heat Resistant Hexolite Armor",
+      "Name_EN": "Heat Resistant Hexolite Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Hexolite Armor.png"
+    },
+    {
+      "Index": "cold_resistant_hexolite_armor",
+      "Name_FR": "Cold Resistant Hexolite Armor",
+      "Name_EN": "Cold Resistant Hexolite Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Hexolite Armor.png"
+    },
+    {
+      "Index": "lightweight_hexolite_armor",
+      "Name_FR": "Lightweight Hexolite Armor",
+      "Name_EN": "Lightweight Hexolite Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lightweight Hexolite Armor.png"
+    },
+    {
+      "Index": "hexolite_helmet",
+      "Name_FR": "Hexolite Helmet",
+      "Name_EN": "Hexolite Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hexolite Helmet.png"
+    },
+    {
+      "Index": "hallowed_mask",
+      "Name_FR": "Hallowed Mask",
+      "Name_EN": "Hallowed Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Mask.png"
+    },
+    {
+      "Index": "hallowed_headgear",
+      "Name_FR": "Hallowed Headgear",
+      "Name_EN": "Hallowed Headgear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Headgear.png"
+    },
+    {
+      "Index": "hallowed_plate_mail",
+      "Name_FR": "Hallowed Plate Mail",
+      "Name_EN": "Hallowed Plate Mail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Plate Mail.png"
+    },
+    {
+      "Index": "hallowed_helmet",
+      "Name_FR": "Hallowed Helmet",
+      "Name_EN": "Hallowed Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Helmet.png"
+    },
+    {
+      "Index": "hallowed_hood",
+      "Name_FR": "Hallowed Hood",
+      "Name_EN": "Hallowed Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Hood.png"
+    }
+  ]
+}

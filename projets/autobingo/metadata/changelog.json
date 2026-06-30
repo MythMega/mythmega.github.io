@@ -189,6 +189,18 @@
         "Name_EN": "Beta - More Pixel",
         "Desc_FR": "Minecraft : Suppression d'items créatif uniquement / dispo que en april fool snapshot, Minecraft : Datasets Fast Mode, [MAJOR] Possibilité d'importer ses propres dataset et des les éditer dans le dataset maker",
         "Desc_EN": "Minecraft : Removing creative only or april fool snapshot items, Minecraft : Fast Mode Datasets, [MAJOR] Edit your own dataset in the dataset maker by importing your own file",
+        "Link": "https://github.com/MythMega/mythmega.github.io/commit/35d2882ff3ce8847a0fbd72adeca7f3514e62cb7"
+    },
+    {
+        "Version": {
+            "ID": 17,
+            "Number": "Beta b0.9.0"
+        }, 
+        "Date": "2026-06-30",
+        "Name_FR": "Beta - Padimaj",
+        "Name_EN": "Beta - Nopic",
+        "Desc_FR": "[MAJOR] meilleur affichage en cas d'image manquante; permet d'avoir des bingo sans images, Support jeu Palworld, Support jeu Slay The Spire, Support jeu Slay The Spire 2, Support jeu Slime Rancher, Support jeu Slime Rancher 2, Support jeu Raft, Support jeu Lethal Company, Nombre de jeux et liste ainsi que quantité de dataset total en page d'accueil, App SEO",
+        "Desc_EN": "[MAJOR] ability to have bingo without pic by showing bigger text in that case, Palworld Game Support, Slay The Spire Game Support, Slay The Spire 2 Game Support, Slime Rancher Game Support, Slime Rancher 2 Game Support, Raft Game Support, Lethal Company Game Support, Game count and list plus quantity of total dataset displayed on home page, App SEO",
         "Link": "#"
     }
 ]

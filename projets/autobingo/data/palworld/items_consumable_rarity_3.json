@@ -1,0 +1,356 @@
+{
+  "Name": "Palworld - Items consumable/rarity 3",
+  "Category": "Palworld",
+  "Subcategory": "Items - Consumables",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "future_technical_manual",
+      "Name_FR": "Future Technical Manual",
+      "Name_EN": "Future Technical Manual",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Future Technical Manual.png"
+    },
+    {
+      "Index": "skill_fruit_pal_blast",
+      "Name_FR": "Skill Fruit: Pal Blast",
+      "Name_EN": "Skill Fruit: Pal Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Skill Fruit: Pal Blast.png"
+    },
+    {
+      "Index": "grass_skill_fruit_solar_blast",
+      "Name_FR": "Grass Skill Fruit: Solar Blast",
+      "Name_EN": "Grass Skill Fruit: Solar Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Solar Blast.png"
+    },
+    {
+      "Index": "water_skill_fruit_hydro_laser",
+      "Name_FR": "Water Skill Fruit: Hydro Laser",
+      "Name_EN": "Water Skill Fruit: Hydro Laser",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Hydro Laser.png"
+    },
+    {
+      "Index": "fire_skill_fruit_fire_ball",
+      "Name_FR": "Fire Skill Fruit: Fire Ball",
+      "Name_EN": "Fire Skill Fruit: Fire Ball",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Fire Ball.png"
+    },
+    {
+      "Index": "fire_skill_fruit_ignis_rage",
+      "Name_FR": "Fire Skill Fruit: Ignis Rage",
+      "Name_EN": "Fire Skill Fruit: Ignis Rage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Ignis Rage.png"
+    },
+    {
+      "Index": "electric_skill_fruit_lightning_bolt",
+      "Name_FR": "Electric Skill Fruit: Lightning Bolt",
+      "Name_EN": "Electric Skill Fruit: Lightning Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Lightning Bolt.png"
+    },
+    {
+      "Index": "electric_skill_fruit_lightning_strike",
+      "Name_FR": "Electric Skill Fruit: Lightning Strike",
+      "Name_EN": "Electric Skill Fruit: Lightning Strike",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Lightning Strike.png"
+    },
+    {
+      "Index": "earth_skill_fruit_rock_lance",
+      "Name_FR": "Earth Skill Fruit: Rock Lance",
+      "Name_EN": "Earth Skill Fruit: Rock Lance",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Rock Lance.png"
+    },
+    {
+      "Index": "ice_skill_fruit_blizzard_spike",
+      "Name_FR": "Ice Skill Fruit: Blizzard Spike",
+      "Name_EN": "Ice Skill Fruit: Blizzard Spike",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Blizzard Spike.png"
+    },
+    {
+      "Index": "dark_skill_fruit_psycho_gravity",
+      "Name_FR": "Dark Skill Fruit: Psycho Gravity",
+      "Name_EN": "Dark Skill Fruit: Psycho Gravity",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Psycho Gravity.png"
+    },
+    {
+      "Index": "dark_skill_fruit_dark_laser",
+      "Name_FR": "Dark Skill Fruit: Dark Laser",
+      "Name_EN": "Dark Skill Fruit: Dark Laser",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Dark Laser.png"
+    },
+    {
+      "Index": "dragon_skill_fruit_dragon_meteor",
+      "Name_FR": "Dragon Skill Fruit: Dragon Meteor",
+      "Name_EN": "Dragon Skill Fruit: Dragon Meteor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Skill Fruit: Dragon Meteor.png"
+    },
+    {
+      "Index": "gold_key",
+      "Name_FR": "Gold Key",
+      "Name_EN": "Gold Key",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gold Key.png"
+    },
+    {
+      "Index": "bellanoir_liberos_slab",
+      "Name_FR": "Bellanoir Libero's Slab",
+      "Name_EN": "Bellanoir Libero's Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bellanoir Libero's Slab.png"
+    },
+    {
+      "Index": "vital_remedy",
+      "Name_FR": "Vital Remedy",
+      "Name_EN": "Vital Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Vital Remedy.png"
+    },
+    {
+      "Index": "stamina_remedy",
+      "Name_FR": "Stamina Remedy",
+      "Name_EN": "Stamina Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stamina Remedy.png"
+    },
+    {
+      "Index": "might_remedy",
+      "Name_FR": "Might Remedy",
+      "Name_EN": "Might Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Might Remedy.png"
+    },
+    {
+      "Index": "speed_remedy",
+      "Name_FR": "Speed Remedy",
+      "Name_EN": "Speed Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Speed Remedy.png"
+    },
+    {
+      "Index": "burden_remedy",
+      "Name_FR": "Burden Remedy",
+      "Name_EN": "Burden Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Burden Remedy.png"
+    },
+    {
+      "Index": "training_manual_l",
+      "Name_FR": "Training Manual (L)",
+      "Name_EN": "Training Manual (L)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Training Manual (L).png"
+    },
+    {
+      "Index": "all_purpose_pal_extract1",
+      "Name_FR": "All-Purpose Pal Extract☆1",
+      "Name_EN": "All-Purpose Pal Extract☆1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/All-Purpose Pal Extract☆1.png"
+    },
+    {
+      "Index": "all_purpose_pal_extract2",
+      "Name_FR": "All-Purpose Pal Extract☆2",
+      "Name_EN": "All-Purpose Pal Extract☆2",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/All-Purpose Pal Extract☆2.png"
+    },
+    {
+      "Index": "all_purpose_pal_extract3",
+      "Name_FR": "All-Purpose Pal Extract☆3",
+      "Name_EN": "All-Purpose Pal Extract☆3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/All-Purpose Pal Extract☆3.png"
+    },
+    {
+      "Index": "all_purpose_pal_extract4",
+      "Name_FR": "All-Purpose Pal Extract☆4",
+      "Name_EN": "All-Purpose Pal Extract☆4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/All-Purpose Pal Extract☆4.png"
+    },
+    {
+      "Index": "blazamut_ryu_slab",
+      "Name_FR": "Blazamut Ryu Slab",
+      "Name_EN": "Blazamut Ryu Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Blazamut Ryu Slab.png"
+    },
+    {
+      "Index": "grass_skill_fruit_circle_vine",
+      "Name_FR": "Grass Skill Fruit: Circle Vine",
+      "Name_EN": "Grass Skill Fruit: Circle Vine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Circle Vine.png"
+    },
+    {
+      "Index": "water_skill_fruit_wall_splash",
+      "Name_FR": "Water Skill Fruit: Wall Splash",
+      "Name_EN": "Water Skill Fruit: Wall Splash",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Wall Splash.png"
+    },
+    {
+      "Index": "fire_skill_fruit_volcanic_rain",
+      "Name_FR": "Fire Skill Fruit: Volcanic Rain",
+      "Name_EN": "Fire Skill Fruit: Volcanic Rain",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Volcanic Rain.png"
+    },
+    {
+      "Index": "electric_skill_fruit_thunder_rain",
+      "Name_FR": "Electric Skill Fruit: Thunder Rain",
+      "Name_EN": "Electric Skill Fruit: Thunder Rain",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Thunder Rain.png"
+    },
+    {
+      "Index": "electric_skill_fruit_thunderstorm",
+      "Name_FR": "Electric Skill Fruit: Thunderstorm",
+      "Name_EN": "Electric Skill Fruit: Thunderstorm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Thunderstorm.png"
+    },
+    {
+      "Index": "earth_skill_fruit_rockburst",
+      "Name_FR": "Earth Skill Fruit: Rockburst",
+      "Name_EN": "Earth Skill Fruit: Rockburst",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Rockburst.png"
+    },
+    {
+      "Index": "earth_skill_fruit_sand_twister",
+      "Name_FR": "Earth Skill Fruit: Sand Twister",
+      "Name_EN": "Earth Skill Fruit: Sand Twister",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Sand Twister.png"
+    },
+    {
+      "Index": "ice_skill_fruit_icicle_line",
+      "Name_FR": "Ice Skill Fruit: Icicle Line",
+      "Name_EN": "Ice Skill Fruit: Icicle Line",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Icicle Line.png"
+    },
+    {
+      "Index": "ice_skill_fruit_diamond_rain",
+      "Name_FR": "Ice Skill Fruit: Diamond Rain",
+      "Name_EN": "Ice Skill Fruit: Diamond Rain",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Diamond Rain.png"
+    },
+    {
+      "Index": "dark_skill_fruit_apocalypse",
+      "Name_FR": "Dark Skill Fruit: Apocalypse",
+      "Name_EN": "Dark Skill Fruit: Apocalypse",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Apocalypse.png"
+    },
+    {
+      "Index": "dragon_skill_fruit_beam_slicer",
+      "Name_FR": "Dragon Skill Fruit: Beam Slicer",
+      "Name_EN": "Dragon Skill Fruit: Beam Slicer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Skill Fruit: Beam Slicer.png"
+    },
+    {
+      "Index": "skill_fruit_holy_burst",
+      "Name_FR": "Skill Fruit: Holy Burst",
+      "Name_EN": "Skill Fruit: Holy Burst",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Skill Fruit: Holy Burst.png"
+    },
+    {
+      "Index": "fire_skill_fruit_flame_funnel",
+      "Name_FR": "Fire Skill Fruit: Flame Funnel",
+      "Name_EN": "Fire Skill Fruit: Flame Funnel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Flame Funnel.png"
+    },
+    {
+      "Index": "xenolord_slab",
+      "Name_FR": "Xenolord Slab",
+      "Name_EN": "Xenolord Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Xenolord Slab.png"
+    },
+    {
+      "Index": "revival_potion",
+      "Name_FR": "Revival Potion",
+      "Name_EN": "Revival Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Revival Potion.png"
+    },
+    {
+      "Index": "advanced_recovery_meds",
+      "Name_FR": "Advanced Recovery Meds",
+      "Name_EN": "Advanced Recovery Meds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Advanced Recovery Meds.png"
+    },
+    {
+      "Index": "celestial_sigil",
+      "Name_FR": "Celestial Sigil",
+      "Name_EN": "Celestial Sigil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Celestial Sigil.png"
+    },
+    {
+      "Index": "fishing_magnet",
+      "Name_FR": "Fishing Magnet",
+      "Name_EN": "Fishing Magnet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fishing Magnet.png"
+    },
+    {
+      "Index": "powerful_fishing_magnet",
+      "Name_FR": "Powerful Fishing Magnet",
+      "Name_EN": "Powerful Fishing Magnet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Powerful Fishing Magnet.png"
+    },
+    {
+      "Index": "grass_skill_fruit_reflect_leaf",
+      "Name_FR": "Grass Skill Fruit: Reflect Leaf",
+      "Name_EN": "Grass Skill Fruit: Reflect Leaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Reflect Leaf.png"
+    },
+    {
+      "Index": "water_skill_fruit_hydro_slicer",
+      "Name_FR": "Water Skill Fruit: Hydro Slicer",
+      "Name_EN": "Water Skill Fruit: Hydro Slicer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Hydro Slicer.png"
+    },
+    {
+      "Index": "earth_skill_fruit_stone_beat",
+      "Name_FR": "Earth Skill Fruit: Stone Beat",
+      "Name_EN": "Earth Skill Fruit: Stone Beat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Stone Beat.png"
+    },
+    {
+      "Index": "treasure_map",
+      "Name_FR": "Treasure Map",
+      "Name_EN": "Treasure Map",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Treasure Map.png"
+    },
+    {
+      "Index": "dark_skill_fruit_dark_wisp",
+      "Name_FR": "Dark Skill Fruit: Dark Wisp",
+      "Name_EN": "Dark Skill Fruit: Dark Wisp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Dark Wisp.png"
+    },
+    {
+      "Index": "dragon_skill_fruit_charge_cannon",
+      "Name_FR": "Dragon Skill Fruit: Charge Cannon",
+      "Name_EN": "Dragon Skill Fruit: Charge Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Skill Fruit: Charge Cannon.png"
+    },
+    {
+      "Index": "thunder_skill_fruit_all_range_thunder",
+      "Name_FR": "Thunder Skill Fruit: All Range Thunder",
+      "Name_EN": "Thunder Skill Fruit: All Range Thunder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Thunder Skill Fruit: All Range Thunder.png"
+    },
+    {
+      "Index": "life_crystal",
+      "Name_FR": "Life Crystal",
+      "Name_EN": "Life Crystal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Life Crystal.png"
+    },
+    {
+      "Index": "alluring_bait",
+      "Name_FR": "Alluring Bait",
+      "Name_EN": "Alluring Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Alluring Bait.png"
+    },
+    {
+      "Index": "risky_bait",
+      "Name_FR": "Risky Bait",
+      "Name_EN": "Risky Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Risky Bait.png"
+    },
+    {
+      "Index": "water_skill_fruit_aqua_surge",
+      "Name_FR": "Water Skill Fruit: Aqua Surge",
+      "Name_EN": "Water Skill Fruit: Aqua Surge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Aqua Surge.png"
+    },
+    {
+      "Index": "grass_skill_fruit_crosswind",
+      "Name_FR": "Grass Skill Fruit: Crosswind",
+      "Name_EN": "Grass Skill Fruit: Crosswind",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Crosswind.png"
+    },
+    {
+      "Index": "ice_skill_fruit_absolute_frost",
+      "Name_FR": "Ice Skill Fruit: Absolute Frost",
+      "Name_EN": "Ice Skill Fruit: Absolute Frost",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Absolute Frost.png"
+    }
+  ]
+}

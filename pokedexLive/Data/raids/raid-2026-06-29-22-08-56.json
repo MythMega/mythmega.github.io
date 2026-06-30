@@ -1,0 +1,175 @@
+{
+  "bossName": "Hippodocus",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hippowdon_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hippowdon_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 70000,
+  "date": "2026-06-29 22:08:56",
+  "durationSec": 1092,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 40095,
+      "countAtk": 7,
+      "baseDmg": 5289,
+      "level": 14,
+      "raidCount": 227,
+      "luck": 1.0829754
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 35000,
+      "countAtk": 2,
+      "baseDmg": 31338,
+      "level": 18,
+      "raidCount": 922,
+      "luck": 0.55842745
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 75095
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-06-29 22:12:55",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 52500,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-06-29 22:22:29",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 35000,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 22:27:03",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5289,
+      "pvAfter": 29711,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 22:27:04",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5321,
+      "pvAfter": 24390,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 22:27:05",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5314,
+      "pvAfter": 19076,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 22:27:06",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5371,
+      "pvAfter": 13705,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 22:27:07",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5384,
+      "pvAfter": 8321,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 22:27:07",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8086,
+      "pvAfter": 235,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-06-29 22:27:08",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5330,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

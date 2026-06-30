@@ -1,0 +1,422 @@
+{
+  "Name": "Lethal Company - Scrap",
+  "Category": "Lethal Company",
+  "Subcategory": "V81",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "1",
+      "Name_FR": "Airhorn",
+      "Name_EN": "Airhorn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Airhorn.png"
+    },
+    {
+      "Index": "2",
+      "Name_FR": "Apparatus",
+      "Name_EN": "Apparatus",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Apparatus.png"
+    },
+    {
+      "Index": "3",
+      "Name_FR": "Bell",
+      "Name_EN": "Bell",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Bell.png"
+    },
+    {
+      "Index": "4",
+      "Name_FR": "Big bolt",
+      "Name_EN": "Big bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Big_bolt.png"
+    },
+    {
+      "Index": "5",
+      "Name_FR": "Bone",
+      "Name_EN": "Bone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Bone.png"
+    },
+    {
+      "Index": "6",
+      "Name_FR": "Bottles",
+      "Name_EN": "Bottles",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Bottles.png"
+    },
+    {
+      "Index": "7",
+      "Name_FR": "Brush",
+      "Name_EN": "Brush",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Brush.png"
+    },
+    {
+      "Index": "8",
+      "Name_FR": "Candy",
+      "Name_EN": "Candy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Candy.png"
+    },
+    {
+      "Index": "9",
+      "Name_FR": "Cash register",
+      "Name_EN": "Cash register",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Cash_register.png"
+    },
+    {
+      "Index": "10",
+      "Name_FR": "Chemical jug",
+      "Name_EN": "Chemical jug",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Chemical_jug.png"
+    },
+    {
+      "Index": "11",
+      "Name_FR": "Clock",
+      "Name_EN": "Clock",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Clock.png"
+    },
+    {
+      "Index": "12",
+      "Name_FR": "Clown horn",
+      "Name_EN": "Clown horn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Clown_horn.png"
+    },
+    {
+      "Index": "13",
+      "Name_FR": "Comedy",
+      "Name_EN": "Comedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Comedy.png"
+    },
+    {
+      "Index": "14",
+      "Name_FR": "Control pad",
+      "Name_EN": "Control pad",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Control_pad.png"
+    },
+    {
+      "Index": "15",
+      "Name_FR": "Cookie mold pan",
+      "Name_EN": "Cookie mold pan",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Cookie_mold_pan.png"
+    },
+    {
+      "Index": "16",
+      "Name_FR": "Dust pan",
+      "Name_EN": "Dust pan",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Dust_pan.png"
+    },
+    {
+      "Index": "17",
+      "Name_FR": "Ear",
+      "Name_EN": "Ear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Ear.png"
+    },
+    {
+      "Index": "18",
+      "Name_FR": "Easter egg",
+      "Name_EN": "Easter egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Easter_egg.png"
+    },
+    {
+      "Index": "19",
+      "Name_FR": "Egg",
+      "Name_EN": "Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Egg.png"
+    },
+    {
+      "Index": "20",
+      "Name_FR": "Egg beater",
+      "Name_EN": "Egg beater",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Egg_beater.png"
+    },
+    {
+      "Index": "21",
+      "Name_FR": "Fancy lamp",
+      "Name_EN": "Fancy lamp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Fancy_lamp.png"
+    },
+    {
+      "Index": "22",
+      "Name_FR": "Flask",
+      "Name_EN": "Flask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Flask.png"
+    },
+    {
+      "Index": "23",
+      "Name_FR": "Foot",
+      "Name_EN": "Foot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Foot.png"
+    },
+    {
+      "Index": "24",
+      "Name_FR": "Garbage lid",
+      "Name_EN": "Garbage lid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Garbage_lid.png"
+    },
+    {
+      "Index": "25",
+      "Name_FR": "Gift",
+      "Name_EN": "Gift",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Gift.png"
+    },
+    {
+      "Index": "26",
+      "Name_FR": "Gold bar",
+      "Name_EN": "Gold bar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Gold_bar.png"
+    },
+    {
+      "Index": "27",
+      "Name_FR": "Golden cup",
+      "Name_EN": "Golden cup",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Golden_cup.png"
+    },
+    {
+      "Index": "28",
+      "Name_FR": "Hairdryer",
+      "Name_EN": "Hairdryer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Hairdryer.png"
+    },
+    {
+      "Index": "29",
+      "Name_FR": "Hand",
+      "Name_EN": "Hand",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Hand.png"
+    },
+    {
+      "Index": "30",
+      "Name_FR": "Heart",
+      "Name_EN": "Heart",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Heart.png"
+    },
+    {
+      "Index": "31",
+      "Name_FR": "Hive",
+      "Name_EN": "Hive",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Hive.png"
+    },
+    {
+      "Index": "32",
+      "Name_FR": "Homemade flashbang",
+      "Name_EN": "Homemade flashbang",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Homemade_flashbang.png"
+    },
+    {
+      "Index": "33",
+      "Name_FR": "Jar of pickles",
+      "Name_EN": "Jar of pickles",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Jar_of_pickles.png"
+    },
+    {
+      "Index": "34",
+      "Name_FR": "Kitchen knife",
+      "Name_EN": "Kitchen knife",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Kitchen_knife.png"
+    },
+    {
+      "Index": "35",
+      "Name_FR": "Knee",
+      "Name_EN": "Knee",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Knee.png"
+    },
+    {
+      "Index": "36",
+      "Name_FR": "Large axle",
+      "Name_EN": "Large axle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Large_axle.png"
+    },
+    {
+      "Index": "37",
+      "Name_FR": "Laser pointer",
+      "Name_EN": "Laser pointer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Laser_pointer.png"
+    },
+    {
+      "Index": "38",
+      "Name_FR": "Magic 7 ball",
+      "Name_EN": "Magic 7 ball",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Magic_7_ball.png"
+    },
+    {
+      "Index": "39",
+      "Name_FR": "Magnifying glass",
+      "Name_EN": "Magnifying glass",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Magnifying_glass.png"
+    },
+    {
+      "Index": "40",
+      "Name_FR": "Metal sheet",
+      "Name_EN": "Metal sheet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Metal_sheet.png"
+    },
+    {
+      "Index": "41",
+      "Name_FR": "Mug",
+      "Name_EN": "Mug",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Mug.png"
+    },
+    {
+      "Index": "42",
+      "Name_FR": "Old phone",
+      "Name_EN": "Old phone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Old_phone.png"
+    },
+    {
+      "Index": "43",
+      "Name_FR": "Painting",
+      "Name_EN": "Painting",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Painting.png"
+    },
+    {
+      "Index": "44",
+      "Name_FR": "Perfume bottle",
+      "Name_EN": "Perfume bottle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Perfume_bottle.png"
+    },
+    {
+      "Index": "45",
+      "Name_FR": "Pill bottle",
+      "Name_EN": "Pill bottle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Pill_bottle.png"
+    },
+    {
+      "Index": "46",
+      "Name_FR": "Plastic cup",
+      "Name_EN": "Plastic cup",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Plastic_cup.png"
+    },
+    {
+      "Index": "47",
+      "Name_FR": "Plastic fish",
+      "Name_EN": "Plastic fish",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Plastic_fish.png"
+    },
+    {
+      "Index": "48",
+      "Name_FR": "Red soda",
+      "Name_EN": "Red soda",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Red_soda.png"
+    },
+    {
+      "Index": "49",
+      "Name_FR": "Remote",
+      "Name_EN": "Remote",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Remote.png"
+    },
+    {
+      "Index": "50",
+      "Name_FR": "Ribcage",
+      "Name_EN": "Ribcage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Ribcage.png"
+    },
+    {
+      "Index": "51",
+      "Name_FR": "Ring",
+      "Name_EN": "Ring",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Ring.png"
+    },
+    {
+      "Index": "52",
+      "Name_FR": "Rubber Ducky",
+      "Name_EN": "Rubber Ducky",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Rubber_Ducky.png"
+    },
+    {
+      "Index": "53",
+      "Name_FR": "Shotgun",
+      "Name_EN": "Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Shotgun.png"
+    },
+    {
+      "Index": "54",
+      "Name_FR": "Soccer ball",
+      "Name_EN": "Soccer ball",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Soccer_ball.png"
+    },
+    {
+      "Index": "55",
+      "Name_FR": "Steering wheel",
+      "Name_EN": "Steering wheel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Steering_wheel.png"
+    },
+    {
+      "Index": "56",
+      "Name_FR": "Stop sign",
+      "Name_EN": "Stop sign",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Stop_sign.png"
+    },
+    {
+      "Index": "57",
+      "Name_FR": "Tea kettle",
+      "Name_EN": "Tea kettle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Tea_kettle.png"
+    },
+    {
+      "Index": "58",
+      "Name_FR": "Teeth",
+      "Name_EN": "Teeth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Teeth.png"
+    },
+    {
+      "Index": "59",
+      "Name_FR": "Toilet paper",
+      "Name_EN": "Toilet paper",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Toilet_paper.png"
+    },
+    {
+      "Index": "60",
+      "Name_FR": "Tongue",
+      "Name_EN": "Tongue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Tongue.png"
+    },
+    {
+      "Index": "61",
+      "Name_FR": "Toothpaste",
+      "Name_EN": "Toothpaste",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Toothpaste.png"
+    },
+    {
+      "Index": "62",
+      "Name_FR": "Toy cube",
+      "Name_EN": "Toy cube",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Toy_cube.png"
+    },
+    {
+      "Index": "63",
+      "Name_FR": "Toy robot",
+      "Name_EN": "Toy robot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Toy_robot.png"
+    },
+    {
+      "Index": "64",
+      "Name_FR": "Toy train",
+      "Name_EN": "Toy train",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Toy_train.png"
+    },
+    {
+      "Index": "65",
+      "Name_FR": "Tragedy",
+      "Name_EN": "Tragedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Tragedy.png"
+    },
+    {
+      "Index": "66",
+      "Name_FR": "V-type engine",
+      "Name_EN": "V-type engine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/V-type_engine.png"
+    },
+    {
+      "Index": "67",
+      "Name_FR": "Whoopie cushion",
+      "Name_EN": "Whoopie cushion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Whoopie_cushion.png"
+    },
+    {
+      "Index": "68",
+      "Name_FR": "Yield sign",
+      "Name_EN": "Yield sign",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Yield_sign.png"
+    },
+    {
+      "Index": "69",
+      "Name_FR": "Zed Dog",
+      "Name_EN": "Zed Dog",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/lethalcompany/scrap/Zed_Dog.png"
+    }
+  ]
+}

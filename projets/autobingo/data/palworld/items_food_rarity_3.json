@@ -1,0 +1,26 @@
+{
+  "Name": "Palworld - Items food/rarity 3",
+  "Category": "Palworld",
+  "Subcategory": "Items - Foods",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "mammorest_curry",
+      "Name_FR": "Mammorest Curry",
+      "Name_EN": "Mammorest Curry",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mammorest Curry.png"
+    },
+    {
+      "Index": "galeclaw_nikujaga",
+      "Name_FR": "Galeclaw Nikujaga",
+      "Name_EN": "Galeclaw Nikujaga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Galeclaw Nikujaga.png"
+    },
+    {
+      "Index": "mushroom_quiche",
+      "Name_FR": "Mushroom Quiche",
+      "Name_EN": "Mushroom Quiche",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mushroom Quiche.png"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "Name": "Palworld - Items consumable/rarity 1",
+  "Category": "Palworld",
+  "Subcategory": "Items - Consumables",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "high_grade_technical_manual",
+      "Name_FR": "High Grade Technical Manual",
+      "Name_EN": "High Grade Technical Manual",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/High Grade Technical Manual.png"
+    },
+    {
+      "Index": "skill_fruit_power_shot",
+      "Name_FR": "Skill Fruit: Power Shot",
+      "Name_EN": "Skill Fruit: Power Shot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Skill Fruit: Power Shot.png"
+    },
+    {
+      "Index": "skill_fruit_air_cannon",
+      "Name_FR": "Skill Fruit: Air Cannon",
+      "Name_EN": "Skill Fruit: Air Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Skill Fruit: Air Cannon.png"
+    },
+    {
+      "Index": "grass_skill_fruit_wind_cutter",
+      "Name_FR": "Grass Skill Fruit: Wind Cutter",
+      "Name_EN": "Grass Skill Fruit: Wind Cutter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Wind Cutter.png"
+    },
+    {
+      "Index": "grass_skill_fruit_seed_machine_gun",
+      "Name_FR": "Grass Skill Fruit: Seed Machine Gun",
+      "Name_EN": "Grass Skill Fruit: Seed Machine Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Seed Machine Gun.png"
+    },
+    {
+      "Index": "water_skill_fruit_aqua_gun",
+      "Name_FR": "Water Skill Fruit: Aqua Gun",
+      "Name_EN": "Water Skill Fruit: Aqua Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Aqua Gun.png"
+    },
+    {
+      "Index": "water_skill_fruit_hydro_jet",
+      "Name_FR": "Water Skill Fruit: Hydro Jet",
+      "Name_EN": "Water Skill Fruit: Hydro Jet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Hydro Jet.png"
+    },
+    {
+      "Index": "fire_skill_fruit_ignis_blast",
+      "Name_FR": "Fire Skill Fruit: Ignis Blast",
+      "Name_EN": "Fire Skill Fruit: Ignis Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Ignis Blast.png"
+    },
+    {
+      "Index": "fire_skill_fruit_flare_arrow",
+      "Name_FR": "Fire Skill Fruit: Flare Arrow",
+      "Name_EN": "Fire Skill Fruit: Flare Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Flare Arrow.png"
+    },
+    {
+      "Index": "fire_skill_fruit_spirit_fire",
+      "Name_FR": "Fire Skill Fruit: Spirit Fire",
+      "Name_EN": "Fire Skill Fruit: Spirit Fire",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Spirit Fire.png"
+    },
+    {
+      "Index": "electric_skill_fruit_shockwave",
+      "Name_FR": "Electric Skill Fruit: Shockwave",
+      "Name_EN": "Electric Skill Fruit: Shockwave",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Shockwave.png"
+    },
+    {
+      "Index": "electric_skill_fruit_plasma_funnel",
+      "Name_FR": "Electric Skill Fruit: Plasma Funnel",
+      "Name_EN": "Electric Skill Fruit: Plasma Funnel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Plasma Funnel.png"
+    },
+    {
+      "Index": "electric_skill_fruit_spark_blast",
+      "Name_FR": "Electric Skill Fruit: Spark Blast",
+      "Name_EN": "Electric Skill Fruit: Spark Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Spark Blast.png"
+    },
+    {
+      "Index": "electric_skill_fruit_electric_ball",
+      "Name_FR": "Electric Skill Fruit: Electric Ball",
+      "Name_EN": "Electric Skill Fruit: Electric Ball",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Electric Ball.png"
+    },
+    {
+      "Index": "earth_skill_fruit_stone_cannon",
+      "Name_FR": "Earth Skill Fruit: Stone Cannon",
+      "Name_EN": "Earth Skill Fruit: Stone Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Stone Cannon.png"
+    },
+    {
+      "Index": "earth_skill_fruit_bog_blast",
+      "Name_FR": "Earth Skill Fruit: Bog Blast",
+      "Name_EN": "Earth Skill Fruit: Bog Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Bog Blast.png"
+    },
+    {
+      "Index": "earth_skill_fruit_stone_blast",
+      "Name_FR": "Earth Skill Fruit: Stone Blast",
+      "Name_EN": "Earth Skill Fruit: Stone Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Stone Blast.png"
+    },
+    {
+      "Index": "ice_skill_fruit_ice_missile",
+      "Name_FR": "Ice Skill Fruit: Ice Missile",
+      "Name_EN": "Ice Skill Fruit: Ice Missile",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Ice Missile.png"
+    },
+    {
+      "Index": "ice_skill_fruit_icicle_cutter",
+      "Name_FR": "Ice Skill Fruit: Icicle Cutter",
+      "Name_EN": "Ice Skill Fruit: Icicle Cutter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Icicle Cutter.png"
+    },
+    {
+      "Index": "dark_skill_fruit_shadow_burst",
+      "Name_FR": "Dark Skill Fruit: Shadow Burst",
+      "Name_EN": "Dark Skill Fruit: Shadow Burst",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Shadow Burst.png"
+    },
+    {
+      "Index": "dark_skill_fruit_poison_blast",
+      "Name_FR": "Dark Skill Fruit: Poison Blast",
+      "Name_EN": "Dark Skill Fruit: Poison Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Poison Blast.png"
+    },
+    {
+      "Index": "dark_skill_fruit_spirit_flame",
+      "Name_FR": "Dark Skill Fruit: Spirit Flame",
+      "Name_EN": "Dark Skill Fruit: Spirit Flame",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Spirit Flame.png"
+    },
+    {
+      "Index": "dragon_skill_fruit_dragon_cannon",
+      "Name_FR": "Dragon Skill Fruit: Dragon Cannon",
+      "Name_EN": "Dragon Skill Fruit: Dragon Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Skill Fruit: Dragon Cannon.png"
+    },
+    {
+      "Index": "dragon_skill_fruit_dragon_burst",
+      "Name_FR": "Dragon Skill Fruit: Dragon Burst",
+      "Name_EN": "Dragon Skill Fruit: Dragon Burst",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Skill Fruit: Dragon Burst.png"
+    },
+    {
+      "Index": "copper_key",
+      "Name_FR": "Copper Key",
+      "Name_EN": "Copper Key",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Copper Key.png"
+    },
+    {
+      "Index": "recovery_meds",
+      "Name_FR": "Recovery Meds",
+      "Name_EN": "Recovery Meds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Recovery Meds.png"
+    },
+    {
+      "Index": "training_manual_s",
+      "Name_FR": "Training Manual (S)",
+      "Name_EN": "Training Manual (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Training Manual (S).png"
+    },
+    {
+      "Index": "homeward_thundercloud",
+      "Name_FR": "Homeward Thundercloud",
+      "Name_EN": "Homeward Thundercloud",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Homeward Thundercloud.png"
+    },
+    {
+      "Index": "dark_skill_fruit_dark_cannon",
+      "Name_FR": "Dark Skill Fruit: Dark Cannon",
+      "Name_EN": "Dark Skill Fruit: Dark Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Dark Cannon.png"
+    },
+    {
+      "Index": "dark_skill_fruit_umbral_surge",
+      "Name_FR": "Dark Skill Fruit: Umbral Surge",
+      "Name_EN": "Dark Skill Fruit: Umbral Surge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Umbral Surge.png"
+    },
+    {
+      "Index": "electric_skill_fruit_thunder_spear",
+      "Name_FR": "Electric Skill Fruit: Thunder Spear",
+      "Name_EN": "Electric Skill Fruit: Thunder Spear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Thunder Spear.png"
+    },
+    {
+      "Index": "dark_skill_fruit_dark_shot",
+      "Name_FR": "Dark Skill Fruit: Dark Shot",
+      "Name_EN": "Dark Skill Fruit: Dark Shot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Dark Shot.png"
+    },
+    {
+      "Index": "treasure_map",
+      "Name_FR": "Treasure Map",
+      "Name_EN": "Treasure Map",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Treasure Map.png"
+    },
+    {
+      "Index": "high_quality_bait",
+      "Name_FR": "High Quality Bait",
+      "Name_EN": "High Quality Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/High Quality Bait.png"
+    }
+  ]
+}

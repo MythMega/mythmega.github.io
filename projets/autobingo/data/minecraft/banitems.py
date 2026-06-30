@@ -72,7 +72,9 @@ NAMES_TO_REMOVE = {
     "Fire",
     "Soul Fire"
     "Player Head",
-    "Reinforced Deepslate"
+    "Reinforced Deepslate",
+    "Trial Spawner",
+    "Deepslate Poisonous Potato Ore"
 }
 
 def process_json_file(path):

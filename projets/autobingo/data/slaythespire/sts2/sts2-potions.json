@@ -1,0 +1,386 @@
+{
+  "Name": "Slay The Spire 2 - Potions",
+  "Category": "Slay The Spire 2",
+  "Subcategory": "Potions",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "1",
+      "Name_FR": "Attack Potion",
+      "Name_EN": "Attack Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Attack_Potion.png"
+    },
+    {
+      "Index": "2",
+      "Name_FR": "Block Potion",
+      "Name_EN": "Block Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Block_Potion.png"
+    },
+    {
+      "Index": "3",
+      "Name_FR": "Colorless Potion",
+      "Name_EN": "Colorless Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Colorless_Potion.png"
+    },
+    {
+      "Index": "4",
+      "Name_FR": "Dexterity Potion",
+      "Name_EN": "Dexterity Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Dexterity_Potion.png"
+    },
+    {
+      "Index": "5",
+      "Name_FR": "Energy Potion",
+      "Name_EN": "Energy Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Energy_Potion.png"
+    },
+    {
+      "Index": "6",
+      "Name_FR": "Explosive Ampoule",
+      "Name_EN": "Explosive Ampoule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Explosive_Ampoule.png"
+    },
+    {
+      "Index": "7",
+      "Name_FR": "Fire Potion",
+      "Name_EN": "Fire Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Fire_Potion.png"
+    },
+    {
+      "Index": "8",
+      "Name_FR": "Flex Potion",
+      "Name_EN": "Flex Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Flex_Potion.png"
+    },
+    {
+      "Index": "9",
+      "Name_FR": "Power Potion",
+      "Name_EN": "Power Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Power_Potion.png"
+    },
+    {
+      "Index": "10",
+      "Name_FR": "Skill Potion",
+      "Name_EN": "Skill Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Skill_Potion.png"
+    },
+    {
+      "Index": "11",
+      "Name_FR": "Speed Potion",
+      "Name_EN": "Speed Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Speed_Potion.png"
+    },
+    {
+      "Index": "12",
+      "Name_FR": "Strength Potion",
+      "Name_EN": "Strength Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Strength_Potion.png"
+    },
+    {
+      "Index": "13",
+      "Name_FR": "Swift Potion",
+      "Name_EN": "Swift Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Swift_Potion.png"
+    },
+    {
+      "Index": "14",
+      "Name_FR": "Vulnerable Potion",
+      "Name_EN": "Vulnerable Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Vulnerable_Potion.png"
+    },
+    {
+      "Index": "15",
+      "Name_FR": "Weak Potion",
+      "Name_EN": "Weak Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Weak_Potion.png"
+    },
+    {
+      "Index": "16",
+      "Name_FR": "Blood Potion",
+      "Name_EN": "Blood Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Blood_Potion.png"
+    },
+    {
+      "Index": "17",
+      "Name_FR": "Poison Potion",
+      "Name_EN": "Poison Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Poison_Potion.png"
+    },
+    {
+      "Index": "18",
+      "Name_FR": "Star Potion",
+      "Name_EN": "Star Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Star_Potion.png"
+    },
+    {
+      "Index": "19",
+      "Name_FR": "Potion of Doom",
+      "Name_EN": "Potion of Doom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Potion_of_Doom.png"
+    },
+    {
+      "Index": "20",
+      "Name_FR": "Focus Potion",
+      "Name_EN": "Focus Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Focus_Potion.png"
+    },
+    {
+      "Index": "21",
+      "Name_FR": "Blessing of the Forge",
+      "Name_EN": "Blessing of the Forge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Blessing_of_the_Forge.png"
+    },
+    {
+      "Index": "22",
+      "Name_FR": "Clarity Extract",
+      "Name_EN": "Clarity Extract",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Clarity_Extract.png"
+    },
+    {
+      "Index": "23",
+      "Name_FR": "Cure All",
+      "Name_EN": "Cure All",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Cure_All.png"
+    },
+    {
+      "Index": "24",
+      "Name_FR": "Duplicator",
+      "Name_EN": "Duplicator",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Duplicator.png"
+    },
+    {
+      "Index": "25",
+      "Name_FR": "Fortifier",
+      "Name_EN": "Fortifier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Fortifier.png"
+    },
+    {
+      "Index": "26",
+      "Name_FR": "Fysh Oil",
+      "Name_EN": "Fysh Oil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Fysh_Oil.png"
+    },
+    {
+      "Index": "27",
+      "Name_FR": "Gambler's Brew",
+      "Name_EN": "Gambler's Brew",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Gambler's_Brew.png"
+    },
+    {
+      "Index": "28",
+      "Name_FR": "Heart of Iron",
+      "Name_EN": "Heart of Iron",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Heart_of_Iron.png"
+    },
+    {
+      "Index": "29",
+      "Name_FR": "Liquid Bronze",
+      "Name_EN": "Liquid Bronze",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Liquid_Bronze.png"
+    },
+    {
+      "Index": "30",
+      "Name_FR": "Potion of Binding",
+      "Name_EN": "Potion of Binding",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Potion_of_Binding.png"
+    },
+    {
+      "Index": "31",
+      "Name_FR": "Powdered Demise",
+      "Name_EN": "Powdered Demise",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Powdered_Demise.png"
+    },
+    {
+      "Index": "32",
+      "Name_FR": "Radiant Tincture",
+      "Name_EN": "Radiant Tincture",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Radiant_Tincture.png"
+    },
+    {
+      "Index": "33",
+      "Name_FR": "Regen Potion",
+      "Name_EN": "Regen Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Regen_Potion.png"
+    },
+    {
+      "Index": "34",
+      "Name_FR": "Stable Serum",
+      "Name_EN": "Stable Serum",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Stable_Serum.png"
+    },
+    {
+      "Index": "35",
+      "Name_FR": "Touch of Insanity",
+      "Name_EN": "Touch of Insanity",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Touch_of_Insanity.png"
+    },
+    {
+      "Index": "36",
+      "Name_FR": "Ashwater",
+      "Name_EN": "Ashwater",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Ashwater.png"
+    },
+    {
+      "Index": "37",
+      "Name_FR": "Cunning Potion",
+      "Name_EN": "Cunning Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Cunning_Potion.png"
+    },
+    {
+      "Index": "38",
+      "Name_FR": "King's Courage",
+      "Name_EN": "King's Courage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/King's_Courage.png"
+    },
+    {
+      "Index": "39",
+      "Name_FR": "Bone Brew",
+      "Name_EN": "Bone Brew",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Bone_Brew.png"
+    },
+    {
+      "Index": "40",
+      "Name_FR": "Potion of Capacity",
+      "Name_EN": "Potion of Capacity",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Potion_of_Capacity.png"
+    },
+    {
+      "Index": "41",
+      "Name_FR": "Beetle Juice",
+      "Name_EN": "Beetle Juice",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Beetle_Juice.png"
+    },
+    {
+      "Index": "42",
+      "Name_FR": "Bottled Potential",
+      "Name_EN": "Bottled Potential",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Bottled_Potential.png"
+    },
+    {
+      "Index": "43",
+      "Name_FR": "Distilled Chaos",
+      "Name_EN": "Distilled Chaos",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Distilled_Chaos.png"
+    },
+    {
+      "Index": "44",
+      "Name_FR": "Droplet of Precognition",
+      "Name_EN": "Droplet of Precognition",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Droplet_of_Precognition.png"
+    },
+    {
+      "Index": "45",
+      "Name_FR": "Entropic Brew",
+      "Name_EN": "Entropic Brew",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Entropic_Brew.png"
+    },
+    {
+      "Index": "46",
+      "Name_FR": "Fairy in a Bottle",
+      "Name_EN": "Fairy in a Bottle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Fairy_in_a_Bottle.png"
+    },
+    {
+      "Index": "47",
+      "Name_FR": "Fruit Juice",
+      "Name_EN": "Fruit Juice",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Fruit_Juice.png"
+    },
+    {
+      "Index": "48",
+      "Name_FR": "Gigantification Potion",
+      "Name_EN": "Gigantification Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Gigantification_Potion.png"
+    },
+    {
+      "Index": "49",
+      "Name_FR": "Liquid Memories",
+      "Name_EN": "Liquid Memories",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Liquid_Memories.png"
+    },
+    {
+      "Index": "50",
+      "Name_FR": "Lucky Tonic",
+      "Name_EN": "Lucky Tonic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Lucky_Tonic.png"
+    },
+    {
+      "Index": "51",
+      "Name_FR": "Mazaleth's Gift",
+      "Name_EN": "Mazaleth's Gift",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Mazaleth's_Gift.png"
+    },
+    {
+      "Index": "52",
+      "Name_FR": "Orobic Acid",
+      "Name_EN": "Orobic Acid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Orobic_Acid.png"
+    },
+    {
+      "Index": "53",
+      "Name_FR": "Shackling Potion",
+      "Name_EN": "Shackling Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Shackling_Potion.png"
+    },
+    {
+      "Index": "54",
+      "Name_FR": "Ship in a Bottle",
+      "Name_EN": "Ship in a Bottle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Ship_in_a_Bottle.png"
+    },
+    {
+      "Index": "55",
+      "Name_FR": "Snecko Oil",
+      "Name_EN": "Snecko Oil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Snecko_Oil.png"
+    },
+    {
+      "Index": "56",
+      "Name_FR": "Soldier's Stew",
+      "Name_EN": "Soldier's Stew",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Soldier's_Stew.png"
+    },
+    {
+      "Index": "57",
+      "Name_FR": "Ghost in a Jar",
+      "Name_EN": "Ghost in a Jar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Ghost_in_a_Jar.png"
+    },
+    {
+      "Index": "58",
+      "Name_FR": "Cosmic Concoction",
+      "Name_EN": "Cosmic Concoction",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Cosmic_Concoction.png"
+    },
+    {
+      "Index": "59",
+      "Name_FR": "Pot of Ghouls",
+      "Name_EN": "Pot of Ghouls",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Pot_of_Ghouls.png"
+    },
+    {
+      "Index": "60",
+      "Name_FR": "Essence of Darkness",
+      "Name_EN": "Essence of Darkness",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Essence_of_Darkness.png"
+    },
+    {
+      "Index": "61",
+      "Name_FR": "Foul Potion",
+      "Name_EN": "Foul Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Foul_Potion.png"
+    },
+    {
+      "Index": "62",
+      "Name_FR": "Glowwater Potion",
+      "Name_EN": "Glowwater Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Glowwater_Potion.png"
+    },
+    {
+      "Index": "63",
+      "Name_FR": "Potion-Shaped Rock",
+      "Name_EN": "Potion-Shaped Rock",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/potions/Potion-Shaped_Rock.png"
+    }
+  ]
+}

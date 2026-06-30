@@ -1,0 +1,164 @@
+{
+  "Name": "Palworld - Items ammo/all rarities",
+  "Category": "Palworld",
+  "Subcategory": "Items - Ammos",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "arrow",
+      "Name_FR": "Arrow",
+      "Name_EN": "Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Arrow.png"
+    },
+    {
+      "Index": "poison_arrow",
+      "Name_FR": "Poison Arrow",
+      "Name_EN": "Poison Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Poison Arrow.png"
+    },
+    {
+      "Index": "fire_arrow",
+      "Name_FR": "Fire Arrow",
+      "Name_EN": "Fire Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Arrow.png"
+    },
+    {
+      "Index": "rocket_ammo",
+      "Name_FR": "Rocket Ammo",
+      "Name_EN": "Rocket Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rocket Ammo.png"
+    },
+    {
+      "Index": "energy_cartridge",
+      "Name_FR": "Energy Cartridge",
+      "Name_EN": "Energy Cartridge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Energy Cartridge.png"
+    },
+    {
+      "Index": "decal_ink",
+      "Name_FR": "Decal Ink",
+      "Name_EN": "Decal Ink",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Decal Ink.png"
+    },
+    {
+      "Index": "handgun_ammo",
+      "Name_FR": "Handgun Ammo",
+      "Name_EN": "Handgun Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Handgun Ammo.png"
+    },
+    {
+      "Index": "rifle_ammo",
+      "Name_FR": "Rifle Ammo",
+      "Name_EN": "Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rifle Ammo.png"
+    },
+    {
+      "Index": "shotgun_shell",
+      "Name_FR": "Shotgun Shell",
+      "Name_EN": "Shotgun Shell",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Shotgun Shell.png"
+    },
+    {
+      "Index": "coarse_ammo",
+      "Name_FR": "Coarse Ammo",
+      "Name_EN": "Coarse Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Coarse Ammo.png"
+    },
+    {
+      "Index": "machine_gun_ammo",
+      "Name_FR": "Machine Gun Ammo",
+      "Name_EN": "Machine Gun Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Machine Gun Ammo.png"
+    },
+    {
+      "Index": "assault_rifle_ammo",
+      "Name_FR": "Assault Rifle Ammo",
+      "Name_EN": "Assault Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Assault Rifle Ammo.png"
+    },
+    {
+      "Index": "magnum_ammo",
+      "Name_FR": "Magnum Ammo",
+      "Name_EN": "Magnum Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Magnum Ammo.png"
+    },
+    {
+      "Index": "flamethrower_fuel",
+      "Name_FR": "Flamethrower Fuel",
+      "Name_EN": "Flamethrower Fuel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Flamethrower Fuel.png"
+    },
+    {
+      "Index": "missile_ammo",
+      "Name_FR": "Missile Ammo",
+      "Name_EN": "Missile Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Missile Ammo.png"
+    },
+    {
+      "Index": "grenade_ammo",
+      "Name_FR": "Grenade Ammo",
+      "Name_EN": "Grenade Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grenade Ammo.png"
+    },
+    {
+      "Index": "gatling_gun_ammo",
+      "Name_FR": "Gatling Gun Ammo",
+      "Name_EN": "Gatling Gun Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gatling Gun Ammo.png"
+    },
+    {
+      "Index": "meteorite_ammo",
+      "Name_FR": "Meteorite Ammo",
+      "Name_EN": "Meteorite Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Meteorite Ammo.png"
+    },
+    {
+      "Index": "plasma_cartridge",
+      "Name_FR": "Plasma Cartridge",
+      "Name_EN": "Plasma Cartridge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasma Cartridge.png"
+    },
+    {
+      "Index": "laser_gatling_cartridge",
+      "Name_FR": "Laser Gatling Cartridge",
+      "Name_EN": "Laser Gatling Cartridge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laser Gatling Cartridge.png"
+    },
+    {
+      "Index": "reinforced_arrow",
+      "Name_FR": "Reinforced Arrow",
+      "Name_EN": "Reinforced Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Reinforced Arrow.png"
+    },
+    {
+      "Index": "advanced_arrow",
+      "Name_FR": "Advanced Arrow",
+      "Name_EN": "Advanced Arrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Advanced Arrow.png"
+    },
+    {
+      "Index": "charge_rifle_ammo",
+      "Name_FR": "Charge Rifle Ammo",
+      "Name_EN": "Charge Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Charge Rifle Ammo.png"
+    },
+    {
+      "Index": "overheat_rifle_ammo",
+      "Name_FR": "Overheat Rifle Ammo",
+      "Name_EN": "Overheat Rifle Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Overheat Rifle Ammo.png"
+    },
+    {
+      "Index": "energy_shotgun_ammo",
+      "Name_FR": "Energy Shotgun Ammo",
+      "Name_EN": "Energy Shotgun Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Energy Shotgun Ammo.png"
+    },
+    {
+      "Index": "boost_gun_ammo",
+      "Name_FR": "Boost Gun Ammo",
+      "Name_EN": "Boost Gun Ammo",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Boost Gun Ammo.png"
+    }
+  ]
+}

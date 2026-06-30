@@ -1,0 +1,26 @@
+{
+  "Name": "Palworld - Items spheres/rarity 4",
+  "Category": "Palworld",
+  "Subcategory": "Items - Spheres",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "legendary_sphere",
+      "Name_FR": "Legendary Sphere",
+      "Name_EN": "Legendary Sphere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Legendary Sphere.png"
+    },
+    {
+      "Index": "ultimate_sphere",
+      "Name_FR": "Ultimate Sphere",
+      "Name_EN": "Ultimate Sphere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ultimate Sphere.png"
+    },
+    {
+      "Index": "exotic_sphere",
+      "Name_FR": "Exotic Sphere",
+      "Name_EN": "Exotic Sphere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Exotic Sphere.png"
+    }
+  ]
+}

@@ -1,0 +1,1916 @@
+{
+  "Name": "Palworld - Items all types/rarity 3",
+  "Category": "Palworld",
+  "Subcategory": "Items - All Types",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "triple_jump_boots",
+      "Name_FR": "Triple Jump Boots",
+      "Name_EN": "Triple Jump Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Triple Jump Boots.png"
+    },
+    {
+      "Index": "double_air_dash_boots",
+      "Name_FR": "Double Air Dash Boots",
+      "Name_EN": "Double Air Dash Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Double Air Dash Boots.png"
+    },
+    {
+      "Index": "hyper_shield",
+      "Name_FR": "Hyper Shield",
+      "Name_EN": "Hyper Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hyper Shield.png"
+    },
+    {
+      "Index": "monarchs_crown",
+      "Name_FR": "Monarch's Crown",
+      "Name_EN": "Monarch's Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Monarch's Crown.png"
+    },
+    {
+      "Index": "golden_crown",
+      "Name_FR": "Golden Crown",
+      "Name_EN": "Golden Crown",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Golden Crown.png"
+    },
+    {
+      "Index": "long_eared_headband",
+      "Name_FR": "Long-Eared Headband",
+      "Name_EN": "Long-Eared Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Long-Eared Headband.png"
+    },
+    {
+      "Index": "witch_hat",
+      "Name_FR": "Witch Hat",
+      "Name_EN": "Witch Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Witch Hat.png"
+    },
+    {
+      "Index": "soft_hat",
+      "Name_FR": "Soft Hat",
+      "Name_EN": "Soft Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Soft Hat.png"
+    },
+    {
+      "Index": "helmet",
+      "Name_FR": "Helmet",
+      "Name_EN": "Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Helmet.png"
+    },
+    {
+      "Index": "silk_hat",
+      "Name_FR": "Silk Hat",
+      "Name_EN": "Silk Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Silk Hat.png"
+    },
+    {
+      "Index": "tricorne",
+      "Name_FR": "Tricorne",
+      "Name_EN": "Tricorne",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tricorne.png"
+    },
+    {
+      "Index": "explorer_cap",
+      "Name_FR": "Explorer Cap",
+      "Name_EN": "Explorer Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Explorer Cap.png"
+    },
+    {
+      "Index": "graduation_cap",
+      "Name_FR": "Graduation Cap",
+      "Name_EN": "Graduation Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Graduation Cap.png"
+    },
+    {
+      "Index": "farming_hat",
+      "Name_FR": "Farming Hat",
+      "Name_EN": "Farming Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Farming Hat.png"
+    },
+    {
+      "Index": "bowler_hat",
+      "Name_FR": "Bowler Hat",
+      "Name_EN": "Bowler Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bowler Hat.png"
+    },
+    {
+      "Index": "tocotoco_cap",
+      "Name_FR": "Tocotoco Cap",
+      "Name_EN": "Tocotoco Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tocotoco Cap.png"
+    },
+    {
+      "Index": "grinning_tocotoco_cap",
+      "Name_FR": "Grinning Tocotoco Cap",
+      "Name_EN": "Grinning Tocotoco Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grinning Tocotoco Cap.png"
+    },
+    {
+      "Index": "gumoss_cap",
+      "Name_FR": "Gumoss Cap",
+      "Name_EN": "Gumoss Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gumoss Cap.png"
+    },
+    {
+      "Index": "penking_cap",
+      "Name_FR": "Penking Cap",
+      "Name_EN": "Penking Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Penking Cap.png"
+    },
+    {
+      "Index": "katress_cap",
+      "Name_FR": "Katress Cap",
+      "Name_EN": "Katress Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Katress Cap.png"
+    },
+    {
+      "Index": "cloth_outfit",
+      "Name_FR": "Cloth Outfit",
+      "Name_EN": "Cloth Outfit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cloth Outfit.png"
+    },
+    {
+      "Index": "pelt_armor",
+      "Name_FR": "Pelt Armor",
+      "Name_EN": "Pelt Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pelt Armor.png"
+    },
+    {
+      "Index": "metal_armor",
+      "Name_FR": "Metal Armor",
+      "Name_EN": "Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Metal Armor.png"
+    },
+    {
+      "Index": "refined_metal_armor",
+      "Name_FR": "Refined Metal Armor",
+      "Name_EN": "Refined Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Refined Metal Armor.png"
+    },
+    {
+      "Index": "pal_metal_armor",
+      "Name_FR": "Pal Metal Armor",
+      "Name_EN": "Pal Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Metal Armor.png"
+    },
+    {
+      "Index": "feathered_hair_band",
+      "Name_FR": "Feathered Hair Band",
+      "Name_EN": "Feathered Hair Band",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Feathered Hair Band.png"
+    },
+    {
+      "Index": "metal_helm",
+      "Name_FR": "Metal Helm",
+      "Name_EN": "Metal Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Metal Helm.png"
+    },
+    {
+      "Index": "refined_metal_helm",
+      "Name_FR": "Refined Metal Helm",
+      "Name_EN": "Refined Metal Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Refined Metal Helm.png"
+    },
+    {
+      "Index": "pal_metal_helm",
+      "Name_FR": "Pal Metal Helm",
+      "Name_EN": "Pal Metal Helm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Metal Helm.png"
+    },
+    {
+      "Index": "tropical_outfit",
+      "Name_FR": "Tropical Outfit",
+      "Name_EN": "Tropical Outfit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tropical Outfit.png"
+    },
+    {
+      "Index": "tundra_outfit",
+      "Name_FR": "Tundra Outfit",
+      "Name_EN": "Tundra Outfit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tundra Outfit.png"
+    },
+    {
+      "Index": "heat_resistant_pelt_armor",
+      "Name_FR": "Heat Resistant Pelt Armor",
+      "Name_EN": "Heat Resistant Pelt Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Pelt Armor.png"
+    },
+    {
+      "Index": "cold_resistant_pelt_armor",
+      "Name_FR": "Cold Resistant Pelt Armor",
+      "Name_EN": "Cold Resistant Pelt Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Pelt Armor.png"
+    },
+    {
+      "Index": "heat_resistant_metal_armor",
+      "Name_FR": "Heat Resistant Metal Armor",
+      "Name_EN": "Heat Resistant Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Metal Armor.png"
+    },
+    {
+      "Index": "cold_resistant_metal_armor",
+      "Name_FR": "Cold Resistant Metal Armor",
+      "Name_EN": "Cold Resistant Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Metal Armor.png"
+    },
+    {
+      "Index": "heat_resistant_refined_metal_armor",
+      "Name_FR": "Heat Resistant Refined Metal Armor",
+      "Name_EN": "Heat Resistant Refined Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Refined Metal Armor.png"
+    },
+    {
+      "Index": "cold_resistant_refined_metal_armor",
+      "Name_FR": "Cold Resistant Refined Metal Armor",
+      "Name_EN": "Cold Resistant Refined Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Refined Metal Armor.png"
+    },
+    {
+      "Index": "heat_resistant_pal_metal_armor",
+      "Name_FR": "Heat Resistant Pal Metal Armor",
+      "Name_EN": "Heat Resistant Pal Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Pal Metal Armor.png"
+    },
+    {
+      "Index": "cold_resistant_pal_metal_armor",
+      "Name_FR": "Cold Resistant Pal Metal Armor",
+      "Name_EN": "Cold Resistant Pal Metal Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Pal Metal Armor.png"
+    },
+    {
+      "Index": "plasteel_armor",
+      "Name_FR": "Plasteel Armor",
+      "Name_EN": "Plasteel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasteel Armor.png"
+    },
+    {
+      "Index": "heat_resistant_plasteel_armor",
+      "Name_FR": "Heat Resistant Plasteel Armor",
+      "Name_EN": "Heat Resistant Plasteel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Plasteel Armor.png"
+    },
+    {
+      "Index": "cold_resistant_plasteel_armor",
+      "Name_FR": "Cold Resistant Plasteel Armor",
+      "Name_EN": "Cold Resistant Plasteel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Plasteel Armor.png"
+    },
+    {
+      "Index": "lightweight_plasteel_armor",
+      "Name_FR": "Lightweight Plasteel Armor",
+      "Name_EN": "Lightweight Plasteel Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lightweight Plasteel Armor.png"
+    },
+    {
+      "Index": "plasteel_helmet",
+      "Name_FR": "Plasteel Helmet",
+      "Name_EN": "Plasteel Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasteel Helmet.png"
+    },
+    {
+      "Index": "leezpunk_hood",
+      "Name_FR": "Leezpunk Hood",
+      "Name_EN": "Leezpunk Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Leezpunk Hood.png"
+    },
+    {
+      "Index": "killamari_cap",
+      "Name_FR": "Killamari Cap",
+      "Name_EN": "Killamari Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Killamari Cap.png"
+    },
+    {
+      "Index": "ribbuny_headband",
+      "Name_FR": "Ribbuny Headband",
+      "Name_EN": "Ribbuny Headband",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ribbuny Headband.png"
+    },
+    {
+      "Index": "swee_cap",
+      "Name_FR": "Swee Cap",
+      "Name_EN": "Swee Cap",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Swee Cap.png"
+    },
+    {
+      "Index": "dazzi_hat",
+      "Name_FR": "Dazzi Hat",
+      "Name_EN": "Dazzi Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dazzi Hat.png"
+    },
+    {
+      "Index": "hexolite_helmet",
+      "Name_FR": "Hexolite Helmet",
+      "Name_EN": "Hexolite Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hexolite Helmet.png"
+    },
+    {
+      "Index": "hexolite_armor",
+      "Name_FR": "Hexolite Armor",
+      "Name_EN": "Hexolite Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hexolite Armor.png"
+    },
+    {
+      "Index": "heat_resistant_hexolite_armor",
+      "Name_FR": "Heat Resistant Hexolite Armor",
+      "Name_EN": "Heat Resistant Hexolite Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Hexolite Armor.png"
+    },
+    {
+      "Index": "cold_resistant_hexolite_armor",
+      "Name_FR": "Cold Resistant Hexolite Armor",
+      "Name_EN": "Cold Resistant Hexolite Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Hexolite Armor.png"
+    },
+    {
+      "Index": "lightweight_hexolite_armor",
+      "Name_FR": "Lightweight Hexolite Armor",
+      "Name_EN": "Lightweight Hexolite Armor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lightweight Hexolite Armor.png"
+    },
+    {
+      "Index": "hallowed_mask",
+      "Name_FR": "Hallowed Mask",
+      "Name_EN": "Hallowed Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Mask.png"
+    },
+    {
+      "Index": "hallowed_headgear",
+      "Name_FR": "Hallowed Headgear",
+      "Name_EN": "Hallowed Headgear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Headgear.png"
+    },
+    {
+      "Index": "hallowed_plate_mail",
+      "Name_FR": "Hallowed Plate Mail",
+      "Name_EN": "Hallowed Plate Mail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Plate Mail.png"
+    },
+    {
+      "Index": "hallowed_helmet",
+      "Name_FR": "Hallowed Helmet",
+      "Name_EN": "Hallowed Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Helmet.png"
+    },
+    {
+      "Index": "hallowed_hood",
+      "Name_FR": "Hallowed Hood",
+      "Name_EN": "Hallowed Hood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Hood.png"
+    },
+    {
+      "Index": "monarchs_crown_schematic_4",
+      "Name_FR": "Monarch's Crown Schematic 4",
+      "Name_EN": "Monarch's Crown Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Monarch's Crown Schematic 4.png"
+    },
+    {
+      "Index": "golden_crown_schematic_4",
+      "Name_FR": "Golden Crown Schematic 4",
+      "Name_EN": "Golden Crown Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Golden Crown Schematic 4.png"
+    },
+    {
+      "Index": "long_eared_headband_schematic_4",
+      "Name_FR": "Long-Eared Headband Schematic 4",
+      "Name_EN": "Long-Eared Headband Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Long-Eared Headband Schematic 4.png"
+    },
+    {
+      "Index": "witch_hat_schematic_4",
+      "Name_FR": "Witch Hat Schematic 4",
+      "Name_EN": "Witch Hat Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Witch Hat Schematic 4.png"
+    },
+    {
+      "Index": "soft_hat_schematic_4",
+      "Name_FR": "Soft Hat Schematic 4",
+      "Name_EN": "Soft Hat Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Soft Hat Schematic 4.png"
+    },
+    {
+      "Index": "helmet_schematic_4",
+      "Name_FR": "Helmet Schematic 4",
+      "Name_EN": "Helmet Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Helmet Schematic 4.png"
+    },
+    {
+      "Index": "silk_hat_schematic_4",
+      "Name_FR": "Silk Hat Schematic 4",
+      "Name_EN": "Silk Hat Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Silk Hat Schematic 4.png"
+    },
+    {
+      "Index": "tricorne_schematic_4",
+      "Name_FR": "Tricorne Schematic 4",
+      "Name_EN": "Tricorne Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tricorne Schematic 4.png"
+    },
+    {
+      "Index": "exploration_cap_schematic_4",
+      "Name_FR": "Exploration Cap Schematic 4",
+      "Name_EN": "Exploration Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Exploration Cap Schematic 4.png"
+    },
+    {
+      "Index": "graduation_cap_schematic_4",
+      "Name_FR": "Graduation Cap Schematic 4",
+      "Name_EN": "Graduation Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Graduation Cap Schematic 4.png"
+    },
+    {
+      "Index": "farming_hat_schematic_4",
+      "Name_FR": "Farming Hat Schematic 4",
+      "Name_EN": "Farming Hat Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Farming Hat Schematic 4.png"
+    },
+    {
+      "Index": "bowler_hat_schematic_4",
+      "Name_FR": "Bowler Hat Schematic 4",
+      "Name_EN": "Bowler Hat Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bowler Hat Schematic 4.png"
+    },
+    {
+      "Index": "tocotoco_cap_schematic_4",
+      "Name_FR": "Tocotoco Cap Schematic 4",
+      "Name_EN": "Tocotoco Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tocotoco Cap Schematic 4.png"
+    },
+    {
+      "Index": "grinning_tocotoco_cap_schematic_4",
+      "Name_FR": "Grinning Tocotoco Cap Schematic 4",
+      "Name_EN": "Grinning Tocotoco Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grinning Tocotoco Cap Schematic 4.png"
+    },
+    {
+      "Index": "gumoss_cap_schematic_4",
+      "Name_FR": "Gumoss Cap Schematic 4",
+      "Name_EN": "Gumoss Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gumoss Cap Schematic 4.png"
+    },
+    {
+      "Index": "penking_cap_schematic_4",
+      "Name_FR": "Penking Cap Schematic 4",
+      "Name_EN": "Penking Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Penking Cap Schematic 4.png"
+    },
+    {
+      "Index": "katress_cap_schematic_4",
+      "Name_FR": "Katress Cap Schematic 4",
+      "Name_EN": "Katress Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Katress Cap Schematic 4.png"
+    },
+    {
+      "Index": "old_bow_schematic_3",
+      "Name_FR": "Old Bow Schematic 3",
+      "Name_EN": "Old Bow Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Old Bow Schematic 3.png"
+    },
+    {
+      "Index": "crossbow_schematic_3",
+      "Name_FR": "Crossbow Schematic 3",
+      "Name_EN": "Crossbow Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Crossbow Schematic 3.png"
+    },
+    {
+      "Index": "assault_rifle_schematic_3",
+      "Name_FR": "Assault Rifle Schematic 3",
+      "Name_EN": "Assault Rifle Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Assault Rifle Schematic 3.png"
+    },
+    {
+      "Index": "pump_action_shotgun_schematic_3",
+      "Name_FR": "Pump-Action Shotgun Schematic 3",
+      "Name_EN": "Pump-Action Shotgun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pump-Action Shotgun Schematic 3.png"
+    },
+    {
+      "Index": "handgun_schematic_3",
+      "Name_FR": "Handgun Schematic 3",
+      "Name_EN": "Handgun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Handgun Schematic 3.png"
+    },
+    {
+      "Index": "rocket_launcher_schematic_3",
+      "Name_FR": "Rocket Launcher Schematic 3",
+      "Name_EN": "Rocket Launcher Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rocket Launcher Schematic 3.png"
+    },
+    {
+      "Index": "musket_schematic_3",
+      "Name_FR": "Musket Schematic 3",
+      "Name_EN": "Musket Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Musket Schematic 3.png"
+    },
+    {
+      "Index": "double_barreled_shotgun_schematic_3",
+      "Name_FR": "Double-Barreled Shotgun Schematic 3",
+      "Name_EN": "Double-Barreled Shotgun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Double-Barreled Shotgun Schematic 3.png"
+    },
+    {
+      "Index": "single_shot_rifle_schematic_3",
+      "Name_FR": "Single-Shot Rifle Schematic 3",
+      "Name_EN": "Single-Shot Rifle Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Single-Shot Rifle Schematic 3.png"
+    },
+    {
+      "Index": "feathered_hair_band_schematic_3",
+      "Name_FR": "Feathered Hair Band Schematic 3",
+      "Name_EN": "Feathered Hair Band Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Feathered Hair Band Schematic 3.png"
+    },
+    {
+      "Index": "metal_helm_schematic_3",
+      "Name_FR": "Metal Helm Schematic 3",
+      "Name_EN": "Metal Helm Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Metal Helm Schematic 3.png"
+    },
+    {
+      "Index": "refined_metal_helm_schematic_3",
+      "Name_FR": "Refined Metal Helm Schematic 3",
+      "Name_EN": "Refined Metal Helm Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Refined Metal Helm Schematic 3.png"
+    },
+    {
+      "Index": "pal_metal_helm_schematic_3",
+      "Name_FR": "Pal Metal Helm Schematic 3",
+      "Name_EN": "Pal Metal Helm Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Metal Helm Schematic 3.png"
+    },
+    {
+      "Index": "cloth_outfit_schematic_3",
+      "Name_FR": "Cloth Outfit Schematic 3",
+      "Name_EN": "Cloth Outfit Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cloth Outfit Schematic 3.png"
+    },
+    {
+      "Index": "pelt_armor_schematic_3",
+      "Name_FR": "Pelt Armor Schematic 3",
+      "Name_EN": "Pelt Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pelt Armor Schematic 3.png"
+    },
+    {
+      "Index": "metal_armor_schematic_3",
+      "Name_FR": "Metal Armor Schematic 3",
+      "Name_EN": "Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "refined_metal_armor_schematic_3",
+      "Name_FR": "Refined Metal Armor Schematic 3",
+      "Name_EN": "Refined Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Refined Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "pal_metal_armor_schematic_3",
+      "Name_FR": "Pal Metal Armor Schematic 3",
+      "Name_EN": "Pal Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "tropical_outfit_schematic_3",
+      "Name_FR": "Tropical Outfit Schematic 3",
+      "Name_EN": "Tropical Outfit Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tropical Outfit Schematic 3.png"
+    },
+    {
+      "Index": "tundra_outfit_schematic_3",
+      "Name_FR": "Tundra Outfit Schematic 3",
+      "Name_EN": "Tundra Outfit Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tundra Outfit Schematic 3.png"
+    },
+    {
+      "Index": "heat_resistant_pelt_armor_schematic_3",
+      "Name_FR": "Heat Resistant Pelt Armor Schematic 3",
+      "Name_EN": "Heat Resistant Pelt Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Pelt Armor Schematic 3.png"
+    },
+    {
+      "Index": "cold_resistant_pelt_armor_schematic_3",
+      "Name_FR": "Cold Resistant Pelt Armor Schematic 3",
+      "Name_EN": "Cold Resistant Pelt Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Pelt Armor Schematic 3.png"
+    },
+    {
+      "Index": "heat_resistant_metal_armor_schematic_3",
+      "Name_FR": "Heat Resistant Metal Armor Schematic 3",
+      "Name_EN": "Heat Resistant Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "cold_resistant_metal_armor_schematic_3",
+      "Name_FR": "Cold Resistant Metal Armor Schematic 3",
+      "Name_EN": "Cold Resistant Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "heat_resistant_refined_metal_armor_schematic_3",
+      "Name_FR": "Heat Resistant Refined Metal Armor Schematic 3",
+      "Name_EN": "Heat Resistant Refined Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Refined Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "cold_resistant_refined_metal_armor_schematic_3",
+      "Name_FR": "Cold Resistant Refined Metal Armor Schematic 3",
+      "Name_EN": "Cold Resistant Refined Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Refined Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "heat_resistant_pal_metal_armor_schematic_3",
+      "Name_FR": "Heat Resistant Pal Metal Armor Schematic 3",
+      "Name_EN": "Heat Resistant Pal Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Pal Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "cold_resistant_pal_metal_armor_schematic_3",
+      "Name_FR": "Cold Resistant Pal Metal Armor Schematic 3",
+      "Name_EN": "Cold Resistant Pal Metal Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Pal Metal Armor Schematic 3.png"
+    },
+    {
+      "Index": "makeshift_handgun_schematic_3",
+      "Name_FR": "Makeshift Handgun Schematic 3",
+      "Name_EN": "Makeshift Handgun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Handgun Schematic 3.png"
+    },
+    {
+      "Index": "laser_rifle_schematic_3",
+      "Name_FR": "Laser Rifle Schematic 3",
+      "Name_EN": "Laser Rifle Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laser Rifle Schematic 3.png"
+    },
+    {
+      "Index": "flamethrower_schematic_3",
+      "Name_FR": "Flamethrower Schematic 3",
+      "Name_EN": "Flamethrower Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Flamethrower Schematic 3.png"
+    },
+    {
+      "Index": "grenade_launcher_schematic_3",
+      "Name_FR": "Grenade Launcher Schematic 3",
+      "Name_EN": "Grenade Launcher Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grenade Launcher Schematic 3.png"
+    },
+    {
+      "Index": "guided_missile_launcher_schematic_3",
+      "Name_FR": "Guided Missile Launcher Schematic 3",
+      "Name_EN": "Guided Missile Launcher Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Guided Missile Launcher Schematic 3.png"
+    },
+    {
+      "Index": "multi_guided_missile_launcher_schematic_3",
+      "Name_FR": "Multi Guided Missile Launcher Schematic 3",
+      "Name_EN": "Multi Guided Missile Launcher Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Multi Guided Missile Launcher Schematic 3.png"
+    },
+    {
+      "Index": "gatling_gun_schematic_3",
+      "Name_FR": "Gatling Gun Schematic 3",
+      "Name_EN": "Gatling Gun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gatling Gun Schematic 3.png"
+    },
+    {
+      "Index": "plasteel_armor_schematic_3",
+      "Name_FR": "Plasteel Armor Schematic 3",
+      "Name_EN": "Plasteel Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasteel Armor Schematic 3.png"
+    },
+    {
+      "Index": "heat_resistant_plasteel_armor_schematic_3",
+      "Name_FR": "Heat Resistant Plasteel Armor Schematic 3",
+      "Name_EN": "Heat Resistant Plasteel Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Plasteel Armor Schematic 3.png"
+    },
+    {
+      "Index": "cold_resistant_plasteel_armor_schematic_3",
+      "Name_FR": "Cold Resistant Plasteel Armor Schematic 3",
+      "Name_EN": "Cold Resistant Plasteel Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Plasteel Armor Schematic 3.png"
+    },
+    {
+      "Index": "lightweight_plasteel_armor_schematic_3",
+      "Name_FR": "Lightweight Plasteel Armor Schematic 3",
+      "Name_EN": "Lightweight Plasteel Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lightweight Plasteel Armor Schematic 3.png"
+    },
+    {
+      "Index": "plasteel_helmet_schematic_3",
+      "Name_FR": "Plasteel Helmet Schematic 3",
+      "Name_EN": "Plasteel Helmet Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasteel Helmet Schematic 3.png"
+    },
+    {
+      "Index": "leezpunk_hood_schematic_4",
+      "Name_FR": "Leezpunk Hood Schematic 4",
+      "Name_EN": "Leezpunk Hood Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Leezpunk Hood Schematic 4.png"
+    },
+    {
+      "Index": "killamari_cap_schematic_4",
+      "Name_FR": "Killamari Cap Schematic 4",
+      "Name_EN": "Killamari Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Killamari Cap Schematic 4.png"
+    },
+    {
+      "Index": "ribbuny_headband_schematic_4",
+      "Name_FR": "Ribbuny Headband Schematic 4",
+      "Name_EN": "Ribbuny Headband Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ribbuny Headband Schematic 4.png"
+    },
+    {
+      "Index": "swee_cap_schematic_4",
+      "Name_FR": "Swee Cap Schematic 4",
+      "Name_EN": "Swee Cap Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Swee Cap Schematic 4.png"
+    },
+    {
+      "Index": "dazzi_hat_schematic_4",
+      "Name_FR": "Dazzi Hat Schematic 4",
+      "Name_EN": "Dazzi Hat Schematic 4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dazzi Hat Schematic 4.png"
+    },
+    {
+      "Index": "poison_arrow_crossbow_schematic_3",
+      "Name_FR": "Poison Arrow Crossbow Schematic 3",
+      "Name_EN": "Poison Arrow Crossbow Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Poison Arrow Crossbow Schematic 3.png"
+    },
+    {
+      "Index": "fire_arrow_crossbow_schematic_3",
+      "Name_FR": "Fire Arrow Crossbow Schematic 3",
+      "Name_EN": "Fire Arrow Crossbow Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Arrow Crossbow Schematic 3.png"
+    },
+    {
+      "Index": "hexolite_helmet_schematic_3",
+      "Name_FR": "Hexolite Helmet Schematic 3",
+      "Name_EN": "Hexolite Helmet Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hexolite Helmet Schematic 3.png"
+    },
+    {
+      "Index": "hexolite_armor_schematic_3",
+      "Name_FR": "Hexolite Armor Schematic 3",
+      "Name_EN": "Hexolite Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hexolite Armor Schematic 3.png"
+    },
+    {
+      "Index": "heat_resistant_hexolite_armor_schematic_3",
+      "Name_FR": "Heat Resistant Hexolite Armor Schematic 3",
+      "Name_EN": "Heat Resistant Hexolite Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Heat Resistant Hexolite Armor Schematic 3.png"
+    },
+    {
+      "Index": "cold_resistant_hexolite_armor_schematic_3",
+      "Name_FR": "Cold Resistant Hexolite Armor Schematic 3",
+      "Name_EN": "Cold Resistant Hexolite Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cold Resistant Hexolite Armor Schematic 3.png"
+    },
+    {
+      "Index": "lightweight_hexolite_armor_schematic_3",
+      "Name_FR": "Lightweight Hexolite Armor Schematic 3",
+      "Name_EN": "Lightweight Hexolite Armor Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lightweight Hexolite Armor Schematic 3.png"
+    },
+    {
+      "Index": "laser_gatling_gun_schematic_3",
+      "Name_FR": "Laser Gatling Gun Schematic 3",
+      "Name_EN": "Laser Gatling Gun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laser Gatling Gun Schematic 3.png"
+    },
+    {
+      "Index": "plasma_cannon_schematic_3",
+      "Name_FR": "Plasma Cannon Schematic 3",
+      "Name_EN": "Plasma Cannon Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasma Cannon Schematic 3.png"
+    },
+    {
+      "Index": "semi_auto_shotgun_schematic_3",
+      "Name_FR": "Semi-Auto Shotgun Schematic 3",
+      "Name_EN": "Semi-Auto Shotgun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Semi-Auto Shotgun Schematic 3.png"
+    },
+    {
+      "Index": "old_revolver_schematic_3",
+      "Name_FR": "Old Revolver Schematic 3",
+      "Name_EN": "Old Revolver Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Old Revolver Schematic 3.png"
+    },
+    {
+      "Index": "makeshift_assault_rifle_schematic_3",
+      "Name_FR": "Makeshift Assault Rifle Schematic 3",
+      "Name_EN": "Makeshift Assault Rifle Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Assault Rifle Schematic 3.png"
+    },
+    {
+      "Index": "semi_auto_rifle_schematic_3",
+      "Name_FR": "Semi-Auto Rifle Schematic 3",
+      "Name_EN": "Semi-Auto Rifle Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Semi-Auto Rifle Schematic 3.png"
+    },
+    {
+      "Index": "makeshift_smg_schematic_3",
+      "Name_FR": "Makeshift SMG Schematic 3",
+      "Name_EN": "Makeshift SMG Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift SMG Schematic 3.png"
+    },
+    {
+      "Index": "smg_schematic_3",
+      "Name_FR": "SMG Schematic 3",
+      "Name_EN": "SMG Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/SMG Schematic 3.png"
+    },
+    {
+      "Index": "makeshift_shotgun_schematic_3",
+      "Name_FR": "Makeshift Shotgun Schematic 3",
+      "Name_EN": "Makeshift Shotgun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Shotgun Schematic 3.png"
+    },
+    {
+      "Index": "advanced_bow_schematic_3",
+      "Name_FR": "Advanced Bow Schematic 3",
+      "Name_EN": "Advanced Bow Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Advanced Bow Schematic 3.png"
+    },
+    {
+      "Index": "compound_bow_schematic_3",
+      "Name_FR": "Compound Bow Schematic 3",
+      "Name_EN": "Compound Bow Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Compound Bow Schematic 3.png"
+    },
+    {
+      "Index": "overheat_rifle_schematic_3",
+      "Name_FR": "Overheat Rifle Schematic 3",
+      "Name_EN": "Overheat Rifle Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Overheat Rifle Schematic 3.png"
+    },
+    {
+      "Index": "charge_rifle_schematic_3",
+      "Name_FR": "Charge Rifle Schematic 3",
+      "Name_EN": "Charge Rifle Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Charge Rifle Schematic 3.png"
+    },
+    {
+      "Index": "energy_shotgun_schematic_3",
+      "Name_FR": "Energy Shotgun Schematic 3",
+      "Name_EN": "Energy Shotgun Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Energy Shotgun Schematic 3.png"
+    },
+    {
+      "Index": "excalibur_schematic_3",
+      "Name_FR": "Excalibur Schematic 3",
+      "Name_EN": "Excalibur Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Excalibur Schematic 3.png"
+    },
+    {
+      "Index": "terraprisma_schematic_3",
+      "Name_FR": "Terraprisma Schematic 3",
+      "Name_EN": "Terraprisma Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Terraprisma Schematic 3.png"
+    },
+    {
+      "Index": "vortex_beater_schematic_3",
+      "Name_FR": "Vortex Beater Schematic 3",
+      "Name_EN": "Vortex Beater Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Vortex Beater Schematic 3.png"
+    },
+    {
+      "Index": "nightglow_schematic_3",
+      "Name_FR": "Nightglow Schematic 3",
+      "Name_EN": "Nightglow Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nightglow Schematic 3.png"
+    },
+    {
+      "Index": "terra_blade_schematic_3",
+      "Name_FR": "Terra Blade Schematic 3",
+      "Name_EN": "Terra Blade Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Terra Blade Schematic 3.png"
+    },
+    {
+      "Index": "hallowed_mask_schematic_3",
+      "Name_FR": "Hallowed Mask Schematic 3",
+      "Name_EN": "Hallowed Mask Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Mask Schematic 3.png"
+    },
+    {
+      "Index": "hallowed_headgear_schematic_3",
+      "Name_FR": "Hallowed Headgear Schematic 3",
+      "Name_EN": "Hallowed Headgear Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Headgear Schematic 3.png"
+    },
+    {
+      "Index": "hallowed_plate_mail_schematic_3",
+      "Name_FR": "Hallowed Plate Mail Schematic 3",
+      "Name_EN": "Hallowed Plate Mail Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Plate Mail Schematic 3.png"
+    },
+    {
+      "Index": "hallowed_helmet_schematic_3",
+      "Name_FR": "Hallowed Helmet Schematic 3",
+      "Name_EN": "Hallowed Helmet Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Helmet Schematic 3.png"
+    },
+    {
+      "Index": "hallowed_hood_schematic_3",
+      "Name_FR": "Hallowed Hood Schematic 3",
+      "Name_EN": "Hallowed Hood Schematic 3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Hood Schematic 3.png"
+    },
+    {
+      "Index": "future_technical_manual",
+      "Name_FR": "Future Technical Manual",
+      "Name_EN": "Future Technical Manual",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Future Technical Manual.png"
+    },
+    {
+      "Index": "skill_fruit_pal_blast",
+      "Name_FR": "Skill Fruit: Pal Blast",
+      "Name_EN": "Skill Fruit: Pal Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Skill Fruit: Pal Blast.png"
+    },
+    {
+      "Index": "grass_skill_fruit_solar_blast",
+      "Name_FR": "Grass Skill Fruit: Solar Blast",
+      "Name_EN": "Grass Skill Fruit: Solar Blast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Solar Blast.png"
+    },
+    {
+      "Index": "water_skill_fruit_hydro_laser",
+      "Name_FR": "Water Skill Fruit: Hydro Laser",
+      "Name_EN": "Water Skill Fruit: Hydro Laser",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Hydro Laser.png"
+    },
+    {
+      "Index": "fire_skill_fruit_fire_ball",
+      "Name_FR": "Fire Skill Fruit: Fire Ball",
+      "Name_EN": "Fire Skill Fruit: Fire Ball",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Fire Ball.png"
+    },
+    {
+      "Index": "fire_skill_fruit_ignis_rage",
+      "Name_FR": "Fire Skill Fruit: Ignis Rage",
+      "Name_EN": "Fire Skill Fruit: Ignis Rage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Ignis Rage.png"
+    },
+    {
+      "Index": "electric_skill_fruit_lightning_bolt",
+      "Name_FR": "Electric Skill Fruit: Lightning Bolt",
+      "Name_EN": "Electric Skill Fruit: Lightning Bolt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Lightning Bolt.png"
+    },
+    {
+      "Index": "electric_skill_fruit_lightning_strike",
+      "Name_FR": "Electric Skill Fruit: Lightning Strike",
+      "Name_EN": "Electric Skill Fruit: Lightning Strike",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Lightning Strike.png"
+    },
+    {
+      "Index": "earth_skill_fruit_rock_lance",
+      "Name_FR": "Earth Skill Fruit: Rock Lance",
+      "Name_EN": "Earth Skill Fruit: Rock Lance",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Rock Lance.png"
+    },
+    {
+      "Index": "ice_skill_fruit_blizzard_spike",
+      "Name_FR": "Ice Skill Fruit: Blizzard Spike",
+      "Name_EN": "Ice Skill Fruit: Blizzard Spike",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Blizzard Spike.png"
+    },
+    {
+      "Index": "dark_skill_fruit_psycho_gravity",
+      "Name_FR": "Dark Skill Fruit: Psycho Gravity",
+      "Name_EN": "Dark Skill Fruit: Psycho Gravity",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Psycho Gravity.png"
+    },
+    {
+      "Index": "dark_skill_fruit_dark_laser",
+      "Name_FR": "Dark Skill Fruit: Dark Laser",
+      "Name_EN": "Dark Skill Fruit: Dark Laser",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Dark Laser.png"
+    },
+    {
+      "Index": "dragon_skill_fruit_dragon_meteor",
+      "Name_FR": "Dragon Skill Fruit: Dragon Meteor",
+      "Name_EN": "Dragon Skill Fruit: Dragon Meteor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Skill Fruit: Dragon Meteor.png"
+    },
+    {
+      "Index": "gold_key",
+      "Name_FR": "Gold Key",
+      "Name_EN": "Gold Key",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gold Key.png"
+    },
+    {
+      "Index": "bellanoir_liberos_slab",
+      "Name_FR": "Bellanoir Libero's Slab",
+      "Name_EN": "Bellanoir Libero's Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bellanoir Libero's Slab.png"
+    },
+    {
+      "Index": "vital_remedy",
+      "Name_FR": "Vital Remedy",
+      "Name_EN": "Vital Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Vital Remedy.png"
+    },
+    {
+      "Index": "stamina_remedy",
+      "Name_FR": "Stamina Remedy",
+      "Name_EN": "Stamina Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stamina Remedy.png"
+    },
+    {
+      "Index": "might_remedy",
+      "Name_FR": "Might Remedy",
+      "Name_EN": "Might Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Might Remedy.png"
+    },
+    {
+      "Index": "speed_remedy",
+      "Name_FR": "Speed Remedy",
+      "Name_EN": "Speed Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Speed Remedy.png"
+    },
+    {
+      "Index": "burden_remedy",
+      "Name_FR": "Burden Remedy",
+      "Name_EN": "Burden Remedy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Burden Remedy.png"
+    },
+    {
+      "Index": "training_manual_l",
+      "Name_FR": "Training Manual (L)",
+      "Name_EN": "Training Manual (L)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Training Manual (L).png"
+    },
+    {
+      "Index": "all_purpose_pal_extract1",
+      "Name_FR": "All-Purpose Pal Extract☆1",
+      "Name_EN": "All-Purpose Pal Extract☆1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/All-Purpose Pal Extract☆1.png"
+    },
+    {
+      "Index": "all_purpose_pal_extract2",
+      "Name_FR": "All-Purpose Pal Extract☆2",
+      "Name_EN": "All-Purpose Pal Extract☆2",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/All-Purpose Pal Extract☆2.png"
+    },
+    {
+      "Index": "all_purpose_pal_extract3",
+      "Name_FR": "All-Purpose Pal Extract☆3",
+      "Name_EN": "All-Purpose Pal Extract☆3",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/All-Purpose Pal Extract☆3.png"
+    },
+    {
+      "Index": "all_purpose_pal_extract4",
+      "Name_FR": "All-Purpose Pal Extract☆4",
+      "Name_EN": "All-Purpose Pal Extract☆4",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/All-Purpose Pal Extract☆4.png"
+    },
+    {
+      "Index": "blazamut_ryu_slab",
+      "Name_FR": "Blazamut Ryu Slab",
+      "Name_EN": "Blazamut Ryu Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Blazamut Ryu Slab.png"
+    },
+    {
+      "Index": "grass_skill_fruit_circle_vine",
+      "Name_FR": "Grass Skill Fruit: Circle Vine",
+      "Name_EN": "Grass Skill Fruit: Circle Vine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Circle Vine.png"
+    },
+    {
+      "Index": "water_skill_fruit_wall_splash",
+      "Name_FR": "Water Skill Fruit: Wall Splash",
+      "Name_EN": "Water Skill Fruit: Wall Splash",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Wall Splash.png"
+    },
+    {
+      "Index": "fire_skill_fruit_volcanic_rain",
+      "Name_FR": "Fire Skill Fruit: Volcanic Rain",
+      "Name_EN": "Fire Skill Fruit: Volcanic Rain",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Volcanic Rain.png"
+    },
+    {
+      "Index": "electric_skill_fruit_thunder_rain",
+      "Name_FR": "Electric Skill Fruit: Thunder Rain",
+      "Name_EN": "Electric Skill Fruit: Thunder Rain",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Thunder Rain.png"
+    },
+    {
+      "Index": "electric_skill_fruit_thunderstorm",
+      "Name_FR": "Electric Skill Fruit: Thunderstorm",
+      "Name_EN": "Electric Skill Fruit: Thunderstorm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Electric Skill Fruit: Thunderstorm.png"
+    },
+    {
+      "Index": "earth_skill_fruit_rockburst",
+      "Name_FR": "Earth Skill Fruit: Rockburst",
+      "Name_EN": "Earth Skill Fruit: Rockburst",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Rockburst.png"
+    },
+    {
+      "Index": "earth_skill_fruit_sand_twister",
+      "Name_FR": "Earth Skill Fruit: Sand Twister",
+      "Name_EN": "Earth Skill Fruit: Sand Twister",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Sand Twister.png"
+    },
+    {
+      "Index": "ice_skill_fruit_icicle_line",
+      "Name_FR": "Ice Skill Fruit: Icicle Line",
+      "Name_EN": "Ice Skill Fruit: Icicle Line",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Icicle Line.png"
+    },
+    {
+      "Index": "ice_skill_fruit_diamond_rain",
+      "Name_FR": "Ice Skill Fruit: Diamond Rain",
+      "Name_EN": "Ice Skill Fruit: Diamond Rain",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Diamond Rain.png"
+    },
+    {
+      "Index": "dark_skill_fruit_apocalypse",
+      "Name_FR": "Dark Skill Fruit: Apocalypse",
+      "Name_EN": "Dark Skill Fruit: Apocalypse",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Apocalypse.png"
+    },
+    {
+      "Index": "dragon_skill_fruit_beam_slicer",
+      "Name_FR": "Dragon Skill Fruit: Beam Slicer",
+      "Name_EN": "Dragon Skill Fruit: Beam Slicer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Skill Fruit: Beam Slicer.png"
+    },
+    {
+      "Index": "skill_fruit_holy_burst",
+      "Name_FR": "Skill Fruit: Holy Burst",
+      "Name_EN": "Skill Fruit: Holy Burst",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Skill Fruit: Holy Burst.png"
+    },
+    {
+      "Index": "fire_skill_fruit_flame_funnel",
+      "Name_FR": "Fire Skill Fruit: Flame Funnel",
+      "Name_EN": "Fire Skill Fruit: Flame Funnel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Skill Fruit: Flame Funnel.png"
+    },
+    {
+      "Index": "xenolord_slab",
+      "Name_FR": "Xenolord Slab",
+      "Name_EN": "Xenolord Slab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Xenolord Slab.png"
+    },
+    {
+      "Index": "revival_potion",
+      "Name_FR": "Revival Potion",
+      "Name_EN": "Revival Potion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Revival Potion.png"
+    },
+    {
+      "Index": "advanced_recovery_meds",
+      "Name_FR": "Advanced Recovery Meds",
+      "Name_EN": "Advanced Recovery Meds",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Advanced Recovery Meds.png"
+    },
+    {
+      "Index": "celestial_sigil",
+      "Name_FR": "Celestial Sigil",
+      "Name_EN": "Celestial Sigil",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Celestial Sigil.png"
+    },
+    {
+      "Index": "fishing_magnet",
+      "Name_FR": "Fishing Magnet",
+      "Name_EN": "Fishing Magnet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fishing Magnet.png"
+    },
+    {
+      "Index": "powerful_fishing_magnet",
+      "Name_FR": "Powerful Fishing Magnet",
+      "Name_EN": "Powerful Fishing Magnet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Powerful Fishing Magnet.png"
+    },
+    {
+      "Index": "grass_skill_fruit_reflect_leaf",
+      "Name_FR": "Grass Skill Fruit: Reflect Leaf",
+      "Name_EN": "Grass Skill Fruit: Reflect Leaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Reflect Leaf.png"
+    },
+    {
+      "Index": "water_skill_fruit_hydro_slicer",
+      "Name_FR": "Water Skill Fruit: Hydro Slicer",
+      "Name_EN": "Water Skill Fruit: Hydro Slicer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Hydro Slicer.png"
+    },
+    {
+      "Index": "earth_skill_fruit_stone_beat",
+      "Name_FR": "Earth Skill Fruit: Stone Beat",
+      "Name_EN": "Earth Skill Fruit: Stone Beat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Earth Skill Fruit: Stone Beat.png"
+    },
+    {
+      "Index": "treasure_map",
+      "Name_FR": "Treasure Map",
+      "Name_EN": "Treasure Map",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Treasure Map.png"
+    },
+    {
+      "Index": "dark_skill_fruit_dark_wisp",
+      "Name_FR": "Dark Skill Fruit: Dark Wisp",
+      "Name_EN": "Dark Skill Fruit: Dark Wisp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dark Skill Fruit: Dark Wisp.png"
+    },
+    {
+      "Index": "dragon_skill_fruit_charge_cannon",
+      "Name_FR": "Dragon Skill Fruit: Charge Cannon",
+      "Name_EN": "Dragon Skill Fruit: Charge Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dragon Skill Fruit: Charge Cannon.png"
+    },
+    {
+      "Index": "thunder_skill_fruit_all_range_thunder",
+      "Name_FR": "Thunder Skill Fruit: All Range Thunder",
+      "Name_EN": "Thunder Skill Fruit: All Range Thunder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Thunder Skill Fruit: All Range Thunder.png"
+    },
+    {
+      "Index": "life_crystal",
+      "Name_FR": "Life Crystal",
+      "Name_EN": "Life Crystal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Life Crystal.png"
+    },
+    {
+      "Index": "alluring_bait",
+      "Name_FR": "Alluring Bait",
+      "Name_EN": "Alluring Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Alluring Bait.png"
+    },
+    {
+      "Index": "risky_bait",
+      "Name_FR": "Risky Bait",
+      "Name_EN": "Risky Bait",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Risky Bait.png"
+    },
+    {
+      "Index": "water_skill_fruit_aqua_surge",
+      "Name_FR": "Water Skill Fruit: Aqua Surge",
+      "Name_EN": "Water Skill Fruit: Aqua Surge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Water Skill Fruit: Aqua Surge.png"
+    },
+    {
+      "Index": "grass_skill_fruit_crosswind",
+      "Name_FR": "Grass Skill Fruit: Crosswind",
+      "Name_EN": "Grass Skill Fruit: Crosswind",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grass Skill Fruit: Crosswind.png"
+    },
+    {
+      "Index": "ice_skill_fruit_absolute_frost",
+      "Name_FR": "Ice Skill Fruit: Absolute Frost",
+      "Name_EN": "Ice Skill Fruit: Absolute Frost",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Skill Fruit: Absolute Frost.png"
+    },
+    {
+      "Index": "jormuntide_ignis_saddle",
+      "Name_FR": "Jormuntide Ignis Saddle",
+      "Name_EN": "Jormuntide Ignis Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jormuntide Ignis Saddle.png"
+    },
+    {
+      "Index": "mammorest_cryst_saddle",
+      "Name_FR": "Mammorest Cryst Saddle",
+      "Name_EN": "Mammorest Cryst Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mammorest Cryst Saddle.png"
+    },
+    {
+      "Index": "pyrin_noct_saddle",
+      "Name_FR": "Pyrin Noct Saddle",
+      "Name_EN": "Pyrin Noct Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pyrin Noct Saddle.png"
+    },
+    {
+      "Index": "blazehowl_noct_saddle",
+      "Name_FR": "Blazehowl Noct Saddle",
+      "Name_EN": "Blazehowl Noct Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Blazehowl Noct Saddle.png"
+    },
+    {
+      "Index": "suzaku_aqua_saddle",
+      "Name_FR": "Suzaku Aqua Saddle",
+      "Name_EN": "Suzaku Aqua Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Suzaku Aqua Saddle.png"
+    },
+    {
+      "Index": "reptyro_cryst_saddle",
+      "Name_FR": "Reptyro Cryst Saddle",
+      "Name_EN": "Reptyro Cryst Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Reptyro Cryst Saddle.png"
+    },
+    {
+      "Index": "mossanda_luxs_grenade_launcher",
+      "Name_FR": "Mossanda Lux's Grenade Launcher",
+      "Name_EN": "Mossanda Lux's Grenade Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mossanda Lux's Grenade Launcher.png"
+    },
+    {
+      "Index": "wumpo_botan_saddle",
+      "Name_FR": "Wumpo Botan Saddle",
+      "Name_EN": "Wumpo Botan Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wumpo Botan Saddle.png"
+    },
+    {
+      "Index": "jormuntide_saddle",
+      "Name_FR": "Jormuntide Saddle",
+      "Name_EN": "Jormuntide Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jormuntide Saddle.png"
+    },
+    {
+      "Index": "mammorest_saddle",
+      "Name_FR": "Mammorest Saddle",
+      "Name_EN": "Mammorest Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mammorest Saddle.png"
+    },
+    {
+      "Index": "pyrin_saddle",
+      "Name_FR": "Pyrin Saddle",
+      "Name_EN": "Pyrin Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pyrin Saddle.png"
+    },
+    {
+      "Index": "azurobe_saddle",
+      "Name_FR": "Azurobe Saddle",
+      "Name_EN": "Azurobe Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Azurobe Saddle.png"
+    },
+    {
+      "Index": "fenglope_saddle",
+      "Name_FR": "Fenglope Saddle",
+      "Name_EN": "Fenglope Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fenglope Saddle.png"
+    },
+    {
+      "Index": "blazehowl_saddle",
+      "Name_FR": "Blazehowl Saddle",
+      "Name_EN": "Blazehowl Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Blazehowl Saddle.png"
+    },
+    {
+      "Index": "suzaku_saddle",
+      "Name_FR": "Suzaku Saddle",
+      "Name_EN": "Suzaku Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Suzaku Saddle.png"
+    },
+    {
+      "Index": "reptyro_saddle",
+      "Name_FR": "Reptyro Saddle",
+      "Name_EN": "Reptyro Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Reptyro Saddle.png"
+    },
+    {
+      "Index": "kitsun_saddle",
+      "Name_FR": "Kitsun Saddle",
+      "Name_EN": "Kitsun Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Kitsun Saddle.png"
+    },
+    {
+      "Index": "faleris_saddle",
+      "Name_FR": "Faleris Saddle",
+      "Name_EN": "Faleris Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Faleris Saddle.png"
+    },
+    {
+      "Index": "blazamut_saddle",
+      "Name_FR": "Blazamut Saddle",
+      "Name_EN": "Blazamut Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Blazamut Saddle.png"
+    },
+    {
+      "Index": "reindrix_saddle",
+      "Name_FR": "Reindrix Saddle",
+      "Name_EN": "Reindrix Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Reindrix Saddle.png"
+    },
+    {
+      "Index": "yakumo_saddle",
+      "Name_FR": "Yakumo Saddle",
+      "Name_EN": "Yakumo Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Yakumo Saddle.png"
+    },
+    {
+      "Index": "quivern_saddle",
+      "Name_FR": "Quivern Saddle",
+      "Name_EN": "Quivern Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Quivern Saddle.png"
+    },
+    {
+      "Index": "rayhound_saddle",
+      "Name_FR": "Rayhound Saddle",
+      "Name_EN": "Rayhound Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rayhound Saddle.png"
+    },
+    {
+      "Index": "mossandas_grenade_launcher",
+      "Name_FR": "Mossanda's Grenade Launcher",
+      "Name_EN": "Mossanda's Grenade Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mossanda's Grenade Launcher.png"
+    },
+    {
+      "Index": "wumpo_saddle",
+      "Name_FR": "Wumpo Saddle",
+      "Name_EN": "Wumpo Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wumpo Saddle.png"
+    },
+    {
+      "Index": "helzephyr_saddle",
+      "Name_FR": "Helzephyr Saddle",
+      "Name_EN": "Helzephyr Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Helzephyr Saddle.png"
+    },
+    {
+      "Index": "beakon_saddle",
+      "Name_FR": "Beakon Saddle",
+      "Name_EN": "Beakon Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Beakon Saddle.png"
+    },
+    {
+      "Index": "ragnahawk_saddle",
+      "Name_FR": "Ragnahawk Saddle",
+      "Name_EN": "Ragnahawk Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ragnahawk Saddle.png"
+    },
+    {
+      "Index": "huge_feed_bag",
+      "Name_FR": "Huge Feed Bag",
+      "Name_EN": "Huge Feed Bag",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Huge Feed Bag.png"
+    },
+    {
+      "Index": "mysterious_accessory_box",
+      "Name_FR": "Mysterious Accessory Box",
+      "Name_EN": "Mysterious Accessory Box",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mysterious Accessory Box.png"
+    },
+    {
+      "Index": "lockpicking_tool_v2",
+      "Name_FR": "Lockpicking Tool v2",
+      "Name_EN": "Lockpicking Tool v2",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lockpicking Tool v2.png"
+    },
+    {
+      "Index": "giant_pouch",
+      "Name_FR": "Giant Pouch",
+      "Name_EN": "Giant Pouch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Giant Pouch.png"
+    },
+    {
+      "Index": "tarantriss_saddle",
+      "Name_FR": "Tarantriss Saddle",
+      "Name_EN": "Tarantriss Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tarantriss Saddle.png"
+    },
+    {
+      "Index": "implant_philanthropist",
+      "Name_FR": "Implant: Philanthropist",
+      "Name_EN": "Implant: Philanthropist",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Philanthropist.png"
+    },
+    {
+      "Index": "implant_serenity",
+      "Name_FR": "Implant: Serenity",
+      "Name_EN": "Implant: Serenity",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Serenity.png"
+    },
+    {
+      "Index": "implant_infinite_stamina",
+      "Name_FR": "Implant: Infinite Stamina",
+      "Name_EN": "Implant: Infinite Stamina",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Infinite Stamina.png"
+    },
+    {
+      "Index": "implant_runner",
+      "Name_FR": "Implant: Runner",
+      "Name_EN": "Implant: Runner",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Runner.png"
+    },
+    {
+      "Index": "implant_diet_lover",
+      "Name_FR": "Implant: Diet Lover",
+      "Name_EN": "Implant: Diet Lover",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Diet Lover.png"
+    },
+    {
+      "Index": "implant_workaholic",
+      "Name_FR": "Implant: Workaholic",
+      "Name_EN": "Implant: Workaholic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Workaholic.png"
+    },
+    {
+      "Index": "implant_ferocious",
+      "Name_FR": "Implant: Ferocious",
+      "Name_EN": "Implant: Ferocious",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Ferocious.png"
+    },
+    {
+      "Index": "implant_burly_body",
+      "Name_FR": "Implant: Burly Body",
+      "Name_EN": "Implant: Burly Body",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Burly Body.png"
+    },
+    {
+      "Index": "implant_artisan",
+      "Name_FR": "Implant: Artisan",
+      "Name_EN": "Implant: Artisan",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Artisan.png"
+    },
+    {
+      "Index": "whalaska_saddle",
+      "Name_FR": "Whalaska Saddle",
+      "Name_EN": "Whalaska Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Whalaska Saddle.png"
+    },
+    {
+      "Index": "whalaska_ignis_saddle",
+      "Name_FR": "Whalaska Ignis Saddle",
+      "Name_EN": "Whalaska Ignis Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Whalaska Ignis Saddle.png"
+    },
+    {
+      "Index": "mammorest_curry",
+      "Name_FR": "Mammorest Curry",
+      "Name_EN": "Mammorest Curry",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mammorest Curry.png"
+    },
+    {
+      "Index": "galeclaw_nikujaga",
+      "Name_FR": "Galeclaw Nikujaga",
+      "Name_EN": "Galeclaw Nikujaga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Galeclaw Nikujaga.png"
+    },
+    {
+      "Index": "mushroom_quiche",
+      "Name_FR": "Mushroom Quiche",
+      "Name_EN": "Mushroom Quiche",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mushroom Quiche.png"
+    },
+    {
+      "Index": "hyper_glider",
+      "Name_FR": "Hyper Glider",
+      "Name_EN": "Hyper Glider",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hyper Glider.png"
+    },
+    {
+      "Index": "hyper_glider",
+      "Name_FR": "Hyper Glider",
+      "Name_EN": "Hyper Glider",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hyper Glider.png"
+    },
+    {
+      "Index": "emerald",
+      "Name_FR": "Emerald",
+      "Name_EN": "Emerald",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Emerald.png"
+    },
+    {
+      "Index": "diamond",
+      "Name_FR": "Diamond",
+      "Name_EN": "Diamond",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Diamond.png"
+    },
+    {
+      "Index": "large_common_egg",
+      "Name_FR": "Large Common Egg",
+      "Name_EN": "Large Common Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Common Egg.png"
+    },
+    {
+      "Index": "large_scorching_egg",
+      "Name_FR": "Large Scorching Egg",
+      "Name_EN": "Large Scorching Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Scorching Egg.png"
+    },
+    {
+      "Index": "large_damp_egg",
+      "Name_FR": "Large Damp Egg",
+      "Name_EN": "Large Damp Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Damp Egg.png"
+    },
+    {
+      "Index": "large_verdant_egg",
+      "Name_FR": "Large Verdant Egg",
+      "Name_EN": "Large Verdant Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Verdant Egg.png"
+    },
+    {
+      "Index": "large_electric_egg",
+      "Name_FR": "Large Electric Egg",
+      "Name_EN": "Large Electric Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Electric Egg.png"
+    },
+    {
+      "Index": "large_frozen_egg",
+      "Name_FR": "Large Frozen Egg",
+      "Name_EN": "Large Frozen Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Frozen Egg.png"
+    },
+    {
+      "Index": "large_rocky_egg",
+      "Name_FR": "Large Rocky Egg",
+      "Name_EN": "Large Rocky Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Rocky Egg.png"
+    },
+    {
+      "Index": "large_dark_egg",
+      "Name_FR": "Large Dark Egg",
+      "Name_EN": "Large Dark Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Dark Egg.png"
+    },
+    {
+      "Index": "large_dragon_egg",
+      "Name_FR": "Large Dragon Egg",
+      "Name_EN": "Large Dragon Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Dragon Egg.png"
+    },
+    {
+      "Index": "large_pal_soul",
+      "Name_FR": "Large Pal Soul",
+      "Name_EN": "Large Pal Soul",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Large Pal Soul.png"
+    },
+    {
+      "Index": "life_lotus_s",
+      "Name_FR": "Life Lotus (S)",
+      "Name_EN": "Life Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Life Lotus (S).png"
+    },
+    {
+      "Index": "stamina_lotus_s",
+      "Name_FR": "Stamina Lotus (S)",
+      "Name_EN": "Stamina Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stamina Lotus (S).png"
+    },
+    {
+      "Index": "power_lotus_s",
+      "Name_FR": "Power Lotus (S)",
+      "Name_EN": "Power Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Power Lotus (S).png"
+    },
+    {
+      "Index": "speed_lotus_s",
+      "Name_FR": "Speed Lotus (S)",
+      "Name_EN": "Speed Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Speed Lotus (S).png"
+    },
+    {
+      "Index": "carrying_lotus_s",
+      "Name_FR": "Carrying Lotus (S)",
+      "Name_EN": "Carrying Lotus (S)",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Carrying Lotus (S).png"
+    },
+    {
+      "Index": "dog_coin",
+      "Name_FR": "Dog Coin",
+      "Name_EN": "Dog Coin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dog Coin.png"
+    },
+    {
+      "Index": "predator_core",
+      "Name_FR": "Predator Core",
+      "Name_EN": "Predator Core",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Predator Core.png"
+    },
+    {
+      "Index": "successful_bounty_token",
+      "Name_FR": "Successful Bounty Token",
+      "Name_EN": "Successful Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Successful Bounty Token.png"
+    },
+    {
+      "Index": "battle_ticket",
+      "Name_FR": "Battle Ticket",
+      "Name_EN": "Battle Ticket",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Battle Ticket.png"
+    },
+    {
+      "Index": "ultra_sphere",
+      "Name_FR": "Ultra Sphere",
+      "Name_EN": "Ultra Sphere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ultra Sphere.png"
+    },
+    {
+      "Index": "hyper_grappling_gun",
+      "Name_FR": "Hyper Grappling Gun",
+      "Name_EN": "Hyper Grappling Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hyper Grappling Gun.png"
+    },
+    {
+      "Index": "old_bow",
+      "Name_FR": "Old Bow",
+      "Name_EN": "Old Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Old Bow.png"
+    },
+    {
+      "Index": "crossbow",
+      "Name_FR": "Crossbow",
+      "Name_EN": "Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Crossbow.png"
+    },
+    {
+      "Index": "assault_rifle",
+      "Name_FR": "Assault Rifle",
+      "Name_EN": "Assault Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Assault Rifle.png"
+    },
+    {
+      "Index": "pump_action_shotgun",
+      "Name_FR": "Pump-Action Shotgun",
+      "Name_EN": "Pump-Action Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pump-Action Shotgun.png"
+    },
+    {
+      "Index": "handgun",
+      "Name_FR": "Handgun",
+      "Name_EN": "Handgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Handgun.png"
+    },
+    {
+      "Index": "rocket_launcher",
+      "Name_FR": "Rocket Launcher",
+      "Name_EN": "Rocket Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rocket Launcher.png"
+    },
+    {
+      "Index": "musket",
+      "Name_FR": "Musket",
+      "Name_EN": "Musket",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Musket.png"
+    },
+    {
+      "Index": "double_barreled_shotgun",
+      "Name_FR": "Double-Barreled Shotgun",
+      "Name_EN": "Double-Barreled Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Double-Barreled Shotgun.png"
+    },
+    {
+      "Index": "single_shot_rifle",
+      "Name_FR": "Single-Shot Rifle",
+      "Name_EN": "Single-Shot Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Single-Shot Rifle.png"
+    },
+    {
+      "Index": "makeshift_handgun",
+      "Name_FR": "Makeshift Handgun",
+      "Name_EN": "Makeshift Handgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Handgun.png"
+    },
+    {
+      "Index": "laser_rifle",
+      "Name_FR": "Laser Rifle",
+      "Name_EN": "Laser Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laser Rifle.png"
+    },
+    {
+      "Index": "grenade_launcher",
+      "Name_FR": "Grenade Launcher",
+      "Name_EN": "Grenade Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grenade Launcher.png"
+    },
+    {
+      "Index": "guided_missile_launcher",
+      "Name_FR": "Guided Missile Launcher",
+      "Name_EN": "Guided Missile Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Guided Missile Launcher.png"
+    },
+    {
+      "Index": "multi_guided_missile_launcher",
+      "Name_FR": "Multi Guided Missile Launcher",
+      "Name_EN": "Multi Guided Missile Launcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Multi Guided Missile Launcher.png"
+    },
+    {
+      "Index": "gatling_gun",
+      "Name_FR": "Gatling Gun",
+      "Name_EN": "Gatling Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gatling Gun.png"
+    },
+    {
+      "Index": "poison_arrow_crossbow",
+      "Name_FR": "Poison Arrow Crossbow",
+      "Name_EN": "Poison Arrow Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Poison Arrow Crossbow.png"
+    },
+    {
+      "Index": "fire_arrow_crossbow",
+      "Name_FR": "Fire Arrow Crossbow",
+      "Name_EN": "Fire Arrow Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fire Arrow Crossbow.png"
+    },
+    {
+      "Index": "laser_gatling_gun",
+      "Name_FR": "Laser Gatling Gun",
+      "Name_EN": "Laser Gatling Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laser Gatling Gun.png"
+    },
+    {
+      "Index": "plasma_cannon",
+      "Name_FR": "Plasma Cannon",
+      "Name_EN": "Plasma Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Plasma Cannon.png"
+    },
+    {
+      "Index": "semi_auto_shotgun",
+      "Name_FR": "Semi-Auto Shotgun",
+      "Name_EN": "Semi-Auto Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Semi-Auto Shotgun.png"
+    },
+    {
+      "Index": "old_revolver",
+      "Name_FR": "Old Revolver",
+      "Name_EN": "Old Revolver",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Old Revolver.png"
+    },
+    {
+      "Index": "makeshift_assault_rifle",
+      "Name_FR": "Makeshift Assault Rifle",
+      "Name_EN": "Makeshift Assault Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Assault Rifle.png"
+    },
+    {
+      "Index": "semi_auto_rifle",
+      "Name_FR": "Semi-Auto Rifle",
+      "Name_EN": "Semi-Auto Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Semi-Auto Rifle.png"
+    },
+    {
+      "Index": "makeshift_smg",
+      "Name_FR": "Makeshift SMG",
+      "Name_EN": "Makeshift SMG",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift SMG.png"
+    },
+    {
+      "Index": "smg",
+      "Name_FR": "SMG",
+      "Name_EN": "SMG",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/SMG.png"
+    },
+    {
+      "Index": "makeshift_shotgun",
+      "Name_FR": "Makeshift Shotgun",
+      "Name_EN": "Makeshift Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Makeshift Shotgun.png"
+    },
+    {
+      "Index": "advanced_bow",
+      "Name_FR": "Advanced Bow",
+      "Name_EN": "Advanced Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Advanced Bow.png"
+    },
+    {
+      "Index": "compound_bow",
+      "Name_FR": "Compound Bow",
+      "Name_EN": "Compound Bow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Compound Bow.png"
+    },
+    {
+      "Index": "energy_shotgun",
+      "Name_FR": "Energy Shotgun",
+      "Name_EN": "Energy Shotgun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Energy Shotgun.png"
+    },
+    {
+      "Index": "charge_rifle",
+      "Name_FR": "Charge Rifle",
+      "Name_EN": "Charge Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Charge Rifle.png"
+    },
+    {
+      "Index": "overheat_rifle",
+      "Name_FR": "Overheat Rifle",
+      "Name_EN": "Overheat Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Overheat Rifle.png"
+    },
+    {
+      "Index": "terra_blade",
+      "Name_FR": "Terra Blade",
+      "Name_EN": "Terra Blade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Terra Blade.png"
+    },
+    {
+      "Index": "terraprisma",
+      "Name_FR": "Terraprisma",
+      "Name_EN": "Terraprisma",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Terraprisma.png"
+    },
+    {
+      "Index": "vortex_beater",
+      "Name_FR": "Vortex Beater",
+      "Name_EN": "Vortex Beater",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Vortex Beater.png"
+    },
+    {
+      "Index": "nightglow",
+      "Name_FR": "Nightglow",
+      "Name_EN": "Nightglow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nightglow.png"
+    },
+    {
+      "Index": "excalibur",
+      "Name_FR": "Excalibur",
+      "Name_EN": "Excalibur",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Excalibur.png"
+    }
+  ]
+}

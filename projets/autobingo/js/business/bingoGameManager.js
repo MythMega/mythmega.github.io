@@ -255,6 +255,45 @@
         }
 
         /**
+        /**
+         * Set all cell quantities to 1
+         */
+        setAllQuantitiesToOne() {
+            if (!this.isQuantizable) return;
+            this.cells.forEach(cell => {
+                cell.quantity = 1;
+            });
+        }
+
+        /**
+         * Find indices of cells that have duplicate items in the grid
+         * @returns {number[]} Array of cell indices that are duplicates
+         */
+        findDuplicateCells() {
+            const itemCount = new Map();
+            const cellItemIndices = this.cells.map(cell => this.allItems.indexOf(cell.item));
+
+            // Count occurrences of each item
+            cellItemIndices.forEach((itemIdx, cellIdx) => {
+                if (!itemCount.has(itemIdx)) {
+                    itemCount.set(itemIdx, []);
+                }
+                itemCount.get(itemIdx).push(cellIdx);
+            });
+
+            // Collect all cell indices that have duplicates
+            const duplicateCells = [];
+            itemCount.forEach((cellIndices, itemIdx) => {
+                if (cellIndices.length > 1) {
+                    duplicateCells.push(...cellIndices);
+                }
+            });
+
+            return duplicateCells;
+        }
+
+        /**
+
          * Toggle cell validation
          * @param {number} index
          */

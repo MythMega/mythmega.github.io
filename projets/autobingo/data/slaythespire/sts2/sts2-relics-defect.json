@@ -1,0 +1,1568 @@
+{
+  "Name": "Slay The Spire 2 - Relics - Defect",
+  "Category": "Slay The Spire 2",
+  "Subcategory": "Relics",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "1",
+      "Name_FR": "Cracked Core",
+      "Name_EN": "Cracked Core",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Cracked_Core.png"
+    },
+    {
+      "Index": "2",
+      "Name_FR": "Infused Core",
+      "Name_EN": "Infused Core",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Infused_Core.png"
+    },
+    {
+      "Index": "3",
+      "Name_FR": "Data Disk",
+      "Name_EN": "Data Disk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Data_Disk.png"
+    },
+    {
+      "Index": "4",
+      "Name_FR": "Gold-Plated Cables",
+      "Name_EN": "Gold-Plated Cables",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Gold-Plated_Cables.png"
+    },
+    {
+      "Index": "5",
+      "Name_FR": "Symbiotic Virus",
+      "Name_EN": "Symbiotic Virus",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Symbiotic_Virus.png"
+    },
+    {
+      "Index": "6",
+      "Name_FR": "Emotion Chip",
+      "Name_EN": "Emotion Chip",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Emotion_Chip.png"
+    },
+    {
+      "Index": "7",
+      "Name_FR": "Metronome",
+      "Name_EN": "Metronome",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Metronome.png"
+    },
+    {
+      "Index": "8",
+      "Name_FR": "Power Cell",
+      "Name_EN": "Power Cell",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Power_Cell.png"
+    },
+    {
+      "Index": "9",
+      "Name_FR": "Runic Capacitor",
+      "Name_EN": "Runic Capacitor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Runic_Capacitor.png"
+    },
+    {
+      "Index": "10",
+      "Name_FR": "Amethyst Aubergine",
+      "Name_EN": "Amethyst Aubergine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Amethyst_Aubergine.png"
+    },
+    {
+      "Index": "11",
+      "Name_FR": "Anchor",
+      "Name_EN": "Anchor",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Anchor.png"
+    },
+    {
+      "Index": "12",
+      "Name_FR": "Bag of Marbles",
+      "Name_EN": "Bag of Marbles",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Bag_of_Marbles.png"
+    },
+    {
+      "Index": "13",
+      "Name_FR": "Bag of Preparation",
+      "Name_EN": "Bag of Preparation",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Bag_of_Preparation.png"
+    },
+    {
+      "Index": "14",
+      "Name_FR": "Blood Vial",
+      "Name_EN": "Blood Vial",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Blood_Vial.png"
+    },
+    {
+      "Index": "15",
+      "Name_FR": "Book of Five Rings",
+      "Name_EN": "Book of Five Rings",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Book_of_Five_Rings.png"
+    },
+    {
+      "Index": "16",
+      "Name_FR": "Bronze Scales",
+      "Name_EN": "Bronze Scales",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Bronze_Scales.png"
+    },
+    {
+      "Index": "17",
+      "Name_FR": "Centennial Puzzle",
+      "Name_EN": "Centennial Puzzle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Centennial_Puzzle.png"
+    },
+    {
+      "Index": "18",
+      "Name_FR": "Festive Popper",
+      "Name_EN": "Festive Popper",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Festive_Popper.png"
+    },
+    {
+      "Index": "19",
+      "Name_FR": "Gorget",
+      "Name_EN": "Gorget",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Gorget.png"
+    },
+    {
+      "Index": "20",
+      "Name_FR": "Happy Flower",
+      "Name_EN": "Happy Flower",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Happy_Flower.png"
+    },
+    {
+      "Index": "21",
+      "Name_FR": "Juzu Bracelet",
+      "Name_EN": "Juzu Bracelet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Juzu_Bracelet.png"
+    },
+    {
+      "Index": "22",
+      "Name_FR": "Lantern",
+      "Name_EN": "Lantern",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lantern.png"
+    },
+    {
+      "Index": "23",
+      "Name_FR": "Meal Ticket",
+      "Name_EN": "Meal Ticket",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Meal_Ticket.png"
+    },
+    {
+      "Index": "24",
+      "Name_FR": "Oddly Smooth Stone",
+      "Name_EN": "Oddly Smooth Stone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Oddly_Smooth_Stone.png"
+    },
+    {
+      "Index": "25",
+      "Name_FR": "Pendulum",
+      "Name_EN": "Pendulum",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pendulum.png"
+    },
+    {
+      "Index": "26",
+      "Name_FR": "Potion Belt",
+      "Name_EN": "Potion Belt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Potion_Belt.png"
+    },
+    {
+      "Index": "27",
+      "Name_FR": "Red Mask",
+      "Name_EN": "Red Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Red_Mask.png"
+    },
+    {
+      "Index": "28",
+      "Name_FR": "Regal Pillow",
+      "Name_EN": "Regal Pillow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Regal_Pillow.png"
+    },
+    {
+      "Index": "29",
+      "Name_FR": "Strawberry",
+      "Name_EN": "Strawberry",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Strawberry.png"
+    },
+    {
+      "Index": "30",
+      "Name_FR": "Strike Dummy",
+      "Name_EN": "Strike Dummy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Strike_Dummy.png"
+    },
+    {
+      "Index": "31",
+      "Name_FR": "Vajra",
+      "Name_EN": "Vajra",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Vajra.png"
+    },
+    {
+      "Index": "32",
+      "Name_FR": "Venerable Tea Set",
+      "Name_EN": "Venerable Tea Set",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Venerable_Tea_Set.png"
+    },
+    {
+      "Index": "33",
+      "Name_FR": "War Paint",
+      "Name_EN": "War Paint",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/War_Paint.png"
+    },
+    {
+      "Index": "34",
+      "Name_FR": "Whetstone",
+      "Name_EN": "Whetstone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Whetstone.png"
+    },
+    {
+      "Index": "35",
+      "Name_FR": "Akabeko",
+      "Name_EN": "Akabeko",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Akabeko.png"
+    },
+    {
+      "Index": "36",
+      "Name_FR": "Bowler Hat",
+      "Name_EN": "Bowler Hat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Bowler_Hat.png"
+    },
+    {
+      "Index": "37",
+      "Name_FR": "Candelabra",
+      "Name_EN": "Candelabra",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Candelabra.png"
+    },
+    {
+      "Index": "38",
+      "Name_FR": "Eternal Feather",
+      "Name_EN": "Eternal Feather",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Eternal_Feather.png"
+    },
+    {
+      "Index": "39",
+      "Name_FR": "Gremlin Horn",
+      "Name_EN": "Gremlin Horn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Gremlin_Horn.png"
+    },
+    {
+      "Index": "40",
+      "Name_FR": "Horn Cleat",
+      "Name_EN": "Horn Cleat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Horn_Cleat.png"
+    },
+    {
+      "Index": "41",
+      "Name_FR": "Joss Paper",
+      "Name_EN": "Joss Paper",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Joss_Paper.png"
+    },
+    {
+      "Index": "42",
+      "Name_FR": "Kusarigama",
+      "Name_EN": "Kusarigama",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Kusarigama.png"
+    },
+    {
+      "Index": "43",
+      "Name_FR": "Lasting Candy",
+      "Name_EN": "Lasting Candy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lasting_Candy.png"
+    },
+    {
+      "Index": "44",
+      "Name_FR": "Letter Opener",
+      "Name_EN": "Letter Opener",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Letter_Opener.png"
+    },
+    {
+      "Index": "45",
+      "Name_FR": "Lucky Fysh",
+      "Name_EN": "Lucky Fysh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lucky_Fysh.png"
+    },
+    {
+      "Index": "46",
+      "Name_FR": "Mercury Hourglass",
+      "Name_EN": "Mercury Hourglass",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Mercury_Hourglass.png"
+    },
+    {
+      "Index": "47",
+      "Name_FR": "Miniature Cannon",
+      "Name_EN": "Miniature Cannon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Miniature_Cannon.png"
+    },
+    {
+      "Index": "48",
+      "Name_FR": "Nunchaku",
+      "Name_EN": "Nunchaku",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Nunchaku.png"
+    },
+    {
+      "Index": "49",
+      "Name_FR": "Orichalcum",
+      "Name_EN": "Orichalcum",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Orichalcum.png"
+    },
+    {
+      "Index": "50",
+      "Name_FR": "Ornamental Fan",
+      "Name_EN": "Ornamental Fan",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Ornamental_Fan.png"
+    },
+    {
+      "Index": "51",
+      "Name_FR": "Pantograph",
+      "Name_EN": "Pantograph",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pantograph.png"
+    },
+    {
+      "Index": "52",
+      "Name_FR": "Parrying Shield",
+      "Name_EN": "Parrying Shield",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Parrying_Shield.png"
+    },
+    {
+      "Index": "53",
+      "Name_FR": "Pear",
+      "Name_EN": "Pear",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pear.png"
+    },
+    {
+      "Index": "54",
+      "Name_FR": "Pen Nib",
+      "Name_EN": "Pen Nib",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pen_Nib.png"
+    },
+    {
+      "Index": "55",
+      "Name_FR": "Permafrost",
+      "Name_EN": "Permafrost",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Permafrost.png"
+    },
+    {
+      "Index": "56",
+      "Name_FR": "Petrified Toad",
+      "Name_EN": "Petrified Toad",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Petrified_Toad.png"
+    },
+    {
+      "Index": "57",
+      "Name_FR": "Planisphere",
+      "Name_EN": "Planisphere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Planisphere.png"
+    },
+    {
+      "Index": "58",
+      "Name_FR": "Reptile Trinket",
+      "Name_EN": "Reptile Trinket",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Reptile_Trinket.png"
+    },
+    {
+      "Index": "59",
+      "Name_FR": "Ripple Basin",
+      "Name_EN": "Ripple Basin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Ripple_Basin.png"
+    },
+    {
+      "Index": "60",
+      "Name_FR": "Sparkling Rouge",
+      "Name_EN": "Sparkling Rouge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sparkling_Rouge.png"
+    },
+    {
+      "Index": "61",
+      "Name_FR": "Stone Cracker",
+      "Name_EN": "Stone Cracker",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Stone_Cracker.png"
+    },
+    {
+      "Index": "62",
+      "Name_FR": "Tiny Mailbox",
+      "Name_EN": "Tiny Mailbox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Tiny_Mailbox.png"
+    },
+    {
+      "Index": "63",
+      "Name_FR": "Tuning Fork",
+      "Name_EN": "Tuning Fork",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Tuning_Fork.png"
+    },
+    {
+      "Index": "64",
+      "Name_FR": "Vambrace",
+      "Name_EN": "Vambrace",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Vambrace.png"
+    },
+    {
+      "Index": "65",
+      "Name_FR": "Art of War",
+      "Name_EN": "Art of War",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Art_of_War.png"
+    },
+    {
+      "Index": "66",
+      "Name_FR": "Beating Remnant",
+      "Name_EN": "Beating Remnant",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Beating_Remnant.png"
+    },
+    {
+      "Index": "67",
+      "Name_FR": "Bellows",
+      "Name_EN": "Bellows",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Bellows.png"
+    },
+    {
+      "Index": "68",
+      "Name_FR": "Captain's Wheel",
+      "Name_EN": "Captain's Wheel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Captain's_Wheel.png"
+    },
+    {
+      "Index": "69",
+      "Name_FR": "Chandelier",
+      "Name_EN": "Chandelier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Chandelier.png"
+    },
+    {
+      "Index": "70",
+      "Name_FR": "Cloak Clasp",
+      "Name_EN": "Cloak Clasp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Cloak_Clasp.png"
+    },
+    {
+      "Index": "71",
+      "Name_FR": "Frozen Egg",
+      "Name_EN": "Frozen Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Frozen_Egg.png"
+    },
+    {
+      "Index": "72",
+      "Name_FR": "Gambling Chip",
+      "Name_EN": "Gambling Chip",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Gambling_Chip.png"
+    },
+    {
+      "Index": "73",
+      "Name_FR": "Game Piece",
+      "Name_EN": "Game Piece",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Game_Piece.png"
+    },
+    {
+      "Index": "74",
+      "Name_FR": "Girya",
+      "Name_EN": "Girya",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Girya.png"
+    },
+    {
+      "Index": "75",
+      "Name_FR": "Ice Cream",
+      "Name_EN": "Ice Cream",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Ice_Cream.png"
+    },
+    {
+      "Index": "76",
+      "Name_FR": "Intimidating Helmet",
+      "Name_EN": "Intimidating Helmet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Intimidating_Helmet.png"
+    },
+    {
+      "Index": "77",
+      "Name_FR": "Kunai",
+      "Name_EN": "Kunai",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Kunai.png"
+    },
+    {
+      "Index": "78",
+      "Name_FR": "Lizard Tail",
+      "Name_EN": "Lizard Tail",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lizard_Tail.png"
+    },
+    {
+      "Index": "79",
+      "Name_FR": "Mango",
+      "Name_EN": "Mango",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Mango.png"
+    },
+    {
+      "Index": "80",
+      "Name_FR": "Meat on the Bone",
+      "Name_EN": "Meat on the Bone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Meat_on_the_Bone.png"
+    },
+    {
+      "Index": "81",
+      "Name_FR": "Molten Egg",
+      "Name_EN": "Molten Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Molten_Egg.png"
+    },
+    {
+      "Index": "82",
+      "Name_FR": "Mummified Hand",
+      "Name_EN": "Mummified Hand",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Mummified_Hand.png"
+    },
+    {
+      "Index": "83",
+      "Name_FR": "Old Coin",
+      "Name_EN": "Old Coin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Old_Coin.png"
+    },
+    {
+      "Index": "84",
+      "Name_FR": "Pocketwatch",
+      "Name_EN": "Pocketwatch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pocketwatch.png"
+    },
+    {
+      "Index": "85",
+      "Name_FR": "Prayer Wheel",
+      "Name_EN": "Prayer Wheel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Prayer_Wheel.png"
+    },
+    {
+      "Index": "86",
+      "Name_FR": "Rainbow Ring",
+      "Name_EN": "Rainbow Ring",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Rainbow_Ring.png"
+    },
+    {
+      "Index": "87",
+      "Name_FR": "Razor Tooth",
+      "Name_EN": "Razor Tooth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Razor_Tooth.png"
+    },
+    {
+      "Index": "88",
+      "Name_FR": "Shovel",
+      "Name_EN": "Shovel",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Shovel.png"
+    },
+    {
+      "Index": "89",
+      "Name_FR": "Shuriken",
+      "Name_EN": "Shuriken",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Shuriken.png"
+    },
+    {
+      "Index": "90",
+      "Name_FR": "Stone Calendar",
+      "Name_EN": "Stone Calendar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Stone_Calendar.png"
+    },
+    {
+      "Index": "91",
+      "Name_FR": "Sturdy Clamp",
+      "Name_EN": "Sturdy Clamp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sturdy_Clamp.png"
+    },
+    {
+      "Index": "92",
+      "Name_FR": "The Courier",
+      "Name_EN": "The Courier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/The_Courier.png"
+    },
+    {
+      "Index": "93",
+      "Name_FR": "Toxic Egg",
+      "Name_EN": "Toxic Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Toxic_Egg.png"
+    },
+    {
+      "Index": "94",
+      "Name_FR": "Tungsten Rod",
+      "Name_EN": "Tungsten Rod",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Tungsten_Rod.png"
+    },
+    {
+      "Index": "95",
+      "Name_FR": "Unceasing Top",
+      "Name_EN": "Unceasing Top",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Unceasing_Top.png"
+    },
+    {
+      "Index": "96",
+      "Name_FR": "Unsettling Lamp",
+      "Name_EN": "Unsettling Lamp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Unsettling_Lamp.png"
+    },
+    {
+      "Index": "97",
+      "Name_FR": "Vexing Puzzlebox",
+      "Name_EN": "Vexing Puzzlebox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Vexing_Puzzlebox.png"
+    },
+    {
+      "Index": "98",
+      "Name_FR": "White Beast Statue",
+      "Name_EN": "White Beast Statue",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/White_Beast_Statue.png"
+    },
+    {
+      "Index": "99",
+      "Name_FR": "White Star",
+      "Name_EN": "White Star",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/White_Star.png"
+    },
+    {
+      "Index": "100",
+      "Name_FR": "Arcane Scroll",
+      "Name_EN": "Arcane Scroll",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Arcane_Scroll.png"
+    },
+    {
+      "Index": "101",
+      "Name_FR": "Booming Conch",
+      "Name_EN": "Booming Conch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Booming_Conch.png"
+    },
+    {
+      "Index": "102",
+      "Name_FR": "Cursed Pearl",
+      "Name_EN": "Cursed Pearl",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Cursed_Pearl.png"
+    },
+    {
+      "Index": "103",
+      "Name_FR": "Fishing Rod",
+      "Name_EN": "Fishing Rod",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Fishing_Rod.png"
+    },
+    {
+      "Index": "104",
+      "Name_FR": "Golden Pearl",
+      "Name_EN": "Golden Pearl",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Golden_Pearl.png"
+    },
+    {
+      "Index": "105",
+      "Name_FR": "Hefty Tablet",
+      "Name_EN": "Hefty Tablet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Hefty_Tablet.png"
+    },
+    {
+      "Index": "106",
+      "Name_FR": "Kaleidoscope",
+      "Name_EN": "Kaleidoscope",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Kaleidoscope.png"
+    },
+    {
+      "Index": "107",
+      "Name_FR": "Large Capsule",
+      "Name_EN": "Large Capsule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Large_Capsule.png"
+    },
+    {
+      "Index": "108",
+      "Name_FR": "Lava Rock",
+      "Name_EN": "Lava Rock",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lava_Rock.png"
+    },
+    {
+      "Index": "109",
+      "Name_FR": "Lead Paperweight",
+      "Name_EN": "Lead Paperweight",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lead_Paperweight.png"
+    },
+    {
+      "Index": "110",
+      "Name_FR": "Leafy Poultice",
+      "Name_EN": "Leafy Poultice",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Leafy_Poultice.png"
+    },
+    {
+      "Index": "111",
+      "Name_FR": "Lost Coffer",
+      "Name_EN": "Lost Coffer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lost_Coffer.png"
+    },
+    {
+      "Index": "112",
+      "Name_FR": "Massive Scroll",
+      "Name_EN": "Massive Scroll",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Massive_Scroll.png"
+    },
+    {
+      "Index": "113",
+      "Name_FR": "Neow's Bones",
+      "Name_EN": "Neow's Bones",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Neow's_Bones.png"
+    },
+    {
+      "Index": "114",
+      "Name_FR": "Neow's Talisman",
+      "Name_EN": "Neow's Talisman",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Neow's_Talisman.png"
+    },
+    {
+      "Index": "115",
+      "Name_FR": "Neow's Torment",
+      "Name_EN": "Neow's Torment",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Neow's_Torment.png"
+    },
+    {
+      "Index": "116",
+      "Name_FR": "New Leaf",
+      "Name_EN": "New Leaf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/New_Leaf.png"
+    },
+    {
+      "Index": "117",
+      "Name_FR": "Nutritious Oyster",
+      "Name_EN": "Nutritious Oyster",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Nutritious_Oyster.png"
+    },
+    {
+      "Index": "118",
+      "Name_FR": "Phial Holster",
+      "Name_EN": "Phial Holster",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Phial_Holster.png"
+    },
+    {
+      "Index": "119",
+      "Name_FR": "Pomander",
+      "Name_EN": "Pomander",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pomander.png"
+    },
+    {
+      "Index": "120",
+      "Name_FR": "Precarious Shears",
+      "Name_EN": "Precarious Shears",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Precarious_Shears.png"
+    },
+    {
+      "Index": "121",
+      "Name_FR": "Precise Scissors",
+      "Name_EN": "Precise Scissors",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Precise_Scissors.png"
+    },
+    {
+      "Index": "122",
+      "Name_FR": "Scroll Boxes",
+      "Name_EN": "Scroll Boxes",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Scroll_Boxes.png"
+    },
+    {
+      "Index": "123",
+      "Name_FR": "Silken Tress",
+      "Name_EN": "Silken Tress",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Silken_Tress.png"
+    },
+    {
+      "Index": "124",
+      "Name_FR": "Silver Crucible",
+      "Name_EN": "Silver Crucible",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Silver_Crucible.png"
+    },
+    {
+      "Index": "125",
+      "Name_FR": "Small Capsule",
+      "Name_EN": "Small Capsule",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Small_Capsule.png"
+    },
+    {
+      "Index": "126",
+      "Name_FR": "Stone Humidifier",
+      "Name_EN": "Stone Humidifier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Stone_Humidifier.png"
+    },
+    {
+      "Index": "127",
+      "Name_FR": "Winged Boots",
+      "Name_EN": "Winged Boots",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Winged_Boots.png"
+    },
+    {
+      "Index": "128",
+      "Name_FR": "Alchemical Coffer",
+      "Name_EN": "Alchemical Coffer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Alchemical_Coffer.png"
+    },
+    {
+      "Index": "129",
+      "Name_FR": "Archaic Tooth",
+      "Name_EN": "Archaic Tooth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Archaic_Tooth.png"
+    },
+    {
+      "Index": "130",
+      "Name_FR": "Driftwood",
+      "Name_EN": "Driftwood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Driftwood.png"
+    },
+    {
+      "Index": "131",
+      "Name_FR": "Electric Shrymp",
+      "Name_EN": "Electric Shrymp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Electric_Shrymp.png"
+    },
+    {
+      "Index": "132",
+      "Name_FR": "Glass Eye",
+      "Name_EN": "Glass Eye",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Glass_Eye.png"
+    },
+    {
+      "Index": "133",
+      "Name_FR": "Prismatic Gem",
+      "Name_EN": "Prismatic Gem",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Prismatic_Gem.png"
+    },
+    {
+      "Index": "134",
+      "Name_FR": "Radiant Pearl",
+      "Name_EN": "Radiant Pearl",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Radiant_Pearl.png"
+    },
+    {
+      "Index": "135",
+      "Name_FR": "Sand Castle",
+      "Name_EN": "Sand Castle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sand_Castle.png"
+    },
+    {
+      "Index": "136",
+      "Name_FR": "Sea Glass",
+      "Name_EN": "Sea Glass",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sea_Glass.png"
+    },
+    {
+      "Index": "137",
+      "Name_FR": "Touch of Orobas",
+      "Name_EN": "Touch of Orobas",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Touch_of_Orobas.png"
+    },
+    {
+      "Index": "138",
+      "Name_FR": "Pael's Blood",
+      "Name_EN": "Pael's Blood",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Blood.png"
+    },
+    {
+      "Index": "139",
+      "Name_FR": "Pael's Claw",
+      "Name_EN": "Pael's Claw",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Claw.png"
+    },
+    {
+      "Index": "140",
+      "Name_FR": "Pael's Eye",
+      "Name_EN": "Pael's Eye",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Eye.png"
+    },
+    {
+      "Index": "141",
+      "Name_FR": "Pael's Flesh",
+      "Name_EN": "Pael's Flesh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Flesh.png"
+    },
+    {
+      "Index": "142",
+      "Name_FR": "Pael's Growth",
+      "Name_EN": "Pael's Growth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Growth.png"
+    },
+    {
+      "Index": "143",
+      "Name_FR": "Pael's Horn",
+      "Name_EN": "Pael's Horn",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Horn.png"
+    },
+    {
+      "Index": "144",
+      "Name_FR": "Pael's Legion",
+      "Name_EN": "Pael's Legion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Legion.png"
+    },
+    {
+      "Index": "145",
+      "Name_FR": "Pael's Tears",
+      "Name_EN": "Pael's Tears",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Tears.png"
+    },
+    {
+      "Index": "146",
+      "Name_FR": "Pael's Tooth",
+      "Name_EN": "Pael's Tooth",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Tooth.png"
+    },
+    {
+      "Index": "147",
+      "Name_FR": "Pael's Wing",
+      "Name_EN": "Pael's Wing",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pael's_Wing.png"
+    },
+    {
+      "Index": "148",
+      "Name_FR": "Biiig Hug",
+      "Name_EN": "Biiig Hug",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Biiig_Hug.png"
+    },
+    {
+      "Index": "149",
+      "Name_FR": "Golden Compass",
+      "Name_EN": "Golden Compass",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Golden_Compass.png"
+    },
+    {
+      "Index": "150",
+      "Name_FR": "Nutritious Soup",
+      "Name_EN": "Nutritious Soup",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Nutritious_Soup.png"
+    },
+    {
+      "Index": "151",
+      "Name_FR": "Pumpkin Candle",
+      "Name_EN": "Pumpkin Candle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pumpkin_Candle.png"
+    },
+    {
+      "Index": "152",
+      "Name_FR": "Seal of Gold",
+      "Name_EN": "Seal of Gold",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Seal_of_Gold.png"
+    },
+    {
+      "Index": "153",
+      "Name_FR": "Storybook",
+      "Name_EN": "Storybook",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Storybook.png"
+    },
+    {
+      "Index": "154",
+      "Name_FR": "Toasty Mittens",
+      "Name_EN": "Toasty Mittens",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Toasty_Mittens.png"
+    },
+    {
+      "Index": "155",
+      "Name_FR": "Toy Box",
+      "Name_EN": "Toy Box",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Toy_Box.png"
+    },
+    {
+      "Index": "156",
+      "Name_FR": "Very Hot Cocoa",
+      "Name_EN": "Very Hot Cocoa",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Very_Hot_Cocoa.png"
+    },
+    {
+      "Index": "157",
+      "Name_FR": "Yummy Cookie",
+      "Name_EN": "Yummy Cookie",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Yummy_Cookie.png"
+    },
+    {
+      "Index": "158",
+      "Name_FR": "Beautiful Bracelet",
+      "Name_EN": "Beautiful Bracelet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Beautiful_Bracelet.png"
+    },
+    {
+      "Index": "159",
+      "Name_FR": "Blessed Antler",
+      "Name_EN": "Blessed Antler",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Blessed_Antler.png"
+    },
+    {
+      "Index": "160",
+      "Name_FR": "Brilliant Scarf",
+      "Name_EN": "Brilliant Scarf",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Brilliant_Scarf.png"
+    },
+    {
+      "Index": "161",
+      "Name_FR": "Delicate Frond",
+      "Name_EN": "Delicate Frond",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Delicate_Frond.png"
+    },
+    {
+      "Index": "162",
+      "Name_FR": "Diamond Diadem",
+      "Name_EN": "Diamond Diadem",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Diamond_Diadem.png"
+    },
+    {
+      "Index": "163",
+      "Name_FR": "Fur Coat",
+      "Name_EN": "Fur Coat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Fur_Coat.png"
+    },
+    {
+      "Index": "164",
+      "Name_FR": "Glitter",
+      "Name_EN": "Glitter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Glitter.png"
+    },
+    {
+      "Index": "165",
+      "Name_FR": "Jewelry Box",
+      "Name_EN": "Jewelry Box",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Jewelry_Box.png"
+    },
+    {
+      "Index": "166",
+      "Name_FR": "Looming Fruit",
+      "Name_EN": "Looming Fruit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Looming_Fruit.png"
+    },
+    {
+      "Index": "167",
+      "Name_FR": "Signet Ring",
+      "Name_EN": "Signet Ring",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Signet_Ring.png"
+    },
+    {
+      "Index": "168",
+      "Name_FR": "Claws",
+      "Name_EN": "Claws",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Claws.png"
+    },
+    {
+      "Index": "169",
+      "Name_FR": "Crossbow",
+      "Name_EN": "Crossbow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Crossbow.png"
+    },
+    {
+      "Index": "170",
+      "Name_FR": "Iron Club",
+      "Name_EN": "Iron Club",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Iron_Club.png"
+    },
+    {
+      "Index": "171",
+      "Name_FR": "Meat Cleaver",
+      "Name_EN": "Meat Cleaver",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Meat_Cleaver.png"
+    },
+    {
+      "Index": "172",
+      "Name_FR": "Sai",
+      "Name_EN": "Sai",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sai.png"
+    },
+    {
+      "Index": "173",
+      "Name_FR": "Spiked Gauntlets",
+      "Name_EN": "Spiked Gauntlets",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Spiked_Gauntlets.png"
+    },
+    {
+      "Index": "174",
+      "Name_FR": "Tanx's Whistle",
+      "Name_EN": "Tanx's Whistle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Tanx's_Whistle.png"
+    },
+    {
+      "Index": "175",
+      "Name_FR": "Throwing Axe",
+      "Name_EN": "Throwing Axe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Throwing_Axe.png"
+    },
+    {
+      "Index": "176",
+      "Name_FR": "Tri-Boomerang",
+      "Name_EN": "Tri-Boomerang",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Tri-Boomerang.png"
+    },
+    {
+      "Index": "177",
+      "Name_FR": "War Hammer",
+      "Name_EN": "War Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/War_Hammer.png"
+    },
+    {
+      "Index": "178",
+      "Name_FR": "Blood-Soaked Rose",
+      "Name_EN": "Blood-Soaked Rose",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Blood-Soaked_Rose.png"
+    },
+    {
+      "Index": "179",
+      "Name_FR": "Choices Paradox",
+      "Name_EN": "Choices Paradox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Choices_Paradox.png"
+    },
+    {
+      "Index": "180",
+      "Name_FR": "Distinguished Cape",
+      "Name_EN": "Distinguished Cape",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Distinguished_Cape.png"
+    },
+    {
+      "Index": "181",
+      "Name_FR": "Fiddle",
+      "Name_EN": "Fiddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Fiddle.png"
+    },
+    {
+      "Index": "182",
+      "Name_FR": "Jeweled Mask",
+      "Name_EN": "Jeweled Mask",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Jeweled_Mask.png"
+    },
+    {
+      "Index": "183",
+      "Name_FR": "Lord's Parasol",
+      "Name_EN": "Lord's Parasol",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lord's_Parasol.png"
+    },
+    {
+      "Index": "184",
+      "Name_FR": "Music Box",
+      "Name_EN": "Music Box",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Music_Box.png"
+    },
+    {
+      "Index": "185",
+      "Name_FR": "Preserved Fog",
+      "Name_EN": "Preserved Fog",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Preserved_Fog.png"
+    },
+    {
+      "Index": "186",
+      "Name_FR": "Sere Talon",
+      "Name_EN": "Sere Talon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sere_Talon.png"
+    },
+    {
+      "Index": "187",
+      "Name_FR": "Whispering Earring",
+      "Name_EN": "Whispering Earring",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Whispering_Earring.png"
+    },
+    {
+      "Index": "188",
+      "Name_FR": "Astrolabe",
+      "Name_EN": "Astrolabe",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Astrolabe.png"
+    },
+    {
+      "Index": "189",
+      "Name_FR": "Black Star",
+      "Name_EN": "Black Star",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Black_Star.png"
+    },
+    {
+      "Index": "190",
+      "Name_FR": "Calling Bell",
+      "Name_EN": "Calling Bell",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Calling_Bell.png"
+    },
+    {
+      "Index": "191",
+      "Name_FR": "Dusty Tome",
+      "Name_EN": "Dusty Tome",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Dusty_Tome.png"
+    },
+    {
+      "Index": "192",
+      "Name_FR": "Ectoplasm",
+      "Name_EN": "Ectoplasm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Ectoplasm.png"
+    },
+    {
+      "Index": "193",
+      "Name_FR": "Empty Cage",
+      "Name_EN": "Empty Cage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Empty_Cage.png"
+    },
+    {
+      "Index": "194",
+      "Name_FR": "Pandora's Box",
+      "Name_EN": "Pandora's Box",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pandora's_Box.png"
+    },
+    {
+      "Index": "195",
+      "Name_FR": "Philosopher's Stone",
+      "Name_EN": "Philosopher's Stone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Philosopher's_Stone.png"
+    },
+    {
+      "Index": "196",
+      "Name_FR": "Runic Pyramid",
+      "Name_EN": "Runic Pyramid",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Runic_Pyramid.png"
+    },
+    {
+      "Index": "197",
+      "Name_FR": "Snecko Eye",
+      "Name_EN": "Snecko Eye",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Snecko_Eye.png"
+    },
+    {
+      "Index": "198",
+      "Name_FR": "Sozu",
+      "Name_EN": "Sozu",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sozu.png"
+    },
+    {
+      "Index": "199",
+      "Name_FR": "Velvet Choker",
+      "Name_EN": "Velvet Choker",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Velvet_Choker.png"
+    },
+    {
+      "Index": "200",
+      "Name_FR": "Belt Buckle",
+      "Name_EN": "Belt Buckle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Belt_Buckle.png"
+    },
+    {
+      "Index": "201",
+      "Name_FR": "Bread",
+      "Name_EN": "Bread",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Bread.png"
+    },
+    {
+      "Index": "202",
+      "Name_FR": "Burning Sticks",
+      "Name_EN": "Burning Sticks",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Burning_Sticks.png"
+    },
+    {
+      "Index": "203",
+      "Name_FR": "Cauldron",
+      "Name_EN": "Cauldron",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Cauldron.png"
+    },
+    {
+      "Index": "204",
+      "Name_FR": "Chemical X",
+      "Name_EN": "Chemical X",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Chemical_X.png"
+    },
+    {
+      "Index": "205",
+      "Name_FR": "Dingy Rug",
+      "Name_EN": "Dingy Rug",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Dingy_Rug.png"
+    },
+    {
+      "Index": "206",
+      "Name_FR": "Dolly's Mirror",
+      "Name_EN": "Dolly's Mirror",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Dolly's_Mirror.png"
+    },
+    {
+      "Index": "207",
+      "Name_FR": "Dragon Fruit",
+      "Name_EN": "Dragon Fruit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Dragon_Fruit.png"
+    },
+    {
+      "Index": "208",
+      "Name_FR": "Ghost Seed",
+      "Name_EN": "Ghost Seed",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Ghost_Seed.png"
+    },
+    {
+      "Index": "209",
+      "Name_FR": "Gnarled Hammer",
+      "Name_EN": "Gnarled Hammer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Gnarled_Hammer.png"
+    },
+    {
+      "Index": "210",
+      "Name_FR": "Kifuda",
+      "Name_EN": "Kifuda",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Kifuda.png"
+    },
+    {
+      "Index": "211",
+      "Name_FR": "Lava Lamp",
+      "Name_EN": "Lava Lamp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lava_Lamp.png"
+    },
+    {
+      "Index": "212",
+      "Name_FR": "Lee's Waffle",
+      "Name_EN": "Lee's Waffle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lee's_Waffle.png"
+    },
+    {
+      "Index": "213",
+      "Name_FR": "Membership Card",
+      "Name_EN": "Membership Card",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Membership_Card.png"
+    },
+    {
+      "Index": "214",
+      "Name_FR": "Miniature Tent",
+      "Name_EN": "Miniature Tent",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Miniature_Tent.png"
+    },
+    {
+      "Index": "215",
+      "Name_FR": "Mystic Lighter",
+      "Name_EN": "Mystic Lighter",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Mystic_Lighter.png"
+    },
+    {
+      "Index": "216",
+      "Name_FR": "Orrery",
+      "Name_EN": "Orrery",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Orrery.png"
+    },
+    {
+      "Index": "217",
+      "Name_FR": "Punch Dagger",
+      "Name_EN": "Punch Dagger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Punch_Dagger.png"
+    },
+    {
+      "Index": "218",
+      "Name_FR": "Ringing Triangle",
+      "Name_EN": "Ringing Triangle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Ringing_Triangle.png"
+    },
+    {
+      "Index": "219",
+      "Name_FR": "Royal Stamp",
+      "Name_EN": "Royal Stamp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Royal_Stamp.png"
+    },
+    {
+      "Index": "220",
+      "Name_FR": "Screaming Flagon",
+      "Name_EN": "Screaming Flagon",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Screaming_Flagon.png"
+    },
+    {
+      "Index": "221",
+      "Name_FR": "Sling of Courage",
+      "Name_EN": "Sling of Courage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sling_of_Courage.png"
+    },
+    {
+      "Index": "222",
+      "Name_FR": "The Abacus",
+      "Name_EN": "The Abacus",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/The_Abacus.png"
+    },
+    {
+      "Index": "223",
+      "Name_FR": "Toolbox",
+      "Name_EN": "Toolbox",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Toolbox.png"
+    },
+    {
+      "Index": "224",
+      "Name_FR": "Wing Charm",
+      "Name_EN": "Wing Charm",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Wing_Charm.png"
+    },
+    {
+      "Index": "225",
+      "Name_FR": "Anchor???",
+      "Name_EN": "Anchor???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Anchor.png"
+    },
+    {
+      "Index": "226",
+      "Name_FR": "Big Mushroom",
+      "Name_EN": "Big Mushroom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Big_Mushroom.png"
+    },
+    {
+      "Index": "227",
+      "Name_FR": "Bing Bong",
+      "Name_EN": "Bing Bong",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Bing_Bong.png"
+    },
+    {
+      "Index": "228",
+      "Name_FR": "Blood Vial???",
+      "Name_EN": "Blood Vial???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Blood_Vial.png"
+    },
+    {
+      "Index": "229",
+      "Name_FR": "Bone Tea",
+      "Name_EN": "Bone Tea",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Bone_Tea.png"
+    },
+    {
+      "Index": "230",
+      "Name_FR": "Byrdpip",
+      "Name_EN": "Byrdpip",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Byrdpip.png"
+    },
+    {
+      "Index": "231",
+      "Name_FR": "Circlet",
+      "Name_EN": "Circlet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Circlet.png"
+    },
+    {
+      "Index": "232",
+      "Name_FR": "Darkstone Periapt",
+      "Name_EN": "Darkstone Periapt",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Darkstone_Periapt.png"
+    },
+    {
+      "Index": "233",
+      "Name_FR": "Daughter of the Wind",
+      "Name_EN": "Daughter of the Wind",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Daughter_of_the_Wind.png"
+    },
+    {
+      "Index": "234",
+      "Name_FR": "Dream Catcher",
+      "Name_EN": "Dream Catcher",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Dream_Catcher.png"
+    },
+    {
+      "Index": "235",
+      "Name_FR": "Ember Tea",
+      "Name_EN": "Ember Tea",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Ember_Tea.png"
+    },
+    {
+      "Index": "236",
+      "Name_FR": "Forgotten Soul",
+      "Name_EN": "Forgotten Soul",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Forgotten_Soul.png"
+    },
+    {
+      "Index": "237",
+      "Name_FR": "Fragrant Mushroom",
+      "Name_EN": "Fragrant Mushroom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Fragrant_Mushroom.png"
+    },
+    {
+      "Index": "238",
+      "Name_FR": "Fresnel Lens",
+      "Name_EN": "Fresnel Lens",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Fresnel_Lens.png"
+    },
+    {
+      "Index": "239",
+      "Name_FR": "Hand Drill",
+      "Name_EN": "Hand Drill",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Hand_Drill.png"
+    },
+    {
+      "Index": "240",
+      "Name_FR": "Happy Flower???",
+      "Name_EN": "Happy Flower???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Happy_Flower.png"
+    },
+    {
+      "Index": "241",
+      "Name_FR": "History Course",
+      "Name_EN": "History Course",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/History_Course.png"
+    },
+    {
+      "Index": "242",
+      "Name_FR": "Lee's Waffle???",
+      "Name_EN": "Lee's Waffle???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lee's_Waffle.png"
+    },
+    {
+      "Index": "243",
+      "Name_FR": "Lost Wisp",
+      "Name_EN": "Lost Wisp",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Lost_Wisp.png"
+    },
+    {
+      "Index": "244",
+      "Name_FR": "Mango???",
+      "Name_EN": "Mango???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Mango.png"
+    },
+    {
+      "Index": "245",
+      "Name_FR": "Maw Bank",
+      "Name_EN": "Maw Bank",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Maw_Bank.png"
+    },
+    {
+      "Index": "246",
+      "Name_FR": "Mr. Struggles",
+      "Name_EN": "Mr. Struggles",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Mr._Struggles.png"
+    },
+    {
+      "Index": "247",
+      "Name_FR": "Orichalcum???",
+      "Name_EN": "Orichalcum???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Orichalcum.png"
+    },
+    {
+      "Index": "248",
+      "Name_FR": "Pollinous Core",
+      "Name_EN": "Pollinous Core",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Pollinous_Core.png"
+    },
+    {
+      "Index": "249",
+      "Name_FR": "Royal Poison",
+      "Name_EN": "Royal Poison",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Royal_Poison.png"
+    },
+    {
+      "Index": "250",
+      "Name_FR": "Snecko Eye???",
+      "Name_EN": "Snecko Eye???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Snecko_Eye.png"
+    },
+    {
+      "Index": "251",
+      "Name_FR": "Strike Dummy???",
+      "Name_EN": "Strike Dummy???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Strike_Dummy.png"
+    },
+    {
+      "Index": "252",
+      "Name_FR": "Sword of Jade",
+      "Name_EN": "Sword of Jade",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sword_of_Jade.png"
+    },
+    {
+      "Index": "253",
+      "Name_FR": "Sword of Stone",
+      "Name_EN": "Sword of Stone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Sword_of_Stone.png"
+    },
+    {
+      "Index": "254",
+      "Name_FR": "Tea of Discourtesy",
+      "Name_EN": "Tea of Discourtesy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Tea_of_Discourtesy.png"
+    },
+    {
+      "Index": "255",
+      "Name_FR": "The Boot",
+      "Name_EN": "The Boot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/The_Boot.png"
+    },
+    {
+      "Index": "256",
+      "Name_FR": "The Chosen Cheese",
+      "Name_EN": "The Chosen Cheese",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/The_Chosen_Cheese.png"
+    },
+    {
+      "Index": "257",
+      "Name_FR": "The Merchant's Rug???",
+      "Name_EN": "The Merchant's Rug???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/The_Merchant's_Rug.png"
+    },
+    {
+      "Index": "258",
+      "Name_FR": "Venerable Tea Set???",
+      "Name_EN": "Venerable Tea Set???",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Venerable_Tea_Set.png"
+    },
+    {
+      "Index": "259",
+      "Name_FR": "Wongo Customer Appreciation Badge",
+      "Name_EN": "Wongo Customer Appreciation Badge",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Wongo_Customer_Appreciation_Badge.png"
+    },
+    {
+      "Index": "260",
+      "Name_FR": "Wongo's Mystery Ticket",
+      "Name_EN": "Wongo's Mystery Ticket",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/sts2/relics/Wongo's_Mystery_Ticket.png"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /data/
+Disallow: /js/
+Disallow: /styles/
+Disallow: /assets/
+
+Sitemap: https://mythmega.github.io/sitemap.xml

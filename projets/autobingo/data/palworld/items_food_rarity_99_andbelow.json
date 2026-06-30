@@ -1,0 +1,650 @@
+{
+  "Name": "Palworld - Items food/rarity 99 and below",
+  "Category": "Palworld",
+  "Subcategory": "Items - Foods",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "red_berries",
+      "Name_FR": "Red Berries",
+      "Name_EN": "Red Berries",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Red Berries.png"
+    },
+    {
+      "Index": "baked_berries",
+      "Name_FR": "Baked Berries",
+      "Name_EN": "Baked Berries",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Baked Berries.png"
+    },
+    {
+      "Index": "grilled_meat",
+      "Name_FR": "Grilled Meat",
+      "Name_EN": "Grilled Meat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grilled Meat.png"
+    },
+    {
+      "Index": "bread",
+      "Name_FR": "Bread",
+      "Name_EN": "Bread",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bread.png"
+    },
+    {
+      "Index": "tomato",
+      "Name_FR": "Tomato",
+      "Name_EN": "Tomato",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tomato.png"
+    },
+    {
+      "Index": "wheat",
+      "Name_FR": "Wheat",
+      "Name_EN": "Wheat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wheat.png"
+    },
+    {
+      "Index": "flour",
+      "Name_FR": "Flour",
+      "Name_EN": "Flour",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Flour.png"
+    },
+    {
+      "Index": "lettuce",
+      "Name_FR": "Lettuce",
+      "Name_EN": "Lettuce",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lettuce.png"
+    },
+    {
+      "Index": "grape",
+      "Name_FR": "Grape",
+      "Name_EN": "Grape",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grape.png"
+    },
+    {
+      "Index": "hop",
+      "Name_FR": "Hop",
+      "Name_EN": "Hop",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hop.png"
+    },
+    {
+      "Index": "egg",
+      "Name_FR": "Egg",
+      "Name_EN": "Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Egg.png"
+    },
+    {
+      "Index": "milk",
+      "Name_FR": "Milk",
+      "Name_EN": "Milk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Milk.png"
+    },
+    {
+      "Index": "hot_milk",
+      "Name_FR": "Hot Milk",
+      "Name_EN": "Hot Milk",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hot Milk.png"
+    },
+    {
+      "Index": "jam_filled_bun",
+      "Name_FR": "Jam-Filled Bun",
+      "Name_EN": "Jam-Filled Bun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jam-Filled Bun.png"
+    },
+    {
+      "Index": "potage",
+      "Name_FR": "Potage",
+      "Name_EN": "Potage",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Potage.png"
+    },
+    {
+      "Index": "salad",
+      "Name_FR": "Salad",
+      "Name_EN": "Salad",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Salad.png"
+    },
+    {
+      "Index": "omelet",
+      "Name_FR": "Omelet",
+      "Name_EN": "Omelet",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Omelet.png"
+    },
+    {
+      "Index": "stir_fried_veggies",
+      "Name_FR": "Stir-Fried Veggies",
+      "Name_EN": "Stir-Fried Veggies",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stir-Fried Veggies.png"
+    },
+    {
+      "Index": "hot_dog",
+      "Name_FR": "Hot Dog",
+      "Name_EN": "Hot Dog",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hot Dog.png"
+    },
+    {
+      "Index": "pancake",
+      "Name_FR": "Pancake",
+      "Name_EN": "Pancake",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pancake.png"
+    },
+    {
+      "Index": "marinated_mushrooms",
+      "Name_FR": "Marinated Mushrooms",
+      "Name_EN": "Marinated Mushrooms",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Marinated Mushrooms.png"
+    },
+    {
+      "Index": "mushroom_soup",
+      "Name_FR": "Mushroom Soup",
+      "Name_EN": "Mushroom Soup",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mushroom Soup.png"
+    },
+    {
+      "Index": "curry",
+      "Name_FR": "Curry",
+      "Name_EN": "Curry",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Curry.png"
+    },
+    {
+      "Index": "carbonara",
+      "Name_FR": "Carbonara",
+      "Name_EN": "Carbonara",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Carbonara.png"
+    },
+    {
+      "Index": "blt",
+      "Name_FR": "BLT",
+      "Name_EN": "BLT",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/BLT.png"
+    },
+    {
+      "Index": "cheeseburger",
+      "Name_FR": "Cheeseburger",
+      "Name_EN": "Cheeseburger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cheeseburger.png"
+    },
+    {
+      "Index": "pizza",
+      "Name_FR": "Pizza",
+      "Name_EN": "Pizza",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pizza.png"
+    },
+    {
+      "Index": "bolognese_sauce",
+      "Name_FR": "Bolognese Sauce",
+      "Name_EN": "Bolognese Sauce",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bolognese Sauce.png"
+    },
+    {
+      "Index": "cake",
+      "Name_FR": "Cake",
+      "Name_EN": "Cake",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cake.png"
+    },
+    {
+      "Index": "mushroom_stew",
+      "Name_FR": "Mushroom Stew",
+      "Name_EN": "Mushroom Stew",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mushroom Stew.png"
+    },
+    {
+      "Index": "sandwich",
+      "Name_FR": "Sandwich",
+      "Name_EN": "Sandwich",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Sandwich.png"
+    },
+    {
+      "Index": "corn_soup",
+      "Name_FR": "Corn Soup",
+      "Name_EN": "Corn Soup",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Corn Soup.png"
+    },
+    {
+      "Index": "stew",
+      "Name_FR": "Stew",
+      "Name_EN": "Stew",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stew.png"
+    },
+    {
+      "Index": "hamburger",
+      "Name_FR": "Hamburger",
+      "Name_EN": "Hamburger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hamburger.png"
+    },
+    {
+      "Index": "grilled_fish",
+      "Name_FR": "Grilled Fish",
+      "Name_EN": "Grilled Fish",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grilled Fish.png"
+    },
+    {
+      "Index": "seafood_soup",
+      "Name_FR": "Seafood Soup",
+      "Name_EN": "Seafood Soup",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Seafood Soup.png"
+    },
+    {
+      "Index": "fried_egg",
+      "Name_FR": "Fried Egg",
+      "Name_EN": "Fried Egg",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fried Egg.png"
+    },
+    {
+      "Index": "luxuryomelette",
+      "Name_FR": "LuxuryOmelette",
+      "Name_EN": "LuxuryOmelette",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/LuxuryOmelette.png"
+    },
+    {
+      "Index": "beer",
+      "Name_FR": "Beer",
+      "Name_EN": "Beer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Beer.png"
+    },
+    {
+      "Index": "wine",
+      "Name_FR": "Wine",
+      "Name_EN": "Wine",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wine.png"
+    },
+    {
+      "Index": "mushroom",
+      "Name_FR": "Mushroom",
+      "Name_EN": "Mushroom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mushroom.png"
+    },
+    {
+      "Index": "baked_mushroom",
+      "Name_FR": "Baked Mushroom",
+      "Name_EN": "Baked Mushroom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Baked Mushroom.png"
+    },
+    {
+      "Index": "honey",
+      "Name_FR": "Honey",
+      "Name_EN": "Honey",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Honey.png"
+    },
+    {
+      "Index": "cotton_candy",
+      "Name_FR": "Cotton Candy",
+      "Name_EN": "Cotton Candy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cotton Candy.png"
+    },
+    {
+      "Index": "chikipi_poultry",
+      "Name_FR": "Chikipi Poultry",
+      "Name_EN": "Chikipi Poultry",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Chikipi Poultry.png"
+    },
+    {
+      "Index": "lamball_mutton",
+      "Name_FR": "Lamball Mutton",
+      "Name_EN": "Lamball Mutton",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lamball Mutton.png"
+    },
+    {
+      "Index": "raw_kelpsea",
+      "Name_FR": "Raw Kelpsea",
+      "Name_EN": "Raw Kelpsea",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Raw Kelpsea.png"
+    },
+    {
+      "Index": "galeclaw_poultry",
+      "Name_FR": "Galeclaw Poultry",
+      "Name_EN": "Galeclaw Poultry",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Galeclaw Poultry.png"
+    },
+    {
+      "Index": "rushoar_pork",
+      "Name_FR": "Rushoar Pork",
+      "Name_EN": "Rushoar Pork",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rushoar Pork.png"
+    },
+    {
+      "Index": "raw_dumud",
+      "Name_FR": "Raw Dumud",
+      "Name_EN": "Raw Dumud",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Raw Dumud.png"
+    },
+    {
+      "Index": "eikthyrdeer_venison",
+      "Name_FR": "Eikthyrdeer Venison",
+      "Name_EN": "Eikthyrdeer Venison",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Eikthyrdeer Venison.png"
+    },
+    {
+      "Index": "reindrix_venison",
+      "Name_FR": "Reindrix Venison",
+      "Name_EN": "Reindrix Venison",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Reindrix Venison.png"
+    },
+    {
+      "Index": "caprity_meat",
+      "Name_FR": "Caprity Meat",
+      "Name_EN": "Caprity Meat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Caprity Meat.png"
+    },
+    {
+      "Index": "mozzarina_meat",
+      "Name_FR": "Mozzarina Meat",
+      "Name_EN": "Mozzarina Meat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mozzarina Meat.png"
+    },
+    {
+      "Index": "grilled_chikipi",
+      "Name_FR": "Grilled Chikipi",
+      "Name_EN": "Grilled Chikipi",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grilled Chikipi.png"
+    },
+    {
+      "Index": "lamball_kebab",
+      "Name_FR": "Lamball Kebab",
+      "Name_EN": "Lamball Kebab",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lamball Kebab.png"
+    },
+    {
+      "Index": "grilled_kelpsea",
+      "Name_FR": "Grilled Kelpsea",
+      "Name_EN": "Grilled Kelpsea",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grilled Kelpsea.png"
+    },
+    {
+      "Index": "grilled_galeclaw",
+      "Name_FR": "Grilled Galeclaw",
+      "Name_EN": "Grilled Galeclaw",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grilled Galeclaw.png"
+    },
+    {
+      "Index": "roast_rushoar",
+      "Name_FR": "Roast Rushoar",
+      "Name_EN": "Roast Rushoar",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Roast Rushoar.png"
+    },
+    {
+      "Index": "broiled_dumud",
+      "Name_FR": "Broiled Dumud",
+      "Name_EN": "Broiled Dumud",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Broiled Dumud.png"
+    },
+    {
+      "Index": "roast_eikthyrdeer",
+      "Name_FR": "Roast Eikthyrdeer",
+      "Name_EN": "Roast Eikthyrdeer",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Roast Eikthyrdeer.png"
+    },
+    {
+      "Index": "roast_reindrix",
+      "Name_FR": "Roast Reindrix",
+      "Name_EN": "Roast Reindrix",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Roast Reindrix.png"
+    },
+    {
+      "Index": "herb_roasted_caprity",
+      "Name_FR": "Herb Roasted Caprity",
+      "Name_EN": "Herb Roasted Caprity",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Herb Roasted Caprity.png"
+    },
+    {
+      "Index": "mozzarina_steak",
+      "Name_FR": "Mozzarina Steak",
+      "Name_EN": "Mozzarina Steak",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mozzarina Steak.png"
+    },
+    {
+      "Index": "cavern_mushroom",
+      "Name_FR": "Cavern Mushroom",
+      "Name_EN": "Cavern Mushroom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cavern Mushroom.png"
+    },
+    {
+      "Index": "mysterious_mushroom",
+      "Name_FR": "Mysterious Mushroom",
+      "Name_EN": "Mysterious Mushroom",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mysterious Mushroom.png"
+    },
+    {
+      "Index": "potato",
+      "Name_FR": "Potato",
+      "Name_EN": "Potato",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Potato.png"
+    },
+    {
+      "Index": "carrot",
+      "Name_FR": "Carrot",
+      "Name_EN": "Carrot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Carrot.png"
+    },
+    {
+      "Index": "onion",
+      "Name_FR": "Onion",
+      "Name_EN": "Onion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Onion.png"
+    },
+    {
+      "Index": "fried_gloopie_balls",
+      "Name_FR": "Fried Gloopie Balls",
+      "Name_EN": "Fried Gloopie Balls",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fried Gloopie Balls.png"
+    },
+    {
+      "Index": "jelliettes_jiggly_jelly",
+      "Name_FR": "Jelliette's Jiggly Jelly",
+      "Name_EN": "Jelliette's Jiggly Jelly",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jelliette's Jiggly Jelly.png"
+    },
+    {
+      "Index": "jellroys_jolly_jelly",
+      "Name_FR": "Jellroy's Jolly Jelly",
+      "Name_EN": "Jellroy's Jolly Jelly",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jellroy's Jolly Jelly.png"
+    },
+    {
+      "Index": "munchill_steak",
+      "Name_FR": "Munchill Steak",
+      "Name_EN": "Munchill Steak",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Munchill Steak.png"
+    },
+    {
+      "Index": "seafood_salad",
+      "Name_FR": "Seafood Salad",
+      "Name_EN": "Seafood Salad",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Seafood Salad.png"
+    },
+    {
+      "Index": "nutrient_tonic",
+      "Name_FR": "Nutrient Tonic",
+      "Name_EN": "Nutrient Tonic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nutrient Tonic.png"
+    },
+    {
+      "Index": "broncherry_meat",
+      "Name_FR": "Broncherry Meat",
+      "Name_EN": "Broncherry Meat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Broncherry Meat.png"
+    },
+    {
+      "Index": "mammorest_meat",
+      "Name_FR": "Mammorest Meat",
+      "Name_EN": "Mammorest Meat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mammorest Meat.png"
+    },
+    {
+      "Index": "broncherry_rib_roast",
+      "Name_FR": "Broncherry Rib Roast",
+      "Name_EN": "Broncherry Rib Roast",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Broncherry Rib Roast.png"
+    },
+    {
+      "Index": "mammorest_steak",
+      "Name_FR": "Mammorest Steak",
+      "Name_EN": "Mammorest Steak",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mammorest Steak.png"
+    },
+    {
+      "Index": "chikipi_sauté",
+      "Name_FR": "Chikipi Sauté",
+      "Name_EN": "Chikipi Sauté",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Chikipi Sauté.png"
+    },
+    {
+      "Index": "herb_roasted_lamball",
+      "Name_FR": "Herb Roasted Lamball",
+      "Name_EN": "Herb Roasted Lamball",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Herb Roasted Lamball.png"
+    },
+    {
+      "Index": "grilled_lamball",
+      "Name_FR": "Grilled Lamball",
+      "Name_EN": "Grilled Lamball",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grilled Lamball.png"
+    },
+    {
+      "Index": "stewed_galeclaw",
+      "Name_FR": "Stewed Galeclaw",
+      "Name_EN": "Stewed Galeclaw",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stewed Galeclaw.png"
+    },
+    {
+      "Index": "rushoar_bacon_n_eggs",
+      "Name_FR": "Rushoar Bacon 'n' Eggs",
+      "Name_EN": "Rushoar Bacon 'n' Eggs",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rushoar Bacon 'n' Eggs.png"
+    },
+    {
+      "Index": "reindrix_stew",
+      "Name_FR": "Reindrix Stew",
+      "Name_EN": "Reindrix Stew",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Reindrix Stew.png"
+    },
+    {
+      "Index": "rushoar_gyoza",
+      "Name_FR": "Rushoar Gyoza",
+      "Name_EN": "Rushoar Gyoza",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rushoar Gyoza.png"
+    },
+    {
+      "Index": "stir_fried_vegetables",
+      "Name_FR": "Stir-Fried Vegetables",
+      "Name_EN": "Stir-Fried Vegetables",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Stir-Fried Vegetables.png"
+    },
+    {
+      "Index": "french_fries",
+      "Name_FR": "French Fries",
+      "Name_EN": "French Fries",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/French Fries.png"
+    },
+    {
+      "Index": "gloopie_tentacle",
+      "Name_FR": "Gloopie Tentacle",
+      "Name_EN": "Gloopie Tentacle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gloopie Tentacle.png"
+    },
+    {
+      "Index": "jelliette_bell_flesh",
+      "Name_FR": "Jelliette Bell Flesh",
+      "Name_EN": "Jelliette Bell Flesh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jelliette Bell Flesh.png"
+    },
+    {
+      "Index": "jellroy_bell_flesh",
+      "Name_FR": "Jellroy Bell Flesh",
+      "Name_EN": "Jellroy Bell Flesh",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jellroy Bell Flesh.png"
+    },
+    {
+      "Index": "munchill_meat",
+      "Name_FR": "Munchill Meat",
+      "Name_EN": "Munchill Meat",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Munchill Meat.png"
+    },
+    {
+      "Index": "fried_chikipi",
+      "Name_FR": "Fried Chikipi",
+      "Name_EN": "Fried Chikipi",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fried Chikipi.png"
+    },
+    {
+      "Index": "rushoar_hot_dog",
+      "Name_FR": "Rushoar Hot Dog",
+      "Name_EN": "Rushoar Hot Dog",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rushoar Hot Dog.png"
+    },
+    {
+      "Index": "eikthyrdeer_loco_moco",
+      "Name_FR": "Eikthyrdeer Loco Moco",
+      "Name_EN": "Eikthyrdeer Loco Moco",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Eikthyrdeer Loco Moco.png"
+    },
+    {
+      "Index": "eikthyrdeer_stew",
+      "Name_FR": "Eikthyrdeer Stew",
+      "Name_EN": "Eikthyrdeer Stew",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Eikthyrdeer Stew.png"
+    },
+    {
+      "Index": "mozzarina_hamburger",
+      "Name_FR": "Mozzarina Hamburger",
+      "Name_EN": "Mozzarina Hamburger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mozzarina Hamburger.png"
+    },
+    {
+      "Index": "mozzarina_cheeseburger",
+      "Name_FR": "Mozzarina Cheeseburger",
+      "Name_EN": "Mozzarina Cheeseburger",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mozzarina Cheeseburger.png"
+    },
+    {
+      "Index": "fried_kelpsea",
+      "Name_FR": "Fried Kelpsea",
+      "Name_EN": "Fried Kelpsea",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fried Kelpsea.png"
+    },
+    {
+      "Index": "dumud_chowder",
+      "Name_FR": "Dumud Chowder",
+      "Name_EN": "Dumud Chowder",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dumud Chowder.png"
+    },
+    {
+      "Index": "broncherry_fried_noodles",
+      "Name_FR": "Broncherry Fried Noodles",
+      "Name_EN": "Broncherry Fried Noodles",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Broncherry Fried Noodles.png"
+    },
+    {
+      "Index": "spring_rolls",
+      "Name_FR": "Spring Rolls",
+      "Name_EN": "Spring Rolls",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Spring Rolls.png"
+    },
+    {
+      "Index": "gratin",
+      "Name_FR": "Gratin",
+      "Name_EN": "Gratin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gratin.png"
+    },
+    {
+      "Index": "minestrone",
+      "Name_FR": "Minestrone",
+      "Name_EN": "Minestrone",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Minestrone.png"
+    },
+    {
+      "Index": "mammorest_curry",
+      "Name_FR": "Mammorest Curry",
+      "Name_EN": "Mammorest Curry",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mammorest Curry.png"
+    },
+    {
+      "Index": "galeclaw_nikujaga",
+      "Name_FR": "Galeclaw Nikujaga",
+      "Name_EN": "Galeclaw Nikujaga",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Galeclaw Nikujaga.png"
+    },
+    {
+      "Index": "mushroom_quiche",
+      "Name_FR": "Mushroom Quiche",
+      "Name_EN": "Mushroom Quiche",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mushroom Quiche.png"
+    }
+  ]
+}

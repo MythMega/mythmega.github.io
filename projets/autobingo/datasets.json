@@ -32,6 +32,14 @@
     "Flags": []
   },
   {
+    "Name": "Lethal Company - Scrap",
+    "Category": "Lethal Company",
+    "Subcategory": "V81",
+    "Location": "./data/lethalcompany/lethalcompany_scrap_v81.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
     "Name": "SM64 - 1st Floor",
     "Category": "Mario",
     "Subcategory": "Super Mario 64",
@@ -555,6 +563,1150 @@
     ]
   },
   {
+    "Name": "Palworld - Items accessory/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items accessory/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Accessorys",
+    "Location": "./data/palworld/items_accessory_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 99",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_99.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items all types/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - All Types",
+    "Location": "./data/palworld/items_all_types_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items ammo/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Ammos",
+    "Location": "./data/palworld/items_ammo_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items ammo/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Ammos",
+    "Location": "./data/palworld/items_ammo_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items ammo/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Ammos",
+    "Location": "./data/palworld/items_ammo_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items ammo/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Ammos",
+    "Location": "./data/palworld/items_ammo_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items ammo/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Ammos",
+    "Location": "./data/palworld/items_ammo_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items ammo/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Ammos",
+    "Location": "./data/palworld/items_ammo_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items ammo/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Ammos",
+    "Location": "./data/palworld/items_ammo_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items ammo/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Ammos",
+    "Location": "./data/palworld/items_ammo_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items armor/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Armors",
+    "Location": "./data/palworld/items_armor_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items blueprint/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Blueprints",
+    "Location": "./data/palworld/items_blueprint_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items consumable/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Consumables",
+    "Location": "./data/palworld/items_consumable_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 99",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_99.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items essential/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Essentials",
+    "Location": "./data/palworld/items_essential_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items food/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Foods",
+    "Location": "./data/palworld/items_food_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items glider/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Gliders",
+    "Location": "./data/palworld/items_glider_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items material/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Materials",
+    "Location": "./data/palworld/items_material_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 99",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_99.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items spheres/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Spheres",
+    "Location": "./data/palworld/items_spheres_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/all rarities",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_all_rarities.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 0",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_0.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 0 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_0_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 1",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_1.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 1 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_1_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 2",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_2.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 2 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_2_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 3",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_3.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 3 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_3_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 4",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_4.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 4 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_4_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - Items weapon/rarity 99 and below",
+    "Category": "Palworld",
+    "Subcategory": "Items - Weapons",
+    "Location": "./data/palworld/items_weapon_rarity_99_andbelow.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - All Pals",
+    "Category": "Palworld",
+    "Subcategory": "Pals",
+    "Location": "./data/palworld/all_pals.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Palworld - All Pals (Terraria Collab Included)",
+    "Category": "Palworld",
+    "Subcategory": "Pals",
+    "Location": "./data/palworld/all_pals_plus_terraria.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
     "Name": "PokeFull",
     "Category": "Pokemon",
     "Subcategory": "Dexes",
@@ -803,6 +1955,54 @@
     "Flags": []
   },
   {
+    "Name": "Raft - All Items",
+    "Category": "Raft",
+    "Subcategory": "Raft 1.0",
+    "Location": "./data/raft/Raft - All_Items.json",
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Raft - Food/Water",
+    "Category": "Raft",
+    "Subcategory": "Raft 1.0",
+    "Location": "./data/raft/Raft - Food_Water.json",
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Raft - Materials",
+    "Category": "Raft",
+    "Subcategory": "Raft 1.0",
+    "Location": "./data/raft/Raft - Materials.json",
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Raft - Player Stuff",
+    "Category": "Raft",
+    "Subcategory": "Raft 1.0",
+    "Location": "./data/raft/Raft - Player_Stuff.json",
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Raft - Ressource",
+    "Category": "Raft",
+    "Subcategory": "Raft 1.0",
+    "Location": "./data/raft/Raft - Ressource.json",
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Raft - Ressource & Materials",
+    "Category": "Raft",
+    "Subcategory": "Raft 1.0",
+    "Location": "./data/raft/Raft - Ressource_&_Materials.json",
+    "Quantizable": true,
+    "Flags": []
+  },
+  {
     "Name": "Satisfactory - All Creatures - 1.2",
     "Category": "Satisfactory",
     "Subcategory": "Satisfactory - 1.2",
@@ -1024,6 +2224,238 @@
     "Subcategory": "Satisfactory - Phases Unlocked - 1.2",
     "Location": "./data/satis/1.1/satis-Phase4-all-quantizable-1.2.json",
     "Quantizable": true,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - All Enemies",
+    "Category": "Slay The Spire",
+    "Subcategory": "Enemies",
+    "Location": "./data/slaythespire/sts1/sts-enemies.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - Elites",
+    "Category": "Slay The Spire",
+    "Subcategory": "Enemies",
+    "Location": "./data/slaythespire/sts1/sts-elites.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - Monsters",
+    "Category": "Slay The Spire",
+    "Subcategory": "Enemies",
+    "Location": "./data/slaythespire/sts1/sts-monsters.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - Potions",
+    "Category": "Slay The Spire",
+    "Subcategory": "Potions",
+    "Location": "./data/slaythespire/sts1/sts-potions.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - Relics - Defect",
+    "Category": "Slay The Spire",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts1/sts-relics-defect.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - Relics - Ironclad",
+    "Category": "Slay The Spire",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts1/sts-relics-ironclad.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - Relics - No Character Exclusive",
+    "Category": "Slay The Spire",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts1/sts-relics-any.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - Relics - Silent",
+    "Category": "Slay The Spire",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts1/sts-relics-silent.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire - Relics - Watcher",
+    "Category": "Slay The Spire",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts1/sts-relics-watcher.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - All Enemies",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Enemies",
+    "Location": "./data/slaythespire/sts2/sts2-enemies.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Elites",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Enemies",
+    "Location": "./data/slaythespire/sts2/sts2-elites.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Monsters",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Enemies",
+    "Location": "./data/slaythespire/sts2/sts2-monsters.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Potions",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Potions",
+    "Location": "./data/slaythespire/sts2/sts2-potions.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Relics - Defect",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts2/sts2-relics-defect.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Relics - Ironclad",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts2/sts2-relics-ironclad.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Relics - Necrobinder",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts2/sts2-relics-necrobinder.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Relics - No Character Exclusive",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts2/sts2-relics-any.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Relics - Regent",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts2/sts2-relics-regent.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slay The Spire 2 - Relics - Silent",
+    "Category": "Slay The Spire 2",
+    "Subcategory": "Relics",
+    "Location": "./data/slaythespire/sts2/sts2-relics-silent.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher - All items",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher",
+    "Location": "./data/slimerancher/slimerancher/slimerancher-allitems.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher - Food",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher",
+    "Location": "./data/slimerancher/slimerancher/slimerancher-Food.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher - Plort",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher",
+    "Location": "./data/slimerancher/slimerancher/slimerancher-Plort.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher - Science",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher",
+    "Location": "./data/slimerancher/slimerancher/slimerancher-Science.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher - Slimes",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher",
+    "Location": "./data/slimerancher/slimerancher/slimerancher-Slimes.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher 2 - All items",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher 2",
+    "Location": "./data/slimerancher/slimerancher2/slimerancher2-allitems.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher 2 - Food",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher 2",
+    "Location": "./data/slimerancher/slimerancher2/slimerancher2-Food.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher 2 - Plort",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher 2",
+    "Location": "./data/slimerancher/slimerancher2/slimerancher2-Plort.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher 2 - Science",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher 2",
+    "Location": "./data/slimerancher/slimerancher2/slimerancher2-Science.json",
+    "Quantizable": false,
+    "Flags": []
+  },
+  {
+    "Name": "Slime Rancher 2 - Slime",
+    "Category": "Slime Rancher",
+    "Subcategory": "Slime Rancher 2",
+    "Location": "./data/slimerancher/slimerancher2/slimerancher2-Slime.json",
+    "Quantizable": false,
     "Flags": []
   },
   {

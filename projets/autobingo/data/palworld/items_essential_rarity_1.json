@@ -1,0 +1,632 @@
+{
+  "Name": "Palworld - Items essential/rarity 1",
+  "Category": "Palworld",
+  "Subcategory": "Items - Essentials",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "lifmunk_effigy",
+      "Name_FR": "Lifmunk Effigy",
+      "Name_EN": "Lifmunk Effigy",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lifmunk Effigy.png"
+    },
+    {
+      "Index": "lifmunks_submachine_gun",
+      "Name_FR": "Lifmunk's Submachine Gun",
+      "Name_EN": "Lifmunk's Submachine Gun",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lifmunk's Submachine Gun.png"
+    },
+    {
+      "Index": "direhowls_saddled_harness",
+      "Name_FR": "Direhowl's Saddled Harness",
+      "Name_EN": "Direhowl's Saddled Harness",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Direhowl's Saddled Harness.png"
+    },
+    {
+      "Index": "eikthyrdeer_terra_saddle",
+      "Name_FR": "Eikthyrdeer Terra Saddle",
+      "Name_EN": "Eikthyrdeer Terra Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Eikthyrdeer Terra Saddle.png"
+    },
+    {
+      "Index": "jolthog_crysts_gloves",
+      "Name_FR": "Jolthog Cryst's Gloves",
+      "Name_EN": "Jolthog Cryst's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jolthog Cryst's Gloves.png"
+    },
+    {
+      "Index": "surfent_terra_saddle",
+      "Name_FR": "Surfent Terra Saddle",
+      "Name_EN": "Surfent Terra Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Surfent Terra Saddle.png"
+    },
+    {
+      "Index": "eikthyrdeer_saddle",
+      "Name_FR": "Eikthyrdeer Saddle",
+      "Name_EN": "Eikthyrdeer Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Eikthyrdeer Saddle.png"
+    },
+    {
+      "Index": "jolthogs_gloves",
+      "Name_FR": "Jolthog's Gloves",
+      "Name_EN": "Jolthog's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jolthog's Gloves.png"
+    },
+    {
+      "Index": "foxparkss_harness",
+      "Name_FR": "Foxparks's Harness",
+      "Name_EN": "Foxparks's Harness",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Foxparks's Harness.png"
+    },
+    {
+      "Index": "rushoar_saddle",
+      "Name_FR": "Rushoar Saddle",
+      "Name_EN": "Rushoar Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rushoar Saddle.png"
+    },
+    {
+      "Index": "tanzees_assault_rifle",
+      "Name_FR": "Tanzee's Assault Rifle",
+      "Name_EN": "Tanzee's Assault Rifle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tanzee's Assault Rifle.png"
+    },
+    {
+      "Index": "melpaca_saddle",
+      "Name_FR": "Melpaca Saddle",
+      "Name_EN": "Melpaca Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Melpaca Saddle.png"
+    },
+    {
+      "Index": "celarays_gloves",
+      "Name_FR": "Celaray's Gloves",
+      "Name_EN": "Celaray's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Celaray's Gloves.png"
+    },
+    {
+      "Index": "surfent_saddle",
+      "Name_FR": "Surfent Saddle",
+      "Name_EN": "Surfent Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Surfent Saddle.png"
+    },
+    {
+      "Index": "sweepa_saddle",
+      "Name_FR": "Sweepa Saddle",
+      "Name_EN": "Sweepa Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Sweepa Saddle.png"
+    },
+    {
+      "Index": "grintale_saddle",
+      "Name_FR": "Grintale Saddle",
+      "Name_EN": "Grintale Saddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grintale Saddle.png"
+    },
+    {
+      "Index": "hip_lantern",
+      "Name_FR": "Hip Lantern",
+      "Name_EN": "Hip Lantern",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hip Lantern.png"
+    },
+    {
+      "Index": "average_feed_bag",
+      "Name_FR": "Average Feed Bag",
+      "Name_EN": "Average Feed Bag",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Average Feed Bag.png"
+    },
+    {
+      "Index": "medium_pouch",
+      "Name_FR": "Medium Pouch",
+      "Name_EN": "Medium Pouch",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Medium Pouch.png"
+    },
+    {
+      "Index": "chillet_bounty_token",
+      "Name_FR": "Chillet Bounty Token",
+      "Name_EN": "Chillet Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Chillet Bounty Token.png"
+    },
+    {
+      "Index": "sweepa_bounty_token",
+      "Name_FR": "Sweepa Bounty Token",
+      "Name_EN": "Sweepa Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Sweepa Bounty Token.png"
+    },
+    {
+      "Index": "gumoss_bounty_token",
+      "Name_FR": "Gumoss Bounty Token",
+      "Name_EN": "Gumoss Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gumoss Bounty Token.png"
+    },
+    {
+      "Index": "dumud_bounty_token",
+      "Name_FR": "Dumud Bounty Token",
+      "Name_EN": "Dumud Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dumud Bounty Token.png"
+    },
+    {
+      "Index": "penking_bounty_token",
+      "Name_FR": "Penking Bounty Token",
+      "Name_EN": "Penking Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Penking Bounty Token.png"
+    },
+    {
+      "Index": "azurobe_bounty_token",
+      "Name_FR": "Azurobe Bounty Token",
+      "Name_EN": "Azurobe Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Azurobe Bounty Token.png"
+    },
+    {
+      "Index": "grintale_bounty_token",
+      "Name_FR": "Grintale Bounty Token",
+      "Name_EN": "Grintale Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grintale Bounty Token.png"
+    },
+    {
+      "Index": "nitewing_bounty_token",
+      "Name_FR": "Nitewing Bounty Token",
+      "Name_EN": "Nitewing Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nitewing Bounty Token.png"
+    },
+    {
+      "Index": "quivern_bounty_token",
+      "Name_FR": "Quivern Bounty Token",
+      "Name_EN": "Quivern Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Quivern Bounty Token.png"
+    },
+    {
+      "Index": "felbat_bounty_token",
+      "Name_FR": "Felbat Bounty Token",
+      "Name_EN": "Felbat Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Felbat Bounty Token.png"
+    },
+    {
+      "Index": "kingpaca_bounty_token",
+      "Name_FR": "Kingpaca Bounty Token",
+      "Name_EN": "Kingpaca Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Kingpaca Bounty Token.png"
+    },
+    {
+      "Index": "broncherry_bounty_token",
+      "Name_FR": "Broncherry Bounty Token",
+      "Name_EN": "Broncherry Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Broncherry Bounty Token.png"
+    },
+    {
+      "Index": "katress_bounty_token",
+      "Name_FR": "Katress Bounty Token",
+      "Name_EN": "Katress Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Katress Bounty Token.png"
+    },
+    {
+      "Index": "bushi_bounty_token",
+      "Name_FR": "Bushi Bounty Token",
+      "Name_EN": "Bushi Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bushi Bounty Token.png"
+    },
+    {
+      "Index": "fenglope_bounty_token",
+      "Name_FR": "Fenglope Bounty Token",
+      "Name_EN": "Fenglope Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fenglope Bounty Token.png"
+    },
+    {
+      "Index": "petallia_bounty_token",
+      "Name_FR": "Petallia Bounty Token",
+      "Name_EN": "Petallia Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Petallia Bounty Token.png"
+    },
+    {
+      "Index": "beakon_bounty_token",
+      "Name_FR": "Beakon Bounty Token",
+      "Name_EN": "Beakon Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Beakon Bounty Token.png"
+    },
+    {
+      "Index": "warsect_bounty_token",
+      "Name_FR": "Warsect Bounty Token",
+      "Name_EN": "Warsect Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Warsect Bounty Token.png"
+    },
+    {
+      "Index": "broncherry_aqua_bounty_token",
+      "Name_FR": "Broncherry Aqua Bounty Token",
+      "Name_EN": "Broncherry Aqua Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Broncherry Aqua Bounty Token.png"
+    },
+    {
+      "Index": "elphidran_bounty_token",
+      "Name_FR": "Elphidran Bounty Token",
+      "Name_EN": "Elphidran Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Elphidran Bounty Token.png"
+    },
+    {
+      "Index": "relaxaurus_bounty_token",
+      "Name_FR": "Relaxaurus Bounty Token",
+      "Name_EN": "Relaxaurus Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Relaxaurus Bounty Token.png"
+    },
+    {
+      "Index": "univolt_bounty_token",
+      "Name_FR": "Univolt Bounty Token",
+      "Name_EN": "Univolt Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Univolt Bounty Token.png"
+    },
+    {
+      "Index": "elizabee_bounty_token",
+      "Name_FR": "Elizabee Bounty Token",
+      "Name_EN": "Elizabee Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Elizabee Bounty Token.png"
+    },
+    {
+      "Index": "mossanda_lux_bounty_token",
+      "Name_FR": "Mossanda Lux Bounty Token",
+      "Name_EN": "Mossanda Lux Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mossanda Lux Bounty Token.png"
+    },
+    {
+      "Index": "lunaris_bounty_token",
+      "Name_FR": "Lunaris Bounty Token",
+      "Name_EN": "Lunaris Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lunaris Bounty Token.png"
+    },
+    {
+      "Index": "verdash_bounty_token",
+      "Name_FR": "Verdash Bounty Token",
+      "Name_EN": "Verdash Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Verdash Bounty Token.png"
+    },
+    {
+      "Index": "wumpo_botan_bounty_token",
+      "Name_FR": "Wumpo Botan Bounty Token",
+      "Name_EN": "Wumpo Botan Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wumpo Botan Bounty Token.png"
+    },
+    {
+      "Index": "mammorest_bounty_token",
+      "Name_FR": "Mammorest Bounty Token",
+      "Name_EN": "Mammorest Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mammorest Bounty Token.png"
+    },
+    {
+      "Index": "vaelet_bounty_token",
+      "Name_FR": "Vaelet Bounty Token",
+      "Name_EN": "Vaelet Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Vaelet Bounty Token.png"
+    },
+    {
+      "Index": "sibelyx_bounty_token",
+      "Name_FR": "Sibelyx Bounty Token",
+      "Name_EN": "Sibelyx Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Sibelyx Bounty Token.png"
+    },
+    {
+      "Index": "menasting_bounty_token",
+      "Name_FR": "Menasting Bounty Token",
+      "Name_EN": "Menasting Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Menasting Bounty Token.png"
+    },
+    {
+      "Index": "suzaku_bounty_token",
+      "Name_FR": "Suzaku Bounty Token",
+      "Name_EN": "Suzaku Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Suzaku Bounty Token.png"
+    },
+    {
+      "Index": "jormuntide_bounty_token",
+      "Name_FR": "Jormuntide Bounty Token",
+      "Name_EN": "Jormuntide Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jormuntide Bounty Token.png"
+    },
+    {
+      "Index": "ice_kingpaca_bounty_token",
+      "Name_FR": "Ice Kingpaca Bounty Token",
+      "Name_EN": "Ice Kingpaca Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ice Kingpaca Bounty Token.png"
+    },
+    {
+      "Index": "dinossom_lux_bounty_token",
+      "Name_FR": "Dinossom Lux Bounty Token",
+      "Name_EN": "Dinossom Lux Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dinossom Lux Bounty Token.png"
+    },
+    {
+      "Index": "anubis_bounty_token",
+      "Name_FR": "Anubis Bounty Token",
+      "Name_EN": "Anubis Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Anubis Bounty Token.png"
+    },
+    {
+      "Index": "astegon_bounty_token",
+      "Name_FR": "Astegon Bounty Token",
+      "Name_EN": "Astegon Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Astegon Bounty Token.png"
+    },
+    {
+      "Index": "blazamut_bounty_token",
+      "Name_FR": "Blazamut Bounty Token",
+      "Name_EN": "Blazamut Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Blazamut Bounty Token.png"
+    },
+    {
+      "Index": "lyleen_noct_bounty_token",
+      "Name_FR": "Lyleen Noct Bounty Token",
+      "Name_EN": "Lyleen Noct Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lyleen Noct Bounty Token.png"
+    },
+    {
+      "Index": "menasting_terra_bounty_token",
+      "Name_FR": "Menasting Terra Bounty Token",
+      "Name_EN": "Menasting Terra Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Menasting Terra Bounty Token.png"
+    },
+    {
+      "Index": "knocklem_bounty_token",
+      "Name_FR": "Knocklem Bounty Token",
+      "Name_EN": "Knocklem Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Knocklem Bounty Token.png"
+    },
+    {
+      "Index": "splatterina_bounty_token",
+      "Name_FR": "Splatterina Bounty Token",
+      "Name_EN": "Splatterina Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Splatterina Bounty Token.png"
+    },
+    {
+      "Index": "azurmane_bounty_token",
+      "Name_FR": "Azurmane Bounty Token",
+      "Name_EN": "Azurmane Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Azurmane Bounty Token.png"
+    },
+    {
+      "Index": "kitsun_noct_bounty_token",
+      "Name_FR": "Kitsun Noct Bounty Token",
+      "Name_EN": "Kitsun Noct Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Kitsun Noct Bounty Token.png"
+    },
+    {
+      "Index": "fenglope_lux_bounty_token",
+      "Name_FR": "Fenglope Lux Bounty Token",
+      "Name_EN": "Fenglope Lux Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Fenglope Lux Bounty Token.png"
+    },
+    {
+      "Index": "celesdir_bounty_token",
+      "Name_FR": "Celesdir Bounty Token",
+      "Name_EN": "Celesdir Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Celesdir Bounty Token.png"
+    },
+    {
+      "Index": "silvegis_bounty_token",
+      "Name_FR": "Silvegis Bounty Token",
+      "Name_EN": "Silvegis Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Silvegis Bounty Token.png"
+    },
+    {
+      "Index": "faleris_aqua_bounty_token",
+      "Name_FR": "Faleris Aqua Bounty Token",
+      "Name_EN": "Faleris Aqua Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Faleris Aqua Bounty Token.png"
+    },
+    {
+      "Index": "jetragon_bounty_token",
+      "Name_FR": "Jetragon Bounty Token",
+      "Name_EN": "Jetragon Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Jetragon Bounty Token.png"
+    },
+    {
+      "Index": "frostallion_bounty_token",
+      "Name_FR": "Frostallion Bounty Token",
+      "Name_EN": "Frostallion Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Frostallion Bounty Token.png"
+    },
+    {
+      "Index": "twin_knights_bounty_token",
+      "Name_FR": "Twin Knights Bounty Token",
+      "Name_EN": "Twin Knights Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Twin Knights Bounty Token.png"
+    },
+    {
+      "Index": "foxparks_crysts_harness",
+      "Name_FR": "Foxparks Cryst's Harness",
+      "Name_EN": "Foxparks Cryst's Harness",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Foxparks Cryst's Harness.png"
+    },
+    {
+      "Index": "smokie_bounty_token",
+      "Name_FR": "Smokie Bounty Token",
+      "Name_EN": "Smokie Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Smokie Bounty Token.png"
+    },
+    {
+      "Index": "nitemary_bounty_token",
+      "Name_FR": "Nitemary Bounty Token",
+      "Name_EN": "Nitemary Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nitemary Bounty Token.png"
+    },
+    {
+      "Index": "starryon_bounty_token",
+      "Name_FR": "Starryon Bounty Token",
+      "Name_EN": "Starryon Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Starryon Bounty Token.png"
+    },
+    {
+      "Index": "prunelia_bounty_token",
+      "Name_FR": "Prunelia Bounty Token",
+      "Name_EN": "Prunelia Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Prunelia Bounty Token.png"
+    },
+    {
+      "Index": "nyafia_bounty_token",
+      "Name_FR": "Nyafia Bounty Token",
+      "Name_EN": "Nyafia Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nyafia Bounty Token.png"
+    },
+    {
+      "Index": "gildane_bounty_token",
+      "Name_FR": "Gildane Bounty Token",
+      "Name_EN": "Gildane Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gildane Bounty Token.png"
+    },
+    {
+      "Index": "omascul_bounty_token",
+      "Name_FR": "Omascul Bounty Token",
+      "Name_EN": "Omascul Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Omascul Bounty Token.png"
+    },
+    {
+      "Index": "tarantris_bounty_token",
+      "Name_FR": "Tarantris Bounty Token",
+      "Name_EN": "Tarantris Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tarantris Bounty Token.png"
+    },
+    {
+      "Index": "frostallion_noct_bounty_token",
+      "Name_FR": "Frostallion Noct Bounty Token",
+      "Name_EN": "Frostallion Noct Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Frostallion Noct Bounty Token.png"
+    },
+    {
+      "Index": "foxparks_cryst_bounty_token",
+      "Name_FR": "Foxparks Cryst Bounty Token",
+      "Name_EN": "Foxparks Cryst Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Foxparks Cryst Bounty Token.png"
+    },
+    {
+      "Index": "dazzi_noct_bounty_token",
+      "Name_FR": "Dazzi Noct Bounty Token",
+      "Name_EN": "Dazzi Noct Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dazzi Noct Bounty Token.png"
+    },
+    {
+      "Index": "cryolinx_terra_bounty_token",
+      "Name_FR": "Cryolinx Terra Bounty Token",
+      "Name_EN": "Cryolinx Terra Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Cryolinx Terra Bounty Token.png"
+    },
+    {
+      "Index": "caprity_noct_bounty_token",
+      "Name_FR": "Caprity Noct Bounty Token",
+      "Name_EN": "Caprity Noct Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Caprity Noct Bounty Token.png"
+    },
+    {
+      "Index": "loupmoon_cryst_bounty_token",
+      "Name_FR": "Loupmoon Cryst Bounty Token",
+      "Name_EN": "Loupmoon Cryst Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Loupmoon Cryst Bounty Token.png"
+    },
+    {
+      "Index": "ribbuny_botan_bounty_token",
+      "Name_FR": "Ribbuny Botan Bounty Token",
+      "Name_EN": "Ribbuny Botan Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ribbuny Botan Bounty Token.png"
+    },
+    {
+      "Index": "warsect_terra_bounty_token",
+      "Name_FR": "Warsect Terra Bounty Token",
+      "Name_EN": "Warsect Terra Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Warsect Terra Bounty Token.png"
+    },
+    {
+      "Index": "implant_mercy_hit",
+      "Name_FR": "Implant: Mercy Hit",
+      "Name_EN": "Implant: Mercy Hit",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Mercy Hit.png"
+    },
+    {
+      "Index": "implant_nocturnal",
+      "Name_FR": "Implant: Nocturnal",
+      "Name_EN": "Implant: Nocturnal",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Nocturnal.png"
+    },
+    {
+      "Index": "implant_impatient",
+      "Name_FR": "Implant: Impatient",
+      "Name_EN": "Implant: Impatient",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Impatient.png"
+    },
+    {
+      "Index": "implant_fit_as_a_fiddle",
+      "Name_FR": "Implant: Fit as a Fiddle",
+      "Name_EN": "Implant: Fit as a Fiddle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Fit as a Fiddle.png"
+    },
+    {
+      "Index": "implant_nimble",
+      "Name_FR": "Implant: Nimble",
+      "Name_EN": "Implant: Nimble",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Nimble.png"
+    },
+    {
+      "Index": "implant_dainty_eater",
+      "Name_FR": "Implant: Dainty Eater",
+      "Name_EN": "Implant: Dainty Eater",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Dainty Eater.png"
+    },
+    {
+      "Index": "implant_positive_thinker",
+      "Name_FR": "Implant: Positive Thinker",
+      "Name_EN": "Implant: Positive Thinker",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Positive Thinker.png"
+    },
+    {
+      "Index": "implant_brave",
+      "Name_FR": "Implant: Brave",
+      "Name_EN": "Implant: Brave",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Brave.png"
+    },
+    {
+      "Index": "implant_hard_skin",
+      "Name_FR": "Implant: Hard Skin",
+      "Name_EN": "Implant: Hard Skin",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Hard Skin.png"
+    },
+    {
+      "Index": "implant_serious",
+      "Name_FR": "Implant: Serious",
+      "Name_EN": "Implant: Serious",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Implant: Serious.png"
+    },
+    {
+      "Index": "herbils_harness",
+      "Name_FR": "Herbil's Harness",
+      "Name_EN": "Herbil's Harness",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Herbil's Harness.png"
+    },
+    {
+      "Index": "polapups_harness",
+      "Name_FR": "Polapup's Harness",
+      "Name_EN": "Polapup's Harness",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Polapup's Harness.png"
+    },
+    {
+      "Index": "killamari_primos_gloves",
+      "Name_FR": "Killamari Primo's Gloves",
+      "Name_EN": "Killamari Primo's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Killamari Primo's Gloves.png"
+    },
+    {
+      "Index": "celaray_luxs_gloves",
+      "Name_FR": "Celaray Lux's Gloves",
+      "Name_EN": "Celaray Lux's Gloves",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Celaray Lux's Gloves.png"
+    },
+    {
+      "Index": "whalaska_bounty_token",
+      "Name_FR": "Whalaska Bounty Token",
+      "Name_EN": "Whalaska Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Whalaska Bounty Token.png"
+    },
+    {
+      "Index": "whalaska_ignis_bounty_token",
+      "Name_FR": "Whalaska Ignis Bounty Token",
+      "Name_EN": "Whalaska Ignis Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Whalaska Ignis Bounty Token.png"
+    },
+    {
+      "Index": "neptilius_bounty_token",
+      "Name_FR": "Neptilius Bounty Token",
+      "Name_EN": "Neptilius Bounty Token",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Neptilius Bounty Token.png"
+    }
+  ]
+}

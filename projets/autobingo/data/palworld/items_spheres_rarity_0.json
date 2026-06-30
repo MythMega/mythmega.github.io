@@ -1,0 +1,20 @@
+{
+  "Name": "Palworld - Items spheres/rarity 0",
+  "Category": "Palworld",
+  "Subcategory": "Items - Spheres",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "pal_sphere",
+      "Name_FR": "Pal Sphere",
+      "Name_EN": "Pal Sphere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Pal Sphere.png"
+    },
+    {
+      "Index": "mega_sphere",
+      "Name_FR": "Mega Sphere",
+      "Name_EN": "Mega Sphere",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Mega Sphere.png"
+    }
+  ]
+}

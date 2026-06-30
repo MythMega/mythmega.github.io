@@ -1,0 +1,120 @@
+{
+  "Name": "Raft - Food/Water",
+  "Category": "Raft",
+  "Subcategory": "Raft 1.0",
+  "Quantizable": true,
+  "DefaultQuantities": {
+    "Max": 99,
+    "Min": 1
+  },
+  "Items": [
+    {
+      "Index": "raft-1",
+      "Name_FR": "Empty Cup",
+      "Name_EN": "Empty Cup",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Empty_Cup.png"
+    },
+    {
+      "Index": "raft-2",
+      "Name_FR": "Empty Bottle",
+      "Name_EN": "Empty Bottle",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Empty_Bottle.png"
+    },
+    {
+      "Index": "raft-3",
+      "Name_FR": "Clay Bowl",
+      "Name_EN": "Clay Bowl",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Clay_Bowl.png"
+    },
+    {
+      "Index": "raft-4",
+      "Name_FR": "Bucket",
+      "Name_EN": "Bucket",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Bucket.png"
+    },
+    {
+      "Index": "raft-5",
+      "Name_FR": "Simple Purifier",
+      "Name_EN": "Simple Purifier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Simple_Purifier.png"
+    },
+    {
+      "Index": "raft-6",
+      "Name_FR": "Advanced Purifier",
+      "Name_EN": "Advanced Purifier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Advanced_Purifier.png"
+    },
+    {
+      "Index": "raft-7",
+      "Name_FR": "Electric Purifier",
+      "Name_EN": "Electric Purifier",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Electric_Purifier.png"
+    },
+    {
+      "Index": "raft-8",
+      "Name_FR": "Simple Grill",
+      "Name_EN": "Simple Grill",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Simple_Grill.png"
+    },
+    {
+      "Index": "raft-9",
+      "Name_FR": "Advanced Grill",
+      "Name_EN": "Advanced Grill",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Advanced_Grill.png"
+    },
+    {
+      "Index": "raft-10",
+      "Name_FR": "Cookingpot",
+      "Name_EN": "Cookingpot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Cookingpot.png"
+    },
+    {
+      "Index": "raft-11",
+      "Name_FR": "Small Crop Plot",
+      "Name_EN": "Small Crop Plot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Small_Crop_Plot.png"
+    },
+    {
+      "Index": "raft-12",
+      "Name_FR": "Medium Crop Plot",
+      "Name_EN": "Medium Crop Plot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Medium_Crop_Plot.png"
+    },
+    {
+      "Index": "raft-13",
+      "Name_FR": "Large Crop Plot",
+      "Name_EN": "Large Crop Plot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Large_Crop_Plot.png"
+    },
+    {
+      "Index": "raft-14",
+      "Name_FR": "Grass Plot",
+      "Name_EN": "Grass Plot",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Grass_Plot.png"
+    },
+    {
+      "Index": "raft-15",
+      "Name_FR": "Sprinkler",
+      "Name_EN": "Sprinkler",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Sprinkler.png"
+    },
+    {
+      "Index": "raft-16",
+      "Name_FR": "Scarecrow",
+      "Name_EN": "Scarecrow",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Scarecrow.png"
+    },
+    {
+      "Index": "raft-17",
+      "Name_FR": "Healing Salve",
+      "Name_EN": "Healing Salve",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Healing_Salve.png"
+    },
+    {
+      "Index": "raft-18",
+      "Name_FR": "Good Healing Salve",
+      "Name_EN": "Good Healing Salve",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/raft/Good_Healing_Salve.png"
+    }
+  ]
+}

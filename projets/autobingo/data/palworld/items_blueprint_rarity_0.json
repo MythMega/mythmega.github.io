@@ -1,0 +1,320 @@
+{
+  "Name": "Palworld - Items blueprint/rarity 0",
+  "Category": "Palworld",
+  "Subcategory": "Items - Blueprints",
+  "Quantizable": false,
+  "Items": [
+    {
+      "Index": "monarchs_crown_schematic_1",
+      "Name_FR": "Monarch's Crown Schematic 1",
+      "Name_EN": "Monarch's Crown Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Monarch's Crown Schematic 1.png"
+    },
+    {
+      "Index": "golden_crown_schematic_1",
+      "Name_FR": "Golden Crown Schematic 1",
+      "Name_EN": "Golden Crown Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Golden Crown Schematic 1.png"
+    },
+    {
+      "Index": "long_eared_headband_schematic_1",
+      "Name_FR": "Long-Eared Headband Schematic 1",
+      "Name_EN": "Long-Eared Headband Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Long-Eared Headband Schematic 1.png"
+    },
+    {
+      "Index": "witch_hat_schematic_1",
+      "Name_FR": "Witch Hat Schematic 1",
+      "Name_EN": "Witch Hat Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Witch Hat Schematic 1.png"
+    },
+    {
+      "Index": "soft_hat_schematic_1",
+      "Name_FR": "Soft Hat Schematic 1",
+      "Name_EN": "Soft Hat Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Soft Hat Schematic 1.png"
+    },
+    {
+      "Index": "helmet_schematic_1",
+      "Name_FR": "Helmet Schematic 1",
+      "Name_EN": "Helmet Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Helmet Schematic 1.png"
+    },
+    {
+      "Index": "silk_hat_schematic_1",
+      "Name_FR": "Silk Hat Schematic 1",
+      "Name_EN": "Silk Hat Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Silk Hat Schematic 1.png"
+    },
+    {
+      "Index": "tricorne_schematic_1",
+      "Name_FR": "Tricorne Schematic 1",
+      "Name_EN": "Tricorne Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tricorne Schematic 1.png"
+    },
+    {
+      "Index": "exploration_cap_schematic_1",
+      "Name_FR": "Exploration Cap Schematic 1",
+      "Name_EN": "Exploration Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Exploration Cap Schematic 1.png"
+    },
+    {
+      "Index": "graduation_cap_schematic_1",
+      "Name_FR": "Graduation Cap Schematic 1",
+      "Name_EN": "Graduation Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Graduation Cap Schematic 1.png"
+    },
+    {
+      "Index": "farming_hat_schematic_1",
+      "Name_FR": "Farming Hat Schematic 1",
+      "Name_EN": "Farming Hat Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Farming Hat Schematic 1.png"
+    },
+    {
+      "Index": "bowler_hat_schematic_1",
+      "Name_FR": "Bowler Hat Schematic 1",
+      "Name_EN": "Bowler Hat Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bowler Hat Schematic 1.png"
+    },
+    {
+      "Index": "tocotoco_cap_schematic_1",
+      "Name_FR": "Tocotoco Cap Schematic 1",
+      "Name_EN": "Tocotoco Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Tocotoco Cap Schematic 1.png"
+    },
+    {
+      "Index": "grinning_tocotoco_cap_schematic_1",
+      "Name_FR": "Grinning Tocotoco Cap Schematic 1",
+      "Name_EN": "Grinning Tocotoco Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Grinning Tocotoco Cap Schematic 1.png"
+    },
+    {
+      "Index": "gumoss_cap_schematic_1",
+      "Name_FR": "Gumoss Cap Schematic 1",
+      "Name_EN": "Gumoss Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Gumoss Cap Schematic 1.png"
+    },
+    {
+      "Index": "penking_cap_schematic_1",
+      "Name_FR": "Penking Cap Schematic 1",
+      "Name_EN": "Penking Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Penking Cap Schematic 1.png"
+    },
+    {
+      "Index": "katress_cap_schematic_1",
+      "Name_FR": "Katress Cap Schematic 1",
+      "Name_EN": "Katress Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Katress Cap Schematic 1.png"
+    },
+    {
+      "Index": "bellanoirs_slab_fragment",
+      "Name_FR": "Bellanoir's Slab Fragment",
+      "Name_EN": "Bellanoir's Slab Fragment",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Bellanoir's Slab Fragment.png"
+    },
+    {
+      "Index": "leezpunk_hood_schematic_1",
+      "Name_FR": "Leezpunk Hood Schematic 1",
+      "Name_EN": "Leezpunk Hood Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Leezpunk Hood Schematic 1.png"
+    },
+    {
+      "Index": "killamari_cap_schematic_1",
+      "Name_FR": "Killamari Cap Schematic 1",
+      "Name_EN": "Killamari Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Killamari Cap Schematic 1.png"
+    },
+    {
+      "Index": "ribbuny_headband_schematic_1",
+      "Name_FR": "Ribbuny Headband Schematic 1",
+      "Name_EN": "Ribbuny Headband Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ribbuny Headband Schematic 1.png"
+    },
+    {
+      "Index": "swee_cap_schematic_1",
+      "Name_FR": "Swee Cap Schematic 1",
+      "Name_EN": "Swee Cap Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Swee Cap Schematic 1.png"
+    },
+    {
+      "Index": "dazzi_hat_schematic_1",
+      "Name_FR": "Dazzi Hat Schematic 1",
+      "Name_EN": "Dazzi Hat Schematic 1",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Dazzi Hat Schematic 1.png"
+    },
+    {
+      "Index": "multi_guided_missile_launcher_schematic",
+      "Name_FR": "Multi Guided Missile Launcher Schematic",
+      "Name_EN": "Multi Guided Missile Launcher Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Multi Guided Missile Launcher Schematic.png"
+    },
+    {
+      "Index": "rayne_syndicate_flag_schematic",
+      "Name_FR": "Rayne Syndicate Flag Schematic",
+      "Name_EN": "Rayne Syndicate Flag Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Rayne Syndicate Flag Schematic.png"
+    },
+    {
+      "Index": "lyleen_statue_schematic",
+      "Name_FR": "Lyleen Statue Schematic",
+      "Name_EN": "Lyleen Statue Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Lyleen Statue Schematic.png"
+    },
+    {
+      "Index": "free_pal_alliance_flag_schematic",
+      "Name_FR": "Free Pal Alliance Flag Schematic",
+      "Name_EN": "Free Pal Alliance Flag Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Free Pal Alliance Flag Schematic.png"
+    },
+    {
+      "Index": "free_pal_alliance_banner_schematic",
+      "Name_FR": "Free Pal Alliance Banner Schematic",
+      "Name_EN": "Free Pal Alliance Banner Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Free Pal Alliance Banner Schematic.png"
+    },
+    {
+      "Index": "wire_fence_schematic",
+      "Name_FR": "Wire Fence Schematic",
+      "Name_EN": "Wire Fence Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wire Fence Schematic.png"
+    },
+    {
+      "Index": "wooden_barricade_schematic",
+      "Name_FR": "Wooden Barricade Schematic",
+      "Name_EN": "Wooden Barricade Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Wooden Barricade Schematic.png"
+    },
+    {
+      "Index": "majestic_wall_torch_schematic",
+      "Name_FR": "Majestic Wall Torch Schematic",
+      "Name_EN": "Majestic Wall Torch Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Majestic Wall Torch Schematic.png"
+    },
+    {
+      "Index": "ceremonial_candlestick_schematic",
+      "Name_FR": "Ceremonial Candlestick Schematic",
+      "Name_EN": "Ceremonial Candlestick Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Ceremonial Candlestick Schematic.png"
+    },
+    {
+      "Index": "majestic_candlestick_schematic",
+      "Name_FR": "Majestic Candlestick Schematic",
+      "Name_EN": "Majestic Candlestick Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Majestic Candlestick Schematic.png"
+    },
+    {
+      "Index": "paper_lantern_schematic",
+      "Name_FR": "Paper Lantern Schematic",
+      "Name_EN": "Paper Lantern Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Paper Lantern Schematic.png"
+    },
+    {
+      "Index": "festival_lantern_schematic",
+      "Name_FR": "Festival Lantern Schematic",
+      "Name_EN": "Festival Lantern Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Festival Lantern Schematic.png"
+    },
+    {
+      "Index": "yakumo_statue_schematic",
+      "Name_FR": "Yakumo Statue Schematic",
+      "Name_EN": "Yakumo Statue Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Yakumo Statue Schematic.png"
+    },
+    {
+      "Index": "laboratory_desk_schematic",
+      "Name_FR": "Laboratory Desk Schematic",
+      "Name_EN": "Laboratory Desk Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laboratory Desk Schematic.png"
+    },
+    {
+      "Index": "laboratory_chair_schematic",
+      "Name_FR": "Laboratory Chair Schematic",
+      "Name_EN": "Laboratory Chair Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Laboratory Chair Schematic.png"
+    },
+    {
+      "Index": "excalibur_schematic",
+      "Name_FR": "Excalibur Schematic",
+      "Name_EN": "Excalibur Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Excalibur Schematic.png"
+    },
+    {
+      "Index": "terraprisma_schematic",
+      "Name_FR": "Terraprisma Schematic",
+      "Name_EN": "Terraprisma Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Terraprisma Schematic.png"
+    },
+    {
+      "Index": "vortex_beater_schematic",
+      "Name_FR": "Vortex Beater Schematic",
+      "Name_EN": "Vortex Beater Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Vortex Beater Schematic.png"
+    },
+    {
+      "Index": "nightglow_schematic",
+      "Name_FR": "Nightglow Schematic",
+      "Name_EN": "Nightglow Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Nightglow Schematic.png"
+    },
+    {
+      "Index": "terra_blade_schematic",
+      "Name_FR": "Terra Blade Schematic",
+      "Name_EN": "Terra Blade Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Terra Blade Schematic.png"
+    },
+    {
+      "Index": "hallowed_mask_schematic",
+      "Name_FR": "Hallowed Mask Schematic",
+      "Name_EN": "Hallowed Mask Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Mask Schematic.png"
+    },
+    {
+      "Index": "hallowed_headgear_schematic",
+      "Name_FR": "Hallowed Headgear Schematic",
+      "Name_EN": "Hallowed Headgear Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Headgear Schematic.png"
+    },
+    {
+      "Index": "hallowed_plate_mail_schematic",
+      "Name_FR": "Hallowed Plate Mail Schematic",
+      "Name_EN": "Hallowed Plate Mail Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Plate Mail Schematic.png"
+    },
+    {
+      "Index": "hallowed_helmet_schematic",
+      "Name_FR": "Hallowed Helmet Schematic",
+      "Name_EN": "Hallowed Helmet Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Helmet Schematic.png"
+    },
+    {
+      "Index": "hallowed_hood_schematic",
+      "Name_FR": "Hallowed Hood Schematic",
+      "Name_EN": "Hallowed Hood Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Hallowed Hood Schematic.png"
+    },
+    {
+      "Index": "celestial_sigil_schematic",
+      "Name_FR": "Celestial Sigil Schematic",
+      "Name_EN": "Celestial Sigil Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Celestial Sigil Schematic.png"
+    },
+    {
+      "Index": "beginner_fishing_rod_gumoss_schematic",
+      "Name_FR": "Beginner Fishing Rod (Gumoss) Schematic",
+      "Name_EN": "Beginner Fishing Rod (Gumoss) Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Beginner Fishing Rod (Gumoss) Schematic.png"
+    },
+    {
+      "Index": "intermediate_fishing_rod_croajiro_schematic",
+      "Name_FR": "Intermediate Fishing Rod (Croajiro) Schematic",
+      "Name_EN": "Intermediate Fishing Rod (Croajiro) Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Intermediate Fishing Rod (Croajiro) Schematic.png"
+    },
+    {
+      "Index": "advanced_fishing_rod_depresso_schematic",
+      "Name_FR": "Advanced Fishing Rod (Depresso) Schematic",
+      "Name_EN": "Advanced Fishing Rod (Depresso) Schematic",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/palworld/items/Advanced Fishing Rod (Depresso) Schematic.png"
+    }
+  ]
+}

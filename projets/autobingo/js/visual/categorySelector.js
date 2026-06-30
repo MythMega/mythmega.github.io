@@ -314,7 +314,7 @@
         /**
          * Handle category change
          */
-        _onCategoryChange() {
+        async _onCategoryChange() {
             const cat = this.categorySelect.value;
             this.subcategorySelect.innerHTML = '';
             if (this._datasetOptionsList) this._datasetOptionsList.innerHTML = '';
@@ -341,7 +341,6 @@
                 this.subcategorySelect.appendChild(opt);
             });
             this.subcategorySelect.disabled = false;
-            this.subcategorySelect.value = '';
 
             const placeholder = document.createElement('option');
             placeholder.value = '';
@@ -355,6 +354,12 @@
             if (autobingo.translationManager) autobingo.translationManager.translatePage();
 
             autobingo.NavigationManager.removeParam('Dataset');
+
+            // Auto-select if only one subcategory
+            if (subcategories.length === 1) {
+                this.subcategorySelect.value = subcategories[0];
+                await this._onSubcategoryChange();
+            }
         }
 
         /**
@@ -386,13 +391,22 @@
             if (autobingo.translationManager) autobingo.translationManager.translatePage();
 
             autobingo.NavigationManager.removeParam('Dataset');
+
+            // Auto-select if only one dataset
+            if (datasets.length === 1) {
+                const ds = datasets[0];
+                this._datasetTrigger.textContent = ds.name;
+                this._datasetTrigger.dataset.value = ds.name;
+                await this._onDatasetChange(ds.name);
+            }
         }
 
         /**
          * Handle dataset change
+         * @param {string} [forcedName] - Optional dataset name for programmatic selection
          */
-        async _onDatasetChange() {
-            const name = this._datasetTrigger ? this._datasetTrigger.dataset.value : null;
+        async _onDatasetChange(forcedName) {
+            const name = forcedName || (this._datasetTrigger ? this._datasetTrigger.dataset.value : null);
             this._currentItems = null;
             this._hideWarning();
 
@@ -489,12 +503,12 @@
 
             // Set category
             this.categorySelect.value = def.category;
-            this._onCategoryChange();
+            await this._onCategoryChange();
 
             // Small delay for DOM update, then set subcategory
             await new Promise(r => setTimeout(r, 50));
             this.subcategorySelect.value = def.subcategory;
-            this._onSubcategoryChange();
+            await this._onSubcategoryChange();
 
             // Set dataset
             await new Promise(r => setTimeout(r, 50));

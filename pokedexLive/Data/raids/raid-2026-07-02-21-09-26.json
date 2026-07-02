@@ -1,0 +1,131 @@
+{
+  "bossName": "Nidoqueen",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidoqueen_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidoqueen_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 150000,
+  "date": "2026-07-02 21:09:26",
+  "durationSec": 2841,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 143960,
+      "countAtk": 4,
+      "baseDmg": 31460,
+      "level": 18,
+      "raidCount": 929,
+      "luck": 1.1439924
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14683,
+      "countAtk": 1,
+      "baseDmg": 14683,
+      "level": 18,
+      "raidCount": 486,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 158643
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 3
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-02 21:10:00",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 31460,
+      "pvAfter": 118540,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-07-02 21:31:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 81040,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-02 21:48:34",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 43540,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-02 21:48:40",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14683,
+      "pvAfter": 28857,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-02 21:56:47",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    }
+  ]
+}

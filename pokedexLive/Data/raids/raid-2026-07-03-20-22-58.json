@@ -1,0 +1,234 @@
+{
+  "bossName": "Tentacool",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacool_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tentacool_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-07-03 20:22:58",
+  "durationSec": 6302,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 37500,
+      "countAtk": 3,
+      "baseDmg": 31538,
+      "level": 18,
+      "raidCount": 933,
+      "luck": 0.39634725
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 9204,
+      "countAtk": 1,
+      "baseDmg": 9204,
+      "level": 17,
+      "raidCount": 344,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 5397,
+      "countAtk": 1,
+      "baseDmg": 5397,
+      "level": 14,
+      "raidCount": 231,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "shiny_empy",
+      "damage": 239,
+      "countAtk": 1,
+      "baseDmg": 239,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "jmdevfr",
+      "damage": 237,
+      "countAtk": 1,
+      "baseDmg": 237,
+      "level": 3,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 52577
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "shiny_empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-03 20:26:51",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5397,
+      "pvAfter": 44603,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-03 20:27:00",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 237,
+      "pvAfter": 44366,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-03 21:35:15",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 31866,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-03 21:35:26",
+      "pseudo": "shiny_empy",
+      "platform": "twitch",
+      "damages": 239,
+      "pvAfter": 31627,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-03 21:55:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 19127,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-03 22:02:46",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 6627,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-03 22:08:00",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9204,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    }
+  ]
+}

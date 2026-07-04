@@ -1,0 +1,238 @@
+{
+  "bossName": "Tarsal",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ralts_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ralts_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 65000,
+  "date": "2026-07-04 22:21:33",
+  "durationSec": 5579,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 48750,
+      "countAtk": 3,
+      "baseDmg": 31564,
+      "level": 18,
+      "raidCount": 937,
+      "luck": 0.514827
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 14950,
+      "countAtk": 1,
+      "baseDmg": 14950,
+      "level": 18,
+      "raidCount": 488,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 9146,
+      "countAtk": 1,
+      "baseDmg": 9146,
+      "level": 17,
+      "raidCount": 348,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Chatdhow",
+      "damage": 864,
+      "countAtk": 1,
+      "baseDmg": 864,
+      "level": 10,
+      "raidCount": 21,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "hantaraharison6707",
+      "damage": 700,
+      "countAtk": 1,
+      "baseDmg": 700,
+      "level": 9,
+      "raidCount": 18,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 73710
+    },
+    {
+      "platform": "youtube",
+      "damage": 700
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "hantaraharison6707",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-04 22:23:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 48750,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-07-04 22:37:54",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 32500,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 23:00:00",
+      "pseudo": "hantaraharison6707",
+      "platform": "youtube",
+      "damages": 700,
+      "pvAfter": 31800,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-07-04 23:47:34",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9146,
+      "pvAfter": 22654,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 23:49:54",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 14950,
+      "pvAfter": 7704,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-07-04 23:51:02",
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "damages": 864,
+      "pvAfter": 6840,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 23:54:32",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    }
+  ]
+}

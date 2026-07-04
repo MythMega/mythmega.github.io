@@ -1,0 +1,271 @@
+{
+  "bossName": "Gobou",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mudkip_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mudkip_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 50000,
+  "date": "2026-07-04 20:34:32",
+  "durationSec": 1541,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 37500,
+      "countAtk": 3,
+      "baseDmg": 31713,
+      "level": 18,
+      "raidCount": 935,
+      "luck": 0.39416012
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 9222,
+      "countAtk": 1,
+      "baseDmg": 9222,
+      "level": 17,
+      "raidCount": 346,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 5435,
+      "countAtk": 1,
+      "baseDmg": 5435,
+      "level": 14,
+      "raidCount": 232,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 4001,
+      "countAtk": 4,
+      "baseDmg": 836,
+      "level": 8,
+      "raidCount": 58,
+      "luck": 1.1964713
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Chatdhow",
+      "damage": 775,
+      "countAtk": 1,
+      "baseDmg": 775,
+      "level": 10,
+      "raidCount": 20,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 52932
+    },
+    {
+      "platform": "youtube",
+      "damage": 4001
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-04 20:34:50",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5435,
+      "pvAfter": 44565,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 20:36:25",
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "damages": 775,
+      "pvAfter": 43790,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 20:37:46",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 31290,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 20:40:08",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 836,
+      "pvAfter": 30454,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 20:45:14",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1517,
+      "pvAfter": 28937,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 20:51:51",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1648,
+      "pvAfter": 27289,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-07-04 20:54:46",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 27289,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-07-04 20:55:09",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 14789,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 20:57:16",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9222,
+      "pvAfter": 5567,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-04 21:00:14",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

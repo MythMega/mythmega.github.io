@@ -1683,7 +1683,7 @@
     {
       "Index": "block-000843",
       "Name_FR": "Roche",
-      "Name_EN": "Infested Stone",
+      "Name_EN": "Stone",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Infested_Stone.png"
     },
     {
@@ -1707,7 +1707,7 @@
     {
       "Index": "block-000847",
       "Name_FR": "Pierre taillée",
-      "Name_EN": "Infested Stone Bricks",
+      "Name_EN": "Stone Bricks",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Infested_Stone_Bricks.png"
     },
     {
@@ -3759,6 +3759,12 @@
       }
     },
     {
+      "Index": "block-000974",
+      "Name_FR": "Lit de paille",
+      "Name_EN": "Straw Bed",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Straw_Bed.png"
+    },
+    {
       "Index": "blocktype-001",
       "Name_FR": "Bannière",
       "Name_EN": "Banner",
@@ -4003,6 +4009,12 @@
       "Name_FR": "Escalier de laine",
       "Name_EN": "Wool Stair",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wool_Stair.gif"
+    },
+    {
+      "Index": "blocktype-053",
+      "Name_FR": "Coussin",
+      "Name_EN": "Cushion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cushion.gif"
     },
     {
       "Index": "itemtype-001",

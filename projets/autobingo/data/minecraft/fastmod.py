@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-# REQUIERT D'AVOIR DES JSON EN MODE -SIMPL
+# REQUIERT D'AVOIR DES JSON EN MODE -SIMPL GÉNÉRÉS PAR EZMOD.PY
 import json
 import os
 from collections import OrderedDict

@@ -574,6 +574,18 @@
     ]
   },
   {
+    "Delete": { "IDS": ["block-000958","block-000959","block-000960","block-000961","block-000962","block-000963","block-000964","block-000965","block-000966","block-000967","block-000968","block-000969","block-000970","block-000971","block-000972","block-000973"]
+ },
+    "ReplaceIfFound": [
+      {
+        "Index": "blocktype-053",
+        "Name_FR": "Coussin",
+        "Name_EN": "Cushion",
+        "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cushion.gif"
+      }
+    ]
+  },
+  {
     "Delete": { "IDS": ["item-000261","item-000224","item-000220","item-000169","item-000152","item-000078","item-000050","item-000021","item-000015","item-000002"] },
     "ReplaceIfFound": [
       {

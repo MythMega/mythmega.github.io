@@ -2520,6 +2520,12 @@
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Shelf_Mushroom.png"
     },
     {
+      "Index": "block-000974",
+      "Name_FR": "Lit de paille",
+      "Name_EN": "Straw Bed",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Straw_Bed.png"
+    },
+    {
       "Index": "blocktype-001",
       "Name_FR": "Bannière",
       "Name_EN": "Banner",
@@ -2836,6 +2842,12 @@
       "Name_FR": "Escalier de laine",
       "Name_EN": "Wool Stair",
       "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Wool_Stair.gif"
+    },
+    {
+      "Index": "blocktype-053",
+      "Name_FR": "Coussin",
+      "Name_EN": "Cushion",
+      "PictureMain": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks_types/Cushion.gif"
     }
   ]
 }

@@ -104,11 +104,17 @@
   /* ──────────────────────────────────────
      NAVBAR GENERATION
   ────────────────────────────────────── */
-  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
-
   function active(href) {
-    const file = href.split('/').pop();
-    return file === currentFile ? ' active-page' : '';
+    // Ignore external links
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+      return '';
+    }
+    
+    const currentPath = window.location.pathname;
+    // Normalize href: remove leading ./ and ensure it ends with .html
+    const normalizedHref = href.replace(/^\.\//, '');
+    
+    return currentPath.endsWith(normalizedHref) ? ' active-page' : '';
   }
 
   const navHTML = `

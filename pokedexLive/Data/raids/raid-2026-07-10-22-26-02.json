@@ -1,0 +1,173 @@
+{
+  "bossName": "Voltorbe",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Voltorb_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Voltorb_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-07-10 22:26:02",
+  "durationSec": 1574,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 56250,
+      "countAtk": 3,
+      "baseDmg": 32690,
+      "level": 19,
+      "raidCount": 949,
+      "luck": 0.5735699
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 28184,
+      "countAtk": 2,
+      "baseDmg": 9434,
+      "level": 17,
+      "raidCount": 353,
+      "luck": 1.493746
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "swanSeror-k5i",
+      "damage": 247,
+      "countAtk": 1,
+      "baseDmg": 247,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 84434
+    },
+    {
+      "platform": "youtube",
+      "damage": 247
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-10 22:26:08",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9434,
+      "pvAfter": 65566,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:30:53",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 46816,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:31:00",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 28066,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:43:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 9316,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:50:27",
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "damages": 247,
+      "pvAfter": 9069,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:52:16",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

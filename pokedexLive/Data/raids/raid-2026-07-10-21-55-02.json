@@ -1,0 +1,217 @@
+{
+  "bossName": "Farfuret",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sneasel_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sneasel_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-07-10 21:55:02",
+  "durationSec": 1666,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 72338,
+      "countAtk": 5,
+      "baseDmg": 32174,
+      "level": 19,
+      "raidCount": 948,
+      "luck": 0.44966742
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 9323,
+      "countAtk": 1,
+      "baseDmg": 9323,
+      "level": 17,
+      "raidCount": 352,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "swanSeror-k5i",
+      "damage": 1773,
+      "countAtk": 4,
+      "baseDmg": 265,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.6726415
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 81661
+    },
+    {
+      "platform": "youtube",
+      "damage": 1773
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 4
+    },
+    {
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-10 21:55:13",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 56250,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-07-10 21:56:52",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16087,
+      "pvAfter": 40163,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 21:58:26",
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "damages": 265,
+      "pvAfter": 39898,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:09:15",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 21148,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:12:16",
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "damages": 634,
+      "pvAfter": 20514,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:15:33",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 1,
+      "pvAfter": 20513,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:15:56",
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "damages": 380,
+      "pvAfter": 20133,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:19:35",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9323,
+      "pvAfter": 10810,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 22:19:56",
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "damages": 494,
+      "pvAfter": 10316,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-07-10 22:22:48",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus endormis !"
+    }
+  ]
+}

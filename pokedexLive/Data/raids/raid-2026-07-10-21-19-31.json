@@ -1,0 +1,239 @@
+{
+  "bossName": "H\u00E9ricendre",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cyndaquil_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cyndaquil_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-07-10 21:19:31",
+  "durationSec": 1931,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 60000,
+      "countAtk": 4,
+      "baseDmg": 32301,
+      "level": 19,
+      "raidCount": 947,
+      "luck": 0.4643819
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 265,
+      "countAtk": 1,
+      "baseDmg": 265,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "AidanAidan-j5c",
+      "damage": 248,
+      "countAtk": 1,
+      "baseDmg": 248,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "swanSeror-k5i",
+      "damage": 175,
+      "countAtk": 1,
+      "baseDmg": 175,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 60265
+    },
+    {
+      "platform": "youtube",
+      "damage": 423
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "lcsssssss13",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "AidanAidan-j5c",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-10 21:23:25",
+      "pseudo": "lcsssssss13",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 60000,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "lcsssssss13 a tent\u00E9 de se soigner (mais n\u0027\u00E9tait pas infect\u00E9)"
+    },
+    {
+      "at": "2026-07-10 21:24:06",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 45000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 21:24:24",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 265,
+      "pvAfter": 44735,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 21:27:06",
+      "pseudo": "swanSeror-k5i",
+      "platform": "youtube",
+      "damages": 175,
+      "pvAfter": 44560,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 21:27:17",
+      "pseudo": "AidanAidan-j5c",
+      "platform": "youtube",
+      "damages": 248,
+      "pvAfter": 44312,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 21:35:06",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 29312,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-07-10 21:48:43",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 14312,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-10 21:51:43",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    }
+  ]
+}

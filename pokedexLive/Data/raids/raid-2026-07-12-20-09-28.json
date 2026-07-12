@@ -1,0 +1,215 @@
+{
+  "bossName": "Ponyta",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ponyta_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ponyta_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-07-12 20:09:28",
+  "durationSec": 5004,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 37500,
+      "countAtk": 3,
+      "baseDmg": 32575,
+      "level": 19,
+      "raidCount": 950,
+      "luck": 0.38372985
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 22062,
+      "countAtk": 2,
+      "baseDmg": 9562,
+      "level": 17,
+      "raidCount": 354,
+      "luck": 1.153629
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "alexciel",
+      "damage": 944,
+      "countAtk": 1,
+      "baseDmg": 944,
+      "level": 11,
+      "raidCount": 34,
+      "luck": 1
+    },
+    {
+      "platform": "tiktok",
+      "pseudo": "Ahvencia Fox",
+      "damage": 259,
+      "countAtk": 1,
+      "baseDmg": 259,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 59562
+    },
+    {
+      "platform": "tiktok",
+      "damage": 259
+    },
+    {
+      "platform": "youtube",
+      "damage": 944
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Ahvencia Fox",
+      "platform": "tiktok",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-12 20:59:36",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 37500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 21:06:14",
+      "pseudo": "Ahvencia Fox",
+      "platform": "tiktok",
+      "damages": 259,
+      "pvAfter": 37241,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 21:09:45",
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "damages": 944,
+      "pvAfter": 36297,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 21:11:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 23797,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 21:18:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 11297,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 21:24:13",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9562,
+      "pvAfter": 1735,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 21:32:52",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

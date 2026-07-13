@@ -1,0 +1,244 @@
+{
+  "bossName": "Sabelette",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandshrew_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sandshrew_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 120000,
+  "date": "2026-07-12 21:35:58",
+  "durationSec": 3515,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 90000,
+      "countAtk": 3,
+      "baseDmg": 32873,
+      "level": 19,
+      "raidCount": 951,
+      "luck": 0.912603
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 28821,
+      "countAtk": 3,
+      "baseDmg": 9574,
+      "level": 17,
+      "raidCount": 355,
+      "luck": 1.0034468
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "AidanAidan-j5c",
+      "damage": 1061,
+      "countAtk": 3,
+      "baseDmg": 183,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.9326047
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Fowlsea",
+      "damage": 836,
+      "countAtk": 1,
+      "baseDmg": 836,
+      "level": 9,
+      "raidCount": 23,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 1061
+    },
+    {
+      "platform": "twitch",
+      "damage": 119657
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "AidanAidan-j5c",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Fowlsea",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-12 21:37:58",
+      "pseudo": "AidanAidan-j5c",
+      "platform": "youtube",
+      "damages": 183,
+      "pvAfter": 119817,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 21:38:19",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30000,
+      "pvAfter": 89817,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 22:04:14",
+      "pseudo": "AidanAidan-j5c",
+      "platform": "youtube",
+      "damages": 576,
+      "pvAfter": 89241,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 22:06:00",
+      "pseudo": "AidanAidan-j5c",
+      "platform": "youtube",
+      "damages": 302,
+      "pvAfter": 88939,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 22:31:46",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30000,
+      "pvAfter": 58939,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 22:31:50",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9574,
+      "pvAfter": 49365,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 22:31:57",
+      "pseudo": "Fowlsea",
+      "platform": "twitch",
+      "damages": 836,
+      "pvAfter": 48529,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 22:33:18",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9615,
+      "pvAfter": 38914,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 22:34:15",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30000,
+      "pvAfter": 8914,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-12 22:34:33",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9632,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    }
+  ]
+}

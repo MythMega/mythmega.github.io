@@ -1,0 +1,131 @@
+{
+  "bossName": "Steelix",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Steelix_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Steelix_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 55000,
+  "date": "2026-07-14 22:26:41",
+  "durationSec": 1279,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 55000,
+      "countAtk": 4,
+      "baseDmg": 32936,
+      "level": 19,
+      "raidCount": 955,
+      "luck": 0.41747633
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 1937,
+      "countAtk": 1,
+      "baseDmg": 1937,
+      "level": 12,
+      "raidCount": 126,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 56937
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-14 22:27:14",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 1937,
+      "pvAfter": 53063,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-07-14 22:28:19",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 39313,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-14 22:39:11",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 25563,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-14 22:43:20",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 11813,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-14 22:48:01",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,263 @@
+{
+  "bossName": "Fun\u00E9cire",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Litwick_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Litwick_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-07-15 23:29:08",
+  "durationSec": 204,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 46145,
+      "countAtk": 8,
+      "baseDmg": 5718,
+      "level": 14,
+      "raidCount": 242,
+      "luck": 1.0087662
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 20259,
+      "countAtk": 2,
+      "baseDmg": 9692,
+      "level": 17,
+      "raidCount": 362,
+      "luck": 1.0451403
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Chatdhow",
+      "damage": 845,
+      "countAtk": 1,
+      "baseDmg": 845,
+      "level": 11,
+      "raidCount": 25,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 67249
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 2,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-15 23:30:09",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9692,
+      "pvAfter": 50308,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-07-15 23:30:24",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 50308,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "SawanCyberpotes a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-07-15 23:30:24",
+      "pseudo": "Chatdhow",
+      "platform": "twitch",
+      "damages": 845,
+      "pvAfter": 49463,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-15 23:30:30",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5718,
+      "pvAfter": 43745,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-15 23:30:33",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5733,
+      "pvAfter": 38012,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-15 23:30:34",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5819,
+      "pvAfter": 32193,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-15 23:30:35",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8662,
+      "pvAfter": 23531,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-15 23:30:37",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5775,
+      "pvAfter": 17756,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-15 23:30:40",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 5812,
+      "pvAfter": 11944,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-15 23:30:43",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8626,
+      "pvAfter": 3318,
+      "heal": false,
+      "critical": true,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-07-15 23:30:45",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 3318,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 23h35:43."
+    },
+    {
+      "at": "2026-07-15 23:31:05",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 3318,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "jmdevfr a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-07-15 23:32:33",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10567,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    }
+  ]
+}

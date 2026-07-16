@@ -934,6 +934,7 @@ ul li::marker { color: var(--accent-cyan); }
   border-radius: var(--radius-sm) !important;
   transition: transform var(--transition), box-shadow var(--transition) !important;
   box-shadow: 0 0 16px rgba(145, 71, 255, 0.4);
+  max-height: 50px;
 }
 
 .btn-twitch:hover {

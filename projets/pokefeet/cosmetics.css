@@ -14,24 +14,32 @@
 .cosmetics-pride-btn {
   background: linear-gradient(
     0deg,
-    red,
-    orange,
-    yellow,
-    green,
-    cyan,
-    blue,
-    violet,
-    red,
-    orange,
-    yellow,
-    green,
-    cyan,
-    blue,
-    violet
+    #f28c8c, /* gentle red */
+    #f2b47f, /* gentle orange */
+    #f2ea7f, /* gentle yellow */
+    #b9dcb6, /* gentle green */
+    #b6dfe3, /* gentle cyan */
+    #b6c6ee, /* gentle blue */
+    #d9b6e3, /* gentle violet */
+    #f28c8c,
+    #f2b47f,
+    #f2ea7f,
+    #b9dcb6,
+    #b6dfe3,
+    #b6c6ee,
+    #d9b6e3
   );
   background-size: 300% 300%;
   animation: prideBtnShift 60s infinite;
+  
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 1),
+    0 0 12px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.6);
 }
+
+
+
 
 @keyframes prideBtnShift {
   0% {

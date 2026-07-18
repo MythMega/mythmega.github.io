@@ -37,7 +37,7 @@
         "Name": "Kanto Master",
         "Value": "cosmetics-kanto",
         "File": "kanto.png",
-        "RequiresUnlock": true
+        "RequiresUnlock": false
     },
     {
         "ID": 4,
@@ -45,7 +45,7 @@
         "Name": "Johto Master",
         "Value": "cosmetics-johto",
         "File": "johto.png",
-        "RequiresUnlock": true
+        "RequiresUnlock": false
     },
     {
         "ID": 5,
@@ -53,7 +53,7 @@
         "Name": "Hoenn Master",
         "Value": "cosmetics-hoenn",
         "File": "hoenn.png",
-        "RequiresUnlock": true
+        "RequiresUnlock": false
     },
     {
         "ID": 6,
@@ -61,7 +61,7 @@
         "Name": "Sinnoh Master",
         "Value": "cosmetics-sinnoh",
         "File": "sinnoh.png",
-        "RequiresUnlock": true
+        "RequiresUnlock": false
     },
     {
         "ID": 7,
@@ -93,7 +93,7 @@
         "Name": "Ocean Depth",
         "Value": "ocean-depth",
         "File": "wave.png",
-        "RequiresUnlock": true
+        "RequiresUnlock": false
     },
     {
         "ID": 11,

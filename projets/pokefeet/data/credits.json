@@ -82,6 +82,14 @@
         ]
     },
     {
+        "Person": "Sawan",
+        "Types": ["Tester"],
+        "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/df4595e8-55a5-45db-a8a7-c7bcf0387ef7-profile_image-70x70.png",
+        "Buttons" : [
+            {"Text": "Twitch", "Url": "https://www.twitch.tv/sawancyberpotes" }
+        ]
+    },
+    {
         "Person": "Chatdhow",
         "Types": ["Tester"],
         "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/b3a6d866-ef9d-4fbb-a61e-2b913d5df886-profile_image-300x300.png",

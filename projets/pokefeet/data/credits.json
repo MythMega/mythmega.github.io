@@ -35,6 +35,26 @@
         "FunctionEN": "Pokémon regions logos artist."
     },
     {
+        "Person": "CrazyGmod21",
+        "Types": ["Artist"],
+        "Image": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+        "Buttons" : [
+            {"Text": "SteamGridDb", "Url": "https://www.steamgriddb.com/profile/76561198865388778/icons" }
+        ],
+        "FunctionFR": "Artiste des icones des jeux Pokémons 1G.",
+        "FunctionEN": "1G Pokémon games logos artist."
+    },
+    {
+        "Person": "PKMNicons",
+        "Types": ["Artist"],
+        "Image": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+        "Buttons" : [
+            {"Text": "DeviantArt", "Url": "https://www.deviantart.com/pkmnicons" }
+        ],
+        "FunctionFR": "Artiste des icones des jeux Pokémons 2G-3G-4G & 5G.",
+        "FunctionEN": "2G-3G-4G & 5G Pokémon games logos artist."
+    },
+    {
         "Person": "Pokeos",
         "Types": ["Data"],
         "Image": "https://avatars.githubusercontent.com/u/157993981?s=200&v=4",

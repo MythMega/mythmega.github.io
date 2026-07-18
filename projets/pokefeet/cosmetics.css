@@ -33,7 +33,6 @@
   animation: prideBtnShift 60s infinite;
   
   text-shadow:
-    0 0 6px rgba(255, 255, 255, 1),
     0 0 12px rgba(255, 255, 255, 0.8),
     0 0 20px rgba(255, 255, 255, 0.6);
 }
@@ -60,28 +59,7 @@
   background: orange;
 }
 
-.cosmetics-kanto {
-  margin: 0;
-  min-height: 100vh;
-  position: relative;
-  
-}
-
-.cosmetics-kanto::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/kanto_edited.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  filter: blur(3px);
-  z-index: -1;
-}
-
+.cosmetics-kanto::before,
 .cosmetics-johto::before,
 .cosmetics-hoenn::before,
 .cosmetics-sinnoh::before {
@@ -95,6 +73,10 @@
   background-size: auto;
   filter: blur(3px);
   z-index: -1;
+}
+
+.cosmetics-kanto::before {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/kanto_edited.webp");
 }
 
 .cosmetics-johto::before {
@@ -372,4 +354,83 @@ background:
 .ocean-depth-buttons:active:before,
 .ocean-depth-buttons:active:after {
     transform: translate3d(0, 0, -1em);
+}
+
+
+.game-firered,
+.game-leafgreen,
+.game-yellow,
+.game-silver,
+.game-gold,
+.game-cristal,
+.game-sapphire,
+.game-ruby,
+.game-diamond,
+.game-pearl,
+.game-white,
+.game-black {
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-attachment: fixed;
+  background-size:auto;
+}
+
+.game-firered {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/firered.webp");
+  background-color: #ef8429;
+}
+
+.game-leafgreen {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/leafgreen.webp");
+  background-color: #21b59c;
+}
+
+.game-yellow {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/yellow.webp");
+  background-color: #f7ad29;
+}
+
+.game-silver {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/silver.webp");
+  background-color: #f0f0f4;
+}
+
+.game-gold {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/gold.webp");
+  background-color: #ff421a;
+}
+
+.game-cristal {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/cristal.webp");
+  background-color: #c2a0dc;
+}
+
+.game-sapphire {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/sapphire.webp");
+  background-color: #00539e;
+}
+
+.game-ruby {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/ruby.webp");
+  background-color: #ff0040;
+}
+
+.game-diamond {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/diamond.webp");
+  background-color: #00539e;
+}
+
+.game-pearl {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/pearl.webp");
+  background-color: #cd7aa7;
+}
+
+.game-white {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/white.webp");
+  background-color: #bfc5c3;
+}
+
+.game-black {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/black.webp");
+  background-color: #5f6568;
 }

@@ -1,12 +1,12 @@
 ===== ANALYSE DES CHALLENGES =====
 
 Nombre total de Pokémon : 533
-Nombre total de challenges : 10
+Nombre total de challenges : 19
 
 ===== SYNTHÈSE GLOBALE =====
-Pokémon présents dans ≥1 challenge : 151 / 533
-Pokémon surreprésentés (≥2 challenges) : 9 / 533
-Pokémon absents (0 challenge) : 382 / 533
+Pokémon présents dans ≥1 challenge : 180 / 533
+Pokémon surreprésentés (≥2 challenges) : 29 / 533
+Pokémon absents (0 challenge) : 353 / 533
 
 ----- Vérification des challenges -----
 
@@ -47,22 +47,62 @@ Challenge 9 - Quizz A la Piscine!
   ✓ Tous les index correspondent à un Pokémon.
 
 Challenge 10 - 1G - Pokémon Rouge
-  Nombre de Pokémon listés : 0
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 11 - 1G - Pokémon Vert
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 12 - 1G - Pokémon Jaune
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 13 - 2G - Pokémon Or
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 14 - 2G - Pokémon Argent
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 15 - 2G - Pokémon Cristal
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 16 - 3G - Pokémon Rubis
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 17 - 3G - Pokémon Saphir
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 18 - 4G - Pokémon Diamant
+  Nombre de Pokémon listés : 5
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 19 - 4G - Pokémon Perle
+  Nombre de Pokémon listés : 5
   ✓ Tous les index correspondent à un Pokémon.
 
 
 ----- Pokémon présents dans au moins un challenge -----
 1 - Bulbizarre
+2 - Herbizarre
 3 - Florizarre
 4 - Salamèche
+5 - Reptincel
 6 - Dracaufeu
 7 - Carapuce
 8 - Carabaffe
 12 - Papilusion
+23 - Abo
 24 - Arbok
 25 - Pikachu
 26 - Raichu
 26-B - Raichu d'Alola
+27 - Sabelette
 028-B - Sablaireau d'Alola
 31 - Nidoqueen
 35 - Mélofée
@@ -71,9 +111,12 @@ Challenge 10 - 1G - Pokémon Rouge
 38 - Feunard
 39 - Rondoudou
 43 - Mystherbe
+44 - Ortide
 47 - Parasect
 52 - Miaouss
 54 - Psykokwak
+57 - Colossinge
+59 - Arcanin
 61 - Têtarte
 62 - Tartard
 67 - Machopeur
@@ -96,6 +139,7 @@ Challenge 10 - 1G - Pokémon Rouge
 120 - Stari
 121 - Staross
 124 - Lippoutou
+125 - Élektek
 126 - Magmar
 127 - Scarabrute
 136 - Pyroli
@@ -107,9 +151,11 @@ Challenge 10 - 1G - Pokémon Rouge
 157-B - Typhlosion de Hisui
 158 - Kaiminus
 164 - Noarfang
+167 - Mimigal
 169 - Nostenfer
 173 - Mélo
 175 - Togepi
+179 - Wattouat
 180 - Lainergie
 192 - Héliatronc
 194-B - Axoloto de Paldea
@@ -118,14 +164,23 @@ Challenge 10 - 1G - Pokémon Rouge
 199 - Roigada
 199-B - Roigada de Galar
 201 - Zarbi
+203 - Girafarig
 206 - Insolourdo
+207 - Scorplane
 208 - Steelix
 211 - Qwilfish
 211-B - Qwilfish de Hisui
 215-B - Farfuret de Hisui
+216 - Teddiursa
 217 - Ursaring
 218 - Limagma
+223 - Rémoraid
+224 - Octillery
+225 - Cadoizo
 226 - Démanta
+227 - Airmure
+231 - Phanpy
+232 - Donphan
 235 - Queulorior
 238 - Lippouti
 239 - Élekid
@@ -139,10 +194,13 @@ Challenge 10 - 1G - Pokémon Rouge
 258 - Gobou
 259 - Flobio
 263 - Zigzaton
+271 - Lombre
+274 - Pifeuil
 279 - Bekipan
 282 - Gardevoir
 298 - Azurill
 301 - Delcatty
+302 - Ténéfix
 303 - Mysdibule
 314 - Lumivole
 315 - Roselia
@@ -178,14 +236,21 @@ Challenge 10 - 1G - Pokémon Rouge
 404 - Luxio
 406 - Rozbouton
 407 - Roserade
+408 - Kranidos
+409 - Charkos
+410 - Dinoclier
+411 - Bastiodon
 414 - Papilord
 418 - Mustébouée
 420 - Ceribou
 421 - Ceriflor
 428 - Lockpin
+429 - Magirêve
 430 - Corboss
 431 - Chaglam
+432 - Chaffreux
 434 - Moufouette
+435 - Moufflair
 441 - Pijako
 445 - Carchacrok
 448 - Lucario
@@ -206,20 +271,38 @@ Challenge 10 - 1G - Pokémon Rouge
 
 
 ----- Pokémon surreprésentés (≥ 2 challenges) -----
+8 - Carabaffe | Challenges : Quizz A la Piscine!, 1G - Pokémon Jaune
+25 - Pikachu | Challenges : Quizz Découverte de Kanto, 1G - Pokémon Jaune
+38 - Feunard | Challenges : Quizz Rayon de soleil, 1G - Pokémon Vert
+52 - Miaouss | Challenges : Quizz Découverte de Kanto, 1G - Pokémon Vert, 1G - Pokémon Jaune
+126 - Magmar | Challenges : Quizz Rayon de soleil, 1G - Pokémon Vert
+127 - Scarabrute | Challenges : Quizz Clair de lune, 1G - Pokémon Vert
+167 - Mimigal | Challenges : 2G - Pokémon Or, 2G - Pokémon Argent
+180 - Lainergie | Challenges : Quizz Découverte de Johto, 2G - Pokémon Cristal
 192 - Héliatronc | Challenges : Quizz Découverte de Johto, Quizz Rayon de soleil
 197 - Noctali | Challenges : Poké Fiertés, Quizz Clair de lune
+217 - Ursaring | Challenges : Poké Fiertés, 2G - Pokémon Or
+226 - Démanta | Challenges : Quizz A la Piscine!, 2G - Pokémon Or
 235 - Queulorior | Challenges : Poké Fiertés, Quizz Clair de lune
 250 - Ho-Oh | Challenges : Poké Fiertés, Quizz Rayon de soleil
 282 - Gardevoir | Challenges : Poké Fiertés, Quizz Clair de lune
+303 - Mysdibule | Challenges : Quizz Clair de lune, 3G - Pokémon Rubis
 323 - Camérupt | Challenges : Quizz Découverte de Hoenn, Quizz Rayon de soleil
+335 - Mangriff | Challenges : Quizz Venimeux, 3G - Pokémon Rubis
+336 - Seviper | Challenges : Quizz Venimeux, 3G - Pokémon Saphir
+337 - Séléroc | Challenges : Quizz Clair de lune, 3G - Pokémon Saphir
+338 - Solaroc | Challenges : Quizz Rayon de soleil, 3G - Pokémon Rubis
+380 - Latias | Challenges : Poké Fiertés, 3G - Pokémon Saphir
+381 - Latios | Challenges : Poké Fiertés, 3G - Pokémon Rubis
 386 - Deoxys | Challenges : Quizz Découverte de Hoenn, Quizz Clair de lune
 407 - Roserade | Challenges : Quizz Venimeux, Quizz Rayon de soleil
+430 - Corboss | Challenges : Quizz Clair de lune, 4G - Pokémon Diamant
+431 - Chaglam | Challenges : Poké Fiertés, 4G - Pokémon Perle
+434 - Moufouette | Challenges : Quizz Venimeux, 4G - Pokémon Diamant
 491 - Darkrai | Challenges : Quizz Découverte de Sinnoh, Quizz Clair de lune
 
 
 ----- Pokémon absents de tous les challenges -----
-2 - Herbizarre
-5 - Reptincel
 9 - Tortank
 10 - Chenipan
 11 - Chrysacier
@@ -235,9 +318,7 @@ Challenge 10 - 1G - Pokémon Rouge
 20-B - Rattatac d'Alola
 21 - Piafabec
 22 - Rapasdepic
-23 - Abo
 027-B - Sabelette d'Alola
-27 - Sabelette
 28 - Sablaireau
 29 - Nidoran femelle
 30 - Nidorina
@@ -249,7 +330,6 @@ Challenge 10 - 1G - Pokémon Rouge
 40 - Grodoudou
 41 - Nosferapti
 42 - Nosferalto
-44 - Ortide
 45 - Rafflesia
 46 - Paras
 48 - Mimitoss
@@ -264,11 +344,9 @@ Challenge 10 - 1G - Pokémon Rouge
 53 - Persian
 55 - Akwakwak
 56 - Férosinge
-57 - Colossinge
 058-B - Caninos d'Hisui
 58 - Caninos
 059-B - Arcanin d'Hisui
-59 - Arcanin
 60 - Ptitard
 63 - Abra
 64 - Kadabra
@@ -328,7 +406,6 @@ Challenge 10 - 1G - Pokémon Rouge
 122 - M. Mime
 122-B - M. Mime de Galar
 123 - Insécateur
-125 - Élektek
 128 - Tauros
 128-B - Tauros de Paldea
 129 - Magicarpe
@@ -364,7 +441,6 @@ Challenge 10 - 1G - Pokémon Rouge
 163 - Hoothoot
 165 - Coxy
 166 - Coxyclaque
-167 - Mimigal
 168 - Migalos
 170 - Loupio
 171 - Lanturn
@@ -373,7 +449,6 @@ Challenge 10 - 1G - Pokémon Rouge
 176 - Togetic
 177 - Natu
 178 - Xatu
-179 - Wattouat
 181 - Pharamp
 182 - Joliflor
 183 - Marill
@@ -391,31 +466,22 @@ Challenge 10 - 1G - Pokémon Rouge
 198 - Cornèbre
 200 - Feuforêve
 202 - Qulbutoké
-203 - Girafarig
 204 - Pomdepik
 205 - Foretress
-207 - Scorplane
 209 - Snubbull
 210 - Granbull
 212 - Cizayox
 213 - Caratroc
 214 - Scarhino
 215 - Farfuret
-216 - Teddiursa
 219 - Volcaropod
 220 - Marcacrin
 221 - Cochignon
 222 - Corayon
 222-B - Corayon de Galar
-223 - Rémoraid
-224 - Octillery
-225 - Cadoizo
-227 - Airmure
 228 - Malosse
 229 - Démolosse
 230 - Hyporoi
-231 - Phanpy
-232 - Donphan
 233 - Porygon2
 234 - Cerfrousse
 236 - Debugant
@@ -441,10 +507,8 @@ Challenge 10 - 1G - Pokémon Rouge
 268 - Blindalys
 269 - Papinox
 270 - Nénupiot
-271 - Lombre
 272 - Ludicolo
 273 - Grainipiot
-274 - Pifeuil
 275 - Tengalice
 276 - Nirondelle
 277 - Hélédelle
@@ -468,7 +532,6 @@ Challenge 10 - 1G - Pokémon Rouge
 297 - Hariyama
 299 - Tarinor
 300 - Skitty
-302 - Ténéfix
 304 - Galekid
 305 - Galegon
 306 - Galeking
@@ -539,10 +602,6 @@ Challenge 10 - 1G - Pokémon Rouge
 402 - Mélokrik
 403 - Lixy
 405 - Luxray
-408 - Kranidos
-409 - Charkos
-410 - Dinoclier
-411 - Bastiodon
 412 - Cheniti
 413 - Cheniselle
 415 - Apitrini
@@ -555,10 +614,7 @@ Challenge 10 - 1G - Pokémon Rouge
 425 - Baudrive
 426 - Grodrive
 427 - Laporeille
-429 - Magirêve
-432 - Chaffreux
 433 - Korillon
-435 - Moufflair
 436 - Archéomire
 437 - Archéodong
 438 - Manzaï

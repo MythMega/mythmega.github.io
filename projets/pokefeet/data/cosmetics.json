@@ -1,0 +1,106 @@
+[
+    {
+        "ID": -2,
+        "Type": "Background-Buttons",
+        "Name": "Orange",
+        "Value": "cosmetics-orange-btn",
+        "File": "orange.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": -1,
+        "Type": "Background-Buttons",
+        "Name": "Purple",
+        "Value": "cosmetics-purple-btn",
+        "File": "purple.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": 1,
+        "Type": "Background",
+        "Name": "Pride",
+        "Value": "cosmetics-rainbow-bg",
+        "File": "background-pride.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 2,
+        "Type": "Background-Buttons",
+        "Name": "Pride",
+        "Value": "cosmetics-pride-btn",
+        "File": "background-pride.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 3,
+        "Type": "Background",
+        "Name": "Kanto Master",
+        "Value": "cosmetics-kanto",
+        "File": "kanto.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 4,
+        "Type": "Background",
+        "Name": "Johto Master",
+        "Value": "cosmetics-johto",
+        "File": "johto.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 5,
+        "Type": "Background",
+        "Name": "Hoenn Master",
+        "Value": "cosmetics-hoenn",
+        "File": "hoenn.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 6,
+        "Type": "Background",
+        "Name": "Sinnoh Master",
+        "Value": "cosmetics-sinnoh",
+        "File": "sinnoh.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 7,
+        "Type": "Background-Buttons",
+        "Name": "Venimous boss",
+        "Value": "cosmetics-venimous",
+        "File": "venimous.webp",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": 8,
+        "Type": "Background",
+        "Name": "Sunset paradise",
+        "Value": "crepuscule",
+        "File": "sunset.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": 9,
+        "Type": "Background",
+        "Name": "Moonlight",
+        "Value": "nuit-etoilee",
+        "File": "moonlight.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": 10,
+        "Type": "Background",
+        "Name": "Ocean Depth",
+        "Value": "ocean-depth",
+        "File": "wave.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": 11,
+        "Type": "Background-Buttons",
+        "Name": "Ocean Depth",
+        "Value": "ocean-depth-buttons",
+        "File": "wave.png",
+        "RequiresUnlock": false
+    }
+]

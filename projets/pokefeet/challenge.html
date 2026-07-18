@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Challenge</title>
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./cosmetics.css" />
+  <link rel="stylesheet" href="./challenge.css" />
+</head>
+<body>
+  <div class="container challenge-page">
+    <header>
+      <a href="./list_challenges.html" class="btn-back" data-i18n="challenges.back">Retour</a>
+      <h1 id="challengeTitle">Challenge</h1>
+    </header>
+
+    <!-- Notifications -->
+    <div id="notifications" style="position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;flex-direction:column;gap:8px;pointer-events:none;"></div>
+
+    <!-- Mode View : Informations du challenge -->
+    <div id="challengeView" class="challenge-view">
+      <div class="challenge-info-card">
+        <h2 id="viewChallengeName"></h2>
+        <p id="viewChallengeDesc"></p>
+        <div class="challenge-meta">
+          <span id="viewChallengeDifficulty"></span>
+          <span id="viewChallengeCount"></span>
+        </div>
+        <div id="viewChallengeStatus"></div>
+        <button id="playChallengeBtn" class="btn-primary" data-i18n="challenge.play">Jouer</button>
+      </div>
+    </div>
+
+    <!-- Mode Playing : Jeu -->
+    <div id="challengeGame" class="challenge-game hidden">
+      <div class="game-header">
+        <div id="challengeProgress">1 / 10</div>
+        <div id="challengeFails">Erreurs : 0</div>
+      </div>
+
+      <div class="image-container">
+        <img id="challengeImg" src="" alt="Pokémon" />
+      </div>
+
+      <div class="guess-area">
+        <input id="challengeInput" type="text" autocomplete="off" placeholder="Nom du Pokémon" />
+        <button id="challengeSubmit" class="btn-primary" data-i18n="challenge.submit">Valider</button>
+      </div>
+
+      <div id="challengeFailedAttempts" class="failed-attempts hidden"></div>
+
+      <div id="challengeHints" class="hints-list"></div>
+    </div>
+  </div>
+
+  <!-- Popup de succès -->
+  <div id="challengeSuccessPopup" class="popup hidden">
+    <div class="popup-content">
+      <div id="challengeSuccessDetails"></div>
+    </div>
+  </div>
+
+  <script src="pokemon.js"></script>
+  <script src="pokemon-versions.js"></script>
+  <script src="Dex.js"></script>
+  <script src="entity/challenge.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="business/challenge-manager.js"></script>
+  <script src="ui/challenge-game-ui.js"></script>
+  <script src="loader.js"></script>
+  <script src="cosmetics.js"></script>
+  <script src="migration.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="translate.js"></script>
+  <script src="apply-translations.js"></script>
+  
+  <script>
+    // Page challenge - Gestion des modes view et playing
+    document.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      const challengeId = params.get('challengeid');
+      const statut = params.get('statut') || 'view';
+
+      if (!challengeId) {
+        window.location.href = 'list_challenges.html';
+        return;
+      }
+
+      // Charger les données
+      await ChallengeManager.loadChallenges();
+      await ChallengeManager.loadPokemons();
+
+      // Vérifier que les Pokémon sont bien chargés
+      if (!ChallengeManager.allPokemons || ChallengeManager.allPokemons.length === 0) {
+        console.error('[Challenge] Pokemon data not loaded');
+        alert('Erreur: Impossible de charger les données Pokémon. Veuillez réessayer.');
+        window.location.href = 'list_challenges.html';
+        return;
+      }
+
+      const challenge = ChallengeManager.getAllChallenges().find(c => c.ID == challengeId);
+      if (!challenge) {
+        window.location.href = 'list_challenges.html';
+        return;
+      }
+
+      const T = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
+      const lang = (typeof Translator !== 'undefined') ? Translator.getLanguage() : 'fr';
+      const isCompleted = await ChallengeStorage.isChallengeCompleted(challengeId);
+      const canPlay = await ChallengeManager.canPlayChallenge(challenge);
+      const isAvailable = challenge.isAvailableToday();
+
+      // Afficher les informations du challenge
+      document.getElementById('challengeTitle').textContent = challenge.getName(lang);
+      document.getElementById('viewChallengeName').textContent = challenge.getName(lang);
+      document.getElementById('viewChallengeDesc').textContent = challenge.getDescription(lang);
+      
+      const difficultyEl = document.getElementById('viewChallengeDifficulty');
+      difficultyEl.textContent = challenge.getDifficultyTranslation();
+      difficultyEl.style.color = challenge.getDifficultyColor();
+      difficultyEl.style.fontWeight = 'bold';
+      
+      document.getElementById('viewChallengeCount').textContent = `${challenge.FeetList.length} Pokémon`;
+
+      // Afficher les requirements individuels (comme sur la page liste)
+      const statusEl = document.getElementById('viewChallengeStatus');
+      if (isCompleted) {
+        statusEl.innerHTML = '<span class="completed-badge">✓ Challenge complété</span>';
+      } else {
+        let reqHTML = '';
+        if (challenge.Requirements && challenge.Requirements.length > 0) {
+          reqHTML = '<div class="challenge-requirements">';
+          for (const req of challenge.Requirements) {
+            const reqResult = await challenge.checkRequirement(req);
+            const reqColor = reqResult.met ? '#4ade80' : '#ef4444';
+            const prefix = reqResult.met ? '✓' : '✗';
+            reqHTML += `<div class="requirement-item" style="color:${reqColor}">${prefix} ${reqResult.text}</div>`;
+          }
+          reqHTML += '</div>';
+        }
+        if (!isAvailable) {
+          reqHTML += '<div class="requirement-item" style="color:#f59e0b;margin-top:8px;">🔒 Challenge non disponible actuellement</div>';
+        }
+        statusEl.innerHTML = reqHTML || '';
+      }
+
+      const playBtn = document.getElementById('playChallengeBtn');
+      if (playBtn) {
+        playBtn.style.display = (isCompleted || !canPlay || !isAvailable) ? 'none' : 'block';
+        playBtn.addEventListener('click', () => {
+          ChallengeManager.startChallenge(challenge);
+          window.location.href = `challenge.html?challengeid=${challengeId}&statut=playing`;
+        });
+      }
+
+      // Gérer le mode playing
+      if (statut === 'playing' && !isCompleted && canPlay && isAvailable) {
+        // Vérifier que les pokémons sont chargés
+        if (!ChallengeManager.allPokemons || ChallengeManager.allPokemons.length === 0) {
+          console.error('[Challenge] Pokemon data not loaded, retrying...');
+          // Attendre un peu et recharger
+          await new Promise(resolve => setTimeout(resolve, 500));
+          await ChallengeManager.loadPokemons();
+          
+          if (!ChallengeManager.allPokemons || ChallengeManager.allPokemons.length === 0) {
+            alert('Erreur: Impossible de charger les données Pokémon. Veuillez réessayer.');
+            window.location.href = 'list_challenges.html';
+            return;
+          }
+        }
+
+        // Vérifier qu'un challenge est bien démarré
+        const current = ChallengeManager.getCurrentChallenge();
+        if (!current || current.ID != challengeId) {
+          // Démarrer le challenge
+          ChallengeManager.startChallenge(challenge);
+        }
+
+        document.getElementById('challengeView').classList.add('hidden');
+        document.getElementById('challengeGame').classList.remove('hidden');
+
+        // Initialiser l'UI de jeu
+        if (typeof ChallengeGameUI !== 'undefined') {
+          ChallengeGameUI.init();
+        }
+      } else if (statut === 'playing' && (!canPlay || !isAvailable)) {
+        // Rediriger vers view si on ne peut pas jouer
+        window.location.href = `challenge.html?challengeid=${challengeId}&statut=view`;
+      }
+    });
+  </script>
+</body>
+</html>

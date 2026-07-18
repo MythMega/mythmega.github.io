@@ -1,0 +1,92 @@
+{
+    "TranslationsFR": {
+        "Type.Artist": "Artiste",
+        "Type.Coder": "Développeur",
+        "Type.Testers": "Testeur",
+        "Type.Data": "Listes de données"
+    },
+    "TranslationsEN": {
+        "Type.Artist": "Artist",
+        "Type.Coder": "Developper",
+        "Type.Testers": "Tester",
+        "Type.Data": "Datalists"
+    },
+    "Credits": [
+    {
+        "Person": "MythMega/JMDev",
+        "Types": ["Coder", "Artist"],
+        "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/38d19d5d-c09f-4f19-9d1b-d7c8ef471f8f-profile_image-70x70.png",
+        "Buttons" : [
+            {"Text": "Website", "Url": "https://web.jmdev.fr/" },
+            {"Text": "Twitch", "Url": "https://www.twitch.tv/mythmega" }
+        ],
+        "FunctionFR": "Développeur de l'app.",
+        "FunctionEN": "App dev."
+    },
+    {
+        "Person": "AdeptCharon",
+        "Types": ["Artist"],
+        "Image": "https://a.deviantart.net/avatars-big/a/d/adeptcharon.png?6",
+        "Buttons" : [
+            {"Text": "DeviantArt", "Url": "https://www.deviantart.com/adeptcharon/art/PKMN-Region-Logos-770790616" },
+            {"Text": "Linktr.ee", "Url": "https://linktr.ee/AdeptCharon" }
+        ],
+        "FunctionFR": "Artiste des logos des régions Pokémons.",
+        "FunctionEN": "Pokémon regions logos artist."
+    },
+    {
+        "Person": "Pokeos",
+        "Types": ["Data"],
+        "Image": "https://avatars.githubusercontent.com/u/157993981?s=200&v=4",
+        "Buttons" : [
+            {"Text": "Website", "Url": "https://www.pokeos.com/" }
+        ],
+        "FunctionFR": "Données ayant servit pour la plupart des images de Pokémons.",
+        "FunctionEN": "Data that were used for most of Pokémons pictures."
+    },
+    {
+        "Person": "Sansanhijab",
+        "Types": ["Tester"],
+        "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/e4673a77-57cb-4486-9bec-d0c3382b3ab0-profile_image-70x70.jpeg",
+        "Buttons" : [
+        ]
+    },
+    {
+        "Person": "_Haryu",
+        "Types": ["Tester"],
+        "Image": "https://yt3.googleusercontent.com/ytc/AIdro_n9Lj3CMIxOmaVS6XamhzPlYy0t3lD_mRmZWH08nIQp24A=s400-c-k-c0x00ffffff-no-rj",
+        "Buttons" : [
+            {"Text": "Youtube", "Url": "https://www.youtube.com/@HaryuDala%C3%AFLama" }
+        ]
+    },
+    {
+        "Person": "Artemisaaaa",
+        "Types": ["Tester"],
+        "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/c31aabce-2d5b-48fe-903b-fc58f7c8392f-profile_image-300x300.png",
+        "Buttons" : [
+        ]
+    },
+    {
+        "Person": "Batgo",
+        "Types": ["Tester"],
+        "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/25a4f81f-dda5-41b8-a36c-5ad30eda5e98-profile_image-300x300.jpeg",
+        "Buttons" : [
+        ]
+    },
+    {
+        "Person": "Baeltan",
+        "Types": ["Tester"],
+        "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/ef15b5e7-3db4-4652-937c-3fc750c3609f-profile_image-70x70.png",
+        "Buttons" : [
+            {"Text": "Twitch", "Url": "https://www.twitch.tv/baeltancyberpotes" }
+        ]
+    },
+    {
+        "Person": "Chatdhow",
+        "Types": ["Tester"],
+        "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/b3a6d866-ef9d-4fbb-a61e-2b913d5df886-profile_image-300x300.png",
+        "Buttons" : [
+        ]
+    }
+]
+}

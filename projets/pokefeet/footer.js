@@ -21,7 +21,9 @@
     `<span style="${SEP_STYLE}">·</span>` +
     makeLink('data.html',      'footer.dataLink',      'Données') +
     `<span style="${SEP_STYLE}">·</span>` +
-    makeLink('changelog.html', 'footer.changelogLink', 'Changelog');
+    makeLink('changelog.html', 'footer.changelogLink', 'Changelog') +
+    `<span style="${SEP_STYLE}">·</span>` +
+    makeLink('credits.html',   'footer.creditsLink',   'Crédits');
 
   document.body.appendChild(footer);
 })();

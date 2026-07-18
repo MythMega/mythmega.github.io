@@ -3,25 +3,140 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pokefeet — Gestion des données</title>
+  <title>Pokefeet — Paramètres</title>
+  <link rel="icon" type="image/x-icon" href="./icon.png">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cosmetics.css" />
+  <style>
+    .dm-tabs { display:flex; gap:8px; justify-content:center; max-width:420px; margin:0 auto 1.5rem; }
+    .dm-tab-btn {
+      flex:1; padding:8px 0; border:1px solid rgba(255,255,255,0.1);
+      border-radius:8px; background:rgba(255,255,255,0.03);
+      color:var(--muted,#94a3b8); cursor:pointer; font-weight:600;
+      font-size:.9rem; transition:background .15s,color .15s;
+    }
+    .dm-tab-btn.active { background:var(--accent,#34d399); color:#052018; border-color:transparent; }
+    .dm-panel { display:none; }
+    .dm-panel.active { display:block; }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(255,255,255,0.15);
+      border-radius: 24px;
+      transition: 0.3s;
+    }
+    .toggle-slider::before {
+      content:"";
+      position: absolute;
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background: var(--accent);
+    }
+    .toggle-switch input:checked + .toggle-slider::before {
+      transform: translateX(20px);
+    }
+    /* Cosmetics grid */
+    .cosmetics-section { margin-bottom: 24px; }
+    .cosmetics-section-title {
+      font-size:13px; font-weight:700; color:var(--accent-bright);
+      text-transform:uppercase; letter-spacing:0.06em;
+      margin:0 0 12px; padding-bottom:6px;
+      border-bottom:1px solid var(--glass-border);
+    }
+    .cosmetics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 10px;
+    }
+    .cosmetic-btn {
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      padding:10px 6px; border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      border:2px solid transparent;
+      cursor:pointer; transition:all .15s;
+      font-size:11px; color:var(--muted);
+      position:relative;
+    }
+    .cosmetic-btn:hover { background:rgba(255,255,255,0.07); }
+    .cosmetic-btn.active { border-color:var(--accent); background:rgba(52,211,153,0.1); }
+    .cosmetic-btn.locked { opacity:0.4; cursor:not-allowed; }
+    .cosmetic-btn.locked:hover { background:rgba(255,255,255,0.03); }
+    .cosmetic-btn img { width:36px; height:36px; object-fit:contain; border-radius:6px; }
+    .cosmetic-btn .cosmetic-name { font-size:10px; font-weight:600; text-align:center; line-height:1.2; color:#fff; }
+    .cosmetic-btn .cosmetic-lock { position:absolute; top:4px; right:4px; font-size:10px; color:#ef4444; }
+    .cosmetic-btn .cosmetic-check { position:absolute; top:4px; right:4px; font-size:10px; color:#4ade80; }
+  </style>
 </head>
 <body>
   <main id="app">
     <header>
-      <h1 data-i18n="dataManagement.title">Gestion des données — Pokefeet</h1>
+      <h1 data-i18n="home.saveLoad">Paramètres</h1>
       <div class="scoreboard">
-        <div data-i18n="dataManagement.exportImport">Export / Import</div>
+        <div><span id="dmCountLabel">—</span></div>
       </div>
     </header>
 
+    <!-- Tabs -->
+    <div class="dm-tabs">
+      <button class="dm-tab-btn active" data-tab="params" data-i18n="dataManagement.tabParams">Paramètres</button>
+      <button class="dm-tab-btn" data-tab="profile" data-i18n="dataManagement.tabProfile">Profil</button>
+      <button class="dm-tab-btn" data-tab="data" data-i18n="dataManagement.tabData">Données</button>
+    </div>
+
     <section class="game-area d-flex flex-column align-items-center gap-3">
 
-      <!-- Données Section -->
-      <div class="center-card" style="max-width:760px;">
-        
+      <!-- Onglet 1 : Paramètres -->
+      <div id="dmPanelParams" class="dm-panel center-card active" style="max-width:760px;">
+        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="dataManagement.settings">Paramètres</h3>
 
+        <!-- Fast Mode -->
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--glass-border);">
+          <div style="flex:1;">
+            <label for="fastModeToggle" style="font-size:14px; font-weight:600; color:var(--text); cursor:pointer;">
+              ⚡ <span data-i18n="dataManagement.fastMode">Mode rapide (Marathon)</span>
+            </label>
+            <div style="font-size:12px; color:var(--muted); margin-top:4px;" data-i18n="dataManagement.fastModeDesc">
+              En mode Marathon, passer directement au Pokémon suivant sans écran de résultat intermédiaire.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="fastModeToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div id="fastModeStatus" style="margin-top:-16px; margin-bottom:16px; font-size:13px; color:var(--accent); min-height:1.3em;"></div>
+
+        <!-- Cosmetics: Background -->
+        <div class="cosmetics-section">
+          <div class="cosmetics-section-title">🎨 Fond d'écran</div>
+          <div class="cosmetics-grid" id="cosmeticsBgGrid"></div>
+        </div>
+
+        <!-- Cosmetics: Buttons -->
+        <div class="cosmetics-section">
+          <div class="cosmetics-section-title">🔘 Style des boutons</div>
+          <div class="cosmetics-grid" id="cosmeticsBtnGrid"></div>
+        </div>
+      </div>
+
+      <!-- Onglet 2 : Profil -->
+      <div id="dmPanelProfile" class="dm-panel center-card" style="max-width:760px;">
         <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="profile.title">Profil</h3>
+
         <div class="profile-field" style="margin-bottom:12px;">
           <label for="pseudoInput" style="display:block; font-size:13px; font-weight:600; color:var(--muted-light); margin-bottom:6px; text-align:left;" data-i18n="profile.pseudo">Pseudo</label>
           <input id="pseudoInput" type="text" autocomplete="off" maxlength="30" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.04); color:var(--text); font-size:15px; font-family:inherit; outline:none; transition:border-color 200ms, box-shadow 200ms;" data-i18n-attr="placeholder:profile.placeholder" placeholder="Entrez votre pseudo..." />
@@ -32,128 +147,159 @@
         </div>
         <div id="profileStatus" style="margin-top:10px; font-size:13px; color:var(--accent); min-height:1.3em;"></div>
         <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--glass-border); font-size:12px; color:var(--muted);" data-i18n="profile.info">Le pseudo est stocké dans un cookie et apparaîtra sur les partages.</div>
+      </div>
 
-        <!-- Fast Mode toggle pour le Mode Marathon -->
-        <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--glass-border);">
-          <div style="display:flex; align-items:center; gap:12px;">
-            <div style="flex:1;">
-              <label for="fastModeToggle" style="font-size:14px; font-weight:600; color:var(--text); cursor:pointer;">
-                ⚡ <span data-i18n="dataManagement.fastMode">Mode rapide (Marathon)</span>
-              </label>
-              <div style="font-size:12px; color:var(--muted); margin-top:4px;" data-i18n="dataManagement.fastModeDesc">
-                En mode Marathon, passer directement au Pokémon suivant sans écran de résultat intermédiaire.
-              </div>
-            </div>
-            <label class="toggle-switch">
-              <input id="fastModeToggle" type="checkbox" />
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div id="fastModeStatus" style="margin-top:6px; font-size:12px; color:var(--muted); min-height:1.3em;"></div>
+      <!-- Onglet 3 : Données -->
+      <div id="dmPanelData" class="dm-panel center-card" style="max-width:760px;">
+        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="dataManagement.saveRestore">Sauvegarder ou restaurer vos données</h3>
+
+        <p class="info-below" data-i18n="dataManagement.exportDesc">Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.</p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="exportBtn" class="btn-export" data-i18n="dataManagement.exportBtn">Exporter les données</button>
+          <label for="importFile" class="btn secondary" style="cursor:pointer;" data-i18n="dataManagement.importFile">Importer un fichier</label>
+          <input id="importFile" type="file" accept=".txt" class="hidden file-input" />
+          <button id="previewBtn" class="secondary" title="Voir le contenu du cookie actuel" data-i18n="dataManagement.preview">Aperçu cookie actuel</button>
         </div>
 
-        <h3 data-i18n="dataManagement.saveRestore">Sauvegarder ou restaurer vos données</h3>
+        <div id="importSummary" style="margin-top:12px;color:var(--muted);font-size:13px;"></div>
 
-        <div class="data-controls" style="margin-top:12px;">
-          <p class="info-below" data-i18n="dataManagement.exportDesc">Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.</p>
+        <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
 
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button id="exportBtn" class="btn-export" data-i18n="dataManagement.exportBtn">Exporter les données</button>
-            <label for="importFile" class="btn secondary" style="cursor:pointer;" data-i18n="dataManagement.importFile">Importer un fichier</label>
-            <input id="importFile" type="file" accept=".txt" class="hidden file-input" />
-            <button id="previewBtn" class="secondary" title="Voir le contenu du cookie actuel" data-i18n="dataManagement.preview">Aperçu cookie actuel</button>
+        <div style="margin-bottom:10px;">
+          <h4 style="margin:6px 0 8px 0;" data-i18n="dataManagement.importDaily">Importer un Daily</h4>
+          <p class="info-below" style="margin-bottom:8px;" data-i18n="dataManagement.importDailyDesc">Collez le bloc texte d'un Daily (format emoji ou :green_square:). Exemple: Pokefeet Daily — 2025-11-24 — score 38 suivi de 5 lignes d'emoji.</p>
+          <textarea id="dailyImportArea" data-i18n-attr="placeholder:dataManagement.importDaily" placeholder="Collez ici le texte du Daily..." style="width:100%;min-height:140px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button id="importDailyBtn" class="btn-export" style="padding:10px 12px;" data-i18n="dataManagement.importDailyBtn">Importer un jour</button>
+            <button id="clearDailyArea" class="secondary" style="padding:10px 12px;" data-i18n="dataManagement.clear">Effacer</button>
           </div>
+          <div id="dailyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+        </div>
 
-          <div id="importSummary" style="margin-top:12px;color:var(--muted);font-size:13px;"></div>
+        <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
 
-          <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
-
-          <div style="margin-bottom:10px;">
-            <h4 style="margin:6px 0 8px 0;" data-i18n="dataManagement.importDaily">Importer un Daily</h4>
-            <p class="info-below" style="margin-bottom:8px;" data-i18n="dataManagement.importDailyDesc">Collez le bloc texte d'un Daily (format emoji ou :green_square:). Exemple: Pokefeet Daily — 2025-11-24 — score 38 suivi de 5 lignes d'emoji.</p>
-
-            <textarea id="dailyImportArea" data-i18n-attr="placeholder:dataManagement.importDaily" placeholder="Collez ici le texte du Daily..." style="width:100%;min-height:140px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
-
-            <div style="display:flex;gap:8px;margin-top:8px;">
-              <button id="importDailyBtn" class="btn-export" style="padding:10px 12px;" data-i18n="dataManagement.importDailyBtn">Importer un jour</button>
-              <button id="clearDailyArea" class="secondary" style="padding:10px 12px;" data-i18n="dataManagement.clear">Effacer</button>
-            </div>
-
-            <div id="dailyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+        <div style="margin-bottom:10px;">
+          <h4 style="margin:6px 0 8px 0;">Importer un Weekly</h4>
+          <p class="info-below" style="margin-bottom:8px;">Collez le bloc texte d'un Weekly (format emoji). Exemple: Pokefeet Weekly — 2025-11-24 — score 84 suivi de 10 lignes d'emoji.</p>
+          <textarea id="weeklyImportArea" placeholder="Collez ici le texte du Weekly..." style="width:100%;min-height:170px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button id="importWeeklyBtn" class="btn-export" style="padding:10px 12px;">Importer une semaine</button>
+            <button id="clearWeeklyArea" class="secondary" style="padding:10px 12px;">Effacer</button>
           </div>
+          <div id="weeklyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+        </div>
 
-          <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
+        <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
 
-          <div style="margin-bottom:10px;">
-            <h4 style="margin:6px 0 8px 0;">Importer un Weekly</h4>
-            <p class="info-below" style="margin-bottom:8px;">Collez le bloc texte d'un Weekly (format emoji). Exemple: Pokefeet Weekly — 2025-11-24 — score 84 suivi de 10 lignes d'emoji.</p>
+        <div id="dataPreview" style="max-height:260px;overflow:auto;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;font-family:monospace;font-size:13px;color:#dbeafe;display: none;"></div>
 
-            <textarea id="weeklyImportArea" placeholder="Collez ici le texte du Weekly..." style="width:100%;min-height:170px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
+        <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
 
-            <div style="display:flex;gap:8px;margin-top:8px;">
-              <button id="importWeeklyBtn" class="btn-export" style="padding:10px 12px;">Importer une semaine</button>
-              <button id="clearWeeklyArea" class="secondary" style="padding:10px 12px;">Effacer</button>
-            </div>
-
-            <div id="weeklyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+        <div style="margin-top:20px;">
+          <h4 style="margin:6px 0 8px 0;color:#ff6b6b;" data-i18n="dataManagement.deleteZone">Zone de suppression</h4>
+          <p class="info-below" style="margin-bottom:10px;color:#ff6b6b;" data-i18n="dataManagement.irreversible">⚠️ Actions irréversibles</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button id="deleteBestBtn" style="padding:10px 12px;background:#991111;color:#ffb3b3;border:none;border-radius:8px;cursor:pointer;font-weight:700;" data-i18n="dataManagement.deleteBest">Delete Best Score</button>
+            <button id="deleteDailyBtn" style="padding:10px 12px;background:#991111;color:#ffb3b3;border:none;border-radius:8px;cursor:pointer;font-weight:700;" data-i18n="dataManagement.deleteDaily">Delete All Daily Data</button>
           </div>
-
-          <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
-
-          <div id="dataPreview" style="max-height:260px;overflow:auto;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;font-family:monospace;font-size:13px;color:#dbeafe;display: none;"></div>
-
-          <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
-
-          <div style="margin-top:20px;">
-            <h4 style="margin:6px 0 8px 0;color:#ff6b6b;" data-i18n="dataManagement.deleteZone">Zone de suppression</h4>
-            <p class="info-below" style="margin-bottom:10px;color:#ff6b6b;" data-i18n="dataManagement.irreversible">⚠️ Actions irréversibles</p>
-            
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button id="deleteBestBtn" style="padding:10px 12px;background:#991111;color:#ffb3b3;border:none;border-radius:8px;cursor:pointer;font-weight:700;" data-i18n="dataManagement.deleteBest">Delete Best Score</button>
-              <button id="deleteDailyBtn" style="padding:10px 12px;background:#991111;color:#ffb3b3;border:none;border-radius:8px;cursor:pointer;font-weight:700;" data-i18n="dataManagement.deleteDaily">Delete All Daily Data</button>
-            </div>
-
-            <div id="deleteResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
-          </div>
-
+          <div id="deleteResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
         </div>
       </div>
     </section>
 
-    <a href="./index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
+    <a href="./index.html"><button class="secondary" style="padding:10px 12px;margin-top:20px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
 
     <div id="notifications" aria-live="polite"></div>
   </main>
 
   <script>
-    // Gestion du toggle Fast Mode pour le Mode Marathon
+    // Tab switching
+    document.querySelectorAll('.dm-tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.dm-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.dm-panel').forEach(function(p) { p.classList.remove('active'); });
+        this.classList.add('active');
+        var target = 'dmPanel' + this.dataset.tab.charAt(0).toUpperCase() + this.dataset.tab.slice(1);
+        var panel = document.getElementById(target);
+        if (panel) panel.classList.add('active');
+        var label = document.getElementById('dmCountLabel');
+        if (label) label.textContent = this.textContent || this.dataset.tab;
+      });
+    });
+
+    // Fast Mode toggle
     (function() {
       function setCookie(name, value, days) {
-        const d = new Date();
+        var d = new Date();
         d.setTime(d.getTime() + (days || 365) * 24 * 60 * 60 * 1000);
         document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/';
       }
       function getCookie(name) {
-        const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        var v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
         return v ? decodeURIComponent(v.pop()) : null;
       }
 
-      const toggle = document.getElementById('fastModeToggle');
-      const status = document.getElementById('fastModeStatus');
+      var toggle = document.getElementById('fastModeToggle');
+      var status = document.getElementById('fastModeStatus');
       if (toggle && status) {
-        // Charger l'état sauvegardé
-        const saved = getCookie('pk_fast_mode');
+        var saved = getCookie('pk_fast_mode');
         toggle.checked = saved === 'true';
         status.textContent = toggle.checked ? 'Mode rapide activé' : 'Mode rapide désactivé';
-
-        // Sauvegarder au changement
         toggle.addEventListener('change', function() {
-          const val = this.checked ? 'true' : 'false';
+          var val = this.checked ? 'true' : 'false';
           setCookie('pk_fast_mode', val, 365);
           status.textContent = this.checked ? 'Mode rapide activé' : 'Mode rapide désactivé';
         });
       }
     })();
+
+    // Pseudo management
+    (function() {
+      var input = document.getElementById('pseudoInput');
+      var saveBtn = document.getElementById('savePseudoBtn');
+      var clearBtn = document.getElementById('clearPseudoBtn');
+      var statusEl = document.getElementById('profileStatus');
+
+      function getCookie(n) {
+        var v = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)');
+        return v ? decodeURIComponent(v.pop()) : null;
+      }
+      function setCookie(n, v, d) {
+        var e = new Date();
+        e.setTime(e.getTime() + (d || 365) * 24 * 60 * 60 * 1000);
+        document.cookie = n + '=' + encodeURIComponent(v) + ';expires=' + e.toUTCString() + ';path=/';
+      }
+      function eraseCookie(n) {
+        document.cookie = n + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
+      }
+
+      if (input) {
+        var saved = getCookie('pk_pseudo');
+        if (saved) input.value = saved;
+      }
+
+      if (saveBtn) saveBtn.addEventListener('click', function() {
+        var val = input.value.trim();
+        if (!val) { statusEl.textContent = 'Veuillez entrer un pseudo'; statusEl.style.color = 'var(--accent)'; return; }
+        if (val.length > 30) { statusEl.textContent = 'Le pseudo ne doit pas dépasser 30 caractères'; statusEl.style.color = '#f59e0b'; return; }
+        setCookie('pk_pseudo', val);
+        statusEl.textContent = 'Pseudo sauvegardé !';
+        statusEl.style.color = 'var(--accent)';
+      });
+
+      if (clearBtn) clearBtn.addEventListener('click', function() {
+        eraseCookie('pk_pseudo');
+        input.value = '';
+        statusEl.textContent = 'Pseudo effacé';
+        statusEl.style.color = 'var(--muted)';
+      });
+
+      if (input) input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && saveBtn) saveBtn.click();
+      });
+    })();
+
   </script>
   <script src="loader.js"></script>
   <script src="translate.js"></script>
@@ -161,16 +307,166 @@
   <script src="footer.js"></script>
   <script src="i18n-setup.js"></script>
   <script src="migration.js"></script>
-  <script src="profile.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="cosmetics.js"></script>
   <script src="pokemon.js"></script>
   <script src="pokemon-versions.js"></script>
   <script src="Dex.js"></script>
   <script src="DailyToDexImport.js"></script>
   <script src="data.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      DataManager.init();
+    // Initialize data management bindings
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof DataManager !== 'undefined' && DataManager.init) {
+        DataManager.init();
+      }
     });
+  </script>
+  <script>
+    window.renderCosmetics = function() {
+      var bgGrid = document.getElementById('cosmeticsBgGrid');
+      var btnGrid = document.getElementById('cosmeticsBtnGrid');
+      if (!bgGrid || !btnGrid) {
+        console.warn('[Cosmetics] Grids not found');
+        return;
+      }
+
+      var all = Cosmetics.getAll();
+      console.log('[Cosmetics] Rendering UI, total cosmetics:', all.length);
+      console.log('[Cosmetics] Cosmetics data:', all);
+      var selectedBg = Cosmetics.getSelectedBg();
+      var selectedBtn = Cosmetics.getSelectedBtn();
+
+      function createCosmeticBtn(cosmetic, isSelected) {
+        var div = document.createElement('div');
+        div.className = 'cosmetic-btn';
+        if (isSelected) div.classList.add('active');
+
+        var unlocked = Cosmetics.isUnlocked(cosmetic);
+        if (!unlocked) div.classList.add('locked');
+
+        var img = document.createElement('img');
+        img.src = 'img/cosmetics/' + (cosmetic.File || 'default.png');
+        img.alt = cosmetic.Name;
+        img.onerror = function() { this.src = './icon.png'; };
+        div.appendChild(img);
+
+        var nameSpan = document.createElement('span');
+        nameSpan.className = 'cosmetic-name';
+        nameSpan.textContent = cosmetic.Name;
+        div.appendChild(nameSpan);
+
+        if (!unlocked) {
+          var lock = document.createElement('span');
+          lock.className = 'cosmetic-lock';
+          lock.textContent = '🔒';
+          div.appendChild(lock);
+        } else if (isSelected) {
+          var check = document.createElement('span');
+          check.className = 'cosmetic-check';
+          check.textContent = '✓';
+          div.appendChild(check);
+        }
+
+        if (!unlocked) {
+          div.title = '🔒 ' + cosmetic.Name + ' — À débloquer via un challenge';
+        } else {
+          div.title = cosmetic.Name;
+        }
+
+        if (unlocked) {
+          div.addEventListener('click', function() {
+            var type = cosmetic.Type;
+            var value = isSelected ? 'default' : cosmetic.Value;
+            Cosmetics.select(type, value);
+            renderCosmetics();
+          });
+        }
+
+        return div;
+      }
+
+      bgGrid.innerHTML = '';
+      btnGrid.innerHTML = '';
+
+      // Default option for Background
+      var defaultBg = document.createElement('div');
+      defaultBg.className = 'cosmetic-btn' + (!selectedBg ? ' active' : '');
+      defaultBg.title = 'Par défaut';
+      var defaultBgImg = document.createElement('img');
+      defaultBgImg.src = './icon.png';
+      defaultBgImg.alt = 'Défaut';
+      defaultBg.appendChild(defaultBgImg);
+      var defaultBgName = document.createElement('span');
+      defaultBgName.className = 'cosmetic-name';
+      defaultBgName.textContent = 'Défaut';
+      defaultBg.appendChild(defaultBgName);
+      if (!selectedBg) {
+        var check = document.createElement('span');
+        check.className = 'cosmetic-check';
+        check.textContent = '✓';
+        defaultBg.appendChild(check);
+      }
+      defaultBg.addEventListener('click', function() {
+        Cosmetics.select('Background', 'default');
+        renderCosmetics();
+      });
+      bgGrid.appendChild(defaultBg);
+
+      // Default option for Buttons
+      var defaultBtn = document.createElement('div');
+      defaultBtn.className = 'cosmetic-btn' + (!selectedBtn ? ' active' : '');
+      defaultBtn.title = 'Par défaut';
+      var defaultBtnImg = document.createElement('img');
+      defaultBtnImg.src = './icon.png';
+      defaultBtnImg.alt = 'Défaut';
+      defaultBtn.appendChild(defaultBtnImg);
+      var defaultBtnName = document.createElement('span');
+      defaultBtnName.className = 'cosmetic-name';
+      defaultBtnName.textContent = 'Défaut';
+      defaultBtn.appendChild(defaultBtnName);
+      if (!selectedBtn) {
+        var check2 = document.createElement('span');
+        check2.className = 'cosmetic-check';
+        check2.textContent = '✓';
+        defaultBtn.appendChild(check2);
+      }
+      defaultBtn.addEventListener('click', function() {
+        Cosmetics.select('Background-Buttons', 'default');
+        renderCosmetics();
+      });
+      btnGrid.appendChild(defaultBtn);
+
+      // Cosmetics items
+      for (var i = 0; i < all.length; i++) {
+        var c = all[i];
+        if (c.Type === 'Background') {
+          bgGrid.appendChild(createCosmeticBtn(c, selectedBg === c.Value));
+        } else if (c.Type === 'Background-Buttons') {
+          btnGrid.appendChild(createCosmeticBtn(c, selectedBtn === c.Value));
+        }
+      }
+    };
+
+    // Auto-render cosmetics when DOM is ready
+    function initCosmeticsUI() {
+      if (typeof Cosmetics !== 'undefined') {
+        Cosmetics.load().then(function() {
+          console.log('[Cosmetics] Data loaded, rendering UI');
+          window.renderCosmetics();
+        }).catch(function(err) {
+          console.error('[Cosmetics] Failed to load:', err);
+        });
+      } else {
+        console.warn('[Cosmetics] Cosmetics module not found');
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCosmeticsUI);
+    } else {
+      initCosmeticsUI();
+    }
   </script>
 </body>
 </html>

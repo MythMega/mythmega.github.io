@@ -102,5 +102,102 @@
         "Value": "ocean-depth-buttons",
         "File": "wave.png",
         "RequiresUnlock": true
+    },
+    {
+        "ID": 12,
+        "Type": "Background",
+        "Name": "Game Firered",
+        "Value": "game-firered",
+        "File": "firered.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 13,
+        "Type": "Background",
+        "Name": "Game Leafgreen",
+        "Value": "game-leafgreen",
+        "File": "leafgreen.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 14,
+        "Type": "Background",
+        "Name": "Game Yellow",
+        "Value": "game-yellow",
+        "File": "yellow.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 15,
+        "Type": "Background",
+        "Name": "Game Silver",
+        "Value": "game-silver",
+        "File": "silver.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 16,
+        "Type": "Background",
+        "Name": "Game Gold",
+        "Value": "game-gold",
+        "File": "gold.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 17,
+        "Type": "Background",
+        "Name": "Game Cristal",
+        "Value": "game-cristal",
+        "File": "cristal.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 18,
+        "Type": "Background",
+        "Name": "Game Sapphire",
+        "Value": "game-sapphire",
+        "File": "sapphire.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 19,
+        "Type": "Background",
+        "Name": "Game Ruby",
+        "Value": "game-ruby",
+        "File": "ruby.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 20,
+        "Type": "Background",
+        "Name": "Game Diamond",
+        "Value": "game-diamond",
+        "File": "diamond.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 21,
+        "Type": "Background",
+        "Name": "Game Pearl",
+        "Value": "game-pearl",
+        "File": "pearl.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 22,
+        "Type": "Background",
+        "Name": "Game White",
+        "Value": "game-white",
+        "File": "white.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 23,
+        "Type": "Background",
+        "Name": "Game Black",
+        "Value": "game-black",
+        "File": "black.png",
+        "RequiresUnlock": true
     }
+
 ]

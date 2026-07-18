@@ -1,12 +1,12 @@
 ===== ANALYSE DES CHALLENGES =====
 
 Nombre total de Pokémon : 533
-Nombre total de challenges : 8
+Nombre total de challenges : 10
 
 ===== SYNTHÈSE GLOBALE =====
-Pokémon présents dans ≥1 challenge : 123 / 533
-Pokémon surreprésentés (≥2 challenges) : 16 / 533
-Pokémon absents (0 challenge) : 410 / 533
+Pokémon présents dans ≥1 challenge : 151 / 533
+Pokémon surreprésentés (≥2 challenges) : 9 / 533
+Pokémon absents (0 challenge) : 382 / 533
 
 ----- Vérification des challenges -----
 
@@ -42,6 +42,14 @@ Challenge 8 - Quizz Clair de lune
   Nombre de Pokémon listés : 30
   ✓ Tous les index correspondent à un Pokémon.
 
+Challenge 9 - Quizz A la Piscine!
+  Nombre de Pokémon listés : 20
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 10 - 1G - Pokémon Rouge
+  Nombre de Pokémon listés : 0
+  ✓ Tous les index correspondent à un Pokémon.
+
 
 ----- Pokémon présents dans au moins un challenge -----
 1 - Bulbizarre
@@ -49,6 +57,7 @@ Challenge 8 - Quizz Clair de lune
 4 - Salamèche
 6 - Dracaufeu
 7 - Carapuce
+8 - Carabaffe
 12 - Papilusion
 24 - Arbok
 25 - Pikachu
@@ -64,25 +73,35 @@ Challenge 8 - Quizz Clair de lune
 43 - Mystherbe
 47 - Parasect
 52 - Miaouss
+54 - Psykokwak
+61 - Têtarte
+62 - Tartard
 67 - Machopeur
 73 - Tentacruel
 76 - Grolem
 078-B - Galopa de Galar
 080-B - Flagadoss de Galar
+80 - Flagadoss
 089-B - Grotadmorv d'Alola
 89 - Grotadmorv
+90 - Kokiyas
 91 - Crustabri
 94 - Ectoplasma
 100 - Voltorbe
 109 - Smogo
 110 - Smogogo
 110-B - Smogogo de Galar
+116 - Hypotrempe
+118 - Poissirène
+120 - Stari
 121 - Staross
 124 - Lippoutou
 126 - Magmar
 127 - Scarabrute
 136 - Pyroli
+138 - Amonita
 146 - Sulfura
+148 - Draco
 152 - Germignon
 155 - Héricendre
 157-B - Typhlosion de Hisui
@@ -93,7 +112,7 @@ Challenge 8 - Quizz Clair de lune
 175 - Togepi
 180 - Lainergie
 192 - Héliatronc
-194 - Axoloto
+194-B - Axoloto de Paldea
 196 - Mentali
 197 - Noctali
 199 - Roigada
@@ -106,30 +125,46 @@ Challenge 8 - Quizz Clair de lune
 215-B - Farfuret de Hisui
 217 - Ursaring
 218 - Limagma
+226 - Démanta
 235 - Queulorior
 238 - Lippouti
 239 - Élekid
 244 - Entei
+245 - Suicune
 249 - Lugia
 250 - Ho-Oh
 251 - Celebi
+252 - Arcko
+255 - Poussifeu
+258 - Gobou
+259 - Flobio
+263 - Zigzaton
+279 - Bekipan
 282 - Gardevoir
+298 - Azurill
 301 - Delcatty
 303 - Mysdibule
 314 - Lumivole
 315 - Roselia
 317 - Avaltout
+319 - Sharpedo
+320 - Wailmer
 323 - Camérupt
 324 - Chartor
 327 - Spinda
+330 - Libégon
+334 - Altaria
 335 - Mangriff
 336 - Seviper
 337 - Séléroc
 338 - Solaroc
 342 - Colhomard
+350 - Milobellus
 359 - Absol
+366 - Coquiperl
 370 - Lovdisc
 377 - Regirock
+379 - Registeel
 380 - Latias
 381 - Latios
 383 - Groudon
@@ -164,26 +199,20 @@ Challenge 8 - Quizz Clair de lune
 484 - Palkia
 485 - Heatran
 488 - Cresselia
+489 - Phione
 491 - Darkrai
 492 - Shaymin
 493 - Arceus
 
 
 ----- Pokémon surreprésentés (≥ 2 challenges) -----
-152 - Germignon | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
-155 - Héricendre | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
-158 - Kaiminus | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
-175 - Togepi | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
-180 - Lainergie | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
-192 - Héliatronc | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn, Quizz Rayon de soleil
+192 - Héliatronc | Challenges : Quizz Découverte de Johto, Quizz Rayon de soleil
 197 - Noctali | Challenges : Poké Fiertés, Quizz Clair de lune
-199 - Roigada | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
-201 - Zarbi | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
-206 - Insolourdo | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
-208 - Steelix | Challenges : Quizz Découverte de Johto, Quizz Découverte de Hoenn
 235 - Queulorior | Challenges : Poké Fiertés, Quizz Clair de lune
 250 - Ho-Oh | Challenges : Poké Fiertés, Quizz Rayon de soleil
 282 - Gardevoir | Challenges : Poké Fiertés, Quizz Clair de lune
+323 - Camérupt | Challenges : Quizz Découverte de Hoenn, Quizz Rayon de soleil
+386 - Deoxys | Challenges : Quizz Découverte de Hoenn, Quizz Clair de lune
 407 - Roserade | Challenges : Quizz Venimeux, Quizz Rayon de soleil
 491 - Darkrai | Challenges : Quizz Découverte de Sinnoh, Quizz Clair de lune
 
@@ -191,7 +220,6 @@ Challenge 8 - Quizz Clair de lune
 ----- Pokémon absents de tous les challenges -----
 2 - Herbizarre
 5 - Reptincel
-8 - Carabaffe
 9 - Tortank
 10 - Chenipan
 11 - Chrysacier
@@ -234,7 +262,6 @@ Challenge 8 - Quizz Clair de lune
 052-C - Miaouss de Galar
 053-B - Persian d'Alola
 53 - Persian
-54 - Psykokwak
 55 - Akwakwak
 56 - Férosinge
 57 - Colossinge
@@ -243,8 +270,6 @@ Challenge 8 - Quizz Clair de lune
 059-B - Arcanin d'Hisui
 59 - Arcanin
 60 - Ptitard
-61 - Têtarte
-62 - Tartard
 63 - Abra
 64 - Kadabra
 65 - Alakazam
@@ -264,7 +289,6 @@ Challenge 8 - Quizz Clair de lune
 78 - Galopa
 079-B - Ramoloss de Galar
 79 - Ramoloss
-80 - Flagadoss
 81 - Magnéti
 82 - Magnéton
 083-B - Canarticho de Galar
@@ -275,7 +299,6 @@ Challenge 8 - Quizz Clair de lune
 87 - Lamantine
 088-B - Tadmorv d'Alola
 88 - Tadmorv
-90 - Kokiyas
 92 - Fantominus
 93 - Spectrum
 95 - Onix
@@ -300,11 +323,8 @@ Challenge 8 - Quizz Clair de lune
 113 - Leveinard
 114 - Saquedeneu
 115 - Kangourex
-116 - Hypotrempe
 117 - Hypocéan
-118 - Poissirène
 119 - Poissoroy
-120 - Stari
 122 - M. Mime
 122-B - M. Mime de Galar
 123 - Insécateur
@@ -319,7 +339,6 @@ Challenge 8 - Quizz Clair de lune
 134 - Aquali
 135 - Voltali
 137 - Porygon
-138 - Amonita
 139 - Amonistar
 140 - Kabuto
 141 - Kabutops
@@ -331,7 +350,6 @@ Challenge 8 - Quizz Clair de lune
 145-B - Électhor de Galar
 146-B - Sulfura de Galar
 147 - Minidraco
-148 - Draco
 149 - Dracolosse
 150 - Mewtwo
 151 - Mew
@@ -368,7 +386,7 @@ Challenge 8 - Quizz Clair de lune
 190 - Capumain
 191 - Tournegrin
 193 - Yanma
-194-B - Axoloto de Paldea
+194 - Axoloto
 195 - Maraiste
 198 - Cornèbre
 200 - Feuforêve
@@ -392,7 +410,6 @@ Challenge 8 - Quizz Clair de lune
 223 - Rémoraid
 224 - Octillery
 225 - Cadoizo
-226 - Démanta
 227 - Airmure
 228 - Malosse
 229 - Démolosse
@@ -407,22 +424,16 @@ Challenge 8 - Quizz Clair de lune
 241 - Écrémeuh
 242 - Leuphorie
 243 - Raikou
-245 - Suicune
 246 - Embrylex
 247 - Ymphect
 248 - Tyranocif
-252 - Arcko
 253 - Massko
 254 - Jungko
-255 - Poussifeu
 256 - Galifeu
 257 - Braségali
-258 - Gobou
-259 - Flobio
 260 - Laggron
 261 - Medhyèna
 262 - Grahyèna
-263 - Zigzaton
 264 - Linéon
 265 - Chenipotte
 266 - Armulys
@@ -438,7 +449,6 @@ Challenge 8 - Quizz Clair de lune
 276 - Nirondelle
 277 - Hélédelle
 278 - Goélise
-279 - Bekipan
 280 - Tarsal
 281 - Kirlia
 283 - Arakdo
@@ -456,7 +466,6 @@ Challenge 8 - Quizz Clair de lune
 295 - Brouhabam
 296 - Makuhita
 297 - Hariyama
-298 - Azurill
 299 - Tarinor
 300 - Skitty
 302 - Ténéfix
@@ -472,19 +481,15 @@ Challenge 8 - Quizz Clair de lune
 313 - Muciole
 316 - Gloupti
 318 - Carvanha
-319 - Sharpedo
-320 - Wailmer
 321 - Wailord
 322 - Chamallot
 325 - Spoink
 326 - Groret
 328 - Kraknoix
 329 - Vibraninf
-330 - Libégon
 331 - Cacnea
 332 - Cacturne
 333 - Tylton
-334 - Altaria
 339 - Barloche
 340 - Barbicha
 341 - Écrapince
@@ -495,7 +500,6 @@ Challenge 8 - Quizz Clair de lune
 347 - Anorith
 348 - Armaldo
 349 - Barpau
-350 - Milobellus
 351 - Morphéo
 352 - Kecleon
 353 - Polichombr
@@ -510,7 +514,6 @@ Challenge 8 - Quizz Clair de lune
 363 - Obalie
 364 - Phogleur
 365 - Kaimorse
-366 - Coquiperl
 367 - Serpang
 368 - Rosabyss
 369 - Relicanth
@@ -521,7 +524,6 @@ Challenge 8 - Quizz Clair de lune
 375 - Métang
 376 - Métalosse
 378 - Regice
-379 - Registeel
 382 - Kyogre
 384 - Rayquaza
 388 - Boskara
@@ -597,5 +599,4 @@ Challenge 8 - Quizz Clair de lune
 482 - Créfadet
 486 - Regigigas
 487 - Giratina
-489 - Phione
 490 - Manaphy

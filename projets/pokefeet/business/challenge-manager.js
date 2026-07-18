@@ -80,158 +80,7 @@ const ChallengeManager = (function () {
         }
     }
 
-    // Calculer l'XP totale (identique à stats.js)
-    async function computeTotalXP() {
-        let xp = 0;
-        
-        console.log('[ChallengeManager] Computing total XP...');
-        
-        // XP des challenges complétés
-        try {
-            const completions = await ChallengeStorage.getAllCompletions();
-            const completionCount = Object.keys(completions).length;
-            console.log('[ChallengeManager] Challenge completions:', completionCount);
-            
-            for (const challengeId in completions) {
-                const challenge = allChallenges.find(c => c.ID == challengeId);
-                if (challenge) {
-                    for (const reward of challenge.Rewards) {
-                        if (reward.TypeReward === 'Experience') {
-                            xp += reward.Value;
-                        }
-                    }
-                }
-            }
-            console.log('[ChallengeManager] XP from challenges:', xp);
-        } catch (e) {
-            console.error('[ChallengeManager] Error loading challenge XP:', e);
-        }
-        
-        // XP des trophées (depuis stats.js)
-        try {
-            const res = await fetch('data/trophies.json');
-            const trophies = await res.json();
-            console.log('[ChallengeManager] Trophies loaded:', trophies.length);
-            
-            // Charger l'historique daily et weekly
-            const [dailyHistory, weeklyHistory] = await Promise.all([
-                loadDailyHistoryForXP(),
-                loadWeeklyHistoryForXP()
-            ]);
-            
-            console.log('[ChallengeManager] Daily history entries:', Object.keys(dailyHistory).length);
-            console.log('[ChallengeManager] Weekly history entries:', Object.keys(weeklyHistory).length);
-            
-            // Calculer les trophées débloqués
-            let trophiesEarned = 0;
-            for (const trophy of trophies) {
-                if (!trophy.Enabled) continue;
-                const method = trophy.Obtention_Method;
-                const mode = method.Mode;
-                const value = method.Value;
-                let earned = false;
-                
-                switch (mode) {
-                    case 'Dex_Count': {
-                        const progress = await Dex.getProgress();
-                        earned = progress.found >= value;
-                        break;
-                    }
-                    case 'Daily_Count': {
-                        const completed = Object.values(dailyHistory).filter(h => (h.results || []).length === 5).length;
-                        earned = completed >= value;
-                        break;
-                    }
-                    case 'Weekly_Count': {
-                        const completed = Object.values(weeklyHistory).filter(h => (h.results || []).length === 10).length;
-                        earned = completed >= value;
-                        break;
-                    }
-                    case 'Marathon_Streak': {
-                        const bestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
-                        earned = bestStreak >= value;
-                        break;
-                    }
-                }
-                
-                if (earned) {
-                    trophiesEarned++;
-                    xp += trophy.XP;
-                }
-            }
-            console.log('[ChallengeManager] Trophies earned:', trophiesEarned, '- XP from trophies:', xp);
-        } catch (e) {
-            console.error('[ChallengeManager] Error loading trophy XP:', e);
-        }
-        
-        // XP Daily
-        try {
-            const dailyHistory = await loadDailyHistoryForXP();
-            const COUNT = 5;
-            const MAX_SCORE = 50;
-            let dailyXP = 0;
-            for (const date in dailyHistory) {
-                const entry = dailyHistory[date];
-                const results = entry.results || [];
-                const dayPerfect = entry.score === MAX_SCORE;
-                const dayFinished = results.length === COUNT;
-                if (dayFinished) dailyXP += 3;
-                if (dayPerfect) dailyXP += 2;
-                for (let i = 0; i < results.length; i++) {
-                    const r = results[i];
-                    if (r && r.outcome === 'win' && r.attempts === 0) dailyXP += 1;
-                }
-            }
-            xp += dailyXP;
-            console.log('[ChallengeManager] XP from daily:', dailyXP);
-        } catch (e) {
-            console.error('[ChallengeManager] Error loading daily XP:', e);
-        }
-        
-        // XP Weekly
-        try {
-            const weeklyHistory = await loadWeeklyHistoryForXP();
-            const WEEKLY_COUNT = 10;
-            const WEEKLY_MAX = 100;
-            let weeklyXP = 0;
-            for (const date in weeklyHistory) {
-                const entry = weeklyHistory[date];
-                const results = entry.results || [];
-                if (results.length === WEEKLY_COUNT) {
-                    const allWins = results.every(r => r && r.outcome === 'win');
-                    weeklyXP += 6;
-                    if (allWins && entry.score === WEEKLY_MAX) weeklyXP += 4;
-                }
-                for (let i = 0; i < results.length; i++) {
-                    const r = results[i];
-                    if (r && r.outcome === 'win' && r.attempts === 0) weeklyXP += 2;
-                }
-            }
-            xp += weeklyXP;
-            console.log('[ChallengeManager] XP from weekly:', weeklyXP);
-        } catch (e) {
-            console.error('[ChallengeManager] Error loading weekly XP:', e);
-        }
-        
-        // XP Marathon
-        try {
-            const bestScore = parseInt(getCookie('pk_best') || '0', 10);
-            const bestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
-            let marathonXP = 0;
-            if (bestScore > 0 || bestStreak > 0) {
-                marathonXP = Math.floor(bestScore / 5) + (bestStreak * 2);
-            }
-            xp += marathonXP;
-            console.log('[ChallengeManager] XP from marathon:', marathonXP, '(bestScore:', bestScore, 'bestStreak:', bestStreak, ')');
-        } catch (e) {
-            console.error('[ChallengeManager] Error loading marathon XP:', e);
-        }
-        
-        console.log('[ChallengeManager] Total XP calculated:', xp);
-        return xp;
-    }
-    
-    // Helper pour charger l'historique daily (pour XP)
+    // ── Helpers de chargement ──────────────────────────────
     async function loadDailyHistoryForXP() {
         try {
             const db = await new Promise((resolve, reject) => {
@@ -239,7 +88,6 @@ const ChallengeManager = (function () {
                 req.onsuccess = () => resolve(req.result);
                 req.onerror = () => reject(req.error);
             });
-            
             const tx = db.transaction('daily_results', 'readonly');
             const store = tx.objectStore('daily_results');
             const all = await new Promise((resolve, reject) => {
@@ -247,34 +95,6 @@ const ChallengeManager = (function () {
                 req.onsuccess = () => resolve(req.result);
                 req.onerror = () => reject(req.error);
             });
-            
-            const history = {};
-            all.forEach(item => {
-                history[item.date] = { score: item.score, results: item.results };
-            });
-            return history;
-        } catch (e) {
-            return {};
-        }
-    }
-    
-    // Helper pour charger l'historique weekly (pour XP)
-    async function loadWeeklyHistoryForXP() {
-        try {
-            const db = await new Promise((resolve, reject) => {
-                const req = indexedDB.open('PokefeetDB', 4);
-                req.onsuccess = () => resolve(req.result);
-                req.onerror = () => reject(req.error);
-            });
-            
-            const tx = db.transaction('weekly_results', 'readonly');
-            const store = tx.objectStore('weekly_results');
-            const all = await new Promise((resolve, reject) => {
-                const req = store.getAll();
-                req.onsuccess = () => resolve(req.result);
-                req.onerror = () => reject(req.error);
-            });
-            
             const history = {};
             all.forEach(item => {
                 history[item.date] = { score: item.score, results: item.results };
@@ -285,6 +105,229 @@ const ChallengeManager = (function () {
         }
     }
 
+    async function loadWeeklyHistoryForXP() {
+        try {
+            const db = await new Promise((resolve, reject) => {
+                const req = indexedDB.open('PokefeetDB', 4);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+            const tx = db.transaction('weekly_results', 'readonly');
+            const store = tx.objectStore('weekly_results');
+            const all = await new Promise((resolve, reject) => {
+                const req = store.getAll();
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+            const history = {};
+            all.forEach(item => {
+                history[item.date] = { score: item.score, results: item.results };
+            });
+            return history;
+        } catch (e) {
+            return {};
+        }
+    }
+
+    async function loadPokemonList() {
+        try {
+            const res = await fetch('data/pokemons.json');
+            return await res.json();
+        } catch (e) {
+            console.error('Error loading pokemons.json:', e);
+            return [];
+        }
+    }
+
+    async function loadDexEntries() {
+        try {
+            var req = indexedDB.open('PokefeetDexDB');
+            return await new Promise(function (resolve) {
+                req.onsuccess = function () {
+                    var ddb = req.result;
+                    if (!ddb.objectStoreNames.contains('dex_entries')) {
+                        ddb.close();
+                        resolve([]);
+                        return;
+                    }
+                    var tx = ddb.transaction('dex_entries', 'readonly');
+                    var store = tx.objectStore('dex_entries');
+                    var getAllReq = store.getAll();
+                    getAllReq.onsuccess = function () {
+                        ddb.close();
+                        resolve(getAllReq.result);
+                    };
+                    getAllReq.onerror = function () {
+                        ddb.close();
+                        resolve([]);
+                    };
+                };
+                req.onerror = function () { resolve([]); };
+            });
+        } catch (e) {
+            return [];
+        }
+    }
+
+    // ── Calculer l'XP totale (IDENTIQUE à stats.js) ────────
+    async function computeTotalXP() {
+        let xp = 0;
+
+        // 1. XP Daily
+        try {
+            const dailyHistory = await loadDailyHistoryForXP();
+            const COUNT = 5;
+            const MAX_SCORE = 50;
+            for (const date in dailyHistory) {
+                const entry = dailyHistory[date];
+                const results = entry.results || [];
+                const dayPerfect = entry.score === MAX_SCORE;
+                const dayFinished = results.length === COUNT;
+                if (dayFinished) xp += 3;
+                if (dayPerfect) xp += 2;
+                for (let i = 0; i < results.length; i++) {
+                    const r = results[i];
+                    if (r && r.outcome === 'win' && r.attempts === 0) xp += 1;
+                }
+            }
+        } catch (e) {
+            console.error('[ChallengeManager] Error loading daily XP:', e);
+        }
+
+        // 2. XP Weekly
+        try {
+            const weeklyHistory = await loadWeeklyHistoryForXP();
+            const WEEKLY_COUNT = 10;
+            const WEEKLY_MAX = 100;
+            for (const date in weeklyHistory) {
+                const entry = weeklyHistory[date];
+                const results = entry.results || [];
+                if (results.length === WEEKLY_COUNT) {
+                    const allWins = results.every(r => r && r.outcome === 'win');
+                    xp += 6;
+                    if (allWins && entry.score === WEEKLY_MAX) xp += 4;
+                }
+                for (let i = 0; i < results.length; i++) {
+                    const r = results[i];
+                    if (r && r.outcome === 'win' && r.attempts === 0) xp += 2;
+                }
+            }
+        } catch (e) {
+            console.error('[ChallengeManager] Error loading weekly XP:', e);
+        }
+
+        // 3. XP Marathon
+        try {
+            const bestScore = parseInt(getCookie('pk_best') || '0', 10);
+            const bestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
+            if (bestScore > 0 || bestStreak > 0) {
+                xp += Math.floor(bestScore / 5) + (bestStreak * 2);
+            }
+        } catch (e) {
+            console.error('[ChallengeManager] Error loading marathon XP:', e);
+        }
+
+        // 4. XP des challenges complétés
+        try {
+            const completions = await ChallengeStorage.getAllCompletions();
+            const res = await fetch('data/bonus_challenges.json');
+            const allChallengesData = await res.json();
+            for (const challengeId in completions) {
+                const challenge = allChallengesData.find(c => c.ID == challengeId);
+                if (challenge && challenge.Rewards) {
+                    for (const reward of challenge.Rewards) {
+                        if (reward.TypeReward === 'Experience') {
+                            xp += reward.Value;
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('[ChallengeManager] Error loading challenge XP:', e);
+        }
+
+        // 5. XP des trophées (IDENTIQUE à stats.js checkTrophies)
+        try {
+            const [dailyHistory, weeklyHistory] = await Promise.all([
+                loadDailyHistoryForXP(),
+                loadWeeklyHistoryForXP()
+            ]);
+            const res = await fetch('data/trophies.json');
+            const trophies = await res.json();
+            const dexEntries = await loadDexEntries();
+            const foundIndices = new Set(dexEntries.filter(e => e.found).map(e => String(e.index)));
+            const dexFoundCount = foundIndices.size;
+            const pokemons = await loadPokemonList();
+
+            // Pokémon par génération
+            const gens = {};
+            for (const p of pokemons) {
+                const g = p.Generation;
+                if (!gens[g]) gens[g] = [];
+                gens[g].push(String(p.Index));
+            }
+
+            const completedDailies = Object.values(dailyHistory).filter(h => (h.results || []).length === 5).length;
+            const completedWeeklies = Object.values(weeklyHistory).filter(h => (h.results || []).length === 10).length;
+            const marathonStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
+
+            for (const trophy of trophies) {
+                if (!trophy.Enabled) continue;
+                const method = trophy.Obtention_Method;
+                const mode = method.Mode;
+                const value = method.Value;
+                let earned = false;
+
+                switch (mode) {
+                    case 'Dex_Count':
+                        earned = dexFoundCount >= value;
+                        break;
+                    case 'Daily_Count':
+                        earned = completedDailies >= value;
+                        break;
+                    case 'Weekly_Count':
+                        earned = completedWeeklies >= value;
+                        break;
+                    case 'Marathon_Streak':
+                        earned = marathonStreak >= value;
+                        break;
+                    case 'Full_Generation_Register': {
+                        const genIndices = gens[value] || [];
+                        const foundGen = genIndices.filter(idx => foundIndices.has(idx)).length;
+                        earned = genIndices.length > 0 && foundGen === genIndices.length;
+                        break;
+                    }
+                    case 'Type_Registered': {
+                        const targetType = method.Type;
+                        if (!targetType) break;
+                        const typePokemonIndices = pokemons
+                            .filter(p => {
+                                const t1 = (p.Type1 || '').toLowerCase();
+                                const t2 = (p.Type2 || '').toLowerCase();
+                                const target = targetType.toLowerCase();
+                                return t1 === target || t2 === target;
+                            })
+                            .map(p => String(p.Index));
+                        const typePokemonSet = new Set(typePokemonIndices);
+                        const totalOfType = typePokemonSet.size;
+                        const foundOfType = [...typePokemonSet].filter(idx => foundIndices.has(idx)).length;
+                        const threshold = (value === null || value === undefined || value === -1) ? totalOfType : value;
+                        earned = foundOfType >= threshold;
+                        break;
+                    }
+                }
+
+                if (earned) {
+                    xp += trophy.XP;
+                }
+            }
+        } catch (e) {
+            console.error('[ChallengeManager] Error loading trophy XP:', e);
+        }
+
+        return xp;
+    }
+
     // Obtenir le niveau du joueur
     async function getPlayerLevel() {
         // S'assurer que les challenges sont chargés
@@ -293,7 +336,6 @@ const ChallengeManager = (function () {
         }
         const totalXP = await computeTotalXP();
         const level = Math.floor(totalXP / 100) + 1;
-        console.log('[ChallengeManager] Level calculation:', { totalXP, level });
         return level;
     }
 
@@ -435,6 +477,7 @@ const ChallengeManager = (function () {
         getAllChallenges: () => allChallenges,
         getCurrentChallenge: () => currentChallenge,
         isGameActive: () => gameActive,
+        computeTotalXP: computeTotalXP,
         get currentIndex() { return currentIndex; },
         get currentFails() { return currentFails; },
         get allPokemons() { return allPokemons; }

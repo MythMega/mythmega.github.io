@@ -202,5 +202,215 @@
             { "TypeReward": "Cosmetic", "Value": 11 }
         ],
         "Availabilities": null
+    },
+    {
+        "ID": 10,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 15 },
+            { "TypeRequirement": "level", "Value": 10 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "1G - Pokémon Red",
+        "Name_Fr": "1G - Pokémon Rouge",
+        "Desc_En": "A little re-exploration of Kanto through 5 Red version exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de kanto au travers de 5 Pokémons exclusifs a la version Rouge.",
+        "FeetList": [
+            "23", "44", "57", "59", "125"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 12 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 11,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 15 },
+            { "TypeRequirement": "level", "Value": 10 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "1G - Pokémon Green",
+        "Name_Fr": "1G - Pokémon Vert",
+        "Desc_En": "A little re-exploration of Kanto through 5 Green (jap) version exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de kanto au travers de 5 Pokémons exclusifs a la version Verte (jap).",
+        "FeetList": [
+            "27", "38", "52", "126", "127"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 13 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 12,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 15 },
+            { "TypeRequirement": "level", "Value": 10 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "1G - Pokémon Yellow",
+        "Name_Fr": "1G - Pokémon Jaune",
+        "Desc_En": "A little re-exploration of Kanto through 5 highlighted Pokémons in yellow version.",
+        "Desc_Fr": "Une mini-redécouverte de kanto au travers de 5 Pokémons mis en avant dans la version Jaune.",
+        "FeetList": [
+            "2", "5", "8", "25", "52"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 14 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 13,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 30 },
+            { "TypeRequirement": "level", "Value": 20 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "2G - Pokémon Gold",
+        "Name_Fr": "2G - Pokémon Or",
+        "Desc_En": "A little re-exploration of Johto through 5 Gold version Pokémons exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Johto au travers de 5 Pokémons exclusifs a la version Or.",
+        "FeetList": [
+            "167", "207", "216", "217", "226"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 16 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 14,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 30 },
+            { "TypeRequirement": "level", "Value": 20 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "2G - Pokémon Silver",
+        "Name_Fr": "2G - Pokémon Argent",
+        "Desc_En": "A little re-exploration of Johto through 5 Silver version Pokémons exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Johto au travers de 5 Pokémons exclusifs a la version Argent.",
+        "FeetList": [
+            "167", "225", "227", "231", "232"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 15 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 15,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 30 },
+            { "TypeRequirement": "level", "Value": 20 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "2G - Pokémon Crystal",
+        "Name_Fr": "2G - Pokémon Cristal",
+        "Desc_En": "A little re-exploration of Johto through 5 Crystal version Pokémons unfindable Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Johto au travers de 5 Pokémons introuvables dans la version Cristal.",
+        "FeetList": [
+            "179", "180", "203", "223", "224"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 17 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 16,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 45 },
+            { "TypeRequirement": "level", "Value": 30 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "3G - Pokémon Ruby",
+        "Name_Fr": "3G - Pokémon Rubis",
+        "Desc_En": "A little re-exploration of Hoenn through 5 Ruby version Pokémons exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Hoenn au travers de 5 Pokémons exclusifs a la version Rubis.",
+        "FeetList": [
+            "274", "303", "335", "338", "381"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 19 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 17,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 45 },
+            { "TypeRequirement": "level", "Value": 30 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "3G - Pokémon Sapphire",
+        "Name_Fr": "3G - Pokémon Saphir",
+        "Desc_En": "A little re-exploration of Hoenn through 5 Sapphire version Pokémons exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Hoenn au travers de 5 Pokémons exclusifs a la version Saphir.",
+        "FeetList": [
+            "271", "302", "336", "337", "380"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 18 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 18,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 60 },
+            { "TypeRequirement": "level", "Value": 45 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "4G - Pokémon Diamond",
+        "Name_Fr": "4G - Pokémon Diamant",
+        "Desc_En": "A little re-exploration of Sinnoh through 5 Diamond version Pokémons exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Hoenn au travers de 5 Pokémons exclusifs a la version Diamant.",
+        "FeetList": [
+            "408", "409", "430", "434", "435"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 20 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 19,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 60 },
+            { "TypeRequirement": "level", "Value": 45 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "4G - Pokémon Pearl",
+        "Name_Fr": "4G - Pokémon Perle",
+        "Desc_En": "A little re-exploration of Sinnoh through 5 Pearl version Pokémons exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Hoenn au travers de 5 Pokémons exclusifs a la version Perle.",
+        "FeetList": [
+            "410", "411", "429", "431", "432"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 21 }
+        ],
+        "Availabilities": null
     }
 ]

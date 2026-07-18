@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Poké-feet Weekly</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cosmetics.css" />
 </head>
 <body>
   <main id="app">
@@ -58,8 +59,8 @@
                    placeholder="Tapez le nom FR ou EN" />
             <div id="weeklyNamesDropdown" class="autocomplete-dropdown hidden"></div>
           </div>
-          <button id="weeklySubmit" data-i18n="daily.submit">Valider</button>
-          <button id="weeklySkip" class="secondary" data-i18n="daily.skip">Passer</button>
+          <button id="weeklySubmit" data-tag="customizables-button" data-i18n="daily.submit">Valider</button>
+          <button id="weeklySkip" class="secondary" data-tag="customizables-button" data-i18n="daily.skip">Passer</button>
         </div>
 
         <div id="newPokemonsAlert" class="hidden"
@@ -70,10 +71,10 @@
                style="white-space:pre-wrap; font-family:monospace; background:rgba(255,255,255,0.03); padding:8px; border-radius:8px;"></div>
           <div id="weeklyFullImages" class="daily-full-images"
                style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
-          <button id="copyShare" data-i18n="daily.copy">Copier</button>
-          <button id="copyMiniShare" data-i18n="daily.copyMini">Copie minifiée</button>
-          <button id="copyDiscordShare" data-i18n="daily.shareDiscord">Partager Discord</button>
-          <button id="viewDetails" data-i18n="daily.viewDetails">Voir détails</button>
+          <button id="copyShare" data-i18n="daily.copy" data-tag="customizables-button">Copier</button>
+          <button id="copyMiniShare" data-i18n="daily.copyMini" data-tag="customizables-button">Copie minifiée</button>
+          <button id="copyDiscordShare" data-i18n="daily.shareDiscord" data-tag="customizables-button">Partager Discord</button>
+          <button  id="viewDetails" data-i18n="daily.viewDetails" data-tag="customizables-button">Voir détails</button>
         </div>
       </div>
     </section>
@@ -97,6 +98,8 @@
   <script src="migration.js"></script>
   <script src="Dex.js"></script>
   <script src="pokemon-versions.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="cosmetics.js"></script>
   <script src="weekly.js"></script>
 </body>
 </html>

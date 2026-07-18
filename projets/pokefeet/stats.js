@@ -1,7 +1,7 @@
 // stats.js — Page de statistiques (Daily, Weekly, Marathon) — avec Niveau / XP / Trophées
 (function () {
   const DB_NAME    = 'PokefeetDB';
-  const DB_VERSION = 3;
+  const DB_VERSION = 4;
   const DAILY_STORE   = 'daily_results';
   const WEEKLY_STORE  = 'weekly_results';
   const COUNT         = 5;
@@ -84,20 +84,27 @@
   async function loadDexEntries() {
     try {
       const dexDBName = 'PokefeetDexDB';
-      const dexReq = indexedDB.open(dexDBName, 1);
+      const dexReq = indexedDB.open(dexDBName);
       return new Promise((resolve, reject) => {
         dexReq.onsuccess = () => {
           const ddb = dexReq.result;
           // Si l'object store n'existe pas encore (nouveau profil), retourner un tableau vide
           if (!ddb.objectStoreNames.contains('dex_entries')) {
+            ddb.close();
             resolve([]);
             return;
           }
           const tx = ddb.transaction('dex_entries', 'readonly');
           const store = tx.objectStore('dex_entries');
           const req = store.getAll();
-          req.onsuccess = () => resolve(req.result);
-          req.onerror = () => reject(req.error);
+          req.onsuccess = () => {
+            ddb.close();
+            resolve(req.result);
+          };
+          req.onerror = () => {
+            ddb.close();
+            reject(req.error);
+          };
         };
         dexReq.onerror = () => reject(dexReq.error);
       });
@@ -147,14 +154,40 @@
     return xp;
   }
 
-  function computeMarathonXP() {
-    const bestScore = parseInt(getCookie('pk_best') || '0', 10);
-    const bestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
-    if (bestScore > 0 || bestStreak > 0) {
-      return Math.floor(bestScore / 5) + (bestStreak * 2);
+    function computeMarathonXP() {
+      const bestScore = parseInt(getCookie('pk_best') || '0', 10);
+      const bestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
+      if (bestScore > 0 || bestStreak > 0) {
+        return Math.floor(bestScore / 5) + (bestStreak * 2);
+      }
+      return 0;
     }
-    return 0;
-  }
+
+    async function computeChallengeXP() {
+      let totalXP = 0;
+      try {
+        // Check if ChallengeStorage exists
+        if (typeof ChallengeStorage === 'undefined' || !ChallengeStorage.getAllCompletions) {
+          return 0;
+        }
+        const challengeCompletions = await ChallengeStorage.getAllCompletions();
+        const res = await fetch('data/bonus_challenges.json');
+        const allChallenges = await res.json();
+        for (const challengeId in challengeCompletions) {
+          const challenge = allChallenges.find(c => c.ID == challengeId);
+          if (challenge && challenge.Rewards) {
+            for (const reward of challenge.Rewards) {
+              if (reward.TypeReward === 'Experience') {
+                totalXP += reward.Value;
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Error computing challenge XP:', e);
+      }
+      return totalXP;
+    }
 
   // ── Trophy checking ───────────────────────────────────────
   function countCompletedDailies(dailyHistory) {
@@ -640,6 +673,7 @@
     totalXP += computeDailyXP(dailyHistory);
     totalXP += computeWeeklyXP(weeklyHistory);
     totalXP += computeMarathonXP();
+    totalXP += await computeChallengeXP();
 
     // Check trophies and add their XP
     const trophyResult = await checkTrophies(dailyHistory, weeklyHistory);

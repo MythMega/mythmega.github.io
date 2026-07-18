@@ -84,7 +84,7 @@ const DailyToDexImport = (function () {
   function getDailyDB() {
     console.log('[Import] Getting Daily DB');
     return new Promise((resolve, reject) => {
-      const req = indexedDB.open(DAILY_DB_NAME, 3);
+      const req = indexedDB.open(DAILY_DB_NAME, 4);
       req.onerror = () => { console.error('[Import] Daily DB open error:', req.error); reject(req.error); };
       req.onsuccess = () => { console.log('[Import] Daily DB opened'); resolve(req.result); };
       req.onupgradeneeded = (e) => {

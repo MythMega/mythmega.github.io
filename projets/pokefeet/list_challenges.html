@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Challenges</title>
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./cosmetics.css" />
+  <link rel="stylesheet" href="./challenge.css" />
+</head>
+<body>
+  <div class="container challenge-page">
+    <header>
+      <h1 data-i18n="challenges.title">Challenges</h1>
+      <a href="./index.html" class="btn-back" data-i18n="challenges.back">Retour</a>
+    </header>
+
+    <div class="challenge-tabs" id="challengeTabs"></div>
+    <div id="challengesList" class="challenges-grid">
+      <!-- Les challenges seront insérés ici dynamiquement -->
+    </div>
+  </div>
+
+  <script src="pokemon.js"></script>
+  <script src="pokemon-versions.js"></script>
+  <script src="Dex.js"></script>
+  <script src="entity/challenge.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="business/challenge-manager.js"></script>
+  <script src="ui/challenge-list-ui.js"></script>
+  <script src="loader.js"></script>
+  <script src="cosmetics.js"></script>
+  <script src="migration.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="translate.js"></script>
+  <script src="apply-translations.js"></script>
+</body>
+</html>

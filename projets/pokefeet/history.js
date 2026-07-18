@@ -1,7 +1,7 @@
 // history.js
 (function () {
   const DB_NAME    = 'PokefeetDB';
-  const DB_VERSION = 3;
+  const DB_VERSION = 4;
   const STORE_NAME = 'daily_results';
   const WEEKLY_STORE = 'weekly_results';
   const COUNT        = 5;

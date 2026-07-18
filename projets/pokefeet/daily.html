@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Poké-feet Daily</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cosmetics.css" />
 </head>
 <body>
   <main id="app">
@@ -60,10 +61,12 @@
           <h3 data-i18n="daily.gameComplete">Partie terminée</h3>
           <div id="shareTextArea" style="white-space:pre-wrap; font-family:monospace; background:rgba(255,255,255,0.03); padding:8px; border-radius:8px;"></div>
           <div id="dailyFullImages" class="daily-full-images" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
-          <button id="copyShare" data-i18n="daily.copy">Copier</button>
-          <button id="copyMiniShare" data-i18n="daily.copyMini">Copie minifiée</button>
-          <button id="copyDiscordShare" data-i18n="daily.shareDiscord">Partager Discord</button>
-          <button id="viewDetails" data-i18n="daily.viewDetails">Voir détails</button>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+            <button id="copyShare" data-tag="customizables-button" data-i18n="daily.copy">Copier</button>
+            <button id="copyMiniShare" data-i18n="daily.copyMini" data-tag="customizables-button">Copie minifiée</button>
+            <button id="copyDiscordShare" data-i18n="daily.shareDiscord" data-tag="customizables-button">Partager Discord</button>
+            <button id="viewDetails" data-i18n="daily.viewDetails" data-tag="customizables-button">Voir détails</button>
+          </div>
         </div>
       </div>
     </section>
@@ -86,6 +89,8 @@
   <script src="migration.js"></script>
   <script src="Dex.js"></script>
   <script src="pokemon-versions.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="cosmetics.js"></script>
   <script src="daily.js"></script>
 </body>
 </html>

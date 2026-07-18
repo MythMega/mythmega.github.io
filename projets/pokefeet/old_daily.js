@@ -9,7 +9,7 @@ const OldDaily = (function () {
   const tabWeeklyBtn    = document.getElementById('tabWeeklyBtn');
 
   const DB_NAME    = 'PokefeetDB';
-  const DB_VERSION = 3;
+  const DB_VERSION = 4;
   let dbInstance   = null;
   let idbTimedOut  = false;
 
@@ -136,6 +136,7 @@ const OldDaily = (function () {
       btn.href      = `daily.html?date=${dateStr}`;
       btn.className = `daily-button ${played ? 'played' : 'available'}`;
       btn.textContent = formatDate(dateStr);
+      btn.setAttribute('data-tag', 'customizables-button');
       btn.title     = played
         ? (typeof Translator !== 'undefined' ? Translator.get('oldDaily.playedTitle', 'Déjà joué') : 'Déjà joué')
         : (typeof Translator !== 'undefined' ? Translator.get('oldDaily.availableTitle', 'Disponible') : 'Disponible');
@@ -177,6 +178,7 @@ const OldDaily = (function () {
       btn.href        = `weekly.html?week=${mondayStr}`;
       btn.className   = `daily-button ${played ? 'played' : 'available'}`;
       btn.textContent = formatWeekLabel(mondayStr);
+      btn.setAttribute('data-tag', 'customizables-button');
       btn.title       = played
         ? (typeof Translator !== 'undefined' ? Translator.get('oldDaily.weeklyPlayedTitle', 'Déjà joué') : 'Déjà joué')
         : (typeof Translator !== 'undefined' ? Translator.get('oldDaily.weeklyAvailableTitle', 'Disponible') : 'Disponible');

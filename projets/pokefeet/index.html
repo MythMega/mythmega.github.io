@@ -19,10 +19,15 @@
   <meta name="twitter:title" content="Pokefeet — Devinez le Pokémon par son pied / ses pieds">
   <meta name="twitter:description" content="Jeu de devinettes Pokémon par MythMega. Devinez le Pokémon en ne voyant que son pied / ses pieds.">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cosmetics.css" />
   <link rel="icon" type="image/x-icon" href="./icon.png">
 </head>
 <body>
   <main id="app">
+    <div class="deco n1"></div>
+    <div class="deco n2"></div>
+    <div class="deco n3"></div>
+    <div class="deco n4"></div>
     <header>
       <h1 data-i18n="home.title">Pokefeet</h1>
       <i data-i18n="home.byLine">/ Code par Jordan M</i> <a href="https://web.jmdev.fr/">(jdmev)</a>
@@ -33,10 +38,13 @@
         <h2 id="homeTitle" class="home-title" data-i18n="home.chooseMode">Choisissez un mode</h2>
 
         <div class="row-buttons" aria-hidden="false" style="gap:10px;">
-          <a class="big-btn" href="daily.html" style="flex:1;">Daily Challenge</a>
-          <a class="big-btn" href="weekly.html" style="flex:1;">Weekly Challenge</a>
+          <a class="big-btn" href="daily.html" style="flex:1;" data-tag="customizables-button">Daily Challenge</a>
+          <a class="big-btn" href="weekly.html" style="flex:1;" data-tag="customizables-button">Weekly Challenge</a>
         </div>
 
+        <a class="big-btn" data-tag="customizables-button" href="list_challenges.html" style="margin-top:6px; text-align:center;" data-i18n="home.bonusChallenges">Challenges Bonus</a>
+
+        <a class="big-btn golden" href="pokefeet.html" data-i18n="home.practice">Marathon</a>
         <a class="big-btn secondary" href="old_daily.html" style="margin-top:6px; text-align:center;" data-i18n="home.pastChallenges">Défis passés</a>
 
         <div class="row-buttons" aria-hidden="false">
@@ -46,7 +54,6 @@
 
         <a class="big-btn secondary" href="data_management.html" style="margin-top:4px; text-align:center;" data-i18n="home.saveLoad">Paramètres</a>
 
-        <a class="big-btn golden" href="pokefeet.html" data-i18n="home.practice">Marathon</a>
         <a class="big-btn blue" href="stats.html">Profile</a>
 
         <div class="subtitle" data-i18n="home.modeDesc">Daily : un défi par jour — Weekly : 10 Pokémon par semaine</div>
@@ -65,6 +72,13 @@
   <script src="footer.js"></script>
   <script src="i18n-setup.js"></script>
   <script src="migration.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="cosmetics.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof Cosmetics !== 'undefined') Cosmetics.load();
+    });
+  </script>
   <script>
     (async function () {
       const SHEET_ID = '1ACLXY7DR2KBreQJNVyJZ9FeH4YX2j736FNWiSaQp-Hc';

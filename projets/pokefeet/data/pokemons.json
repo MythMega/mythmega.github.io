@@ -8137,5 +8137,21 @@
       "Inconnu"
     ],
     "pokefeet_data_version": 2
+  },
+  {
+    "Index": "194-B",
+    "NameEN": "Paldean Wooper",
+    "NameFR": "Axoloto de Paldea",
+    "Generation": 9,
+    "Type1": "poison",
+    "Type2": "ground",
+    "Image": "./img/152-250/194b-a.png",
+    "FullImage": "./img/fullsprite/194-B.png",
+    "Category": "Pokémon Poizzon",
+    "EggGroups": [
+      "Aquatique 1",
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 3
   }
 ]

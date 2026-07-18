@@ -263,7 +263,7 @@ const Daily = (function () {
   // stocke l'objet history complet dans le cookie
   // --- IndexedDB helpers (mirror from data.js) ---
   const DB_NAME = 'PokefeetDB';
-  const DB_VERSION = 3;
+  const DB_VERSION = 4;
   const STORE_NAME = 'daily_results';
   const WEEKLY_STORE = 'weekly_results';
   let dbInstance = null;

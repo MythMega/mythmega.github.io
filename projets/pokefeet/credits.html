@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Crédits</title>
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cosmetics.css" />
+  <style>
+    .credits-tabs { display:flex; gap:5px; justify-content:center; max-width:700px; margin:0 auto 1rem; flex-wrap:wrap; padding:0 8px; }
+    .credits-tab-btn {
+      flex:0 0 auto; padding:6px 10px; border:1px solid rgba(255,255,255,0.1);
+      border-radius:6px; background:rgba(255,255,255,0.03);
+      color:var(--muted,#94a3b8); cursor:pointer; font-weight:600;
+      font-size:.75rem; transition:background .15s,color .15s;
+      white-space:nowrap;
+    }
+    .credits-tab-btn.active { background:var(--accent,#34d399); color:#052018; border-color:transparent; }
+    .credits-panel { display:none; }
+    .credits-panel.active { display:block; }
+    .credits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .credit-card {
+      background: var(--card);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      transition: transform 200ms, box-shadow 200ms;
+    }
+    .credit-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .credit-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid var(--glass-border);
+    }
+    .credit-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .credit-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .credit-function {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .credit-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .credit-btn {
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(52,211,153,0.2);
+      transition: background 150ms;
+    }
+    .credit-btn:hover {
+      background: rgba(52,211,153,0.15);
+    }
+    .credit-type-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(168, 85, 247, 0.2);
+      color: #c084fc;
+      font-size: 10px;
+      font-weight: 600;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      white-space: nowrap;
+    }
+    .no-credits {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1 data-i18n="credits.title">Crédits</h1>
+      <div class="scoreboard">
+        <div data-i18n="credits.subtitle">Remerciements à tous les contributeurs</div>
+      </div>
+    </header>
+
+    <section class="container py-3">
+      <div class="credits-tabs" id="creditsTabs"></div>
+      <div id="creditsContent"></div>
+    </section>
+
+    <a href="./index.html"><button class="secondary" style="padding:10px 12px;margin-top:20px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
+    <div id="notifications" aria-live="polite"></div>
+  </main>
+
+  <script src="loader.js"></script>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="footer.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script src="migration.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="cosmetics.js"></script>
+  <script src="credits.js"></script>
+</body>
+</html>

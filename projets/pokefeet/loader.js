@@ -17,9 +17,11 @@
 
   // Hide once everything is loaded (or after max 2.5 s as safety net)
   let done = false;
-  function finish() {
+  async function finish() {
     if (done) return;
     done = true;
+    // Apply cosmetics before hiding loader
+    await initCosmetics();
     hideLoader();
   }
   window.addEventListener('load', finish);
@@ -37,15 +39,29 @@
   }
 
   // Run after DOM is ready
+  function initCosmetics() {
+    if (typeof Cosmetics !== 'undefined' && Cosmetics.load) {
+      Cosmetics.load().then(function() {
+        console.log('[Loader] Cosmetics loaded and applied');
+      }).catch(function(err) {
+        console.error('[Loader] Cosmetics failed:', err);
+      });
+    }
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.pokemon-image img').forEach(setupImageSkeleton);
       // Also watch for dynamically added images via MutationObserver
       watchForNewImages();
+      // Load cosmetics if available
+      initCosmetics();
     });
   } else {
     document.querySelectorAll('.pokemon-image img').forEach(setupImageSkeleton);
     watchForNewImages();
+    // Load cosmetics if available
+    initCosmetics();
   }
 
   function watchForNewImages() {

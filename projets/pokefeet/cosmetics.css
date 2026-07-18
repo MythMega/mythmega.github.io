@@ -1,0 +1,400 @@
+.cosmetics-rainbow-bg {
+  background: linear-gradient(
+    135deg,
+    rgb(68, 19, 19),
+    rgb(54, 39, 12),
+    rgb(71, 71, 17),
+    rgb(16, 46, 16),
+    rgb(11, 43, 43),
+    rgb(14, 14, 44),
+    rgb(51, 20, 51)
+  );
+  min-height: fit-content;
+}
+.cosmetics-pride-btn {
+  background: linear-gradient(
+    0deg,
+    red,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet,
+    red,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet
+  );
+  background-size: 300% 300%;
+  animation: prideBtnShift 60s infinite;
+}
+
+@keyframes prideBtnShift {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
+}
+.cosmetics-purple-btn {
+  background: violet;
+}
+
+.cosmetics-orange-btn {
+  background: orange;
+}
+
+.cosmetics-kanto {
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  
+}
+
+.cosmetics-kanto::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/kanto_edited.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px);
+  z-index: -1;
+}
+
+.cosmetics-johto {
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  
+}
+
+.cosmetics-johto::before {
+  content: "";
+  position: absolute;
+  top: -28px;
+  right: -10px;
+  bottom: -10px;
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/johto_edited.webp");
+  background-repeat: repeat;
+  background-size: auto;
+  filter: blur(3px);
+  /* z-index: -1; */
+}
+
+.cosmetics-hoenn {
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  
+}
+
+.cosmetics-hoenn::before {
+  content: "";
+  position: absolute;
+  top: -28px;
+  right: -10px;
+  bottom: -10px;
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/hoenn_edited.webp");
+  background-repeat: repeat;
+  background-size: auto;
+  filter: blur(3px);
+  /* z-index: -1; */
+}
+
+.cosmetics-sinnoh {
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  
+}
+
+.cosmetics-sinnoh::before {
+  content: "";
+  position: absolute;
+  top: -28px;
+  right: -10px;
+  bottom: -10px;
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/sinnoh_edited.webp");
+  background-repeat: repeat;
+  background-size: auto;
+  filter: blur(3px);
+  /* z-index: -1; */
+}
+
+
+.cosmetics-venimous {
+    position: relative;
+    border: none;
+    background: #af0cf5;
+    padding: 14px 26px;
+    border-radius: 8px;
+    font-weight: bold;
+    transform-style: preserve-3d;
+    transition: transform 0.3s cubic-bezier(0, 0, 0.58, 1),
+        background 0.3s cubic-bezier(0, 0, 0.58, 1);
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+    /*** full width block ***/
+    /* width: 100%; */
+}
+
+.cosmetics-venimous:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #b200ff;
+    border-radius: inherit;
+    transform: translate3d(0, 0.5em, -1em);
+    transition: transform 0.3s cubic-bezier(0, 0, 0.58, 1);
+}
+
+.cosmetics-venimous:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    filter: blur(4px);
+    border-radius: inherit;
+    top: 0;
+    left: 0;
+    transform: translate3d(0, .7em, -1em);
+    transition: transform 0.3s cubic-bezier(0, 0, 0.58, 1);
+}
+
+.cosmetics-venimous:hover {
+    transform: translateY(-0.25em);
+}
+
+.cosmetics-venimous:active {
+    transform: translate(0, 0.5em);
+}
+
+.cosmetics-venimous:active:before,
+.cosmetics-venimous:active:after {
+    transform: translate3d(0, 0, -1em);
+}
+
+.nuit-etoilee {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 20%, #1b2b4a 0, #050814 60%, #000000 100%);
+  color: #f5f7ff;
+  font-family: system-ui;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Lune */
+.nuit-etoilee::before {
+  content: "";
+  position: fixed;
+  top: 10%;
+  right: 15%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0, #f5f5f5 30%, #dcdcdc 60%, #b0b0b0 100%);
+  box-shadow: 0 0 40px rgba(255,255,255,0.7), 0 0 120px rgba(255,255,255,0.35);
+  z-index: -3;
+}
+
+/* Étoiles */
+.nuit-etoilee::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0, transparent 50%),
+    radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,0.7) 0, transparent 50%),
+    radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.9) 0, transparent 50%),
+    radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.6) 0, transparent 50%),
+    radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.75) 0, transparent 50%);
+  opacity: 0.9;
+  z-index: -4;
+}
+
+/* Nuages via .deco */
+.nuit-etoilee .deco {
+  position: fixed;
+  background: rgba(255,255,255,0.35);
+  border-radius: 40px;
+  filter: blur(2px);
+  animation: nuage-nuit 45s linear infinite;
+  z-index: -2; /* devant la lune */
+}
+
+/* tailles + positions + vitesses */
+.nuit-etoilee .n1 { width: 180px; height: 60px; top: 25%; left: -200px; animation-duration: 55s; }
+.nuit-etoilee .n2 { width: 260px; height: 80px; top: 40%; left: -300px; animation-duration: 70s; }
+.nuit-etoilee .n3 { width: 120px; height: 45px; top: 60%; left: 100%; animation-direction: reverse; animation-duration: 50s; }
+.nuit-etoilee .n4 { width: 200px; height: 70px; top: 75%; left: -250px; animation-duration: 65s; }
+
+/* Animation */
+@keyframes nuage-nuit {
+  from { transform: translateX(0); }
+  to { transform: translateX(140vw); }
+}
+
+.crepuscule {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 120%, #3b1b3f 0, #1a0f26 40%, #05040b 80%),
+    linear-gradient(to top, #1a0f26 0, #3b1b3f 40%, #f26b3f 70%, #ffd27a 100%);
+  background-blend-mode: screen, normal;
+  color: #fff7f0;
+  font-family: system-ui;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Soleil */
+.crepuscule::before {
+  content: "";
+  position: fixed;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff7c2 0, #ffd27a 35%, #f26b3f 70%, #c53b2f 100%);
+  box-shadow: 0 0 60px rgba(255,210,122,0.9), 0 0 160px rgba(242,107,63,0.6);
+  z-index: -3;
+}
+
+/* Brume */
+.crepuscule::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.12) 0, transparent 55%),
+    radial-gradient(circle at 70% 20%, rgba(255,255,255,0.08) 0, transparent 60%),
+    radial-gradient(circle at 40% 60%, rgba(255,255,255,0.1) 0, transparent 65%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  z-index: -4;
+}
+
+/* Nuages via .deco */
+.crepuscule .deco {
+  position: fixed;
+  background: rgba(255,255,255,0.55);
+  border-radius: 40px;
+  filter: blur(3px);
+  animation: nuage-crepuscule 45s linear infinite;
+  z-index: -2; /* devant le soleil */
+}
+
+/* tailles + positions + vitesses */
+.crepuscule .n1 { width: 200px; height: 70px; top: 20%; left: -250px; animation-duration: 60s; }
+.crepuscule .n2 { width: 300px; height: 90px; top: 35%; left: 100%; animation-direction: reverse; animation-duration: 75s; }
+.crepuscule .n3 { width: 150px; height: 50px; top: 55%; left: -200px; animation-duration: 50s; }
+.crepuscule .n4 { width: 240px; height: 80px; top: 70%; left: 100%; animation-direction: reverse; animation-duration: 65s; }
+
+/* Animation */
+@keyframes nuage-crepuscule {
+  from { transform: translateX(0); }
+  to { transform: translateX(140vw); }
+}
+
+.ocean-depth {
+  margin: 0;
+  min-height: 100vh;
+background:
+    radial-gradient(circle at 50% 120%, #001f33 0%, #001427 40%, #000a18 75%, #000510 100%),
+    linear-gradient(to top, #000510 0%, #001427 40%, #003b5c 70%, #4fb3d9 100%);
+    background-blend-mode: screen, normal;
+}
+
+.ocean-depth-buttons {
+    position: relative;
+    border: none;
+    background: #100cf5;
+    padding: 14px 26px;
+    border-radius: 8px;
+    font-weight: bold;
+    transform-style: preserve-3d;
+    transition: transform 0.3s cubic-bezier(0, 0, 0.58, 1),
+        background 0.3s cubic-bezier(0, 0, 0.58, 1);
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+    /*** full width block ***/
+    /* width: 100%; */
+}
+
+.ocean-depth-buttons:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #1100ff;
+    border-radius: inherit;
+    transform: translate3d(0, 0.5em, -1em);
+    transition: transform 0.3s cubic-bezier(0, 0, 0.58, 1);
+}
+
+.ocean-depth-buttons:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    filter: blur(4px);
+    border-radius: inherit;
+    top: 0;
+    left: 0;
+    transform: translate3d(0, .7em, -1em);
+    transition: transform 0.3s cubic-bezier(0, 0, 0.58, 1);
+}
+
+.ocean-depth-buttons:hover {
+    transform: translateY(-0.25em);
+}
+
+.ocean-depth-buttons:active {
+    transform: translate(0, 0.5em);
+}
+
+.ocean-depth-buttons:active:before,
+.ocean-depth-buttons:active:after {
+    transform: translate3d(0, 0, -1em);
+}

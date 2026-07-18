@@ -32,9 +32,11 @@
 html, body, #app { min-height:100vh; margin:0; }
 
 html {
-  background: var(--bg);
   overflow-x: hidden;
+  background: var(--bg);
 }
+
+
 
 /* Aurora orbs */
 html::before, html::after {

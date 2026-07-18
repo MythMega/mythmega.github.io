@@ -1,7 +1,7 @@
 // Dex.js - Core Dex logic (excluding import)
 const Dex = (function () {
   const DB_NAME = 'PokefeetDexDB';
-  const DB_VERSION = 1;
+  const DB_VERSION = 4;
   const STORE_NAME = 'dex_entries';
   let dbInstance = null;
   let allPokemons = [];

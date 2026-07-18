@@ -163,6 +163,7 @@ class Reward {
     if (this.button) {
       const actionBtn = document.createElement('button');
       actionBtn.className = 'reward-action-btn';
+      actionBtn.setAttribute('data-tag', 'customizables-button');
       actionBtn.textContent = this.button.getText();
       actionBtn.addEventListener('click', () => {
         this.button.openUrl();

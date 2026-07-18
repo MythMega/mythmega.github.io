@@ -17,7 +17,8 @@
     "practice": "Marathon",
     "pokedex": "Pokédex",
     "modeDesc": "Daily: one challenge per day — Weekly: 10 Pokémon per week",
-    "byLine": "/ Code by Jordan M"
+    "byLine": "/ Code by Jordan M",
+    "bonusChallenges": "Bonus Challenges"
   },
   "daily": {
     "title": "PokéFeet Daily",
@@ -218,7 +219,12 @@
   "footer": {
     "homeLink": "Home",
     "dataLink": "Data",
-    "changelogLink": "Changelog"
+    "changelogLink": "Changelog",
+    "creditsLink": "Credits"
+  },
+  "credits": {
+    "title": "Credits",
+    "subtitle": "Thanks to all contributors"
   },
   "types": {
     "normal": "Normal",
@@ -308,5 +314,37 @@
     "weeklyPlayedTitle": "Already played",
     "weeklyAvailableTitle": "Available",
     "noChallenge": "No challenges found yet."
+  },
+  "challenges": {
+    "title": "Challenges",
+    "back": "Back"
+  },
+  "challenge": {
+    "play": "Play",
+    "replay": "Re-play",
+    "submit": "Submit",
+    "completed": "Challenge completed!",
+    "totalFails": "Total fails",
+    "totalPokemon": "Pokémon",
+    "xpGained": "XP gained",
+    "copyResult": "Copy result",
+    "backToList": "Back to list",
+    "copied": "Result copied!",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard",
+      "impossible": "Impossible"
+    },
+    "requirements": {
+      "title": "Requirements",
+      "levelRequired": "Level required",
+      "dexCountRequired": "Dex required",
+      "trophyRequired": "Trophy required"
+    },
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "locked": "Locked",
+    "pokemonCount": "Pokémon"
   }
 }

@@ -86,7 +86,7 @@
         "Name_Fr": "Quizz Découverte de Hoenn",
         "Desc_En": "A tropical adventure across Hoenn’s lush jungles, volcanic paths, and shimmering beaches. From Petalburg Woods to Mt. Chimney, this quiz captures the region’s vibrant energy, its diverse climates, and the lively spirit that makes Hoenn a paradise for explorers.",
         "Desc_Fr": "Une aventure tropicale à travers les jungles luxuriantes, les sentiers volcaniques et les plages scintillantes de Hoenn. Du Bois Clémenti au Mont Chimnée, ce quizz reflète l’énergie vibrante de la région, ses climats variés et l’esprit dynamique qui fait de Hoenn un paradis pour les explorateurs.",
-        "FeetList": ["152", "155", "158", "175", "206", "180", "201", "208", "199", "192"],
+        "FeetList": ["252", "255", "258", "263", "279", "323", "330", "334", "379", "386"],
         "Rewards": [
             { "TypeReward": "Experience", "Value": 250},
             { "TypeReward": "Cosmetic", "Value": 5 }

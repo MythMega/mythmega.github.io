@@ -82,64 +82,31 @@
   z-index: -1;
 }
 
-.cosmetics-johto {
-  margin: 0;
-  min-height: 100vh;
-  position: relative;
-  
-}
-
-.cosmetics-johto::before {
-  content: "";
-  position: absolute;
-  top: -28px;
-  right: -10px;
-  bottom: -10px;
-  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/johto_edited.webp");
-  background-repeat: repeat;
-  background-size: auto;
-  filter: blur(3px);
-  /* z-index: -1; */
-}
-
-.cosmetics-hoenn {
-  margin: 0;
-  min-height: 100vh;
-  position: relative;
-  
-}
-
-.cosmetics-hoenn::before {
-  content: "";
-  position: absolute;
-  top: -28px;
-  right: -10px;
-  bottom: -10px;
-  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/hoenn_edited.webp");
-  background-repeat: repeat;
-  background-size: auto;
-  filter: blur(3px);
-  /* z-index: -1; */
-}
-
-.cosmetics-sinnoh {
-  margin: 0;
-  min-height: 100vh;
-  position: relative;
-  
-}
-
+.cosmetics-johto::before,
+.cosmetics-hoenn::before,
 .cosmetics-sinnoh::before {
   content: "";
   position: absolute;
-  top: -28px;
-  right: -10px;
-  bottom: -10px;
-  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/sinnoh_edited.webp");
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-repeat: repeat;
   background-size: auto;
   filter: blur(3px);
-  /* z-index: -1; */
+  z-index: -1;
+}
+
+.cosmetics-johto::before {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/johto_edited.webp");
+}
+
+.cosmetics-hoenn::before {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/hoenn_edited.webp");
+}
+
+.cosmetics-sinnoh::before {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/sinnoh_edited.webp");
 }
 
 
@@ -335,7 +302,7 @@
 
 .ocean-depth {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100vh !important;
 background:
     radial-gradient(circle at 50% 120%, #001f33 0%, #001427 40%, #000a18 75%, #000510 100%),
     linear-gradient(to top, #000510 0%, #001427 40%, #003b5c 70%, #4fb3d9 100%);

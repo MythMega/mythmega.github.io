@@ -1,0 +1,157 @@
+{
+  "bossName": "Kranidos",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cranidos_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cranidos_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 150000,
+  "date": "2026-07-18 20:58:53",
+  "durationSec": 4108,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 182985,
+      "countAtk": 5,
+      "baseDmg": 32985,
+      "level": 19,
+      "raidCount": 961,
+      "luck": 1.1095043
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "delphinebourgogne8125",
+      "damage": 2682,
+      "countAtk": 2,
+      "baseDmg": 853,
+      "level": 8,
+      "raidCount": 61,
+      "luck": 1.5720985
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 182985
+    },
+    {
+      "platform": "youtube",
+      "damage": 2682
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-18 21:00:36",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 32985,
+      "pvAfter": 117015,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-18 21:04:39",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 853,
+      "pvAfter": 116162,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-18 21:10:17",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 78662,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-18 21:11:04",
+      "pseudo": "delphinebourgogne8125",
+      "platform": "youtube",
+      "damages": 1829,
+      "pvAfter": 76833,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-18 21:21:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 39333,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-18 21:36:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 1833,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-07-18 22:07:21",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    }
+  ]
+}

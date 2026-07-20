@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMDV — Politique de Données</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- La nav est injectée automatiquement par nav.js -->
+    <div class="page-content">
+        <div class="container">
+            
+            <!-- En-tête de page -->
+            <div class="text-center mb-5 reveal">
+                <h1 class="mb-3">Politique de Données</h1>
+                <p class="text-secondary-custom" style="max-width: 800px; margin: 0 auto; font-size: 1.05rem;">
+                    Transparence totale sur l'utilisation des données et des cookies sur l'ensemble du site et des applications.
+                </p>
+            </div>
+
+            <!-- Section 1: Aucune donnée serveur -->
+            <div class="glass-panel mb-4 reveal reveal-delay-1">
+                <div class="d-flex align-items-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--accent-cyan)" viewBox="0 0 16 16" style="margin-right: 12px;">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M11.354 4.646a.5.5 0 0 0-.708 0L8 7.293 6.354 5.646a.5.5 0 1 0-.708.708L7.293 8l-1.647 1.646a.5.5 0 0 0 .708.708L8 8.707l1.646 1.647a.5.5 0 0 0 .708-.708L8.707 8l1.647-1.646a.5.5 0 0 0 0-.708z"/>
+                    </svg>
+                    <h2 class="mb-0">Aucune donnée collectée côté serveur</h2>
+                </div>
+                <div class="alert alert-info" style="background: rgba(0, 212, 255, 0.08); border-color: rgba(0, 212, 255, 0.3);">
+                    <p class="mb-2"><strong>Ce site et toutes ses applications ne sauvegardent aucune donnée personnelle ou technique sur les utilisateurs.</strong></p>
+                    <p class="mb-2">Aucun cookie de tracking, aucun traceur analytique, aucune information n'est transmise ou stockée sur nos serveurs.</p>
+                    <p class="mb-0">Le code complet de ce site, incluant toutes les applications, est entièrement visible et auditable en open-source sur :</p>
+                    <a href="https://github.com/MythMega/mythmega.github.io" target="_blank" rel="noopener" class="d-inline-block mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 4px; vertical-align: -1px;">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                        github.com/MythMega/mythmega.github.io
+                    </a>
+                </div>
+            </div>
+
+            <!-- Section 2: Données stockées localement -->
+            <div class="glass-panel mb-4 reveal reveal-delay-2">
+                <h2 class="mb-3">Données stockées localement</h2>
+                <p class="text-secondary-custom mb-4">
+                    Les seules données existantes sont stockées <strong>uniquement sur votre appareil</strong>, dans votre navigateur, sous forme de cookies ou de bases de données locales (IndexedDB). 
+                    Ces données ne sont jamais transmises à un serveur. Si vous changez de navigateur, utilisez la navigation privée ou supprimez vos données de navigation, ces informations seront perdues.
+                </p>
+
+                <!-- Pokefeet -->
+                <div class="card mb-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <span style="color: var(--accent-cyan);">1.</span> Pokefeet
+                        </h3>
+                        <p class="text-muted small mb-2">6 cookies + 3 bases de données locales</p>
+                        
+                        <h5 class="mt-3 mb-2" style="color: var(--accent-purple); font-size: 1rem;">Cookies :</h5>
+                        <ul class="mb-3">
+                            <li><code>pk_best</code> : votre meilleur score au mode marathon (valeur numérique)</li>
+                            <li><code>pokefeet_language</code> : langue sélectionnée (code ISO 2 lettres, ex: "fr", "en")</li>
+                            <li><code>pk_pseudo</code> : votre nom d'utilisateur (modifiable à tout moment dans l'application)</li>
+                            <li><code>pk_cosmetic_bg</code> : nom du fond personnalisé choisi</li>
+                            <li><code>pk_cosmetic_btn</code> : nom du style de bouton personnalisé choisi</li>
+                            <li><code>pk_fast_mode</code> : paramètre du mode rapide ("true" ou "false")</li>
+                        </ul>
+
+                        <h5 class="mt-3 mb-2" style="color: var(--accent-purple); font-size: 1rem;">Bases de données locales (IndexedDB) :</h5>
+                        <ul class="mb-0">
+                            <li><strong>PokefeetDB</strong> : scores des daily challenges et weekly challenges</li>
+                            <li><strong>PokefeetChallengeDB</strong> : liste des identifiants de challenges complétés</li>
+                            <li><strong>PokefeetDexDB</strong> : identifiants des Pokémon trouvés en daily, weekly ou challenge, avec date d'enregistrement et nombre de fois trouvés</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Pokegg -->
+                <div class="card mb-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <span style="color: var(--accent-cyan);">2.</span> Pokegg
+                        </h3>
+                        <p class="text-muted small mb-2">3 cookies + 1 base de données locale</p>
+                        
+                        <h5 class="mt-3 mb-2" style="color: var(--accent-purple); font-size: 1rem;">Cookies :</h5>
+                        <ul class="mb-3">
+                            <li><code>language</code> : langue sélectionnée (partagé avec Elden Desc, code ISO 2 lettres)</li>
+                            <li><code>pokedollars</code> : valeur monétaire de votre personnage dans l'application</li>
+                            <li><code>darkMode</code> : thème de l'application ("dark" ou "light")</li>
+                        </ul>
+
+                        <h5 class="mt-3 mb-2" style="color: var(--accent-purple); font-size: 1rem;">Base de données locale (IndexedDB) :</h5>
+                        <ul class="mb-0">
+                            <li><strong>PokeggDB</strong> : identifiants des Pokémon trouvés en jeu, avec date d'enregistrement et nombre de fois trouvés</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Elden Desc -->
+                <div class="card mb-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <span style="color: var(--accent-cyan);">3.</span> Elden Desc
+                        </h3>
+                        <p class="text-muted small mb-2">1 cookie + 1 base de données locale</p>
+                        
+                        <h5 class="mt-3 mb-2" style="color: var(--accent-purple); font-size: 1rem;">Cookie :</h5>
+                        <ul class="mb-3">
+                            <li><code>language</code> : langue sélectionnée (partagé avec Pokegg, code ISO 2 lettres)</li>
+                        </ul>
+
+                        <h5 class="mt-3 mb-2" style="color: var(--accent-purple); font-size: 1rem;">Base de données locale (IndexedDB) :</h5>
+                        <ul class="mb-0">
+                            <li><strong>ERGussr</strong> : résultats de vos daily challenges</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Autobingo -->
+                <div class="card mb-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <span style="color: var(--accent-cyan);">4.</span> Autobingo
+                        </h3>
+                        <p class="text-muted small mb-2">3 cookies</p>
+                        
+                        <h5 class="mt-3 mb-2" style="color: var(--accent-purple); font-size: 1rem;">Cookies :</h5>
+                        <ul class="mb-0">
+                            <li><code>bingo_theme</code> : thème utilisé ("dark" ou "light")</li>
+                            <li><code>bingo_lang</code> : langue utilisée ("fr" ou "en")</li>
+                            <li><code>bingo_presets</code> : suite d'URLs custom correspondant aux presets de grilles de bingo épinglés</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Gamefinder -->
+                <div class="card mb-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <span style="color: var(--accent-cyan);">5.</span> Gamefinder
+                        </h3>
+                        <p class="text-muted small mb-2">3 bases de données locales</p>
+                        
+                        <h5 class="mt-3 mb-2" style="color: var(--accent-purple); font-size: 1rem;">Bases de données locales (IndexedDB) :</h5>
+                        <ul class="mb-0">
+                            <li><strong>gamefinder-settings</strong> : paramètres utilisateur</li>
+                            <li><strong>gamefinder-cache</strong> : sauvegarde temporaire de la liste des jeux, liens vers images, pour une navigation fluide</li>
+                            <li><strong>gamefinder-profile</strong> : informations utilisateur (nom d'utilisateur local, niveau d'expérience, liste de jeux à masquer, liste de jeux à faire, liste de presets enregistrés pour la roulette)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Important -->
+            <div class="glass-panel reveal reveal-delay-3" style="border-color: rgba(255, 45, 120, 0.3); background: rgba(255, 45, 120, 0.03);">
+                <div class="d-flex align-items-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--accent-pink)" viewBox="0 0 16 16" style="margin-right: 12px;">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9 1.07h-.052A2.06 2.06 0 0 0 8 9c0 .682.28 1.296.744 1.704h-.052A2.06 2.06 0 0 1 8 11c-.535 0-.954-.462-.9-1.07h.052A2.06 2.06 0 0 0 8 9c0-.682-.28-1.296-.744-1.704h.052A2.06 2.06 0 0 1 8 7c0-.535.454-.954.962-1.07h-.052A2.06 2.06 0 0 0 8 5z"/>
+                    </svg>
+                    <h2 class="mb-0">Point essentiel</h2>
+                </div>
+                <p class="text-secondary-custom mb-3" style="font-size: 1.05rem; line-height: 1.8;">
+                    <strong>Ce site ne détient absolument aucune donnée</strong>, personnelle ou technique, sur ses utilisateurs. 
+                    C'est la raison pour laquelle si vous revenez sur le site avec un autre navigateur ou en navigation privée, 
+                    le site et toutes les applications n'auront <strong>aucune donnée</strong> à votre sujet : pas de scores, pas de préférences, rien.
+                </p>
+                <p class="text-secondary-custom mb-0" style="font-size: 1.05rem; line-height: 1.8;">
+                    Toutes les informations listées ci-dessus sont stockées <strong>exclusivement sur votre appareil</strong> et ne sont accessibles que par vous. 
+                    Vous pouvez à tout moment supprimer ces données via les paramètres de votre navigateur.
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2026 MythMega &mdash; <a href="index.html">Accueil</a></p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="nav.js"></script>
+</body>
+</html>

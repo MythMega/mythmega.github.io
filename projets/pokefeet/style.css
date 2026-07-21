@@ -11,7 +11,7 @@
   --accent-bright: #22c55e;
   --accent-glow:   rgba(34,197,94,0.38);
   --muted:         #d9e1eb;
-  --muted-light:   #94a3b8;
+  --muted-light:   #dadcdf;
   --glass:         rgba(255,255,255,0.04);
   --glass-border:  rgba(255,255,255,0.09);
   --text:          #e2eaf8;
@@ -253,7 +253,7 @@ button:active:not(:disabled) { transform:scale(0.97) translateY(0); box-shadow:n
 button:disabled { opacity:0.4; cursor:not-allowed; }
 
 button.secondary {
-  background: rgba(255,255,255,0.04);
+  background: rgba(20, 20, 20, 0.4);
   color: var(--muted-light);
   border: 1px solid var(--glass-border);
 }

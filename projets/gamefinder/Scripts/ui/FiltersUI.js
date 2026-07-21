@@ -151,8 +151,14 @@ class FiltersUI {
             <button class="btn-expand-platforms" id="btn-expand-platforms">
               ▸ Voir toutes les plateformes (${otherPlatforms.length})
             </button>
-            <div class="platforms-others hidden" id="platforms-others">
-              ${othersHTML}
+            <div id="platforms-others-wrapper" class="hidden">
+              <div class="platforms-search-box">
+                <input type="text" class="platforms-search-input" id="platforms-search-input"
+                       placeholder="🔍 Rechercher une plateforme…" autocomplete="off" />
+              </div>
+              <div class="platforms-others-scroll" id="platforms-others-scroll">
+                ${othersHTML}
+              </div>
             </div>
           </div>
 
@@ -329,15 +335,27 @@ class FiltersUI {
 
     // ── Expand / collapse "autres plateformes" ────────────────────
     const btnExpand = document.getElementById('btn-expand-platforms');
-    const othersDiv = document.getElementById('platforms-others');
-    if (btnExpand && othersDiv) {
+    const othersWrapper = document.getElementById('platforms-others-wrapper');
+    if (btnExpand && othersWrapper) {
       btnExpand.addEventListener('click', () => {
-        const opening = othersDiv.classList.contains('hidden');
-        othersDiv.classList.toggle('hidden');
+        const opening = othersWrapper.classList.contains('hidden');
+        othersWrapper.classList.toggle('hidden');
         btnExpand.textContent = opening
           ? `▾ Masquer les autres plateformes`
-          : `▸ Voir toutes les plateformes (${othersDiv.querySelectorAll('.toggle-btn').length})`;
+          : `▸ Voir toutes les plateformes (${othersWrapper.querySelectorAll('.toggle-btn').length})`;
+
+        // Focus la recherche quand on ouvre
+        if (opening) {
+          const searchInput = document.getElementById('platforms-search-input');
+          if (searchInput) setTimeout(() => searchInput.focus(), 100);
+        }
       });
+    }
+
+    // ── Recherche dans les autres plateformes ─────────────────────
+    const searchInput = document.getElementById('platforms-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', () => this._filterOtherPlatforms());
     }
 
     // ── Double range slider ───────────────────────────────────────
@@ -693,6 +711,35 @@ class FiltersUI {
       this.render(this._container, {});
     });
     popup.addEventListener('click', e => { if (e.target === popup) popup.remove(); });
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // FILTRE RECHERCHE PLATEFORMES
+  // ─────────────────────────────────────────────────────────────────
+
+  _filterOtherPlatforms() {
+    const searchInput = document.getElementById('platforms-search-input');
+    const scrollContainer = document.getElementById('platforms-others-scroll');
+    if (!searchInput || !scrollContainer) return;
+
+    const query = searchInput.value.toLowerCase().trim();
+    const toggleBtns = scrollContainer.querySelectorAll('.toggle-btn[data-category="platform"]');
+
+    toggleBtns.forEach(btn => {
+      const name = btn.textContent.toLowerCase().trim();
+      const isOn = btn.classList.contains('on');
+      // Les plateformes en ON restent toujours visibles
+      if (isOn) {
+        btn.style.display = '';
+        return;
+      }
+      // Les plateformes OFF sont filtrées selon la recherche
+      if (!query || name.includes(query)) {
+        btn.style.display = '';
+      } else {
+        btn.style.display = 'none';
+      }
+    });
   }
 
   // ─────────────────────────────────────────────────────────────────

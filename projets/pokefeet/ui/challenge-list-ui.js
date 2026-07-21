@@ -72,10 +72,19 @@ const ChallengeListUI = (function () {
             console.error('[ChallengeListUI] Error loading cosmetics:', e);
         }
 
-        var filteredChallenges = challenges.filter(function(c) {
+        var filteredChallenges = [];
+        for (const c of challenges) {
             var tab = c.Tab || 'Challenge';
-            return tab === currentTab;
-        });
+            if (tab !== currentTab) continue;
+
+            // MustHideIfUnavailable: hide if not available today AND not already completed
+            if (c.MustHideIfUnavailable && !c.isAvailableToday()) {
+                var isCompleted = !!completions[c.ID];
+                if (!isCompleted) continue;
+            }
+
+            filteredChallenges.push(c);
+        }
 
         for (const challenge of filteredChallenges) {
             const isCompleted = !!completions[challenge.ID];
@@ -134,12 +143,20 @@ const ChallengeListUI = (function () {
                 rewardsHTML += '</div>';
             }
             
+            // Additional Info button
+            var additionalInfo = lang === 'fr' ? challenge.Additional_Info_Fr : challenge.Additional_Info_En;
+            var additionalBtnHTML = '';
+            if (additionalInfo) {
+                additionalBtnHTML = '<button class="btn-additional-info" title="' + T('challenges.additionalInfo', 'Plus d\'informations') + '">?</button>';
+            }
+
             const nameHTML = isCompleted ? `<span style="color:#4ade80;margin-right:6px;">✓</span>${challengeName}` : challengeName;
 
             card.innerHTML = `
                 <div class="challenge-header">
                     <h3>${nameHTML}</h3>
                     <span class="challenge-difficulty" style="background:${difficultyColor}">${difficultyText}</span>
+                    ${additionalBtnHTML}
                 </div>
                 <p class="challenge-desc">${challengeDesc}</p>
                 <div class="challenge-meta">
@@ -227,7 +244,39 @@ const ChallengeListUI = (function () {
     }
 
     function bindEvents() {
-        // Events si nécessaire
+        // "?" button click - show additional info
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('.btn-additional-info');
+            if (!btn) return;
+            var card = btn.closest('.challenge-card');
+            if (!card) return;
+            var challengeId = parseInt(card.querySelector('.btn-view').dataset.challengeId);
+            var challenge = challenges.find(function(c) { return c.ID == challengeId; });
+            if (!challenge) return;
+
+            var lang = (typeof Translator !== 'undefined') ? Translator.getLanguage() : 'fr';
+            var info = lang === 'fr' ? challenge.Additional_Info_Fr : challenge.Additional_Info_En;
+            if (!info) return;
+
+            // Show info in a simple modal-like popup
+            var existing = document.getElementById('additionalInfoPopup');
+            if (existing) existing.remove();
+
+            var popup = document.createElement('div');
+            popup.id = 'additionalInfoPopup';
+            popup.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:2000;display:flex;align-items:center;justify-content:center;';
+            var content = document.createElement('div');
+            content.style.cssText = 'background:var(--card);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px;max-width:500px;width:90%;color:var(--muted);font-size:14px;line-height:1.6;position:relative;';
+            content.innerHTML = '<button id="additionalInfoClose" style="position:absolute;top:8px;right:12px;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;">&times;</button>' + '<p>' + info + '</p>';
+            popup.appendChild(content);
+            document.body.appendChild(popup);
+
+            popup.addEventListener('click', function(ev) {
+                if (ev.target === popup || ev.target.id === 'additionalInfoClose') {
+                    popup.remove();
+                }
+            });
+        });
     }
 
     return { init };

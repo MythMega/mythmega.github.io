@@ -8,9 +8,12 @@ class Challenge {
         this.Name_Fr = data.Name_Fr;
         this.Desc_En = data.Desc_En;
         this.Desc_Fr = data.Desc_Fr;
+        this.Additional_Info_Fr = data.Additional_Info_Fr || null;
+        this.Additional_Info_En = data.Additional_Info_En || null;
         this.FeetList = data.FeetList || [];
         this.Rewards = data.Rewards || [];
         this.Availabilities = data.Availabilities || null;
+        this.MustHideIfUnavailable = data.MustHideIfUnavailable || false;
         this.Tab = data.Tab || null;
     }
 

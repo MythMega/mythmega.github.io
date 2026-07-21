@@ -7,15 +7,17 @@
   <link rel="icon" type="image/x-icon" href="./icon.png">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="cosmetics.css" />
+  <link rel="stylesheet" href="text-shadow.css" />
   <style>
-    .dm-tabs { display:flex; gap:8px; justify-content:center; max-width:420px; margin:0 auto 1.5rem; }
+    .dm-tabs { display:flex; gap:8px; justify-content:center; max-width:520px; margin:0 auto 1.5rem; flex-wrap:wrap; }
     .dm-tab-btn {
-      flex:1; padding:8px 0; border:1px solid rgba(255,255,255,0.1);
-      border-radius:8px; background:rgba(255,255,255,0.03);
-      color:var(--muted,#94a3b8); cursor:pointer; font-weight:600;
+      flex:1; padding:8px 0; border:1px solid rgba(255,255,255,0.4);
+      border-radius:8px; background:rgba(0, 0, 0, 0.3);
+      color:#fbfdff; cursor:pointer; font-weight:600;
       font-size:.9rem; transition:background .15s,color .15s;
+      min-width:80px;
     }
-    .dm-tab-btn.active { background:var(--accent,#34d399); color:#052018; border-color:transparent; }
+    .dm-tab-btn.active { background:var(--accent,#34d399); color:#fbfdff; border-color:transparent; }
     .dm-panel { display:none; }
     .dm-panel.active { display:block; }
     .toggle-switch {
@@ -79,6 +81,40 @@
     .cosmetic-btn .cosmetic-name { font-size:10px; font-weight:600; text-align:center; line-height:1.2; color:#fff; }
     .cosmetic-btn .cosmetic-lock { position:absolute; top:4px; right:4px; font-size:10px; color:#ef4444; }
     .cosmetic-btn .cosmetic-check { position:absolute; top:4px; right:4px; font-size:10px; color:#4ade80; }
+    /* Sub-tabs for cosmetics categories */
+    .cosmetic-subtabs {
+      display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
+      margin:0 0 16px;
+    }
+    .cosmetic-subtab-btn {
+      padding:6px 14px; border:1px solid rgba(255,255,255,0.1);
+      border-radius:6px; background:rgba(255,255,255,0.03);
+      color:var(--muted); cursor:pointer; font-weight:600;
+      font-size:.8rem; transition:background .15s,color .15s;
+    }
+    .cosmetic-subtab-btn.active { background:rgba(52,211,153,0.2); color:var(--accent-bright); border-color:var(--accent); }
+    .cosmetic-subtab-btn:hover { background:rgba(255,255,255,0.07); }
+    /* Cosmetics scrollable area */
+    .cosmetics-scroll {
+      max-height:420px; overflow-y:auto; padding-right:6px;
+    }
+    .cosmetics-scroll::-webkit-scrollbar { width:4px; }
+    .cosmetics-scroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.15); border-radius:2px; }
+    .cosmetics-scroll .cosmetics-section:last-child { margin-bottom:0; }
+    .cosmetic-type-toggle {
+      display:flex; gap:10px; align-items:center; justify-content:center;
+      margin-bottom:16px; flex-wrap:wrap;
+    }
+    .cosmetic-type-toggle button {
+      padding:7px 18px; border:1px solid rgba(255,255,255,0.12);
+      border-radius:8px; background:rgba(255,255,255,0.03);
+      color:var(--muted); cursor:pointer; font-weight:600;
+      font-size:.85rem; transition:all .15s;
+    }
+    .cosmetic-type-toggle button.active { background:rgba(52,211,153,0.15); color:var(--accent-bright); border-color:var(--accent); }
+    .cosmetic-type-toggle button:hover { background:rgba(255,255,255,0.07); }
+    .cosmetic-type-content { display:none; }
+    .cosmetic-type-content.active { display:block; }
   </style>
 </head>
 <body>
@@ -93,6 +129,7 @@
     <!-- Tabs -->
     <div class="dm-tabs">
       <button class="dm-tab-btn active" data-tab="params" data-i18n="dataManagement.tabParams">Paramètres</button>
+      <button class="dm-tab-btn" data-tab="customize" data-i18n="dataManagement.tabCustomize">Personalisations</button>
       <button class="dm-tab-btn" data-tab="profile" data-i18n="dataManagement.tabProfile">Profil</button>
       <button class="dm-tab-btn" data-tab="data" data-i18n="dataManagement.tabData">Données</button>
     </div>
@@ -119,21 +156,41 @@
           </label>
         </div>
         <div id="fastModeStatus" style="margin-top:-16px; margin-bottom:16px; font-size:13px; color:var(--accent); min-height:1.3em;"></div>
+      </div>
 
-        <!-- Cosmetics: Background -->
-        <div class="cosmetics-section">
-          <div class="cosmetics-section-title">🎨 Fond d'écran</div>
-          <div class="cosmetics-grid" id="cosmeticsBgGrid"></div>
+      <!-- Onglet 2 : Personalisations -->
+      <div id="dmPanelCustomize" class="dm-panel center-card" style="max-width:760px;">
+        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="dataManagement.customize">Personalisations</h3>
+
+        <!-- Type toggle: Background / Buttons -->
+        <div class="cosmetic-type-toggle" id="cosmeticTypeToggle">
+          <button class="active" data-type="Background">🎨 Fond d'écran</button>
+          <button data-type="Background-Buttons">🔘 Style des boutons</button>
         </div>
 
-        <!-- Cosmetics: Buttons -->
-        <div class="cosmetics-section">
-          <div class="cosmetics-section-title">🔘 Style des boutons</div>
-          <div class="cosmetics-grid" id="cosmeticsBtnGrid"></div>
+        <!-- Background content -->
+        <div class="cosmetic-type-content active" data-type="Background">
+          <!-- Category sub-tabs will be injected by JS -->
+          <div class="cosmetic-subtabs" id="cosmeticBgSubtabs"></div>
+          <div class="cosmetics-scroll" id="cosmeticBgScroll">
+            <div class="cosmetics-section">
+              <div class="cosmetics-grid" id="cosmeticsBgGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons content -->
+        <div class="cosmetic-type-content" data-type="Background-Buttons">
+          <div class="cosmetic-subtabs" id="cosmeticBtnSubtabs"></div>
+          <div class="cosmetics-scroll" id="cosmeticBtnScroll">
+            <div class="cosmetics-section">
+              <div class="cosmetics-grid" id="cosmeticsBtnGrid"></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Onglet 2 : Profil -->
+      <!-- Onglet 3 : Profil -->
       <div id="dmPanelProfile" class="dm-panel center-card" style="max-width:760px;">
         <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="profile.title">Profil</h3>
 
@@ -208,7 +265,13 @@
       </div>
     </section>
 
-    <a href="./index.html"><button class="secondary" style="padding:10px 12px;margin-top:20px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
+    <button id="retourBtn" class="secondary" style="padding:10px 12px;margin-top:20px;display:block;margin-left:auto;margin-right:auto;" data-i18n="common.backHome">Retour à l'accueil</button>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var btn = document.getElementById('retourBtn');
+        if (btn) btn.addEventListener('click', function() { window.location.href = './index.html'; });
+      });
+    </script>
 
     <div id="notifications" aria-live="polite"></div>
   </main>
@@ -323,19 +386,43 @@
     });
   </script>
   <script>
+    // ---- Cosmetic Type toggle (Background / Buttons) ----
+    (function() {
+      var container = document.getElementById('cosmeticTypeToggle');
+      if (!container) return;
+      container.addEventListener('click', function(e) {
+        var btn = e.target.closest('button');
+        if (!btn) return;
+        var type = btn.dataset.type;
+        // Update active button
+        container.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        // Update active content
+        document.querySelectorAll('.cosmetic-type-content').forEach(function(c) { c.classList.remove('active'); });
+        var content = document.querySelector('.cosmetic-type-content[data-type="' + type + '"]');
+        if (content) content.classList.add('active');
+      });
+    })();
+
+    // ---- Cosmetic Sub-tabs by Category ----
     window.renderCosmetics = function() {
       var bgGrid = document.getElementById('cosmeticsBgGrid');
       var btnGrid = document.getElementById('cosmeticsBtnGrid');
+      var bgSubtabs = document.getElementById('cosmeticBgSubtabs');
+      var btnSubtabs = document.getElementById('cosmeticBtnSubtabs');
       if (!bgGrid || !btnGrid) {
         console.warn('[Cosmetics] Grids not found');
         return;
       }
 
       var all = Cosmetics.getAll();
-      console.log('[Cosmetics] Rendering UI, total cosmetics:', all.length);
-      console.log('[Cosmetics] Cosmetics data:', all);
       var selectedBg = Cosmetics.getSelectedBg();
       var selectedBtn = Cosmetics.getSelectedBtn();
+
+      function getCategoryDisplay(cat) {
+        if (!cat) return 'General';
+        return cat;
+      }
 
       function createCosmeticBtn(cosmetic, isSelected) {
         var div = document.createElement('div');
@@ -368,11 +455,7 @@
           div.appendChild(check);
         }
 
-        if (!unlocked) {
-          div.title = '🔒 ' + cosmetic.Name + ' — À débloquer via un challenge';
-        } else {
-          div.title = cosmetic.Name;
-        }
+        div.title = unlocked ? cosmetic.Name : '🔒 ' + cosmetic.Name + ' — À débloquer via un challenge';
 
         if (unlocked) {
           div.addEventListener('click', function() {
@@ -386,66 +469,86 @@
         return div;
       }
 
-      bgGrid.innerHTML = '';
-      btnGrid.innerHTML = '';
+      // Build sub-tabs and grid for a given type
+      function buildCategoryTabsAndGrid(type, gridEl, subtabsEl, selectedValue) {
+        var items = all.filter(function(c) { return c.Type === type; });
+        var cats = ['General'];
+        var catMap = { 'General': [] };
 
-      // Default option for Background
-      var defaultBg = document.createElement('div');
-      defaultBg.className = 'cosmetic-btn' + (!selectedBg ? ' active' : '');
-      defaultBg.title = 'Par défaut';
-      var defaultBgImg = document.createElement('img');
-      defaultBgImg.src = './icon.png';
-      defaultBgImg.alt = 'Défaut';
-      defaultBg.appendChild(defaultBgImg);
-      var defaultBgName = document.createElement('span');
-      defaultBgName.className = 'cosmetic-name';
-      defaultBgName.textContent = 'Défaut';
-      defaultBg.appendChild(defaultBgName);
-      if (!selectedBg) {
-        var check = document.createElement('span');
-        check.className = 'cosmetic-check';
-        check.textContent = '✓';
-        defaultBg.appendChild(check);
-      }
-      defaultBg.addEventListener('click', function() {
-        Cosmetics.select('Background', 'default');
-        renderCosmetics();
-      });
-      bgGrid.appendChild(defaultBg);
+        // Collect unique categories
+        items.forEach(function(c) {
+          var cat = c.Cat ? c.Cat : 'General';
+          if (cats.indexOf(cat) === -1) cats.push(cat);
+          if (!catMap[cat]) catMap[cat] = [];
+          catMap[cat].push(c);
+        });
 
-      // Default option for Buttons
-      var defaultBtn = document.createElement('div');
-      defaultBtn.className = 'cosmetic-btn' + (!selectedBtn ? ' active' : '');
-      defaultBtn.title = 'Par défaut';
-      var defaultBtnImg = document.createElement('img');
-      defaultBtnImg.src = './icon.png';
-      defaultBtnImg.alt = 'Défaut';
-      defaultBtn.appendChild(defaultBtnImg);
-      var defaultBtnName = document.createElement('span');
-      defaultBtnName.className = 'cosmetic-name';
-      defaultBtnName.textContent = 'Défaut';
-      defaultBtn.appendChild(defaultBtnName);
-      if (!selectedBtn) {
-        var check2 = document.createElement('span');
-        check2.className = 'cosmetic-check';
-        check2.textContent = '✓';
-        defaultBtn.appendChild(check2);
-      }
-      defaultBtn.addEventListener('click', function() {
-        Cosmetics.select('Background-Buttons', 'default');
-        renderCosmetics();
-      });
-      btnGrid.appendChild(defaultBtn);
+        // Store current active category for this type
+        var storageKey = 'cosmetic_' + type + '_cat';
+        var activeCat = sessionStorage.getItem(storageKey) || 'General';
+        if (cats.indexOf(activeCat) === -1) activeCat = 'General';
 
-      // Cosmetics items
-      for (var i = 0; i < all.length; i++) {
-        var c = all[i];
-        if (c.Type === 'Background') {
-          bgGrid.appendChild(createCosmeticBtn(c, selectedBg === c.Value));
-        } else if (c.Type === 'Background-Buttons') {
-          btnGrid.appendChild(createCosmeticBtn(c, selectedBtn === c.Value));
+        // Render sub-tabs
+        subtabsEl.innerHTML = '';
+        cats.forEach(function(cat) {
+          var btn = document.createElement('button');
+          btn.className = 'cosmetic-subtab-btn' + (cat === activeCat ? ' active' : '');
+          btn.textContent = getCategoryDisplay(cat);
+          btn.dataset.cat = cat;
+          btn.addEventListener('click', function() {
+            sessionStorage.setItem(storageKey, cat);
+            buildCategoryTabsAndGrid(type, gridEl, subtabsEl, selectedValue);
+          });
+          subtabsEl.appendChild(btn);
+        });
+
+        // Get items for active category
+        var activeItems = (catMap[activeCat] || []).filter(function(c) {
+          // MustHideIfUnobtained: hide if not unlocked
+          if (c.MustHideIfUnobtained && !Cosmetics.isUnlocked(c)) {
+            return false;
+          }
+          return true;
+        });
+
+        // Render grid
+        gridEl.innerHTML = '';
+
+        // Add "Default" option
+        var defaultBtn = document.createElement('div');
+        defaultBtn.className = 'cosmetic-btn' + (!selectedValue ? ' active' : '');
+        defaultBtn.title = 'Par défaut';
+        var defaultImg = document.createElement('img');
+        defaultImg.src = './icon.png';
+        defaultImg.alt = 'Défaut';
+        defaultBtn.appendChild(defaultImg);
+        var defaultName = document.createElement('span');
+        defaultName.className = 'cosmetic-name';
+        defaultName.textContent = 'Défaut';
+        defaultBtn.appendChild(defaultName);
+        if (!selectedValue) {
+          var checkEl = document.createElement('span');
+          checkEl.className = 'cosmetic-check';
+          checkEl.textContent = '✓';
+          defaultBtn.appendChild(checkEl);
         }
+        defaultBtn.addEventListener('click', function() {
+          Cosmetics.select(type, 'default');
+          renderCosmetics();
+        });
+        gridEl.appendChild(defaultBtn);
+
+        // Add cosmetic items for this category
+        activeItems.forEach(function(c) {
+          gridEl.appendChild(createCosmeticBtn(c, selectedValue === c.Value));
+        });
       }
+
+      // Build Background tabs & grid
+      buildCategoryTabsAndGrid('Background', bgGrid, bgSubtabs, selectedBg);
+
+      // Build Buttons tabs & grid
+      buildCategoryTabsAndGrid('Background-Buttons', btnGrid, btnSubtabs, selectedBtn);
     };
 
     // Auto-render cosmetics when DOM is ready

@@ -10,7 +10,7 @@
   --accent:        #16a34a;
   --accent-bright: #22c55e;
   --accent-glow:   rgba(34,197,94,0.38);
-  --muted:         #7a90a8;
+  --muted:         #d9e1eb;
   --muted-light:   #94a3b8;
   --glass:         rgba(255,255,255,0.04);
   --glass-border:  rgba(255,255,255,0.09);
@@ -641,7 +641,7 @@ aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:
   display: inline-flex; align-items:center; justify-content:center;
   flex: 0 0 48%; padding:14px 15px; border-radius:12px;
   border: 1px solid rgba(34,197,94,0.28);
-  background: rgba(22,163,74,0.07);
+  background: rgba(22,163,74,0.17);
   color: #86efac; font-weight:600; font-size:15px;
   cursor:pointer; text-decoration:none; box-sizing:border-box; font-family:inherit;
   transition: background 150ms, border-color 150ms, transform 120ms;

@@ -94,12 +94,51 @@
   flex-wrap: wrap;
   gap: 8px;
 }
-.platforms-others {
+
+/* --- Wrapper pour "autres plateformes" (conteneur extérieur, masqué via .hidden) --- */
+#platforms-others-wrapper {
+  margin-top: 10px;
+}
+#platforms-others-wrapper.hidden { display: none; }
+
+/* --- Boîte de recherche --- */
+.platforms-search-box {
+  margin-bottom: 8px;
+}
+.platforms-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 245, 255, 0.25);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color var(--transition-med), box-shadow var(--transition-med);
+}
+.platforms-search-input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 8px rgba(0, 245, 255, 0.15);
+}
+.platforms-search-input::placeholder { color: var(--text-muted); }
+
+/* --- Conteneur scrollable des plateformes non épinglées --- */
+.platforms-others-scroll {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 10px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scroll-behavior: smooth;
 }
+.platforms-others-scroll::-webkit-scrollbar { width: 5px; }
+.platforms-others-scroll::-webkit-scrollbar-track { background: transparent; }
+.platforms-others-scroll::-webkit-scrollbar-thumb { background: rgba(0, 245, 255, 0.2); border-radius: 3px; }
+.platforms-others-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 245, 255, 0.35); }
+
 .platforms-others.hidden { display: none; }
 
 .btn-expand-platforms {
@@ -566,4 +605,24 @@
 }
 .settings-box {
   max-width: 580px;
+}
+
+/* ----------- SCROLL VERS LE BAS (petite flèche indicative) ----------- */
+.platforms-scroll-fade {
+  position: relative;
+}
+.platforms-scroll-fade::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(transparent, var(--bg-card));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.platforms-scroll-fade.has-scroll::after {
+  opacity: 1;
 }

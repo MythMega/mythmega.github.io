@@ -8,18 +8,20 @@
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="./cosmetics.css" />
   <link rel="stylesheet" href="./challenge.css" />
+  <link rel="stylesheet" href="text-shadow.css" />
 </head>
 <body>
   <div class="container challenge-page">
     <header>
       <h1 data-i18n="challenges.title">Challenges</h1>
-      <a href="./index.html" class="btn-back" data-i18n="challenges.back">Retour</a>
     </header>
 
     <div class="challenge-tabs" id="challengeTabs"></div>
     <div id="challengesList" class="challenges-grid">
       <!-- Les challenges seront insérés ici dynamiquement -->
     </div>
+
+    <a href="index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;margin-top:20px;display:block;margin-left:auto;margin-right:auto;" data-i18n="common.backHome">Retour à l'accueil</button></a>
   </div>
 
   <script src="pokemon.js"></script>

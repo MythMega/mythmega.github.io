@@ -219,6 +219,8 @@ const ChallengeGameUI = (function () {
                         e.preventDefault();
                         input.value = match.name;
                         dropdown.remove();
+                        // Submit automatically after selecting from dropdown
+                        setTimeout(function() { submitAnswer(); }, 10);
                     });
                     dropdown.appendChild(item);
                 });

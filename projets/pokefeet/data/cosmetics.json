@@ -2,6 +2,7 @@
     {
         "ID": -2,
         "Type": "Background-Buttons",
+        "Cat": null,
         "Name": "Orange",
         "Value": "cosmetics-orange-btn",
         "File": "orange.png",
@@ -10,6 +11,7 @@
     {
         "ID": -1,
         "Type": "Background-Buttons",
+        "Cat": null,
         "Name": "Purple",
         "Value": "cosmetics-purple-btn",
         "File": "purple.png",
@@ -18,22 +20,27 @@
     {
         "ID": 1,
         "Type": "Background",
+        "Cat": "Event",
         "Name": "Pride",
         "Value": "cosmetics-rainbow-bg",
         "File": "background-pride.png",
+        "MustHideIfUnobtained": true,
         "RequiresUnlock": true
     },
     {
         "ID": 2,
         "Type": "Background-Buttons",
         "Name": "Pride",
+        "Cat": "Event",
         "Value": "cosmetics-pride-btn",
         "File": "background-pride.png",
+        "MustHideIfUnobtained": true,
         "RequiresUnlock": true
     },
     {
         "ID": 3,
         "Type": "Background",
+        "Cat": "Regional",
         "Name": "Kanto Master",
         "Value": "cosmetics-kanto",
         "File": "kanto.png",
@@ -42,6 +49,7 @@
     {
         "ID": 4,
         "Type": "Background",
+        "Cat": "Regional",
         "Name": "Johto Master",
         "Value": "cosmetics-johto",
         "File": "johto.png",
@@ -50,6 +58,7 @@
     {
         "ID": 5,
         "Type": "Background",
+        "Cat": "Regional",
         "Name": "Hoenn Master",
         "Value": "cosmetics-hoenn",
         "File": "hoenn.png",
@@ -58,6 +67,7 @@
     {
         "ID": 6,
         "Type": "Background",
+        "Cat": "Regional",
         "Name": "Sinnoh Master",
         "Value": "cosmetics-sinnoh",
         "File": "sinnoh.png",
@@ -66,6 +76,7 @@
     {
         "ID": 7,
         "Type": "Background-Buttons",
+        "Cat": "Collection",
         "Name": "Venimous boss",
         "Value": "cosmetics-venimous",
         "File": "venimous.webp",
@@ -74,6 +85,7 @@
     {
         "ID": 8,
         "Type": "Background",
+        "Cat": "Collection",
         "Name": "Sunset paradise",
         "Value": "crepuscule",
         "File": "sunset.png",
@@ -82,6 +94,7 @@
     {
         "ID": 9,
         "Type": "Background",
+        "Cat": "Collection",
         "Name": "Moonlight",
         "Value": "nuit-etoilee",
         "File": "moonlight.png",
@@ -91,6 +104,7 @@
         "ID": 10,
         "Type": "Background",
         "Name": "Ocean Depth",
+        "Cat": "Collection",
         "Value": "ocean-depth",
         "File": "wave.png",
         "RequiresUnlock": true
@@ -98,6 +112,7 @@
     {
         "ID": 11,
         "Type": "Background-Buttons",
+        "Cat": "Collection",
         "Name": "Ocean Depth",
         "Value": "ocean-depth-buttons",
         "File": "wave.png",
@@ -106,6 +121,7 @@
     {
         "ID": 12,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Firered",
         "Value": "game-firered",
         "File": "firered.png",
@@ -114,6 +130,7 @@
     {
         "ID": 13,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Leafgreen",
         "Value": "game-leafgreen",
         "File": "leafgreen.png",
@@ -122,6 +139,7 @@
     {
         "ID": 14,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Yellow",
         "Value": "game-yellow",
         "File": "yellow.png",
@@ -130,6 +148,7 @@
     {
         "ID": 15,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Silver",
         "Value": "game-silver",
         "File": "silver.png",
@@ -138,6 +157,7 @@
     {
         "ID": 16,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Gold",
         "Value": "game-gold",
         "File": "gold.png",
@@ -146,6 +166,7 @@
     {
         "ID": 17,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Cristal",
         "Value": "game-cristal",
         "File": "cristal.png",
@@ -154,6 +175,7 @@
     {
         "ID": 18,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Sapphire",
         "Value": "game-sapphire",
         "File": "sapphire.png",
@@ -162,6 +184,7 @@
     {
         "ID": 19,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Ruby",
         "Value": "game-ruby",
         "File": "ruby.png",
@@ -170,6 +193,7 @@
     {
         "ID": 20,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Diamond",
         "Value": "game-diamond",
         "File": "diamond.png",
@@ -178,6 +202,7 @@
     {
         "ID": 21,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Pearl",
         "Value": "game-pearl",
         "File": "pearl.png",
@@ -186,6 +211,7 @@
     {
         "ID": 22,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game White",
         "Value": "game-white",
         "File": "white.png",
@@ -194,10 +220,59 @@
     {
         "ID": 23,
         "Type": "Background",
+        "Cat": "Games",
         "Name": "Game Black",
         "Value": "game-black",
         "File": "black.png",
         "RequiresUnlock": true
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "ID": 50,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 1G",
+        "Value": "strat-1g",
+        "File": "strat-1g.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": 51,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 2G",
+        "Value": "strat-2g",
+        "File": "strat-2g.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": 52,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 3G",
+        "Value": "strat-3g",
+        "File": "strat-3g.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": 53,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 4G",
+        "Value": "strat-4g",
+        "File": "strat-4g.png",
+        "RequiresUnlock": false
     }
 
 ]

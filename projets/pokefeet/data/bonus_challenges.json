@@ -10,12 +10,15 @@
         "Name_Fr": "Poké Fiertés",
         "Desc_En": "A joyful celebration of creatures who embrace their identity with dazzling confidence, parading through the colorful streets of Kanto and the vibrant coasts of Hoenn. This festive gathering radiates positivity, unity, and the spirit of adventure, echoing the lively atmosphere of bustling cities like Celadon and Slateport. Expect bright energy, bold personalities, and a whole lot of pride.",
         "Desc_Fr": "Une célébration joyeuse de créatures qui assument leur identité avec une confiance éclatante, défilant à travers les rues colorées de Kanto et les côtes vibrantes de Hoenn. Ce rassemblement festif rayonne de positivité, d’unité et d’esprit d’aventure, rappelant l’ambiance animée de villes comme Céladopole ou Poivressel. Attendez-vous à une énergie lumineuse, des personnalités audacieuses et une bonne dose de fierté.",
+        "Additional_Info_Fr": "Pokémon les plus cités dans les reddits LGBT, de certaines commu spécifiques et globales, la liste a été validée auprés d'un groupe de personnes concernées pour qu'elle soit dénuée de stéreotype offensant ou problématiques",
+        "Additional_Info_En": "Pokémon most frequently mentioned in LGBT subreddits, from certain specific communities as well as broader ones. The list was validated by a group of people concerned to ensure it was free of offensive or problematic stereotypes",
         "FeetList": ["67", "217", "250", "314", "282", "428", "431", "235", "39", "35", "124", "468", "380", "381", "197"],
         "Rewards": [
-            { "TypeReward": "Experience", "Value": 250},
+            { "TypeReward": "Experience", "Value": 100},
             { "TypeReward": "Cosmetic", "Value": 1 },
             { "TypeReward": "Cosmetic", "Value": 2 }
         ],
+        "MustHideIfUnavailable": true,
         "Availabilities": [
             {
                 "Start": "2026-06-01",
@@ -52,7 +55,7 @@
         "Desc_Fr": "Une exploration légère des créatures qui parcourent les terres emblématiques de Kanto, des forêts paisibles de Jadielle aux rivages dynamiques de Carmin-sur-Mer. Ce quizz capture le charme nostalgique de la région, avec ses routes classiques, ses lieux familiers et l’esprit d’aventure intemporel qui caractérise le Plateau Indigo.",
         "FeetList": ["1", "4", "7", "25", "52", "100", "43", "47", "76", "91"],
         "Rewards": [
-            { "TypeReward": "Experience", "Value": 250},
+            { "TypeReward": "Experience", "Value": 50},
             { "TypeReward": "Cosmetic", "Value": 3 }
         ],
         "Availabilities": null
@@ -70,7 +73,7 @@
         "Desc_Fr": "Un voyage doux à travers les paysages sereins de Johto, où les traditions anciennes se mêlent aux villes paisibles comme Rosalia et Oliville. Ce quizz met en avant l’atmosphère calme de la région, son héritage mystique et le charme apaisant de ses routes sinueuses et de ses lieux historiques.",
         "FeetList": ["152", "155", "158", "175", "206", "180", "201", "208", "199", "192"],
         "Rewards": [
-            { "TypeReward": "Experience", "Value": 250},
+            { "TypeReward": "Experience", "Value": 50},
             { "TypeReward": "Cosmetic", "Value": 4 }
         ],
         "Availabilities": null
@@ -88,7 +91,7 @@
         "Desc_Fr": "Une aventure tropicale à travers les jungles luxuriantes, les sentiers volcaniques et les plages scintillantes de Hoenn. Du Bois Clémenti au Mont Chimnée, ce quizz reflète l’énergie vibrante de la région, ses climats variés et l’esprit dynamique qui fait de Hoenn un paradis pour les explorateurs.",
         "FeetList": ["252", "255", "258", "263", "279", "323", "330", "334", "379", "386"],
         "Rewards": [
-            { "TypeReward": "Experience", "Value": 250},
+            { "TypeReward": "Experience", "Value": 50},
             { "TypeReward": "Cosmetic", "Value": 5 }
         ],
         "Availabilities": null
@@ -106,7 +109,7 @@
         "Desc_Fr": "Une expédition glacée à travers les routes givrées et les lacs mystérieux de Sinnoh. Que l’on flâne près de Frimapic ou que l’on explore les rives paisibles du Lac Vérité, ce quizz met en avant l’aura mystique de la région, ses légendes anciennes et son goût pour l’exploration contemplative.",
         "FeetList": ["387", "390", "393", "399", "404", "418", "445", "448", "491", "493"],
         "Rewards": [
-            { "TypeReward": "Experience", "Value": 250},
+            { "TypeReward": "Experience", "Value": 50},
             { "TypeReward": "Cosmetic", "Value": 6 }
         ],
         "Availabilities": null
@@ -129,7 +132,7 @@
             "089-B", "110-B", "199-B", "211-B", "215-B"
         ],
         "Rewards": [
-            { "TypeReward": "Experience", "Value": 500},
+            { "TypeReward": "Experience", "Value": 250},
             { "TypeReward": "Cosmetic", "Value": 7 }
         ],
         "Availabilities": null
@@ -152,14 +155,14 @@
             "467", "483", "484", "485", "492", "324", "370", "406", "441", "449"
         ],
         "Rewards": [
-            { "TypeReward": "Experience", "Value": 500},
+            { "TypeReward": "Experience", "Value": 250},
             { "TypeReward": "Cosmetic", "Value": 8 }
         ],
         "Availabilities": null
     },
     {
         "ID": 8,
-        "Difficulty": "Hard",
+        "Difficulty": "Impossible",
         "Requirements": [
             { "TypeRequirement": "dexcount", "Value": 400 },
             { "TypeRequirement": "level", "Value": 75 }
@@ -410,6 +413,90 @@
         "Rewards": [
             { "TypeReward": "Experience", "Value": 50},
             { "TypeReward": "Cosmetic", "Value": 21 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 50,
+        "Difficulty": "Medium",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 350 },
+            { "TypeRequirement": "level", "Value": 100 }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "1G-OU best Pokémons",
+        "Name_Fr": "1G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) on first generation (ReBlYe)? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6) en première génération (RoBlJa) ?",
+        "FeetList": [
+            "128", "143", "103", "113", "121", "124", "65", "145", "112", "94"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 50 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 51,
+        "Difficulty": "Medium",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 400 },
+            { "TypeRequirement": "level", "Value": 110 }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "2G-OU best Pokémons",
+        "Name_Fr": "2G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 2nd Pokémon games generation (GoSiCr) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6), en 2ème génération (OrArCr) ?",
+        "FeetList": [
+            "143", "91", "145", "243", "248", "121", "103", "205", "94", "227"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 100},
+            { "TypeReward": "Cosmetic", "Value": 51 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 52,
+        "Difficulty": "Medium",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 450 },
+            { "TypeRequirement": "level", "Value": 120 }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "3G-OU best Pokémons",
+        "Name_Fr": "3G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 3th Pokémon games generation (RySaEm/FrLg) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6), en 3ème génération (RySaEm/RfVf) ?",
+        "FeetList": [
+            "248", "260", "373", "242", "227", "385", "376", "205", "94", "245"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 100},
+            { "TypeReward": "Cosmetic", "Value": 52 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 54,
+        "Difficulty": "Medium",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 500 },
+            { "TypeRequirement": "level", "Value": 130 }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "4G-OU best Pokémons",
+        "Name_Fr": "4G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 4th Pokémon games generation (RySaEm/FrLg) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6), en 4ème génération (RySaEm/RfVf) ?",
+        "FeetList": [
+            "380", "248", "385", "485", "330", "212", "130", "121", "260", "376"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 100},
+            { "TypeReward": "Cosmetic", "Value": 53 }
         ],
         "Availabilities": null
     }

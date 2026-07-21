@@ -1,3 +1,10 @@
+
+:root{
+  --base: 56px;
+  --pixel-render: pixelated;
+  --interp-ms: nearest-neighbor;
+}
+
 .cosmetics-rainbow-bg {
   background: linear-gradient(
     135deg,
@@ -51,6 +58,7 @@
     background-position: 50% 0%;
   }
 }
+
 .cosmetics-purple-btn {
   background: violet;
 }
@@ -433,4 +441,270 @@ background:
 .game-black {
   background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/black.webp");
   background-color: #5f6568;
+}
+
+/* Common strat container rules (applied only when body has .strat-... class) */
+[class^="strat-"]{
+  position:relative;
+  overflow:hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  image-rendering: var(--pixel-render);
+  -ms-interpolation-mode: var(--interp-ms);
+  font-family: system-ui, sans-serif;
+}
+
+/* Generic deco layer rules (shared by all strat-* classes) */
+[class^="strat-"] .deco{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  will-change: transform, opacity;
+}
+
+/* Generic pseudo-element rules */
+[class^="strat-"] .deco::before,
+[class^="strat-"] .deco::after{
+  content:"";
+  position:absolute;
+  display:block;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:100% 100%;
+  image-rendering: var(--pixel-render);
+  -ms-interpolation-mode: var(--interp-ms);
+  will-change: transform, opacity;
+  pointer-events:none;
+}
+
+/* Map images via CSS variables per strat class.
+   Each strat-Xg block only defines variables; the generic selectors below use them.
+   Replace 1G..6G in the URLs per class. */
+
+/* ---------- STRAT 1G variables ---------- */
+.strat-1g{
+  --bg: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/main.png");
+  --i1: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image1.png");
+  --i2: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image2.png");
+  --i3: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image3.png");
+  --i4: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image4.png");
+  --i5: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image5.png");
+  --i6: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image6.png");
+  --i7: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image7.png");
+  --i8: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image8.png");
+  --i9: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image9.png");
+  --i10: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image10.png");
+  --i11: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image11.png");
+  --i12: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/1G/image12.png");
+  background-image: var(--bg);
+}
+
+/* ---------- STRAT 2G variables ---------- */
+.strat-2g{
+  --bg: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/main.png");
+  --i1: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image1.png");
+  --i2: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image2.png");
+  --i3: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image3.png");
+  --i4: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image4.png");
+  --i5: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image5.png");
+  --i6: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image6.png");
+  --i7: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image7.png");
+  --i8: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image8.png");
+  --i9: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image9.png");
+  --i10: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image10.png");
+  --i11: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image11.png");
+  --i12: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/2G/image12.png");
+  background-image: var(--bg);
+}
+
+/* ---------- STRAT 3G variables ---------- */
+.strat-3g{
+  --bg: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/main.png");
+  --i1: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image1.png");
+  --i2: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image2.png");
+  --i3: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image3.png");
+  --i4: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image4.png");
+  --i5: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image5.png");
+  --i6: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image6.png");
+  --i7: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image7.png");
+  --i8: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image8.png");
+  --i9: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image9.png");
+  --i10: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image10.png");
+  --i11: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image11.png");
+  --i12: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/3G/image12.png");
+  background-image: var(--bg);
+}
+
+/* ---------- STRAT 4G variables ---------- */
+.strat-4g{
+  --bg: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/main.png");
+  --i1: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image1.png");
+  --i2: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image2.png");
+  --i3: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image3.png");
+  --i4: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image4.png");
+  --i5: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image5.png");
+  --i6: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image6.png");
+  --i7: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image7.png");
+  --i8: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image8.png");
+  --i9: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image9.png");
+  --i10: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image10.png");
+  --i11: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image11.png");
+  --i12: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/4G/image12.png");
+  background-image: var(--bg);
+}
+
+/* ---------- STRAT 5G variables ---------- */
+.strat-5g{
+  --bg: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/main.png");
+  --i1: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image1.png");
+  --i2: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image2.png");
+  --i3: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image3.png");
+  --i4: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image4.png");
+  --i5: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image5.png");
+  --i6: url("https://raw.githubusercontent.comMythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image6.png");
+  --i7: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image7.png");
+  --i8: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image8.png");
+  --i9: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image9.png");
+  --i10: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image10.png");
+  --i11: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image11.png");
+  --i12: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/5G/image12.png");
+  background-image: var(--bg);
+}
+
+/* ---------- STRAT 6G variables ---------- */
+.strat-6g{
+  --bg: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/main.png");
+  --i1: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image1.png");
+  --i2: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image2.png");
+  --i3: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image3.png");
+  --i4: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image4.png");
+  --i5: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image5.png");
+  --i6: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image6.png");
+  --i7: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image7.png");
+  --i8: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image8.png");
+  --i9: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image9.png");
+  --i10: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image10.png");
+  --i11: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image11.png");
+  --i12: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/parts_strat/6G/image12.png");
+  background-image: var(--bg);
+}
+
+/* ---------- Generic mapping of variables to deco layers ---------- */
+/* deco.n1 uses i1 / i2 / i3 */
+[class^="strat-"] .deco.n1{
+  z-index:2;
+  background-image: var(--i1);
+  background-repeat:no-repeat;
+  background-position: 8% 18%;
+  background-size: calc(var(--base) * 3) calc(var(--base) * 3);
+  animation: move-right-slow 48s linear infinite;
+}
+[class^="strat-"] .deco.n1::before{
+  background-image: var(--i2);
+  width: calc(var(--base) * 2.5); height: calc(var(--base) * 2.5);
+  left: -18%; top: 6%;
+  animation: move-down-slower 62s linear infinite;
+}
+[class^="strat-"] .deco.n1::after{
+  background-image: var(--i3);
+  width: calc(var(--base) * 1.6); height: calc(var(--base) * 1.6);
+  right: -10%; bottom: 4%;
+  animation: move-left 30s linear infinite;
+}
+
+/* deco.n2 uses i4 / i5 / i6 */
+[class^="strat-"] .deco.n2{
+  z-index:3;
+  background-image: var(--i4);
+  background-repeat:no-repeat;
+  background-position: 82% 28%;
+  background-size: calc(var(--base) * 3.2) calc(var(--base) * 3.2);
+  animation: move-left-slow 52s linear infinite;
+}
+[class^="strat-"] .deco.n2::before{
+  background-image: var(--i5);
+  width: calc(var(--base) * 2); height: calc(var(--base) * 2);
+  left: 6%; top: 60%;
+  animation: move-up 34s linear infinite;
+}
+[class^="strat-"] .deco.n2::after{
+  background-image: var(--i6);
+  width: calc(var(--base) * 3.6); height: calc(var(--base) * 3.6);
+  right: 14%; bottom: 38%;
+  opacity:0.9;
+  animation: move-diag-slow 72s linear infinite;
+}
+
+/* deco.n3 uses i7 / i8 / i9 */
+[class^="strat-"] .deco.n3{
+  z-index:1;
+  background-image: var(--i7);
+  background-repeat:no-repeat;
+  background-position: 38% 78%;
+  background-size: calc(var(--base) * 2.5) calc(var(--base) * 2.5);
+  animation: move-up-slower 58s linear infinite;
+}
+[class^="strat-"] .deco.n3::before{
+  background-image: var(--i8);
+  width: calc(var(--base) * 1.6); height: calc(var(--base) * 1.6);
+  left: 30%; top: -16%;
+  animation: move-right 28s linear infinite;
+}
+[class^="strat-"] .deco.n3::after{
+  background-image: var(--i9);
+  width: calc(var(--base) * 4.6); height: calc(var(--base) * 4.6);
+  right: -24%; bottom: -12%;
+  opacity:0.85;
+  animation: move-diag-slower 84s linear infinite;
+}
+
+/* deco.n4 uses i10 / i11 / i12 */
+[class^="strat-"] .deco.n4{
+  z-index:4;
+  background-image: var(--i10);
+  background-repeat:no-repeat;
+  background-position: 60% 10%;
+  background-size: calc(var(--base) * 3.6) calc(var(--base) * 3.6);
+  animation: move-diag 40s linear infinite;
+}
+[class^="strat-"] .deco.n4::before{
+  background-image: var(--i11);
+  width: calc(var(--base) * 1.3); height: calc(var(--base) * 1.3);
+  left: 50%; top: 30%;
+  animation: move-left 24s linear infinite;
+}
+[class^="strat-"] .deco.n4::after{
+  background-image: var(--i12);
+  width: calc(var(--base) * 2.5); height: calc(var(--base) * 2.5);
+  right: 40%; bottom: 20%;
+  animation: move-up 36s linear infinite;
+}
+
+/* ---------- Keyframes (shared) ---------- */
+@keyframes move-right { 0%{transform:translate3d(-40vw,0,0)} 100%{transform:translate3d(140vw,0,0)} }
+@keyframes move-left  { 0%{transform:translate3d(140vw,0,0)} 100%{transform:translate3d(-40vw,0,0)} }
+@keyframes move-down  { 0%{transform:translate3d(0,-40vh,0)} 100%{transform:translate3d(0,140vh,0)} }
+@keyframes move-up    { 0%{transform:translate3d(0,140vh,0)} 100%{transform:translate3d(0,-40vh,0)} }
+@keyframes move-diag  { 0%{transform:translate3d(-50vw,-30vh,0) rotate(0deg)} 100%{transform:translate3d(130vw,130vh,0) rotate(360deg)} }
+
+@keyframes move-right-slow { 0%{transform:translate3d(-25vw,0,0)} 100%{transform:translate3d(120vw,0,0)} }
+@keyframes move-left-slow  { 0%{transform:translate3d(120vw,0,0)} 100%{transform:translate3d(-25vw,0,0)} }
+@keyframes move-up-slower  { 0%{transform:translate3d(0,120vh,0)} 100%{transform:translate3d(0,-25vh,0)} }
+@keyframes move-down-slower{ 0%{transform:translate3d(0,-25vh,0)} 100%{transform:translate3d(0,120vh,0)} }
+@keyframes move-diag-slower{ 0%{transform:translate3d(120vw,-30vh,0) rotate(0deg)} 100%{transform:translate3d(-40vw,130vh,0) rotate(-360deg)} }
+
+/* ---------- Responsive adjustments ---------- */
+@media (max-width:700px){
+  :root{ --base:44px; }
+  [class^="strat-"] .deco.n1{ background-size: calc(var(--base)*2.6) calc(var(--base)*2.6); }
+  [class^="strat-"] .deco.n2{ background-size: calc(var(--base)*2.8) calc(var(--base)*2.8); }
+  [class^="strat-"] .deco.n3{ background-size: calc(var(--base)*2.2) calc(var(--base)*2.2); }
+  [class^="strat-"] .deco.n4{ background-size: calc(var(--base)*2.8) calc(var(--base)*2.8); }
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce){
+  [class^="strat-"] .deco, [class^="strat-"] .deco::before, [class^="strat-"] .deco::after { animation: none !important; }
 }

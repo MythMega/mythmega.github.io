@@ -1,12 +1,12 @@
 ===== ANALYSE DES CHALLENGES =====
 
 Nombre total de Pokémon : 533
-Nombre total de challenges : 19
+Nombre total de challenges : 23
 
 ===== SYNTHÈSE GLOBALE =====
-Pokémon présents dans ≥1 challenge : 181 / 533
-Pokémon surreprésentés (≥2 challenges) : 28 / 533
-Pokémon absents (0 challenge) : 352 / 533
+Pokémon présents dans ≥1 challenge : 197 / 533
+Pokémon surreprésentés (≥2 challenges) : 44 / 533
+Pokémon absents (0 challenge) : 336 / 533
 
 ----- Vérification des challenges -----
 
@@ -86,6 +86,22 @@ Challenge 19 - 4G - Pokémon Perle
   Nombre de Pokémon listés : 5
   ✓ Tous les index correspondent à un Pokémon.
 
+Challenge 50 - 1G-OU meilleurs Pokémons
+  Nombre de Pokémon listés : 10
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 51 - 2G-OU meilleurs Pokémons
+  Nombre de Pokémon listés : 10
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 52 - 3G-OU meilleurs Pokémons
+  Nombre de Pokémon listés : 10
+  ✓ Tous les index correspondent à un Pokémon.
+
+Challenge 53 - 3G-OU meilleurs Pokémons
+  Nombre de Pokémon listés : 10
+  ✓ Tous les index correspondent à un Pokémon.
+
 
 ----- Pokémon présents dans au moins un challenge -----
 1 - Bulbizarre
@@ -119,6 +135,7 @@ Challenge 19 - 4G - Pokémon Perle
 59 - Arcanin
 61 - Têtarte
 62 - Tartard
+65 - Alakazam
 67 - Machopeur
 73 - Tentacruel
 76 - Grolem
@@ -131,9 +148,12 @@ Challenge 19 - 4G - Pokémon Perle
 91 - Crustabri
 94 - Ectoplasma
 100 - Voltorbe
+103 - Noadkoko
 109 - Smogo
 110 - Smogogo
 110-B - Smogogo de Galar
+112 - Rhinoféros
+113 - Leveinard
 116 - Hypotrempe
 118 - Poissirène
 120 - Stari
@@ -142,8 +162,12 @@ Challenge 19 - 4G - Pokémon Perle
 125 - Élektek
 126 - Magmar
 127 - Scarabrute
+128 - Tauros
+130 - Léviator
 136 - Pyroli
 138 - Amonita
+143 - Ronflex
+145 - Électhor
 146 - Sulfura
 148 - Draco
 152 - Germignon
@@ -166,11 +190,13 @@ Challenge 19 - 4G - Pokémon Perle
 199-B - Roigada de Galar
 201 - Zarbi
 203 - Girafarig
+205 - Foretress
 206 - Insolourdo
 207 - Scorplane
 208 - Steelix
 211 - Qwilfish
 211-B - Qwilfish de Hisui
+212 - Cizayox
 215-B - Farfuret de Hisui
 216 - Teddiursa
 217 - Ursaring
@@ -185,8 +211,11 @@ Challenge 19 - 4G - Pokémon Perle
 235 - Queulorior
 238 - Lippouti
 239 - Élekid
+242 - Leuphorie
+243 - Raikou
 244 - Entei
 245 - Suicune
+248 - Tyranocif
 249 - Lugia
 250 - Ho-Oh
 251 - Celebi
@@ -194,6 +223,7 @@ Challenge 19 - 4G - Pokémon Perle
 255 - Poussifeu
 258 - Gobou
 259 - Flobio
+260 - Laggron
 263 - Zigzaton
 271 - Lombre
 274 - Pifeuil
@@ -222,6 +252,8 @@ Challenge 19 - 4G - Pokémon Perle
 359 - Absol
 366 - Coquiperl
 370 - Lovdisc
+373 - Drattak
+376 - Métalosse
 377 - Regirock
 379 - Registeel
 380 - Latias
@@ -276,29 +308,45 @@ Challenge 19 - 4G - Pokémon Perle
 25 - Pikachu | Challenges : Quizz Découverte de Kanto, 1G - Pokémon Jaune
 38 - Feunard | Challenges : Quizz Rayon de soleil, 1G - Pokémon Vert
 52 - Miaouss | Challenges : Quizz Découverte de Kanto, 1G - Pokémon Vert, 1G - Pokémon Jaune
+91 - Crustabri | Challenges : Quizz Découverte de Kanto, 2G-OU meilleurs Pokémons
+94 - Ectoplasma | Challenges : Quizz Venimeux, 1G-OU meilleurs Pokémons, 2G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons
+103 - Noadkoko | Challenges : 1G-OU meilleurs Pokémons, 2G-OU meilleurs Pokémons
+121 - Staross | Challenges : Quizz Clair de lune, 1G-OU meilleurs Pokémons, 2G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons
+124 - Lippoutou | Challenges : Poké Fiertés, 1G-OU meilleurs Pokémons
 126 - Magmar | Challenges : Quizz Rayon de soleil, 1G - Pokémon Vert
 127 - Scarabrute | Challenges : Quizz Clair de lune, 1G - Pokémon Vert
+143 - Ronflex | Challenges : 1G-OU meilleurs Pokémons, 2G-OU meilleurs Pokémons
+145 - Électhor | Challenges : 1G-OU meilleurs Pokémons, 2G-OU meilleurs Pokémons
 180 - Lainergie | Challenges : Quizz Découverte de Johto, 2G - Pokémon Cristal
 192 - Héliatronc | Challenges : Quizz Découverte de Johto, Quizz Rayon de soleil
 197 - Noctali | Challenges : Poké Fiertés, Quizz Clair de lune
+205 - Foretress | Challenges : 2G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons
 217 - Ursaring | Challenges : Poké Fiertés, 2G - Pokémon Or
 226 - Démanta | Challenges : Quizz A la Piscine!, 2G - Pokémon Or
+227 - Airmure | Challenges : 2G - Pokémon Argent, 2G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons
 235 - Queulorior | Challenges : Poké Fiertés, Quizz Clair de lune
+245 - Suicune | Challenges : Quizz A la Piscine!, 3G-OU meilleurs Pokémons
+248 - Tyranocif | Challenges : 2G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons
 250 - Ho-Oh | Challenges : Poké Fiertés, Quizz Rayon de soleil
+260 - Laggron | Challenges : 3G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons
 282 - Gardevoir | Challenges : Poké Fiertés, Quizz Clair de lune
 303 - Mysdibule | Challenges : Quizz Clair de lune, 3G - Pokémon Rubis
 323 - Camérupt | Challenges : Quizz Découverte de Hoenn, Quizz Rayon de soleil
+330 - Libégon | Challenges : Quizz Découverte de Hoenn, 3G-OU meilleurs Pokémons
 335 - Mangriff | Challenges : Quizz Venimeux, 3G - Pokémon Rubis
 336 - Seviper | Challenges : Quizz Venimeux, 3G - Pokémon Saphir
 337 - Séléroc | Challenges : Quizz Clair de lune, 3G - Pokémon Saphir
 338 - Solaroc | Challenges : Quizz Rayon de soleil, 3G - Pokémon Rubis
-380 - Latias | Challenges : Poké Fiertés, 3G - Pokémon Saphir
+376 - Métalosse | Challenges : 3G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons
+380 - Latias | Challenges : Poké Fiertés, 3G - Pokémon Saphir, 3G-OU meilleurs Pokémons
 381 - Latios | Challenges : Poké Fiertés, 3G - Pokémon Rubis
+385 - Jirachi | Challenges : Quizz Clair de lune, 3G-OU meilleurs Pokémons, 3G-OU meilleurs Pokémons
 386 - Deoxys | Challenges : Quizz Découverte de Hoenn, Quizz Clair de lune
 407 - Roserade | Challenges : Quizz Venimeux, Quizz Rayon de soleil
 430 - Corboss | Challenges : Quizz Clair de lune, 4G - Pokémon Diamant
 431 - Chaglam | Challenges : Poké Fiertés, 4G - Pokémon Perle
 434 - Moufouette | Challenges : Quizz Venimeux, 4G - Pokémon Diamant
+485 - Heatran | Challenges : Quizz Rayon de soleil, 3G-OU meilleurs Pokémons
 491 - Darkrai | Challenges : Quizz Découverte de Sinnoh, Quizz Clair de lune
 
 
@@ -350,7 +398,6 @@ Challenge 19 - 4G - Pokémon Perle
 60 - Ptitard
 63 - Abra
 64 - Kadabra
-65 - Alakazam
 66 - Machoc
 68 - Mackogneur
 69 - Chétiflor
@@ -388,7 +435,6 @@ Challenge 19 - 4G - Pokémon Perle
 101 - Électrode
 101-B - Électrode d'Hisui
 102 - Noeunoeuf
-103 - Noadkoko
 103-B - Noadkoko d'Alola
 104 - Osselait
 105 - Ossatueur
@@ -397,8 +443,6 @@ Challenge 19 - 4G - Pokémon Perle
 107 - Tygnon
 108 - Excelangue
 111 - Rhinocorne
-112 - Rhinoféros
-113 - Leveinard
 114 - Saquedeneu
 115 - Kangourex
 117 - Hypocéan
@@ -406,10 +450,8 @@ Challenge 19 - 4G - Pokémon Perle
 122 - M. Mime
 122-B - M. Mime de Galar
 123 - Insécateur
-128 - Tauros
 128-B - Tauros de Paldea
 129 - Magicarpe
-130 - Léviator
 131 - Lokhlass
 132 - Métamorph
 133 - Évoli
@@ -420,10 +462,8 @@ Challenge 19 - 4G - Pokémon Perle
 140 - Kabuto
 141 - Kabutops
 142 - Ptéra
-143 - Ronflex
 144 - Artikodin
 144-B - Artikodin de Galar
-145 - Électhor
 145-B - Électhor de Galar
 146-B - Sulfura de Galar
 147 - Minidraco
@@ -466,10 +506,8 @@ Challenge 19 - 4G - Pokémon Perle
 200 - Feuforêve
 202 - Qulbutoké
 204 - Pomdepik
-205 - Foretress
 209 - Snubbull
 210 - Granbull
-212 - Cizayox
 213 - Caratroc
 214 - Scarhino
 215 - Farfuret
@@ -487,16 +525,12 @@ Challenge 19 - 4G - Pokémon Perle
 237 - Kapoera
 240 - Magby
 241 - Écrémeuh
-242 - Leuphorie
-243 - Raikou
 246 - Embrylex
 247 - Ymphect
-248 - Tyranocif
 253 - Massko
 254 - Jungko
 256 - Galifeu
 257 - Braségali
-260 - Laggron
 261 - Medhyèna
 262 - Grahyèna
 264 - Linéon
@@ -581,10 +615,8 @@ Challenge 19 - 4G - Pokémon Perle
 369 - Relicanth
 371 - Draby
 372 - Drackhaus
-373 - Drattak
 374 - Terhal
 375 - Métang
-376 - Métalosse
 378 - Regice
 382 - Kyogre
 384 - Rayquaza

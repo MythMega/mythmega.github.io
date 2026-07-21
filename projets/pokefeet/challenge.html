@@ -7,6 +7,7 @@
   <link rel="icon" type="image/x-icon" href="./icon.png">
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="./cosmetics.css" />
+  <link rel="stylesheet" href="text-shadow.css" />
   <link rel="stylesheet" href="./challenge.css" />
 </head>
 <body>
@@ -53,7 +54,16 @@
 
       <div id="challengeHints" class="hints-list"></div>
     </div>
+
+    <button id="retourBtn" class="secondary" style="padding:10px 12px;margin-top:20px;display:block;margin-left:auto;margin-right:auto;" data-i18n="common.backHome">Retour à l'accueil</button>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('retourBtn');
+      if (btn) btn.addEventListener('click', function() { window.location.href = './index.html'; });
+    });
+  </script>
 
   <!-- Popup de succès -->
   <div id="challengeSuccessPopup" class="popup hidden">

@@ -65,6 +65,16 @@
         "FunctionEN": "Data that were used for most of Pokémons pictures."
     },
     {
+        "Person": "PokemonDB",
+        "Types": ["Data"],
+        "Image": "https://pokemondb.net/favicon.ico",
+        "Buttons" : [
+            {"Text": "PokemonDB", "Url": "https://pokemondb.net/sprites" }
+        ],
+        "FunctionFR": "Données de sprite d'anciennes gen pour les backgrounds strat', icone pikachu des backgrounds strat'.",
+        "FunctionEN": "Old gen sprites for strat' backgrounds conceptions, strat' backgrounds pikachu icon."
+    },
+    {
         "Person": "Sansanhijab",
         "Types": ["Tester"],
         "Image": "https://static-cdn.jtvnw.net/jtv_user_pictures/e4673a77-57cb-4486-9bec-d0c3382b3ab0-profile_image-70x70.jpeg",

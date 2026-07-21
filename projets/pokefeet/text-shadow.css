@@ -1,0 +1,72 @@
+/* text-shadow.css - Garantit la lisibilité du texte sur les fonds transparents/glass */
+/* Ajouté via <link> dans chaque page HTML */
+
+/* ── Footer & Header (léger) ─────────────────────────────── */
+footer, header, footer *, header *,
+#app > header, #app > header *,
+.challenge-page header, .challenge-page header * {
+  text-shadow: 0 0px 18px rgba(0,0,0,0.5);
+}
+
+/* ── Index ───────────────────────────────────────────────── */
+#newsBannerText {
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.5);
+}
+
+/* ── Stats ───────────────────────────────────────────────── */
+.stats-tab-btn {
+  text-shadow: 0 1px 5px rgba(0,0,0,0.75);
+}
+#statsPseudo {
+  text-shadow: 0 0px 16px rgba(255, 253, 253, 0.459), 0 0 24px rgba(0,0,0,0.20);
+}
+#statsPseudoLabel {
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+}
+#profileBadges {
+  text-shadow: 0 1px 5px rgba(0,0,0,0.7);
+}
+
+/* ── Data Management ─────────────────────────────────────── */
+.dm-tab-btn {
+  text-shadow: 0 1px 5px rgba(0,0,0,0.75);
+}
+
+/* ── Daily / Weekly hints ────────────────────────────────── */
+#dailyHints, #dailyHints *,
+#weeklyHints, #weeklyHints * {
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* ── Pied-dex ────────────────────────────────────────────── */
+.progress-section span[data-i18n="dex.progress"],
+#progressText {
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+}
+.filter-section,
+.sort-section {
+  text-shadow: 0 1px 5px rgba(0,0,0,0.7);
+}
+#dexGrid, #dexGrid * {
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+/* ── History ─────────────────────────────────────────────── */
+.hist-tab-btn {
+  text-shadow: 0 1px 5px rgba(0,0,0,0.75);
+}
+
+/* ── Marathon (pokefeet.html) ────────────────────────────── */
+.scoreboard {
+  text-shadow: 0 1px 5px rgba(0,0,0,0.7);
+}
+
+/* ── Challenges list ─────────────────────────────────────── */
+#challengeTabs, #challengeTabs * {
+  text-shadow: 0 1px 5px rgba(0,0,0,0.75);
+}
+
+/* ── Challenge playing ───────────────────────────────────── */
+#challengeFailedAttempts {
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+}

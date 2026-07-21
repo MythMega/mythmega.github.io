@@ -133,15 +133,6 @@
           <a class="nav-link${active('index.html')}" href="index.html">Accueil</a>
         </li>
 
-        <!-- POLITIQUES -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button"
-             data-bs-toggle="dropdown" aria-expanded="false">Politiques</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item${active('politique_de_donnees.html')}" href="politique_de_donnees.html">Politique de Données</a></li>
-          </ul>
-        </li>
-
         <!-- EN LIVE -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -263,6 +254,15 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true"
                    style="opacity:.45;cursor:default;">Bientôt disponible…</a></li>
+          </ul>
+        </li>
+
+        <!-- POLITIQUES -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">Politiques</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item${active('politique_de_donnees.html')}" href="politique_de_donnees.html">Politique de Données</a></li>
           </ul>
         </li>
 

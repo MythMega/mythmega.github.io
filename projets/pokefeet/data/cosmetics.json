@@ -245,7 +245,7 @@
         "Name": "Strat 1G",
         "Value": "strat-1g",
         "File": "strat-1g.png",
-        "RequiresUnlock": false
+        "RequiresUnlock": true
     },
     {
         "ID": 51,
@@ -254,7 +254,7 @@
         "Name": "Strat 2G",
         "Value": "strat-2g",
         "File": "strat-2g.png",
-        "RequiresUnlock": false
+        "RequiresUnlock": true
     },
     {
         "ID": 52,
@@ -263,7 +263,7 @@
         "Name": "Strat 3G",
         "Value": "strat-3g",
         "File": "strat-3g.png",
-        "RequiresUnlock": false
+        "RequiresUnlock": true
     },
     {
         "ID": 53,
@@ -272,7 +272,7 @@
         "Name": "Strat 4G",
         "Value": "strat-4g",
         "File": "strat-4g.png",
-        "RequiresUnlock": false
+        "RequiresUnlock": true
     }
 
 ]

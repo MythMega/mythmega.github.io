@@ -1,0 +1,1895 @@
+{
+  "CellToCheck": "B3",
+  "CellCheckResult": "C3",
+  "OnEdit": [
+    {
+      "CellContent": "Red / Green / Blue",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Boulder"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Pewter City"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Brock"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/redgreenblue/boulder.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Cascade"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Cerulean City"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Misty"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/redgreenblue/cascade.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Thunder"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Vermilion City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Lt. Surge"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/redgreenblue/thunder.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Rainbow"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Celadon City"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Erika"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/redgreenblue/rainbow.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Soul"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Fuchsia City"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Koga"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/redgreenblue/soul.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Marsh"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Saffron City"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Sabrina"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/redgreenblue/marsh.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Volcano"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Cinnabar Island"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Blaine"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/redgreenblue/volcano.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Earth"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Viridian City"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Giovanni"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/redgreenblue/earth.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Gold / Silver",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Zephyr"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Violet City"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Falkner"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/goldsilver/zephyr.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Hive"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Azalea Town"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Bugsy"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/goldsilver/hive.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Plain"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Goldenrod City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Whitney"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/goldsilver/plain.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Fog"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Ecruteak City"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Morty"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/goldsilver/fog.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Storm"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Cianwood City"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Chuck"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/goldsilver/storm.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Mineral"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Olivine City"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Jasmine"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/goldsilver/mineral.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Glacier"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Mahogany Town"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Pryce"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/goldsilver/glacier.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Rising"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Blackthorn City"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Clair"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/goldsilver/rising.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Ruby / Sapphire / Emerald",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Stone"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Rustboro City"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Roxanne"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/rubysapphireemerald/stone.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Knuckle"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Dewford Town"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Brawly"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/rubysapphireemerald/knuckle.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Dynamo"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Mauville City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Wattson"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/rubysapphireemerald/dynamo.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Heat"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Lavaridge Town"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Flannery"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/rubysapphireemerald/heat.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Balance"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Petalburg City"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Norman"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/rubysapphireemerald/balance.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Feather"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Fortree City"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Winona"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/rubysapphireemerald/feather.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Mind"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Mossdeep City"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Tate and Liza"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/rubysapphireemerald/mind.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Rain"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Sootopolis City"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Wallace"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/rubysapphireemerald/rain.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Diamond / Pearl / Platinum",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Coal"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Oreburgh City"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Roark"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/diamondpearlplatinum/coal.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Forest"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Eterna City"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Gardenia"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/diamondpearlplatinum/forest.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Cobble"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Veilstone City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Maylene"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/diamondpearlplatinum/cobble.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Fen"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Pastoria City"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Crasher Wake"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/diamondpearlplatinum/fen.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Relic"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Hearthome City"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Fantina"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/diamondpearlplatinum/relic.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Mine"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Canalave City"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Byron"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/diamondpearlplatinum/mine.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Icicle"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Snowpoint City"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Candice"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/diamondpearlplatinum/icicle.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Beacon"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Sunyshore City"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Volkner"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/diamondpearlplatinum/beacon.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Black / White",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Trio"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Striaton City"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Cilan"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/blackwhite/trio.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Basic"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Nacrene City"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Lenora"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/blackwhite/basic.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Insect"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Castelia City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Burgh"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/blackwhite/insect.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Bolt"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Nimbasa City"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Elesa"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/blackwhite/bolt.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Quake"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Driftveil City"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Clay"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/blackwhite/quake.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Jet"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Mistralton City"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Skyla"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/blackwhite/jet.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Freeze"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Icirrus City"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Brycen"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/blackwhite/freeze.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Legend"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Opelucid City"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Iris"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/blackwhite/legend.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Black 2 / White 2",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Basic"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Nacrene City"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Cheren"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/black2white2/basic.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Toxic"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Virbank City"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Roxie"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/black2white2/toxic.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Insect"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Castelia City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Burgh"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/black2white2/insect.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Bolt"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Nimbasa City"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Elesa"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/black2white2/bolt.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Quake"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Driftveil City"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Clay"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/black2white2/quake.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Jet"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Mistralton City"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Skyla"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/black2white2/jet.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Legend"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Opelucid City"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Drayden"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/black2white2/legend.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Wave"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Humilau City"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Marlon"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/black2white2/wave.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "X / Y",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Bug"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Santalune City"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Viola"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/xy/bug.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Cliff"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Cyllage City"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Grant"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/xy/cliff.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Rumble"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Shalour City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Korrina"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/xy/rumble.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Plant"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Coumarine City"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Ramos"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/xy/plant.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Voltage"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Lumiose City"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Clemont"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/xy/voltage.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Fairy"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Laverre City"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Valerie"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/xy/fairy.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Psychic"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Anistar City"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Olympia"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/xy/psychic.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Iceberg"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Snowbelle City"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Wulfric"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/xy/iceberg.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Sun / Moon / Ultra Sun / Ultra Moon",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Melemele Trial"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Iki Town"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Hala"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoon/melemeletrial.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Akala Trial"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Ruins of Life"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Olivia"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoon/akalatrial.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Ula'ula Trial"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Malie City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Nanu"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoon/ulaulatrial.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Poni Trial"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Vast Poni Canyon"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Hapu"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoon/ponitrial.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Sun / Moon / Ultra Sun / Ultra Moon (Extended)",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Melemele Trial"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Iki Town"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Hala"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/melemeletrial.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Akala Trial"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Ruins of Life"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Olivia"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/akalatrial.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Ula'ula Trial"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Malie City"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Nanu"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/ulaulatrial.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Poni Trial"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Vast Poni Canyon"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Hapu"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/ponitrial.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Dominant Gumshoos / Alolan Raticate"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Verdant Cavern"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Ilima"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/dominantgumshoosalolanraticate.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Dominant Wishiwashi / Araquanid"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Brooklet Hill"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Lana"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/dominantwishiwashiaraquanid.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Dominant Salazzle / Alolan Marowak"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Wela Volcano Park"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Kiawe"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/dominantsalazzlealolanmarowak.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Dominant Lurantis"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Lush Jungle"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Mallow"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/dominantlurantis.png"
+        },
+        {
+          "Cell": "B15",
+          "Value": "Dominant Vikavolt / Togedemaru"
+        },
+        {
+          "Cell": "C15",
+          "Value": "Hokulani Observatory"
+        },
+        {
+          "Cell": "D15",
+          "Value": "Sophocles"
+        },
+        {
+          "Cell": "E15",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/dominantvikavolttogedemaru.png"
+        },
+        {
+          "Cell": "B16",
+          "Value": "Dominant Mimikyu"
+        },
+        {
+          "Cell": "C16",
+          "Value": "Thrifty Megamart (Abandoned Site)"
+        },
+        {
+          "Cell": "D16",
+          "Value": "Acerola"
+        },
+        {
+          "Cell": "E16",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/dominantmimikyu.png"
+        },
+        {
+          "Cell": "B17",
+          "Value": "Dominant Kommo-o"
+        },
+        {
+          "Cell": "C17",
+          "Value": "Vast Poni Canyon"
+        },
+        {
+          "Cell": "D17",
+          "Value": "null"
+        },
+        {
+          "Cell": "E17",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/dominantkommo-o.png"
+        },
+        {
+          "Cell": "B18",
+          "Value": "Dominant Ribombee"
+        },
+        {
+          "Cell": "C18",
+          "Value": "Seafolk Village"
+        },
+        {
+          "Cell": "D18",
+          "Value": "Mina"
+        },
+        {
+          "Cell": "E18",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sunmoonultrasunultramoonextended/dominantribombee.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Sword",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Grass"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Turffield"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Milo"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sword/grass.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Water"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Hulbury"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Nessa"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sword/water.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Fire"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Motostoke"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Kabu"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sword/fire.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Fighting"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Stow-on-Side"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Bea"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sword/fighting.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Fairy"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Ballonlea"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Opal"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sword/fairy.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Rock"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Circhester"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Gordie"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sword/rock.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Dark"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Spikemuth"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Piers"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sword/dark.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Dragon"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Hammerlocke"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Raihan"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/sword/dragon.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Shield",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Grass"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Turffield"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Milo"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/shield/grass.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Water"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Hulbury"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Nessa"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/shield/water.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Fire"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Motostoke"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Kabu"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/shield/fire.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Ghost"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Stow-on-Side"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Allister"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/shield/ghost.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Fairy"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Ballonlea"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Opal"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/shield/fairy.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Ice"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Circhester"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Melony"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/shield/ice.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Dark"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Spikemuth"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Piers"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/shield/dark.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Dragon"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Hammerlocke"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Raihan"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/shield/dragon.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Scarlet / Violet",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Bug Badge"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Cortondo"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Katy"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletviolet/bugbadge.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Grass"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Artazon"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Brassius"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletviolet/grass.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Thunder"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Levincia"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Iono"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletviolet/thunder.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Water"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Cascarrafa"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Kofu"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletviolet/water.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Normal"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Medali"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Larry"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletviolet/normal.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Ghost"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Montenevera"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Ryme"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletviolet/ghost.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Psychic"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Alfornada"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Tulip"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletviolet/psychic.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Ice"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Glaseado"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Grusha"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletviolet/ice.png"
+        }
+      ]
+    },
+    {
+      "CellContent": "Scarlet / Violet (Extended)",
+      "CellsValues": [
+        {
+          "Cell": "B7",
+          "Value": "Bug Badge"
+        },
+        {
+          "Cell": "C7",
+          "Value": "Cortondo"
+        },
+        {
+          "Cell": "D7",
+          "Value": "Katy"
+        },
+        {
+          "Cell": "E7",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/bugbadge.png"
+        },
+        {
+          "Cell": "B8",
+          "Value": "Grass"
+        },
+        {
+          "Cell": "C8",
+          "Value": "Artazon"
+        },
+        {
+          "Cell": "D8",
+          "Value": "Brassius"
+        },
+        {
+          "Cell": "E8",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/grass.png"
+        },
+        {
+          "Cell": "B9",
+          "Value": "Thunder"
+        },
+        {
+          "Cell": "C9",
+          "Value": "Levincia"
+        },
+        {
+          "Cell": "D9",
+          "Value": "Iono"
+        },
+        {
+          "Cell": "E9",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/thunder.png"
+        },
+        {
+          "Cell": "B10",
+          "Value": "Water"
+        },
+        {
+          "Cell": "C10",
+          "Value": "Cascarrafa"
+        },
+        {
+          "Cell": "D10",
+          "Value": "Kofu"
+        },
+        {
+          "Cell": "E10",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/water.png"
+        },
+        {
+          "Cell": "B11",
+          "Value": "Normal"
+        },
+        {
+          "Cell": "C11",
+          "Value": "Medali"
+        },
+        {
+          "Cell": "D11",
+          "Value": "Larry"
+        },
+        {
+          "Cell": "E11",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/normal.png"
+        },
+        {
+          "Cell": "B12",
+          "Value": "Ghost"
+        },
+        {
+          "Cell": "C12",
+          "Value": "Montenevera"
+        },
+        {
+          "Cell": "D12",
+          "Value": "Ryme"
+        },
+        {
+          "Cell": "E12",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/ghost.png"
+        },
+        {
+          "Cell": "B13",
+          "Value": "Psychic"
+        },
+        {
+          "Cell": "C13",
+          "Value": "Alfornada"
+        },
+        {
+          "Cell": "D13",
+          "Value": "Tulip"
+        },
+        {
+          "Cell": "E13",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/psychic.png"
+        },
+        {
+          "Cell": "B14",
+          "Value": "Ice"
+        },
+        {
+          "Cell": "C14",
+          "Value": "Glaseado"
+        },
+        {
+          "Cell": "D14",
+          "Value": "Grusha"
+        },
+        {
+          "Cell": "E14",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/ice.png"
+        },
+        {
+          "Cell": "B15",
+          "Value": "StarfallStreet Dark"
+        },
+        {
+          "Cell": "C15",
+          "Value": "Schedar Squad's Base"
+        },
+        {
+          "Cell": "D15",
+          "Value": "Giacomo"
+        },
+        {
+          "Cell": "E15",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/starfallstreetdark.png"
+        },
+        {
+          "Cell": "B16",
+          "Value": "StarfallStreet Fire"
+        },
+        {
+          "Cell": "C16",
+          "Value": "Schedar Squad's Base"
+        },
+        {
+          "Cell": "D16",
+          "Value": "Mela"
+        },
+        {
+          "Cell": "E16",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/starfallstreetfire.png"
+        },
+        {
+          "Cell": "B17",
+          "Value": "StarfallStreet Poison"
+        },
+        {
+          "Cell": "C17",
+          "Value": "Navi Squad's Base"
+        },
+        {
+          "Cell": "D17",
+          "Value": "Atticus"
+        },
+        {
+          "Cell": "E17",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/starfallstreetpoison.png"
+        },
+        {
+          "Cell": "B18",
+          "Value": "StarfallStreet Fairy"
+        },
+        {
+          "Cell": "C18",
+          "Value": "Ruchbah Squad's Base"
+        },
+        {
+          "Cell": "D18",
+          "Value": "Ortega"
+        },
+        {
+          "Cell": "E18",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/starfallstreetfairy.png"
+        },
+        {
+          "Cell": "B19",
+          "Value": "StarfallStreet Fighting"
+        },
+        {
+          "Cell": "C19",
+          "Value": "Caph Squad's Base"
+        },
+        {
+          "Cell": "D19",
+          "Value": "Eri"
+        },
+        {
+          "Cell": "E19",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/starfallstreetfighting.png"
+        },
+        {
+          "Cell": "B20",
+          "Value": "Dominant Klawf"
+        },
+        {
+          "Cell": "C20",
+          "Value": "South Province (Area Three)"
+        },
+        {
+          "Cell": "D20",
+          "Value": "Arven"
+        },
+        {
+          "Cell": "E20",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/dominantklawf.png"
+        },
+        {
+          "Cell": "B21",
+          "Value": "Dominant Bombirdier"
+        },
+        {
+          "Cell": "C21",
+          "Value": "West Province (Area One)"
+        },
+        {
+          "Cell": "D21",
+          "Value": "Arven"
+        },
+        {
+          "Cell": "E21",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/dominantbombirdier.png"
+        },
+        {
+          "Cell": "B22",
+          "Value": "Dominant Orthworm"
+        },
+        {
+          "Cell": "C22",
+          "Value": "East Province (Area Three)"
+        },
+        {
+          "Cell": "D22",
+          "Value": "Arven"
+        },
+        {
+          "Cell": "E22",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/dominantorthworm.png"
+        },
+        {
+          "Cell": "B23",
+          "Value": "Dominant Great Tusk / iron Threads"
+        },
+        {
+          "Cell": "C23",
+          "Value": "Asado Desert"
+        },
+        {
+          "Cell": "D23",
+          "Value": "Arven"
+        },
+        {
+          "Cell": "E23",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/dominantgreattuskironthreads.png"
+        },
+        {
+          "Cell": "B24",
+          "Value": "Dominant Dondozo Nigirigon"
+        },
+        {
+          "Cell": "C24",
+          "Value": "Casseroya Lake"
+        },
+        {
+          "Cell": "D24",
+          "Value": "Arven"
+        },
+        {
+          "Cell": "E24",
+          "Value": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/pokemon/badges/scarletvioletextended/dominantdondozonigirigon.png"
+        }
+      ]
+    }
+  ]
+}

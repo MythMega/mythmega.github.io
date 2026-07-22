@@ -1,0 +1,20 @@
+{
+  "index.title": "Overlay Configurator",
+  "index.intro": "Créez un overlay pour OBS à partir d'un Google Spreadsheet contenant vos objectifs.",
+  "index.openConfigurator": "Créer son overlay",
+  "config.title": "Configurateur d'overlay",
+  "config.sheetUrl": "URL du Google Spreadsheet",
+  "config.displayStyle": "Style d'affichage",
+  "config.displayGoalNotReach": "Affichage objectifs non atteints",
+  "config.displayName": "Afficher le nom sous l'objectif",
+  "config.gap": "Espace entre éléments (px)",
+  "config.exampleSheet": "Spreadsheet d'exemple à copier",
+  "config.createOverlay": "Créer l'overlay",
+  "config.preview": "Aperçu",
+  "config.noteMax": "Lecture à partir de la ligne 7. Maximum 50 éléments.",
+  "config.errorEmpty": "Veuillez renseigner l'URL du Google Spreadsheet.",
+  "config.errorInvalid": "URL ou ID de spreadsheet invalide.",
+  "config.errorExampleId": "Veuillez copier le spreadsheet exemple et utiliser votre propre copie (ne pas utiliser l'ID d'exemple).",
+  "config.copyLink": "Copier le lien de l'overlay",
+  "config.copied": "Lien copié"
+}

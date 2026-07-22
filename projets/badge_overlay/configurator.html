@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Configurateur Overlay</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <main class="config-page">
+    <section class="form-column">
+      <h2 id="cfg-title">Configurateur d'overlay</h2>
+
+      <label for="sheetUrl" class="label" id="label-sheet">URL du Google Spreadsheet</label>
+      <input id="sheetUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/..." />
+
+      <label for="styleSelect" class="label" id="label-style">Display Style</label>
+      <select id="styleSelect">
+        <option value="column">Column</option>
+        <option value="block">Block</option>
+        <option value="line">Line</option>
+      </select>
+
+      <label for="displayGoalNotReach" class="label" id="label-goal">Affichage objectifs non atteints</label>
+      <select id="displayGoalNotReach">
+        <option value="shadow">Ombre</option>
+        <option value="black">Noir</option>
+        <option value="hidden">Caché</option>
+        <option value="transparent">Transparent</option>
+      </select>
+
+      <label class="label" id="label-name">Afficher le nom sous l'objectif</label>
+      <select id="displayName">
+        <option value="y">Oui</option>
+        <option value="n">Non</option>
+      </select>
+
+      <label for="gap" class="label" id="label-gap">Gap (px)</label>
+      <input id="gap" type="number" min="0" value="10" />
+
+      <div class="buttons">
+        <button id="exampleSheet" class="btn example">Spreadsheet d'exemple à copier</button>
+        <button id="createOverlay" class="btn primary">Créer l'overlay</button>
+        <button id="copyOverlayLink" class="btn">Copy Overlay link</button>
+      </div>
+
+
+      <p class="note" id="note-max">Le configurateur lira les lignes à partir de la ligne 7 (max 50 éléments).</p>
+    </section>
+
+    <aside class="preview-column">
+      <h3 id="preview-title">Aperçu</h3>
+      <div class="preview-frame">
+        <iframe id="previewIframe" src="" frameborder="0" sandbox="allow-scripts allow-same-origin"></iframe>
+      </div>
+    </aside>
+  </main>
+
+  <script src="scripts/translation.js"></script>
+  <script src="scripts/preview.js"></script>
+  <script src="scripts/configurator.js"></script>
+  <script>
+    const userLang = navigator.language && navigator.language.startsWith('fr') ? 'fr' : 'en';
+    Translation.init(userLang).then(() => {
+      // traduire labels
+      document.getElementById('cfg-title').textContent = Translation.t('config.title');
+      document.getElementById('label-sheet').textContent = Translation.t('config.sheetUrl');
+      document.getElementById('label-style').textContent = Translation.t('config.displayStyle');
+      document.getElementById('label-goal').textContent = Translation.t('config.displayGoalNotReach');
+      document.getElementById('label-name').textContent = Translation.t('config.displayName');
+      document.getElementById('label-gap').textContent = Translation.t('config.gap');
+      document.getElementById('exampleSheet').textContent = Translation.t('config.exampleSheet');
+      document.getElementById('createOverlay').textContent = Translation.t('config.createOverlay');
+      document.getElementById('preview-title').textContent = Translation.t('config.preview');
+      document.getElementById('note-max').textContent = Translation.t('config.noteMax');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Badge Overlay</title>
+  <link rel="stylesheet" href="styles/overlay.css" />
+</head>
+<body>
+  <div id="overlay-root" class="overlay-root" aria-hidden="true"></div>
+
+  <script src="scripts/translation.js"></script>
+  <script src="scripts/overlay.js"></script>
+  <script>
+    // No UI text needed here; translations kept for potential future messages.
+    const userLang = navigator.language && navigator.language.startsWith('fr') ? 'fr' : 'en';
+    Translation.init(userLang).then(() => {
+      Overlay.initFromLocation();
+    });
+  </script>
+</body>
+</html>

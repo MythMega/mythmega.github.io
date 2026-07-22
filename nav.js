@@ -189,7 +189,7 @@
              data-bs-toggle="dropdown" aria-expanded="false">Outils</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item${active('./projets/nuzloverlay/index.html')}" href="./projets/nuzloverlay/index.html">Overlay Pokémon Soul-link Nuzlock</a></li>
-            <li><a class="dropdown-item${active('./projets/badge_overlay/index.html')}" href="./projets/nuzloverlay/index.html">Overlay Pokémon Badges/Objectifs</a></li>
+            <li><a class="dropdown-item${active('./projets/badge_overlay/index.html')}" href="./projets/badge_overlay/index.html">Overlay Pokémon Badges/Objectifs</a></li>
             <li><a class="dropdown-item${active('./projets/gamefinder/app.html')}" href="./projets/gamefinder/app.html">Gamefinder</a></li>
             <li><a class="dropdown-item${active('./projets/autobingo/index.html')}" href="./projets/autobingo/index.html">Autobingo</a></li>
           </ul>

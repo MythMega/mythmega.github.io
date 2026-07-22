@@ -1,0 +1,65 @@
+/* Overlay must be transparent and pixel-perfect */
+html,body{height:100%;margin:0;background:transparent}
+.overlay-root{
+  width:95vw;height:95vh;overflow:hidden;display:flex;align-items:flex-start;justify-content:flex-start;
+  padding:10px;gap:10px;
+  background:transparent;
+}
+
+/* container for badges */
+.badges{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;
+  transform-origin:0 0;
+}
+
+/* item */
+.badge{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;
+  user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+}
+
+/* image */
+.badge img{
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  width:96px;height:96px;object-fit:contain;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6));
+  image-rendering: -moz-crisp-edges;
+}
+
+/* name */
+.badge .name{
+  font-size:14px;color:#fff;text-align:center;
+  text-shadow:0 1px 2px rgba(0,0,0,0.7);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;
+}
+
+/* states for not reached */
+.badge.notreached.shadow img{
+  filter: none;
+  -webkit-filter: none;
+  mix-blend-mode: normal;
+  background:transparent;
+  opacity:0.8;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6)) saturate(0) brightness(0);
+}
+.badge.notreached.black img{
+  filter: none;
+  -webkit-filter: none;
+  mix-blend-mode: normal;
+  background:transparent;
+  opacity:1;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6)) saturate(0) brightness(0);
+}
+.badge.notreached.hidden{display:none}
+.badge.notreached.transparent{opacity:0}
+
+/* layout modes */
+.overlay-root.style-block{align-items:center;justify-content:center}
+.overlay-root.style-line .badges{flex-wrap:nowrap;align-items:center}
+.overlay-root.style-column .badges{flex-direction:column;align-items:flex-start}
+
+/* responsive scaling helper: badges container will be scaled by JS to fit */

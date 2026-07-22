@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Overlay Configurator</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1 id="title">Overlay Configurator</h1>
+    <p id="intro">Créez un overlay pour OBS à partir d'un Google Spreadsheet contenant vos objectifs.</p>
+    <div class="actions">
+      <a class="btn" href="configurator.html" id="open-config">Créer son overlay</a>
+    </div>
+  </main>
+
+  <script src="scripts/translation.js"></script>
+  <script>
+    // Traduction initiale
+    const userLang = navigator.language && navigator.language.startsWith('fr') ? 'fr' : 'en';
+    Translation.init(userLang).then(() => {
+      document.getElementById('title').textContent = Translation.t('index.title');
+      document.getElementById('intro').textContent = Translation.t('index.intro');
+      document.getElementById('open-config').textContent = Translation.t('index.openConfigurator');
+    });
+  </script>
+</body>
+</html>

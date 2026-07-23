@@ -43,7 +43,7 @@ html,body{height:100%;margin:0;background:transparent}
   -webkit-filter: none;
   mix-blend-mode: normal;
   background:transparent;
-  opacity:0.8;
+  opacity:0.5;
   filter: drop-shadow(0 6px 8px rgba(0,0,0,0.6)) saturate(0) brightness(0);
 }
 .badge.notreached.black img{

@@ -166,7 +166,11 @@ select:focus {
 .preview-frame {
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: #0b0f14;
+  background-image: url("./../assets/bg_preview.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   height: 380px;
   overflow: hidden;
   box-shadow: inset 0 0 20px rgba(0,0,0,0.35);
@@ -228,7 +232,6 @@ select:focus {
 .preview-frame {
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: #0b0f14;
   height: 380px;
   overflow: hidden; /* garde */
   display: flex;

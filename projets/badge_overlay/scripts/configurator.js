@@ -92,7 +92,7 @@
     if(!validate()) return;
     const url = buildOverlayUrl();
     try{
-      await navigator.clipboard.writeText(location.origin + '/' + url);
+      await navigator.clipboard.writeText(new URL(url, location.href).href);
       // feedback
       const prevText = copyBtn.textContent;
       copyBtn.textContent = 'Copied!';
@@ -100,10 +100,10 @@
     }catch(e){
       // fallback: select and prompt
       const tmp = document.createElement('textarea');
-      tmp.value = location.origin + '/' + url;
+      tmp.value = new URL(url, location.href).href;
       document.body.appendChild(tmp);
       tmp.select();
-      try { document.execCommand('copy'); copyBtn.textContent = 'Copied!'; setTimeout(()=> copyBtn.textContent = 'Copy Overlay link', 1500); } catch(err){ alert('Copy failed, here is the link:\\n' + location.origin + '/' + url); }
+      try { document.execCommand('copy'); copyBtn.textContent = 'Copied!'; setTimeout(()=> copyBtn.textContent = 'Copy Overlay link', 1500); } catch(err){ alert('Copy failed, here is the link:\\n' + new URL(url, location.href).href); }
       tmp.remove();
     }
   });

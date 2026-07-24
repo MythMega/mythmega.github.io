@@ -85,6 +85,18 @@ class RouletteUI {
     const prevUrl   = isFirst ? null : this._buildUrl(settingsEncoded, ids, idx - 1);
     const nextUrl   = isLast  ? null : this._buildUrl(settingsEncoded, ids, idx + 1);
 
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: `${game.name} — Gamefinder 2.0`,
+        description: game.summary
+          ? game.summary.slice(0, 160).replace(/<[^>]*>/g, '')
+          : `Découvre ${game.name} sur Gamefinder 2.0.`,
+        image: game.cover_url || 'https://mythmega.github.io/assets/roulette.png',
+        url: `https://mythmega.github.io/app.html?roulette=${settingsEncoded}&ids=${ids.join(',')}&idx=${idx}`,
+      });
+    }
+
     // ── Helpers HTML ─────────────────────────────────────────────
     const tagsHTML = (arr, css = '') =>
       arr.map(t => `<span class="tag ${css}">${this._esc(t)}</span>`).join('');

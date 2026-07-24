@@ -5,6 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gamefinder 2.0</title>
 
+  <!-- SEO -->
+  <meta name="description" content="Trouve ton prochain jeu vidéo grâce à notre roulette de sélection intelligente." />
+  <meta name="keywords" content="jeux vidéo, roulette, sélection, recommandation, gamefinder" />
+  <meta name="author" content="Gamefinder" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Gamefinder 2.0" />
+  <meta property="og:description" content="Trouve ton prochain jeu vidéo grâce à notre roulette de sélection intelligente." />
+  <meta property="og:image" content="https://mythmega.github.io/assets/roulette.png" />
+  <meta property="og:url" content="https://mythmega.github.io/app.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Gamefinder 2.0" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gamefinder 2.0" />
+  <meta name="twitter:description" content="Trouve ton prochain jeu vidéo grâce à notre roulette de sélection intelligente." />
+  <meta name="twitter:image" content="https://mythmega.github.io/assets/roulette.png" />
+
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="fr" href="https://mythmega.github.io/app.html" />
+  <link rel="alternate" hreflang="en" href="https://mythmega.github.io/app.html" />
+  <link rel="alternate" hreflang="x-default" href="https://mythmega.github.io/app.html" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://mythmega.github.io/app.html" />
+
   <!-- ====== STYLES ====== -->
   <link rel="stylesheet" href="styles/variables.css" />
   <link rel="stylesheet" href="styles/base.css" />
@@ -76,6 +105,7 @@
   <script src="Scripts/classes/Router.js"></script>
   <script src="Scripts/classes/Settings.js"></script>
   <script src="Scripts/classes/UserProfile.js"></script>
+  <script src="Scripts/classes/MetaManager.js"></script>
 
   <!-- ====== BUSINESS ====== -->
   <script src="Scripts/business/SearchBusiness.js"></script>
@@ -176,8 +206,12 @@
       // ── 4. INIT UI ───────────────────────────────────────────────
       console.log('[App] Initialisation de l\'UI…');
 
+      // Meta Manager
+      const metaManager = new MetaManager();
+      window._metaManager = metaManager;
+
       // Router
-      const router = new Router(renderRoute);
+      const router = new Router(renderRoute, metaManager);
       window._router = router; // Exposé globalement pour les liens inline
 
       // Composants persistants

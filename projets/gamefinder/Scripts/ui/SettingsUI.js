@@ -104,6 +104,15 @@ class SettingsUI {
 
     this._bindEvents(cacheInfo);
     this._activateReveal();
+
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: 'Gamefinder 2.0 — Paramètres',
+        description: 'Gère tes préférences et paramètres Gamefinder.',
+        url: 'https://mythmega.github.io/app.html?state=settings',
+      });
+    }
   }
 
   // ─────────────────────────────────────────────────────────────────

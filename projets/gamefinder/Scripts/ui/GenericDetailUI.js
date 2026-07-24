@@ -19,6 +19,15 @@ class GenericDetailUI {
         </p>
       </div>
     `;
+
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: `${typeLabels[type] || type} #${id} — Gamefinder 2.0`,
+        description: `Découvre les jeux associés à ce ${typeLabels[type] || type}.`,
+        url: `https://mythmega.github.io/app.html?${type}=${id}`,
+      });
+    }
   }
 }
 

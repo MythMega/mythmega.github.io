@@ -84,6 +84,16 @@ class PlatformDetailUI {
       });
     });
 
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: `${platform.name} — Gamefinder 2.0`,
+        description: `Découvre les jeux disponibles sur ${platform.name}.`,
+        image: platform.logo_url || 'https://mythmega.github.io/assets/roulette.png',
+        url: `https://mythmega.github.io/app.html?platform=${platform.id}`,
+      });
+    }
+
     this._activateReveal();
   }
 

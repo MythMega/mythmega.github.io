@@ -50,6 +50,15 @@ class FranchiseDetailUI {
       });
     });
 
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: `${franchise.name} — Gamefinder 2.0`,
+        description: `Explore la franchise ${franchise.name} et ses ${games.length} jeux.`,
+        url: `https://mythmega.github.io/app.html?franchise=${franchise.id}`,
+      });
+    }
+
     this._activateReveal();
   }
 

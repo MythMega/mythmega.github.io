@@ -3,7 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Configurateur Overlay</title>
+
+  <!-- SEO Meta -->
+  <title>Configurateur d'overlay OBS – Badges Pokémon | Badge Overlay</title>
+  <meta name="description" content="Configurez votre overlay OBS pour badges Pokémon : choisissez le style d'affichage, l'espacement, et générez votre lien overlay personnalisé. Compatible tous les jeux Pokémon." />
+  <meta name="keywords" content="configurateur overlay OBS, badge Pokémon, overlay personnalisé, OBS Pokémon, générateur overlay, badge tracker OBS" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://mythmega.github.io/projets/badge_overlay/configurator.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" id="og-title" content="Configurateur d'overlay OBS – Badges Pokémon | Badge Overlay" />
+  <meta property="og:description" id="og-description" content="Configurez votre overlay OBS pour badges Pokémon : style, espacement, aperçu en direct. Générez votre lien overlay personnalisé." />
+  <meta property="og:url" content="https://mythmega.github.io/projets/badge_overlay/configurator.html" />
+  <meta property="og:locale" id="og-locale" content="fr_FR" />
+  <meta property="og:site_name" content="Badge Overlay" />
+  <meta property="og:image" content="https://mythmega.github.io/projets/badge_overlay/assets/bg_preview.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" id="twitter-title" content="Configurateur d'overlay OBS – Badges Pokémon | Badge Overlay" />
+  <meta name="twitter:description" id="twitter-description" content="Configurez votre overlay OBS pour badges Pokémon : style, espacement, aperçu en direct." />
+
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="fr" href="https://mythmega.github.io/projets/badge_overlay/configurator.html" />
+  <link rel="alternate" hreflang="en" href="https://mythmega.github.io/projets/badge_overlay/configurator.html?lang=en" />
+  <link rel="alternate" hreflang="x-default" href="https://mythmega.github.io/projets/badge_overlay/configurator.html" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏅%3C/text%3E%3C/svg%3E" />
+
   <link rel="stylesheet" href="styles/styles.css" />
 </head>
 <body>
@@ -74,6 +103,18 @@
       document.getElementById('copyOverlayLink').textContent = Translation.t('config.copyLink');
       document.getElementById('preview-title').textContent = Translation.t('config.preview');
       document.getElementById('note-max').textContent = Translation.t('config.noteMax');
+
+      // Mise à jour des balises OG / Twitter selon la langue
+      const ogTitle = document.getElementById('og-title');
+      const ogDesc = document.getElementById('og-description');
+      const ogLocale = document.getElementById('og-locale');
+      const twitterTitle = document.getElementById('twitter-title');
+      const twitterDesc = document.getElementById('twitter-description');
+      if (ogTitle) ogTitle.setAttribute('content', Translation.t('config.metaTitle'));
+      if (ogDesc) ogDesc.setAttribute('content', Translation.t('config.metaDescription'));
+      if (ogLocale) ogLocale.setAttribute('content', userLang === 'fr' ? 'fr_FR' : 'en_US');
+      if (twitterTitle) twitterTitle.setAttribute('content', Translation.t('config.metaTitle'));
+      if (twitterDesc) twitterDesc.setAttribute('content', Translation.t('config.metaDescription'));
     });
   </script>
 </body>

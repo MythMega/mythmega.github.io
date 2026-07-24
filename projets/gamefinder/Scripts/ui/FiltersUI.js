@@ -67,6 +67,15 @@ class FiltersUI {
     container.innerHTML = this._buildHTML();
     this._bindEvents();
     this._activateReveal();
+
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: 'Gamefinder 2.0 — Roulette',
+        description: 'Lance la roulette et découvre un jeu aléatoire selon tes critères.',
+        url: 'https://mythmega.github.io/app.html?state=filters',
+      });
+    }
   }
 
   // ─────────────────────────────────────────────────────────────────

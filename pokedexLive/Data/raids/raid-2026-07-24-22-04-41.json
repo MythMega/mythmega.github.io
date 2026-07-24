@@ -1,0 +1,196 @@
+{
+  "bossName": "Karacl\u00E9e",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sawk_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sawk_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 55000,
+  "date": "2026-07-24 22:04:41",
+  "durationSec": 1357,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 41250,
+      "countAtk": 3,
+      "baseDmg": 33796,
+      "level": 19,
+      "raidCount": 970,
+      "luck": 0.40685287
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 13750,
+      "countAtk": 1,
+      "baseDmg": 15189,
+      "level": 18,
+      "raidCount": 492,
+      "luck": 0.9052604
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 9867,
+      "countAtk": 1,
+      "baseDmg": 9867,
+      "level": 17,
+      "raidCount": 372,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "bad_guy_ryry",
+      "damage": 403,
+      "countAtk": 1,
+      "baseDmg": 403,
+      "level": 8,
+      "raidCount": 7,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 65270
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "bad_guy_ryry",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-24 22:04:58",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 9867,
+      "pvAfter": 45133,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-24 22:12:25",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 31383,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-24 22:15:53",
+      "pseudo": "bad_guy_ryry",
+      "platform": "twitch",
+      "damages": 403,
+      "pvAfter": 30980,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-24 22:17:43",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 17230,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-24 22:19:58",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 3480,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-24 22:27:19",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

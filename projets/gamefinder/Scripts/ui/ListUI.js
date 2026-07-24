@@ -57,6 +57,15 @@ class ListUI {
     this._bindPagination(container, type, page, result.hasNext);
     this._bindSearch(container, type, page, items);
     this._activateReveal();
+
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: `${meta.label} — Gamefinder 2.0`,
+        description: `Parcours la liste des ${meta.label.toLowerCase()}.`,
+        url: `https://mythmega.github.io/app.html?list=${type}&page=${page}`,
+      });
+    }
   }
 
   _bindItemClicks(container, type) {

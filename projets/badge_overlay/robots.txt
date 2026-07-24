@@ -1,0 +1,6 @@
+# robots.txt for Badge Overlay
+User-agent: *
+Allow: /
+Disallow: /badge_overlay.html
+
+Sitemap: https://mythmega.github.io/projets/badge_overlay/sitemap.xml

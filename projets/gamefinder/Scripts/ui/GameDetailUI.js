@@ -163,6 +163,18 @@ class GameDetailUI {
       });
     });
 
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: `${game.name} — Gamefinder 2.0`,
+        description: game.summary
+          ? game.summary.slice(0, 160).replace(/<[^>]*>/g, '')
+          : `Découvre ${game.name} sur Gamefinder 2.0.`,
+        image: game.cover_url || 'https://mythmega.github.io/assets/roulette.png',
+        url: `https://mythmega.github.io/app.html?game=${game.id}`,
+      });
+    }
+
     this._activateReveal();
     if (game.screenshots.length) this._bindLightbox(container, game.screenshots);
 

@@ -72,6 +72,16 @@ class DeveloperDetailUI {
       });
     });
 
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: `${dev.name} — Gamefinder 2.0`,
+        description: `Découvre les jeux développés par ${dev.name}.`,
+        image: dev.logo_url || 'https://mythmega.github.io/assets/roulette.png',
+        url: `https://mythmega.github.io/app.html?developer=${dev.id}`,
+      });
+    }
+
     this._activateReveal();
   }
 

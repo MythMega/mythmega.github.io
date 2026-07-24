@@ -3,8 +3,61 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Overlay Configurator</title>
+
+  <!-- SEO Meta -->
+  <title>Badge Overlay – Générateur d'overlay OBS pour badges Pokémon</title>
+  <meta name="description" content="Créez un overlay OBS personnalisé pour afficher vos badges Pokémon en stream. Compatible avec tous les jeux de la licence Pokémon. Générateur gratuit et facile à utiliser." />
+  <meta name="keywords" content="overlay OBS, badge Pokémon, stream overlay, Pokémon badge tracker, OBS overlay generator, Pokémon stream, badge overlay, Pokémon jeux" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://mythmega.github.io/projets/badge_overlay/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" id="og-title" content="Badge Overlay – Générateur d'overlay OBS pour badges Pokémon" />
+  <meta property="og:description" id="og-description" content="Créez un overlay OBS personnalisé pour afficher vos badges Pokémon en stream. Compatible avec tous les jeux de la licence Pokémon." />
+  <meta property="og:url" content="https://mythmega.github.io/projets/badge_overlay/" />
+  <meta property="og:locale" id="og-locale" content="fr_FR" />
+  <meta property="og:site_name" content="Badge Overlay" />
+  <meta property="og:image" content="https://mythmega.github.io/projets/badge_overlay/assets/bg_preview.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" id="twitter-title" content="Badge Overlay – Générateur d'overlay OBS pour badges Pokémon" />
+  <meta name="twitter:description" id="twitter-description" content="Créez un overlay OBS personnalisé pour afficher vos badges Pokémon en stream." />
+
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="fr" href="https://mythmega.github.io/projets/badge_overlay/index.html" />
+  <link rel="alternate" hreflang="en" href="https://mythmega.github.io/projets/badge_overlay/index.html?lang=en" />
+  <link rel="alternate" hreflang="x-default" href="https://mythmega.github.io/projets/badge_overlay/index.html" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏅%3C/text%3E%3C/svg%3E" />
+
+  <!-- Styles -->
   <link rel="stylesheet" href="styles/styles.css" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Badge Overlay",
+    "description": "Générateur d'overlay OBS pour afficher les badges Pokémon en stream. Compatible avec tous les jeux de la licence Pokémon.",
+    "url": "https://mythmega.github.io/projets/badge_overlay/",
+    "applicationCategory": "Multimedia",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "MythMega"
+    }
+  }
+  </script>
 </head>
 <body>
   <main class="container">
@@ -23,6 +76,18 @@
       document.getElementById('title').textContent = Translation.t('index.title');
       document.getElementById('intro').textContent = Translation.t('index.intro');
       document.getElementById('open-config').textContent = Translation.t('index.openConfigurator');
+
+      // Mise à jour des balises OG / Twitter selon la langue
+      const ogTitle = document.getElementById('og-title');
+      const ogDesc = document.getElementById('og-description');
+      const ogLocale = document.getElementById('og-locale');
+      const twitterTitle = document.getElementById('twitter-title');
+      const twitterDesc = document.getElementById('twitter-description');
+      if (ogTitle) ogTitle.setAttribute('content', Translation.t('index.title'));
+      if (ogDesc) ogDesc.setAttribute('content', Translation.t('index.metaDescription'));
+      if (ogLocale) ogLocale.setAttribute('content', userLang === 'fr' ? 'fr_FR' : 'en_US');
+      if (twitterTitle) twitterTitle.setAttribute('content', Translation.t('index.title'));
+      if (twitterDesc) twitterDesc.setAttribute('content', Translation.t('index.metaDescription'));
     });
   </script>
 </body>

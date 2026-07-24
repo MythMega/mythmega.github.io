@@ -39,6 +39,15 @@ class HomeUI {
       console.log('[HomeUI] CTA Roulette cliqué');
       this.router.navigate('app.html?state=filters');
     });
+
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: 'Gamefinder 2.0 — Accueil',
+        description: 'Trouve ton prochain jeu vidéo grâce à notre roulette de sélection intelligente.',
+        url: 'https://mythmega.github.io/app.html',
+      });
+    }
   }
 }
 

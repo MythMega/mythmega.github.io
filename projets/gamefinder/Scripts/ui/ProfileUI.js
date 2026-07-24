@@ -96,6 +96,15 @@ class ProfileUI {
     });
 
     this._activateReveal();
+
+    // Meta tags dynamiques
+    if (window._metaManager) {
+      window._metaManager.set({
+        title: `${username} — Gamefinder 2.0`,
+        description: `Profil de ${username} sur Gamefinder 2.0 — Niveau ${level}.`,
+        url: 'https://mythmega.github.io/app.html?state=profile',
+      });
+    }
   }
 
   // ─────────────────────────────────────────────────────────────────

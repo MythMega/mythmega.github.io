@@ -1,13 +1,15 @@
 /* ---------- Helpers ---------- */
 function getQueryParams(){
   const params = new URLSearchParams(location.search);
+  const rawRefresh = parseInt(params.get('refresh'), 10);
   return {
     sheet: params.get('sheet') || '',
     layout_count: Math.max(1, Math.min(5, parseInt(params.get('layout_count')||'1',10) || 1)),
     orientation: (params.get('orientation')||'h').toLowerCase(),
     egg: (params.get('egg') || 'true').toLowerCase() !== 'false',
     pokebackground: (params.get('pokebackground') || 'true').toLowerCase() !== 'false',
-    profilepic: (params.get('profilepic') || 'true').toLowerCase() !== 'false'
+    profilepic: (params.get('profilepic') || 'true').toLowerCase() !== 'false',
+    refresh: (!isNaN(rawRefresh) && rawRefresh >= 2) ? rawRefresh : 15
   };
 }
 
@@ -177,7 +179,8 @@ function computeElementSizes(){
       return {
         ...p,
         _nfr: normalizeName(p.Name_FR || ''),
-        _nen: normalizeName(p.Name_EN || '')
+        _nen: normalizeName(p.Name_EN || ''),
+        _nalt: (p.Alt_Name || []).map(normalizeName)
       };
     });
   }catch(e){
@@ -193,7 +196,7 @@ function computeElementSizes(){
   function findSpriteFor(name, shiny){
     if(!name) return null;
     const n = normalizeName(name);
-    const found = pokedata.find(p => p._nfr === n || p._nen === n);
+    const found = pokedata.find(p => p._nfr === n || p._nen === n || p._nalt.includes(n));
     if(!found) return null;
     return shiny ? (found.Sprite_Shiny || found.Sprite_Normal) : (found.Sprite_Normal || found.Sprite_Shiny);
   }
@@ -395,6 +398,6 @@ function computeElementSizes(){
 
   // initial + periodic
   await fetchAndUpdate();
-  setInterval(fetchAndUpdate, 15000);
+  setInterval(fetchAndUpdate, params.refresh * 1000);
 
 })();

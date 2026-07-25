@@ -5,6 +5,7 @@
   const eggToggle = document.getElementById('eggToggle');
   const pokebgToggle = document.getElementById('pokebgToggle');
   const profilepicToggle = document.getElementById('profilepicToggle');
+  const refreshTimeInput = document.getElementById('refreshTime');
   const btn = document.getElementById('generate');
   const result = document.getElementById('result');
   const patternBtn = document.getElementById('patternBtn');
@@ -19,6 +20,11 @@
       if(pokebg !== null) pokebgToggle.checked = (pokebg.toLowerCase() !== 'false');
       const profilepic = params.get('profilepic');
       if(profilepic !== null) profilepicToggle.checked = (profilepic.toLowerCase() !== 'false');
+      const refresh = params.get('refresh');
+      if(refresh !== null){
+        const val = parseInt(refresh, 10);
+        if(!isNaN(val) && val >= 2) refreshTimeInput.value = val;
+      }
     }catch(e){
       // ignore
     }
@@ -53,7 +59,7 @@
   }
 
   function showSuccess(overlayUrl){
-    result.style.display = 'block';
+    result.style.display = 'none';
     result.style.border = '1px solid rgba(255,255,255,0.04)';
     result.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005))';
     result.innerHTML = `<strong style="color:#eaf6ff">Overlay link:</strong> <a href="${overlayUrl}" target="_blank" style="color:var(--accent-2);font-weight:700;text-decoration:none">${overlayUrl}</a>`;
@@ -101,7 +107,8 @@
     const egg = eggToggle.checked ? 'true' : 'false';
     const pokebackground = pokebgToggle.checked ? 'true' : 'false';
     const profilepic = profilepicToggle.checked ? 'true' : 'false';
-    const overlayUrl = `./overlay.html?sheet=${encodeParam(sheet)}&layout_count=${count}&orientation=${orientation}&egg=${egg}&pokebackground=${pokebackground}&profilepic=${profilepic}`;
+    const refresh = Math.max(2, parseInt(refreshTimeInput.value, 10) || 15);
+    const overlayUrl = `./overlay.html?sheet=${encodeParam(sheet)}&layout_count=${count}&orientation=${orientation}&egg=${egg}&pokebackground=${pokebackground}&profilepic=${profilepic}&refresh=${refresh}`;
     showSuccess(overlayUrl);
     window.open(overlayUrl, '_blank');
   });

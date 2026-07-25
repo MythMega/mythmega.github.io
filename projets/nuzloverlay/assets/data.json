@@ -194,6 +194,9 @@
   {
     "Name_EN": "Nidoran♀",
     "Name_FR": "Nidoran♀",
+    "Alt_Name": [
+      "Nidoran-f", "Nidoran f", "Nidoran femelle", "Nidoran female", "Nidoran (f)"
+    ],
     "Sprite_Normal": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidoran♀_normal.gif",
     "Sprite_Shiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidoran♀_shiny.gif"
   },
@@ -212,6 +215,9 @@
   {
     "Name_EN": "Nidoran♂",
     "Name_FR": "Nidoran♂",
+    "Alt_Name": [
+      "Nidoran-m", "Nidoran m", "Nidoran mâle", "Nidoran male", "Nidoran (m)"
+    ],
     "Sprite_Normal": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidoran♂_normal.gif",
     "Sprite_Shiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nidoran♂_shiny.gif"
   },

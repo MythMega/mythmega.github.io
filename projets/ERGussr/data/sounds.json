@@ -1,0 +1,22 @@
+[
+    {
+        "Type": "End_Sound",
+        "Treshold": {
+            "Type": "Maximum",
+            "Value": 35
+        },
+        "Location": "./Assets/Audio/End_Sound/sawan_1.mp3",
+        "Weight": 1,
+        "Lang": "Fr"
+    },
+    {
+        "Type": "End_Sound",
+        "Treshold": {
+            "Type": "Minimum",
+            "Value": 40
+        },
+        "Location": "./Assets/Audio/End_Sound/sawan_2.mp3",
+        "Weight": 1,
+        "Lang": "Fr"
+    }
+]

@@ -7,6 +7,7 @@
   const eggToggle = document.getElementById('eggToggle');
   const pokebgToggle = document.getElementById('pokebgToggle');
   const profilepicToggle = document.getElementById('profilepicToggle');
+  const deadDisplayInput = document.getElementById('deadDisplay');
   const refreshTimeInput = document.getElementById('refreshTime');
   const previewIframe = document.getElementById('previewIframe');
   const copyBtn = document.getElementById('copyUrlBtn');
@@ -23,8 +24,9 @@
     const egg = eggToggle.checked ? 'true' : 'false';
     const pokebackground = pokebgToggle.checked ? 'true' : 'false';
     const profilepic = profilepicToggle.checked ? 'true' : 'false';
+    const deaddisplay = deadDisplayInput.value || 'shadesofgray';
     const refresh = Math.max(2, parseInt(refreshTimeInput.value, 10) || 15);
-    return `./overlay.html?sheet=${encodeParam(sheet)}&layout_count=${count}&orientation=${orientation}&egg=${egg}&pokebackground=${pokebackground}&profilepic=${profilepic}&refresh=${refresh}`;
+    return `./overlay.html?sheet=${encodeParam(sheet)}&layout_count=${count}&orientation=${orientation}&egg=${egg}&pokebackground=${pokebackground}&profilepic=${profilepic}&deaddisplay=${deaddisplay}&refresh=${refresh}`;
   }
 
   function updatePreview(){
@@ -62,6 +64,7 @@
     eggToggle,
     pokebgToggle,
     profilepicToggle,
+    deadDisplayInput,
     refreshTimeInput
   ].filter(Boolean);
 

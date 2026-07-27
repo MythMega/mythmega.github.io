@@ -299,30 +299,14 @@
   content: "";
   position: fixed;
   bottom: 0%;
-  right: 10%;
-  transform: translateX(-50%);
-  width: 260px;
-  height: 260px;
+  right: 0%;
+  transform: translateX(-50%), translateY(50%);
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #fff7c2 0, #ffd27a 35%, #f26b3f 70%, #c53b2f 100%);
   box-shadow: 0 0 60px rgba(255,210,122,0.9), 0 0 160px rgba(242,107,63,0.6);
   z-index: -3;
-}
-
-/* Brume */
-.crepuscule .n11 {
-  content: "";
-  position: fixed;
-  left: -20;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.12) 0, transparent 55%),
-    radial-gradient(circle at 70% 20%, rgba(255,255,255,0.08) 0, transparent 60%),
-    radial-gradient(circle at 40% 60%, rgba(255,255,255,0.1) 0, transparent 65%);
-  mix-blend-mode: screen;
-  opacity: 0.9;
-  min-width: 100vw;
-  min-height: 100vh;
-  z-index: -4;
 }
 
 /* Nuages via .deco */

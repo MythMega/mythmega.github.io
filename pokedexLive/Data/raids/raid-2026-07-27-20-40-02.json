@@ -1,0 +1,207 @@
+{
+  "bossName": "Tropius",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tropius_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tropius_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-07-27 20:40:02",
+  "durationSec": 5648,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 25000,
+      "countAtk": 3,
+      "baseDmg": 33962,
+      "level": 19,
+      "raidCount": 979,
+      "luck": 0.24537227
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 12500,
+      "countAtk": 1,
+      "baseDmg": 15184,
+      "level": 18,
+      "raidCount": 494,
+      "luck": 0.823235
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 10043,
+      "countAtk": 1,
+      "baseDmg": 10043,
+      "level": 17,
+      "raidCount": 378,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 8655,
+      "countAtk": 2,
+      "baseDmg": 2107,
+      "level": 12,
+      "raidCount": 133,
+      "luck": 2.053868
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 56198
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 1,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-27 20:47:48",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10043,
+      "pvAfter": 39957,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-27 21:38:37",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 2107,
+      "pvAfter": 37850,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-27 21:47:18",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 25350,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-07-27 21:48:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 12850,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-07-27 21:59:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 12850,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-27 22:11:17",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 6548,
+      "pvAfter": 6302,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-27 22:14:11",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    }
+  ]
+}

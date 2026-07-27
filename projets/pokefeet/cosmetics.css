@@ -176,11 +176,11 @@
 }
 
 /* Lune */
-.nuit-etoilee::before {
+.nuit-etoilee .n11 {
   content: "";
   position: fixed;
-  top: 10%;
-  right: 15%;
+  top: 20%;
+  right: 10%;
   width: 220px;
   height: 220px;
   border-radius: 50%;
@@ -226,6 +226,61 @@
   to { transform: translateX(140vw); }
 }
 
+.nuit-etoilee .deco-secondary.n12 {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  /* un petit groupe d'étoiles */
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+
+  z-index: -3;
+
+  box-shadow:
+    50vw 20vh 2px 2px white,
+    10vw 70vh 2px 2px rgba(255,255,255,0.8),
+    80vw 40vh 2px 2px rgba(255,255,255,0.9),
+    30vw 10vh 2px 2px rgba(255,255,255,0.7),
+    60vw 80vh 2px 2px rgba(255,255,255,0.85),
+    /* étoiles blanches */
+    10vw 20vh 2px 2px rgba(255,255,255,0.9),
+    25vw 35vh 2px 2px rgba(255,255,255,0.8),
+    40vw 10vh 2px 2px rgba(255,255,255,1),
+    55vw 50vh 2px 2px rgba(255,255,255,0.85),
+    70vw 25vh 2px 2px rgba(255,255,255,0.9),
+    85vw 40vh 2px 2px rgba(255,255,255,0.75),
+    15vw 70vh 2px 2px rgba(255,255,255,0.8),
+    30vw 80vh 2px 2px rgba(255,255,255,0.95),
+    45vw 60vh 2px 2px rgba(255,255,255,0.7),
+    60vw 75vh 2px 2px rgba(255,255,255,0.9),
+    75vw 15vh 2px 2px rgba(255,255,255,0.85),
+    90vw 55vh 2px 2px rgba(255,255,255,0.8),
+    20vw 45vh 2px 2px rgba(255,255,255,0.9),
+    35vw 25vh 2px 2px rgba(255,255,255,0.7),
+    50vw 80vh 2px 2px rgba(255,255,255,0.9),
+    65vw 5vh  2px 2px rgba(255,255,255,0.8),
+
+    /* étoiles vert clair */
+    50vw 70vh 2px 2px #01ce2e;
+
+  animation: scintille 2.5s infinite ease-in-out alternate;
+}
+
+@keyframes scintille {
+  from {
+    opacity: 0.4;
+    filter: brightness(0.6);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1.4);
+  }
+}
+
+
 .crepuscule {
   margin: 0;
   min-height: 100vh;
@@ -240,11 +295,11 @@
 }
 
 /* Soleil */
-.crepuscule::before {
+.crepuscule .n12 {
   content: "";
   position: fixed;
-  bottom: 15%;
-  left: 50%;
+  bottom: 0%;
+  right: 10%;
   transform: translateX(-50%);
   width: 260px;
   height: 260px;
@@ -255,16 +310,18 @@
 }
 
 /* Brume */
-.crepuscule::after {
+.crepuscule .n11 {
   content: "";
   position: fixed;
-  inset: 0;
+  left: -20;
   background:
     radial-gradient(circle at 20% 30%, rgba(255,255,255,0.12) 0, transparent 55%),
     radial-gradient(circle at 70% 20%, rgba(255,255,255,0.08) 0, transparent 60%),
     radial-gradient(circle at 40% 60%, rgba(255,255,255,0.1) 0, transparent 65%);
   mix-blend-mode: screen;
   opacity: 0.9;
+  min-width: 100vw;
+  min-height: 100vh;
   z-index: -4;
 }
 

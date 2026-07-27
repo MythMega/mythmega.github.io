@@ -29,7 +29,7 @@
 *                                { scrollbar-width:thin; scrollbar-color:rgba(255,255,255,0.12) transparent; }
 
 /* --- HTML & body --- */
-html, body, #app { min-height:100vh; margin:0; }
+html, body { min-height:100vh; margin:0; }
 
 html {
   overflow-x: hidden;
@@ -72,8 +72,8 @@ body {
   background: transparent;
   color: var(--text);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
   padding: 5px;
   position: relative;
 }
@@ -82,12 +82,13 @@ body {
   position: relative;
   z-index: 1;
   animation: pageFadeIn 0.55s ease-out both;
+  flex: 1 0 auto;
 }
 
 main {
   max-width: 980px;
   width: 100%;
-  margin: 0;
+  margin: 0 auto;
   padding: 16px;
 }
 

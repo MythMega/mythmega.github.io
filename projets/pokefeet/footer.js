@@ -11,9 +11,9 @@
 
   const footer = document.createElement('footer');
   footer.style.cssText = [
-    'position:fixed', 'bottom:0', 'left:0', 'right:0',
+    'position:static',
     'text-align:center', 'padding:8px 16px', 'font-size:12px',
-    'color:var(--muted)', 'z-index:10'
+    'color:var(--muted)', 'margin-top:auto'
   ].join(';');
 
   footer.innerHTML =

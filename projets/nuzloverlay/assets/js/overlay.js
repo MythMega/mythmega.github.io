@@ -9,6 +9,7 @@ function getQueryParams(){
     egg: (params.get('egg') || 'true').toLowerCase() !== 'false',
     pokebackground: (params.get('pokebackground') || 'true').toLowerCase() !== 'false',
     profilepic: (params.get('profilepic') || 'true').toLowerCase() !== 'false',
+    deaddisplay: (params.get('deaddisplay') || 'shadesofgray').toLowerCase(),
     refresh: (!isNaN(rawRefresh) && rawRefresh >= 2) ? rawRefresh : 15
   };
 }
@@ -254,8 +255,12 @@ function computeElementSizes(){
           }
           pokeImg.dataset.role = `poke-${i}-${p}`;
           pokeImgWrap.appendChild(pokeImg);
+          const deadOverlay = document.createElement('div');
+          deadOverlay.className = 'dead-overlay';
+          deadOverlay.dataset.role = `dead-${i}-${p}`;
           pokeWrap.appendChild(pokebg);
           pokeWrap.appendChild(pokeImgWrap);
+          pokeWrap.appendChild(deadOverlay);
           pokesEl.appendChild(pokeWrap);
         }
         col.appendChild(avatarWrap);
@@ -304,8 +309,12 @@ function computeElementSizes(){
           }
           pokeImg.dataset.role = `poke-${i}-${p}`;
           pokeImgWrap.appendChild(pokeImg);
+          const deadOverlay = document.createElement('div');
+          deadOverlay.className = 'dead-overlay';
+          deadOverlay.dataset.role = `dead-${i}-${p}`;
           pokeWrap.appendChild(pokebg);
           pokeWrap.appendChild(pokeImgWrap);
+          pokeWrap.appendChild(deadOverlay);
           pokesEl.appendChild(pokeWrap);
         }
         row.appendChild(left);
@@ -331,7 +340,7 @@ function computeElementSizes(){
     document.querySelectorAll('.name, .avatar').forEach(el => el.style.display = 'none');
   }
 
-  // Fetch CSV and update DOM (initial + every 15s)
+  // Fetch CSV and update DOM (initial + periodic)
   async function fetchAndUpdate(){
     if(!sheetUrl){
       console.warn('Aucun sheet fourni');
@@ -350,6 +359,18 @@ function computeElementSizes(){
     const rows = csvText ? parseCSV(csvText) : [];
     // IMPORTANT: ignore header row (ligne 1). Player 1 = ligne 2 du CSV.
     const dataRows = rows.length > 0 ? rows.slice(1) : [];
+
+    // Read dead status from row 9 (index 8 in 0-based) - columns: C9=2, E9=4, G9=6, I9=8, K9=10, M9=12
+    const deadRow = rows[8] || [];
+    let deadCols = deadRow;
+    if(deadRow.length === 1 && deadRow[0].includes(',')){
+      deadCols = deadRow[0].split(',').map(s=>s.trim());
+    }
+    const deadColIndices = [2, 4, 6, 8, 10, 12];
+    const deadFlags = deadColIndices.map(idx => {
+      const val = (deadCols[idx] || '').toLowerCase();
+      return val === 'true';
+    });
 
     for(let i=0;i<params.layout_count;i++){
       const row = dataRows[i] || [];
@@ -391,6 +412,48 @@ function computeElementSizes(){
           } else {
             setEmptyPokeImage(pokeImg);
           }
+        }
+
+        // Apply dead display overlay
+        const deadOverlay = document.querySelector(`[data-role="dead-${i}-${p}"]`);
+        if(!deadOverlay) continue;
+
+        const isDead = deadFlags[p];
+        const hasPokemon = !!pokeName;
+
+        // Reset overlay
+        deadOverlay.className = 'dead-overlay';
+        deadOverlay.innerHTML = '';
+        deadOverlay.style.display = 'none';
+
+        if(isDead && hasPokemon){
+          const deaddisplay = params.deaddisplay;
+          if(deaddisplay === 'redcross'){
+            deadOverlay.style.display = 'block';
+            const img = document.createElement('img');
+            img.src = './assets/img/app/cross.png';
+            img.alt = 'Dead';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'contain';
+            deadOverlay.appendChild(img);
+          } else if(deaddisplay === 'ko'){
+            deadOverlay.style.display = 'block';
+            const img = document.createElement('img');
+            img.src = './assets/img/app/ko.png';
+            img.alt = 'K.O.';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'contain';
+            deadOverlay.appendChild(img);
+          } else {
+            // shadesofgray: apply grayscale filter to the poke image
+            deadOverlay.style.display = 'none';
+            pokeImg.style.filter = 'grayscale(100%)';
+          }
+        } else {
+          // Not dead or no pokemon: remove grayscale filter
+          pokeImg.style.filter = '';
         }
       }
     }

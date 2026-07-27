@@ -5,6 +5,7 @@
   const eggToggle = document.getElementById('eggToggle');
   const pokebgToggle = document.getElementById('pokebgToggle');
   const profilepicToggle = document.getElementById('profilepicToggle');
+  const deadDisplayInput = document.getElementById('deadDisplay');
   const refreshTimeInput = document.getElementById('refreshTime');
   const btn = document.getElementById('generate');
   const result = document.getElementById('result');
@@ -20,6 +21,10 @@
       if(pokebg !== null) pokebgToggle.checked = (pokebg.toLowerCase() !== 'false');
       const profilepic = params.get('profilepic');
       if(profilepic !== null) profilepicToggle.checked = (profilepic.toLowerCase() !== 'false');
+      const deaddisplay = params.get('deaddisplay');
+      if(deaddisplay !== null && ['shadesofgray','redcross','ko'].includes(deaddisplay.toLowerCase())){
+        deadDisplayInput.value = deaddisplay.toLowerCase();
+      }
       const refresh = params.get('refresh');
       if(refresh !== null){
         const val = parseInt(refresh, 10);
@@ -107,8 +112,9 @@
     const egg = eggToggle.checked ? 'true' : 'false';
     const pokebackground = pokebgToggle.checked ? 'true' : 'false';
     const profilepic = profilepicToggle.checked ? 'true' : 'false';
+    const deaddisplay = deadDisplayInput.value || 'shadesofgray';
     const refresh = Math.max(2, parseInt(refreshTimeInput.value, 10) || 15);
-    const overlayUrl = `./overlay.html?sheet=${encodeParam(sheet)}&layout_count=${count}&orientation=${orientation}&egg=${egg}&pokebackground=${pokebackground}&profilepic=${profilepic}&refresh=${refresh}`;
+    const overlayUrl = `./overlay.html?sheet=${encodeParam(sheet)}&layout_count=${count}&orientation=${orientation}&egg=${egg}&pokebackground=${pokebackground}&profilepic=${profilepic}&deaddisplay=${deaddisplay}&refresh=${refresh}`;
     showSuccess(overlayUrl);
     window.open(overlayUrl, '_blank');
   });

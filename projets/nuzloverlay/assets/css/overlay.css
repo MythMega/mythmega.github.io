@@ -32,6 +32,11 @@
     position:relative;z-index:2;width:86%;height:86%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent;
   }
   .poke-img img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;display:block}
+  .dead-overlay{
+    position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;
+    display:none;pointer-events:none;
+  }
+  .dead-overlay img{width:100%;height:100%;object-fit:contain;display:block}
   @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
   /* orientation classes on root */

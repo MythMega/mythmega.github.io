@@ -1,0 +1,195 @@
+{
+  "bossName": "Charkos",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rampardos_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rampardos_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 150000,
+  "date": "2026-07-29 20:30:37",
+  "durationSec": 4472,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 147102,
+      "countAtk": 4,
+      "baseDmg": 34602,
+      "level": 19,
+      "raidCount": 986,
+      "luck": 1.0628142
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 2499,
+      "countAtk": 2,
+      "baseDmg": 825,
+      "level": 9,
+      "raidCount": 21,
+      "luck": 1.5145454
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 625,
+      "countAtk": 2,
+      "baseDmg": 255,
+      "level": 2,
+      "raidCount": 2,
+      "luck": 1.2254902
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 147727
+    },
+    {
+      "platform": "youtube",
+      "damage": 2499
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-29 20:51:06",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 255,
+      "pvAfter": 149745,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-07-29 21:16:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 34602,
+      "pvAfter": 115143,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 21:16:34",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 370,
+      "pvAfter": 114773,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 4 tours."
+    },
+    {
+      "at": "2026-07-29 21:17:21",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 825,
+      "pvAfter": 113948,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 21:29:57",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1674,
+      "pvAfter": 112274,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 21:32:30",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 74774,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 21:39:36",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 37274,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 21:45:09",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    }
+  ]
+}

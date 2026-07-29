@@ -1,0 +1,266 @@
+{
+  "bossName": "Bastiodon",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bastiodon_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bastiodon_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 210000,
+  "date": "2026-07-29 23:30:37",
+  "durationSec": 3576,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 185532,
+      "countAtk": 4,
+      "baseDmg": 34262,
+      "level": 19,
+      "raidCount": 990,
+      "luck": 1.3537738
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 51910,
+      "countAtk": 3,
+      "baseDmg": 10340,
+      "level": 17,
+      "raidCount": 387,
+      "luck": 1.6734365
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 3948,
+      "countAtk": 2,
+      "baseDmg": 1256,
+      "level": 10,
+      "raidCount": 87,
+      "luck": 1.5716561
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 1780,
+      "countAtk": 3,
+      "baseDmg": 247,
+      "level": 2,
+      "raidCount": 4,
+      "luck": 2.4021592
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 3948
+    },
+    {
+      "platform": "twitch",
+      "damage": 239222
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-29 23:35:40",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1256,
+      "pvAfter": 208744,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 23:37:37",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10340,
+      "pvAfter": 198404,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 23:43:37",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 247,
+      "pvAfter": 198157,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-07-29 23:44:38",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 20840,
+      "pvAfter": 177317,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 23:47:46",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 895,
+      "pvAfter": 176422,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-07-29 23:48:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 34262,
+      "pvAfter": 142160,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 23:50:07",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2692,
+      "pvAfter": 139468,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-29 23:50:35",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 638,
+      "pvAfter": 138830,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus confus !"
+    },
+    {
+      "at": "2026-07-30 00:14:57",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 52500,
+      "pvAfter": 86330,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 00:26:28",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 52500,
+      "pvAfter": 33830,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 00:28:59",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 20730,
+      "pvAfter": 13100,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 00:30:13",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 46270,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

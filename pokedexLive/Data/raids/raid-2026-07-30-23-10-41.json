@@ -1,0 +1,240 @@
+{
+  "bossName": "Aflamanoir",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Heatmor_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Heatmor_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 60000,
+  "date": "2026-07-30 23:10:41",
+  "durationSec": 1603,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 35303,
+      "countAtk": 4,
+      "baseDmg": 10329,
+      "level": 17,
+      "raidCount": 389,
+      "luck": 0.85446316
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 15000,
+      "countAtk": 4,
+      "baseDmg": 35027,
+      "level": 19,
+      "raidCount": 994,
+      "luck": 0.10706027
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 15000,
+      "countAtk": 1,
+      "baseDmg": 15123,
+      "level": 18,
+      "raidCount": 499,
+      "luck": 0.9918667
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 6268,
+      "countAtk": 1,
+      "baseDmg": 6268,
+      "level": 16,
+      "raidCount": 259,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 71571
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 3
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-30 23:11:10",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 45000,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-07-30 23:11:26",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6268,
+      "pvAfter": 38732,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:11:35",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10329,
+      "pvAfter": 28403,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:15:48",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 13403,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-07-30 23:19:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 13403,
+      "heal": false,
+      "critical": true,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 2 tours."
+    },
+    {
+      "at": "2026-07-30 23:22:06",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 4808,
+      "pvAfter": 8595,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu n\u0027as empoisonn\u00E9 personne. Il te reste 2 tours de poison."
+    },
+    {
+      "at": "2026-07-30 23:29:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 8595,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 1 tours."
+    },
+    {
+      "at": "2026-07-30 23:35:25",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 8595,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 0 tours."
+    },
+    {
+      "at": "2026-07-30 23:35:31",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 5166,
+      "pvAfter": 3429,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu n\u0027as empoisonn\u00E9 personne. Il te reste 1 tours de poison."
+    },
+    {
+      "at": "2026-07-30 23:37:25",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

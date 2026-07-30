@@ -1,0 +1,249 @@
+{
+  "bossName": "Vacilys",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cradily_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cradily_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 65000,
+  "date": "2026-07-30 23:40:41",
+  "durationSec": 1310,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 42890,
+      "countAtk": 3,
+      "baseDmg": 10390,
+      "level": 17,
+      "raidCount": 390,
+      "luck": 1.3760026
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 16250,
+      "countAtk": 1,
+      "baseDmg": 34638,
+      "level": 19,
+      "raidCount": 995,
+      "luck": 0.46913794
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 6270,
+      "countAtk": 1,
+      "baseDmg": 6270,
+      "level": 16,
+      "raidCount": 260,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 3968,
+      "countAtk": 2,
+      "baseDmg": 1240,
+      "level": 10,
+      "raidCount": 88,
+      "luck": 1.6
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 879,
+      "countAtk": 1,
+      "baseDmg": 879,
+      "level": 9,
+      "raidCount": 22,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 65410
+    },
+    {
+      "platform": "youtube",
+      "damage": 4847
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-30 23:41:42",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 48750,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:42:15",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10390,
+      "pvAfter": 38360,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:48:23",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1240,
+      "pvAfter": 37120,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:48:43",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 20870,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:49:31",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 879,
+      "pvAfter": 19991,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:54:20",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 3741,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:56:07",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2728,
+      "pvAfter": 1013,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:02:32",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6270,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

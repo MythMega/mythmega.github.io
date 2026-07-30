@@ -1,0 +1,224 @@
+{
+  "bossName": "Larveyette",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sewaddle_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sewaddle_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-07-30 22:24:41",
+  "durationSec": 2556,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 45000,
+      "countAtk": 3,
+      "baseDmg": 34521,
+      "level": 19,
+      "raidCount": 993,
+      "luck": 0.43451813
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 25470,
+      "countAtk": 2,
+      "baseDmg": 10470,
+      "level": 17,
+      "raidCount": 388,
+      "luck": 1.2163324
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 3526,
+      "countAtk": 6,
+      "baseDmg": 303,
+      "level": 3,
+      "raidCount": 7,
+      "luck": 1.939494
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 73996
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-30 22:25:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 45000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:33:05",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 303,
+      "pvAfter": 44697,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:47:01",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 794,
+      "pvAfter": 43903,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:50:24",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 440,
+      "pvAfter": 43463,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:52:56",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 475,
+      "pvAfter": 42988,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:53:47",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 27988,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:58:51",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10470,
+      "pvAfter": 17518,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:59:04",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 740,
+      "pvAfter": 16778,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:00:11",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 1778,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:07:09",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 774,
+      "pvAfter": 1004,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 23:07:17",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    }
+  ]
+}

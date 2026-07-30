@@ -1,0 +1,142 @@
+{
+  "bossName": "Mystherbe",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Oddish_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Oddish_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-07-30 20:51:10",
+  "durationSec": 5406,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 60000,
+      "countAtk": 4,
+      "baseDmg": 34742,
+      "level": 19,
+      "raidCount": 992,
+      "luck": 0.43175408
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 1025,
+      "countAtk": 2,
+      "baseDmg": 327,
+      "level": 3,
+      "raidCount": 6,
+      "luck": 1.5672783
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 61025
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-30 20:56:45",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 327,
+      "pvAfter": 59673,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 21:07:03",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 44673,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 21:34:06",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 698,
+      "pvAfter": 43975,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 21:47:51",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 28975,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:14:45",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 13975,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-30 22:21:17",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    }
+  ]
+}

@@ -1,0 +1,371 @@
+{
+  "bossName": "Kicklee",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmonlee_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmonlee_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 140000,
+  "date": "2026-07-31 00:05:41",
+  "durationSec": 62,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 134001,
+      "countAtk": 22,
+      "baseDmg": 6176,
+      "level": 16,
+      "raidCount": 261,
+      "luck": 0.9862297
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 10500,
+      "countAtk": 1,
+      "baseDmg": 10500,
+      "level": 17,
+      "raidCount": 391,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 1314,
+      "countAtk": 1,
+      "baseDmg": 1314,
+      "level": 10,
+      "raidCount": 89,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 144501
+    },
+    {
+      "platform": "youtube",
+      "damage": 1314
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 8
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-07-31 00:06:15",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10500,
+      "pvAfter": 129500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:22",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6176,
+      "pvAfter": 123324,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:23",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6233,
+      "pvAfter": 117091,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:23",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6253,
+      "pvAfter": 110838,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:24",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6278,
+      "pvAfter": 104560,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:25",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6176,
+      "pvAfter": 98384,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:26",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6260,
+      "pvAfter": 92124,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:26",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6187,
+      "pvAfter": 85937,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-07-31 00:06:27",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6214,
+      "pvAfter": 79723,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:28",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6258,
+      "pvAfter": 73465,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:29",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6199,
+      "pvAfter": 67266,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:31",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6299,
+      "pvAfter": 60967,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus sous vent arri\u00E8re ennemi !"
+    },
+    {
+      "at": "2026-07-31 00:06:32",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6266,
+      "pvAfter": 54701,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:32",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6177,
+      "pvAfter": 48524,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:34",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6199,
+      "pvAfter": 42325,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:34",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9306,
+      "pvAfter": 33019,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:35",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6284,
+      "pvAfter": 26735,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:36",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6257,
+      "pvAfter": 20478,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-07-31 00:06:36",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 3142,
+      "pvAfter": 17336,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:40",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6180,
+      "pvAfter": 11156,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:41",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1314,
+      "pvAfter": 9842,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:42",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 1,
+      "pvAfter": 9841,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-07-31 00:06:43",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6219,
+      "pvAfter": 3622,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus endormis !"
+    },
+    {
+      "at": "2026-07-31 00:06:44",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9437,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

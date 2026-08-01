@@ -1,0 +1,244 @@
+{
+  "bossName": "Rhinolove",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Swoobat_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Swoobat_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 70000,
+  "date": "2026-08-01 21:50:19",
+  "durationSec": 6973,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 70000,
+      "countAtk": 4,
+      "baseDmg": 35030,
+      "level": 19,
+      "raidCount": 999,
+      "luck": 0.4995718
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 1890,
+      "countAtk": 3,
+      "baseDmg": 380,
+      "level": 3,
+      "raidCount": 9,
+      "luck": 1.6578947
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "MythMega VOD",
+      "damage": 1118,
+      "countAtk": 2,
+      "baseDmg": 504,
+      "level": 8,
+      "raidCount": 13,
+      "luck": 1.1091269
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 850,
+      "countAtk": 1,
+      "baseDmg": 850,
+      "level": 9,
+      "raidCount": 24,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 71890
+    },
+    {
+      "platform": "youtube",
+      "damage": 1968
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega VOD",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-01 22:01:18",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 380,
+      "pvAfter": 69620,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 22:04:39",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 850,
+      "pvAfter": 68770,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 22:46:47",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 51270,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 23:16:11",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 33770,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 23:37:27",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 860,
+      "pvAfter": 32910,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 23:41:30",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 650,
+      "pvAfter": 32260,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 23:44:34",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 14760,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 23:46:29",
+      "pseudo": "MythMega VOD",
+      "platform": "youtube",
+      "damages": 504,
+      "pvAfter": 14256,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 23:46:30",
+      "pseudo": "MythMega VOD",
+      "platform": "youtube",
+      "damages": 614,
+      "pvAfter": 13642,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-01 23:46:33",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

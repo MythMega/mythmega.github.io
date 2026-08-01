@@ -1,0 +1,371 @@
+{
+  "bossName": "Corn\u00E8bre",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Murkrow_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Murkrow_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-08-01 23:49:49",
+  "durationSec": 6555,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 74257,
+      "countAtk": 9,
+      "baseDmg": 6381,
+      "level": 16,
+      "raidCount": 264,
+      "luck": 1.2930226
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 3226,
+      "countAtk": 6,
+      "baseDmg": 365,
+      "level": 5,
+      "raidCount": 10,
+      "luck": 1.4730594
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "thierrybrs",
+      "damage": 2408,
+      "countAtk": 3,
+      "baseDmg": 387,
+      "level": 6,
+      "raidCount": 4,
+      "luck": 2.074074
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Sage_Possiblement",
+      "damage": 173,
+      "countAtk": 1,
+      "baseDmg": 173,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 2408
+    },
+    {
+      "platform": "twitch",
+      "damage": 77656
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "thierrybrs",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-02 00:16:50",
+      "pseudo": "thierrybrs",
+      "platform": "youtube",
+      "damages": 387,
+      "pvAfter": 74613,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 00:27:51",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 365,
+      "pvAfter": 74248,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 00:33:39",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 708,
+      "pvAfter": 73540,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-08-02 00:53:12",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 73540,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-02 00:58:19",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6381,
+      "pvAfter": 67159,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 00:58:20",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9727,
+      "pvAfter": 57432,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 00:58:34",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 57432,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-02 00:58:53",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 57432,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "jmdevfr a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-08-02 01:01:53",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 173,
+      "pvAfter": 57259,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 01:05:07",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1215,
+      "pvAfter": 56044,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 01:10:45",
+      "pseudo": "thierrybrs",
+      "platform": "youtube",
+      "damages": 944,
+      "pvAfter": 55100,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-02 01:14:20",
+      "pseudo": "thierrybrs",
+      "platform": "youtube",
+      "damages": 1077,
+      "pvAfter": 54023,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-08-02 01:36:07",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 938,
+      "pvAfter": 53085,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 01:38:58",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 12888,
+      "pvAfter": 40197,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 01:38:58",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6486,
+      "pvAfter": 33711,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 01:38:59",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6424,
+      "pvAfter": 27287,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 01:39:00",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6459,
+      "pvAfter": 20828,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-02 01:39:00",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6480,
+      "pvAfter": 14348,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-02 01:39:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 13014,
+      "pvAfter": 1334,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-08-02 01:39:05",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6398,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus confus !"
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "bossName": "Goinfrex",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Munchlax_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Munchlax_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 50000,
+  "date": "2026-08-03 20:12:28",
+  "durationSec": 797,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 25000,
+      "countAtk": 2,
+      "baseDmg": 34979,
+      "level": 19,
+      "raidCount": 1003,
+      "luck": 0.35735726
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 14046,
+      "countAtk": 2,
+      "baseDmg": 6380,
+      "level": 16,
+      "raidCount": 266,
+      "luck": 1.1007837
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 10639,
+      "countAtk": 1,
+      "baseDmg": 10639,
+      "level": 17,
+      "raidCount": 395,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 3184,
+      "countAtk": 2,
+      "baseDmg": 1326,
+      "level": 10,
+      "raidCount": 95,
+      "luck": 1.2006034
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 981,
+      "countAtk": 2,
+      "baseDmg": 437,
+      "level": 5,
+      "raidCount": 14,
+      "luck": 1.1224257
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 3184
+    },
+    {
+      "platform": "twitch",
+      "damage": 50666
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-03 20:16:24",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1326,
+      "pvAfter": 48674,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-03 20:16:33",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6380,
+      "pvAfter": 42294,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-03 20:16:45",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 437,
+      "pvAfter": 41857,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-03 20:17:13",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10639,
+      "pvAfter": 31218,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-03 20:17:42",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 18718,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-03 20:19:25",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 544,
+      "pvAfter": 18174,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-03 20:19:33",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7666,
+      "pvAfter": 10508,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-03 20:19:49",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1858,
+      "pvAfter": 8650,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-03 20:25:45",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

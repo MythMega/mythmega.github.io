@@ -160,6 +160,82 @@
             border-color: var(--accent-cyan);
             color: var(--accent-cyan);
         }
+
+        /* Requirements section */
+        .requirement-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            height: 100%;
+        }
+        .requirement-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .requirement-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .req-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .btn-copy {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: var(--radius-sm);
+            padding: 0.5rem 1.2rem;
+            transition: border-color var(--transition), color var(--transition);
+            cursor: pointer;
+        }
+        .btn-copy:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+        .btn-copy.copied {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+        .btn-py {
+            background: linear-gradient(135deg, #306998, #FFD43B);
+            border: none;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: var(--radius-sm);
+            padding: 0.5rem 1.4rem;
+            transition: opacity var(--transition), box-shadow var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .btn-py:hover {
+            opacity: 0.85;
+            box-shadow: var(--glow-cyan);
+            color: #fff;
+        }
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.6rem 1rem;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            display: inline-block;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -206,6 +282,32 @@
                         <div class="feature-icon">⚡</div>
                         <h3>Export flexible</h3>
                         <p>Choisissez entre un export direct en MP4 via FFMPEG ou un projet prêt pour votre logiciel de montage.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prérequis -->
+            <div class="section-title">Prérequis</div>
+            <div class="row g-3 mb-5">
+                <div class="col-md-6">
+                    <div class="requirement-card">
+                        <div class="req-icon">🐍</div>
+                        <h3>Python 3.10 ou supérieur</h3>
+                        <p>AutoVODMaker nécessite Python 3.10 ou une version plus récente pour fonctionner correctement.</p>
+                        <a href="https://www.python.org/downloads/" class="btn-py" target="_blank" rel="noopener">
+                            ⬇ Télécharger Python
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="requirement-card">
+                        <div class="req-icon">📦</div>
+                        <h3>auto-editor (via pip)</h3>
+                        <p>Le module Python <code>auto-editor</code> est requis. Installez-le avec la commande suivante :</p>
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <span class="code-block">python -m pip install auto-editor</span>
+                            <button class="btn-copy" onclick="copyCommand(this)" data-cmd="python -m pip install auto-editor">📋 Copier</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -259,5 +361,21 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="nav.js"></script>
+    <script>
+        function copyCommand(btn) {
+            const cmd = btn.getAttribute('data-cmd');
+            navigator.clipboard.writeText(cmd).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = '✓ Copié';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Erreur de copie :', err);
+            });
+        }
+    </script>
 </body>
 </html>

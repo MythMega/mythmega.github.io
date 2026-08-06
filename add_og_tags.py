@@ -4,9 +4,9 @@ import re
 pages = {
     'mc_buildit.html': ('Serveur Build It', 'Serveur Minecraft survie privé whitelisté Build It Saison 5 — Découvrez le serveur survie Minecraft de MythMega.'),
     'mc_hyperlapse.html': ('Hyperlapses', 'Hyperlapses Minecraft des constructions sur le serveur Build It — Vidéos accélérées de builds épiques.'),
-    'mc_javarock.html': ('Serveur JavaRock', 'Serveur Minecraft JavaRock de MythMega — Découvrez les aventures et constructions du serveur JavaRock.'),
-    'mc_javarock_s1.html': ('JavaRock Saison 1', 'Serveur Minecraft JavaRock Saison 1 — Les débuts de l\'aventure JavaRock de MythMega.'),
-    'mc_javarock_s2.html': ('JavaRock Saison 2', 'Serveur Minecraft JavaRock Saison 2 — La suite des aventures Minecraft de MythMega.'),
+    'mc_Javadrock.html': ('Serveur Javadrock', 'Serveur Minecraft Javadrock de MythMega — Découvrez les aventures et constructions du serveur Javadrock.'),
+    'mc_Javadrock_s1.html': ('Javadrock Saison 1', 'Serveur Minecraft Javadrock Saison 1 — Les débuts de l\'aventure Javadrock de MythMega.'),
+    'mc_Javadrock_s2.html': ('Javadrock Saison 2', 'Serveur Minecraft Javadrock Saison 2 — La suite des aventures Minecraft de MythMega.'),
     'peak.html': ('Peak & Records', 'Records et pics de viewers de MythMega sur Twitch — Audience, followage et statistiques.'),
     'planning.html': ('Planning', 'Planning des streams Twitch de MythMega — Retrouvez le programme des lives à venir.'),
     'giveaway.html': ('Giveaway', 'Giveaway et concours de MythMega — Participez pour gagner des récompenses exclusives.'),

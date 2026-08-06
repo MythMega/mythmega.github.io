@@ -1,0 +1,239 @@
+{
+  "bossName": "Groret",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Grumpig_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Grumpig_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 70000,
+  "date": "2026-08-06 22:13:51",
+  "durationSec": 8094,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 63605,
+      "countAtk": 4,
+      "baseDmg": 11105,
+      "level": 17,
+      "raidCount": 406,
+      "luck": 1.4319
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 7668,
+      "countAtk": 7,
+      "baseDmg": 494,
+      "level": 5,
+      "raidCount": 24,
+      "luck": 2.2174668
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 1404,
+      "countAtk": 1,
+      "baseDmg": 1404,
+      "level": 12,
+      "raidCount": 100,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 71273
+    },
+    {
+      "platform": "youtube",
+      "damage": 1404
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-06 22:15:00",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 494,
+      "pvAfter": 69506,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 22:55:18",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1080,
+      "pvAfter": 68426,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 23:01:58",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1100,
+      "pvAfter": 67326,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 23:13:08",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1404,
+      "pvAfter": 65922,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 23:19:35",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1172,
+      "pvAfter": 64750,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 23:38:46",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 11105,
+      "pvAfter": 53645,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 23:58:47",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1562,
+      "pvAfter": 52083,
+      "heal": false,
+      "critical": true,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-07 00:08:11",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 34583,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 00:08:28",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1022,
+      "pvAfter": 33561,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-08-07 00:20:07",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 16061,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 00:27:55",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1238,
+      "pvAfter": 14823,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 00:28:45",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "bossName": "Tengalice",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shiftry_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Shiftry_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 80000,
+  "date": "2026-08-06 00:18:26",
+  "durationSec": 2593,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 72647,
+      "countAtk": 13,
+      "baseDmg": 6538,
+      "level": 16,
+      "raidCount": 273,
+      "luck": 0.85473096
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 10969,
+      "countAtk": 1,
+      "baseDmg": 10969,
+      "level": 17,
+      "raidCount": 405,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 83616
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-06 01:00:58",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10969,
+      "pvAfter": 69031,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:08",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6538,
+      "pvAfter": 62493,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:09",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6591,
+      "pvAfter": 55902,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:09",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6639,
+      "pvAfter": 49263,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:10",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6622,
+      "pvAfter": 42641,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:10",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6610,
+      "pvAfter": 36031,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:11",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6652,
+      "pvAfter": 29379,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:12",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6602,
+      "pvAfter": 22777,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:12",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6644,
+      "pvAfter": 16133,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6597,
+      "pvAfter": 9536,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-06 01:01:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 9536,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 01h06:13."
+    },
+    {
+      "at": "2026-08-06 01:01:14",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 9536,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 01h06:13."
+    },
+    {
+      "at": "2026-08-06 01:01:35",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 9536,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "jmdevfr a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-08-06 01:01:38",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6574,
+      "pvAfter": 2962,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-06 01:01:40",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6578,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

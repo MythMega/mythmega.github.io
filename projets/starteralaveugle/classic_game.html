@@ -50,6 +50,7 @@
     <div class="game-header">
       <h1 class="page__title">🎲 Partie Classique</h1>
       <p class="game-progress" id="round-indicator">Manche 1 / 6</p>
+      <div class="game-header__actions" id="round-actions"></div>
     </div>
 
     <!-- Loading state -->
@@ -106,6 +107,7 @@
 
     const roundContainer = document.getElementById('round-container');
     const roundIndicator = document.getElementById('round-indicator');
+    const roundActions   = document.getElementById('round-actions');
     const selectedList   = document.getElementById('selected-list');
     const loader         = document.getElementById('loader');
 
@@ -157,6 +159,20 @@
       roundDiv.className = 'pokemon-round';
       roundDiv.id = `round-${roundNumber}`;
 
+      // "Tout révéler" small button under the round indicator
+      roundActions.innerHTML = '';
+      const revealAllBtn = document.createElement('button');
+      revealAllBtn.className = 'btn btn--secondary btn--small';
+      revealAllBtn.textContent = '👁️ Tout révéler';
+      revealAllBtn.addEventListener('click', () => {
+        roundDiv.querySelectorAll('.pokemon-card__reveal-btn').forEach(btn => {
+          if (!btn.disabled) btn.click();
+        });
+        revealAllBtn.disabled = true;
+        revealAllBtn.textContent = 'Tout révélé';
+      });
+      roundActions.appendChild(revealAllBtn);
+
       roundPokemons.forEach(pokemon => {
         const card = createPokemonCard(pokemon, settings, onPokemonChosen);
         roundDiv.appendChild(card);
@@ -200,6 +216,7 @@
     function endGame() {
       log('classic_game', 'Game over! Building team...');
       roundContainer.innerHTML = '';
+      roundActions.innerHTML = '';
       roundIndicator.textContent = 'Équipe complète !';
 
       const assignments = assignSets(gameState.selected);

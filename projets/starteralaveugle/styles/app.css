@@ -344,6 +344,12 @@ pre {
   margin-top: 0.25rem;
 }
 
+.game-header__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.6rem;
+}
+
 .pokemon-round {
   display: flex;
   gap: 1.5rem;
@@ -351,6 +357,7 @@ pre {
   flex-wrap: wrap;
   margin-bottom: 2rem;
 }
+
 
 .pokemon-card {
   background: var(--bg-surface);

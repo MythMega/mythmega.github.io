@@ -1,0 +1,311 @@
+{
+  "bossName": "Ponchiot",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lillipup_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lillipup_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 85000,
+  "date": "2026-08-07 00:31:51",
+  "durationSec": 5109,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 53387,
+      "countAtk": 5,
+      "baseDmg": 10887,
+      "level": 17,
+      "raidCount": 407,
+      "luck": 0.9807477
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 36759,
+      "countAtk": 2,
+      "baseDmg": 15509,
+      "level": 18,
+      "raidCount": 508,
+      "luck": 1.1850861
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 6622,
+      "countAtk": 1,
+      "baseDmg": 6622,
+      "level": 16,
+      "raidCount": 275,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 2480,
+      "countAtk": 3,
+      "baseDmg": 595,
+      "level": 8,
+      "raidCount": 25,
+      "luck": 1.3893558
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Sage_Possiblement",
+      "damage": 1148,
+      "countAtk": 3,
+      "baseDmg": 212,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.8050314
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 100396
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 3
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-07 00:32:29",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 10887,
+      "pvAfter": 74113,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-08-07 00:39:25",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 595,
+      "pvAfter": 73518,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 00:53:03",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 15509,
+      "pvAfter": 58009,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 00:59:16",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 58009,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-07 01:06:06",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 36759,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 01:08:26",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1226,
+      "pvAfter": 35533,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 01:10:14",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 659,
+      "pvAfter": 34874,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 01:10:35",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 34874,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-07 01:20:11",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 13624,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus gel\u00E9 !"
+    },
+    {
+      "at": "2026-08-07 01:31:02",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 212,
+      "pvAfter": 13412,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-08-07 01:49:40",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 488,
+      "pvAfter": 12924,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 01:55:15",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 448,
+      "pvAfter": 12476,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 01:55:53",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6622,
+      "pvAfter": 5854,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-07 01:57:00",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

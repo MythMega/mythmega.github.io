@@ -109,7 +109,7 @@ async function giveCreature() {
     UserName:    user.Pseudo,
     Platform:    user.Platform,
     UserCode:    user.Code_user ?? '',
-    TriggerName: shiny ? `${pokeName}_shiny` : pokeName,
+    TriggerName: shiny ? `${pokeName}+True` : `${pokeName}+False`,
   };
   try {
     const resp = await apiPost('Interface/GiveAway', body);

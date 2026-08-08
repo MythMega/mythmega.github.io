@@ -32,11 +32,21 @@ function setCookie(name, value, days = 365) {
 }
 
 // ── Port detection ───────────────────────────────────────────
-// Priorité : cookie > window.location.port > data.json (fallback)
+// Priorité : ?port= URL > cookie > window.location.port > data.json (fallback)
 ADM.port = 80; // valeur provisoire remplacée par loadConfig()
 
 async function loadConfig() {
-  // 1) Cookie (priorité absolue)
+  // 1) Paramètre ?port= dans l'URL (priorité absolue)
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlPort = Number(urlParams.get('port'));
+  if (urlPort > 0 && urlPort <= 65535) {
+    ADM.port = urlPort;
+    updatePortDisplay();
+    dispatchEvent(new CustomEvent('adm:config-loaded'));
+    return;
+  }
+
+  // 2) Cookie
   const cookiePort = getCookie('adm_port');
   if (cookiePort) {
     ADM.port = Number(cookiePort);
@@ -45,11 +55,11 @@ async function loadConfig() {
     return;
   }
 
-  // 2) Port de l'URL courante (mode serveur /admin)
+  // 3) Port de l'URL courante (mode serveur /admin)
   const locPort = Number(window.location.port || 0);
   if (locPort > 0) ADM.port = locPort;
 
-  // 3) Fallback optionnel : data.json (mode fichier local / legacy)
+  // 4) Fallback optionnel : data.json (mode fichier local / legacy)
   try {
     const res  = await fetch('./data.json');
     if (res.ok) {

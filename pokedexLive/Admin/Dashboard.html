@@ -103,6 +103,26 @@
 
       <div class="adm-card">
         <p class="adm-card__title"><span class="dot dot--orange"></span>Statut raid</p>
+        <div id="ov-raid-mini" class="adm-ov-raid" style="display:none">
+          <img id="ov-raid-sprite" class="adm-sprite adm-sprite--lg" alt="Boss" src="">
+          <div class="adm-ov-raid__info">
+            <div class="adm-ov-raid__header">
+              <span id="ov-raid-name" class="adm-ov-raid__name">—</span>
+              <span id="ov-raid-shiny-tag" class="adm-tag adm-tag--normal"></span>
+            </div>
+            <div class="adm-hp-wrap" style="margin:6px 0 2px">
+              <div class="adm-hp-label">
+                <span>Santé</span>
+                <span id="ov-raid-hp-label">—</span>
+              </div>
+              <div class="adm-hp-bar"><div class="adm-hp-fill" id="ov-raid-hp-fill" style="width:0%"></div></div>
+            </div>
+            <div class="adm-stat-row" style="margin:6px 0 0">
+              <span>Lancé à :</span> <strong id="ov-raid-start">—</strong>
+              <span style="margin-left:16px">Durée :</span> <strong id="ov-raid-elapsed">—</strong>
+            </div>
+          </div>
+        </div>
         <p style="font-size:14px;margin:4px 0 0" id="ov-raid-status">—</p>
       </div>
 
@@ -140,6 +160,36 @@
           </div>
           <div class="adm-hp-bar"><div class="adm-hp-fill" id="raid-hp-fill" style="width:0%"></div></div>
         </div>
+
+        <!-- Infos formatées du raid -->
+        <div id="raid-info-box" class="adm-raid-info" style="display:none">
+          <div class="adm-raid-info__header">
+            <img id="raid-boss-sprite" class="adm-sprite adm-sprite--lg" alt="Boss" src="">
+            <div class="adm-raid-info__titles">
+              <span id="raid-boss-name-display" class="adm-raid-info__name">—</span>
+              <span id="raid-boss-altname" class="adm-raid-info__altname"></span>
+              <div class="adm-raid-info__tags">
+                <span id="raid-boss-rarity" class="adm-tag"></span>
+                <span id="raid-boss-types" class="adm-tag"></span>
+                <span id="raid-boss-shiny-tag" class="adm-tag adm-tag--normal"></span>
+              </div>
+            </div>
+          </div>
+          <div class="adm-stat-row" style="margin-top:10px">
+            <span>PV Max :</span> <strong id="raid-boss-pvmax">—</strong>
+            <span style="margin-left:16px">PV actuels :</span> <strong id="raid-boss-pvcurrent">—</strong>
+            <span style="margin-left:16px">Catch rate :</span> <strong id="raid-boss-catch">—</strong>
+            <span style="margin-left:16px">Shiny rate :</span> <strong id="raid-boss-shiny">—</strong>
+          </div>
+          <div class="adm-stat-row">
+            <span>Lancé à :</span> <strong id="raid-start-time">—</strong>
+            <span style="margin-left:16px">Durée actuelle :</span> <strong id="raid-elapsed">—</strong>
+          </div>
+          <hr class="adm-sep" style="margin:12px 0">
+          <p class="adm-card__title" style="margin-bottom:8px"><span class="dot dot--cyan"></span>Journal du raid</p>
+          <div id="raid-history-log" class="adm-raid-log"></div>
+        </div>
+
         <div class="adm-response" id="resp-raid-status">Appuyez sur Refresh.</div>
       </div>
 
@@ -552,11 +602,75 @@
   });
 
   // Overview raid status — démarre seulement quand le port est connu
-  async function updateOverviewRaid() {
-    try {
-      const t = await apiGet('GetRaidStatus');
-      document.getElementById('ov-raid-status').textContent = t || '😴 Aucun raid actif';
-    } catch { document.getElementById('ov-raid-status').textContent = '⚠️ Serveur injoignable'; }
+  function ovSet(el, val) {
+    if (el) el.textContent = val;
+  }
+
+  function updateOverviewRaid() {
+    let info = null;
+    apiGet('GetRaidStatus').then(t => {
+      if (!t) { ovSet(document.getElementById('ov-raid-status'), '😴 Aucun raid actif'); hideOverviewRaid(); return; }
+      try { info = JSON.parse(t); } catch (e) { ovSet(document.getElementById('ov-raid-status'), t); hideOverviewRaid(); return; }
+      if (!info.Boss) { ovSet(document.getElementById('ov-raid-status'), t); hideOverviewRaid(); return; }
+      renderOverviewRaid(info);
+    }).catch(() => {
+      ovSet(document.getElementById('ov-raid-status'), '⚠️ Serveur injoignable');
+      hideOverviewRaid();
+    });
+  }
+
+  function hideOverviewRaid() {
+    document.getElementById('ov-raid-mini').style.display = 'none';
+    clearInterval(window.__ovRaidElapsedTimer);
+  }
+
+  function renderOverviewRaid(info) {
+    const boss = info.Boss || {};
+    const mini = document.getElementById('ov-raid-mini');
+
+    // Sprite
+    const spriteUrl = info.DisplayShiny
+      ? (boss.Sprite_Shiny || boss.Sprite_Normal)
+      : (boss.Sprite_Normal || boss.Sprite_Shiny);
+    const sprite = document.getElementById('ov-raid-sprite');
+    sprite.src = spriteUrl || '';
+    sprite.style.display = spriteUrl ? '' : 'none';
+
+    // Nom
+    ovSet(document.getElementById('ov-raid-name'), info.BossName || boss.Name || '—');
+
+    // Tag shiny
+    const tag = document.getElementById('ov-raid-shiny-tag');
+    tag.textContent = info.DisplayShiny ? '✨ Shiny' : 'Normal';
+    tag.className = 'adm-tag ' + (info.DisplayShiny ? 'adm-tag--shiny' : 'adm-tag--normal');
+
+    // Barre de vie %
+    const pv = info.PV ?? 0;
+    const pvMax = info.PVMax || 1;
+    const pct = Math.max(0, Math.min(100, (pv / pvMax) * 100));
+    const fill = document.getElementById('ov-raid-hp-fill');
+    fill.style.width = pct + '%';
+    fill.className = 'adm-hp-fill' + (pct < 25 ? ' danger' : pct < 50 ? ' warn' : '');
+    ovSet(document.getElementById('ov-raid-hp-label'), `${Math.round(pct)}% (${Number(pv).toLocaleString('fr-FR')} / ${Number(pvMax).toLocaleString('fr-FR')})`);
+
+    // Heure de lancement (hh:mm)
+    const start = parseTime(info.StartedTime);
+    ovSet(document.getElementById('ov-raid-start'), start ? formatTimeHM(start) : '—');
+
+    // Durée (hh:min)
+    const elapsed = document.getElementById('ov-raid-elapsed');
+    if (start) {
+      elapsed.textContent = formatHM(Date.now() - start.getTime());
+      clearInterval(window.__ovRaidElapsedTimer);
+      window.__ovRaidElapsedTimer = setInterval(() => {
+        elapsed.textContent = formatHM(Date.now() - start.getTime());
+      }, 1000);
+    } else {
+      elapsed.textContent = '—';
+    }
+
+    ovSet(document.getElementById('ov-raid-status'), `⚔️ Raid actif — ${boss.Rarity || ''} ${boss.AltName || info.BossName || ''}`);
+    mini.style.display = '';
   }
   addEventListener('adm:config-loaded', () => {
     updateOverviewRaid();

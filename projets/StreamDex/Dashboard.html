@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PKServ › Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ══ Topbar ════════════════════════════════════════════════ -->
+<header class="adm-topbar">
+  <a href="../main.html" class="adm-topbar__brand">🎮 PKServ</a>
+  <span style="color:var(--text-muted);font-size:13px">/ Admin Dashboard</span>
+  <div class="adm-topbar__spacer"></div>
+  <span class="adm-topbar__port" id="topbar-port">port …</span>
+  <button class="adm-btn adm-btn--sm" id="btn-connect" style="margin-left:12px">🔌 Connecter</button>
+</header>
+
+<!-- ══ Layout ════════════════════════════════════════════════ -->
+<div class="adm-layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────── -->
+  <nav class="adm-sidebar">
+    <div class="adm-sidebar__section">Navigation</div>
+
+    <button class="adm-nav-btn" data-tab="overview">
+      <span class="icon">🏠</span> Vue d'ensemble
+    </button>
+    <button class="adm-nav-btn" data-tab="raid">
+      <span class="icon">⚔️</span> Raid
+    </button>
+    <button class="adm-nav-btn" data-tab="giveaway">
+      <span class="icon">🎁</span> Giveaway
+    </button>
+    <button class="adm-nav-btn" data-tab="user">
+      <span class="icon">👤</span> Utilisateur
+    </button>
+    <button class="adm-nav-btn" data-tab="system">
+      <span class="icon">⚙️</span> Système
+    </button>
+    <button class="adm-nav-btn" data-tab="settings">
+      <span class="icon">🔧</span> Paramètres
+    </button>
+    <button class="adm-nav-btn" data-tab="history">
+      <span class="icon">📋</span> Historique
+    </button>
+
+    <hr class="adm-sidebar__sep">
+    <div class="adm-sidebar__section">Données globales</div>
+
+    <div style="padding:8px 16px">
+      <p class="adm-label" style="margin-bottom:4px">Utilisateurs</p>
+      <div class="adm-response" id="resp-users" style="font-size:12px;padding:6px 10px">Non chargé</div>
+      <button class="adm-btn adm-btn--sm" id="btn-load-users" style="margin-top:6px;width:100%">
+        🔄 Recharger
+      </button>
+    </div>
+
+    <div style="padding:8px 16px">
+      <p class="adm-label" style="margin-bottom:4px">Créatures</p>
+      <div class="adm-response" id="resp-creatures" style="font-size:12px;padding:6px 10px">Non chargé</div>
+      <button class="adm-btn adm-btn--sm" id="btn-load-creatures" style="margin-top:6px;width:100%">
+        🔄 Recharger
+      </button>
+    </div>
+
+    <div style="padding:8px 16px">
+      <p class="adm-label" style="margin-bottom:4px">Balls</p>
+      <div class="adm-response" id="resp-balls" style="font-size:12px;padding:6px 10px">Non chargé</div>
+      <button class="adm-btn adm-btn--sm" id="btn-load-balls" style="margin-top:6px;width:100%">
+        🔄 Recharger
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Content ──────────────────────────────────────────── -->
+  <main class="adm-content">
+
+    <!-- ══════════════ TAB : Vue d'ensemble ════════════════ -->
+    <div class="adm-tab" id="tab-overview">
+      <div class="adm-section-header">
+        <div>
+          <h2>🏠 Vue d'ensemble</h2>
+          <p>État global du serveur PKServ</p>
+        </div>
+      </div>
+
+      <div class="adm-grid adm-grid--3" style="margin-bottom:16px">
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--blue"></span>Utilisateurs chargés</p>
+          <p style="font-size:28px;font-weight:700;margin:0" id="ov-user-count">—</p>
+        </div>
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--green"></span>Créatures chargées</p>
+          <p style="font-size:28px;font-weight:700;margin:0" id="ov-creature-count">—</p>
+        </div>
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--cyan"></span>Balls chargées</p>
+          <p style="font-size:28px;font-weight:700;margin:0" id="ov-ball-count">—</p>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <p class="adm-card__title"><span class="dot dot--orange"></span>Statut raid</p>
+        <div id="ov-raid-mini" class="adm-ov-raid" style="display:none">
+          <img id="ov-raid-sprite" class="adm-sprite adm-sprite--lg" alt="Boss" src="">
+          <div class="adm-ov-raid__info">
+            <div class="adm-ov-raid__header">
+              <span id="ov-raid-name" class="adm-ov-raid__name">—</span>
+              <span id="ov-raid-shiny-tag" class="adm-tag adm-tag--normal"></span>
+            </div>
+            <div class="adm-hp-wrap" style="margin:6px 0 2px">
+              <div class="adm-hp-label">
+                <span>Santé</span>
+                <span id="ov-raid-hp-label">—</span>
+              </div>
+              <div class="adm-hp-bar"><div class="adm-hp-fill" id="ov-raid-hp-fill" style="width:0%"></div></div>
+            </div>
+            <div class="adm-stat-row" style="margin:6px 0 0">
+              <span>Lancé à :</span> <strong id="ov-raid-start">—</strong>
+              <span style="margin-left:16px">Durée :</span> <strong id="ov-raid-elapsed">—</strong>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:14px;margin:4px 0 0" id="ov-raid-status">—</p>
+      </div>
+
+      <div class="adm-card">
+        <p class="adm-card__title"><span class="dot dot--purple"></span>Accès rapides</p>
+        <div class="adm-btn-row">
+          <button class="adm-btn adm-btn--primary"  onclick="document.querySelector('[data-tab=raid]').click()">⚔️ Module Raid</button>
+          <button class="adm-btn adm-btn--success"  onclick="document.querySelector('[data-tab=giveaway]').click()">🎁 Module Giveaway</button>
+          <button class="adm-btn adm-btn--warning"  onclick="document.querySelector('[data-tab=system]').click()">⚙️ Module Système</button>
+          <button class="adm-btn"                   onclick="document.querySelector('[data-tab=history]').click()">📋 Historique</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ TAB : Raid ══════════════════════════ -->
+    <div class="adm-tab" id="tab-raid">
+      <div class="adm-section-header">
+        <div>
+          <h2>⚔️ Raid</h2>
+          <p>Gérer le raid actif, lancer ou annuler un raid, envoyer un boost</p>
+        </div>
+        <button class="adm-btn" id="btn-raid-refresh">🔄 Refresh</button>
+      </div>
+
+      <!-- Statut actuel -->
+      <div class="adm-card">
+        <p class="adm-card__title"><span class="dot dot--blue"></span>Statut du raid actif</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <span id="raid-status-badge" class="adm-badge adm-badge--idle">😴 Aucun raid</span>
+        </div>
+        <div class="adm-hp-wrap">
+          <div class="adm-hp-label">
+            <span>Points de vie</span>
+            <span id="raid-hp-label">— / —</span>
+          </div>
+          <div class="adm-hp-bar"><div class="adm-hp-fill" id="raid-hp-fill" style="width:0%"></div></div>
+        </div>
+
+        <!-- Infos formatées du raid -->
+        <div id="raid-info-box" class="adm-raid-info" style="display:none">
+          <div class="adm-raid-info__header">
+            <img id="raid-boss-sprite" class="adm-sprite adm-sprite--lg" alt="Boss" src="">
+            <div class="adm-raid-info__titles">
+              <span id="raid-boss-name-display" class="adm-raid-info__name">—</span>
+              <span id="raid-boss-altname" class="adm-raid-info__altname"></span>
+              <div class="adm-raid-info__tags">
+                <span id="raid-boss-rarity" class="adm-tag"></span>
+                <span id="raid-boss-types" class="adm-tag"></span>
+                <span id="raid-boss-shiny-tag" class="adm-tag adm-tag--normal"></span>
+              </div>
+            </div>
+          </div>
+          <div class="adm-stat-row" style="margin-top:10px">
+            <span>PV Max :</span> <strong id="raid-boss-pvmax">—</strong>
+            <span style="margin-left:16px">PV actuels :</span> <strong id="raid-boss-pvcurrent">—</strong>
+            <span style="margin-left:16px">Catch rate :</span> <strong id="raid-boss-catch">—</strong>
+            <span style="margin-left:16px">Shiny rate :</span> <strong id="raid-boss-shiny">—</strong>
+          </div>
+          <div class="adm-stat-row">
+            <span>Lancé à :</span> <strong id="raid-start-time">—</strong>
+            <span style="margin-left:16px">Durée actuelle :</span> <strong id="raid-elapsed">—</strong>
+          </div>
+          <hr class="adm-sep" style="margin:12px 0">
+          <p class="adm-card__title" style="margin-bottom:8px"><span class="dot dot--cyan"></span>Journal du raid</p>
+          <div id="raid-history-log" class="adm-raid-log"></div>
+        </div>
+
+        <div class="adm-response" id="resp-raid-status">Appuyez sur Refresh.</div>
+      </div>
+
+      <div class="adm-grid adm-grid--2">
+
+        <!-- Raid simple (ManualRandomRaid) -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--green"></span>Raid aléatoire simple</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 10px">
+            Lance un raid sur une créature aléatoire via <code>Raid/StartManualRandomRaid</code>.
+          </p>
+          <div class="adm-form-group" style="margin-bottom:10px">
+            <label class="adm-label" for="raid-simple-override">Override JSON (optionnel)</label>
+            <textarea id="raid-simple-override" class="adm-input" rows="4"
+              placeholder='{"BossCreatureRarity":["rare"],"IncludeLegendaryCreatures":true}'
+              style="resize:vertical;font-family:monospace;font-size:12px"></textarea>
+          </div>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--primary" id="btn-raid-simple">🎲 Lancer raid aléatoire</button>
+          </div>
+          <div class="adm-response" id="resp-raid-simple">—</div>
+        </div>
+
+        <!-- Raid complet (Interface/Raid/Start) -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--orange"></span>Raid complet (boss manuel)</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 10px">
+            Lance un raid avec un boss précis via <code>Interface/Raid/Start</code>.
+          </p>
+          <div class="adm-form-row">
+            <div class="adm-form-group" style="flex:2">
+              <label class="adm-label">Boss</label>
+              <div id="ss-raid-boss-name"></div>
+              <input type="hidden" id="raid-boss-name">
+            </div>
+          </div>
+          <div class="adm-form-row">
+            <div class="adm-form-group">
+              <label class="adm-label" for="raid-boss-pv">PV Max (optionnel)</label>
+              <input type="number" id="raid-boss-pv" class="adm-input" placeholder="Auto">
+            </div>
+            <!-- <div class="adm-form-group">
+              <label class="adm-label" for="raid-boss-catch">Catch rate</label>
+              <input type="number" id="raid-boss-catch" class="adm-input" placeholder="Auto">
+            </div>
+            <div class="adm-form-group">
+              <label class="adm-label" for="raid-boss-shiny">Shiny rate</label>
+              <input type="number" id="raid-boss-shiny" class="adm-input" placeholder="Auto">
+            </div> -->
+          </div>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--success" id="btn-raid-full">🚀 Lancer raid</button>
+          </div>
+          <div class="adm-response" id="resp-raid-full">—</div>
+        </div>
+
+        <!-- Cancel -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--red"></span>Annuler le raid</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            Stoppe le raid actif via <code>Interface/Raid/Cancel</code>.
+          </p>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--danger" id="btn-raid-cancel">🛑 Annuler le raid</button>
+          </div>
+          <div class="adm-response" id="resp-raid-cancel">—</div>
+        </div>
+
+        <!-- Boost -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--purple"></span>Boost de dégâts</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 10px">
+            Envoie un multiplicateur de dégâts via <code>Interface/Raid/Boost/Set</code>.
+          </p>
+          <div class="adm-form-row">
+            <div class="adm-form-group">
+              <label class="adm-label" for="boost-mult">Multiplicateur ×</label>
+              <input type="number" id="boost-mult" class="adm-input" value="2" min="1">
+            </div>
+            <div class="adm-form-group">
+              <label class="adm-label" for="boost-min">Durée (minutes, vide = ∞)</label>
+              <input type="number" id="boost-min" class="adm-input" placeholder="∞">
+            </div>
+          </div>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--warning" id="btn-raid-boost">⚡ Envoyer boost</button>
+          </div>
+          <div class="adm-response" id="resp-raid-boost">—</div>
+        </div>
+
+      </div><!-- /grid -->
+    </div><!-- /tab-raid -->
+
+    <!-- ══════════════ TAB : Giveaway ══════════════════════ -->
+    <div class="adm-tab" id="tab-giveaway">
+      <div class="adm-section-header">
+        <div>
+          <h2>🎁 Giveaway</h2>
+          <p>Lancer une ball ou donner une créature directement à un utilisateur</p>
+        </div>
+      </div>
+
+      <div class="adm-grid adm-grid--2">
+
+        <!-- Lancer une ball -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--blue"></span>Lancer une ball</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 10px">
+            Envoie un lancer de ball à un utilisateur via <code>Interface/LaunchBall</code>.
+          </p>
+          <div class="adm-form-row">
+            <div class="adm-form-group" style="flex:2">
+              <label class="adm-label">Utilisateur</label>
+              <div id="ss-giveaway-user-ball"></div>
+              <input type="hidden" id="giveaway-user-ball">
+            </div>
+          </div>
+          <div class="adm-form-row">
+            <div class="adm-form-group">
+              <label class="adm-label">Ball</label>
+              <div id="ss-giveaway-ball-name"></div>
+              <input type="hidden" id="giveaway-ball-name">
+            </div>
+          </div>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--primary" id="btn-giveaway-ball">🎯 Lancer ball</button>
+          </div>
+          <div class="adm-response" id="resp-giveaway-ball">—</div>
+        </div>
+
+        <!-- Donner une créature -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--green"></span>Donner une créature</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 10px">
+            Donne directement une créature à un utilisateur via <code>Interface/GiveAway</code>.
+          </p>
+          <div class="adm-form-row">
+            <div class="adm-form-group" style="flex:2">
+              <label class="adm-label">Utilisateur</label>
+              <div id="ss-giveaway-user-poke"></div>
+              <input type="hidden" id="giveaway-user-poke">
+            </div>
+          </div>
+          <div class="adm-form-row">
+            <div class="adm-form-group" style="flex:2">
+              <label class="adm-label">Créature</label>
+              <div id="ss-giveaway-poke-name"></div>
+              <input type="hidden" id="giveaway-poke-name">
+            </div>
+          </div>
+          <div class="adm-checkbox-row" style="margin-bottom:12px">
+            <input type="checkbox" id="giveaway-poke-shiny">
+            <label for="giveaway-poke-shiny">✨ Shiny</label>
+          </div>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--success" id="btn-giveaway-poke">🎁 Donner créature</button>
+          </div>
+          <div class="adm-response" id="resp-giveaway-poke">—</div>
+        </div>
+
+      </div>
+    </div><!-- /tab-giveaway -->
+
+    <!-- ══════════════ TAB : Utilisateur ════════════════════ -->
+    <div class="adm-tab" id="tab-user">
+      <div class="adm-section-header">
+        <div>
+          <h2>👤 Utilisateur</h2>
+          <p>Fusionner des comptes ou supprimer les comptes vides</p>
+        </div>
+      </div>
+
+      <div class="adm-grid adm-grid--2">
+
+        <!-- Transfer Account -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--orange"></span>Fusionner deux comptes</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 14px">
+            Toutes les données du compte source seront transférées vers le compte cible.
+            Le compte source sera supprimé après le transfert.
+          </p>
+
+          <!-- Compte source -->
+          <div style="margin-bottom:16px;padding:12px;background:var(--bg-secondary);border-radius:var(--radius)">
+            <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px;font-weight:600">Compte à transférer (source)</p>
+            <div class="adm-form-row">
+              <div class="adm-form-group" style="flex:1">
+                <label class="adm-label" for="transfer-platform-from">Plateforme</label>
+                <select id="transfer-platform-from" class="adm-input"></select>
+              </div>
+              <div class="adm-form-group" style="flex:2;position:relative">
+                <label class="adm-label" for="transfer-pseudo-from">Pseudo</label>
+                <input type="text" id="transfer-pseudo-from" class="adm-input" placeholder="Commencez à taper…" autocomplete="off">
+                <div id="transfer-suggestions-from" class="user-suggestions"></div>
+              </div>
+            </div>
+            <div id="transfer-info-from" class="transfer-user-info"></div>
+          </div>
+
+          <!-- Compte cible -->
+          <div style="margin-bottom:14px;padding:12px;background:var(--bg-secondary);border-radius:var(--radius)">
+            <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px;font-weight:600">Compte qui recevra les données (cible)</p>
+            <div class="adm-form-row">
+              <div class="adm-form-group" style="flex:1">
+                <label class="adm-label" for="transfer-platform-to">Plateforme</label>
+                <select id="transfer-platform-to" class="adm-input"></select>
+              </div>
+              <div class="adm-form-group" style="flex:2;position:relative">
+                <label class="adm-label" for="transfer-pseudo-to">Pseudo</label>
+                <input type="text" id="transfer-pseudo-to" class="adm-input" placeholder="Commencez à taper…" autocomplete="off">
+                <div id="transfer-suggestions-to" class="user-suggestions"></div>
+              </div>
+            </div>
+            <div id="transfer-info-to" class="transfer-user-info"></div>
+          </div>
+
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--danger" id="btn-transfer-account">⚠️ Fusionner les comptes</button>
+          </div>
+          <div class="adm-response" id="resp-transfer">—</div>
+        </div>
+
+        <!-- Clear Empty Accounts -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--red"></span>Supprimer les comptes vides</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            Supprime tous les comptes qui n'ont jamais lancé de ball via <code>System/ClearEmptyAccounts</code>.
+          </p>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--danger" id="btn-clear-empty">🗑️ Supprimer les comptes vides</button>
+          </div>
+          <div class="adm-response" id="resp-clear-empty">—</div>
+        </div>
+
+      </div>
+    </div><!-- /tab-user -->
+
+    <!-- ══════════════ TAB : Système ═══════════════════════ -->
+    <div class="adm-tab" id="tab-system">
+      <div class="adm-section-header">
+        <div>
+          <h2>⚙️ Système</h2>
+          <p>Export global, génération du dex disponible, rechargement des données</p>
+        </div>
+      </div>
+
+      <div class="adm-grid adm-grid--2">
+
+        <!-- Export global -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--blue"></span>Export global</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            Lance un export JSON de toutes les données via <code>Interface/FullExport</code>.<br>
+            Le mode <em>forcé</em> réexporte tous les utilisateurs, même sans changement récent.
+          </p>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--primary" id="btn-sys-export">📤 Export (delta)</button>
+            <button class="adm-btn adm-btn--warning" id="btn-sys-export-force">📤 Export (forcé)</button>
+          </div>
+          <div class="adm-response" id="resp-sys-export">—</div>
+        </div>
+
+        <!-- Dex disponible -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--green"></span>Générer le Pokédex disponible</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            Génère le fichier de dex disponible via <code>Interface/GenerateAvailableDex</code>.
+          </p>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--success" id="btn-sys-availdex">🗂️ Générer</button>
+          </div>
+          <div class="adm-response" id="resp-sys-availdex">—</div>
+        </div>
+
+        <!-- Rechargement des données -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--orange"></span>Recharger les données serveur</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            Recharge tous les settings (créatures, balls, zones…) sans redémarrer le serveur via
+            <code>System/ReloadData</code>.
+          </p>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--warning" id="btn-sys-reload">🔃 Recharger</button>
+          </div>
+          <div class="adm-response" id="resp-sys-reload">—</div>
+        </div>
+
+        <!-- Changer de port -->
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--purple"></span>Changer le port de connexion</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            Modifie le port utilisé pour communiquer avec le serveur PKServ.
+            Cette valeur est sauvegardée dans un cookie local.
+          </p>
+          <div class="adm-form-row">
+            <div class="adm-form-group">
+              <label class="adm-label" for="sys-change-port">Nouveau port</label>
+              <input type="number" id="sys-change-port" class="adm-input" placeholder="4501" min="1" max="65535">
+            </div>
+          </div>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--primary" id="btn-sys-change-port">🔌 Appliquer le port</button>
+          </div>
+          <div class="adm-response" id="resp-sys-change-port">—</div>
+        </div>
+
+      </div>
+    </div><!-- /tab-system -->
+
+    <!-- ══════════════ TAB : Paramètres ════════════════════ -->
+    <div class="adm-tab" id="tab-settings">
+      <div class="adm-section-header">
+        <div>
+          <h2>🔧 Paramètres d'application</h2>
+          <p>Modifier les paramètres globaux de PKServ (fichier _settings.json)</p>
+        </div>
+      </div>
+
+      <div class="adm-card" style="margin-bottom:16px">
+        <p class="adm-card__title"><span class="dot dot--blue"></span>Charger les paramètres</p>
+        <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+          Récupère les paramètres actuels du serveur via <code>Interface/GetAll/Settings</code>.
+        </p>
+        <div class="adm-btn-row">
+          <button class="adm-btn adm-btn--primary" id="btn-settings-load">📥 Charger les paramètres</button>
+        </div>
+        <div class="adm-response" id="resp-settings-load">—</div>
+      </div>
+
+      <div id="settings-save-section" style="display:none">
+        <div class="adm-card" style="margin-bottom:16px">
+          <p class="adm-card__title"><span class="dot dot--orange"></span>Formulaire de paramètres</p>
+          <div id="settings-form" style="max-height:600px;overflow-y:auto;padding:8px"></div>
+        </div>
+
+        <div class="adm-card">
+          <p class="adm-card__title"><span class="dot dot--green"></span>Enregistrer les modifications</p>
+          <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
+            ⚠️ Les modifications seront écrites dans <code>_settings.json</code> et appliquées immédiatement.
+          </p>
+          <div class="adm-btn-row">
+            <button class="adm-btn adm-btn--success" id="btn-settings-save">💾 Enregistrer</button>
+          </div>
+          <div class="adm-response" id="resp-settings-save">—</div>
+        </div>
+      </div>
+    </div><!-- /tab-settings -->
+
+    <!-- ══════════════ TAB : Historique ════════════════════ -->
+    <div class="adm-tab" id="tab-history">
+      <div class="adm-section-header">
+        <div>
+          <h2>📋 Historique des captures</h2>
+          <p>50 dernières captures enregistrées</p>
+        </div>
+        <button class="adm-btn" id="btn-history-refresh">🔄 Actualiser</button>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-search-bar">
+          <input type="text" id="history-search" class="adm-input"
+            placeholder="Filtrer par pseudo, créature, ball…">
+          <label class="adm-checkbox-row">
+            <input type="checkbox" id="history-filter-shiny">
+            ✨ Shiny uniquement
+          </label>
+        </div>
+        <div class="adm-response" id="resp-history" style="margin-bottom:10px">Appuyez sur Actualiser.</div>
+        <div class="adm-table-wrap">
+          <table class="adm-table">
+            <thead>
+              <tr>
+                <th>Heure</th>
+                <th>Utilisateur</th>
+                <th>Créature</th>
+                <th>Type</th>
+                <th>Ball</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody">
+              <tr><td colspan="5" style="text-align:center;color:var(--text-muted)">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /tab-history -->
+
+  </main>
+</div><!-- /layout -->
+
+<!-- ══ Scripts ═══════════════════════════════════════════════ -->
+<script src="Scripts/main.js"></script>
+<script src="Scripts/searchable-select.js"></script>
+<script src="Scripts/raid.js"></script>
+<script src="Scripts/giveaway.js"></script>
+<script src="Scripts/user.js"></script>
+<script src="Scripts/system.js"></script>
+<script src="Scripts/settings.js"></script>
+<script src="Scripts/history.js"></script>
+<script>
+  // Overview counters — update when data loads
+  addEventListener('adm:users-loaded',     () => {
+    document.getElementById('ov-user-count').textContent = ADM.users.length;
+  });
+  addEventListener('adm:creatures-loaded', () => {
+    document.getElementById('ov-creature-count').textContent = ADM.creatures.length;
+  });
+  addEventListener('adm:balls-loaded', () => {
+    document.getElementById('ov-ball-count').textContent = ADM.balls.length;
+  });
+
+  // Overview raid status — démarre seulement quand le port est connu
+  function ovSet(el, val) {
+    if (el) el.textContent = val;
+  }
+
+  function updateOverviewRaid() {
+    let info = null;
+    apiGet('GetRaidStatus').then(t => {
+      if (!t) { ovSet(document.getElementById('ov-raid-status'), '😴 Aucun raid actif'); hideOverviewRaid(); return; }
+      try { info = JSON.parse(t); } catch (e) { ovSet(document.getElementById('ov-raid-status'), t); hideOverviewRaid(); return; }
+      if (!info.Boss) { ovSet(document.getElementById('ov-raid-status'), t); hideOverviewRaid(); return; }
+      renderOverviewRaid(info);
+    }).catch(() => {
+      ovSet(document.getElementById('ov-raid-status'), '⚠️ Serveur injoignable');
+      hideOverviewRaid();
+    });
+  }
+
+  function hideOverviewRaid() {
+    document.getElementById('ov-raid-mini').style.display = 'none';
+    clearInterval(window.__ovRaidElapsedTimer);
+  }
+
+  function renderOverviewRaid(info) {
+    const boss = info.Boss || {};
+    const mini = document.getElementById('ov-raid-mini');
+
+    // Sprite
+    const spriteUrl = info.DisplayShiny
+      ? (boss.Sprite_Shiny || boss.Sprite_Normal)
+      : (boss.Sprite_Normal || boss.Sprite_Shiny);
+    const sprite = document.getElementById('ov-raid-sprite');
+    sprite.src = spriteUrl || '';
+    sprite.style.display = spriteUrl ? '' : 'none';
+
+    // Nom
+    ovSet(document.getElementById('ov-raid-name'), info.BossName || boss.Name || '—');
+
+    // Tag shiny
+    const tag = document.getElementById('ov-raid-shiny-tag');
+    tag.textContent = info.DisplayShiny ? '✨ Shiny' : 'Normal';
+    tag.className = 'adm-tag ' + (info.DisplayShiny ? 'adm-tag--shiny' : 'adm-tag--normal');
+
+    // Barre de vie %
+    const pv = info.PV ?? 0;
+    const pvMax = info.PVMax || 1;
+    const pct = Math.max(0, Math.min(100, (pv / pvMax) * 100));
+    const fill = document.getElementById('ov-raid-hp-fill');
+    fill.style.width = pct + '%';
+    fill.className = 'adm-hp-fill' + (pct < 25 ? ' danger' : pct < 50 ? ' warn' : '');
+    ovSet(document.getElementById('ov-raid-hp-label'), `${Math.round(pct)}% (${Number(pv).toLocaleString('fr-FR')} / ${Number(pvMax).toLocaleString('fr-FR')})`);
+
+    // Heure de lancement (hh:mm)
+    const start = parseTime(info.StartedTime);
+    ovSet(document.getElementById('ov-raid-start'), start ? formatTimeHM(start) : '—');
+
+    // Durée (hh:min)
+    const elapsed = document.getElementById('ov-raid-elapsed');
+    if (start) {
+      elapsed.textContent = formatHM(Date.now() - start.getTime());
+      clearInterval(window.__ovRaidElapsedTimer);
+      window.__ovRaidElapsedTimer = setInterval(() => {
+        elapsed.textContent = formatHM(Date.now() - start.getTime());
+      }, 1000);
+    } else {
+      elapsed.textContent = '—';
+    }
+
+    ovSet(document.getElementById('ov-raid-status'), `⚔️ Raid actif — ${boss.Rarity || ''} ${boss.AltName || info.BossName || ''}`);
+    mini.style.display = '';
+  }
+  addEventListener('adm:config-loaded', () => {
+    updateOverviewRaid();
+    setInterval(updateOverviewRaid, 15000);
+  });
+</script>
+
+</body>
+</html>

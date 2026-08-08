@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamDex Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="sd-topbar">
+  <a href="index.html" class="sd-topbar__brand">StreamDex</a>
+  <span class="sd-topbar__crumb">/ Admin</span>
+  <div class="sd-topbar__spacer"></div>
+</header>
+
+<main class="sd-container">
+  <div class="sd-card">
+    <p class="sd-card__title"><span class="dot dot--orange"></span>Connexion au serveur</p>
+    <div class="sd-form">
+      <label class="sd-form__label" for="admin-port">Port du serveur</label>
+      <input type="number" id="admin-port" class="sd-input" min="1" max="65535" placeholder="5052">
+      <div class="sd-btn-row">
+        <button class="sd-btn sd-btn--primary" id="btn-open-admin">Ouvrir le dashboard</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Récupère le port par défaut depuis data.json
+  fetch('./data.json')
+    .then(res => res.json())
+    .then(conf => {
+      if (conf.Port) document.getElementById('admin-port').value = conf.Port;
+    })
+    .catch(() => {
+      // Fallback silencieux : le placeholder reste affiché
+    });
+
+  // Ouvre Dashboard.html?port=<valeur>
+  document.getElementById('btn-open-admin').addEventListener('click', () => {
+    const port = document.getElementById('admin-port').value.trim();
+    if (!port || port < 1 || port > 65535) {
+      document.getElementById('admin-port').focus();
+      return;
+    }
+    window.location.href = 'Dashboard.html?port=' + encodeURIComponent(port);
+  });
+</script>
+
+</body>
+</html>

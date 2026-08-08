@@ -127,7 +127,24 @@ function typeName(t) {
 async function refreshRaidStatus() {
   try {
     const text = await apiGet('GetRaidStatus');
-    showResp(raidEls.respStatus, text || '(aucun raid actif)', text ? 'ok' : 'info');
+    let summary = '(aucun raid actif)';
+    let type = 'info';
+    if (text) {
+      try {
+        const info = JSON.parse(text);
+        const boss = info.Boss || {};
+        const name = boss.AltName || info.BossName || 'boss';
+        const pv = info.PV ?? 0;
+        summary = pv > 0
+          ? `⚔️ Raid actif sur ${name}`
+          : `💀 Raid sur ${name} terminé (vaincu)`;
+        type = 'ok';
+      } catch {
+        summary = '✅ Statut du raid récupéré';
+        type = 'ok';
+      }
+    }
+    showResp(raidEls.respStatus, summary, type);
     await refreshRaidInfos(text);
   } catch (e) {
     showResp(raidEls.respStatus, `❌ ${e.message}`, 'error');

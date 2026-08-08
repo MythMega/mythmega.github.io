@@ -1,0 +1,93 @@
+{
+  "bossName": "Herbizarre",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ivysaur_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ivysaur_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 10000,
+  "date": "2026-08-08 04:03:37",
+  "durationSec": 22,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 10000,
+      "countAtk": 4,
+      "baseDmg": 6642,
+      "level": 16,
+      "raidCount": 279,
+      "luck": 0.37639266
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 10000
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-08 04:03:56",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 2500,
+      "pvAfter": 7500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-08 04:03:57",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 2500,
+      "pvAfter": 5000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-08 04:03:58",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 2500,
+      "pvAfter": 2500,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-08-08 04:03:59",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 2500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    }
+  ]
+}

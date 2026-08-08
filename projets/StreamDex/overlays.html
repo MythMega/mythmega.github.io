@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamDex › Overlays</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="sd-topbar">
+  <a href="index.html" class="sd-topbar__brand">StreamDex</a>
+  <span class="sd-topbar__crumb">/ Overlays</span>
+  <div class="sd-topbar__spacer"></div>
+</header>
+
+<main class="sd-container">
+  <div class="sd-grid">
+
+    <!-- Overlay : Résultats de lancer de ball -->
+    <div class="sd-overlay">
+      <img src="./Assets/Overlays/barBallThrowResume.png" alt="Aperçu barBallThrowResume" class="sd-overlay__img">
+      <div class="sd-overlay__body">
+        <h2 class="sd-overlay__title">Résultats de lancer de ball</h2>
+        <p class="sd-overlay__desc">
+          Affiche en direct les résultats des lancers de ball : pseudo, plateforme,
+          Pokémon, statut shiny et succès ou échec de la capture.
+        </p>
+        <div class="sd-overlay__link" id="link-barBallThrowResume">barBallThrowResume.html</div>
+        <button class="sd-btn sd-btn--primary" onclick="copyOverlay('barBallThrowResume')">Copier le lien</button>
+      </div>
+    </div>
+
+    <!-- Overlay : Raid en cours -->
+    <div class="sd-overlay">
+      <img src="./Assets/Overlays/current_raid.png" alt="Aperçu current_raid" class="sd-overlay__img">
+      <div class="sd-overlay__body">
+        <h2 class="sd-overlay__title">Raid en cours</h2>
+        <p class="sd-overlay__desc">
+          Affiche le raid actif en temps réel : sprite du boss, barre de vie,
+          rareté et dégâts flottants des participants.
+        </p>
+        <div class="sd-overlay__link" id="link-current_raid">current_raid.html</div>
+        <button class="sd-btn sd-btn--primary" onclick="copyOverlay('current_raid')">Copier le lien</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  function copyOverlay(name) {
+    const link = document.getElementById('link-' + name).textContent.trim();
+    const url = window.location.origin + window.location.pathname.replace(/overlays\.html$/, '') + link;
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = event.target;
+      const orig = btn.textContent;
+      btn.textContent = 'Copié !';
+      setTimeout(() => { btn.textContent = orig; }, 1500);
+    }).catch(() => {
+      // Fallback si clipboard non disponible
+      const ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const btn = event.target;
+      const orig = btn.textContent;
+      btn.textContent = 'Copié !';
+      setTimeout(() => { btn.textContent = orig; }, 1500);
+    });
+  }
+</script>
+
+</body>
+</html>

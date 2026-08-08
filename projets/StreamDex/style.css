@@ -1,0 +1,258 @@
+/* ============================================
+   StreamDex — style.css
+   Style commun pour index, infos, overlays, admin
+   ============================================ */
+
+:root {
+  --bg-primary:    #0d1117;
+  --bg-secondary:  #161b22;
+  --bg-card:       #1c2128;
+  --bg-input:      #0d1117;
+  --border:        #30363d;
+  --text:          #e6edf3;
+  --text-muted:    #8b949e;
+  --accent-blue:   #58a6ff;
+  --accent-green:  #3fb950;
+  --accent-orange: #d29922;
+  --accent-red:    #f85149;
+  --accent-purple: #bc8cff;
+  --accent-cyan:   #79c0ff;
+  --radius:        8px;
+  --transition:    0.18s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ── Topbar ─────────────────────────────────────────────────── */
+.sd-topbar {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  height: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.sd-topbar__brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+.sd-topbar__brand:hover { color: var(--accent-cyan); text-decoration: none; }
+.sd-topbar__spacer { flex: 1; }
+.sd-topbar__crumb {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.sd-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* ── Hero (index) ───────────────────────────────────────────── */
+.sd-hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.sd-hero__banner {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: block;
+  margin: 0 auto 28px;
+}
+.sd-hero__title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: var(--text);
+}
+.sd-hero__subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Boutons ────────────────────────────────────────────────── */
+.sd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+  white-space: nowrap;
+}
+.sd-btn:hover { background: var(--bg-card); border-color: var(--accent-blue); color: var(--text); }
+
+.sd-btn--primary  { background: var(--accent-blue);   border-color: var(--accent-blue);   color: #fff; }
+.sd-btn--primary:hover  { background: #4493e4; border-color: #4493e4; color: #fff; }
+.sd-btn--success  { background: var(--accent-green);  border-color: var(--accent-green);  color: #fff; }
+.sd-btn--success:hover  { background: #36a245; border-color: #36a245; color: #fff; }
+.sd-btn--warning  { background: var(--accent-orange); border-color: var(--accent-orange); color: #fff; }
+.sd-btn--warning:hover  { background: #bb8519; border-color: #bb8519; color: #fff; }
+
+.sd-btn-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.sd-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+.sd-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sd-card__title .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot--blue   { background: var(--accent-blue); }
+.dot--green  { background: var(--accent-green); }
+.dot--orange { background: var(--accent-orange); }
+.dot--red    { background: var(--accent-red); }
+.dot--purple { background: var(--accent-purple); }
+.dot--cyan   { background: var(--accent-cyan); }
+
+/* ── Grille overlays ────────────────────────────────────────── */
+.sd-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.sd-overlay {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.sd-overlay__img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-primary);
+}
+.sd-overlay__body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.sd-overlay__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+.sd-overlay__desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  flex: 1;
+}
+.sd-overlay__link {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  word-break: break-all;
+  user-select: all;
+}
+
+/* ── Formulaires (admin) ────────────────────────────────────── */
+.sd-form {
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+.sd-form__label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 6px;
+  text-align: left;
+}
+.sd-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 16px;
+  transition: border-color var(--transition);
+  width: 100%;
+  text-align: center;
+}
+.sd-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+/* ── Texte (infos) ──────────────────────────────────────────── */
+.sd-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.sd-text p { margin: 0 0 14px; }
+
+/* ── Scrollbars ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }

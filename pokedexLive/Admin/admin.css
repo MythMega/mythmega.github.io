@@ -320,6 +320,121 @@ body {
 
 /* ── Sprite small ───────────────────────────────────────────── */
 .adm-sprite { height: 40px; width: auto; image-rendering: pixelated; }
+.adm-sprite--lg { height: 72px; }
+
+/* ── Raid info (onglet Raid) ────────────────────────────────── */
+.adm-raid-info {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.adm-raid-info__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.adm-raid-info__header .adm-sprite {
+  height: 80px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px;
+}
+.adm-raid-info__titles { display: flex; flex-direction: column; gap: 4px; }
+.adm-raid-info__name { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.adm-raid-info__altname {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.adm-raid-info__tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+
+/* ── Journal du raid (scrollable) ───────────────────────────── */
+.adm-raid-log {
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-primary);
+  padding: 4px;
+}
+.adm-raid-log__empty {
+  padding: 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.adm-raid-log__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.adm-raid-log__item:last-child { border-bottom: none; }
+.adm-raid-log__item.heal { background: rgba(63,185,80,.06); }
+.adm-raid-log__item.crit { background: rgba(210,153,34,.06); }
+.adm-raid-log__time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  min-width: 58px;
+}
+.adm-raid-log__pseudo {
+  font-weight: 600;
+  color: var(--accent-blue);
+  white-space: nowrap;
+}
+.adm-raid-log__action { flex: 1; color: var(--text); word-break: break-word; }
+.adm-raid-log__action strong { color: var(--accent-orange); }
+.adm-raid-log__pv {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.adm-raid-log__statut {
+  font-size: 12px;
+  color: var(--accent-orange);
+  margin-left: 66px;
+  margin-top: 1px;
+}
+
+/* ── Vue d'ensemble : mini raid ─────────────────────────────── */
+.adm-ov-raid {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.adm-ov-raid .adm-sprite {
+  height: 64px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3px;
+}
+.adm-ov-raid__info { flex: 1; min-width: 0; }
+.adm-ov-raid__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.adm-ov-raid__name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+.adm-ov-raid .adm-hp-bar { height: 8px; }
 
 /* ── Scrollbars ─────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -441,16 +556,6 @@ body {
 }
 .settings-array__remove:hover {
   opacity: 0.8;
-}
-  left: 0;
-  right: 0;
-  z-index: 200;
-  background: var(--bg-secondary);
-  border: 1px solid var(--accent-blue);
-  border-radius: var(--radius);
-  max-height: 240px;
-  overflow-y: auto;
-  box-shadow: var(--shadow-md);
 }
 .adm-ss__option {
   padding: 8px 12px;

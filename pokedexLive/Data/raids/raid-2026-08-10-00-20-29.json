@@ -1,0 +1,239 @@
+{
+  "bossName": "Rhinastoc",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyperior_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Rhyperior_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 95000,
+  "date": "2026-08-10 00:20:29",
+  "durationSec": 1578,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 101511,
+      "countAtk": 5,
+      "baseDmg": 11344,
+      "level": 17,
+      "raidCount": 417,
+      "luck": 1.7896861
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 6201,
+      "countAtk": 5,
+      "baseDmg": 680,
+      "level": 8,
+      "raidCount": 33,
+      "luck": 1.8238235
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 1562,
+      "countAtk": 1,
+      "baseDmg": 1562,
+      "level": 12,
+      "raidCount": 108,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 107712
+    },
+    {
+      "platform": "youtube",
+      "damage": 1562
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-10 00:21:14",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 680,
+      "pvAfter": 94320,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-10 00:21:18",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 11344,
+      "pvAfter": 82976,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-10 00:26:14",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1562,
+      "pvAfter": 81414,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-10 00:26:35",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 57664,
+      "heal": false,
+      "critical": true,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-08-10 00:27:10",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1223,
+      "pvAfter": 56441,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-10 00:33:01",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 21472,
+      "pvAfter": 34969,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus confus !"
+    },
+    {
+      "at": "2026-08-10 00:33:16",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1315,
+      "pvAfter": 33654,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-10 00:40:00",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 22715,
+      "pvAfter": 10939,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-10 00:40:12",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 2322,
+      "pvAfter": 8617,
+      "heal": false,
+      "critical": true,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-08-10 00:45:52",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 661,
+      "pvAfter": 7956,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 4 tours."
+    },
+    {
+      "at": "2026-08-10 00:46:10",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 7956,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "Shiny_Empy s\u0027est soign\u00E9 (que lui)"
+    },
+    {
+      "at": "2026-08-10 00:46:47",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 22230,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

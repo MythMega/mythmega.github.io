@@ -1,0 +1,256 @@
+{
+  "bossName": "Marcacrin",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Swinub_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Swinub_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 95000,
+  "date": "2026-08-09 22:10:29",
+  "durationSec": 2638,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 55948,
+      "countAtk": 3,
+      "baseDmg": 11120,
+      "level": 17,
+      "raidCount": 415,
+      "luck": 1.6770984
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 47500,
+      "countAtk": 2,
+      "baseDmg": 36297,
+      "level": 19,
+      "raidCount": 1019,
+      "luck": 0.65432405
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Sage_Possiblement",
+      "damage": 274,
+      "countAtk": 1,
+      "baseDmg": 274,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberBot",
+      "damage": 257,
+      "countAtk": 1,
+      "baseDmg": 257,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 194,
+      "countAtk": 1,
+      "baseDmg": 194,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 104173
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-09 22:10:41",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 194,
+      "pvAfter": 94806,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-09 22:21:06",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 274,
+      "pvAfter": 94532,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-09 22:23:37",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 11120,
+      "pvAfter": 83412,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-09 22:23:40",
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "damages": 257,
+      "pvAfter": 83155,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-09 22:31:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 59405,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-09 22:32:02",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 22354,
+      "pvAfter": 37051,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-08-09 22:32:15",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 37051,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "SawanCyberpotes a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-08-09 22:37:53",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 13301,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-09 22:54:27",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 22474,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -30,8 +30,6 @@ function initRaid() {
     bossShinyTag:   document.getElementById('raid-boss-shiny-tag'),
     bossPvMax:      document.getElementById('raid-boss-pvmax'),
     bossPvCurrent:  document.getElementById('raid-boss-pvcurrent'),
-    bossCatch:      document.getElementById('raid-boss-catch'),
-    bossShiny:      document.getElementById('raid-boss-shiny'),
     startTime:      document.getElementById('raid-start-time'),
     elapsed:        document.getElementById('raid-elapsed'),
     historyLog:     document.getElementById('raid-history-log'),
@@ -48,6 +46,7 @@ function initRaid() {
   document.getElementById('btn-raid-full')?.addEventListener('click', () => {
     withBtn(document.getElementById('btn-raid-full'), startFullRaid);
   });
+  document.getElementById('btn-raid-random-boss')?.addEventListener('click', randomBoss);
   document.getElementById('btn-raid-cancel')?.addEventListener('click', () => {
     withBtn(document.getElementById('btn-raid-cancel'), cancelRaid);
   });
@@ -224,8 +223,6 @@ function showRaidInfos(info, pv, pvMax) {
   // PV
   if (e.bossPvMax)    e.bossPvMax.textContent    = (pvMax || 0).toLocaleString('fr-FR');
   if (e.bossPvCurrent) e.bossPvCurrent.textContent = (pv ?? 0).toLocaleString('fr-FR');
-  if (e.bossCatch)    e.bossCatch.textContent    = info.CatchRate != null ? `${info.CatchRate}%` : '—';
-  if (e.bossShiny)    e.bossShiny.textContent    = info.ShinyRate != null ? `${info.ShinyRate}%` : '—';
 
   // Temps
   const start = parseTime(info.StartedTime);
@@ -363,20 +360,29 @@ async function startSimpleRaid() {
   }
 }
 
+// ── Random boss ───────────────────────────────────────────────
+function randomBoss() {
+  const options = ADM.ss['raid-boss-name']?._items || [];
+  if (!options.length) {
+    showResp(raidEls.respFull, '❌ pas de pokémon dans la liste', 'error');
+    return;
+  }
+  const pick = options[Math.floor(Math.random() * options.length)];
+  ADM.ss['raid-boss-name'].setValue(pick.value);
+}
+
 // ── Start full (Interface/Raid/Start) ─────────────────────────
 async function startFullRaid() {
   const bossName = ADM.ss['raid-boss-name']?.getValue();
-  const pvMax    = parseInt(document.getElementById('raid-boss-pv')?.value)     || null;
-  const catchR   = parseInt(document.getElementById('raid-boss-catch')?.value)  || null;
-  const shinyR   = parseInt(document.getElementById('raid-boss-shiny')?.value)  || null;
+  const pvMax    = parseInt(document.getElementById('raid-boss-pv')?.value)  || null;
+  const shiny    = !!document.getElementById('raid-boss-shiny-switch')?.checked;
 
   if (!bossName) { showResp(raidEls.respFull, '❌ Sélectionnez un boss.', 'error'); return; }
 
   const body = {
-    BossName:  bossName,
-    PVMax:     pvMax,
-    CatchRate: catchR,
-    ShinyRate: shinyR,
+    BossName:     bossName,
+    PVMax:        pvMax,
+    DisplayShiny: shiny,
   };
   try {
     const resp = await apiPost('Interface/Raid/Start', body);

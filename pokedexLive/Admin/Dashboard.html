@@ -178,8 +178,6 @@
           <div class="adm-stat-row" style="margin-top:10px">
             <span>PV Max :</span> <strong id="raid-boss-pvmax">—</strong>
             <span style="margin-left:16px">PV actuels :</span> <strong id="raid-boss-pvcurrent">—</strong>
-            <span style="margin-left:16px">Catch rate :</span> <strong id="raid-boss-catch">—</strong>
-            <span style="margin-left:16px">Shiny rate :</span> <strong id="raid-boss-shiny">—</strong>
           </div>
           <div class="adm-stat-row">
             <span>Lancé à :</span> <strong id="raid-start-time">—</strong>
@@ -197,7 +195,7 @@
 
         <!-- Raid simple (ManualRandomRaid) -->
         <div class="adm-card">
-          <p class="adm-card__title"><span class="dot dot--green"></span>Raid aléatoire simple</p>
+          <p class="adm-card__title"><span class="dot dot--green"></span>ULTRA Raid aléatoire</p>
           <p style="color:var(--text-muted);font-size:12px;margin:0 0 10px">
             Lance un raid sur une créature aléatoire via <code>Raid/StartManualRandomRaid</code>.
           </p>
@@ -225,20 +223,23 @@
               <div id="ss-raid-boss-name"></div>
               <input type="hidden" id="raid-boss-name">
             </div>
+            <div class="adm-form-group" style="flex:0 0 auto;justify-content:flex-end">
+              <label class="adm-label">&nbsp;</label>
+              <button class="adm-btn" id="btn-raid-random-boss" title="Sélectionner un boss au hasard">🎲</button>
+            </div>
           </div>
           <div class="adm-form-row">
             <div class="adm-form-group">
               <label class="adm-label" for="raid-boss-pv">PV Max (optionnel)</label>
               <input type="number" id="raid-boss-pv" class="adm-input" placeholder="Auto">
             </div>
-            <!-- <div class="adm-form-group">
-              <label class="adm-label" for="raid-boss-catch">Catch rate</label>
-              <input type="number" id="raid-boss-catch" class="adm-input" placeholder="Auto">
-            </div>
-            <div class="adm-form-group">
-              <label class="adm-label" for="raid-boss-shiny">Shiny rate</label>
-              <input type="number" id="raid-boss-shiny" class="adm-input" placeholder="Auto">
-            </div> -->
+          </div>
+          <div class="adm-switch-row">
+            <label class="adm-switch">
+              <input type="checkbox" id="raid-boss-shiny-switch">
+              <span class="adm-switch__slider"></span>
+            </label>
+            <label for="raid-boss-shiny-switch">✨ Raid shiny</label>
           </div>
           <div class="adm-btn-row">
             <button class="adm-btn adm-btn--success" id="btn-raid-full">🚀 Lancer raid</button>

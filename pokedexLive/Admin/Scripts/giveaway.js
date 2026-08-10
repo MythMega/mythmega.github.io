@@ -31,6 +31,13 @@ function initGiveaway() {
   document.getElementById('btn-giveaway-poke')?.addEventListener('click', () => {
     withBtn(document.getElementById('btn-giveaway-poke'), giveCreature);
   });
+
+  // Switch "donner à tous" : verrouille/déverrouille le select utilisateur
+  const allSwitch = document.getElementById('giveaway-poke-all');
+  allSwitch?.addEventListener('change', () => {
+    ADM.ss['giveaway-user-poke']?.setDisabled(allSwitch.checked);
+    if (allSwitch.checked) ADM.ss['giveaway-user-poke']?.clear();
+  });
 }
 
 // ── Populate helpers ─────────────────────────────────────────
@@ -97,20 +104,34 @@ async function giveCreature() {
   const userRaw  = ADM.ss['giveaway-user-poke']?.getValue();
   const pokeName = ADM.ss['giveaway-poke-name']?.getValue();
   const shiny    = document.getElementById('giveaway-poke-shiny')?.checked ?? false;
+  const allUsers = document.getElementById('giveaway-poke-all')?.checked ?? false;
 
-  if (!userRaw || !pokeName) {
-    showResp(respEl, '❌ Sélectionnez un utilisateur et une créature.', 'error'); return;
+  if (!pokeName) {
+    showResp(respEl, '❌ Sélectionnez une créature.', 'error'); return;
   }
 
-  let user;
-  try { user = JSON.parse(userRaw); } catch { showResp(respEl, '❌ Utilisateur invalide.', 'error'); return; }
+  let body;
+  if (allUsers) {
+    // Donner à tous les utilisateurs présents
+    body = {
+      UserName:    '+Here',
+      Platform:    '',
+      TriggerName: shiny ? `${pokeName}+True` : `${pokeName}+False`,
+    };
+  } else {
+    if (!userRaw) {
+      showResp(respEl, '❌ Sélectionnez un utilisateur et une créature.', 'error'); return;
+    }
+    let user;
+    try { user = JSON.parse(userRaw); } catch { showResp(respEl, '❌ Utilisateur invalide.', 'error'); return; }
+    body = {
+      UserName:    user.Pseudo,
+      Platform:    user.Platform,
+      UserCode:    user.Code_user ?? '',
+      TriggerName: shiny ? `${pokeName}+True` : `${pokeName}+False`,
+    };
+  }
 
-  const body = {
-    UserName:    user.Pseudo,
-    Platform:    user.Platform,
-    UserCode:    user.Code_user ?? '',
-    TriggerName: shiny ? `${pokeName}+True` : `${pokeName}+False`,
-  };
   try {
     const resp = await apiPost('Interface/GiveAway', body);
     showResp(respEl, resp, 'ok');

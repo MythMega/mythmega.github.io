@@ -631,3 +631,90 @@ body {
 #btn-raid-random-boss {
   width: fit-content;
 }
+
+/* ── Modal ──────────────────────────────────────────────────── */
+.adm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.adm-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 480px;
+  max-width: 90vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+}
+.adm-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.adm-modal__header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.adm-modal__count {
+  background: var(--accent-blue);
+  color: #fff;
+  border-radius: 20px;
+  padding: 1px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.adm-modal__body {
+  padding: 12px 18px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 100px;
+}
+.adm-modal__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.adm-modal__user:last-child { border-bottom: none; }
+.adm-modal__user-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 40px;
+}
+.adm-modal__user-platform {
+  color: var(--accent-cyan);
+  font-weight: 500;
+  min-width: 80px;
+}
+.adm-modal__user-name {
+  color: var(--text);
+  flex: 1;
+  word-break: break-word;
+}
+.adm-modal__empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 24px 0;
+  font-size: 13px;
+}
+.adm-modal__footer {
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+}

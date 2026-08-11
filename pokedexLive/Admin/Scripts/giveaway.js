@@ -38,6 +38,60 @@ function initGiveaway() {
     ADM.ss['giveaway-user-poke']?.setDisabled(allSwitch.checked);
     if (allSwitch.checked) ADM.ss['giveaway-user-poke']?.clear();
   });
+
+  // Bouton "utilisateurs actifs" : ouvre la popup
+  document.getElementById('btn-giveaway-active-users')?.addEventListener('click', showActiveUsers);
+
+  // Fermer la popup : bouton OK
+  document.getElementById('btn-active-users-close')?.addEventListener('click', closeActiveUsersModal);
+
+  // Fermer la popup : clic en dehors
+  document.getElementById('active-users-modal')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeActiveUsersModal();
+  });
+}
+
+// ── Modal utilisateurs actifs ─────────────────────────────────
+
+async function showActiveUsers() {
+  const modal = document.getElementById('active-users-modal');
+  const listEl = document.getElementById('active-users-list');
+  const countEl = document.getElementById('active-users-count');
+  if (!modal || !listEl || !countEl) return;
+
+  // Affiche la popup avec un état de chargement
+  modal.style.display = 'flex';
+  listEl.innerHTML = '<div class="adm-modal__empty">Chargement…</div>';
+  countEl.textContent = '…';
+
+  try {
+    const text = await apiGet('Interface/GetActiveUser');
+    let users = [];
+    try { users = JSON.parse(text); } catch { users = []; }
+    if (!Array.isArray(users)) users = [];
+
+    countEl.textContent = String(users.length);
+
+    if (!users.length) {
+      listEl.innerHTML = '<div class="adm-modal__empty">Aucun utilisateur actif.</div>';
+      return;
+    }
+
+    listEl.innerHTML = users.map(u => `
+      <div class="adm-modal__user">
+        <span class="adm-modal__user-id">${escapeHtml(String(u.ID ?? ''))}</span>
+        <span class="adm-modal__user-platform">${escapeHtml(String(u.Platform ?? ''))}</span>
+        <span class="adm-modal__user-name">${escapeHtml(String(u.Username ?? ''))}</span>
+      </div>`).join('');
+  } catch (e) {
+    listEl.innerHTML = `<div class="adm-modal__empty">❌ ${escapeHtml(e.message)}</div>`;
+    countEl.textContent = '0';
+  }
+}
+
+function closeActiveUsersModal() {
+  const modal = document.getElementById('active-users-modal');
+  if (modal) modal.style.display = 'none';
 }
 
 // ── Populate helpers ─────────────────────────────────────────

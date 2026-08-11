@@ -1,0 +1,348 @@
+{
+  "bossName": "Trompignon",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Foongus_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Foongus_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 105000,
+  "date": "2026-08-11 22:47:43",
+  "durationSec": 1274,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 26250,
+      "countAtk": 1,
+      "baseDmg": 36067,
+      "level": 19,
+      "raidCount": 1024,
+      "luck": 0.7278121
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 26250,
+      "countAtk": 1,
+      "baseDmg": 7034,
+      "level": 16,
+      "raidCount": 293,
+      "luck": 3.7318738
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 24167,
+      "countAtk": 4,
+      "baseDmg": 822,
+      "level": 8,
+      "raidCount": 43,
+      "luck": 7.350061
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 14835,
+      "countAtk": 7,
+      "baseDmg": 376,
+      "level": 2,
+      "raidCount": 3,
+      "luck": 5.636398
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 14553,
+      "countAtk": 2,
+      "baseDmg": 975,
+      "level": 10,
+      "raidCount": 32,
+      "luck": 7.463077
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 91502
+    },
+    {
+      "platform": "youtube",
+      "damage": 14553
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-11 22:48:05",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 376,
+      "pvAfter": 104624,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 22:48:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 26250,
+      "pvAfter": 78374,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 22:54:13",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 822,
+      "pvAfter": 77552,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 22:54:30",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 77552,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "maxenceriot a tent\u00E9 de se soigner (mais n\u0027\u00E9tait pas infect\u00E9)"
+    },
+    {
+      "at": "2026-08-11 22:56:14",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 852,
+      "pvAfter": 76700,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 22:58:18",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 433,
+      "pvAfter": 76267,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:02:40",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3480,
+      "pvAfter": 72787,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:02:50",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 26250,
+      "pvAfter": 46537,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:03:01",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 10956,
+      "pvAfter": 35581,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:03:05",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 5850,
+      "pvAfter": 29731,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:04:02",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3996,
+      "pvAfter": 25735,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:06:07",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2838,
+      "pvAfter": 22897,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:07:03",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 7067,
+      "pvAfter": 15830,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:07:05",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 8703,
+      "pvAfter": 7127,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 23:08:12",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2860,
+      "pvAfter": 4267,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-08-11 23:08:52",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 4267,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "Shiny_Empy a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-08-11 23:08:57",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 5322,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    }
+  ]
+}

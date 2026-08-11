@@ -1,0 +1,293 @@
+{
+  "bossName": "Chartor",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Torkoal_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Torkoal_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-08-11 17:08:42",
+  "durationSec": 5011,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 49060,
+      "countAtk": 3,
+      "baseDmg": 11560,
+      "level": 17,
+      "raidCount": 424,
+      "luck": 1.4146482
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 25719,
+      "countAtk": 2,
+      "baseDmg": 6969,
+      "level": 16,
+      "raidCount": 289,
+      "luck": 1.8452432
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 2453,
+      "countAtk": 5,
+      "baseDmg": 267,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.8374532
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "alexciel",
+      "damage": 941,
+      "countAtk": 1,
+      "baseDmg": 941,
+      "level": 11,
+      "raidCount": 37,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 787,
+      "countAtk": 1,
+      "baseDmg": 787,
+      "level": 8,
+      "raidCount": 39,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 78019
+    },
+    {
+      "platform": "youtube",
+      "damage": 941
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-11 17:12:02",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 267,
+      "pvAfter": 74733,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 17:28:47",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 686,
+      "pvAfter": 74047,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 17:32:39",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 11560,
+      "pvAfter": 62487,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 17:50:34",
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "damages": 941,
+      "pvAfter": 61546,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-11 18:12:10",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 42796,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 18:15:42",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 568,
+      "pvAfter": 42228,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 18:16:30",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 6969,
+      "pvAfter": 35259,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-11 18:29:34",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 568,
+      "pvAfter": 34691,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 18:29:54",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 15941,
+      "heal": false,
+      "critical": true,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-08-11 18:30:02",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 787,
+      "pvAfter": 15154,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 18:31:15",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 364,
+      "pvAfter": 14790,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-11 18:32:13",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

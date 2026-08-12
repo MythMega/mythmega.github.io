@@ -1,0 +1,353 @@
+{
+  "bossName": "Limonde",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Stunfisk_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Stunfisk_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 95000,
+  "date": "2026-08-12 23:57:09",
+  "durationSec": 5251,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 63699,
+      "countAtk": 3,
+      "baseDmg": 16199,
+      "level": 18,
+      "raidCount": 519,
+      "luck": 1.3107599
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 11807,
+      "countAtk": 1,
+      "baseDmg": 11807,
+      "level": 17,
+      "raidCount": 431,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 10310,
+      "countAtk": 5,
+      "baseDmg": 1058,
+      "level": 10,
+      "raidCount": 37,
+      "luck": 1.9489603
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 7026,
+      "countAtk": 1,
+      "baseDmg": 7026,
+      "level": 16,
+      "raidCount": 298,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 6490,
+      "countAtk": 4,
+      "baseDmg": 882,
+      "level": 8,
+      "raidCount": 48,
+      "luck": 1.8395692
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Sage_Possiblement",
+      "damage": 232,
+      "countAtk": 1,
+      "baseDmg": 232,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 10310
+    },
+    {
+      "platform": "twitch",
+      "damage": 89254
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-12 23:58:33",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1058,
+      "pvAfter": 93942,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:03:51",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 882,
+      "pvAfter": 93060,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:04:11",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16199,
+      "pvAfter": 76861,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:05:19",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 232,
+      "pvAfter": 76629,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:13:06",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1894,
+      "pvAfter": 74735,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:15:24",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2370,
+      "pvAfter": 72365,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-13 00:28:18",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 11807,
+      "pvAfter": 60558,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:36:01",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 36808,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:48:45",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2360,
+      "pvAfter": 34448,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-08-13 00:55:36",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1796,
+      "pvAfter": 32652,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:56:14",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 8902,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 00:57:26",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2364,
+      "pvAfter": 6538,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 01:04:47",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1918,
+      "pvAfter": 4620,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 01:24:32",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2158,
+      "pvAfter": 2462,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 01:24:40",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7026,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "bossName": "Phione",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Phione_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Phione_shiny.gif",
+  "bossRarity": "EPIC",
+  "shiny": true,
+  "pvMax": 70000,
+  "date": "2026-08-13 20:42:05",
+  "durationSec": 4269,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 81659,
+      "countAtk": 5,
+      "baseDmg": 15984,
+      "level": 18,
+      "raidCount": 520,
+      "luck": 1.0217593
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 2350,
+      "countAtk": 2,
+      "baseDmg": 1030,
+      "level": 10,
+      "raidCount": 38,
+      "luck": 1.1407768
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 1713,
+      "countAtk": 2,
+      "baseDmg": 833,
+      "level": 8,
+      "raidCount": 49,
+      "luck": 1.0282112
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "ibiza590",
+      "damage": 686,
+      "countAtk": 2,
+      "baseDmg": 285,
+      "level": 2,
+      "raidCount": 4,
+      "luck": 1.2035087
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 84058
+    },
+    {
+      "platform": "youtube",
+      "damage": 2350
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "ibiza590",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 4
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-13 20:46:26",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 833,
+      "pvAfter": 69167,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-08-13 20:47:22",
+      "pseudo": "ibiza590",
+      "platform": "twitch",
+      "damages": 285,
+      "pvAfter": 68882,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 20:48:53",
+      "pseudo": "ibiza590",
+      "platform": "twitch",
+      "damages": 401,
+      "pvAfter": 68481,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 21:14:31",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 15984,
+      "pvAfter": 52497,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-08-13 21:16:44",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16041,
+      "pvAfter": 36456,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 21:27:14",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16071,
+      "pvAfter": 20385,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 21:28:26",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 880,
+      "pvAfter": 19505,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 21:45:07",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16063,
+      "pvAfter": 3442,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 21:49:13",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1030,
+      "pvAfter": 2412,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 21:52:06",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1320,
+      "pvAfter": 1092,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 21:53:15",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus sous vent arri\u00E8re ennemi !"
+    }
+  ]
+}

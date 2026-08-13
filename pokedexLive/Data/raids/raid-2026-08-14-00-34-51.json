@@ -1,0 +1,373 @@
+{
+  "bossName": "Boskara",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Grotle_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Grotle_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 90000,
+  "date": "2026-08-14 00:34:51",
+  "durationSec": 2286,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 56733,
+      "countAtk": 3,
+      "baseDmg": 11733,
+      "level": 17,
+      "raidCount": 434,
+      "luck": 1.6117787
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 16187,
+      "countAtk": 1,
+      "baseDmg": 16187,
+      "level": 18,
+      "raidCount": 522,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 7327,
+      "countAtk": 4,
+      "baseDmg": 1119,
+      "level": 10,
+      "raidCount": 41,
+      "luck": 1.6369526
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 7108,
+      "countAtk": 1,
+      "baseDmg": 7108,
+      "level": 16,
+      "raidCount": 301,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 2892,
+      "countAtk": 2,
+      "baseDmg": 884,
+      "level": 8,
+      "raidCount": 52,
+      "luck": 1.6357466
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "tiagolegoatdesgoat",
+      "damage": 558,
+      "countAtk": 2,
+      "baseDmg": 178,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.5674157
+    },
+    {
+      "platform": "tiktok",
+      "pseudo": "\uD83C\uDF38|\u2022\uD835\uDCD4\uD835\uDCFD\uD835\uDCF8\uD835\uDCF4\uD835\uDCEA\uD835\uDCF5\uD835\uDCF2\u2022|\uD83C\uDF38",
+      "damage": 200,
+      "countAtk": 1,
+      "baseDmg": 200,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 83478
+    },
+    {
+      "platform": "tiktok",
+      "damage": 200
+    },
+    {
+      "platform": "youtube",
+      "damage": 7327
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "tiagolegoatdesgoat",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "\uD83C\uDF38|\u2022\uD835\uDCD4\uD835\uDCFD\uD835\uDCF8\uD835\uDCF4\uD835\uDCEA\uD835\uDCF5\uD835\uDCF2\u2022|\uD83C\uDF38",
+      "platform": "tiktok",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-14 00:35:41",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16187,
+      "pvAfter": 73813,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-08-14 00:37:19",
+      "pseudo": "tiagolegoatdesgoat",
+      "platform": "twitch",
+      "damages": 178,
+      "pvAfter": 73635,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 00:37:21",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 11733,
+      "pvAfter": 61902,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 00:40:39",
+      "pseudo": "\uD83C\uDF38|\u2022\uD835\uDCD4\uD835\uDCFD\uD835\uDCF8\uD835\uDCF4\uD835\uDCEA\uD835\uDCF5\uD835\uDCF2\u2022|\uD83C\uDF38",
+      "platform": "tiktok",
+      "damages": 200,
+      "pvAfter": 61702,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 00:40:48",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1119,
+      "pvAfter": 60583,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 00:43:44",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1480,
+      "pvAfter": 59103,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 00:46:47",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 884,
+      "pvAfter": 58219,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 00:53:38",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2382,
+      "pvAfter": 55837,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 00:59:13",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 33337,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 01:01:40",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7108,
+      "pvAfter": 26229,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 01:01:44",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2346,
+      "pvAfter": 23883,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 01:01:53",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 2008,
+      "pvAfter": 21875,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 01:02:05",
+      "pseudo": "tiagolegoatdesgoat",
+      "platform": "twitch",
+      "damages": 380,
+      "pvAfter": 21495,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 01:12:57",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "bossName": "Mega Scarabrute",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mega Pinsir_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mega Pinsir_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 90000,
+  "date": "2026-08-13 21:53:52",
+  "durationSec": 3977,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 67500,
+      "countAtk": 3,
+      "baseDmg": 36482,
+      "level": 19,
+      "raidCount": 1025,
+      "luck": 0.6167425
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 11964,
+      "countAtk": 1,
+      "baseDmg": 11964,
+      "level": 17,
+      "raidCount": 432,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 7142,
+      "countAtk": 1,
+      "baseDmg": 7142,
+      "level": 16,
+      "raidCount": 299,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 4398,
+      "countAtk": 3,
+      "baseDmg": 1056,
+      "level": 10,
+      "raidCount": 39,
+      "luck": 1.3882576
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 914,
+      "countAtk": 1,
+      "baseDmg": 914,
+      "level": 8,
+      "raidCount": 50,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 4398
+    },
+    {
+      "platform": "twitch",
+      "damage": 87520
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-13 21:54:12",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1056,
+      "pvAfter": 88944,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-08-13 22:07:32",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 66444,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 22:10:29",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7142,
+      "pvAfter": 59302,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 22:16:47",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1120,
+      "pvAfter": 58182,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 22:36:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 35682,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 22:47:53",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 914,
+      "pvAfter": 34768,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 22:48:18",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 12268,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 22:59:44",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 11964,
+      "pvAfter": 304,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-13 23:00:09",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2222,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    }
+  ]
+}

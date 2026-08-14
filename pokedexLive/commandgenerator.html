@@ -9,7 +9,7 @@
 <body>
   <nav class="sd-navbar">
     <div class="sd-container sd-navbar__inner">
-      <a href="main.html" class="sd-navbar__brand">🎮 StreamDex</a>
+      <a href="main.html" class="sd-navbar__brand">StreamDex</a>
       <button class="sd-navbar__hamburger" id="sd-hamburger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -20,10 +20,10 @@
         <a href="zonedex.html" class="sd-navbar__link">Zones</a>
         <a href="pokestats.html" class="sd-navbar__link">Stats</a>
         <div class="sd-dropdown">
-          <button class="sd-navbar__link sd-dropdown__toggle">Achat/Vente ▾</button>
+          <button class="sd-navbar__link sd-dropdown__toggle">Achat/Vente</button>
           <div class="sd-dropdown__menu">
-            <a href="buypokemon.html" class="sd-dropdown__item">🛒 Boutique</a>
-            <a href="scrappokemon.html" class="sd-dropdown__item">♻️ Scrap</a>
+            <a href="buypokemon.html" class="sd-dropdown__item">Boutique</a>
+            <a href="scrappokemon.html" class="sd-dropdown__item">Scrap</a>
           </div>
         </div>
         <a href="records.html" class="sd-navbar__link">Records</a>
@@ -38,16 +38,16 @@
     <div class="sd-container">
 
       <div class="sd-section-header" style="margin-bottom:24px">
-        <h1>⚙️ Générateur de commandes</h1>
+        <h1>Générateur de commandes</h1>
       </div>
 
       <!-- Onglets -->
       <div class="sd-tabs" id="cg-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:0;border-bottom:2px solid var(--border-color)">
-        <button class="sd-tab sd-tab--active" data-tab="buy">💰 Buy</button>
-        <button class="sd-tab" data-tab="scrap">♻️ Scrap</button>
-        <button class="sd-tab" data-tab="trade">🔄 Trade</button>
-        <button class="sd-tab" data-tab="zone">📍 Zone</button>
-        <button class="sd-tab" data-tab="background">🎴 Fond de carte</button>
+        <button class="sd-tab sd-tab--active" data-tab="buy">Buy</button>
+        <button class="sd-tab" data-tab="scrap">Scrap</button>
+        <button class="sd-tab" data-tab="trade">Trade</button>
+        <button class="sd-tab" data-tab="zone">Zone</button>
+        <button class="sd-tab" data-tab="background">Fond de carte</button>
       </div>
 
       <!-- Contenu des onglets -->
@@ -55,7 +55,7 @@
 
         <!-- ── BUY ─────────────────────────────────────────────────── -->
         <div id="tab-buy" class="cg-panel">
-          <h2 style="font-size:16px;margin:0 0 20px">💰 Acheter une créature</h2>
+          <h2 style="font-size:16px;margin:0 0 20px">Acheter une créature</h2>
           <div class="sd-form-group">
             <label class="sd-label">Créature</label>
             <div style="position:relative">
@@ -68,24 +68,24 @@
             <label class="sd-label">Version</label>
             <div style="display:flex;gap:8px">
               <button class="sd-btn sd-btn--ghost cg-variant-btn cg-variant--active" data-variant="normal">Normal</button>
-              <button class="sd-btn sd-btn--ghost cg-variant-btn" data-variant="shiny">✨ Shiny</button>
+              <button class="sd-btn sd-btn--ghost cg-variant-btn" data-variant="shiny">Shiny</button>
             </div>
           </div>
           <div class="cg-result-area">
             <div class="cg-result-box" id="buy-result"></div>
-            <button class="sd-btn sd-btn--primary" id="buy-copy" style="display:none">📋 Copier</button>
+            <button class="sd-btn sd-btn--primary" id="buy-copy" style="display:none">Copier</button>
           </div>
           <button class="sd-btn sd-btn--accent" id="buy-generate" style="margin-top:16px">Générer la commande</button>
         </div>
 
         <!-- ── SCRAP ──────────────────────────────────────────────── -->
         <div id="tab-scrap" class="cg-panel" style="display:none">
-          <h2 style="font-size:16px;margin:0 0 20px">♻️ Scrapper une créature</h2>
+          <h2 style="font-size:16px;margin:0 0 20px">Scrapper une créature</h2>
           <div class="sd-form-group">
             <label class="sd-label">Mode</label>
             <select class="sd-select" id="scrap-mode" style="width:100%">
-              <option value="full fulldex">Full Scrap — scrapper tout le pokédex normal &amp; shiny</option>
-              <option value="{name} complete" selected>Complete — scrapper tous les normaux &amp; shiny du pokémon</option>
+              <option value="full fulldex">Full Scrap — scrapper tout le pokédex normal & shiny</option>
+              <option value="{name} complete" selected>Complete — scrapper tous les normaux & shiny du pokémon</option>
               <option value="{name} fullnormal">Fullnormal — scrapper tous les normaux</option>
               <option value="{name} fullshiny">Fullshiny — scrapper tous les shiny</option>
               <option value="{name} normal">Normal — scrapper 1 normal</option>
@@ -102,14 +102,14 @@
           </div>
           <div class="cg-result-area">
             <div class="cg-result-box" id="scrap-result"></div>
-            <button class="sd-btn sd-btn--primary" id="scrap-copy" style="display:none">📋 Copier</button>
+            <button class="sd-btn sd-btn--primary" id="scrap-copy" style="display:none">Copier</button>
           </div>
           <button class="sd-btn sd-btn--accent" id="scrap-generate" style="margin-top:16px">Générer la commande</button>
         </div>
 
         <!-- ── TRADE ──────────────────────────────────────────────── -->
         <div id="tab-trade" class="cg-panel" style="display:none">
-          <h2 style="font-size:16px;margin:0 0 20px">🔄 Proposer un échange</h2>
+          <h2 style="font-size:16px;margin:0 0 20px">Proposer un échange</h2>
           <div style="display:flex;gap:24px;flex-wrap:wrap">
             <div style="flex:1;min-width:200px">
               <h3 style="font-size:13px;color:var(--text-secondary);margin:0 0 12px;text-transform:uppercase;letter-spacing:.05em">Vous envoyez</h3>
@@ -125,7 +125,7 @@
                 <label class="sd-label">Version</label>
                 <div style="display:flex;gap:8px">
                   <button class="sd-btn sd-btn--ghost cg-variant-btn cg-variant--active" data-group="send" data-variant="Normal">Normal</button>
-                  <button class="sd-btn sd-btn--ghost cg-variant-btn" data-group="send" data-variant="Shiny">✨ Shiny</button>
+                  <button class="sd-btn sd-btn--ghost cg-variant-btn" data-group="send" data-variant="Shiny">Shiny</button>
                 </div>
               </div>
             </div>
@@ -143,21 +143,21 @@
                 <label class="sd-label">Version</label>
                 <div style="display:flex;gap:8px">
                   <button class="sd-btn sd-btn--ghost cg-variant-btn cg-variant--active" data-group="recv" data-variant="Normal">Normal</button>
-                  <button class="sd-btn sd-btn--ghost cg-variant-btn" data-group="recv" data-variant="Shiny">✨ Shiny</button>
+                  <button class="sd-btn sd-btn--ghost cg-variant-btn" data-group="recv" data-variant="Shiny">Shiny</button>
                 </div>
               </div>
             </div>
           </div>
           <div class="cg-result-area">
             <div class="cg-result-box" id="trade-result"></div>
-            <button class="sd-btn sd-btn--primary" id="trade-copy" style="display:none">📋 Copier</button>
+            <button class="sd-btn sd-btn--primary" id="trade-copy" style="display:none">Copier</button>
           </div>
           <button class="sd-btn sd-btn--accent" id="trade-generate" style="margin-top:16px">Générer la commande</button>
         </div>
 
         <!-- ── ZONE ───────────────────────────────────────────────── -->
         <div id="tab-zone" class="cg-panel" style="display:none">
-          <h2 style="font-size:16px;margin:0 0 20px">📍 Changer de zone</h2>
+          <h2 style="font-size:16px;margin:0 0 20px">Changer de zone</h2>
           <div class="sd-form-group">
             <label class="sd-label">Région</label>
             <div id="zone-region-btns" style="display:flex;gap:8px;flex-wrap:wrap"></div>
@@ -165,13 +165,13 @@
           <div id="zone-cards-container" class="sd-grid sd-grid--auto" style="margin-bottom:16px"></div>
           <div class="cg-result-area">
             <div class="cg-result-box" id="zone-result"></div>
-            <button class="sd-btn sd-btn--primary" id="zone-copy" style="display:none">📋 Copier</button>
+            <button class="sd-btn sd-btn--primary" id="zone-copy" style="display:none">Copier</button>
           </div>
         </div>
 
         <!-- ── BACKGROUND ─────────────────────────────────────────── -->
         <div id="tab-background" class="cg-panel" style="display:none">
-          <h2 style="font-size:16px;margin:0 0 20px">🎴 Changer le fond de carte dresseur</h2>
+          <h2 style="font-size:16px;margin:0 0 20px">Changer le fond de carte dresseur</h2>
           <div class="sd-form-group">
             <label class="sd-label">Groupe</label>
             <div id="bg-group-btns" style="display:flex;gap:8px;flex-wrap:wrap"></div>
@@ -179,7 +179,7 @@
           <div id="bg-cards-container" class="sd-grid sd-grid--auto" style="margin-bottom:16px"></div>
           <div class="cg-result-area">
             <div class="cg-result-box" id="bg-result"></div>
-            <button class="sd-btn sd-btn--primary" id="bg-copy" style="display:none">📋 Copier</button>
+            <button class="sd-btn sd-btn--primary" id="bg-copy" style="display:none">Copier</button>
           </div>
         </div>
       </div><!-- /sd-card -->

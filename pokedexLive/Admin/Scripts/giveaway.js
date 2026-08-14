@@ -65,9 +65,15 @@ async function showActiveUsers() {
   countEl.textContent = '…';
 
   try {
-    const text = await apiGet('Interface/GetActiveUser');
+    const text = await apiPost('Interface/GetActiveUser', {});
     let users = [];
-    try { users = JSON.parse(text); } catch { users = []; }
+    try {
+      users = JSON.parse(text);
+      // La réponse peut être doublement encodée : re-parser si c'est une string
+      if (typeof users === 'string') users = JSON.parse(users);
+    } catch (e) {
+      console.log('[GetActiveUser] Erreur JSON.parse :', e);
+    }
     if (!Array.isArray(users)) users = [];
 
     countEl.textContent = String(users.length);
@@ -81,7 +87,7 @@ async function showActiveUsers() {
       <div class="adm-modal__user">
         <span class="adm-modal__user-id">${escapeHtml(String(u.ID ?? ''))}</span>
         <span class="adm-modal__user-platform">${escapeHtml(String(u.Platform ?? ''))}</span>
-        <span class="adm-modal__user-name">${escapeHtml(String(u.Username ?? ''))}</span>
+        <span class="adm-modal__user-name">${escapeHtml(String(u.UserName ?? ''))}</span>
       </div>`).join('');
   } catch (e) {
     listEl.innerHTML = `<div class="adm-modal__empty">❌ ${escapeHtml(e.message)}</div>`;

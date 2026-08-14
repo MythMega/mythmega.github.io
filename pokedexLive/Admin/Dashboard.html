@@ -10,11 +10,11 @@
 
 <!-- ══ Topbar ════════════════════════════════════════════════ -->
 <header class="adm-topbar">
-  <a href="../main.html" class="adm-topbar__brand">🎮 PKServ</a>
+  <a href="../main.html" class="adm-topbar__brand">PKServ</a>
   <span style="color:var(--text-muted);font-size:13px">/ Admin Dashboard</span>
   <div class="adm-topbar__spacer"></div>
   <span class="adm-topbar__port" id="topbar-port">port …</span>
-  <button class="adm-btn adm-btn--sm" id="btn-connect" style="margin-left:12px">🔌 Connecter</button>
+  <button class="adm-btn adm-btn--sm" id="btn-connect" style="margin-left:12px">Connecter</button>
 </header>
 
 <!-- ══ Layout ════════════════════════════════════════════════ -->
@@ -25,25 +25,25 @@
     <div class="adm-sidebar__section">Navigation</div>
 
     <button class="adm-nav-btn" data-tab="overview">
-      <span class="icon">🏠</span> Vue d'ensemble
+      <span class="icon"></span> Vue d'ensemble
     </button>
     <button class="adm-nav-btn" data-tab="raid">
-      <span class="icon">⚔️</span> Raid
+      <span class="icon"></span> Raid
     </button>
     <button class="adm-nav-btn" data-tab="giveaway">
-      <span class="icon">🎁</span> Giveaway
+      <span class="icon"></span> Giveaway
     </button>
     <button class="adm-nav-btn" data-tab="user">
-      <span class="icon">👤</span> Utilisateur
+      <span class="icon"></span> Utilisateur
     </button>
     <button class="adm-nav-btn" data-tab="system">
-      <span class="icon">⚙️</span> Système
+      <span class="icon"></span> Système
     </button>
     <button class="adm-nav-btn" data-tab="settings">
-      <span class="icon">🔧</span> Paramètres
+      <span class="icon"></span> Paramètres
     </button>
     <button class="adm-nav-btn" data-tab="history">
-      <span class="icon">📋</span> Historique
+      <span class="icon"></span> Historique
     </button>
 
     <hr class="adm-sidebar__sep">
@@ -53,7 +53,7 @@
       <p class="adm-label" style="margin-bottom:4px">Utilisateurs</p>
       <div class="adm-response" id="resp-users" style="font-size:12px;padding:6px 10px">Non chargé</div>
       <button class="adm-btn adm-btn--sm" id="btn-load-users" style="margin-top:6px;width:100%">
-        🔄 Recharger
+        Recharger
       </button>
     </div>
 
@@ -61,7 +61,7 @@
       <p class="adm-label" style="margin-bottom:4px">Créatures</p>
       <div class="adm-response" id="resp-creatures" style="font-size:12px;padding:6px 10px">Non chargé</div>
       <button class="adm-btn adm-btn--sm" id="btn-load-creatures" style="margin-top:6px;width:100%">
-        🔄 Recharger
+        Recharger
       </button>
     </div>
 
@@ -69,7 +69,7 @@
       <p class="adm-label" style="margin-bottom:4px">Balls</p>
       <div class="adm-response" id="resp-balls" style="font-size:12px;padding:6px 10px">Non chargé</div>
       <button class="adm-btn adm-btn--sm" id="btn-load-balls" style="margin-top:6px;width:100%">
-        🔄 Recharger
+        Recharger
       </button>
     </div>
   </nav>
@@ -81,7 +81,7 @@
     <div class="adm-tab" id="tab-overview">
       <div class="adm-section-header">
         <div>
-          <h2>🏠 Vue d'ensemble</h2>
+          <h2>Vue d'ensemble</h2>
           <p>État global du serveur PKServ</p>
         </div>
       </div>
@@ -129,10 +129,10 @@
       <div class="adm-card">
         <p class="adm-card__title"><span class="dot dot--purple"></span>Accès rapides</p>
         <div class="adm-btn-row">
-          <button class="adm-btn adm-btn--primary"  onclick="document.querySelector('[data-tab=raid]').click()">⚔️ Module Raid</button>
-          <button class="adm-btn adm-btn--success"  onclick="document.querySelector('[data-tab=giveaway]').click()">🎁 Module Giveaway</button>
-          <button class="adm-btn adm-btn--warning"  onclick="document.querySelector('[data-tab=system]').click()">⚙️ Module Système</button>
-          <button class="adm-btn"                   onclick="document.querySelector('[data-tab=history]').click()">📋 Historique</button>
+          <button class="adm-btn adm-btn--primary"  onclick="document.querySelector('[data-tab=raid]').click()">Module Raid</button>
+          <button class="adm-btn adm-btn--success"  onclick="document.querySelector('[data-tab=giveaway]').click()">Module Giveaway</button>
+          <button class="adm-btn adm-btn--warning"  onclick="document.querySelector('[data-tab=system]').click()">Module Système</button>
+          <button class="adm-btn"                   onclick="document.querySelector('[data-tab=history]').click()">Historique</button>
         </div>
       </div>
     </div>
@@ -141,17 +141,17 @@
     <div class="adm-tab" id="tab-raid">
       <div class="adm-section-header">
         <div>
-          <h2>⚔️ Raid</h2>
+          <h2>Raid</h2>
           <p>Gérer le raid actif, lancer ou annuler un raid, envoyer un boost</p>
         </div>
-        <button class="adm-btn" id="btn-raid-refresh">🔄 Refresh</button>
+        <button class="adm-btn" id="btn-raid-refresh">Actualiser</button>
       </div>
 
       <!-- Statut actuel -->
       <div class="adm-card">
         <p class="adm-card__title"><span class="dot dot--blue"></span>Statut du raid actif</p>
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-          <span id="raid-status-badge" class="adm-badge adm-badge--idle">😴 Aucun raid</span>
+          <span id="raid-status-badge" class="adm-badge adm-badge--idle">Aucun raid</span>
         </div>
         <div class="adm-hp-wrap">
           <div class="adm-hp-label">
@@ -188,7 +188,7 @@
           <div id="raid-history-log" class="adm-raid-log"></div>
         </div>
 
-        <div class="adm-response" id="resp-raid-status">Appuyez sur Refresh.</div>
+        <div class="adm-response" id="resp-raid-status">Appuyez sur Actualiser.</div>
       </div>
 
       <div class="adm-grid adm-grid--2">
@@ -206,7 +206,7 @@
               style="resize:vertical;font-family:monospace;font-size:12px"></textarea>
           </div>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--primary" id="btn-raid-simple">🎲 Lancer raid aléatoire</button>
+            <button class="adm-btn adm-btn--primary" id="btn-raid-simple">Lancer raid aléatoire</button>
           </div>
           <div class="adm-response" id="resp-raid-simple">—</div>
         </div>
@@ -225,7 +225,7 @@
             </div>
             <div class="adm-form-group" style="flex:0 0 auto;justify-content:flex-end">
               <label class="adm-label">&nbsp;</label>
-              <button class="adm-btn" id="btn-raid-random-boss" title="Sélectionner un boss au hasard">🎲</button>
+              <button class="adm-btn" id="btn-raid-random-boss" title="Sélectionner un boss au hasard">Aléatoire</button>
             </div>
           </div>
           <div class="adm-form-row">
@@ -239,10 +239,10 @@
               <input type="checkbox" id="raid-boss-shiny-switch">
               <span class="adm-switch__slider"></span>
             </label>
-            <label for="raid-boss-shiny-switch">✨ Raid shiny</label>
+            <label for="raid-boss-shiny-switch">Raid shiny</label>
           </div>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--success" id="btn-raid-full">🚀 Lancer raid</button>
+            <button class="adm-btn adm-btn--success" id="btn-raid-full">Lancer raid</button>
           </div>
           <div class="adm-response" id="resp-raid-full">—</div>
         </div>
@@ -254,7 +254,7 @@
             Stoppe le raid actif via <code>Interface/Raid/Cancel</code>.
           </p>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--danger" id="btn-raid-cancel">🛑 Annuler le raid</button>
+            <button class="adm-btn adm-btn--danger" id="btn-raid-cancel">Annuler le raid</button>
           </div>
           <div class="adm-response" id="resp-raid-cancel">—</div>
         </div>
@@ -276,7 +276,7 @@
             </div>
           </div>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--warning" id="btn-raid-boost">⚡ Envoyer boost</button>
+            <button class="adm-btn adm-btn--warning" id="btn-raid-boost">Envoyer boost</button>
           </div>
           <div class="adm-response" id="resp-raid-boost">—</div>
         </div>
@@ -288,7 +288,7 @@
     <div class="adm-tab" id="tab-giveaway">
       <div class="adm-section-header">
         <div>
-          <h2>🎁 Giveaway</h2>
+          <h2>Giveaway</h2>
           <p>Lancer une ball ou donner une créature directement à un utilisateur</p>
         </div>
       </div>
@@ -316,7 +316,7 @@
             </div>
           </div>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--primary" id="btn-giveaway-ball">🎯 Lancer ball</button>
+            <button class="adm-btn adm-btn--primary" id="btn-giveaway-ball">Lancer ball</button>
           </div>
           <div class="adm-response" id="resp-giveaway-ball">—</div>
         </div>
@@ -346,15 +346,15 @@
               <input type="checkbox" id="giveaway-poke-all">
               <span class="adm-switch__slider"></span>
             </label>
-            <label for="giveaway-poke-all">👥 Donner à tous les utilisateurs</label>
-            <button class="adm-btn adm-btn--sm" id="btn-giveaway-active-users" title="Voir les utilisateurs actifs">👥</button>
+            <label for="giveaway-poke-all">Donner à tous les utilisateurs</label>
+            <button class="adm-btn adm-btn--sm" id="btn-giveaway-active-users" title="Voir les utilisateurs actifs">Voir</button>
           </div>
           <div class="adm-checkbox-row" style="margin-bottom:12px">
             <input type="checkbox" id="giveaway-poke-shiny">
-            <label for="giveaway-poke-shiny">✨ Shiny</label>
+            <label for="giveaway-poke-shiny">Shiny</label>
           </div>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--success" id="btn-giveaway-poke">🎁 Donner créature</button>
+            <button class="adm-btn adm-btn--success" id="btn-giveaway-poke">Donner créature</button>
           </div>
           <div class="adm-response" id="resp-giveaway-poke">—</div>
         </div>
@@ -366,7 +366,7 @@
     <div class="adm-tab" id="tab-user">
       <div class="adm-section-header">
         <div>
-          <h2>👤 Utilisateur</h2>
+          <h2>Utilisateur</h2>
           <p>Fusionner des comptes ou supprimer les comptes vides</p>
         </div>
       </div>
@@ -416,7 +416,7 @@
           </div>
 
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--danger" id="btn-transfer-account">⚠️ Fusionner les comptes</button>
+            <button class="adm-btn adm-btn--danger" id="btn-transfer-account">Fusionner les comptes</button>
           </div>
           <div class="adm-response" id="resp-transfer">—</div>
         </div>
@@ -428,7 +428,7 @@
             Supprime tous les comptes qui n'ont jamais lancé de ball via <code>System/ClearEmptyAccounts</code>.
           </p>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--danger" id="btn-clear-empty">🗑️ Supprimer les comptes vides</button>
+            <button class="adm-btn adm-btn--danger" id="btn-clear-empty">Supprimer les comptes vides</button>
           </div>
           <div class="adm-response" id="resp-clear-empty">—</div>
         </div>
@@ -440,7 +440,7 @@
     <div class="adm-tab" id="tab-system">
       <div class="adm-section-header">
         <div>
-          <h2>⚙️ Système</h2>
+          <h2>Système</h2>
           <p>Export global, génération du dex disponible, rechargement des données</p>
         </div>
       </div>
@@ -455,8 +455,8 @@
             Le mode <em>forcé</em> réexporte tous les utilisateurs, même sans changement récent.
           </p>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--primary" id="btn-sys-export">📤 Export (delta)</button>
-            <button class="adm-btn adm-btn--warning" id="btn-sys-export-force">📤 Export (forcé)</button>
+            <button class="adm-btn adm-btn--primary" id="btn-sys-export">Export (delta)</button>
+            <button class="adm-btn adm-btn--warning" id="btn-sys-export-force">Export (forcé)</button>
           </div>
           <div class="adm-response" id="resp-sys-export">—</div>
         </div>
@@ -468,7 +468,7 @@
             Génère le fichier de dex disponible via <code>Interface/GenerateAvailableDex</code>.
           </p>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--success" id="btn-sys-availdex">🗂️ Générer</button>
+            <button class="adm-btn adm-btn--success" id="btn-sys-availdex">Générer</button>
           </div>
           <div class="adm-response" id="resp-sys-availdex">—</div>
         </div>
@@ -481,7 +481,7 @@
             <code>System/ReloadData</code>.
           </p>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--warning" id="btn-sys-reload">🔃 Recharger</button>
+            <button class="adm-btn adm-btn--warning" id="btn-sys-reload">Recharger</button>
           </div>
           <div class="adm-response" id="resp-sys-reload">—</div>
         </div>
@@ -500,7 +500,7 @@
             </div>
           </div>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--primary" id="btn-sys-change-port">🔌 Appliquer le port</button>
+            <button class="adm-btn adm-btn--primary" id="btn-sys-change-port">Appliquer le port</button>
           </div>
           <div class="adm-response" id="resp-sys-change-port">—</div>
         </div>
@@ -512,7 +512,7 @@
     <div class="adm-tab" id="tab-settings">
       <div class="adm-section-header">
         <div>
-          <h2>🔧 Paramètres d'application</h2>
+          <h2>Paramètres d'application</h2>
           <p>Modifier les paramètres globaux de PKServ (fichier _settings.json)</p>
         </div>
       </div>
@@ -523,7 +523,7 @@
           Récupère les paramètres actuels du serveur via <code>Interface/GetAll/Settings</code>.
         </p>
         <div class="adm-btn-row">
-          <button class="adm-btn adm-btn--primary" id="btn-settings-load">📥 Charger les paramètres</button>
+          <button class="adm-btn adm-btn--primary" id="btn-settings-load">Charger les paramètres</button>
         </div>
         <div class="adm-response" id="resp-settings-load">—</div>
       </div>
@@ -537,10 +537,10 @@
         <div class="adm-card">
           <p class="adm-card__title"><span class="dot dot--green"></span>Enregistrer les modifications</p>
           <p style="color:var(--text-muted);font-size:12px;margin:0 0 12px">
-            ⚠️ Les modifications seront écrites dans <code>_settings.json</code> et appliquées immédiatement.
+            Les modifications seront écrites dans <code>_settings.json</code> et appliquées immédiatement.
           </p>
           <div class="adm-btn-row">
-            <button class="adm-btn adm-btn--success" id="btn-settings-save">💾 Enregistrer</button>
+            <button class="adm-btn adm-btn--success" id="btn-settings-save">Enregistrer</button>
           </div>
           <div class="adm-response" id="resp-settings-save">—</div>
         </div>
@@ -551,10 +551,10 @@
     <div class="adm-tab" id="tab-history">
       <div class="adm-section-header">
         <div>
-          <h2>📋 Historique des captures</h2>
+          <h2>Historique des captures</h2>
           <p>50 dernières captures enregistrées</p>
         </div>
-        <button class="adm-btn" id="btn-history-refresh">🔄 Actualiser</button>
+        <button class="adm-btn" id="btn-history-refresh">Actualiser</button>
       </div>
 
       <div class="adm-card">
@@ -563,7 +563,7 @@
             placeholder="Filtrer par pseudo, créature, ball…">
           <label class="adm-checkbox-row">
             <input type="checkbox" id="history-filter-shiny">
-            ✨ Shiny uniquement
+            Shiny uniquement
           </label>
         </div>
         <div class="adm-response" id="resp-history" style="margin-bottom:10px">Appuyez sur Actualiser.</div>
@@ -618,12 +618,12 @@
   function updateOverviewRaid() {
     let info = null;
     apiGet('GetRaidStatus').then(t => {
-      if (!t) { ovSet(document.getElementById('ov-raid-status'), '😴 Aucun raid actif'); hideOverviewRaid(); return; }
+      if (!t) { ovSet(document.getElementById('ov-raid-status'), 'Aucun raid actif'); hideOverviewRaid(); return; }
       try { info = JSON.parse(t); } catch (e) { ovSet(document.getElementById('ov-raid-status'), t); hideOverviewRaid(); return; }
       if (!info.Boss) { ovSet(document.getElementById('ov-raid-status'), t); hideOverviewRaid(); return; }
       renderOverviewRaid(info);
     }).catch(() => {
-      ovSet(document.getElementById('ov-raid-status'), '⚠️ Serveur injoignable');
+      ovSet(document.getElementById('ov-raid-status'), 'Serveur injoignable');
       hideOverviewRaid();
     });
   }
@@ -650,7 +650,7 @@
 
     // Tag shiny
     const tag = document.getElementById('ov-raid-shiny-tag');
-    tag.textContent = info.DisplayShiny ? '✨ Shiny' : 'Normal';
+    tag.textContent = info.DisplayShiny ? 'Shiny' : 'Normal';
     tag.className = 'adm-tag ' + (info.DisplayShiny ? 'adm-tag--shiny' : 'adm-tag--normal');
 
     // Barre de vie %
@@ -678,7 +678,7 @@
       elapsed.textContent = '—';
     }
 
-    ovSet(document.getElementById('ov-raid-status'), `⚔️ Raid actif — ${boss.Rarity || ''} ${boss.AltName || info.BossName || ''}`);
+    ovSet(document.getElementById('ov-raid-status'), `Raid actif — ${boss.Rarity || ''} ${boss.AltName || info.BossName || ''}`);
     mini.style.display = '';
   }
   addEventListener('adm:config-loaded', () => {
@@ -691,7 +691,7 @@
 <div class="adm-modal-overlay" id="active-users-modal" style="display:none">
   <div class="adm-modal">
     <div class="adm-modal__header">
-      <h3>👥 Utilisateurs actifs</h3>
+      <h3>Utilisateurs actifs</h3>
       <span class="adm-modal__count" id="active-users-count">0</span>
     </div>
     <div class="adm-modal__body" id="active-users-list"></div>

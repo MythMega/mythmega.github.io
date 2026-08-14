@@ -129,7 +129,7 @@
           if (v.deploy_date && v.deploy_date > nextDate && v.deploy_date <= date) {
             const sep = document.createElement('div');
             sep.style.cssText = 'padding:5px 12px;background:#a16207;color:#fef9c3;font-size:12px;font-weight:700;border-radius:6px;margin:3px 0;text-align:center;letter-spacing:.03em;';
-            sep.textContent = `↗ Mise à jour : ${v.Update_Name} (${v.deploy_date}) ↖`;
+            sep.textContent = `↗ Mise à jour : ${v.Update_Name} (${v.deploy_date}) ↖`;
             historyListEl.appendChild(sep);
           }
         });

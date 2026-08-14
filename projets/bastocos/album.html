@@ -128,7 +128,7 @@
       input.value = name;
       box.classList.remove('show');
       msg.className = 'search-msg ok';
-      msg.textContent = `✔ Profil trouvé : ${name}. Chargement en cours…`;
+      msg.textContent = `✔ Profil trouvé : ${name}. Chargement en cours…`;
     }
 
     // Voir ma page button
@@ -145,7 +145,7 @@
         selectUser(found);
       } else {
         msg.className = 'search-msg err';
-        msg.textContent = `⚠ Aucun joueur nommé « ${q} » n'a été trouvé. Une mise à jour est peut-être en cours.`;
+        msg.textContent = `⚠ Aucun joueur nommé « ${q} » n'a été trouvé. Une mise à jour est peut-être en cours.`;
       }
     });
 

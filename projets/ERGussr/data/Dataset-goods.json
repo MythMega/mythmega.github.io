@@ -595,7 +595,7 @@
     "Desc1EN": "Uses FP. Throw to impede healing using a flask of tears.",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Objet pouvant être fabriqué à l'aide d'un pot rituel.\nEnchanté par les sorcelleries des chevaliers du Coucou.\n\nConsomme des PC. À lancer sur les ennemis pour les empêcher de se soigner au moyen de Fioles de larmes pour une courte durée.\n\nAinsi parlent les chevaliers du Coucou : \"Voyez votre sang vicié. Une si abjecte humeur ne saurait être tolérée dans notre glorieux royaume.\"",
+    "Desc3FR": "Objet pouvant être fabriqué à l'aide d'un pot rituel.\nEnchanté par les sorcelleries des chevaliers du Coucou.\n\nConsomme des PC. À lancer sur les ennemis pour les empêcher de se soigner au moyen de Fioles de larmes pour une courte durée.\n\nAinsi parlent les chevaliers du Coucou : \"Voyez votre sang vicié. Une si abjecte humeur ne saurait être tolérée dans notre glorieux royaume.\"",
     "Desc3EN": "Craftable item prepared using a ritual pot.\nEnchanted by sorceries of the Cuckoos.\n\nConsumes FP. Throw at enemies to impede recovery actions using a flask of tears for a certain duration.\n\nThe Knights of the Cuckoos do declare. Behold, thy defiled blood. Unlike any humor that flows in our grand realm.",
     "PictureURL": "./Assets/Goods/Pot_d'Albinaurique.png"
   },
@@ -715,7 +715,7 @@
     "Desc1EN": "Greatly boosts physical damage negation for a time",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Chair de crabe bouillie.\nCette viande juteuse et généreuse est un morceau de choix.\nLes vrais connaisseurs savent qu'il convient de modérer la salaison.\n\nAméliore grandement la résistance aux dégâts physiques pour une courte durée.\n\nContrairement aux \"crevettes\" également en vente, il s'agit de véritable crabe. Non pas que la provenance ait une quelconque importance ; après tout, ce qui compte, c'est le goût.",
+    "Desc3FR": "Chair de crabe bouillie.\nCette viande juteuse et généreuse est un morceau de choix.\nLes vrais connaisseurs savent qu'il convient de modérer la salaison.\n\nAméliore grandement la résistance aux dégâts physiques pour une courte durée.\n\nContrairement aux \"crevettes\" également en vente, il s'agit de véritable crabe. Non pas que la provenance ait une quelconque importance ; après tout, ce qui compte, c'est le goût.",
     "Desc3EN": "Boiled crab meat. \nA prime specimen of plump and moist meat.\nTrue connoisseurs know how to keep from over-salting.\n\nGreatly boosts physical damage negation for a certain duration.\n\nUnlike the \"prawn\" sold, this truly is crab. Not that it matters, it's delicious all the same.",
     "PictureURL": "./Assets/Goods/Crabe_bouilli.png"
   },
@@ -727,7 +727,7 @@
     "Desc1EN": "Boosts physical damage negation for a time",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Chair de crevette bouillie.\nCette viande juteuse et savoureuse est un morceau de choix.\nLes vrais connaisseurs savent qu'il convient de modérer la salaison.\n\nAméliore la résistance aux dégâts physiques pour une courte durée.\n\nEn vérité, cela ressemble davantage à de la chair d'écrevisse. Non pas que la provenance ait une quelconque importance ; après tout, ce qui compte, c'est le goût.",
+    "Desc3FR": "Chair de crevette bouillie.\nCette viande juteuse et savoureuse est un morceau de choix.\nLes vrais connaisseurs savent qu'il convient de modérer la salaison.\n\nAméliore la résistance aux dégâts physiques pour une courte durée.\n\nEn vérité, cela ressemble davantage à de la chair d'écrevisse. Non pas que la provenance ait une quelconque importance ; après tout, ce qui compte, c'est le goût.",
     "Desc3EN": "Boiled prawn meat. \nA prime specimen of plump and moist meat.\nTrue connoisseurs know how to keep from over-salting.\n\nBoosts physical damage negation for a certain duration.\n\nThe meat actually looks to have come from a crayfish. Not that it matters, it's delicious all the same.",
     "PictureURL": "./Assets/Goods/Crevette_bouillie.png"
   },
@@ -1513,7 +1513,7 @@
   },
   {
     "ID": "Goods-2200",
-    "NameFR": "Caboche causante : Bonjour",
+    "NameFR": "Caboche causante : Bonjour",
     "NameEN": "Prattling Pate \"Hello\"",
     "Desc1FR": "Émet une voix qui dit \"Bonjour\".",
     "Desc1EN": "Emits a voice that says \"Hello\"",
@@ -1525,7 +1525,7 @@
   },
   {
     "ID": "Goods-2201",
-    "NameFR": "Caboche causante : Merci",
+    "NameFR": "Caboche causante : Merci",
     "NameEN": "Prattling Pate \"Thank you\"",
     "Desc1FR": "Émet une voix qui dit \"Merci\".",
     "Desc1EN": "Emits a voice that says \"Thank you\"",
@@ -1537,7 +1537,7 @@
   },
   {
     "ID": "Goods-2202",
-    "NameFR": "Caboche causante : Pardon",
+    "NameFR": "Caboche causante : Pardon",
     "NameEN": "Prattling Pate \"Apologies\"",
     "Desc1FR": "Émet une voix qui dit \"Pardon\".",
     "Desc1EN": "Emits a voice that says \"Apologies\"",
@@ -1549,7 +1549,7 @@
   },
   {
     "ID": "Goods-2203",
-    "NameFR": "Caboche causante : Formidable",
+    "NameFR": "Caboche causante : Formidable",
     "NameEN": "Prattling Pate \"Wonderful\"",
     "Desc1FR": "Émet une voix qui dit \"Formidable\".",
     "Desc1EN": "Emits a voice that says \"Wonderful\"",
@@ -1561,7 +1561,7 @@
   },
   {
     "ID": "Goods-2204",
-    "NameFR": "Caboche causante : Au secours",
+    "NameFR": "Caboche causante : Au secours",
     "NameEN": "Prattling Pate \"Please help\"",
     "Desc1FR": "Émet une voix qui dit \"Au secours\".",
     "Desc1EN": "Emits a voice that says \"Please help\"",
@@ -1585,7 +1585,7 @@
   },
   {
     "ID": "Goods-2206",
-    "NameFR": "Caboche causante : Allons-y",
+    "NameFR": "Caboche causante : Allons-y",
     "NameEN": "Prattling Pate \"Let's get to it\"",
     "Desc1FR": "Émet une voix qui dit \"Allons-y\".",
     "Desc1EN": "Emits a voice that says \"Let's get to it\"",
@@ -1627,7 +1627,7 @@
     "Desc1EN": "Use to gain runes",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Dérisoire résidu d'or, manifestation de la grâce que recèlent les habitants de l'Entre-terre.\n\nUtilisez cet objet pour obtenir des runes.\n\nAujourd'hui encore, les runes restent imprégnées du pouvoir de la vie même. Voyez-vous l'Arbre-Monde s'élancer vers les cieux ?",
+    "Desc3FR": "Dérisoire résidu d'or, manifestation de la grâce que recèlent les habitants de l'Entre-terre.\n\nUtilisez cet objet pour obtenir des runes.\n\nAujourd'hui encore, les runes restent imprégnées du pouvoir de la vie même. Voyez-vous l'Arbre-Monde s'élancer vers les cieux ?",
     "Desc3EN": "Grace that dwells within the inhabitants of the Lands Between; the lingering trace of gold.\n\nUse to gain runes.\n\nEven now, runes are still imbued with the power of life itself. Do you see the Erdtree towering o'er?",
     "PictureURL": "./Assets/Goods/Rune_dorée_(3).png"
   },
@@ -1939,7 +1939,7 @@
     "Desc1EN": "Uses FP to enter a temporary state of fervor",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Art interdit des Parfumeurs déchus.\nObjet pouvant être fabriqué avec un flacon de parfum.\n\nConsomme des PC pour susciter un élan de ferveur, ce qui augmente la puissance d'attaque et l'endurance, mais également les dégâts subis.\n\n\"Même au cœur du champ de bataille, craignez-vous les blessures ?\nRegardez-vous un peu. Vos membres sont paralysés.\"",
+    "Desc3FR": "Art interdit des Parfumeurs déchus.\nObjet pouvant être fabriqué avec un flacon de parfum.\n\nConsomme des PC pour susciter un élan de ferveur, ce qui augmente la puissance d'attaque et l'endurance, mais également les dégâts subis.\n\n\"Même au cœur du champ de bataille, craignez-vous les blessures ?\nRegardez-vous un peu. Vos membres sont paralysés.\"",
     "Desc3EN": "Forbidden art of depraved perfumers.\nCraftable with a perfume bottle.\n\nUses FP to enter a temporary state of fervor, raising maximum attack power and stamina while also increasing damage received.\n\n\"Even upon the battlefield, do you fear being wounded? Take a good look. Your limbs are frozen stiff.\"",
     "PictureURL": "./Assets/Goods/Arôme_bouillesang.png"
   },
@@ -2683,7 +2683,7 @@
     "Desc1EN": "Releases searing spirits that repeatedly explode after delay",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Terrible pouvoir de Rykard, seigneur du blasphème.\n\nInvoque des esprits ardents qui laissent dans leur sillage une série d'explosions à retardement.\n\nCes esprits émanent du sentiment d'amertume de héros ayant connu une mort violente : pensant se rendre à une audience avec leur seigneur, ils furent en fait accueillis par les mâchoires du grand serpent. Ainsi engloutis, ils devinrent les semblables de leur souverain.",
+    "Desc3FR": "Terrible pouvoir de Rykard, seigneur du blasphème.\n\nInvoque des esprits ardents qui laissent dans leur sillage une série d'explosions à retardement.\n\nCes esprits émanent du sentiment d'amertume de héros ayant connu une mort violente : pensant se rendre à une audience avec leur seigneur, ils furent en fait accueillis par les mâchoires du grand serpent. Ainsi engloutis, ils devinrent les semblables de leur souverain.",
     "Desc3EN": "The terrible power of Rykard, Lord of Blasphemy.\n\nSummons searing spirits that leave a trail of delayed explosions in their wake.\n\nThese spirits manifest from the rancor of heroes who met a violent end. The lord granted them an audience, whereupon they were welcomed by the maw of the great serpent—and within the serpent's bowels, they became the lord's kin.",
     "PictureURL": "./Assets/Goods/Rancœur_de_Rykard.png"
   },
@@ -2821,7 +2821,7 @@
   },
   {
     "ID": "Goods-6001",
-    "NameFR": "Ô Flamme !",
+    "NameFR": "Ô Flamme !",
     "NameEN": "O, Flame!",
     "Desc1FR": "Projette temporairement une flamme vive depuis la main du lanceur.",
     "Desc1EN": "Momentarily sparks roaring flame from hand",
@@ -2857,7 +2857,7 @@
   },
   {
     "ID": "Goods-6030",
-    "NameFR": "Tourbillonne, ô Flamme !",
+    "NameFR": "Tourbillonne, ô Flamme !",
     "NameEN": "Whirl, O Flame!",
     "Desc1FR": "Balaie la zone face à vous d'un torrent de flammes.",
     "Desc1EN": "Sweeps area before caster with stream of fire",
@@ -2929,13 +2929,13 @@
   },
   {
     "ID": "Goods-6120",
-    "NameFR": "Brûle, ô Flamme !",
+    "NameFR": "Brûle, ô Flamme !",
     "NameEN": "Burn, O Flame!",
     "Desc1FR": "Érige plusieurs piliers de flammes autour de vous.",
     "Desc1EN": "Raises a series of flame pillars around caster",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation qui tire son pouvoir directement de la Flamme des Géants.\n\nÉrige plusieurs piliers de flammes autour de vous.\nChargez ce sort pour accroître la quantité de piliers.\n\nLes Géants de feu empruntèrent le pouvoir d'un dieu cruel, mais furent tout de même vaincus. Pour autant, leur échec les avait libérés de leur malédiction : ils n'étaient plus contraints de protéger la Flamme pour l'éternité.",
+    "Desc3FR": "Incantation qui tire son pouvoir directement de la Flamme des Géants.\n\nÉrige plusieurs piliers de flammes autour de vous.\nChargez ce sort pour accroître la quantité de piliers.\n\nLes Géants de feu empruntèrent le pouvoir d'un dieu cruel, mais furent tout de même vaincus. Pour autant, leur échec les avait libérés de leur malédiction : ils n'étaient plus contraints de protéger la Flamme pour l'éternité.",
     "Desc3EN": "One of the incantations that draws directly from the power of the Fire Giants.\n\nRaises a series of flame pillars around the caster.\nCharging further increases the number of flame pillars.\n\nThe Fire Giants borrowed from the power of a fell god, and still they were defeated. Yet their failure released them from their solitary curse: to serve as keepers of the Flame for eternity.",
     "PictureURL": "./Assets/Goods/Brûle,_ô_Flamme_!.png"
   },
@@ -2953,7 +2953,7 @@
   },
   {
     "ID": "Goods-6220",
-    "NameFR": "Déferle, ô Flamme !",
+    "NameFR": "Déferle, ô Flamme !",
     "NameEN": "Surge, O Flame!",
     "Desc1FR": "Recouvre la zone face à vous d'un torrent de flammes.",
     "Desc1EN": "Incinerates area before caster with stream of fire",
@@ -3091,7 +3091,7 @@
     "Desc1EN": "Produces a shockwave that pushes away foes",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nProduit une onde de choc qui repousse les ennemis proches.\nChargez cette incantation pour accroître sa puissance.\n\nOyez, Sans-éclat ! Si vous souhaitez vraiment emprunter la voie de la foi, vous devez vous préparer à renier tout le reste.",
+    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nProduit une onde de choc qui repousse les ennemis proches.\nChargez cette incantation pour accroître sa puissance.\n\nOyez, Sans-éclat ! Si vous souhaitez vraiment emprunter la voie de la foi, vous devez vous préparer à renier tout le reste.",
     "Desc3EN": "Incantation of the Two Fingers' faithful.\n\nProduces a shockwave that knocks back nearby foes.\nCharging increases the size of the shockwave.\n\nHark, Tarnished! If you truly walk in faith, you must be prepared to reject all else.",
     "PictureURL": "./Assets/Goods/Rejet.png"
   },
@@ -3115,7 +3115,7 @@
     "Desc1EN": "Heals a small amount of HP",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nSoigne une petite quantité de PV.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nLes Deux Doigts nourrissent de grands espoirs envers les Sans-éclat : qu'ils se blessent ou qu'ils tombent, ils continueront de se battre pour accomplir leur devoir.",
+    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nSoigne une petite quantité de PV.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nLes Deux Doigts nourrissent de grands espoirs envers les Sans-éclat : qu'ils se blessent ou qu'ils tombent, ils continueront de se battre pour accomplir leur devoir.",
     "Desc3EN": "Incantation of the Two Fingers' faithful.\n\nHeals a small amount of HP.\nThis incantation can be cast while in motion.\n\nThe Two Fingers has high hopes for the Tarnished; that even if they should be wounded, even should they fall, they will continue to fight for their duty.",
     "PictureURL": "./Assets/Goods/Soin_d'urgence.png"
   },
@@ -3127,7 +3127,7 @@
     "Desc1EN": "Heals HP for self and nearby allies",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nSoigne les PV du lanceur et de ses alliés proches.\nMaintenez la commande enfoncée pour continuer à prier et retarder l'activation.\n\nLes Deux Doigts nourrissent de grands espoirs envers les Sans-éclat : qu'ils se blessent ou qu'ils tombent, ils continueront de se battre pour accomplir leur devoir.",
+    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nSoigne les PV du lanceur et de ses alliés proches.\nMaintenez la commande enfoncée pour continuer à prier et retarder l'activation.\n\nLes Deux Doigts nourrissent de grands espoirs envers les Sans-éclat : qu'ils se blessent ou qu'ils tombent, ils continueront de se battre pour accomplir leur devoir.",
     "Desc3EN": "Incantation of the Two Fingers' faithful.\n\nHeals HP for the caster and nearby allies.\nHold to continue praying and delay activation.\n\nThe Two Fingers has high hopes for the Tarnished; that even if they should be wounded, even should they fall, they will continue to fight for their duty.",
     "PictureURL": "./Assets/Goods/Soin.png"
   },
@@ -3139,7 +3139,7 @@
     "Desc1EN": "Greatly heals HP for self and nearby allies",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation avancée utilisée par les fidèles des Deux Doigts.\n\nSoigne grandement les PV du lanceur et de ses alliés proches.\nMaintenez la commande enfoncée pour continuer à prier et retarder l'activation.\n\nLes Deux Doigts nourrissent de grands espoirs envers les Sans-éclat : qu'ils se blessent ou qu'ils tombent, ils continueront de se battre pour accomplir leur devoir.",
+    "Desc3FR": "Incantation avancée utilisée par les fidèles des Deux Doigts.\n\nSoigne grandement les PV du lanceur et de ses alliés proches.\nMaintenez la commande enfoncée pour continuer à prier et retarder l'activation.\n\nLes Deux Doigts nourrissent de grands espoirs envers les Sans-éclat : qu'ils se blessent ou qu'ils tombent, ils continueront de se battre pour accomplir leur devoir.",
     "Desc3EN": "Superior incantation of the Two Fingers' faithful.\n\nGreatly heals HP for the caster and nearby allies.\nHold to continue praying and delay activation.\n\nThe Two Fingers has high hopes for the Tarnished; that even if they should be wounded, even should they fall, they will continue to fight for their duty.",
     "PictureURL": "./Assets/Goods/Soins_supérieurs.png"
   },
@@ -3151,7 +3151,7 @@
     "Desc1EN": "Massively heals HP for self and nearby allies",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation décernée par les Deux Doigts aux Sans-éclat jugés dignes de devenir Seigneur.\n\nRend une énorme quantité de PV au lanceur et à ses alliés proches.\nMaintenez la commande enfoncée pour continuer à prier et retarder l'activation.\n\nSans-éclat, ô Sans-éclat ! Cherchez l'Arbre-Monde et dressez-vous face à Marika, sa reine. Montez sur le trône d'Elden !",
+    "Desc3FR": "Incantation décernée par les Deux Doigts aux Sans-éclat jugés dignes de devenir Seigneur.\n\nRend une énorme quantité de PV au lanceur et à ses alliés proches.\nMaintenez la commande enfoncée pour continuer à prier et retarder l'activation.\n\nSans-éclat, ô Sans-éclat ! Cherchez l'Arbre-Monde et dressez-vous face à Marika, sa reine. Montez sur le trône d'Elden !",
     "Desc3EN": "Incantation bestowed by the Two Fingers upon the Tarnished deemed worthy of becoming a lord.\n\nHeals a massive amount of HP for the caster and nearby allies.\nHold to continue praying and delay activation.\n\nTarnished—O, Tarnished! Seek the Erdtree and stand before Marika, its Queen. Become the Elden Lord!",
     "PictureURL": "./Assets/Goods/Soins_seigneuriaux.png"
   },
@@ -3211,7 +3211,7 @@
     "Desc1EN": "Increases fire damage negation",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nAugmente la résistance aux dégâts de feu.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nSuivez la voie qui vous est dévolue et tous deviendront vos ennemis : moines, sorciers, chevaliers des dragons anciens et descendants dorés. Entendez-moi, car l'Entre-terre n'est d'aucune hospitalité pour les Sans-éclat.",
+    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nAugmente la résistance aux dégâts de feu.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nSuivez la voie qui vous est dévolue et tous deviendront vos ennemis : moines, sorciers, chevaliers des dragons anciens et descendants dorés. Entendez-moi, car l'Entre-terre n'est d'aucune hospitalité pour les Sans-éclat.",
     "Desc3EN": "Incantation of the Two Fingers' faithful.\n\nIncreases fire damage negation.\nThis incantation can be cast while in motion.\n\nFollow the path that has been set for you, and you will make enemies of all others: the monks, the sorcerers, the ancient dragon knights, and the scions of gold. Heed me—the Lands Between offers no welcome to the Tarnished.",
     "PictureURL": "./Assets/Goods/Renforcement_ardent.png"
   },
@@ -3223,7 +3223,7 @@
     "Desc1EN": "Increases magic damage negation",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nAugmente la résistance aux dégâts magiques.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nSuivez la voie qui vous est dévolue et tous deviendront vos ennemis : moines, sorciers, chevaliers des dragons anciens et descendants dorés. Entendez-moi, car l'Entre-terre n'est d'aucune hospitalité pour les Sans-éclat.",
+    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nAugmente la résistance aux dégâts magiques.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nSuivez la voie qui vous est dévolue et tous deviendront vos ennemis : moines, sorciers, chevaliers des dragons anciens et descendants dorés. Entendez-moi, car l'Entre-terre n'est d'aucune hospitalité pour les Sans-éclat.",
     "Desc3EN": "Incantation of the Two Fingers' faithful.\n\nIncreases magic damage negation.\nThis incantation can be cast while in motion.\n\nFollow the path that has been set for you, and you will make enemies of all others: the monks, the sorcerers, the ancient dragon knights, and the scions of gold. Heed me—the Lands Between offers no welcome to the Tarnished.",
     "PictureURL": "./Assets/Goods/Renforcement_magique.png"
   },
@@ -3235,7 +3235,7 @@
     "Desc1EN": "Increases lightning damage negation",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nAugmente la résistance aux dégâts de foudre.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nSuivez la voie qui vous est dévolue et tous deviendront vos ennemis : moines, sorciers, chevaliers des dragons anciens et descendants dorés. Entendez-moi, car l'Entre-terre n'est d'aucune hospitalité pour les Sans-éclat.",
+    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nAugmente la résistance aux dégâts de foudre.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nSuivez la voie qui vous est dévolue et tous deviendront vos ennemis : moines, sorciers, chevaliers des dragons anciens et descendants dorés. Entendez-moi, car l'Entre-terre n'est d'aucune hospitalité pour les Sans-éclat.",
     "Desc3EN": "Incantation of the Two Fingers' faithful.\n\nIncreases lightning damage negation.\nThis incantation can be cast while in motion.\n\nFollow the path that has been set for you, and you will make enemies of all others: the monks, the sorcerers, the ancient dragon knights, and the scions of gold. Heed me—the Lands Between offers no welcome to the Tarnished.",
     "PictureURL": "./Assets/Goods/Renforcement_électrique.png"
   },
@@ -3247,7 +3247,7 @@
     "Desc1EN": "Increases holy damage negation",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nAugmente la résistance aux dégâts sacrés.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nSuivez la voie qui vous est dévolue et tous deviendront vos ennemis : moines, sorciers, chevaliers des dragons anciens et descendants dorés. Entendez-moi, car l'Entre-terre n'est d'aucune hospitalité pour les Sans-éclat.",
+    "Desc3FR": "Incantation utilisée par les fidèles des Deux Doigts.\n\nAugmente la résistance aux dégâts sacrés.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nSuivez la voie qui vous est dévolue et tous deviendront vos ennemis : moines, sorciers, chevaliers des dragons anciens et descendants dorés. Entendez-moi, car l'Entre-terre n'est d'aucune hospitalité pour les Sans-éclat.",
     "Desc3EN": "Incantation of the Two Fingers' faithful.\n\nIncreases holy damage negation.\nThis incantation can be cast while in motion.\n\nFollow the path that has been set for you, and you will make enemies of all others: the monks, the sorcerers, the ancient dragon knights, and the scions of gold. Heed me—the Lands Between offers no welcome to the Tarnished.",
     "PictureURL": "./Assets/Goods/Renforcement_divin.png"
   },
@@ -3391,7 +3391,7 @@
     "Desc1EN": "Increases left-hand shield's affinity/ailment resistance",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation des fondamentalistes de l'Ordre d'or.\n\nEnchante le bouclier en main gauche à l'aide de la lumière de la régression, ce qui augmente sa résistance aux dégâts non physiques et aux altérations.\n\nDeux concepts sont à la base du fondamentalisme de l'Ordre d'or : celui auquel l'on doit cette incantation se nomme le Décret de régression.",
+    "Desc3FR": "Incantation des fondamentalistes de l'Ordre d'or.\n\nEnchante le bouclier en main gauche à l'aide de la lumière de la régression, ce qui augmente sa résistance aux dégâts non physiques et aux altérations.\n\nDeux concepts sont à la base du fondamentalisme de l'Ordre d'or : celui auquel l'on doit cette incantation se nomme le Décret de régression.",
     "Desc3EN": "One of the incantations of the Golden Order fundamentalists.\n\nEnchants shield held in the left hand with the light of regression, increasing all forms of non-physical damage negation and ailment resistance.\n\nTwo concepts form the basis for Golden Order fundamentalism. One is the law of regression, to which this incantation relates.",
     "PictureURL": "./Assets/Goods/Bouclier_immuable.png"
   },
@@ -3811,7 +3811,7 @@
     "Desc1EN": "Launches countless sticky threads before caster",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation des serviteurs de la putréfaction écarlate.\n\nSécrète d'innombrables fils gluants face à vous.\n\nUne technique utilisée par les enfants abandonnés de la déesse, de pâles vermines qui errent sur les terres contaminées par la putréfaction écarlate.\n\"… Vous intéressez-vous aux incantations putrescentes ?\"",
+    "Desc3FR": "Incantation des serviteurs de la putréfaction écarlate.\n\nSécrète d'innombrables fils gluants face à vous.\n\nUne technique utilisée par les enfants abandonnés de la déesse, de pâles vermines qui errent sur les terres contaminées par la putréfaction écarlate.\n\"… Vous intéressez-vous aux incantations putrescentes ?\"",
     "Desc3EN": "Incantation of the servants of rot.\n\nSecretes countless sticky threads, launching them forwards.\n\nA technique of the pale pests who crawl through the lands afflicted by scarlet rot; the abandoned children of the goddess.\n\"Do you have an interest in rot incantations?\"",
     "PictureURL": "./Assets/Goods/Fils_putréfiés.png"
   },
@@ -3835,7 +3835,7 @@
     "Desc1EN": "Releases poison mist before caster",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation des serviteurs de la putréfaction écarlate.\n\nLibère une brume empoisonnée face à vous.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nCeux qui vivent dans le poison ne connaissent que trop bien la putréfaction. La mort qui engendre la vie, celle qui traite tout le monde avec équité. En résumé : le cycle de la réincarnation dans toute sa splendeur.",
+    "Desc3FR": "Incantation des serviteurs de la putréfaction écarlate.\n\nLibère une brume empoisonnée face à vous.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nCeux qui vivent dans le poison ne connaissent que trop bien la putréfaction. La mort qui engendre la vie, celle qui traite tout le monde avec équité. En résumé : le cycle de la réincarnation dans toute sa splendeur.",
     "Desc3EN": "Incantation of the servants of rot.\n\nReleases a poisonous mist before the caster.\nThis incantation can be cast while in motion.\n\nThose who dwell within poison know rot all too well. The death that begets life, that comes to all equally. That is to say: it is the cycle of rebirth put into practice.",
     "PictureURL": "./Assets/Goods/Nuage_de_poison.png"
   },
@@ -3847,7 +3847,7 @@
     "Desc1EN": "Enchants right-hand armament with poison",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Incantation des serviteurs de la putréfaction écarlate.\n\nImprègne l'arme en main droite de poison.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nCeux qui vivent dans le poison ne connaissent que trop bien la putréfaction. La mort qui engendre la vie, celle qui traite tout le monde avec équité. En résumé : le cycle de la réincarnation dans toute sa splendeur.",
+    "Desc3FR": "Incantation des serviteurs de la putréfaction écarlate.\n\nImprègne l'arme en main droite de poison.\nVous pouvez lancer cette incantation tout en vous déplaçant.\n\nCeux qui vivent dans le poison ne connaissent que trop bien la putréfaction. La mort qui engendre la vie, celle qui traite tout le monde avec équité. En résumé : le cycle de la réincarnation dans toute sa splendeur.",
     "Desc3EN": "Incantation of the servants of rot.\n\nEnchants armament held in the right hand with poison.\nThis incantation can be cast while in motion.\n\nThose who dwell within poison know rot all too well. The death that begets life, that comes to all equally. That is to say: it is the cycle of rebirth put into practice.",
     "PictureURL": "./Assets/Goods/Empoisonnement_de_l'arme.png"
   },
@@ -4087,7 +4087,7 @@
     "Desc1EN": "Ring of Lunar Princess Ranni's cold oath",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Anneau représentant une pleine lune grise. Symbole d'un serment glacial que la princesse de la lune Ranni est censée offrir à son consort.\n\nRanni est une Empyréenne, son consort pourrait donc prétendre au titre de Seigneur.\n\nUn avertissement est gravé à l'intérieur : \"Qui que vous soyez, jamais cet anneau ne doit quitter ce lieu, car au-delà de la nuit, la solitude n'appartient qu'à moi.\"",
+    "Desc3FR": "Anneau représentant une pleine lune grise. Symbole d'un serment glacial que la princesse de la lune Ranni est censée offrir à son consort.\n\nRanni est une Empyréenne, son consort pourrait donc prétendre au titre de Seigneur.\n\nUn avertissement est gravé à l'intérieur : \"Qui que vous soyez, jamais cet anneau ne doit quitter ce lieu, car au-delà de la nuit, la solitude n'appartient qu'à moi.\"",
     "Desc3EN": "Ring depicting a leaden full moon. Symbolic of a cold oath, the ring is supposed to be given by Lunar Princess Ranni to her consort.\n\nRanni is an Empyrean, meaning her consort would by rights earn the title of lord.\n\nA warning is engraved within; \"Whoever thou mayest be, take not the ring from this place, the solitude beyond the night is better mine alone.\"",
     "PictureURL": "./Assets/Goods/Anneau_de_la_lune_noire.png"
   },
@@ -4219,7 +4219,7 @@
     "Desc1EN": "Glintstone from within Sellen's body",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Pierre d'éclat provenant de l'intérieur du corps de Sellen la Sorcière.\nManifestement dotée d'une vie propre, vu les vaisseaux sanguins qui palpitent en son sein.\n\nLes pierres d'éclat primordiales sont les âmes des sorciers, en somme. Si elle est transplantée dans un nouveau corps adéquat, Sellen vivra à nouveau.\n\n\"Trouvez-vous cela de mauvais goût, disciple ?\"",
+    "Desc3FR": "Pierre d'éclat provenant de l'intérieur du corps de Sellen la Sorcière.\nManifestement dotée d'une vie propre, vu les vaisseaux sanguins qui palpitent en son sein.\n\nLes pierres d'éclat primordiales sont les âmes des sorciers, en somme. Si elle est transplantée dans un nouveau corps adéquat, Sellen vivra à nouveau.\n\n\"Trouvez-vous cela de mauvais goût, disciple ?\"",
     "Desc3EN": "Glintstone from within the sorceress Sellen's body.\nSeemingly half-alive, blood vessels are visible within.\n\nIn essence, a primal glintstone is a sorcerer's soul. If transplanted into a compatible new body after their original body dies, the sorcerer will rise again.\n\n\"My apprentice, do you think it distasteful?\"",
     "PictureURL": "./Assets/Goods/Pierre_d'éclat_primordiale_de_Sellen.png"
   },
@@ -4555,7 +4555,7 @@
     "Desc1EN": "Simple map showing a meeting place\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Carte rudimentaire trouvée sur une dépouille.\nElle semble indiquer un point de rendez-vous.\n\nSans doute que son auteur convoitait lui aussi l'unique moyen de pénétrer dans l'Académie : une clé de pierre d'éclat.",
+    "Desc3FR": "Carte rudimentaire trouvée sur une dépouille.\nElle semble indiquer un point de rendez-vous.\n\nSans doute que son auteur convoitait lui aussi l'unique moyen de pénétrer dans l'Académie : une clé de pierre d'éclat.",
     "Desc3EN": "Simple map found on a corpse.\nSeems to point to a meeting place.\n\nThe man it came from surely desired one. The sole means of gaining entry into the academy: a glintstone key.",
     "PictureURL": "./Assets/Goods/Carte_lieu_de_rendez-vous.png"
   },
@@ -4575,7 +4575,7 @@
     "ID": "Goods-8200",
     "NameFR": "Tableau : \"Mal du pays\"",
     "NameEN": "\"Homing Instinct\" Painting",
-    "Desc1FR": "Souvenir du tableau : \"Mal du pays\"\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Souvenir du tableau : \"Mal du pays\"\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Reminiscence of the painting \"Homing Instinct\"\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4587,7 +4587,7 @@
     "ID": "Goods-8201",
     "NameFR": "Tableau : \"Résurrection\"",
     "NameEN": "\"Resurrection\" Painting",
-    "Desc1FR": "Souvenir du tableau : \"Résurrection\".\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Souvenir du tableau : \"Résurrection\".\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Reminiscence of the painting \"Resurrection\"\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4599,7 +4599,7 @@
     "ID": "Goods-8202",
     "NameFR": "Tableau : \"Chant du champion\"",
     "NameEN": "\"Champion's Song\" Painting",
-    "Desc1FR": "Souvenir du tableau : \"Chant du champion\"\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Souvenir du tableau : \"Chant du champion\"\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Reminiscence of the painting \"Champion's Song\"\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4611,7 +4611,7 @@
     "ID": "Goods-8203",
     "NameFR": "Tableau : \"Sorcier\"",
     "NameEN": "\"Sorcerer\" Painting",
-    "Desc1FR": "Souvenir du tableau : \"Sorcier\"\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Souvenir du tableau : \"Sorcier\"\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Reminiscence of the painting \"Sorcerer\"\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4621,9 +4621,9 @@
   },
   {
     "ID": "Goods-8204",
-    "NameFR": "Tableau : \"Prophétie\"",
+    "NameFR": "Tableau : \"Prophétie\"",
     "NameEN": "\"Prophecy\" Painting",
-    "Desc1FR": "Souvenir du tableau : \"Prophétie\"\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Souvenir du tableau : \"Prophétie\"\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Reminiscence of the painting \"Prophecy\"\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4635,7 +4635,7 @@
     "ID": "Goods-8205",
     "NameFR": "Tableau : \"Oiseau inapte au vol\"",
     "NameEN": "\"Flightless Bird\" Painting",
-    "Desc1FR": "Souvenir du tableau : \"Oiseau inapte au vol\"\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Souvenir du tableau : \"Oiseau inapte au vol\"\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Reminiscence of the painting \"Flightless Bird\"\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4645,9 +4645,9 @@
   },
   {
     "ID": "Goods-8206",
-    "NameFR": "Tableau : \"Le Lion rouge\"",
+    "NameFR": "Tableau : \"Le Lion rouge\"",
     "NameEN": "\"Redmane\" Painting",
-    "Desc1FR": "Souvenir du tableau : \"Lion rouge\"\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Souvenir du tableau : \"Lion rouge\"\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Reminiscence of the painting \"Redmane\"\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4693,9 +4693,9 @@
   },
   {
     "ID": "Goods-8224",
-    "NameFR": "Note : le secret du précepteur",
+    "NameFR": "Note : le secret du précepteur",
     "NameEN": "Note: The Preceptor's Secret",
-    "Desc1FR": "Note contenant des informations concises.\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Note contenant des informations concises.\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Note imparting knowledge in brief\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4707,7 +4707,7 @@
     "ID": "Goods-8225",
     "NameFR": "Carte abimée",
     "NameEN": "Weathered Map",
-    "Desc1FR": "Carte rudimentaire fort abimée.\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Carte rudimentaire fort abimée.\nExaminer : <?keyicon@31?>",
     "Desc1EN": "A simple map, badly weathered\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -4873,7 +4873,7 @@
   },
   {
     "ID": "Goods-8611",
-    "NameFR": "Carte : Cimes des Géants occidentales",
+    "NameFR": "Carte : Cimes des Géants occidentales",
     "NameEN": "Map: Mountaintops of the Giants, West",
     "Desc1FR": "Carte des Cimes des Géants occidentales.",
     "Desc1EN": "Map of Western Mountaintops of the Giants",
@@ -4885,7 +4885,7 @@
   },
   {
     "ID": "Goods-8612",
-    "NameFR": "Carte : Cimes des Géants orientales",
+    "NameFR": "Carte : Cimes des Géants orientales",
     "NameEN": "Map: Mountaintops of the Giants, East",
     "Desc1FR": "Carte des Cimes des Géants orientales.",
     "Desc1EN": "Map of Eastern Mountaintops of the Giants",
@@ -4897,13 +4897,13 @@
   },
   {
     "ID": "Goods-8613",
-    "NameFR": "Carte : L'Ainsel",
+    "NameFR": "Carte : L'Ainsel",
     "NameEN": "Map: Ainsel River",
     "Desc1FR": "Carte de l'Ainsel et de ses alentours.",
     "Desc1EN": "Map of Ainsel River and environs",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Carte de l'Ainsel et de ses alentours.\n\nDeux grandes rivières serpentent sous l'Entre-terre : la Siofra et l'Ainsel. On prétend que cette vaste région serait le cimetière des civilisations qui prospéraient avant l'Arbre-Monde.",
+    "Desc3FR": "Carte de l'Ainsel et de ses alentours.\n\nDeux grandes rivières serpentent sous l'Entre-terre : la Siofra et l'Ainsel. On prétend que cette vaste région serait le cimetière des civilisations qui prospéraient avant l'Arbre-Monde.",
     "Desc3EN": "Map of Ainsel River and environs.\n\nTwo great rivers flow beneath the Lands Between, the Siofra and the Ainsel. This vast region is said to be the grave of civilizations that flourished before the Erdtree.",
     "PictureURL": "./Assets/Goods/Carte_L'Ainsel.png"
   },
@@ -4921,13 +4921,13 @@
   },
   {
     "ID": "Goods-8615",
-    "NameFR": "Carte : La Siofra",
+    "NameFR": "Carte : La Siofra",
     "NameEN": "Map: Siofra River",
     "Desc1FR": "Carte de la Siofra et de ses alentours.",
     "Desc1EN": "Map of Siofra River and environs",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Carte de la Siofra et de ses alentours.\n\nDeux grandes rivières serpentent sous l'Entre-terre : la Siofra et l'Ainsel. On prétend que cette vaste région serait le cimetière des civilisations qui prospéraient avant l'Arbre-Monde.",
+    "Desc3FR": "Carte de la Siofra et de ses alentours.\n\nDeux grandes rivières serpentent sous l'Entre-terre : la Siofra et l'Ainsel. On prétend que cette vaste région serait le cimetière des civilisations qui prospéraient avant l'Arbre-Monde.",
     "Desc3EN": "Map of Siofra River and environs\n\nTwo great rivers flow beneath the Lands Between, the Siofra and the Ainsel. This vast region is said to be the grave of civilizations that flourished before the Erdtree.",
     "PictureURL": "./Assets/Goods/Carte_La_Siofra.png"
   },
@@ -4963,7 +4963,7 @@
     "Desc1EN": "Map of Consecrated Snowfield and environs",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Carte des Champs enneigés consacrés et de leurs alentours.\n\nLa route par-delà ces terres, tarversées d'est en ouest par une rivière gelée, mène à l'Arbre-Sacré de Miquella. Telle est la voie empruntée par les non-élus ; ne vous y trompez pas, la suivre constitue une épreuve en soi.",
+    "Desc3FR": "Carte des Champs enneigés consacrés et de leurs alentours.\n\nLa route par-delà ces terres, tarversées d'est en ouest par une rivière gelée, mène à l'Arbre-Sacré de Miquella. Telle est la voie empruntée par les non-élus ; ne vous y trompez pas, la suivre constitue une épreuve en soi.",
     "Desc3EN": "Map of Consecrated Snowfield and environs.\n\nThe route through this land, crossed east to west by a frozen river, leads to Miquella's Haligtree. This is the path taken by those unchosen, though it is a trial all the same.",
     "PictureURL": "./Assets/Goods/Carte_Champs_enneigés_consacrés.png"
   },
@@ -4999,7 +4999,7 @@
     "Desc1EN": "Give to a learned cleric to acquire new incantations",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Bréviaire des moines-gardiens du feu originaires des Cimes des Géants, loin au nord.\n\nÀ présenter à un clerc érudit pour apprendre les incantations suivantes :\n\n- Ô Flamme !\n- Déferle, ô Flamme !",
+    "Desc3FR": "Bréviaire des moines-gardiens du feu originaires des Cimes des Géants, loin au nord.\n\nÀ présenter à un clerc érudit pour apprendre les incantations suivantes :\n\n- Ô Flamme !\n- Déferle, ô Flamme !",
     "Desc3EN": "Prayerbook of the Fire Monks, who came from the Mountaintops of the Giants far to the north.\n\nCan be given to a learned cleric to gain access to the following incantations:\n\n- O, Flame!\n- Surge, O Flame!",
     "PictureURL": "./Assets/Goods/Bréviaire_de_moine-gardien_du_feu.png"
   },
@@ -5035,7 +5035,7 @@
     "Desc1EN": "Grants choice of affinity upgrade to weapon",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Lame d'affûtage en fer portant une mystérieuse inscription. Peut servir de couteau à aiguiser.\n\nLorsque vous appliquez une affinité au moyen de cendres de guerre, vous pouvez choisir une affinité supplémentaire : Lourd, Acéré ou Qualité.",
+    "Desc3FR": "Lame d'affûtage en fer portant une mystérieuse inscription. Peut servir de couteau à aiguiser.\n\nLorsque vous appliquez une affinité au moyen de cendres de guerre, vous pouvez choisir une affinité supplémentaire : Lourd, Acéré ou Qualité.",
     "Desc3EN": "Iron whetblade with a cipher engraved. Can be used as a whetstone knife.\n\nWhen applying an affinity using ashes of war, an additional affinity of heavy, keen, or quality can be chosen.",
     "PictureURL": "./Assets/Goods/Lame_d'affûtage_en_fer.png"
   },
@@ -5311,7 +5311,7 @@
     "Desc1EN": "Information about bows\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Équipez un arc pour décocher des flèches.\nVous pouvez équiper jusqu'à deux types de flèches à la fois.\n\nLorsque vous maniez un arc à deux mains, maintenez <?keyicon@24?> pour viser avec précision.\nUtilisez <?keyControlCamera?> pour ajuster votre visée.\n\n<?keyicon@22?> : Tire le type de flèches 1\n<?keyicon@23?> : Tire le type de flèches 2\n<?keyicon@24?> : Viser",
+    "Desc3FR": "Équipez un arc pour décocher des flèches.\nVous pouvez équiper jusqu'à deux types de flèches à la fois.\n\nLorsque vous maniez un arc à deux mains, maintenez <?keyicon@24?> pour viser avec précision.\nUtilisez <?keyControlCamera?> pour ajuster votre visée.\n\n<?keyicon@22?> : Tire le type de flèches 1\n<?keyicon@23?> : Tire le type de flèches 2\n<?keyicon@24?> : Viser",
     "Desc3EN": "Equip a bow to fire arrows.\nYou can equip up to two types of arrows to choose from at once.\n\nWhen wielding a bow with two hands, hold <?keyicon@24?> for precision aiming.\nUse <?keyControlCamera?> to adjust your aim.\n\n<?keyicon@22?>: Fire arrow type 1\n<?keyicon@23?>: Fire arrow type 2\n<?keyicon@24?>: Precision aiming",
     "PictureURL": "./Assets/Goods/À_propos_des_arcs.png"
   },
@@ -5431,7 +5431,7 @@
     "Desc1EN": "Information about guarding\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Utilisez l'arme en main gauche ou à deux mains pour bloquer les attaques ennemies.\nLa garde est particulièrement efficace lorsqu'effectuée à l'aide d'un bouclier.\n\nChaque attaque bloquée draine l'endurance.\nSi vous êtes à court d'endurance, votre posture sera brisée.\n\n<?keyicon@24?> : Garde",
+    "Desc3FR": "Utilisez l'arme en main gauche ou à deux mains pour bloquer les attaques ennemies.\nLa garde est particulièrement efficace lorsqu'effectuée à l'aide d'un bouclier.\n\nChaque attaque bloquée draine l'endurance.\nSi vous êtes à court d'endurance, votre posture sera brisée.\n\n<?keyicon@24?> : Garde",
     "Desc3EN": "Use an armament in your left hand or both hands to guard against incoming attacks.\nGuarding is especially effective when done with a shield.\n\nGuarding consumes stamina.\nIf your stamina runs out, your stance will be broken.\n\n<?keyicon@24?>: Guard",
     "PictureURL": "./Assets/Goods/À_propos_de_la_garde.png"
   },
@@ -5443,7 +5443,7 @@
     "Desc1EN": "Information about item crafting\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Si vous possédez un nécessaire de fabrication, vous pouvez confectionner divers objets grâce aux matériaux que vous ramassez.\n\nSélectionnez \"Fabrication d'objet\" dans le menu principal pour fabriquer des objets.\n\nTrouvez des manuels pour apprendre à fabriquer de nouveaux objets.\n\n<?keyicon@28?> : <?keyActName@28?>",
+    "Desc3FR": "Si vous possédez un nécessaire de fabrication, vous pouvez confectionner divers objets grâce aux matériaux que vous ramassez.\n\nSélectionnez \"Fabrication d'objet\" dans le menu principal pour fabriquer des objets.\n\nTrouvez des manuels pour apprendre à fabriquer de nouveaux objets.\n\n<?keyicon@28?> : <?keyActName@28?>",
     "Desc3EN": "If you have a Crafting Kit, you can make various items from materials that you find.\n\nSelect \"Item Crafting\" from the main menu to make items.\n\nYou can learn to craft more items by finding cookbooks.\n\n<?keyicon@28?>: <?keyActName@28?>",
     "PictureURL": "./Assets/Goods/À_propos_de_la_fabrication_d'objet.png"
   },
@@ -5623,7 +5623,7 @@
     "Desc1EN": "Information about skills\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Les armes disposent de capacités spéciales nommées compétences.\n\nIl en existe toute une variété, allant de simples attaques puissantes à des effets temporaires.\nUtiliser des compétences consomme des PC.\n\n<?keyicon@25?> : <?keyActName@25?>",
+    "Desc3FR": "Les armes disposent de capacités spéciales nommées compétences.\n\nIl en existe toute une variété, allant de simples attaques puissantes à des effets temporaires.\nUtiliser des compétences consomme des PC.\n\n<?keyicon@25?> : <?keyActName@25?>",
     "Desc3EN": "Armaments have special abilities called skills.\n\nSkills are highly varied, and range from powerful attacks to temporary effects.\nUsing skills consumes FP.\n\n<?keyicon@25?>: <?keyActName@25?>",
     "PictureURL": "./Assets/Goods/À_propos_des_compétences.png"
   },
@@ -5659,7 +5659,7 @@
     "Desc1EN": "Information about the Roundtable Hold\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Le Bastion de la Table ronde est un lieu où se rassemblent les Sans-éclat guidés par la grâce. Tout combat y est prohibé en raison d'un antique pacte de non-agression.\n(L'icône de la Table ronde s'affiche lorsque cet interdit est en vigueur.)\n\nLe Bastion de la Table ronde existe en dehors de ce monde et n'est accessible que via la carte.\n\n<?keyicon@29?> : <?keyActName@29?>",
+    "Desc3FR": "Le Bastion de la Table ronde est un lieu où se rassemblent les Sans-éclat guidés par la grâce. Tout combat y est prohibé en raison d'un antique pacte de non-agression.\n(L'icône de la Table ronde s'affiche lorsque cet interdit est en vigueur.)\n\nLe Bastion de la Table ronde existe en dehors de ce monde et n'est accessible que via la carte.\n\n<?keyicon@29?> : <?keyActName@29?>",
     "Desc3EN": "The Roundtable Hold is a place where Tarnished gather, guided by grace. Combat is prohibited on the premises due to a pact of non-aggression.\n(This rule is in effect when the Roundtable icon is displayed.)\n\nThe Roundtable Hold is located outside of this world. It can only be reached through sites of grace.\n(Can also be accessed by using the map to travel.)\n\n<?keyicon@29?>: <?keyActName@29?>",
     "PictureURL": "./Assets/Goods/À_propos_du_Bastion_de_la_Table_ronde.png"
   },
@@ -5707,7 +5707,7 @@
     "Desc1EN": "Information about pouches\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Dans le menu principal, sous \"Sacoche\", vous pouvez équiper jusqu'à six objets.\n\nQuatre de ces objets sont alors utilisables sans devoir ouvrir le menu principal.\n\n<?keyicon@27?> + <?keyicon@17?> : Utiliser l'objet en sacoche 1\n<?keyicon@27?> + <?keyicon@19?> : Utiliser l'objet en sacoche 2\n<?keyicon@27?> + <?keyicon@20?> : Utiliser l'objet en sacoche 3\n<?keyicon@27?> + <?keyicon@18?> : Utiliser l'objet en sacoche 4",
+    "Desc3FR": "Dans le menu principal, sous \"Sacoche\", vous pouvez équiper jusqu'à six objets.\n\nQuatre de ces objets sont alors utilisables sans devoir ouvrir le menu principal.\n\n<?keyicon@27?> + <?keyicon@17?> : Utiliser l'objet en sacoche 1\n<?keyicon@27?> + <?keyicon@19?> : Utiliser l'objet en sacoche 2\n<?keyicon@27?> + <?keyicon@20?> : Utiliser l'objet en sacoche 3\n<?keyicon@27?> + <?keyicon@18?> : Utiliser l'objet en sacoche 4",
     "Desc3EN": "From \"Pouch\" in the main menu, you can equip six items to your pouches.\n\nFour of those items can be used without opening the main menu.\n\n<?keyicon@27?>+<?keyicon@17?>: Use item in Pouch 1\n<?keyicon@27?>+<?keyicon@19?>: Use item in Pouch 2\n<?keyicon@27?>+<?keyicon@20?>: Use item in Pouch 3\n<?keyicon@27?>+<?keyicon@18?>: Use item in Pouch 4",
     "PictureURL": "./Assets/Goods/À_propos_des_sacoches.png"
   },
@@ -5719,7 +5719,7 @@
     "Desc1EN": "Information about dodging\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Vous pouvez esquiver les attaques ennemies avec une roulade ou un pas en arrière.\nCes deux actions drainent l'endurance.\n\n<?keyMove?> + <?keyicon@7?> : Roulade\n<?keyicon@7?> : Pas en arrière",
+    "Desc3FR": "Vous pouvez esquiver les attaques ennemies avec une roulade ou un pas en arrière.\nCes deux actions drainent l'endurance.\n\n<?keyMove?> + <?keyicon@7?> : Roulade\n<?keyicon@7?> : Pas en arrière",
     "Desc3EN": "You can avoid enemy attacks with a dodge roll or backstep.\nBoth of these actions consume stamina.\n\n<?keyMove?>+<?keyicon@7?>: Dodge roll\n<?keyicon@7?>: Backstep",
     "PictureURL": "./Assets/Goods/À_propos_de_l'esquive.png"
   },
@@ -5731,7 +5731,7 @@
     "Desc1EN": "Information about wielding armaments\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Vous pouvez assigner jusqu'à 3 armes à chaque main, afin d'alterner rapidement entre elles.\n\nEmpoignez une arme à deux mains pour augmenter votre force effective de 50 % et rendre ses attaques plus difficiles à bloquer avec un bouclier.\n\n<?keyicon@19?> : <?keyActName@19?>\n<?keyicon@20?> : <?keyActName@20?>\n<?keyicon@27?> + <?keyicon@24?>/<?keyicon@22?> : manier à deux mains",
+    "Desc3FR": "Vous pouvez assigner jusqu'à 3 armes à chaque main, afin d'alterner rapidement entre elles.\n\nEmpoignez une arme à deux mains pour augmenter votre force effective de 50 % et rendre ses attaques plus difficiles à bloquer avec un bouclier.\n\n<?keyicon@19?> : <?keyActName@19?>\n<?keyicon@20?> : <?keyActName@20?>\n<?keyicon@27?> + <?keyicon@24?>/<?keyicon@22?> : manier à deux mains",
     "Desc3EN": "Each hand can be equipped with up to three armaments, allowing you to toggle between them.\n\nArmaments can also be two-handed, making attacks more difficult to repel with shields and boosting effective strength by 50%.\n\n<?keyicon@19?>: <?keyActName@19?>\n<?keyicon@20?>: <?keyActName@20?>\n<?keyicon@27?>+<?keyicon@24?>/<?keyicon@22?>: Wield with two hands",
     "PictureURL": "./Assets/Goods/À_propos_du_maniement_des_armes.png"
   },
@@ -5739,7 +5739,7 @@
     "ID": "Goods-9141",
     "NameFR": "À propos des runes majeures",
     "NameEN": "About Great Runes",
-    "Desc1FR": "Informations sur les runes majeures.\nExaminer : <?keyicon@31?>",
+    "Desc1FR": "Informations sur les runes majeures.\nExaminer : <?keyicon@31?>",
     "Desc1EN": "Information about Great Runes\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
@@ -5755,19 +5755,19 @@
     "Desc1EN": "Information about multiplayer\nExamine using <?keyicon@31?>",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Vous aurez besoin de certains objets pour participer à chaque type de session multijoueur :\ncoopératif, invasion ou compétitif.\n\nSélectionnez \"Multijoueur\" depuis le menu principal pour voir vos objets multijoueur.\nVous pouvez également les utiliser à partir de ce même menu.\n\n<?keyicon@28?> : <?keyActName@28?>",
+    "Desc3FR": "Vous aurez besoin de certains objets pour participer à chaque type de session multijoueur :\ncoopératif, invasion ou compétitif.\n\nSélectionnez \"Multijoueur\" depuis le menu principal pour voir vos objets multijoueur.\nVous pouvez également les utiliser à partir de ce même menu.\n\n<?keyicon@28?> : <?keyActName@28?>",
     "Desc3EN": "You will need certain items to participate in each type of multiplayer:\ncooperative, invasion, or competitive.\n\nSelect \"Multiplayer\" from the main menu to see your multiplayer items.\nYou can also use them directly from this menu.\n\n<?keyicon@28?>: <?keyActName@28?>",
     "PictureURL": "./Assets/Goods/À_propos_du_multijoueur.png"
   },
   {
     "ID": "Goods-9200",
-    "NameFR": "Lettre de pigeon voyageur [1]",
+    "NameFR": "Lettre de pigeon voyageur [1]",
     "NameEN": "Carrier Pigeon Letter [1]",
     "Desc1FR": "Lettre à propos de traces de substance argentée.",
     "Desc1EN": "Letter concerning traces of silvery slime found",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Lettre adressée à quelqu'un :\n\nTraces d'une substance gluante argentée décelées dans les ruines en face de Portorage.\n\nDécouvertes dans les réserves du camp des soldats.",
+    "Desc3FR": "Lettre adressée à quelqu'un :\n\nTraces d'une substance gluante argentée décelées dans les ruines en face de Portorage.\n\nDécouvertes dans les réserves du camp des soldats.",
     "Desc3EN": "Letter addressed to someone:\n\nConfirmed traces of silvery slime in the\nruins in front of Stormgate.\n\nFound on the soldiers' camp supplies.",
     "PictureURL": "./Assets/Goods/Lettre_de_pigeon_voyageur_[1].png"
   },
@@ -5779,7 +5779,7 @@
     "Desc1EN": "Expands crafting repertoire",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Traité de techniques artisanales abandonné par des guerriers nomades.\nOn y trouve des conseils pour survivre dans le dénuement le plus total.\n\nEnseigne la fabrication des éléments suivants :\n\n- Flèche en os\n- Flèche en os empennée\n- Carreau en os",
+    "Desc3FR": "Traité de techniques artisanales abandonné par des guerriers nomades.\nOn y trouve des conseils pour survivre dans le dénuement le plus total.\n\nEnseigne la fabrication des éléments suivants :\n\n- Flèche en os\n- Flèche en os empennée\n- Carreau en os",
     "Desc3EN": "A record of crafting techniques left by roaming nomad warriors.\nContains knowledge for surviving in the face of utter scarcity.\n\nAcquire the knowledge to craft the following:\n\n- Bone Arrow\n- Bone Arrow (Fletched)\n- Bone Bolt",
     "PictureURL": "./Assets/Goods/Manuel_de_guerrier_nomade_(1).png"
   },
@@ -6835,7 +6835,7 @@
     "Desc1EN": "Found by hunting large crabs",
     "Desc2FR": "",
     "Desc2EN": "",
-    "Desc3FR": "Œufs de crabe géant vivant dans les hauts-fonds.\nMatériau servant à fabriquer des objets.\n\nUn mets à la fois nutritif et réconfortant.\nUn délice pour les papilles.\nSeuls les plus nantis connaissent la vérité : les œufs de crabe sont bien plus savoureux que sa viande.",
+    "Desc3FR": "Œufs de crabe géant vivant dans les hauts-fonds.\nMatériau servant à fabriquer des objets.\n\nUn mets à la fois nutritif et réconfortant.\nUn délice pour les papilles.\nSeuls les plus nantis connaissent la vérité : les œufs de crabe sont bien plus savoureux que sa viande.",
     "Desc3EN": "Eggs of large crabs which dwell in the shallows.\nMaterial used for crafting items.\n\nA nutritious foodstuff that warms from within.\nThe flavor is exquisite.\nOnly those of comfort and means know the truth:\na crab's eggs are more delectable than its meat.",
     "PictureURL": "./Assets/Goods/Œufs_de_crabe.png"
   },
@@ -7447,7 +7447,7 @@
     "Desc1EN": "Summons nomad spirit",
     "Desc2FR": "Nomade",
     "Desc2EN": "Nomad",
-    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit d'un nomade.\n\nUn membre de la tribu qui fut enterrée afin de contenir la folie contaminatrice qui l'affectait. Ses yeux émettent une terrible Flamme exaltée, bien que sa faible constitution ne lui accorde que peu de PV ; il n'encaissera donc que peu de coups avant de s'écrouler.",
+    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit d'un nomade.\n\nUn membre de la tribu qui fut enterrée afin de contenir la folie contaminatrice qui l'affectait. Ses yeux émettent une terrible Flamme exaltée, bien que sa faible constitution ne lui accorde que peu de PV ; il n'encaissera donc que peu de coups avant de s'écrouler.",
     "Desc3EN": "Ashen remains in which spirits yet dwell.\nUse to summon the spirit of a nomad.\n\nA member of a tribe that was entombed in the earth so as to bury the maddening disease that followed them. Able to emit the terrible flame of frenzy from his eyes, but has low HP and is frail, unable to take much in the way of punishment.",
     "PictureURL": "./Assets/Goods/Cendres_de_nomade.png"
   },
@@ -7507,7 +7507,7 @@
     "Desc1EN": "Summons winged misbegotten spirit",
     "Desc2FR": "Chimère ailée",
     "Desc2EN": "Winged Misbegotten",
-    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit d'une chimère ailée.\n\nCet esprit doté d'ailes s'envole pour décocher des flèches. L'existence de ces créatures est considérée comme un châtiment pour avoir osé approcher du Creuset ; dès leur naissance, elles sont traitées comme des esclaves, ou pire encore.",
+    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit d'une chimère ailée.\n\nCet esprit doté d'ailes s'envole pour décocher des flèches. L'existence de ces créatures est considérée comme un châtiment pour avoir osé approcher du Creuset ; dès leur naissance, elles sont traitées comme des esclaves, ou pire encore.",
     "Desc3EN": "Ashen remains in which spirits yet dwell.\nUse to summon the spirit of a winged misbegotten.\n\nA spirit with the aspect of wings which takes flight to loose arrows from its bow. The misbegotten are held to be a punishment for making contact with the Crucible, and from birth they are treated as slaves, or worse.",
     "PictureURL": "./Assets/Goods/Cendres_de_chimère_ailée.png"
   },
@@ -7627,7 +7627,7 @@
     "Desc1EN": "Summons page spirit",
     "Desc2FR": "Page",
     "Desc2EN": "Page",
-    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit d'un page.\n\nEsprit d'un page qui chemina aux côtés de son noble maître, armé d'une épée perçante et d'une arbalète pour assurer sa protection.\nLe métier de page n'est nullement une vocation, mais un rôle attribué aux gens de basse extraction ; on ne vous demande ni vos compétences, ni vos qualifications, ni même votre avis.",
+    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit d'un page.\n\nEsprit d'un page qui chemina aux côtés de son noble maître, armé d'une épée perçante et d'une arbalète pour assurer sa protection.\nLe métier de page n'est nullement une vocation, mais un rôle attribué aux gens de basse extraction ; on ne vous demande ni vos compétences, ni vos qualifications, ni même votre avis.",
     "Desc3EN": "Ashen remains in which spirits yet dwell.\nUse to summon the spirit of a page.\n\nSpirit of a page who traveled at the side of the noble he served. Uses a piercing sword and crossbow to defend his master.\nOne becomes a page merely by accident of being born into obscurity; nothing is asked of ability, talent, or volition.",
     "PictureURL": "./Assets/Goods/Cendres_de_page.png"
   },
@@ -7879,7 +7879,7 @@
     "Desc1EN": "Summons spirit of Bloodhound Knight Floh",
     "Desc2FR": "Floh, Chevalier-limier",
     "Desc2EN": "Bloodhound Knight Floh",
-    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit de Floh, Chevalier-limier.\n\nEsprit d'un Chevalier-limier que l'on surnommait \"l'Enragé errant\". Attaque sans interruption dès l'instant où il est invoqué.\nFloh fit le serment de ne servir qu'un seul et unique seigneur : un authentique monarque. Ainsi, l'Enragé errant demeura à jamais sans maître.",
+    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit de Floh, Chevalier-limier.\n\nEsprit d'un Chevalier-limier que l'on surnommait \"l'Enragé errant\". Attaque sans interruption dès l'instant où il est invoqué.\nFloh fit le serment de ne servir qu'un seul et unique seigneur : un authentique monarque. Ainsi, l'Enragé errant demeura à jamais sans maître.",
     "Desc3EN": "Ashen remains in which spirits yet dwell.\nUse to summon the spirit of Floh, the Bloodhound Knight.\n\nSpirit of a Bloodhound Knight they called the Rabid Stray. Will attack without pause immediately after being summoned.\nFloh vowed that there was only one lord he would serve: a true king. And so, the Rabid Stray never found a master.",
     "PictureURL": "./Assets/Goods/Floh,_Chevalier-limier.png"
   },
@@ -7951,7 +7951,7 @@
     "Desc1EN": "Summons five miranda sprout spirits",
     "Desc2FR": "Fleurs de Miranda",
     "Desc2EN": "Miranda Sprouts",
-    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer cinq esprits de fleurs de Miranda.\nL'invocation coûte des PV et non des PC.\n\nEsprits de magnifiques petites fleurs carnivores qui se nourrissent de chair humaine. Elles avancent lentement en répandant du pollen toxique.\nVulnérables au feu ; prenez bien soin de ces délicats petits trésors.",
+    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer cinq esprits de fleurs de Miranda.\nL'invocation coûte des PV et non des PC.\n\nEsprits de magnifiques petites fleurs carnivores qui se nourrissent de chair humaine. Elles avancent lentement en répandant du pollen toxique.\nVulnérables au feu ; prenez bien soin de ces délicats petits trésors.",
     "Desc3EN": "Ashen remains in which spirits yet dwell.\nUse to summon the spirits of five miranda sprouts.\nSummoning consumes HP rather than FP.\n\nSpirits of sweet little miranda flowers, carnivorous blossoms that feed upon human flesh. They creep slowly, scattering toxic pollen.\nVulnerable to fire—do take care of the little darlings.",
     "PictureURL": "./Assets/Goods/Cendres_de_fleurs_de_Miranda.png"
   },
@@ -7975,7 +7975,7 @@
     "Desc1EN": "Summons spirit of Omenkiller Rollo",
     "Desc2FR": "Rollo, tueur de Réprouvés",
     "Desc2EN": "Omenkiller Rollo",
-    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit de Rollo, tueur de Réprouvés.\n\nEsprit de Rollo, réputé être le premier tueur de Réprouvés.\nAutrefois Parfumeur de renom, Rollo but un philtre le privant de toute émotion, lui permettant de se livrer à son épouvantable labeur : la traque des Réprouvés.",
+    "Desc3FR": "Des restes de cendres dans lesquels demeure encore une âme.\nUtilisez cet objet pour invoquer l'esprit de Rollo, tueur de Réprouvés.\n\nEsprit de Rollo, réputé être le premier tueur de Réprouvés.\nAutrefois Parfumeur de renom, Rollo but un philtre le privant de toute émotion, lui permettant de se livrer à son épouvantable labeur : la traque des Réprouvés.",
     "Desc3EN": "Ashen remains in which spirits yet dwell.\nUse to summon the spirit of Omenkiller Rollo.\n\nSpirit of Rollo, known as the first Omenkiller.\nOnce a famous perfumer, Rollo imbibed a physick to rid himself of emotion, thus enabling him to enact his nightmarish labor, hunting the Omen.",
     "PictureURL": "./Assets/Goods/Rollo,_tueur_de_Réprouvés.png"
   },
@@ -8143,7 +8143,7 @@
     "Desc1EN": "Summons spirit of Finger Maiden Therolina",
     "Desc2FR": "Therolina la Servante de l'Augure des Doigts",
     "Desc2EN": "Finger Maiden Therolina",
-    "Desc3FR": "L'un des pantins favoris de Seluvis.\nUtilisez cet objet pour invoquer l'esprit de Therolina la Servante de l'Augure des Doigts.\n\nEsprit d'une Servante de l'Augure des Doigts qui ne croisa jamais la route du Sans-éclat qu'elle devait guider. Elle emploie des incantations curatives et des pots d'eau bénite, mais n'a pas l'âme d'une guerrière ; elle ne sera pas d'une grande utilité au combat.\n\nUne Servante dépourvue de Sans-éclat. Un Sans-éclat dépourvu de Servante. Et nul guide pour les réunir.",
+    "Desc3FR": "L'un des pantins favoris de Seluvis.\nUtilisez cet objet pour invoquer l'esprit de Therolina la Servante de l'Augure des Doigts.\n\nEsprit d'une Servante de l'Augure des Doigts qui ne croisa jamais la route du Sans-éclat qu'elle devait guider. Elle emploie des incantations curatives et des pots d'eau bénite, mais n'a pas l'âme d'une guerrière ; elle ne sera pas d'une grande utilité au combat.\n\nUne Servante dépourvue de Sans-éclat. Un Sans-éclat dépourvu de Servante. Et nul guide pour les réunir.",
     "Desc3EN": "One of Seluvis's puppets.\nUse to summon the spirit of the Finger Maiden Therolina.\n\nSpirit of Finger Maiden who never met the Tarnished she was meant to guide. Uses healing incantations and Holy Water Pots, but she is not a fighter by nature and is ill-suited to battle.\n\nA Maiden without a Tarnished. A Tarnished without a Maiden. And yet no guide to bring them together.",
     "PictureURL": "./Assets/Goods/Pantin_de_Therolina_la_Servante.png"
   },
@@ -8167,7 +8167,7 @@
     "Desc1EN": "Summons Jarwight spirit",
     "Desc2FR": "Homme-jarre",
     "Desc2EN": "Jarwight",
-    "Desc3FR": "L'un des pantins favoris de Seluvis.\nUtilisez cet objet pour invoquer l'esprit d'un homme-jarre.\n\nEsprit d'un homme qui désirait rejoindre les entrailles d'une Vivejarre. Un spécialiste du lancer de pots et jarres en tout genre.\n\nUn jour, le guerrier-jarre tempéra les ardeurs de cet anonyme :\n\"Vous n'êtes pas encore prêt à rejoindre les preux qui reposent en moi. Non, vous devez vous appliquer ! Surpassez-vous, et je finirai par venir vous chercher.\"",
+    "Desc3FR": "L'un des pantins favoris de Seluvis.\nUtilisez cet objet pour invoquer l'esprit d'un homme-jarre.\n\nEsprit d'un homme qui désirait rejoindre les entrailles d'une Vivejarre. Un spécialiste du lancer de pots et jarres en tout genre.\n\nUn jour, le guerrier-jarre tempéra les ardeurs de cet anonyme :\n\"Vous n'êtes pas encore prêt à rejoindre les preux qui reposent en moi. Non, vous devez vous appliquer ! Surpassez-vous, et je finirai par venir vous chercher.\"",
     "Desc3EN": "One of Seluvis's puppets.\nUse to summon the spirit of a jarwight\n\nSpirit of a man who wished to become the innards of a living jar. A jar-hurling specialist who throws all manner of pots and jars.\n\nThe warrior jar once told the nameless man this:\n\"You are not yet ready to join the warriors inside. No, you must apply yourself! Better yourself, and one day I will return for you.\"",
     "PictureURL": "./Assets/Goods/Pantin_d'homme-jarre.png"
   }

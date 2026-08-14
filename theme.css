@@ -379,6 +379,7 @@ a:hover {
   animation: dropdownIn 0.2s ease;
 }
 
+/* obligé de mettre ça pour éviter que ça ai une sale gueule */
 .dropdown-submenu > a.dropdown-toggle::after {
   border-top: 0.3em solid transparent;
   border-bottom: 0.3em solid transparent;

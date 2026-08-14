@@ -489,7 +489,7 @@ const Daily = (function () {
     const available = PokemonVersions.getAvailablePokemons(pokemons, dateStr);
     const _avVer = PokemonVersions.getAvailableVersions(dateStr);
     const _vNames = (PokemonVersions.getData() || []).filter(v => _avVer.has(v.pokefeet_data_version)).map(v => v.Update_Name);
-    console.log(`[Daily chargé – ${dateStr}] Pool : ${available.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
+    console.log(`[Daily chargé – ${dateStr}] Pool : ${available.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
     const seed = stringToSeed(dateStr);
     const rng = mulberry32(seed);
     const shuffled = shuffleArrayWithSeed(available, rng);
@@ -882,7 +882,7 @@ const Daily = (function () {
     const availablePokemons = PokemonVersions.getAvailablePokemons(pokemons, sessionDate);
     const _avVer = PokemonVersions.getAvailableVersions(sessionDate);
     const _vNames = (PokemonVersions.getData() || []).filter(v => _avVer.has(v.pokefeet_data_version)).map(v => v.Update_Name);
-    console.log(`[Daily – ${sessionDate}] Pool : ${availablePokemons.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
+    console.log(`[Daily – ${sessionDate}] Pool : ${availablePokemons.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
     const seed = stringToSeed(sessionDate);
     const rng = mulberry32(seed);
     const shuffled = shuffleArrayWithSeed(availablePokemons, rng);

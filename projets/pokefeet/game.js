@@ -199,7 +199,7 @@ const Game = (function () {
       PossiblePokemons = PokemonVersions.getAvailablePokemons(pokemons, todayStr);
       const _avVer = PokemonVersions.getAvailableVersions(todayStr);
       const _vNames = (PokemonVersions.getData() || []).filter(v => _avVer.has(v.pokefeet_data_version)).map(v => v.Update_Name);
-      console.log(`[Entraînement – ${todayStr}] Pool : ${PossiblePokemons.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
+      console.log(`[Entraînement – ${todayStr}] Pool : ${PossiblePokemons.length} Pokémon | Versions autorisées : ${_vNames.join(', ')}`);
     } catch (e) {
       // fallback : quelques pokémons d'exemple pour que l'app fonctionne sans fetch
       pokemons = [

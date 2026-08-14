@@ -265,6 +265,7 @@
              data-bs-toggle="dropdown" aria-expanded="false">Politiques</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item${active('politique_de_donnees.html')}" href="politique_de_donnees.html">Politique de Données</a></li>
+            <li><a class="dropdown-item${active('politique_ia.html')}" href="politique_ia.html">Politique sur l'utilisation de l'IA</a></li>
           </ul>
         </li>
 

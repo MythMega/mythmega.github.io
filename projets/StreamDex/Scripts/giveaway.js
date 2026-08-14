@@ -31,6 +31,73 @@ function initGiveaway() {
   document.getElementById('btn-giveaway-poke')?.addEventListener('click', () => {
     withBtn(document.getElementById('btn-giveaway-poke'), giveCreature);
   });
+
+  // Switch "donner à tous" : verrouille/déverrouille le select utilisateur
+  const allSwitch = document.getElementById('giveaway-poke-all');
+  allSwitch?.addEventListener('change', () => {
+    ADM.ss['giveaway-user-poke']?.setDisabled(allSwitch.checked);
+    if (allSwitch.checked) ADM.ss['giveaway-user-poke']?.clear();
+  });
+
+  // Bouton "utilisateurs actifs" : ouvre la popup
+  document.getElementById('btn-giveaway-active-users')?.addEventListener('click', showActiveUsers);
+
+  // Fermer la popup : bouton OK
+  document.getElementById('btn-active-users-close')?.addEventListener('click', closeActiveUsersModal);
+
+  // Fermer la popup : clic en dehors
+  document.getElementById('active-users-modal')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeActiveUsersModal();
+  });
+}
+
+// ── Modal utilisateurs actifs ─────────────────────────────────
+
+async function showActiveUsers() {
+  const modal = document.getElementById('active-users-modal');
+  const listEl = document.getElementById('active-users-list');
+  const countEl = document.getElementById('active-users-count');
+  if (!modal || !listEl || !countEl) return;
+
+  // Affiche la popup avec un état de chargement
+  modal.style.display = 'flex';
+  listEl.innerHTML = '<div class="adm-modal__empty">Chargement…</div>';
+  countEl.textContent = '…';
+
+  try {
+    const text = await apiPost('Interface/GetActiveUser', {});
+    let users = [];
+    try {
+      users = JSON.parse(text);
+      // La réponse peut être doublement encodée : re-parser si c'est une string
+      if (typeof users === 'string') users = JSON.parse(users);
+    } catch (e) {
+      console.log('[GetActiveUser] Erreur JSON.parse :', e);
+    }
+    if (!Array.isArray(users)) users = [];
+
+    countEl.textContent = String(users.length);
+
+    if (!users.length) {
+      listEl.innerHTML = '<div class="adm-modal__empty">Aucun utilisateur actif.</div>';
+      return;
+    }
+
+    listEl.innerHTML = users.map(u => `
+      <div class="adm-modal__user">
+        <span class="adm-modal__user-id">${escapeHtml(String(u.ID ?? ''))}</span>
+        <span class="adm-modal__user-platform">${escapeHtml(String(u.Platform ?? ''))}</span>
+        <span class="adm-modal__user-name">${escapeHtml(String(u.UserName ?? ''))}</span>
+      </div>`).join('');
+  } catch (e) {
+    listEl.innerHTML = `<div class="adm-modal__empty">❌ ${escapeHtml(e.message)}</div>`;
+    countEl.textContent = '0';
+  }
+}
+
+function closeActiveUsersModal() {
+  const modal = document.getElementById('active-users-modal');
+  if (modal) modal.style.display = 'none';
 }
 
 // ── Populate helpers ─────────────────────────────────────────
@@ -97,20 +164,34 @@ async function giveCreature() {
   const userRaw  = ADM.ss['giveaway-user-poke']?.getValue();
   const pokeName = ADM.ss['giveaway-poke-name']?.getValue();
   const shiny    = document.getElementById('giveaway-poke-shiny')?.checked ?? false;
+  const allUsers = document.getElementById('giveaway-poke-all')?.checked ?? false;
 
-  if (!userRaw || !pokeName) {
-    showResp(respEl, '❌ Sélectionnez un utilisateur et une créature.', 'error'); return;
+  if (!pokeName) {
+    showResp(respEl, '❌ Sélectionnez une créature.', 'error'); return;
   }
 
-  let user;
-  try { user = JSON.parse(userRaw); } catch { showResp(respEl, '❌ Utilisateur invalide.', 'error'); return; }
+  let body;
+  if (allUsers) {
+    // Donner à tous les utilisateurs présents
+    body = {
+      UserName:    '+Here',
+      Platform:    '',
+      TriggerName: shiny ? `${pokeName}+True` : `${pokeName}+False`,
+    };
+  } else {
+    if (!userRaw) {
+      showResp(respEl, '❌ Sélectionnez un utilisateur et une créature.', 'error'); return;
+    }
+    let user;
+    try { user = JSON.parse(userRaw); } catch { showResp(respEl, '❌ Utilisateur invalide.', 'error'); return; }
+    body = {
+      UserName:    user.Pseudo,
+      Platform:    user.Platform,
+      UserCode:    user.Code_user ?? '',
+      TriggerName: shiny ? `${pokeName}+True` : `${pokeName}+False`,
+    };
+  }
 
-  const body = {
-    UserName:    user.Pseudo,
-    Platform:    user.Platform,
-    UserCode:    user.Code_user ?? '',
-    TriggerName: shiny ? `${pokeName}+True` : `${pokeName}+False`,
-  };
   try {
     const resp = await apiPost('Interface/GiveAway', body);
     showResp(respEl, resp, 'ok');

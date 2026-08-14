@@ -176,6 +176,11 @@ class SearchableSelect {
     this._input.value  = '';
     this._closeDropdown();
   }
+
+  /** Active/désactive le champ de recherche. */
+  setDisabled(disabled) {
+    if (this._input) this._input.disabled = disabled;
+  }
 }
 
 // Échappe le HTML dans les attributs / contenu

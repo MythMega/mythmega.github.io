@@ -1,0 +1,251 @@
+{
+  "bossName": "Steelix",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Steelix_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Steelix_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 65000,
+  "date": "2026-08-15 23:23:28",
+  "durationSec": 1245,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 48750,
+      "countAtk": 4,
+      "baseDmg": 36749,
+      "level": 19,
+      "raidCount": 1035,
+      "luck": 0.33164167
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 12250,
+      "countAtk": 1,
+      "baseDmg": 12250,
+      "level": 17,
+      "raidCount": 442,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 2595,
+      "countAtk": 3,
+      "baseDmg": 391,
+      "level": 8,
+      "raidCount": 4,
+      "luck": 2.2122762
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 2130,
+      "countAtk": 2,
+      "baseDmg": 494,
+      "level": 4,
+      "raidCount": 16,
+      "luck": 2.1558704
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 65725
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-15 23:24:13",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 48750,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-15 23:27:03",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 391,
+      "pvAfter": 48359,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 23:28:50",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 48359,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 23h29:13."
+    },
+    {
+      "at": "2026-08-15 23:29:19",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 494,
+      "pvAfter": 47865,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 23:31:49",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 47865,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "maxenceriot a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-08-15 23:32:50",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 31615,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 23:34:36",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 874,
+      "pvAfter": 30741,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 23:41:29",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 14491,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-08-15 23:42:06",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1330,
+      "pvAfter": 13161,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 23:42:15",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1636,
+      "pvAfter": 11525,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 23:44:13",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12250,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    }
+  ]
+}

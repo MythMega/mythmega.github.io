@@ -1,0 +1,169 @@
+{
+  "bossName": "Luxio",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Luxio_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Luxio_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 85000,
+  "date": "2026-08-16 22:11:19",
+  "durationSec": 1554,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 63750,
+      "countAtk": 3,
+      "baseDmg": 37517,
+      "level": 19,
+      "raidCount": 1040,
+      "luck": 0.5664099
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 37867,
+      "countAtk": 2,
+      "baseDmg": 16617,
+      "level": 18,
+      "raidCount": 529,
+      "luck": 1.1394054
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Sage_Possiblement",
+      "damage": 254,
+      "countAtk": 1,
+      "baseDmg": 254,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 101871
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-16 22:13:34",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16617,
+      "pvAfter": 68383,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:16:31",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 254,
+      "pvAfter": 68129,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:19:43",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 46879,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:23:10",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 25629,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:27:30",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 4379,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:37:14",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    }
+  ]
+}

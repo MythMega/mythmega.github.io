@@ -1,0 +1,131 @@
+{
+  "bossName": "Tygnon",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmonchan_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Hitmonchan_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 180000,
+  "date": "2026-08-18 21:02:03",
+  "durationSec": 1866,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 172909,
+      "countAtk": 4,
+      "baseDmg": 37909,
+      "level": 19,
+      "raidCount": 1048,
+      "luck": 1.1402899
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 16858,
+      "countAtk": 1,
+      "baseDmg": 16858,
+      "level": 18,
+      "raidCount": 536,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 189767
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-18 21:02:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37909,
+      "pvAfter": 142091,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 21:17:42",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45000,
+      "pvAfter": 97091,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-18 21:26:16",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16858,
+      "pvAfter": 80233,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 21:28:20",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45000,
+      "pvAfter": 35233,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-08-18 21:33:10",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus confus !"
+    }
+  ]
+}

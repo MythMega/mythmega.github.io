@@ -1,0 +1,222 @@
+{
+  "bossName": "Magn\u00E9ti",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magnemite_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magnemite_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 160000,
+  "date": "2026-08-18 19:49:33",
+  "durationSec": 4151,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 117947,
+      "countAtk": 3,
+      "baseDmg": 37947,
+      "level": 19,
+      "raidCount": 1047,
+      "luck": 1.0360678
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 52580,
+      "countAtk": 2,
+      "baseDmg": 12580,
+      "level": 17,
+      "raidCount": 456,
+      "luck": 2.0898252
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 5164,
+      "countAtk": 2,
+      "baseDmg": 1686,
+      "level": 12,
+      "raidCount": 116,
+      "luck": 1.5314354
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 450,
+      "countAtk": 1,
+      "baseDmg": 450,
+      "level": 8,
+      "raidCount": 9,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 5164
+    },
+    {
+      "platform": "twitch",
+      "damage": 170977
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-18 20:31:27",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1686,
+      "pvAfter": 158314,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 20:32:51",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12580,
+      "pvAfter": 145734,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-18 20:33:03",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 450,
+      "pvAfter": 145284,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 20:42:39",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 40000,
+      "pvAfter": 105284,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-08-18 20:47:25",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 3478,
+      "pvAfter": 101806,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 20:50:36",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37947,
+      "pvAfter": 63859,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 20:53:56",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 40000,
+      "pvAfter": 23859,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 20:58:44",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 40000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "bossName": "Togekiss",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Togekiss_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Togekiss_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 70000,
+  "date": "2026-08-18 17:02:02",
+  "durationSec": 3244,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 49931,
+      "countAtk": 4,
+      "baseDmg": 7399,
+      "level": 16,
+      "raidCount": 313,
+      "luck": 1.6870861
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 17500,
+      "countAtk": 1,
+      "baseDmg": 37743,
+      "level": 19,
+      "raidCount": 1045,
+      "luck": 0.46366215
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 16721,
+      "countAtk": 1,
+      "baseDmg": 16721,
+      "level": 18,
+      "raidCount": 535,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 84152
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-18 17:02:42",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16721,
+      "pvAfter": 53279,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-08-18 17:17:42",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7399,
+      "pvAfter": 45880,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 17:30:45",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 28380,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 17:34:39",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 10232,
+      "pvAfter": 18148,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 17:54:05",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 14800,
+      "pvAfter": 3348,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 17:56:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

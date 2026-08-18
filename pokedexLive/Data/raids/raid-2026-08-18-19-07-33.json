@@ -1,0 +1,186 @@
+{
+  "bossName": "Simularbre",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sudowoodo_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Sudowoodo_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 80000,
+  "date": "2026-08-18 19:07:33",
+  "durationSec": 2310,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 49897,
+      "countAtk": 8,
+      "baseDmg": 7628,
+      "level": 16,
+      "raidCount": 315,
+      "luck": 0.8176619
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 32590,
+      "countAtk": 2,
+      "baseDmg": 12590,
+      "level": 17,
+      "raidCount": 455,
+      "luck": 1.2942811
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 82487
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 4
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-18 19:08:12",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12590,
+      "pvAfter": 67410,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 19:39:14",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 47410,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-08-18 19:46:00",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7628,
+      "pvAfter": 39782,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 19:46:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7631,
+      "pvAfter": 32151,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 19:46:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7671,
+      "pvAfter": 24480,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 19:46:02",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7745,
+      "pvAfter": 16735,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-08-18 19:46:02",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 3838,
+      "pvAfter": 12897,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 19:46:03",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7661,
+      "pvAfter": 5236,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 19:46:03",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 1,
+      "pvAfter": 5235,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-18 19:46:03",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7722,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus endormis !"
+    }
+  ]
+}

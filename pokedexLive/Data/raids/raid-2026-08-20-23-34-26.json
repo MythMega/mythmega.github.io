@@ -1,0 +1,235 @@
+{
+  "bossName": "Zorua",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zorua_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zorua_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 95000,
+  "date": "2026-08-20 23:34:26",
+  "durationSec": 3037,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 60328,
+      "countAtk": 3,
+      "baseDmg": 12828,
+      "level": 17,
+      "raidCount": 466,
+      "luck": 1.5676125
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 21452,
+      "countAtk": 7,
+      "baseDmg": 1345,
+      "level": 11,
+      "raidCount": 53,
+      "luck": 2.2784917
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 17145,
+      "countAtk": 1,
+      "baseDmg": 17145,
+      "level": 18,
+      "raidCount": 549,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 98925
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-20 23:36:21",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1345,
+      "pvAfter": 93655,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-20 23:39:45",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1785,
+      "pvAfter": 91870,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-20 23:40:26",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 17145,
+      "pvAfter": 74725,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-20 23:41:06",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1422,
+      "pvAfter": 73303,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-20 23:52:16",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2732,
+      "pvAfter": 70571,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-08-20 23:58:53",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12828,
+      "pvAfter": 57743,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:00:10",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 57743,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-21 00:00:18",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 57743,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "maxenceriot a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-08-21 00:16:55",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 33993,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:17:08",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2712,
+      "pvAfter": 31281,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-21 00:24:28",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 7531,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:25:04",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 11456,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    }
+  ]
+}

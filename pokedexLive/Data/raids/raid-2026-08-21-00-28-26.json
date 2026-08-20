@@ -1,0 +1,337 @@
+{
+  "bossName": "Magicarpe",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magikarp_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Magikarp_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 95000,
+  "date": "2026-08-21 00:28:26",
+  "durationSec": 626,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 49704,
+      "countAtk": 8,
+      "baseDmg": 7571,
+      "level": 16,
+      "raidCount": 319,
+      "luck": 0.8206314
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 42459,
+      "countAtk": 3,
+      "baseDmg": 12771,
+      "level": 17,
+      "raidCount": 467,
+      "luck": 1.1082139
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 2853,
+      "countAtk": 2,
+      "baseDmg": 1391,
+      "level": 11,
+      "raidCount": 126,
+      "luck": 1.0255212
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Sage_Possiblement",
+      "damage": 539,
+      "countAtk": 2,
+      "baseDmg": 257,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1.0486381
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberBot",
+      "damage": 382,
+      "countAtk": 1,
+      "baseDmg": 382,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 93084
+    },
+    {
+      "platform": "youtube",
+      "damage": 2853
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 4
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-21 00:33:36",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12771,
+      "pvAfter": 82229,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:33:40",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 257,
+      "pvAfter": 81972,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:33:44",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1391,
+      "pvAfter": 80581,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:33:51",
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "damages": 382,
+      "pvAfter": 80199,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:34:16",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7571,
+      "pvAfter": 72628,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:34:16",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7641,
+      "pvAfter": 64987,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-08-21 00:34:16",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 3799,
+      "pvAfter": 61188,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:34:17",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7693,
+      "pvAfter": 53495,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:35:03",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12795,
+      "pvAfter": 40700,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:35:04",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1462,
+      "pvAfter": 39238,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:35:16",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 282,
+      "pvAfter": 38956,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:38:37",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 16893,
+      "pvAfter": 22063,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:38:49",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 1,
+      "pvAfter": 22062,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:38:50",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7677,
+      "pvAfter": 14385,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus endormis !"
+    },
+    {
+      "at": "2026-08-21 00:38:51",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7693,
+      "pvAfter": 6692,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 00:38:53",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7629,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

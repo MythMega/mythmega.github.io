@@ -1,0 +1,153 @@
+{
+  "bossName": "Axoloto",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wooper_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Wooper_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 85000,
+  "date": "2026-08-21 21:40:36",
+  "durationSec": 1563,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 85000,
+      "countAtk": 4,
+      "baseDmg": 38657,
+      "level": 19,
+      "raidCount": 1061,
+      "luck": 0.5497064
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 6903,
+      "countAtk": 3,
+      "baseDmg": 1418,
+      "level": 11,
+      "raidCount": 56,
+      "luck": 1.6227081
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 91903
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-21 21:40:48",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1418,
+      "pvAfter": 83582,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 21:45:17",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 62332,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 21:46:25",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2535,
+      "pvAfter": 59797,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 21:54:14",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 38547,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 21:57:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 17297,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 22:05:45",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2950,
+      "pvAfter": 14347,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 22:06:39",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

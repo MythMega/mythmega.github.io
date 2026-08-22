@@ -1,0 +1,268 @@
+{
+  "bossName": "Donphan",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Donphan_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Donphan_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 80000,
+  "date": "2026-08-22 22:36:07",
+  "durationSec": 1964,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 60000,
+      "countAtk": 3,
+      "baseDmg": 38591,
+      "level": 19,
+      "raidCount": 1064,
+      "luck": 0.51825553
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 17327,
+      "countAtk": 1,
+      "baseDmg": 17327,
+      "level": 18,
+      "raidCount": 554,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 13272,
+      "countAtk": 1,
+      "baseDmg": 13272,
+      "level": 17,
+      "raidCount": 475,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 6342,
+      "countAtk": 3,
+      "baseDmg": 1398,
+      "level": 11,
+      "raidCount": 61,
+      "luck": 1.5121602
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 96941
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "kairokil",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-22 22:36:41",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1398,
+      "pvAfter": 78602,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-08-22 22:49:04",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 58602,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-22 22:50:47",
+      "pseudo": "kairokil",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 58602,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "kairokil a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-08-22 22:53:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 38602,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-22 22:55:22",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13272,
+      "pvAfter": 25330,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-22 22:57:17",
+      "pseudo": "kairokil",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 25330,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "kairokil a tent\u00E9 de se soigner (mais n\u0027\u00E9tait pas infect\u00E9)"
+    },
+    {
+      "at": "2026-08-22 22:58:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 5330,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-22 23:05:07",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3000,
+      "pvAfter": 2330,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-22 23:07:22",
+      "pseudo": "kairokil",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 2330,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "kairokil a soign\u00E9 tout le monde ! ( 0 personne(s) )"
+    },
+    {
+      "at": "2026-08-22 23:08:38",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1944,
+      "pvAfter": 386,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-08-22 23:08:51",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 17327,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

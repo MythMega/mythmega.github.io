@@ -1,0 +1,370 @@
+{
+  "bossName": "Viskuse",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Frillish_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Frillish_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 80000,
+  "date": "2026-08-24 21:39:41",
+  "durationSec": 3327,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 80000,
+      "countAtk": 4,
+      "baseDmg": 38867,
+      "level": 19,
+      "raidCount": 1067,
+      "luck": 0.51457536
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 13384,
+      "countAtk": 1,
+      "baseDmg": 13384,
+      "level": 17,
+      "raidCount": 480,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 2103,
+      "countAtk": 1,
+      "baseDmg": 2103,
+      "level": 12,
+      "raidCount": 135,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 1483,
+      "countAtk": 1,
+      "baseDmg": 1483,
+      "level": 11,
+      "raidCount": 65,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 1231,
+      "countAtk": 12,
+      "baseDmg": 192,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 0.5342882
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 94867
+    },
+    {
+      "platform": "youtube",
+      "damage": 3334
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 9
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-24 21:39:54",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1483,
+      "pvAfter": 78517,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 21:40:05",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 58517,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 21:40:39",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2103,
+      "pvAfter": 56414,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 21:41:08",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 192,
+      "pvAfter": 56222,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-08-24 21:49:17",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 36222,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 21:50:54",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 36222,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 2 tours."
+    },
+    {
+      "at": "2026-08-24 21:54:01",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 36222,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 1 tours."
+    },
+    {
+      "at": "2026-08-24 21:56:53",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 36222,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 0 tours."
+    },
+    {
+      "at": "2026-08-24 22:01:18",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 369,
+      "pvAfter": 35853,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus paralys\u00E9 !"
+    },
+    {
+      "at": "2026-08-24 22:04:29",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 382,
+      "pvAfter": 35471,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 22:06:54",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 15471,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 22:07:07",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 288,
+      "pvAfter": 15183,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-08-24 22:09:44",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 15183,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-24 22:11:05",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 15183,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-24 22:13:00",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 15183,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-24 22:16:33",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 15183,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-24 22:21:22",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13384,
+      "pvAfter": 1799,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 22:21:44",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 1799,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-24 22:35:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

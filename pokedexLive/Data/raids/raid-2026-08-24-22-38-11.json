@@ -1,0 +1,196 @@
+{
+  "bossName": "Farfaduvet",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Whimsicott_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Whimsicott_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 95000,
+  "date": "2026-08-24 22:38:11",
+  "durationSec": 2329,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 47500,
+      "countAtk": 2,
+      "baseDmg": 38600,
+      "level": 19,
+      "raidCount": 1068,
+      "luck": 0.615285
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 28794,
+      "countAtk": 2,
+      "baseDmg": 13481,
+      "level": 17,
+      "raidCount": 481,
+      "luck": 1.0679475
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 17407,
+      "countAtk": 1,
+      "baseDmg": 17407,
+      "level": 18,
+      "raidCount": 556,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "BaeltanCyberpotes",
+      "damage": 1557,
+      "countAtk": 1,
+      "baseDmg": 1557,
+      "level": 11,
+      "raidCount": 81,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 95258
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "BaeltanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-24 23:03:58",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 71250,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 23:10:06",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13481,
+      "pvAfter": 57769,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 23:12:46",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15313,
+      "pvAfter": 42456,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 23:12:47",
+      "pseudo": "BaeltanCyberpotes",
+      "platform": "twitch",
+      "damages": 1557,
+      "pvAfter": 40899,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 23:15:17",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 17407,
+      "pvAfter": 23492,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-08-24 23:17:01",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

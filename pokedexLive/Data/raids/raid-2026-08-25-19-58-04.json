@@ -1,0 +1,299 @@
+{
+  "bossName": "Cadoizo",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Delibird_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Delibird_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 50000,
+  "date": "2026-08-25 19:58:04",
+  "durationSec": 1892,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 25000,
+      "countAtk": 2,
+      "baseDmg": 13454,
+      "level": 17,
+      "raidCount": 482,
+      "luck": 0.9290917
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 17362,
+      "countAtk": 9,
+      "baseDmg": 1519,
+      "level": 11,
+      "raidCount": 66,
+      "luck": 1.2699876
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 7789,
+      "countAtk": 1,
+      "baseDmg": 7789,
+      "level": 16,
+      "raidCount": 323,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 1327,
+      "countAtk": 3,
+      "baseDmg": 257,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.7211415
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 50151
+    },
+    {
+      "platform": "youtube",
+      "damage": 1327
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 4
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-25 19:59:11",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1519,
+      "pvAfter": 48481,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:00:48",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 257,
+      "pvAfter": 48224,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:00:58",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 35724,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:04:54",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2678,
+      "pvAfter": 33046,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:11:59",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3076,
+      "pvAfter": 29970,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:15:45",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1603,
+      "pvAfter": 28367,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-08-25 20:18:50",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1609,
+      "pvAfter": 26758,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:20:51",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1556,
+      "pvAfter": 25202,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:21:22",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 772,
+      "pvAfter": 24430,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:23:56",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 298,
+      "pvAfter": 24132,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:24:27",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1640,
+      "pvAfter": 22492,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:26:16",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7789,
+      "pvAfter": 14703,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:27:46",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 2203,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 20:28:09",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2090,
+      "pvAfter": 113,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus sous vent arri\u00E8re ennemi !"
+    },
+    {
+      "at": "2026-08-25 20:29:36",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1591,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

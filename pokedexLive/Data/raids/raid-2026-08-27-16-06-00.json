@@ -1,0 +1,293 @@
+{
+  "bossName": "Xatu",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Xatu_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Xatu_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-08-27 16:06:00",
+  "durationSec": 8665,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 45362,
+      "countAtk": 4,
+      "baseDmg": 7862,
+      "level": 16,
+      "raidCount": 329,
+      "luck": 1.4424447
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 4918,
+      "countAtk": 2,
+      "baseDmg": 1590,
+      "level": 11,
+      "raidCount": 75,
+      "luck": 1.5465409
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 2352,
+      "countAtk": 4,
+      "baseDmg": 204,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 2.8823528
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Shiny_Empy",
+      "damage": 1125,
+      "countAtk": 1,
+      "baseDmg": 1125,
+      "level": 9,
+      "raidCount": 65,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 545,
+      "countAtk": 1,
+      "baseDmg": 545,
+      "level": 8,
+      "raidCount": 22,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 51950
+    },
+    {
+      "platform": "youtube",
+      "damage": 2352
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-27 16:09:34",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 545,
+      "pvAfter": 49455,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-27 16:37:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7862,
+      "pvAfter": 41593,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 17:11:45",
+      "pseudo": "Shiny_Empy",
+      "platform": "twitch",
+      "damages": 1125,
+      "pvAfter": 40468,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 17:12:02",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1590,
+      "pvAfter": 38878,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 17:14:56",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 204,
+      "pvAfter": 38674,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 17:30:00",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 484,
+      "pvAfter": 38190,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-27 17:47:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 25690,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 17:50:26",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 1148,
+      "pvAfter": 24542,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-08-27 18:22:08",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 12042,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:24:39",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 516,
+      "pvAfter": 11526,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus confus !"
+    },
+    {
+      "at": "2026-08-27 18:30:09",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3328,
+      "pvAfter": 8198,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:30:26",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

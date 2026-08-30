@@ -30,6 +30,71 @@
         .small-link { word-break: break-all; }
         .img-preview { width: 128px; height: 128px; object-fit: cover; border-radius: 6px; display: inline-block; }
         .feat-block { display: inline-block; text-align: center; }
+
+        /* ===== Tableau planning : groupes Prélives (optionnel) & Planning principal ===== */
+        .planning-optional-hint {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0 0 1rem;
+        }
+
+        .badge-optional {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 0.28em 0.85em;
+            border: 1.5px dashed var(--accent-purple);
+            border-radius: 999px;
+            color: #c4b5fd;
+            background: rgba(123, 47, 255, 0.12);
+            margin-left: 0.6rem;
+            vertical-align: middle;
+        }
+
+        .row-group th {
+            text-align: left !important;
+            vertical-align: middle !important;
+            padding: 0.65rem 1rem !important;
+        }
+
+        .row-group-optional th {
+            background: linear-gradient(135deg, rgba(123, 47, 255, 0.32), rgba(0, 212, 255, 0.1)) !important;
+            border-bottom: 2px dashed rgba(123, 47, 255, 0.6) !important;
+        }
+
+        .row-group-main th {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.28), rgba(123, 47, 255, 0.1)) !important;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.5) !important;
+        }
+
+        .group-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            font-size: 1.1rem;
+        }
+
+        .row-group-optional .group-title { color: #c4b5fd; }
+        .row-group-main .group-title { color: var(--accent-cyan); }
+
+        /* Lignes de données des prélives : teinte optionnelle */
+        .row-optional > td {
+            background: rgba(123, 47, 255, 0.06) !important;
+            border-top-color: rgba(123, 47, 255, 0.2) !important;
+        }
+
+        .row-optional > td:first-child {
+            color: #c4b5fd;
+            font-weight: 600;
+        }
+
+        .empty-cell {
+            color: var(--text-secondary);
+            opacity: 0.65;
+            font-weight: 300;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +120,68 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Prélives : groupe optionnel (lignes 2-6 du CSV principal) -->
+                        <tr class="row-group row-group-optional" id="prelive-group-header">
+                            <th colspan="8">
+                                <span class="group-title">Prélives</span>
+                                <span class="badge-optional">Optionnel</span>
+                            </th>
+                        </tr>
+                        <tr data-group="prelive" class="row-optional">
+                            <td>horaire</td>
+                            <td id="ph_lundi"></td>
+                            <td id="ph_mardi"></td>
+                            <td id="ph_mercredi"></td>
+                            <td id="ph_jeudi"></td>
+                            <td id="ph_vendredi"></td>
+                            <td id="ph_samedi"></td>
+                            <td id="ph_dimanche"></td>
+                        </tr>
+                        <tr data-group="prelive" class="row-optional">
+                            <td>catégorie</td>
+                            <td id="pc_lundi"></td>
+                            <td id="pc_mardi"></td>
+                            <td id="pc_mercredi"></td>
+                            <td id="pc_jeudi"></td>
+                            <td id="pc_vendredi"></td>
+                            <td id="pc_samedi"></td>
+                            <td id="pc_dimanche"></td>
+                        </tr>
+                        <tr data-group="prelive" class="row-optional">
+                            <td>Feat.</td>
+                            <td id="pf_lundi"></td>
+                            <td id="pf_mardi"></td>
+                            <td id="pf_mercredi"></td>
+                            <td id="pf_jeudi"></td>
+                            <td id="pf_vendredi"></td>
+                            <td id="pf_samedi"></td>
+                            <td id="pf_dimanche"></td>
+                        </tr>
+                        <tr data-group="prelive" class="row-optional">
+                            <td>Image</td>
+                            <td id="pi_lundi"></td>
+                            <td id="pi_mardi"></td>
+                            <td id="pi_mercredi"></td>
+                            <td id="pi_jeudi"></td>
+                            <td id="pi_vendredi"></td>
+                            <td id="pi_samedi"></td>
+                            <td id="pi_dimanche"></td>
+                        </tr>
+                        <tr data-group="prelive" class="row-optional">
+                            <td>Multistream</td>
+                            <td id="pm_lundi"></td>
+                            <td id="pm_mardi"></td>
+                            <td id="pm_mercredi"></td>
+                            <td id="pm_jeudi"></td>
+                            <td id="pm_vendredi"></td>
+                            <td id="pm_samedi"></td>
+                            <td id="pm_dimanche"></td>
+                        </tr>
+
+                        <!-- Planning principal : lignes 7-11 du CSV principal -->
+                        <tr class="row-group row-group-main">
+                            <th colspan="8"><span class="group-title">Planning principal</span></th>
+                        </tr>
                         <tr>
                             <td>horaire</td>
                             <td id="h_lundi"></td>

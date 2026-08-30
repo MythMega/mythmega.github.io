@@ -1,0 +1,169 @@
+{
+  "bossName": "Nosferapti",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zubat_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zubat_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 85000,
+  "date": "2026-08-16 22:40:19",
+  "durationSec": 2094,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 85000,
+      "countAtk": 4,
+      "baseDmg": 37399,
+      "level": 19,
+      "raidCount": 1041,
+      "luck": 0.568197
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 16556,
+      "countAtk": 1,
+      "baseDmg": 16556,
+      "level": 18,
+      "raidCount": 530,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Sage_Possiblement",
+      "damage": 262,
+      "countAtk": 1,
+      "baseDmg": 262,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 101818
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-16 22:40:52",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 63750,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:44:30",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 262,
+      "pvAfter": 63488,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:47:03",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 42238,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:54:57",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 20988,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 22:59:45",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16556,
+      "pvAfter": 4432,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 23:15:14",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

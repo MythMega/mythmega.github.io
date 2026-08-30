@@ -53,7 +53,7 @@ const SD = {
   },
 
   error(container, msg = 'Erreur de chargement des données.') {
-    container.innerHTML = `<div class="sd-error">⚠️ ${msg}</div>`;
+    container.innerHTML = `<div class="sd-error">${msg}</div>`;
   },
 
   empty(container, msg = 'Aucun résultat.') {

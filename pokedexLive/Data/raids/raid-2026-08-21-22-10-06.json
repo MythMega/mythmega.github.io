@@ -1,0 +1,323 @@
+{
+  "bossName": "Azumarill",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Azumarill_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Azumarill_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 90000,
+  "date": "2026-08-21 22:10:06",
+  "durationSec": 4114,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 45000,
+      "countAtk": 2,
+      "baseDmg": 38795,
+      "level": 19,
+      "raidCount": 1062,
+      "luck": 0.5799717
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 29037,
+      "countAtk": 17,
+      "baseDmg": 1426,
+      "level": 11,
+      "raidCount": 57,
+      "luck": 1.1977972
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 17332,
+      "countAtk": 1,
+      "baseDmg": 17332,
+      "level": 18,
+      "raidCount": 550,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 91369
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 6
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-21 22:10:22",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1426,
+      "pvAfter": 88574,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 22:10:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 66074,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 22:11:11",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 17332,
+      "pvAfter": 48742,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 22:11:43",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1484,
+      "pvAfter": 47258,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 22:14:03",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1657,
+      "pvAfter": 45601,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 22:25:24",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2962,
+      "pvAfter": 42639,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-08-21 22:28:36",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 20139,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 22:30:03",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1184,
+      "pvAfter": 18955,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 4 tours."
+    },
+    {
+      "at": "2026-08-21 22:33:07",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 919,
+      "pvAfter": 18036,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 3 tours."
+    },
+    {
+      "at": "2026-08-21 22:34:25",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 733,
+      "pvAfter": 17303,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 2 tours."
+    },
+    {
+      "at": "2026-08-21 22:36:04",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1129,
+      "pvAfter": 16174,
+      "heal": false,
+      "critical": true,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 1 tours."
+    },
+    {
+      "at": "2026-08-21 22:48:14",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1498,
+      "pvAfter": 14676,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 0 tours."
+    },
+    {
+      "at": "2026-08-21 22:55:27",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2918,
+      "pvAfter": 11758,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus br\u00FBl\u00E9 !"
+    },
+    {
+      "at": "2026-08-21 23:02:54",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2984,
+      "pvAfter": 8774,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 23:04:52",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1499,
+      "pvAfter": 7275,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 23:08:00",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1808,
+      "pvAfter": 5467,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 23:10:17",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1641,
+      "pvAfter": 3826,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 23:11:45",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1474,
+      "pvAfter": 2352,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 23:15:58",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2057,
+      "pvAfter": 295,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-21 23:18:41",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1664,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+{
+  "bossName": "Tadmorv",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Grimer_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Grimer_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 90000,
+  "date": "2026-08-25 22:02:40",
+  "durationSec": 827,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 38098,
+      "countAtk": 4,
+      "baseDmg": 1586,
+      "level": 11,
+      "raidCount": 69,
+      "luck": 6.005359
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 22500,
+      "countAtk": 1,
+      "baseDmg": 38832,
+      "level": 19,
+      "raidCount": 1070,
+      "luck": 0.579419
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 22500,
+      "countAtk": 1,
+      "baseDmg": 17446,
+      "level": 18,
+      "raidCount": 558,
+      "luck": 1.289694
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 7810,
+      "countAtk": 1,
+      "baseDmg": 7810,
+      "level": 16,
+      "raidCount": 326,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 90908
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-25 22:02:53",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1586,
+      "pvAfter": 88414,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 22:12:22",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 65914,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 22:13:05",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3282,
+      "pvAfter": 62632,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 22:13:07",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7810,
+      "pvAfter": 54822,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 22:13:35",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 22500,
+      "pvAfter": 32322,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-25 22:15:01",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 16240,
+      "pvAfter": 16082,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-08-25 22:16:27",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 16990,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    }
+  ]
+}

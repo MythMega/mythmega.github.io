@@ -1,0 +1,206 @@
+{
+  "bossName": "Bouldeneu",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tangrowth_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Tangrowth_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 95000,
+  "date": "2026-08-23 00:29:07",
+  "durationSec": 5583,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 84372,
+      "countAtk": 4,
+      "baseDmg": 13122,
+      "level": 17,
+      "raidCount": 477,
+      "luck": 1.6074531
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 7176,
+      "countAtk": 3,
+      "baseDmg": 1205,
+      "level": 11,
+      "raidCount": 48,
+      "luck": 1.9850622
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 4201,
+      "countAtk": 2,
+      "baseDmg": 2069,
+      "level": 12,
+      "raidCount": 132,
+      "luck": 1.0152247
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 84372
+    },
+    {
+      "platform": "youtube",
+      "damage": 11377
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-23 00:45:05",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13122,
+      "pvAfter": 81878,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-23 00:47:30",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1205,
+      "pvAfter": 80673,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-23 00:53:21",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2223,
+      "pvAfter": 78450,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-23 00:53:53",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 54700,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-23 01:40:57",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 30950,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-23 01:50:36",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 7200,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-23 02:00:31",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 3748,
+      "pvAfter": 3452,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-23 02:00:51",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2069,
+      "pvAfter": 1383,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-23 02:02:10",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2132,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "bossName": "\u00C9lecthor",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zapdos_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Zapdos_shiny.gif",
+  "bossRarity": "LEGENDARY",
+  "shiny": false,
+  "pvMax": 123456,
+  "date": "2026-08-15 21:25:41",
+  "durationSec": 984,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 92592,
+      "countAtk": 3,
+      "baseDmg": 36967,
+      "level": 19,
+      "raidCount": 1032,
+      "luck": 0.8349068
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 32482,
+      "countAtk": 2,
+      "baseDmg": 16225,
+      "level": 18,
+      "raidCount": 525,
+      "luck": 1.0009861
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 3181,
+      "countAtk": 4,
+      "baseDmg": 470,
+      "level": 4,
+      "raidCount": 13,
+      "luck": 1.6920213
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Box_by_slayz-Fn",
+      "damage": 258,
+      "countAtk": 1,
+      "baseDmg": 258,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 128255
+    },
+    {
+      "platform": "youtube",
+      "damage": 258
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Box_by_slayz-Fn",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-15 21:25:46",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30864,
+      "pvAfter": 92592,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-15 21:26:01",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 470,
+      "pvAfter": 92122,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 21:26:16",
+      "pseudo": "Box_by_slayz-Fn",
+      "platform": "youtube",
+      "damages": 258,
+      "pvAfter": 91864,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 21:29:51",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 806,
+      "pvAfter": 91058,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 21:30:43",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30864,
+      "pvAfter": 60194,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-08-15 21:35:25",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 854,
+      "pvAfter": 59340,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 21:36:44",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30864,
+      "pvAfter": 28476,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus confus !"
+    },
+    {
+      "at": "2026-08-15 21:40:24",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16225,
+      "pvAfter": 12251,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 21:41:41",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1051,
+      "pvAfter": 11200,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-15 21:42:06",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 16257,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

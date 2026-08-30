@@ -1,0 +1,299 @@
+{
+  "bossName": "Kangourex",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kangaskhan_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Kangaskhan_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 30000,
+  "date": "2026-08-27 18:32:33",
+  "durationSec": 733,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 14872,
+      "countAtk": 8,
+      "baseDmg": 1664,
+      "level": 11,
+      "raidCount": 76,
+      "luck": 1.1171875
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 7500,
+      "countAtk": 2,
+      "baseDmg": 7867,
+      "level": 16,
+      "raidCount": 330,
+      "luck": 0.4766747
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 7500,
+      "countAtk": 1,
+      "baseDmg": 13711,
+      "level": 17,
+      "raidCount": 486,
+      "luck": 0.5470061
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 1024,
+      "countAtk": 3,
+      "baseDmg": 244,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.3989072
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 29872
+    },
+    {
+      "platform": "youtube",
+      "damage": 1024
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 2,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 2,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-27 18:32:46",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 7500,
+      "pvAfter": 22500,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-27 18:32:50",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 244,
+      "pvAfter": 22256,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-27 18:33:08",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1664,
+      "pvAfter": 20592,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:33:16",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 20592,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 18h37:46."
+    },
+    {
+      "at": "2026-08-27 18:33:25",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 20592,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "maxenceriot a soign\u00E9 tout le monde ! ( 2 personne(s) )"
+    },
+    {
+      "at": "2026-08-27 18:34:46",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1727,
+      "pvAfter": 18865,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:35:15",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 7500,
+      "pvAfter": 11365,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:36:19",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1761,
+      "pvAfter": 9604,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:38:20",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1676,
+      "pvAfter": 7928,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:39:47",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 507,
+      "pvAfter": 7421,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:40:46",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2805,
+      "pvAfter": 4616,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:41:17",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 273,
+      "pvAfter": 4343,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-27 18:42:05",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1781,
+      "pvAfter": 2562,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:43:31",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1688,
+      "pvAfter": 874,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-27 18:44:47",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1770,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

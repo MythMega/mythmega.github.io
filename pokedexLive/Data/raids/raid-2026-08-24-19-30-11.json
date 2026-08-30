@@ -1,0 +1,348 @@
+{
+  "bossName": "Tutankafer",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cofagrigus_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cofagrigus_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-08-24 19:30:11",
+  "durationSec": 5035,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 25000,
+      "countAtk": 2,
+      "baseDmg": 13283,
+      "level": 17,
+      "raidCount": 478,
+      "luck": 0.9410525
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 18137,
+      "countAtk": 7,
+      "baseDmg": 1465,
+      "level": 11,
+      "raidCount": 63,
+      "luck": 1.7686007
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 4657,
+      "countAtk": 3,
+      "baseDmg": 1273,
+      "level": 11,
+      "raidCount": 49,
+      "luck": 1.2194293
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 1988,
+      "countAtk": 3,
+      "baseDmg": 1988,
+      "level": 12,
+      "raidCount": 133,
+      "luck": 0.33333334
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 507,
+      "countAtk": 1,
+      "baseDmg": 507,
+      "level": 8,
+      "raidCount": 13,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 43644
+    },
+    {
+      "platform": "youtube",
+      "damage": 6645
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-24 19:39:44",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1465,
+      "pvAfter": 48535,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 19:47:39",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2946,
+      "pvAfter": 45589,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:07:29",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3034,
+      "pvAfter": 42555,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:19:56",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 30055,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:31:31",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 17555,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-24 20:31:43",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3008,
+      "pvAfter": 14547,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:31:45",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1273,
+      "pvAfter": 13274,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:35:12",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1786,
+      "pvAfter": 11488,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:38:20",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1598,
+      "pvAfter": 9890,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:43:10",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1988,
+      "pvAfter": 7902,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-08-24 20:47:43",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 3034,
+      "pvAfter": 4868,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-24 20:48:06",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 4868,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-24 20:48:25",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 4868,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "maxenceriot s\u0027est soign\u00E9 (que lui)"
+    },
+    {
+      "at": "2026-08-24 20:50:19",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 4868,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-08-24 20:50:33",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2696,
+      "pvAfter": 2172,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:53:28",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 507,
+      "pvAfter": 1665,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-24 20:54:06",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1954,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

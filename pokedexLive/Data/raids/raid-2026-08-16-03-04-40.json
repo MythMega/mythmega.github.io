@@ -1,0 +1,191 @@
+{
+  "bossName": "Lin\u00E9on",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Linoone_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Linoone_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 55000,
+  "date": "2026-08-16 03:04:40",
+  "durationSec": 5013,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 52868,
+      "countAtk": 4,
+      "baseDmg": 12262,
+      "level": 17,
+      "raidCount": 446,
+      "luck": 1.0778829
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 3899,
+      "countAtk": 2,
+      "baseDmg": 1223,
+      "level": 11,
+      "raidCount": 45,
+      "luck": 1.5940311
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberBot",
+      "damage": 692,
+      "countAtk": 2,
+      "baseDmg": 277,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1.2490975
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 57459
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-16 03:08:09",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1223,
+      "pvAfter": 53777,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 03:24:15",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12262,
+      "pvAfter": 41515,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 03:34:20",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2676,
+      "pvAfter": 38839,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 04:23:01",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 25089,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 04:23:16",
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "damages": 277,
+      "pvAfter": 24812,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 04:25:56",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 11062,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-16 04:26:01",
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "damages": 415,
+      "pvAfter": 10647,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-08-16 04:28:14",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13106,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "bossName": "Ningale",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nincada_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nincada_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 85000,
+  "date": "2026-08-26 23:52:23",
+  "durationSec": 138,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 36797,
+      "countAtk": 4,
+      "baseDmg": 557,
+      "level": 8,
+      "raidCount": 21,
+      "luck": 16.515709
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 34838,
+      "countAtk": 2,
+      "baseDmg": 13588,
+      "level": 17,
+      "raidCount": 485,
+      "luck": 1.28194
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 21250,
+      "countAtk": 1,
+      "baseDmg": 7848,
+      "level": 16,
+      "raidCount": 328,
+      "luck": 2.7076962
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 1305,
+      "countAtk": 1,
+      "baseDmg": 1305,
+      "level": 11,
+      "raidCount": 56,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 92885
+    },
+    {
+      "platform": "youtube",
+      "damage": 1305
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-26 23:52:35",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 557,
+      "pvAfter": 84443,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-26 23:52:35",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13588,
+      "pvAfter": 70855,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-26 23:53:19",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1305,
+      "pvAfter": 69550,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-26 23:53:43",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 48300,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-26 23:53:58",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 11480,
+      "pvAfter": 36820,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-26 23:54:30",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 11740,
+      "pvAfter": 25080,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-26 23:54:39",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 13020,
+      "pvAfter": 12060,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-26 23:54:41",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 21250,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

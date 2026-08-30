@@ -1,0 +1,288 @@
+{
+  "bossName": "Clic",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Klang_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Klang_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 95000,
+  "date": "2026-08-14 22:03:46",
+  "durationSec": 2697,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 95000,
+      "countAtk": 4,
+      "baseDmg": 36344,
+      "level": 19,
+      "raidCount": 1028,
+      "luck": 0.6534779
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 2689,
+      "countAtk": 5,
+      "baseDmg": 449,
+      "level": 3,
+      "raidCount": 9,
+      "luck": 1.1977729
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 1192,
+      "countAtk": 4,
+      "baseDmg": 1192,
+      "level": 11,
+      "raidCount": 44,
+      "luck": 0.25
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "ibiza590",
+      "damage": 348,
+      "countAtk": 1,
+      "baseDmg": 348,
+      "level": 2,
+      "raidCount": 6,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 98037
+    },
+    {
+      "platform": "youtube",
+      "damage": 1192
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "ibiza590",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 3
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 3
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-14 22:04:34",
+      "pseudo": "ibiza590",
+      "platform": "twitch",
+      "damages": 348,
+      "pvAfter": 94652,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 22:05:24",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 449,
+      "pvAfter": 94203,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 22:09:50",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 740,
+      "pvAfter": 93463,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-08-14 22:10:16",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 69713,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 22:14:08",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1192,
+      "pvAfter": 68521,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-08-14 22:22:02",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 44771,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 22:22:28",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 484,
+      "pvAfter": 44287,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 4 tours."
+    },
+    {
+      "at": "2026-08-14 22:30:13",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 44287,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 2 tours."
+    },
+    {
+      "at": "2026-08-14 22:30:41",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 450,
+      "pvAfter": 43837,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 3 tours."
+    },
+    {
+      "at": "2026-08-14 22:42:56",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 43837,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 1 tours."
+    },
+    {
+      "at": "2026-08-14 22:45:37",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 0,
+      "pvAfter": 43837,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 0 tours."
+    },
+    {
+      "at": "2026-08-14 22:47:14",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 20087,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-14 22:48:01",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 566,
+      "pvAfter": 19521,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Br\u00FBl\u00E9, d\u00E9gat divis\u00E9 par deux, pendant encore 2 tours."
+    },
+    {
+      "at": "2026-08-14 22:48:44",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

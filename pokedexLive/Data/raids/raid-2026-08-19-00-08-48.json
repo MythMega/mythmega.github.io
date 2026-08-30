@@ -1,0 +1,298 @@
+{
+  "bossName": "Salam\u00E8che",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Charmander_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Charmander_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": true,
+  "pvMax": 55555,
+  "date": "2026-08-19 00:08:48",
+  "durationSec": 254,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 27776,
+      "countAtk": 2,
+      "baseDmg": 16691,
+      "level": 18,
+      "raidCount": 540,
+      "luck": 0.83206517
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 26670,
+      "countAtk": 2,
+      "baseDmg": 12782,
+      "level": 17,
+      "raidCount": 458,
+      "luck": 1.0432639
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 1758,
+      "countAtk": 1,
+      "baseDmg": 1758,
+      "level": 12,
+      "raidCount": 118,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "BaeltanCyberpotes",
+      "damage": 1596,
+      "countAtk": 1,
+      "baseDmg": 1596,
+      "level": 11,
+      "raidCount": 80,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "frenchmusic_en_force",
+      "damage": 1182,
+      "countAtk": 3,
+      "baseDmg": 321,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1.2274144
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberBot",
+      "damage": 367,
+      "countAtk": 1,
+      "baseDmg": 367,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 56409
+    },
+    {
+      "platform": "youtube",
+      "damage": 2940
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "BaeltanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-19 00:09:17",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12782,
+      "pvAfter": 42773,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:09:18",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 321,
+      "pvAfter": 42452,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:10:33",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 416,
+      "pvAfter": 42036,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:11:00",
+      "pseudo": "SawanCyberBot",
+      "platform": "twitch",
+      "damages": 367,
+      "pvAfter": 41669,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:11:15",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 13888,
+      "pvAfter": 27781,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:11:19",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 1758,
+      "pvAfter": 26023,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:11:43",
+      "pseudo": "BaeltanCyberpotes",
+      "platform": "twitch",
+      "damages": 1596,
+      "pvAfter": 24427,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:11:53",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 445,
+      "pvAfter": 23982,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:12:06",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13888,
+      "pvAfter": 10094,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-19 00:13:03",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 13888,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

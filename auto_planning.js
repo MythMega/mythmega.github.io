@@ -12,6 +12,13 @@ const ICON_YOUTUBE = "./assets/icon/youtube.png";
 
 const jours = ["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"];
 
+// Lignes (1-based ; la ligne 1 est l'en-tête du CSV) de chaque planning dans le CSV principal.
+// Si vous modifiez la structure du Google Sheet, ajustez ces bornes.
+const PRELIVE_ROW_START = 2;  // lignes 2-6 : planning des prélives (optionnel)
+const PRELIVE_ROW_END   = 6;
+const REAL_ROW_START    = 7;  // lignes 7-11 : planning principal
+const REAL_ROW_END      = 11;
+
 /**
  * Parse CSV simple mais robuste : gère les champs entre guillemets contenant des virgules.
  * Retourne un tableau de lignes, chaque ligne est un tableau de cellules.
@@ -125,18 +132,43 @@ function createFeatElement(name, corresp) {
 }
 
 /**
- * Applique les données au tableau.
+ * Extrait un bloc de lignes du CSV principal.
+ * startRow / endRow sont 1-based (la ligne 1 est l'en-tête) et inclusifs.
  */
-function applyPlanning(mainRows, correspMap) {
+function extractBlock(mainRows, startRow, endRow) {
+    if (!mainRows || mainRows.length === 0) return [];
+    const start = startRow - 1;
+    const end = endRow - 1;
+    if (start < 0 || start >= mainRows.length) return [];
+    return mainRows.slice(start, end + 1);
+}
+
+/**
+ * Un bloc est-il entièrement vide (cellules de données uniquement) ?
+ */
+function isBlockEmpty(block) {
+    if (!block) return true;
+    for (let i = 0; i < block.length; i++) {
+        for (let c = 1; c < block[i].length; c++) {
+            if ((block[i][c] || '').trim()) return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Applique les données d'un bloc (un planning) au tableau concerné.
+ */
+function applyPlanning(block, correspMap, prefix, optional) {
     const indexByKey = {};
-    for (let i = 0; i < mainRows.length; i++) {
-        const first = (mainRows[i][0] || '').trim().toLowerCase();
+    for (let i = 0; i < block.length; i++) {
+        const first = (block[i][0] || '').trim().toLowerCase();
         if (first) indexByKey[first] = i;
     }
 
     function cellValue(rowIndex, colIndex) {
-        if (rowIndex == null || rowIndex < 0 || rowIndex >= mainRows.length) return '';
-        const row = mainRows[rowIndex];
+        if (rowIndex == null || rowIndex < 0 || rowIndex >= block.length) return '';
+        const row = block[rowIndex];
         return (row[colIndex] || '').trim();
     }
 
@@ -146,16 +178,42 @@ function applyPlanning(mainRows, correspMap) {
     const ftNoLiveRow = indexByKey['ft-no-live'] !== undefined ? indexByKey['ft-no-live'] : (indexByKey['ft no live'] !== undefined ? indexByKey['ft no live'] : null);
     const imageRow = indexByKey['image'] !== undefined ? indexByKey['image'] : null;
 
+    // Cellule vide : '/' pour le planning principal, '—' discret pour le planning optionnel.
+    const emptyText = optional ? '—' : '/';
+
+    function setEmpty(el) {
+        if (!el) return;
+        if (optional) {
+            el.innerHTML = '';
+            const span = document.createElement('span');
+            span.className = 'empty-cell';
+            span.textContent = emptyText;
+            el.appendChild(span);
+        } else {
+            el.textContent = emptyText;
+        }
+    }
+
+    function setCell(el, value) {
+        if (!el) return;
+        if (value) {
+            el.textContent = value;
+        } else {
+            setEmpty(el);
+        }
+    }
+
     jours.forEach((jour, idx) => {
         const col = idx + 1;
         // Horaire / Catégorie
-        const hEl = document.getElementById(`h_${jour}`);
-        const cEl = document.getElementById(`c_${jour}`);
-        if (hEl) hEl.textContent = horaireRow !== null ? cellValue(horaireRow, col) : '';
-        if (cEl) cEl.textContent = categorieRow !== null ? cellValue(categorieRow, col) : '';
+        const id = letter => `${prefix}${letter}_${jour}`;
+        const hEl = document.getElementById(id('h'));
+        const cEl = document.getElementById(id('c'));
+        setCell(hEl, horaireRow !== null ? cellValue(horaireRow, col) : '');
+        setCell(cEl, categorieRow !== null ? cellValue(categorieRow, col) : '');
 
         // Feat
-        const fCell = document.getElementById(`f_${jour}`);
+        const fCell = document.getElementById(id('f'));
         if (fCell) {
             fCell.innerHTML = '';
             const raw = ftRow !== null ? cellValue(ftRow, col) : '';
@@ -166,7 +224,7 @@ function applyPlanning(mainRows, correspMap) {
 
             // afficher ft (avec icones si correspondance)
             if (names.length === 0 && namesNoLive.length === 0) {
-                fCell.textContent = '/';
+                setEmpty(fCell);
             } else {
                 const container = document.createElement('div');
                 container.className = 'feat-block';
@@ -209,12 +267,12 @@ function applyPlanning(mainRows, correspMap) {
         }
 
         // Image : afficher image 256x256 (pas de lien)
-        const iEl = document.getElementById(`i_${jour}`);
+        const iEl = document.getElementById(id('i'));
         if (iEl) {
             iEl.innerHTML = '';
             const rawImg = imageRow !== null ? cellValue(imageRow, col) : '';
             if (!rawImg) {
-                iEl.textContent = '/';
+                setEmpty(iEl);
             } else {
                 const img = document.createElement('img');
                 img.src = rawImg;
@@ -234,12 +292,12 @@ function applyPlanning(mainRows, correspMap) {
         }
 
         // Multistream
-        const mEl = document.getElementById(`m_${jour}`);
+        const mEl = document.getElementById(id('m'));
         if (mEl) {
             mEl.innerHTML = '';
             const raw = ftRow !== null ? cellValue(ftRow, col) : '';
             if (!raw) {
-                mEl.textContent = '/';
+                setEmpty(mEl);
             } else {
                 const names = raw.split(',').map(s => s.trim()).filter(Boolean);
                 const twitchList = [];
@@ -248,7 +306,7 @@ function applyPlanning(mainRows, correspMap) {
                     if (cor && cor.twitch) twitchList.push(cor.twitch);
                 });
                 if (twitchList.length === 0) {
-                    mEl.textContent = '/';
+                    setEmpty(mEl);
                 } else {
                     const parts = ['mythmega', ...twitchList];
                     const url = `https://multistre.am/${parts.join('/')}/`;
@@ -282,13 +340,28 @@ function loadAndApply() {
         const mainRows = parseCSV(mainCsv);
         const corRows = parseCSV(corCsv);
         const correspMap = buildCorrespMap(corRows);
-        applyPlanning(mainRows, correspMap);
+        const preliveBlock = extractBlock(mainRows, PRELIVE_ROW_START, PRELIVE_ROW_END);
+        const realBlock = extractBlock(mainRows, REAL_ROW_START, REAL_ROW_END);
+
+        // Prélives : si le bloc 2-6 est entièrement vide, on masque le groupe (hint + lignes) dans le tableau.
+        if (isBlockEmpty(preliveBlock)) {
+            document.querySelectorAll('[data-group="prelive"]').forEach(el => { el.style.display = 'none'; });
+            const hdr = document.getElementById('prelive-group-header');
+            if (hdr) hdr.style.display = 'none';
+            const hint = document.getElementById('prelive-hint');
+            if (hint) hint.style.display = 'none';
+        } else {
+            applyPlanning(preliveBlock, correspMap, 'p', true);
+        }
+
+        // Planning principal : lignes 7-11.
+        applyPlanning(realBlock, correspMap, '', false);
     }).catch(err => {
         console.error("Erreur chargement planning :", err);
         jours.forEach(j => {
             const ids = [
-                `h_${j}`, `c_${j}`,
-                `f_${j}`, `i_${j}`, `m_${j}`
+                `h_${j}`, `c_${j}`, `ph_${j}`, `pc_${j}`,
+                `f_${j}`, `i_${j}`, `m_${j}`, `pf_${j}`, `pi_${j}`, `pm_${j}`
             ];
             ids.forEach(id => {
                 const el = document.getElementById(id);

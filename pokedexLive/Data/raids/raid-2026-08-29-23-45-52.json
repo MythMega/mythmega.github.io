@@ -1,0 +1,392 @@
+{
+  "bossName": "Riolu",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Riolu_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Riolu_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 190000,
+  "date": "2026-08-29 23:45:52",
+  "durationSec": 12289,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 129950,
+      "countAtk": 6,
+      "baseDmg": 13605,
+      "level": 17,
+      "raidCount": 490,
+      "luck": 1.5919393
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 44849,
+      "countAtk": 7,
+      "baseDmg": 8102,
+      "level": 16,
+      "raidCount": 334,
+      "luck": 0.7907924
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 10404,
+      "countAtk": 4,
+      "baseDmg": 1422,
+      "level": 11,
+      "raidCount": 63,
+      "luck": 1.829114
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 3537,
+      "countAtk": 3,
+      "baseDmg": 649,
+      "level": 10,
+      "raidCount": 28,
+      "luck": 1.816641
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 2149,
+      "countAtk": 1,
+      "baseDmg": 2149,
+      "level": 12,
+      "raidCount": 144,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 178336
+    },
+    {
+      "platform": "youtube",
+      "damage": 12553
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 4
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-29 23:54:54",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13605,
+      "pvAfter": 176395,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-29 23:58:42",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 18624,
+      "pvAfter": 157771,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 00:09:40",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1422,
+      "pvAfter": 156349,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-08-30 00:19:49",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2149,
+      "pvAfter": 154200,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-08-30 00:23:29",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 27220,
+      "pvAfter": 126980,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 01:16:48",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 649,
+      "pvAfter": 126331,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 01:16:59",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2970,
+      "pvAfter": 123361,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-08-30 01:45:01",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1490,
+      "pvAfter": 121871,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 01:53:17",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1398,
+      "pvAfter": 120473,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 01:54:50",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 3018,
+      "pvAfter": 117455,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 02:24:54",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2994,
+      "pvAfter": 114461,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 03:00:29",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 27230,
+      "pvAfter": 87231,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 03:06:10",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 23709,
+      "pvAfter": 63522,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 03:09:56",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8102,
+      "pvAfter": 55420,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 03:10:09",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8190,
+      "pvAfter": 47230,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 03:10:19",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8171,
+      "pvAfter": 39059,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-08-30 03:10:20",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 19562,
+      "pvAfter": 19497,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-08-30 03:10:21",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 4108,
+      "pvAfter": 15389,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 03:10:27",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8175,
+      "pvAfter": 7214,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 03:10:37",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 1,
+      "pvAfter": 7213,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-30 03:10:42",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8102,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus endormis !"
+    }
+  ]
+}

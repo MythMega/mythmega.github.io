@@ -8153,5 +8153,2511 @@
       "Terrestre"
     ],
     "pokefeet_data_version": 3
+  },
+  {
+    "Index": "494",
+    "NameEN": "Victini",
+    "NameFR": "Victini",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": "fire",
+    "Image": "./img/494-649/494-a.png",
+    "FullImage": "./img/fullsprite/494.png",
+    "Category": "Pokémon Victoire",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "495",
+    "NameEN": "Snivy",
+    "NameFR": "Vipélierre",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/494-649/495-a.png",
+    "FullImage": "./img/fullsprite/495.png",
+    "Category": "Pokémon Serpenterbe",
+    "EggGroups": [
+      "Terrestre",
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "496",
+    "NameEN": "Servine",
+    "NameFR": "Lianaja",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/494-649/496-a.png",
+    "FullImage": "./img/fullsprite/496.png",
+    "Category": "Pokémon Serpenterbe",
+    "EggGroups": [
+      "Terrestre",
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "497",
+    "NameEN": "Serperior",
+    "NameFR": "Majaspic",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/494-649/497-a.png",
+    "FullImage": "./img/fullsprite/497.png",
+    "Category": "Pokémon Majestueux",
+    "EggGroups": [
+      "Terrestre",
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "498",
+    "NameEN": "Tepig",
+    "NameFR": "Gruikui",
+    "Generation": 5,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/494-649/498-a.png",
+    "FullImage": "./img/fullsprite/498.png",
+    "Category": "Pokémon Cochon Feu",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "499",
+    "NameEN": "Pignite",
+    "NameFR": "Grotichon",
+    "Generation": 5,
+    "Type1": "fire",
+    "Type2": "fighting",
+    "Image": "./img/494-649/499-a.png",
+    "FullImage": "./img/fullsprite/499.png",
+    "Category": "Pokémon Cochon Feu",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "500",
+    "NameEN": "Emboar",
+    "NameFR": "Roitiflam",
+    "Generation": 5,
+    "Type1": "fire",
+    "Type2": "fighting",
+    "Image": "./img/494-649/500-a.png",
+    "FullImage": "./img/fullsprite/500.png",
+    "Category": "Pokémon Grochon Feu",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "501",
+    "NameEN": "Oshawott",
+    "NameFR": "Moustillon",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/494-649/501-a.png",
+    "FullImage": "./img/fullsprite/501.png",
+    "Category": "Pokémon Loutre",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "502",
+    "NameEN": "Dewott",
+    "NameFR": "Mateloutre",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/494-649/502-a.png",
+    "FullImage": "./img/fullsprite/502.png",
+    "Category": "Pokémon Entraînement",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "503",
+    "NameEN": "Samurott",
+    "NameFR": "Clamiral",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/494-649/503-a.png",
+    "FullImage": "./img/fullsprite/503.png",
+    "Category": "Pokémon Dignitaire",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "504",
+    "NameEN": "Patrat",
+    "NameFR": "Ratentif",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/504-a.png",
+    "FullImage": "./img/fullsprite/504.png",
+    "Category": "Pokémon Espion",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "505",
+    "NameEN": "Watchog",
+    "NameFR": "Miradar",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/505-a.png",
+    "FullImage": "./img/fullsprite/505.png",
+    "Category": "Pokémon Vigilant",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "506",
+    "NameEN": "Lillipup",
+    "NameFR": "Ponchiot",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/506-a.png",
+    "FullImage": "./img/fullsprite/506.png",
+    "Category": "Pokémon Chiot",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "507",
+    "NameEN": "Herdier",
+    "NameFR": "Ponchien",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/507-a.png",
+    "FullImage": "./img/fullsprite/507.png",
+    "Category": "Pokémon Chien Fidèle",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "508",
+    "NameEN": "Stoutland",
+    "NameFR": "Mastouffe",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/508-a.png",
+    "FullImage": "./img/fullsprite/508.png",
+    "Category": "Pokémon Magnanime",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "509",
+    "NameEN": "Purrloin",
+    "NameFR": "Chacripan",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/494-649/509-a.png",
+    "FullImage": "./img/fullsprite/509.png",
+    "Category": "Pokémon Scélérat",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "510",
+    "NameEN": "Liepard",
+    "NameFR": "Léopardus",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/494-649/510-a.png",
+    "FullImage": "./img/fullsprite/510.png",
+    "Category": "Pokémon Implacable",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "511",
+    "NameEN": "Pansage",
+    "NameFR": "Feuillajou",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/494-649/511-a.png",
+    "FullImage": "./img/fullsprite/511.png",
+    "Category": "Pokémon Singe Herbe",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "512",
+    "NameEN": "Simisage",
+    "NameFR": "Feuiloutan",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/494-649/512-a.png",
+    "FullImage": "./img/fullsprite/512.png",
+    "Category": "Pokémon Singépine",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "513",
+    "NameEN": "Pansear",
+    "NameFR": "Flamajou",
+    "Generation": 5,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/494-649/513-a.png",
+    "FullImage": "./img/fullsprite/513.png",
+    "Category": "Pokémon Brûlant",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "514",
+    "NameEN": "Simisear",
+    "NameFR": "Flamoutan",
+    "Generation": 5,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/494-649/514-a.png",
+    "FullImage": "./img/fullsprite/514.png",
+    "Category": "Pokémon Braise",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "515",
+    "NameEN": "Panpour",
+    "NameFR": "Flotajou",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/494-649/515-a.png",
+    "FullImage": "./img/fullsprite/515.png",
+    "Category": "Pokémon Jet d'Eau",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "516",
+    "NameEN": "Simipour",
+    "NameFR": "Flotoutan",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/494-649/516-a.png",
+    "FullImage": "./img/fullsprite/516.png",
+    "Category": "Pokémon Drainage",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "517",
+    "NameEN": "Munna",
+    "NameFR": "Munna",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/517-a.png",
+    "FullImage": "./img/fullsprite/517.png",
+    "Category": "Pokémon Mangerêve",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "518",
+    "NameEN": "Musharna",
+    "NameFR": "Mushana",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/518-a.png",
+    "FullImage": "./img/fullsprite/518.png",
+    "Category": "Pokémon Rêveur",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "519",
+    "NameEN": "Pidove",
+    "NameFR": "Poichigeon",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/494-649/519-a.png",
+    "FullImage": "./img/fullsprite/519.png",
+    "Category": "Pokémon Tipigeon",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "520",
+    "NameEN": "Tranquill",
+    "NameFR": "Colombeau",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/494-649/520-a.png",
+    "FullImage": "./img/fullsprite/520.png",
+    "Category": "Pokémon Sauvapigeon",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "521",
+    "NameEN": "Unfezant",
+    "NameFR": "Déflaisan",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/494-649/521-a.png",
+    "FullImage": "./img/fullsprite/521.png",
+    "Category": "Pokémon Fier",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "522",
+    "NameEN": "Blitzle",
+    "NameFR": "Zébibron",
+    "Generation": 5,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/494-649/522-a.png",
+    "FullImage": "./img/fullsprite/522.png",
+    "Category": "Pokémon Étincélec",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "523",
+    "NameEN": "Zebstrika",
+    "NameFR": "Zéblitz",
+    "Generation": 5,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/494-649/523-a.png",
+    "FullImage": "./img/fullsprite/523.png",
+    "Category": "Pokémon Foudrélec",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "524",
+    "NameEN": "Roggenrola",
+    "NameFR": "Nodulithe",
+    "Generation": 5,
+    "Type1": "rock",
+    "Type2": null,
+    "Image": "./img/494-649/524-a.png",
+    "FullImage": "./img/fullsprite/524.png",
+    "Category": "Pokémon Manteau",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "525",
+    "NameEN": "Boldore",
+    "NameFR": "Géolithe",
+    "Generation": 5,
+    "Type1": "rock",
+    "Type2": null,
+    "Image": "./img/494-649/525-a.png",
+    "FullImage": "./img/fullsprite/525.png",
+    "Category": "Pokémon Minerai",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "526",
+    "NameEN": "Gigalith",
+    "NameFR": "Gigalithe",
+    "Generation": 5,
+    "Type1": "rock",
+    "Type2": null,
+    "Image": "./img/494-649/526-a.png",
+    "FullImage": "./img/fullsprite/526.png",
+    "Category": "Pokémon Surpression",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "527",
+    "NameEN": "Woobat",
+    "NameFR": "Chovsourir",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Image": "./img/494-649/527-a.png",
+    "FullImage": "./img/fullsprite/527.png",
+    "Category": "Pokémon Chovsouris",
+    "EggGroups": [
+      "Terrestre",
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "528",
+    "NameEN": "Swoobat",
+    "NameFR": "Rhinolove",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Image": "./img/494-649/528-a.png",
+    "FullImage": "./img/fullsprite/528.png",
+    "Category": "Pokémon Cupidon",
+    "EggGroups": [
+      "Terrestre",
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "529",
+    "NameEN": "Drilbur",
+    "NameFR": "Rototaupe",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": null,
+    "Image": "./img/494-649/529-a.png",
+    "FullImage": "./img/fullsprite/529.png",
+    "Category": "Pokémon Taupe",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "530",
+    "NameEN": "Excadrill",
+    "NameFR": "Minotaupe",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Image": "./img/494-649/530-a.png",
+    "FullImage": "./img/fullsprite/530.png",
+    "Category": "Pokémon Souterrain",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "531",
+    "NameEN": "Audino",
+    "NameFR": "Nanméouïe",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/531-a.png",
+    "FullImage": "./img/fullsprite/531.png",
+    "Category": "Pokémon Audition",
+    "EggGroups": [
+      "Féerique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "532",
+    "NameEN": "Timburr",
+    "NameFR": "Charpenti",
+    "Generation": 5,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/494-649/532-a.png",
+    "FullImage": "./img/fullsprite/532.png",
+    "Category": "Pokémon Costaud",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "533",
+    "NameEN": "Gurdurr",
+    "NameFR": "Ouvrifier",
+    "Generation": 5,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/494-649/533-a.png",
+    "FullImage": "./img/fullsprite/533.png",
+    "Category": "Pokémon Costaud",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "534",
+    "NameEN": "Conkeldurr",
+    "NameFR": "Bétochef",
+    "Generation": 5,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/494-649/534-a.png",
+    "FullImage": "./img/fullsprite/534.png",
+    "Category": "Pokémon Costaud",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "535",
+    "NameEN": "Tympole",
+    "NameFR": "Tritonde",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/494-649/535-a.png",
+    "FullImage": "./img/fullsprite/535.png",
+    "Category": "Pokémon Têtard",
+    "EggGroups": [
+      "Aquatique 1"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "536",
+    "NameEN": "Palpitoad",
+    "NameFR": "Batracné",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/494-649/536-a.png",
+    "FullImage": "./img/fullsprite/536.png",
+    "Category": "Pokémon Vibration",
+    "EggGroups": [
+      "Aquatique 1"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "537",
+    "NameEN": "Seismitoad",
+    "NameFR": "Crapustule",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/494-649/537-a.png",
+    "FullImage": "./img/fullsprite/537.png",
+    "Category": "Pokémon Vibration",
+    "EggGroups": [
+      "Aquatique 1"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "538",
+    "NameEN": "Throh",
+    "NameFR": "Judokrak",
+    "Generation": 5,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/494-649/538-a.png",
+    "FullImage": "./img/fullsprite/538.png",
+    "Category": "Pokémon Judo",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "539",
+    "NameEN": "Sawk",
+    "NameFR": "Karaclée",
+    "Generation": 5,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/494-649/539-a.png",
+    "FullImage": "./img/fullsprite/539.png",
+    "Category": "Pokémon Karaté",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "540",
+    "NameEN": "Sewaddle",
+    "NameFR": "Larveyette",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "grass",
+    "Image": "./img/494-649/540-a.png",
+    "FullImage": "./img/fullsprite/540.png",
+    "Category": "Pokémon Couture",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "541",
+    "NameEN": "Swadloon",
+    "NameFR": "Couverdure",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "grass",
+    "Image": "./img/494-649/541-a.png",
+    "FullImage": "./img/fullsprite/541.png",
+    "Category": "Pokémon Capefeuille",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "542",
+    "NameEN": "Leavanny",
+    "NameFR": "Manternel",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "grass",
+    "Image": "./img/494-649/542-a.png",
+    "FullImage": "./img/fullsprite/542.png",
+    "Category": "Pokémon Précepteur",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "543",
+    "NameEN": "Venipede",
+    "NameFR": "Venipatte",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/494-649/543-a.png",
+    "FullImage": "./img/fullsprite/543.png",
+    "Category": "Pokémon Chilopode",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "544",
+    "NameEN": "Whirlipede",
+    "NameFR": "Scobolide",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/494-649/544-a.png",
+    "FullImage": "./img/fullsprite/544.png",
+    "Category": "Pokémon Coconplopode",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "545",
+    "NameEN": "Scolipede",
+    "NameFR": "Brutapode",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/494-649/545-a.png",
+    "FullImage": "./img/fullsprite/545.png",
+    "Category": "Pokémon Mégaplopode",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "546",
+    "NameEN": "Cottonee",
+    "NameFR": "Doudouvet",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": "fairy",
+    "Image": "./img/494-649/546-a.png",
+    "FullImage": "./img/fullsprite/546.png",
+    "Category": "Pokémon Boule Coton",
+    "EggGroups": [
+      "Végétal",
+      "Féerique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "547",
+    "NameEN": "Whimsicott",
+    "NameFR": "Farfaduvet",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": "fairy",
+    "Image": "./img/494-649/547-a.png",
+    "FullImage": "./img/fullsprite/547.png",
+    "Category": "Pokémon Vole Vent",
+    "EggGroups": [
+      "Végétal",
+      "Féerique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "548",
+    "NameEN": "Petilil",
+    "NameFR": "Chlorobule",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/494-649/548-a.png",
+    "FullImage": "./img/fullsprite/548.png",
+    "Category": "Pokémon Racine",
+    "EggGroups": [
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "549",
+    "NameEN": "Lilligant",
+    "NameFR": "Fragilady",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/494-649/549-a.png",
+    "FullImage": "./img/fullsprite/549.png",
+    "Category": "Pokémon Chef-Fleur",
+    "EggGroups": [
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "550",
+    "NameEN": "Basculin",
+    "NameFR": "Bargantua",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/494-649/550-a.png",
+    "FullImage": "./img/fullsprite/550.png",
+    "Category": "Pokémon Violent",
+    "EggGroups": [
+      "Aquatique 1"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "551",
+    "NameEN": "Sandile",
+    "NameFR": "Mascaïman",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": "dark",
+    "Image": "./img/494-649/551-a.png",
+    "FullImage": "./img/fullsprite/551.png",
+    "Category": "Pokémon Croco Sable",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "552",
+    "NameEN": "Krokorok",
+    "NameFR": "Escroco",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": "dark",
+    "Image": "./img/494-649/552-a.png",
+    "FullImage": "./img/fullsprite/552.png",
+    "Category": "Pokémon Croco Sable",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "553",
+    "NameEN": "Krookodile",
+    "NameFR": "Crocorible",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": "dark",
+    "Image": "./img/494-649/553-a.png",
+    "FullImage": "./img/fullsprite/553.png",
+    "Category": "Pokémon Intimidation",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "554",
+    "NameEN": "Darumaka",
+    "NameFR": "Darumarond",
+    "Generation": 5,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/494-649/554-a.png",
+    "FullImage": "./img/fullsprite/554.png",
+    "Category": "Pokémon Daruma",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "555",
+    "NameEN": "Darmanitan",
+    "NameFR": "Darumacho",
+    "Generation": 5,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/494-649/555-a.png",
+    "FullImage": "./img/fullsprite/555.png",
+    "Category": "Pokémon Enflammé",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "556",
+    "NameEN": "Maractus",
+    "NameFR": "Maracachi",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/494-649/556-a.png",
+    "FullImage": "./img/fullsprite/556.png",
+    "Category": "Pokémon Cactus",
+    "EggGroups": [
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "557",
+    "NameEN": "Dwebble",
+    "NameFR": "Crabicoque",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "rock",
+    "Image": "./img/494-649/557-a.png",
+    "FullImage": "./img/fullsprite/557.png",
+    "Category": "Pokémon Lithicole",
+    "EggGroups": [
+      "Insectoïde",
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "558",
+    "NameEN": "Crustle",
+    "NameFR": "Crabaraque",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "rock",
+    "Image": "./img/494-649/558-a.png",
+    "FullImage": "./img/fullsprite/558.png",
+    "Category": "Pokémon Lapidicole",
+    "EggGroups": [
+      "Insectoïde",
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "559",
+    "NameEN": "Scraggy",
+    "NameFR": "Baggiguane",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "fighting",
+    "Image": "./img/494-649/559-a.png",
+    "FullImage": "./img/fullsprite/559.png",
+    "Category": "Pokémon Mue",
+    "EggGroups": [
+      "Draconique",
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "560",
+    "NameEN": "Scrafty",
+    "NameFR": "Baggaïd",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "fighting",
+    "Image": "./img/494-649/560-a.png",
+    "FullImage": "./img/fullsprite/560.png",
+    "Category": "Pokémon Gang",
+    "EggGroups": [
+      "Terrestre",
+      "Draconique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "561",
+    "NameEN": "Sigilyph",
+    "NameFR": "Cryptéro",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Image": "./img/494-649/561-a.png",
+    "FullImage": "./img/fullsprite/561.png",
+    "Category": "Pokémon Similoiseau",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "562",
+    "NameEN": "Yamask",
+    "NameFR": "Tutafeh",
+    "Generation": 5,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/494-649/562-a.png",
+    "FullImage": "./img/fullsprite/562.png",
+    "Category": "Pokémon Âme",
+    "EggGroups": [
+      "Minéral",
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "563",
+    "NameEN": "Cofagrigus",
+    "NameFR": "Tutankafer",
+    "Generation": 5,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/494-649/563-a.png",
+    "FullImage": "./img/fullsprite/563.png",
+    "Category": "Pokémon Cercueil",
+    "EggGroups": [
+      "Minéral",
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "564",
+    "NameEN": "Tirtouga",
+    "NameFR": "Carapagos",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "rock",
+    "Image": "./img/494-649/564-a.png",
+    "FullImage": "./img/fullsprite/564.png",
+    "Category": "Pokémon Tortantique",
+    "EggGroups": [
+      "Aquatique 1",
+      "Aquatique 3"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "565",
+    "NameEN": "Carracosta",
+    "NameFR": "Mégapagos",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "rock",
+    "Image": "./img/494-649/565-a.png",
+    "FullImage": "./img/fullsprite/565.png",
+    "Category": "Pokémon Tortantique",
+    "EggGroups": [
+      "Aquatique 1",
+      "Aquatique 3"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "566",
+    "NameEN": "Archen",
+    "NameFR": "Arkéapti",
+    "Generation": 5,
+    "Type1": "rock",
+    "Type2": "flying",
+    "Image": "./img/494-649/566-a.png",
+    "FullImage": "./img/fullsprite/566.png",
+    "Category": "Pokémon Oisancien",
+    "EggGroups": [
+      "Aérien",
+      "Aquatique 3"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "567",
+    "NameEN": "Archeops",
+    "NameFR": "Aéroptéryx",
+    "Generation": 5,
+    "Type1": "rock",
+    "Type2": "flying",
+    "Image": "./img/494-649/567-a.png",
+    "FullImage": "./img/fullsprite/567.png",
+    "Category": "Pokémon Oisancien",
+    "EggGroups": [
+      "Aérien",
+      "Aquatique 3"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "568",
+    "NameEN": "Trubbish",
+    "NameFR": "Miamiasme",
+    "Generation": 5,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/494-649/568-a.png",
+    "FullImage": "./img/fullsprite/568.png",
+    "Category": "Pokémon Sac Poubelle",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "569",
+    "NameEN": "Garbodor",
+    "NameFR": "Miasmax",
+    "Generation": 5,
+    "Type1": "poison",
+    "Type2": null,
+    "Image": "./img/494-649/569-a.png",
+    "FullImage": "./img/fullsprite/569.png",
+    "Category": "Pokémon Dépotoir",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "570",
+    "NameEN": "Zorua",
+    "NameFR": "Zorua",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/494-649/570-a.png",
+    "FullImage": "./img/fullsprite/570.png",
+    "Category": "Pokémon Sombrenard",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "571",
+    "NameEN": "Zoroark",
+    "NameFR": "Zoroark",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/494-649/571-a.png",
+    "FullImage": "./img/fullsprite/571.png",
+    "Category": "Pokémon Polymorfox",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "572",
+    "NameEN": "Minccino",
+    "NameFR": "Chinchidou",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/572-a.png",
+    "FullImage": "./img/fullsprite/572.png",
+    "Category": "Pokémon Chinchilla",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "573",
+    "NameEN": "Cinccino",
+    "NameFR": "Pashmilla",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/573-a.png",
+    "FullImage": "./img/fullsprite/573.png",
+    "Category": "Pokémon Écharpe",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "574",
+    "NameEN": "Gothita",
+    "NameFR": "Scrutella",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/574-a.png",
+    "FullImage": "./img/fullsprite/574.png",
+    "Category": "Pokémon Dévisageur",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "575",
+    "NameEN": "Gothorita",
+    "NameFR": "Mesmérella",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/575-a.png",
+    "FullImage": "./img/fullsprite/575.png",
+    "Category": "Pokémon Magouilleur",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "576",
+    "NameEN": "Gothitelle",
+    "NameFR": "Sidérella",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/576-a.png",
+    "FullImage": "./img/fullsprite/576.png",
+    "Category": "Pokémon Cosmique",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "577",
+    "NameEN": "Solosis",
+    "NameFR": "Nucléos",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/577-a.png",
+    "FullImage": "./img/fullsprite/577.png",
+    "Category": "Pokémon Cellule",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "578",
+    "NameEN": "Duosion",
+    "NameFR": "Méios",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/578-a.png",
+    "FullImage": "./img/fullsprite/578.png",
+    "Category": "Pokémon Divisé",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "579",
+    "NameEN": "Reuniclus",
+    "NameFR": "Symbios",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/579-a.png",
+    "FullImage": "./img/fullsprite/579.png",
+    "Category": "Pokémon Multiplé",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "580",
+    "NameEN": "Ducklett",
+    "NameFR": "Couaneton",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/494-649/580-a.png",
+    "FullImage": "./img/fullsprite/580.png",
+    "Category": "Pokémon Oiseaudo",
+    "EggGroups": [
+      "Aquatique 1",
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "581",
+    "NameEN": "Swanna",
+    "NameFR": "Lakmécygne",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/494-649/581-a.png",
+    "FullImage": "./img/fullsprite/581.png",
+    "Category": "Pokémon Cygne",
+    "EggGroups": [
+      "Aquatique 1",
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "582",
+    "NameEN": "Vanillite",
+    "NameFR": "Sorbébé",
+    "Generation": 5,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/494-649/582-a.png",
+    "FullImage": "./img/fullsprite/582.png",
+    "Category": "Pokémon Poudreuse",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "583",
+    "NameEN": "Vanillish",
+    "NameFR": "Sorboul",
+    "Generation": 5,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/494-649/583-a.png",
+    "FullImage": "./img/fullsprite/583.png",
+    "Category": "Pokémon Grêle",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "584",
+    "NameEN": "Vanilluxe",
+    "NameFR": "Sorbouboul",
+    "Generation": 5,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/494-649/584-a.png",
+    "FullImage": "./img/fullsprite/584.png",
+    "Category": "Pokémon Congère",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "585",
+    "NameEN": "Deerling",
+    "NameFR": "Vivaldaim",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": "grass",
+    "Image": "./img/494-649/585-a.png",
+    "FullImage": "./img/fullsprite/585.png",
+    "Category": "Pokémon Saison",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "586",
+    "NameEN": "Sawsbuck",
+    "NameFR": "Haydaim",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": "grass",
+    "Image": "./img/494-649/586-a.png",
+    "FullImage": "./img/fullsprite/586.png",
+    "Category": "Pokémon Saison",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "587",
+    "NameEN": "Emolga",
+    "NameFR": "Emolga",
+    "Generation": 5,
+    "Type1": "electric",
+    "Type2": "flying",
+    "Image": "./img/494-649/587-a.png",
+    "FullImage": "./img/fullsprite/587.png",
+    "Category": "Pokémon Pteromys",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "588",
+    "NameEN": "Karrablast",
+    "NameFR": "Carabing",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/494-649/588-a.png",
+    "FullImage": "./img/fullsprite/588.png",
+    "Category": "Pokémon Carabe",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "589",
+    "NameEN": "Escavalier",
+    "NameFR": "Lançargot",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Image": "./img/494-649/589-a.png",
+    "FullImage": "./img/fullsprite/589.png",
+    "Category": "Pokémon Chevalier",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "590",
+    "NameEN": "Foongus",
+    "NameFR": "Trompignon",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/494-649/590-a.png",
+    "FullImage": "./img/fullsprite/590.png",
+    "Category": "Pokémon Champignon",
+    "EggGroups": [
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "591",
+    "NameEN": "Amoonguss",
+    "NameFR": "Gaulet",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/494-649/591-a.png",
+    "FullImage": "./img/fullsprite/591.png",
+    "Category": "Pokémon Champignon",
+    "EggGroups": [
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "592",
+    "NameEN": "Frillish",
+    "NameFR": "Viskuse",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "ghost",
+    "Image": "./img/494-649/592-a.png",
+    "FullImage": "./img/fullsprite/592.png",
+    "Category": "Pokémon Flottaison",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "593",
+    "NameEN": "Jellicent",
+    "NameFR": "Moyade",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "ghost",
+    "Image": "./img/494-649/593-a.png",
+    "FullImage": "./img/fullsprite/593.png",
+    "Category": "Pokémon Flottaison",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "594",
+    "NameEN": "Alomomola",
+    "NameFR": "Mamanbo",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/494-649/594-a.png",
+    "FullImage": "./img/fullsprite/594.png",
+    "Category": "Pokémon Soigneur",
+    "EggGroups": [
+      "Aquatique 1",
+      "Aquatique 2"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "595",
+    "NameEN": "Joltik",
+    "NameFR": "Statitik",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "electric",
+    "Image": "./img/494-649/595-a.png",
+    "FullImage": "./img/fullsprite/595.png",
+    "Category": "Pokémon Crampon",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "596",
+    "NameEN": "Galvantula",
+    "NameFR": "Mygavolt",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "electric",
+    "Image": "./img/494-649/596-a.png",
+    "FullImage": "./img/fullsprite/596.png",
+    "Category": "Pokémon Araclectrik",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "597",
+    "NameEN": "Ferroseed",
+    "NameFR": "Grindur",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": "steel",
+    "Image": "./img/494-649/597-a.png",
+    "FullImage": "./img/fullsprite/597.png",
+    "Category": "Pokémon Graine Épine",
+    "EggGroups": [
+      "Végétal",
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "598",
+    "NameEN": "Ferrothorn",
+    "NameFR": "Noacier",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": "steel",
+    "Image": "./img/494-649/598-a.png",
+    "FullImage": "./img/fullsprite/598.png",
+    "Category": "Pokémon Boule Épine",
+    "EggGroups": [
+      "Végétal",
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "599",
+    "NameEN": "Klink",
+    "NameFR": "Tic",
+    "Generation": 5,
+    "Type1": "steel",
+    "Type2": null,
+    "Image": "./img/494-649/599-a.png",
+    "FullImage": "./img/fullsprite/599.png",
+    "Category": "Pokémon Engrenage",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "600",
+    "NameEN": "Klang",
+    "NameFR": "Clic",
+    "Generation": 5,
+    "Type1": "steel",
+    "Type2": null,
+    "Image": "./img/494-649/600-a.png",
+    "FullImage": "./img/fullsprite/600.png",
+    "Category": "Pokémon Engrenage",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "601",
+    "NameEN": "Klinklang",
+    "NameFR": "Cliticlic",
+    "Generation": 5,
+    "Type1": "steel",
+    "Type2": null,
+    "Image": "./img/494-649/601-a.png",
+    "FullImage": "./img/fullsprite/601.png",
+    "Category": "Pokémon Engrenage",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "602",
+    "NameEN": "Tynamo",
+    "NameFR": "Anchwatt",
+    "Generation": 5,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/494-649/602-a.png",
+    "FullImage": "./img/fullsprite/602.png",
+    "Category": "Pokémon Électrophore",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "603",
+    "NameEN": "Eelektrik",
+    "NameFR": "Lampéroie",
+    "Generation": 5,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/494-649/603-a.png",
+    "FullImage": "./img/fullsprite/603.png",
+    "Category": "Pokémon Électrophore",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "604",
+    "NameEN": "Eelektross",
+    "NameFR": "Ohmassacre",
+    "Generation": 5,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/494-649/604-a.png",
+    "FullImage": "./img/fullsprite/604.png",
+    "Category": "Pokémon Électrophore",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "605",
+    "NameEN": "Elgyem",
+    "NameFR": "Lewsor",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/605-a.png",
+    "FullImage": "./img/fullsprite/605.png",
+    "Category": "Pokémon Cerveau",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "606",
+    "NameEN": "Beheeyem",
+    "NameFR": "Neitram",
+    "Generation": 5,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/494-649/606-a.png",
+    "FullImage": "./img/fullsprite/606.png",
+    "Category": "Pokémon Cerveau",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "607",
+    "NameEN": "Litwick",
+    "NameFR": "Funécire",
+    "Generation": 5,
+    "Type1": "ghost",
+    "Type2": "fire",
+    "Image": "./img/494-649/607-a.png",
+    "FullImage": "./img/fullsprite/607.png",
+    "Category": "Pokémon Chandelle",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "608",
+    "NameEN": "Lampent",
+    "NameFR": "Mélancolux",
+    "Generation": 5,
+    "Type1": "ghost",
+    "Type2": "fire",
+    "Image": "./img/494-649/608-a.png",
+    "FullImage": "./img/fullsprite/608.png",
+    "Category": "Pokémon Lampe",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "609",
+    "NameEN": "Chandelure",
+    "NameFR": "Lugulabre",
+    "Generation": 5,
+    "Type1": "ghost",
+    "Type2": "fire",
+    "Image": "./img/494-649/609-a.png",
+    "FullImage": "./img/fullsprite/609.png",
+    "Category": "Pokémon Invitation",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "610",
+    "NameEN": "Axew",
+    "NameFR": "Coupenotte",
+    "Generation": 5,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/494-649/610-a.png",
+    "FullImage": "./img/fullsprite/610.png",
+    "Category": "Pokémon Crocs",
+    "EggGroups": [
+      "Monstrueux",
+      "Draconique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "611",
+    "NameEN": "Fraxure",
+    "NameFR": "Incisache",
+    "Generation": 5,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/494-649/611-a.png",
+    "FullImage": "./img/fullsprite/611.png",
+    "Category": "Pokémon Hachomenton",
+    "EggGroups": [
+      "Monstrueux",
+      "Draconique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "612",
+    "NameEN": "Haxorus",
+    "NameFR": "Tranchodon",
+    "Generation": 5,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/494-649/612-a.png",
+    "FullImage": "./img/fullsprite/612.png",
+    "Category": "Pokémon Hachomenton",
+    "EggGroups": [
+      "Monstrueux",
+      "Draconique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "613",
+    "NameEN": "Cubchoo",
+    "NameFR": "Polarhume",
+    "Generation": 5,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/494-649/613-a.png",
+    "FullImage": "./img/fullsprite/613.png",
+    "Category": "Pokémon Gelé",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "614",
+    "NameEN": "Beartic",
+    "NameFR": "Polagriffe",
+    "Generation": 5,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/494-649/614-a.png",
+    "FullImage": "./img/fullsprite/614.png",
+    "Category": "Pokémon Congelé",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "615",
+    "NameEN": "Cryogonal",
+    "NameFR": "Hexagel",
+    "Generation": 5,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/494-649/615-a.png",
+    "FullImage": "./img/fullsprite/615.png",
+    "Category": "Pokémon Cristal",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "616",
+    "NameEN": "Shelmet",
+    "NameFR": "Escargaume",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/494-649/616-a.png",
+    "FullImage": "./img/fullsprite/616.png",
+    "Category": "Pokémon Escargot",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "617",
+    "NameEN": "Accelgor",
+    "NameFR": "Limaspeed",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/494-649/617-a.png",
+    "FullImage": "./img/fullsprite/617.png",
+    "Category": "Pokémon Exuviateur",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "618",
+    "NameEN": "Stunfisk",
+    "NameFR": "Limonde",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": "electric",
+    "Image": "./img/494-649/618-a.png",
+    "FullImage": "./img/fullsprite/618.png",
+    "Category": "Pokémon Piège",
+    "EggGroups": [
+      "Aquatique 1",
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "619",
+    "NameEN": "Mienfoo",
+    "NameFR": "Kungfouine",
+    "Generation": 5,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/494-649/619-a.png",
+    "FullImage": "./img/fullsprite/619.png",
+    "Category": "Pokémon Art Martial",
+    "EggGroups": [
+      "Terrestre",
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "620",
+    "NameEN": "Mienshao",
+    "NameFR": "Shaofouine",
+    "Generation": 5,
+    "Type1": "fighting",
+    "Type2": null,
+    "Image": "./img/494-649/620-a.png",
+    "FullImage": "./img/fullsprite/620.png",
+    "Category": "Pokémon Art Martial",
+    "EggGroups": [
+      "Terrestre",
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "621",
+    "NameEN": "Druddigon",
+    "NameFR": "Drakkarmin",
+    "Generation": 5,
+    "Type1": "dragon",
+    "Type2": null,
+    "Image": "./img/494-649/621-a.png",
+    "FullImage": "./img/fullsprite/621.png",
+    "Category": "Pokémon Caverne",
+    "EggGroups": [
+      "Draconique",
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "622",
+    "NameEN": "Golett",
+    "NameFR": "Gringolem",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": "ghost",
+    "Image": "./img/494-649/622-a.png",
+    "FullImage": "./img/fullsprite/622.png",
+    "Category": "Pokémon Golem Ancien",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "623",
+    "NameEN": "Golurk",
+    "NameFR": "Golemastoc",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": "ghost",
+    "Image": "./img/494-649/623-a.png",
+    "FullImage": "./img/fullsprite/623.png",
+    "Category": "Pokémon Golem Ancien",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "624",
+    "NameEN": "Pawniard",
+    "NameFR": "Scalpion",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "steel",
+    "Image": "./img/494-649/624-a.png",
+    "FullImage": "./img/fullsprite/624.png",
+    "Category": "Pokémon Coupant",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "625",
+    "NameEN": "Bisharp",
+    "NameFR": "Scalproie",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "steel",
+    "Image": "./img/494-649/625-a.png",
+    "FullImage": "./img/fullsprite/625.png",
+    "Category": "Pokémon Tranchant",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "626",
+    "NameEN": "Bouffalant",
+    "NameFR": "Frison",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/494-649/626-a.png",
+    "FullImage": "./img/fullsprite/626.png",
+    "Category": "Pokémon Coup d'BŒuf",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "627",
+    "NameEN": "Rufflet",
+    "NameFR": "Furaiglon",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/494-649/627-a.png",
+    "FullImage": "./img/fullsprite/627.png",
+    "Category": "Pokémon Aiglon",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "628",
+    "NameEN": "Braviary",
+    "NameFR": "Gueriaigle",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/494-649/628-a.png",
+    "FullImage": "./img/fullsprite/628.png",
+    "Category": "Pokémon Vaillant",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "629",
+    "NameEN": "Vullaby",
+    "NameFR": "Vostourno",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "flying",
+    "Image": "./img/494-649/629-a.png",
+    "FullImage": "./img/fullsprite/629.png",
+    "Category": "Pokémon Couche",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "630",
+    "NameEN": "Mandibuzz",
+    "NameFR": "Vaututrice",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "flying",
+    "Image": "./img/494-649/630-a.png",
+    "FullImage": "./img/fullsprite/630.png",
+    "Category": "Pokémon Vostour",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "631",
+    "NameEN": "Heatmor",
+    "NameFR": "Aflamanoir",
+    "Generation": 5,
+    "Type1": "fire",
+    "Type2": null,
+    "Image": "./img/494-649/631-a.png",
+    "FullImage": "./img/fullsprite/631.png",
+    "Category": "Pokémon Tamanoir",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "632",
+    "NameEN": "Durant",
+    "NameFR": "Fermite",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Image": "./img/494-649/632-a.png",
+    "FullImage": "./img/fullsprite/632.png",
+    "Category": "Pokémon Fourmi Dure",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "633",
+    "NameEN": "Deino",
+    "NameFR": "Solochi",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "dragon",
+    "Image": "./img/494-649/633-a.png",
+    "FullImage": "./img/fullsprite/633.png",
+    "Category": "Pokémon Rude",
+    "EggGroups": [
+      "Draconique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "634",
+    "NameEN": "Zweilous",
+    "NameFR": "Diamat",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "dragon",
+    "Image": "./img/494-649/634-a.png",
+    "FullImage": "./img/fullsprite/634.png",
+    "Category": "Pokémon Violent",
+    "EggGroups": [
+      "Draconique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "635",
+    "NameEN": "Hydreigon",
+    "NameFR": "Trioxhydre",
+    "Generation": 5,
+    "Type1": "dark",
+    "Type2": "dragon",
+    "Image": "./img/494-649/635-a.png",
+    "FullImage": "./img/fullsprite/635.png",
+    "Category": "Pokémon Brutal",
+    "EggGroups": [
+      "Draconique"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "636",
+    "NameEN": "Larvesta",
+    "NameFR": "Pyronille",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "fire",
+    "Image": "./img/494-649/636-a.png",
+    "FullImage": "./img/fullsprite/636.png",
+    "Category": "Pokémon Torche",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "637",
+    "NameEN": "Volcarona",
+    "NameFR": "Pyrax",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "fire",
+    "Image": "./img/494-649/637-a.png",
+    "FullImage": "./img/fullsprite/637.png",
+    "Category": "Pokémon Soleil",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "638",
+    "NameEN": "Cobalion",
+    "NameFR": "Cobaltium",
+    "Generation": 5,
+    "Type1": "steel",
+    "Type2": "fighting",
+    "Image": "./img/494-649/638-a.png",
+    "FullImage": "./img/fullsprite/638.png",
+    "Category": "Pokémon Cœur de Fer",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "639",
+    "NameEN": "Terrakion",
+    "NameFR": "Terrakium",
+    "Generation": 5,
+    "Type1": "rock",
+    "Type2": "fighting",
+    "Image": "./img/494-649/639-a.png",
+    "FullImage": "./img/fullsprite/639.png",
+    "Category": "Pokémon Grotte",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "640",
+    "NameEN": "Virizion",
+    "NameFR": "Viridium",
+    "Generation": 5,
+    "Type1": "grass",
+    "Type2": "fighting",
+    "Image": "./img/494-649/640-a.png",
+    "FullImage": "./img/fullsprite/640.png",
+    "Category": "Pokémon Plaine Verte",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "641",
+    "NameEN": "Tornadus",
+    "NameFR": "Boréas",
+    "Generation": 5,
+    "Type1": "flying",
+    "Type2": null,
+    "Image": "./img/494-649/641-a.png",
+    "FullImage": "./img/fullsprite/641.png",
+    "Category": "Pokémon Tornade",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "642",
+    "NameEN": "Thundurus",
+    "NameFR": "Fulguris",
+    "Generation": 5,
+    "Type1": "electric",
+    "Type2": "flying",
+    "Image": "./img/494-649/642-a.png",
+    "FullImage": "./img/fullsprite/642.png",
+    "Category": "Pokémon Foudroyeur",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "643",
+    "NameEN": "Reshiram",
+    "NameFR": "Reshiram",
+    "Generation": 5,
+    "Type1": "dragon",
+    "Type2": "fire",
+    "Image": "./img/494-649/643-a.png",
+    "FullImage": "./img/fullsprite/643.png",
+    "Category": "Pokémon Blanc Réel",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "644",
+    "NameEN": "Zekrom",
+    "NameFR": "Zekrom",
+    "Generation": 5,
+    "Type1": "dragon",
+    "Type2": "electric",
+    "Image": "./img/494-649/644-a.png",
+    "FullImage": "./img/fullsprite/644.png",
+    "Category": "Pokémon Noir Idéal",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "645",
+    "NameEN": "Landorus",
+    "NameFR": "Démétéros",
+    "Generation": 5,
+    "Type1": "ground",
+    "Type2": "flying",
+    "Image": "./img/494-649/645-a.png",
+    "FullImage": "./img/fullsprite/645.png",
+    "Category": "Pokémon Fertilié",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "646",
+    "NameEN": "Kyurem",
+    "NameFR": "Kyurem",
+    "Generation": 5,
+    "Type1": "dragon",
+    "Type2": "ice",
+    "Image": "./img/494-649/646-a.png",
+    "FullImage": "./img/fullsprite/646.png",
+    "Category": "Pokémon Frontière",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "647",
+    "NameEN": "Keldeo",
+    "NameFR": "Keldeo",
+    "Generation": 5,
+    "Type1": "water",
+    "Type2": "fighting",
+    "Image": "./img/494-649/647-a.png",
+    "FullImage": "./img/fullsprite/647.png",
+    "Category": "Pokémon Poulain",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "648",
+    "NameEN": "Meloetta",
+    "NameFR": "Meloetta",
+    "Generation": 5,
+    "Type1": "normal",
+    "Type2": "psychic",
+    "Image": "./img/494-649/648-a.png",
+    "FullImage": "./img/fullsprite/648.png",
+    "Category": "Pokémon Mélodie",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "649",
+    "NameEN": "Genesect",
+    "NameFR": "Genesect",
+    "Generation": 5,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Image": "./img/494-649/649-a.png",
+    "FullImage": "./img/fullsprite/649.png",
+    "Category": "Pokémon Paléozoïque",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "503-B",
+    "NameEN": "Hisuian Samurott",
+    "NameFR": "Clamiral de Hisui",
+    "Generation": 8,
+    "Type1": "water",
+    "Type2": "dark",
+    "Image": "./img/494-649/503b-a.png",
+    "FullImage": "./img/fullsprite/503b.png",
+    "Category": "Pokémon Dignitaire",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "549-B",
+    "NameEN": "Hisuian Lilligant",
+    "NameFR": "Fragilady de Hisui",
+    "Generation": 8,
+    "Type1": "grass",
+    "Type2": "fighting",
+    "Image": "./img/494-649/549b-a.png",
+    "FullImage": "./img/fullsprite/549b.png",
+    "Category": "Pokémon Chef-Fleur",
+    "EggGroups": [
+      "Végétal"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "554-B",
+    "NameEN": "Galarian Darumaka",
+    "NameFR": "Darumarond de Galar",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/494-649/554b-a.png",
+    "FullImage": "./img/fullsprite/554b.png",
+    "Category": "Pokémon Daruma",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "555-B",
+    "NameEN": "Galarian Darmanitan",
+    "NameFR": "Darumacho de Galar",
+    "Generation": 8,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/494-649/555b-a.png",
+    "FullImage": "./img/fullsprite/555b.png",
+    "Category": "Pokémon Enflammé",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "562-B",
+    "NameEN": "Galarian Yamask",
+    "NameFR": "Tutafeh de Galar",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "ghost",
+    "Image": "./img/494-649/562b-a.png",
+    "FullImage": "./img/fullsprite/562b.png",
+    "Category": "Pokémon Âme",
+    "EggGroups": [
+      "Minéral",
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "570-B",
+    "NameEN": "Hisuian Zorua",
+    "NameFR": "Zorua de Hisui",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "ghost",
+    "Image": "./img/494-649/570b-a.png",
+    "FullImage": "./img/fullsprite/570b.png",
+    "Category": "Pokémon Sombrenard",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "571-B",
+    "NameEN": "Hisuian Zoroark",
+    "NameFR": "Zoroark de Hisui",
+    "Generation": 8,
+    "Type1": "normal",
+    "Type2": "ghost",
+    "Image": "./img/494-649/571b-a.png",
+    "FullImage": "./img/fullsprite/571b.png",
+    "Category": "Pokémon Polymorfox",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "618-B",
+    "NameEN": "Galarian Stunfisk",
+    "NameFR": "Limonde de Galar",
+    "Generation": 8,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Image": "./img/494-649/618b-a.png",
+    "FullImage": "./img/fullsprite/618b.png",
+    "Category": "Pokémon Piège",
+    "EggGroups": [
+      "Aquatique 1",
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 4
+  },
+  {
+    "Index": "628-B",
+    "NameEN": "Hisuian Braviary",
+    "NameFR": "Gueriaigle de Hisui",
+    "Generation": 8,
+    "Type1": "psychic",
+    "Type2": "flying",
+    "Image": "./img/494-649/628b-a.png",
+    "FullImage": "./img/fullsprite/628b.png",
+    "Category": "Pokémon Vaillant",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 4
   }
 ]

@@ -1,0 +1,244 @@
+{
+  "bossName": "Roserade",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Roserade_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Roserade_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 95000,
+  "date": "2026-08-31 22:36:10",
+  "durationSec": 1219,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 47500,
+      "countAtk": 2,
+      "baseDmg": 39697,
+      "level": 19,
+      "raidCount": 1084,
+      "luck": 0.598282
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 41064,
+      "countAtk": 2,
+      "baseDmg": 18023,
+      "level": 18,
+      "raidCount": 565,
+      "luck": 1.139211
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 7991,
+      "countAtk": 4,
+      "baseDmg": 1360,
+      "level": 11,
+      "raidCount": 67,
+      "luck": 1.4689338
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 2140,
+      "countAtk": 2,
+      "baseDmg": 681,
+      "level": 10,
+      "raidCount": 31,
+      "luck": 1.5712188
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 90704
+    },
+    {
+      "platform": "youtube",
+      "damage": 7991
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-08-31 22:36:23",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 681,
+      "pvAfter": 94319,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:36:33",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 18023,
+      "pvAfter": 76296,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:39:36",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1459,
+      "pvAfter": 74837,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:39:43",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 51087,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:39:55",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 23041,
+      "pvAfter": 28046,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:40:14",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1360,
+      "pvAfter": 26686,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:42:02",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1378,
+      "pvAfter": 25308,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:52:42",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2758,
+      "pvAfter": 22550,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:55:33",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2495,
+      "pvAfter": 20055,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-08-31 22:56:29",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 23750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

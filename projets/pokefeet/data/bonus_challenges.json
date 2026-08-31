@@ -417,6 +417,48 @@
         "Availabilities": null
     },
     {
+        "ID": 20,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 75 },
+            { "TypeRequirement": "level", "Value": 50 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "5G - Pokémon White",
+        "Name_Fr": "5G - Pokémon Blanc",
+        "Desc_En": "A little re-exploration of Unova through 5 White version Pokémons exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Unys au travers de 5 Pokémons exclusifs a la version Blanche.",
+        "FeetList": [
+            "548", "577", "628", "642", "644"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 22 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 21,
+        "Difficulty": "Easy",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 80 },
+            { "TypeRequirement": "level", "Value": 50 }
+        ],
+        "Tab": "Main Games",
+        "Name_En": "5G - Pokémon Black",
+        "Name_Fr": "5G - Pokémon Noir",
+        "Desc_En": "A little re-exploration of Unova through 5 Black version Pokémons exclusives Pokémons.",
+        "Desc_Fr": "Une mini-redécouverte de Unys au travers de 5 Pokémons exclusifs a la version Blanc.",
+        "FeetList": [
+            "546", "574", "630", "641", "643"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50},
+            { "TypeReward": "Cosmetic", "Value": 23 }
+        ],
+        "Availabilities": null
+    },
+    {
         "ID": 50,
         "Difficulty": "Medium",
         "Requirements": [
@@ -489,14 +531,65 @@
         "Tab": "Strategy",
         "Name_En": "4G-OU best Pokémons",
         "Name_Fr": "4G-OU meilleurs Pokémons",
-        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 4th Pokémon games generation (RySaEm/FrLg) ? What good, I mean, the best ?",
-        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6), en 4ème génération (RySaEm/RfVf) ?",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 4th Pokémon games generation (DP/HgSs) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6), en 4ème génération (DP/AaCo) ?",
         "FeetList": [
             "380", "248", "385", "485", "330", "212", "130", "121", "260", "376"
         ],
         "Rewards": [
             { "TypeReward": "Experience", "Value": 100},
             { "TypeReward": "Cosmetic", "Value": 53 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 54,
+        "Difficulty": "Medium",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 550 },
+            { "TypeRequirement": "level", "Value": 140 }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "5G-OU best Pokémons",
+        "Name_Fr": "5G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 5th Pokémon games generation (BW/BW2) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 5G (Solo 6vs6), en 4ème génération (NB/NB2) ?",
+        "FeetList": [
+            "381", "645", "647", "385", "598", "248", "186", "121", "642", "530"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 100},
+            { "TypeReward": "Cosmetic", "Value": 54 }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 101,
+        "Difficulty": "Hard",
+        "Requirements": [
+            { "TypeRequirement": "dexcount", "Value": 25 },
+            { "TypeRequirement": "level", "Value": 8 }
+        ],
+        "Tab": "Event",
+        "Name_En": "JMDEV's Selection",
+        "Name_Fr": "Selection JMDEV",
+        "Desc_En": "Just a huge selection of pokemons that I like, because why not ?",
+        "Desc_Fr": "Juste une selection de pokémon que j'aime bien, parce que pourquoi pas ?",
+        "FeetList": [
+            "607", "609", "143", "184", "192", "200", "212", "215", "225", "272",
+            "277", "281", "286", "303", "332", "363", "376", "384", "386", "395",
+            "398", "423", "426", "429", "436", "472", "478", "490", "491", "497",
+            "530", "549-B", "578", "591", "598", "623", "625", "628", "637", "646",
+            "648", "117", "130", "141", "145", "148", "169", "195", "196", "197"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 500},
+            { "TypeReward": "Cosmetic", "Value": 101 },
+            { "TypeReward": "Cosmetic", "Value": 102 },
+            { "TypeReward": "Cosmetic", "Value": 103 },
+            { "TypeReward": "Cosmetic", "Value": 111 },
+            { "TypeReward": "Cosmetic", "Value": 112 },
+            { "TypeReward": "Cosmetic", "Value": 113 }
         ],
         "Availabilities": null
     }

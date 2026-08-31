@@ -476,12 +476,12 @@ background:
 
 .game-white {
   background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/white.webp");
-  background-color: #bfc5c3;
+  background-color: #cecece;
 }
 
 .game-black {
   background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/black.webp");
-  background-color: #5f6568;
+  background-color: #4b4f52;
 }
 
 /* Common strat container rules (applied only when body has .strat-... class) */
@@ -748,4 +748,300 @@ background:
 /* Respect user motion preferences */
 @media (prefers-reduced-motion: reduce){
   [class^="strat-"] .deco, [class^="strat-"] .deco::before, [class^="strat-"] .deco::after { animation: none !important; }
+}
+
+
+
+
+
+
+
+
+
+
+/* EVENT JMDEV ANNIVERSArY */
+
+/* ------------------------------ ETOILES ----------------------- */
+/* --- FOND --- */
+body.event-jmdev-stars {
+  background: radial-gradient(circle at 50% 20%, #1a1a2e, #000);
+  color: #fff;
+  overflow: hidden;
+}
+
+/* --- ÉTOILES FIXES --- */
+body.event-jmdev-stars .deco::before,
+body.event-jmdev-stars .deco::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+body.event-jmdev-stars .deco.n1::before { top: 12%; left: 18%; animation-delay: .2s; }
+body.event-jmdev-stars .deco.n2::before { top: 28%; left: 72%; animation-delay: .8s; }
+body.event-jmdev-stars .deco.n3::before { top: 55%; left: 42%; animation-delay: 1.4s; }
+body.event-jmdev-stars .deco.n4::before { top: 78%; left: 8%;  animation-delay: 2s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.8); }
+}
+
+/* --- ÉTOILES FILANTES --- */
+body.event-jmdev-stars .deco-secondary::before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(white, transparent);
+  opacity: 0;
+  transform: rotate(-45deg);
+  animation: shooting 4s infinite;
+}
+
+@keyframes shooting {
+  0% { transform: translate(-200px, -200px) rotate(-45deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(600px, 600px) rotate(-45deg); opacity: 0; }
+}
+
+/* ------------------------------ NEON ----------------------- */
+
+/* --- FOND --- */
+body.event-jmdev-neon {
+  background: linear-gradient(135deg, #0a0a0f, #1a0028);
+  color: #0ff;
+  overflow: hidden;
+}
+
+/* --- LIGNES NÉON --- */
+body.event-jmdev-neon .deco::before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 4px;
+  background: rgba(0,255,255,0.7);
+  box-shadow: 0 0 12px #0ff, 0 0 24px #0ff;
+  animation: neonMove 6s linear infinite;
+}
+
+body.event-jmdev-neon .deco.n1::before { top: 10%; left: -20%; }
+body.event-jmdev-neon .deco.n2::before { top: 40%; left: -30%; animation-delay: 1s; }
+body.event-jmdev-neon .deco.n3::before { top: 70%; left: -25%; animation-delay: 2s; }
+body.event-jmdev-neon .deco.n4::before { top: 85%; left: -15%; animation-delay: 3s; }
+
+@keyframes neonMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(160vw); }
+}
+
+/* --- CERCLES NÉON GLOW --- */
+body.event-jmdev-neon .deco-secondary::after {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,255,0.8) 0%, rgba(0,255,255,0.2) 60%, transparent 80%);
+  box-shadow: 0 0 20px #0ff, 0 0 40px #0ff, 0 0 80px #0ff;
+  opacity: 0.7;
+  animation: neonPulseGlow 3s infinite ease-in-out;
+}
+
+body.event-jmdev-neon .deco-secondary.n11::after { top: 20%; left: 70%; }
+body.event-jmdev-neon .deco-secondary.n12::after { top: 60%; left: 20%; animation-delay: 1.5s; }
+
+@keyframes neonPulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+
+/* ------------------------------ BULLE ----------------------- */
+
+/* --- FOND OCÉAN --- */
+body.event-jmdev-ocean {
+  background: radial-gradient(circle at 50% 100%, #0077b6 0%, #003049 100%);
+  color: #e0faff;
+  overflow: hidden;
+  position: relative;
+}
+
+/* --- BULLES MOYENNES (.deco) --- */
+body.event-jmdev-ocean .deco::before {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  width: 20px;
+  height: 20px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+  animation: bubbleMedium 10s infinite ease-in-out;
+}
+
+body.event-jmdev-ocean .deco.n1::before { left: 15%; animation-delay: 0s; }
+body.event-jmdev-ocean .deco.n2::before { left: 35%; animation-delay: 2s; }
+body.event-jmdev-ocean .deco.n3::before { left: 55%; animation-delay: 4s; }
+body.event-jmdev-ocean .deco.n4::before { left: 75%; animation-delay: 6s; }
+
+@keyframes bubbleMedium {
+  0% { transform: translateY(0) scale(0.8); opacity: 0.5; }
+  30% { transform: translateY(-150px) scale(1); opacity: 0.8; }
+  60% { transform: translateY(-300px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-450px) scale(0.6); opacity: 0; }
+}
+
+/* --- GRANDES BULLES (.deco-secondary) --- */
+body.event-jmdev-ocean .deco-secondary::after {
+  content: "";
+  position: absolute;
+  bottom: -60px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255,255,255,0.5), inset 0 0 10px rgba(255,255,255,0.3);
+  animation: bubbleLarge 12s infinite ease-in-out;
+}
+
+body.event-jmdev-ocean .deco-secondary.n11::after { left: 25%; animation-delay: 1s; }
+body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 5s; }
+
+@keyframes bubbleLarge {
+  0% { transform: translateY(0) scale(0.9); opacity: 0.4; }
+  25% { transform: translateY(-200px) scale(1.1); opacity: 0.7; }
+  50% { transform: translateY(-400px) scale(1.3); opacity: 1; }
+  75% { transform: translateY(-600px) scale(1.1); opacity: 0.7; }
+  100% { transform: translateY(-800px) scale(0.8); opacity: 0; }
+}
+
+
+
+/* --- BOUTON ÉTOILES --- */
+.event-jmdev-stars-btn {
+  position: relative;
+  display: inline-block;
+  padding: 14px 22px;
+  background: #0d1b2a !important; 
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  overflow: hidden;
+  border: 1px solid #415a77;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.event-jmdev-stars-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 12px #fff;
+}
+
+/* petites étoiles */
+.event-jmdev-stars-btn::before,
+.event-jmdev-stars-btn::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  animation: btnTwinkle 2.5s infinite ease-in-out;
+}
+
+.event-jmdev-stars-btn::before { top: 20%; left: 15%; }
+.event-jmdev-stars-btn::after { top: 60%; left: 70%; animation-delay: 1.2s; }
+
+@keyframes btnTwinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.8); }
+}
+
+
+
+/* --- BOUTON NÉON --- */
+.event-jmdev-neon-btn {
+  position: relative;
+  display: inline-block;
+  padding: 14px 22px;
+  background: #050510 !important;
+  color: #0ff;
+  border-radius: 10px;
+  text-align: center;
+  overflow: hidden;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 12px #0ff, inset 0 0 12px #0ff;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.event-jmdev-neon-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff;
+}
+
+/* cercle glowy */
+.event-jmdev-neon-btn::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  top: -40px;
+  right: -40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,255,0.8) 0%, rgba(0,255,255,0.1) 60%, transparent 80%) !important;
+  box-shadow: 0 0 40px #0ff, 0 0 80px #0ff;
+  animation: neonBtnPulse 3s infinite ease-in-out;
+}
+
+@keyframes neonBtnPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+
+/* --- BOUTON OCÉAN --- */
+.event-jmdev-ocean-btn {
+  position: relative;
+  display: inline-block;
+  padding: 14px 22px;
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  color: #e0faff;
+  border-radius: 10px;
+  text-align: center;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.4);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.event-jmdev-ocean-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(255,255,255,0.7);
+}
+
+/* bulles */
+.event-jmdev-ocean-btn::before,
+.event-jmdev-ocean-btn::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  width: 18px;
+  height: 18px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255,255,255,0.7);
+  animation: oceanBtnBubble 5s infinite ease-in-out;
+}
+
+.event-jmdev-ocean-btn::before { left: 20%; animation-delay: 0s; }
+.event-jmdev-ocean-btn::after { left: 70%; animation-delay: 2s; }
+
+@keyframes oceanBtnBubble {
+  0% { transform: translateY(0) scale(0.8); opacity: 0.4; }
+  50% { transform: translateY(-40px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-70px) scale(0.6); opacity: 0; }
 }

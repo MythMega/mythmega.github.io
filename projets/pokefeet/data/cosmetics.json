@@ -273,6 +273,71 @@
         "Value": "strat-4g",
         "File": "strat-4g.png",
         "RequiresUnlock": true
+    },
+    {
+        "ID": 54,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 5G",
+        "Value": "strat-5g",
+        "File": "strat-5g.png",
+        "RequiresUnlock": true
+    },
+
+    {
+        "ID": 101,
+        "Type": "Background",
+        "Cat": "Event",
+        "Name": "JMDEV's Stars",
+        "Value": "event-jmdev-stars",
+        "File": "jmdev-stars.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 102,
+        "Type": "Background",
+        "Cat": "Event",
+        "Name": "JMDEV's Neon",
+        "Value": "event-jmdev-neon",
+        "File": "jmdev-neon.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 103,
+        "Type": "Background",
+        "Cat": "Event",
+        "Name": "JMDEV's Ocean",
+        "Value": "event-jmdev-ocean",
+        "File": "jmdev-ocean.png",
+        "RequiresUnlock": true
+    },
+
+    {
+        "ID": 111,
+        "Type": "Background-Buttons",
+        "Cat": "Event",
+        "Name": "JMDEV's Stars button",
+        "Value": "event-jmdev-stars-btn",
+        "File": "jmdev-stars.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 112,
+        "Type": "Background-Buttons",
+        "Cat": "Event",
+        "Name": "JMDEV's Neon button",
+        "Value": "event-jmdev-neon-btn",
+        "File": "jmdev-neon.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 113,
+        "Type": "Background-Buttons",
+        "Cat": "Event",
+        "Name": "JMDEV's Ocean button",
+        "Value": "event-jmdev-ocean-btn",
+        "File": "jmdev-ocean.png",
+        "RequiresUnlock": true
     }
 
 ]

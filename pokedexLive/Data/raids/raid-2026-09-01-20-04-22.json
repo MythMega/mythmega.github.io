@@ -1,0 +1,211 @@
+{
+  "bossName": "Insolourdo",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dunsparce_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Dunsparce_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 50000,
+  "date": "2026-09-01 20:04:22",
+  "durationSec": 1983,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 50000,
+      "countAtk": 4,
+      "baseDmg": 13957,
+      "level": 17,
+      "raidCount": 495,
+      "luck": 0.89560795
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 8006,
+      "countAtk": 1,
+      "baseDmg": 8006,
+      "level": 16,
+      "raidCount": 337,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 2249,
+      "countAtk": 1,
+      "baseDmg": 2249,
+      "level": 12,
+      "raidCount": 149,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Scaibyx",
+      "damage": 262,
+      "countAtk": 1,
+      "baseDmg": 262,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 58006
+    },
+    {
+      "platform": "youtube",
+      "damage": 2511
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Scaibyx",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-01 20:04:27",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8006,
+      "pvAfter": 41994,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-01 20:08:35",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2249,
+      "pvAfter": 39745,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-01 20:22:31",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 27245,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-01 20:27:25",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 14745,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-01 20:30:47",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 2245,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-01 20:31:49",
+      "pseudo": "Scaibyx",
+      "platform": "youtube",
+      "damages": 262,
+      "pvAfter": 1983,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-01 20:37:25",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

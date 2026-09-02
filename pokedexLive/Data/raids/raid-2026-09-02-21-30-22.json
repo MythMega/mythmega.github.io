@@ -1,0 +1,249 @@
+{
+  "bossName": "Gobou",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mudkip_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Mudkip_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 55000,
+  "date": "2026-09-02 21:30:22",
+  "durationSec": 7144,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 27500,
+      "countAtk": 2,
+      "baseDmg": 39903,
+      "level": 19,
+      "raidCount": 1089,
+      "luck": 0.34458563
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 13750,
+      "countAtk": 1,
+      "baseDmg": 18013,
+      "level": 18,
+      "raidCount": 567,
+      "luck": 0.7633376
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 13750,
+      "countAtk": 1,
+      "baseDmg": 13923,
+      "level": 17,
+      "raidCount": 498,
+      "luck": 0.9875745
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 1468,
+      "countAtk": 1,
+      "baseDmg": 1468,
+      "level": 11,
+      "raidCount": 71,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "frenchmusic_en_force",
+      "damage": 1362,
+      "countAtk": 3,
+      "baseDmg": 351,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1.2934473
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 55000
+    },
+    {
+      "platform": "youtube",
+      "damage": 2830
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-02 21:39:29",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 41250,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-02 21:43:11",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1468,
+      "pvAfter": 39782,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-02 21:46:56",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 26032,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-02 21:52:44",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 12282,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-02 22:44:47",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 351,
+      "pvAfter": 11931,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-02 22:47:05",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 409,
+      "pvAfter": 11522,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-02 22:50:42",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 602,
+      "pvAfter": 10920,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-02 23:29:27",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

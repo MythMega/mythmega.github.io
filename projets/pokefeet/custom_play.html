@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Jouer un challenge custom</title>
+  <meta name="description" content="Jouez un challenge custom Pokefeet créé par la communauté : devinez chaque Pokémon grâce à ses pieds." />
+  <meta name="keywords" content="Pokefeet, jouer challenge, challenge custom, Pokémon, pieds" />
+  <meta name="author" content="MythMega" />
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cosmetics.css" />
+  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/custom_challenges/custom-challenges.css" />
+</head>
+<body>
+  <main id="app" class="custom-page custom-play-page custom-play-wrap">
+    <div class="deco n1"></div>
+    <div class="deco n2"></div>
+    <div class="deco n3"></div>
+    <div class="deco n4"></div>
+    <div class="deco-secondary n11"></div>
+    <div class="deco-secondary n12"></div>
+    <header>
+      <a href="custom.html" class="btn-back" data-i18n="customCreate.back">Retour</a>
+      <h1 data-i18n="customPlay.title">Jouer un challenge custom</h1>
+    </header>
+
+    <!-- Notifications -->
+    <div id="notifications" aria-live="polite"></div>
+
+    <!-- View : saisie du code -->
+    <section id="codeEntryView" class="game-area custom-code-card hidden">
+      <div class="center-card">
+        <h2 class="home-title" data-i18n="customPlay.enterCode">Entrer un code de challenge</h2>
+        <div class="custom-code-form">
+          <input type="text" id="codeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder" placeholder="custom_play.html?code=... ou code" />
+          <button id="loadCodeBtn" class="big-btn" data-tag="customizables-button" data-i18n="customPlay.load" style="margin:0;">Charger</button>
+        </div>
+        <p class="custom-code-hint" style="margin-top:10px;" data-i18n="customPlay.codeHint">Collez l'URL complète du challenge (custom_play.html?code=...) ou uniquement le code.</p>
+      </div>
+    </section>
+
+    <!-- View : code invalide -->
+    <section id="invalidView" class="game-area custom-code-card hidden">
+      <div class="center-card">
+        <h2 class="home-title" style="color:#f87171;" data-i18n="customPlay.invalidCodeTitle">Code invalide</h2>
+        <p data-i18n="customPlay.invalidCode" class="custom-code-hint" style="margin-bottom:12px;">Impossible de décoder ce code. Vérifiez l'URL partagée et réessayez.</p>
+        <div class="custom-code-form">
+          <input type="text" id="invalidCodeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder" placeholder="custom_play.html?code=... ou code" />
+          <button id="invalidLoadBtn" class="big-btn" data-tag="customizables-button" data-i18n="customPlay.tryAgain" style="margin:0;">Réessayer</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- View : informations du challenge -->
+    <section id="infoView" class="game-area hidden">
+      <div class="center-card custom-info-card">
+        <h2 id="infoName" class="custom-info-name"></h2>
+        <p id="infoAuthor" class="custom-info-author"></p>
+        <div class="custom-info-meta">
+          <span id="infoCount"></span>
+          <span id="infoRandom"></span>
+        </div>
+        <button id="playBtn" class="big-btn" data-tag="customizables-button" data-i18n="customPlay.play" style="margin:0;">Jouer</button>
+        <button id="copyJsonBtn" class="secondary" style="margin:8px 0 0 0; width:100%;" data-i18n="customPlay.copyJson">Copier le JSON</button>
+      </div>
+    </section>
+
+    <!-- View : jeu -->
+    <section id="gameView" class="game-area custom-play-game hidden">
+      <div class="center-card">
+        <div class="game-header">
+          <div id="playProgress">1 / 2</div>
+          <div id="playFails">Erreurs : 0</div>
+        </div>
+        <div class="image-container">
+          <img id="playImg" src="" alt="Pokémon" />
+        </div>
+        <div class="guess-area">
+          <div class="autocomplete-wrap" style="flex:1; position:relative;">
+            <input id="playInput" type="text" autocomplete="off" style="width:100%; min-width:0;" data-i18n-attr="placeholder:customPlay.guessPlaceholder" placeholder="Nom du Pokémon" />
+          </div>
+          <button id="playSubmit" data-tag="customizables-button" data-i18n="customPlay.submit">Valider</button>
+        </div>
+        <div id="playFailedAttempts" class="failed-attempts hidden" aria-live="polite"></div>
+        <div id="playHints" class="hints-list"></div>
+      </div>
+    </section>
+<!-- View : fin de partie -->
+    <section id="doneView" class="game-area hidden">
+      <div class="center-card">
+        <h2 style="margin:0 0 10px 0;" data-i18n="customPlay.done">Challenge terminé !</h2>
+        <div id="doneName" class="custom-done-name"></div>
+        <div id="doneAuthor" class="custom-done-sub"></div>
+        <div class="custom-done-stats">
+          <span><span data-i18n="customPlay.pokemonCount">Pokémon</span> : <span id="doneCount"></span></span>
+          <span><span data-i18n="customPlay.errors">Erreurs</span> : <span id="doneFails"></span></span>
+        </div>
+        <div id="doneShare" class="custom-done-share"></div>
+        <div id="doneFullImages" class="daily-full-images" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center;"></div>
+        <div class="custom-done-url" style="margin-top:14px;">
+          <input type="text" id="doneUrl" readonly />
+          <button id="copyUrlBtn" data-tag="customizables-button" data-i18n="customPlay.copyUrl">Copier l'URL</button>
+          <button id="copyShareBtn" data-tag="customizables-button" data-i18n="customPlay.copyResult">Copier résultat</button>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+          <button id="replayBtn" data-tag="customizables-button" style="flex:1;" data-i18n="customPlay.replay">Rejouer</button>
+          <button id="backHomeBtn" class="secondary" style="flex:1;" data-i18n="customPlay.newChallenge">Nouveau challenge</button>
+        </div>
+      </div>
+    </section>
+
+    <button id="retourBtn" class="secondary" style="padding:10px 12px;margin-top:20px;display:block;margin-left:auto;margin-right:auto;" data-i18n="common.backHome">Retour à l'accueil</button>
+  </main>
+
+  <script src="loader.js"></script>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="footer.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script src="pokemon.js"></script>
+  <script src="migration.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="cosmetics.js"></script>
+  <script src="business/custom_challenges/custom-challenge-codec.js"></script>
+  <script src="business/custom_challenges/custom-challenge-game.js"></script>
+  <script src="ui/custom_challenges/custom-play-ui.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var btn = document.getElementById('retourBtn');
+      if (btn) btn.addEventListener('click', function () { window.location.href = './index.html'; });
+      var back = document.querySelector('.btn-back');
+      if (back) back.addEventListener('click', function (e) { e.preventDefault(); window.location.href = './custom.html'; });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Challenges Custom</title>
+  <meta name="description" content="Pokefeet Challenges Custom — Créez et jouez vos propres challenges de devinettes de Pokémon par les pieds." />
+  <meta name="keywords" content="Pokefeet, challenge custom, deviner Pokémon, pieds" />
+  <meta name="author" content="MythMega" />
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cosmetics.css" />
+  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/custom_challenges/custom-challenges.css" />
+</head>
+<body>
+  <main id="app" class="custom-page">
+    <div class="deco n1"></div>
+    <div class="deco n2"></div>
+    <div class="deco n3"></div>
+    <div class="deco n4"></div>
+    <div class="deco-secondary n11"></div>
+    <div class="deco-secondary n12"></div>
+    <header>
+      <h1 data-i18n="custom.title">Challenges Custom</h1>
+    </header>
+
+    <section class="home-area">
+      <div class="home-card" role="region" aria-labelledby="customTitle">
+        <h2 id="customTitle" class="home-title" data-i18n="custom.choose">Que voulez-vous faire ?</h2>
+
+        <a class="big-btn" href="custom_create.html" style="text-align:center;" data-tag="customizables-button" data-i18n="custom.create">Créer un challenge</a>
+        <a class="big-btn secondary" href="custom_play.html" style="text-align:center;" data-tag="customizables-button" data-i18n="custom.play">Jouer un challenge</a>
+
+        <div class="subtitle" data-i18n="custom.arcadeDesc">Mode arcade : aucune sauvegarde, ni XP, ni récompense. Juste du fun !</div>
+
+        <a class="big-btn secondary" href="index.html" style="margin-top:8px; text-align:center;" data-i18n="common.backHome">Retour à l'accueil</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="loader.js"></script>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="footer.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script src="migration.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="cosmetics.js"></script>
+</body>
+</html>

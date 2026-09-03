@@ -1,0 +1,368 @@
+/* ═══════════════════════════════════════════════
+   POKÉFEET — Challenges Custom
+   Styles pour custom.html / custom_create.html / custom_play.html
+   ═══════════════════════════════════════════════ */
+
+/* --- Mise en page générale des 3 pages --- */
+.custom-page .home-card { width: min(480px, 100%); }
+.custom-page header h1 { font-size: 20px; margin: 0; font-weight: 800; letter-spacing: -0.02em; }
+
+/* ============================================================
+   CUSTOM CREATE — formulaire
+   ============================================================ */
+.custom-create-form { display: flex; flex-direction: column; gap: 18px; }
+.custom-create-form .center-card { width: min(760px, 100%); }
+
+.custom-field { text-align: left; }
+.custom-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.custom-field input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 200ms, box-shadow 200ms;
+}
+.custom-field input[type="text"]:focus {
+  border-color: rgba(34,197,94,0.5);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+}
+.custom-field input[type="text"]::placeholder { color: var(--muted); }
+
+.custom-field-row { display: flex; flex-wrap: wrap; gap: 14px; }
+.custom-field-row .custom-field { flex: 1 1 240px; }
+
+/* Toggle random */
+.custom-random-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+.custom-random-row span { font-size: 14px; font-weight: 600; color: var(--text); }
+.custom-random-row small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+
+/* Picker */
+.custom-picker-section { text-align: left; }
+.custom-picker-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; }
+.custom-picker-head .search-input { flex: 1 1 200px; min-width: 160px; }
+.custom-picker-count { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+.pokemon-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 10px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.custom-pick-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: transform 150ms, border-color 150ms, background 150ms, box-shadow 150ms;
+  user-select: none;
+}
+.custom-pick-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(34,197,94,0.4);
+  background: rgba(22, 163, 74, 0.1);
+}
+.custom-pick-item.selected {
+  border-color: var(--accent-bright);
+  background: rgba(22, 163, 74, 0.16);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.25);
+}
+.custom-pick-item img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+.custom-pick-name {
+  font-size: 11px;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.custom-pick-idx {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-bright);
+}
+.custom-picker-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 24px 8px;
+  font-size: 14px;
+}
+/* Séquence sélectionnée */
+.custom-sequence-section { text-align: left; }
+.custom-sequence-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.custom-sequence-tools .custom-seq-title { font-weight: 700; color: var(--text); font-size: 14px; margin-right: auto; }
+.custom-sequence-tools button {
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 9px;
+}
+.sequence-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 60px;
+  padding: 8px;
+  border: 1px dashed rgba(34,197,94,0.25);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.015);
+}
+.custom-seq-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--card-solid, #0a1122);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  cursor: grab;
+  transition: transform 120ms, border-color 120ms, opacity 120ms;
+}
+.custom-seq-item.dragging { opacity: 0.45; }
+.custom-seq-item.drag-over { border-color: var(--accent-bright); box-shadow: 0 0 0 2px rgba(34,197,94,0.2); }
+.custom-seq-item img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+}
+.custom-seq-handle { color: var(--muted); cursor: grab; font-size: 18px; line-height: 1; }
+.custom-seq-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.custom-seq-info strong { font-size: 13px; color: var(--accent-bright); }
+.custom-seq-info span { font-size: 13px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.custom-seq-remove {
+  background: rgba(185, 28, 28, 0.18) !important;
+  color: #fca5a5 !important;
+  border: 1px solid rgba(185, 28, 28, 0.35) !important;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.custom-seq-remove:hover { background: rgba(185, 28, 28, 0.35) !important; }
+.sequence-empty { color: var(--muted); font-size: 13px; padding: 14px; text-align: center; }
+
+/* Bouton générer */
+.custom-generate-zone { text-align: center; margin-top: 6px; }
+.custom-generate-hint {
+  color: var(--muted);
+  font-size: 12px;
+  min-height: 16px;
+  margin-bottom: 8px;
+}
+
+/* Résultat généré */
+#customResultCard { width: min(760px, 100%); }
+.custom-result-area { display: flex; flex-direction: column; gap: 12px; }
+.custom-result-area input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--accent-bright);
+  font-family: monospace;
+  font-size: 13px;
+  outline: none;
+  word-break: break-all;
+}
+.custom-result-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.custom-result-actions button { flex: 1 1 160px; }
+/* ============================================================
+   CUSTOM PLAY — saisie code / infos / jeu / fin
+   ============================================================ */
+.custom-play-wrap .center-card { width: min(640px, 100%); }
+
+/* Saisie de code */
+.custom-code-form { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+.custom-code-form input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  word-break: break-all;
+  transition: border-color 200ms, box-shadow 200ms;
+}
+.custom-code-form input[type="text"]:focus {
+  border-color: rgba(34,197,94,0.5);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+}
+.custom-code-form input[type="text"]::placeholder { color: var(--muted); font-size: 13px; }
+.custom-code-hint { color: var(--muted); font-size: 12px; }
+
+/* Infos challenge */
+.custom-info-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 6px 0;
+}
+.custom-info-author { color: var(--accent-bright); font-weight: 600; margin: 0 0 14px 0; }
+.custom-info-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.custom-info-meta span {
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Jeu */
+.custom-play-game .image-container {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.custom-play-game .image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+.custom-play-game .game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* Indices */
+.custom-play-game .hints-list {
+  background: var(--card);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 14px;
+  min-height: 44px;
+}
+.custom-play-game .hints-list ul { list-style: none; padding: 0; margin: 0; }
+.custom-play-game .hints-list li {
+  padding: 8px 12px;
+  background: rgba(22,163,74,0.06);
+  border: 1px solid rgba(22,163,74,0.1);
+  border-radius: 9px;
+  margin-bottom: 6px;
+  color: #cfe7d6;
+  font-size: 14px;
+  animation: hintReveal 300ms ease-out both;
+}
+.custom-play-game .hints-list li:last-child { margin-bottom: 0; }
+
+/* Écran de fin */
+.custom-done-name { font-size: 22px; font-weight: 800; color: #4ade80; margin: 4px 0; }
+.custom-done-sub { color: var(--accent-bright); font-size: 14px; margin-bottom: 12px; }
+.custom-done-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 12px; }
+.custom-done-stats span {
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.custom-done-share {
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px;
+  border-radius: 10px;
+  margin: 12px auto;
+  max-height: 200px;
+  overflow-y: auto;
+  text-align: left;
+  word-break: break-word;
+}
+.custom-done-url { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.custom-done-url input[type="text"] {
+  flex: 1 1 220px;
+  min-width: 200px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--accent-bright);
+  font-family: monospace;
+  font-size: 12px;
+  outline: none;
+  word-break: break-all;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .pokemon-picker { max-height: 280px; }
+  .custom-play-game .image-container { height: 220px; }
+  .custom-done-url { flex-direction: column; align-items: stretch; }
+}

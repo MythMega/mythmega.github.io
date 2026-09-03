@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Créer un challenge custom</title>
+  <meta name="description" content="Créez votre propre challenge Pokefeet : choisissez les Pokémon, votre ordre et partagez votre code." />
+  <meta name="keywords" content="Pokefeet, créer challenge, challenge custom, Pokémon, pieds" />
+  <meta name="author" content="MythMega" />
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cosmetics.css" />
+  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/custom_challenges/custom-challenges.css" />
+</head>
+<body>
+  <main id="app" class="custom-page custom-create-page">
+    <div class="deco n1"></div>
+    <div class="deco n2"></div>
+    <div class="deco n3"></div>
+    <div class="deco n4"></div>
+    <div class="deco-secondary n11"></div>
+    <div class="deco-secondary n12"></div>
+    <header>
+      <a href="custom.html" class="btn-back" data-i18n="customCreate.back">Retour</a>
+      <h1 data-i18n="customCreate.title">Créer un challenge custom</h1>
+    </header>
+
+    <!-- Notifications -->
+    <div id="notifications" aria-live="polite"></div>
+
+    <section class="game-area" style="align-items:flex-start;">
+      <form class="center-card custom-create-form" id="createForm" onsubmit="return false;">
+
+        <!-- Nom + auteur -->
+        <div class="custom-field-row">
+          <div class="custom-field">
+            <label for="createName" data-i18n="customCreate.name">Nom du challenge</label>
+            <input type="text" id="createName" maxlength="60" data-i18n-attr="placeholder:customCreate.namePlaceholder" placeholder="Ex. : Mon défi légende" />
+          </div>
+          <div class="custom-field">
+            <label for="createAuthor" data-i18n="customCreate.author">Auteur</label>
+            <input type="text" id="createAuthor" maxlength="30" data-i18n-attr="placeholder:customCreate.authorPlaceholder" placeholder="Trainer" />
+          </div>
+        </div>
+
+        <!-- Ordre aléatoire en jeu -->
+        <div class="custom-random-row">
+          <div>
+            <span data-i18n="customCreate.random">Ordre aléatoire en jeu</span>
+            <small data-i18n="customCreate.randomDesc">Mélange la séquence à chaque partie jouée</small>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="createRandom" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Picker -->
+        <div class="custom-picker-section">
+          <div class="custom-picker-head">
+            <input type="text" id="createSearch" class="search-input" data-i18n-attr="placeholder:customCreate.search" placeholder="Rechercher un Pokémon (nom FR / EN / index)…" />
+            <span class="custom-picker-count"><span id="pickerCount">0</span> <span data-i18n="customCreate.results">résultats</span></span>
+          </div>
+          <div id="pokemonPicker" class="pokemon-picker"></div>
+        </div>
+<!-- Séquence sélectionnée -->
+        <div class="custom-sequence-section">
+          <div class="custom-sequence-tools">
+            <span class="custom-seq-title"><span data-i18n="customCreate.sequence">Séquence sélectionnée</span> (<span id="sequenceCount">0</span>)</span>
+            <button type="button" id="sortIndexBtn" class="secondary" data-tag="customizables-button" data-i18n="customCreate.sortIndex">Trier par index</button>
+            <button type="button" id="shuffleBtn" class="secondary" data-tag="customizables-button" data-i18n="customCreate.shuffle">Ordre aléatoire</button>
+          </div>
+          <div id="sequenceList" class="sequence-list">
+            <div class="sequence-empty" id="sequenceEmpty" data-i18n="customCreate.emptySequence">Aucun Pokémon sélectionné. Cliquez sur un Pokémon pour l'ajouter, puis glissez-déposez pour réordonner.</div>
+          </div>
+        </div>
+
+        <!-- Génération -->
+        <div class="custom-generate-zone">
+          <div id="generateHint" class="custom-generate-hint"></div>
+          <button type="button" id="generateBtn" class="big-btn" data-tag="customizables-button" disabled data-i18n="customCreate.generate">Générer le challenge</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Résultat -->
+    <div id="customResultCard" class="center-card hidden" style="margin:16px auto 0; text-align:left;">
+      <div class="custom-result-area">
+        <h3 data-i18n="customCreate.urlGenerated" style="margin:0 0 4px 0;color:#4ade80;">Votre challenge est prêt !</h3>
+        <p class="custom-code-hint" style="margin:0 0 8px 0;" data-i18n="customCreate.urlDesc">Copiez l'URL ci-dessous et partagez-la :</p>
+        <input type="text" id="resultUrl" readonly />
+        <div class="custom-result-actions">
+          <button type="button" id="copyUrlBtn" data-tag="customizables-button" data-i18n="customCreate.copyUrl">Copier l'URL</button>
+          <button type="button" id="openChallengeBtn" data-tag="customizables-button" data-i18n="customCreate.openChallenge">Ouvrir le challenge</button>
+          <button type="button" id="regenerateBtn" class="secondary" data-i18n="customCreate.regenerate">Régénérer</button>
+        </div>
+      </div>
+    </div>
+
+    <button id="retourBtn" class="secondary" style="padding:10px 12px;margin-top:20px;display:block;margin-left:auto;margin-right:auto;" data-i18n="common.backHome">Retour à l'accueil</button>
+  </main>
+
+  <script src="loader.js"></script>
+  <script src="translate.js"></script>
+  <script src="language-switcher.js"></script>
+  <script src="footer.js"></script>
+  <script src="i18n-setup.js"></script>
+  <script src="pokemon.js"></script>
+  <script src="migration.js"></script>
+  <script src="business/challenge-storage.js"></script>
+  <script src="cosmetics.js"></script>
+  <script src="business/custom_challenges/custom-challenge-codec.js"></script>
+  <script src="ui/custom_challenges/custom-create-ui.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var btn = document.getElementById('retourBtn');
+      if (btn) btn.addEventListener('click', function () { window.location.href = './index.html'; });
+      var back = document.querySelector('.btn-back');
+      if (back) back.addEventListener('click', function (e) { e.preventDefault(); window.location.href = './custom.html'; });
+    });
+  </script>
+</body>
+</html>

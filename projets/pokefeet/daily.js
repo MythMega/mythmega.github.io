@@ -184,6 +184,40 @@ const Daily = (function () {
     hintsList.appendChild(li);
   }
 
+  // --- Rechargement automatique des images ---
+  // GitHub sert parfois les images en échec de chargement (blanc/inexistant) :
+  // au lieu de forcer le joueur à rafraîchir, on retente le chargement 1 s plus tard.
+  const MAX_IMG_RETRIES = 10;        // tentatives de renvoi après le premier échec
+  const IMG_RETRY_DELAY_MS = 1000;  // délai avant de retenter (en millisecondes)
+  let imgRetryCount = 0;
+  let imgRetryTimer = null;
+
+  function loadImageWithRetry(el, src) {
+    if (!el) return;
+    src = src || '';
+    // chaque nouvelle image réinitialise le compteur et le timer en attente
+    imgRetryCount = 0;
+    if (imgRetryTimer) { clearTimeout(imgRetryTimer); imgRetryTimer = null; }
+    el.onerror = null;
+    el.onabort = null;
+    el.src = src;
+    if (!src) return; // pas de src → rien à retenter
+    const retryHandler = function () {
+      // garde-fou : on ne boucle jamais indéfiniment
+      if (imgRetryCount >= MAX_IMG_RETRIES) { el.onerror = null; el.onabort = null; return; }
+      imgRetryCount++;
+      const srcToRetry = src;
+      imgRetryTimer = setTimeout(function () {
+        imgRetryTimer = null;
+        // l'image affichée a changé entre-temps (nouveau round) → on n'écrase pas
+        if (el.getAttribute('src') !== srcToRetry) return;
+        el.src = srcToRetry; // recharge la même image
+      }, IMG_RETRY_DELAY_MS);
+    };
+    el.onerror = retryHandler;
+    el.onabort = retryHandler;
+  }
+
   function showReveal(p) {
     if (!p) return;
     revealDiv.classList.remove('hidden');
@@ -191,7 +225,7 @@ const Daily = (function () {
     dIdx.textContent = p.Index;
     dT1.textContent = p.Type1;
     dT2.textContent = p.getDisplayType2();
-    img().src = p.FullImage;
+    loadImageWithRetry(img(), p.FullImage);
   }
 
   function hideReveal() {
@@ -203,7 +237,7 @@ const Daily = (function () {
   }
 
   function showImage(src) {
-    img().src = src || '';
+    loadImageWithRetry(img(), src);
   }
 
   function updateDailyFailedDisplay() {

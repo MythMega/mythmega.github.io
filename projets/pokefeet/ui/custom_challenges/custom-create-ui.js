@@ -4,7 +4,8 @@
 //  - séquence construite par drag & drop (ou ajout par clic)
 //  - tri par index / ordre aléatoire
 //  - nom, auteur (cookie pk_pseudo) et option d'ordre aléatoire en jeu
-//  - génération d'une URL custom_play.html?code=<code>
+//  - génération d'une URL absolue (même base que la page de création)
+ //  -   sous la forme custom_play.html?code=<code>
 
 const CustomCreateUI = (function () {
   let pokemons = [];       // tous les Pokémon (instances de Pokemon)
@@ -296,7 +297,9 @@ const CustomCreateUI = (function () {
     $('generateBtn').disabled = true;
     try {
       const code = await CustomChallengeCodec.encode({ author, name, random, pokemons: selected });
-      const url = 'custom_play.html?code=' + code;
+      // URL absolue : la copie doit être directement utilisable(comme l'URL
+      // ouverte par « Ouvrir le challenge »)), pas une URL relative inefficace une fois partagée。
+      const url = new URL('custom_play.html?code=' + code, window.location.href).href;
 
       $('resultUrl').value = url;
       $('customResultCard').classList.remove('hidden');

@@ -1,0 +1,238 @@
+{
+  "bossName": "Maskadra",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Masquerain_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Masquerain_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 75000,
+  "date": "2026-09-03 21:33:21",
+  "durationSec": 1550,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 56250,
+      "countAtk": 3,
+      "baseDmg": 40009,
+      "level": 19,
+      "raidCount": 1092,
+      "luck": 0.46864456
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 17910,
+      "countAtk": 1,
+      "baseDmg": 17910,
+      "level": 18,
+      "raidCount": 568,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 14119,
+      "countAtk": 1,
+      "baseDmg": 14119,
+      "level": 17,
+      "raidCount": 501,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 2294,
+      "countAtk": 1,
+      "baseDmg": 2294,
+      "level": 12,
+      "raidCount": 152,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 742,
+      "countAtk": 1,
+      "baseDmg": 742,
+      "level": 10,
+      "raidCount": 35,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 89021
+    },
+    {
+      "platform": "youtube",
+      "damage": 2294
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-03 21:34:34",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 56250,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-03 21:35:02",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2294,
+      "pvAfter": 53956,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-03 21:40:04",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 14119,
+      "pvAfter": 39837,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-03 21:40:56",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 21087,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-03 21:42:57",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 742,
+      "pvAfter": 20345,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-03 21:43:28",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 17910,
+      "pvAfter": 2435,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-03 21:59:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

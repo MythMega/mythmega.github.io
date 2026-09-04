@@ -209,11 +209,38 @@ const Weekly = (function () {
   // Override date from URL param ?week=YYYY-MM-DD
   let overrideWeek = null;
   let sessionWeek = null;
+  // Date invalide (non-lundi) demandée dans l'URL — déclenche la popup de redirection.
+  let invalidWeekParam = null;
+
+  // Attendre que le système de traduction soit initialisé avant d'afficher des
+  // textes dynamiques (sinon Translator.get retombe sur les fallbacks français).
+  function translatorReady() {
+    return new Promise((resolve) => {
+      if (typeof Translator === 'undefined') { resolve(); return; }
+      if (Translator.get('common.backHome', null) !== null) { resolve(); return; }
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (Translator.get('common.backHome', null) !== null || Date.now() - start > 4000) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 40);
+    });
+  }
 
   function getWeekFromURL() {
     const params = new URLSearchParams(window.location.search);
     const weekParam = params.get('week');
     if (weekParam && /^\d{4}-\d{2}-\d{2}$/.test(weekParam)) {
+      const parsed = new Date(weekParam + 'T00:00:00');
+      // Vérifier que la date est réelle (rejette les rollovers type 2026-02-30)
+      // et qu'elle tombe bien un lundi (un weekly s'identifie par son lundi).
+      const isRealDate = !isNaN(parsed.getTime()) && dateToStr(parsed) === weekParam;
+      if (!isRealDate || parsed.getDay() !== 1) {
+        invalidWeekParam = weekParam;
+        return null;
+      }
+
       const today = new Date();
       const thisMonday = getMondayOfWeek(today);
       const thisMondayStr = dateToStr(thisMonday);
@@ -225,6 +252,40 @@ const Weekly = (function () {
       return weekParam;
     }
     return null;
+  }
+
+  // Popup "date invalide" : un bouton Valider redirige vers le lundi précédent.
+  function showInvalidDatePopup(rawDate) {
+    const previousMonday = getMondayOfWeek(new Date(rawDate + 'T00:00:00'));
+    const targetWeek = dateToStr(previousMonday);
+
+    const backdrop = document.createElement('div');
+    backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:1000;';
+
+    const popup = document.createElement('div');
+    popup.style.cssText = 'background:var(--card);padding:24px;border-radius:12px;max-width:420px;width:90%;text-align:center;';
+
+    const title = document.createElement('h2');
+    title.textContent = Translator.get('weekly.invalidDateTitle', 'Date invalide');
+    title.style.cssText = 'margin:0 0 14px 0;color:#fff;';
+    popup.appendChild(title);
+
+    const msg = document.createElement('p');
+    msg.textContent = Translator.get('weekly.invalidDateMsg', 'Ce weekly n\'est pas valide : la date doit correspondre à un lundi. Vous allez être redirigé vers le lundi précédent.');
+    msg.style.cssText = 'color:var(--muted);margin:0 0 18px 0;line-height:1.5;';
+    popup.appendChild(msg);
+
+    const btn = document.createElement('button');
+    btn.className = 'secondary';
+    btn.textContent = Translator.get('weekly.goToMonday', 'Valider');
+    btn.style.cssText = 'width:100%;padding:12px;background:var(--accent);color:#052018;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-size:15px;';
+    btn.addEventListener('click', () => {
+      window.location.href = `weekly.html?week=${targetWeek}`;
+    });
+    popup.appendChild(btn);
+
+    backdrop.appendChild(popup);
+    document.body.appendChild(backdrop);
   }
 
   function getWeekSeedStr(d = new Date()) {
@@ -703,9 +764,16 @@ const Weekly = (function () {
   async function init() {
     // Guard: only run on the weekly page
     if (!document.getElementById('weeklyImg')) return;
+    // Attendre que les traductions soient chargées avant d'afficher des textes dynamiques
+    await translatorReady();
     // Wait for migration to finish before opening the DB (prevents concurrent IDB opens on Firefox)
     if (typeof Migration !== 'undefined') await Migration.ready;
     overrideWeek = getWeekFromURL();
+    if (invalidWeekParam) {
+      // Date non-lundi demandée dans l'URL : popup + redirection vers le lundi précédent
+      showInvalidDatePopup(invalidWeekParam);
+      return;
+    }
     try {
       const [pokemonsRes] = await Promise.all([
         fetch('data/pokemons.json'),

@@ -53,6 +53,11 @@
     "correctAnswer": "Réponse correcte = +",
     "pointsReward": "points"
   },
+  "weekly": {
+    "invalidDateTitle": "Date invalide",
+    "invalidDateMsg": "Ce weekly n'est pas valide : la date doit correspondre à un lundi. Vous allez être redirigé vers le lundi précédent.",
+    "goToMonday": "Valider"
+  },
   "practice": {
     "title": "Pokefeet",
     "includes": "Inclut pokémon 1G, 2G, 3G, 4G et leurs formes régionales",

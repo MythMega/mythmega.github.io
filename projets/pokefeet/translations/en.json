@@ -53,6 +53,11 @@
     "correctAnswer": "Correct answer = +",
     "pointsReward": "points"
   },
+  "weekly": {
+    "invalidDateTitle": "Invalid date",
+    "invalidDateMsg": "This weekly is not valid: the date must be a Monday. You will be redirected to the previous Monday.",
+    "goToMonday": "Go to Monday"
+  },
   "practice": {
     "title": "PokéFeet",
     "includes": "Includes Pokémon Gen 1, Gen 2, Gen 3, Gen 4 and their regional forms",

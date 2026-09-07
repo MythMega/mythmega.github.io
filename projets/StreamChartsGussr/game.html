@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="StreamGuessr — partie en cours." />
+  <title>StreamGuessr</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+  <header class="site-header aero">
+    <nav class="header-left">
+      <a class="icon-btn" href="index.html"
+         data-i18n-title="nav.back" data-i18n-aria-label="nav.back"
+         aria-label="Retour" title="Retour">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5"></path>
+          <path d="m12 19-7-7 7-7"></path>
+        </svg>
+      </a>
+      <span class="brand-mini"><strong data-i18n="app.name"></strong></span>
+    </nav>
+    <div class="header-right">
+      <span id="modeBadge" class="chip chip-accent"></span>
+      <span class="streamer-chip">
+        <img id="streamerAvatar" class="avatar" alt="" hidden />
+        <span id="streamerName"></span>
+      </span>
+    </div>
+  </header>
+
+  <main class="page-wrap game-page">
+    <section id="loadingView" class="loading-view">
+      <div class="loader" aria-hidden="true"></div>
+      <h2 data-i18n="loading.title"></h2>
+      <p id="loadingStatus" class="loading-status"></p>
+      <p id="loadingNote" class="loading-note" hidden></p>
+    </section>
+
+    <section id="errorView" class="error-view aero" hidden>
+      <h2 data-i18n="errors.title"></h2>
+      <p id="errorMessage" class="error-message"></p>
+      <div class="win-actions">
+        <button id="retryBtn" class="btn primary" type="button" data-i18n="errors.retry"></button>
+        <a class="btn ghost" href="index.html" data-i18n="errors.home"></a>
+      </div>
+    </section>
+
+    <div id="classicRoot" class="game-root" hidden></div>
+    <div id="compareRoot" class="game-root" hidden></div>
+    <div id="topRoot" class="game-root" hidden></div>
+  </main>
+
+  <script type="module" src="scripts/ui/game-page.js"></script>
+</body>
+</html>

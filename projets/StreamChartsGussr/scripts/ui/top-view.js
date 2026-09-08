@@ -1,13 +1,18 @@
 /**
- * Vue du mode Top : une grille de cartes en noir et blanc, un input avec
- * autocompletion. Chaque bonne reponse allume sa carte (nom + temps reveles).
- * La progression est suivie jusqu'a trouver tout le top.
+ * Vue du mode Top : une grille de cartes en noir et blanc, un champ de saisie
+ * avec autocompletion maison (insensible a la casse et aux accents, recherche
+ * inter-mots, correspondance exacte proposee en premier, filtre recalcule
+ * 0,5 s apres la derniere frappe), des boutons Indice et Abandonner, puis un
+ * recapitulatif de fin de partie.
  */
 import TopGame from '../business/top-game.js';
 import { t } from './i18n.js';
 import { el, applyGameImage, formatHours } from './dom.js';
-import { play, shake, pop, pulse } from './animations.js';
+import { play, shake, pop, pulse, revealIndexed } from './animations.js';
 import { buildTopShell, normalizeName } from './top-shell.js';
+
+const SUGGESTION_LIMIT = 8;
+const SUGGESTION_DELAY = 250; // debounce : filtre relance 0,5 s apres la derniere frappe
 
 export function createTopView(root, entries, difficulty, extraSuggestions = []) {
   const game = new TopGame(entries, difficulty, extraSuggestions);
@@ -22,42 +27,78 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
     progressTotal: document.getElementById('topProgressTotal'),
     progressBar: document.getElementById('topProgressBar'),
     grid: document.getElementById('topGrid'),
-    datalist: document.getElementById('topSuggestions'),
     form: document.getElementById('topForm'),
     input: document.getElementById('topInput'),
+    suggestions: document.getElementById('topSuggestionsList'),
+    submitBtn: document.getElementById('topSubmit'),
+    hintBtn: document.getElementById('topHint'),
+    giveUpBtn: document.getElementById('topGiveUp'),
     feedback: document.getElementById('topFeedback'),
-    winPanel: document.getElementById('topWinPanel'),
-    winCount: document.getElementById('topWinCount'),
+    recap: document.getElementById('topRecap'),
+    recapResult: document.getElementById('topRecapResult'),
+    recapTitle: document.getElementById('topRecapTitle'),
+    recapDesc: document.getElementById('topRecapDesc'),
+    recapTime: document.getElementById('topRecapTime'),
+    recapCorrect: document.getElementById('topRecapCorrect'),
+    recapWrong: document.getElementById('topRecapWrong'),
     replayBtn: document.getElementById('topReplay'),
   };
 
-  game.start();
-  populateDatalist();
+  let suggestionNodes = [];
+  let activeSuggestion = -1;
+  let suggestionTimer = null;
+  let finalSeconds = 0;
+  let confirmTimer = null;
+
   renderGrid();
   renderProgress();
+
+  /* --------------------------- Evenements --------------------------- */
 
   dom.form.addEventListener('submit', (event) => {
     event.preventDefault();
     submitGuess();
   });
 
-  dom.replayBtn.addEventListener('click', () => {
-    game.start();
-    resetCards();
-    renderProgress();
-    dom.winPanel.hidden = true;
-    dom.grid.hidden = false;
-    dom.input.value = '';
-    dom.input.disabled = false;
-    dom.input.focus();
+  dom.input.addEventListener('input', scheduleSuggestions);
+  dom.input.addEventListener('blur', hideSuggestions);
+
+  dom.input.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      // Navigation clavier : le filtre en attente est applique immediatement.
+      event.preventDefault();
+      updateSuggestions();
+      moveActiveSuggestion(event.key === 'ArrowDown' ? 1 : -1);
+      return;
+    }
+    if (dom.suggestions.hidden) return;
+    if (event.key === 'Enter' && activeSuggestion >= 0) {
+      // Entrée sélectionne la suggestion mise en avant au lieu de valider.
+      event.preventDefault();
+      pickSuggestion(activeSuggestion);
+    } else if (event.key === 'Escape') {
+      hideSuggestions();
+    }
   });
 
-  function populateDatalist() {
-    dom.datalist.replaceChildren();
-    game.allNames.forEach((name) => {
-      dom.datalist.append(el('option', { attrs: { value: name } }));
-    });
-  }
+  dom.hintBtn.addEventListener('click', giveHint);
+
+  // Abandon en deux clics pour eviter les fausses manipulations.
+  dom.giveUpBtn.addEventListener('click', () => {
+    if (game.isOver) return;
+    if (!dom.giveUpBtn.classList.contains('is-confirming')) {
+      dom.giveUpBtn.classList.add('is-confirming');
+      dom.giveUpBtn.textContent = t('top.giveUpConfirm');
+      confirmTimer = setTimeout(resetGiveUpButton, 3000);
+      return;
+    }
+    giveUp();
+  });
+  dom.giveUpBtn.addEventListener('blur', resetGiveUpButton);
+
+  dom.replayBtn.addEventListener('click', replay);
+
+  /* ----------------------------- Rendu ------------------------------ */
 
   function renderGrid() {
     dom.grid.replaceChildren();
@@ -67,11 +108,12 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
       const rank = el('span', { className: 'top-card-rank', text: '#' + (index + 1) });
       const art = el('img', { className: 'top-card-art', attrs: { alt: '', loading: 'lazy' } });
       applyGameImage(art, entry.boxArtUrl);
+      const hint = el('span', { className: 'top-card-hint', attrs: { 'aria-hidden': 'true' } });
       const nameEl = el('span', { className: 'top-card-name' });
       const timeEl = el('span', { className: 'top-card-time' });
-      card.append(rank, art, nameEl, timeEl);
+      card.append(rank, art, hint, nameEl, timeEl);
       dom.grid.append(card);
-      cardNodes.set(normalizeName(entry.name), { card, name: nameEl, time: timeEl, entry });
+      cardNodes.set(normalizeName(entry.name), { card, name: nameEl, time: timeEl, hint, entry });
     });
   }
 
@@ -82,26 +124,103 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
   }
 
   function resetCards() {
-    cardNodes.forEach(({ card, name, time }) => {
-      card.classList.remove('is-found');
+    cardNodes.forEach(({ card, name, time, hint }) => {
+      card.classList.remove('is-found', 'is-hinted', 'is-revealed');
       name.textContent = '';
       time.textContent = '';
+      hint.textContent = '';
     });
   }
 
+  /* ------------------------- Autocompletion ------------------------- */
+
+  function updateSuggestions() {
+    clearTimeout(suggestionTimer);
+    const matches = game.search(dom.input.value).slice(0, SUGGESTION_LIMIT);
+    suggestionNodes = [];
+    activeSuggestion = -1;
+    dom.suggestions.replaceChildren();
+    if (!matches.length) {
+      hideSuggestions();
+      return;
+    }
+    matches.forEach((name, index) => {
+      const item = el('li', {
+        className: 'top-suggestion',
+        attrs: { role: 'option', id: `topSuggestion-${index}` },
+        text: name,
+      });
+      item.addEventListener('mousedown', (event) => {
+        event.preventDefault(); // evite le blur de l'input avant le clic
+        pickSuggestion(index);
+      });
+      dom.suggestions.append(item);
+      suggestionNodes.push(item);
+    });
+    dom.suggestions.hidden = false;
+  }
+
+  function moveActiveSuggestion(step) {
+    if (!suggestionNodes.length) return;
+    const next = (activeSuggestion + step + suggestionNodes.length) % suggestionNodes.length;
+    setActiveSuggestion(next);
+  }
+
+  function setActiveSuggestion(index) {
+    if (activeSuggestion >= 0 && suggestionNodes[activeSuggestion]) {
+      suggestionNodes[activeSuggestion].classList.remove('is-active');
+      suggestionNodes[activeSuggestion].removeAttribute('aria-selected');
+    }
+    activeSuggestion = index;
+    const node = suggestionNodes[index];
+    node.classList.add('is-active');
+    node.setAttribute('aria-selected', 'true');
+    node.scrollIntoView({ block: 'nearest' });
+  }
+
+  function pickSuggestion(index) {
+    dom.input.value = suggestionNodes[index].textContent;
+    hideSuggestions();
+    dom.input.focus();
+  }
+
+  /** Debounce : recalcule la liste seulement 0,5 s apres la derniere frappe. */
+  function scheduleSuggestions() {
+    clearTimeout(suggestionTimer);
+    if (!dom.input.value.trim()) {
+      hideSuggestions();
+      return;
+    }
+    suggestionTimer = setTimeout(updateSuggestions, SUGGESTION_DELAY);
+  }
+
+  function hideSuggestions() {
+    // Annule tout filtre en attente : la liste ne doit pas ressusciter
+    // apres un blur, un Escape, une validation ou une fin de partie.
+    clearTimeout(suggestionTimer);
+    dom.suggestions.hidden = true;
+    suggestionNodes = [];
+    activeSuggestion = -1;
+  }
+
+  /* ------------------------------ Jeu ------------------------------- */
+
   function submitGuess() {
-    if (game.isComplete) return;
-    const raw = dom.input.value;
-    const result = game.guess(raw);
+    if (game.isOver) return;
+    const result = game.guess(dom.input.value);
     dom.input.value = '';
-    if (!result) { shake(dom.input); return; }
+    hideSuggestions();
+    if (result.status === 'invalid') {
+      shake(dom.input);
+      return;
+    }
     switch (result.status) {
       case 'found':
         revealCard(result.game);
         renderProgress();
         showFeedback('good', t('top.found', { name: result.game.name }));
         pulse(dom.grid);
-        if (game.isComplete) setTimeout(showWin, 700);
+        if (game.isComplete) setTimeout(() => showRecap(true), 700);
         break;
       case 'already':
         showFeedback('warn', t('top.already'));
@@ -116,9 +235,99 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
     }
   }
 
+  function giveHint() {
+    if (game.isOver) return;
+    const hint = game.hint();
+    if (!hint) {
+      dom.hintBtn.disabled = true;
+      return;
+    }
+    const node = cardNodes.get(normalizeName(hint.game.name));
+    if (node) {
+      node.hint.textContent = hint.letter;
+      node.card.classList.add('is-hinted');
+      pulse(node.card);
+    }
+    showFeedback('warn', t('top.hintUsed', { letter: hint.letter }));
+
+    // Plus aucun indice disponible si tout le reste est deja trouve ou annonce.
+    const noHintsLeft = game.targets.every((entry) => {
+      const key = normalizeName(entry.name);
+      return game.found.has(key) || game.hinted.has(key);
+    });
+    if (noHintsLeft) dom.hintBtn.disabled = true;
+  }
+
+  function giveUp() {
+    if (game.isOver) return;
+    game.abandon();
+    game.remaining.forEach((entry, index) => {
+      const node = cardNodes.get(normalizeName(entry.name));
+      if (!node) return;
+      node.hint.textContent = '';
+      node.card.classList.remove('is-hinted');
+      node.card.classList.add('is-revealed');
+      node.name.textContent = entry.name;
+      node.time.textContent = formatHours(entry.hours) + ' h';
+      revealIndexed(node.card, index);
+    });
+    showFeedback('bad', t('top.gaveUp'));
+    showRecap(false);
+  }
+
+  /* ----------------------------- Recap ------------------------------ */
+
+  function showRecap(success) {
+    finalSeconds = game.elapsedSeconds;
+    dom.grid.hidden = true;
+    dom.feedback.hidden = true;
+    hideSuggestions();
+    dom.input.disabled = true;
+    dom.submitBtn.disabled = true;
+    dom.hintBtn.disabled = true;
+    dom.giveUpBtn.disabled = true;
+    resetGiveUpButton();
+
+    dom.recapResult.textContent = t(success ? 'top.resultSuccess' : 'top.resultFailure');
+    dom.recapResult.className = 'result-chip ' + (success ? 'is-success' : 'is-fail');
+    dom.recapTitle.textContent = t(success ? 'top.won' : 'top.gaveUp');
+    dom.recapDesc.textContent = t(success ? 'top.wonDesc' : 'top.gaveUpDesc');
+    dom.recapTime.textContent = formatDuration(finalSeconds);
+    dom.recapCorrect.textContent = String(game.correctGuesses);
+    dom.recapWrong.textContent = String(game.wrongGuesses);
+    dom.recap.hidden = false;
+    pop(dom.recap);
+  }
+
+  function replay() {
+    game.start();
+    finalSeconds = 0;
+    resetCards();
+    renderProgress();
+    dom.recap.hidden = true;
+    dom.grid.hidden = false;
+    dom.feedback.hidden = true;
+    hideSuggestions();
+    dom.input.value = '';
+    dom.input.disabled = false;
+    dom.submitBtn.disabled = false;
+    dom.hintBtn.disabled = false;
+    dom.giveUpBtn.disabled = false;
+    resetGiveUpButton();
+    dom.input.focus();
+  }
+
+  function resetGiveUpButton() {
+    clearTimeout(confirmTimer);
+    dom.giveUpBtn.classList.remove('is-confirming');
+    dom.giveUpBtn.textContent = t('top.giveUp');
+  }
+
   function revealCard(entry) {
     const node = cardNodes.get(normalizeName(entry.name));
     if (!node) return;
+    node.hint.textContent = '';
+    node.card.classList.remove('is-hinted');
     node.card.classList.add('is-found');
     node.name.textContent = entry.name;
     node.time.textContent = formatHours(entry.hours) + ' h';
@@ -134,11 +343,10 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
     showFeedback._timer = setTimeout(() => { dom.feedback.hidden = true; }, 2200);
   }
 
-  function showWin() {
-    dom.grid.hidden = true;
-    dom.winPanel.hidden = false;
-    dom.winCount.textContent = String(game.total);
-    dom.input.disabled = true;
-    pop(dom.winPanel);
+  /** Duree lisible sous la forme m:ss (ex. 3:27). */
+  function formatDuration(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${String(seconds).padStart(2, '0')}`;
   }
 }

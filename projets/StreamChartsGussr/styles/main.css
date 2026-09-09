@@ -1197,8 +1197,57 @@ select.input option {
 
 .top-form {
   display: flex;
+  align-items: stretch;
   gap: 10px;
   margin-bottom: 14px;
+}
+
+.top-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.top-suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  /* Surface opaque : la teinte "surface" est posee en image sur un fond
+     plein, pour que ce qui se trouve sous la liste ne transpare pas. */
+  background-color: var(--bg-base);
+  background-image: linear-gradient(var(--surface), var(--surface));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-aero);
+  max-height: 264px;
+  overflow-y: auto;
+}
+
+.top-suggestion {
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.top-suggestion:hover,
+.top-suggestion.is-active {
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
 }
 
 .top-input {
@@ -1343,19 +1392,233 @@ select.input option {
   font-weight: 600;
 }
 
-.top-win {
-  text-align: center;
-  padding: 32px 24px;
+.top-card-hint {
+  display: none;
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--warn);
 }
 
-.top-win .win-title {
-  margin-bottom: 8px;
+.top-card.is-hinted {
+  border-color: color-mix(in srgb, var(--warn) 55%, transparent);
+}
+
+.top-card.is-hinted .top-card-hint {
+  display: block;
+  animation: pulse-soft 1.6s ease-in-out infinite;
+}
+
+/* Carte revelee par l'abandon : visible mais jamais devinee. */
+.top-card.is-revealed {
+  border-color: color-mix(in srgb, var(--warn) 45%, transparent);
+}
+
+.top-card.is-revealed .top-card-art {
+  filter: grayscale(1) brightness(0.55);
+}
+
+.top-card.is-revealed .top-card-name {
+  color: var(--muted-strong);
+  background: transparent;
+}
+
+.top-card.is-revealed .top-card-time {
+  color: var(--muted);
+  background: transparent;
+  font-weight: 600;
+}
+
+.top-recap {
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.top-recap .win-title {
+  margin-bottom: 2px;
+}
+
+.win-subtitle {
+  color: var(--muted-strong);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 420px;
+}
+
+.result-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.result-chip.is-success {
+  color: var(--good);
+  border-color: color-mix(in srgb, var(--good) 50%, transparent);
+  background: color-mix(in srgb, var(--good) 14%, transparent);
+}
+
+.result-chip.is-fail {
+  color: var(--bad);
+  border-color: color-mix(in srgb, var(--bad) 50%, transparent);
+  background: color-mix(in srgb, var(--bad) 14%, transparent);
+}
+
+.top-recap-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+  width: 100%;
+}
+
+.top-recap-stats .stat {
+  flex: 0 1 160px;
+  min-width: 130px;
 }
 
 /* ------------------------------------------------------------------ */
 
 /* ---------------- 14. Responsive ---------------- */
 
+/* ------------- Autocompletion generique (mode Time) ------------- */
+
+.autocomplete {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background-color: var(--bg-base);
+  background-image: linear-gradient(var(--surface), var(--surface));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-aero);
+  max-height: 264px;
+  overflow-y: auto;
+}
+
+.autocomplete-item {
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.is-active {
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+/* ---------------- Mode Time ---------------- */
+
+.time-form {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 380px;
+  margin-top: 6px;
+}
+
+.time-target {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+}
+
+.time-target-value {
+  font-size: clamp(2.6rem, 7vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.time-target-unit {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--muted-strong);
+}
+
+.time-question {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted-strong);
+  margin: 2px 0 6px;
+}
+
+.history-empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 6px 2px;
+}
+
+.guess-arrow.miss {
+  color: var(--bad);
+  background: color-mix(in srgb, var(--bad) 14%, transparent);
+}
+
+.guess-arrow.already {
+  color: var(--warn);
+  background: color-mix(in srgb, var(--warn) 14%, transparent);
+}
+
+.time-win-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.time-win-card {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  min-width: 120px;
+}
+
+.time-win-card .art-wrap {
+  width: 108px;
+}
+
+.time-win-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  max-width: 150px;
+  overflow-wrap: anywhere;
+}
+
+.time-win-hours {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-strong);
+}
+
+/* ------------------------------------------------------------------ */
 @media (max-width: 860px) {
   .game-layout {
     grid-template-columns: 1fr;
@@ -1403,6 +1666,27 @@ select.input option {
     .top-grid {
     grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
     gap: 8px;
+  }
+
+  .top-form {
+    flex-direction: column;
+  }
+
+  .time-form {
+    flex-direction: column;
+  }
+
+  .time-form .autocomplete,
+  .time-form .btn {
+    width: 100%;
+  }
+
+  .top-actions {
+    width: 100%;
+  }
+
+  .top-actions .btn {
+    flex: 1;
   }
 
   .top-card .top-card-art {

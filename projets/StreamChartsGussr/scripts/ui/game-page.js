@@ -15,9 +15,10 @@ import { buildGamePool, PoolTooSmallError, MIN_HOURS_CLASSIC, MIN_HOURS_COMPARE 
 import { createClassicView } from './classic-view.js';
 import { createCompareView } from './compare-view.js';
 import { createTopView } from './top-view.js';
+import { createTimeView } from './time-view.js';
 import { loadCats } from '../data/cats-store.js';
 
-const VALID_MODES = ['classic', 'compare', 'top'];
+const VALID_MODES = ['classic', 'compare', 'top', 'time'];
 const VALID_DIFFICULTIES = ['easy', 'medium', 'hard'];
 
 export async function runGame() {
@@ -41,9 +42,15 @@ export async function runGame() {
   const classicRoot = $('#classicRoot');
   const compareRoot = $('#compareRoot');
   const topRoot = $('#topRoot');
+  const timeRoot = $('#timeRoot');
 
   $('#streamerName').textContent = requestedName;
-  $('#modeBadge').textContent = t(mode === 'classic' ? 'classic.badge' : mode === 'top' ? 'top.badge' : 'compare.badge');
+  $('#modeBadge').textContent = t(
+    mode === 'classic' ? 'classic.badge'
+      : mode === 'top' ? 'top.badge'
+      : mode === 'time' ? 'time.badge'
+      : 'compare.badge'
+  );
   document.title = `${requestedName} · ${t('app.name')}`;
 
   const statusLine = $('#loadingStatus');
@@ -60,6 +67,7 @@ export async function runGame() {
   hide(classicRoot);
   hide(compareRoot);
   hide(topRoot);
+  hide(timeRoot);
   loadingNote.hidden = true;
 
   // Rejouer re-exécute tout le chargement (nouvel appel réseau si besoin).
@@ -92,13 +100,13 @@ export async function runGame() {
       createTopView(topRoot, games, difficultyLevel, cats);
     } else {
       const pool = buildGamePool(games, {
-        minHours: mode === 'classic' ? MIN_HOURS_CLASSIC : MIN_HOURS_COMPARE,
+        minHours: mode === 'classic' || mode === 'time' ? MIN_HOURS_CLASSIC : MIN_HOURS_COMPARE,
       });
-      const targetRoot = mode === 'classic' ? classicRoot : compareRoot;
-      show(targetRoot);
 
       if (mode === 'classic') {
         createClassicView(classicRoot, pool);
+      } else if (mode === 'time') {
+        createTimeView(timeRoot, pool);
       } else {
         createCompareView(compareRoot, pool);
       }

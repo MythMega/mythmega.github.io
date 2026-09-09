@@ -1487,6 +1487,138 @@ select.input option {
 
 /* ---------------- 14. Responsive ---------------- */
 
+/* ------------- Autocompletion generique (mode Time) ------------- */
+
+.autocomplete {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background-color: var(--bg-base);
+  background-image: linear-gradient(var(--surface), var(--surface));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-aero);
+  max-height: 264px;
+  overflow-y: auto;
+}
+
+.autocomplete-item {
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.is-active {
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+/* ---------------- Mode Time ---------------- */
+
+.time-form {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 380px;
+  margin-top: 6px;
+}
+
+.time-target {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+}
+
+.time-target-value {
+  font-size: clamp(2.6rem, 7vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.time-target-unit {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--muted-strong);
+}
+
+.time-question {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted-strong);
+  margin: 2px 0 6px;
+}
+
+.history-empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 6px 2px;
+}
+
+.guess-arrow.miss {
+  color: var(--bad);
+  background: color-mix(in srgb, var(--bad) 14%, transparent);
+}
+
+.guess-arrow.already {
+  color: var(--warn);
+  background: color-mix(in srgb, var(--warn) 14%, transparent);
+}
+
+.time-win-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.time-win-card {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  min-width: 120px;
+}
+
+.time-win-card .art-wrap {
+  width: 108px;
+}
+
+.time-win-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  max-width: 150px;
+  overflow-wrap: anywhere;
+}
+
+.time-win-hours {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-strong);
+}
+
+/* ------------------------------------------------------------------ */
 @media (max-width: 860px) {
   .game-layout {
     grid-template-columns: 1fr;
@@ -1538,6 +1670,15 @@ select.input option {
 
   .top-form {
     flex-direction: column;
+  }
+
+  .time-form {
+    flex-direction: column;
+  }
+
+  .time-form .autocomplete,
+  .time-form .btn {
+    width: 100%;
   }
 
   .top-actions {

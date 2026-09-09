@@ -1,17 +1,18 @@
 /**
- * Client HTTP minimal vers l'API publique de SullyGnome.
+ * Client HTTP vers l'API publique de SullyGnome.
  *
  * SullyGnome n'envoie aucun en-tête CORS : un navigateur ne peut pas lire
- * ses réponses depuis une autre origine. On passe donc par des relais CORS
- * publics (allorigins), éventuellement précédés d'un relais personnel
- * configuré dans les Réglages (le moyen le plus fiable : un Worker
- * Cloudflare déployé en 2 minutes, voir worker/worker.js).
+ * ses réponses depuis une autre origine. On contourne donc par :
+ *   1. les données locales embarquees dans `data/main_users/` (pré-récupérées
+ *      par `data/main_users/grab/script.py`) : instantanees, fiables, aucune
+ *      requete reseau ni probleme CORS — utilisées EN PREMIER,
+ *   2. des relais CORS publics tentes EN PARALLELE (Promise.any) pour les
+ *      profils non embarques, eventuellement precedes d'un relais personnel
+ *      configure dans les Reglages (un Worker Cloudflare, voir worker/).
  *
- * Les relais sont tentés EN PARALLÈLE (Promise.any) : la première réponse
- * valide gagne, un relais lent ne bloque plus les autres.
- * NB : l'URL cible contient une espace littérale pour le filtre vide (le
- * `%20` attendu par SullyGnome). Si on écrivait `%20` ici, encodeURIComponent
- * produirait `%2520`, que les relais n'acceptent pas.
+ * NB : l'URL des jeux contient une espace litterale pour le filtre vide (le
+ * `%20` attendu par SullyGnome). On n'ecrit donc pas `%20` ici : sinon
+ * encodeURIComponent produirait `%2520`, que les relais n'acceptent pas.
  */
 import Streamer from '../models/Streamer.js';
 import { parseGameRow } from '../models/GameEntry.js';
@@ -22,9 +23,9 @@ const BASE_URL = 'https://sullygnome.com';
 const DEFAULT_PERIOD_DAYS = 7300;
 const DEFAULT_GAME_LIMIT = 200;
 
-const REQUEST_TIMEOUT_MS = 12_000;
-const RETRY_ROUNDS = 3;
-const RETRY_DELAY_BASE_MS = 600;
+const REQUEST_TIMEOUT_MS = 10_000;
+const RETRY_ROUNDS = 2;
+const RETRY_DELAY_BASE_MS = 400;
 const GAMES_PER_PAGE = 100; // SullyGnome plafonne chaque page à 100 lignes
 const NON_EXTENDED_LIMIT = 50; // Nombre de jeux par défaut (mode normal)
 
@@ -45,16 +46,22 @@ function readUseAllorigins() {
 }
 
 /**
- * Relais CORS publics de secours. allorigins est le plus connu mais peut
- * renvoyer des 522 ; on ajoute deux alternatives pour ne pas dépendre d'un
- * seul point de défaillance. Désactivables via le toggle "allorigins"
- * dans les Réglages (au cas où l'utilisateur préférerait son Worker).
+ * Relais CORS publics de secours, tentes EN PARALLELE : la première réponse
+ * valide gagne. Ces relais gratuits sont volontairement instables (limite de
+ * debit, blocages), d'ou la priorite donnee aux donnees locales embarquees.
+ *
+ * - allorigins (2 formes) : le plus connu ; peut renvoyer des 522/429.
+ * - codetabs proxy : parametre `?quest=` (et non `?uri=`) ; plutot fiable.
+ * - cors.isomorphic-git.org : relais "path" maintenu par le projet isomorphic-git.
+ *
+ * corsproxy.io N'EST PAS inclus : depuis 2024 il exige un abonnement payant
+ * et repond sans en-tete CORS pour les requetes gratuites (HTTP 200 bloque).
  */
 const PUBLIC_RELAYS = [
   { template: 'https://api.allorigins.win/get?url=', unwrap: true },
   { template: 'https://api.allorigins.win/raw?url=', unwrap: false },
-  { template: 'https://corsproxy.io/?uri=', unwrap: false },
-  { template: 'https://api.codetabs.com/v1/proxy?uri=', unwrap: false },
+  { template: 'https://api.codetabs.com/v1/proxy?quest=', unwrap: false },
+  { template: 'https://cors.isomorphic-git.org/', unwrap: false, path: true },
 ];
 
 /**
@@ -77,8 +84,10 @@ function buildRelays(url) {
   }
 
   if (readUseAllorigins()) {
-    for (const { template, unwrap } of PUBLIC_RELAYS) {
-      const proxyUrl = `${template}${encodeURIComponent(url)}`;
+    for (const { template, unwrap, path } of PUBLIC_RELAYS) {
+      // Relais "path" (cors.isomorphic-git.org) : l'URL est concaténée telle
+      // quelle, sans encodage (le serveur reconstruit la cible depuis le chemin).
+      const proxyUrl = path ? `${template}${url}` : `${template}${encodeURIComponent(url)}`;
       relays.push({ build: () => proxyUrl, unwrap });
     }
   }
@@ -199,8 +208,8 @@ async function fetchThroughProxy(url, proxy, { signal } = {}) {
 
 /**
  * Boucles sur l'ensemble des relais en parallèle, avec backoff entre les
- * rounds. On attend au plus ~36 s au total : inutile de laisser patienter
- * davantage, le cache expiré ou l'écran d'erreur prennent le relais.
+ * rounds. Au pire ~21 s : inutile de laisser patienter davantage, le cache
+ * (IndexedDB) ou les données locales embarquées prennent le relais.
  */
 async function requestJson(url) {
   let lastError = null;
@@ -227,33 +236,46 @@ function sleep(ms) {
  * Recherche un pseudo Twitch et renvoie le Streamer correspondant,
  * ou null s'il est introuvable.
  *
- * Stratégie : réseau d'abord, puis données locales embarquées dans
- * `data/main_users/profile_data/` en fallback (utile quand les relais
- * CORS publics sont down).
+ * Stratégie : données locales embarquees d'abord (`data/main_users/profile_data/`,
+ * pré-récupérées par grab/script.py) ; le reseau SullyGnome via relais CORS
+ * n'est sollicité que pour les profils non embarques.
  */
 export async function searchStreamerByName(pseudo) {
-  const url = `${BASE_URL}/api/standardsearch/${encodeURIComponent(pseudo)}`;
+  // 1) Données locales embarquees (grab/script.py) : instantanées, aucune
+  //    requête réseau ni erreur CORS possible.
+  const localRows = await fetchLocalProfile(pseudo);
+  if (Array.isArray(localRows) && localRows.length) {
+    const localStreamer = buildStreamer(localRows);
+    if (localStreamer) return localStreamer;
+  }
 
+  // 2) Réseau SullyGnome via les relais CORS (profils non embarques).
+  const url = `${BASE_URL}/api/standardsearch/${encodeURIComponent(pseudo)}`;
   let results;
   try {
     results = await requestJson(url);
   } catch (networkError) {
-    // Fallback : données locales embarquées.
-    results = await fetchLocalProfile(pseudo);
-    if (!results) throw networkError;
+    // Relais indisponibles : on ressort des données locales si elles existent.
+    const retryLocal = await fetchLocalProfile(pseudo);
+    if (!Array.isArray(retryLocal) || retryLocal.length === 0) throw networkError;
+    results = retryLocal;
   }
 
+  // Réponse réseau vide : dernière tentative en local.
   if (!Array.isArray(results) || results.length === 0) {
-    // Dernière tentative : données locales.
-    results = await fetchLocalProfile(pseudo);
-    if (!Array.isArray(results) || results.length === 0) return null;
+    const retryLocal = await fetchLocalProfile(pseudo);
+    if (Array.isArray(retryLocal) && retryLocal.length) results = retryLocal;
+    else return null;
   }
 
-  // `itemtype: 1` désigne une chaîne ; on préfère ces entrées aux jeux,
-  // puis on accepte la première entrée possédant un `siteurl`.
+  return buildStreamer(results) || null;
+}
+
+/** `itemtype: 1` désigne une chaîne ; on préfère ces entrées aux jeux. */
+function buildStreamer(rows) {
   const candidate =
-    results.find((entry) => Number(entry.itemtype) === 1) ||
-    results.find((entry) => entry.siteurl);
+    rows.find((entry) => Number(entry.itemtype) === 1) ||
+    rows.find((entry) => entry.siteurl);
   if (!candidate) return null;
 
   return new Streamer({
@@ -316,38 +338,43 @@ export async function fetchStreamerGames(
     if (pages.length >= 10) break; // garde-fou : jamais plus de 1000 jeux
   }
 
-  try {
-    const results = await Promise.allSettled(
-      pages.map((offset) =>
-        requestJson(
-          `${BASE_URL}/api/tables/channeltables/games/${periodDays}/${sullyId}/ /1/2/desc/${offset}/${GAMES_PER_PAGE}`
-        )
-      )
-    );
-
-    const rows = results.flatMap((result) =>
-      result.status === 'fulfilled' && Array.isArray(result.value && result.value.data)
-        ? result.value.data
-        : []
-    );
-
-    if (rows.length > 0) {
-      return rows.map(parseGameRow).filter(Boolean);
-    }
-  } catch (apiError) {
-    // L'API a échoué : on tente le fallback local ci-dessous.
-  }
-
-  // Fallback : données locales embarquées (quand les relais CORS sont down).
+  // 1) Données locales embarquees d'abord (grab/script.py) : instantanées,
+  //    sans réseau ni CORS. Limitées au nombre de jeux demandé.
   if (pseudo) {
     const localGames = await fetchLocalGames(pseudo);
     if (localGames.length > 0) {
-      // Limiter au nombre demandé.
       return localGames.slice(0, gameLimit);
     }
   }
 
-  throw new Error('Aucune donnée de jeu récupérée (réseau et cache local vides)');
+  // 2) Réseau SullyGnome via les relais CORS (profils non embarqués).
+  const results = await Promise.allSettled(
+    pages.map((offset) =>
+      requestJson(
+        `${BASE_URL}/api/tables/channeltables/games/${periodDays}/${sullyId}/ /1/2/desc/${offset}/${GAMES_PER_PAGE}`
+      )
+    )
+  );
+
+  const rows = results.flatMap((result) =>
+    result.status === 'fulfilled' && Array.isArray(result.value && result.value.data)
+      ? result.value.data
+      : []
+  );
+
+  if (rows.length > 0) {
+    return rows.map(parseGameRow).filter(Boolean);
+  }
+
+  // 3) Dernier recours : relecture des données locales embarquees.
+  if (pseudo) {
+    const localGames = await fetchLocalGames(pseudo);
+    if (localGames.length > 0) {
+      return localGames.slice(0, gameLimit);
+    }
+  }
+
+  throw new Error('Aucune donnée de jeu récupérée (réseau et données locales vides)');
 }
 
 /**

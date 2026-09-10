@@ -1,0 +1,282 @@
+{
+  "bossName": "Coquiperl",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clamperl_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clamperl_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 65000,
+  "date": "2026-09-10 20:47:36",
+  "durationSec": 3871,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 65000,
+      "countAtk": 4,
+      "baseDmg": 40599,
+      "level": 20,
+      "raidCount": 1096,
+      "luck": 0.40025616
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 4754,
+      "countAtk": 2,
+      "baseDmg": 1562,
+      "level": 11,
+      "raidCount": 76,
+      "luck": 1.521767
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 2414,
+      "countAtk": 1,
+      "baseDmg": 2414,
+      "level": 12,
+      "raidCount": 156,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 1785,
+      "countAtk": 1,
+      "baseDmg": 1785,
+      "level": 11,
+      "raidCount": 84,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "frenchmusic_en_force",
+      "damage": 1744,
+      "countAtk": 3,
+      "baseDmg": 284,
+      "level": 3,
+      "raidCount": 0,
+      "luck": 2.0469482
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 66785
+    },
+    {
+      "platform": "youtube",
+      "damage": 8912
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-10 20:48:16",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 48750,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:48:22",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1562,
+      "pvAfter": 47188,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:52:02",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 284,
+      "pvAfter": 46904,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:54:43",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 30654,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-09-10 21:00:10",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 634,
+      "pvAfter": 30020,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 21:04:07",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1785,
+      "pvAfter": 28235,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 21:21:22",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2414,
+      "pvAfter": 25821,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 21:36:43",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 826,
+      "pvAfter": 24995,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 21:45:15",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 3192,
+      "pvAfter": 21803,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 21:46:25",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 5553,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-09-10 21:52:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

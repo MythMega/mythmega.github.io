@@ -1,0 +1,244 @@
+{
+  "bossName": "Poissoroy",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seaking_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Seaking_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-09-10 20:13:06",
+  "durationSec": 1865,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 50000,
+      "countAtk": 4,
+      "baseDmg": 40593,
+      "level": 19,
+      "raidCount": 1095,
+      "luck": 0.30793488
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 2477,
+      "countAtk": 1,
+      "baseDmg": 2477,
+      "level": 12,
+      "raidCount": 155,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "frenchmusic_en_force",
+      "damage": 1646,
+      "countAtk": 4,
+      "baseDmg": 280,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1.4696429
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 1465,
+      "countAtk": 1,
+      "baseDmg": 1465,
+      "level": 11,
+      "raidCount": 75,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 5588
+    },
+    {
+      "platform": "twitch",
+      "damage": 50000
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-10 20:15:50",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 280,
+      "pvAfter": 49720,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:17:25",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 37220,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:23:51",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 24720,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:32:25",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 12220,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-09-10 20:32:35",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1465,
+      "pvAfter": 10755,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:38:05",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 652,
+      "pvAfter": 10103,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:39:13",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2477,
+      "pvAfter": 7626,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:39:37",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 336,
+      "pvAfter": 7290,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:43:04",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 378,
+      "pvAfter": 6912,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-10 20:44:11",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    }
+  ]
+}

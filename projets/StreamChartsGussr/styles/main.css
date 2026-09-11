@@ -433,16 +433,20 @@ select.input option {
   font-weight: 600;
 }
 
+.footer-credit {
+  margin-top: 6px;
+}
+
 .toast-region {
   position: fixed;
-  bottom: 84px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 74px;
+  right: 16px;
   z-index: 60;
   display: grid;
   gap: 8px;
   width: max-content;
-  max-width: min(92vw, 480px);
+  max-width: min(92vw, 400px);
+  pointer-events: none;
 }
 
 .toast {
@@ -458,9 +462,27 @@ select.input option {
   border-color: color-mix(in srgb, var(--good) 55%, transparent);
 }
 
+.toast.is-bad {
+  border-color: color-mix(in srgb, var(--bad) 55%, transparent);
+}
+
+.toast.is-warn {
+  border-color: color-mix(in srgb, var(--warn) 55%, transparent);
+}
+
+/* Entree : le toast glisse depuis la droite, en haut a droite de l'ecran. */
+.toast.reveal-item {
+  animation: toast-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(20px) scale(0.97); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
 .toast-leave {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateX(20px);
 }
 
 /* ---------------- 7. Révélation des blocs ---------------- */
@@ -547,6 +569,80 @@ select.input option {
   border-color: var(--border-strong);
   box-shadow: var(--shadow-glow);
   background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+}
+
+/* Mode mis en avant : TOP en pleine largeur, teinte ambre distincte. */
+.mode-featured {
+  margin-bottom: 14px;
+}
+
+.mode-card-featured {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  border: 1px solid color-mix(in srgb, var(--warn) 55%, transparent);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--warn) 16%, transparent), color-mix(in srgb, var(--primary) 22%, transparent)),
+    var(--surface);
+  box-shadow: var(--shadow-glow);
+}
+
+.mode-card-featured:hover {
+  border-color: var(--warn);
+}
+
+.mode-card-featured.is-selected {
+  border-color: var(--warn);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--warn) 24%, transparent), color-mix(in srgb, var(--primary) 30%, transparent)),
+    var(--surface);
+  box-shadow: var(--shadow-glow);
+}
+
+.mode-card-featured .mode-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--warn) 22%, transparent);
+  color: var(--warn);
+  flex-shrink: 0;
+}
+
+.mode-card-featured .mode-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.mode-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.mode-card-featured .mode-title {
+  font-size: 1.2rem;
+}
+
+.mode-card-featured .mode-desc {
+  max-width: 440px;
+}
+
+.mode-featured-badge {
+  margin-left: auto;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--warn);
+  color: #201634;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .difficulty-section {
@@ -1409,18 +1505,20 @@ select.input option {
   animation: pulse-soft 1.6s ease-in-out infinite;
 }
 
-/* Carte revelee par l'abandon : visible mais jamais devinee. */
+/* Carte revelee (abandon + "voir resultat") : image en noir et blanc,
+   titre en rouge pour marquer qu'elle n'a pas ete devinee. */
 .top-card.is-revealed {
-  border-color: color-mix(in srgb, var(--warn) 45%, transparent);
+  border-color: color-mix(in srgb, var(--bad) 45%, transparent);
 }
 
 .top-card.is-revealed .top-card-art {
-  filter: grayscale(1) brightness(0.55);
+  filter: grayscale(1) brightness(0.6);
 }
 
 .top-card.is-revealed .top-card-name {
-  color: var(--muted-strong);
+  color: var(--bad);
   background: transparent;
+  font-weight: 700;
 }
 
 .top-card.is-revealed .top-card-time {
@@ -1653,6 +1751,16 @@ select.input option {
 
   .mode-grid {
     grid-template-columns: 1fr;
+  }
+
+  .mode-card-featured {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .mode-card-featured .mode-featured-badge {
+    margin-left: 0;
   }
 
   .brand-text small {

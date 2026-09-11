@@ -101,11 +101,21 @@ export default class TopGame {
     if (!normalized) return { status: 'invalid' };
     const target = this.targets.find(e => normalize(e.name) === normalized);
     if (!target) {
+      // Une "erreur" = un jeu saisi qui n'est pas dans le top (hors top,
+      // qu'il ait ete streame ou non). On distingue les deux cas pour
+      // afficher une notification plus parlante.
       this.wrongGuesses++;
-      return { status: 'miss' };
+      const streamed = this.entries.find(e => normalize(e.name) === normalized);
+      if (streamed) {
+        // Rang reel dans la liste complete (trie par heures decroissantes) :
+        // le rang qu'il aurait eu si l'on classait a l'infini.
+        const rank = this.entries.indexOf(streamed) + 1;
+        return { status: 'miss', streamed: true, game: streamed, rank };
+      }
+      return { status: 'miss', streamed: false };
     }
     if (this.found.has(normalized)) {
-      this.wrongGuesses++;
+      // Resaisir un jeu deja trouve n'est pas une erreur.
       return { status: 'already', game: target };
     }
     this.found.add(normalized);

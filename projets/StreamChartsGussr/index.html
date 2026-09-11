@@ -47,6 +47,27 @@
       <button id="replayBtn" class="btn ghost replay-btn" type="button" hidden></button>
 
       <p class="field-label mode-label" data-i18n="index.modeTitle"></p>
+      <div class="mode-featured">
+        <button type="button" class="mode-card mode-card-featured aero" data-mode="top" aria-pressed="false">
+          <span class="mode-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+              <path d="M4 22h16"></path>
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+            </svg>
+          </span>
+          <span class="mode-card-body">
+            <span class="mode-title" data-i18n="index.modeTopTitle"></span>
+            <span class="mode-desc" data-i18n="index.modeTopDesc"></span>
+          </span>
+          <span class="mode-featured-badge" data-i18n="index.modeTopFeatured"></span>
+        </button>
+      </div>
+
       <div class="mode-grid">
         <button type="button" class="mode-card aero" data-mode="classic" aria-pressed="false">
           <span class="mode-icon" aria-hidden="true">
@@ -75,22 +96,6 @@
           </span>
           <span class="mode-title" data-i18n="index.modeCompareTitle"></span>
           <span class="mode-desc" data-i18n="index.modeCompareDesc"></span>
-        </button>
-
-        <button type="button" class="mode-card aero" data-mode="top" aria-pressed="false">
-          <span class="mode-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
-              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
-              <path d="M4 22h16"></path>
-              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
-              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
-              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
-            </svg>
-          </span>
-          <span class="mode-title" data-i18n="index.modeTopTitle"></span>
-          <span class="mode-desc" data-i18n="index.modeTopDesc"></span>
         </button>
 
         <button type="button" class="mode-card aero" data-mode="time" aria-pressed="false">

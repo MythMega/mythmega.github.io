@@ -51,7 +51,6 @@ export function buildTopShell() {
     })
   );
 
-  const feedback = el('p', { className: 'top-feedback', attrs: { id: 'topFeedback', hidden: '' } });
   const grid = el('div', { className: 'top-grid', attrs: { id: 'topGrid' } });
 
   const recap = el('section', { className: 'aero win-panel top-recap', attrs: { id: 'topRecap', hidden: '' } });
@@ -70,13 +69,14 @@ export function buildTopShell() {
     el('div', {
       className: 'win-actions',
       children: [
+        el('button', { className: 'btn ghost', attrs: { id: 'topViewResult', type: 'button' }, text: t('top.viewResult') }),
         el('button', { className: 'btn primary', attrs: { id: 'topReplay', type: 'button' }, text: t('top.playAgain') }),
         el('a', { className: 'btn ghost', attrs: { href: 'index.html' }, text: t('top.changeStreamer') }),
       ],
     })
   );
 
-  shell.append(toolbar, question, form, feedback, grid, recap);
+  shell.append(toolbar, question, form, grid, recap);
   return shell;
 }
 

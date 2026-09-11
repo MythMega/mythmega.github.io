@@ -20,6 +20,7 @@
     "modeCompareDesc": "Deux jeux s'affrontent : choisis celui qui a été le plus streamé et enchaîne les bonnes réponses.",
     "modeTopTitle": "Top",
     "modeTopDesc": "Retrouve les jeux les plus streamés en saisissant leur nom. Trois niveaux de difficulté.",
+    "modeTopFeatured": "Populaire",
     "modeTimeTitle": "Temps de jeu",
     "modeTimeDesc": "Un temps de stream est affiché : retrouve le ou les jeux qui y correspondent.",
     "difficultyTitle": "Difficulté",
@@ -99,6 +100,8 @@
     "found": "{name} trouvé !",
     "already": "Déjà trouvé",
     "miss": "Pas dans le top",
+    "neverStreamed": "Cette catégorie n'a jamais été streamée.",
+    "notEnough": "La catégorie n'a pas été streamée suffisamment (Top {rank} / {hours} h)",
     "won": "Top complété !",
     "wonDesc": "Tu as retrouvé tous les jeux du top.",
     "gaveUp": "Partie abandonnée",
@@ -110,6 +113,7 @@
     "resultSuccess": "Succès",
     "resultFailure": "Échec",
     "playAgain": "Rejouer",
+    "viewResult": "Voir le résultat",
     "changeStreamer": "Changer de streamer"
   },
   "time": {
@@ -160,6 +164,7 @@
   },
   "footer": {
     "dataFrom": "Statistiques fournies par",
-    "linkLabel": "sullygnome.com"
+    "linkLabel": "sullygnome.com",
+    "codeBy": "Code par"
   }
 }

@@ -10,9 +10,10 @@ import { t } from './i18n.js';
 import { el, applyGameImage, formatHours } from './dom.js';
 import { play, shake, pop, pulse, revealIndexed } from './animations.js';
 import { buildTopShell, normalizeName } from './top-shell.js';
+import { toast } from './toast.js';
 
 const SUGGESTION_LIMIT = 8;
-const SUGGESTION_DELAY = 250; // debounce : filtre relance 0,5 s apres la derniere frappe
+const SUGGESTION_DELAY = 100; // debounce : filtre applique peu apres la derniere frappe
 
 export function createTopView(root, entries, difficulty, extraSuggestions = []) {
   const game = new TopGame(entries, difficulty, extraSuggestions);
@@ -33,7 +34,6 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
     submitBtn: document.getElementById('topSubmit'),
     hintBtn: document.getElementById('topHint'),
     giveUpBtn: document.getElementById('topGiveUp'),
-    feedback: document.getElementById('topFeedback'),
     recap: document.getElementById('topRecap'),
     recapResult: document.getElementById('topRecapResult'),
     recapTitle: document.getElementById('topRecapTitle'),
@@ -42,6 +42,7 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
     recapCorrect: document.getElementById('topRecapCorrect'),
     recapWrong: document.getElementById('topRecapWrong'),
     replayBtn: document.getElementById('topReplay'),
+    viewResultBtn: document.getElementById('topViewResult'),
   };
 
   let suggestionNodes = [];
@@ -97,6 +98,7 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
   dom.giveUpBtn.addEventListener('blur', resetGiveUpButton);
 
   dom.replayBtn.addEventListener('click', replay);
+  dom.viewResultBtn.addEventListener('click', showResult);
 
   /* ----------------------------- Rendu ------------------------------ */
 
@@ -218,15 +220,19 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
       case 'found':
         revealCard(result.game);
         renderProgress();
-        showFeedback('good', t('top.found', { name: result.game.name }));
+        toast(t('top.found', { name: result.game.name }), { tone: 'is-good' });
         pulse(dom.grid);
         if (game.isComplete) setTimeout(() => showRecap(true), 700);
         break;
       case 'already':
-        showFeedback('warn', t('top.already'));
+        toast(t('top.already'), { tone: 'is-warn' });
         break;
       case 'miss':
-        showFeedback('bad', t('top.miss'));
+        if (result.streamed) {
+          toast(t('top.notEnough', { rank: result.rank, hours: formatHours(result.game.hours) }), { tone: 'is-bad' });
+        } else {
+          toast(t('top.neverStreamed'), { tone: 'is-bad' });
+        }
         shake(dom.input);
         break;
       default:
@@ -248,7 +254,7 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
       node.card.classList.add('is-hinted');
       pulse(node.card);
     }
-    showFeedback('warn', t('top.hintUsed', { letter: hint.letter }));
+    toast(t('top.hintUsed', { letter: hint.letter }), { tone: 'is-warn' });
 
     // Plus aucun indice disponible si tout le reste est deja trouve ou annonce.
     const noHintsLeft = game.targets.every((entry) => {
@@ -261,6 +267,12 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
   function giveUp() {
     if (game.isOver) return;
     game.abandon();
+    toast(t('top.gaveUp'), { tone: 'is-bad' });
+    showRecap(false);
+  }
+
+  /** Revele les jeux non trouves (carte en noir et blanc, titre en rouge). */
+  function revealRemaining() {
     game.remaining.forEach((entry, index) => {
       const node = cardNodes.get(normalizeName(entry.name));
       if (!node) return;
@@ -271,8 +283,13 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
       node.time.textContent = formatHours(entry.hours) + ' h';
       revealIndexed(node.card, index);
     });
-    showFeedback('bad', t('top.gaveUp'));
-    showRecap(false);
+  }
+
+  /** Ferme la popup recap et affiche la grille (la saisie reste desactivee). */
+  function showResult() {
+    if (game.abandoned) revealRemaining();
+    dom.recap.hidden = true;
+    dom.grid.hidden = false;
   }
 
   /* ----------------------------- Recap ------------------------------ */
@@ -280,7 +297,6 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
   function showRecap(success) {
     finalSeconds = game.elapsedSeconds;
     dom.grid.hidden = true;
-    dom.feedback.hidden = true;
     hideSuggestions();
     dom.input.disabled = true;
     dom.submitBtn.disabled = true;
@@ -306,7 +322,6 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
     renderProgress();
     dom.recap.hidden = true;
     dom.grid.hidden = false;
-    dom.feedback.hidden = true;
     hideSuggestions();
     dom.input.value = '';
     dom.input.disabled = false;
@@ -332,15 +347,6 @@ export function createTopView(root, entries, difficulty, extraSuggestions = []) 
     node.name.textContent = entry.name;
     node.time.textContent = formatHours(entry.hours) + ' h';
     play(node.card, 'anim-pop');
-  }
-
-  function showFeedback(tone, message) {
-    dom.feedback.className = 'top-feedback is-' + tone;
-    dom.feedback.textContent = message;
-    dom.feedback.hidden = false;
-    play(dom.feedback, 'reveal-item');
-    clearTimeout(showFeedback._timer);
-    showFeedback._timer = setTimeout(() => { dom.feedback.hidden = true; }, 2200);
   }
 
   /** Duree lisible sous la forme m:ss (ex. 3:27). */

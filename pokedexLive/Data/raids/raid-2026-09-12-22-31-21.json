@@ -1,0 +1,403 @@
+{
+  "bossName": "Fantominus",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gastly_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Gastly_shiny.gif",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 130000,
+  "date": "2026-09-12 22:31:21",
+  "durationSec": 414,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 118479,
+      "countAtk": 17,
+      "baseDmg": 8107,
+      "level": 16,
+      "raidCount": 338,
+      "luck": 0.85967106
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 32500,
+      "countAtk": 1,
+      "baseDmg": 40672,
+      "level": 20,
+      "raidCount": 1100,
+      "luck": 0.79907554
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 2293,
+      "countAtk": 2,
+      "baseDmg": 795,
+      "level": 10,
+      "raidCount": 39,
+      "luck": 1.4421383
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "frenchmusic_en_force",
+      "damage": 338,
+      "countAtk": 1,
+      "baseDmg": 338,
+      "level": 3,
+      "raidCount": 0,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Sage_Possiblement",
+      "damage": 318,
+      "countAtk": 1,
+      "baseDmg": 318,
+      "level": 3,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 153590
+    },
+    {
+      "platform": "youtube",
+      "damage": 338
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 8
+    },
+    {
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-12 22:31:52",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 795,
+      "pvAfter": 129205,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-09-12 22:36:39",
+      "pseudo": "frenchmusic_en_force",
+      "platform": "youtube",
+      "damages": 338,
+      "pvAfter": 128867,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:00",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8107,
+      "pvAfter": 120760,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:00",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8227,
+      "pvAfter": 112533,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-09-12 22:38:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 112533,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 2 tours."
+    },
+    {
+      "at": "2026-09-12 22:38:02",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 112533,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 1 tours."
+    },
+    {
+      "at": "2026-09-12 22:38:03",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 112533,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Paralys\u00E9 pendant 0 tours."
+    },
+    {
+      "at": "2026-09-12 22:38:05",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8177,
+      "pvAfter": 104356,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus paralys\u00E9 !"
+    },
+    {
+      "at": "2026-09-12 22:38:05",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8210,
+      "pvAfter": 96146,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:06",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1498,
+      "pvAfter": 94648,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-09-12 22:38:06",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8118,
+      "pvAfter": 86530,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    },
+    {
+      "at": "2026-09-12 22:38:07",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8208,
+      "pvAfter": 78322,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:07",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8200,
+      "pvAfter": 70122,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:08",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8116,
+      "pvAfter": 62006,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:09",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8107,
+      "pvAfter": 53899,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus sous vent arri\u00E8re ennemi !"
+    },
+    {
+      "at": "2026-09-12 22:38:10",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 12291,
+      "pvAfter": 41608,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:10",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8178,
+      "pvAfter": 33430,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:11",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8142,
+      "pvAfter": 25288,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:12",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8174,
+      "pvAfter": 17114,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:13",
+      "pseudo": "Sage_Possiblement",
+      "platform": "twitch",
+      "damages": 318,
+      "pvAfter": 16796,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8224,
+      "pvAfter": 8572,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-12 22:38:16",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 32500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

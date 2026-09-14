@@ -1,0 +1,169 @@
+{
+  "bossName": "Coquiperl",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clamperl_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Clamperl_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 70000,
+  "date": "2026-09-14 20:51:25",
+  "durationSec": 2968,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 52500,
+      "countAtk": 3,
+      "baseDmg": 40644,
+      "level": 20,
+      "raidCount": 1102,
+      "luck": 0.43056786
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 31597,
+      "countAtk": 2,
+      "baseDmg": 14097,
+      "level": 17,
+      "raidCount": 503,
+      "luck": 1.1206994
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 1777,
+      "countAtk": 1,
+      "baseDmg": 1777,
+      "level": 11,
+      "raidCount": 86,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 85874
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-14 20:51:55",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1777,
+      "pvAfter": 68223,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 21:08:00",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 50723,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 21:12:51",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 33223,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-09-14 21:27:19",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 15723,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu n\u0027as empoisonn\u00E9 personne. Il te reste 2 tours de poison."
+    },
+    {
+      "at": "2026-09-14 21:32:38",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 14097,
+      "pvAfter": 1626,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 21:40:53",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

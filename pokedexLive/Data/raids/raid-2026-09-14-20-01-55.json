@@ -1,0 +1,298 @@
+{
+  "bossName": "Posipi",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Plusle_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Plusle_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-09-14 20:01:55",
+  "durationSec": 2773,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 37500,
+      "countAtk": 3,
+      "baseDmg": 40957,
+      "level": 20,
+      "raidCount": 1101,
+      "luck": 0.30519813
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 8302,
+      "countAtk": 1,
+      "baseDmg": 8302,
+      "level": 16,
+      "raidCount": 339,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 4476,
+      "countAtk": 2,
+      "baseDmg": 1777,
+      "level": 11,
+      "raidCount": 85,
+      "luck": 1.259426
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 1567,
+      "countAtk": 1,
+      "baseDmg": 1567,
+      "level": 11,
+      "raidCount": 79,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 775,
+      "countAtk": 1,
+      "baseDmg": 775,
+      "level": 10,
+      "raidCount": 40,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 298,
+      "countAtk": 1,
+      "baseDmg": 298,
+      "level": 2,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 51053
+    },
+    {
+      "platform": "youtube",
+      "damage": 1865
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-14 20:06:23",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1777,
+      "pvAfter": 48223,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 20:07:35",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1567,
+      "pvAfter": 46656,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-09-14 20:07:49",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 298,
+      "pvAfter": 46358,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 20:10:30",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 2699,
+      "pvAfter": 43659,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-09-14 20:10:49",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 43659,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "maxenceriot s\u0027est soign\u00E9 (que lui)"
+    },
+    {
+      "at": "2026-09-14 20:10:59",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8302,
+      "pvAfter": 35357,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 20:28:11",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 775,
+      "pvAfter": 34582,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 20:35:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 22082,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 20:41:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 9582,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-14 20:48:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

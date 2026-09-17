@@ -1,0 +1,202 @@
+{
+  "bossName": "Ninjask",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ninjask_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Ninjask_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-09-16 21:57:00",
+  "durationSec": 5357,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 32797,
+      "countAtk": 6,
+      "baseDmg": 8174,
+      "level": 16,
+      "raidCount": 340,
+      "luck": 0.668726
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 29260,
+      "countAtk": 2,
+      "baseDmg": 14260,
+      "level": 17,
+      "raidCount": 505,
+      "luck": 1.0259467
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Yorkichuu",
+      "damage": 2142,
+      "countAtk": 1,
+      "baseDmg": 2142,
+      "level": 12,
+      "raidCount": 134,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 64199
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 3
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-16 21:57:29",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 14260,
+      "pvAfter": 45740,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-16 22:29:22",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 30740,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-16 23:03:36",
+      "pseudo": "Yorkichuu",
+      "platform": "twitch",
+      "damages": 2142,
+      "pvAfter": 28598,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-09-16 23:26:11",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8174,
+      "pvAfter": 20424,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-16 23:26:11",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8222,
+      "pvAfter": 12202,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-09-16 23:26:12",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 12202,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-09-16 23:26:14",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 12202,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Toujours gel\u00E9."
+    },
+    {
+      "at": "2026-09-16 23:26:15",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8188,
+      "pvAfter": 4014,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus gel\u00E9 !"
+    },
+    {
+      "at": "2026-09-16 23:26:17",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8213,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

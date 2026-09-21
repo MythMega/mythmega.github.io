@@ -230,6 +230,7 @@
              data-bs-toggle="dropdown" aria-expanded="false">Jeux</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="./pokedexLive/main.html">Streamdex</a></li>
+            <li><a class="dropdown-item" href="./projets/sudomew/index.html">Sudomeow</a></li>
             <li><hr class="dropdown-divider"></li>
             <li class="dropdown-submenu">
               <a class="dropdown-item dropdown-toggle" href="#" role="button">Pok\u00e9mon</a>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fdf6ec" />
+  <title data-i18n="play_title">Choose a game</title>
+  <link rel="icon" type="image/png" href="assets/img/cat_icon.png" />
+  <link rel="apple-touch-icon" href="assets/img/cat_icon.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="theme-light">
+  <header class="topbar">
+    <a class="icon-btn" href="index.html" data-i18n-aria="home" aria-label="Home">🏠</a>
+    <span class="topbar__title" data-i18n="play_title">Choose a game</span>
+    <a class="icon-btn" href="settings.html" data-i18n-aria="settings" aria-label="Settings">⚙️</a>
+  </header>
+
+  <main class="screen">
+    <p class="muted" data-i18n="play_intro">Pick a difficulty or build your own grid.</p>
+
+    <section class="diff-card diff-card--mode" aria-labelledby="angryModeTitle">
+      <div class="mode-row">
+        <img class="mode-row__icon" id="angryIcon" src="assets/img/cat_icon.png" alt="" aria-hidden="true" />
+        <span class="mode-row__name" id="angryModeTitle" data-i18n="angry_mode">Angry Cat Mode</span>
+        <button class="help-dot" type="button" id="angryHelpBtn" aria-haspopup="dialog"
+                data-i18n-aria="angry_about" aria-label="About Angry Cat Mode">?</button>
+        <label class="switch">
+          <input type="checkbox" id="angrySwitch" role="switch" />
+          <span class="switch__track" aria-hidden="true"></span>
+        </label>
+      </div>
+    </section>
+
+    <div class="diff-list">
+      <section class="diff-card" data-difficulty="easy">
+        <div class="diff-card__top">
+          <span class="diff-card__name" data-i18n="easy">Easy</span>
+          <span class="diff-card__badge">5×5</span>
+        </div>
+        <button class="btn btn--primary btn--block" type="button"
+                data-start data-difficulty="easy" data-size="5" data-i18n="start">Start game</button>
+      </section>
+
+      <section class="diff-card" data-difficulty="medium">
+        <div class="diff-card__top">
+          <span class="diff-card__name" data-i18n="medium">Medium</span>
+          <span class="diff-card__badge">7×7</span>
+        </div>
+        <button class="btn btn--primary btn--block" type="button"
+                data-start data-difficulty="medium" data-size="7" data-i18n="start">Start game</button>
+      </section>
+
+      <section class="diff-card" data-difficulty="hard">
+        <div class="diff-card__top">
+          <span class="diff-card__name" data-i18n="hard">Hard</span>
+          <span class="diff-card__badge">11×11</span>
+        </div>
+        <button class="btn btn--primary btn--block" type="button"
+                data-start data-difficulty="hard" data-size="11" data-i18n="start">Start game</button>
+      </section>
+
+      <section class="diff-card diff-card--custom" data-difficulty="custom">
+        <div class="diff-card__top">
+          <span class="diff-card__name" data-i18n="custom">Custom</span>
+          <span class="diff-card__badge" id="customBadge">9×9</span>
+        </div>
+        <p class="diff-card__meta" data-i18n="custom_desc">Drag the slider to choose a grid from 5×5 to 15×15.</p>
+        <div class="range-field">
+          <div class="range-field__head">
+            <label for="sizeRange" data-i18n="size_label">Grid size</label>
+            <span class="range-field__value" id="sizeValue">Grid 9×9</span>
+          </div>
+          <input type="range" id="sizeRange" min="5" max="15" step="1" value="9"
+                 aria-describedby="sizeValue" />
+        </div>
+        <button class="btn btn--primary btn--block" type="button"
+                data-start data-difficulty="custom" id="customStart" data-i18n="start">Start game</button>
+      </section>
+    </div>
+
+    <a class="btn btn--ghost btn--block" href="index.html" data-i18n="back_home">Back to home</a>
+  </main>
+
+  <div class="modal" id="angryModal" hidden role="dialog" aria-modal="true" aria-labelledby="angryModalTitle">
+    <div class="modal__box">
+      <h2 class="modal__title" id="angryModalTitle">
+        <img class="modal__icon" src="assets/img/cat_icon.png" alt="" aria-hidden="true" />
+        <span data-i18n="angry_mode">Angry Cat Mode</span>
+      </h2>
+      <p data-i18n="angry_help">When Angry Cat Mode is on, rule 3 is added: cats can no longer be next to another cat, not even diagonally.</p>
+      <div class="modal__actions">
+        <button class="btn btn--primary btn--block" type="button" id="angryCloseBtn" data-i18n="close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/play.js"></script>
+</body>
+</html>

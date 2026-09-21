@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fdf6ec" />
+  <title data-i18n="app_title">Cat Logic Puzzle</title>
+  <link rel="icon" type="image/png" href="assets/img/cat_icon.png" />
+  <link rel="apple-touch-icon" href="assets/img/cat_icon.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="theme-light">
+  <header class="topbar">
+    <a class="icon-btn" href="index.html" data-i18n-aria="home" aria-label="Home">🏠</a>
+    <span class="topbar__title" id="levelTitle" aria-live="polite">Cat Logic Puzzle</span>
+    <a class="icon-btn" href="settings.html" data-i18n-aria="settings" aria-label="Settings">⚙️</a>
+  </header>
+
+  <main class="screen">
+    <div class="game-status">
+      <p class="counter" id="counter" aria-live="polite">0/0</p>
+      <button class="btn btn--ghost btn--small toggle-btn" type="button" id="notesToggle" aria-pressed="true">
+        <span data-i18n="notes_toggle">Auto notes</span>
+      </button>
+    </div>
+
+    <div class="loader" id="loader">
+      <img class="loader__cat" id="loaderCat" src="assets/img/cat_icon.png" alt="" aria-hidden="true" />
+      <p data-i18n="loading">Building the puzzle…</p>
+      <p class="muted" data-i18n="loading_hint">The cats are choosing their squares</p>
+    </div>
+
+    <div class="board-wrap" id="boardWrap" hidden>
+      <div class="board" id="board" aria-labelledby="levelTitle"></div>
+    </div>
+
+    <div class="controls" id="controls" hidden>
+      <button class="btn btn--primary" type="button" id="replayBtn" data-i18n="replay">Play again</button>
+      <button class="btn btn--ghost" type="button" id="helpBtn" data-i18n="help">Help</button>
+      <button class="btn btn--danger" type="button" id="abandonBtn" data-i18n="abandon" data-sound-silent>Give up</button>
+    </div>
+
+    <div class="legend" id="legend" hidden>
+      <span><i class="legend__invalid" aria-hidden="true"></i><span data-i18n="legend_notes">✕ = a square that cannot hold a cat</span></span>
+      <span><i aria-hidden="true"></i><span data-i18n="legend_region">Thick lines separate the colour regions</span></span>
+    </div>
+
+    <details class="rules-box" id="rulesBox" open>
+      <summary data-i18n="rules_title">Rules</summary>
+      <div class="rules-box__body">
+        <ol class="rules-list">
+          <li data-i18n="rule1">1 cat in each colour region</li>
+          <li data-i18n="rule2">1 cat in every row and column</li>
+          <li data-i18n="rule3" id="ruleTouchItem" hidden>Cats cannot touch, not even diagonally</li>
+        </ol>
+        <p class="muted" id="rulesHint" data-i18n="rules_hint_relaxed"></p>
+      </div>
+    </details>
+  </main>
+
+  <div class="modal" id="helpModal" hidden role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+    <div class="modal__box">
+      <h2 class="modal__title" id="helpModalTitle">
+        <img class="modal__icon" src="assets/img/cat_icon.png" alt="" aria-hidden="true" />
+        <span data-i18n="help_title">How to play</span>
+      </h2>
+      <ol class="rules-list">
+        <li data-i18n="rule1">1 cat in each colour region</li>
+        <li data-i18n="rule2">1 cat in every row and column</li>
+        <li data-i18n="rule3" id="ruleTouchItemHelp" hidden>Cats cannot touch, not even diagonally</li>
+      </ol>
+      <p class="muted" id="rulesHintHelp" data-i18n="rules_hint_relaxed"></p>
+      <div class="modal__actions">
+        <button class="btn btn--primary btn--block" type="button" id="helpCloseBtn" data-i18n="close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="winModal" hidden role="dialog" aria-modal="true" aria-labelledby="winModalTitle">
+    <div class="modal__box">
+      <h2 class="modal__title" id="winModalTitle">
+        <img class="modal__icon" src="assets/img/cat_icon.png" alt="" aria-hidden="true" />
+        <span data-i18n="victory_title">Well done!</span>
+      </h2>
+      <p data-i18n="victory_message">Every cat found its square: the puzzle is solved.</p>
+      <div class="modal__actions">
+        <button class="btn btn--primary btn--block" type="button" id="winReplayBtn" data-i18n="new_grid" data-sound-silent>New grid</button>
+        <a class="btn btn--ghost btn--block" href="play.html" data-i18n="choose_difficulty">Choose another difficulty</a>
+        <a class="btn btn--ghost btn--block" href="index.html" data-i18n="back_home">Back to home</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

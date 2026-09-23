@@ -265,6 +265,7 @@ img { max-width: 100%; }
 .home__footer { color: var(--text-soft); font-size: .8rem; }
 
 /* ---------- 5. Choix de difficulté ---------- */
+/* Mobile (par défaut) : une carte par ligne. */
 .diff-list {
   display: grid;
   gap: 12px;
@@ -542,6 +543,55 @@ body.theme-dark .segmented input:checked + label { color: var(--accent); }
 
 .counter__value { color: var(--accent-strong); font-variant-numeric: tabular-nums; }
 
+.counter--errors { color: var(--text-soft); font-variant-numeric: tabular-nums; }
+.counter--errors.is-alert { color: var(--danger); }
+
+.game-status__counters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+}
+
+.reset-btn { flex: 0 0 auto; }
+
+/* Grille du jour (daily.html) */
+.counter--daily { color: var(--accent-strong); font-variant-numeric: tabular-nums; }
+.counter--daily::before { content: "⏱ "; }
+
+.result-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.result-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: .97rem;
+}
+
+.result-list strong { font-variant-numeric: tabular-nums; }
+
+.result-text {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 1px solid var(--line-thin);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: .85rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  user-select: text;
+}
+
+.diff-card--daily { border: 2px solid var(--accent); }
+
 .board-wrap { display: flex; justify-content: center; }
 
 .board {
@@ -555,6 +605,7 @@ body.theme-dark .segmented input:checked + label { color: var(--accent); }
   overflow: hidden;
   box-shadow: var(--board-shadow);
   touch-action: manipulation;
+  -webkit-touch-callout: none;
   user-select: none;
   background: var(--surface);
 }
@@ -594,8 +645,11 @@ body.theme-dark .segmented input:checked + label { color: var(--accent); }
     var(--danger-soft) 0 5px, transparent 5px 10px);
 }
 
+/* Croix ✕ : marquage automatique (notes auto) ou manuel (clic droit / appui long). */
 .cell.is-invalid::before,
-.cell.is-invalid::after {
+.cell.is-invalid::after,
+.cell.is-crossed::before,
+.cell.is-crossed::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -609,7 +663,8 @@ body.theme-dark .segmented input:checked + label { color: var(--accent); }
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.cell.is-invalid::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.cell.is-invalid::after,
+.cell.is-crossed::after { transform: translate(-50%, -50%) rotate(-45deg); }
 
 .cell.is-bad {
   animation: shake 340ms ease-in-out;
@@ -643,17 +698,16 @@ body.theme-dark .segmented input:checked + label { color: var(--accent); }
   border-color: var(--danger);
 }
 
+.legend i.legend__cross {
+  background-image:
+    linear-gradient(45deg, transparent 44%, var(--danger) 44% 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, var(--danger) 44% 56%, transparent 56%);
+  border-color: var(--danger);
+}
+
 .controls { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 
 .controls .btn { width: 100%; }
-
-.toggle-btn[aria-pressed="true"] {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  color: var(--accent-strong);
-}
-
-body.theme-dark .toggle-btn[aria-pressed="true"] { color: var(--accent); }
 
 /* Règles repliables */
 .rules-box {
@@ -784,8 +838,57 @@ body.modal-open { overflow: hidden; }
 }
 
 @media (min-width: 820px) {
-  .diff-list { grid-template-columns: 1fr 1fr; }
+  /* Choix de partie : 3 colonnes.
+     - la grille du jour occupe toute la largeur (ligne 1) ;
+     - les trois difficultés tiennent sur la même ligne (ligne 2) ;
+     - la grille personnalisée occupe toute la largeur (ligne 3).
+     Sur mobile, la grille reste sur une seule colonne (voir section 5). */
+  .diff-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .diff-card--daily,
   .diff-card--custom { grid-column: 1 / -1; }
+
+  /* Cartes pleine largeur : le texte reste à gauche, l'action passe à droite. */
+  .diff-card--daily {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 20px;
+  }
+
+  .diff-card--daily .diff-card__top { grid-column: 1; grid-row: 1; }
+  .diff-card--daily .diff-card__meta { grid-column: 1; grid-row: 2; }
+
+  .diff-card--daily .btn {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: auto;
+    min-width: 240px;
+  }
+
+  .diff-card--custom {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    column-gap: 24px;
+  }
+
+  .diff-card--custom .diff-card__top { grid-column: 1; grid-row: 1; }
+  .diff-card--custom .diff-card__meta { grid-column: 1; grid-row: 2; }
+  .diff-card--custom .range-field { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .diff-card--custom .btn { grid-column: 2; grid-row: 3; }
+
+  /* Les trois difficultés partagent la même ligne : cartes de même hauteur,
+     boutons alignés sur le bas de la carte. */
+  .diff-card--easy,
+  .diff-card--medium,
+  .diff-card--hard { grid-template-rows: auto 1fr; }
+
+  .diff-card--easy .btn,
+  .diff-card--medium .btn,
+  .diff-card--hard .btn { align-self: end; }
+
   .board { width: min(100%, calc(var(--n) * 3.2rem)); }
 }
 

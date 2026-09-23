@@ -11,7 +11,7 @@
   var MIN_SIZE = 4;         // en dessous de 4×4 il n'existe aucune solution
   var MAX_SIZE = 15;
   var DEFAULT_SIZE = 5;
-  var GEN_BUDGET_MS = 350;  // temps maximal de recherche d'une grille bien contrainte
+  var GEN_BUDGET_MS = 500;  // temps maximal de recherche d'une grille bien contrainte
   var MAX_ATTEMPTS = 400;
   var SOLUTION_CAP = 6;     // nombre de solutions recherchées avant d'abandonner une grille
 
@@ -27,7 +27,27 @@
     };
   }
 
-  function random(n) { return Math.floor(Math.random() * n); }
+  var randomSource = Math.random;
+
+  function random(n) { return Math.floor(randomSource() * n); }
+
+  /* Graine déterministe (FNV-1a 32 bits) : même valeur partout, quel que soit
+     le navigateur. Sert à dériver la grille du jour de sa date. */
+  function hashSeed(text) {
+    var str = String(text);
+    var hash = 0x811c9dc5;
+    for (var i = 0; i < str.length; i++) {
+      hash ^= str.charCodeAt(i);
+      hash = Math.imul(hash, 0x01000193);
+    }
+    return hash >>> 0;
+  }
+
+  /* Fixe la source aléatoire : la grille devient reproductible. */
+  function setSeed(seed) {
+    randomSource = mulberry32(seed >>> 0);
+    return seed >>> 0;
+  }
 
   function neighbors4(cell, n, out) {
     var list = out || [];
@@ -332,15 +352,19 @@
      Critères, par ordre d'importance :
        1. le moins de solutions possible (1 = solution unique, idéal) ;
        2. des régions de tailles aussi égales que possible.
-     Toutes les grilles produites sont jouables et ont au moins une solution. */
-  function generatePuzzle(n, budgetMs, enforceTouch) {
-    var deadline = Date.now() + (budgetMs || GEN_BUDGET_MS);
+     Toutes les grilles produites sont jouables et ont au moins une solution.
+     Avec attemptLimit (> 0), le budget de temps est ignoré : on fait exactement
+     ce nombre d'essais, ce qui rend la grille reproductible (grille du jour). */
+  function generatePuzzle(n, budgetMs, enforceTouch, attemptLimit) {
+    var fixed = attemptLimit > 0;
+    var deadline = fixed ? Infinity : Date.now() + (budgetMs || GEN_BUDGET_MS);
+    var limit = fixed ? attemptLimit : MAX_ATTEMPTS;
     var best = null;
     var bestScore = Infinity;
     var fallback = null;
     var attempts = 0;
 
-    while (Date.now() < deadline && attempts < MAX_ATTEMPTS) {
+    while (Date.now() < deadline && attempts < limit) {
       attempts++;
       var layout = makeLayout(n, enforceTouch);
       if (!layout) continue;
@@ -482,31 +506,89 @@
 
   /* ============ 2. PAGE DE JEU ============ */
 
-  var LEVEL_KEYS = ['easy', 'medium', 'hard', 'custom'];
+  var LEVEL_KEYS = ['easy', 'medium', 'hard', 'custom', 'daily'];
   var DIFFICULTY_SIZES = { easy: 5, medium: 7, hard: 11 };
+  var DAILY_SIZE = 7;                                   // taille imposée de la grille du jour
+  var DAILY_ATTEMPTS = 12;                              // essais fixes : grille identique pour tous
   var CAT_ICON = 'assets/img/cat_icon.png';
   var CAT_ICON_ANGRY = 'assets/img/cat_icon_angry.png'; // Mode Chat Fâché
+  var LONG_PRESS_MS = 450;                              // appui long tactile → croix manuelle
 
   var state = {
     size: DEFAULT_SIZE,
     difficulty: 'custom',
     angry: false,           // Mode Chat Fâché : règle 3 active (chats non adjacents)
+    daily: false,           // grille du jour (daily.html) : 7×7, Angry Cat, sans notes auto
+    date: null,             // date de la grille du jour { year, month, day }
     regionOf: null,
     solution: null,
     colors: [],
     cats: [],
     catMap: {},
+    crossMap: {},           // cases barrées à la main (clic droit / appui long)
     cells: [],
-    notes: true,
+    notes: false,           // notes auto : réglage dans settings.html, désactivé par défaut
+    errors: 0,              // tentatives de placement invalides
+    removals: 0,            // chats retirés : « mauvais placements » de la grille du jour
     solved: false,
     element: {}
   };
+
+  /* Abonnés (page daily.html) : 'ready' quand la grille est affichée,
+     'win' quand elle est résolue. Voir CatGame.on(). */
+  var listeners = { ready: [], win: [] };
+
+  function on(event, handler) {
+    if (!listeners[event]) listeners[event] = [];
+    listeners[event].push(handler);
+    return handler;
+  }
+
+  function emit(event, payload) {
+    var list = listeners[event] || [];
+    for (var i = 0; i < list.length; i++) {
+      try {
+        list[i](payload);
+      } catch (err) { /* un abonné qui échoue ne doit pas casser la partie */ }
+    }
+  }
+
+  /* Photographie de la partie, envoyée aux abonnés. */
+  function snapshot() {
+    return {
+      daily: state.daily,
+      size: state.size,
+      difficulty: state.difficulty,
+      angry: state.angry,
+      notes: state.notes,
+      date: state.date,
+      errors: state.errors,
+      removals: state.removals
+    };
+  }
 
   function element(id) {
     return global.document ? global.document.getElementById(id) : null;
   }
 
+  /* Date de la grille du jour : date locale, ou ?date=AAAA-MM-JJ pour rejouer
+     une grille passée. */
+  function readDailyDate() {
+    var param = String(App.getParam('date', '') || '');
+    var match = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(param);
+    if (match) return { year: +match[1], month: +match[2], day: +match[3] };
+    var now = new Date();
+    return { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+  }
+
+  /* Graine de la grille du jour : même date = même grille pour tout le monde. */
+  function dailySeed(date) {
+    return hashSeed('sudomeow-daily-' + date.year + '-' + date.month + '-' + date.day);
+  }
+
   function readParams() {
+    var daily = !!(global.document && global.document.body &&
+      String(global.document.body.getAttribute('data-mode') || '') === 'daily');
     var sizeParam = App.getParam('size', null);
     var difficulty = String(App.getParam('difficulty', 'custom') || 'custom').toLowerCase();
     var fallbackSize = DIFFICULTY_SIZES[difficulty] || DEFAULT_SIZE;
@@ -515,7 +597,19 @@
       : App.clampInt(sizeParam, MIN_SIZE, MAX_SIZE, fallbackSize);
     var angryParam = String(App.getParam('angry', '') || '').toLowerCase();
     var angry = angryParam === '1' || angryParam === 'true' || angryParam === 'on';
-    return { size: size, difficulty: difficulty, angry: angry };
+
+    if (daily) {   // la grille du jour impose ses règles
+      size = DAILY_SIZE;
+      difficulty = 'daily';
+      angry = true;
+    }
+    return {
+      size: size,
+      difficulty: difficulty,
+      angry: angry,
+      daily: daily,
+      date: daily ? readDailyDate() : null
+    };
   }
 
   function levelTitle() {
@@ -569,18 +663,53 @@
     });
   }
 
-  /* Repérage visuel des cases devenues impossibles (notes automatiques). */
+  /* Notes : croix manuelles (clic droit / appui long) ; quand les notes auto
+     sont activées dans les réglages, les cases impossibles se barrent seules. */
   function updateMarks() {
     for (var i = 0; i < state.cells.length; i++) {
       var cell = state.cells[i];
       if (state.catMap[i]) {
-        cell.classList.remove('is-invalid');
+        cell.classList.remove('is-invalid', 'is-crossed');
         continue;
       }
+      cell.classList.toggle('is-crossed', !state.notes && !!state.crossMap[i]);
       var impossible = state.notes &&
         violationFor(state.size, state.regionOf, state.cats, i, state.angry) !== null;
       cell.classList.toggle('is-invalid', impossible);
     }
+  }
+
+  function updateErrorCounter() {
+    var el = state.element.errorCounter;
+    if (!el) return;
+    // Grille du jour : on compte les chats retirés (« mauvais placements »).
+    var count = state.daily ? state.removals : state.errors;
+    var key = state.daily ? 'daily_mistakes_counter' : 'errors_counter';
+    el.textContent = App.t(key, { count: count });
+    el.classList.toggle('is-alert', count > 0);
+  }
+
+  /* Croix manuelle : la case est marquée comme ne pouvant pas recevoir de chat.
+     Renvoie true quand la case a bien été barrée (ou débarrée). */
+  function toggleCross(index) {
+    if (state.solved || state.notes || state.catMap[index] || !state.cells[index]) return false;
+    if (state.crossMap[index]) delete state.crossMap[index];
+    else state.crossMap[index] = true;
+    updateMarks();
+    return true;
+  }
+
+  /* Action secondaire (clic droit / appui long) : barre une case vide,
+     retire le chat d'une case occupée. Renvoie true si l'état a changé. */
+  function secondaryAction(index) {
+    if (state.solved || !state.cells[index]) return false;
+    if (state.catMap[index]) {
+      removeCat(index);
+      App.playSound('click');
+      refresh();
+      return true;
+    }
+    return toggleCross(index);
   }
 
   function placeCat(index) {
@@ -591,7 +720,8 @@
     img.alt = '';
     img.setAttribute('aria-hidden', 'true');
     cell.appendChild(img);
-    cell.classList.remove('is-invalid');
+    cell.classList.remove('is-invalid', 'is-crossed');
+    delete state.crossMap[index];   // la croix disparaît quand un chat occupe la case
     state.catMap[index] = true;
     state.cats.push(index);
     updateLabel(index, true);
@@ -604,6 +734,7 @@
     delete state.catMap[index];
     var position = state.cats.indexOf(index);
     if (position >= 0) state.cats.splice(position, 1);
+    state.removals++;   // un chat retiré = un mauvais placement (grille du jour)
     updateLabel(index, false);
   }
 
@@ -617,6 +748,7 @@
 
   function refresh() {
     updateCounter();
+    updateErrorCounter();
     updateMarks();
     checkWin();
   }
@@ -633,9 +765,13 @@
 
     var reason = violationFor(state.size, state.regionOf, state.cats, index, state.angry);
     if (reason) {
+      // Placement refusé : erreur signalée, case barrée, compteur incrémenté.
+      state.errors++;
+      if (!state.notes) state.crossMap[index] = true;
       App.playSound('error');
       flashError(state.cells[index]);
       App.toast(App.t(reason));
+      refresh();
       return;
     }
 
@@ -648,6 +784,7 @@
     if (state.solved) return;
     if (!isSolved(state.size, state.regionOf, state.cats, state.angry)) return;
     state.solved = true;
+    emit('win', snapshot());
     App.playSound('victory');
     state.element.board.classList.add('is-locked');
     state.cats.forEach(function (index) {
@@ -663,16 +800,19 @@
     App.setModalOpen(state.element.helpModal, false);
     for (var i = 0; i < state.cells.length; i++) {
       var cell = state.cells[i];
-      cell.classList.remove('is-win', 'is-invalid', 'is-bad');
+      cell.classList.remove('is-win', 'is-invalid', 'is-bad', 'is-crossed');
       var img = cell.querySelector('.cell__cat');
       if (img) cell.removeChild(img);
       updateLabel(i, false);
     }
     state.cats = [];
     state.catMap = {};
+    state.crossMap = {};
+    state.errors = 0;
     state.solved = false;
     state.element.board.classList.remove('is-locked');
     updateCounter();
+    updateErrorCounter();
     updateMarks();
   }
 
@@ -687,11 +827,12 @@
     if (e.rulesHintHelp) e.rulesHintHelp.textContent = hint;
   }
 
-  function syncNotesToggle() {
-    var button = state.element.notesToggle;
-    if (!button) return;
-    button.setAttribute('aria-pressed', state.notes ? 'true' : 'false');
-    button.setAttribute('title', App.t(state.notes ? 'notes_on' : 'notes_off'));
+  /* Légende : la ligne des notes auto et l'astuce de la croix manuelle
+     dépendent du réglage « auto notes ». */
+  function syncLegend() {
+    var e = state.element;
+    if (e.legendNotes) e.legendNotes.hidden = !state.notes;
+    if (e.legendCross) e.legendCross.hidden = state.notes;
   }
 
   function showLoader(visible) {
@@ -707,8 +848,14 @@
     showLoader(true);
 
     global.setTimeout(function () {
-      var puzzle = generatePuzzle(state.size, GEN_BUDGET_MS, state.angry) ||
-                   generatePuzzle(state.size, 1200, state.angry);
+      var puzzle;
+      if (state.daily) {
+        setSeed(dailySeed(state.date));   // grille du jour : même graine, donc même grille
+        puzzle = generatePuzzle(state.size, 0, state.angry, DAILY_ATTEMPTS);
+      } else {
+        puzzle = generatePuzzle(state.size, GEN_BUDGET_MS, state.angry) ||
+                 generatePuzzle(state.size, 1200, state.angry);
+      }
       if (!puzzle) {
         App.toast(App.t('loading'));
         return;
@@ -719,26 +866,80 @@
       state.colors = regionColors(state.size, puzzle.regionOf, App.getTheme());
       state.cats = [];
       state.catMap = {};
+      state.crossMap = {};
+      state.errors = 0;
+      state.removals = 0;
       state.solved = false;
 
       state.element.levelTitle.textContent = levelTitle();
       buildCells();
       updateCounter();
+      updateErrorCounter();
       updateMarks();
-      syncNotesToggle();
       showLoader(false);
+      emit('ready', snapshot());
     }, 30);
   }
 
   function bindEvents() {
     var e = state.element;
 
+    var suppressClick = false;   // neutralise le clic qui suit un appui long tactile
+    var longPressTimer = null;
+    var pressOrigin = null;
+    var lastTouchDown = 0;
+
+    function clearLongPress() {
+      if (longPressTimer) global.clearTimeout(longPressTimer);
+      longPressTimer = null;
+      pressOrigin = null;
+    }
+
+    function cellIndexFrom(target) {
+      var cell = target && target.closest ? target.closest('.cell') : null;
+      return cell ? parseInt(cell.getAttribute('data-index'), 10) : -1;
+    }
+
     e.board.addEventListener('click', function (event) {
-      var target = event.target;
-      if (!target || !target.closest) return;
-      var cell = target.closest('.cell');
-      if (!cell) return;
-      handleCellTap(parseInt(cell.getAttribute('data-index'), 10));
+      if (suppressClick) {   // relâchement de l'appui long : le clic ne compte pas
+        suppressClick = false;
+        return;
+      }
+      var index = cellIndexFrom(event.target);
+      if (index >= 0) handleCellTap(index);
+    });
+
+    /* Clic droit : barre une case vide, retire le chat d'une case occupée. */
+    e.board.addEventListener('contextmenu', function (event) {
+      event.preventDefault();
+      // Sur mobile, l'appui long tactile est déjà traité par la minuterie.
+      if (Date.now() - lastTouchDown < 900) return;
+      secondaryAction(cellIndexFrom(event.target));
+    });
+
+    /* Appui long tactile (mobile) : même geste que le clic droit. */
+    e.board.addEventListener('pointerdown', function (event) {
+      suppressClick = false;   // nouveau geste : on repart d'un état propre
+      if (event.pointerType === 'mouse') return;
+      var index = cellIndexFrom(event.target);
+      if (index < 0) return;
+      lastTouchDown = Date.now();
+      clearLongPress();
+      pressOrigin = { x: event.clientX, y: event.clientY };
+      longPressTimer = global.setTimeout(function () {
+        longPressTimer = null;
+        if (secondaryAction(index)) suppressClick = true;
+      }, LONG_PRESS_MS);
+    });
+
+    e.board.addEventListener('pointermove', function (event) {
+      if (!pressOrigin) return;
+      if (Math.abs(event.clientX - pressOrigin.x) > 10 ||
+          Math.abs(event.clientY - pressOrigin.y) > 10) clearLongPress();
+    });
+
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (type) {
+      e.board.addEventListener(type, clearLongPress);
     });
 
     if (e.replayBtn) {
@@ -761,13 +962,10 @@
       });
     }
 
-    if (e.notesToggle) {
-      e.notesToggle.addEventListener('click', function () {
-        state.notes = !state.notes;
-        App.setNotes(state.notes);
-        syncNotesToggle();
-        updateMarks();
-        App.toast(App.t(state.notes ? 'notes_on' : 'notes_off'), 1600);
+    if (e.resetBtn) {
+      e.resetBtn.addEventListener('click', function () {
+        resetSameGrid();
+        App.toast(App.t('reset_done'), 1500);
       });
     }
 
@@ -800,7 +998,10 @@
     e.loader = element('loader');
     e.counter = element('counter');
     e.levelTitle = element('levelTitle');
-    e.notesToggle = element('notesToggle');
+    e.errorCounter = element('errorCounter');
+    e.legendNotes = element('legendNotes');
+    e.legendCross = element('legendCross');
+    e.resetBtn = element('resetBtn');
     e.replayBtn = element('replayBtn');
     e.helpBtn = element('helpBtn');
     e.abandonBtn = element('abandonBtn');
@@ -819,7 +1020,10 @@
     state.size = params.size;
     state.difficulty = params.difficulty;
     state.angry = params.angry;
-    state.notes = App.isNotesOn();
+    state.daily = params.daily;
+    state.date = params.date;
+    if (state.daily) setSeed(dailySeed(state.date));       // grille du jour : reproductible
+    state.notes = state.daily ? false : App.isNotesOn();   // grille du jour : sans notes auto
 
     e.levelTitle.textContent = levelTitle();
     if (e.rulesBox && global.innerWidth && global.innerWidth < 720) e.rulesBox.removeAttribute('open');
@@ -828,7 +1032,8 @@
     if (e.loaderCat) e.loaderCat.src = state.angry ? CAT_ICON_ANGRY : CAT_ICON;
 
     syncRulesBox();
-    syncNotesToggle();
+    syncLegend();
+    updateErrorCounter();
     bindEvents();
     newPuzzle();
   }
@@ -850,7 +1055,15 @@
     assignHues: assignHues,
     violationFor: violationFor,
     isSolved: isSolved,
-    readParams: readParams
+    readParams: readParams,
+    readDailyDate: readDailyDate,
+    dailySeed: dailySeed,
+    hashSeed: hashSeed,
+    setSeed: setSeed,
+    snapshot: snapshot,
+    on: on,
+    DAILY_SIZE: DAILY_SIZE,
+    DAILY_ATTEMPTS: DAILY_ATTEMPTS
   };
 
   if (global.document) {

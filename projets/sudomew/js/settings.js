@@ -1,6 +1,6 @@
 /* ============================================================
    Cat Logic Puzzle — settings.js
-   Lecture et écriture des réglages (cookies) : langue, thème, sons.
+   Lecture et écriture des réglages (cookies) : langue, thème, sons, notes auto.
    ============================================================ */
 (function (global) {
   'use strict';
@@ -25,10 +25,12 @@
     var langInputs = global.document.querySelectorAll('input[name="lang"]');
     var themeInputs = global.document.querySelectorAll('input[name="theme"]');
     var soundInputs = global.document.querySelectorAll('input[name="sound"]');
+    var notesInputs = global.document.querySelectorAll('input[name="notes"]');
 
     checkGroup(langInputs, App.getLang());
     checkGroup(themeInputs, App.getTheme());
     checkGroup(soundInputs, App.isSoundOn() ? 'on' : 'off');
+    checkGroup(notesInputs, App.isNotesOn() ? 'on' : 'off');
 
     bindGroup(langInputs, function (value) {
       App.setLang(value);
@@ -46,6 +48,12 @@
       App.setSound(on);
       if (on) App.playSound('click'); // confirmation sonore à l'activation
       App.toast(App.t('saved'));
+    });
+
+    bindGroup(notesInputs, function (value) {
+      var on = value === 'on';
+      App.setNotes(on);
+      App.toast(App.t(on ? 'notes_on' : 'notes_off'));
     });
   }
 

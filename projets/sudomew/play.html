@@ -33,7 +33,16 @@
     </section>
 
     <div class="diff-list">
-      <section class="diff-card" data-difficulty="easy">
+      <section class="diff-card diff-card--daily" data-difficulty="daily">
+        <div class="diff-card__top">
+          <span class="diff-card__name" data-i18n="daily_title">Daily grid</span>
+          <span class="diff-card__badge">7×7</span>
+        </div>
+        <p class="diff-card__meta" data-i18n="daily_desc">The same 7×7 Angry Cat grid for everyone, with a timer. A new grid every day.</p>
+        <a class="btn btn--primary btn--block" href="daily.html" data-i18n="daily_start">Play the daily grid</a>
+      </section>
+
+      <section class="diff-card diff-card--easy" data-difficulty="easy">
         <div class="diff-card__top">
           <span class="diff-card__name" data-i18n="easy">Easy</span>
           <span class="diff-card__badge">5×5</span>
@@ -42,7 +51,7 @@
                 data-start data-difficulty="easy" data-size="5" data-i18n="start">Start game</button>
       </section>
 
-      <section class="diff-card" data-difficulty="medium">
+      <section class="diff-card diff-card--medium" data-difficulty="medium">
         <div class="diff-card__top">
           <span class="diff-card__name" data-i18n="medium">Medium</span>
           <span class="diff-card__badge">7×7</span>
@@ -51,7 +60,7 @@
                 data-start data-difficulty="medium" data-size="7" data-i18n="start">Start game</button>
       </section>
 
-      <section class="diff-card" data-difficulty="hard">
+      <section class="diff-card diff-card--hard" data-difficulty="hard">
         <div class="diff-card__top">
           <span class="diff-card__name" data-i18n="hard">Hard</span>
           <span class="diff-card__badge">11×11</span>

@@ -18,10 +18,11 @@
 
   <main class="screen">
     <div class="game-status">
-      <p class="counter" id="counter" aria-live="polite">0/0</p>
-      <button class="btn btn--ghost btn--small toggle-btn" type="button" id="notesToggle" aria-pressed="true">
-        <span data-i18n="notes_toggle">Auto notes</span>
-      </button>
+      <div class="game-status__counters">
+        <p class="counter" id="counter" aria-live="polite">0/0</p>
+        <p class="counter counter--errors" id="errorCounter" aria-live="polite">Errors: 0</p>
+      </div>
+      <button class="btn btn--ghost btn--small reset-btn" type="button" id="resetBtn" data-i18n="reset_grid">Reset grid</button>
     </div>
 
     <div class="loader" id="loader">
@@ -41,7 +42,8 @@
     </div>
 
     <div class="legend" id="legend" hidden>
-      <span><i class="legend__invalid" aria-hidden="true"></i><span data-i18n="legend_notes">✕ = a square that cannot hold a cat</span></span>
+      <span id="legendNotes"><i class="legend__invalid" aria-hidden="true"></i><span data-i18n="legend_notes">✕ = a square that cannot hold a cat</span></span>
+      <span id="legendCross" hidden><i class="legend__cross" aria-hidden="true"></i><span data-i18n="legend_cross">Right-click (or long press) a square to cross it out</span></span>
       <span><i aria-hidden="true"></i><span data-i18n="legend_region">Thick lines separate the colour regions</span></span>
     </div>
 

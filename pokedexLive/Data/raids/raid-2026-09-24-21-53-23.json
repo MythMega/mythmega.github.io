@@ -1,0 +1,233 @@
+{
+  "bossName": "Draby",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bagon_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Bagon_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": false,
+  "pvMax": 210000,
+  "date": "2026-09-24 21:53:23",
+  "durationSec": 3342,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 198798,
+      "countAtk": 4,
+      "baseDmg": 41298,
+      "level": 20,
+      "raidCount": 1111,
+      "luck": 1.203436
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 14483,
+      "countAtk": 1,
+      "baseDmg": 14483,
+      "level": 17,
+      "raidCount": 508,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 3823,
+      "countAtk": 3,
+      "baseDmg": 774,
+      "level": 10,
+      "raidCount": 43,
+      "luck": 1.6464256
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 1585,
+      "countAtk": 1,
+      "baseDmg": 1585,
+      "level": 11,
+      "raidCount": 81,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 217104
+    },
+    {
+      "platform": "youtube",
+      "damage": 1585
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-24 21:53:53",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 41298,
+      "pvAfter": 168702,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-24 22:01:28",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 774,
+      "pvAfter": 167928,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-24 22:04:06",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 52500,
+      "pvAfter": 115428,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-24 22:05:33",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1263,
+      "pvAfter": 114165,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-24 22:10:53",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 52500,
+      "pvAfter": 61665,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-24 22:15:55",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 52500,
+      "pvAfter": 9165,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-24 22:26:19",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1786,
+      "pvAfter": 7379,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-09-24 22:27:01",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1585,
+      "pvAfter": 5794,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-24 22:49:06",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 14483,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "bossName": "Oniglali",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Glalie_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Glalie_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-09-26 21:24:30",
+  "durationSec": 3575,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 50000,
+      "countAtk": 4,
+      "baseDmg": 41870,
+      "level": 20,
+      "raidCount": 1116,
+      "luck": 0.2985431
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 8351,
+      "countAtk": 1,
+      "baseDmg": 8351,
+      "level": 16,
+      "raidCount": 345,
+      "luck": 1
+    },
+    {
+      "platform": "tiktok",
+      "pseudo": "\uD83C\uDF38|\u2022\uD835\uDCD4\uD835\uDCFD\uD835\uDCF8\uD835\uDCF4\uD835\uDCEA\uD835\uDCF5\uD835\uDCF2\u2022|\uD83C\uDF38",
+      "damage": 922,
+      "countAtk": 2,
+      "baseDmg": 303,
+      "level": 3,
+      "raidCount": 0,
+      "luck": 1.5214522
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 58351
+    },
+    {
+      "platform": "tiktok",
+      "damage": 922
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "\uD83C\uDF38|\u2022\uD835\uDCD4\uD835\uDCFD\uD835\uDCF8\uD835\uDCF4\uD835\uDCEA\uD835\uDCF5\uD835\uDCF2\u2022|\uD83C\uDF38",
+      "platform": "tiktok",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-26 21:25:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 37500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-26 21:38:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 25000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-26 22:10:31",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 12500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-26 22:10:40",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8351,
+      "pvAfter": 4149,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-26 22:14:59",
+      "pseudo": "\uD83C\uDF38|\u2022\uD835\uDCD4\uD835\uDCFD\uD835\uDCF8\uD835\uDCF4\uD835\uDCEA\uD835\uDCF5\uD835\uDCF2\u2022|\uD83C\uDF38",
+      "platform": "tiktok",
+      "damages": 303,
+      "pvAfter": 3846,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-26 22:21:37",
+      "pseudo": "\uD83C\uDF38|\u2022\uD835\uDCD4\uD835\uDCFD\uD835\uDCF8\uD835\uDCF4\uD835\uDCEA\uD835\uDCF5\uD835\uDCF2\u2022|\uD83C\uDF38",
+      "platform": "tiktok",
+      "damages": 619,
+      "pvAfter": 3227,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-26 22:24:06",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

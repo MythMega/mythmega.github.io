@@ -73,6 +73,18 @@ function showMessage(text, type = 'clue') {
         el.style.transform = 'scale(1)';
     }, 150);
 }
+// Animation du mot trouvé en gros à l'écran
+function triggerWordFlash(word) {
+    const overlay = document.getElementById('wordOverlay');
+    if (!overlay) return;
+    overlay.textContent = word;
+    overlay.classList.remove('show');
+    // Force reflow pour relancer l'animation
+    void overlay.offsetWidth;
+    overlay.classList.add('show');
+}
+
+
 
 function displayNextClueOrSentence() {
     if (currentIndex >= vaultData.Indices.length) {
@@ -104,8 +116,10 @@ function initVault(data) {
 
     const input = document.getElementById('vaultInput');
     
-    // Garder le focus actif sur l'input au clic n'importe où
+    // Garder le focus actif sur l'input au clic n'importe où (sauf si l'utilisateur sélectionne la clé)
     document.addEventListener('click', () => {
+        const sel = window.getSelection();
+        if (sel && sel.toString().length > 0) return;
         input.focus();
     });
 
@@ -134,9 +148,13 @@ function handleSubmit() {
 
     if (dist <= 2) {
         // Succès
+        const solvedWord = vaultData.Indices[currentIndex].Word;
         currentIndex++;
         renderKey();
         input.value = '';
+
+        // Afficher le mot deviné en gros au centre avant disparition progressive
+        triggerWordFlash(solvedWord);
 
         if (currentIndex >= vaultData.Indices.length) {
             showMessage("LE COFFRE EST OUVERT", 'success');

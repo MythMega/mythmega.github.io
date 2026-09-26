@@ -26,6 +26,6 @@ REM Attend une seconde pour laisser le serveur démarrer
 timeout /t 1 >nul
 
 REM Ouvre la page dans le navigateur
-start http://localhost:%port%/cards.html
+start http://localhost:%port%/index.html
 
 echo Serveur lance. Appuyez sur CTRL+C dans la console du serveur pour l'arreter.

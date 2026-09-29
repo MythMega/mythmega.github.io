@@ -1,0 +1,711 @@
+/* Styles pour la page de génération en lot (bulkgenerate.html) - Partie 1 */
+
+.bulk-body {
+  display: block;
+  min-height: 100vh;
+  background-color: var(--bg-color, #121214);
+  color: #fff;
+  padding: 24px 32px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.bulk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2a2a35;
+}
+
+.bulk-title-group h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.bulk-title-group p {
+  color: #8f92a4;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.bulk-nav-link {
+  color: #7289da;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 14px;
+  border: 1px solid #7289da;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.bulk-nav-link:hover {
+  background: rgba(114, 137, 218, 0.15);
+  color: #fff;
+}
+
+/* Zone d'importation JSON */
+.bulk-panel {
+  background: #1e1e24;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  margin-bottom: 24px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.panel-header h2 {
+  font-size: 1.15rem;
+  color: #f3e8ff;
+}
+
+.file-input-label {
+  background: #2a2a35;
+  color: #e0e0e0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #3f3f50;
+  transition: background 0.2s;
+}
+
+.file-input-label:hover {
+  background: #3f3f50;
+  color: #fff;
+}
+
+.json-textarea {
+  width: 100%;
+  height: 120px;
+  background: #141419;
+  border: 1px solid #333342;
+  border-radius: 8px;
+  padding: 12px;
+  color: #c9d1d9;
+  font-family: monospace;
+  font-size: 0.85rem;
+  resize: vertical;
+  margin-bottom: 12px;
+}
+
+.json-textarea:focus {
+  outline: none;
+  border-color: #5865f2;
+}
+
+.panel-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.serie-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.serie-input-group label {
+  font-size: 0.85rem;
+  color: #a0a0b0;
+  font-weight: 600;
+}
+
+.serie-input-group input {
+  background: #2a2a35;
+  border: 1px solid #3f3f50;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-primary {
+  background: #5865f2;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #4752c4;
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-success {
+  background: #23a55a;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s, transform 0.1s;
+}
+
+/* Bouton secondaire : action plus légère que l'export complet (téléchargement du
+ * seul manifeste JSON, sans génération d'images). */
+.btn-secondary {
+  background: #3a3a48;
+  color: #e0e0e0;
+  border: 1px solid #4a4a5c;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #4a4a5c;
+  color: #fff;
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tableau de vérification */
+.table-panel {
+  background: #1e1e24;
+  border-radius: 12px;
+  padding: 20px;
+  overflow-x: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.bulk-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1460px;
+}
+
+.bulk-table th {
+  background: #252530;
+  color: #a0a0b0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 2px solid #333342;
+  cursor: pointer;
+  user-select: none;
+}
+
+.bulk-table th:hover {
+  color: #fff;
+  background: #2c2c3a;
+}
+
+.sort-icon {
+  font-size: 0.75rem;
+  margin-left: 4px;
+  opacity: 0.4;
+}
+
+.sort-icon.active {
+  opacity: 1;
+  color: #5865f2;
+}
+
+.bulk-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #2a2a35;
+  vertical-align: middle;
+}
+
+.bulk-table tr:hover {
+  background: #23232c;
+}
+
+.cell-input {
+  width: 100%;
+  background: #16161c;
+  border: 1px solid #333342;
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.cell-input:focus {
+  outline: none;
+  border-color: #5865f2;
+}
+
+.index-input {
+  font-family: monospace;
+  font-weight: bold;
+  color: #ffb300;
+  text-transform: uppercase;
+  max-width: 130px;
+}
+
+.cell-textarea {
+  width: 100%;
+  background: #16161c;
+  border: 1px solid #333342;
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #e0e0e0;
+  font-size: 0.8rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.cell-textarea:focus {
+  outline: none;
+  border-color: #5865f2;
+}
+
+.rarity-select {
+  background: #16161c;
+  border: 1px solid #333342;
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #ffd700;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.table-thumbnail {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  border: 1px solid #333342;
+  display: block;
+  margin: 0 auto;
+}
+
+.pixel-render {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.no-thumb {
+  color: #666;
+  text-align: center;
+  display: block;
+}
+
+.col-media {
+  min-width: 120px;
+}
+
+.media-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.url-input {
+  width: 100%;
+  max-width: 130px;
+  font-size: 0.62rem;
+  padding: 4px 6px;
+  color: #8f94a8;
+}
+
+.url-input.inherited {
+  border-style: dashed;
+  color: #6b7183;
+}
+
+.btn-preview-card {
+  background: #3a3a48;
+  color: #e0e0e0;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btn-preview-card:hover {
+  background: #4a4a5c;
+  color: #fff;
+}
+
+.empty-table {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+  font-style: italic;
+}
+
+/* Carte de rendu invisible / hors écran */
+.offscreen-renderer {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  pointer-events: none;
+  visibility: visible;
+}
+
+/* Modal de prévisualisation */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #1e1e24;
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+  border: 1px solid #3f3f50;
+  max-height: 90vh;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: #a0a0b0;
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-close-btn:hover {
+  color: #fff;
+}
+
+.modal-lang-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.lang-btn {
+  background: #2a2a35;
+  color: #a0a0b0;
+  border: 1px solid #3f3f50;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-btn.active {
+  background: #5865f2;
+  color: #fff;
+  border-color: #5865f2;
+}
+
+/* Modal de Progression */
+.progress-card {
+  width: 360px;
+  text-align: center;
+  padding: 24px;
+}
+
+.progress-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 12px;
+  background: #2a2a35;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #5865f2, #00ffff);
+  transition: width 0.1s linear;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #a0a0b0;
+  margin-bottom: 8px;
+}
+
+.progress-step {
+  font-size: 0.8rem;
+  color: #7289da;
+  word-break: break-all;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #1c8648;
+}
+
+.btn-success:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.badge-count {
+  font-size: 0.85rem;
+  color: #a0a0b0;
+  font-weight: 600;
+}
+
+/* --- Types de carte : Full Art / Classique -------------------------------- */
+
+/* Sélecteur global du mode d'export, à côté du nom de série. */
+.serie-input-group select {
+  background: #2a2a35;
+  border: 1px solid #3f3f50;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.serie-input-group select:focus {
+  outline: none;
+  border-color: #5865f2;
+}
+
+/* Colonne « Type » du tableau : une mise en page choisie par carte. */
+.col-layout {
+  min-width: 108px;
+}
+
+.layout-select {
+  background: #16161c;
+  border: 1px solid #333342;
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #7ee0c0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Colonne « Police » : un choix par carte (mêmes polices que cards.html). */
+.col-font {
+  min-width: 190px;
+}
+
+.font-select {
+  background: #16161c;
+  border: 1px solid #333342;
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #a9b6ff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Bascule de mise en page de l'aperçu : teinte distincte de la bascule de langue. */
+#layout-toggle-fullart.active,
+#layout-toggle-classic.active {
+  background: #2f7d63;
+  border-color: #2f7d63;
+}
+
+/* --- Gestion des lignes : application en masse, ajout, duplication, suppression --- */
+
+/* Rappel affiché à côté du titre de la section du tableau. */
+.bulk-hint {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #7ee0c0;
+}
+
+/* Barre d'outils au-dessus du tableau (compteur + ajout de ligne). */
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.table-row-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #a0a0b0;
+}
+
+.btn-add-row {
+  background: #23a55a;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-add-row:hover {
+  background: #1c8648;
+}
+
+.btn-add-row:active {
+  transform: translateY(1px);
+}
+
+/* Seconde ligne d'en-tête « ⇩ toutes » : chaque case applique sa valeur à toutes les
+ * lignes du tableau. Présentée comme une commande (teal pointillé) et non comme un
+ * en-tête triable. */
+.bulk-apply-row th {
+  background: #191922;
+  border-bottom: 2px solid #333342;
+  padding: 6px 8px;
+  text-transform: none;
+  letter-spacing: normal;
+  cursor: default;
+  font-weight: 600;
+}
+
+.bulk-apply-row th:hover {
+  background: #191922;
+  color: #a0a0b0;
+}
+
+.bulk-input {
+  width: 100%;
+  background: #101015;
+  border: 1px dashed #4a4a5f;
+  color: #7ee0c0;
+  font-weight: 600;
+  user-select: text;
+}
+
+.bulk-input::placeholder {
+  color: #5a5a70;
+  font-weight: 600;
+}
+
+.bulk-input:focus {
+  outline: none;
+  border-style: solid;
+  border-color: #7ee0c0;
+}
+
+/* Colonne Actions : aperçu, duplication, suppression. */
+.col-actions {
+  min-width: 200px;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-row-action {
+  background: #3a3a48;
+  color: #e0e0e0;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btn-row-action:hover {
+  background: #4a4a5c;
+  color: #fff;
+}
+
+.btn-delete-row:hover {
+  background: #a5333f;
+  color: #fff;
+}
+
+/* Ligne tout juste ajoutée ou dupliquée : surbrillance brève. */
+.bulk-table tr.row-new td {
+  animation: row-flash 1.2s ease-out;
+}
+
+@keyframes row-flash {
+  0% {
+    background: rgba(35, 165, 90, 0.4);
+  }
+  100% {
+    background: transparent;
+  }
+}

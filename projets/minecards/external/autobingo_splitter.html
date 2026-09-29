@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestionnaire JSON - Minecraft Items</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- jQuery & DataTables CSS/JS -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+  <style>
+    /* Styling personnalisé pour DataTables */
+    .dataTables_wrapper .dataTables_length select,
+    .dataTables_wrapper .dataTables_filter input {
+      border: 1px solid #475569;
+      background-color: #0f172a;
+      color: #f8fafc;
+      border-radius: 0.375rem;
+      padding: 0.25rem 0.5rem;
+      outline: none;
+    }
+    .dataTables_wrapper .dataTables_filter input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+      color: #94a3b8 !important;
+      margin-top: 1rem;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+      color: #94a3b8 !important;
+      border-radius: 0.375rem;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+      background: #2563eb !important;
+      color: white !important;
+      border: none;
+    }
+    table.dataTable tbody tr {
+      background-color: transparent;
+    }
+    /* Scrollbar pour le panneau de sélection */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1e293b;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col p-6">
+
+  <!-- Header -->
+  <header class="max-w-[1600px] w-full mx-auto mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+    <div>
+      <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+        <span>📦</span> Filtre & Exportateur JSON
+      </h1>
+      <p id="json-meta" class="text-sm text-slate-400 mt-1">Importez un fichier JSON pour commencer.</p>
+    </div>
+
+    <!-- Actions principal -->
+    <div class="flex items-center gap-3">
+      <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200 shadow-md flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        Importer JSON
+        <input type="file" id="file-input" accept=".json" class="hidden">
+      </label>
+
+      <button id="export-btn" disabled class="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium px-4 py-2 rounded-lg transition duration-200 shadow-md flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Exporter Sélection (<span id="selected-count">0</span>)
+      </button>
+    </div>
+  </header>
+
+  <!-- Zone Contenu Principale (Layout 2 colonnes) -->
+  <main class="max-w-[1600px] w-full mx-auto flex-1 grid grid-cols-1 lg:grid-cols-4 gap-6">
+    
+    <!-- Table Container (3 Colonnes sur grands écrans) -->
+    <section class="lg:col-span-3 bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-lg flex flex-col">
+      
+      <!-- Contrôles de sélection globale -->
+      <div id="selection-controls" class="hidden mb-4 flex items-center justify-between border-b border-slate-700 pb-4">
+        <div class="flex items-center gap-3">
+          <button id="select-all-btn" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-1.5 rounded transition">
+            Tout sélectionner (Filtrés/Visibles)
+          </button>
+          <button id="deselect-all-btn" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-1.5 rounded transition">
+            Tout désélectionner
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div id="table-container" class="overflow-x-auto">
+        <table id="items-table" class="w-full text-left text-slate-200">
+          <thead>
+            <tr class="text-slate-400 border-b border-slate-700">
+              <th class="p-3 w-10 text-center">Sélect.</th>
+              <th class="p-3 w-16">Image</th>
+              <th class="p-3">Index</th>
+              <th class="p-3">Nom (FR)</th>
+              <th class="p-3">Nom (EN)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-700/50">
+            <!-- Injecté dynamiquement -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Message d'état vide initial -->
+      <div id="empty-state" class="my-auto py-16 text-center text-slate-500">
+        <svg class="w-16 h-16 mx-auto mb-4 stroke-slate-600" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <p class="text-lg font-medium">Aucun fichier JSON chargé</p>
+        <p class="text-sm text-slate-600 mt-1">Importez votre fichier d'items pour faire votre sélection.</p>
+      </div>
+    </section>
+
+    <!-- Encart des Éléments Sélectionnés (1 Colonne) -->
+    <aside class="bg-slate-800 rounded-xl border border-slate-700 p-6 shadow-lg flex flex-col h-[650px]">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-3">
+        <h2 class="font-semibold text-white flex items-center gap-2">
+          <span>🎯</span> Sélection (<span id="panel-count">0</span>)
+        </h2>
+        <button id="clear-panel-btn" class="text-xs text-rose-400 hover:text-rose-300 hover:underline disabled:opacity-30 disabled:no-underline" disabled>
+          Tout retirer
+        </button>
+      </div>
+
+      <!-- Liste scrollable des items retenus -->
+      <div id="selected-items-list" class="flex-1 overflow-y-auto custom-scrollbar space-y-2 pr-1">
+        <p class="text-xs text-slate-500 text-center py-8">Aucun élément sélectionné pour l'instant.</p>
+      </div>
+    </aside>
+
+  </main>
+
+  <script>
+    let originalJsonObject = null;
+    let itemsMap = new Map(); // Index -> Item Object
+    let selectedIndices = new Set(); // Contient les Index sélectionnés
+    let dataTable = null;
+
+    // Éléments DOM
+    const fileInput = document.getElementById('file-input');
+    const exportBtn = document.getElementById('export-btn');
+    const selectedCountEl = document.getElementById('selected-count');
+    const panelCountEl = document.getElementById('panel-count');
+    const jsonMetaEl = document.getElementById('json-meta');
+    const emptyState = document.getElementById('empty-state');
+    const selectionControls = document.getElementById('selection-controls');
+    const selectedItemsList = document.getElementById('selected-items-list');
+    const clearPanelBtn = document.getElementById('clear-panel-btn');
+
+    // Importer le JSON
+    fileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          originalJsonObject = JSON.parse(e.target.result);
+          
+          if (!originalJsonObject.Items || !Array.isArray(originalJsonObject.Items)) {
+            alert('Le fichier JSON ne contient pas de tableau "Items" valide.');
+            return;
+          }
+
+          // Réinitialiser la sélection et construire la Map rapide
+          selectedIndices.clear();
+          itemsMap.clear();
+          originalJsonObject.Items.forEach(item => itemsMap.set(item.Index, item));
+
+          // Métadonnées
+          jsonMetaEl.textContent = `${originalJsonObject.Name || 'Catégorie inconnue'} (${originalJsonObject.Items.length} items chargés)`;
+
+          // Remplir et construire la table
+          renderTable(originalJsonObject.Items);
+
+        } catch (err) {
+          alert('Erreur lors de la lecture du fichier JSON : ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // Rendu du tableau avec DataTables
+    function renderTable(items) {
+      emptyState.classList.add('hidden');
+      selectionControls.classList.remove('hidden');
+
+      if (dataTable) {
+        dataTable.destroy();
+        $('#items-table tbody').empty();
+      }
+
+      const tbody = $('#items-table tbody');
+      items.forEach(item => {
+        const imgTag = item.PictureMain 
+          ? `<img src="${item.PictureMain}" alt="${item.Name_EN}" class="w-8 h-8 object-contain bg-slate-900/50 p-1 rounded border border-slate-700" loading="lazy">` 
+          : '<div class="w-8 h-8 bg-slate-700 rounded flex items-center justify-center text-xs text-slate-500">N/A</div>';
+
+        const row = `
+          <tr class="hover:bg-slate-700/30 transition">
+            <td class="p-3 text-center">
+              <input type="checkbox" data-index="${item.Index}" class="item-checkbox w-4 h-4 rounded text-blue-600 focus:ring-blue-500 bg-slate-900 border-slate-600 cursor-pointer">
+            </td>
+            <td class="p-3">${imgTag}</td>
+            <td class="p-3 font-mono text-xs text-slate-400">${item.Index}</td>
+            <td class="p-3 font-medium text-white">${item.Name_FR || '-'}</td>
+            <td class="p-3 text-slate-300">${item.Name_EN || '-'}</td>
+          </tr>
+        `;
+        tbody.append(row);
+      });
+
+      // Initialisation de DataTables
+      dataTable = $('#items-table').DataTable({
+        language: {
+          search: "Rechercher :",
+          lengthMenu: "Afficher _MENU_ items",
+          info: "Affichage de _START_ à _END_ sur _TOTAL_ items",
+          infoFiltered: "(filtrés depuis _MAX_ items au total)",
+          paginate: {
+            first: "Premier",
+            previous: "Précédent",
+            next: "Suivant",
+            last: "Dernier"
+          }
+        },
+        // Ajout de l'option "Tous" (-1)
+        lengthMenu: [[25, 50, 100, -1], [25, 50, 100, "Tous"]],
+        pageLength: 25,
+        columnDefs: [
+          { orderable: false, targets: [0, 1] }
+        ],
+        order: [[2, 'asc']],
+        // S'assure de recalculer l'état des checkbox quand le DOM change (filtre/pagination)
+        drawCallback: syncCheckboxesUI
+      });
+
+      updateUI();
+    }
+
+    // Resynchronise les cases à cocher visibles selon `selectedIndices`
+    function syncCheckboxesUI() {
+      $('.item-checkbox').each(function() {
+        const index = $(this).data('index');$(this).prop('checked', selectedIndices.has(index));
+      });
+    }
+
+    // Événement changement sur une case à cocher
+    $('#items-table').on('change', '.item-checkbox', function() {
+      const index = $(this).data('index');
+      if (this.checked) {
+        selectedIndices.add(index);
+      } else {
+        selectedIndices.delete(index);
+      }
+      updateUI();
+    });
+
+    // Tout Sélectionner (Uniquement les éléments actuellement filtrés/visibles)
+    document.getElementById('select-all-btn').addEventListener('click', () => {
+      if (!dataTable) return;
+      // On récupère les items actuellement dans la vue filtrée de DataTable
+      const filteredRows = dataTable.rows({ filter: 'applied' }).data();
+      
+      filteredRows.each(row => {
+        // L'Index est dans la 3ème colonne (index 2)
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = row[2];
+        const index = tempDiv.textContent.trim();
+        selectedIndices.add(index);
+      });
+
+      syncCheckboxesUI();
+      updateUI();
+    });
+
+    // Tout Désélectionner
+    document.getElementById('deselect-all-btn').addEventListener('click', () => {
+      selectedIndices.clear();
+      syncCheckboxesUI();
+      updateUI();
+    });
+
+    // Bouton Tout retirer du panneau latéral
+    clearPanelBtn.addEventListener('click', () => {
+      selectedIndices.clear();
+      syncCheckboxesUI();
+      updateUI();
+    });
+
+    // Supprimer un seul item via le panneau latéral
+    function removeItem(index) {
+      selectedIndices.delete(index);
+      syncCheckboxesUI();
+      updateUI();
+    }
+
+    // Met à jour les compteurs, l'encart latéral et le bouton d'export
+    function updateUI() {
+      const count = selectedIndices.size;
+      selectedCountEl.textContent = count;
+      panelCountEl.textContent = count;
+      exportBtn.disabled = count === 0;
+      clearPanelBtn.disabled = count === 0;
+
+      // Rendre l'encart des éléments sélectionnés
+      selectedItemsList.innerHTML = '';
+
+      if (count === 0) {
+        selectedItemsList.innerHTML = '<p class="text-xs text-slate-500 text-center py-8">Aucun élément sélectionné pour l\'instant.</p>';
+        return;
+      }
+
+      selectedIndices.forEach(index => {
+        const item = itemsMap.get(index);
+        if (!item) return;
+
+        const name = item.Name_FR || item.Name_EN || index;
+        const imgTag = item.PictureMain 
+          ? `<img src="${item.PictureMain}" class="w-5 h-5 object-contain">` 
+          : `<span class="text-xs">📦</span>`;
+
+        const badge = document.createElement('div');
+        badge.className = "flex items-center justify-between gap-2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs hover:border-slate-600 transition";
+        badge.innerHTML = `
+          <div class="flex items-center gap-2 overflow-hidden">
+            ${imgTag}
+            <span class="truncate text-slate-200 font-medium" title="${name}">${name}</span>
+          </div>
+          <button onclick="removeItem('${index}')" class="text-slate-500 hover:text-rose-400 p-1 rounded hover:bg-slate-800 transition flex-shrink-0" title="Retirer">
+            ✕
+          </button>
+        `;
+        selectedItemsList.appendChild(badge);
+      });
+    }
+
+    // Exportation du JSON filtré
+    exportBtn.addEventListener('click', function() {
+      if (!originalJsonObject || selectedIndices.size === 0) return;
+
+      const exportedJson = {
+        ...originalJsonObject,
+        Items: originalJsonObject.Items.filter(item => selectedIndices.has(item.Index))
+      };
+
+      const jsonStr = JSON.stringify(exportedJson, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `filtered_${originalJsonObject.Name || 'export'}.json`.replace(/[^a-z0-9._-]/gi, '_');
+      document.body.appendChild(a);
+      a.click();
+      
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

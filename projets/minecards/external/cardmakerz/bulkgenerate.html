@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur TCG - Bulk Generator</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@600;800&family=Montserrat:ital,wght@0,500;0,800;1,400&family=Orbitron:wght@600;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <!-- Bibliothèques externes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- Feuilles de style -->
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/bulk.css">
+</head>
+<body class="bulk-body">
+
+  <!-- En-tête -->
+  <header class="bulk-header">
+    <div class="bulk-title-group">
+      <h1>TCG Bulk Generator</h1>
+      <p>Importez vos données JSON, ajustez les attributs et exportez l'ensemble en ZIP (versions FR et EN).</p>
+    </div>
+    <a href="./cards.html" class="bulk-nav-link">← Retour au Card Maker Simple</a>
+  </header>
+
+  <!-- Zone de saisie et Import JSON -->
+  <section class="bulk-panel">
+    <div class="panel-header">
+      <h2>1. Importer les Données JSON</h2>
+      <label class="file-input-label">
+        📂 Charger un fichier JSON
+        <input type="file" id="file-input" accept=".json" style="display: none;">
+      </label>
+    </div>
+    <textarea id="json-input" class="json-textarea" placeholder="Collez ici le contenu de votre fichier JSON (ex: bdata_exemple.json)..."></textarea>
+
+    <div class="panel-actions">
+      <div class="serie-input-group">
+        <label for="serie-name-input">Nom de la Série :</label>
+        <input type="text" id="serie-name-input" value="Items" placeholder="Ex: Items">
+      </div>
+
+      <div class="serie-input-group">
+        <label for="layout-mode">Types de carte :</label>
+        <select id="layout-mode" title="Mises en page générées pour chaque carte">
+          <option value="both" selected>Classique + Full Art</option>
+          <option value="fullart">Full Art uniquement</option>
+          <option value="classic">Classique uniquement</option>
+        </select>
+      </div>
+
+      <div class="action-buttons">
+        <span class="badge-count" id="card-count">0 carte(s) chargée(s)</span>
+        <button type="button" id="load-btn" class="btn-primary">Charger le JSON</button>
+        <button type="button" id="download-json-btn" class="btn-secondary" title="Télécharge uniquement le manifeste {Serie}.json (celui qui serait placé dans le ZIP), sans générer les images" disabled>🧾 Télécharger le JSON</button>
+        <button type="button" id="export-btn" class="btn-success" disabled>📥 Télécharger tout (ZIP)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tableau de données -->
+  <section class="table-panel">
+    <div class="panel-header">
+      <h2>2. Vérifier et ajuster les lignes</h2>
+      <span class="bulk-hint">Ligne « ⇩ toutes » sous un en-tête : la valeur saisie est appliquée à chaque ligne.</span>
+    </div>
+    <div id="table-container">
+      <div class="empty-table">Aucune carte chargée. Importez un JSON ci-dessus ou ajoutez une ligne.</div>
+    </div>
+  </section>
+
+  <!-- Carte hors écran dédiée au rendu HTML2Canvas -->
+  <div class="offscreen-renderer">
+    <div class="card-preview" id="render-card">
+      <div class="card-inner">
+        <div class="card-art"></div>
+        <div class="card-foil-bg"></div>
+        <div class="card-underlay"></div>
+        <div class="card-foil-underlay"></div>
+
+        <div class="card-header">
+          <div class="card-title-container">
+            <span class="card-title"></span>
+            <span class="card-series"></span>
+          </div>
+          <span class="card-rarity"></span>
+        </div>
+
+        <div class="card-body">
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Prévisualisation d'une carte -->
+  <div class="modal-overlay" id="preview-modal">
+    <div class="modal-content">
+      <button type="button" class="modal-close-btn" id="modal-close" title="Fermer">&times;</button>
+      
+      <div class="modal-lang-toggle">
+        <button type="button" class="lang-btn active" id="lang-toggle-fr">Version FR</button>
+        <button type="button" class="lang-btn" id="lang-toggle-en">Version EN</button>
+      </div>
+
+      <div class="modal-lang-toggle">
+        <button type="button" class="lang-btn active" id="layout-toggle-fullart">Full Art</button>
+        <button type="button" class="lang-btn" id="layout-toggle-classic">Classique</button>
+      </div>
+
+      <div class="card-preview" id="preview-card">
+        <div class="card-inner">
+          <div class="card-art"></div>
+          <div class="card-foil-bg"></div>
+          <div class="card-underlay"></div>
+          <div class="card-foil-underlay"></div>
+
+          <div class="card-header">
+            <div class="card-title-container">
+              <span class="card-title"></span>
+              <span class="card-series"></span>
+            </div>
+            <span class="card-rarity"></span>
+          </div>
+
+          <div class="card-body">
+            <p class="card-text"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Progression de l'exportation -->
+  <div class="modal-overlay" id="progress-modal">
+    <div class="modal-content progress-card">
+      <h3>Génération des cartes en cours</h3>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-bar"></div>
+      </div>
+      <div class="progress-info">
+        <span>Progression</span>
+        <span id="progress-text">0%</span>
+      </div>
+      <p class="progress-step" id="progress-details">Initialisation...</p>
+    </div>
+  </div>
+
+  <!-- Scripts JavaScript modulaires (une classe par fichier) -->
+  <script src="./js/render/FontEmbedder.js"></script>
+  <script src="./js/render/SvgDomRenderer.js"></script>
+  <script src="./js/bulk/RarityDef.js"></script>
+  <script src="./js/bulk/FontDef.js"></script>
+  <script src="./js/bulk/CardItem.js"></script>
+  <script src="./js/bulk/ImportParsers.js"></script>
+  <script src="./js/bulk/ResourceInliner.js"></script>
+  <script src="./js/bulk/TableManager.js"></script>
+  <script src="./js/bulk/CardRenderer.js"></script>
+  <script src="./js/bulk/BatchExporter.js"></script>
+  <script src="./js/bulk/BulkApp.js"></script>
+</body>
+</html>

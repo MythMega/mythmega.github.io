@@ -1,0 +1,436 @@
+:root {
+      --bg-color: #121214;
+      --card-width: 360px;
+      --card-height: 500px;
+      --card-font: 'Montserrat', sans-serif;
+
+      /* Épaisseur de bordure fixe */
+      --border-thickness: 4px;
+
+      /* Commune (★) */
+      --rarity-border: #4a4a5a;
+      --rarity-glow: rgba(0, 0, 0, 0.6);
+      --rarity-badge-bg: rgba(15, 15, 20, 0.7);
+      --rarity-text-color: #ffffff;
+      --rarity-accent: #a0a0b0;
+      
+      --foil-opacity: 0;
+      --foil-gradient: linear-gradient(135deg, transparent, transparent);
+      --foil-pattern: none;
+      --foil-pattern-size: auto;
+      --foil-blend: overlay;
+
+      /* Dosage différencié du foil selon la couche : légèrement renforcé sur
+         l'image de fond, légèrement atténué sur l'underlay (pixel art). */
+      --foil-bg-strength: 1.15;
+      --foil-underlay-strength: 0.6;
+
+      --corner-clip: polygon(0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+
+    /* Rare (★★) */
+    .rarity-rare {
+      --rarity-border: #93b5c6;
+      --rarity-glow: rgba(70, 130, 180, 0.4);
+      --rarity-badge-bg: rgba(15, 25, 35, 0.75);
+      --rarity-text-color: #e0f7fa;
+      --rarity-accent: #4dd0e1;
+
+      --foil-opacity: 0.25;
+      --foil-gradient: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.7) 45%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.7) 55%, transparent 80%);
+      --foil-pattern: none;
+      --foil-pattern-size: cover;
+      --foil-blend: overlay;
+    }
+
+    /* Super Rare (★★★) */
+    .rarity-super-rare {
+      --rarity-border: #a855f7;
+      --rarity-glow: rgba(168, 85, 247, 0.45);
+      --rarity-badge-bg: rgba(30, 10, 40, 0.8);
+      --rarity-text-color: #f3e8ff;
+      --rarity-accent: #c084fc;
+
+      --foil-opacity: 0.3;
+      --foil-gradient: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(56, 189, 248, 0.6), rgba(168, 85, 247, 0.6));
+      --foil-pattern: repeating-linear-gradient(60deg, rgba(255, 255, 255, 0.15) 0px, rgba(255, 255, 255, 0.15) 4px, transparent 4px, transparent 12px);
+      --foil-pattern-size: cover;
+      --foil-blend: color-dodge;
+    }
+
+    /* Légendaire (✦) */
+    .rarity-legendary {
+      --rarity-border: #ffd700;
+      --rarity-glow: rgba(255, 215, 0, 0.5);
+      --rarity-badge-bg: rgba(35, 25, 5, 0.85);
+      --rarity-text-color: #fff8e1;
+      --rarity-accent: #ffb300;
+
+      --foil-opacity: 0.45;
+      --foil-gradient: linear-gradient(125deg, transparent 25%, rgba(255, 223, 118, 0.7) 46%, rgba(255, 245, 180, 0.95) 50%, rgba(255, 180, 50, 0.8) 54%, transparent 75%);
+      --foil-pattern: 
+        radial-gradient(circle at 50% 50%, rgba(255, 240, 160, 0.9) 0%, rgba(255, 200, 50, 0.4) 15%, transparent 45%),
+        conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255, 215, 0, 0.45) 45deg, transparent 90deg, rgba(255, 255, 255, 0.7) 135deg, transparent 180deg, rgba(255, 215, 0, 0.45) 225deg, transparent 270deg, rgba(255, 255, 255, 0.7) 315deg, transparent 360deg),
+        radial-gradient(circle at 18px 18px, rgba(255, 255, 255, 0.6) 1.5px, transparent 2px),
+        repeating-conic-gradient(from 45deg at 18px 18px, rgba(255, 215, 0, 0.22) 0deg 90deg, transparent 90deg 180deg);
+      --foil-pattern-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+      --foil-blend: color-dodge;
+    }
+
+    /* Mythique (💎) */
+    .rarity-mythic {
+      --rarity-border: #ff2a8d;
+      --rarity-glow: rgba(255, 42, 141, 0.6);
+      --rarity-badge-bg: rgba(35, 5, 25, 0.85);
+      --rarity-text-color: #ffffff;
+      --rarity-accent: #00ffff;
+
+      --foil-opacity: 0.35;
+      --foil-gradient: linear-gradient(135deg, rgba(255, 0, 128, 0.5), rgba(0, 255, 255, 0.5), rgba(255, 220, 0, 0.5), rgba(160, 32, 240, 0.5), rgba(255, 0, 128, 0.5));
+      --foil-pattern: 
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6) 0%, rgba(0, 255, 255, 0.25) 30%, transparent 65%),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSIyNy43MTMiIHZpZXdCb3g9IjAgMCA0OCAyNy43MTMiPjxwYXRoIGQ9Ik0xNiAwaDE2bDggMTMuODU2LTggMTMuODU3SDE2TDggMTMuODU2em0tMTYgMTMuODU2aDhtMzIgMGg4IiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48L3N2Zz4=");
+      --foil-pattern-size: 100% 100%, 48px 27.713px;
+      --foil-blend: color-dodge;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--bg-color);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      max-width: 900px;
+      justify-content: center;
+    }
+
+    /* Formulaire */
+    .form-container {
+      background: #1e1e24;
+      padding: 24px;
+      border-radius: 12px;
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label { font-size: 0.85rem; color: #a0a0b0; font-weight: 600; }
+    input, textarea, select {
+      background: #2a2a35;
+      border: 1px solid #3f3f50;
+      border-radius: 6px;
+      padding: 10px;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      font-family: inherit;
+    }
+
+    input:focus, textarea:focus { border-color: #7289da; }
+
+    button {
+      background: #5865f2;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    button:hover { background: #4752c4; }
+
+    /* Conteneur principal de la carte */
+    .card-preview {
+      width: var(--card-width);
+      height: var(--card-height);
+      position: relative;
+      background: var(--rarity-border);
+      clip-path: var(--corner-clip);
+      padding: var(--border-thickness);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 25px var(--rarity-glow);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      font-family: var(--card-font);
+    }
+
+    /* Cadre intérieur */
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      clip-path: var(--corner-clip);
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    /* Image de fond */
+    .card-art {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      z-index: 1;
+    }
+
+    /* Overlay Foil sur l'image de fond (entre le fond et l'underlay) : intensité renforcée. */
+    .card-foil-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      opacity: calc(var(--foil-opacity) * var(--foil-bg-strength));
+      background-image: var(--foil-pattern), var(--foil-gradient);
+      background-size: var(--foil-pattern-size), 200% 200%;
+      mix-blend-mode: var(--foil-blend);
+      transition: all 0.3s ease;
+    }
+
+    /* Image Underlay (Pixel art / Non-interpolée) */
+    .card-underlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 3;
+      pointer-events: none;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+
+    /* Overlay Foil sur l'underlay : intensité atténuée. */
+    .card-foil-underlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 4;
+      pointer-events: none;
+      opacity: calc(var(--foil-opacity) * var(--foil-underlay-strength));
+      background-image: var(--foil-pattern), var(--foil-gradient);
+      background-size: var(--foil-pattern-size), 200% 200%;
+      mix-blend-mode: var(--foil-blend);
+      transition: all 0.3s ease;
+    }
+
+    /* En-tête */
+    .card-header {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--rarity-badge-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      clip-path: polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
+      border: 1px solid var(--rarity-border);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+
+    .card-title-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .card-title {
+      font-weight: 800;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--rarity-text-color);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .card-series {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--rarity-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .card-rarity {
+      font-size: 1.2rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+    }
+
+    /* Boîte de texte */
+    .card-body {
+      position: relative;
+      z-index: 5;
+      background: var(--rarity-badge-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 14px;
+      clip-path: polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
+      border: 1px solid var(--rarity-border);
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+
+    .card-text {
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #e0e0e0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+    }
+
+    /* Ajustement de taille de police pour le Pixel Art */
+    .font-pixel .card-title { font-size: 0.7rem; line-height: 1.2; }
+    .font-pixel .card-series { font-size: 0.5rem; }
+    .font-pixel .card-text { font-size: 0.6rem; line-height: 1.5; }
+
+    /* =====================================================================
+       MISE EN PAGE « CLASSIQUE »
+       Le bandeau du nom occupe toute la largeur (7 % de la hauteur de carte)
+       et est ancré vers le haut ; le bloc de description occupe lui aussi
+       toute la largeur (60 % de la hauteur de carte) et est ancré vers le bas.
+       L'image de fond et l'underlay apparaissent donc dans la bande centrale.
+       ===================================================================== */
+
+    .card-preview.card-layout-classic {
+      /* Foil nettement atténué sur le bloc de description (version allégée). */
+      --foil-classic-strength: 0.35;
+    }
+
+    /* En mise en page classique, l'illustration est strictement confinée à la bande
+       située entre le bandeau du nom (7 % en haut) et le bloc de description
+       (60 % en bas) : tous les calques d'image sont donc recadrés sur cette bande. */
+    .card-preview.card-layout-classic .card-art,
+    .card-preview.card-layout-classic .card-foil-bg,
+    .card-preview.card-layout-classic .card-underlay,
+    .card-preview.card-layout-classic .card-foil-underlay {
+      top: calc(var(--card-height) * 0.10);
+      bottom: calc(var(--card-height) * 0.50);
+      height: auto;
+    }
+
+    /* Le cadre intérieur n'est plus une pile flex : les deux blocs sont
+       positionnés en absolu, ce qui libère toute la largeur. */
+    .card-preview.card-layout-classic .card-inner {
+      display: block;
+      padding: 0;
+    }
+
+    /* Bandeau du nom : pleine largeur, 10 % de la hauteur de carte, ancré en haut. */
+    .card-preview.card-layout-classic .card-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: calc(var(--card-height) * 0.10);
+      padding: 0 12px;
+      clip-path: none;
+      border: none;
+      border-bottom: 2px solid var(--rarity-border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+    }
+
+    /* Nom + série côte à côte pour tenir dans la faible hauteur du bandeau. */
+    .card-preview.card-layout-classic .card-title-container {
+      flex-direction: column;
+      align-items: baseline;
+      gap: 8px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .card-preview.card-layout-classic .card-title,
+    .card-preview.card-layout-classic .card-series {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Bloc de description : pleine largeur, 50 % de la hauteur, ancré en bas.*/
+    .card-preview.card-layout-classic .card-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: calc(var(--card-height) * 0.50);
+      padding: 16px;
+      clip-path: none;
+      border: none;
+      border-top: 2px solid var(--rarity-border);
+      box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+      /* Fond quasi solide : le texte reste parfaitement lisible. */
+      background-color: rgba(9, 9, 13, 0.93);
+    }
+
+    /* Le fond du bloc de description reprend l'IMAGE DE FOND uniquement (jamais
+       l'underlay) en version ultra floutée : la description est donc posée sur une
+       teinte douce issue de l'illustration, sans jamais la laisser paraître nette. */
+    .card-preview.card-layout-classic .card-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background-image: var(--card-background-image, none);
+      background-size: cover;
+      background-position: center;
+      /* Flou très prononcé : l'image devient une simple nappe de couleurs. */
+      filter: blur(28px) saturate(1.15);
+      /* Légère mise à l'échelle : masque les bords adoucis créés par le flou. */
+      transform: scale(1.2);
+      opacity: 0.4;
+    }
+
+    /* Foil allégé, uniquement sur le bloc de description des cartes classiques. */
+    .card-preview.card-layout-classic .card-body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: calc(var(--foil-opacity) * var(--foil-classic-strength));
+      background-image: var(--foil-pattern), var(--foil-gradient);
+      background-size: var(--foil-pattern-size), 200% 200%;
+      mix-blend-mode: var(--foil-blend);
+    }
+
+    /* Le texte reste lisible au-dessus du foil allégé. */
+    .card-preview.card-layout-classic .card-text {
+      position: relative;
+      z-index: 2;
+    }

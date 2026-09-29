@@ -1,0 +1,63 @@
+/
+├── assets/
+│   ├── boostermodel.glb
+│   ├── img/
+|   └── sound/
+├── css/
+│   ├── base.css
+│   ├── themes.css                  # variables : dark / light / classic
+│   ├── components/
+│   │   ├── booster-3d.css
+│   │   ├── card-reveal.css
+│   │   └── modal.css
+│   └── views/
+│       ├── onboarding.css
+│       ├── collection.css
+│       ├── opening.css
+│       ├── redeem.css
+│       ├── gifts.css
+│       ├── settings.css
+│       └── stats.css
+├── js/
+│   ├── app.js
+│   ├── business/
+│   │   ├── AccountManager.js       # compte local + UUID
+│   │   ├── BoosterManager.js
+│   │   ├── CollectionManager.js
+│   │   ├── DateSyncManager.js
+│   │   ├── GachaEngine.js
+│   │   ├── GiftManager.js          # vérification des distributions
+│   │   └── RedeemManager.js
+│   ├── classes/
+│   │   ├── Card.js
+│   │   └── SaveFile.js
+│   ├── models/
+│   │   └── StorageRepository.js
+│   ├── UI/
+│   │   ├── components/
+│   │   │   ├── Booster3DRenderer.js
+│   │   │   ├── CardComponent.js
+│   │   │   └── Toast.js            # feedback succès / erreur
+│   │   └── views/
+│   │       ├── OnboardingView.js   # 1ère visite : créer / importer
+│   │       ├── CollectionView.js
+│   │       ├── GiftsView.js        # historique des cadeaux reçus
+│   │       ├── OpeningView.js
+│   │       ├── RedeemView.js
+│   │       ├── SettingsView.js
+│   │       └── StatsView.js
+│   └── utils/
+│       ├── Compression.js
+│       ├── EventBus.js
+│       ├── I18n.js                 # traductions + chemins d'images
+│       └── ThemeManager.js         # application du thème
+├── settings/
+│   ├── boosters/
+│   │   └── set1.json
+│   ├── i18n/                       # [NEW]
+│   │   ├── fr.json
+│   │   └── en.json
+│   ├── config.json                 # [NEW] URL du Google Sheet, langues/thèmes dispo
+│   ├── redeem.json
+│   └── rarity.json
+└── index.html

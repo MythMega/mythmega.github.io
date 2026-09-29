@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualiseur 3D - Booster</title>
+    <link rel="stylesheet" href="styles/proto.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="ui-container">
+        <label for="texture-select">Texture :</label>
+        <select id="texture-select">
+            <option value="textures/blocks.png">Blocks</option>
+            <option value="textures/items.png">Items</option>
+            <option value="textures/mobs.png">Mobs</option>
+        </select>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <script type="module" src="js/proto/main.js"></script>
+</body>
+</html>

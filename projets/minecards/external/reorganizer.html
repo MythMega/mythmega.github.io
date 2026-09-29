@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Reorderer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; padding: 20px; display: flex; flex-direction: column; gap: 20px; min-height: 100vh; }
+    
+    header { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 15px 20px; border-radius: 8px; border: 1px solid #334155; }
+    .file-input { display: flex; align-items: center; gap: 10px; }
+    input[type="file"] { background: #0f172a; color: #94a3b8; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; cursor: pointer; }
+    
+    .layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+    
+    /* Table section */
+    .table-container { background: #1e293b; border-radius: 8px; border: 1px solid #334155; overflow-x: auto; max-height: calc(100vh - 120px); overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #334155; vertical-align: middle; }
+    th { background: #1e293b; position: sticky; top: 0; z-index: 10; }
+    
+    /* Surlignage orange pour les cartes déjà ajoutées */
+    tr.in-preview { background-color: rgba(234, 88, 12, 0.25); }
+    tr.in-preview:hover { background-color: rgba(234, 88, 12, 0.35); }
+
+    .th-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; cursor: pointer; user-select: none; }
+    .th-header:hover { color: #38bdf8; }
+    .filter-input { width: 100%; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+    
+    .img-preview { width: 36px; height: 36px; object-fit: contain; background: #0f172a; border-radius: 4px; border: 1px solid #334155; }
+    
+    .btn-add { background: #0284c7; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 12px; }
+    .btn-add:hover { background: #0369a1; }
+    .btn-add:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+
+    /* Preview Sidebar */
+    .sidebar { background: #1e293b; border-radius: 8px; border: 1px solid #334155; padding: 15px; position: sticky; top: 20px; max-height: calc(100vh - 120px); display: flex; flex-direction: column; gap: 15px; }
+    .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+    
+    .selected-list { list-style: none; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 500px; min-height: 100px; padding-right: 4px; }
+    .selected-item { background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 8px; display: flex; align-items: center; gap: 10px; cursor: grab; user-select: none; transition: background 0.15s, border-color 0.15s; }
+    .selected-item:active { cursor: grabbing; }
+    .selected-item.dragging { opacity: 0.4; border-color: #38bdf8; }
+    .selected-item.drag-over { border-top: 2px solid #38bdf8; }
+    
+    .item-drag-handle { color: #64748b; font-size: 16px; cursor: grab; }
+    .item-details { flex: 1; min-width: 0; }
+    .item-title { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .item-index { font-size: 11px; color: #94a3b8; }
+    
+    .btn-remove { background: transparent; color: #ef4444; border: none; font-size: 16px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+    .btn-remove:hover { background: #450a0a; }
+
+    .btn-download { background: #16a34a; color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; text-align: center; }
+    .btn-download:hover { background: #15803d; }
+    .btn-download:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>Card Reorderer</h2>
+    <div class="file-input">
+      <label for="jsonInput">Charger JSON :</label>
+      <input type="file" id="jsonInput" accept=".json">
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Tableau principal -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <div class="th-header" onclick="sortTable('Index')">Index <span id="sort-Index"></span></div>
+              <input type="text" class="filter-input" placeholder="Filtrer..." oninput="filterTable('Index', this.value)">
+            </th>
+            <th>
+              <div class="th-header" onclick="sortTable('Name_FR')">Nom FR <span id="sort-Name_FR"></span></div>
+              <input type="text" class="filter-input" placeholder="Filtrer..." oninput="filterTable('Name_FR', this.value)">
+            </th>
+            <th>
+              <div class="th-header" onclick="sortTable('Name_EN')">Nom EN <span id="sort-Name_EN"></span></div>
+              <input type="text" class="filter-input" placeholder="Filtrer..." oninput="filterTable('Name_EN', this.value)">
+            </th>
+            <th>
+              <div class="th-header" onclick="sortTable('Underlay')">Underlay <span id="sort-Underlay"></span></div>
+              <input type="text" class="filter-input" placeholder="Filtrer URL..." oninput="filterTable('Underlay', this.value)">
+            </th>
+            <th>
+              <div class="th-header" onclick="sortTable('Background')">Background <span id="sort-Background"></span></div>
+              <input type="text" class="filter-input" placeholder="Filtrer URL..." oninput="filterTable('Background', this.value)">
+            </th>
+            <th style="width: 80px;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="6" style="text-align: center; color: #64748b; padding: 30px;">Veuillez charger un fichier JSON.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Panneau latéral de réordonnancement -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>Ordre final</h3>
+        <span id="selectedCount" style="color: #38bdf8; font-weight: bold;">0 item</span>
+      </div>
+
+      <ul class="selected-list" id="selectedList">
+        <li style="color: #64748b; text-align: center; padding: 20px 0;">Aucune carte sélectionnée.</li>
+      </ul>
+
+      <button class="btn-download" id="downloadBtn" onclick="downloadJSON()" disabled>Télécharger le JSON</button>
+    </div>
+  </div>
+
+  <script>
+    let originalData = null;
+    let cards = [];
+    let filteredCards = [];
+    let selectedCards = [];
+
+    let currentSort = { column: null, ascii: true };
+    let activeFilters = { Index: '', Name_FR: '', Name_EN: '', Underlay: '', Background: '' };
+
+    // Lecture du fichier JSON
+    document.getElementById('jsonInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          originalData = JSON.parse(evt.target.result);
+          
+          // DISTINCT sur l'Index : conserve uniquement le premier objet rencontré pour chaque Index
+          const seenIndexes = new Set();
+          const distinctCards = [];
+
+          for (const card of (originalData.Cards || [])) {
+            const indexKey = card.Index;
+            if (!indexKey || !seenIndexes.has(indexKey)) {
+              if (indexKey) seenIndexes.add(indexKey);
+              distinctCards.push(card);
+            }
+          }
+
+          cards = distinctCards.map((card, idx) => ({ ...card, _uid: idx }));
+          filteredCards = [...cards];
+          selectedCards = [];
+          renderTable();
+          renderSelectedList();
+        } catch (err) {
+          alert('Erreur de lecture du JSON : ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // Filtres
+    function filterTable(column, value) {
+      activeFilters[column] = value.toLowerCase();
+      applyFiltersAndSort();
+    }
+
+    function applyFiltersAndSort() {
+      filteredCards = cards.filter(card => {
+        return Object.keys(activeFilters).every(key => {
+          const val = (card[key] || '').toString().toLowerCase();
+          return val.includes(activeFilters[key]);
+        });
+      });
+
+      if (currentSort.column) {
+        const col = currentSort.column;
+        const dir = currentSort.ascii ? 1 : -1;
+        filteredCards.sort((a, b) => {
+          const valA = (a[col] || '').toString();
+          const valB = (b[col] || '').toString();
+          return valA.localeCompare(valB, undefined, { numeric: true }) * dir;
+        });
+      }
+
+      renderTable();
+    }
+
+    // Tri
+    function sortTable(column) {
+      if (currentSort.column === column) {
+        currentSort.ascii = !currentSort.ascii;
+      } else {
+        currentSort.column = column;
+        currentSort.ascii = true;
+      }
+
+      // Mise à jour visuelle des flèches
+      ['Index', 'Name_FR', 'Name_EN', 'Underlay', 'Background'].forEach(c => {
+        const el = document.getElementById(`sort-${c}`);
+        if (c === column) {
+          el.textContent = currentSort.ascii ? '▲' : '▼';
+        } else {
+          el.textContent = '';
+        }
+      });
+
+      applyFiltersAndSort();
+    }
+
+    // Rendu du tableau
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      if (!originalData) return;
+
+      if (filteredCards.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #64748b; padding: 20px;">Aucun résultat.</td></tr>';
+        return;
+      }
+
+      const selectedUids = new Set(selectedCards.map(c => c._uid));
+
+      tbody.innerHTML = filteredCards.map(card => {
+        const isInPreview = selectedUids.has(card._uid);
+        return `
+          <tr class="${isInPreview ? 'in-preview' : ''}">
+            <td><strong>${escapeHtml(card.Index || '')}</strong></td>
+            <td>${escapeHtml(card.Name_FR || '')}</td>
+            <td>${escapeHtml(card.Name_EN || '')}</td>
+            <td><img src="${escapeHtml(card.Underlay || '')}" class="img-preview" alt="underlay" onerror="this.style.opacity=0.2"></td>
+            <td><img src="${escapeHtml(card.Background || '')}" class="img-preview" alt="background" onerror="this.style.opacity=0.2"></td>
+            <td>
+              <button class="btn-add" onclick="addCard(${card._uid})">+ Ajouter</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Ajout d'une carte dans la liste finale
+    function addCard(uid) {
+      const card = cards.find(c => c._uid === uid);
+      if (card) {
+        selectedCards.push({ ...card, _tempId: Date.now() + Math.random() });
+        renderSelectedList();
+      }
+    }
+
+    // Suppression d'une carte de la liste finale
+    function removeCard(index) {
+      selectedCards.splice(index, 1);
+      renderSelectedList();
+    }
+
+    // Rendu du panneau latéral (Prévisualisation)
+    function renderSelectedList() {
+      const listEl = document.getElementById('selectedList');
+      const countEl = document.getElementById('selectedCount');
+      const downloadBtn = document.getElementById('downloadBtn');
+
+      countEl.textContent = `${selectedCards.length} item${selectedCards.length > 1 ? 's' : ''}`;
+      downloadBtn.disabled = selectedCards.length === 0;
+
+      // Rafraîchir le tableau principal pour mettre à jour les surlignages
+      renderTable();
+
+      if (selectedCards.length === 0) {
+        listEl.innerHTML = '<li style="color: #64748b; text-align: center; padding: 20px 0;">Aucune carte sélectionnée.</li>';
+        return;
+      }
+
+      listEl.innerHTML = selectedCards.map((card, index) => `
+        <li class="selected-item" 
+            draggable="true" 
+            data-index="${index}"
+            ondragstart="handleDragStart(event)"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+            ondrop="handleDrop(event)"
+            ondragend="handleDragEnd(event)">
+          <span class="item-drag-handle">⋮⋮</span>
+          <img src="${escapeHtml(card.Underlay || '')}" class="img-preview" alt="" onerror="this.style.opacity=0.2">
+          <div class="item-details">
+            <div class="item-title">${escapeHtml(card.Name_EN || 'Sans nom')}</div>
+            <div class="item-index">${escapeHtml(card.Index || '')} (${card.Layout || ''})</div>
+          </div>
+          <button class="btn-remove" onclick="removeCard(${index})">✕</button>
+        </li>
+      `).join('');
+    }
+
+    // Drag and Drop Handlers
+    let dragSrcIndex = null;
+
+    function handleDragStart(e) {
+      dragSrcIndex = Number(e.currentTarget.dataset.index);
+      e.currentTarget.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const item = e.currentTarget;
+      item.classList.add('drag-over');
+    }
+
+    function handleDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const targetIndex = Number(e.currentTarget.dataset.index);
+      
+      if (dragSrcIndex !== null && dragSrcIndex !== targetIndex) {
+        const itemToMove = selectedCards.splice(dragSrcIndex, 1)[0];
+        selectedCards.splice(targetIndex, 0, itemToMove);
+        renderSelectedList();
+      }
+    }
+
+    function handleDragEnd(e) {
+      e.currentTarget.classList.remove('dragging');
+      document.querySelectorAll('.selected-item').forEach(el => el.classList.remove('drag-over'));
+    }
+
+    // Exportation du nouveau JSON
+    function downloadJSON() {
+      if (!originalData || selectedCards.length === 0) return;
+
+      // Retrait des clés techniques `_tempId` et `_uid`
+      const cleanedCards = selectedCards.map(({ _tempId, _uid, ...rest }) => rest);
+
+      const finalJson = {
+        ...originalData,
+        Cards: cleanedCards
+      };
+
+      const blob = new Blob([JSON.stringify(finalJson, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `reordered_${originalData.Serie || 'data'}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

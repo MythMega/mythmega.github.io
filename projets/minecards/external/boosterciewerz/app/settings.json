@@ -1,0 +1,23 @@
+{
+  "model": "./models/booster.glb",
+
+  "initialPosition": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+
+  "initialRotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+
+  "dragSensitivity": 0.01,
+
+  "rotationAxis": {
+    "x": false,
+    "y": true,
+    "z": false
+  }
+}

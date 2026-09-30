@@ -1,0 +1,120 @@
+{
+  "bossName": "Prinplouf",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Prinplup_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Prinplup_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 55000,
+  "date": "2026-09-30 21:38:18",
+  "durationSec": 1751,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 27500,
+      "countAtk": 2,
+      "baseDmg": 14358,
+      "level": 17,
+      "raidCount": 510,
+      "luck": 0.9576543
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 27500,
+      "countAtk": 2,
+      "baseDmg": 42103,
+      "level": 20,
+      "raidCount": 1120,
+      "luck": 0.32658005
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 55000
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 1,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 1
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-09-30 21:47:58",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 41250,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-30 21:52:35",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 27500,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-09-30 21:57:08",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 13750,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-09-30 22:07:29",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "SawanCyberpotes a \u00E9t\u00E9 empoisonn\u00E9(e) par sansanhijab. Il te reste 2 tours de poison."
+    }
+  ]
+}

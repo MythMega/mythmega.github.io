@@ -1,0 +1,158 @@
+{
+  "bossName": "Scalpion",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pawniard_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pawniard_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-10-03 20:12:22",
+  "durationSec": 4838,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 25000,
+      "countAtk": 2,
+      "baseDmg": 14537,
+      "level": 17,
+      "raidCount": 512,
+      "luck": 0.8598748
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 25000,
+      "countAtk": 2,
+      "baseDmg": 42016,
+      "level": 20,
+      "raidCount": 1121,
+      "luck": 0.2975057
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 856,
+      "countAtk": 1,
+      "baseDmg": 856,
+      "level": 10,
+      "raidCount": 45,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 50856
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-03 20:32:19",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 37500,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 20:51:41",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 856,
+      "pvAfter": 36644,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 21:23:10",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 24144,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 21:23:50",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 11644,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 21:33:00",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

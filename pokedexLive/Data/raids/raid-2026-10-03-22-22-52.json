@@ -1,0 +1,142 @@
+{
+  "bossName": "Apitrini",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Combee_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Combee_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 75000,
+  "date": "2026-10-03 22:22:52",
+  "durationSec": 1517,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 75000,
+      "countAtk": 4,
+      "baseDmg": 42291,
+      "level": 20,
+      "raidCount": 1123,
+      "luck": 0.44335675
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 2870,
+      "countAtk": 2,
+      "baseDmg": 874,
+      "level": 10,
+      "raidCount": 47,
+      "luck": 1.6418765
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 77870
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-03 22:24:06",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 874,
+      "pvAfter": 74126,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 22:26:26",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 55376,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 22:33:01",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1996,
+      "pvAfter": 53380,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 22:33:22",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 34630,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 22:41:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 15880,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-03 22:48:10",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 18750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

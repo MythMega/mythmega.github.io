@@ -1,0 +1,214 @@
+/* =============================================================================
+   card-reveal.css - Face-down cards, CSS flip and rarity effects.
+
+   Reference: `.docs/steps/4.md` point 3.
+     - rarities 1 to 3: plain rendering, light inner reflection;
+     - rarity 4: animated glow (`--glow-rarity-4`);
+     - rarity 5: stronger animated glow (`--glow-rarity-5`) plus a holographic sheen;
+     - full art printings get a moving light sweep.
+   Every color comes from `css/themes.css`, so the three themes stay readable.
+   ============================================================================= */
+
+.card-reveal {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  perspective: 1200px;
+}
+
+@media (min-width: 768px) {
+  .card-reveal {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* --- Summary thumbnails ------------------------------------------------------
+   The summary reuses the card markup inside a button. The inner card must not capture
+   clicks (the wrapper button opens the modal) and keeps its flip state as a thumbnail. */
+
+.card-reveal--summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .card-reveal--summary {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.card-reveal__card {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  transform-style: preserve-3d;
+  transition: transform var(--duration-base) var(--easing-standard);
+}
+
+.card-reveal__card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-reveal__card:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+.card-reveal__face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  backface-visibility: hidden;
+}
+
+.card-reveal__face--back {
+  display: grid;
+  place-items: center;
+  background-image: linear-gradient(160deg, var(--color-surface-alt), var(--color-surface));
+}
+
+.card-reveal__back-mark {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.card-reveal__face--front {
+  transform: rotateY(180deg);
+  background-color: var(--color-surface-alt);
+}
+
+.card-reveal__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-reveal__fallback-name {
+  position: absolute;
+  inset: auto var(--space-2) var(--space-2) var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--overlay);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  text-align: center;
+}
+
+.card-reveal__badge {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 2;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* --- Rarity rendering ---------------------------------------------------- */
+
+/* Rarities 1 to 3: plain printing with a light inner reflection. */
+.card-reveal__card--r1 .card-reveal__face--front,
+.card-reveal__card--r2 .card-reveal__face--front,
+.card-reveal__card--r3 .card-reveal__face--front {
+  box-shadow: inset 0 0 18px var(--overlay);
+}
+
+/* Rarity 4: animated glow (box-shadow only: a `filter` on the faces would flatten the 3D
+   stacking context and break `backface-visibility`, hiding the card once flipped). */
+.card-reveal__card--r4 .card-reveal__face--front {
+  box-shadow: var(--glow-rarity-4), 0 0 6px var(--overlay);
+  animation: card-glow-soft 2.4s ease-in-out infinite alternate;
+}
+
+/* Rarity 5: stronger glow and a slow holographic sheen. */
+.card-reveal__card--r5 .card-reveal__face--front {
+  box-shadow: var(--glow-rarity-5), 0 0 8px var(--overlay);
+  animation: card-glow-strong 2s ease-in-out infinite alternate;
+}
+
+.card-reveal__card--r5 .card-reveal__face--front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    115deg,
+    transparent 35%,
+    var(--overlay) 48%,
+    transparent 62%
+  );
+  animation: card-sheen 3.6s linear infinite;
+  pointer-events: none;
+}
+
+/* Full art printings: moving light sweep, whatever the rarity. */
+.card-reveal__card--fullart .card-reveal__face--front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(120deg, transparent 45%, var(--color-surface-alt) 50%, transparent 55%);
+  opacity: 0.55;
+  animation: card-sweep 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes card-glow-soft {
+  from {
+    box-shadow: var(--glow-rarity-4), 0 0 6px var(--overlay);
+  }
+  to {
+    box-shadow: var(--glow-rarity-4), 0 0 26px var(--overlay);
+  }
+}
+
+@keyframes card-glow-strong {
+  from {
+    box-shadow: var(--glow-rarity-5), 0 0 8px var(--overlay);
+  }
+  to {
+    box-shadow: var(--glow-rarity-5), 0 0 32px var(--overlay);
+  }
+}
+
+@keyframes card-sheen {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes card-sweep {
+  0%,
+  100% {
+    transform: translateX(-60%);
+  }
+  50% {
+    transform: translateX(60%);
+  }
+}
+
+/* The revealed card pops slightly, drawing the eye to the latest flip (outline, not filter:
+   the filter would flatten the 3D stacking context, see above). */
+.card-reveal__card.is-flipped.card-reveal__card--r4,
+.card-reveal__card.is-flipped.card-reveal__card--r5 {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}

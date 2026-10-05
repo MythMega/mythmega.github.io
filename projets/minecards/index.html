@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Ouvrez des boosters, découvrez des cartes et complétez votre collection.">
+  <meta name="theme-color" content="#0b0e14">
+  <title>MineCards</title>
+
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/views/onboarding.css">
+  <link rel="stylesheet" href="css/views/opening.css">
+  <link rel="stylesheet" href="css/components/booster-3d.css">
+  <link rel="stylesheet" href="css/components/card-reveal.css">
+  <link rel="stylesheet" href="css/components/modal.css">
+
+  <!-- Three.js is pinned so the 3D scene stays reproducible. It is imported dynamically by
+       `js/UI/components/Booster3DRenderer.js`: if the CDN is unreachable (offline use, blocked
+       host), the import fails and the opening view falls back to the 2D booster image. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <!-- Pre-render bootstrap: applies the stored theme and language before the first paint so
+       the page never flashes the wrong palette. The keys mirror what `js/utils/ThemeManager.js`
+       (`mc_theme`) and `js/utils/I18n.js` (`mc_lang`) write; the authoritative values live in
+       IndexedDB (`user_state["settings"]`) and are applied by `js/app.js`. -->
+  <script>
+    (function () {
+      var theme = 'dark';
+      try {
+        theme = window.localStorage.getItem('mc_theme') || 'dark';
+        var lang = window.localStorage.getItem('mc_lang');
+        if (lang) {
+          document.documentElement.lang = lang;
+        }
+      } catch (error) {
+        console.warn('[bootstrap] localStorage is not readable, falling back to the default theme.');
+      }
+      document.documentElement.dataset.theme = theme;
+
+      // Safety net: an opaque loader that never disappears is worse than a bare page, so the
+      // overlay is dropped after 10s even if `js/app.js` could not load (e.g. a module blocked
+      // by the browser). app.js removes it as soon as the boot finishes.
+      window.setTimeout(function () {
+        var overlay = document.getElementById('app-boot');
+        if (overlay) {
+          console.warn('[bootstrap] The application did not start within 10s: hiding the loader.');
+          overlay.remove();
+        }
+      }, 10000);
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="app-boot" id="app-boot">
+    <span data-i18n="app.loading">Chargement…</span>
+  </div>
+
+  <noscript>
+    <p class="app-fatal" data-i18n="app.noscript">Cette application nécessite JavaScript pour fonctionner.</p>
+  </noscript>
+
+  <header class="app-header">
+    <div class="app-header__brand">
+      <h1 class="app-header__title" data-i18n="app.title">MineCards</h1>
+      <p class="app-header__tagline" data-i18n="app.tagline">Ouvrez des boosters, complétez votre collection.</p>
+    </div>
+
+    <div class="app-header__stats">
+      <span class="app-header__stat">
+        <span data-i18n="header.boosters.daily">Boosters du jour</span>
+        <span class="app-header__stat-value" id="header-daily-boosters">0</span>
+      </span>
+      <span class="app-header__stat">
+        <span data-i18n="header.boosters.bonus">Bonus</span>
+        <span class="app-header__stat-value" id="header-bonus-boosters">0</span>
+      </span>
+      <span class="app-header__clock">
+        <span data-i18n="header.clock.utc">UTC</span>
+        <time id="header-utc-clock">--:--:--</time>
+      </span>
+    </div>
+  </header>
+
+  <main class="app-main" id="app-main">
+    <!-- 0. Onboarding (first visit only) -->
+    <section class="view onboarding" id="view-onboarding" data-view="onboarding" aria-hidden="true">
+      <div class="onboarding__hero">
+        <h2 class="onboarding__title" data-i18n="onboarding.title">Bienvenue dans MineCards</h2>
+        <p class="onboarding__subtitle" data-i18n="onboarding.subtitle">Ouvrez des boosters, découvrez des cartes et complétez votre collection.</p>
+      </div>
+
+      <div class="onboarding__actions">
+        <!-- Plain text only: OnboardingView rewrites the label through textContent. -->
+        <button type="button" class="btn btn--primary btn--block" data-onboarding-action="create" data-i18n="onboarding.create">Créer une nouvelle sauvegarde</button>
+        <button type="button" class="btn btn--ghost btn--block" data-onboarding-action="import" data-i18n="onboarding.import">Importer une sauvegarde (.save)</button>
+        <input type="file" data-onboarding-file accept=".save,application/octet-stream" hidden>
+      </div>
+
+      <div class="onboarding__language">
+        <span class="onboarding__language-label" data-i18n="onboarding.language">Langue</span>
+        <div class="lang-switch" data-onboarding-languages role="group" data-i18n-aria-label="onboarding.language" aria-label="Langue"></div>
+      </div>
+
+      <p class="onboarding__feedback" data-onboarding-feedback role="status" hidden></p>
+      <p class="onboarding__notice" data-i18n="onboarding.storageNotice">Vos données sont stockées uniquement sur cet appareil.</p>
+    </section>
+
+    <!-- 1. Booster opening -->
+    <section class="view" id="view-opening" data-view="opening" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.opening.title">Ouverture</h2>
+        <p class="view__subtitle" data-i18n="view.opening.subtitle">Choisissez une extension et ouvrez un booster.</p>
+      </div>
+
+      <!-- Stage 1: choice of the extension and quota -->
+      <div class="opening" data-opening-stage="select">
+        <div class="panel opening__panel">
+          <label class="field" for="opening-set">
+            <span class="field__label" data-i18n="opening.set.label">Extension</span>
+            <select class="field__select" id="opening-set" data-opening-set></select>
+          </label>
+
+          <p class="opening__quota" data-opening-quota aria-live="polite"></p>
+
+          <p class="opening__countdown" data-opening-countdown hidden>
+            <span data-i18n="opening.nextBooster">Prochain booster dans</span>
+            <time class="opening__countdown-value" data-opening-countdown-value>--:--:--</time>
+          </p>
+
+          <button type="button" class="btn btn--primary btn--block" data-opening-open data-i18n="opening.open">Ouvrir un booster</button>
+          <p class="feedback" data-opening-feedback role="status" hidden></p>
+        </div>
+      </div>
+
+      <!-- Stage 2: 3D booster, then one-by-one reveal, then summary -->
+      <div class="opening opening__scene" data-opening-stage="scene" hidden>
+        <div class="booster-3d" data-booster-3d>
+          <div class="booster-3d__viewport" data-booster-canvas></div>
+          <img class="booster-3d__fallback" data-booster-fallback alt="" hidden>
+          <p class="booster-3d__loading" data-booster-loading data-i18n="opening.scene.loading">Chargement du booster 3D…</p>
+          <p class="booster-3d__hint" data-booster-hint data-i18n="opening.scene.hint">Touchez le booster ou glissez vers le haut pour l'ouvrir</p>
+        </div>
+
+        <!-- Sub-stage: single spotlight card (one at a time, big) -->
+        <div class="opening__spotlight" data-opening-spotlight hidden>
+          <p class="opening__counter" data-opening-counter aria-live="polite"></p>
+          <p class="opening__reveal-hint" data-opening-reveal-hint data-i18n="opening.reveal.hint">Touchez la carte pour la révéler</p>
+          <div class="opening__stage" data-opening-stage-card></div>
+          <div class="opening__spotnav">
+            <button type="button" class="btn btn--ghost" data-opening-prev data-i18n="opening.reveal.prev">Précédente</button>
+            <button type="button" class="btn btn--ghost" data-opening-skip data-i18n="opening.reveal.skip">Passer</button>
+            <button type="button" class="btn btn--primary" data-opening-next data-i18n="opening.reveal.next">Suivante</button>
+          </div>
+        </div>
+
+        <div class="card-reveal card-reveal--summary" data-card-summary hidden></div>
+        <p class="opening__summary" data-opening-summary role="status" hidden></p>
+
+        <div class="opening__actions" data-opening-actions hidden>
+          <button type="button" class="btn btn--ghost" data-opening-reveal-all data-i18n="opening.reveal.all">Tout révéler</button>
+          <button type="button" class="btn btn--primary" data-opening-finish data-i18n="opening.finish">Terminer</button>
+        </div>
+
+        <!-- Card detail popup (summary) -->
+        <div class="modal" data-card-modal hidden>
+          <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="opening-card-modal-title">
+            <button type="button" class="modal__close" data-card-modal-close aria-label="×">×</button>
+            <h2 class="modal__title" id="opening-card-modal-title" data-card-modal-title></h2>
+            <div class="modal__body" data-card-modal-body></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Collection -->
+    <section class="view" id="view-collection" data-view="collection" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.collection.title">Collection</h2>
+      </div>
+      <div class="panel">
+        <p class="placeholder" data-i18n="view.collection.placeholder">La grille de collection sera branchée à l'étape 5.</p>
+      </div>
+    </section>
+
+    <!-- 3. Statistics -->
+    <section class="view" id="view-stats" data-view="stats" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.stats.title">Statistiques</h2>
+      </div>
+      <div class="panel">
+        <p class="placeholder" data-i18n="view.stats.placeholder">Les statistiques seront branchées à l'étape 5.</p>
+      </div>
+    </section>
+
+    <!-- 4. Settings -->
+    <section class="view" id="view-settings" data-view="settings" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.settings.title">Paramètres</h2>
+      </div>
+      <div class="panel">
+        <p class="placeholder" data-i18n="view.settings.placeholder">Les paramètres seront branchés à l'étape 6.</p>
+      </div>
+    </section>
+
+    <!-- 5. Gifts history -->
+    <section class="view" id="view-gifts" data-view="gifts" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.gifts.title">Cadeaux reçus</h2>
+      </div>
+      <div class="panel">
+        <p class="placeholder" data-i18n="view.gifts.placeholder">L'historique des cadeaux sera branché à l'étape 8.</p>
+      </div>
+    </section>
+
+    <!-- 6. Promo codes -->
+    <section class="view" id="view-redeem" data-view="redeem" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.redeem.title">Codes promo</h2>
+      </div>
+      <div class="panel">
+        <p class="placeholder" data-i18n="view.redeem.placeholder">La saisie des codes sera branchée à l'étape 7.</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="app-nav" data-i18n-aria-label="nav.label" aria-label="Navigation principale">
+    <button type="button" class="app-nav__item" data-nav-target="opening">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>
+      <span data-i18n="nav.opening">Ouvrir</span>
+    </button>
+    <button type="button" class="app-nav__item" data-nav-target="collection">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>
+      <span data-i18n="nav.collection">Collection</span>
+    </button>
+    <button type="button" class="app-nav__item" data-nav-target="stats">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M12 20V4M20 20v-6"/></svg>
+      <span data-i18n="nav.stats">Stats</span>
+    </button>
+    <button type="button" class="app-nav__item" data-nav-target="redeem">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h16v3a2 2 0 000 4v3H4v-3a2 2 0 000-4z"/><path d="M14 8v10" stroke-dasharray="2 2"/></svg>
+      <span data-i18n="nav.redeem">Codes</span>
+    </button>
+    <button type="button" class="app-nav__item" data-nav-target="gifts">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="11" width="16" height="9" rx="1"/><path d="M4 15h16M12 11v9"/><path d="M8.5 11a2.5 2.5 0 110-5c2.5 0 3.5 5 3.5 5M15.5 11a2.5 2.5 0 100-5c-2.5 0-3.5 5-3.5 5"/></svg>
+      <span data-i18n="nav.gifts">Cadeaux</span>
+    </button>
+    <button type="button" class="app-nav__item" data-nav-target="settings">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+      <span data-i18n="nav.settings">Réglages</span>
+    </button>
+  </nav>
+
+  <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

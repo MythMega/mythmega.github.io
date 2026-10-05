@@ -203,6 +203,39 @@
   cursor: not-allowed;
 }
 
+/* Option globale de rendu (ex : limitation du texte Full Art) : une case à cocher
+ * présentée comme un interrupteur, à côté du bouton d'export. */
+.switch-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #2a2a35;
+  border: 1px solid #3f3f50;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c9c9d6;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.switch-option:hover {
+  background: #33333f;
+  color: #fff;
+  border-color: #4a4a5c;
+}
+
+.switch-option input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: #5865f2;
+  cursor: pointer;
+  flex: none;
+}
+
 /* Tableau de vérification */
 .table-panel {
   background: #1e1e24;

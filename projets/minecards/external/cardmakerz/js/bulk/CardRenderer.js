@@ -3,6 +3,10 @@ class CardRenderer {
   static RENDER_SCALE = 2;
   static IMAGE_TIMEOUT = 8000;
 
+  /* Nombre de phrases conservées dans la description d'une carte Full Art lorsque
+   * l'option globale « limiter le texte Full Art » est active (aperçu et export). */
+  static FULLART_MAX_SENTENCES = 2;
+
   /* Classe CSS correspondant à une mise en page.
    * null / 'fullart' => full art (comportement historique), 'classic' => classique. */
   static layoutCssClass(layout) {
@@ -20,6 +24,10 @@ class CardRenderer {
 
     this.inliner = inliner || new ResourceInliner();
     this.warnings = [];
+
+    // Option globale (activée par défaut) : limite la description des cartes Full Art
+    // à CardRenderer.FULLART_MAX_SENTENCES phrases. N'affecte que le rendu.
+    this.limitFullArtText = true;
 
     // Mise en page actuellement appliquée au DOM (voir setupCard).
     this.currentLayout = CardItem.LAYOUT_FULLART;
@@ -44,6 +52,12 @@ class CardRenderer {
     }
   }
 
+  /* Active/désactive la limitation du texte des cartes Full Art (option globale de l'UI,
+   * appliquée à l'aperçu comme aux images exportées). */
+  setLimitFullArtText(enabled) {
+    this.limitFullArtText = !!enabled;
+  }
+
   /* Applique le contenu et le style d'une carte au DOM.
    * `resources` (optionnel) fournit des images déjà incorporées en Data URL :
    *   { background: 'data:...', underlay: 'data:...' }
@@ -51,6 +65,8 @@ class CardRenderer {
    * `layout` choisit la mise en page : CardItem.LAYOUT_CLASSIC ou LAYOUT_FULLART. */
   setupCard(item, lang = 'FR', resources = null, layout = null) {
     const rarity = RarityDef.get(item.rarity);
+    const layoutClass = CardRenderer.layoutCssClass(layout);
+    const isFullArt = layoutClass === 'card-layout-fullart';
 
     const background = resources ? (resources.background || '') : item.background;
     const underlay = resources ? (resources.underlay || '') : item.underlay;
@@ -58,7 +74,15 @@ class CardRenderer {
     this.titleEl.textContent = item.getName(lang);
     this.seriesEl.textContent = item.index;
     this.rarityEl.textContent = rarity.symbol;
-    this.textEl.textContent = item.getDescription(lang);
+
+    // Description : seule la version Full Art peut être limitée (option globale portant
+    // uniquement sur le rendu). La version classique et les données exportées gardent
+    // l'intégralité du texte.
+    let description = item.getDescription(lang);
+    if (isFullArt && this.limitFullArtText) {
+      description = CardItem.limitSentences(description, CardRenderer.FULLART_MAX_SENTENCES);
+    }
+    this.textEl.textContent = description;
 
     this.artEl.style.backgroundImage = background ? `url("${this.escapeCssUrl(background)}")` : 'none';
     this.underlayEl.style.backgroundImage = underlay ? `url("${this.escapeCssUrl(underlay)}")` : 'none';
@@ -82,10 +106,8 @@ class CardRenderer {
       this.cardElement.style.removeProperty('--card-font');
     }
 
-    this.cardElement.className = `card-preview ${rarity.cssClass} ${font.cssClass} ${CardRenderer.layoutCssClass(layout)}`.replace(/\s+/g, ' ').trim();
-    this.currentLayout = CardRenderer.layoutCssClass(layout) === 'card-layout-classic'
-      ? CardItem.LAYOUT_CLASSIC
-      : CardItem.LAYOUT_FULLART;
+    this.cardElement.className = `card-preview ${rarity.cssClass} ${font.cssClass} ${layoutClass}`.replace(/\s+/g, ' ').trim();
+    this.currentLayout = isFullArt ? CardItem.LAYOUT_FULLART : CardItem.LAYOUT_CLASSIC;
   }
 
   escapeCssUrl(url) {

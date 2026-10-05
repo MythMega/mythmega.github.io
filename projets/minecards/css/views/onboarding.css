@@ -1,0 +1,125 @@
+/* =============================================================================
+   onboarding.css - First-launch screen (create / import a save).
+
+   Reference: `.docs/main.md` section 3.A and `.docs/steps/1.md` point 8.
+
+   Scope: `[data-view="onboarding"]` only. Colors always come from `css/themes.css`, and the
+   buttons rely on the shared `.btn` classes declared in `css/base.css`.
+   ============================================================================= */
+
+.view.onboarding {
+  display: none;
+}
+
+.view.onboarding.is-active {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-5);
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  text-align: center;
+}
+
+.onboarding__hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.onboarding__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.onboarding__subtitle {
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+}
+
+.onboarding__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.onboarding__actions .btn {
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.onboarding__language {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.onboarding__language-label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.lang-switch {
+  display: inline-flex;
+  gap: var(--space-2);
+  padding: var(--space-1);
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.lang-switch__option {
+  min-height: var(--touch-target);
+  min-width: 5.5rem;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.lang-switch__option.is-active {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.onboarding__notice {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.onboarding__feedback {
+  min-height: 1.25rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.onboarding__feedback[data-tone="error"] {
+  color: var(--color-error);
+}
+
+@media (min-width: 768px) {
+  .view.onboarding.is-active {
+    max-width: 34rem;
+    padding-top: var(--space-6);
+  }
+
+  .onboarding__actions {
+    gap: var(--space-4);
+  }
+}

@@ -1,0 +1,103 @@
+/* =============================================================================
+   modal.css - Shared modal dialog.
+
+   Reference: `.docs/steps/4.md` (file list); used from step 5 (card detail),
+   step 6 (reset confirmation, save import) and step 8 (gift result).
+   The markup contract is:
+     <div class="modal" hidden>
+       <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="...">
+         <button class="modal__close" data-modal-close>×</button>
+         <h2 class="modal__title" id="..."></h2>
+         <div class="modal__body"></div>
+         <div class="modal__actions">...</div>
+       </div>
+     </div>
+   ============================================================================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background-color: var(--overlay);
+  animation: modal-fade var(--duration-fast) var(--easing-standard);
+}
+
+.modal__dialog {
+  position: relative;
+  width: min(100%, 32rem);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  animation: modal-rise var(--duration-base) var(--easing-standard);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: grid;
+  place-items: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.modal__close:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+.modal__title {
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-lg);
+}
+
+.modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

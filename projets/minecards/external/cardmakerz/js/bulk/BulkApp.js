@@ -9,6 +9,7 @@ class BulkApp {
     this.loadBtn = document.getElementById('load-btn');
     this.exportBtn = document.getElementById('export-btn');
     this.jsonBtn = document.getElementById('download-json-btn');
+    this.limitFullArtTextInput = document.getElementById('limit-fullart-text');
     this.cardCountEl = document.getElementById('card-count');
     this.renderContainer = document.getElementById('render-card');
 
@@ -55,6 +56,9 @@ class BulkApp {
 
     this.bindEvents();
 
+    // L'option globale de rendu est appliquée au chargement, d'après l'état de la case.
+    this.applyLimitFullArtText();
+
     // Le tableau démarre vide, mais sa barre d'outils permet déjà d'ajouter une ligne.
     this.tableManager.render();
   }
@@ -64,6 +68,12 @@ class BulkApp {
     this.fileInput.addEventListener('change', (e) => this.handleFileUpload(e));
     this.exportBtn.addEventListener('click', () => this.handleExport());
     this.jsonBtn.addEventListener('click', () => this.handleJsonExport());
+
+    // Option globale de rendu : la case est lue à chaque changement puis appliquée
+    // aux deux moteurs de rendu (aperçu + export ZIP).
+    if (this.limitFullArtTextInput) {
+      this.limitFullArtTextInput.addEventListener('change', () => this.applyLimitFullArtText());
+    }
 
     // Modal
     this.modalClose.addEventListener('click', () => this.hidePreview());
@@ -178,6 +188,19 @@ class BulkApp {
     if (this.importInfo) parts.push(this.importInfo);
     if (this.importNotes && this.importNotes.length > 0) parts.push(this.importNotes.join('\n'));
     return parts.join('\n');
+  }
+
+  /* Option globale « limiter le texte Full Art » : appliquée à l'aperçu et aux images du
+   * ZIP (les deux moteurs de rendu), sans jamais toucher aux données ni au JSON exporté,
+   * qui conservent toujours la description complète.
+   * La case est cochée par défaut dans le HTML : l'option est donc active dès le 1er rendu. */
+  applyLimitFullArtText() {
+    const enabled = !!(this.limitFullArtTextInput && this.limitFullArtTextInput.checked);
+    if (this.renderer) this.renderer.setLimitFullArtText(enabled);
+    if (this.previewRenderer) this.previewRenderer.setLimitFullArtText(enabled);
+
+    // Un aperçu déjà ouvert est réactualisé immédiatement avec la nouvelle option.
+    if (this.currentPreviewItem) this.showPreview(this.currentPreviewItem);
   }
 
   showPreview(item) {

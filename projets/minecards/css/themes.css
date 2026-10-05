@@ -1,0 +1,98 @@
+/* =============================================================================
+   themes.css - Color palettes exposed as CSS custom properties.
+
+   Reference: `.docs/main.md` section 3.F and `.docs/steps/1.md` point 2.
+
+   Every theme declares the exact same variable set, so `css/base.css` and the view
+   stylesheets never contain a hard-coded color. Adding a theme means:
+     1. adding a block below (and, when needed, the `color-scheme` hint);
+     2. declaring it in `settings/config.json` under `themes`.
+
+   Dark is the default: it is declared on `:root` so the very first paint (before the inline
+   bootstrap script of `index.html`) is already dark and no flash occurs.
+
+   The palettes are also declared on `body[data-theme="…"]` because `ThemeManager` sets the
+   attribute on both `<html>` and `<body>`; both selectors must therefore stay in sync.
+   ============================================================================= */
+
+:root,
+body[data-theme="dark"],
+:root[data-theme="dark"] body {
+  color-scheme: dark;
+
+  --color-bg: #0b0e14;
+  --color-bg-elevated: #10141d;
+  --color-surface: #151a24;
+  --color-surface-alt: #1d2432;
+  --color-border: #2a3346;
+  --color-text: #e8edf7;
+  --color-text-muted: #94a2bc;
+  --color-accent: #6c8cff;
+  --color-accent-hover: #8aa4ff;
+  --color-accent-contrast: #0a0f1c;
+  --color-success: #3ddc84;
+  --color-error: #ff6272;
+  --color-warning: #ffc857;
+
+  --glow-accent: 0 0 12px rgba(108, 140, 255, 0.45);
+  --glow-rarity-4: 0 0 14px rgba(120, 200, 255, 0.55);
+  --glow-rarity-5: 0 0 18px rgba(255, 200, 90, 0.65);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --overlay: rgba(4, 7, 14, 0.72);
+}
+
+body[data-theme="light"],
+:root[data-theme="light"] body {
+  color-scheme: light;
+
+  --color-bg: #eef1f8;
+  --color-bg-elevated: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-alt: #e4e9f4;
+  --color-border: #c9d2e4;
+  --color-text: #121a2b;
+  --color-text-muted: #5c6a86;
+  --color-accent: #3b5bdb;
+  --color-accent-hover: #2f49b0;
+  --color-accent-contrast: #ffffff;
+  --color-success: #0f9d58;
+  --color-error: #d93025;
+  --color-warning: #b7791f;
+
+  --glow-accent: 0 0 10px rgba(59, 91, 219, 0.35);
+  --glow-rarity-4: 0 0 12px rgba(38, 139, 210, 0.45);
+  --glow-rarity-5: 0 0 16px rgba(214, 158, 46, 0.55);
+
+  --shadow-sm: 0 1px 2px rgba(18, 26, 43, 0.12);
+  --shadow-md: 0 10px 26px rgba(18, 26, 43, 0.16);
+  --overlay: rgba(18, 26, 43, 0.45);
+}
+
+body[data-theme="classic"],
+:root[data-theme="classic"] body {
+  color-scheme: light;
+
+  --color-bg: #efe3c8;
+  --color-bg-elevated: #fbf4e4;
+  --color-surface: #fbf4e4;
+  --color-surface-alt: #e3d3b3;
+  --color-border: #b9a279;
+  --color-text: #2f2415;
+  --color-text-muted: #6b5636;
+  --color-accent: #a5541f;
+  --color-accent-hover: #8d4418;
+  --color-accent-contrast: #fdf6e6;
+  --color-success: #4f7a2b;
+  --color-error: #a52318;
+  --color-warning: #b8860b;
+
+  --glow-accent: 0 0 10px rgba(165, 84, 31, 0.35);
+  --glow-rarity-4: 0 0 12px rgba(47, 111, 168, 0.45);
+  --glow-rarity-5: 0 0 16px rgba(180, 132, 20, 0.6);
+
+  --shadow-sm: 0 1px 2px rgba(47, 36, 21, 0.18);
+  --shadow-md: 0 10px 26px rgba(47, 36, 21, 0.2);
+  --overlay: rgba(47, 36, 21, 0.5);
+}

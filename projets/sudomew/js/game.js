@@ -1,6 +1,6 @@
 /* ============================================================
    Cat Logic Puzzle — game.js
-   1. Logique pure du puzzle (génération des régions, solveur, validation)
+   1. Logique pure du puzzle (génération à solution unique, solveur, validation)
    2. Rendu et interaction de la page game.html
    La logique pure est exposée dans window.CatGame pour les tests.
    ============================================================ */
@@ -11,9 +11,13 @@
   var MIN_SIZE = 4;         // en dessous de 4×4 il n'existe aucune solution
   var MAX_SIZE = 15;
   var DEFAULT_SIZE = 5;
-  var GEN_BUDGET_MS = 500;  // temps maximal de recherche d'une grille bien contrainte
-  var MAX_ATTEMPTS = 400;
-  var SOLUTION_CAP = 6;     // nombre de solutions recherchées avant d'abandonner une grille
+  var GEN_BUDGET_MS = 2500; // temps de génération d'une grille à solution unique
+  var GEN_RETRY_MS = 8000;  // seconde chance si le premier budget n'a pas suffi
+  var MAX_ATTEMPTS = 60;    // nouvelles solutions/régions essayées au maximum
+  var MIN_REGION = 2;       // une région a toujours au moins 2 cases
+  var ALT_BATCH = 12;       // solutions alternatives collectées par passe du solveur
+  var SOLVE_NODE_LIMIT = 60000; // garde-fou du solveur (nœuds explorés par recherche)
+  var MAX_REGION_FACTOR = 2.2; // une région ne dépasse jamais ~2,2 × la taille moyenne
 
   /* ============ 1. LOGIQUE PURE ============ */
 
@@ -116,9 +120,31 @@
     return place(0) ? cols : null;
   }
 
-  /* Régions colorées : croissance aléatoire et équilibrée depuis les chats
-     de la solution (une région = un chat). */
-  function growRegions(n, solution) {
+  /* Tailles cibles inégales : beaucoup de petites régions et quelques grandes.
+     Une grille aux régions toutes identiques laisse énormément de solutions ;
+     partir de tailles variées rend l'unicité atteignable, même en 15×15.
+     skew = 0 donne des régions égales, plus il monte plus l'écart se creuse. */
+  function randomTargets(n, skew) {
+    var total = n * n;
+    var weights = [];
+    var sum = 0;
+    var r;
+    for (r = 0; r < n; r++) {
+      weights[r] = 0.2 + Math.pow(randomSource(), skew);
+      sum += weights[r];
+    }
+    var targets = [];
+    for (r = 0; r < n; r++) {
+      targets[r] = Math.max(MIN_REGION, Math.round(weights[r] / sum * total));
+    }
+    return targets;
+  }
+
+  /* Régions colorées : croissance aléatoire depuis les chats de la solution
+     (une région = un chat). À chaque pas, la région la moins remplie par
+     rapport à sa taille cible gagne une case voisine. Sans targets, toutes
+     les cibles valent 1 : les régions grandissent de façon équilibrée. */
+  function growRegions(n, solution, targets) {
     var total = n * n;
     var owner = new Int32Array(total);
     var sizes = new Int32Array(n);
@@ -142,17 +168,18 @@
 
     var assigned = n;
     while (assigned < total) {
-      var bestSize = Infinity;
+      var bestRatio = Infinity;
       var candidates = [];
       for (r = 0; r < n; r++) {
         var frontier = frontiers[r];
         while (frontier.length && owner[frontier[frontier.length - 1]] !== -1) frontier.pop();
         if (!frontier.length) continue;
-        if (sizes[r] < bestSize) {
-          bestSize = sizes[r];
+        var ratio = sizes[r] / (targets ? targets[r] : 1);
+        if (ratio < bestRatio) {
+          bestRatio = ratio;
           candidates.length = 0;
           candidates.push(r);
-        } else if (sizes[r] === bestSize) {
+        } else if (ratio === bestRatio) {
           candidates.push(r);
         }
       }
@@ -256,41 +283,154 @@
     return false;
   }
 
-  /* Solveur : compte les solutions (une par ligne/colonne/région, et sans
-     contact quand la règle 3 est active).
-     cap limite le comptage, nodeLimit protège des grilles trop coûteuses. */
-  function countSolutions(n, regionOf, cap, nodeLimit, enforceTouch) {
-    var maxSolutions = cap || 2;
-    var maxNodes = nodeLimit || 400000;
+  /* ---------- Solveur ----------
+     Recherche exhaustive avec propagation : à chaque nœud on compte, pour chaque
+     ligne, colonne et région encore vide, les cases où un chat peut aller.
+       - une unité sans aucune case possible → impasse immédiate ;
+       - sinon on branche sur l'unité la plus contrainte (celle qui a le moins
+         de cases), ce qui élague l'arbre bien plus qu'un parcours ligne par ligne.
+     Options :
+       cap       nombre maximal de solutions à collecter ;
+       nodeLimit garde-fou : abandon (aborted = true) au-delà de ce nombre de nœuds ;
+       touch     règle 3 (Mode Chat Fâché) ;
+       exclude   solution de référence (tableau colonne par ligne), non comptée :
+                 count === 0 (sans abandon) prouve donc qu'elle est unique ;
+       shuffle   ordre de branchement aléatoire (variété des solutions trouvées).
+     Chaque solution est un tableau « colonne du chat pour chaque ligne ». */
+  function searchSolutions(n, regionOf, options) {
+    var opts = options || {};
+    var cap = opts.cap || 2;
+    var maxNodes = opts.nodeLimit || SOLVE_NODE_LIMIT;
+    var touch = !!opts.touch;
+    var exclude = opts.exclude || null;
+    var doShuffle = !!opts.shuffle;
+    var total = n * n;
+
+    var rowOf = new Int32Array(total);
+    var colOf = new Int32Array(total);
+    var i;
+    for (i = 0; i < total; i++) {
+      rowOf[i] = Math.floor(i / n);
+      colOf[i] = i % n;
+    }
+    var regionCells = groupByRegion(n, regionOf);
+
+    var rowUsed = new Uint8Array(n);
     var colUsed = new Uint8Array(n);
     var regUsed = new Uint8Array(n);
-    var cols = new Int32Array(n);
-    var count = 0;
+    var blocked = new Int32Array(total);   // > 0 : case interdite par un chat voisin
+    var colOfRow = new Int32Array(n);
+    var rowCnt = new Int32Array(n);
+    var colCnt = new Int32Array(n);
+    var regCnt = new Int32Array(n);
+    var scratch = [];
+    var solutions = [];
     var nodes = 0;
     var aborted = false;
 
-    function place(row) {
-      if (aborted) return true;
+    function isFree(cell) {
+      return !rowUsed[rowOf[cell]] && !colUsed[colOf[cell]] &&
+             !regUsed[regionOf[cell]] && !blocked[cell];
+    }
+
+    function put(cell, delta) {
+      var flag = delta > 0 ? 1 : 0;
+      rowUsed[rowOf[cell]] = flag;
+      colUsed[colOf[cell]] = flag;
+      regUsed[regionOf[cell]] = flag;
+      if (delta > 0) colOfRow[rowOf[cell]] = colOf[cell];
+      if (touch) {
+        var list = neighbors8(cell, n, scratch);
+        for (var k = 0; k < list.length; k++) blocked[list[k]] += delta;
+      }
+    }
+
+    function search(depth) {
       if (++nodes > maxNodes) { aborted = true; return true; }
-      if (row === n) { count++; return count >= maxSolutions; }
-      for (var c = 0; c < n; c++) {
-        if (colUsed[c]) continue;
-        var region = regionOf[row * n + c];
-        if (regUsed[region]) continue;
-        if (enforceTouch && row > 0 && Math.abs(cols[row - 1] - c) < 2) continue;
-        cols[row] = c;
-        colUsed[c] = 1;
-        regUsed[region] = 1;
-        var stop = place(row + 1);
-        colUsed[c] = 0;
-        regUsed[region] = 0;
+
+      if (depth === n) {
+        if (exclude) {
+          var same = true;
+          for (var r = 0; r < n; r++) {
+            if (exclude[r] !== colOfRow[r]) { same = false; break; }
+          }
+          if (same) return false;   // la solution de référence ne compte pas
+        }
+        solutions.push(Array.prototype.slice.call(colOfRow));
+        return solutions.length >= cap;
+      }
+
+      rowCnt.fill(0);
+      colCnt.fill(0);
+      regCnt.fill(0);
+      for (var cell = 0; cell < total; cell++) {
+        if (!isFree(cell)) continue;
+        rowCnt[rowOf[cell]]++;
+        colCnt[colOf[cell]]++;
+        regCnt[regionOf[cell]]++;
+      }
+
+      var bestType = -1;
+      var bestIndex = -1;
+      var bestCount = total + 1;
+      for (var u = 0; u < n; u++) {
+        if (!rowUsed[u]) {
+          if (rowCnt[u] === 0) return false;
+          if (rowCnt[u] < bestCount) { bestCount = rowCnt[u]; bestType = 0; bestIndex = u; }
+        }
+        if (!colUsed[u]) {
+          if (colCnt[u] === 0) return false;
+          if (colCnt[u] < bestCount) { bestCount = colCnt[u]; bestType = 1; bestIndex = u; }
+        }
+        if (!regUsed[u]) {
+          if (regCnt[u] === 0) return false;
+          if (regCnt[u] < bestCount) { bestCount = regCnt[u]; bestType = 2; bestIndex = u; }
+        }
+      }
+
+      var options = [];
+      var k, candidate;
+      if (bestType === 0) {
+        for (k = 0; k < n; k++) {
+          candidate = bestIndex * n + k;
+          if (isFree(candidate)) options.push(candidate);
+        }
+      } else if (bestType === 1) {
+        for (k = 0; k < n; k++) {
+          candidate = k * n + bestIndex;
+          if (isFree(candidate)) options.push(candidate);
+        }
+      } else {
+        var cells = regionCells[bestIndex];
+        for (k = 0; k < cells.length; k++) {
+          if (isFree(cells[k])) options.push(cells[k]);
+        }
+      }
+      if (doShuffle) shuffle(options);
+
+      for (k = 0; k < options.length; k++) {
+        put(options[k], 1);
+        var stop = search(depth + 1);
+        put(options[k], -1);
         if (stop) return true;
       }
       return false;
     }
 
-    place(0);
-    return { count: count, nodes: nodes, aborted: aborted };
+    search(0);
+    return { count: solutions.length, solutions: solutions, nodes: nodes, aborted: aborted };
+  }
+
+  /* Compte les solutions (une par ligne/colonne/région, et sans contact quand
+     la règle 3 est active). cap limite le comptage, nodeLimit protège des
+     grilles trop coûteuses. */
+  function countSolutions(n, regionOf, cap, nodeLimit, enforceTouch) {
+    var result = searchSolutions(n, regionOf, {
+      cap: cap || 2,
+      nodeLimit: nodeLimit || 400000,
+      touch: enforceTouch
+    });
+    return { count: result.count, nodes: result.nodes, aborted: result.aborted };
   }
 
   function groupByRegion(n, regionOf) {
@@ -301,40 +441,258 @@
     return cells;
   }
 
+  /* Une grille est saine si chaque région est d'un seul tenant et assez grande.
+     Les régions n'ont plus besoin d'avoir la même taille : c'est l'unicité de
+     la solution qui compte, pas l'égalité des couleurs. */
   function layoutIsSound(n, owner, sizes) {
     var groups = groupByRegion(n, owner);
     for (var r = 0; r < n; r++) {
-      if (sizes[r] < 2) return false;                  // région trop petite
-      if (Math.abs(sizes[r] - n) > 2) return false;    // régions trop inégales
+      if (sizes[r] < MIN_REGION) return false;         // région trop petite
       if (!isConnected(groups[r], n)) return false;    // région en plusieurs morceaux
     }
     return true;
   }
 
-  function makeLayout(n, enforceTouch) {
-    for (var attempt = 0; attempt < 60; attempt++) {
-      var solution = randomSolution(n, enforceTouch);
-      if (!solution) continue;
-      var grown = growRegions(n, solution);
-      if (!grown) continue;
+  /* ---------- Génération par réparation ----------
+     1. On tire une solution S et on fait pousser les régions autour de ses chats.
+     2. Le solveur cherche des solutions différentes de S.
+     3. Pour chacune, on déplace une case vers une région voisine qui contient
+        déjà un autre chat de cette solution : elle met alors deux chats dans
+        la même région et devient invalide. S reste toujours valide, car on ne
+        déplace jamais la case d'un chat de S.
+     4. On recommence jusqu'à ce que S soit la seule solution.
+     Une région garde toujours au moins MIN_REGION cases et reste d'un seul tenant. */
 
-      var seedSet = {};
-      for (var r = 0; r < n; r++) seedSet[r * n + solution[r]] = true;
+  function maxRegionSize(n) {
+    return Math.max(n + 3, Math.round(n * MAX_REGION_FACTOR));
+  }
 
-      rebalance(n, grown.owner, grown.sizes, seedSet);
-      if (!layoutIsSound(n, grown.owner, grown.sizes)) continue;
+  /* Inégalité voulue des régions au départ : jusqu'à 9×9 des régions équilibrées
+     suffisent (et sont plus harmonieuses) ; au-delà, des tailles variées sont
+     nécessaires pour que la solution unique soit atteignable. */
+  function regionSkew(n) {
+    if (n <= 9) return 0;
+    return n <= 11 ? 2 : 3;
+  }
 
-      return { size: n, solution: solution, regionOf: grown.owner, sizes: grown.sizes };
+  function repairIterations(n) {
+    return 40 + 10 * n;
+  }
+
+  /* Retirer cette case laisse-t-elle sa région d'un seul tenant ?
+     size = taille actuelle de la région (avant retrait). */
+  function staysConnected(n, owner, cell, size) {
+    if (size <= 2) return true;
+    var region = owner[cell];
+    var first = neighbors4(cell, n, []);
+    var start = -1;
+    var i;
+    for (i = 0; i < first.length; i++) {
+      if (owner[first[i]] === region) { start = first[i]; break; }
+    }
+    if (start === -1) return false;
+
+    var seen = new Uint8Array(n * n);
+    var stack = [start];
+    var scratch = [];
+    var reached = 1;
+    seen[start] = 1;
+    seen[cell] = 1;
+    while (stack.length) {
+      var list = neighbors4(stack.pop(), n, scratch);
+      for (i = 0; i < list.length; i++) {
+        var next = list[i];
+        if (seen[next] || owner[next] !== region) continue;
+        seen[next] = 1;
+        reached++;
+        stack.push(next);
+      }
+    }
+    return reached === size - 1;
+  }
+
+  /* La case peut-elle passer dans la région voisine target ? (target doit
+     toucher la case : l'appelant le garantit.) */
+  function canMove(n, owner, sizes, seedSet, cell, target, maxSize) {
+    var from = owner[cell];
+    if (seedSet[cell] || from === target) return false;
+    if (sizes[from] <= MIN_REGION || sizes[target] >= maxSize) return false;
+    return staysConnected(n, owner, cell, sizes[from]);
+  }
+
+  function applyMove(owner, sizes, cell, target) {
+    sizes[owner[cell]]--;
+    sizes[target]++;
+    owner[cell] = target;
+  }
+
+  /* La solution alt reste-t-elle valide avec ces régions ? (une seule par région) */
+  function altIsValid(n, owner, alt) {
+    var seen = 0;
+    for (var r = 0; r < n; r++) {
+      var bit = 1 << owner[r * n + alt[r]];
+      if (seen & bit) return false;
+      seen |= bit;
+    }
+    return true;
+  }
+
+  /* Meilleur déplacement pour invalider des solutions alternatives : celui qui
+     en tue le plus d'un coup, à égalité celui qui rééquilibre les tailles. */
+  function bestKillMove(n, owner, sizes, seedSet, alive, maxSize) {
+    var scratch = [];
+    var seen = {};
+    var candidates = [];
+    var a, r, k;
+
+    for (a = 0; a < alive.length; a++) {
+      var alt = alive[a];
+      var count = new Int32Array(n);
+      for (r = 0; r < n; r++) count[owner[r * n + alt[r]]]++;
+      for (r = 0; r < n; r++) {
+        var cell = r * n + alt[r];
+        if (seedSet[cell]) continue;
+        var from = owner[cell];
+        var list = neighbors4(cell, n, scratch);
+        for (k = 0; k < list.length; k++) {
+          var target = owner[list[k]];
+          if (target === from || !count[target]) continue;
+          var key = cell * 16 + target;
+          if (seen[key]) continue;
+          seen[key] = true;
+          candidates.push({ cell: cell, target: target, score: 0 });
+        }
+      }
+    }
+    if (!candidates.length) return null;
+
+    for (var i = 0; i < candidates.length; i++) {
+      var cand = candidates[i];
+      var row = Math.floor(cand.cell / n);
+      var col = cand.cell % n;
+      var kills = 0;
+      for (a = 0; a < alive.length; a++) {
+        var other = alive[a];
+        if (other[row] !== col) continue;
+        for (r = 0; r < n; r++) {
+          if (r !== row && owner[r * n + other[r]] === cand.target) { kills++; break; }
+        }
+      }
+      cand.score = kills + (sizes[owner[cand.cell]] - sizes[cand.target]) * 0.02 + random(100) / 10000;
+    }
+    candidates.sort(function (x, y) { return y.score - x.score; });
+
+    for (var j = 0; j < candidates.length; j++) {
+      if (canMove(n, owner, sizes, seedSet, candidates[j].cell, candidates[j].target, maxSize)) {
+        return candidates[j];
+      }
     }
     return null;
   }
 
-  /* Plafond du comptage de solutions : sur les petites grilles on cherche à
-     savoir s'il n'y a qu'une solution ; sur les grandes grilles (où l'unicité
-     n'est pas atteignable avec des régions aléatoires) on détecte simplement
-     s'il existe une alternative, ce qui est bien plus rapide. */
-  function solutionCap(n) {
-    return n <= 8 ? SOLUTION_CAP : 2;
+  /* Invalide toutes les alternatives de la liste, déplacement après déplacement.
+     Renvoie true si elles sont toutes mortes. */
+  function killAlternatives(n, owner, sizes, seedSet, alternatives, maxSize) {
+    var alive = alternatives;
+    var guard = 0;
+    while (alive.length && guard++ < alternatives.length * 3 + 6) {
+      var move = bestKillMove(n, owner, sizes, seedSet, alive, maxSize);
+      if (!move) return false;
+      applyMove(owner, sizes, move.cell, move.target);
+      alive = alive.filter(function (alt) { return altIsValid(n, owner, alt); });
+    }
+    return alive.length === 0;
+  }
+
+  /* Déplacement aléatoire légal : sort la recherche d'une impasse. */
+  function shake(n, owner, sizes, seedSet, maxSize) {
+    var scratch = [];
+    for (var tries = 0; tries < 80; tries++) {
+      var cell = random(n * n);
+      if (seedSet[cell]) continue;
+      var list = neighbors4(cell, n, scratch);
+      var target = owner[list[random(list.length)]];
+      if (canMove(n, owner, sizes, seedSet, cell, target, maxSize)) {
+        applyMove(owner, sizes, cell, target);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /* Invalide les alternatives de la liste, déplacement après déplacement.
+     Renvoie true si au moins un déplacement a été fait. */
+  function killAlternatives(n, owner, sizes, seedSet, alternatives, maxSize) {
+    var alive = alternatives;
+    var moved = false;
+    var guard = 0;
+    while (alive.length && guard++ < alternatives.length * 3 + 6) {
+      var move = bestKillMove(n, owner, sizes, seedSet, alive, maxSize);
+      if (!move) break;
+      applyMove(owner, sizes, move.cell, move.target);
+      moved = true;
+      alive = alive.filter(function (alt) { return altIsValid(n, owner, alt); });
+    }
+    return moved;
+  }
+
+  /* Boucle de réparation. Modifie owner/sizes en place.
+     Renvoie { unique, left } : left = nombre d'alternatives encore trouvées
+     à la meilleure itération (0 si la grille est unique). */
+  function repairLayout(n, owner, sizes, solution, seedSet, touch, maxIter, deadline) {
+    var maxSize = maxRegionSize(n);
+    var left = Infinity;
+    for (var iter = 0; iter < maxIter && Date.now() < deadline; iter++) {
+      var found = searchSolutions(n, owner, {
+        cap: ALT_BATCH,
+        nodeLimit: SOLVE_NODE_LIMIT,
+        touch: touch,
+        exclude: solution,
+        shuffle: true
+      });
+      if (found.count === 0 && found.aborted) break;   // preuve trop coûteuse : autre grille
+      if (found.count === 0) return { unique: true, left: 0 };
+
+      if (found.count < left) left = found.count;
+      if (!killAlternatives(n, owner, sizes, seedSet, found.solutions, maxSize)) {
+        shake(n, owner, sizes, seedSet, maxSize);
+      }
+    }
+    return { unique: false, left: left === Infinity ? ALT_BATCH : left };
+  }
+
+  /* Une fois la grille unique, on rapproche les tailles des régions : on
+     tente de déplacer une case d'une grande région vers une petite voisine
+     et on ne garde le déplacement que si la solution reste unique. */
+  function polishSizes(n, owner, sizes, solution, seedSet, touch, deadline) {
+    var maxSize = maxRegionSize(n);
+    var total = n * n;
+    var scratch = [];
+    var solves = 0;
+    var maxSolves = 6 * n;
+
+    for (var t = 0; t < 30 * total && solves < maxSolves && Date.now() < deadline; t++) {
+      if (sizeDeviation(n, sizes) <= 1) return;
+      var cell = random(total);
+      if (seedSet[cell]) continue;
+      var from = owner[cell];
+      var list = neighbors4(cell, n, scratch);
+      var target = -1;
+      for (var k = 0; k < list.length; k++) {
+        var other = owner[list[k]];
+        if (other === from || sizes[other] + 1 >= sizes[from]) continue;   // doit améliorer l'équilibre
+        if (target === -1 || sizes[other] < sizes[target]) target = other;
+      }
+      if (target === -1) continue;
+      if (!canMove(n, owner, sizes, seedSet, cell, target, maxSize)) continue;
+
+      applyMove(owner, sizes, cell, target);
+      solves++;
+      var check = searchSolutions(n, owner, {
+        cap: 1, nodeLimit: SOLVE_NODE_LIMIT, touch: touch, exclude: solution
+      });
+      if (check.count !== 0 || check.aborted) applyMove(owner, sizes, cell, from);   // on annule
+    }
   }
 
   /* Écart entre la plus petite et la plus grande région (0 = parfaitement égal). */
@@ -348,52 +706,67 @@
     return hi - lo;
   }
 
-  /* Cherche dans le budget imparti la meilleure grille possible.
-     Critères, par ordre d'importance :
-       1. le moins de solutions possible (1 = solution unique, idéal) ;
-       2. des régions de tailles aussi égales que possible.
-     Toutes les grilles produites sont jouables et ont au moins une solution.
+  /* Construit une grille : solution aléatoire, régions, réparation, polissage.
+     Renvoie null si aucune croissance de régions n'a abouti. Le résultat porte
+     unique (true = une seule solution prouvée) et left (alternatives restantes
+     sinon). */
+  function makeLayout(n, enforceTouch, deadline) {
+    var until = deadline === undefined ? Infinity : deadline;
+    for (var roll = 0; roll < 60; roll++) {
+      var solution = randomSolution(n, enforceTouch);
+      if (!solution) continue;
+      var skew = regionSkew(n);
+      var grown = growRegions(n, solution, skew > 0 ? randomTargets(n, skew) : null);
+      if (!grown) continue;
+
+      var tooSmall = false;
+      var seedSet = new Uint8Array(n * n);
+      for (var r = 0; r < n; r++) {
+        seedSet[r * n + solution[r]] = 1;
+        if (grown.sizes[r] < MIN_REGION) tooSmall = true;
+      }
+      if (tooSmall) continue;
+
+      var outcome = repairLayout(n, grown.owner, grown.sizes, solution, seedSet,
+                                 enforceTouch, repairIterations(n), until);
+      if (outcome.unique) {
+        polishSizes(n, grown.owner, grown.sizes, solution, seedSet, enforceTouch, until);
+      }
+      return {
+        size: n,
+        solution: solution,
+        regionOf: grown.owner,
+        sizes: grown.sizes,
+        unique: outcome.unique,
+        left: outcome.left
+      };
+    }
+    return null;
+  }
+
+  /* Génère une grille à solution unique.
      Avec attemptLimit (> 0), le budget de temps est ignoré : on fait exactement
-     ce nombre d'essais, ce qui rend la grille reproductible (grille du jour). */
+     ce nombre d'essais, ce qui rend la grille reproductible (grille du jour).
+     Si aucun essai n'aboutit à l'unicité dans le budget, on renvoie la grille
+     la moins ambiguë (unique === false). */
   function generatePuzzle(n, budgetMs, enforceTouch, attemptLimit) {
     var fixed = attemptLimit > 0;
     var deadline = fixed ? Infinity : Date.now() + (budgetMs || GEN_BUDGET_MS);
     var limit = fixed ? attemptLimit : MAX_ATTEMPTS;
     var best = null;
-    var bestScore = Infinity;
-    var fallback = null;
     var attempts = 0;
 
-    while (Date.now() < deadline && attempts < limit) {
+    while (attempts < limit && Date.now() < deadline) {
       attempts++;
-      var layout = makeLayout(n, enforceTouch);
+      var layout = makeLayout(n, enforceTouch, deadline);
       if (!layout) continue;
-      if (!fallback) fallback = layout;
-
-      var result = countSolutions(n, layout.regionOf, solutionCap(n), 150000, enforceTouch);
-      if (result.aborted) continue;
-
-      // count === solutionCap(n) signifie « au moins ce nombre de solutions »
-      layout.solutions = result.count;
-      layout.deviation = sizeDeviation(n, layout.sizes);
       layout.attempts = attempts;
-
-      if (result.count === 1 && layout.deviation === 0) return layout; // grille idéale
-
-      var score = result.count * 100 + layout.deviation;
-      if (score < bestScore) {
-        bestScore = score;
-        best = layout;
-      }
+      layout.deviation = sizeDeviation(n, layout.sizes);
+      layout.solutions = layout.unique ? 1 : layout.left + 1;   // « au moins » si non unique
+      if (layout.unique) return layout;
+      if (!best || layout.left < best.left) best = layout;
     }
-
-    var chosen = best || fallback;
-    if (chosen && chosen.solutions === undefined) {
-      chosen.solutions = 0;
-      chosen.deviation = sizeDeviation(n, chosen.sizes);
-      chosen.attempts = attempts;
-    }
-    return chosen;
+    return best;
   }
 
   /* Couleurs : teintes réparties pour que deux régions voisines diffèrent. */
@@ -853,8 +1226,11 @@
         setSeed(dailySeed(state.date));   // grille du jour : même graine, donc même grille
         puzzle = generatePuzzle(state.size, 0, state.angry, DAILY_ATTEMPTS);
       } else {
-        puzzle = generatePuzzle(state.size, GEN_BUDGET_MS, state.angry) ||
-                 generatePuzzle(state.size, 1200, state.angry);
+        puzzle = generatePuzzle(state.size, GEN_BUDGET_MS, state.angry);
+        if (!puzzle || !puzzle.unique) {   // pas de solution unique trouvée : seconde chance
+          var retry = generatePuzzle(state.size, GEN_RETRY_MS, state.angry);
+          if (retry && (!puzzle || retry.unique || retry.left < puzzle.left)) puzzle = retry;
+        }
       }
       if (!puzzle) {
         App.toast(App.t('loading'));
@@ -1046,6 +1422,7 @@
     growRegions: growRegions,
     rebalance: rebalance,
     isConnected: isConnected,
+    searchSolutions: searchSolutions,
     countSolutions: countSolutions,
     groupByRegion: groupByRegion,
     layoutIsSound: layoutIsSound,

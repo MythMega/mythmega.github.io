@@ -1,0 +1,40 @@
+{
+  "languages": [
+    { "code": "fr", "label": "Français" },
+    { "code": "en", "label": "English" }
+  ],
+  "defaultLang": "fr",
+
+  "themes": [
+    { "id": "dark", "labelKey": "settings.theme.dark" },
+    { "id": "light", "labelKey": "settings.theme.light" },
+    { "id": "classic", "labelKey": "settings.theme.classic" }
+  ],
+  "defaultTheme": "dark",
+
+  "boosters": {
+    "sets": ["A1"],
+    "directory": "data/boosters",
+    "rarityConfigPath": "settings/defaultRarity.json",
+    "model": "assets/boostermodel.glb",
+    "cardsPerBooster": 5,
+    "dailyFreeBoosters": 3
+  },
+
+  "timeSync": {
+    "comment": "Providers are tried in order. 'format' tells DateSyncManager how to read the payload: json (object), trace (key=value lines), headers (HTTP response headers). Order is driven by browser reachability: a provider without Access-Control-Allow-Origin cannot be read from a page. See js/business/DateSyncManager.js.",
+    "providers": [
+      { "url": "https://timeapi.io/api/Time/current/zone?timeZone=UTC", "format": "json", "field": "dateTime", "unit": "iso" },
+      { "url": "https://cloudflare.com/cdn-cgi/trace", "format": "trace", "field": "ts", "unit": "seconds" },
+      { "url": "index.html", "format": "headers", "field": "date", "unit": "http-date" },
+      { "url": "https://worldtimeapi.org/api/timezone/Etc/UTC", "format": "json", "field": "unixtime", "unit": "seconds" }
+    ],
+    "requestTimeoutMs": 4000,
+    "resyncIntervalMs": 900000
+  },
+
+  "giftSheet": {
+    "id": "1AodjgWkMej5Hrt1jcs_DH-dCo87A-3vR7NyiINkKUSA",
+    "gid": "0"
+  }
+}

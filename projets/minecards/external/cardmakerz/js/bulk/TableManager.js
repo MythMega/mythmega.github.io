@@ -111,7 +111,8 @@ class TableManager {
       this.items.forEach(item => { item.font = font; });
     } else if (field === 'rarity') {
       if (rawValue === '') return; // Option de tête : aucune application.
-      const rarity = RarityDef.normalize(rawValue);
+      // La liste de masse contient des index internes (0..4), pas des valeurs JSON.
+      const rarity = RarityDef.clamp(rawValue);
       this.items.forEach(item => { item.rarity = rarity; });
     } else if (field === 'fullArt') {
       if (rawValue === '') return; // Option de tête : aucune application.
@@ -416,12 +417,12 @@ class TableManager {
       });
     });
 
-    // Modification Rareté
+    // Modification Rareté (les valeurs de la liste sont des index internes 0..4)
     this.container.querySelectorAll('.rarity-select[data-idx]').forEach(select => {
       select.addEventListener('change', (e) => {
         const idx = parseInt(e.target.getAttribute('data-idx'), 10);
         if (this.items[idx]) {
-          this.items[idx].rarity = parseInt(e.target.value, 10);
+          this.items[idx].rarity = RarityDef.clamp(e.target.value);
         }
       });
     });

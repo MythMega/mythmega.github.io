@@ -1,0 +1,516 @@
+/* =============================================================================
+   base.css - Layout, design tokens and shared components.
+
+   Reference: `.docs/steps/1.md` point 2 and `.docs/steps/7.md` point 4 (mobile polish).
+
+   Rules enforced by this file:
+     - no hard-coded color: only `var(--color-*)`, `var(--glow-*)`, `var(--shadow-*)` and
+       `var(--overlay)` declared in `css/themes.css`;
+     - mobile first: base rules target small screens, `@media (min-width: 768px)` refines the
+       desktop layout;
+     - no horizontal scrolling: `overflow-x: hidden` plus fluid typography (`clamp()`);
+     - touch targets are at least 44px high (`--touch-target`);
+     - animations use `transform`/`opacity` only and honour `prefers-reduced-motion`.
+   ============================================================================= */
+
+/* --- Reset ---------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Horizontal overflow is clipped without turning <body> into a scroll container: an
+   `overflow-x: hidden` on <body> is known to break `position: sticky` (the application
+   header) on mobile. Browsers without `overflow: clip` fall back to clipping <html>. */
+body {
+  overflow-x: clip;
+}
+
+@supports not (overflow: clip) {
+  html {
+    overflow-x: hidden;
+  }
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior: none;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* --- Design tokens -------------------------------------------------------- */
+
+:root {
+  /* Spacing scale (mobile first) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: clamp(1.25rem, 1.1rem + 1vw, 1.5rem);
+  --font-size-2xl: clamp(1.5rem, 1.2rem + 2vw, 2rem);
+  --line-height-base: 1.5;
+
+  /* Layout */
+  --app-max-width: 1100px;
+  --header-height: 3.5rem;
+  --nav-height: 4rem;
+  --touch-target: 44px;
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-base: 220ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Layering */
+  --z-header: 20;
+  --z-nav: 30;
+  --z-overlay: 40;
+}
+
+/* --- App shell ------------------------------------------------------------ */
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  min-height: var(--header-height);
+  padding: var(--space-2) var(--space-4);
+  padding-top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.app-header__title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.app-header__tagline {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-header__stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.app-header__stat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  min-height: calc(var(--touch-target) - 12px);
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.app-header__stat-value {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.app-header__clock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  min-height: calc(var(--touch-target) - 12px);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+body[data-connection="offline"] .app-header__clock {
+  color: var(--color-warning);
+  border-style: solid;
+}
+
+.app-main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  padding: var(--space-4);
+  padding-bottom: calc(var(--nav-height) + var(--space-5) + env(safe-area-inset-bottom, 0px));
+}
+
+.app-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  padding-bottom: calc(var(--space-1) + env(safe-area-inset-bottom, 0px));
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+/* --- Onboarding: the app chrome is hidden -------------------------------- */
+
+body.is-onboarding .app-header,
+body.is-onboarding .app-nav {
+  display: none;
+}
+
+body.is-onboarding .app-main {
+  padding-bottom: var(--space-5);
+}
+
+
+/* --- Bottom navigation (thumb friendly) ---------------------------------- */
+
+.app-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: var(--touch-target);
+  padding: var(--space-1);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  line-height: 1.1;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.app-nav__item svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.app-nav__item.is-active {
+  color: var(--color-accent);
+  background-color: var(--color-surface-alt);
+  border-color: var(--color-border);
+}
+
+/* --- Views --------------------------------------------------------------- */
+
+.view {
+  display: none;
+}
+
+.view.is-active {
+  display: block;
+  animation: view-enter var(--duration-base) var(--easing-standard);
+}
+
+@keyframes view-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.view__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.view__title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+}
+
+.view__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* --- Panels and placeholders -------------------------------------------- */
+
+.panel {
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.placeholder {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* --- Buttons ------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn--primary {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+.btn--ghost {
+  background-color: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background-color: var(--color-surface-alt);
+  border-color: var(--color-accent);
+}
+
+.btn--danger {
+  background-color: transparent;
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.btn--danger:hover:not(:disabled) {
+  border-color: var(--color-accent);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn:focus-visible,
+.app-nav__item:focus-visible,
+.lang-switch__option:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --- Inline feedback ----------------------------------------------------- */
+
+.feedback {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.feedback[data-tone="error"] {
+  color: var(--color-error);
+}
+
+/* --- Boot overlay and fatal error --------------------------------------- */
+
+.app-boot {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: grid;
+  place-items: center;
+  background-color: var(--color-bg);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.app-fatal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 40rem;
+  margin: var(--space-5) auto;
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+}
+
+.app-fatal h2 {
+  font-size: var(--font-size-lg);
+  color: var(--color-error);
+}
+
+.app-fatal pre {
+  margin: 0;
+  padding: var(--space-2);
+  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* --- Desktop refinements ------------------------------------------------- */
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: 4rem;
+    --nav-height: 4.5rem;
+    --font-size-md: 1.0625rem;
+  }
+
+  .app-main {
+    padding: var(--space-6);
+    padding-bottom: calc(var(--nav-height) + var(--space-6));
+  }
+
+  .app-nav__item {
+    font-size: var(--font-size-sm);
+    flex-direction: row;
+    gap: var(--space-2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-nav {
+    max-width: var(--app-max-width);
+    margin: 0 auto;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+  }
+}
+
+/* --- Accessibility: reduced motion -------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

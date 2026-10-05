@@ -1,0 +1,104 @@
+/* =============================================================================
+   booster-3d.css - 3D booster stage of the opening view.
+
+   Reference: `.docs/steps/4.md` point 1. The viewport hosts the Three.js canvas; the
+   `is-fallback` modifier is applied when WebGL or the Three.js module is unavailable,
+   in which case the 2D booster image is displayed instead.
+   ============================================================================= */
+
+.booster-3d {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 45vh;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-image: radial-gradient(circle at 50% 38%, var(--color-surface-alt), var(--color-bg));
+  overflow: hidden;
+  /* The booster is dragged/swiped: the browser must not scroll instead. */
+  touch-action: none;
+  user-select: none;
+  transition: opacity var(--duration-base) var(--easing-standard),
+    transform var(--duration-base) var(--easing-standard);
+}
+
+.booster-3d__viewport {
+  width: 100%;
+  height: 45vh;
+}
+
+.booster-3d__viewport canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.booster-3d__fallback {
+  max-height: 40vh;
+  width: auto;
+  /* Tapping the 2D image replaces the 3D open gesture. */
+  cursor: pointer;
+  filter: drop-shadow(var(--shadow-md));
+}
+
+.booster-3d__loading,
+.booster-3d__hint {
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.booster-3d__loading {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--font-size-sm);
+}
+
+.booster-3d__hint {
+  bottom: var(--space-3);
+}
+
+/* --- States -------------------------------------------------------------- */
+
+.booster-3d.is-fallback .booster-3d__viewport,
+.booster-3d.is-fallback .booster-3d__hint {
+  display: none;
+}
+
+.booster-3d.is-tearing .booster-3d__viewport,
+.booster-3d.is-tearing .booster-3d__fallback {
+  animation: booster-3d-tear var(--duration-base) var(--easing-standard) forwards;
+}
+
+.booster-3d.is-tearing .booster-3d__hint,
+.booster-3d.is-tearing .booster-3d__loading {
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--easing-standard);
+}
+
+.booster-3d.is-dismissed {
+  display: none;
+}
+
+@keyframes booster-3d-tear {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-18%) scale(1.08) rotate(-3deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .booster-3d,
+  .booster-3d__viewport {
+    min-height: 50vh;
+    height: 50vh;
+  }
+}

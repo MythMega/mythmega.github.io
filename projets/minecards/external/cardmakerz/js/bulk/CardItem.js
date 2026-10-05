@@ -145,6 +145,41 @@ class CardItem {
     return this.descFR || this.descEN || '';
   }
 
+  /* Réduit un texte à ses `maxSentences` premières phrases (0 = aucune limite).
+   *
+   * Les phrases se terminent sur « . », « ! », « ? » ou « … » ; les fermetures qui
+   * suivent (guillemet, parenthèse, crochet, apostrophe) et les points de suspension
+   * multiples sont absorbés dans la phrase, afin de ne pas laisser de ponctuation orpheline.
+   * Un texte sans ponctuation finale est renvoyé tel quel.
+   *
+   * Utilisé uniquement pour le RENDU (aperçu + images du ZIP) : les données et le
+   * manifeste exporté conservent toujours la description complète. */
+  static limitSentences(text, maxSentences) {
+    const value = String(text === undefined || text === null ? '' : text).trim();
+    if (!value || !maxSentences || maxSentences < 1) return value;
+
+    const enders = '.!?…';
+    const closers = '"\'()]»’';
+    let sentences = 0;
+
+    for (let i = 0; i < value.length; i++) {
+      if (enders.indexOf(value[i]) === -1) continue;
+
+      // Absorbe la ponctuation et les fermetures qui suivent (« ... », « !) »…).
+      let end = i;
+      while (end + 1 < value.length &&
+             (enders.indexOf(value[end + 1]) !== -1 || closers.indexOf(value[end + 1]) !== -1)) {
+        end++;
+      }
+
+      sentences++;
+      if (sentences >= maxSentences) return value.slice(0, end + 1).trim();
+      i = end;
+    }
+
+    return value;
+  }
+
   /* Nom du fichier PNG exporté : {INDEX}_{mise en page}.png */
   getFileName(layout = null) {
     const base = (this.index || 'unnamed').replace(/[\\/:*?"<>|]/g, '_');

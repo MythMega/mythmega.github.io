@@ -1,0 +1,315 @@
+/* =============================================================================
+   opening.css - Booster opening view (choice of the extension, quota, scene).
+
+   Reference: `.docs/steps/4.md` point 2. Colors come exclusively from
+   `css/themes.css`; buttons rely on the shared `.btn` classes of `css/base.css`.
+   ============================================================================= */
+
+.opening {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.opening__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* --- Form field ---------------------------------------------------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.field__label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.field__select {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  touch-action: manipulation;
+}
+
+.field__select:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --- Quota and countdown ------------------------------------------------- */
+
+.opening__quota {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.opening__countdown {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-warning);
+}
+
+.opening__countdown-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Scene stage --------------------------------------------------------- */
+
+.opening__scene {
+  position: relative;
+}
+
+/* --- Spotlight (one big card at a time) -------------------------------------- */
+
+.opening__reveal-hint,
+.opening__summary {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.opening__spotlight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.opening__counter {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.opening__stage {
+  width: min(100%, 20rem);
+  perspective: 1200px;
+  touch-action: pan-y;
+  cursor: pointer;
+}
+
+.opening__stage .card-reveal__card {
+  width: 100%;
+  animation: spotlight-rise var(--duration-base) var(--easing-standard);
+}
+
+.opening__stage .card-reveal__card.is-entering-next {
+  animation:
+    spotlight-rise var(--duration-base) var(--easing-standard),
+    spotlight-in-right var(--duration-base) var(--easing-standard);
+}
+
+.opening__stage .card-reveal__card.is-entering-prev {
+  animation:
+    spotlight-rise var(--duration-base) var(--easing-standard),
+    spotlight-in-left var(--duration-base) var(--easing-standard);
+}
+
+.opening__spotnav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.opening__spotnav .btn {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* --- Summary grid (5 cards, tap for the detail modal) ----------------------- */
+
+.card-reveal--summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card-reveal__summary-item {
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  animation: summary-pop var(--duration-base) var(--easing-standard backwards);
+}
+
+.card-reveal__summary-item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.card-reveal__summary-item:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.card-reveal__summary-item:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.card-reveal__summary-item:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.card-reveal__summary-item:nth-child(5) {
+  animation-delay: 240ms;
+}
+
+.card-reveal__summary-item .card-reveal__card {
+  width: 100%;
+  pointer-events: none;
+}
+
+.card-reveal__summary-item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+/* --- Card detail modal ------------------------------------------------------ */
+
+.card-modal__image {
+  width: 100%;
+  max-height: 46vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.card-modal__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.card-modal__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.card-modal__row dt {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.card-modal__row dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: right;
+}
+
+@keyframes spotlight-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes spotlight-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(48px) rotate(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes spotlight-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-48px) rotate(-2deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes summary-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .opening__stage {
+    width: min(100%, 24rem);
+  }
+
+  .card-reveal--summary {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .opening__spotnav {
+    max-width: 32rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening__stage .card-reveal__card,
+  .card-reveal__summary-item {
+    animation: none;
+  }
+}
+
+.opening__summary {
+  color: var(--color-success);
+}
+
+.opening__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .opening__panel {
+    width: 100%;
+    max-width: 32rem;
+    margin: 0 auto;
+  }
+
+  .opening__actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .opening__actions .btn {
+    min-width: 12rem;
+  }
+}

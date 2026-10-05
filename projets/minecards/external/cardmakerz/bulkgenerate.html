@@ -59,6 +59,10 @@
         <span class="badge-count" id="card-count">0 carte(s) chargée(s)</span>
         <button type="button" id="load-btn" class="btn-primary">Charger le JSON</button>
         <button type="button" id="download-json-btn" class="btn-secondary" title="Télécharge uniquement le manifeste {Serie}.json (celui qui serait placé dans le ZIP), sans générer les images" disabled>🧾 Télécharger le JSON</button>
+        <label class="switch-option" title="Limite la description des cartes Full Art à deux phrases, pour l'aperçu et pour les images du ZIP. Le texte complet reste dans les données et dans le JSON exporté.">
+          <input type="checkbox" id="limit-fullart-text" checked>
+          <span>Limiter le texte Full Art</span>
+        </label>
         <button type="button" id="export-btn" class="btn-success" disabled>📥 Télécharger tout (ZIP)</button>
       </div>
     </div>

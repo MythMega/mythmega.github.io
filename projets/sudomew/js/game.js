@@ -769,13 +769,63 @@
     return best;
   }
 
-  /* Couleurs : teintes réparties pour que deux régions voisines diffèrent. */
-  function hueDistance(a, b) {
-    var d = Math.abs(a - b) % 360;
-    return d > 180 ? 360 - d : d;
+  /* Couleurs des régions.
+     Table fixe de 15 couleurs (une par région au maximum, la grille la plus
+     grande en a 15) choisies pour rester bien distinctes entre elles : teintes
+     éloignées, mais aussi luminosités et saturations variées pour aider en cas
+     de daltonisme. Les valeurs sont celles du thème clair ; le thème sombre en
+     est déduit (même teinte, plus foncée). */
+  var REGION_PALETTE = [
+    '#ff8fa3', // rose
+    '#f4845f', // orange
+    '#ffd166', // jaune
+    '#c5e063', // citron vert
+    '#5fc77a', // vert
+    '#4fd1c5', // turquoise
+    '#6ec6ff', // bleu ciel
+    '#5b8def', // bleu
+    '#9b7ede', // violet
+    '#d8a7f0', // lilas
+    '#f06bc4', // magenta
+    '#e8c4a0', // sable
+    '#b08968', // brun
+    '#c3c8d0', // gris
+    '#9fb58a'  // vert sauge
+  ];
+
+  function hexToRgb(hex) {
+    var value = parseInt(hex.slice(1), 16);
+    return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
   }
 
-  function assignHues(n, regionOf) {
+  /* Distance perceptuelle entre deux couleurs (CIE Lab, ΔE76). */
+  function hexToLab(hex) {
+    var rgb = hexToRgb(hex).map(function (v) {
+      v /= 255;
+      return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    var x = (rgb[0] * 0.4124 + rgb[1] * 0.3576 + rgb[2] * 0.1805) / 0.95047;
+    var y = rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+    var z = (rgb[0] * 0.0193 + rgb[1] * 0.1192 + rgb[2] * 0.9505) / 1.08883;
+    function f(t) { return t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116; }
+    var fx = f(x), fy = f(y), fz = f(z);
+    return [116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz)];
+  }
+
+  var PALETTE_LAB = REGION_PALETTE.map(hexToLab);
+
+  function colorDistance(a, b) {
+    var l = PALETTE_LAB[a][0] - PALETTE_LAB[b][0];
+    var u = PALETTE_LAB[a][1] - PALETTE_LAB[b][1];
+    var v = PALETTE_LAB[a][2] - PALETTE_LAB[b][2];
+    return Math.sqrt(l * l + u * u + v * v);
+  }
+
+  /* Affecte une couleur différente à chaque région (renvoie des indices de
+     REGION_PALETTE). Les régions les plus entourées sont servies d'abord ;
+     chacune prend la couleur la plus éloignée de ses voisines déjà coloriées,
+     et, à égalité, la plus éloignée de toutes les couleurs déjà utilisées. */
+  function assignColors(n, regionOf) {
     var total = n * n;
     var neighbors = [];
     var scratch = [];
@@ -793,43 +843,64 @@
     var order = [];
     for (r = 0; r < n; r++) order.push(r);
     order.sort(function (x, y) {
-      return Object.keys(neighbors[y]).length - Object.keys(neighbors[x]).length;
+      return Object.keys(neighbors[y]).length - Object.keys(neighbors[x]).length || x - y;
     });
 
-    var palette = [];
-    for (i = 0; i < 24; i++) palette.push((i * 15 + 6) % 360);
-
-    var assigned = new Array(n);
-    for (i = 0; i < n; i++) assigned[i] = -1;
+    var assigned = [];
+    var used = [];
+    for (i = 0; i < n; i++) assigned.push(-1);
 
     for (i = 0; i < order.length; i++) {
       var region = order[i];
-      var bestHue = palette[0];
-      var bestScore = -1;
-      for (var p = 0; p < palette.length; p++) {
-        var hue = palette[p];
-        var score = 360;
-        for (var key in neighbors[region]) {
-          var neighborRegion = parseInt(key, 10);
-          if (assigned[neighborRegion] === -1) continue;
-          var d = hueDistance(hue, assigned[neighborRegion]);
-          if (d < score) score = d;
+      var bestColor = -1;
+      var bestNear = -1;
+      var bestAll = -1;
+      for (var c = 0; c < REGION_PALETTE.length; c++) {
+        if (used[c]) continue;
+        var near = Infinity;
+        var all = Infinity;
+        for (var other2 = 0; other2 < n; other2++) {
+          if (assigned[other2] === -1) continue;
+          var d = colorDistance(c, assigned[other2]);
+          if (d < all) all = d;
+          if (neighbors[region][other2] && d < near) near = d;
         }
-        if (score > bestScore) {
-          bestScore = score;
-          bestHue = hue;
+        if (near === Infinity) near = 1000;   // aucun voisin colorié : seul compte l'écart global
+        if (all === Infinity) all = 1000;
+        if (near > bestNear || (near === bestNear && all > bestAll)) {
+          bestColor = c;
+          bestNear = near;
+          bestAll = all;
         }
       }
-      assigned[region] = bestHue;
+      assigned[region] = bestColor;
+      used[bestColor] = true;
     }
     return assigned;
   }
 
+  /* Thème sombre : même teinte, moins saturée et nettement plus foncée. */
+  function darkVariant(hex) {
+    var rgb = hexToRgb(hex).map(function (v) { return v / 255; });
+    var max = Math.max(rgb[0], rgb[1], rgb[2]);
+    var min = Math.min(rgb[0], rgb[1], rgb[2]);
+    var l = (max + min) / 2;
+    var d = max - min;
+    var s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+    var h = 0;
+    if (d !== 0) {
+      if (max === rgb[0]) h = ((rgb[1] - rgb[2]) / d) % 6;
+      else if (max === rgb[1]) h = (rgb[2] - rgb[0]) / d + 2;
+      else h = (rgb[0] - rgb[1]) / d + 4;
+      h = (h * 60 + 360) % 360;
+    }
+    return 'hsl(' + Math.round(h) + ', ' + Math.round(s * 60) + '%, ' + Math.round((0.18 + 0.32 * l) * 100) + '%)';
+  }
+
   function regionColors(n, regionOf, theme) {
-    var hues = assignHues(n, regionOf);
     var dark = theme === 'dark';
-    return hues.map(function (hue) {
-      return dark ? 'hsl(' + hue + ', 30%, 36%)' : 'hsl(' + hue + ', 62%, 84%)';
+    return assignColors(n, regionOf).map(function (index) {
+      return dark ? darkVariant(REGION_PALETTE[index]) : REGION_PALETTE[index];
     });
   }
 
@@ -1429,7 +1500,8 @@
     makeLayout: makeLayout,
     generatePuzzle: generatePuzzle,
     regionColors: regionColors,
-    assignHues: assignHues,
+    assignColors: assignColors,
+    REGION_PALETTE: REGION_PALETTE,
     violationFor: violationFor,
     isSolved: isSolved,
     readParams: readParams,

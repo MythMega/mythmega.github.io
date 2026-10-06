@@ -134,8 +134,8 @@
   var i18n = {
     en: {
       app_title: 'Cat Logic Puzzle',
-      app_tagline: 'A cosy logic puzzle, full of cats',
-      home_footer: 'Made with love and a lot of cats',
+      app_tagline: 'A cosy logic puzzle, full of hairs',
+      home_footer: 'Made with love and a photos of my two cats',
       play: 'Play',
       settings: 'Settings',
       home: 'Home',
@@ -221,8 +221,8 @@
     },
     fr: {
       app_title: 'Puzzle logique de chats',
-      app_tagline: 'Un puzzle logique tout doux, plein de chats',
-      home_footer: 'Fait avec le cœur et beaucoup de chats',
+      app_tagline: 'Un puzzle logique tout doux, plein de poils',
+      home_footer: 'Fait avec le cœur et des photos de mes propres chats',
       play: 'Jouer',
       settings: 'Paramètres',
       home: 'Accueil',

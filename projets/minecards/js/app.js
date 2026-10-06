@@ -27,6 +27,8 @@ import eventBus, { EVENTS } from './utils/EventBus.js';
 import { SpaRouter } from './UI/SpaRouter.js';
 import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
+import { CollectionView, COLLECTION_VIEW_NAME } from './UI/views/CollectionView.js';
+import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
 
 /** Id of the boot overlay removed once the application is ready. */
 export const BOOT_OVERLAY_ID = 'app-boot';
@@ -66,6 +68,10 @@ export class App {
     this.onboardingView = null;
     /** @type {OpeningView|null} Booster opening view (step 4). */
     this.openingView = null;
+    /** @type {CollectionView|null} Card collection grid (step 5). */
+    this.collectionView = null;
+    /** @type {StatsView|null} Statistics panels (step 5). */
+    this.statsView = null;
     /** @type {boolean} True once the header event subscriptions are registered. */
     this.headerBound = false;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */

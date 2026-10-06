@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/views/onboarding.css">
   <link rel="stylesheet" href="css/views/opening.css">
+  <link rel="stylesheet" href="css/views/collection.css">
+  <link rel="stylesheet" href="css/views/stats.css">
   <link rel="stylesheet" href="css/components/booster-3d.css">
   <link rel="stylesheet" href="css/components/card-reveal.css">
   <link rel="stylesheet" href="css/components/modal.css">
@@ -185,9 +187,48 @@
     <section class="view" id="view-collection" data-view="collection" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.collection.title">Collection</h2>
+        <p class="view__subtitle" data-collection-progress role="status"></p>
       </div>
-      <div class="panel">
-        <p class="placeholder" data-i18n="view.collection.placeholder">La grille de collection sera branchée à l'étape 5.</p>
+
+      <div class="collection__filters panel" data-collection-filters>
+        <label class="field collection__field">
+          <span class="field__label" data-i18n="collection.filter.set">Extension</span>
+          <select class="field__select" data-collection-set></select>
+        </label>
+
+        <label class="field collection__field">
+          <span class="field__label" data-i18n="collection.filter.rarity">Rareté</span>
+          <select class="field__select" data-collection-rarity></select>
+        </label>
+
+        <label class="field collection__field">
+          <span class="field__label" data-i18n="collection.filter.style">Style</span>
+          <select class="field__select" data-collection-style></select>
+        </label>
+
+        <label class="field collection__field">
+          <span class="field__label" data-i18n="collection.filter.status">Statut</span>
+          <select class="field__select" data-collection-status></select>
+        </label>
+
+        <label class="field collection__field collection__field--search">
+          <span class="field__label" data-i18n="collection.filter.search">Recherche</span>
+          <input class="field__input" type="search" data-collection-search data-i18n-placeholder="collection.filter.searchPlaceholder" placeholder="Nom de la carte…">
+        </label>
+
+        <p class="collection__count" data-collection-count role="status"></p>
+      </div>
+
+      <p class="feedback" data-collection-feedback role="status" hidden></p>
+      <div class="collection__grid" data-collection-grid></div>
+      <p class="placeholder" data-collection-empty hidden data-i18n="collection.empty">Aucune carte ne correspond aux filtres.</p>
+
+      <div class="modal" data-collection-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="collection-card-modal-title">
+          <button type="button" class="modal__close" data-collection-modal-close aria-label="×">×</button>
+          <h2 class="modal__title" id="collection-card-modal-title" data-collection-modal-title></h2>
+          <div class="modal__body" data-collection-modal-body></div>
+        </div>
       </div>
     </section>
 
@@ -196,8 +237,28 @@
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.stats.title">Statistiques</h2>
       </div>
-      <div class="panel">
-        <p class="placeholder" data-i18n="view.stats.placeholder">Les statistiques seront branchées à l'étape 5.</p>
+      <p class="feedback" data-stats-feedback role="status" hidden></p>
+      <div class="stats" data-stats-content>
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.boosters.title">Boosters ouverts</h3>
+          <p class="stats__big" data-stats-boosters>0</p>
+        </div>
+
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.completion.title">Complétion</h3>
+          <p class="stats__line" data-stats-completion-global></p>
+          <div class="stats__bars" data-stats-completion-sets></div>
+        </div>
+
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.rarity.title">Tirages par rareté</h3>
+          <div class="stats__bars" data-stats-rarity></div>
+        </div>
+
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.top.title">Carte la plus piochée</h3>
+          <div class="stats__top" data-stats-top></div>
+        </div>
       </div>
     </section>
 

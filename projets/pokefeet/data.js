@@ -3,7 +3,9 @@
 const DataManager = (function () {
   const COOKIE_DAILY = 'pk_daily_result_v2';
   const COOKIE_BEST = 'pk_best';
-  const EXPORT_VERSION = 'v1';
+  const COOKIE_BEST_STREAK = 'pk_best_streak';
+  const BONUS_CHALLENGES_URL = 'data/bonus_challenges.json';
+  const EXPORT_VERSION = 'v2';
   const DB_NAME = 'PokefeetDB';
   const DB_VERSION = 4;
   const STORE_NAME = 'daily_results';
@@ -199,6 +201,79 @@ const DataManager = (function () {
     const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
     return v ? decodeURIComponent(v.pop()) : null;
   }
+  function deleteCookie(name) {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+  }
+  // Lit un cookie numérique : renvoie un entier ou null si absent / invalide
+  function getIntCookie(name) {
+    const raw = getCookie(name);
+    if (raw === null || raw === undefined || raw === '') return null;
+    const n = parseInt(raw, 10);
+    return Number.isNaN(n) ? null : n;
+  }
+
+  // --- Bonus challenges (IndexedDB PokefeetChallengeDB via ChallengeStorage) ---
+  async function getAllChallengesForExport() {
+    if (typeof ChallengeStorage === 'undefined' || !ChallengeStorage.getAllCompletions) return {};
+    try {
+      return await ChallengeStorage.getAllCompletions(); // { challengeId: {challengeId, completedAt, fails} }
+    } catch (e) {
+      console.error('Error reading challenges from IndexedDB:', e);
+      return {};
+    }
+  }
+
+  // Fusionne les challenges du fichier avec ceux déjà présents.
+  // - absent en local  -> ajouté
+  // - présent des deux côtés -> on garde la meilleure complétion (moins d'échecs, puis la plus ancienne)
+  // Retourne la liste des IDs de challenges nouvellement ajoutés.
+  async function mergeChallenges(fileChallenges) {
+    const added = [];
+    if (!fileChallenges || typeof fileChallenges !== 'object') return added;
+    if (typeof ChallengeStorage === 'undefined' || !ChallengeStorage.putCompletion) {
+      console.warn('ChallengeStorage indisponible : challenges non importés');
+      return added;
+    }
+    const existing = await getAllChallengesForExport();
+    for (const key of Object.keys(fileChallenges)) {
+      const f = fileChallenges[key];
+      if (!f) continue;
+      const entry = {
+        challengeId: (f.challengeId !== undefined ? f.challengeId : key),
+        completedAt: f.completedAt,
+        fails: f.fails
+      };
+      const cur = existing[key] || existing[entry.challengeId];
+      if (!cur) {
+        await ChallengeStorage.putCompletion(entry);
+        added.push(entry.challengeId);
+      } else {
+        const fFails = Number(entry.fails) || 0;
+        const cFails = Number(cur.fails) || 0;
+        const fileIsBetter = fFails < cFails ||
+          (fFails === cFails && entry.completedAt && cur.completedAt && entry.completedAt < cur.completedAt);
+        if (fileIsBetter) await ChallengeStorage.putCompletion(entry);
+      }
+    }
+    return added;
+  }
+
+  // Comme à la fin d'un challenge : les Pokémon du challenge sont ajoutés au Dex
+  async function markChallengesInDex(challengeIds) {
+    if (!challengeIds.length || typeof Dex === 'undefined') return;
+    try {
+      const res = await fetch(BONUS_CHALLENGES_URL);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const all = await res.json();
+      for (const id of challengeIds) {
+        const ch = all.find(c => String(c.ID) === String(id));
+        if (!ch || !Array.isArray(ch.FeetList)) continue;
+        for (const idx of ch.FeetList) await Dex.markFound(idx);
+      }
+    } catch (e) {
+      console.error('Error updating Dex from imported challenges:', e);
+    }
+  }
 
   // --- simple FNV-1a 32-bit hash, returns hex string ---
   function fnv1a32Hex(str) {
@@ -228,14 +303,15 @@ const DataManager = (function () {
       weekly = {};
     }
 
-    const bestRaw = getCookie(COOKIE_BEST);
-    let best = null;
-    if (bestRaw !== null && bestRaw !== undefined && bestRaw !== '') {
-      const n = parseInt(bestRaw, 10);
-      if (!Number.isNaN(n)) best = n;
-    }
+    // Marathon : best score + best streak (cookies)
+    const best = getIntCookie(COOKIE_BEST);
+    const bestStreak = getIntCookie(COOKIE_BEST_STREAK);
 
-    return { daily, weekly, best };
+    // Challenges bonus complétés
+    const challenges = await getAllChallengesForExport();
+
+    // "best" est conservé à la racine pour la compatibilité avec les anciens fichiers/versions
+    return { daily, weekly, best, marathon: { bestScore: best, bestStreak }, challenges };
   }
 
   // --- create export file content (async) ---
@@ -400,27 +476,28 @@ const DataManager = (function () {
     });
     try { await saveWeeklyToDB(existingWeekly); } catch (e) { console.error('Error saving weekly', e); }
 
-    // handle best (stays in cookie)
-    const fileBest = (typeof payload.best === 'number') ? payload.best : null;
-    const existingBestRaw = getCookie(COOKIE_BEST);
-    let existingBest = null;
-    if (existingBestRaw !== null && existingBestRaw !== undefined && existingBestRaw !== '') {
-      const n = parseInt(existingBestRaw, 10);
-      if (!Number.isNaN(n)) existingBest = n;
+    // Marathon : best score + best streak (cookies). On garde toujours la meilleure valeur.
+    // payload.marathon (v2) prioritaire, sinon payload.best (anciens fichiers v1)
+    const m = payload.marathon || {};
+    const fileBest = (typeof m.bestScore === 'number') ? m.bestScore
+                   : ((typeof payload.best === 'number') ? payload.best : null);
+    const fileStreak = (typeof m.bestStreak === 'number') ? m.bestStreak : null;
+    const existingBest = getIntCookie(COOKIE_BEST);
+    const existingStreak = getIntCookie(COOKIE_BEST_STREAK);
+    if (fileBest !== null && (existingBest === null || fileBest > existingBest)) {
+      setCookie(COOKIE_BEST, String(fileBest), 3650);
+    }
+    if (fileStreak !== null && (existingStreak === null || fileStreak > existingStreak)) {
+      setCookie(COOKIE_BEST_STREAK, String(fileStreak), 3650);
     }
 
-    if (fileBest !== null && existingBest === null) {
-      // set cookie from file
-      setCookie(COOKIE_BEST, String(fileBest), 3650);
-    } else if (fileBest !== null && existingBest !== null) {
-      if (fileBest !== existingBest) {
-        const keepFileBest = confirm(`Conflit pour "best" :\nFichier = ${fileBest}\nCookie = ${existingBest}\n\nOK = garder la valeur du FICHIER (écraser), Annuler = garder la valeur du COOKIE.`);
-        if (keepFileBest) {
-          setCookie(COOKIE_BEST, String(fileBest), 3650);
-        } else {
-          // keep cookie
-        }
-      }
+    // Challenges bonus
+    try {
+      const added = await mergeChallenges(payload.challenges);
+      await markChallengesInDex(added);
+    } catch (e) {
+      console.error('Error merging challenges', e);
+      notify('Erreur lors de l\'import des challenges', 'fail');
     }
 
     return true;
@@ -768,8 +845,9 @@ const DataManager = (function () {
     const deleteResult = document.getElementById('deleteResult');
     try {
       deleteCookie(COOKIE_BEST);
-      notify('Best score deleted', 'success');
-      if (deleteResult) deleteResult.textContent = 'Best score deleted successfully.';
+      deleteCookie(COOKIE_BEST_STREAK);
+      notify('Best score & best streak deleted', 'success');
+      if (deleteResult) deleteResult.textContent = 'Best score and best streak deleted successfully.';
       // refresh preview
       renderCurrentCookiesPreview();
     } catch (e) {

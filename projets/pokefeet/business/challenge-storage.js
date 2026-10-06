@@ -82,7 +82,23 @@ const ChallengeStorage = (function () {
         });
     }
 
+    // Écrit une complétion telle quelle (utilisé par l'import de sauvegarde)
+    async function putCompletion(entry) {
+        const db = await getDB();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const req = tx.objectStore(STORE_NAME).put({
+                challengeId: entry.challengeId,
+                completedAt: entry.completedAt || new Date().toISOString(),
+                fails: Number(entry.fails) || 0
+            });
+            req.onsuccess = () => resolve(true);
+            req.onerror = () => reject(req.error);
+        });
+    }
+
     return {
+        putCompletion,
         markChallengeCompleted,
         isChallengeCompleted,
         getChallengeCompletion,

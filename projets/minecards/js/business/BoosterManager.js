@@ -45,20 +45,24 @@ export const DEFAULT_CARDS_PER_BOOSTER = 5;
 /**
  * Builds the timestamp stored in `collection`.
  *
- * The returned string follows the TRUSTED UTC day (so the collection can be grouped by day
- * without depending on the client clock) combined with the exact time of the local system clock,
- * which is only a display detail: `Date.now()` is never used to decide whether a reset happened.
+ * Both halves of the timestamp come from the TRUSTED clock: the day makes the collection
+ * groupable by day, the time of day makes the history readable. The system clock is never read,
+ * so a cheater shifting it cannot shift a displayed time (same rule as the header clock).
  *
- * @returns {string} An ISO 8601 timestamp.
+ * Exported so that every writer of the `collection` store uses the same convention: the redeem
+ * codes (step 7) and the gifts (step 8) grant cards without going through `openBooster()`.
+ *
+ * @returns {string} An ISO 8601 timestamp (`YYYY-MM-DDTHH:MM:SS.000Z`).
  */
-function buildCollectionTimestamp() {
+export function buildCollectionTimestamp() {
   const trustedDay = dateSyncManager.getCurrentUtcDay();
   if (!trustedDay) {
     // Never anchored (offline first launch with no stored anchor): the local clock is the only
     // available value. It cannot grant anything, the quota logic never reads this field.
     return new Date().toISOString();
   }
-  return `${trustedDay}T${new Date().toTimeString().slice(0, 8)}.000Z`;
+  // `getCurrentUtcDay()` and `getUtcDate()` read the same anchor, so day and time always agree.
+  return `${trustedDay}T${dateSyncManager.getUtcDate().toISOString().slice(11, 19)}.000Z`;
 }
 
 export class BoosterManager {

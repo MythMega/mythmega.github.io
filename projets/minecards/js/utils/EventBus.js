@@ -14,7 +14,7 @@
  *   unsubscribe();
  */
 
-/** Canonical event names. Steps 2, 7 and 8 rely on the ones already declared here. */
+/** Canonical event names. Steps 2, 6, 7 and 8 rely on the ones already declared here. */
 export const EVENTS = Object.freeze({
   /** Payload: `{ lang, previousLang }`. Emitted by I18n after a successful language switch. */
   LANG_CHANGED: 'LANG_CHANGED',
@@ -36,6 +36,14 @@ export const EVENTS = Object.freeze({
   ACCOUNT_CREATED: 'ACCOUNT_CREATED',
   /** Payload: `null`. Emitted by AccountManager after a full reset (UUID included). */
   ACCOUNT_REMOVED: 'ACCOUNT_REMOVED',
+  /** Payload: `{ uuid }`. Emitted by SaveFile right before an imported save replaces the whole
+   * database (step 6): the data changes identity, so the application must release its in-memory
+   * state (time anchor, views) the same way it does after a full reset. */
+  SAVE_IMPORTED: 'SAVE_IMPORTED',
+  /** Payload: `{ count, lines }`. Emitted by GiftManager once a distribution check credited at
+   * least one gift (step 8): the gift history reloads itself instead of waiting for the next
+   * activation. A booster gift also refreshes the header through `QUOTA_UPDATED`. */
+  GIFTS_UPDATED: 'GIFTS_UPDATED',
 });
 
 class EventBus {

@@ -1,0 +1,111 @@
+/* =============================================================================
+   gifts.css - Gift history (distributions received).
+
+   Reference: `.docs/steps/8.md` point 3. One row per credited sheet line, newest
+   first: line number, date, type, resolved key, quantity and a card preview.
+   Colors come from `css/themes.css`; the panels and buttons come from
+   `css/base.css`.
+   ============================================================================= */
+
+.gifts__meta-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.gifts__last-check {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.gifts__count {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.gifts__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gifts__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}
+
+.gifts__item[data-type="booster"] {
+  border-left-color: var(--color-accent);
+}
+
+.gifts__item[data-type="card"] {
+  border-left-color: var(--color-success);
+}
+
+.gifts__image {
+  flex: 0 0 auto;
+  width: 3.5rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+}
+
+.gifts__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.gifts__title {
+  margin: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.gifts__meta {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.gifts__warning {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-warning);
+  overflow-wrap: anywhere;
+}
+
+.gifts__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.gifts__empty-text {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .gifts__image {
+    width: 4.5rem;
+  }
+}

@@ -1,0 +1,43 @@
+[
+    {
+        "_comment": "Code à usage unique, permet d'obtenir 1 booster A1, et la carte d'index SERIE-A1 / P004. Si une carte d'index SERIE-A1 / P004 avec un layout fullart est disponible, alors choisir celle là, sinon prendre la premiere avec cet index (la valeur de la propriété aurait pu être 'classic', dans ce cas on cherche une carte de layout classic en prio). Pas de disponibilité limitée, mais code a usage unique",
+        "Code": "WELC0M3ST3V3",
+        "Rewards": [
+            {
+                "RewardType": "Booster",
+                "Quantity": 1,
+                "ItemId": "A1"
+            },
+            {
+                "RewardType": "Card",
+                "Quantity": 1,
+                "ItemId": "SERIE-A1 / P004",
+                "PreferedLayout": "fullart"
+            }
+        ],
+        "Availabilities" : null,
+        "Repeatable": false
+    },
+    {
+        "_comment": "Code à usage infini, permet d'obtenir 3 boosters A1, et la carte d'index SERIE-A1 / Z001. Prendre la premiere avec cet index. Disponibilité : avant le 15 octobre 2026, mais code répétable a l'infini",
+        "Code": "IM.A.CHEAT3R.",
+        "Rewards": [
+            {
+                "RewardType": "Booster",
+                "Quantity": 3,
+                "ItemId": "A1"
+            },
+            {
+                "RewardType": "Card",
+                "Quantity": 1,
+                "ItemId": "SERIE-A1 / Z001",
+                "PreferedLayout": null
+            }
+        ],
+        "Availabilities" : {
+            "StartDate": null,
+            "EndDate": "2026-10-15"
+        },
+        "Repeatable": true
+    }
+]

@@ -13,9 +13,13 @@
   <link rel="stylesheet" href="css/views/opening.css">
   <link rel="stylesheet" href="css/views/collection.css">
   <link rel="stylesheet" href="css/views/stats.css">
+  <link rel="stylesheet" href="css/views/settings.css">
+  <link rel="stylesheet" href="css/views/redeem.css">
+  <link rel="stylesheet" href="css/views/gifts.css">
   <link rel="stylesheet" href="css/components/booster-3d.css">
   <link rel="stylesheet" href="css/components/card-reveal.css">
   <link rel="stylesheet" href="css/components/modal.css">
+  <link rel="stylesheet" href="css/components/toast.css">
 
   <!-- Three.js is pinned so the 3D scene stays reproducible. It is imported dynamically by
        `js/UI/components/Booster3DRenderer.js`: if the CDN is unreachable (offline use, blocked
@@ -262,33 +266,123 @@
       </div>
     </section>
 
-    <!-- 4. Settings -->
+    <!-- 4. Settings (step 6) -->
     <section class="view" id="view-settings" data-view="settings" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.settings.title">Paramètres</h2>
       </div>
-      <div class="panel">
-        <p class="placeholder" data-i18n="view.settings.placeholder">Les paramètres seront branchés à l'étape 6.</p>
+
+      <p class="feedback" data-settings-feedback role="status" hidden></p>
+
+      <div class="settings">
+        <!-- Language: buttons are generated from `settings/config.json` by SettingsView. -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.language.title">Langue</h3>
+          <div class="lang-switch settings__choices" data-settings-languages role="group" data-i18n-aria-label="settings.language.title" aria-label="Langue"></div>
+        </section>
+
+        <!-- Theme: same contract, one button per theme declared in `config.json`. -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.theme.title">Thème</h3>
+          <div class="lang-switch settings__choices" data-settings-themes role="group" data-i18n-aria-label="settings.theme.title" aria-label="Thème"></div>
+        </section>
+
+        <!-- Account: read-only UUID, copy button (SettingsView never writes it). -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.account.title">Compte</h3>
+          <p class="settings__help" data-i18n="settings.account.help">Communiquez cet identifiant pour recevoir des cadeaux. Il ne change jamais.</p>
+          <p class="settings__uuid">
+            <code class="settings__uuid-value" data-settings-uuid>—</code>
+            <button type="button" class="btn btn--ghost" data-settings-copy data-i18n="settings.account.copy">Copier</button>
+          </p>
+        </section>
+
+        <!-- Save: export / import / full reset. The import and the reset ask for a confirmation. -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.save.title">Sauvegarde</h3>
+          <div class="settings__actions">
+            <button type="button" class="btn btn--primary" data-settings-export data-i18n="settings.save.export">Exporter</button>
+            <button type="button" class="btn btn--ghost" data-settings-import data-i18n="settings.save.import">Importer</button>
+            <button type="button" class="btn btn--danger" data-settings-reset data-i18n="settings.save.reset">Réinitialiser</button>
+          </div>
+          <input type="file" data-settings-file accept=".save,application/octet-stream" hidden>
+        </section>
+
+        <!-- Distributions (step 8): the sheet is read on demand, never polled. -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.distributions.title">Distributions</h3>
+          <div class="settings__actions">
+            <button type="button" class="btn btn--ghost" data-settings-check-gifts data-i18n="settings.distributions.check">Vérifier les distributions</button>
+            <button type="button" class="btn btn--ghost" data-settings-gift-history data-i18n="settings.distributions.history">Historique des cadeaux</button>
+          </div>
+          <p class="settings__help" data-i18n="settings.distributions.help">Chaque distribution n'est créditée qu'une seule fois : les cadeaux déjà reçus sont ignorés.</p>
+        </section>
+      </div>
+
+      <!-- Confirmation modal (save import, full reset). -->
+      <div class="modal" data-settings-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+          <button type="button" class="modal__close" data-settings-modal-close aria-label="×">×</button>
+          <h2 class="modal__title" id="settings-modal-title" data-settings-modal-title></h2>
+          <div class="modal__body" data-settings-modal-body></div>
+          <div class="modal__actions">
+            <!-- Labels are always written by SettingsView (a modal can be a confirmation or an
+                 information message), which is why they carry no `data-i18n` attribute. -->
+            <button type="button" class="btn btn--ghost" data-settings-modal-cancel>Annuler</button>
+            <button type="button" class="btn btn--primary" data-settings-modal-confirm>Confirmer</button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 5. Gifts history -->
+    <!-- 5. Gifts history (step 8) -->
     <section class="view" id="view-gifts" data-view="gifts" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.gifts.title">Cadeaux reçus</h2>
+        <p class="view__subtitle" data-i18n="view.gifts.subtitle">Retrouvez ici les cadeaux crédités par les distributions.</p>
       </div>
+
+      <p class="feedback" data-gifts-feedback role="status" hidden></p>
+
       <div class="panel">
-        <p class="placeholder" data-i18n="view.gifts.placeholder">L'historique des cadeaux sera branché à l'étape 8.</p>
+        <div class="gifts__meta-header">
+          <p class="gifts__last-check" data-gifts-last-check></p>
+          <p class="gifts__count" data-gifts-count hidden></p>
+        </div>
+
+        <ul class="gifts__list" data-gifts-list></ul>
+
+        <div class="gifts__empty" data-gifts-empty hidden>
+          <p class="gifts__empty-text" data-i18n="gifts.empty">Aucun cadeau reçu pour le moment.</p>
+          <button type="button" class="btn btn--ghost" data-gifts-empty-action data-i18n="gifts.emptyAction">Vérifier les distributions</button>
+        </div>
       </div>
     </section>
 
-    <!-- 6. Promo codes -->
+    <!-- 6. Promo codes (step 7) -->
     <section class="view" id="view-redeem" data-view="redeem" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.redeem.title">Codes promo</h2>
+        <p class="view__subtitle" data-i18n="view.redeem.subtitle">Saisissez un code pour recevoir votre récompense.</p>
       </div>
-      <div class="panel">
-        <p class="placeholder" data-i18n="view.redeem.placeholder">La saisie des codes sera branchée à l'étape 7.</p>
+
+      <div class="panel redeem__panel">
+        <!-- A form is used only for its "Enter submits" behaviour: the view cancels the default action. -->
+        <form class="redeem__form" data-redeem-form novalidate>
+          <label class="field">
+            <span class="field__label" data-i18n="redeem.input.label">Code</span>
+            <input class="field__input redeem__input" type="text" data-redeem-input name="code" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="32" data-i18n-placeholder="redeem.input.placeholder" placeholder="Ex. LAUNCH2026">
+          </label>
+          <button type="submit" class="btn btn--primary" data-redeem-submit data-i18n="redeem.submit">Valider</button>
+        </form>
+
+        <p class="redeem__hint" data-i18n="redeem.hint">Les codes ne sont pas sensibles à la casse.</p>
+        <p class="feedback" data-redeem-feedback role="status" hidden></p>
+      </div>
+
+      <div class="panel redeem__result" data-redeem-result hidden>
+        <h3 class="redeem__result-title" data-i18n="redeem.result.title">Récompense obtenue</h3>
+        <div class="redeem__result-body" data-redeem-result-body></div>
       </div>
     </section>
   </main>

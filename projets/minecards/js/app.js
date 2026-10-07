@@ -29,6 +29,9 @@ import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
 import { CollectionView, COLLECTION_VIEW_NAME } from './UI/views/CollectionView.js';
 import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
+import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
+import { RedeemView, REDEEM_VIEW_NAME } from './UI/views/RedeemView.js';
+import { GiftsView, GIFTS_VIEW_NAME } from './UI/views/GiftsView.js';
 
 /** Id of the boot overlay removed once the application is ready. */
 export const BOOT_OVERLAY_ID = 'app-boot';
@@ -72,6 +75,12 @@ export class App {
     this.collectionView = null;
     /** @type {StatsView|null} Statistics panels (step 5). */
     this.statsView = null;
+    /** @type {SettingsView|null} Preferences, account and save management (step 6). */
+    this.settingsView = null;
+    /** @type {RedeemView|null} Promo code entry (step 7). */
+    this.redeemView = null;
+    /** @type {GiftsView|null} Gift history (step 8). */
+    this.giftsView = null;
     /** @type {boolean} True once the header event subscriptions are registered. */
     this.headerBound = false;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */
@@ -190,6 +199,9 @@ export class App {
     await this.startOpeningView();
     await this.startCollectionView();
     await this.startStatsView();
+    await this.startSettingsView();
+    await this.startRedeemView();
+    await this.startGiftsView();
     if (!this.utcTimeProvider) {
       // Fallback used only when the time synchronization is unusable: the clock then shows the
       // "unknown time" placeholder instead of an untrusted system time.
@@ -289,11 +301,105 @@ export class App {
   }
 
   /**
+   * Starts the settings view (step 6): language, theme, account UUID, save export/import/reset
+   * and the distributions check (step 8).
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and
+   * the other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startSettingsView() {
+    const root = document.querySelector(`[data-view="${SETTINGS_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The settings view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the settings view…');
+    this.settingsView = new SettingsView(root, {
+      // Decoupled from the router: the view only asks the application to change the active view.
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
+    try {
+      await this.settingsView.init();
+    } catch (error) {
+      console.error('[App] The settings view could not be loaded.', error);
+      this.settingsView.setFeedback('settings.error.load', 'error');
+      return;
+    }
+    console.info('[App] Settings view ready.');
+    if (this.router?.getCurrentView() === SETTINGS_VIEW_NAME) {
+      this.settingsView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Starts the redeem view (step 7): promo code entry, validation and reward display.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and
+   * the other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startRedeemView() {
+    const root = document.querySelector(`[data-view="${REDEEM_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The redeem view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the redeem view…');
+    this.redeemView = new RedeemView(root);
+    try {
+      await this.redeemView.init();
+    } catch (error) {
+      console.error('[App] The redeem view could not be loaded.', error);
+      this.redeemView.setFeedback('redeem.error.load', 'error');
+      return;
+    }
+    console.info('[App] Redeem view ready.');
+    if (this.router?.getCurrentView() === REDEEM_VIEW_NAME) {
+      this.redeemView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Starts the gift history view (step 8): the distributions already credited to the account.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and
+   * the other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startGiftsView() {
+    const root = document.querySelector(`[data-view="${GIFTS_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The gift history view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the gift history view…');
+    this.giftsView = new GiftsView(root, {
+      // Decoupled from the router: the empty state only asks to open the settings screen.
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
+    try {
+      await this.giftsView.init();
+    } catch (error) {
+      console.error('[App] The gift history view could not be loaded.', error);
+      this.giftsView.setFeedback('gifts.error.load', 'error');
+      return;
+    }
+    console.info('[App] Gift history view ready.');
+    if (this.router?.getCurrentView() === GIFTS_VIEW_NAME) {
+      this.giftsView.handleViewActivated();
+    }
+  }
+
+  /**
    * Forwards the router activations to the opening view so the WebGL loop never runs while
    * another view is displayed (step 4, point 1).
    *
-   * The collection and stats views (step 5) listen to `VIEW_CHANGED` themselves, so only the
-   * opening view needs an explicit forward here.
+   * The collection, stats (step 5), settings (step 6), redeem (step 7) and gifts (step 8) views
+   * listen to `VIEW_CHANGED` themselves, so only the opening view needs an explicit forward here.
    *
    * @returns {void}
    */
@@ -345,6 +451,7 @@ export class App {
     eventBus.on(EVENTS.CONNECTION_STATUS, (payload) => this.setConnectionState(payload?.online));
     eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload));
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => this.handleAccountRemoved());
+    eventBus.on(EVENTS.SAVE_IMPORTED, (payload) => this.handleSaveImported(payload));
   }
 
   /**
@@ -373,6 +480,35 @@ export class App {
    */
   handleAccountRemoved() {
     console.info('[App] Account removed: releasing the clock and the views.');
+    this.releaseAccountRuntime();
+  }
+
+  /**
+   * Releases the in-memory account state before an imported save replaces the database.
+   *
+   * The restored save has its own UUID and its own time anchor: keeping the current anchor alive
+   * would let a `persistAnchor()` write the previous account's anchor into the freshly imported
+   * database. `SaveFile` reloads the page right after the swap, so the released services are
+   * never used again in this page load.
+   *
+   * @param {{uuid?: string}|null} payload - `SAVE_IMPORTED` payload.
+   * @returns {void}
+   */
+  handleSaveImported(payload) {
+    console.info(
+      `[App] Save imported (uuid: ${payload?.uuid ?? 'unknown'}): releasing the clock and the views.`
+    );
+    this.releaseAccountRuntime();
+  }
+
+  /**
+   * Destroys the views and the trusted clock, and resets the header to its placeholder state.
+   *
+   * Shared by the full reset (`ACCOUNT_REMOVED`) and the save import (`SAVE_IMPORTED`).
+   *
+   * @returns {void}
+   */
+  releaseAccountRuntime() {
     if (this.unsubscribeViewChanged) {
       this.unsubscribeViewChanged();
       this.unsubscribeViewChanged = null;
@@ -388,6 +524,18 @@ export class App {
     if (this.statsView) {
       this.statsView.destroy();
       this.statsView = null;
+    }
+    if (this.settingsView) {
+      this.settingsView.destroy();
+      this.settingsView = null;
+    }
+    if (this.redeemView) {
+      this.redeemView.destroy();
+      this.redeemView = null;
+    }
+    if (this.giftsView) {
+      this.giftsView.destroy();
+      this.giftsView = null;
     }
     dateSyncManager.destroy();
     this.stopUtcClock();

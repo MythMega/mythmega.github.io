@@ -470,6 +470,31 @@ body.is-onboarding .app-main {
   word-break: break-word;
 }
 
+/* --- Mobile polish (step 7 point 4) -------------------------------------- */
+
+/* Applied globally instead of per component, so every present and future control inherits the
+   same touch behaviour:
+     - `touch-action: manipulation` removes the ~300ms double-tap-zoom delay of mobile browsers
+       (the components that need a different gesture, such as the 3D booster or the swipeable
+       card stage, keep their own `touch-action` declaration);
+     - `-webkit-tap-highlight-color: transparent` removes the grey flash some mobile browsers
+       paint over a tapped control, which is unreadable on the dark and classic themes. */
+button,
+a,
+input,
+select,
+textarea,
+summary,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* --- Desktop refinements ------------------------------------------------- */
 
 @media (min-width: 768px) {

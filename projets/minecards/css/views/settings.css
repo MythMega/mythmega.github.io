@@ -1,0 +1,81 @@
+/* =============================================================================
+   settings.css - Settings screen (language, theme, account, save, distributions).
+
+   Reference: `.docs/steps/6.md` point 3. Colors come exclusively from
+   `css/themes.css`; the buttons, the panels and the pickers reuse the shared
+   classes of `css/base.css` (`.btn`, `.panel`) and `css/views/onboarding.css`
+   (`.lang-switch`).
+   ============================================================================= */
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.settings__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.settings__title {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+}
+
+.settings__help {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* The pickers reuse `.lang-switch`; they may wrap on a narrow screen. */
+.settings__choices {
+  flex-wrap: wrap;
+  align-self: flex-start;
+}
+
+.settings__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.settings__actions .btn {
+  flex: 1 1 auto;
+}
+
+/* --- Account UUID --------------------------------------------------------- */
+
+.settings__uuid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.settings__uuid-value {
+  flex: 1 1 14rem;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: var(--font-size-xs);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+@media (min-width: 768px) {
+  .settings {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .settings__actions .btn {
+    flex: 0 1 auto;
+  }
+}

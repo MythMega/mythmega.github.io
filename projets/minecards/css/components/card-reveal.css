@@ -47,6 +47,9 @@
   touch-action: manipulation;
   transform-style: preserve-3d;
   transition: transform var(--duration-base) var(--easing-standard);
+  /* Step 7 point 4: targeted promotion. A card is the only element of the grid whose animation
+     runs on every interaction, so only it asks for a compositor layer (never the whole grid). */
+  will-change: transform;
 }
 
 .card-reveal__card.is-flipped {

@@ -1,0 +1,79 @@
+/* =============================================================================
+   redeem.css - Promo code form and reward panel.
+
+   Reference: `.docs/steps/7.md` point 3. The form reuses the shared `.field` and
+   `.field__input` classes (declared in `css/views/opening.css` and
+   `css/views/collection.css`); only the code-specific typography and the reward
+   panel are defined here. Colors come from `css/themes.css`.
+   ============================================================================= */
+
+.redeem__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.redeem__form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: end;
+}
+
+/* The code is short: a monospaced face makes it easy to compare with the code the player copied
+   from somewhere else. The field is NOT upper-cased by CSS (that would also transform the
+   placeholder); `RedeemView` writes the normalized value back into the input on submit, so the
+   player still sees the exact code that was sent. */
+.redeem__input {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 0.08em;
+}
+
+.redeem__hint {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* --- Reward panel --------------------------------------------------------- */
+
+.redeem__result {
+  margin-top: var(--space-4);
+}
+
+.redeem__result-title {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-md);
+  color: var(--color-success);
+}
+
+.redeem__result-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.redeem__card-image {
+  width: min(100%, 14rem);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  box-shadow: var(--shadow-sm);
+}
+
+.redeem__result-line {
+  margin: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  .redeem__form {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .redeem__panel {
+    max-width: 34rem;
+  }
+}

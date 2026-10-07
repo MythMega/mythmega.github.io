@@ -7,14 +7,15 @@
  * the application header and the bottom navigation stay hidden: the body carries the
  * `is-onboarding` class, which `css/base.css` uses to hide both bars.
  *
- * Step 6 hook: `handleFileSelected()` currently reports "unavailable"; replacing its
- * `onboarding.import.soon` branch with `SaveFile.importFromFile(file)` is the only change
- * needed to wire the real import.
+ * Import (step 6): `SaveFile.importFromFile()` decodes, validates and writes the whole save
+ * (UUID included), then reloads the page. No confirmation is asked here: without an account
+ * there is nothing to lose. The settings view, which replaces an existing account, asks for one.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import accountManager from '../../business/AccountManager.js';
+import { saveFile, getSaveErrorMessageKey, SAVE_EXTENSION } from '../../classes/SaveFile.js';
 
 /** Name of the view section, matching `data-view="onboarding"` in `index.html`. */
 export const ONBOARDING_VIEW_NAME = 'onboarding';
@@ -258,28 +259,38 @@ export class OnboardingView {
   }
 
   /**
-   * Handles the chosen `.save` file.
+   * Imports the chosen `.save` file, then restarts the application.
    *
-   * Step 1 scope: the file is only validated, the real restoration is implemented in step 6
-   * (`SaveFile.importFromFile(file)`), hence the "coming soon" feedback.
+   * `SaveFile.importFromFile()` overwrites the whole database in a single transaction and reloads
+   * the page: the restored UUID, settings and quota are only applied by a fresh boot. Nothing is
+   * changed when the file is refused (the transaction is aborted).
    *
    * @param {Event} event - `change` event of the file input.
-   * @returns {void}
+   * @returns {Promise<void>} Resolves only when the import failed (the page reloads otherwise).
    */
-  handleFileSelected(event) {
+  async handleFileSelected(event) {
     const file = event.target.files && event.target.files[0];
     if (!file) {
-      this.setFeedback('onboarding.import.cancelled', 'info');
+      this.setFeedback('save.error.noFile', 'info');
       return;
     }
 
-    if (!/\.save$/i.test(file.name)) {
-      this.setFeedback('onboarding.import.unsupported', 'error');
+    if (!new RegExp(`${SAVE_EXTENSION.replace('.', '\\.')}$`, 'i').test(file.name)) {
+      this.setFeedback('save.error.unsupportedFile', 'error');
       return;
     }
 
-    // TODO(step 6): await SaveFile.importFromFile(file) then start the application.
-    this.setFeedback('onboarding.import.soon', 'info');
+    this.setBusy(true);
+    this.setFeedback('settings.save.importing', 'info');
+    console.info(`[OnboardingView] Importing "${file.name}"…`);
+
+    try {
+      await saveFile.importFromFile(file);
+    } catch (error) {
+      console.error('[OnboardingView] The save could not be imported.', error);
+      this.setFeedback(getSaveErrorMessageKey(error), 'error');
+      this.setBusy(false);
+    }
   }
 
   /**

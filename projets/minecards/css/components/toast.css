@@ -1,0 +1,74 @@
+/* =============================================================================
+   toast.css - Transient feedback messages (`js/UI/components/Toast.js`).
+
+   Reference: `.docs/steps/7.md` point 3. The stack is fixed above the bottom
+   navigation, ignores pointer events (a toast must never swallow a tap) and
+   animates with `opacity`/`transform` only. Colors come from `css/themes.css`.
+   ============================================================================= */
+
+.toast-stack {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--nav-height) + var(--space-4) + env(safe-area-inset-bottom, 0px));
+  z-index: calc(var(--z-overlay) + 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: min(100% - (2 * var(--space-4)), 26rem);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.toast {
+  max-width: 100%;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  box-shadow: var(--shadow-md);
+  overflow-wrap: anywhere;
+  animation: toast-in var(--duration-base) var(--easing-standard);
+}
+
+.toast[data-tone="info"] {
+  border-left-color: var(--color-accent);
+}
+
+.toast[data-tone="success"] {
+  border-left-color: var(--color-success);
+}
+
+.toast[data-tone="error"] {
+  border-left-color: var(--color-error);
+}
+
+.toast.is-leaving {
+  animation: toast-out var(--duration-fast) var(--easing-standard) forwards;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}

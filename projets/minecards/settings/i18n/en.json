@@ -60,7 +60,7 @@
   "opening.finish": "Finish",
   "opening.card.new": "NEW",
   "opening.card.hidden": "Face-down card",
-  "opening.card.rarity": "Rarity {rarity}",
+  "opening.card.rarity": "Rarity",
   "opening.card.name": "Name",
   "opening.card.set": "Extension",
   "opening.source.daily": "Daily booster",
@@ -89,7 +89,7 @@
   "collection.empty": "No card matches the filters.",
   "collection.quantity": "x{count}",
   "collection.missing": "Not owned",
-  "collection.firstObtained": "Obtained on {date}",
+  "collection.firstObtained": "First obtained",
   "collection.error.load": "The collection could not be loaded. Please reload the page.",
   "view.stats.title": "Statistics",
   "stats.boosters.title": "Boosters opened",
@@ -97,7 +97,6 @@
   "stats.completion.global": "{owned} / {total} cards ({percent}%)",
   "stats.completion.empty": "Open boosters to start your collection.",
   "stats.rarity.title": "Draws by rarity",
-  "stats.rarity.row": "Rarity {rarity}",
   "stats.rarity.empty": "No draw recorded.",
   "stats.top.title": "Most drawn card",
   "stats.top.empty": "No card drawn yet.",
@@ -114,5 +113,11 @@
   "settings.theme.classic": "Classic",
 
   "error.storage": "Local storage error.",
-  "error.unexpected": "An unexpected error occurred."
+  "error.unexpected": "An unexpected error occurred.",
+
+  "rarity.1": "Common",
+  "rarity.2": "Rare",
+  "rarity.3": "Super rare",
+  "rarity.4": "Legendary",
+  "rarity.5": "Mythic"
 }

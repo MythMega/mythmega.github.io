@@ -26,6 +26,7 @@ import { configLoader } from '../../utils/ConfigLoader.js';
 import boosterManager from '../../business/BoosterManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import CardComponent from '../components/CardComponent.js';
+import { getRarityLabel } from '../../classes/Card.js';
 import Booster3DRenderer, { DEFAULT_MODEL_PATH } from '../components/Booster3DRenderer.js';
 
 /** View name, matching `data-view="opening"` in `index.html`. */
@@ -830,7 +831,7 @@ export class OpeningView {
       tile.setAttribute('role', 'button');
       tile.tabIndex = 0;
       const name = component.card.getName(i18n.getLang());
-      const rarityLabel = i18n.t('opening.card.rarity', { rarity: component.card.rarity });
+      const rarityLabel = getRarityLabel(component.card.rarity, (key) => i18n.t(key));
       tile.setAttribute('aria-label', `${name} — ${rarityLabel}`);
       const thumbnail = component.render();
       thumbnail.setAttribute('aria-hidden', 'true');
@@ -877,7 +878,7 @@ export class OpeningView {
     const image = document.createElement('img');
     image.className = 'card-modal__image';
     image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = `${name} — ${i18n.t('opening.card.rarity', { rarity: card.rarity })}`;
+    image.alt = `${name} — ${getRarityLabel(card.rarity, (key) => i18n.t(key))}`;
     image.addEventListener('error', () => {
       console.warn(`[OpeningView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
       image.hidden = true;
@@ -891,7 +892,7 @@ export class OpeningView {
     const rows = [
       [i18n.t('opening.card.count', { current: index + 1, total: this.cardComponents.length }), statusLabel],
       [i18n.t('opening.card.name'), name],
-      [i18n.t('opening.card.rarity', { rarity: card.rarity }), String(card.rarity)],
+      [i18n.t('opening.card.rarity'), getRarityLabel(card.rarity, (key) => i18n.t(key))],
       [i18n.t('opening.card.set'), card.set],
     ];
     rows.forEach(([term, value]) => {

@@ -12,7 +12,7 @@ import i18n from '../../utils/I18n.js';
 import collectionManager from '../../business/CollectionManager.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
-import { CARD_RARITY } from '../../classes/Card.js';
+import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 
 /** View name, matching `data-view="stats"` in `index.html`. */
 export const STATS_VIEW_NAME = 'stats';
@@ -191,7 +191,8 @@ export class StatsView {
     }
     rarities.forEach((rarity) => {
       const count = Number(draws[String(rarity)]) || 0;
-      this.rarityElement.appendChild(this.buildBar(i18n.t('stats.rarity.row', { rarity }), count, total));
+      const label = getRarityLabel(rarity, (key) => i18n.t(key));
+      this.rarityElement.appendChild(this.buildBar(label, count, total));
     });
   }
 

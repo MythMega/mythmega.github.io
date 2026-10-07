@@ -20,6 +20,7 @@
 
 import i18n from '../../utils/I18n.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
+import { getRarityLabel } from '../../classes/Card.js';
 
 export class CardComponent {
   /**
@@ -173,7 +174,7 @@ export class CardComponent {
    */
   applyLanguage(lang) {
     const name = this.card.getName(lang);
-    const rarityLabel = i18n.t('opening.card.rarity', { rarity: this.card.rarity });
+    const rarityLabel = getRarityLabel(this.card.rarity, (key) => i18n.t(key));
 
     if (this.image) {
       this.image.src = i18n.resolveImagePath(this.card.illustration);
@@ -205,7 +206,7 @@ export class CardComponent {
       return;
     }
     const name = this.card.getName(i18n.getLang());
-    const rarityLabel = i18n.t('opening.card.rarity', { rarity: this.card.rarity });
+    const rarityLabel = getRarityLabel(this.card.rarity, (key) => i18n.t(key));
     const suffix = this.isNew ? ` — ${i18n.t('opening.card.new')}` : '';
     this.element.setAttribute('aria-label', `${name} — ${rarityLabel}${suffix}`);
   }

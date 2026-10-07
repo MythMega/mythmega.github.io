@@ -188,6 +188,8 @@ export class App {
     await this.startTimeSync();
     this.renderHeaderCounters(dateSyncManager.getQuotaSnapshot());
     await this.startOpeningView();
+    await this.startCollectionView();
+    await this.startStatsView();
     if (!this.utcTimeProvider) {
       // Fallback used only when the time synchronization is unusable: the clock then shows the
       // "unknown time" placeholder instead of an untrusted system time.
@@ -229,8 +231,69 @@ export class App {
   }
 
   /**
+   * Starts the collection view (step 5): full-card grid, filters and detail modal.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message
+   * and the other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startCollectionView() {
+    const root = document.querySelector(`[data-view="${COLLECTION_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The collection view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the collection view…');
+    this.collectionView = new CollectionView(root);
+    try {
+      await this.collectionView.init();
+    } catch (error) {
+      console.error('[App] The collection view could not be loaded.', error);
+      this.collectionView.setFeedback('collection.error.load', 'error');
+      return;
+    }
+    console.info('[App] Collection view ready.');
+    if (this.router?.getCurrentView() === COLLECTION_VIEW_NAME) {
+      this.collectionView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Starts the statistics view (step 5): boosters, completion, rarity bars, top card.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message
+   * and the other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startStatsView() {
+    const root = document.querySelector(`[data-view="${STATS_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The stats view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the stats view…');
+    this.statsView = new StatsView(root);
+    try {
+      await this.statsView.init();
+    } catch (error) {
+      console.error('[App] The stats view could not be loaded.', error);
+      this.statsView.setFeedback('stats.error.load', 'error');
+      return;
+    }
+    console.info('[App] Stats view ready.');
+    if (this.router?.getCurrentView() === STATS_VIEW_NAME) {
+      this.statsView.handleViewActivated();
+    }
+  }
+
+  /**
    * Forwards the router activations to the opening view so the WebGL loop never runs while
    * another view is displayed (step 4, point 1).
+   *
+   * The collection and stats views (step 5) listen to `VIEW_CHANGED` themselves, so only the
+   * opening view needs an explicit forward here.
    *
    * @returns {void}
    */
@@ -309,7 +372,7 @@ export class App {
    * @returns {void}
    */
   handleAccountRemoved() {
-    console.info('[App] Account removed: releasing the clock and the opening view.');
+    console.info('[App] Account removed: releasing the clock and the views.');
     if (this.unsubscribeViewChanged) {
       this.unsubscribeViewChanged();
       this.unsubscribeViewChanged = null;
@@ -317,6 +380,14 @@ export class App {
     if (this.openingView) {
       this.openingView.destroy();
       this.openingView = null;
+    }
+    if (this.collectionView) {
+      this.collectionView.destroy();
+      this.collectionView = null;
+    }
+    if (this.statsView) {
+      this.statsView.destroy();
+      this.statsView = null;
     }
     dateSyncManager.destroy();
     this.stopUtcClock();

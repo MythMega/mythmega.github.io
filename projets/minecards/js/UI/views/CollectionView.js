@@ -17,7 +17,7 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import collectionManager from '../../business/CollectionManager.js';
-import { CARD_RARITY, CARD_STYLE } from '../../classes/Card.js';
+import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
 
 /** View name, matching `data-view="collection"` in `index.html`. */
 export const COLLECTION_VIEW_NAME = 'collection';
@@ -154,7 +154,7 @@ export class CollectionView {
       { value: '', label: i18n.t('collection.filter.allRarities') },
       ...Array.from({ length: CARD_RARITY.MAX - CARD_RARITY.MIN + 1 }, (_, index) => {
         const rarity = CARD_RARITY.MIN + index;
-        return { value: String(rarity), label: i18n.t('opening.card.rarity', { rarity }) };
+        return { value: String(rarity), label: getRarityLabel(rarity, (key) => i18n.t(key)) };
       }),
     ]);
     this.fillSelect(this.styleSelect, [
@@ -440,7 +440,7 @@ export class CollectionView {
       const image = document.createElement('img');
       image.className = 'collection-modal__image';
       image.src = i18n.resolveImagePath(card.illustration);
-      image.alt = `${name} — ${i18n.t('opening.card.rarity', { rarity: card.rarity })}`;
+      image.alt = `${name} — ${getRarityLabel(card.rarity, (key) => i18n.t(key))}`;
       image.addEventListener('error', () => {
         console.warn(`[CollectionView] Detail illustration not found for "${key}": ${image.src}`);
         image.hidden = true;
@@ -450,10 +450,11 @@ export class CollectionView {
 
     const list = document.createElement('dl');
     list.className = 'card-modal__details';
+    const rarityValue = entry.rarity ?? card?.rarity ?? null;
     const rows = [
       [i18n.t('opening.card.name'), name],
-      [i18n.t('opening.card.rarity', { rarity: entry.rarity ?? card?.rarity ?? '—' }),
-        String(entry.rarity ?? card?.rarity ?? '—')],
+      [i18n.t('opening.card.rarity'),
+        rarityValue === null ? '—' : getRarityLabel(rarityValue, (key) => i18n.t(key))],
       [i18n.t('opening.card.set'), entry.set ?? card?.set ?? '—'],
       [i18n.t('collection.filter.status'),
         entry.owned ? i18n.t('collection.filter.statusOwned') : i18n.t('collection.missing')],
@@ -461,7 +462,7 @@ export class CollectionView {
     if (entry.owned) {
       rows.push([i18n.t('collection.quantity', { count: entry.quantity }), `x${entry.quantity}`]);
       if (entry.firstObtainedAt) {
-        rows.push([i18n.t('collection.firstObtained', { date: '' }), this.formatDate(entry.firstObtainedAt)]);
+        rows.push([i18n.t('collection.firstObtained'), this.formatDate(entry.firstObtainedAt)]);
       }
     }
     rows.forEach(([term, value]) => {

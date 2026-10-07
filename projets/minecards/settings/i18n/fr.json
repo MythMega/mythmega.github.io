@@ -60,7 +60,7 @@
   "opening.finish": "Terminer",
   "opening.card.new": "NOUVEAU",
   "opening.card.hidden": "Carte face cachée",
-  "opening.card.rarity": "Rareté {rarity}",
+  "opening.card.rarity": "Rareté",
   "opening.card.name": "Nom",
   "opening.card.set": "Extension",
   "opening.source.daily": "Booster quotidien",
@@ -89,7 +89,7 @@
   "collection.empty": "Aucune carte ne correspond aux filtres.",
   "collection.quantity": "x{count}",
   "collection.missing": "Non possédée",
-  "collection.firstObtained": "Obtenue le {date}",
+  "collection.firstObtained": "Première obtention",
   "collection.error.load": "Impossible de charger la collection. Rechargez la page.",
   "view.stats.title": "Statistiques",
   "stats.boosters.title": "Boosters ouverts",
@@ -97,7 +97,6 @@
   "stats.completion.global": "{owned} / {total} cartes ({percent} %)",
   "stats.completion.empty": "Ouvrez des boosters pour commencer votre collection.",
   "stats.rarity.title": "Tirages par rareté",
-  "stats.rarity.row": "Rareté {rarity}",
   "stats.rarity.empty": "Aucun tirage enregistré.",
   "stats.top.title": "Carte la plus piochée",
   "stats.top.empty": "Aucune carte piochée pour le moment.",
@@ -114,5 +113,11 @@
   "settings.theme.classic": "Classic",
 
   "error.storage": "Erreur de stockage local.",
-  "error.unexpected": "Une erreur inattendue est survenue."
+  "error.unexpected": "Une erreur inattendue est survenue.",
+
+  "rarity.1": "Commune",
+  "rarity.2": "Rare",
+  "rarity.3": "Super rare",
+  "rarity.4": "Légendaire",
+  "rarity.5": "Mythique"
 }

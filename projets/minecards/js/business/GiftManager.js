@@ -15,6 +15,15 @@
  *   The sheet is append-only: never sort, insert or delete a row, otherwise the line numbers
  *   (which are the gift identity) change.
  *
+ * BROADCAST ROWS (`uuid = "*"`, step 9)
+ *   A row whose `uuid` cell is `*` (after trim) is addressed to EVERY account: the UUID comparison
+ *   is skipped and the gift is credited to the current account. The record stores the REAL account
+ *   UUID plus `broadcast: true`, so the history stays readable and the anti-duplicate key (the line
+ *   number) is unchanged.
+ *   CONSEQUENCE, accepted on purpose: a `lastCheckedLine` of 1 means an account created later
+ *   receives EVERY historical `*` row of the sheet. Only broadcast gifts that may legitimately be
+ *   handed out retroactively.
+ *
  * RUN SEQUENCE (`checkGifts()`)
  *   1. the CSV is fetched from the first working URL (`gviz` then `export` as a fallback);
  *   2. the CSV is parsed (quotes, embedded commas, CRLF/LF/CR, BOM) and every record keeps the
@@ -64,6 +73,19 @@ export const GIFT_SHEET_URL_TEMPLATES = Object.freeze([
 
 /** Gift types accepted in the sheet. */
 export const GIFT_TYPES = Object.freeze({ BOOSTER: 'booster', CARD: 'card' });
+
+/**
+ * Cell value that turns a row into a broadcast to every account (step 9).
+ * Compared after `trim()` only, so `" * "` is accepted too.
+ */
+export const BROADCAST_UUID = '*';
+
+/**
+ * Categories stored in `gifts_received`.
+ * `distribution` comes from the Google Sheet (step 8), `codes` from a redeemed promo code (step 9).
+ * A record without a `category` (older saves) is read as `distribution`.
+ */
+export const GIFT_CATEGORIES = Object.freeze({ DISTRIBUTION: 'distribution', CODES: 'codes' });
 
 /** Header names accepted for each required column (lower-cased, without separators). */
 export const GIFT_COLUMN_ALIASES = Object.freeze({
@@ -499,7 +521,9 @@ export class GiftManager {
         key: record.fields[columns.key] ?? '',
         quantity: record.fields[columns.quantity] ?? '',
       };
-      if (normalizeIdentifier(cells.uuid) !== accountUuid) continue;
+      // A `*` origin addresses every account: no UUID comparison (step 9).
+      const isBroadcast = cells.uuid.trim() === BROADCAST_UUID;
+      if (!isBroadcast && normalizeIdentifier(cells.uuid) !== accountUuid) continue;
 
       const analysis = GiftManager.analyzeLine(cells, catalog);
       if (!analysis.ok) {
@@ -512,7 +536,7 @@ export class GiftManager {
         });
         continue;
       }
-      plan.push({ line: record.line, ...analysis.target });
+      plan.push({ line: record.line, broadcast: isBroadcast, ...analysis.target });
     }
 
     const hasBoosterGift = plan.some((item) => item.type === GIFT_TYPES.BOOSTER);
@@ -570,11 +594,15 @@ export class GiftManager {
 
           await context.put(STORES.GIFTS_RECEIVED, {
             line: item.line,
+            category: GIFT_CATEGORIES.DISTRIBUTION,
+            // Always the REAL account UUID, even for a `*` row: the history must stay readable and
+            // identify the player (step 9 point 1).
             uuid,
             type: item.type,
             key: item.key,
             quantity: item.quantity,
             receivedAt,
+            ...(item.broadcast ? { broadcast: true } : {}),
           });
         }
 

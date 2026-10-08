@@ -73,18 +73,18 @@
   backface-visibility: hidden;
 }
 
+/* The back shows the shared illustration (`assets/img/card_back.png`, see `CardComponent`).
+   It is a fixed 2:3 image like the card itself, so `cover` fills the frame without cropping.
+   The themed surface colour stays as a fallback if the file cannot be loaded. */
 .card-reveal__face--back {
-  display: grid;
-  place-items: center;
-  background-image: linear-gradient(160deg, var(--color-surface-alt), var(--color-surface));
+  background-color: var(--color-surface-alt);
 }
 
-.card-reveal__back-mark {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
+.card-reveal__back-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .card-reveal__face--front {

@@ -808,22 +808,39 @@ export class DateSyncManager {
    *
    * @param {string} setId - Extension the boosters belong to.
    * @param {number} quantity - Number of boosters to grant (strictly positive integer).
-   * @returns {Promise<{daily: number, bonusBySet: Record<string, number>, bonusTotal: number, availableForSet: number|null}>}
-   *   The quota after the grant.
+   * @param {object} [context=null] - Optional `StorageRepository.transaction` context to join
+   *   instead of opening a new transaction. Used by the redeem codes (step 9), which credit
+   *   several rewards atomically: the caller owns the transaction and is responsible for the
+   *   daily reset, because `ensureDailyReset()` opens its own transaction. The in-memory quota
+   *   mirror is NOT updated in that mode: the caller re-reads the quota from the database after
+   *   the commit (`getRemainingBoosters`).
+   * @returns {Promise<object>} The quota after the grant (a snapshot on the standalone path, the
+   *   stored record on the shared-context path).
    * @throws {TypeError|RangeError} When `setId` is invalid/unknown or `quantity` is invalid.
    * @throws {Error} When the transaction fails.
    */
-  async addBonusBoosters(setId, quantity) {
+  async addBonusBoosters(setId, quantity, context = null) {
     const key = this.assertKnownSet(setId);
     const amount = this.assertPositiveInteger(quantity);
+
+    if (context) {
+      const quota = this.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
+      const next = {
+        ...quota,
+        bonusBoosters: { ...quota.bonusBoosters, [key]: (quota.bonusBoosters[key] ?? 0) + amount },
+      };
+      await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
+      return next;
+    }
+
     await this.ensureDailyReset();
 
-    const updated = await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
-      const quota = this.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
+    const updated = await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (transactionContext) => {
+      const quota = this.normalizeQuota(await transactionContext.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
       const bonusBoosters = { ...quota.bonusBoosters, [key]: (quota.bonusBoosters[key] ?? 0) + amount };
       const next = { ...quota, bonusBoosters };
 
-      await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
+      await transactionContext.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
       return next;
     });
 

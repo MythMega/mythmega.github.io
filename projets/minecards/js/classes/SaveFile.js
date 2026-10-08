@@ -13,7 +13,9 @@
  *       collection:      [ { key, cardId, style, set, quantity, firstObtainedAt, lastObtainedAt }, … ],
  *       user_state:      { account, settings, quota, timeAnchor, stats, giftSync },
  *       redeemed_codes:  [ { code, redeemedAt }, … ],
- *       gifts_received:  [ { line, uuid, type, key, quantity, receivedAt }, … ]
+ *       gifts_received:  [ { line, category, uuid, type, key, quantity, receivedAt }, … ]
+ *       // `line` is a positive integer for a sheet distribution (step 8) or a
+ *       // `code:<redeemId>:<i>` string for a promo code redemption (step 9).
  *     }
  *   }
  *
@@ -404,8 +406,7 @@ export class SaveFile {
    *
    * @param {unknown} giftsReceived - Candidate array of received gifts.
    * @returns {void}
-   * @throws {SaveFileError} When the container is not an array or a record is unusable. `line`
-   *   is the store key path, so it must be a strictly positive integer.
+   * @throws {SaveFileError} When the container is not an array or a record is unusable.
    */
   validateGiftsReceived(giftsReceived) {
     if (!Array.isArray(giftsReceived)) {
@@ -417,13 +418,28 @@ export class SaveFile {
 
     giftsReceived.forEach((entry, index) => {
       this.assertRecord(entry, index, STORES.GIFTS_RECEIVED, {
-        line: 'positiveInteger',
         uuid: 'uuid',
         type: 'nonEmptyString',
         key: 'string',
         quantity: 'positiveInteger',
       });
+
+      // `line` is the store key path, so it must be a valid IndexedDB key: a strictly positive
+      // integer for a sheet distribution (step 8) or a `"code:<redeemId>:<i>"` string for a promo
+      // code redemption (step 9). Both are accepted, and the string form is what makes a redeemed
+      // code's history survive an export/import round-trip.
+      const line = entry?.line;
+      const validLine =
+        (Number.isInteger(line) && line > 0) || (typeof line === 'string' && line.trim() !== '');
+      if (!validLine) {
+        throw new SaveFileError(
+          SAVE_ERROR_CODES.INVALID_STRUCTURE,
+          `The field "line" of ${STORES.GIFTS_RECEIVED}[${index}] in the save is missing or invalid (expected a positive integer or a non-empty string).`
+        );
+      }
+
       this.assertOptionalType(entry, 'receivedAt', 'string', `${STORES.GIFTS_RECEIVED}[${index}]`);
+      this.assertOptionalType(entry, 'category', 'string', `${STORES.GIFTS_RECEIVED}[${index}]`);
     });
   }
 

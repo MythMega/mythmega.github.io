@@ -16,6 +16,7 @@ import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import accountManager from '../../business/AccountManager.js';
 import { saveFile, getSaveErrorMessageKey, SAVE_EXTENSION } from '../../classes/SaveFile.js';
+import { hasPendingRedeem } from '../../utils/DeepLink.js';
 
 /** Name of the view section, matching `data-view="onboarding"` in `index.html`. */
 export const ONBOARDING_VIEW_NAME = 'onboarding';
@@ -43,6 +44,7 @@ export class OnboardingView {
     this.fileInput = this.root.querySelector('[data-onboarding-file]');
     this.languageContainer = this.root.querySelector('[data-onboarding-languages]');
     this.feedbackElement = this.root.querySelector('[data-onboarding-feedback]');
+    this.pendingElement = this.root.querySelector('[data-onboarding-pending]');
 
     this.assertMarkup();
 
@@ -74,6 +76,7 @@ export class OnboardingView {
       ['data-onboarding-file', this.fileInput],
       ['data-onboarding-languages', this.languageContainer],
       ['data-onboarding-feedback', this.feedbackElement],
+      ['data-onboarding-pending', this.pendingElement],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -94,6 +97,19 @@ export class OnboardingView {
     this.bindEvents();
     this.unsubscribeLangChanged = eventBus.on(EVENTS.LANG_CHANGED, () => this.refreshFeedback());
     this.syncLanguageButtons();
+    this.renderPendingNotice();
+  }
+
+  /**
+   * Shows the neutral notice explaining that a `?Redeem=` code is waiting for the account.
+   *
+   * The code itself is never displayed: the banner only tells the player that it will be checked
+   * after the save is created or imported (step 10 point 4.2).
+   *
+   * @returns {void}
+   */
+  renderPendingNotice() {
+    this.pendingElement.hidden = !hasPendingRedeem();
   }
 
   /**

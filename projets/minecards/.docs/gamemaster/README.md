@@ -13,6 +13,7 @@
 - [Créer une distribution / un cadeau](#3-créer-une-distribution--un-cadeau)
 - [Quelles données doivent être dans le Google Sheet](#4-quelles-données-doivent-être-dans-le-google-sheet)
 - [Limitations importantes](#5-limitations-importantes)
+- [Codes personnels (`useritem`)](#6-codes-personnels-useritem)
 
 ---
 
@@ -60,7 +61,7 @@ Exemple de structure (basée sur l'extension existante `A1.json`) :
 - `Path` : chemin de l'illustration (avec `<lang>` remplacé à l'exécution)
 
 Le fichier complet de l'extension A1 est disponible ici :
-[`./data/boosters/A1.json`](./data/boosters/A1.json)
+[`../../data/boosters/A1.json`](../../data/boosters/A1.json)
 
 ---
 
@@ -176,4 +177,79 @@ vérification serveur digne de confiance.
 
 ---
 
-*Document créé pour le projet MineCards — Développement étape 7 & 8.*
+## 6. Codes personnels (`useritem`)
+
+Un **code personnel** est un cadeau individuel, **lié à un seul UUID**, qui offre **un item**
+(un booster ou une carte) dans **une quantité** donnée, et qui ne peut être utilisé **qu'une fois**.
+Le joueur le reçoit sous forme de texte ou de lien direct :
+
+```
+040G-40R4-0M2R-Q5R0-0CG6-BF0Z-HP5Q-WZ30
+index.html?Redeem=040G-40R4-0M2R-Q5R0-0CG6-BF0Z-HP5Q-WZ30
+```
+
+> Algorithme, format binaire et vecteurs de test : [`useritemcode.md`](useritemcode.md).
+
+### 6.1 Générer un code
+
+À la racine du projet :
+
+```bash
+python generate_useritem_code.py
+```
+
+Le script demande, dans l'ordre :
+
+1. **l'UUID** du destinataire (visible dans l'appli : *Paramètres → Compte → Copier*) ;
+2. **le type** : `booster` ou `card` ;
+3. **l'item** : l'identifiant du set pour un booster (ex. `A1`), ou le numéro / l'`Index|Layout`
+   d'une carte pour un carte ;
+4. **la quantité** (entre 1 et 65535).
+
+Il affiche le code, le lien direct et le récompense, et **écrit une ligne dans le registre**
+`useritem_codes.csv` (append-only). Chaque exécution produit un code **à usage unique**.
+
+Options utiles :
+
+```bash
+python generate_useritem_code.py --list        # liste le catalogue (items + empreintes)
+python generate_useritem_code.py --self-test   # rejoue les vecteurs de test du document
+python generate_useritem_code.py --uuid <UUID> --type booster --item A1 --qty 3 --note "pseudo"
+```
+
+### 6.2 La clé (`settings/config.json`)
+
+La clé partagée sert à la fois au générateur et à l'appli : elle doit être **identique des deux
+côtés**. Remplacez la valeur d'exemple :
+
+```bash
+openssl rand -base64 32
+```
+
+puis reportez le résultat dans `settings/config.json` → `useritemCode.key`.
+
+⚠️ **Important** : l'appli fonctionne dans le navigateur, donc cette clé y est **publique**.
+Quiconque sait la lire dans les sources peut fabriquer des codes valides pour n'importe quel UUID.
+Le système empêche de deviner un code, d'utiliser celui d'un autre joueur ou de modifier sa
+récompense ; il ne protège pas contre un attaquant motivé (voir la « Modèle de sécurité » du
+document). À réserver aux cadeaux sans enjeu.
+
+### 6.3 Le registre
+
+`useritem_codes.csv` associe des UUID à des codes : **ne jamais le publier ni le committer**
+(il est listé dans `.gitignore`). Il sert à ne jamais émettre deux fois le même code, et à
+**renvoyer** un code perdu plutôt qu'à en regénérer un.
+
+### 6.4 Côté appli
+
+- Le joueur peut **coller le code** dans l'onglet *Codes* (la casse, les tirets et les confusions
+  `O/0`, `I/1`, `L/1` sont tolérés) ; une fenêtre de confirmation liste la récompense avant l'ajout.
+- Un lien `index.html?Redeem={code}` ouvre **directement** cette fenêtre (jamais de réclamation
+automatique). Si aucun compte n'existe encore, un bandeau neutre prévient le joueur que le code
+sera vérifié après la création ou l'import de sa sauvegarde.
+- La vérification utilise `crypto.subtle` : l'appli doit être servie en **HTTPS ou sur localhost**
+  (un contexte non sécurisé désactive la vérification).
+
+---
+
+*Document créé pour le projet MineCards — Développement étapes 7, 8, 9 & 10.*

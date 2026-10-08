@@ -450,13 +450,16 @@ export class BoosterManager {
    *
    * @param {Card|Card[]} cards - One card or an array of cards.
    * @param {number} [quantityPerCard=1] - Number of copies added for each card of the payload.
+   * @param {object} [context=null] - Optional `StorageRepository.transaction` context to join
+   *   instead of opening a new transaction. Used by the redeem codes (step 9), which credit
+   *   several rewards atomically: the caller owns the transaction.
    * @returns {Promise<{added: number, newKeys: string[], quantity: Record<string, number>}>} The
    *   number of copies written, the keys obtained for the first time, and the resulting quantities.
    * @throws {TypeError} When the payload contains something else than `Card` instances, or when the
    *   quantity is not a strictly positive integer.
    * @throws {Error} When the transaction fails.
    */
-  async addCardToCollection(cards, quantityPerCard = 1) {
+  async addCardToCollection(cards, quantityPerCard = 1, context = null) {
     const list = Array.isArray(cards) ? cards : [cards];
     if (list.length === 0) {
       throw new TypeError('BoosterManager.addCardToCollection requires at least one card.');
@@ -472,13 +475,19 @@ export class BoosterManager {
     const orderedKeys = list.map((card) => card.uniqueKey).filter((key, index, keys) => keys.indexOf(key) === index);
     const timestamp = buildCollectionTimestamp();
 
-    const result = await storageRepository.transaction(STORES.COLLECTION, 'readwrite', async (context) => {
+    /**
+     * Writes the payload through the given transaction context (shared by both paths below).
+     *
+     * @param {object} activeContext - IndexedDB transaction context.
+     * @returns {Promise<{newKeys: string[], quantity: Record<string, number>}>} The write result.
+     */
+    const apply = async (activeContext) => {
       const newKeys = [];
       const quantity = {};
 
       for (const key of orderedKeys) {
         const card = list.find((candidate) => candidate.uniqueKey === key);
-        const existing = await context.get(STORES.COLLECTION, key);
+        const existing = await activeContext.get(STORES.COLLECTION, key);
         const added = counts[key] * quantityPerCard;
         const entry = existing
           ? { ...existing, quantity: existing.quantity + added, lastObtainedAt: timestamp }
@@ -496,11 +505,15 @@ export class BoosterManager {
           newKeys.push(key);
         }
         quantity[key] = entry.quantity;
-        await context.put(STORES.COLLECTION, entry);
+        await activeContext.put(STORES.COLLECTION, entry);
       }
 
       return { newKeys, quantity };
-    });
+    };
+
+    const result = context
+      ? await apply(context)
+      : await storageRepository.transaction(STORES.COLLECTION, 'readwrite', apply);
 
     return { added: list.length * quantityPerCard, newKeys: result.newKeys, quantity: result.quantity };
   }

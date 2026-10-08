@@ -36,5 +36,11 @@
   "giftSheet": {
     "id": "1AodjgWkMej5Hrt1jcs_DH-dCo87A-3vR7NyiINkKUSA",
     "gid": "0"
+  },
+
+  "useritemCode": {
+    "_comment": "Step 10 personal codes. 'key' is 32 random bytes in base64 ('openssl rand -base64 32'); the value below is a PLACEHOLDER (32 zero bytes) that MUST be replaced, with the same value in the game master generator. WARNING: this key is served to the browser, so anyone reading the sources can forge codes (see .docs/gamemaster/useritemcode.md section 2).",
+    "version": 1,
+    "key": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
   }
 }

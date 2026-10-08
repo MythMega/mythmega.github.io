@@ -243,6 +243,24 @@ export class ConfigLoader {
   }
 
   /**
+   * Personal code settings (step 10).
+   *
+   * `key` is the 32-byte shared secret (base64) used to verify the `useritem` codes. It is only
+   * read lazily, when a code is actually being verified, and never logged.
+   *
+   * @returns {Promise<{version: number, key: string}>} The section (empty strings when absent).
+   * @throws {Error} See `load()`.
+   */
+  async getUserItemCode() {
+    const config = await this.getConfig();
+    const section = config.useritemCode || {};
+    return {
+      version: Number.isInteger(section.version) ? section.version : 1,
+      key: typeof section.key === 'string' ? section.key.trim() : '',
+    };
+  }
+
+  /**
    * Time synchronization settings used by `DateSyncManager` (step 2).
    *
    * `providers` is tried in order until one answers. Each descriptor carries:

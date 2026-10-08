@@ -4,7 +4,8 @@
  * Reference: `.docs/steps/4.md` point 3.
  *
  * RESPONSIBILITIES
- *   - render a face-down card whose back is a pure CSS pattern;
+ *   - render a face-down card whose back shows the shared card-back illustration
+ *     (`assets/img/card_back.png`, fixed whatever the booster);
  *   - flip it with a CSS 3D animation when the player taps it (rarities 4 and 5 add an animated
  *     glow coming from the theme variables, full art printings get a light sweep);
  *   - resolve the illustration through `I18n.resolveImagePath()` and follow `LANG_CHANGED`, so
@@ -21,6 +22,16 @@
 import i18n from '../../utils/I18n.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import { getRarityLabel } from '../../classes/Card.js';
+
+/**
+ * Shared illustration printed on the back of every face-down card.
+ *
+ * The path is relative to `index.html` (the cards are created in the document, not in a
+ * stylesheet), so it keeps working under the `/projets/minecards/` deployment sub-path.
+ * A single image is used for all boosters; `css/components/card-reveal.css` only supplies a
+ * themed fallback colour if the file is missing.
+ */
+const CARD_BACK_IMAGE = 'assets/img/card_back.png';
 
 export class CardComponent {
   /**
@@ -87,10 +98,14 @@ export class CardComponent {
 
     const back = document.createElement('span');
     back.className = 'card-reveal__face card-reveal__face--back';
-    const backMark = document.createElement('span');
-    backMark.className = 'card-reveal__back-mark';
-    backMark.textContent = i18n.t('app.title');
-    back.appendChild(backMark);
+    const backImage = document.createElement('img');
+    backImage.className = 'card-reveal__back-image';
+    backImage.src = CARD_BACK_IMAGE;
+    // Decorative: the card state is announced by the button's `aria-label`, not by its back.
+    backImage.alt = '';
+    backImage.loading = 'eager';
+    backImage.decoding = 'async';
+    back.appendChild(backImage);
 
     const front = document.createElement('span');
     front.className = 'card-reveal__face card-reveal__face--front';

@@ -1,81 +1,126 @@
 /**
- * RedeemManager - Promo codes: validation, expiration and reward granting.
+ * RedeemManager - Special codes (`settings/codes.json`): inspection, availability and granting.
  *
- * Reference: `.docs/steps/7.md` points 1 and 2, and `.docs/main.md` sections 3.B and 3.G.
+ * Reference: `.docs/steps/9.md` points 2, 3, 4 and 6, and `.docs/main.md` sections 3.B and 3.G.
  *
- * CATALOGUE (`settings/redeem.json`, an array)
+ * CATALOGUE (`settings/codes.json`, an array; the `_comment` field is ignored)
  *   {
- *     "code": "LAUNCH2026",
- *     "type": "booster_grant",
- *     "reward": { "amount": 2, "set": "A1" },
- *     "expiration": "2026-12-31"
- *   },
- *   {
- *     "code": "MYTHICGIFT",
- *     "type": "card_grant",
- *     "reward": { "cardId": "SERIE-A1 _ Z001", "style": "fullart", "set": "A1" }
+ *     "Code": "WELC0M3ST3V3",
+ *     "Rewards": [
+ *       { "RewardType": "Booster", "Quantity": 1, "ItemId": "A1" },
+ *       { "RewardType": "Card", "Quantity": 1, "ItemId": "SERIE-A1 / P004", "PreferedLayout": "fullart" }
+ *     ],
+ *     "Availabilities": null,
+ *     "Repeatable": false
  *   }
  *
- *   - `type` is `booster_grant` (bonus boosters) or `card_grant` (one card added to the
- *     collection);
- *   - `reward.set` is REQUIRED for both types: `main.md` section 3.B stores the bonus boosters per
- *     extension (`bonusBoosters: { A1: 2 }`), so a code must name the extension it feeds;
- *   - `expiration` is an optional `YYYY-MM-DD` day, inclusive, compared with the TRUSTED UTC day
- *     of `DateSyncManager` (`Date.now()` is never used here);
- *   - `cardId` + `style` describe the card through its unique key `${cardId}_${style}`
- *     (`main.md` section 2), which is resolved against the loaded extension JSONs.
+ *   - `Code`      : compared case-insensitively with the input, after `trim()` (dots and any other
+ *                   character are significant);
+ *   - `CodeHash`  : OPTIONAL hardening, a SHA-256 hex digest of the normalized (upper-cased) code,
+ *                   accepted instead of `Code` so the plain code is not shipped in the file;
+ *   - `RewardType`: `Booster` (ItemId = extension id) or `Card` (ItemId = `Index` of a booster
+ *                   entry, e.g. `"SERIE-A1 / P004"`);
+ *   - `PreferedLayout`: optional `classic`/`fullart`; when set, the FIRST matching card with that
+ *                   layout is preferred, otherwise the first card with that `Index`;
+ *   - `Quantity`  : integer > 0;
+ *   - `Availabilities`: `null` = always available, else `{ StartDate, EndDate }` (`YYYY-MM-DD` days,
+ *                   each nullable). `StartDate` is INCLUSIVE, `EndDate` is EXCLUSIVE ("before the
+ *                   15th" = valid through the 14th). The day comes from `DateSyncManager`, never
+ *                   from `Date.now()`;
+ *   - `Repeatable`: false = the code is recorded in `redeemed_codes` and refused once used;
+ *                   true  = never recorded, claimable without limit.
  *
- * DECISIONS
- *   - the code is normalized (trimmed, upper-cased) before anything else, so the comparison and the
- *     `redeemed_codes` key are case-insensitive;
- *   - the catalogue container is validated at load time (shape, known type, unique codes), while a
- *     malformed REWARD only refuses its own code: a typo cannot disable every other code;
- *   - the "already redeemed" check, the `redeemed_codes` write and the reward are performed in ONE
- *     readwrite transaction, so a code can never be credited twice nor be lost without its reward
- *     (a failure aborts the transaction: nothing is written, the code stays usable);
- *   - the reward is resolved BEFORE opening the transaction (the card is looked up in the loaded
- *     extension JSONs), so a data error never reaches the storage layer.
+ * DESIGN
+ *   - `inspect(rawCode)` performs NO write: it is what the view calls to build the confirmation
+ *     modal;
+ *   - `claim(rawCode)` applies every reward, the `redeemed_codes` record and the history entries in
+ *     ONE readwrite transaction. The already-used check is repeated inside that transaction, so two
+ *     concurrent claims cannot both succeed (anti double-click / anti race);
+ *   - when any reward of a code is invalid (unknown extension/card, bad quantity, empty rewards),
+ *     the WHOLE code is refused: nothing is written and a warning is logged WITHOUT the code;
+ *   - `settings/codes.json` is loaded lazily on the first `inspect`, never at boot, and is never
+ *     listed in the UI nor logged.
  *
- * LIMITS (worth knowing, see `.docs/steps/8.md` for the same rationale)
- *   `settings/redeem.json` is a public file: anybody can read the codes. The "only once" rule is
- *   purely local (a player who clears their data can redeem again). Acceptable for a game with no
- *   stakes; do not use it for anything of value.
+ * LIMITS (documented, accepted)
+ *   `settings/codes.json` is served to the browser: anybody can read every code with the devtools.
+ *   "Do not reveal the codes" is a UI rule, not a protection. The `CodeHash` option raises the bar
+ *   without changing the design; the "once" rule stays purely local.
+ *
+ * PERSONAL CODES (step 10)
+ *   `resolveCode()` is the single place that turns a raw string into `{ status, kind, rewards,
+ *   repeatable, storeKey }`. It tries `settings/codes.json` (the `special` kind) first, then, when
+ *   the normalized input has the shape of a `useritem` code (32 Crockford characters), delegates
+ *   to `UserItemCode.verify()` (`js/business/UserItemCode.js`). `inspect`/`claim` never assume
+ *   which kind they are handling.
+ *
+ *   A personal code is ALWAYS single-use: its `redeemed_codes` key is the normalized form without
+ *   dashes (32 characters), checked in `inspect()` and re-checked inside the `claim()`
+ *   transaction. The code itself is never written to the history nor logged.
  */
 
+import { canonicalBooster, canonicalCard, userItemCode, UserItemCode } from './UserItemCode.js';
+
+import Card from '../classes/Card.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
-import { USER_STATE_KEYS } from './AccountManager.js';
+import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
+import { GIFT_CATEGORIES } from './GiftManager.js';
+import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /** Path of the code catalogue, relative to the application root. */
-export const REDEEM_PATH = 'settings/redeem.json';
+export const CODES_PATH = 'settings/codes.json';
 
-/** Supported reward types. */
-export const REDEEM_TYPES = Object.freeze({
-  BOOSTER_GRANT: 'booster_grant',
-  CARD_GRANT: 'card_grant',
-});
+/** Reward types declared in `settings/codes.json`. */
+export const REDEEM_REWARD_TYPES = Object.freeze({ BOOSTER: 'Booster', CARD: 'Card' });
 
-/** Number of copies added to the collection by a `card_grant` (step 7 point 2). */
-export const CARD_GRANT_QUANTITY = 1;
+/** Kinds of code handled by `resolveCode()` (step 10 adds `useritem`). */
+export const REDEEM_KINDS = Object.freeze({ SPECIAL: 'special', USER_ITEM: 'useritem' });
 
 /**
- * Error codes thrown by `RedeemManager`. The values are the suffixes of the `redeem.error.*`
- * translation keys resolved by `getRedeemErrorMessageKey()`.
+ * Statuses returned by `inspect()`.
+ * `time_unavailable` is an extension of the step 9 list: with a bounded availability and a frozen
+ * trusted clock the code cannot be verified, so it is refused instead of credited blindly (same
+ * rule as the quota, which never resets against an untrusted clock).
  */
-export const REDEEM_ERROR_CODES = Object.freeze({
-  EMPTY_CODE: 'emptyCode',
-  UNKNOWN_CODE: 'unknownCode',
-  ALREADY_REDEEMED: 'alreadyRedeemed',
-  EXPIRED: 'expired',
-  TIME_UNAVAILABLE: 'timeUnavailable',
-  INVALID_REWARD: 'invalidReward',
-  CARD_NOT_FOUND: 'cardNotFound',
-  CONFIG_INVALID: 'configInvalid',
+export const REDEEM_STATUSES = Object.freeze({
+  OK: 'ok',
   UNKNOWN: 'unknown',
+  EXPIRED: 'expired',
+  NOT_YET_AVAILABLE: 'not_yet_available',
+  ALREADY_USED: 'already_used',
+  TIME_UNAVAILABLE: 'time_unavailable',
+  INVALID_CONFIG: 'invalid_config',
+  // Personal codes (step 10).
+  INVALID_FORMAT: 'invalid_format',
+  WRONG_USER: 'wrong_user',
+  INVALID: 'invalid',
+  UNKNOWN_ITEM: 'unknown_item',
 });
 
-/** `YYYY-MM-DD` pattern of an `expiration` value. */
+/**
+ * Error codes thrown by `RedeemManager.claim()`. The values are the suffixes of the
+ * `redeem.error.*` translation keys resolved by `getRedeemErrorMessageKey()`.
+ */
+export const REDEEM_ERROR_CODES = Object.freeze({
+  EMPTY_CODE: 'empty_code',
+  UNKNOWN: 'unknown',
+  ALREADY_USED: 'already_used',
+  EXPIRED: 'expired',
+  NOT_YET_AVAILABLE: 'not_yet_available',
+  TIME_UNAVAILABLE: 'time_unavailable',
+  INVALID_CONFIG: 'invalid_config',
+  INVALID_FORMAT: 'invalid_format',
+  WRONG_USER: 'wrong_user',
+  INVALID: 'invalid',
+  UNKNOWN_ITEM: 'unknown_item',
+  UNKNOWN_ERROR: 'unknown',
+});
+
+/** Prefix of a history key: `code:<redeemId>:<rewardIndex>`. */
+export const CODE_HISTORY_PREFIX = 'code:';
+
+/** `YYYY-MM-DD` pattern of an availability bound. */
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
@@ -100,12 +145,23 @@ export class RedeemError extends Error {
 /**
  * Resolves the i18n key describing a redeem failure.
  *
- * @param {unknown} error - Error thrown by `RedeemManager`.
+ * @param {unknown} error - Error thrown by `RedeemManager.claim()`.
  * @returns {string} A `redeem.error.*` translation key.
  */
 export function getRedeemErrorMessageKey(error) {
-  const code = error instanceof RedeemError ? error.code : REDEEM_ERROR_CODES.UNKNOWN;
+  const code = error instanceof RedeemError ? error.code : REDEEM_ERROR_CODES.UNKNOWN_ERROR;
   return `redeem.error.${code}`;
+}
+
+/**
+ * Maps an `inspect()` status to the translation key suffix used by the view.
+ *
+ * @param {string} status - One of `REDEEM_STATUSES` except `ok`.
+ * @returns {string} A `redeem.error.*` translation key.
+ */
+export function getRedeemStatusKey(status) {
+  const known = Object.values(REDEEM_STATUSES).includes(status) ? status : REDEEM_STATUSES.UNKNOWN;
+  return `redeem.error.${known}`;
 }
 
 /**
@@ -128,27 +184,74 @@ function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim() !== '';
 }
 
+/**
+ * Checks whether a value is a strictly positive integer.
+ *
+ * @param {unknown} value - Candidate value.
+ * @returns {boolean} True for 1, 2, 3, ...
+ */
+function isPositiveInteger(value) {
+  return Number.isInteger(value) && value > 0;
+}
+
+/**
+ * Normalizes an availability bound, validating its `YYYY-MM-DD` shape.
+ *
+ * @param {unknown} value - Raw bound (null/absent accepted).
+ * @returns {string|null} The trimmed day, or null.
+ * @throws {RedeemError} With the code `invalid_config` when the shape is wrong.
+ */
+function normalizeDay(value) {
+  if (value === undefined || value === null) return null;
+  const day = typeof value === 'string' ? value.trim() : '';
+  if (!DAY_PATTERN.test(day)) {
+    throw new RedeemError(
+      REDEEM_ERROR_CODES.INVALID_CONFIG,
+      `An availability bound of "${CODES_PATH}" is invalid (expected YYYY-MM-DD, received ${JSON.stringify(value)}).`
+    );
+  }
+  return day;
+}
+
 export class RedeemManager {
   /**
    * @param {object} [options] - Manager options.
-   * @param {string} [options.path=REDEEM_PATH] - Catalogue path (overridable for tooling).
+   * @param {string} [options.path=CODES_PATH] - Catalogue path (overridable for tooling).
    */
-  constructor({ path = REDEEM_PATH } = {}) {
+  constructor({ path = CODES_PATH } = {}) {
     this.path = path;
     /** @type {object[]|null} Validated catalogue, kept in memory. */
     this.codes = null;
     /** @type {Promise<object[]>|null} In-flight load used to de-duplicate concurrent calls. */
     this.loadPromise = null;
+    /** @type {Card[]|null} Every card of every loaded extension, in declaration order. */
+    this.allCardsCache = null;
+    /** @type {Promise<Card[]>|null} In-flight card list build. */
+    this.allCardsPromise = null;
+    /** @type {Array<{canonical: string, target: object}>|null} Personal-code catalogue (step 10). */
+    this.userItemCatalog = null;
+    /** @type {Promise<Array<{canonical: string, target: object}>>|null} In-flight catalogue build. */
+    this.userItemCatalogPromise = null;
   }
 
   /**
-   * Loads and validates `settings/redeem.json` (cached).
+   * Logs with the manager prefix. Never receives a code: codes are not logged.
+   *
+   * @param {...unknown} args - Values forwarded to `console.info`.
+   * @returns {void}
+   */
+  log(...args) {
+    console.info('[RedeemManager]', ...args);
+  }
+
+  /**
+   * Loads and validates `settings/codes.json` (cached).
    *
    * @param {object} [options] - Load options.
    * @param {boolean} [options.force=false] - Re-fetch the file even when a cached copy exists.
-   * @returns {Promise<object[]>} The validated catalogue entries.
-   * @throws {RedeemError} With the code `configInvalid` when the file is unreachable, not valid
-   *   JSON, or structurally wrong (unknown type, duplicate code, malformed expiration).
+   * @returns {Promise<object[]>} The validated catalogue descriptors.
+   * @throws {RedeemError} With the code `invalid_config` when the file is unreachable, not valid
+   *   JSON, or structurally wrong (no code, duplicate code, malformed rewards/availabilities).
    */
   async loadCodes({ force = false } = {}) {
     if (this.codes && !force) return this.codes;
@@ -168,7 +271,7 @@ export class RedeemManager {
    * Performs the fetch, parse and validation steps of `loadCodes()`.
    *
    * @param {boolean} force - When true, the browser HTTP cache is bypassed.
-   * @returns {Promise<object[]>} The validated catalogue entries.
+   * @returns {Promise<object[]>} The validated catalogue descriptors.
    * @throws {RedeemError} See `loadCodes()`.
    */
   async fetchCodes(force) {
@@ -177,14 +280,14 @@ export class RedeemManager {
       response = await fetch(this.path, { cache: force ? 'no-store' : 'default' });
     } catch (error) {
       throw new RedeemError(
-        REDEEM_ERROR_CODES.CONFIG_INVALID,
+        REDEEM_ERROR_CODES.INVALID_CONFIG,
         `Unable to fetch "${this.path}" (network error).`,
         { cause: error }
       );
     }
     if (!response.ok) {
       throw new RedeemError(
-        REDEEM_ERROR_CODES.CONFIG_INVALID,
+        REDEEM_ERROR_CODES.INVALID_CONFIG,
         `Unable to fetch "${this.path}" (HTTP ${response.status}).`
       );
     }
@@ -193,7 +296,7 @@ export class RedeemManager {
     try {
       raw = await response.json();
     } catch (error) {
-      throw new RedeemError(REDEEM_ERROR_CODES.CONFIG_INVALID, `"${this.path}" is not valid JSON.`, {
+      throw new RedeemError(REDEEM_ERROR_CODES.INVALID_CONFIG, `"${this.path}" is not valid JSON.`, {
         cause: error,
       });
     }
@@ -202,68 +305,73 @@ export class RedeemManager {
   }
 
   /**
-   * Validates the catalogue container: shape, known type and unique codes.
+   * Validates the catalogue container: shape, presence of a code and unique codes.
    *
-   * The reward contents are intentionally left to `resolveTarget()`: a typo in one reward must not
-   * disable every other code.
+   * The reward contents are intentionally left to `resolveRewards()`: a malformed REWARD only
+   * refuses its own code (`invalid_config`), so a single typo cannot disable every other code.
    *
    * @param {unknown} raw - Parsed JSON payload.
-   * @returns {object[]} A frozen list of `{ code, type, reward, expiration }` descriptors.
-   * @throws {RedeemError} With the code `configInvalid` when an entry is unusable.
+   * @returns {object[]} A frozen list of descriptors.
+   * @throws {RedeemError} With the code `invalid_config` when an entry is unusable.
    */
   validateCatalogue(raw) {
     if (!Array.isArray(raw)) {
-      throw new RedeemError(REDEEM_ERROR_CODES.CONFIG_INVALID, `"${this.path}" must contain a JSON array of codes.`);
+      throw new RedeemError(
+        REDEEM_ERROR_CODES.INVALID_CONFIG,
+        `"${this.path}" must contain a JSON array of codes.`
+      );
     }
 
     const seen = new Set();
-    const codes = raw.map((entry, index) => {
+    const codes = [];
+
+    raw.forEach((entry, index) => {
       if (!isPlainObject(entry)) {
-        throw new RedeemError(REDEEM_ERROR_CODES.CONFIG_INVALID, `Code #${index} of "${this.path}" is not an object.`);
-      }
-
-      const code = this.normalizeCode(entry.code);
-      if (!code) {
-        throw new RedeemError(REDEEM_ERROR_CODES.CONFIG_INVALID, `Code #${index} of "${this.path}" has no valid "code".`);
-      }
-      if (seen.has(code)) {
-        throw new RedeemError(REDEEM_ERROR_CODES.CONFIG_INVALID, `The code "${code}" is declared twice in "${this.path}".`);
-      }
-      seen.add(code);
-
-      if (!Object.values(REDEEM_TYPES).includes(entry.type)) {
         throw new RedeemError(
-          REDEEM_ERROR_CODES.CONFIG_INVALID,
-          `Code "${code}" has an unknown type "${entry.type}" (expected one of [${Object.values(REDEEM_TYPES).join(', ')}]).`
-        );
-      }
-      if (!isPlainObject(entry.reward)) {
-        throw new RedeemError(REDEEM_ERROR_CODES.CONFIG_INVALID, `Code "${code}" has no valid "reward" object.`);
-      }
-      if (entry.expiration !== undefined && !DAY_PATTERN.test(String(entry.expiration).trim())) {
-        throw new RedeemError(
-          REDEEM_ERROR_CODES.CONFIG_INVALID,
-          `Code "${code}" has an invalid "expiration" (expected YYYY-MM-DD, received ${JSON.stringify(entry.expiration)}).`
+          REDEEM_ERROR_CODES.INVALID_CONFIG,
+          `Code #${index} of "${this.path}" is not an object.`
         );
       }
 
-      return Object.freeze({
-        code,
-        type: entry.type,
-        reward: entry.reward,
-        expiration: entry.expiration === undefined ? null : String(entry.expiration).trim(),
-      });
+      const code = this.normalizeCode(entry.Code);
+      const codeHash = isNonEmptyString(entry.CodeHash) ? entry.CodeHash.trim().toLowerCase() : null;
+      if (!code && !codeHash) {
+        throw new RedeemError(
+          REDEEM_ERROR_CODES.INVALID_CONFIG,
+          `Code #${index} of "${this.path}" has neither a valid "Code" nor a "CodeHash".`
+        );
+      }
+
+      const storeKey = code || codeHash;
+      if (seen.has(storeKey)) {
+        console.warn(`[RedeemManager] A code of "${this.path}" is declared twice: only the first entry is kept.`);
+        return;
+      }
+      seen.add(storeKey);
+
+      const availabilities = entry.Availabilities;
+      codes.push(
+        Object.freeze({
+          code,
+          codeHash,
+          storeKey,
+          rawRewards: Array.isArray(entry.Rewards) ? entry.Rewards : null,
+          startDate: normalizeDay(availabilities?.StartDate ?? null),
+          endDate: normalizeDay(availabilities?.EndDate ?? null),
+          repeatable: entry.Repeatable === true,
+        })
+      );
     });
 
-    console.info(`[RedeemManager] Loaded ${codes.length} promo code(s).`);
+    this.log(`Loaded ${codes.length} special code(s).`);
     return codes;
   }
 
   /**
-   * Normalizes a player input or a catalogue code.
+   * Normalizes a player input or a catalogue code: trimmed and upper-cased.
    *
    * @param {unknown} code - Raw value.
-   * @returns {string} The trimmed, upper-cased code (empty string when unusable).
+   * @returns {string} The normalized code (empty string when unusable).
    */
   normalizeCode(code) {
     if (typeof code !== 'string') return '';
@@ -271,198 +379,482 @@ export class RedeemManager {
   }
 
   /**
-   * Finds a catalogue entry by code.
+   * Computes the SHA-256 hex digest of a normalized code (for `CodeHash` entries).
    *
-   * @param {string} code - Normalized code.
-   * @returns {Promise<object>} The descriptor.
-   * @throws {RedeemError} With the code `unknownCode` when the code is not declared.
-   * @throws {RedeemError} With the code `configInvalid` when the catalogue cannot be loaded.
+   * @param {string} normalizedCode - Upper-cased, trimmed code.
+   * @returns {Promise<string|null>} The lowercase hex digest, or null when Web Crypto is unavailable.
    */
-  async findDescriptor(code) {
-    const codes = await this.loadCodes();
-    const descriptor = codes.find((entry) => entry.code === code);
-    if (!descriptor) {
-      throw new RedeemError(REDEEM_ERROR_CODES.UNKNOWN_CODE, `The code "${code}" is not declared in "${this.path}".`);
+  async hashCode(normalizedCode) {
+    if (typeof crypto === 'undefined' || !crypto.subtle || typeof TextEncoder !== 'function') {
+      return null;
     }
-    return descriptor;
+    try {
+      const bytes = new TextEncoder().encode(normalizedCode);
+      const digest = await crypto.subtle.digest('SHA-256', bytes);
+      return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+    } catch (error) {
+      console.warn('[RedeemManager] Unable to hash a code; "CodeHash" entries will be skipped.', error);
+      return null;
+    }
   }
 
   /**
-   * Checks the expiration of a descriptor against the trusted UTC day.
+   * Finds the catalogue descriptor matching a normalized code (plain `Code` or `CodeHash`).
    *
-   * The comparison is lexicographic, which is exact for `YYYY-MM-DD` days. The expiration day
-   * itself is still valid (the code expires at the END of that day, UTC).
-   *
-   * @param {object} descriptor - Catalogue entry.
-   * @returns {void}
-   * @throws {RedeemError} With the code `expired` when the day is past.
-   * @throws {RedeemError} With the code `timeUnavailable` when the code expires and the trusted
-   *   clock is not anchored: the expiration cannot be verified, so the code is refused rather
-   *   than credited blindly (same rule as the quota, which never resets on a frozen clock).
+   * @param {string} normalized - Normalized code.
+   * @param {object[]} codes - Loaded catalogue.
+   * @returns {Promise<object|null>} The descriptor, or null when the code is not declared.
    */
-  assertNotExpired(descriptor) {
-    if (!descriptor.expiration) return;
+  async findDescriptor(normalized, codes) {
+    const direct = codes.find((entry) => entry.code && entry.code === normalized);
+    if (direct) return direct;
+
+    const hashEntries = codes.filter((entry) => entry.codeHash);
+    if (hashEntries.length === 0) return null;
+
+    const hash = await this.hashCode(normalized);
+    if (!hash) return null;
+    return hashEntries.find((entry) => entry.codeHash === hash) ?? null;
+  }
+
+  /**
+   * Checks the availability window of a descriptor against the trusted UTC day.
+   *
+   * `StartDate` is inclusive, `EndDate` is exclusive. A bounded window cannot be verified against a
+   * frozen clock, so the code is refused (`time_unavailable`) rather than credited blindly.
+   *
+   * @param {object} descriptor - Catalogue descriptor.
+   * @returns {{status: string}} `ok`, `expired`, `not_yet_available` or `time_unavailable`.
+   */
+  checkAvailability(descriptor) {
+    if (!descriptor.startDate && !descriptor.endDate) return { status: REDEEM_STATUSES.OK };
 
     const today = dateSyncManager.getCurrentUtcDay();
-    if (!today) {
-      throw new RedeemError(
-        REDEEM_ERROR_CODES.TIME_UNAVAILABLE,
-        `The code "${descriptor.code}" expires on ${descriptor.expiration} and the trusted UTC day is unavailable.`
-      );
+    if (!today) return { status: REDEEM_STATUSES.TIME_UNAVAILABLE };
+
+    if (descriptor.startDate && today < descriptor.startDate) {
+      return { status: REDEEM_STATUSES.NOT_YET_AVAILABLE };
     }
-    if (today > descriptor.expiration) {
-      throw new RedeemError(
-        REDEEM_ERROR_CODES.EXPIRED,
-        `The code "${descriptor.code}" expired on ${descriptor.expiration} (today: ${today}).`
-      );
+    if (descriptor.endDate && today >= descriptor.endDate) {
+      return { status: REDEEM_STATUSES.EXPIRED };
     }
+    return { status: REDEEM_STATUSES.OK };
   }
 
   /**
-   * Resolves the target of a descriptor: the extension and amount, or the card to grant.
+   * Returns every card of every declared extension, in declaration order.
    *
-   * @param {object} descriptor - Catalogue entry.
-   * @returns {Promise<{type: string, set: string, amount: number|null, card: import('../classes/Card.js').default|null}>}
-   *   The resolved target.
-   * @throws {RedeemError} With the code `invalidReward` when the reward is malformed, or
-   *   `cardNotFound` when the referenced card does not exist in the extension.
-   * @throws {RangeError} When the extension is not declared in `settings/config.json`.
+   * @returns {Promise<Card[]>} The ordered card list.
+   * @throws {Error} When the extension JSONs cannot be loaded.
    */
-  async resolveTarget(descriptor) {
-    const { reward, code } = descriptor;
-    const set = typeof reward.set === 'string' ? reward.set.trim() : '';
-    if (!isNonEmptyString(set)) {
-      throw new RedeemError(
-        REDEEM_ERROR_CODES.INVALID_REWARD,
-        `The reward of "${code}" has no "set": bonus boosters and cards are always tied to an extension.`
-      );
-    }
-    // Throws a RangeError naming the culprit when the extension is unknown.
-    const setId = dateSyncManager.assertKnownSet(set);
+  async allCards() {
+    if (this.allCardsCache) return this.allCardsCache;
+    if (this.allCardsPromise) return this.allCardsPromise;
 
-    if (descriptor.type === REDEEM_TYPES.BOOSTER_GRANT) {
-      const amount = reward.amount;
-      if (!Number.isInteger(amount) || amount <= 0) {
-        throw new RedeemError(
-          REDEEM_ERROR_CODES.INVALID_REWARD,
-          `The reward of "${code}" must have a strictly positive integer "amount" (received: ${JSON.stringify(amount)}).`
-        );
+    this.allCardsPromise = (async () => {
+      const sets = await boosterManager.listBoosterSets();
+      const cards = [];
+      for (const descriptor of sets) {
+        const loadedSet = await boosterManager.getBoosterSet(descriptor.setId);
+        for (const card of loadedSet?.cards ?? []) cards.push(card);
       }
-      return { type: descriptor.type, set: setId, amount, card: null };
-    }
+      this.allCardsCache = cards;
+      return cards;
+    })().catch((error) => {
+      this.allCardsPromise = null;
+      throw error;
+    });
 
-    if (!isNonEmptyString(reward.cardId) || !isNonEmptyString(reward.style)) {
-      throw new RedeemError(
-        REDEEM_ERROR_CODES.INVALID_REWARD,
-        `The reward of "${code}" must declare "cardId" and "style" (received: ${JSON.stringify(reward)}).`
-      );
-    }
-
-    const uniqueKey = `${reward.cardId.trim()}_${reward.style.trim()}`;
-    const loadedSet = await boosterManager.getBoosterSet(setId);
-    const card = loadedSet?.cards?.find((candidate) => candidate.uniqueKey === uniqueKey) ?? null;
-    if (!card) {
-      throw new RedeemError(
-        REDEEM_ERROR_CODES.CARD_NOT_FOUND,
-        `The card "${uniqueKey}" of code "${code}" does not exist in the extension "${setId}".`
-      );
-    }
-
-    return { type: descriptor.type, set: setId, amount: null, card };
+    const cards = await this.allCardsPromise;
+    this.allCardsPromise = null;
+    return cards;
   }
 
   /**
-   * Redeems a code: validates it, grants the reward and consumes the code, atomically.
+   * Resolves one `Card` reward: an `Index` plus an optional preferred layout.
    *
-   * @param {string} input - Raw code typed by the player.
-   * @returns {Promise<object>} The redemption result:
-   *   `{ code, type, set, amount, card, quantity, redeemedAt, quota }`. `quota` is the refreshed
-   *   booster snapshot for a `booster_grant` (null for a `card_grant`).
-   * @throws {RedeemError} With the code `emptyCode`, `unknownCode`, `alreadyRedeemed`, `expired`,
-   *   `timeUnavailable`, `invalidReward`, `cardNotFound` or `configInvalid` (the message is
-   *   translated by the view through `getRedeemErrorMessageKey`).
+   * Resolution order (step 9 point 2): first the first card matching the `Index` AND the preferred
+   * layout; otherwise the first card matching the `Index` in JSON order; no match = invalid.
+   *
+   * @param {string} index - `Index` value of a booster entry (e.g. `"SERIE-A1 / P004"`).
+   * @param {unknown} preferedLayout - Optional `classic`/`fullart` (case-insensitive).
+   * @returns {Promise<Card|null>} The resolved card, or null when none matches.
+   */
+  async resolveCard(index, preferedLayout) {
+    let cardId;
+    try {
+      cardId = Card.normalizeIndexToId(index);
+    } catch (error) {
+      console.warn('[RedeemManager] A "Card" reward has an invalid "ItemId".', error.message);
+      return null;
+    }
+
+    const allWithId = (await this.allCards()).filter((card) => card.id === cardId);
+    if (allWithId.length === 0) return null;
+
+    if (isNonEmptyString(preferedLayout)) {
+      const wanted = String(preferedLayout).trim().toLowerCase() === 'normal'
+        ? Card.STYLES.CLASSIC
+        : String(preferedLayout).trim().toLowerCase();
+      const preferred = allWithId.find((card) => card.style === wanted);
+      if (preferred) return preferred;
+    }
+    return allWithId[0];
+  }
+
+  /**
+   * Resolves every reward of a descriptor.
+   *
+   * @param {object} descriptor - Catalogue descriptor.
+   * @returns {Promise<Array<{type: string, key: string, quantity: number, card: Card|null}>|null>}
+   *   The resolved rewards, or null when a reward is invalid (the whole code is then refused).
+   */
+  async resolveRewards(descriptor) {
+    if (!descriptor.rawRewards || descriptor.rawRewards.length === 0) {
+      console.warn('[RedeemManager] A code declares no reward; it is refused.');
+      return null;
+    }
+
+    const rewards = [];
+    for (const raw of descriptor.rawRewards) {
+      if (!isPlainObject(raw)) {
+        console.warn('[RedeemManager] A code reward is not an object; the code is refused.');
+        return null;
+      }
+
+      const quantity = raw.Quantity;
+      if (!isPositiveInteger(quantity)) {
+        console.warn('[RedeemManager] A code reward has an invalid "Quantity"; the code is refused.');
+        return null;
+      }
+
+      if (raw.RewardType === REDEEM_REWARD_TYPES.BOOSTER) {
+        let setId;
+        try {
+          setId = dateSyncManager.assertKnownSet(raw.ItemId);
+        } catch (error) {
+          console.warn('[RedeemManager] A code grants an unknown extension; the code is refused.', error.message);
+          return null;
+        }
+        rewards.push({ type: 'booster', key: setId, quantity, card: null });
+        continue;
+      }
+
+      if (raw.RewardType === REDEEM_REWARD_TYPES.CARD) {
+        const card = await this.resolveCard(raw.ItemId, raw.PreferedLayout);
+        if (!card) {
+          console.warn('[RedeemManager] A code references an unknown card; the code is refused.');
+          return null;
+        }
+        rewards.push({ type: 'card', key: card.uniqueKey, quantity, card });
+        continue;
+      }
+
+      console.warn('[RedeemManager] A code declares an unknown "RewardType"; the code is refused.');
+      return null;
+    }
+
+    return rewards;
+  }
+
+  /**
+   * Resolves a raw code into its kind, rewards and consumption key.
+   *
+   * The single extension point of the subsystem: step 10 will add the `useritem` kind here.
+   *
+   * @param {string} rawCode - Raw code typed by the player (normalized inside).
+   * @returns {Promise<{status: string, kind: string|null, rewards?: object[], repeatable?: boolean, storeKey?: string}>}
+   *   On success `{ status: 'ok', kind, rewards, repeatable, storeKey }`; otherwise a status-only
+   *   result (`unknown`, `expired`, `not_yet_available`, `time_unavailable` or `invalid_config`).
+   */
+  async resolveCode(rawCode) {
+    const normalized = this.normalizeCode(rawCode);
+    if (!normalized) return { status: REDEEM_STATUSES.UNKNOWN, kind: null };
+
+    // 1. Special codes from `settings/codes.json`. A broken catalogue does not disable the
+    //    personal codes: the failure is remembered and only reported if no other kind matches.
+    let descriptor = null;
+    let catalogUnavailable = false;
+    try {
+      const codes = await this.loadCodes();
+      descriptor = await this.findDescriptor(normalized, codes);
+    } catch (error) {
+      catalogUnavailable = true;
+      console.warn('[RedeemManager] The special code catalogue is unavailable.', error.message);
+    }
+
+    // 2. Personal `useritem` codes: the 32-character length is the only signal (the payload carries
+    //    no marker), so a special code is always looked up first. A wrong character is then reported
+    //    by `UserItemCode.verify()` as `invalid_format`.
+    if (!descriptor && UserItemCode.hasCodeLength(normalized)) {
+      return this.resolveUserItemCode(rawCode);
+    }
+
+    if (!descriptor) {
+      return { status: catalogUnavailable ? REDEEM_STATUSES.INVALID_CONFIG : REDEEM_STATUSES.UNKNOWN, kind: null };
+    }
+
+    const availability = this.checkAvailability(descriptor);
+    if (availability.status !== REDEEM_STATUSES.OK) {
+      return { status: availability.status, kind: REDEEM_KINDS.SPECIAL };
+    }
+
+    let rewards;
+    try {
+      rewards = await this.resolveRewards(descriptor);
+    } catch (error) {
+      console.warn('[RedeemManager] A code could not be resolved; it is refused.', error.message);
+      return { status: REDEEM_STATUSES.INVALID_CONFIG, kind: REDEEM_KINDS.SPECIAL };
+    }
+    if (!rewards) return { status: REDEEM_STATUSES.INVALID_CONFIG, kind: REDEEM_KINDS.SPECIAL };
+
+    return {
+      status: REDEEM_STATUSES.OK,
+      kind: REDEEM_KINDS.SPECIAL,
+      rewards,
+      repeatable: descriptor.repeatable,
+      storeKey: descriptor.storeKey,
+    };
+  }
+
+  /**
+   * Builds (and caches) the personal-code catalogue: every extension (`booster:<setId>`) and every
+   * card (`card:<Index>|<Layout>`) of every declared set.
+   *
+   * The catalogue is built on demand, the first time a `useritem`-shaped code is seen, and never at
+   * boot: an application that only uses sheet distributions and special codes never pays for it.
+   *
+   * @returns {Promise<Array<{canonical: string, target: object}>>} The catalogue descriptors.
+   * @throws {Error} When the extension JSONs cannot be loaded.
+   */
+  async buildUserItemCatalog() {
+    if (this.userItemCatalog) return this.userItemCatalog;
+    if (this.userItemCatalogPromise) return this.userItemCatalogPromise;
+
+    this.userItemCatalogPromise = (async () => {
+      const descriptors = [];
+      const sets = await boosterManager.listBoosterSets();
+
+      for (const descriptor of sets) {
+        const loadedSet = await boosterManager.getBoosterSet(descriptor.setId);
+        descriptors.push({
+          canonical: canonicalBooster(descriptor.setId),
+          target: { type: 'booster', setId: descriptor.setId },
+        });
+
+        // The raw entries keep the exact `Index` and `Layout` of the generator, while `cards` is the
+        // same list already built as `Card` instances (same order, see `GachaEngine.parseCards`).
+        const rawCards = loadedSet?.raw?.Cards ?? loadedSet?.raw?.cards ?? [];
+        const cards = loadedSet?.cards ?? [];
+        rawCards.forEach((entry, index) => {
+          const card = cards[index];
+          if (!card || !entry || typeof entry.Index !== 'string' || typeof entry.Layout !== 'string') return;
+          descriptors.push({ canonical: canonicalCard(entry.Index, entry.Layout), target: { type: 'card', card } });
+        });
+      }
+
+      this.userItemCatalog = descriptors;
+      return descriptors;
+    })().catch((error) => {
+      this.userItemCatalogPromise = null;
+      throw error;
+    });
+
+    const catalog = await this.userItemCatalogPromise;
+    this.userItemCatalogPromise = null;
+    return catalog;
+  }
+
+  /**
+   * Resolves a personal `useritem` code (step 10).
+   *
+   * @param {string} rawCode - Raw code (dashes/case/look-alikes tolerated).
+   * @returns {Promise<{status: string, kind: string, rewards?: object[], repeatable?: boolean, storeKey?: string}>}
+   *   The resolution result; `kind` is always `useritem`.
+   */
+  async resolveUserItemCode(rawCode) {
+    let uuid = null;
+    try {
+      uuid = await accountManager.getUuid();
+    } catch (error) {
+      console.warn('[RedeemManager] The account UUID could not be read.', error.message);
+    }
+    if (!uuid) {
+      // No account means no UUID to bind the code to: nothing can be verified.
+      return { status: REDEEM_STATUSES.WRONG_USER, kind: REDEEM_KINDS.USER_ITEM };
+    }
+
+    let catalog;
+    try {
+      catalog = await this.buildUserItemCatalog();
+    } catch (error) {
+      console.warn('[RedeemManager] The item catalogue is unavailable.', error.message);
+      return { status: REDEEM_STATUSES.INVALID_CONFIG, kind: REDEEM_KINDS.USER_ITEM };
+    }
+
+    let result;
+    try {
+      result = await userItemCode.verify(rawCode, uuid, catalog);
+    } catch (error) {
+      // Missing/invalid key or an insecure context.
+      console.warn('[RedeemManager] The personal code could not be verified.', error.message);
+      return { status: REDEEM_STATUSES.INVALID_CONFIG, kind: REDEEM_KINDS.USER_ITEM };
+    }
+
+    if (result.status !== REDEEM_STATUSES.OK) {
+      return { status: result.status, kind: REDEEM_KINDS.USER_ITEM };
+    }
+
+    return {
+      status: REDEEM_STATUSES.OK,
+      kind: REDEEM_KINDS.USER_ITEM,
+      rewards: result.rewards,
+      repeatable: false,
+      storeKey: result.storeKey,
+    };
+  }
+
+  /**
+   * Inspects a code WITHOUT writing anything (read-only).
+   *
+   * @param {string} rawCode - Raw code typed by the player.
+   * @returns {Promise<{status: string, kind: string|null, rewards?: object[]}>} The inspection
+   *   result. `status` is one of `REDEEM_STATUSES`; `rewards` (present when `ok`) is the already
+   *   resolved list used to build the confirmation modal.
+   */
+  async inspect(rawCode) {
+    const resolved = await this.resolveCode(rawCode);
+    if (resolved.status !== REDEEM_STATUSES.OK) {
+      return { status: resolved.status, kind: resolved.kind };
+    }
+
+    if (!resolved.repeatable && resolved.storeKey) {
+      const already = await storageRepository.getItem(STORES.REDEEMED_CODES, resolved.storeKey);
+      if (already) return { status: REDEEM_STATUSES.ALREADY_USED, kind: resolved.kind };
+    }
+
+    return { status: REDEEM_STATUSES.OK, kind: resolved.kind, rewards: resolved.rewards };
+  }
+
+  /**
+   * Builds the error thrown when a resolved status is not `ok`.
+   *
+   * @param {string} status - One of `REDEEM_STATUSES` except `ok`.
+   * @returns {RedeemError} The matching error (message without the code).
+   */
+  buildStatusError(status) {
+    const mapping = {
+      [REDEEM_STATUSES.UNKNOWN]: REDEEM_ERROR_CODES.UNKNOWN,
+      [REDEEM_STATUSES.EXPIRED]: REDEEM_ERROR_CODES.EXPIRED,
+      [REDEEM_STATUSES.NOT_YET_AVAILABLE]: REDEEM_ERROR_CODES.NOT_YET_AVAILABLE,
+      [REDEEM_STATUSES.ALREADY_USED]: REDEEM_ERROR_CODES.ALREADY_USED,
+      [REDEEM_STATUSES.TIME_UNAVAILABLE]: REDEEM_ERROR_CODES.TIME_UNAVAILABLE,
+      [REDEEM_STATUSES.INVALID_CONFIG]: REDEEM_ERROR_CODES.INVALID_CONFIG,
+      [REDEEM_STATUSES.INVALID_FORMAT]: REDEEM_ERROR_CODES.INVALID_FORMAT,
+      [REDEEM_STATUSES.WRONG_USER]: REDEEM_ERROR_CODES.WRONG_USER,
+      [REDEEM_STATUSES.INVALID]: REDEEM_ERROR_CODES.INVALID,
+      [REDEEM_STATUSES.UNKNOWN_ITEM]: REDEEM_ERROR_CODES.UNKNOWN_ITEM,
+    };
+    const code = mapping[status] ?? REDEEM_ERROR_CODES.UNKNOWN;
+    return new RedeemError(code, `The code was refused (${status}).`);
+  }
+
+  /**
+   * Generates a random identifier used to group the history entries of one claim.
+   *
+   * @returns {string} A UUID when available, a random fallback otherwise.
+   */
+  static buildRedeemId() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+    return `redeem-${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
+  }
+
+  /**
+   * Claims a code: validates it again, grants EVERY reward and records the consumption atomically.
+   *
+   * @param {string} rawCode - Raw code typed by the player.
+   * @returns {Promise<{kind: string, rewards: object[], redeemedAt: string, repeatable: boolean}>}
+   *   The claim result (no code in the returned value, none logged).
+   * @throws {RedeemError} With a `REDEEM_ERROR_CODES` value when the code is refused.
    * @throws {Error} When the storage transaction fails; nothing is written in that case.
    */
-  async redeem(input) {
-    const code = this.normalizeCode(input);
-    if (!code) {
+  async claim(rawCode) {
+    const normalized = this.normalizeCode(rawCode);
+    if (!normalized) {
       throw new RedeemError(REDEEM_ERROR_CODES.EMPTY_CODE, 'No code was provided.');
     }
 
-    const descriptor = await this.findDescriptor(code);
-    this.assertNotExpired(descriptor);
-    const target = await this.resolveTarget(descriptor);
+    // Resolved OUTSIDE the transaction: loading the catalogue and the cards may await a fetch,
+    // which would auto-commit an open IndexedDB transaction. The mutable state (redeemed_codes) is
+    // re-checked INSIDE the transaction below, which is what makes the claim race-safe.
+    const resolved = await this.resolveCode(normalized);
+    if (resolved.status !== REDEEM_STATUSES.OK) {
+      throw this.buildStatusError(resolved.status);
+    }
 
-    if (target.type === REDEEM_TYPES.BOOSTER_GRANT) {
-      // The daily reset must be applied before granting: the write below replaces the quota
-      // record, so the 3 free boosters of the day have to be part of it.
+    const { rewards, repeatable, storeKey } = resolved;
+    const hasBooster = rewards.some((reward) => reward.type === 'booster');
+    if (hasBooster) {
+      // The daily allowance must be part of the quota record rewritten in the transaction.
       await dateSyncManager.ensureDailyReset();
     }
 
-    const redeemedAt = buildCollectionTimestamp();
-    const result = await storageRepository.transaction(
-      [STORES.USER_STATE, STORES.COLLECTION, STORES.REDEEMED_CODES],
+    const uuid = await accountManager.getUuid();
+    const redeemId = RedeemManager.buildRedeemId();
+    const receivedAt = buildCollectionTimestamp();
+
+    await storageRepository.transaction(
+      [STORES.USER_STATE, STORES.COLLECTION, STORES.REDEEMED_CODES, STORES.GIFTS_RECEIVED],
       'readwrite',
       async (context) => {
-        const already = await context.get(STORES.REDEEMED_CODES, code);
-        if (already) {
-          throw new RedeemError(
-            REDEEM_ERROR_CODES.ALREADY_REDEEMED,
-            `The code "${code}" was already redeemed on ${already.redeemedAt ?? 'an unknown date'}.`
-          );
+        if (!repeatable && storeKey) {
+          const already = await context.get(STORES.REDEEMED_CODES, storeKey);
+          if (already) {
+            throw new RedeemError(
+              REDEEM_ERROR_CODES.ALREADY_USED,
+              `The code was already used on ${already.redeemedAt ?? 'an unknown date'}.`
+            );
+          }
+          await context.put(STORES.REDEEMED_CODES, { code: storeKey, redeemedAt: receivedAt });
         }
 
-        await context.put(STORES.REDEEMED_CODES, { code, redeemedAt });
+        for (let index = 0; index < rewards.length; index += 1) {
+          const reward = rewards[index];
+          if (reward.type === 'booster') {
+            await dateSyncManager.addBonusBoosters(reward.key, reward.quantity, context);
+          } else {
+            await boosterManager.addCardToCollection(reward.card, reward.quantity, context);
+          }
 
-        if (target.type === REDEEM_TYPES.BOOSTER_GRANT) {
-          const quota = dateSyncManager.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
-          const bonusBoosters = {
-            ...quota.bonusBoosters,
-            [target.set]: (quota.bonusBoosters[target.set] ?? 0) + target.amount,
-          };
-          await context.put(STORES.USER_STATE, { ...quota, bonusBoosters }, USER_STATE_KEYS.QUOTA);
-          return { granted: target.amount, quantity: null };
+          await context.put(STORES.GIFTS_RECEIVED, {
+            line: `${CODE_HISTORY_PREFIX}${redeemId}:${index}`,
+            category: GIFT_CATEGORIES.CODES,
+            uuid,
+            type: reward.type,
+            key: reward.key,
+            quantity: reward.quantity,
+            receivedAt,
+          });
         }
-
-        const key = target.card.uniqueKey;
-        const existing = await context.get(STORES.COLLECTION, key);
-        const quantity = (existing?.quantity ?? 0) + CARD_GRANT_QUANTITY;
-        const entry = existing
-          ? { ...existing, quantity, lastObtainedAt: redeemedAt }
-          : {
-              key,
-              cardId: target.card.id,
-              style: target.card.style,
-              set: target.card.set,
-              quantity,
-              firstObtainedAt: redeemedAt,
-              lastObtainedAt: redeemedAt,
-            };
-        await context.put(STORES.COLLECTION, entry);
-        return { granted: CARD_GRANT_QUANTITY, quantity };
       }
     );
 
-    let quota = null;
-    if (target.type === REDEEM_TYPES.BOOSTER_GRANT) {
-      // `DateSyncManager` keeps a copy of the quota in memory: read it back from the database
-      // before publishing, otherwise the header would show the pre-grant value.
-      await dateSyncManager.getRemainingBoosters(target.set);
-      dateSyncManager.emitQuotaUpdated(target.set);
-      quota = dateSyncManager.getQuotaSnapshot(target.set);
+    if (hasBooster) {
+      // `DateSyncManager` mirrors the quota in memory: read the committed value back before
+      // publishing it, otherwise the header would show the pre-grant count.
+      const sets = [...new Set(rewards.filter((reward) => reward.type === 'booster').map((reward) => reward.key))];
+      for (const setId of sets) {
+        await dateSyncManager.getRemainingBoosters(setId);
+      }
+      dateSyncManager.emitQuotaUpdated(sets[0] ?? null);
     }
 
-    console.info(`[RedeemManager] Code "${code}" redeemed (${target.type}, set ${target.set}).`);
-    return {
-      code,
-      type: target.type,
-      set: target.set,
-      amount: target.amount,
-      card: target.card,
-      quantity: result.quantity ?? result.granted,
-      redeemedAt,
-      quota,
-    };
+    eventBus.emit(EVENTS.GIFTS_UPDATED, { count: rewards.length, source: GIFT_CATEGORIES.CODES });
+    this.log(`A code was claimed (${rewards.length} reward(s)).`);
+
+    return { kind: resolved.kind, rewards, redeemedAt: receivedAt, repeatable };
   }
 }
 

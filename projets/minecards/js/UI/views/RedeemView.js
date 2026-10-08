@@ -1,21 +1,31 @@
 /**
- * RedeemView - Promo code entry and reward display.
+ * RedeemView - Special code entry, reward preview and claim (step 9).
  *
- * Reference: `.docs/steps/7.md` point 3 and `.docs/main.md` section 3.G (view 6).
+ * Reference: `.docs/steps/9.md` point 5 and `.docs/main.md` section 3.G (view 6).
  *
- * The view carries no rule of its own: the input is normalized, validated, consumed and credited
- * by `RedeemManager.redeem()`. Here we only translate the outcome: a success toast plus a result
- * panel describing what was granted, or an error toast plus an inline message for a refusal
- * (`getRedeemErrorMessageKey` maps the stable error code to a `redeem.error.*` key).
+ * FLOW
+ *   `inspect` -> if `ok`, a confirmation modal lists the resolved rewards (extension names,
+ *   card previews) with "Récupérer" / "Annuler" -> `claim` -> success toast. Any other status is
+ *   shown as an error toast plus an inline message (`getRedeemStatusKey` maps the stable status to
+ *   a `redeem.error.*` key). The view carries no rule of its own: normalization, availability,
+ *   already-used detection and the atomic granting all live in `RedeemManager`.
  *
- * The last result is kept in memory and re-rendered on `LANG_CHANGED`, so switching the language
- * never leaves a half-translated card name on screen.
+ * The "Récupérer" button is disabled from the first click, and the whole form is busy during the
+ * network round-trips, so a double click can never claim twice (the manager re-checks the
+ * `redeemed_codes` state inside its write transaction anyway).
+ *
+ * The modal body is rebuilt on `LANG_CHANGED` while it is open, so switching the language never
+ * leaves a half-translated reward on screen.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import Toast from '../components/Toast.js';
-import redeemManager, { getRedeemErrorMessageKey } from '../../business/RedeemManager.js';
+import redeemManager, {
+  getRedeemErrorMessageKey,
+  getRedeemStatusKey,
+  REDEEM_STATUSES,
+} from '../../business/RedeemManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
@@ -25,19 +35,27 @@ export const REDEEM_VIEW_NAME = 'redeem';
 export class RedeemView {
   /**
    * @param {HTMLElement} rootElement - The redeem `<section>`.
+   * @param {object} [options] - View options.
+   * @param {(viewName: string) => void} [options.onNavigate=null] - Called when a deep link must
+   *   bring the redeem view to the front (`?Redeem=`, step 10).
    */
-  constructor(rootElement) {
+  constructor(rootElement, { onNavigate = null } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('RedeemView requires the redeem section element.');
     }
 
     this.root = rootElement;
+    this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
     this.form = this.root.querySelector('[data-redeem-form]');
     this.input = this.root.querySelector('[data-redeem-input]');
     this.submitButton = this.root.querySelector('[data-redeem-submit]');
     this.feedbackElement = this.root.querySelector('[data-redeem-feedback]');
-    this.resultElement = this.root.querySelector('[data-redeem-result]');
-    this.resultBody = this.root.querySelector('[data-redeem-result-body]');
+    this.modal = this.root.querySelector('[data-redeem-modal]');
+    this.modalTitle = this.root.querySelector('[data-redeem-modal-title]');
+    this.modalBody = this.root.querySelector('[data-redeem-modal-body]');
+    this.modalConfirm = this.root.querySelector('[data-redeem-modal-confirm]');
+    this.modalCancel = this.root.querySelector('[data-redeem-modal-cancel]');
+    this.modalClose = this.root.querySelector('[data-redeem-modal-close]');
 
     this.assertMarkup();
 
@@ -45,12 +63,16 @@ export class RedeemView {
     this.isInitialized = false;
     /** @type {boolean} True when the view is the active one. */
     this.isActive = false;
-    /** @type {boolean} True while a code is being verified. */
+    /** @type {boolean} True while an inspect or claim is running. */
     this.isBusy = false;
+    /** @type {boolean} True while the confirmed code is being claimed. */
+    this.isClaiming = false;
     /** @type {{key: string, tone: string, params: object|null}|null} Last inline message. */
     this.feedback = null;
-    /** @type {object|null} Last granted reward, re-rendered on a language change. */
-    this.lastResult = null;
+    /** @type {string|null} Code awaiting confirmation. */
+    this.pendingCode = null;
+    /** @type {object[]|null} Rewards of `pendingCode`, re-rendered on a language change. */
+    this.pendingRewards = null;
     /** @type {Map<string, string>} Extension display names, keyed by extension id. */
     this.setNames = new Map();
 
@@ -61,7 +83,7 @@ export class RedeemView {
   }
 
   /**
-   * Logs with the view prefix.
+   * Logs with the view prefix. Never receives a code: codes are not logged.
    *
    * @param {...unknown} args - Values forwarded to `console.info`.
    * @returns {void}
@@ -82,8 +104,12 @@ export class RedeemView {
       ['[data-redeem-input]', this.input],
       ['[data-redeem-submit]', this.submitButton],
       ['[data-redeem-feedback]', this.feedbackElement],
-      ['[data-redeem-result]', this.resultElement],
-      ['[data-redeem-result-body]', this.resultBody],
+      ['[data-redeem-modal]', this.modal],
+      ['[data-redeem-modal-title]', this.modalTitle],
+      ['[data-redeem-modal-body]', this.modalBody],
+      ['[data-redeem-modal-confirm]', this.modalConfirm],
+      ['[data-redeem-modal-cancel]', this.modalCancel],
+      ['[data-redeem-modal-close]', this.modalClose],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -106,6 +132,7 @@ export class RedeemView {
     await this.loadSetNames();
     this.bindEvents();
     this.subscribeToEvents();
+    this.renderModalLabels();
     this.log('Ready.');
   }
 
@@ -131,6 +158,12 @@ export class RedeemView {
       if (this.feedback && this.feedback.tone === 'error') {
         this.setFeedback(null);
       }
+    });
+    this.listen(this.modalConfirm, 'click', () => this.handleConfirm());
+    this.listen(this.modalCancel, 'click', () => this.handleCancel());
+    this.listen(this.modalClose, 'click', () => this.handleCancel());
+    this.listen(this.modal, 'click', (event) => {
+      if (event.target === this.modal) this.handleCancel();
     });
     this.log('DOM listeners bound.');
   }
@@ -167,26 +200,26 @@ export class RedeemView {
   }
 
   /**
-   * Submits the typed code.
+   * Inspects the typed code and opens the confirmation modal (or reports the refusal).
    *
-   * Triggered by the form (so the mobile/desktop "Enter" key works), and cancelled so the page
-   * never navigates.
+   * Triggered by the form, so the mobile/desktop "Enter" key works; the default action is
+   * cancelled so the page never navigates.
    *
    * @param {SubmitEvent} event - Form submit event.
-   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   * @returns {Promise<void>} Resolves once the inspection finished.
    */
   async handleSubmit(event) {
     event?.preventDefault?.();
     if (this.isBusy) return;
 
-    // The catalog comparison is case-insensitive; echoing the normalized value back makes it
-    // obvious to the player which code was sent.
+    // The comparison is case-insensitive; echoing the normalized value back makes it obvious to
+    // the player which code was sent.
     const raw = this.input.value;
     const code = redeemManager.normalizeCode(raw);
     this.input.value = code;
 
     if (!code) {
-      this.setFeedback('redeem.error.emptyCode', 'error');
+      this.setFeedback('redeem.error.empty_code', 'error');
       return;
     }
 
@@ -194,96 +227,211 @@ export class RedeemView {
     this.setFeedback(null);
 
     try {
-      const result = await redeemManager.redeem(code);
-      this.lastResult = result;
-      this.setFeedback('redeem.success', 'info');
-      this.renderResult();
-      Toast.success('redeem.success');
-      this.input.value = '';
-      this.log(`Code "${code}" redeemed.`);
+      const inspection = await redeemManager.inspect(code);
+      if (inspection.status !== REDEEM_STATUSES.OK) {
+        const key = getRedeemStatusKey(inspection.status);
+        this.setFeedback(key, 'error');
+        Toast.error(key);
+        return;
+      }
+
+      this.pendingCode = code;
+      this.pendingRewards = inspection.rewards;
+      this.openConfirmModal();
     } catch (error) {
-      console.warn(`[RedeemView] Code "${code}" refused.`, error);
+      console.warn('[RedeemView] The code could not be inspected.', error);
       const key = getRedeemErrorMessageKey(error);
       this.setFeedback(key, 'error');
       Toast.error(key);
     } finally {
+      this.setBusy(false);
+    }
+  }
+
+  /**
+   * Claims the code awaiting confirmation.
+   *
+   * @returns {Promise<void>} Resolves once the claim finished (success or failure).
+   */
+  async handleConfirm() {
+    if (this.isClaiming || !this.pendingCode) return;
+
+    // Disabled from the first click: the code is consumed by the time the request lands.
+    this.isClaiming = true;
+    this.modalConfirm.disabled = true;
+    this.setBusy(true);
+
+    try {
+      await redeemManager.claim(this.pendingCode);
+      this.closeModal();
+      this.setFeedback('redeem.success', 'info');
+      Toast.success('redeem.success');
+      this.input.value = '';
+      this.log('Code claimed.');
+    } catch (error) {
+      console.warn('[RedeemView] The code was refused.', error);
+      this.closeModal();
+      const key = getRedeemErrorMessageKey(error);
+      this.setFeedback(key, 'error');
+      Toast.error(key);
+    } finally {
+      this.isClaiming = false;
       this.setBusy(false);
       this.input.focus();
     }
   }
 
   /**
-   * Renders the panel describing the last granted reward.
+   * Cancels the pending claim and closes the modal.
    *
    * @returns {void}
    */
-  renderResult() {
-    const result = this.lastResult;
-    if (!this.resultElement || !this.resultBody) return;
-
-    if (!result) {
-      this.resultElement.hidden = true;
-      this.resultBody.textContent = '';
-      return;
-    }
-
-    this.resultBody.textContent = '';
-
-    if (result.card) {
-      this.resultBody.appendChild(this.buildCardResult(result));
-    } else {
-      const line = document.createElement('p');
-      line.className = 'redeem__result-line';
-      line.textContent = i18n.t('redeem.result.booster', {
-        count: result.amount,
-        set: this.setNames.get(result.set) ?? result.set,
-      });
-      this.resultBody.appendChild(line);
-    }
-
-    this.resultElement.hidden = false;
+  handleCancel() {
+    if (this.isClaiming) return;
+    this.closeModal();
   }
 
   /**
-   * Builds the illustration, name and quantity of a granted card.
+   * Handles a code captured from the `?Redeem=` deep link (step 10).
    *
-   * @param {object} result - Redemption result holding a `Card` instance.
-   * @returns {HTMLElement} The card result block.
+   * Never claims automatically: a URL must not modify the database without a click. On success the
+   * redeem view is brought to the front and the confirmation modal opens; any other status only
+   * produces a translated error toast.
+   *
+   * @param {string} rawCode - Code read from the URL.
+   * @returns {Promise<string>} The inspection status (`ok` when the modal was opened).
    */
-  buildCardResult(result) {
-    const { card } = result;
-    const name = card.getName(i18n.getLang());
+  async handlePendingRedeem(rawCode) {
+    if (!rawCode || this.isBusy) return REDEEM_STATUSES.UNKNOWN;
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'redeem__result-card';
+    const code = redeemManager.normalizeCode(rawCode);
+    if (!code) return REDEEM_STATUSES.UNKNOWN;
 
-    const image = document.createElement('img');
-    image.className = 'redeem__card-image';
-    image.loading = 'lazy';
-    image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = name;
-    image.addEventListener('error', () => {
-      console.warn(`[RedeemView] Illustration not found for "${card.uniqueKey}": ${image.src}`);
-      image.hidden = true;
-    });
-    wrapper.appendChild(image);
+    let inspection;
+    try {
+      inspection = await redeemManager.inspect(code);
+    } catch (error) {
+      console.warn('[RedeemView] The deep-linked code could not be inspected.', error);
+      Toast.error(getRedeemErrorMessageKey(error));
+      return REDEEM_STATUSES.INVALID_CONFIG;
+    }
+
+    if (inspection.status !== REDEEM_STATUSES.OK) {
+      Toast.error(getRedeemStatusKey(inspection.status));
+      this.log(`Deep-linked code refused (${inspection.status}).`);
+      return inspection.status;
+    }
+
+    this.onNavigate?.(REDEEM_VIEW_NAME);
+    this.input.value = code;
+    this.setFeedback(null);
+    this.pendingCode = code;
+    this.pendingRewards = inspection.rewards;
+    this.openConfirmModal();
+    this.log('Deep-linked code ready to claim.');
+    return REDEEM_STATUSES.OK;
+  }
+
+  /**
+   * Opens the confirmation modal and renders the rewards.
+   *
+   * @returns {void}
+   */
+  openConfirmModal() {
+    this.renderModalLabels();
+    this.renderRewards();
+    this.modal.hidden = false;
+    this.modalConfirm.focus();
+  }
+
+  /**
+   * Closes the modal and clears the pending claim.
+   *
+   * @returns {void}
+   */
+  closeModal() {
+    this.modal.hidden = true;
+    this.modalBody.textContent = '';
+    this.pendingCode = null;
+    this.pendingRewards = null;
+    this.modalConfirm.disabled = false;
+  }
+
+  /**
+   * Writes the localized title and button labels of the modal.
+   *
+   * @returns {void}
+   */
+  renderModalLabels() {
+    if (!this.modalTitle) return;
+    this.modalTitle.textContent = i18n.t('redeem.confirm.title');
+    this.modalConfirm.textContent = i18n.t('redeem.confirm.accept');
+    this.modalCancel.textContent = i18n.t('redeem.confirm.cancel');
+  }
+
+  /**
+   * Renders the resolved rewards of the pending code.
+   *
+   * @returns {void}
+   */
+  renderRewards() {
+    if (!this.pendingRewards) return;
+    this.modalBody.textContent = '';
+
+    const list = document.createElement('ul');
+    list.className = 'redeem__rewards';
+    this.pendingRewards.forEach((reward) => list.appendChild(this.buildReward(reward)));
+    this.modalBody.appendChild(list);
+  }
+
+  /**
+   * Builds one reward row (extension line, or card illustration plus localized label).
+   *
+   * @param {{type: string, key: string, quantity: number, card?: object|null}} reward - Reward.
+   * @returns {HTMLElement} The reward element.
+   */
+  buildReward(reward) {
+    const item = document.createElement('li');
+    item.className = 'redeem__reward';
+    item.dataset.type = reward.type;
+
+    if (reward.type === 'card' && reward.card) {
+      const image = document.createElement('img');
+      image.className = 'redeem__reward-image';
+      image.loading = 'lazy';
+      image.src = i18n.resolveImagePath(reward.card.illustration);
+      image.alt = reward.card.getName(i18n.getLang());
+      image.addEventListener('error', () => {
+        console.warn(`[RedeemView] Illustration not found for "${reward.card.uniqueKey}".`);
+        image.hidden = true;
+      });
+      item.appendChild(image);
+
+      const line = document.createElement('p');
+      line.className = 'redeem__reward-line';
+      line.textContent = i18n.t('redeem.reward.card', {
+        name: reward.card.getName(i18n.getLang()),
+        count: reward.quantity,
+        rarity: getRarityLabel(reward.card.rarity, (key) => i18n.t(key)),
+      });
+      item.appendChild(line);
+      return item;
+    }
 
     const line = document.createElement('p');
-    line.className = 'redeem__result-line';
-    line.textContent = i18n.t('redeem.result.card', {
-      name,
-      count: result.quantity,
-      rarity: getRarityLabel(card.rarity, (key) => i18n.t(key)),
+    line.className = 'redeem__reward-line';
+    line.textContent = i18n.t('redeem.reward.booster', {
+      count: reward.quantity,
+      set: this.setNames.get(reward.key) ?? reward.key,
     });
-    wrapper.appendChild(line);
-
-    return wrapper;
+    item.appendChild(line);
+    return item;
   }
 
   /**
    * Enables or disables the form (single source of truth for the busy state).
    *
-   * @param {boolean} isBusy - Whether a code is being verified.
+   * @param {boolean} isBusy - Whether a code is being inspected or claimed.
    * @returns {void}
    */
   setBusy(isBusy) {
@@ -299,11 +447,10 @@ export class RedeemView {
    *
    * @param {string|null} key - i18n key, or null to clear the message.
    * @param {'info'|'error'} [tone='info'] - Visual tone, exposed as `data-tone`.
-   * @param {object|null} [params=null] - Interpolation values.
    * @returns {void}
    */
-  setFeedback(key, tone = 'info', params = null) {
-    this.feedback = key ? { key, tone, params } : null;
+  setFeedback(key, tone = 'info') {
+    this.feedback = key ? { key, tone } : null;
     this.renderFeedback();
   }
 
@@ -322,7 +469,7 @@ export class RedeemView {
     }
 
     this.feedbackElement.hidden = false;
-    this.feedbackElement.textContent = i18n.t(this.feedback.key, this.feedback.params);
+    this.feedbackElement.textContent = i18n.t(this.feedback.key);
     this.feedbackElement.dataset.tone = this.feedback.tone;
   }
 
@@ -334,9 +481,12 @@ export class RedeemView {
   handleLanguageChanged() {
     this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
     this.renderFeedback();
-    this.renderResult();
     if (!this.isBusy) {
       this.submitButton.textContent = i18n.t('redeem.submit');
+    }
+    if (this.pendingRewards && !this.isClaiming) {
+      this.renderModalLabels();
+      this.renderRewards();
     }
   }
 

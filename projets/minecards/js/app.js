@@ -24,6 +24,7 @@ import i18n from './utils/I18n.js';
 import themeManager from './utils/ThemeManager.js';
 import { configLoader } from './utils/ConfigLoader.js';
 import eventBus, { EVENTS } from './utils/EventBus.js';
+import { capturePendingRedeem, consumePendingRedeem } from './utils/DeepLink.js';
 import { SpaRouter } from './UI/SpaRouter.js';
 import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
@@ -202,6 +203,9 @@ export class App {
     await this.startSettingsView();
     await this.startRedeemView();
     await this.startGiftsView();
+    // The deep link is handled LAST: the account exists, the views are ready and the trusted clock
+    // is initialized, which is exactly what `?Redeem=` needs (step 10).
+    await this.handlePendingRedeem();
     if (!this.utcTimeProvider) {
       // Fallback used only when the time synchronization is unusable: the clock then shows the
       // "unknown time" placeholder instead of an untrusted system time.
@@ -348,7 +352,10 @@ export class App {
       return;
     }
     console.info('[App] Starting the redeem view…');
-    this.redeemView = new RedeemView(root);
+    this.redeemView = new RedeemView(root, {
+      // Decoupled from the router: a `?Redeem=` deep link only asks the application to show the view.
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
     try {
       await this.redeemView.init();
     } catch (error) {
@@ -360,6 +367,26 @@ export class App {
     if (this.router?.getCurrentView() === REDEEM_VIEW_NAME) {
       this.redeemView.handleViewActivated();
     }
+  }
+
+  /**
+   * Handles a `?Redeem=` code captured at boot (step 10).
+   *
+   * The code was stored by `DeepLink.capturePendingRedeem()` before the onboarding and is consumed
+   * here, once the account and the views are ready. `RedeemView` inspects it and either opens the
+   * claim modal (never an automatic claim) or shows a translated error toast.
+   *
+   * @returns {Promise<void>} Resolves once the pending code has been handled (or ignored).
+   */
+  async handlePendingRedeem() {
+    const code = consumePendingRedeem();
+    if (!code) return;
+
+    if (!this.redeemView) {
+      console.warn('[App] A pending redeem code was captured but the redeem view is unavailable.');
+      return;
+    }
+    await this.redeemView.handlePendingRedeem(code);
   }
 
   /**
@@ -726,6 +753,10 @@ export class App {
     }
   }
 }
+
+// Capture the `?Redeem=` deep link before anything else renders, so a first-visit player keeps
+// their pending code through the onboarding (step 10).
+capturePendingRedeem();
 
 const app = new App();
 app.start();

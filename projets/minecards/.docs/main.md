@@ -84,14 +84,14 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 3. **Statistiques** : boosters ouverts, complétion par extension, répartition par rareté, carte la plus piochée.
 4. **Paramètres** : langue, thème, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
-6. **Redeem** : codes promos de `settings/redeem.json`.
+6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
 
 Sauvegarde `.save` : toutes les données → JSON → `CompressionStream('deflate')` → Base64. Import : Base64 → `DecompressionStream('deflate')` → JSON validé.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.
 - Une ligne = un cadeau : `uuid`, `type` (`booster`|`card`), `key`, `quantity`. La colonne `key` identifie le cadeau : l'identifiant du set pour un `booster` (ex. `set1`), la clé unique de la carte pour une `card` (ex. `042_fullart`). Voir Étape 8.
-- Dans Paramètres, "Vérifier les distributions" télécharge le CSV et ne traite que les lignes **postérieures à `lastCheckedLine`** dont l'UUID correspond à celui du compte.
+- Dans Paramètres, "Vérifier les distributions" télécharge le CSV et ne traite que les lignes **postérieures à `lastCheckedLine`** dont l'UUID correspond à celui du compte. Un `uuid` valant `*` adresse la ligne à **tous** les comptes (Étape 9).
 - Chaque cadeau traité est enregistré dans `gifts_received` avec son **numéro de ligne comme clé** : impossible de le récupérer deux fois.
 - `lastCheckedLine` est mis à jour à la fin du traitement, dans la même transaction que les récompenses.
 - Une interface indique ce qui a été reçu, ou "Aucun cadeau".

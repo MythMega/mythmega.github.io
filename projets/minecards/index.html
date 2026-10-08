@@ -5,7 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Ouvrez des boosters, découvrez des cartes et complétez votre collection.">
   <meta name="theme-color" content="#0b0e14">
+  <!-- The `?Redeem=` deep link (step 10) must not leak the code through the Referer header. -->
+  <meta name="referrer" content="no-referrer">
   <title>MineCards</title>
+
+  <!-- Social & SEO metadata. `canonical`, `og:url` and `og:image` must be absolute URLs
+       (Open Graph does not resolve relative paths); the public base is the static host at
+       web.jmdev.fr/projets/minecards/. Keep in sync if the site moves. -->
+  <link rel="canonical" href="https://web.jmdev.fr/projets/minecards/">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" type="image/png" href="assets/img/card_back.png">
+  <link rel="apple-touch-icon" href="assets/img/card_back.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MineCards">
+  <meta property="og:title" content="MineCards">
+  <meta property="og:description" content="Ouvrez des boosters, découvrez des cartes et complétez votre collection.">
+  <meta property="og:url" content="https://web.jmdev.fr/projets/minecards/">
+  <meta property="og:image" content="https://web.jmdev.fr/projets/minecards/assets/img/card_back.png">
+  <meta property="og:image:alt" content="MineCards — dos de carte">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MineCards">
+  <meta name="twitter:description" content="Ouvrez des boosters, découvrez des cartes et complétez votre collection.">
+  <meta name="twitter:image" content="https://web.jmdev.fr/projets/minecards/assets/img/card_back.png">
+  <meta name="twitter:image:alt" content="MineCards — dos de carte">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MineCards">
+  <meta name="mobile-web-app-capable" content="yes">
 
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/base.css">
@@ -115,6 +147,10 @@
         <span class="onboarding__language-label" data-i18n="onboarding.language">Langue</span>
         <div class="lang-switch" data-onboarding-languages role="group" data-i18n-aria-label="onboarding.language" aria-label="Langue"></div>
       </div>
+
+      <!-- Step 10: a `?Redeem=` link opened without an account is kept for after the account is
+           created or the save imported. The code itself is never displayed. -->
+      <p class="onboarding__pending" data-onboarding-pending data-i18n="redeem.pending_banner" role="status" hidden></p>
 
       <p class="onboarding__feedback" data-onboarding-feedback role="status" hidden></p>
       <p class="onboarding__notice" data-i18n="onboarding.storageNotice">Vos données sont stockées uniquement sur cet appareil.</p>
@@ -350,6 +386,13 @@
           <p class="gifts__count" data-gifts-count hidden></p>
         </div>
 
+        <!-- Category filter (step 9): labels are written by GiftsView. -->
+        <div class="gifts__filters" data-gifts-filters role="group" data-i18n-aria-label="gifts.filter.label" aria-label="Filtrer les cadeaux">
+          <button type="button" class="gifts__filter" data-gifts-filter="all" aria-pressed="true"></button>
+          <button type="button" class="gifts__filter" data-gifts-filter="distribution" aria-pressed="false"></button>
+          <button type="button" class="gifts__filter" data-gifts-filter="codes" aria-pressed="false"></button>
+        </div>
+
         <ul class="gifts__list" data-gifts-list></ul>
 
         <div class="gifts__empty" data-gifts-empty hidden>
@@ -371,7 +414,7 @@
         <form class="redeem__form" data-redeem-form novalidate>
           <label class="field">
             <span class="field__label" data-i18n="redeem.input.label">Code</span>
-            <input class="field__input redeem__input" type="text" data-redeem-input name="code" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="32" data-i18n-placeholder="redeem.input.placeholder" placeholder="Ex. LAUNCH2026">
+            <input class="field__input redeem__input" type="text" data-redeem-input name="code" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="64" data-i18n-placeholder="redeem.input.placeholder" placeholder="Votre code…">
           </label>
           <button type="submit" class="btn btn--primary" data-redeem-submit data-i18n="redeem.submit">Valider</button>
         </form>
@@ -380,9 +423,18 @@
         <p class="feedback" data-redeem-feedback role="status" hidden></p>
       </div>
 
-      <div class="panel redeem__result" data-redeem-result hidden>
-        <h3 class="redeem__result-title" data-i18n="redeem.result.title">Récompense obtenue</h3>
-        <div class="redeem__result-body" data-redeem-result-body></div>
+      <!-- Confirmation modal (step 9): the rewards are listed before anything is granted. -->
+      <div class="modal" data-redeem-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="redeem-modal-title">
+          <button type="button" class="modal__close" data-redeem-modal-close aria-label="×">×</button>
+          <h2 class="modal__title" id="redeem-modal-title" data-redeem-modal-title></h2>
+          <div class="modal__body" data-redeem-modal-body></div>
+          <div class="modal__actions">
+            <!-- Labels are always written by RedeemView (confirmation vs success). -->
+            <button type="button" class="btn btn--ghost" data-redeem-modal-cancel></button>
+            <button type="button" class="btn btn--primary" data-redeem-modal-confirm></button>
+          </div>
+        </div>
       </div>
     </section>
   </main>

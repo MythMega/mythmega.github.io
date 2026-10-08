@@ -3,10 +3,15 @@
  *
  * Reference: `.docs/steps/8.md` point 3 and `.docs/main.md` section 3.G (view 5).
  *
- * The list is read from the `gifts_received` store (one record per sheet line) and sorted from
- * the newest to the oldest. A record only stores the raw key, so the readable name of the
- * extension or of the card is resolved by `GiftManager.describeGift()`, which keeps the catalog
- * logic in the business layer and this view free of JSON knowledge.
+ * The list is read from the `gifts_received` store and sorted by `receivedAt` (newest first). A
+ * record only stores the raw key, so the readable name of the extension or of the card is resolved
+ * by `GiftManager.describeGift()`, which keeps the catalog logic in the business layer and this
+ * view free of JSON knowledge.
+ *
+ * Step 9: the store holds two categories. `distribution` records come from the Google Sheet (the
+ * line number is shown), `codes` records come from a redeemed promo code (the code itself is never
+ * stored, only the reward). A record without a `category` (older saves) is read as `distribution`.
+ * The view offers a Tous / Distributions / Codes filter and a category badge per row.
  *
  * The view refreshes when it becomes active (the check itself is triggered from the settings
  * screen) and whenever a record changes through the shared `GIFTS_UPDATED` event.
@@ -16,7 +21,7 @@ import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
-import { giftManager, GIFT_TYPES } from '../../business/GiftManager.js';
+import { giftManager, GIFT_TYPES, GIFT_CATEGORIES } from '../../business/GiftManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
 /** View name, matching `data-view="gifts"` in `index.html`. */
@@ -42,6 +47,8 @@ export class GiftsView {
     this.listElement = this.root.querySelector('[data-gifts-list]');
     this.emptyElement = this.root.querySelector('[data-gifts-empty]');
     this.emptyAction = this.root.querySelector('[data-gifts-empty-action]');
+    this.filtersElement = this.root.querySelector('[data-gifts-filters]');
+    this.filterButtons = Array.from(this.root.querySelectorAll('[data-gifts-filter]'));
 
     this.assertMarkup();
 
@@ -53,6 +60,8 @@ export class GiftsView {
     this.isLoading = false;
     /** @type {Array<object>} Last loaded records, re-rendered on a language change. */
     this.gifts = [];
+    /** @type {'all'|'distribution'|'codes'} Active category filter. */
+    this.categoryFilter = 'all';
     /** @type {{lastCheckedLine: number, lastCheckAt: string|null}|null} Last read sync state. */
     this.giftSync = null;
 
@@ -86,6 +95,7 @@ export class GiftsView {
       ['[data-gifts-list]', this.listElement],
       ['[data-gifts-empty]', this.emptyElement],
       ['[data-gifts-empty-action]', this.emptyAction],
+      ['[data-gifts-filters]', this.filtersElement],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -117,6 +127,9 @@ export class GiftsView {
    */
   bindEvents() {
     this.listen(this.emptyAction, 'click', () => this.handleEmptyAction());
+    this.filterButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.handleFilter(button.dataset.giftsFilter));
+    });
     this.log('DOM listeners bound.');
   }
 
@@ -164,11 +177,18 @@ export class GiftsView {
     this.log('Loading the gift history…');
 
     try {
-      this.gifts = await storageRepository.getAll(STORES.GIFTS_RECEIVED);
+      const records = await storageRepository.getAll(STORES.GIFTS_RECEIVED);
+      // A record without a `category` predates step 9 (or is a distribution): it is normalized here
+      // so the rest of the view never has to guess.
+      this.gifts = records.map((gift) => ({
+        ...gift,
+        category: gift.category === GIFT_CATEGORIES.CODES ? GIFT_CATEGORIES.CODES : GIFT_CATEGORIES.DISTRIBUTION,
+      }));
       this.giftSync = giftManager.normalizeGiftSync(
         await storageRepository.getUserState(USER_STATE_KEYS.GIFT_SYNC)
       );
       this.renderLastCheck();
+      this.renderFilters();
       await this.renderList();
     } catch (error) {
       console.error('[GiftsView] The gift history could not be loaded.', error);
@@ -191,12 +211,57 @@ export class GiftsView {
   }
 
   /**
-   * Renders the history, newest first.
+   * Renders the category filter buttons and their active state.
+   *
+   * @returns {void}
+   */
+  renderFilters() {
+    this.filterButtons.forEach((button) => {
+      const value = button.dataset.giftsFilter;
+      const isActive = value === this.categoryFilter;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      button.textContent = i18n.t(`gifts.filter.${value === 'distribution' || value === 'codes' ? value : 'all'}`);
+    });
+  }
+
+  /**
+   * Changes the active category filter.
+   *
+   * @param {string} value - Requested filter ("all", "distribution" or "codes").
+   * @returns {void}
+   */
+  handleFilter(value) {
+    const allowed = ['all', GIFT_CATEGORIES.DISTRIBUTION, GIFT_CATEGORIES.CODES];
+    const next = allowed.includes(value) ? value : 'all';
+    if (next === this.categoryFilter) return;
+    this.categoryFilter = next;
+    this.renderFilters();
+    void this.renderList().catch((error) => {
+      console.error('[GiftsView] The history could not be re-rendered.', error);
+    });
+  }
+
+  /**
+   * Renders the history, newest first and filtered by category.
    *
    * @returns {Promise<void>} Resolves once the list is in the DOM.
    */
   async renderList() {
-    const sorted = [...this.gifts].sort((left, right) => Number(right.line) - Number(left.line));
+    const filtered = this.categoryFilter === 'all'
+      ? this.gifts
+      : this.gifts.filter((gift) => gift.category === this.categoryFilter);
+
+    // Primary sort is the trusted timestamp; the line number is only a deterministic tie-breaker
+    // (a `codes` record has a string key, so a numeric comparison is meaningless there).
+    const sorted = [...filtered].sort((left, right) => {
+      const rightTime = Date.parse(right.receivedAt);
+      const leftTime = Date.parse(left.receivedAt);
+      if (!Number.isNaN(rightTime) && !Number.isNaN(leftTime) && rightTime !== leftTime) {
+        return rightTime - leftTime;
+      }
+      return String(right.line).localeCompare(String(left.line), undefined, { numeric: true });
+    });
 
     this.listElement.textContent = '';
     this.emptyElement.hidden = sorted.length > 0;
@@ -221,6 +286,7 @@ export class GiftsView {
     const item = document.createElement('li');
     item.className = 'gifts__item';
     item.dataset.type = info.type || 'unknown';
+    item.dataset.category = gift.category;
 
     if (isCard && info.card) {
       const image = document.createElement('img');
@@ -238,6 +304,9 @@ export class GiftsView {
     const body = document.createElement('div');
     body.className = 'gifts__body';
 
+    const head = document.createElement('div');
+    head.className = 'gifts__head';
+
     const title = document.createElement('p');
     title.className = 'gifts__title';
     title.textContent = isCard
@@ -248,15 +317,25 @@ export class GiftsView {
       : i18n.t('gifts.item.booster', {
           set: info.setName ?? i18n.t('gifts.item.unknown', { key: gift.key }),
         });
-    body.appendChild(title);
+    head.appendChild(title);
+
+    const badge = document.createElement('span');
+    badge.className = 'gifts__badge';
+    badge.textContent = i18n.t(`gifts.category.${gift.category}`);
+    head.appendChild(badge);
+    body.appendChild(head);
+
+    // The line number only identifies a sheet row: a promo code has none, so it is hidden.
+    const metaParts = [];
+    if (gift.category === GIFT_CATEGORIES.DISTRIBUTION) {
+      metaParts.push(i18n.t('gifts.line', { line: gift.line }));
+    }
+    metaParts.push(this.formatDate(gift.receivedAt));
+    metaParts.push(i18n.t('gifts.quantity', { count: gift.quantity }));
 
     const meta = document.createElement('p');
     meta.className = 'gifts__meta';
-    meta.textContent = [
-      i18n.t('gifts.line', { line: gift.line }),
-      this.formatDate(gift.receivedAt),
-      `${i18n.t('gifts.quantity', { count: gift.quantity })}`,
-    ].join(' · ');
+    meta.textContent = metaParts.join(' · ');
     body.appendChild(meta);
 
     if (info.unknown) {
@@ -335,6 +414,7 @@ export class GiftsView {
     this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
     // The date is localized too, so the "last check" line is re-rendered with the list.
     this.renderLastCheck();
+    this.renderFilters();
     void this.renderList().catch((error) => {
       console.error('[GiftsView] The history could not be re-rendered.', error);
     });

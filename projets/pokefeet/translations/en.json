@@ -55,22 +55,12 @@
     "answerWas": "The answer was",
     "continue": "Continue",
     "fullSprite": "Full sprite",
-    "footSprite": "Foot",
-    "hintShown": "-2 points (hint shown)",
-    "failRevealed": "Failed — Pokémon revealed",
-    "skipRevealed": "Skipped — Pokémon revealed",
-    "finishedShare": "Daily complete — share your result",
-    "pointsEarned": "+{n} points",
-    "confirmSkip": "Are you sure you want to skip this Pokémon?",
-    "newlyDiscovered": "🌟 New Pokémon discovered: {names}!",
-    "newlyDiscoveredMany": "🌟 New Pokémon discovered: {names}!"
+    "footSprite": "Foot"
   },
   "weekly": {
     "invalidDateTitle": "Invalid date",
     "invalidDateMsg": "This weekly is not valid: the date must be a Monday. You will be redirected to the previous Monday.",
-    "goToMonday": "Go to Monday",
-    "futureWeekly": "Cannot play a future weekly",
-    "finishedShare": "Weekly complete — share your result"
+    "goToMonday": "Go to Monday"
   },
   "practice": {
     "title": "PokéFeet",
@@ -109,8 +99,7 @@
     "statsPerfect": "Perfect (1st try)",
     "statsFails": "Total mistakes",
     "sessionResumed": "Session resumed",
-    "bestStreak": "Best Streak",
-    "pointsEarned": "+{n} points — {name}"
+    "bestStreak": "Best Streak"
   },
   "history": {
     "title": "History — PokéFeet Daily",
@@ -128,9 +117,6 @@
     "chartNoData": "No data",
     "chartDailyStats": "Last {n} days — average: {avg} / {max}",
     "weekLabel": "Week of {from} to {to} {year}",
-    "emptyDaily": "No result recorded yet.",
-    "emptyWeekly": "No weekly result recorded.",
-    "emptyCurve": "No history available.",
     "stats": {
       "title": "Detailed Statistics",
       "global": "Global",
@@ -192,11 +178,7 @@
     "sortFirstFound": "First found",
     "sortAsc": "↑ Asc",
     "sortDesc": "↓ Desc",
-    "moreInfo": "+ info",
-    "importError": "Import error: {msg}",
-    "importTitle": "{count} new Pokémon found",
-    "noNewPokemon": "No new Pokémon to add.",
-    "refreshPage": "Refresh the page"
+    "moreInfo": "+ info"
   },
   "dataManagement": {
     "title": "Data Management — PokéFeet",
@@ -251,9 +233,7 @@
   },
   "credits": {
     "title": "Credits",
-    "subtitle": "Thanks to all contributors",
-    "empty": "No credits to display",
-    "loadError": "Could not load credits"
+    "subtitle": "Thanks to all contributors"
   },
   "types": {
     "normal": "Normal",
@@ -300,9 +280,7 @@
     "viewDaily": "View this daily",
     "viewWeekly": "View this weekly",
     "rewards": "Rewards",
-    "rewardsTitle": "Rewards",
-    "categoryPokedex": "Pokédex",
-    "categoryGenerations": "Generations"
+    "rewardsTitle": "Rewards"
   },
   "xpScale": {
     "title": "XP Scale",
@@ -376,58 +354,7 @@
     "available": "Available",
     "unavailable": "Unavailable",
     "locked": "Locked",
-    "pokemonCount": "Pokémon",
-    "failedAttempts": "Fails",
-    "alreadyTried": "Already tried",
-    "found": "Pokémon found: ",
-    "shareSuccess": "Challenge {name} {difficulty} completed!",
-    "shareFound": "Pokémon found: ",
-    "shareFails": "Total fails: "
-  },
-  "cosmetics": {
-    "default": "Default",
-    "defaultShort": "Default",
-    "lockedHint": "🔒 {name} — Unlock via a challenge"
-  },
-  "data": {
-    "writeError": "Cannot write to IndexedDB",
-    "challengeImportError": "Error while importing challenges",
-    "exportDone": "Export complete",
-    "invalidFile": "Invalid file: {msg}",
-    "fileModified": "Error: the file was modified — no cheating!",
-    "importDone": "Import complete and merged",
-    "importFailed": "Import failed",
-    "readError": "Cannot read the file",
-    "invalidJson": "Invalid JSON in the file",
-    "conflictDate": "Conflict for date {date}:\nFile -> score: {file}\nCookie -> score: {cookie}\n\nClick OK to keep the FILE value (overwrite), Cancel to keep the COOKIE value.",
-    "invalidDailyHeader": "Invalid header. Expected format: \"Pokefeet Daily — YYYY-MM-DD — score N\"",
-    "invalidWeeklyHeader": "Invalid header. Expected format: \"Pokefeet Weekly — YYYY-MM-DD — score N\"",
-    "invalidMiniCount": "Invalid mini format: expected {expected} emojis, found {found}",
-    "missingRows": "{count} emoji lines are required after the header",
-    "invalidRow": "Invalid line {row}: 5 squares expected",
-    "noTextPasted": "No text pasted.",
-    "entryNotFound": "No entry found for {date}.",
-    "entryDeleted": "Entry for {date} deleted.",
-    "deleteError": "Delete error: {msg}",
-    "dayAlreadySaved": "Day {date} is already saved. Import cancelled.",
-    "dayImported": "Day {date} imported (computed score: {score}{mismatch}).",
-    "scoreMismatch": " — note: declared score differs",
-    "weekAlreadySaved": "Week {date} is already saved. Import cancelled.",
-    "weekImported": "Week {date} imported (score: {score}{mismatch}).",
-    "weekScoreMismatch": " — declared score differs",
-    "saveDailyError": "Cannot save the imported daily",
-    "saveWeeklyError": "Cannot save the imported weekly",
-    "emptyText": "Empty text",
-    "missingHash": "Invalid format (missing hash)",
-    "invalidFormatRows": "Invalid format: expected header + emoji lines",
-    "invalidFormatRowsCount": "Invalid format: expected header + {count} emoji lines",
-    "invalidDailyFormatRows": "Invalid format: expected header + 5 emoji lines",
-    "missingEmojiLine": "Invalid mini format: emoji line missing",
-    "invalidRowDetail": "Invalid line {row}: 5 squares expected (line: \"{line}\")"
-  },
-  "migration": {
-    "reportCopied": "Report copied! Opening Discord...",
-    "dbUpdated": "✅ Database updated (v{version})"
+    "pokemonCount": "Pokémon"
   },
   "custom": {
     "title": "Custom Challenges",

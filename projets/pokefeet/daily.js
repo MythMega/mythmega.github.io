@@ -333,7 +333,7 @@ const Daily = (function () {
       return;
     }
     failedEl.classList.remove('hidden');
-    failedEl.textContent = Translator.get('daily.failed', 'Échecs') + ' : ' + arr.join(', ');
+    failedEl.textContent = 'Échecs : ' + arr.join(', ');
   }
 
   function updateAttemptGauge() {
@@ -664,8 +664,8 @@ const Daily = (function () {
       .join(', ');
     
     const message = newPokemons.length === 1
-      ? Translator.get('daily.newlyDiscovered', '🌟 Nouveau Pokémon découvert : {names} !').replace('{names}', pokemonNames)
-      : Translator.get('daily.newlyDiscoveredMany', '🌟 Nouveaux Pokémon découverts : {names} !').replace('{names}', pokemonNames);
+      ? `🌟 Nouveau Pokémon découvert : ${pokemonNames}!`
+      : `🌟 Nouveaux Pokémon découverts : ${pokemonNames}!`;
     
     alertEl.textContent = message;
     alertEl.classList.remove('hidden');
@@ -739,7 +739,7 @@ const Daily = (function () {
     input().disabled = true;
     document.getElementById('dailySubmit').disabled = true;
     document.getElementById('dailySkip').disabled = true;
-    showNotification(Translator.get('daily.finishedShare', 'Daily terminé — partagez votre résultat'), 'success');
+    showNotification('Daily terminé — partagez votre résultat', 'success');
   }
 
   function failCurrentAndAdvance() {
@@ -780,7 +780,7 @@ const Daily = (function () {
     showReveal(dailyList[index]);
     clearDailyFailedDisplay();
     updateProgressUI();
-    showNotification(Translator.get('daily.pointsEarned', '+{n} points').replace('{n}', pts), 'success');
+    showNotification('+' + pts + ' points', 'success');
     // small delay then next
     setTimeout(nextPokemon, 700);
   }
@@ -908,11 +908,11 @@ const Daily = (function () {
       updateAttemptGauge();
       if (attempts >= maxAttempts) {
         // completely failed this pokemon
-        showNotification(Translator.get('daily.failRevealed', 'Échec — Pokémon révélé'), 'fail');
+        showNotification('Échec — Pokémon révélé', 'fail');
         failCurrentAndAdvance();
       } else {
         showHintForAttempt(attempts);
-        showNotification(Translator.get('daily.hintShown', '-2 points (indice affiché)'), 'hint');
+        showNotification('-2 points (indice affiché)', 'hint');
       }
     }
   }
@@ -1062,10 +1062,10 @@ const Daily = (function () {
       // Pendant une transition de round (popup de révélation ou reveal en cours),
       // on ignore les clics pour ne pas enregistrer deux échecs pour le même Pokémon.
       if (busy) return;
-      const ok = confirm(Translator.get('daily.confirmSkip', 'Es-tu sûr de vouloir passer ce Pokémon ?'));
+      const ok = confirm("Es-tu sûr de vouloir passer ce Pokémon ?");
       if (!ok) return;
 
-      showNotification(Translator.get('daily.skipRevealed', 'Passé — Pokémon révélé'), 'hint');
+      showNotification('Passé — Pokémon révélé', 'hint');
       failCurrentAndAdvance();
     });
     document.getElementById('dailyInput').addEventListener('keydown', (e) => {

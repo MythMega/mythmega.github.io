@@ -1,0 +1,361 @@
+/* =============================================================================
+   overlay.css - Standalone streaming overlay (`overlay.html`).
+
+   Completely independent from the application stylesheets: the page has no
+   chrome at all, only the booster, the headline, the revealed cards and the
+   summary. The background is transparent so the overlay can be dropped over a
+   stream scene, so every color is self-contained here (no theme variables).
+
+   Animations use `transform`/`opacity` only and honour `prefers-reduced-motion`.
+
+   TIMINGS - Every `--ov-*-ms` variable and `--ov-easing` below are only FALLBACKS: the overlay
+   reads `settings/overlay.json` at boot and overwrites them (`js/overlay.js`, function
+   `applyCssVariables`). Change a delay there, never here.
+   ============================================================================= */
+
+:root {
+  --ov-text: #f4f7ff;
+  --ov-text-dim: #aebbd6;
+  --ov-accent: #6c8cff;
+  --ov-glow-4: 0 0 22px rgba(120, 200, 255, 0.65);
+  --ov-glow-5: 0 0 26px rgba(255, 200, 90, 0.75);
+  --ov-card-radius: 14px;
+
+  /* Fallbacks mirroring DEFAULT_CONFIG in `js/overlay.js` (see `settings/overlay.json`). */
+  --ov-easing: cubic-bezier(0.2, 0.8, 0.25, 1);
+  --ov-card-entry-ms: 250ms;
+  --ov-flip-ms: 620ms;
+  --ov-stage-enter-ms: 480ms;
+  --ov-stage-exit-ms: 420ms;
+  --ov-headline-ms: 620ms;
+  --ov-tile-ms: 480ms;
+  --ov-overlay-out-ms: 750ms;
+  --ov-booster-float-ms: 4500ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  color: var(--ov-text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Root layout --------------------------------------------------------- */
+
+.overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.overlay[data-leaving='true'] {
+  animation: overlay-out var(--ov-overlay-out-ms) ease forwards;
+}
+
+.overlay [data-stage] {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  animation: stage-in var(--ov-stage-enter-ms) var(--ov-easing) both;
+}
+
+.overlay [data-stage][hidden] {
+  display: none;
+}
+
+.overlay [data-stage].is-leaving {
+  animation: stage-out var(--ov-stage-exit-ms) ease forwards;
+}
+
+/* --- Stage 1: 3D booster + headline -------------------------------------- */
+
+.overlay__booster {
+  position: relative;
+  width: min(46vmin, 360px);
+  height: min(46vmin, 360px);
+  perspective: 900px;
+}
+
+.overlay__booster canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay__booster-fallback {
+  width: min(34vmin, 260px);
+  border-radius: var(--ov-card-radius);
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.5));
+  animation: booster-float var(--ov-booster-float-ms) ease-in-out infinite;
+}
+
+.overlay__headline {
+  margin: 0;
+  max-width: min(92vw, 860px);
+  text-align: center;
+  font-size: clamp(1.5rem, 4.6vmin, 2.9rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.65);
+  animation: headline-in var(--ov-headline-ms) var(--ov-easing) both;
+}
+
+.overlay__headline .overlay__avatar {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  margin-right: 0.4em;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: -0.2em;
+}
+
+.overlay__headline--small {
+  font-size: clamp(1rem, 2.6vmin, 1.5rem);
+  font-weight: 600;
+  color: var(--ov-text-dim);
+}
+
+/* --- Stage 2: card reveal ------------------------------------------------- */
+
+.overlay__spotlight {
+  width: min(42vmin, 300px);
+  aspect-ratio: 2 / 3;
+  perspective: 1200px;
+}
+
+/* The entry animation lives on `.is-entering`, NOT on `.overlay__card` itself: an animation that
+   animates `transform` outranks the `.is-flipped` rule (both the running frames and the value kept
+   by `animation-fill-mode: both`), so it would cancel the flip and leave the card face down.
+   `js/overlay.js#flipCard()` removes the class right before adding `.is-flipped`, which is the
+   exact equivalent of the player's click. */
+.overlay__card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform var(--ov-flip-ms) var(--ov-easing);
+  will-change: transform;
+}
+
+.overlay__card.is-entering {
+  animation: card-in var(--ov-card-entry-ms) var(--ov-easing) both;
+}
+
+.overlay__card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.overlay__face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--ov-card-radius);
+  backface-visibility: hidden;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+}
+
+.overlay__face--back {
+  background-color: #1d2432;
+}
+
+.overlay__back-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay__face--front {
+  transform: rotateY(180deg);
+  background-color: #141a26;
+}
+
+.overlay__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.overlay__card-name {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 10px 12px;
+  background: linear-gradient(transparent, rgba(4, 7, 14, 0.9));
+  font-size: clamp(0.85rem, 2.2vmin, 1.05rem);
+  font-weight: 700;
+  text-align: center;
+}
+
+.overlay__card--r4 .overlay__face--front {
+  box-shadow: var(--ov-glow-4), 0 14px 34px rgba(0, 0, 0, 0.55);
+}
+
+.overlay__card--r5 .overlay__face--front {
+  box-shadow: var(--ov-glow-5), 0 14px 34px rgba(0, 0, 0, 0.55);
+}
+
+/* --- Stage 3: summary ----------------------------------------------------- */
+
+.overlay__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  width: min(92vw, 900px);
+}
+
+@media (max-width: 640px) {
+  .overlay__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(94vw, 520px);
+  }
+}
+
+.overlay__grid .overlay__tile {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--ov-card-radius);
+  overflow: hidden;
+  background-color: #141a26;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+  /* The per-tile delay is `timings.tileStaggerMs` in `settings/overlay.json`, applied inline by
+     `renderSummary()`, so the staggering follows the configuration instead of a hardcoded index. */
+  animation: tile-in var(--ov-tile-ms) var(--ov-easing) both;
+}
+
+.overlay__grid .overlay__tile--r4 {
+  box-shadow: var(--ov-glow-4), 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.overlay__grid .overlay__tile--r5 {
+  box-shadow: var(--ov-glow-5), 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.overlay__grid .overlay__image,
+.overlay__grid .overlay__card-name {
+  position: absolute;
+  inset: 0;
+}
+
+.overlay__grid .overlay__card-name {
+  inset: auto 0 0 0;
+}
+
+.overlay__summary-line {
+  margin: 0;
+  font-size: clamp(1rem, 2.6vmin, 1.4rem);
+  font-weight: 600;
+  color: var(--ov-text-dim);
+  text-align: center;
+  animation: headline-in 520ms ease both;
+}
+
+/* --- Keyframes ------------------------------------------------------------ */
+
+@keyframes stage-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes stage-out {
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes overlay-out {
+  to {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes headline-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes booster-float {
+  0%,
+  100% {
+    transform: translateY(-6px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(6px) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay [data-stage],
+  .overlay__headline,
+  .overlay__card.is-entering,
+  .overlay__grid .overlay__tile,
+  .overlay__booster-fallback {
+    animation: none;
+  }
+
+  /* The flip itself is kept: it is the whole point of the reveal. */
+  .overlay__card {
+    transition-duration: 1ms;
+  }
+}

@@ -31,6 +31,17 @@ const MAX_RARITY = Card.RARITY.MAX;
 /** Number of cards in a booster when the caller does not declare one. */
 const DEFAULT_CARDS_PER_BOOSTER = 5;
 
+/**
+ * Minimum number of DISTINCT full art printings an extension must declare for a "god pack" to be
+ * possible at all.
+ *
+ * A god pack (see `boosters.godpackChancePercent` in `settings/config.json`) replaces the normal
+ * rarity draw by a uniform draw inside the full art pool, so an extension with fewer than three
+ * full art printings would produce five near-identical cards: such an extension simply never
+ * triggers the bonus, whatever the configured probability.
+ */
+export const MIN_GODPACK_FULL_ART = 3;
+
 export class GachaEngine {
   /**
    * @param {object} [options] - Engine options.
@@ -64,6 +75,70 @@ export class GachaEngine {
       const rarity = this.drawRarity(rarityConfig[slot], `slot ${slot}`);
       return this.drawCardOfRarity(cardsByRarity, rarity, setId, `slot ${slot}`);
     });
+  }
+
+  /**
+   * Lists the distinct full art printings of an extension.
+   *
+   * @param {object|Card[]} boosterSetData - Parsed extension JSON or resolved set object.
+   * @param {object} [context] - Build context passed to `parseCards()`.
+   * @returns {Card[]} The full art cards, in declaration order.
+   * @throws {TypeError|RangeError} See `parseCards()`.
+   */
+  static getFullArtCards(boosterSetData, context = {}) {
+    return GachaEngine.parseCards(boosterSetData, context).filter((card) => card.isFullArt);
+  }
+
+  /**
+   * Rolls the "god pack" dice for one opener.
+   *
+   * Consumes exactly ONE random value, and only when the bonus is actually possible: an extension
+   * without enough distinct full art printings never advances the random source, so its normal
+   * draws stay exactly as reproducible as before.
+   *
+   * @param {object|Card[]} boosterSetData - Parsed extension JSON or resolved set object.
+   * @param {object} [options] - Roll options.
+   * @param {number} [options.chancePercent=0] - Probability in percent (0.5 = 0.5 %).
+   * @param {number} [options.minDistinct=MIN_GODPACK_FULL_ART] - Required distinct full art cards.
+   * @returns {boolean} True when the pack must be drawn from the full art pool only.
+   * @throws {TypeError|RangeError} See `parseCards()`.
+   */
+  shouldDrawGodpack(boosterSetData, { chancePercent = 0, minDistinct = MIN_GODPACK_FULL_ART } = {}) {
+    if (!Number.isFinite(chancePercent) || chancePercent <= 0) return false;
+    if (GachaEngine.getFullArtCards(boosterSetData).length < minDistinct) return false;
+    return this.getRandomFloat() * 100 < chancePercent;
+  }
+
+  /**
+   * Draws a complete "god pack": every card is a full art printing, whatever its rarity.
+   *
+   * The rarity table is deliberately ignored here (`cardsPerBooster` full art cards are picked
+   * uniformly, duplicates allowed), which is exactly what the mode promises. The pack configuration
+   * is still validated so a corrupted extension fails BEFORE the quota is consumed.
+   *
+   * @param {object} boosterSetData - Parsed extension JSON or resolved set object.
+   * @param {Record<string, Array<{rarity: number, weight: number}>>} rarityConfig - Slot table.
+   * @param {object} [options] - Draw options.
+   * @param {number} [options.cardsPerBooster=DEFAULT_CARDS_PER_BOOSTER] - Number of cards to draw.
+   * @param {number} [options.minDistinct=MIN_GODPACK_FULL_ART] - Required distinct full art cards.
+   * @returns {Card[]} The drawn cards, in slot order (duplicates possible).
+   * @throws {TypeError|RangeError} See `validatePackConfig()`.
+   * @throws {Error} When the extension declares fewer than `minDistinct` full art printings.
+   */
+  drawGodpack(
+    boosterSetData,
+    rarityConfig,
+    { cardsPerBooster = DEFAULT_CARDS_PER_BOOSTER, minDistinct = MIN_GODPACK_FULL_ART } = {}
+  ) {
+    this.validatePackConfig(boosterSetData, rarityConfig, cardsPerBooster);
+    const pool = GachaEngine.getFullArtCards(boosterSetData);
+    if (pool.length < minDistinct) {
+      throw new Error(
+        `Extension "${GachaEngine.safeSetId(boosterSetData)}" declares ${pool.length} full art ` +
+          `printing(s): at least ${minDistinct} are required for a god pack.`
+      );
+    }
+    return Array.from({ length: cardsPerBooster }, () => pool[Math.floor(this.getRandomFloat() * pool.length)]);
   }
 
   /**

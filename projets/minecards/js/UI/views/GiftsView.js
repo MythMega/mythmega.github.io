@@ -24,23 +24,32 @@ import { USER_STATE_KEYS } from '../../business/AccountManager.js';
 import { giftManager, GIFT_TYPES, GIFT_CATEGORIES } from '../../business/GiftManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
-/** View name, matching `data-view="gifts"` in `index.html`. */
+/**
+ * Identity of the panel. It is NOT a router view anymore: the gift history lives inside the
+ * settings screen (`data-panel="gifts"`), and the application passes `viewName: 'settings'` so the
+ * panel activates with that view.
+ */
 export const GIFTS_VIEW_NAME = 'gifts';
 
 export class GiftsView {
   /**
-   * @param {HTMLElement} rootElement - The gifts `<section>`.
+   * @param {HTMLElement} rootElement - The gifts panel inside the settings screen.
    * @param {object} [options] - View options.
    * @param {(viewName: string) => void} [options.onNavigate=null] - Called when the empty state
    *   asks the application to open another view (the settings screen, where the check lives).
+   * @param {string} [options.viewName=GIFTS_VIEW_NAME] - Name of the ROUTER view this panel belongs
+   *   to. The panel is embedded in the settings screen, so the application passes `"settings"`:
+   *   the panel then activates and reloads with that view instead of waiting for a `"gifts"` view
+   *   that no longer exists in the bottom bar.
    */
-  constructor(rootElement, { onNavigate = null } = {}) {
+  constructor(rootElement, { onNavigate = null, viewName = GIFTS_VIEW_NAME } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('GiftsView requires the gifts section element.');
     }
 
     this.root = rootElement;
     this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
+    this.viewName = typeof viewName === 'string' && viewName !== '' ? viewName : GIFTS_VIEW_NAME;
     this.feedbackElement = this.root.querySelector('[data-gifts-feedback]');
     this.lastCheckElement = this.root.querySelector('[data-gifts-last-check]');
     this.countElement = this.root.querySelector('[data-gifts-count]');
@@ -154,9 +163,9 @@ export class GiftsView {
   subscribeToEvents() {
     this.unsubscribers.push(eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
       if (!payload || typeof payload.view !== 'string') return;
-      if (payload.view === GIFTS_VIEW_NAME) {
+      if (payload.view === this.viewName) {
         this.handleViewActivated();
-      } else if (payload.previousView === GIFTS_VIEW_NAME) {
+      } else if (payload.previousView === this.viewName) {
         this.handleViewDeactivated();
       }
     }));

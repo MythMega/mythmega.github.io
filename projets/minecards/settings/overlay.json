@@ -1,0 +1,31 @@
+{
+  "_comment": "Timeline of the standalone streaming overlay (`overlay.html?code=...`), read by `js/overlay.js` at boot. Every duration is in milliseconds; `booster.spinStepPerFrame` is the booster rotation applied on each animation frame (radians). The overlay publishes these values to `css/overlay.css` as CSS variables (--ov-*) so the script and the stylesheet never disagree, and it falls back to its built-in defaults for any missing or invalid key: deleting a line is always safe.",
+  "_sequence": "intro (booster spinning) -> cardEntryMs + flipDelayMs + cardHoldMs per card -> summaryHoldMs on the grid -> fadeOutMs before the page goes blank.",
+  "_sound": "Set `sound.enabled` to false to run the overlay silently (a stream usually has its own audio). `sound.volume` is in [0, 1]. The files live in `assets/sound/` and are shared with the game: `booster_opening.mp3` when the booster is torn open, `card_return.mp3` on every flip, then `card_rarity_4.mp3` / `card_rarity_5.mp3` when the revealed card has that rarity.",
+
+  "timings": {
+    "introMs": 4200,
+    "cardEntryMs": 250,
+    "flipDelayMs": 300,
+    "flipMs": 620,
+    "cardHoldMs": 1500,
+    "stageEnterMs": 480,
+    "stageTransitionMs": 420,
+    "headlineMs": 620,
+    "tileStaggerMs": 70,
+    "summaryHoldMs": 5000,
+    "fadeOutMs": 750,
+    "boosterFloatMs": 4500
+  },
+
+  "booster": {
+    "spinStepPerFrame": 0.012
+  },
+
+  "sound": {
+    "enabled": true,
+    "volume": 0.8
+  },
+
+  "easing": "cubic-bezier(0.2, 0.8, 0.25, 1)"
+}

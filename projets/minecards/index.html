@@ -48,6 +48,7 @@
   <link rel="stylesheet" href="css/views/settings.css">
   <link rel="stylesheet" href="css/views/redeem.css">
   <link rel="stylesheet" href="css/views/gifts.css">
+  <link rel="stylesheet" href="css/views/info.css">
   <link rel="stylesheet" href="css/components/booster-3d.css">
   <link rel="stylesheet" href="css/components/card-reveal.css">
   <link rel="stylesheet" href="css/components/modal.css">
@@ -199,7 +200,6 @@
           <div class="opening__stage" data-opening-stage-card></div>
           <div class="opening__spotnav">
             <button type="button" class="btn btn--ghost" data-opening-prev data-i18n="opening.reveal.prev">Précédente</button>
-            <button type="button" class="btn btn--ghost" data-opening-skip data-i18n="opening.reveal.skip">Passer</button>
             <button type="button" class="btn btn--primary" data-opening-next data-i18n="opening.reveal.next">Suivante</button>
           </div>
         </div>
@@ -208,7 +208,7 @@
         <p class="opening__summary" data-opening-summary role="status" hidden></p>
 
         <div class="opening__actions" data-opening-actions hidden>
-          <button type="button" class="btn btn--ghost" data-opening-reveal-all data-i18n="opening.reveal.all">Tout révéler</button>
+          <button type="button" class="btn btn--ghost" data-opening-copy-code data-i18n="opening.copyCode">Copier le code du booster</button>
           <button type="button" class="btn btn--primary" data-opening-finish data-i18n="opening.finish">Terminer</button>
         </div>
 
@@ -299,6 +299,22 @@
           <h3 class="stats__title" data-i18n="stats.top.title">Carte la plus piochée</h3>
           <div class="stats__top" data-stats-top></div>
         </div>
+
+        <!-- Last openings (the codes are shareable, the cards open the detail modal). -->
+        <div class="panel stats__panel stats__panel--history">
+          <h3 class="stats__title" data-i18n="stats.history.title">Dernières ouvertures</h3>
+          <p class="stats__line" data-stats-history-empty hidden data-i18n="stats.history.empty">Aucune ouverture enregistrée pour le moment.</p>
+          <ol class="stats__history" data-stats-history></ol>
+        </div>
+      </div>
+
+      <!-- Card detail popup of the history -->
+      <div class="modal" data-stats-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="stats-card-modal-title">
+          <button type="button" class="modal__close" data-stats-modal-close aria-label="×">×</button>
+          <h2 class="modal__title" id="stats-card-modal-title" data-stats-modal-title></h2>
+          <div class="modal__body" data-stats-modal-body></div>
+        </div>
       </div>
     </section>
 
@@ -321,6 +337,16 @@
         <section class="panel settings__panel">
           <h3 class="settings__title" data-i18n="settings.theme.title">Thème</h3>
           <div class="lang-switch settings__choices" data-settings-themes role="group" data-i18n-aria-label="settings.theme.title" aria-label="Thème"></div>
+        </section>
+
+        <!-- Sounds: one boolean preference (SettingsView writes the state text). -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.sound.title">Sons</h3>
+          <button type="button" class="switch" data-settings-sound role="switch" aria-checked="true" data-i18n-aria-label="settings.sound.title">
+            <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+            <span class="switch__state" data-settings-sound-state></span>
+          </button>
+          <p class="settings__help" data-i18n="settings.sound.help">Coupez les effets sonores de l'ouverture. La préférence est enregistrée sur cet appareil.</p>
         </section>
 
         <!-- Account: read-only UUID, copy button (SettingsView never writes it). -->
@@ -355,6 +381,70 @@
         </section>
       </div>
 
+      <!-- Promo codes (step 7). They used to be a bottom-bar destination: they now live here, next
+           to the distributions. The view is wired on `[data-panel="redeem"]`. -->
+      <section class="settings__subview" data-panel="redeem">
+        <h3 class="settings__title" data-i18n="view.redeem.title">Codes promo</h3>
+        <p class="settings__help" data-i18n="view.redeem.subtitle">Saisissez un code pour recevoir votre récompense.</p>
+
+        <div class="panel redeem__panel">
+          <!-- A form is used only for its "Enter submits" behaviour: the view cancels the default action. -->
+          <form class="redeem__form" data-redeem-form novalidate>
+            <label class="field">
+              <span class="field__label" data-i18n="redeem.input.label">Code</span>
+              <input class="field__input redeem__input" type="text" data-redeem-input name="code" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="64" data-i18n-placeholder="redeem.input.placeholder" placeholder="Votre code…">
+            </label>
+            <button type="submit" class="btn btn--primary" data-redeem-submit data-i18n="redeem.submit">Valider</button>
+          </form>
+
+          <p class="redeem__hint" data-i18n="redeem.hint">Les codes ne sont pas sensibles à la casse.</p>
+          <p class="feedback" data-redeem-feedback role="status" hidden></p>
+        </div>
+
+        <!-- Confirmation modal (step 9): the rewards are listed before anything is granted. -->
+        <div class="modal" data-redeem-modal hidden>
+          <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="redeem-modal-title">
+            <button type="button" class="modal__close" data-redeem-modal-close aria-label="×">×</button>
+            <h2 class="modal__title" id="redeem-modal-title" data-redeem-modal-title></h2>
+            <div class="modal__body" data-redeem-modal-body></div>
+            <div class="modal__actions">
+              <!-- Labels are always written by RedeemView (confirmation vs success). -->
+              <button type="button" class="btn btn--ghost" data-redeem-modal-cancel></button>
+              <button type="button" class="btn btn--primary" data-redeem-modal-confirm></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gifts history (step 8). Same move: wired on `[data-panel="gifts"]`. -->
+      <section class="settings__subview" data-panel="gifts">
+        <h3 class="settings__title" data-i18n="view.gifts.title">Cadeaux reçus</h3>
+        <p class="settings__help" data-i18n="view.gifts.subtitle">Retrouvez ici les cadeaux crédités par les distributions.</p>
+
+        <p class="feedback" data-gifts-feedback role="status" hidden></p>
+
+        <div class="panel">
+          <div class="gifts__meta-header">
+            <p class="gifts__last-check" data-gifts-last-check></p>
+            <p class="gifts__count" data-gifts-count hidden></p>
+          </div>
+
+          <!-- Category filter (step 9): labels are written by GiftsView. -->
+          <div class="gifts__filters" data-gifts-filters role="group" data-i18n-aria-label="gifts.filter.label" aria-label="Filtrer les cadeaux">
+            <button type="button" class="gifts__filter" data-gifts-filter="all" aria-pressed="true"></button>
+            <button type="button" class="gifts__filter" data-gifts-filter="distribution" aria-pressed="false"></button>
+            <button type="button" class="gifts__filter" data-gifts-filter="codes" aria-pressed="false"></button>
+          </div>
+
+          <ul class="gifts__list" data-gifts-list></ul>
+
+          <div class="gifts__empty" data-gifts-empty hidden>
+            <p class="gifts__empty-text" data-i18n="gifts.empty">Aucun cadeau reçu pour le moment.</p>
+            <button type="button" class="btn btn--ghost" data-gifts-empty-action data-i18n="gifts.emptyAction">Vérifier les distributions</button>
+          </div>
+        </div>
+      </section>
+
       <!-- Confirmation modal (save import, full reset). -->
       <div class="modal" data-settings-modal hidden>
         <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
@@ -371,94 +461,83 @@
       </div>
     </section>
 
-    <!-- 5. Gifts history (step 8) -->
-    <section class="view" id="view-gifts" data-view="gifts" aria-hidden="true">
+    <!-- 5. Information (how the application works, drop rates, credits) -->
+    <section class="view" id="view-info" data-view="info" aria-hidden="true">
       <div class="view__header">
-        <h2 class="view__title" data-i18n="view.gifts.title">Cadeaux reçus</h2>
-        <p class="view__subtitle" data-i18n="view.gifts.subtitle">Retrouvez ici les cadeaux crédités par les distributions.</p>
+        <h2 class="view__title" data-i18n="view.info.title">Informations</h2>
+        <p class="view__subtitle" data-i18n="view.info.subtitle">Comment fonctionne l'application, les taux de drop et les crédits.</p>
       </div>
 
-      <p class="feedback" data-gifts-feedback role="status" hidden></p>
+      <p class="feedback" data-info-feedback role="status" hidden></p>
 
-      <div class="panel">
-        <div class="gifts__meta-header">
-          <p class="gifts__last-check" data-gifts-last-check></p>
-          <p class="gifts__count" data-gifts-count hidden></p>
-        </div>
+      <div class="info">
+        <!-- How it works: plain translated paragraphs (no data to load). -->
+        <section class="panel info__panel">
+          <h3 class="stats__title" data-i18n="info.how.title">Comment ça marche ?</h3>
+          <p class="info__text" data-i18n="info.how.intro"></p>
+          <ol class="info__steps">
+            <li data-i18n="info.how.step1"></li>
+            <li data-i18n="info.how.step2"></li>
+            <li data-i18n="info.how.step3"></li>
+            <li data-i18n="info.how.step4"></li>
+          </ol>
+          <p class="info__text" data-i18n="info.how.godpack"></p>
+        </section>
 
-        <!-- Category filter (step 9): labels are written by GiftsView. -->
-        <div class="gifts__filters" data-gifts-filters role="group" data-i18n-aria-label="gifts.filter.label" aria-label="Filtrer les cadeaux">
-          <button type="button" class="gifts__filter" data-gifts-filter="all" aria-pressed="true"></button>
-          <button type="button" class="gifts__filter" data-gifts-filter="distribution" aria-pressed="false"></button>
-          <button type="button" class="gifts__filter" data-gifts-filter="codes" aria-pressed="false"></button>
-        </div>
+        <!-- Drop rates: the combobox picks an extension, the tables are read from its JSON. -->
+        <section class="panel info__panel">
+          <h3 class="stats__title" data-i18n="info.rates.title">Taux de drop</h3>
+          <p class="info__text" data-i18n="info.rates.help"></p>
 
-        <ul class="gifts__list" data-gifts-list></ul>
-
-        <div class="gifts__empty" data-gifts-empty hidden>
-          <p class="gifts__empty-text" data-i18n="gifts.empty">Aucun cadeau reçu pour le moment.</p>
-          <button type="button" class="btn btn--ghost" data-gifts-empty-action data-i18n="gifts.emptyAction">Vérifier les distributions</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. Promo codes (step 7) -->
-    <section class="view" id="view-redeem" data-view="redeem" aria-hidden="true">
-      <div class="view__header">
-        <h2 class="view__title" data-i18n="view.redeem.title">Codes promo</h2>
-        <p class="view__subtitle" data-i18n="view.redeem.subtitle">Saisissez un code pour recevoir votre récompense.</p>
-      </div>
-
-      <div class="panel redeem__panel">
-        <!-- A form is used only for its "Enter submits" behaviour: the view cancels the default action. -->
-        <form class="redeem__form" data-redeem-form novalidate>
-          <label class="field">
-            <span class="field__label" data-i18n="redeem.input.label">Code</span>
-            <input class="field__input redeem__input" type="text" data-redeem-input name="code" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="64" data-i18n-placeholder="redeem.input.placeholder" placeholder="Votre code…">
+          <label class="field info__field" for="info-set">
+            <span class="field__label" data-i18n="info.rates.set">Extension</span>
+            <select class="field__select" id="info-set" data-info-set></select>
           </label>
-          <button type="submit" class="btn btn--primary" data-redeem-submit data-i18n="redeem.submit">Valider</button>
-        </form>
 
-        <p class="redeem__hint" data-i18n="redeem.hint">Les codes ne sont pas sensibles à la casse.</p>
-        <p class="feedback" data-redeem-feedback role="status" hidden></p>
-      </div>
+          <h4 class="info__subtitle" data-i18n="info.rates.slots">Chances par carte du booster (par rareté)</h4>
+          <div class="info__slots" data-info-slots></div>
+          <p class="info__note" data-info-rarity-source></p>
 
-      <!-- Confirmation modal (step 9): the rewards are listed before anything is granted. -->
-      <div class="modal" data-redeem-modal hidden>
-        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="redeem-modal-title">
-          <button type="button" class="modal__close" data-redeem-modal-close aria-label="×">×</button>
-          <h2 class="modal__title" id="redeem-modal-title" data-redeem-modal-title></h2>
-          <div class="modal__body" data-redeem-modal-body></div>
-          <div class="modal__actions">
-            <!-- Labels are always written by RedeemView (confirmation vs success). -->
-            <button type="button" class="btn btn--ghost" data-redeem-modal-cancel></button>
-            <button type="button" class="btn btn--primary" data-redeem-modal-confirm></button>
-          </div>
-        </div>
+          <h4 class="info__subtitle" data-i18n="info.rates.cards">Taux de drop de chaque carte</h4>
+          <p class="info__note" data-i18n="info.rates.cardsHelp"></p>
+          <div class="info__cards" data-info-cards></div>
+        </section>
+
+        <!-- Credits -->
+        <section class="panel info__panel">
+          <h3 class="stats__title" data-i18n="info.credits.title">Crédits</h3>
+          <ul class="info__credits">
+            <li data-i18n="info.credits.images"></li>
+            <li data-i18n="info.credits.cardSound"></li>
+            <li data-i18n="info.credits.rarity4"></li>
+            <li data-i18n="info.credits.rarity5"></li>
+          </ul>
+        </section>
       </div>
     </section>
+
   </main>
 
+  <!-- Order: the reading destinations first, then the PRIMARY "Ouvrir" action in the middle (thumb
+       reach), then the collection and the settings. Codes and gifts are no longer destinations: they
+       live inside the settings screen. -->
   <nav class="app-nav" data-i18n-aria-label="nav.label" aria-label="Navigation principale">
-    <button type="button" class="app-nav__item" data-nav-target="opening">
+    <button type="button" class="app-nav__item" data-nav-target="stats">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M12 20V4M20 20v-6"/></svg>
+      <span data-i18n="nav.stats">Stats</span>
+    </button>
+    <button type="button" class="app-nav__item" data-nav-target="info">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+      <span data-i18n="nav.info">Info</span>
+    </button>
+    <!-- The main action: styled like a primary button so it reads as THE thing to do. -->
+    <button type="button" class="app-nav__item app-nav__item--primary" data-nav-target="opening">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>
       <span data-i18n="nav.opening">Ouvrir</span>
     </button>
     <button type="button" class="app-nav__item" data-nav-target="collection">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>
       <span data-i18n="nav.collection">Collection</span>
-    </button>
-    <button type="button" class="app-nav__item" data-nav-target="stats">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M12 20V4M20 20v-6"/></svg>
-      <span data-i18n="nav.stats">Stats</span>
-    </button>
-    <button type="button" class="app-nav__item" data-nav-target="redeem">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h16v3a2 2 0 000 4v3H4v-3a2 2 0 000-4z"/><path d="M14 8v10" stroke-dasharray="2 2"/></svg>
-      <span data-i18n="nav.redeem">Codes</span>
-    </button>
-    <button type="button" class="app-nav__item" data-nav-target="gifts">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="11" width="16" height="9" rx="1"/><path d="M4 15h16M12 11v9"/><path d="M8.5 11a2.5 2.5 0 110-5c2.5 0 3.5 5 3.5 5M15.5 11a2.5 2.5 0 100-5c-2.5 0-3.5 5-3.5 5"/></svg>
-      <span data-i18n="nav.gifts">Cadeaux</span>
     </button>
     <button type="button" class="app-nav__item" data-nav-target="settings">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>

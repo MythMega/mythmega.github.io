@@ -7,6 +7,7 @@
  *   - language  : FR / EN through `I18n.setLang` (applied live), persisted in `settings`;
  *   - theme     : every theme declared in `settings/config.json`, applied through
  *                 `ThemeManager.applyTheme`, persisted in `settings`;
+ *   - sound     : one switch ("Sons") driving `SoundManager.setEnabled`, persisted in `settings`;
  *   - account   : the immutable UUID (read-only) with a copy button;
  *   - save      : export, import (with a confirmation modal, because the current data is
  *                 replaced) and full reset (confirmation modal, UUID included);
@@ -28,6 +29,7 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import themeManager from '../../utils/ThemeManager.js';
+import soundManager from '../../utils/SoundManager.js';
 import accountManager from '../../business/AccountManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import { saveFile, getSaveErrorMessageKey, SAVE_EXTENSION } from '../../classes/SaveFile.js';
@@ -46,21 +48,27 @@ export class SettingsView {
    * @param {HTMLElement} rootElement - The settings `<section>`.
    * @param {object} [options] - View options.
    * @param {(viewName: string) => void} [options.onNavigate=null] - Called when the view asks the
-   *   application to switch to another view (the gift history link). Keeps this view decoupled
-   *   from the router: it never imports `SpaRouter` itself.
+   *   application to switch to another view. Keeps this view decoupled from the router: it never
+   *   imports `SpaRouter` itself.
+   * @param {() => void} [options.onShowGiftHistory=null] - Called by the "gift history" button. The
+   *   gift history is a panel of THIS screen: the application scrolls it into view instead of
+   *   switching views (falls back to `onNavigate("gifts")` when not provided).
    */
-  constructor(rootElement, { onNavigate = null } = {}) {
+  constructor(rootElement, { onNavigate = null, onShowGiftHistory = null } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('SettingsView requires the settings section element.');
     }
 
     this.root = rootElement;
     this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
+    this.onShowGiftHistory = typeof onShowGiftHistory === 'function' ? onShowGiftHistory : null;
 
     const query = (selector) => this.root.querySelector(selector);
     this.feedbackElement = query('[data-settings-feedback]');
     this.languageContainer = query('[data-settings-languages]');
     this.themeContainer = query('[data-settings-themes]');
+    this.soundToggle = query('[data-settings-sound]');
+    this.soundStateElement = query('[data-settings-sound-state]');
     this.uuidElement = query('[data-settings-uuid]');
     this.copyButton = query('[data-settings-copy]');
     this.exportButton = query('[data-settings-export]');
@@ -124,6 +132,8 @@ export class SettingsView {
       ['[data-settings-feedback]', this.feedbackElement],
       ['[data-settings-languages]', this.languageContainer],
       ['[data-settings-themes]', this.themeContainer],
+      ['[data-settings-sound]', this.soundToggle],
+      ['[data-settings-sound-state]', this.soundStateElement],
       ['[data-settings-uuid]', this.uuidElement],
       ['[data-settings-copy]', this.copyButton],
       ['[data-settings-export]', this.exportButton],
@@ -159,6 +169,7 @@ export class SettingsView {
     this.log('Initializing…');
     await this.renderLanguageSelector();
     await this.renderThemeSelector();
+    this.syncSoundToggle();
     await this.renderAccount();
     this.bindEvents();
     this.subscribeToEvents();
@@ -259,11 +270,30 @@ export class SettingsView {
   }
 
   /**
+   * Reflects the sound preference on the switch.
+   *
+   * `SoundManager` is the single source of truth (the boot applied the stored value), and the
+   * state text is written here rather than through `data-i18n`: it depends on the state, not only
+   * on the language.
+   *
+   * @returns {void}
+   */
+  syncSoundToggle() {
+    if (!this.soundToggle) return;
+    const isEnabled = soundManager.isEnabled();
+    this.soundToggle.setAttribute('aria-checked', isEnabled ? 'true' : 'false');
+    if (this.soundStateElement) {
+      this.soundStateElement.textContent = i18n.t(isEnabled ? 'settings.sound.on' : 'settings.sound.off');
+    }
+  }
+
+  /**
    * Attaches every DOM listener (registration is tracked for `destroy()`).
    *
    * @returns {void}
    */
   bindEvents() {
+    this.listen(this.soundToggle, 'click', () => this.handleSoundToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
     this.listen(this.exportButton, 'click', () => this.handleExport());
     this.listen(this.importButton, 'click', () => this.handleImportClick());
@@ -378,6 +408,36 @@ export class SettingsView {
     } catch (error) {
       console.error('[SettingsView] The theme preference could not be saved.', error);
       this.setFeedback('settings.error.theme', 'error');
+    }
+  }
+
+  /**
+   * Flips the sound switch and persists the preference.
+   *
+   * The new state is applied live first. Unlike the language and the theme, a failed write
+   * restores the previous state: leaving a switch "off" that would come back "on" after a reload
+   * would be a lie, and the feedback line explains why it moved back.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleSoundToggle() {
+    if (this.isBusy) return;
+
+    const previous = soundManager.isEnabled();
+    const next = !previous;
+
+    soundManager.setEnabled(next);
+    this.syncSoundToggle();
+    this.setFeedback(null);
+
+    try {
+      await accountManager.updateSettings({ sound: next });
+      this.log(`Sounds ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The sound preference could not be saved.', error);
+      soundManager.setEnabled(previous);
+      this.syncSoundToggle();
+      this.setFeedback('settings.error.sound', 'error');
     }
   }
 
@@ -664,11 +724,15 @@ export class SettingsView {
   }
 
   /**
-   * Opens the gift history view (we are already on the settings view).
+   * Reveals the gift history, which is a panel of this very screen.
    *
    * @returns {void}
    */
   handleGiftHistory() {
+    if (this.onShowGiftHistory) {
+      this.onShowGiftHistory();
+      return;
+    }
     if (!this.onNavigate) {
       console.warn('[SettingsView] No navigation callback was provided.');
       return;
@@ -812,6 +876,7 @@ export class SettingsView {
   setBusy(isBusy) {
     this.isBusy = isBusy;
     [
+      this.soundToggle,
       this.copyButton,
       this.exportButton,
       this.importButton,
@@ -869,6 +934,7 @@ export class SettingsView {
     void this.renderThemeSelector().catch((error) => {
       console.error('[SettingsView] The theme list could not be re-rendered.', error);
     });
+    this.syncSoundToggle();
     this.renderFeedback();
     if (this.pendingModal) {
       void this.renderModal().catch((error) => {
@@ -890,6 +956,7 @@ export class SettingsView {
     this.log('View activated.');
     this.syncLanguageButtons();
     this.syncThemeButtons();
+    this.syncSoundToggle();
     void this.renderAccount().catch((error) => {
       console.error('[SettingsView] The account could not be read.', error);
       this.setFeedback('settings.error.load', 'error');

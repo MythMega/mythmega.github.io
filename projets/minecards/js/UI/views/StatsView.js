@@ -1,21 +1,32 @@
 /**
- * StatsView - Booster count, completion, rarity distribution and most drawn card.
+ * StatsView - Booster count, completion, rarity distribution, most drawn card and the last
+ * openings.
  *
- * Reference: `.docs/steps/5.md` point 3. Reads `user_state["stats"]` and the collection
- * (via `CollectionManager`). Only booster draws feed these counters: redeem/gift cards
- * (steps 7 and 8) never touch `stats`. Refreshes on `VIEW_CHANGED`, `LANG_CHANGED` and
- * `BOOSTER_OPENED`.
+ * Reference: `.docs/steps/5.md` point 3. Reads `user_state["stats"]`, `user_state["boosterHistory"]`
+ * and the collection (via `CollectionManager`). Only booster draws feed these counters:
+ * redeem/gift cards (steps 7 and 8) never touch `stats`. Refreshes on `VIEW_CHANGED`,
+ * `LANG_CHANGED` and `BOOSTER_OPENED`.
+ *
+ * The history panel shows the last `boosters.historySize` (10) openings with their shareable
+ * `minecards:` code, the trusted UTC date of the opening and the 5 cards: each thumbnail opens the
+ * same kind of detail modal as the opening summary, and the code is copied on click.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import collectionManager from '../../business/CollectionManager.js';
+import boosterManager from '../../business/BoosterManager.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
 import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
+import { writeToClipboard } from '../../utils/Clipboard.js';
+import Toast from '../components/Toast.js';
 
 /** View name, matching `data-view="stats"` in `index.html`. */
 export const STATS_VIEW_NAME = 'stats';
+
+/** Number of past openings displayed. */
+export const STATS_HISTORY_SIZE = 10;
 
 export class StatsView {
   /**
@@ -33,6 +44,17 @@ export class StatsView {
     this.completionSetsElement = this.root.querySelector('[data-stats-completion-sets]');
     this.rarityElement = this.root.querySelector('[data-stats-rarity]');
     this.topElement = this.root.querySelector('[data-stats-top]');
+    this.historyElement = this.root.querySelector('[data-stats-history]');
+    this.historyEmptyElement = this.root.querySelector('[data-stats-history-empty]');
+    this.cardModal = this.root.querySelector('[data-stats-modal]');
+    this.cardModalTitle = this.root.querySelector('[data-stats-modal-title]');
+    this.cardModalBody = this.root.querySelector('[data-stats-modal-body]');
+    this.cardModalClose = this.root.querySelector('[data-stats-modal-close]');
+
+    /** @type {Array<{code: string|null, setId: string, openedAt: string|null, godpack: boolean, set: object|null, cards: Array}>} */
+    this.historyEntries = [];
+    /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
+    this.bindings = [];
 
     this.assertMarkup();
 
@@ -70,6 +92,11 @@ export class StatsView {
       ['[data-stats-completion-sets]', this.completionSetsElement],
       ['[data-stats-rarity]', this.rarityElement],
       ['[data-stats-top]', this.topElement],
+      ['[data-stats-history]', this.historyElement],
+      ['[data-stats-modal]', this.cardModal],
+      ['[data-stats-modal-title]', this.cardModalTitle],
+      ['[data-stats-modal-body]', this.cardModalBody],
+      ['[data-stats-modal-close]', this.cardModalClose],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -88,9 +115,37 @@ export class StatsView {
     if (this.isInitialized) return;
     this.isInitialized = true;
     this.log('Initializing…');
+    this.bindEvents();
     this.subscribeToEvents();
     await this.reload();
     this.log('Ready.');
+  }
+
+  /**
+   * Registers a listener and remembers it for `destroy()`.
+   *
+   * @param {EventTarget} target - Event target.
+   * @param {string} type - Event type.
+   * @param {EventListener} handler - Listener.
+   * @param {AddEventListenerOptions|boolean} [options=false] - Listener options.
+   * @returns {void}
+   */
+  listen(target, type, handler, options = false) {
+    target.addEventListener(type, handler, options);
+    this.bindings.push({ target, type, handler, options });
+  }
+
+  /**
+   * Attaches the DOM listeners of the history panel (delegated) and of the detail modal.
+   *
+   * @returns {void}
+   */
+  bindEvents() {
+    this.listen(this.historyElement, 'click', (event) => this.handleHistoryClick(event));
+    this.listen(this.cardModal, 'click', (event) => this.handleModalBackdropClick(event));
+    this.listen(this.cardModalClose, 'click', () => this.closeCardModal());
+    this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
+    this.log('DOM listeners bound.');
   }
 
   /**
@@ -125,10 +180,12 @@ export class StatsView {
     try {
       const stats = (await storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.STATS)) ?? {};
       const view = await collectionManager.getCollectionView();
+      const history = await boosterManager.getBoosterHistory(STATS_HISTORY_SIZE);
       this.renderBoosters(stats);
       this.renderCompletion(view);
       this.renderRarity(stats);
       this.renderTop(stats, view);
+      this.renderHistory(history);
     } catch (error) {
       console.error('[StatsView] The statistics could not be loaded.', error);
       this.setFeedback('stats.error.load', 'error');
@@ -243,6 +300,265 @@ export class StatsView {
 
     this.topElement.appendChild(wrapper);
     this.log(`Top card: "${key}" drawn ${count} time(s).`);
+  }
+
+  // __STATS_HISTORY__
+
+  /**
+   * Renders the last openings: code, date and the 5 cards of each pack.
+   *
+   * @param {Array<object>} entries - Entries returned by `BoosterManager.getBoosterHistory()`.
+   * @returns {void}
+   */
+  renderHistory(entries) {
+    const list = Array.isArray(entries) ? entries : [];
+    this.historyEntries = list;
+    this.closeCardModal();
+    this.historyElement.textContent = '';
+    if (this.historyEmptyElement) this.historyEmptyElement.hidden = list.length > 0;
+
+    list.forEach((entry, index) => {
+      this.historyElement.appendChild(this.buildHistoryEntry(entry, index));
+    });
+    this.log(`${list.length} past opening(s) rendered.`);
+  }
+
+  /**
+   * Builds one history entry (`<li>`): metadata, shareable code and the card thumbnails.
+   *
+   * @param {object} entry - History entry (see `BoosterManager.getBoosterHistory()`).
+   * @param {number} index - Index of the entry in `historyEntries`.
+   * @returns {HTMLElement} The `<li>` element.
+   */
+  buildHistoryEntry(entry, index) {
+    const item = document.createElement('li');
+    item.className = 'stats__history-entry';
+
+    const head = document.createElement('div');
+    head.className = 'stats__history-head';
+
+    const meta = document.createElement('p');
+    meta.className = 'stats__history-meta';
+    const setName = document.createElement('span');
+    setName.className = 'stats__history-set';
+    setName.textContent = entry.set?.name ?? entry.setId;
+    const date = document.createElement('time');
+    date.className = 'stats__history-date';
+    if (entry.openedAt) date.setAttribute('datetime', entry.openedAt);
+    date.textContent = i18n.t('stats.history.date', { date: StatsView.formatHistoryDate(entry.openedAt) });
+    meta.append(setName, date);
+    head.appendChild(meta);
+
+    if (entry.godpack) {
+      const badge = document.createElement('span');
+      badge.className = 'stats__history-badge';
+      badge.textContent = i18n.t('stats.history.godpack');
+      head.appendChild(badge);
+    }
+    item.appendChild(head);
+
+    const code = document.createElement('button');
+    code.type = 'button';
+    code.className = 'stats__history-code';
+    code.dataset.statsHistoryCode = String(index);
+    code.title = i18n.t('stats.history.copy');
+    code.textContent = entry.code ?? i18n.t('stats.history.noCode');
+    code.disabled = !entry.code;
+    item.appendChild(code);
+
+    const cards = document.createElement('div');
+    cards.className = 'stats__history-cards';
+    (entry.cards ?? []).forEach((card, cardIndex) => {
+      cards.appendChild(this.buildHistoryCard(card, index, cardIndex));
+    });
+    if (cards.childElementCount === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'stats__history-cards-empty';
+      empty.textContent = i18n.t('stats.history.cardsMissing');
+      cards.appendChild(empty);
+    }
+    item.appendChild(cards);
+
+    return item;
+  }
+
+  /**
+   * Builds one card thumbnail of a history entry.
+   *
+   * @param {object|null} card - Resolved card, or null when it left the extension file.
+   * @param {number} index - Index of the entry.
+   * @param {number} cardIndex - Index of the card inside the pack.
+   * @returns {HTMLElement} The thumbnail (a button when the card is known, a div otherwise).
+   */
+  buildHistoryCard(card, index, cardIndex) {
+    if (!card) {
+      const missing = document.createElement('span');
+      missing.className = 'stats__history-card stats__history-card--missing';
+      missing.textContent = '? ';
+      return missing;
+    }
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `stats__history-card stats__history-card--r${card.rarity}`;
+    if (card.isFullArt) button.classList.add('stats__history-card--fullart');
+    button.dataset.statsHistoryCard = String(index);
+    button.dataset.cardIndex = String(cardIndex);
+    const name = card.getName(i18n.getLang());
+    const rarityLabel = getRarityLabel(card.rarity, (key) => i18n.t(key));
+    button.setAttribute('aria-label', `${name} — ${rarityLabel}`);
+
+    const image = document.createElement('img');
+    image.className = 'stats__history-image';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.src = i18n.resolveImagePath(card.illustration);
+    image.alt = '';
+    image.addEventListener('error', () => {
+      console.warn(`[StatsView] History illustration not found for "${card.uniqueKey}": ${image.src}`);
+      image.hidden = true;
+    });
+    button.appendChild(image);
+    return button;
+  }
+
+  /**
+   * Handles a click inside the history list: copy the code, or open a card detail.
+   *
+   * @param {MouseEvent} event - Click event.
+   * @returns {void}
+   */
+  handleHistoryClick(event) {
+    const target = event?.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const codeButton = target.closest('[data-stats-history-code]');
+    if (codeButton) {
+      void this.copyHistoryCode(Number(codeButton.dataset.statsHistoryCode));
+      return;
+    }
+
+    const cardButton = target.closest('[data-stats-history-card]');
+    if (cardButton) {
+      this.openCardModal(Number(cardButton.dataset.statsHistoryCard), Number(cardButton.dataset.cardIndex));
+    }
+  }
+
+  /**
+   * Copies the shareable code of one past opening.
+   *
+   * @param {number} index - Index of the entry in `historyEntries`.
+   * @returns {Promise<void>} Resolves once the copy attempt finished.
+   */
+  async copyHistoryCode(index) {
+    const code = this.historyEntries[index]?.code;
+    if (!code) return;
+    try {
+      await writeToClipboard(code);
+      Toast.success('stats.history.copied');
+      this.log(`History code copied (${code.length} characters).`);
+    } catch (error) {
+      console.error('[StatsView] The history code could not be copied.', error);
+      Toast.error('stats.history.copyError');
+    }
+  }
+
+  /**
+   * Opens the card detail modal of one card of a past opening.
+   *
+   * @param {number} index - Index of the entry.
+   * @param {number} cardIndex - Index of the card inside the pack.
+   * @returns {void}
+   */
+  openCardModal(index, cardIndex) {
+    const entry = this.historyEntries[index];
+    const card = entry?.cards?.[cardIndex];
+    if (!card || !this.cardModal) return;
+
+    const lang = i18n.getLang();
+    const name = card.getName(lang);
+    this.cardModalTitle.textContent = name;
+    this.cardModalBody.textContent = '';
+
+    const image = document.createElement('img');
+    image.className = 'card-modal__image';
+    image.src = i18n.resolveImagePath(card.illustration);
+    image.alt = `${name} — ${getRarityLabel(card.rarity, (key) => i18n.t(key))}`;
+    image.addEventListener('error', () => {
+      console.warn(`[StatsView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
+      image.hidden = true;
+    });
+
+    const list = document.createElement('dl');
+    list.className = 'card-modal__details';
+    const rows = [
+      [i18n.t('opening.card.rarity'), getRarityLabel(card.rarity, (key) => i18n.t(key))],
+      [i18n.t('opening.card.set'), entry.set?.name ?? entry.setId],
+      [i18n.t('collection.filter.style'), i18n.t(card.isFullArt ? 'collection.filter.styleFullart' : 'collection.filter.styleClassic')],
+      [i18n.t('stats.history.openedAt'), StatsView.formatHistoryDate(entry.openedAt)],
+    ];
+    rows.forEach(([term, value]) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'card-modal__row';
+      const key = document.createElement('dt');
+      key.textContent = term;
+      const text = document.createElement('dd');
+      text.textContent = value;
+      wrapper.append(key, text);
+      list.appendChild(wrapper);
+    });
+
+    this.cardModalBody.append(image, list);
+    this.cardModal.hidden = false;
+    this.log(`History card detail opened for "${card.uniqueKey}".`);
+  }
+
+  /**
+   * Closes the card detail modal.
+   *
+   * @returns {void}
+   */
+  closeCardModal() {
+    if (!this.cardModal || this.cardModal.hidden) return;
+    this.cardModal.hidden = true;
+  }
+
+  /**
+   * Closes the modal when the backdrop itself is clicked.
+   *
+   * @param {MouseEvent} event - Click event on the modal overlay.
+   * @returns {void}
+   */
+  handleModalBackdropClick(event) {
+    if (event?.target === this.cardModal) {
+      this.closeCardModal();
+    }
+  }
+
+  /**
+   * Closes the modal on Escape.
+   *
+   * @param {KeyboardEvent} event - Key event.
+   * @returns {void}
+   */
+  handleDocumentKeyDown(event) {
+    if (event?.key === 'Escape' && this.cardModal && !this.cardModal.hidden) {
+      this.closeCardModal();
+    }
+  }
+
+  /**
+   * Formats a trusted opening timestamp for display.
+   *
+   * The stored value is UTC (`YYYY-MM-DDTHH:MM:SS.000Z`), so it is shown as UTC rather than
+   * converted to the (untrusted) local clock of the reader.
+   *
+   * @param {string|null} value - Stored ISO timestamp.
+   * @returns {string} `YYYY-MM-DD HH:MM`, or a placeholder when the value is missing.
+   */
+  static formatHistoryDate(value) {
+    if (typeof value !== 'string' || value.length < 16) return '—';
+    return `${value.slice(0, 10)} ${value.slice(11, 16)}`;
   }
 
   /**
@@ -364,8 +680,11 @@ export class StatsView {
    */
   destroy() {
     this.log('Destroying the view.');
+    this.bindings.forEach(({ target, type, handler, options }) => target.removeEventListener(type, handler, options));
+    this.bindings = [];
     this.unsubscribers.forEach((unsubscribe) => unsubscribe());
     this.unsubscribers = [];
+    this.historyEntries = [];
     this.isInitialized = false;
   }
 }

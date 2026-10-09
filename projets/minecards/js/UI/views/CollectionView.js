@@ -206,6 +206,20 @@ export class CollectionView {
   }
 
   /**
+   * Resolves the display name of an extension (the booster `Name`, e.g. "Genesis Blocks").
+   *
+   * The technical id ("A1") is never shown to the player: only the display name is, in every
+   * language (it is a single neutral value). Falls back to the id when the extension is unknown.
+   *
+   * @param {string|null} setId - Extension id.
+   * @returns {string} The display name, or the id.
+   */
+  resolveSetName(setId) {
+    if (!setId) return '—';
+    return this.sets?.[setId]?.name ?? setId;
+  }
+
+  /**
    * Attaches the DOM listeners.
    *
    * @returns {void}
@@ -455,7 +469,7 @@ export class CollectionView {
       [i18n.t('opening.card.name'), name],
       [i18n.t('opening.card.rarity'),
         rarityValue === null ? '—' : getRarityLabel(rarityValue, (key) => i18n.t(key))],
-      [i18n.t('opening.card.set'), entry.set ?? card?.set ?? '—'],
+      [i18n.t('opening.card.set'), this.resolveSetName(entry.set ?? card?.set ?? null)],
       [i18n.t('collection.filter.status'),
         entry.owned ? i18n.t('collection.filter.statusOwned') : i18n.t('collection.missing')],
     ];

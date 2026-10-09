@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>MineCards — Overlay</title>
+
+  <!-- Standalone streaming overlay. Its code is deliberately isolated from the application:
+       it imports nothing from `js/` (only the pinned Three.js CDN, for the 3D booster) and reads
+       everything it needs from the `code` query parameter. The background stays fully
+       transparent so it can be dropped over a stream scene.
+
+       Usage: overlay.html?code=minecards:{code}&lang={fr|en}&username={name}&profileiconurl={url} -->
+
+  <link rel="stylesheet" href="css/overlay.css">
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main class="overlay" id="overlay-root" hidden>
+    <!-- Stage 1: the 3D booster spins while the headline is shown. -->
+    <section class="overlay__intro" data-stage="intro" hidden>
+      <div class="overlay__booster" data-booster-3d></div>
+      <img class="overlay__booster-fallback" data-booster-fallback alt="" hidden>
+      <p class="overlay__headline" data-headline hidden></p>
+    </section>
+
+    <!-- Stage 2: the cards are revealed one by one. -->
+    <section class="overlay__reveal" data-stage="reveal" hidden>
+      <p class="overlay__headline overlay__headline--small" data-reveal-headline hidden></p>
+      <div class="overlay__spotlight" data-spotlight></div>
+    </section>
+
+    <!-- Stage 3: the summary grid. -->
+    <section class="overlay__summary" data-stage="summary" hidden>
+      <div class="overlay__grid" data-summary-grid></div>
+      <p class="overlay__summary-line" data-summary-line hidden></p>
+    </section>
+  </main>
+
+  <script type="module" src="js/overlay.js"></script>
+</body>
+</html>

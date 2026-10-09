@@ -12,9 +12,10 @@
  *      unavailable); the player rotates it, then a tap or an upward swipe tears it open;
  *   4. spotlight: one big face-down card at a time; tap (or swipe left) to reveal it, then
  *      swipe left / tap / "Next" to move to the following card WITHOUT flipping it face down
- *      again ("Skip" jumps ahead keeping the card hidden, "Previous" goes back);
+ *      again ("Previous" goes back);
  *   5. summary: the 5 cards in a grid; tapping one opens the card detail modal (image, name,
- *      rarity); "Finish" performs NO write, it only closes the scene.
+ *      rarity); "Finish" performs NO write, it only closes the scene, while "Copy the booster
+ *      code" puts a shareable `minecards:<base64url>` code in the clipboard (see `BoosterCode`).
  *
  * The view is instantiated once by `app.js` and driven through `handleViewActivated()` /
  * `handleViewDeactivated()` (from `VIEW_CHANGED`), so the WebGL loop never runs in the background.
@@ -26,6 +27,10 @@ import { configLoader } from '../../utils/ConfigLoader.js';
 import boosterManager from '../../business/BoosterManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import CardComponent from '../components/CardComponent.js';
+import Toast from '../components/Toast.js';
+import { buildBoosterCode } from '../../utils/BoosterCode.js';
+import { writeToClipboard } from '../../utils/Clipboard.js';
+import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import Booster3DRenderer, { DEFAULT_MODEL_PATH } from '../components/Booster3DRenderer.js';
 
@@ -73,13 +78,12 @@ export class OpeningView {
     this.spotlightStage = this.root.querySelector('[data-opening-stage-card]');
     this.counterElement = this.root.querySelector('[data-opening-counter]');
     this.prevButton = this.root.querySelector('[data-opening-prev]');
-    this.skipButton = this.root.querySelector('[data-opening-skip]');
     this.nextButton = this.root.querySelector('[data-opening-next]');
     this.revealContainer = this.root.querySelector('[data-card-summary]');
     this.summaryGrid = this.root.querySelector('[data-card-summary]');
     this.summaryElement = this.root.querySelector('[data-opening-summary]');
     this.actionsElement = this.root.querySelector('[data-opening-actions]');
-    this.revealAllButton = this.root.querySelector('[data-opening-reveal-all]');
+    this.copyCodeButton = this.root.querySelector('[data-opening-copy-code]');
     this.finishButton = this.root.querySelector('[data-opening-finish]');
     this.cardModal = this.root.querySelector('[data-card-modal]');
     this.cardModalTitle = this.root.querySelector('[data-card-modal-title]');
@@ -155,14 +159,13 @@ export class OpeningView {
       ['[data-opening-stage-card]', this.spotlightStage],
       ['[data-opening-counter]', this.counterElement],
       ['[data-opening-prev]', this.prevButton],
-      ['[data-opening-skip]', this.skipButton],
       ['[data-opening-next]', this.nextButton],
       ['[data-card-summary]', this.summaryGrid],
       ['[data-card-modal]', this.cardModal],
       ['[data-card-modal-title]', this.cardModalTitle],
       ['[data-card-modal-body]', this.cardModalBody],
       ['[data-card-modal-close]', this.cardModalClose],
-      ['[data-opening-reveal-all]', this.revealAllButton],
+      ['[data-opening-copy-code]', this.copyCodeButton],
       ['[data-opening-finish]', this.finishButton],
       ['[data-booster-3d]', this.boosterContainer],
       ['[data-booster-fallback]', this.boosterFallback],
@@ -198,6 +201,8 @@ export class OpeningView {
   async init() {
     this.log('Initializing…');
     await this.loadSets();
+    // Loaded ahead of the first reveal so the very first card flip plays without a download delay.
+    soundManager.preload();
     this.bindEvents();
     this.subscribeToEvents();
     this.refreshQuota();
@@ -242,10 +247,9 @@ export class OpeningView {
     this.listen(this.setSelect, 'change', () => this.handleSetChange());
     this.listen(this.openButton, 'click', () => this.handleOpenClick());
     this.listen(this.boosterFallback, 'click', (event) => this.handleFallbackClick(event));
-    this.listen(this.revealAllButton, 'click', () => this.revealAll());
+    this.listen(this.copyCodeButton, 'click', () => this.handleCopyBoosterCode());
     this.listen(this.finishButton, 'click', () => this.finish());
     this.listen(this.prevButton, 'click', () => this.showPreviousCard());
-    this.listen(this.skipButton, 'click', () => this.showNextCard({ reveal: false }));
     this.listen(this.nextButton, 'click', () => this.handleNextAction());
     if (this.spotlightStage) {
       this.listen(this.spotlightStage, 'click', () => this.handleSpotlightTap());
@@ -346,7 +350,7 @@ export class OpeningView {
 
     this.quotaElement.textContent = i18n.t('opening.quota', {
       daily: quota.daily,
-      set: this.selectedSetId,
+      set: this.resolveSetName(this.selectedSetId),
       bonus: quota.bonusBySet[this.selectedSetId] ?? 0,
     });
 
@@ -396,6 +400,20 @@ export class OpeningView {
     if (!this.countdownElement || !this.countdownValue) return;
     this.countdownElement.hidden = false;
     this.countdownValue.textContent = value;
+  }
+
+  /**
+   * Resolves the display name of an extension (the booster `Name`, e.g. "Genesis Blocks").
+   *
+   * The technical id ("A1") is never shown to the player: only the display name is, in every
+   * language (it is a single neutral value). Falls back to the id when the extension is unknown.
+   *
+   * @param {string|null} setId - Extension id.
+   * @returns {string} The display name, or the id.
+   */
+  resolveSetName(setId) {
+    if (!setId) return '';
+    return this.sets.get(setId)?.name ?? setId;
   }
 
   /**
@@ -581,6 +599,8 @@ export class OpeningView {
       return;
     }
     this.log('Open gesture detected: hiding the booster, starting the spotlight reveal.');
+    // The tear-open effect fires on the click/swipe of the model, before the booster disappears.
+    soundManager.play(SOUNDS.BOOSTER_OPENING);
     this.boosterHint.hidden = true;
     this.cancelIdleDispose();
     this.disposeRenderer();
@@ -706,7 +726,10 @@ export class OpeningView {
     if (!component || this.revealStage !== 'spotlight') return;
     if (!component.isFlipped) {
       this.log(`Spotlight card ${this.spotlightIndex + 1} tapped: revealing.`);
-      component.flip();
+      if (component.flip()) {
+        // Mirrors what the player hears in the game: the flip, then the legendary/mythic sting.
+        soundManager.playCardReveal(component.card.rarity);
+      }
       if (this.revealHint) {
         this.revealHint.textContent = i18n.t('opening.reveal.hintNext');
       }
@@ -893,7 +916,7 @@ export class OpeningView {
       [i18n.t('opening.card.count', { current: index + 1, total: this.cardComponents.length }), statusLabel],
       [i18n.t('opening.card.name'), name],
       [i18n.t('opening.card.rarity'), getRarityLabel(card.rarity, (key) => i18n.t(key))],
-      [i18n.t('opening.card.set'), card.set],
+      [i18n.t('opening.card.set'), this.resolveSetName(card.set)],
     ];
     rows.forEach(([term, value]) => {
       const wrapper = document.createElement('div');
@@ -966,16 +989,46 @@ export class OpeningView {
   }
 
   /**
-   * Flips every card at once, then jumps to the summary.
+   * Copies the current booster as a shareable code (`minecards:<base64url>`, see `BoosterCode`).
    *
-   * @returns {void}
+   * The pack is already persisted when this button exists, so the code is generated from the
+   * in-memory result and the loaded extension (for the display name and the booster texture).
+   *
+   * @returns {Promise<void>} Resolves once the copy attempt finished.
    */
-  revealAll() {
-    this.log('Revealing all the cards.');
-    this.cardComponents.forEach((component) => component.flip());
-    if (this.revealStage === 'spotlight') {
-      this.showSummaryStage();
+  async handleCopyBoosterCode() {
+    if (!this.pendingResult) {
+      console.warn('[OpeningView] Copy ignored: no booster is open.');
+      return;
     }
+
+    let set = null;
+    try {
+      set = await boosterManager.getBoosterSet(this.pendingResult.setId);
+    } catch (error) {
+      console.warn('[OpeningView] The extension could not be reloaded for the code.', error);
+    }
+
+    try {
+      const code = buildBoosterCode(this.pendingResult, set);
+      await this.writeToClipboard(code);
+      this.log(`Booster code copied (${code.length} characters).`);
+      Toast.success('opening.copyCode.done');
+    } catch (error) {
+      console.error('[OpeningView] The booster code could not be copied.', error);
+      Toast.error('opening.copyCode.error');
+    }
+  }
+
+  /**
+   * Writes a text in the clipboard, with a fallback for non-secure contexts.
+   *
+   * @param {string} text - Text to copy.
+   * @returns {Promise<void>} Resolves when the text is in the clipboard.
+   * @throws {Error} When both clipboard strategies fail.
+   */
+  async writeToClipboard(text) {
+    return writeToClipboard(text);
   }
 
   /**

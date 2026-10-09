@@ -29,23 +29,33 @@ import redeemManager, {
 import boosterManager from '../../business/BoosterManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
-/** View name, matching `data-view="redeem"` in `index.html`. */
+/**
+ * Identity of the panel. It is NOT a router view anymore: the promo codes live inside the settings
+ * screen (`data-panel="redeem"`), and the application passes `viewName: 'settings'` so the panel
+ * activates with that view.
+ */
 export const REDEEM_VIEW_NAME = 'redeem';
 
 export class RedeemView {
   /**
-   * @param {HTMLElement} rootElement - The redeem `<section>`.
+   * @param {HTMLElement} rootElement - The promo codes panel inside the settings screen.
    * @param {object} [options] - View options.
    * @param {(viewName: string) => void} [options.onNavigate=null] - Called when a deep link must
-   *   bring the redeem view to the front (`?Redeem=`, step 10).
+   *   bring the panel to the front (`?Redeem=`, step 10).
+   * @param {string} [options.viewName=REDEEM_VIEW_NAME] - Name of the ROUTER view this panel belongs
+   *   to. The panel is embedded in the settings screen, so the application passes `"settings"`.
+   * @param {boolean} [options.autoFocus=true] - False keeps the code input from stealing the focus
+   *   (and the scroll position) every time the parent view is opened. The embedded panel disables it.
    */
-  constructor(rootElement, { onNavigate = null } = {}) {
+  constructor(rootElement, { onNavigate = null, viewName = REDEEM_VIEW_NAME, autoFocus = true } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('RedeemView requires the redeem section element.');
     }
 
     this.root = rootElement;
     this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
+    this.viewName = typeof viewName === 'string' && viewName !== '' ? viewName : REDEEM_VIEW_NAME;
+    this.autoFocus = autoFocus !== false;
     this.form = this.root.querySelector('[data-redeem-form]');
     this.input = this.root.querySelector('[data-redeem-input]');
     this.submitButton = this.root.querySelector('[data-redeem-submit]');
@@ -189,9 +199,9 @@ export class RedeemView {
   subscribeToEvents() {
     this.unsubscribers.push(eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
       if (!payload || typeof payload.view !== 'string') return;
-      if (payload.view === REDEEM_VIEW_NAME) {
+      if (payload.view === this.viewName) {
         this.handleViewActivated();
-      } else if (payload.previousView === REDEEM_VIEW_NAME) {
+      } else if (payload.previousView === this.viewName) {
         this.handleViewDeactivated();
       }
     }));
@@ -491,14 +501,16 @@ export class RedeemView {
   }
 
   /**
-   * Focuses the input when the view becomes active.
+   * Focuses the input when the view becomes active (unless `autoFocus` is disabled).
    *
    * @returns {void}
    */
   handleViewActivated() {
     this.isActive = true;
     this.log('View activated.');
-    this.input.focus();
+    if (this.autoFocus) {
+      this.input.focus();
+    }
   }
 
   /**

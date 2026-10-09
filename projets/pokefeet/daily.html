@@ -97,6 +97,29 @@
       <ul id="dailyHints"></ul>
     </aside>
 
+    <!-- Popup de révélation : Pokémon non trouvé (essais épuisés ou abandon) -->
+    <div id="dailyFailPopup" class="popup hidden" role="dialog" aria-modal="true" aria-labelledby="dailyFailTitle">
+      <div class="popup-content popup-scroll">
+        <p id="dailyFailTitle" class="popup-title" data-i18n="daily.answerWas">La réponse était</p>
+        <h2 id="dailyFailName" class="popup-name"></h2>
+        <div class="popup-images">
+          <div class="popup-image-item">
+            <img id="dailyFailFullImg" class="popup-full-img" src="" alt="" />
+            <span class="popup-image-label" data-i18n="daily.fullSprite">Sprite complet</span>
+          </div>
+          <div class="popup-image-item">
+            <img id="dailyFailFootImg" class="popup-foot-img" src="" alt="" />
+            <span class="popup-image-label" data-i18n="daily.footSprite">Pied</span>
+          </div>
+        </div>
+        <h3 class="popup-hints-title" data-i18n="common.hints">Indices</h3>
+        <ul id="dailyFailHints" class="popup-hints"></ul>
+        <div class="popup-footer">
+          <button id="dailyFailConfirm" data-i18n="daily.continue" data-tag="customizables-button">Continuer</button>
+        </div>
+      </div>
+    </div>
+
     <div id="notifications" aria-live="polite"></div>
     <button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button>
   </main>

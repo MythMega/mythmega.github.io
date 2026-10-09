@@ -270,23 +270,18 @@
   color: var(--text);
 }
 
-/* Jeu */
-.custom-play-game .image-container {
-  height: 300px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--glass);
-  border-radius: 14px;
-  margin-bottom: 14px;
-  overflow: hidden;
-}
-.custom-play-game .image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  image-rendering: pixelated;
+/* Jeu — aligné sur l'interface de jeu des challenges (challenge.html / challenge.css) */
+/* Le jeu n'est pas dans une carte : la page challenge affiche la barre de progression,
+   l'image et les indices directement sur le fond. */
+.custom-play-game { text-align: left; }
+.custom-play-game .center-card {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
+  width: min(640px, 100%);
 }
 .custom-play-game .game-header {
   display: flex;
@@ -294,28 +289,90 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 12px;
-  color: var(--muted);
-  font-weight: 700;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: var(--card);
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+}
+.custom-play-game .image-container {
+  width: 100%;
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.custom-play-game .image-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 110%, rgba(22,163,74,0.08) 0%, transparent 65%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+.custom-play-game .image-container img {
+  width: 100%;
+  height: 340px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  position: relative;
+  z-index: 1;
+}
+
+/* Saisie : une seule ligne, champ extensible et bouton compact (comme les challenges),
+   y compris sur mobile où le champ restait écrasé à quelques dizaines de pixels. */
+.custom-play-game .guess-area {
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.custom-play-game .guess-area .autocomplete-wrap {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  position: relative;
+}
+.custom-play-game .guess-area input {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.custom-play-game .guess-area button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: 12px 24px;
+  border-radius: 8px;
 }
 
 /* Indices */
 .custom-play-game .hints-list {
   background: var(--card);
   border-radius: 8px;
-  padding: 12px;
-  margin-top: 14px;
-  min-height: 44px;
+  padding: 16px;
+  margin-top: 16px;
+  min-height: 60px;
 }
 .custom-play-game .hints-list ul { list-style: none; padding: 0; margin: 0; }
 .custom-play-game .hints-list li {
-  padding: 8px 12px;
+  padding: 9px 13px;
   background: rgba(22,163,74,0.06);
   border: 1px solid rgba(22,163,74,0.1);
   border-radius: 9px;
   margin-bottom: 6px;
   color: #cfe7d6;
-  font-size: 14px;
+  font-size: 15px;
+  text-align: left;
   animation: hintReveal 300ms ease-out both;
 }
 .custom-play-game .hints-list li:last-child { margin-bottom: 0; }
@@ -363,6 +420,5 @@
 /* Responsive */
 @media (max-width: 640px) {
   .pokemon-picker { max-height: 280px; }
-  .custom-play-game .image-container { height: 220px; }
   .custom-done-url { flex-direction: column; align-items: stretch; }
 }

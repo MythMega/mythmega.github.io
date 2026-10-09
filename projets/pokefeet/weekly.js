@@ -245,7 +245,7 @@ const Weekly = (function () {
       const thisMonday = getMondayOfWeek(today);
       const thisMondayStr = dateToStr(thisMonday);
       if (weekParam > thisMondayStr) {
-        alert('Impossible de jouer un weekly du futur');
+        alert(Translator.get('weekly.futureWeekly', 'Impossible de jouer un weekly du futur'));
         window.location.href = window.location.pathname;
         return null;
       }
@@ -503,7 +503,7 @@ const Weekly = (function () {
       return;
     }
     failedEl.classList.remove('hidden');
-    failedEl.textContent = 'Échecs : ' + arr.join(', ');
+    failedEl.textContent = Translator.get('daily.failed', 'Échecs') + ' : ' + arr.join(', ');
   }
 
   function updateAttemptGauge() {
@@ -590,8 +590,8 @@ const Weekly = (function () {
     if (newPokemons.length === 0) { alertEl.classList.add('hidden'); return; }
     const pokemonNames = newPokemons.map(p => p.NameFR || p.NameEN || '?').join(', ');
     const message = newPokemons.length === 1
-      ? `🌟 Nouveau Pokémon découvert : ${pokemonNames}!`
-      : `🌟 Nouveaux Pokémon découverts : ${pokemonNames}!`;
+      ? Translator.get('daily.newlyDiscovered', '🌟 Nouveau Pokémon découvert : {names} !').replace('{names}', pokemonNames)
+      : Translator.get('daily.newlyDiscoveredMany', '🌟 Nouveaux Pokémon découverts : {names} !').replace('{names}', pokemonNames);
     alertEl.textContent = message;
     alertEl.classList.remove('hidden');
   }
@@ -635,7 +635,7 @@ const Weekly = (function () {
     input().disabled = true;
     document.getElementById('weeklySubmit').disabled = true;
     document.getElementById('weeklySkip').disabled = true;
-    showNotification('Weekly terminé — partagez votre résultat', 'success');
+    showNotification(Translator.get('weekly.finishedShare', 'Weekly terminé — partagez votre résultat'), 'success');
   }
 
   function failCurrentAndAdvance() {
@@ -777,11 +777,11 @@ const Weekly = (function () {
       attempts++;
       updateAttemptGauge();
       if (attempts >= maxAttempts) {
-        showNotification('Échec — Pokémon révélé', 'fail');
+        showNotification(Translator.get('daily.failRevealed', 'Échec — Pokémon révélé'), 'fail');
         failCurrentAndAdvance();
       } else {
         showHintForAttempt(attempts);
-        showNotification('-2 points (indice affiché)', 'hint');
+        showNotification(Translator.get('daily.hintShown', '-2 points (indice affiché)'), 'hint');
       }
     }
   }
@@ -938,8 +938,8 @@ const Weekly = (function () {
       // Pendant une transition de round (popup de révélation ou reveal en cours),
       // on ignore les clics pour ne pas enregistrer deux échecs pour le même Pokémon.
       if (busy) return;
-      if (!confirm('Es-tu sûr de vouloir passer ce Pokémon ?')) return;
-      showNotification('Passé — Pokémon révélé', 'hint');
+      if (!confirm(Translator.get('daily.confirmSkip', 'Es-tu sûr de vouloir passer ce Pokémon ?'))) return;
+      showNotification(Translator.get('daily.skipRevealed', 'Passé — Pokémon révélé'), 'hint');
       failCurrentAndAdvance();
     });
     document.getElementById('weeklyInput').addEventListener('keydown', (e) => {

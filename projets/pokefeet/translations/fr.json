@@ -55,12 +55,22 @@
     "answerWas": "La réponse était",
     "continue": "Continuer",
     "fullSprite": "Sprite complet",
-    "footSprite": "Pied"
+    "footSprite": "Pied",
+    "hintShown": "-2 points (indice affiché)",
+    "failRevealed": "Échec — Pokémon révélé",
+    "skipRevealed": "Passé — Pokémon révélé",
+    "finishedShare": "Daily terminé — partagez votre résultat",
+    "pointsEarned": "+{n} points",
+    "confirmSkip": "Es-tu sûr de vouloir passer ce Pokémon ?",
+    "newlyDiscovered": "🌟 Nouveau Pokémon découvert : {names}!",
+    "newlyDiscoveredMany": "🌟 Nouveaux Pokémon découverts : {names}!"
   },
   "weekly": {
     "invalidDateTitle": "Date invalide",
     "invalidDateMsg": "Ce weekly n'est pas valide : la date doit correspondre à un lundi. Vous allez être redirigé vers le lundi précédent.",
-    "goToMonday": "Valider"
+    "goToMonday": "Valider",
+    "futureWeekly": "Impossible de jouer un weekly du futur",
+    "finishedShare": "Weekly terminé — partagez votre résultat"
   },
   "practice": {
     "title": "Pokefeet",
@@ -99,7 +109,8 @@
     "statsPerfect": "Parfaits (1er essai)",
     "statsFails": "Erreurs totales",
     "sessionResumed": "Partie en cours reprise",
-    "bestStreak": "Meilleur Streak"
+    "bestStreak": "Meilleur Streak",
+    "pointsEarned": "+{n} points — {name}"
   },
   "history": {
     "title": "Historique — Pokefeet Daily",
@@ -117,6 +128,9 @@
     "chartNoData": "Pas de données",
     "chartDailyStats": "Derniers {n} jours — moyenne : {avg} / {max}",
     "weekLabel": "Semaine du {from} au {to} {year}",
+    "emptyDaily": "Aucun résultat enregistré pour le moment.",
+    "emptyWeekly": "Aucun résultat weekly enregistré.",
+    "emptyCurve": "Aucun historique disponible.",
     "stats": {
       "title": "Statistiques détaillées",
       "global": "Globaux",
@@ -178,7 +192,11 @@
     "sortFirstFound": "Première trouvaille",
     "sortAsc": "↑ Asc",
     "sortDesc": "↓ Desc",
-    "moreInfo": "+ d'info"
+    "moreInfo": "+ d'info",
+    "importError": "Erreur lors de l'import : {msg}",
+    "importTitle": "{count} nouveau(x) Pokémon trouvé(s)",
+    "noNewPokemon": "Aucun nouveau Pokémon à ajouter.",
+    "refreshPage": "Rafraîchir la page"
   },
   "dataManagement": {
     "title": "Gestion des données — Pokefeet",
@@ -233,7 +251,9 @@
   },
   "credits": {
     "title": "Crédits",
-    "subtitle": "Remerciements à tous les contributeurs"
+    "subtitle": "Remerciements à tous les contributeurs",
+    "empty": "Aucun crédit à afficher",
+    "loadError": "Impossible de charger les crédits"
   },
   "types": {
     "normal": "Normal",
@@ -280,7 +300,9 @@
     "viewDaily": "Voir ce daily",
     "viewWeekly": "Voir ce weekly",
     "rewards": "Récompenses",
-    "rewardsTitle": "Récompenses"
+    "rewardsTitle": "Récompenses",
+    "categoryPokedex": "Pokédex",
+    "categoryGenerations": "Générations"
   },
   "xpScale": {
     "title": "Barème d'XP",
@@ -354,7 +376,58 @@
     "available": "Disponible",
     "unavailable": "Non disponible",
     "locked": "Verrouillé",
-    "pokemonCount": "Pokémon"
+    "pokemonCount": "Pokémon",
+    "failedAttempts": "Échecs",
+    "alreadyTried": "Déjà essayé",
+    "found": "Pokémon trouvé : ",
+    "shareSuccess": "Challenge {name} {difficulty} réussi !",
+    "shareFound": "Pokémon trouvés : ",
+    "shareFails": "Erreurs totales : "
+  },
+  "cosmetics": {
+    "default": "Par défaut",
+    "defaultShort": "Défaut",
+    "lockedHint": "🔒 {name} — À débloquer via un challenge"
+  },
+  "data": {
+    "writeError": "Impossible d'écrire dans IndexedDB",
+    "challengeImportError": "Erreur lors de l'import des challenges",
+    "exportDone": "Export terminé",
+    "invalidFile": "Fichier invalide : {msg}",
+    "fileModified": "Erreur : le fichier a été modifié, c'est vilain de tricher",
+    "importDone": "Import terminé et fusionné",
+    "importFailed": "Import échoué",
+    "readError": "Impossible de lire le fichier",
+    "invalidJson": "JSON invalide dans le fichier",
+    "conflictDate": "Conflit pour la date {date}:\nFichier -> score: {file}\nCookie -> score: {cookie}\n\nCliquer OK pour garder la valeur du FICHIER (écraser), Annuler pour garder la valeur du COOKIE.",
+    "invalidDailyHeader": "En-tête invalide. Format attendu : \"Pokefeet Daily — YYYY-MM-DD — score N\"",
+    "invalidWeeklyHeader": "En-tête invalide. Format attendu : \"Pokefeet Weekly — YYYY-MM-DD — score N\"",
+    "invalidMiniCount": "Format mini invalide : attendu {expected} emojis, trouvé {found}",
+    "missingRows": "Il faut {count} lignes d'emoji après l'en-tête",
+    "invalidRow": "Ligne {row} invalide : attendu 5 carrés",
+    "noTextPasted": "Aucun texte collé.",
+    "entryNotFound": "Aucune entrée trouvée pour le {date}.",
+    "entryDeleted": "Entrée du {date} supprimée.",
+    "deleteError": "Erreur lors de la suppression : {msg}",
+    "dayAlreadySaved": "Jour {date} déjà en sauvegarde. Import annulé.",
+    "dayImported": "Jour {date} importé (score calculé: {score}{mismatch}).",
+    "scoreMismatch": " — attention : score déclaré différent",
+    "weekAlreadySaved": "Semaine {date} déjà en sauvegarde. Import annulé.",
+    "weekImported": "Semaine {date} importée (score: {score}{mismatch}).",
+    "weekScoreMismatch": " — score déclaré différent",
+    "saveDailyError": "Impossible de sauvegarder le daily importé",
+    "saveWeeklyError": "Impossible de sauvegarder le weekly importé",
+    "emptyText": "Texte vide",
+    "missingHash": "Format invalide (hash manquant)",
+    "invalidFormatRows": "Format invalide : attendu header + lignes d'emoji",
+    "invalidFormatRowsCount": "Format invalide : attendu header + {count} lignes d'emoji",
+    "invalidDailyFormatRows": "Format invalide : attendu header + 5 lignes d'emoji",
+    "missingEmojiLine": "Format mini invalide : ligne d'emoji manquante",
+    "invalidRowDetail": "Ligne {row} invalide : attendu 5 carrés (ligne : \"{line}\")"
+  },
+  "migration": {
+    "reportCopied": "Rapport copié ! Ouverture de Discord...",
+    "dbUpdated": "✅ Base de données mise à jour (v{version})"
   },
   "custom": {
     "title": "Challenges Custom",

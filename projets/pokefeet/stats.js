@@ -327,6 +327,18 @@
     'Full_Generation_Register': 'Générations'
   };
 
+  // Seules les catégories traduisibles ont une clé i18n (voir translations/*.json)
+  const TROPHY_TYPE_KEYS = {
+    'Dex_Count': 'stats.categoryPokedex',
+    'Full_Generation_Register': 'stats.categoryGenerations'
+  };
+
+  function trophyTypeLabel(mode) {
+    const fallback = TROPHY_TYPE_LABELS[mode] || mode;
+    const key = TROPHY_TYPE_KEYS[mode];
+    return (key && typeof Translator !== 'undefined') ? Translator.get(key, fallback) : fallback;
+  }
+
   // Liste ordonnée des types Pokémon pour l'affichage
   const TYPE_DISPLAY_ORDER = ['Fire', 'Water', 'Grass', 'Electric', 'Rock', 'Ground', 'Flying', 'Bug', 'Poison', 'Normal', 'Steel', 'Dragon', 'Fighting', 'Dark', 'Ice', 'Ghost', 'Psychic', 'Fairy'];
 
@@ -364,7 +376,7 @@
       section.className = 'trophies-section';
       const title = document.createElement('div');
       title.className = 'trophies-section-title';
-      title.textContent = TROPHY_TYPE_LABELS[mode] || mode;
+      title.textContent = trophyTypeLabel(mode);
       section.appendChild(title);
 
       const grid = document.createElement('div');

@@ -109,7 +109,7 @@
     const entries = Object.keys(historyObj).sort((a,b) => a.localeCompare(b)); // ascending by date
     historyListEl.innerHTML = '';
     if (entries.length === 0) {
-      historyListEl.textContent = 'Aucun historique disponible.';
+      historyListEl.textContent = Translator.get('history.emptyCurve', 'Aucun historique disponible.');
       totalDaysEl.textContent = '0';
       return [];
     }

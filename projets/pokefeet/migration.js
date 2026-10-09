@@ -227,7 +227,7 @@ const Migration = (function () {
       var textarea = document.getElementById('migrationReportText');
       if (textarea) {
         navigator.clipboard.writeText(textarea.value).then(function () {
-          showNotification('Rapport copié ! Ouverture de Discord...', 'success');
+          showNotification(Translator.get('migration.reportCopied', 'Rapport copié ! Ouverture de Discord...'), 'success');
         }, function () {
           // Fallback: select all
           textarea.select();
@@ -632,7 +632,7 @@ const Migration = (function () {
 
       // Show notification on next tick (ensures DOM is ready)
       setTimeout(function () {
-        showNotification('✅ Base de données mise à jour (v' + TARGET_VERSION + ')');
+        showNotification(Translator.get('migration.dbUpdated', '✅ Base de données mise à jour (v{version})').replace('{version}', TARGET_VERSION));
       }, 500);
 
     } catch (e) {

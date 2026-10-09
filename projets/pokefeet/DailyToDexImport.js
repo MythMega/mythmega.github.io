@@ -213,7 +213,7 @@ const DailyToDexImport = (function () {
       showImportResultPopup(newPokemons);
     } catch (e) {
       console.error('[Import] Error during force update:', e);
-      alert('Erreur lors de l\'import: ' + e.message);
+      alert(Translator.get('dex.importError', "Erreur lors de l'import : {msg}").replace('{msg}', e.message));
     }
   }
 
@@ -237,7 +237,7 @@ const DailyToDexImport = (function () {
     popup.style.cssText = 'background:var(--card);padding:20px;border-radius:12px;max-width:500px;width:90%;max-height:70vh;overflow-y:auto;';
 
     const title = document.createElement('h2');
-    title.textContent = `${newPokemons.length} nouveau(x) Pokémon trouvé(s)`;
+    title.textContent = Translator.get('dex.importTitle', '{count} nouveau(x) Pokémon trouvé(s)').replace('{count}', newPokemons.length);
     title.style.cssText = 'margin:0 0 15px 0;color:#fff;';
     popup.appendChild(title);
 
@@ -250,13 +250,13 @@ const DailyToDexImport = (function () {
       popup.appendChild(list);
     } else {
       const noNew = document.createElement('p');
-      noNew.textContent = 'Aucun nouveau Pokémon à ajouter.';
+      noNew.textContent = Translator.get('dex.noNewPokemon', 'Aucun nouveau Pokémon à ajouter.');
       noNew.style.cssText = 'color:var(--muted);margin-bottom:15px;';
       popup.appendChild(noNew);
     }
 
     const refreshBtn = document.createElement('button');
-    refreshBtn.textContent = 'Rafraîchir la page';
+    refreshBtn.textContent = Translator.get('dex.refreshPage', 'Rafraîchir la page');
     refreshBtn.style.cssText = 'width:100%;padding:12px;background:var(--accent);color:#052018;font-weight:700;border:none;border-radius:8px;cursor:pointer;';
     refreshBtn.onclick = () => window.location.reload();
     popup.appendChild(refreshBtn);

@@ -40,7 +40,6 @@ pokefeet/
 ├── i18n-setup.js           # Configuration i18n
 ├── language-switcher.js    # Sélecteur de langue
 ├── translate.js            # Fonctions de traduction
-├── apply-translations.js   # Application des traductions au DOM
 │
 ├── data/
 │   ├── pokemons.json       # Tous les Pokémon (Index, noms, types, images)

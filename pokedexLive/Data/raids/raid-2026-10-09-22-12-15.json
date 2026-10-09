@@ -1,0 +1,271 @@
+{
+  "bossName": "Pichu",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pichu_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Pichu_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 70000,
+  "date": "2026-10-09 22:12:15",
+  "durationSec": 4830,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 52500,
+      "countAtk": 3,
+      "baseDmg": 42338,
+      "level": 20,
+      "raidCount": 1128,
+      "luck": 0.41334027
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 8481,
+      "countAtk": 3,
+      "baseDmg": 1708,
+      "level": 11,
+      "raidCount": 90,
+      "luck": 1.6551522
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 8464,
+      "countAtk": 1,
+      "baseDmg": 8464,
+      "level": 16,
+      "raidCount": 352,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "sansanhijab",
+      "damage": 1418,
+      "countAtk": 2,
+      "baseDmg": 444,
+      "level": 8,
+      "raidCount": 6,
+      "luck": 1.5968468
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 294,
+      "countAtk": 1,
+      "baseDmg": 294,
+      "level": 3,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 10193
+    },
+    {
+      "platform": "twitch",
+      "damage": 60964
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-09 22:13:56",
+      "pseudo": "sansanhijab",
+      "platform": "youtube",
+      "damages": 444,
+      "pvAfter": 69556,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 22:15:36",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 294,
+      "pvAfter": 69262,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 22:24:35",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1708,
+      "pvAfter": 67554,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 22:28:07",
+      "pseudo": "sansanhijab",
+      "platform": "youtube",
+      "damages": 974,
+      "pvAfter": 66580,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 22:46:42",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 49080,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 22:48:16",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 3616,
+      "pvAfter": 45464,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 22:54:29",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 3157,
+      "pvAfter": 42307,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 22:54:32",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 24807,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 22:57:53",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 7307,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-09 23:32:46",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8464,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

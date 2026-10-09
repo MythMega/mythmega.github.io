@@ -478,7 +478,7 @@ const Game = (function () {
         UI.setScore(score);
         UI.setStreak(streak);
         const pokemonName = getCurrentLanguageName(current);
-        UI.showNotification('+' + points + ' points — ' + pokemonName, 'success');
+        UI.showNotification(Translator.get('practice.pointsEarned', '+{n} points — {name}').replace('{n}', points).replace('{name}', pokemonName), 'success');
         saveBestIfNeeded();
         saveSession();
         updateProgressBar();
@@ -518,7 +518,7 @@ const Game = (function () {
       
       // Notification avec le nom du Pokémon dans la langue courante
       const pokemonName = getCurrentLanguageName(current);
-      UI.showNotification('+' + points + ' points — ' + pokemonName, 'success');
+      UI.showNotification(Translator.get('practice.pointsEarned', '+{n} points — {name}').replace('{n}', points).replace('{name}', pokemonName), 'success');
       
       saveBestIfNeeded();
       saveSession();

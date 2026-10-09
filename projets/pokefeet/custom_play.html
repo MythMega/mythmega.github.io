@@ -34,7 +34,7 @@
       <div class="center-card">
         <h2 class="home-title" data-i18n="customPlay.enterCode">Entrer un code de challenge</h2>
         <div class="custom-code-form">
-          <input type="text" id="codeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder" placeholder="custom_play.html?code=... ou code" />
+          <input type="text" id="codeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder|aria-label:customPlay.enterCode" placeholder="custom_play.html?code=... ou code" />
           <button id="loadCodeBtn" class="big-btn" data-tag="customizables-button" data-i18n="customPlay.load" style="margin:0;">Charger</button>
         </div>
         <p class="custom-code-hint" style="margin-top:10px;" data-i18n="customPlay.codeHint">Collez l'URL complète du challenge (custom_play.html?code=...) ou uniquement le code.</p>
@@ -47,7 +47,7 @@
         <h2 class="home-title" style="color:#f87171;" data-i18n="customPlay.invalidCodeTitle">Code invalide</h2>
         <p data-i18n="customPlay.invalidCode" class="custom-code-hint" style="margin-bottom:12px;">Impossible de décoder ce code. Vérifiez l'URL partagée et réessayez.</p>
         <div class="custom-code-form">
-          <input type="text" id="invalidCodeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder" placeholder="custom_play.html?code=... ou code" />
+          <input type="text" id="invalidCodeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder|aria-label:customPlay.enterCode" placeholder="custom_play.html?code=... ou code" />
           <button id="invalidLoadBtn" class="big-btn" data-tag="customizables-button" data-i18n="customPlay.tryAgain" style="margin:0;">Réessayer</button>
         </div>
       </div>
@@ -79,7 +79,7 @@
         </div>
         <div class="guess-area">
           <div class="autocomplete-wrap" style="flex:1; position:relative;">
-            <input id="playInput" type="text" autocomplete="off" style="width:100%; min-width:0;" data-i18n-attr="placeholder:customPlay.guessPlaceholder" placeholder="Nom du Pokémon" />
+            <input id="playInput" type="text" autocomplete="off" style="width:100%; min-width:0;" data-i18n-attr="placeholder:customPlay.guessPlaceholder|aria-label:customPlay.guessPlaceholder" placeholder="Nom du Pokémon" />
           </div>
           <button id="playSubmit" data-tag="customizables-button" data-i18n="customPlay.submit">Valider</button>
         </div>

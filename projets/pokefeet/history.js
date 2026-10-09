@@ -135,7 +135,7 @@
     container.innerHTML = '';
 
     if (!keys.length) {
-      container.innerHTML = '<p>Aucun résultat enregistré pour le moment.</p>';
+      container.innerHTML = '<p>' + Translator.get('history.emptyDaily', 'Aucun résultat enregistré pour le moment.') + '</p>';
       totalDaysEl.textContent = '0';
       return;
     }
@@ -268,7 +268,7 @@
     container.innerHTML = '';
 
     if (!keys.length) {
-      container.innerHTML = '<p>Aucun résultat weekly enregistré.</p>';
+      container.innerHTML = '<p>' + Translator.get('history.emptyWeekly', 'Aucun résultat weekly enregistré.') + '</p>';
       return;
     }
     keys.sort((a, b) => b.localeCompare(a));

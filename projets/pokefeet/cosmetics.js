@@ -187,7 +187,7 @@ const Cosmetics = (function () {
       }
 
       if (!unlocked) {
-        div.title = '🔒 ' + cosmetic.Name + ' — À débloquer via un challenge';
+        div.title = Translator.get('cosmetics.lockedHint', '🔒 {name} — À débloquer via un challenge').replace('{name}', cosmetic.Name);
       } else {
         div.title = cosmetic.Name;
       }
@@ -209,14 +209,14 @@ const Cosmetics = (function () {
     // Default option for Background
     var defaultBg = document.createElement('div');
     defaultBg.className = 'cosmetic-btn' + (!selectedBg ? ' active' : '');
-    defaultBg.title = 'Par défaut';
+    defaultBg.title = Translator.get('cosmetics.default', 'Par défaut');
     var defaultBgImg = document.createElement('img');
     defaultBgImg.src = './icon.png';
-    defaultBgImg.alt = 'Défaut';
+    defaultBgImg.alt = Translator.get('cosmetics.defaultShort', 'Défaut');
     defaultBg.appendChild(defaultBgImg);
     var defaultBgName = document.createElement('span');
     defaultBgName.className = 'cosmetic-name';
-    defaultBgName.textContent = 'Défaut';
+    defaultBgName.textContent = Translator.get('cosmetics.defaultShort', 'Défaut');
     defaultBg.appendChild(defaultBgName);
     if (!selectedBg) {
       var check = document.createElement('span');
@@ -232,14 +232,14 @@ const Cosmetics = (function () {
     // Default option for Buttons
     var defaultBtn = document.createElement('div');
     defaultBtn.className = 'cosmetic-btn' + (!selectedBtn ? ' active' : '');
-    defaultBtn.title = 'Par défaut';
+    defaultBtn.title = Translator.get('cosmetics.default', 'Par défaut');
     var defaultBtnImg = document.createElement('img');
     defaultBtnImg.src = './icon.png';
-    defaultBtnImg.alt = 'Défaut';
+    defaultBtnImg.alt = Translator.get('cosmetics.defaultShort', 'Défaut');
     defaultBtn.appendChild(defaultBtnImg);
     var defaultBtnName = document.createElement('span');
     defaultBtnName.className = 'cosmetic-name';
-    defaultBtnName.textContent = 'Défaut';
+    defaultBtnName.textContent = Translator.get('cosmetics.defaultShort', 'Défaut');
     defaultBtn.appendChild(defaultBtnName);
     if (!selectedBtn) {
       var check2 = document.createElement('span');

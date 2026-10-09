@@ -16,6 +16,9 @@ const DataManager = (function () {
   const hintPenalty = 2;
   const maxAttempts = 5;
 
+  // Raccourci de traduction : Translator est chargé sur les pages qui incluent data.js.
+  const T = (key, fallback) => (typeof Translator !== 'undefined' ? Translator.get(key, fallback) : fallback);
+
   // --- IndexedDB helpers ---
   let dbInstance = null;
   let idbTimedOut = false;
@@ -346,14 +349,14 @@ const DataManager = (function () {
     if (parts.length < 2) return { error: 'Format invalide' };
     const afterData = parts[1];
     const sub = afterData.split('---HASH---');
-    if (sub.length < 2) return { error: 'Format invalide (hash manquant)' };
+    if (sub.length < 2) return { error: T('data.missingHash', 'Format invalide (hash manquant)') };
     const jsonStr = sub[0].trim();
     const hashStr = sub[1].trim().split(/\s+/)[0];
     try {
       const payload = JSON.parse(jsonStr);
       return { payload, jsonStr, hashStr };
     } catch (e) {
-      return { error: 'JSON invalide dans le fichier' };
+      return { error: T('data.invalidJson', 'JSON invalide dans le fichier') };
     }
   }
 
@@ -426,7 +429,10 @@ const DataManager = (function () {
     // resolve conflicts with confirm dialogs (one by one)
     for (let i = 0; i < conflicts.length; i++) {
       const c = conflicts[i];
-      const msg = `Conflit pour la date ${c.date}:\nFichier -> score: ${c.fileEntry.score}\nCookie -> score: ${c.cookieEntry.score}\n\nCliquer OK pour garder la valeur du FICHIER (écraser), Annuler pour garder la valeur du COOKIE.`;
+      const msg = T('data.conflictDate', 'Conflit pour la date {date}:\nFichier -> score: {file}\nCookie -> score: {cookie}\n\nCliquer OK pour garder la valeur du FICHIER (écraser), Annuler pour garder la valeur du COOKIE.')
+        .replace('{date}', c.date)
+        .replace('{file}', c.fileEntry.score)
+        .replace('{cookie}', c.cookieEntry.score);
       const keepFile = confirm(msg);
       if (keepFile) {
         existingDaily[c.date] = c.fileEntry;
@@ -439,7 +445,7 @@ const DataManager = (function () {
     try {
       await saveDailyToDB(existingDaily);
     } catch (e) {
-      notify('Impossible d\'écrire dans IndexedDB', 'fail');
+      notify(T('data.writeError', "Impossible d'écrire dans IndexedDB"), 'fail');
       return false;
     }
 
@@ -497,7 +503,7 @@ const DataManager = (function () {
       await markChallengesInDex(added);
     } catch (e) {
       console.error('Error merging challenges', e);
-      notify('Erreur lors de l\'import des challenges', 'fail');
+      notify(T('data.challengeImportError', "Erreur lors de l'import des challenges"), 'fail');
     }
 
     return true;
@@ -510,7 +516,7 @@ const DataManager = (function () {
     const stamp = now.toISOString().replace(/[:.]/g, '-').slice(0,19);
     const filename = `pokefeet_save_${stamp}.txt`;
     downloadText(filename, text);
-    notify('Export terminé', 'success');
+    notify(T('data.exportDone', 'Export terminé'), 'success');
   }
 
   function onFileSelected(file) {
@@ -520,26 +526,26 @@ const DataManager = (function () {
       const txt = String(e.target.result || '');
       const parsed = parseImportText(txt);
       if (parsed.error) {
-        notify('Fichier invalide: ' + parsed.error, 'fail');
+        notify(T('data.invalidFile', 'Fichier invalide : {msg}').replace('{msg}', parsed.error), 'fail');
         return;
       }
       // verify hash
       const computed = fnv1a32Hex(parsed.jsonStr);
       if (computed !== parsed.hashStr) {
-        notify('Erreur: le fichier a été modifié, c\'est vilain de tricher', 'fail');
+        notify(T('data.fileModified', "Erreur : le fichier a été modifié, c'est vilain de tricher"), 'fail');
         return;
       }
       // merge
       const ok = await mergePayloadIntoCookies(parsed.payload);
       if (ok) {
-        notify('Import terminé et fusionné', 'success');
+        notify(T('data.importDone', 'Import terminé et fusionné'), 'success');
         renderCurrentCookiesPreview();
       } else {
-        notify('Import échoué', 'fail');
+        notify(T('data.importFailed', 'Import échoué'), 'fail');
       }
     };
     reader.onerror = function () {
-      notify('Impossible de lire le fichier', 'fail');
+      notify(T('data.readError', 'Impossible de lire le fichier'), 'fail');
     };
     reader.readAsText(file, 'utf-8');
   }
@@ -573,25 +579,25 @@ const DataManager = (function () {
   }
 
   function parseWeeklyText(text) {
-    if (!text || typeof text !== 'string') return { error: 'Texte vide' };
+    if (!text || typeof text !== 'string') return { error: T('data.emptyText', 'Texte vide') };
     const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0 && !/^https?:\/\//i.test(l) && !/^R\d+\s*:/i.test(l));
-    if (lines.length < 2) return { error: `Format invalide : attendu header + lignes d'emoji` };
+    if (lines.length < 2) return { error: T('data.invalidFormatRows', "Format invalide : attendu header + lignes d'emoji") };
     const header = lines[0];
     const headerMiniRegex = /(?:Pok[eé]Pied|Pokefeet) Weekly \(mini\)\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
     const headerRegex = /(?:Pok[eé]Pied|Pokefeet) Weekly\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
     const mMini = header.match(headerMiniRegex);
     const m = mMini || header.match(headerRegex);
-    if (!m) return { error: 'En-tête invalide. Format attendu : "Pokefeet Weekly — YYYY-MM-DD — score N"' };
+    if (!m) return { error: T('data.invalidWeeklyHeader', 'En-tête invalide. Format attendu : "Pokefeet Weekly — YYYY-MM-DD — score N"') };
     const isMini = !!mMini;
     const dateStr = m[1];
     const declaredScore = parseInt(m[2], 10);
 
     if (isMini) {
       // mini format: one line with WEEKLY_COUNT emojis
-      if (lines.length < 2) return { error: 'Format mini invalide : ligne d\'emoji manquante' };
+      if (lines.length < 2) return { error: T('data.missingEmojiLine', "Format mini invalide : ligne d'emoji manquante") };
       const normalized = normalizeLineToEmoji(lines[1]);
       const chars = [...normalized].filter(c => c === '🟩' || c === '🟧' || c === '🟥');
-      if (chars.length !== WEEKLY_COUNT) return { error: `Format mini invalide : attendu ${WEEKLY_COUNT} emojis, trouvé ${chars.length}` };
+      if (chars.length !== WEEKLY_COUNT) return { error: T('data.invalidMiniCount', 'Format mini invalide : attendu {expected} emojis, trouvé {found}').replace('{expected}', WEEKLY_COUNT).replace('{found}', chars.length) };
       const results = [];
       for (const c of chars) {
         if (c === '🟥') {
@@ -605,9 +611,9 @@ const DataManager = (function () {
       return { date: dateStr, score: declaredScore, declaredScore, scoreMismatch: false, results, isMini: true };
     }
 
-    if (lines.length < WEEKLY_COUNT + 1) return { error: `Format invalide : attendu header + ${WEEKLY_COUNT} lignes d'emoji` };
+    if (lines.length < WEEKLY_COUNT + 1) return { error: T('data.invalidFormatRowsCount', "Format invalide : attendu header + {count} lignes d'emoji").replace('{count}', WEEKLY_COUNT) };
     const rows = lines.slice(1, 1 + WEEKLY_COUNT);
-    if (rows.length < WEEKLY_COUNT) return { error: `Il faut ${WEEKLY_COUNT} lignes d'emoji après l'en-tête` };
+    if (rows.length < WEEKLY_COUNT) return { error: T('data.missingRows', "Il faut {count} lignes d'emoji après l'en-tête").replace('{count}', WEEKLY_COUNT) };
     const results = [];
     let computedScore = 0;
     for (let i = 0; i < WEEKLY_COUNT; i++) {
@@ -616,7 +622,7 @@ const DataManager = (function () {
       const greens  = (normalized.match(/🟩/g) || []).length;
       const oranges = (normalized.match(/🟧/g) || []).length;
       const reds    = (normalized.match(/🟥/g) || []).length;
-      if (greens + oranges + reds !== 5) return { error: `Ligne ${i+1} invalide : attendu 5 carrés` };
+      if (greens + oranges + reds !== 5) return { error: T('data.invalidRow', 'Ligne {row} invalide : attendu 5 carrés').replace('{row}', i + 1) };
       if (reds === 5) {
         results.push({ outcome: 'fail', attempts: maxAttempts });
       } else {
@@ -629,26 +635,26 @@ const DataManager = (function () {
   }
 
   function parseDailyText(text) {
-    if (!text || typeof text !== 'string') return { error: 'Texte vide' };
+    if (!text || typeof text !== 'string') return { error: T('data.emptyText', 'Texte vide') };
     const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0 && !/^https?:\/\//i.test(l) && !/^R\d+\s*:/i.test(l));
-    if (lines.length < 2) return { error: 'Format invalide : attendu header + lignes d\'emoji' };
+    if (lines.length < 2) return { error: T('data.invalidFormatRows', "Format invalide : attendu header + lignes d'emoji") };
 
     const header = lines[0];
     const headerMiniRegex = /(?:Pok[eé]Pied|Pokefeet) Daily \(mini\)\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
     const headerRegex = /(?:Pok[eé]Pied|Pokefeet) Daily\s*[-—–]\s*(\d{4}-\d{2}-\d{2})\s*[-—–]\s*score\s*(\d+)/i;
     const mMini = header.match(headerMiniRegex);
     const m = mMini || header.match(headerRegex);
-    if (!m) return { error: 'En-tête invalide. Format attendu : "Pokefeet Daily — YYYY-MM-DD — score N"' };
+    if (!m) return { error: T('data.invalidDailyHeader', 'En-tête invalide. Format attendu : "Pokefeet Daily — YYYY-MM-DD — score N"') };
     const isMini = !!mMini;
     const dateStr = m[1];
     const declaredScore = parseInt(m[2], 10);
 
     if (isMini) {
       // mini format: one line with COUNT emojis
-      if (lines.length < 2) return { error: 'Format mini invalide : ligne d\'emoji manquante' };
+      if (lines.length < 2) return { error: T('data.missingEmojiLine', "Format mini invalide : ligne d'emoji manquante") };
       const normalized = normalizeLineToEmoji(lines[1]);
       const chars = [...normalized].filter(c => c === '🟩' || c === '🟧' || c === '🟥');
-      if (chars.length !== COUNT) return { error: `Format mini invalide : attendu ${COUNT} emojis, trouvé ${chars.length}` };
+      if (chars.length !== COUNT) return { error: T('data.invalidMiniCount', 'Format mini invalide : attendu {expected} emojis, trouvé {found}').replace('{expected}', COUNT).replace('{found}', chars.length) };
       const results = [];
       for (const c of chars) {
         if (c === '🟥') {
@@ -663,9 +669,9 @@ const DataManager = (function () {
     }
 
     // classic format: header + 5 emoji lines
-    if (lines.length < COUNT + 1) return { error: 'Format invalide : attendu header + 5 lignes d\'emoji' };
+    if (lines.length < COUNT + 1) return { error: T('data.invalidDailyFormatRows', "Format invalide : attendu header + 5 lignes d'emoji") };
     const rows = lines.slice(1, 1 + COUNT);
-    if (rows.length < COUNT) return { error: 'Il faut 5 lignes d\'emoji après l\'en-tête' };
+    if (rows.length < COUNT) return { error: T('data.missingRows', "Il faut {count} lignes d'emoji après l'en-tête").replace('{count}', COUNT) };
 
     const results = [];
     let computedScore = 0;
@@ -678,7 +684,7 @@ const DataManager = (function () {
       const reds = (normalized.match(/🟥/g) || []).length;
 
       if (greens + oranges + reds !== 5) {
-        return { error: `Ligne ${i+1} invalide : attendu 5 carrés (ligne: "${raw}")` };
+        return { error: T('data.invalidRowDetail', 'Ligne {row} invalide : attendu 5 carrés (ligne : "{line}")').replace('{row}', i + 1).replace('{line}', raw) };
       }
 
       if (reds === 5) {
@@ -714,7 +720,7 @@ const DataManager = (function () {
     if (!area) return;
     const txt = area.value.trim();
     if (!txt) {
-      out.textContent = 'Aucun texte collé.';
+      out.textContent = T('data.noTextPasted', 'Aucun texte collé.');
       return;
     }
 
@@ -725,15 +731,15 @@ const DataManager = (function () {
       try {
         const history = await loadDailyCookie() || {};
         if (!history[dateToDelete]) {
-          out.textContent = `Aucune entrée trouvée pour le ${dateToDelete}.`;
+          out.textContent = T('data.entryNotFound', 'Aucune entrée trouvée pour le {date}.').replace('{date}', dateToDelete);
           return;
         }
         await deleteDailyEntry(dateToDelete);
         area.value = '';
-        out.textContent = `Entrée du ${dateToDelete} supprimée.`;
+        out.textContent = T('data.entryDeleted', 'Entrée du {date} supprimée.').replace('{date}', dateToDelete);
         await renderCurrentCookiesPreview();
       } catch (e) {
-        out.textContent = `Erreur lors de la suppression : ${e.message}`;
+        out.textContent = T('data.deleteError', 'Erreur lors de la suppression : {msg}').replace('{msg}', e.message);
       }
       return;
     }
@@ -749,7 +755,7 @@ const DataManager = (function () {
     // check existing IndexedDB
     const history = await loadDailyCookie() || {};
     if (history[dateKey]) {
-      const msg = `Jour ${dateKey} déjà en sauvegarde. Import annulé.`;
+      const msg = T('data.dayAlreadySaved', 'Jour {date} déjà en sauvegarde. Import annulé.').replace('{date}', dateKey);
       out.textContent = msg;
       notify(msg, 'fail');
       return;
@@ -762,7 +768,10 @@ const DataManager = (function () {
     };
     try {
       await saveDailyCookie(history);
-      const msg = `Jour ${dateKey} importé (score calculé: ${parsed.score}${parsed.scoreMismatch ? ' — attention : score déclaré différent' : ''}).`;
+      const msg = T('data.dayImported', 'Jour {date} importé (score calculé: {score}{mismatch}).')
+        .replace('{date}', dateKey)
+        .replace('{score}', parsed.score)
+        .replace('{mismatch}', parsed.scoreMismatch ? T('data.scoreMismatch', ' — attention : score déclaré différent') : '');
       out.textContent = msg;
       notify(msg, 'success');
       // clear textarea on success
@@ -782,7 +791,7 @@ const DataManager = (function () {
         console.error('Error updating Dex:', e);
       }
     } catch (e) {
-      const err = 'Impossible de sauvegarder le daily importé';
+      const err = T('data.saveDailyError', 'Impossible de sauvegarder le daily importé');
       out.textContent = err;
       notify(err, 'fail');
     }
@@ -802,19 +811,22 @@ const DataManager = (function () {
     const out  = document.getElementById('weeklyImportResult');
     if (!area) return;
     const txt = area.value.trim();
-    if (!txt) { out.textContent = 'Aucun texte collé.'; return; }
+    if (!txt) { out.textContent = T('data.noTextPasted', 'Aucun texte collé.'); return; }
     const parsed = parseWeeklyText(txt);
     if (parsed.error) { out.textContent = parsed.error; notify(parsed.error, 'fail'); return; }
     const dateKey = parsed.date;
     const history = await getAllWeeklyFromDB() || {};
     if (history[dateKey]) {
-      const msg = `Semaine ${dateKey} déjà en sauvegarde. Import annulé.`;
+      const msg = T('data.weekAlreadySaved', 'Semaine {date} déjà en sauvegarde. Import annulé.').replace('{date}', dateKey);
       out.textContent = msg; notify(msg, 'fail'); return;
     }
     history[dateKey] = { score: parsed.score, results: parsed.results };
     try {
       await saveWeeklyToDB(history);
-      const msg = `Semaine ${dateKey} importée (score: ${parsed.score}${parsed.scoreMismatch ? ' — score déclaré différent' : ''}).`;
+      const msg = T('data.weekImported', 'Semaine {date} importée (score: {score}{mismatch}).')
+        .replace('{date}', dateKey)
+        .replace('{score}', parsed.score)
+        .replace('{mismatch}', parsed.scoreMismatch ? T('data.weekScoreMismatch', ' — score déclaré différent') : '');
       out.textContent = msg; notify(msg, 'success');
       area.value = '';
       await renderCurrentCookiesPreview();
@@ -824,7 +836,7 @@ const DataManager = (function () {
         await updateWeeklyImportedInDex(dateKey, true);
       } catch (e) { console.error('Error updating Dex from weekly import:', e); }
     } catch (e) {
-      const err = 'Impossible de sauvegarder le weekly importé';
+      const err = T('data.saveWeeklyError', 'Impossible de sauvegarder le weekly importé');
       out.textContent = err; notify(err, 'fail');
     }
   }

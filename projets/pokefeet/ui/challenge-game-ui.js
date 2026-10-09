@@ -69,7 +69,7 @@ const ChallengeGameUI = (function () {
             return;
         }
         failedEl.classList.remove('hidden');
-        failedEl.textContent = 'Échecs : ' + wrongGuesses.join(', ');
+        failedEl.textContent = Translator.get('challenge.failedAttempts', 'Échecs') + ' : ' + wrongGuesses.join(', ');
     }
 
     function renderGame() {
@@ -153,7 +153,11 @@ const ChallengeGameUI = (function () {
                 const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '');
                 const url = baseUrl + '/challenge.html?challengeid=' + currentChallenge.ID + '&statut=view';
                 const totalPokemon = currentChallenge.FeetList.length;
-                const text = 'Challenge ' + challengeName + ' ' + difficulty + ' réussi !\n' + url + '\nPokémon trouvés : ' + totalPokemon + '\nErreurs totale : ' + fails + '.';
+                const text = T('challenge.shareSuccess', 'Challenge {name} {difficulty} réussi !')
+                    .replace('{name}', challengeName).replace('{difficulty}', difficulty)
+                    + '\n' + url + '\n'
+                    + T('challenge.shareFound', 'Pokémon trouvés : ') + totalPokemon + '\n'
+                    + T('challenge.shareFails', 'Erreurs totales : ') + fails + '.';
                 navigator.clipboard.writeText(text).then(function () {
                     showNotification(T('challenge.copied', 'Résultat copié !'), 'success');
                 });
@@ -324,7 +328,7 @@ const ChallengeGameUI = (function () {
         }
 
         if (wrongGuesses.includes(val)) {
-            showNotification('Déjà essayé', 'hint');
+            showNotification(Translator.get('challenge.alreadyTried', 'Déjà essayé'), 'hint');
             return;
         }
 
@@ -333,7 +337,7 @@ const ChallengeGameUI = (function () {
         if (result.correct) {
             const lang = (typeof Translator !== 'undefined') ? Translator.getLanguage() : 'fr';
             const name = lang === 'fr' ? (currentPokemon.NameFR || currentPokemon.NameEN) : (currentPokemon.NameEN || currentPokemon.NameFR);
-            showNotification('Pokémon trouvé : ' + name, 'success');
+            showNotification(Translator.get('challenge.found', 'Pokémon trouvé : ') + name, 'success');
             input.value = '';
 
             if (result.finished) {

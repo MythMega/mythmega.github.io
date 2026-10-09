@@ -110,7 +110,7 @@ const Credits = (function () {
         var lang = getCurrentLang();
 
         if (credits.length === 0) {
-            content.innerHTML = '<div class="no-credits">' + Translator.get('credits.empty', 'Aucun crédit à afficher') + '</div>';
+            content.innerHTML = '<div class="no-credits">Aucun crédit à afficher</div>';
             return;
         }
 
@@ -188,7 +188,7 @@ const Credits = (function () {
     async function init() {
         await loadCreditsData();
         if (!creditsData) {
-            document.getElementById('creditsContent').innerHTML = '<div class="no-credits">' + Translator.get('credits.loadError', 'Impossible de charger les crédits') + '</div>';
+            document.getElementById('creditsContent').innerHTML = '<div class="no-credits">Impossible de charger les crédits</div>';
             return;
         }
         renderTabs();

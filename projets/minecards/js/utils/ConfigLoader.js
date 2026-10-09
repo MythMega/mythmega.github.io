@@ -199,10 +199,12 @@ export class ConfigLoader {
   /**
    * Booster-related global settings.
    *
-   * @returns {Promise<{sets: string[], directory: string, rarityConfigPath: string, model: string, cardsPerBooster: number, dailyFreeBoosters: number}>}
+   * @returns {Promise<{sets: string[], directory: string, rarityConfigPath: string, model: string, cardsPerBooster: number, dailyFreeBoosters: number, godpackChancePercent: number, historySize: number}>}
    *   Booster settings completed with safe defaults. `directory` locates the extension JSONs
    *   (`data/boosters`), `rarityConfigPath` the default rarity table
    *   (`settings/defaultRarity.json`) and `model` the 3D booster model used in step 4.
+   *   `godpackChancePercent` is the probability (0-100) of a "god pack": a booster made only of
+   *   full art printings. `historySize` is the number of past openings kept for the stats view.
    * @throws {Error} See `load()`.
    */
   async getBoosterSettings() {
@@ -224,6 +226,13 @@ export class ConfigLoader {
           : 'assets/boostermodel.glb',
       cardsPerBooster: Number.isInteger(boosters.cardsPerBooster) ? boosters.cardsPerBooster : 5,
       dailyFreeBoosters: Number.isInteger(boosters.dailyFreeBoosters) ? boosters.dailyFreeBoosters : 3,
+      // A percentage (0.5 = 0.5 %, 5 = 5 %), clamped to the documented 0-100 range.
+      godpackChancePercent:
+        typeof boosters.godpackChancePercent === 'number' && Number.isFinite(boosters.godpackChancePercent)
+          ? Math.min(Math.max(boosters.godpackChancePercent, 0), 100)
+          : 0.5,
+      historySize:
+        Number.isInteger(boosters.historySize) && boosters.historySize > 0 ? boosters.historySize : 10,
     };
   }
 

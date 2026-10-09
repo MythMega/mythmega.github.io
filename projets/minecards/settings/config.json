@@ -18,7 +18,10 @@
     "rarityConfigPath": "settings/defaultRarity.json",
     "model": "assets/boostermodel.glb",
     "cardsPerBooster": 5,
-    "dailyFreeBoosters": 3
+    "dailyFreeBoosters": 3,
+
+    "godpackChancePercent": 0.5,
+    "historySize": 10
   },
 
   "timeSync": {

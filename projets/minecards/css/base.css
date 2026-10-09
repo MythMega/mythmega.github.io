@@ -228,7 +228,10 @@ body[data-connection="offline"] .app-header__clock {
   right: 0;
   z-index: var(--z-nav);
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  /* One equal column per button, whatever their number: the bottom bar must never wrap onto a
+     second row (the info page added a 7th destination). */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   gap: var(--space-1);
   padding: var(--space-1) var(--space-2);
   padding-bottom: calc(var(--space-1) + env(safe-area-inset-bottom, 0px));
@@ -272,6 +275,13 @@ body.is-onboarding .app-main {
     background-color var(--duration-fast) var(--easing-standard);
 }
 
+.app-nav__item span {
+  min-width: 0;
+  max-width: 100%;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
 .app-nav__item svg {
   width: 22px;
   height: 22px;
@@ -286,6 +296,23 @@ body.is-onboarding .app-main {
   color: var(--color-accent);
   background-color: var(--color-surface-alt);
   border-color: var(--color-border);
+}
+
+/* The main action ("Ouvrir"): a primary button in the middle of the bar, lifted above its
+   neighbours so the one thing the app is for reads as the obvious target. */
+.app-nav__item--primary {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.app-nav__item--primary:hover,
+.app-nav__item--primary.is-active {
+  background-color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  color: var(--color-accent-contrast);
 }
 
 /* --- Views --------------------------------------------------------------- */

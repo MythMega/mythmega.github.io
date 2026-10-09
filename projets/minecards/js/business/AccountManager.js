@@ -10,7 +10,7 @@
  *
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
- *   - `settings`  : { lang, theme }
+ *   - `settings`  : { lang, theme, sound }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
@@ -34,6 +34,7 @@ export const USER_STATE_KEYS = Object.freeze({
   TIME_ANCHOR: 'timeAnchor',
   STATS: 'stats',
   GIFT_SYNC: 'giftSync',
+  BOOSTER_HISTORY: 'boosterHistory',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -173,7 +174,7 @@ export class AccountManager {
    * @param {string|null} [options.theme] - Forced initial theme (must be declared in `config.json`).
    * @param {boolean} [options.force=false] - Overwrite an existing account. Reserved for the
    *   `.save` import of step 6; the normal flow never overwrites (the UUID is immutable).
-   * @returns {Promise<{uuid: string, createdAt: string, settings: {lang: string, theme: string}}>}
+   * @returns {Promise<{uuid: string, createdAt: string, settings: {lang: string, theme: string, sound: boolean}}>}
    *   The created account and the resolved preferences.
    * @throws {Error} When an account already exists without `force`, or when the write fails.
    */
@@ -214,7 +215,7 @@ export class AccountManager {
    * `config.json` default.
    *
    * @param {{lang?: string|null, theme?: string|null}} [overrides] - Requested preferences.
-   * @returns {Promise<{lang: string, theme: string}>} Validated preferences.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean}>} Validated preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -229,7 +230,7 @@ export class AccountManager {
     const themeCandidates = [overrides.theme, themeManager.getTheme(), defaultTheme];
     const theme = themeCandidates.find((candidate) => availableThemes.includes(candidate)) || defaultTheme;
 
-    return { lang, theme };
+    return { lang, theme, sound: overrides.sound !== false };
   }
 
   /**
@@ -271,7 +272,7 @@ export class AccountManager {
   /**
    * Reads the account settings, completed with safe defaults.
    *
-   * @returns {Promise<{lang: string, theme: string}>} The stored preferences.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean}>} The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -282,19 +283,23 @@ export class AccountManager {
     return {
       lang: typeof stored.lang === 'string' && stored.lang !== '' ? stored.lang : defaults.lang,
       theme: typeof stored.theme === 'string' && stored.theme !== '' ? stored.theme : defaults.theme,
+      // `false` is the only way to silence the app, so any other stored value (missing, legacy
+      // save, garbage) falls back to the enabled default instead of muting by accident.
+      sound: typeof stored.sound === 'boolean' ? stored.sound : defaults.sound,
     };
   }
 
   /**
    * Merges and persists the account settings.
    *
-   * Only `lang` and `theme` are accepted; unknown keys are ignored. Values are validated
-   * against `config.json` as soon as the corresponding lists are loaded, so a typo cannot
-   * silently break the next startup. Applying the new values (calling `I18n.setLang` and
-   * `ThemeManager.applyTheme`) remains the caller's responsibility.
+   * Only `lang`, `theme` and `sound` are accepted; unknown keys are ignored. Values are
+   * validated against `config.json` as soon as the corresponding lists are loaded, so a typo
+   * cannot silently break the next startup. Applying the new values (calling `I18n.setLang`,
+   * `ThemeManager.applyTheme` and `SoundManager.setEnabled`) remains the caller's responsibility.
    *
-   * @param {{lang?: string, theme?: string}} partialSettings - Preferences to update.
-   * @returns {Promise<{lang: string, theme: string}>} The merged settings.
+   * @param {{lang?: string, theme?: string, sound?: boolean}} partialSettings - Preferences to
+   *   update.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean}>} The merged settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
    * @throws {Error} When the write fails.
@@ -328,6 +333,14 @@ export class AccountManager {
         throw new RangeError(`Unknown theme "${theme}". Available: [${availableThemes.join(', ')}].`);
       }
       merged.theme = theme;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'sound')) {
+      const { sound } = partialSettings;
+      if (typeof sound !== 'boolean') {
+        throw new TypeError(`settings.sound must be a boolean (received: ${JSON.stringify(sound)}).`);
+      }
+      merged.sound = sound;
     }
 
     await storageRepository.setUserState(USER_STATE_KEYS.SETTINGS, merged);

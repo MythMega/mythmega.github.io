@@ -1,0 +1,157 @@
+/* =============================================================================
+   info.css - Information page: mechanics, drop rates and credits.
+
+   The slot/rarity bars and the labels reuse the `.stats__*` / `.field__*` classes of
+   `css/views/stats.css` and `css/views/opening.css`; everything specific to this page lives here.
+   Colors come exclusively from `css/themes.css`.
+   ============================================================================= */
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.info__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.info__text {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.info__steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.info__field {
+  max-width: 24rem;
+}
+
+.info__subtitle {
+  margin: var(--space-3) 0 0 0;
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.info__note {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* --- Slot tables ----------------------------------------------------------- */
+
+.info__slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--space-3);
+}
+
+.info__slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.info__slot-title {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* --- Per card rates -------------------------------------------------------- */
+
+.info__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 32rem;
+  overflow-y: auto;
+  padding-right: var(--space-1);
+}
+
+.info__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.info__group-title {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.info__card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-1) var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.info__card {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-xs);
+}
+
+.info__card-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.info__card-style {
+  flex: 0 0 auto;
+  color: var(--color-text-muted);
+}
+
+.info__card-rate {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* --- Credits --------------------------------------------------------------- */
+
+.info__credits {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .info__cards {
+    max-height: 40rem;
+  }
+}

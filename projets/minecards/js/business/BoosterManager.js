@@ -31,6 +31,7 @@ import { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import GachaEngine from './GachaEngine.js';
 import { configLoader } from '../utils/ConfigLoader.js';
+import { buildBoosterCode } from '../utils/BoosterCode.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /** Default directory of the extension JSON files (overridable through `boosters.directory`). */
@@ -41,6 +42,14 @@ export const RARITY_PATH = 'settings/defaultRarity.json';
 
 /** Default number of cards in a booster. */
 export const DEFAULT_CARDS_PER_BOOSTER = 5;
+
+/**
+ * Default number of past openings kept in `user_state["boosterHistory"]`.
+ *
+ * Overridable through `boosters.historySize` in `settings/config.json`; the history is only read
+ * by the statistics view, so the default keeps ~10 entries which is what the UI displays.
+ */
+export const BOOSTER_HISTORY_SIZE = 10;
 
 /**
  * Builds the timestamp stored in `collection`.
@@ -158,7 +167,10 @@ export class BoosterManager {
         setId,
         id: setData.ID ?? setData.id ?? setId,
         serie: setId,
-        name: setData.Serie ?? setId,
+        // Display name of the booster, shown instead of the technical id in every language
+        // (`Name` in the booster JSON, e.g. "Genesis Blocks"; a single neutral value, so no
+        // per-language variant is needed). Falls back to the series/id when absent.
+        name: setData.Name ?? setData.Serie ?? setId,
         texture: BoosterManager.normalizeAssetPath(setData.BoosterTexture),
         importMode: setData.ImportMode ?? null,
         raw: setData,
@@ -275,7 +287,8 @@ export class BoosterManager {
     await this.init();
 
     const loadedSet = this.boosterSets[key];
-    const { cardsPerBooster } = await configLoader.getBoosterSettings();
+    const { cardsPerBooster, godpackChancePercent, historySize } =
+      await configLoader.getBoosterSettings();
     const quotaBefore = await dateSyncManager.getRemainingBoosters(key);
 
     if (quotaBefore.availableForSet === 0) {
@@ -284,11 +297,19 @@ export class BoosterManager {
 
     // Drawn only after the availability check, and always validated at load time (the cards and
     // the rarity table were checked in `loadAll()`), so a draw cannot fail here.
-    const cards = this.gachaEngine.drawPack(
-      { setId: loadedSet.setId, cards: loadedSet.cards },
-      loadedSet.rarityConfig,
-      { cardsPerBooster }
-    );
+    const boosterSetData = { setId: loadedSet.setId, cards: loadedSet.cards };
+    // A "god pack" (settings/config.json `boosters.godpackChancePercent`) replaces the rarity
+    // draw by a uniform draw inside the full art pool; it is only possible when the extension
+    // declares enough distinct full art printings (see GachaEngine.MIN_GODPACK_FULL_ART).
+    const isGodpack = this.gachaEngine.shouldDrawGodpack(boosterSetData, {
+      chancePercent: godpackChancePercent,
+    });
+    const cards = isGodpack
+      ? this.gachaEngine.drawGodpack(boosterSetData, loadedSet.rarityConfig, { cardsPerBooster })
+      : this.gachaEngine.drawPack(boosterSetData, loadedSet.rarityConfig, { cardsPerBooster });
+    if (isGodpack) {
+      console.info(`[BoosterManager] God pack for "${key}": ${cards.length} full art card(s).`);
+    }
 
     const consumed = await dateSyncManager.consumeBooster(key);
     if (!consumed) {
@@ -301,9 +322,19 @@ export class BoosterManager {
     const source =
       (quotaAfter.bonusBySet[key] ?? 0) < (quotaBefore.bonusBySet[key] ?? 0) ? 'bonus' : 'daily';
 
+    // One single trusted timestamp for the collection row, the history entry and the stats.
+    const openedAt = buildCollectionTimestamp();
+    const historyEntry = this.buildHistoryEntry({
+      setId: key,
+      cards,
+      set: loadedSet,
+      openedAt,
+      godpack: isGodpack,
+    });
+
     let result;
     try {
-      result = await this.persistBooster(cards);
+      result = await this.persistBooster(cards, { historyEntry, historySize, timestamp: openedAt });
     } catch (error) {
       await this.refundBooster(key, source, error);
       throw error;
@@ -315,12 +346,98 @@ export class BoosterManager {
       cards,
       newKeys: result.newKeys,
       source,
+      godpack: isGodpack,
       quantity: result.quantity,
       remaining,
     };
 
     eventBus.emit(EVENTS.BOOSTER_OPENED, summary);
     return summary;
+  }
+
+  /**
+   * Builds the history entry of one opening, kept in `user_state["boosterHistory"]`.
+   *
+   * Only the card KEYS are stored (the full cards would bloat the save file): the statistics view
+   * resolves them back through the extension JSON, exactly like `CollectionManager` does. The
+   * shareable code is rebuilt here, before the write, so a code failure never costs the pack.
+   *
+   * @param {object} payload - Entry payload.
+   * @param {string} payload.setId - Extension id.
+   * @param {Card[]} payload.cards - Drawn cards (in slot order).
+   * @param {object} payload.set - Loaded extension, used to resolve the card positions.
+   * @param {string} payload.openedAt - Trusted timestamp of the opening.
+   * @param {boolean} [payload.godpack=false] - True when the pack was a full art god pack.
+   * @returns {{code: string|null, setId: string, openedAt: string, godpack: boolean, keys: string[]}}
+   *   The entry ready to be stored.
+   */
+  buildHistoryEntry({ setId, cards, set, openedAt, godpack = false }) {
+    let code = null;
+    try {
+      code = buildBoosterCode({ setId, cards }, set);
+    } catch (error) {
+      // `code` is optional: the history stays readable (it draws the broken card back) instead of
+      // losing the entry because a card left the extension file.
+      console.warn('[BoosterManager] The booster code could not be generated for the history.', error);
+    }
+    return {
+      code,
+      setId,
+      openedAt,
+      godpack: Boolean(godpack),
+      keys: cards.map((card) => card.uniqueKey),
+    };
+  }
+
+  /**
+   * Normalizes a raw `user_state["boosterHistory"]` payload.
+   *
+   * Anything malformed is dropped instead of repaired: the history is a display convenience and an
+   * imported save may come from any version of the application.
+   *
+   * @param {unknown} raw - Stored history.
+   * @returns {Array<{code: string|null, setId: string, openedAt: string|null, godpack: boolean, keys: string[]}>}
+   *   The valid entries, most recent first.
+   */
+  static normalizeHistory(raw) {
+    if (!Array.isArray(raw)) return [];
+    return raw.filter(
+      (entry) =>
+        entry &&
+        typeof entry === 'object' &&
+        typeof entry.setId === 'string' &&
+        Array.isArray(entry.keys) &&
+        entry.keys.every((key) => typeof key === 'string')
+    );
+  }
+
+  /**
+   * Returns the kept openings, with their cards resolved from the extension JSONs.
+   *
+   * Used by the statistics view: each entry carries the loaded extension and the `Card` instances
+   * (a card removed from the extension file becomes `null` at its position, the view skips it).
+   *
+   * @param {number} [limit=BOOSTER_HISTORY_SIZE] - Maximum number of entries to return.
+   * @returns {Promise<Array<{code: string|null, setId: string, openedAt: string|null, godpack: boolean, keys: string[], set: object|null, cards: (Card|null)[]}>>}
+   *   The most recent openings first.
+   * @throws {Error} When the history cannot be read or the extensions cannot be loaded.
+   */
+  async getBoosterHistory(limit = BOOSTER_HISTORY_SIZE) {
+    await this.init();
+    const raw = await storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.BOOSTER_HISTORY);
+    const entries = BoosterManager.normalizeHistory(raw);
+    const size = Number.isInteger(limit) && limit > 0 ? limit : BOOSTER_HISTORY_SIZE;
+
+    return entries.slice(0, size).map((entry) => {
+      const set = this.boosterSets[entry.setId] ?? null;
+      return {
+        ...entry,
+        set,
+        cards: entry.keys.map(
+          (key) => set?.cards.find((card) => card.uniqueKey === key) ?? null
+        ),
+      };
+    });
   }
 
   /**
@@ -338,15 +455,21 @@ export class BoosterManager {
   }
 
   /**
-   * Writes the drawn cards and the statistics in a single IndexedDB transaction.
+   * Writes the drawn cards, the statistics and the history entry in a single transaction.
    *
    * @param {Card[]} cards - Cards of the pack (duplicates allowed).
+   * @param {object} [options] - Write options.
+   * @param {{code: string|null, setId: string, openedAt: string, godpack: boolean, keys: string[]}|null} [options.historyEntry=null]
+   *   Entry to push at the head of `user_state["boosterHistory"]` (see `buildHistoryEntry()`).
+   * @param {number} [options.historySize=BOOSTER_HISTORY_SIZE] - Maximum number of kept openings.
+   * @param {string|null} [options.timestamp=null] - Timestamp shared with the caller, so the
+   *   collection rows, the statistics and the history of one opening all carry the same instant.
    * @returns {Promise<{newKeys: string[], quantity: Record<string, number>}>} The keys obtained for
    *   the first time, and the resulting quantity per key after the pack.
    * @throws {Error} When the transaction fails (nothing is written, it is aborted).
    */
-  async persistBooster(cards) {
-    const timestamp = buildCollectionTimestamp();
+  async persistBooster(cards, { historyEntry = null, historySize = BOOSTER_HISTORY_SIZE, timestamp = null } = {}) {
+    const obtainedAt = timestamp ?? buildCollectionTimestamp();
     const drawsByRarity = BoosterManager.countByRarity(cards);
     const drawsByCard = BoosterManager.countByKey(cards);
 
@@ -360,15 +483,15 @@ export class BoosterManager {
         for (const card of cards) {
           const existing = await context.get(STORES.COLLECTION, card.uniqueKey);
           const entry = existing
-            ? { ...existing, quantity: existing.quantity + 1, lastObtainedAt: timestamp }
+            ? { ...existing, quantity: existing.quantity + 1, lastObtainedAt: obtainedAt }
             : {
                 key: card.uniqueKey,
                 cardId: card.id,
                 style: card.style,
                 set: card.set,
                 quantity: 1,
-                firstObtainedAt: timestamp,
-                lastObtainedAt: timestamp,
+                firstObtainedAt: obtainedAt,
+                lastObtainedAt: obtainedAt,
               };
 
           if (!existing) {
@@ -388,6 +511,21 @@ export class BoosterManager {
         });
 
         await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
+
+        if (historyEntry) {
+          // Same transaction as the pack: the stats view can never show an opening that was
+          // refunded, and a failed write never leaves an orphan history entry.
+          const kept = BoosterManager.normalizeHistory(
+            await context.get(STORES.USER_STATE, USER_STATE_KEYS.BOOSTER_HISTORY)
+          );
+          const size = Number.isInteger(historySize) && historySize > 0 ? historySize : BOOSTER_HISTORY_SIZE;
+          await context.put(
+            STORES.USER_STATE,
+            [historyEntry, ...kept].slice(0, size),
+            USER_STATE_KEYS.BOOSTER_HISTORY
+          );
+        }
+
         return { newKeys, quantity };
       }
     );

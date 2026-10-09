@@ -1,0 +1,11 @@
+# Game master personal-code registry (step 10): maps UUIDs to codes. Never publish it.
+useritem_codes.csv
+generate_useritem_code.py
+
+# Python caches
+__pycache__/
+*.pyc
+
+.clinerules/
+steps/
+.freebuff/

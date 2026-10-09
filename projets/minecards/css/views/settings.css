@@ -19,6 +19,17 @@
   gap: var(--space-3);
 }
 
+/* Sub-screens embedded in the settings page (promo codes, gift history). They follow the panels
+   with a separator so the screen keeps its "stack of blocks" reading order. */
+.settings__subview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
 .settings__title {
   font-size: var(--font-size-md);
   font-weight: 700;
@@ -43,6 +54,74 @@
 
 .settings__actions .btn {
   flex: 1 1 auto;
+}
+
+/* --- Sound switch --------------------------------------------------------- */
+
+/* A real switch (role="switch" on the button): the track/thumb pair carries the state, the
+   adjacent text is written by the view so it always matches the active language. */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.switch:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.switch__track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 2.75rem;
+  height: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.switch__thumb {
+  position: absolute;
+  top: 50%;
+  left: 0.2rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  background-color: var(--color-text-muted);
+  transform: translateY(-50%);
+  transition: left 160ms ease, background-color 160ms ease;
+}
+
+.switch[aria-checked="true"] .switch__track {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+}
+
+.switch[aria-checked="true"] .switch__thumb {
+  left: calc(100% - 1.25rem);
+  background-color: var(--color-accent-contrast);
+}
+
+.switch:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch__track,
+  .switch__thumb {
+    transition: none;
+  }
 }
 
 /* --- Account UUID --------------------------------------------------------- */

@@ -22,6 +22,7 @@ import accountManager from './business/AccountManager.js';
 import dateSyncManager from './business/DateSyncManager.js';
 import i18n from './utils/I18n.js';
 import themeManager from './utils/ThemeManager.js';
+import soundManager from './utils/SoundManager.js';
 import { configLoader } from './utils/ConfigLoader.js';
 import eventBus, { EVENTS } from './utils/EventBus.js';
 import { capturePendingRedeem, consumePendingRedeem } from './utils/DeepLink.js';
@@ -31,8 +32,9 @@ import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
 import { CollectionView, COLLECTION_VIEW_NAME } from './UI/views/CollectionView.js';
 import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
 import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
-import { RedeemView, REDEEM_VIEW_NAME } from './UI/views/RedeemView.js';
-import { GiftsView, GIFTS_VIEW_NAME } from './UI/views/GiftsView.js';
+import { RedeemView } from './UI/views/RedeemView.js';
+import { GiftsView } from './UI/views/GiftsView.js';
+import { InfoView, INFO_VIEW_NAME } from './UI/views/InfoView.js';
 
 /** Id of the boot overlay removed once the application is ready. */
 export const BOOT_OVERLAY_ID = 'app-boot';
@@ -54,8 +56,19 @@ export const VIEW_NAMES = Object.freeze({
   COLLECTION: 'collection',
   STATS: 'stats',
   SETTINGS: 'settings',
-  GIFTS: 'gifts',
-  REDEEM: 'redeem',
+  INFO: 'info',
+});
+
+/**
+ * Panels embedded in the settings view, addressed by `data-panel`.
+ *
+ * The promo codes and the gift history are not bottom-bar destinations anymore: they live inside
+ * the settings screen (next to the distributions they belong to). They are therefore NOT registered
+ * as router views, and they are wired from here on their own root element.
+ */
+export const SETTINGS_PANELS = Object.freeze({
+  REDEEM: '[data-panel="redeem"]',
+  GIFTS: '[data-panel="gifts"]',
 });
 
 /** View activated after the onboarding (the booster opening screen). */
@@ -82,6 +95,8 @@ export class App {
     this.redeemView = null;
     /** @type {GiftsView|null} Gift history (step 8). */
     this.giftsView = null;
+    /** @type {InfoView|null} Information page (mechanics, drop rates, credits). */
+    this.infoView = null;
     /** @type {boolean} True once the header event subscriptions are registered. */
     this.headerBound = false;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */
@@ -176,6 +191,10 @@ export class App {
       : themeManager.getTheme() || (await configLoader.getDefaultTheme());
     themeManager.applyTheme(targetTheme);
 
+    // Sound preference: applied before the opening view is built, so its `preload()` never
+    // downloads the effects of a muted player. Missing/legacy values stay enabled.
+    soundManager.setEnabled(settings.sound !== false);
+
     if (this.onboardingView) {
       this.onboardingView.destroy();
       this.onboardingView.hide();
@@ -203,6 +222,7 @@ export class App {
     await this.startSettingsView();
     await this.startRedeemView();
     await this.startGiftsView();
+    await this.startInfoView();
     // The deep link is handled LAST: the account exists, the views are ready and the trusted clock
     // is initialized, which is exactly what `?Redeem=` needs (step 10).
     await this.handlePendingRedeem();
@@ -323,6 +343,8 @@ export class App {
     this.settingsView = new SettingsView(root, {
       // Decoupled from the router: the view only asks the application to change the active view.
       onNavigate: (viewName) => this.router?.show(viewName),
+      // The gift history is a panel of this very screen: scroll to it instead of navigating.
+      onShowGiftHistory: () => this.revealSettingsPanel(SETTINGS_PANELS.GIFTS),
     });
     try {
       await this.settingsView.init();
@@ -338,23 +360,29 @@ export class App {
   }
 
   /**
-   * Starts the redeem view (step 7): promo code entry, validation and reward display.
+   * Starts the promo codes panel (step 7): code entry, validation and reward display.
    *
-   * A load failure must not break the whole boot: the view then shows its own error message and
+   * The panel lives INSIDE the settings screen (`data-panel="redeem"`), which is why it is not a
+   * router view: it activates with the settings view and is revealed by `revealSettingsPanel()`.
+   * A load failure must not break the whole boot: the panel then shows its own error message and
    * the other views keep working.
    *
-   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   * @returns {Promise<void>} Resolves once the panel is ready or has failed gracefully.
    */
   async startRedeemView() {
-    const root = document.querySelector(`[data-view="${REDEEM_VIEW_NAME}"]`);
+    const root = document.querySelector(SETTINGS_PANELS.REDEEM);
     if (!root) {
-      console.warn('[App] The redeem view is missing from index.html, skipping its wiring.');
+      console.warn('[App] The promo codes panel is missing from index.html, skipping its wiring.');
       return;
     }
-    console.info('[App] Starting the redeem view…');
+    console.info('[App] Starting the promo codes panel…');
     this.redeemView = new RedeemView(root, {
-      // Decoupled from the router: a `?Redeem=` deep link only asks the application to show the view.
-      onNavigate: (viewName) => this.router?.show(viewName),
+      // Belongs to the settings screen now, so it activates with it…
+      viewName: SETTINGS_VIEW_NAME,
+      // …and it must not steal the focus (and scroll) every time the settings screen opens.
+      autoFocus: false,
+      // A `?Redeem=` deep link only asks the application to bring the settings screen forward.
+      onNavigate: () => this.revealSettingsPanel(SETTINGS_PANELS.REDEEM),
     });
     try {
       await this.redeemView.init();
@@ -363,10 +391,30 @@ export class App {
       this.redeemView.setFeedback('redeem.error.load', 'error');
       return;
     }
-    console.info('[App] Redeem view ready.');
-    if (this.router?.getCurrentView() === REDEEM_VIEW_NAME) {
-      this.redeemView.handleViewActivated();
+    console.info('[App] Promo codes panel ready.');
+    // The panel activates with the settings view (`viewName` option): no router check needed here.
+  }
+
+  /**
+   * Shows the settings screen and scrolls one of its panels into view.
+   *
+   * Used by the panels that live inside the settings screen (promo codes, gift history) and by the
+   * "Historique des cadeaux" button: they cannot switch to a view of their own anymore.
+   *
+   * @param {string} selector - `data-panel` selector of the target panel.
+   * @returns {void}
+   */
+  revealSettingsPanel(selector) {
+    this.router?.show(SETTINGS_VIEW_NAME);
+    const panel = document.querySelector(selector);
+    if (!panel) {
+      console.warn(`[App] The settings panel "${selector}" is missing from index.html.`);
+      return;
     }
+    // Called synchronously: `SpaRouter.show()` has already applied the active class, so the panel
+    // has a layout to scroll to and the jump is instantaneous (a deferred, animated scroll is
+    // throttled by the browser and can be interrupted by the next tap).
+    panel.scrollIntoView({ block: 'start' });
   }
 
   /**
@@ -390,23 +438,26 @@ export class App {
   }
 
   /**
-   * Starts the gift history view (step 8): the distributions already credited to the account.
+   * Starts the gift history panel (step 8): the distributions already credited to the account.
    *
-   * A load failure must not break the whole boot: the view then shows its own error message and
+   * Like the promo codes, the panel lives INSIDE the settings screen (`data-panel="gifts"`).
+   * A load failure must not break the whole boot: the panel then shows its own error message and
    * the other views keep working.
    *
-   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   * @returns {Promise<void>} Resolves once the panel is ready or has failed gracefully.
    */
   async startGiftsView() {
-    const root = document.querySelector(`[data-view="${GIFTS_VIEW_NAME}"]`);
+    const root = document.querySelector(SETTINGS_PANELS.GIFTS);
     if (!root) {
-      console.warn('[App] The gift history view is missing from index.html, skipping its wiring.');
+      console.warn('[App] The gift history panel is missing from index.html, skipping its wiring.');
       return;
     }
-    console.info('[App] Starting the gift history view…');
+    console.info('[App] Starting the gift history panel…');
     this.giftsView = new GiftsView(root, {
-      // Decoupled from the router: the empty state only asks to open the settings screen.
-      onNavigate: (viewName) => this.router?.show(viewName),
+      // Embedded in the settings screen: it activates with that view.
+      viewName: SETTINGS_VIEW_NAME,
+      // The empty state already sits in the settings screen: only scroll it into sight.
+      onNavigate: () => this.revealSettingsPanel(SETTINGS_PANELS.GIFTS),
     });
     try {
       await this.giftsView.init();
@@ -415,10 +466,34 @@ export class App {
       this.giftsView.setFeedback('gifts.error.load', 'error');
       return;
     }
-    console.info('[App] Gift history view ready.');
-    if (this.router?.getCurrentView() === GIFTS_VIEW_NAME) {
-      this.giftsView.handleViewActivated();
+    console.info('[App] Gift history panel ready.');
+    // The panel activates with the settings view (`viewName` option): no router check needed here.
+  }
+
+  /**
+   * Starts the information page: mechanics, drop rates read from the booster JSONs and credits.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and
+   * the other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startInfoView() {
+    const root = document.querySelector(`[data-view="${INFO_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The info view is missing from index.html, skipping its wiring.');
+      return;
     }
+    console.info('[App] Starting the info view…');
+    this.infoView = new InfoView(root);
+    try {
+      await this.infoView.init();
+    } catch (error) {
+      console.error('[App] The info view could not be loaded.', error);
+      this.infoView.setFeedback('info.error.load', 'error');
+      return;
+    }
+    console.info('[App] Info view ready.');
   }
 
   /**
@@ -563,6 +638,10 @@ export class App {
     if (this.giftsView) {
       this.giftsView.destroy();
       this.giftsView = null;
+    }
+    if (this.infoView) {
+      this.infoView.destroy();
+      this.infoView = null;
     }
     dateSyncManager.destroy();
     this.stopUtcClock();

@@ -390,6 +390,90 @@ const Weekly = (function () {
     el.onabort = retryHandler;
   }
 
+  // --- Popup de révélation (Pokémon non trouvé) ---
+  // Retente le chargement d'une image de la popup sans état partagé entre les deux images.
+  function loadPopupImage(el, src) {
+    if (!el) return;
+    el.onerror = null;
+    if (!src) { el.removeAttribute('src'); return; }
+    let tries = 0;
+    el.src = src;
+    el.onerror = function () {
+      if (tries >= MAX_IMG_RETRIES) { el.onerror = null; return; }
+      tries++;
+      const srcToRetry = src;
+      setTimeout(function () {
+        if (el.getAttribute('src') !== srcToRetry) return;
+        el.src = srcToRetry;
+      }, IMG_RETRY_DELAY_MS);
+    };
+  }
+
+  function getDisplayName(p) {
+    const lang = typeof Translator !== 'undefined' ? Translator.getLanguage() : 'fr';
+    return (lang === 'fr' ? (p.NameFR || p.NameEN) : (p.NameEN || p.NameFR)) || '?';
+  }
+
+  // Indices affichés dans la popup : mêmes informations que le panneau latéral.
+  function buildHintsHtml(p) {
+    const t1 = p.Type1 || '';
+    const t2 = p.Type2 || '';
+    const typeBadge = (t) => `<span class="type-badge t-${t.toLowerCase()}">${Translator.get('types.' + t.toLowerCase(), t)}</span>`;
+    let typeHint = `${Translator.get('daily.types', 'Type(s)')} : ${t1 ? typeBadge(t1) : 'N/A'}`;
+    if (t2) typeHint += ` ${typeBadge(t2)}`;
+    return [
+      typeHint,
+      `${Translator.get('daily.index', 'Index')} : ${p.Index} (${Translator.get('daily.generation', 'Génération')} ${p.Generation})`,
+      `${Translator.get('daily.eggGroups', "Groupes d'oeuf")} : ${p.getEggGroupsDisplay()}`,
+      `${Translator.get('daily.category', 'Catégorie')} : ${p.getCategoryDisplay()}`
+    ];
+  }
+
+  function renderFailPopupHints(p) {
+    const hintsEl = document.getElementById('weeklyFailHints');
+    if (!hintsEl) return;
+    hintsEl.innerHTML = '';
+    buildHintsHtml(p).forEach(line => {
+      const li = document.createElement('li');
+      li.innerHTML = line;
+      hintsEl.appendChild(li);
+    });
+  }
+
+  // Instant où la popup a été affichée : empêche qu'une touche Entrée déjà enfoncée
+  // (celle qui vient de valider l'essai fatal) ne referme la popup instantanément.
+  let failPopupShownAt = 0;
+
+  // Affiche quel Pokémon c'était (full sprite + image du pied).
+  function showFailPopup(p) {
+    if (!p) return;
+    const popup = document.getElementById('weeklyFailPopup');
+    if (!popup) return;
+    const name = getDisplayName(p);
+    const nameEl = document.getElementById('weeklyFailName');
+    if (nameEl) nameEl.textContent = name;
+    const fullImg = document.getElementById('weeklyFailFullImg');
+    const footImg = document.getElementById('weeklyFailFootImg');
+    if (fullImg) fullImg.alt = name;
+    if (footImg) footImg.alt = name;
+    loadPopupImage(fullImg, p.FullImage || p.Image || '');
+    loadPopupImage(footImg, p.Image || p.FullImage || '');
+    renderFailPopupHints(p);
+    popup.classList.remove('hidden');
+    failPopupShownAt = Date.now();
+    // Focus différé : focaliser immédiatement ferait activer le bouton par la touche
+    // Entrée en cours de traitement, ce qui fermerait la popup sans que le joueur la lise.
+    const btn = document.getElementById('weeklyFailConfirm');
+    if (btn) setTimeout(() => {
+      if (!popup.classList.contains('hidden')) btn.focus();
+    }, 80);
+  }
+
+  function hideFailPopup() {
+    const popup = document.getElementById('weeklyFailPopup');
+    if (popup) popup.classList.add('hidden');
+  }
+
   function showReveal(p) {
     if (!p) return;
     revealDiv.classList.remove('hidden');
@@ -557,8 +641,18 @@ const Weekly = (function () {
   function failCurrentAndAdvance() {
     busy = true;
     results.push({ outcome: 'fail', attempts });
+    // On affiche une popup indiquant le Pokémon qu'il fallait trouver
+    // (full sprite + image du pied) ; le joueur doit confirmer pour continuer.
+    showFailPopup(weeklyList[index]);
+  }
+
+  // Appelé quand le joueur confirme la popup de révélation.
+  function confirmFailAndAdvance() {
+    // Ignore une activation héritée de la touche Entrée qui vient d'être relâchée.
+    if (Date.now() - failPopupShownAt < 250) return;
+    hideFailPopup();
     showReveal(weeklyList[index]);
-    setTimeout(() => { nextPokemon(); }, 1000);
+    setTimeout(() => { nextPokemon(); }, 700);
   }
 
   async function handleCorrect() {
@@ -836,8 +930,14 @@ const Weekly = (function () {
       if (index < COUNT) { e.preventDefault(); e.returnValue = ''; }
     });
 
+    const failConfirmBtn = document.getElementById('weeklyFailConfirm');
+    if (failConfirmBtn) failConfirmBtn.addEventListener('click', confirmFailAndAdvance);
+
     document.getElementById('weeklySubmit').addEventListener('click', submitGuess);
     document.getElementById('weeklySkip').addEventListener('click', () => {
+      // Pendant une transition de round (popup de révélation ou reveal en cours),
+      // on ignore les clics pour ne pas enregistrer deux échecs pour le même Pokémon.
+      if (busy) return;
       if (!confirm('Es-tu sûr de vouloir passer ce Pokémon ?')) return;
       showNotification('Passé — Pokémon révélé', 'hint');
       failCurrentAndAdvance();

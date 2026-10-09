@@ -166,6 +166,19 @@ const CustomPlayUI = (function () {
     failedEl.textContent = T('customPlay.failedAttempts', 'Échecs') + ' : ' + wrong.join(', ');
   }
 
+  // Les indices sont rendus dans une <ul> comme en mode challenge
+  // (sans liste, les navigateurs affichaient des puces et un alignement centré).
+  function hintsUl() {
+    const hintsList = $('playHints');
+    if (!hintsList) return null;
+    let ul = hintsList.querySelector('ul');
+    if (!ul) {
+      ul = document.createElement('ul');
+      hintsList.appendChild(ul);
+    }
+    return ul;
+  }
+
   function renderHints() {
     const hintsList = $('playHints');
     if (!hintsList) return;
@@ -174,20 +187,20 @@ const CustomPlayUI = (function () {
   }
 
   function addHintHTML(html) {
-    const hintsList = $('playHints');
-    if (!hintsList) return;
+    const ul = hintsUl();
+    if (!ul) return;
     const li = document.createElement('li');
     li.innerHTML = html;
-    hintsList.appendChild(li);
+    ul.appendChild(li);
     hintCount++;
   }
 
   function addHintText(text) {
-    const hintsList = $('playHints');
-    if (!hintsList) return;
+    const ul = hintsUl();
+    if (!ul) return;
     const li = document.createElement('li');
     li.textContent = text;
-    hintsList.appendChild(li);
+    ul.appendChild(li);
     hintCount++;
   }
 

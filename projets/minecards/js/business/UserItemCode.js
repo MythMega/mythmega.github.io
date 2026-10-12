@@ -115,6 +115,18 @@ export function canonicalCard(index, layout) {
 }
 
 /**
+ * Canonical item string of a Sparks reward.
+ *
+ * The binary format carries no item id, only a 3-byte hash of the canonical string plus a
+ * quantity: a Sparks reward is therefore encoded exactly like any other item, with the amount in
+ * the `quantity` field and the fixed canonical string `sparks`. The game resolves it through the
+ * catalogue entry added by `RedeemManager.buildUserItemCatalog()`.
+ */
+export function canonicalSparks() {
+  return 'sparks';
+}
+
+/**
  * Error raised when the verification cannot run at all (missing key, unusable UUID, no table).
  */
 export class UserItemCodeError extends Error {
@@ -487,11 +499,97 @@ export class UserItemCode {
     }
 
     const target = matches[0];
-    const reward = target.type === 'booster'
-      ? { type: 'booster', key: target.setId, quantity, card: null }
-      : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
+    const reward =
+      target.type === 'booster'
+        ? { type: 'booster', key: target.setId, quantity, card: null }
+        : target.type === 'sparks'
+          ? { type: 'sparks', key: 'sparks', quantity, card: null }
+          : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
 
     return { status: USER_ITEM_STATUSES.OK, rewards: [reward], storeKey: normalized };
+  }
+
+  /**
+   * Groups a normalized code into the documented 8 groups of 4 (`XXXX-XXXX-…`).
+   *
+   * @param {string} normalized - 32-character normalized code.
+   * @returns {string} The display form.
+   */
+  static format(normalized) {
+    return String(normalized).replace(/(.{4})(?=.)/g, '$1-');
+  }
+
+  /**
+   * Builds a personal `useritem` code (the generator counterpart of `verify()`).
+   *
+   * The format is exactly the one `verify()` reads (see the module header):
+   *   version ‖ nonce ‖ itemHash ‖ quantity ‖ uuidTag ‖ mac.
+   * `key` may be injected (the admin generator reads the same key from `settings/config.json`
+   * itself); when omitted, the configured key is used.
+   *
+   * @param {object} payload - Generation payload.
+   * @param {string} payload.uuid - Target account UUID (the code only works for it).
+   * @param {string} payload.canonical - Canonical item (`booster:A1`, `card:<Index>|<layout>`, `sparks`).
+   * @param {number} payload.quantity - Quantity (1-65535, uint16).
+   * @param {Uint8Array|null} [payload.nonce=null] - 5 explicit bytes (tests); random otherwise.
+   * @param {Uint8Array|null} [payload.key=null] - Shared key override; the configured key by default.
+   * @returns {Promise<{code: string, normalized: string, bytes: Uint8Array, canonical: string, quantity: number}>}
+   *   `code` is the display form (`XXXX-XXXX-…`), `normalized` the 32-character form.
+   * @throws {TypeError} When the UUID, the canonical item or the nonce is invalid.
+   * @throws {RangeError} When the quantity is outside [1, 65535].
+   * @throws {UserItemCodeError} When the key is unusable or `crypto.subtle` is unavailable.
+   */
+  async generate({ uuid, canonical, quantity, nonce = null, key = null } = {}) {
+    if (typeof canonical !== 'string' || canonical.trim() === '') {
+      throw new TypeError('UserItemCode.generate expects a non-empty canonical item.');
+    }
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 0xffff) {
+      throw new RangeError(`UserItemCode.generate expects a quantity between 1 and 65535 (received: ${quantity}).`);
+    }
+
+    const uuidBytes = UserItemCode.uuidToBytes(uuid);
+    if (!uuidBytes) {
+      throw new TypeError(`UserItemCode.generate received an invalid UUID: ${JSON.stringify(uuid)}.`);
+    }
+
+    let nonceBytes = nonce;
+    if (nonceBytes === null) {
+      if (typeof crypto === 'undefined' || typeof crypto.getRandomValues !== 'function') {
+        throw new UserItemCodeError('crypto.getRandomValues is unavailable: a nonce cannot be generated.');
+      }
+      nonceBytes = crypto.getRandomValues(new Uint8Array(5));
+    }
+    if (!(nonceBytes instanceof Uint8Array) || nonceBytes.length !== 5) {
+      throw new TypeError('UserItemCode.generate expects a 5-byte nonce.');
+    }
+
+    const itemHash = UserItemCode.fromHex(await UserItemCode.itemHash(canonical));
+    const uuidTag = (await UserItemCode.sha256(uuidBytes)).subarray(0, 2);
+
+    // First 13 bytes: they are both the readable head of the format and the MAC payload.
+    const head = new Uint8Array(13);
+    head[0] = USER_ITEM_VERSION;
+    head.set(nonceBytes, 1);
+    head.set(itemHash, 6);
+    head[9] = (quantity >> 8) & 0xff;
+    head[10] = quantity & 0xff;
+    head.set(uuidTag, 11);
+
+    const keyBytes = key ?? (await this.loadKey());
+    const mac = await UserItemCode.computeMac(keyBytes, uuidBytes, head);
+
+    const bytes = new Uint8Array(USER_ITEM_BYTES);
+    bytes.set(head, 0);
+    bytes.set(mac.subarray(0, 7), 13);
+
+    const normalized = UserItemCode.encode(bytes);
+    return {
+      code: UserItemCode.format(normalized),
+      normalized,
+      bytes,
+      canonical,
+      quantity,
+    };
   }
 
   /**
@@ -547,6 +645,33 @@ export class UserItemCode {
       'foreign vector ok for its own account',
       (await this.verify(TEST_OTHER_UUID_VECTOR.code, TEST_OTHER_UUID, catalog, { key })).status ===
         USER_ITEM_STATUSES.OK
+    );
+
+    // Generation round-trip (the admin page uses `generate()`, the game `verify()`).
+    const sparksCatalog = [{ canonical: canonicalSparks(), target: { type: 'sparks' } }];
+    const generated = await this.generate({
+      uuid: TEST_UUID,
+      canonical: canonicalSparks(),
+      quantity: 42,
+      nonce: UserItemCode.fromHex('0a0b0c0d0e'),
+      key,
+    });
+    const verifiedSparks = await this.verify(generated.code, TEST_UUID, sparksCatalog, { key });
+    check('generate + verify sparks', verifiedSparks.status === USER_ITEM_STATUSES.OK);
+    check('generated sparks quantity', verifiedSparks.rewards?.[0]?.quantity === 42);
+    check('generated sparks type', verifiedSparks.rewards?.[0]?.type === 'sparks');
+
+    // A generated code must not validate for another account (wrong_user).
+    const foreignGenerated = await this.generate({
+      uuid: TEST_OTHER_UUID,
+      canonical: canonicalSparks(),
+      quantity: 1,
+      key,
+    });
+    check(
+      'generated code is user-bound',
+      (await this.verify(foreignGenerated.code, TEST_UUID, sparksCatalog, { key })).status ===
+        USER_ITEM_STATUSES.WRONG_USER
     );
 
     // Lenient input: lowercase, no dashes, Crockford look-alikes.

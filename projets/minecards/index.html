@@ -2,42 +2,223 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Ouvrez des boosters, découvrez des cartes et complétez votre collection.">
-  <meta name="theme-color" content="#0b0e14">
+  <!-- `viewport-fit=cover` is what makes `env(safe-area-inset-*)` non-zero on notched devices:
+       `css/base.css` already reserves those insets, so it must be declared here. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+  <!-- Primary SEO metadata. The title stays under ~60 characters and leads with the brand, the
+       description under ~160 characters and names the genre first ("jeu de cartes TCG Minecraft"),
+       then the concrete hooks a player looks for (boosters gratuits, nombre de cartes). -->
+  <title>MineCards — jeu de cartes TCG Minecraft à collectionner</title>
+  <meta name="description" content="Ouvrez des boosters gratuits et collectionnez les cartes de l'univers Minecraft : 222 cartes, 5 raretés, impressions classiques et Full Art. Jeu de cartes à collectionner (TCG) gratuit, jouable dans le navigateur sans inscription.">
+  <meta name="keywords" content="MineCards, TCG Minecraft, jeu de cartes Minecraft, cartes Minecraft, booster Minecraft, ouvrir des boosters, collection de cartes, jeu de cartes à collectionner, jeu de cartes en ligne, Minecraft card game, Minecraft TCG">
+  <meta name="author" content="JMDev">
+  <meta name="theme-color" content="#0b0e14" id="meta-theme-color">
   <!-- The `?Redeem=` deep link (step 10) must not leak the code through the Referer header. -->
   <meta name="referrer" content="no-referrer">
-  <title>MineCards</title>
 
-  <!-- Social & SEO metadata. `canonical`, `og:url` and `og:image` must be absolute URLs
-       (Open Graph does not resolve relative paths); the public base is the static host at
-       web.jmdev.fr/projets/minecards/. Keep in sync if the site moves. -->
+  <!-- Social, crawling and language metadata. `canonical`, `og:url`, `og:image`, the hreflang
+       alternates and the sitemap `loc` entries must all be absolute URLs (Open Graph does not
+       resolve relative paths); the public base is the static host at
+       web.jmdev.fr/projets/minecards/. Keep the four files in sync if the site moves: this one,
+       `sitemap.xml`, `robots.txt` and `site.webmanifest`. -->
   <link rel="canonical" href="https://web.jmdev.fr/projets/minecards/">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-image-preview:large">
 
-  <link rel="icon" type="image/png" href="assets/img/card_back.png">
-  <link rel="apple-touch-icon" href="assets/img/card_back.png">
+  <!-- Language alternates. `/` is French (the `lang` attribute of `<html>`), `?lang=en` is the
+       English build of the very same page; the inline bootstrap reads that parameter. `x-default`
+       points at the French URL, which is the one linked and indexed by default. -->
+  <link rel="alternate" hreflang="fr" href="https://web.jmdev.fr/projets/minecards/">
+  <link rel="alternate" hreflang="en" href="https://web.jmdev.fr/projets/minecards/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://web.jmdev.fr/projets/minecards/">
+
+  <!-- PWA / installability (rich install card in Chrome, "Add to home screen" on mobile). -->
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
+
+  <!-- Icons: small PNGs generated from the card back. The 32/48 px favicon replaces the 546 KB
+       `card_back.png` that used to be served as an icon on every visit. -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MineCards">
-  <meta property="og:title" content="MineCards">
-  <meta property="og:description" content="Ouvrez des boosters, découvrez des cartes et complétez votre collection.">
+  <meta property="og:title" content="MineCards — jeu de cartes TCG Minecraft à collectionner">
+  <meta property="og:description" content="3 boosters gratuits par jour, 222 cartes à collectionner, 5 raretés : ouvrez des boosters et complétez votre collection de cartes Minecraft, gratuitement et sans inscription.">
   <meta property="og:url" content="https://web.jmdev.fr/projets/minecards/">
-  <meta property="og:image" content="https://web.jmdev.fr/projets/minecards/assets/img/card_back.png">
-  <meta property="og:image:alt" content="MineCards — dos de carte">
+  <!-- 1200x630 JPEG (75 KB) rather than the 546 KB card back: the dimensions are declared so
+       Facebook, LinkedIn and friends render a large card without fetching it twice. -->
+  <meta property="og:image" content="https://web.jmdev.fr/projets/minecards/assets/img/og-image.jpg">
+  <meta property="og:image:secure_url" content="https://web.jmdev.fr/projets/minecards/assets/img/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="MineCards — ouverture de boosters et collection de cartes Minecraft">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:locale:alternate" content="en_US">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MineCards">
-  <meta name="twitter:description" content="Ouvrez des boosters, découvrez des cartes et complétez votre collection.">
-  <meta name="twitter:image" content="https://web.jmdev.fr/projets/minecards/assets/img/card_back.png">
-  <meta name="twitter:image:alt" content="MineCards — dos de carte">
+  <meta name="twitter:title" content="MineCards — jeu de cartes TCG Minecraft à collectionner">
+  <meta name="twitter:description" content="3 boosters gratuits par jour, 222 cartes à collectionner, 5 raretés. Ouvrez des boosters et complétez votre collection de cartes Minecraft.">
+  <meta name="twitter:image" content="https://web.jmdev.fr/projets/minecards/assets/img/og-image.jpg">
+  <meta name="twitter:image:alt" content="MineCards — ouverture de boosters et collection de cartes Minecraft">
 
+  <meta name="application-name" content="MineCards">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MineCards">
   <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Structured data. One `@graph` describes the site, its publisher, the page and the game
+       itself, so search engines and AI answer engines can identify `MineCards` as a free
+       browser-based collectible card game. The FAQ block mirrors, question for question, the
+       visible "Questions fréquentes" section of the Information view: keep both in sync.
+       This graph is French, the default language of the page. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://web.jmdev.fr/projets/minecards/#website",
+          "url": "https://web.jmdev.fr/projets/minecards/",
+          "name": "MineCards",
+          "alternateName": ["MineCards TCG", "MineCards TCG Minecraft"],
+          "description": "Jeu de cartes à collectionner (TCG) Minecraft jouable dans le navigateur : ouverture de boosters, collection et échanges de codes.",
+          "inLanguage": ["fr", "en"],
+          "publisher": { "@id": "https://web.jmdev.fr/projets/minecards/#publisher" }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://web.jmdev.fr/projets/minecards/#publisher",
+          "name": "JMDev",
+          "url": "https://web.jmdev.fr/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://web.jmdev.fr/projets/minecards/assets/icons/icon-512.png",
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://web.jmdev.fr/projets/minecards/#webpage",
+          "url": "https://web.jmdev.fr/projets/minecards/",
+          "name": "MineCards — jeu de cartes TCG Minecraft à collectionner",
+          "description": "Ouvrez des boosters gratuits et collectionnez les cartes de l'univers Minecraft : 222 cartes, 5 raretés, impressions classiques et Full Art.",
+          "isPartOf": { "@id": "https://web.jmdev.fr/projets/minecards/#website" },
+          "about": { "@id": "https://web.jmdev.fr/projets/minecards/#game" },
+          "inLanguage": "fr",
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://web.jmdev.fr/projets/minecards/assets/img/og-image.jpg",
+            "width": 1200,
+            "height": 630
+          }
+        },
+        {
+          "@type": ["VideoGame", "WebApplication"],
+          "@id": "https://web.jmdev.fr/projets/minecards/#game",
+          "name": "MineCards",
+          "url": "https://web.jmdev.fr/projets/minecards/",
+          "description": "Jeu de cartes à collectionner (TCG) inspiré de l'univers Minecraft : trois boosters gratuits par jour, cinq cartes par booster, 222 cartes réparties en cinq raretés (Commune, Rare, Super rare, Légendaire, Mythique) en impression classique ou Full Art.",
+          "image": "https://web.jmdev.fr/projets/minecards/assets/img/og-image.jpg",
+          "applicationCategory": "GameApplication",
+          "applicationSubCategory": "Jeu de cartes à collectionner",
+          "gamePlatform": "Navigateur web",
+          "operatingSystem": "Tout système d'exploitation disposant d'un navigateur web",
+          "browserRequirements": "Nécessite JavaScript et IndexedDB",
+          "genre": ["Jeu de cartes à collectionner", "TCG", "Minecraft"],
+          "playMode": "SinglePlayer",
+          "numberOfPlayers": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 1 },
+          "inLanguage": ["fr", "en"],
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock"
+          },
+          "featureList": [
+            "Trois boosters gratuits par jour",
+            "Ouverture de booster en 3D puis révélation carte par carte",
+            "222 cartes dans l'extension Genèse (A1)",
+            "Cinq raretés, impressions classiques et Full Art",
+            "Godpack rare dont les cinq cartes sont Full Art",
+            "Collection, statistiques et taux de drop consultables",
+            "Boosters bonus via codes promo et distributions",
+            "Sparks : revente des doublons et achat de cartes précises",
+            "Sauvegarde locale exportable et réimportable"
+          ],
+          "keywords": "TCG Minecraft, jeu de cartes Minecraft, booster Minecraft, collection de cartes, jeu de cartes à collectionner",
+          "publisher": { "@id": "https://web.jmdev.fr/projets/minecards/#publisher" }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://web.jmdev.fr/projets/minecards/#faq",
+          "inLanguage": "fr",
+          "isPartOf": { "@id": "https://web.jmdev.fr/projets/minecards/#webpage" },
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "MineCards est-il un jeu Minecraft officiel ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Non. MineCards est un jeu de cartes à collectionner non officiel, réalisé par des passionnés : il n'est ni édité ni approuvé par Mojang ou Microsoft. Les illustrations de cartes proviennent de l'univers Minecraft et sont créditées dans cette page."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Combien de boosters gratuits peut-on ouvrir chaque jour ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Trois boosters gratuits par jour et par extension. Des boosters bonus peuvent s'y ajouter grâce aux codes promo et aux distributions ; ils s'accumulent sans limite jusqu'à leur ouverture."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Combien de cartes contient l'extension Genèse ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "L'extension Genèse (A1) contient 222 cartes réparties en cinq raretés : Commune, Rare, Super rare, Légendaire et Mythique, en impression classique (197 cartes) ou Full Art (25 cartes). Chaque booster contient 5 cartes."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Faut-il créer un compte ou payer pour jouer ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Non : le jeu est entièrement gratuit et ne demande aucune inscription. Un identifiant de compte est créé localement dans le navigateur ; la collection, les Sparks et les statistiques restent stockés sur l'appareil, et une sauvegarde peut être exportée puis réimportée."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "À quoi servent les Sparks ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Les Sparks sont la monnaie du jeu : chaque booster ouvert en rapporte quelques-uns, et les cartes en double peuvent être revendues selon leur rareté. Ils permettent ensuite d'acheter directement une carte précise depuis la collection."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Qu'est-ce qu'un godpack ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Rarement, un booster peut être un godpack : ses cinq cartes sont alors toutes des impressions Full Art, quelle que soit leur rareté."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+
+  <!-- Perf hint: the 3D scene pulls Three.js from unpkg on the opening screen, so the TLS and DNS
+       handshakes are done while the app boots instead of when the player taps "Ouvrir". -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
 
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/base.css">
@@ -69,20 +250,58 @@
   <!-- Pre-render bootstrap: applies the stored theme and language before the first paint so
        the page never flashes the wrong palette. The keys mirror what `js/utils/ThemeManager.js`
        (`mc_theme`) and `js/utils/I18n.js` (`mc_lang`) write; the authoritative values live in
-       IndexedDB (`user_state["settings"]`) and are applied by `js/app.js`. -->
+       IndexedDB (`user_state["settings"]`) and are applied by `js/app.js`.
+
+       It also solves two metadata problems that would otherwise need a server:
+         1. `?lang=en` — the language alternate advertised by the `hreflang` links, the sitemap and
+            the Open Graph locale. The parameter is mirrored into `mc_lang`, which is the first
+            value `I18n.init()` looks at, so the page really renders in English; an unsupported
+            code is dropped by `I18n.normalizeLang()`. The canonical link is rewritten so each
+            language variant points at itself instead of at the French page.
+         2. the browser chrome color: `<meta name="theme-color">` follows the user's theme
+            (`--color-bg` of `css/themes.css`) rather than the OS preference. -->
   <script>
     (function () {
       var theme = 'dark';
       try {
         theme = window.localStorage.getItem('mc_theme') || 'dark';
-        var lang = window.localStorage.getItem('mc_lang');
-        if (lang) {
-          document.documentElement.lang = lang;
+
+        // `?lang=xx` wins over the stored preference: a shared English link must open in English.
+        // The parameter is only mirrored when it looks like a language code; `I18n.normalizeLang()`
+        // is still the one that decides whether it is actually supported.
+        var requested = new URLSearchParams(window.location.search).get('lang');
+        var requestedLang = requested && /^[a-z]{2}(-[a-z]{2,4})?$/i.test(requested.trim())
+          ? requested.trim().toLowerCase()
+          : null;
+        if (requestedLang) {
+          window.localStorage.setItem('mc_lang', requestedLang);
+        }
+
+        var language = requestedLang || window.localStorage.getItem('mc_lang');
+        if (language) {
+          document.documentElement.lang = language;
+        }
+
+        // Self-referencing canonical: French keeps the bare URL, every other language carries its
+        // own `?lang=` parameter.
+        if (requestedLang) {
+          var canonical = document.querySelector('link[rel="canonical"]');
+          if (canonical) {
+            var base = canonical.href.split('?')[0];
+            canonical.href = requestedLang === 'fr' ? base : base + '?lang=' + requestedLang;
+          }
         }
       } catch (error) {
         console.warn('[bootstrap] localStorage is not readable, falling back to the default theme.');
       }
       document.documentElement.dataset.theme = theme;
+
+      // Keeps the mobile status bar in sync with the JS theme of the frame (`css/themes.css`).
+      var THEME_COLORS = { dark: '#0b0e14', light: '#eef1f8', classic: '#efe3c8' };
+      var themeColor = document.getElementById('meta-theme-color');
+      if (themeColor && THEME_COLORS[theme]) {
+        themeColor.setAttribute('content', THEME_COLORS[theme]);
+      }
 
       // Safety net: an opaque loader that never disappears is worse than a bare page, so the
       // overlay is dropped after 10s even if `js/app.js` could not load (e.g. a module blocked
@@ -105,6 +324,12 @@
 
   <noscript>
     <p class="app-fatal" data-i18n="app.noscript">Cette application nécessite JavaScript pour fonctionner.</p>
+    <!-- Static fallback for the crawlers that do not execute JavaScript: the game is fully
+         client-rendered, so this paragraph is the only prose they will ever read. It is kept out
+         of the i18n system on purpose (the content of `<noscript>` is not even parsed as elements
+         when scripting is enabled, so `I18n.applyToDom()` can never reach it) and therefore stays
+         French, the default language of the page. -->
+    <p class="app-fatal">MineCards est un jeu de cartes à collectionner (TCG) inspiré de l'univers Minecraft, jouable gratuitement dans le navigateur, sans inscription : trois boosters gratuits par jour, cinq cartes par booster, et 222 cartes à collectionner dans l'extension Genèse réparties en cinq raretés (Commune, Rare, Super rare, Légendaire, Mythique) en impression classique ou Full Art.</p>
   </noscript>
 
   <header class="app-header">
@@ -118,14 +343,29 @@
         <span data-i18n="header.boosters.daily">Boosters du jour</span>
         <span class="app-header__stat-value" id="header-daily-boosters">0</span>
       </span>
-      <span class="app-header__stat">
+      <!-- Bonus boosters are clickable: the tooltip panel opens the per-extension inventory. -->
+      <button type="button" class="app-header__stat app-header__stat--action" data-header-bonus aria-haspopup="dialog" data-i18n-aria-label="header.boosters.bonusTitle">
         <span data-i18n="header.boosters.bonus">Bonus</span>
         <span class="app-header__stat-value" id="header-bonus-boosters">0</span>
+      </button>
+      <span class="app-header__stat app-header__stat--sparks">
+        <img class="app-header__sparks-icon" src="assets/img/sparks.png" alt="" aria-hidden="true">
+        <span class="app-header__stat-value" id="header-sparks">0</span>
+        <span class="app-header__sparks-label" data-i18n="sparks.title">Sparks</span>
       </span>
       <span class="app-header__clock">
         <span data-i18n="header.clock.utc">UTC</span>
         <time id="header-utc-clock">--:--:--</time>
       </span>
+    </div>
+
+    <!-- Bonus inventory: the total lives in the header, the per-extension split is shown here. -->
+    <div class="modal" data-bonus-modal hidden>
+      <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="bonus-modal-title">
+        <button type="button" class="modal__close" data-bonus-modal-close aria-label="×">×</button>
+        <h2 class="modal__title" id="bonus-modal-title" data-bonus-modal-title></h2>
+        <div class="modal__body" data-bonus-modal-body></div>
+      </div>
     </div>
   </header>
 
@@ -218,6 +458,20 @@
             <button type="button" class="modal__close" data-card-modal-close aria-label="×">×</button>
             <h2 class="modal__title" id="opening-card-modal-title" data-card-modal-title></h2>
             <div class="modal__body" data-card-modal-body></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Source choice: shown when the selected extension has BOTH a daily booster and a bonus
+           one, so the player decides which bucket is spent. The labels are written by OpeningView. -->
+      <div class="modal" data-opening-source-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="opening-source-title">
+          <button type="button" class="modal__close" data-opening-source-close aria-label="×">×</button>
+          <h2 class="modal__title" id="opening-source-title" data-opening-source-title></h2>
+          <div class="modal__body" data-opening-source-body></div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-opening-source-choice="daily"></button>
+            <button type="button" class="btn btn--primary" data-opening-source-choice="bonus"></button>
           </div>
         </div>
       </div>
@@ -474,20 +728,49 @@
         <!-- How it works: plain translated paragraphs (no data to load). -->
         <section class="panel info__panel">
           <h3 class="stats__title" data-i18n="info.how.title">Comment ça marche ?</h3>
-          <p class="info__text" data-i18n="info.how.intro"></p>
+          <p class="info__text" data-i18n="info.how.intro">MineCards est un jeu de collection : votre compte, votre collection et vos statistiques sont stockés uniquement dans ce navigateur, rien n'est envoyé à un serveur.</p>
           <ol class="info__steps">
-            <li data-i18n="info.how.step1"></li>
-            <li data-i18n="info.how.step2"></li>
-            <li data-i18n="info.how.step3"></li>
-            <li data-i18n="info.how.step4"></li>
+            <li data-i18n="info.how.step1">Chaque jour, vous recevez 3 boosters gratuits. Des boosters bonus peuvent aussi être crédités par les codes promo et les distributions.</li>
+            <li data-i18n="info.how.step2">Choisissez une extension puis ouvrez un booster : ses 5 cartes sont tirées et enregistrées immédiatement, avant l'animation.</li>
+            <li data-i18n="info.how.step3">Révélez les cartes une par une, puis consultez le résumé. Le code du booster (minecards:…) permet de partager l'ouverture.</li>
+            <li data-i18n="info.how.step4">Les cartes obtenues rejoignent la collection (les doublons s'accumulent) et alimentent les statistiques.</li>
           </ol>
-          <p class="info__text" data-i18n="info.how.godpack"></p>
+          <p class="info__text" data-i18n="info.how.godpack">Rarement, un booster peut être un « godpack » : ses 5 cartes sont alors toutes des impressions Full Art, quelle que soit leur rareté.</p>
+        </section>
+
+        <!-- About + FAQ: the long-form prose of the site, and the visible counterpart of the
+             `FAQPage` structured data declared in `<head>`. It is written here as static French so
+             that a crawler reads real sentences instead of empty elements, and it is overwritten at
+             boot by `settings/i18n/fr.json`, which carries the exact same strings (English lives in
+             `settings/i18n/en.json`). A question therefore lives in three places: this markup, the
+             two dictionaries and the JSON-LD graph. -->
+        <section class="panel info__panel">
+          <h3 class="stats__title" data-i18n="info.about.title">À propos de MineCards</h3>
+          <p class="info__text" data-i18n="info.about.intro">MineCards est un jeu de cartes à collectionner (TCG) inspiré de l'univers Minecraft, jouable gratuitement dans le navigateur. Trois boosters gratuits sont offerts chaque jour et par extension : chacun contient 5 cartes, tirées selon des taux de drop publiés ci-dessous.</p>
+          <p class="info__text" data-i18n="info.about.collection">L'extension Genèse (A1) réunit 222 cartes réparties en cinq raretés — Commune, Rare, Super rare, Légendaire et Mythique — en impression classique ou Full Art. Les cartes obtenues rejoignent la collection, où les doublons se revendent en Sparks pour acheter directement une carte manquante.</p>
+          <p class="info__text" data-i18n="info.about.local">Aucune inscription n'est nécessaire et rien n'est envoyé à un serveur : la collection, les Sparks et les statistiques restent stockés dans le navigateur, et une sauvegarde peut être exportée puis réimportée.</p>
+
+          <h3 class="stats__title info__faq-title" data-i18n="info.faq.title">Questions fréquentes</h3>
+          <dl class="info__faq">
+            <dt data-i18n="info.faq.q1">MineCards est-il un jeu Minecraft officiel ?</dt>
+            <dd data-i18n="info.faq.a1">Non. MineCards est un jeu de cartes à collectionner non officiel, réalisé par des passionnés : il n'est ni édité ni approuvé par Mojang ou Microsoft. Les illustrations de cartes proviennent de l'univers Minecraft et sont créditées dans cette page.</dd>
+            <dt data-i18n="info.faq.q2">Combien de boosters gratuits peut-on ouvrir chaque jour ?</dt>
+            <dd data-i18n="info.faq.a2">Trois boosters gratuits par jour et par extension. Des boosters bonus peuvent s'y ajouter grâce aux codes promo et aux distributions ; ils s'accumulent sans limite jusqu'à leur ouverture.</dd>
+            <dt data-i18n="info.faq.q3">Combien de cartes contient l'extension Genèse ?</dt>
+            <dd data-i18n="info.faq.a3">L'extension Genèse (A1) contient 222 cartes réparties en cinq raretés : Commune, Rare, Super rare, Légendaire et Mythique, en impression classique (197 cartes) ou Full Art (25 cartes). Chaque booster contient 5 cartes.</dd>
+            <dt data-i18n="info.faq.q4">Faut-il créer un compte ou payer pour jouer ?</dt>
+            <dd data-i18n="info.faq.a4">Non : le jeu est entièrement gratuit et ne demande aucune inscription. Un identifiant de compte est créé localement dans le navigateur ; la collection, les Sparks et les statistiques restent stockés sur l'appareil, et une sauvegarde peut être exportée puis réimportée.</dd>
+            <dt data-i18n="info.faq.q5">À quoi servent les Sparks ?</dt>
+            <dd data-i18n="info.faq.a5">Les Sparks sont la monnaie du jeu : chaque booster ouvert en rapporte quelques-uns, et les cartes en double peuvent être revendues selon leur rareté. Ils permettent ensuite d'acheter directement une carte précise depuis la collection.</dd>
+            <dt data-i18n="info.faq.q6">Qu'est-ce qu'un godpack ?</dt>
+            <dd data-i18n="info.faq.a6">Rarement, un booster peut être un godpack : ses cinq cartes sont alors toutes des impressions Full Art, quelle que soit leur rareté.</dd>
+          </dl>
         </section>
 
         <!-- Drop rates: the combobox picks an extension, the tables are read from its JSON. -->
         <section class="panel info__panel">
           <h3 class="stats__title" data-i18n="info.rates.title">Taux de drop</h3>
-          <p class="info__text" data-i18n="info.rates.help"></p>
+          <p class="info__text" data-i18n="info.rates.help">Les taux ci-dessous sont lus directement dans les fichiers de données du jeu : ils correspondent exactement au tirage réel.</p>
 
           <label class="field info__field" for="info-set">
             <span class="field__label" data-i18n="info.rates.set">Extension</span>
@@ -499,7 +782,7 @@
           <p class="info__note" data-info-rarity-source></p>
 
           <h4 class="info__subtitle" data-i18n="info.rates.cards">Taux de drop de chaque carte</h4>
-          <p class="info__note" data-i18n="info.rates.cardsHelp"></p>
+          <p class="info__note" data-i18n="info.rates.cardsHelp">Probabilité qu'une carte donnée apparaisse dans un booster, calculée à partir des chances ci-dessus.</p>
           <div class="info__cards" data-info-cards></div>
         </section>
 
@@ -507,10 +790,10 @@
         <section class="panel info__panel">
           <h3 class="stats__title" data-i18n="info.credits.title">Crédits</h3>
           <ul class="info__credits">
-            <li data-i18n="info.credits.images"></li>
-            <li data-i18n="info.credits.cardSound"></li>
-            <li data-i18n="info.credits.rarity4"></li>
-            <li data-i18n="info.credits.rarity5"></li>
+            <li data-i18n="info.credits.images">Les images de cartes viennent de MythMega.</li>
+            <li data-i18n="info.credits.cardSound">Le son d'ouverture de cartes vient de Pixabay : « Card Return Sound Effect » par Alex (pixabay.com/users/oxidvideos-37598254).</li>
+            <li data-i18n="info.credits.rarity4">Le son des cartes légendaires est le son de passage de niveau de Minecraft.</li>
+            <li data-i18n="info.credits.rarity5">Le son des cartes mythiques est le son d'advancement (objectif) de Minecraft.</li>
           </ul>
         </section>
       </div>

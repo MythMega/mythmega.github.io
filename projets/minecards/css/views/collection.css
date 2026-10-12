@@ -138,6 +138,73 @@
   }
 }
 
+/* --- Sparks trade block (detail modal) ----------------------------------- */
+
+.collection-trade {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.collection-trade__wallet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.collection-trade__icon {
+  width: 1.1em;
+  height: 1.1em;
+  object-fit: contain;
+}
+
+.collection-trade__balance {
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+}
+
+.collection-trade__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.collection-trade__actions .btn {
+  flex: 1 1 auto;
+}
+
+.collection-trade__label {
+  white-space: nowrap;
+}
+
+/* Sparks delta of a trade button: green when credited (sale), red when charged (purchase). */
+.collection-trade__delta {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.collection-trade__delta[data-tone="gain"] {
+  color: var(--color-success);
+}
+
+.collection-trade__delta[data-tone="cost"] {
+  color: var(--color-error);
+}
+
+.collection-trade__delta-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  object-fit: contain;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .collection__tile {
     animation: none;

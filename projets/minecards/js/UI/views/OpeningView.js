@@ -90,6 +90,12 @@ export class OpeningView {
     this.cardModalBody = this.root.querySelector('[data-card-modal-body]');
     this.cardModalClose = this.root.querySelector('[data-card-modal-close]');
 
+    this.sourceModal = this.root.querySelector('[data-opening-source-modal]');
+    this.sourceTitle = this.root.querySelector('[data-opening-source-title]');
+    this.sourceBody = this.root.querySelector('[data-opening-source-body]');
+    this.sourceClose = this.root.querySelector('[data-opening-source-close]');
+    this.sourceButtons = Array.from(this.root.querySelectorAll('[data-opening-source-choice]'));
+
     this.assertMarkup();
 
     /** @type {Map<string, object>} Extension descriptions, keyed by id. */
@@ -165,6 +171,9 @@ export class OpeningView {
       ['[data-card-modal-title]', this.cardModalTitle],
       ['[data-card-modal-body]', this.cardModalBody],
       ['[data-card-modal-close]', this.cardModalClose],
+      ['[data-opening-source-modal]', this.sourceModal],
+      ['[data-opening-source-title]', this.sourceTitle],
+      ['[data-opening-source-body]', this.sourceBody],
       ['[data-opening-copy-code]', this.copyCodeButton],
       ['[data-opening-finish]', this.finishButton],
       ['[data-booster-3d]', this.boosterContainer],
@@ -262,6 +271,17 @@ export class OpeningView {
     if (this.cardModalClose) {
       this.listen(this.cardModalClose, 'click', () => this.closeCardModal());
     }
+    if (this.sourceModal) {
+      this.listen(this.sourceModal, 'click', (event) => {
+        if (event?.target === this.sourceModal) this.closeSourceModal();
+      });
+    }
+    if (this.sourceClose) {
+      this.listen(this.sourceClose, 'click', () => this.closeSourceModal());
+    }
+    this.sourceButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.handleSourceChoice(button.dataset.openingSourceChoice));
+    });
     this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
     this.log('DOM listeners bound.');
   }
@@ -467,21 +487,93 @@ export class OpeningView {
   // __OPENING_OPEN__
 
   /**
-   * Handles the open button: draws AND persists the pack, then starts the scene.
+   * Handles the open button.
    *
-   * @returns {Promise<void>} Resolves once the scene is displayed.
+   * When the selected extension has BOTH a daily booster and a bonus one, the source dialog is
+   * shown first; otherwise the opening starts immediately with the only available bucket.
+   *
+   * @returns {Promise<void>} Resolves once the opening started (or the dialog is displayed).
    */
   async handleOpenClick() {
+    if (this.isBusy || !this.selectedSetId) return;
+    const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
+    const bonus = quota.bonusBySet[this.selectedSetId] ?? 0;
+    // Both buckets can pay for this extension: the player chooses which one is spent.
+    if (quota.daily > 0 && bonus > 0) {
+      this.openSourceModal({ daily: quota.daily, bonus });
+      return;
+    }
+    const source = quota.daily > 0 ? 'daily' : bonus > 0 ? 'bonus' : null;
+    await this.performOpen(source);
+  }
+
+  /**
+   * Shows the source choice dialog (daily booster vs inventory booster).
+   *
+   * @param {{daily: number, bonus: number}} counts - Available boosters of each bucket.
+   * @returns {void}
+   */
+  openSourceModal({ daily, bonus }) {
+    if (!this.sourceModal) return;
+    const set = this.resolveSetName(this.selectedSetId);
+    this.sourceTitle.textContent = i18n.t('opening.source.title');
+    this.sourceBody.textContent = i18n.t('opening.source.body', { set, daily, bonus });
+    this.sourceButtons.forEach((button) => {
+      const isDaily = button.dataset.openingSourceChoice === 'daily';
+      button.textContent = i18n.t(isDaily ? 'opening.source.useDaily' : 'opening.source.useBonus', {
+        count: isDaily ? daily : bonus,
+      });
+    });
+    this.sourceModal.hidden = false;
+    this.log(`Source choice required for "${this.selectedSetId}" (daily ${daily}, bonus ${bonus}).`);
+  }
+
+  /**
+   * Handles a choice in the source dialog.
+   *
+   * @param {string} source - `daily` or `bonus`.
+   * @returns {Promise<void>} Resolves once the opening started.
+   */
+  async handleSourceChoice(source) {
+    if (source !== 'daily' && source !== 'bonus') return;
+    this.closeSourceModal();
+    await this.performOpen(source);
+  }
+
+  /**
+   * Closes the source choice dialog.
+   *
+   * @returns {void}
+   */
+  closeSourceModal() {
+    if (this.sourceModal && !this.sourceModal.hidden) {
+      this.sourceModal.hidden = true;
+    }
+  }
+
+  /**
+   * Draws AND persists the pack, then starts the scene.
+   *
+   * @param {'daily'|'bonus'|null} [source=null] - Booster bucket to spend (null lets the manager
+   *   pick: daily quota first, then the extension bonus).
+   * @returns {Promise<void>} Resolves once the scene is displayed.
+   */
+  async performOpen(source = null) {
     if (this.isBusy || !this.selectedSetId) return;
     this.isBusy = true;
     this.openButton.disabled = true;
     const previousLabel = this.openButton.textContent;
     this.openButton.textContent = i18n.t('opening.opening');
     this.setFeedback(null);
-    this.log(`Opening a "${this.selectedSetId}" booster (draw persisted before the animation)…`);
+    this.log(
+      `Opening a "${this.selectedSetId}" booster (source: ${source ?? 'auto'}; draw persisted before the animation)…`
+    );
 
     try {
-      const result = await boosterManager.openBooster(this.selectedSetId);
+      const result = await boosterManager.openBooster(
+        this.selectedSetId,
+        source ? { source } : {}
+      );
       this.log(`Pack persisted: ${result.cards.length} cards, source "${result.source}".`, {
         newKeys: result.newKeys,
       });
@@ -967,6 +1059,12 @@ export class OpeningView {
    */
   handleDocumentKeyDown(event) {
     if (!event || typeof event.key !== 'string') return;
+    if (this.sourceModal && !this.sourceModal.hidden) {
+      if (event.key === 'Escape') {
+        this.closeSourceModal();
+      }
+      return;
+    }
     if (this.cardModal && !this.cardModal.hidden) {
       if (event.key === 'Escape') {
         this.closeCardModal();
@@ -1039,6 +1137,7 @@ export class OpeningView {
    */
   finish() {
     this.log('Finishing the reveal (no write, the pack was already persisted).');
+    this.closeSourceModal();
     this.cancelIdleDispose();
     this.disposeRenderer();
     this.isFallbackMode = false;

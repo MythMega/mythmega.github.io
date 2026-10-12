@@ -28,7 +28,7 @@
 import Card from '../classes/Card.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
-import dateSyncManager from './DateSyncManager.js';
+import dateSyncManager, { BOOSTER_SOURCES } from './DateSyncManager.js';
 import GachaEngine from './GachaEngine.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import { buildBoosterCode } from '../utils/BoosterCode.js';
@@ -42,6 +42,9 @@ export const RARITY_PATH = 'settings/defaultRarity.json';
 
 /** Default number of cards in a booster. */
 export const DEFAULT_CARDS_PER_BOOSTER = 5;
+
+/** Default Sparks credited by one booster opening (`sparks.boosterReward` overrides it). */
+export const DEFAULT_BOOSTER_SPARKS_REWARD = 5;
 
 /**
  * Default number of past openings kept in `user_state["boosterHistory"]`.
@@ -273,25 +276,38 @@ export class BoosterManager {
    * Opens one booster: consumes the quota, draws 5 cards and persists them immediately.
    *
    * @param {string} setId - Extension to open.
-   * @returns {Promise<{setId: string, cards: Card[], newKeys: string[], source: 'daily'|'bonus', quantity: Object<string, number>, remaining: Object}>}
+   * @param {object} [options] - Opening options.
+   * @param {'auto'|'daily'|'bonus'} [options.source='auto'] - Booster bucket to spend. `auto` keeps
+   *   the historic order (daily first, then the extension bonus); the opening view passes an
+   *   explicit source when the player chose between a daily and an inventory booster.
+   * @returns {Promise<{setId: string, cards: Card[], newKeys: string[], source: 'daily'|'bonus', godpack: boolean, sparks: number, quantity: Object<string, number>, remaining: Object}>}
    *   The drawn cards, the keys that were NOT owned before this pack (used for the "NEW" badge of
-   *   step 4), whether the booster came from the daily quota or from a bonus, the resulting
-   *   quantities and the remaining boosters for that extension.
-   * @throws {RangeError} When the extension is unknown.
+   *   step 4), whether the booster came from the daily quota or from a bonus, whether it was a god
+   *   pack, the Sparks balance after the reward, the resulting quantities and the remaining
+   *   boosters for that extension.
+   * @throws {RangeError} When the extension is unknown or the source is invalid.
    * @throws {Error} With the code `NO_BOOSTER_AVAILABLE` when neither the daily quota nor a bonus
    *   is available for that extension.
    * @throws {Error} When a JSON file is invalid or the write fails (the booster is then refunded).
    */
-  async openBooster(setId) {
+  async openBooster(setId, { source = BOOSTER_SOURCES.AUTO } = {}) {
     const key = dateSyncManager.assertKnownSet(setId);
     await this.init();
 
     const loadedSet = this.boosterSets[key];
     const { cardsPerBooster, godpackChancePercent, historySize } =
       await configLoader.getBoosterSettings();
+    const { boosterReward } = await configLoader.getSparksSettings();
     const quotaBefore = await dateSyncManager.getRemainingBoosters(key);
+    const bonusBefore = quotaBefore.bonusBySet[key] ?? 0;
 
-    if (quotaBefore.availableForSet === 0) {
+    const available =
+      source === BOOSTER_SOURCES.DAILY
+        ? quotaBefore.daily > 0
+        : source === BOOSTER_SOURCES.BONUS
+          ? bonusBefore > 0
+          : quotaBefore.availableForSet > 0;
+    if (!available) {
       throw BoosterManager.buildNoBoosterError(key);
     }
 
@@ -311,16 +327,21 @@ export class BoosterManager {
       console.info(`[BoosterManager] God pack for "${key}": ${cards.length} full art card(s).`);
     }
 
-    const consumed = await dateSyncManager.consumeBooster(key);
+    const consumed = await dateSyncManager.consumeBooster(key, source);
     if (!consumed) {
       throw BoosterManager.buildNoBoosterError(key);
     }
 
     const quotaAfter = dateSyncManager.getQuotaSnapshot(key);
-    // `consumeBooster()` deletes the bonus key once its bucket reaches zero, so the comparison
-    // needs a nullish fallback: `undefined < 1` is false and would report "daily" wrongly.
-    const source =
-      (quotaAfter.bonusBySet[key] ?? 0) < (quotaBefore.bonusBySet[key] ?? 0) ? 'bonus' : 'daily';
+    // An explicit source is trusted as-is; in `auto` mode `consumeBooster()` deletes the bonus key
+    // once its bucket reaches zero, so the comparison needs a nullish fallback (`undefined < 1` is
+    // false and would report "daily" wrongly).
+    const consumedSource =
+      source === BOOSTER_SOURCES.AUTO
+        ? (quotaAfter.bonusBySet[key] ?? 0) < bonusBefore
+          ? 'bonus'
+          : 'daily'
+        : source;
 
     // One single trusted timestamp for the collection row, the history entry and the stats.
     const openedAt = buildCollectionTimestamp();
@@ -334,9 +355,14 @@ export class BoosterManager {
 
     let result;
     try {
-      result = await this.persistBooster(cards, { historyEntry, historySize, timestamp: openedAt });
+      result = await this.persistBooster(cards, {
+        historyEntry,
+        historySize,
+        timestamp: openedAt,
+        sparksReward: boosterReward,
+      });
     } catch (error) {
-      await this.refundBooster(key, source, error);
+      await this.refundBooster(key, consumedSource, error);
       throw error;
     }
 
@@ -345,13 +371,17 @@ export class BoosterManager {
       setId: key,
       cards,
       newKeys: result.newKeys,
-      source,
+      source: consumedSource,
       godpack: isGodpack,
+      sparks: result.sparks,
       quantity: result.quantity,
       remaining,
     };
 
     eventBus.emit(EVENTS.BOOSTER_OPENED, summary);
+    if (Number.isFinite(result.sparks)) {
+      eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: result.sparks });
+    }
     return summary;
   }
 
@@ -464,11 +494,22 @@ export class BoosterManager {
    * @param {number} [options.historySize=BOOSTER_HISTORY_SIZE] - Maximum number of kept openings.
    * @param {string|null} [options.timestamp=null] - Timestamp shared with the caller, so the
    *   collection rows, the statistics and the history of one opening all carry the same instant.
-   * @returns {Promise<{newKeys: string[], quantity: Record<string, number>}>} The keys obtained for
-   *   the first time, and the resulting quantity per key after the pack.
+   * @param {number} [options.sparksReward=0] - Sparks credited by the opening (`sparks.boosterReward`),
+   *   written in the SAME transaction as the cards so a failed write never credits them.
+   * @returns {Promise<{newKeys: string[], quantity: Record<string, number>, sparks: number}>} The
+   *   keys obtained for the first time, the resulting quantity per key, and the Sparks balance
+   *   after the reward.
    * @throws {Error} When the transaction fails (nothing is written, it is aborted).
    */
-  async persistBooster(cards, { historyEntry = null, historySize = BOOSTER_HISTORY_SIZE, timestamp = null } = {}) {
+  async persistBooster(
+    cards,
+    {
+      historyEntry = null,
+      historySize = BOOSTER_HISTORY_SIZE,
+      timestamp = null,
+      sparksReward = 0,
+    } = {}
+  ) {
     const obtainedAt = timestamp ?? buildCollectionTimestamp();
     const drawsByRarity = BoosterManager.countByRarity(cards);
     const drawsByCard = BoosterManager.countByKey(cards);
@@ -526,7 +567,18 @@ export class BoosterManager {
           );
         }
 
-        return { newKeys, quantity };
+        // Sparks reward: same transaction as the pack, so a failed card/stats write never
+        // credits the currency (the booster is refunded instead).
+        const currentSparks = BoosterManager.normalizeSparks(
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.SPARKS)
+        );
+        const reward = Number.isInteger(sparksReward) && sparksReward > 0 ? sparksReward : 0;
+        const sparks = currentSparks + reward;
+        if (reward > 0) {
+          await context.put(STORES.USER_STATE, sparks, USER_STATE_KEYS.SPARKS);
+        }
+
+        return { newKeys, quantity, sparks };
       }
     );
   }
@@ -654,6 +706,19 @@ export class BoosterManager {
       : await storageRepository.transaction(STORES.COLLECTION, 'readwrite', apply);
 
     return { added: list.length * quantityPerCard, newKeys: result.newKeys, quantity: result.quantity };
+  }
+
+  /**
+   * Normalizes a raw Sparks balance read from `user_state["sparks"]`.
+   *
+   * Anything absent, negative or non-integer is read as 0, exactly like `SparksManager`.
+   *
+   * @param {unknown} raw - Stored balance.
+   * @returns {number} A non-negative integer.
+   */
+  static normalizeSparks(raw) {
+    const value = typeof raw === 'number' ? raw : Number(raw);
+    return Number.isInteger(value) && value >= 0 ? value : 0;
   }
 
   /**

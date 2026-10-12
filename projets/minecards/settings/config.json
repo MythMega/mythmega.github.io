@@ -36,6 +36,13 @@
     "resyncIntervalMs": 900000
   },
 
+  "sparks": {
+    "_comment": "Sparks currency. 'sellPrice'/'buyPrice' map a rarity (1-5) to its value in Sparks; 'boosterReward' is credited on every booster opening. Every key falls back to its built-in default when absent.",
+    "sellPrice": { "1": 1, "2": 3, "3": 10, "4": 25, "5": 100 },
+    "buyPrice": { "1": 10, "2": 25, "3": 100, "4": 500, "5": 2500 },
+    "boosterReward": 5
+  },
+
   "giftSheet": {
     "id": "1AodjgWkMej5Hrt1jcs_DH-dCo87A-3vR7NyiINkKUSA",
     "gid": "0"
@@ -45,5 +52,26 @@
     "_comment": "Step 10 personal codes. 'key' is 32 random bytes in base64 ('openssl rand -base64 32'); the value below is a PLACEHOLDER (32 zero bytes) that MUST be replaced, with the same value in the game master generator. WARNING: this key is served to the browser, so anyone reading the sources can forge codes (see .docs/gamemaster/useritemcode.md section 2).",
     "version": 1,
     "key": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+  },
+
+  "levelling": {
+    "_comment": "the default level is 'defaultLevel'. To level up the first level, you need 'baseRequiredExpToLevelUp' XP, and each level, the requirement increase by 'incrementRequiredXpBy' XP.",
+    "defaultLevel": 1,
+    "baseRequiredExpToLevelUp" : 100,
+    "incrementRequiredXpBy": 25,
+    "experience": {
+      "everyBooster": 5,
+      "everyDistinctCard": 3,
+      "nameChanged": 10
+    }
+  },
+  
+  "ExperiencePerTrophy": {
+    "_comment": "Trophies gives thoses experience with thoses rarity. Except if it's explicitly said in the trophy json",
+      "bronze": 25,
+      "silver": 100,
+      "gold": 250,
+      "diamond": 500,
+      "emerald": 1000
   }
 }

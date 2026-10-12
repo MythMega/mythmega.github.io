@@ -428,6 +428,14 @@ export class RedeemView {
       return item;
     }
 
+    if (reward.type === 'sparks') {
+      const line = document.createElement('p');
+      line.className = 'redeem__reward-line';
+      line.textContent = i18n.t('redeem.reward.sparks', { count: reward.quantity });
+      item.appendChild(line);
+      return item;
+    }
+
     const line = document.createElement('p');
     line.className = 'redeem__reward-line';
     line.textContent = i18n.t('redeem.reward.booster', {

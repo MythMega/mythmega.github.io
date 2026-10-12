@@ -9,7 +9,9 @@
  *     - `booster`: the key column holds the extension id (e.g. `A1`) and `quantity` the number of
  *       BONUS boosters of that extension;
  *     - `card`   : the key column holds the card unique key `${id}_${style}`
- *       (e.g. `SERIE-A1 _ Z001_fullart`) and `quantity` the number of copies.
+ *       (e.g. `SERIE-A1 _ Z001_fullart`) and `quantity` the number of copies;
+ *     - `sparks` : `quantity` is the number of Sparks credited; the key column is ignored (it may
+ *       stay empty).
  *   A missing header column refuses the whole run BEFORE anything is written (the cursor is left
  *   untouched), so a temporarily broken sheet can never swallow a gift.
  *   The sheet is append-only: never sort, insert or delete a row, otherwise the line numbers
@@ -72,7 +74,7 @@ export const GIFT_SHEET_URL_TEMPLATES = Object.freeze([
 ]);
 
 /** Gift types accepted in the sheet. */
-export const GIFT_TYPES = Object.freeze({ BOOSTER: 'booster', CARD: 'card' });
+export const GIFT_TYPES = Object.freeze({ BOOSTER: 'booster', CARD: 'card', SPARKS: 'sparks' });
 
 /**
  * Cell value that turns a row into a broadcast to every account (step 9).
@@ -420,6 +422,9 @@ export class GiftManager {
       const card = cardsByKey.get(key) ?? null;
       return { type, key, setName: card?.set ? (setsById.get(card.set)?.name ?? card.set) : null, card, unknown: !card };
     }
+    if (type === GIFT_TYPES.SPARKS) {
+      return { type, key, setName: null, card: null, unknown: false };
+    }
     return { type, key, setName: null, card: null, unknown: true };
   }
 
@@ -455,12 +460,18 @@ export class GiftManager {
     if (!isPositiveIntegerText(cells.quantity)) {
       return { ok: false, reason: GIFT_IGNORE_REASONS.INVALID_QUANTITY };
     }
-    if (cells.key.trim() === '') {
-      return { ok: false, reason: GIFT_IGNORE_REASONS.EMPTY_KEY };
-    }
 
     const quantity = Number(cells.quantity.trim());
     const key = cells.key.trim();
+
+    // Sparks need no catalog key: the quantity is the whole reward.
+    if (type === GIFT_TYPES.SPARKS) {
+      return { ok: true, target: { type, key: key || 'sparks', quantity } };
+    }
+
+    if (key === '') {
+      return { ok: false, reason: GIFT_IGNORE_REASONS.EMPTY_KEY };
+    }
 
     if (type === GIFT_TYPES.BOOSTER) {
       const set = catalog.setsById.get(key);
@@ -540,6 +551,7 @@ export class GiftManager {
     }
 
     const hasBoosterGift = plan.some((item) => item.type === GIFT_TYPES.BOOSTER);
+    const hasSparksGift = plan.some((item) => item.type === GIFT_TYPES.SPARKS);
     if (hasBoosterGift) {
       // The daily allowance has to be part of the quota record rewritten below.
       await dateSyncManager.ensureDailyReset();
@@ -556,6 +568,7 @@ export class GiftManager {
         let quota = hasBoosterGift
           ? dateSyncManager.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA))
           : null;
+        let sparks = 0;
 
         for (const item of plan) {
           // Anti-duplicate: the line number is the identity of a gift.
@@ -573,6 +586,13 @@ export class GiftManager {
                 [item.setId]: (quota.bonusBoosters[item.setId] ?? 0) + item.quantity,
               },
             };
+          } else if (item.type === GIFT_TYPES.SPARKS) {
+            if (sparks === 0) {
+              // Read once, lazily: a run without a Sparks gift never touches the balance.
+              const stored = await context.get(STORES.USER_STATE, USER_STATE_KEYS.SPARKS);
+              sparks = Number.isInteger(stored) && stored >= 0 ? stored : 0;
+            }
+            sparks += item.quantity;
           } else {
             const existingEntry = await context.get(STORES.COLLECTION, item.card.uniqueKey);
             const quantity = (existingEntry?.quantity ?? 0) + item.quantity;
@@ -609,6 +629,9 @@ export class GiftManager {
         if (hasBoosterGift && quota) {
           await context.put(STORES.USER_STATE, quota, USER_STATE_KEYS.QUOTA);
         }
+        if (hasSparksGift) {
+          await context.put(STORES.USER_STATE, sparks, USER_STATE_KEYS.SPARKS);
+        }
 
         const nextCursor = Math.max(sync.lastCheckedLine, lastLineRead);
         await context.put(
@@ -617,9 +640,13 @@ export class GiftManager {
           USER_STATE_KEYS.GIFT_SYNC
         );
 
-        return { alreadyReceived, nextCursor };
+        return { alreadyReceived, nextCursor, sparks };
       }
     );
+
+    if (hasSparksGift) {
+      eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: result.sparks });
+    }
 
     if (hasBoosterGift) {
       // `DateSyncManager` caches the quota: read it back before publishing it to the header.

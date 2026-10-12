@@ -14,6 +14,7 @@
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
+ *   - `sparks`    : number (starting balance of the Sparks currency)
  *
  * Timestamps note: `account.createdAt` is informational metadata produced with the system
  * clock. It must never be used for quota or expiration logic: the trusted clock is owned by
@@ -35,6 +36,7 @@ export const USER_STATE_KEYS = Object.freeze({
   STATS: 'stats',
   GIFT_SYNC: 'giftSync',
   BOOSTER_HISTORY: 'boosterHistory',
+  SPARKS: 'sparks',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -198,6 +200,7 @@ export class AccountManager {
       await context.put(STORES.USER_STATE, quota, USER_STATE_KEYS.QUOTA);
       await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
       await context.put(STORES.USER_STATE, giftSync, USER_STATE_KEYS.GIFT_SYNC);
+      await context.put(STORES.USER_STATE, 0, USER_STATE_KEYS.SPARKS);
     });
 
     await this.requestPersistence();

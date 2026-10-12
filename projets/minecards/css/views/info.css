@@ -163,7 +163,84 @@
   line-height: 1.6;
 }
 
+/* --- Experience ------------------------------------------------------------ */
+
+.info__sources {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-1) var(--space-3);
+  animation: info-source-in var(--duration-base) var(--easing-standard) backwards;
+}
+
+.info__source {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+}
+
+.info__source-name {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The value is the number that matters: it is bold, tabular and tinted with the coin of its rarity
+   when the row belongs to the `ExperiencePerTrophy` table. */
+.info__source-value {
+  flex: 0 0 auto;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+.info__source-value[data-rarity="bronze"] {
+  color: var(--color-trophy-bronze);
+}
+
+.info__source-value[data-rarity="silver"] {
+  color: var(--color-trophy-silver);
+}
+
+.info__source-value[data-rarity="gold"] {
+  color: var(--color-trophy-gold);
+}
+
+.info__source-value[data-rarity="diamond"] {
+  color: var(--color-trophy-diamond);
+}
+
+.info__source-value[data-rarity="emerald"] {
+  color: var(--color-trophy-emerald);
+}
+
+@keyframes info-source-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* --- Credits --------------------------------------------------------------- */
+
+/* External attributions: they must read as links at a glance. */
+.info__credits a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.info__credits a:hover {
+  color: var(--color-accent-hover);
+}
 
 .info__credits {
   margin: 0;

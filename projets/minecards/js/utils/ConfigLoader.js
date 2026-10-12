@@ -37,6 +37,66 @@ export const DEFAULT_SPARKS_SETTINGS = Object.freeze({
   boosterReward: 5,
 });
 
+/**
+ * Default location of the trophy catalogue, used whenever `settings/config.json` omits a path.
+ *
+ * `boostersConfigPath` describes the tiers recurring on every extension, `globalConfigPath` the
+ * account-wide tiers, and `directory` holds one `<setId>.json` per extension with the collection
+ * trophies.
+ */
+export const DEFAULT_TROPHY_SETTINGS = Object.freeze({
+  directory: 'data/trophies',
+  boostersConfigPath: 'settings/boosters_trophy.json',
+  globalConfigPath: 'settings/global_trophy.json',
+});
+
+/**
+ * Default profile limits: the number of cards that can be pinned in the collection and the number
+ * of unlocked trophies highlighted on the profile page.
+ */
+export const DEFAULT_PROFILE_SETTINGS = Object.freeze({
+  maxFavorites: 5,
+  maxFeaturedTrophies: 3,
+  defaultName: '',
+});
+
+/**
+ * Default locations of the profile avatars, used whenever `settings/config.json` omits a path.
+ *
+ * `defaultPath` holds the icons every account can pick from the start, `unlockablePath` the icons a
+ * trophy unlocks, and `directory` one `<setId>.json` per extension mapping a collection trophy name
+ * to the icons it unlocks.
+ */
+export const DEFAULT_PROFILE_ICON_SETTINGS = Object.freeze({
+  defaultPath: 'settings/default_profile_icons.json',
+  unlockablePath: 'data/icon.json',
+  directory: 'data/profile_icons',
+});
+
+/**
+ * Default levelling curve: the first level-up costs `baseRequiredExpToLevelUp` XP, every next one
+ * costs `incrementRequiredXpBy` XP more, and `experience` is what the account itself earns.
+ */
+export const DEFAULT_LEVELLING_SETTINGS = Object.freeze({
+  defaultLevel: 1,
+  baseRequiredExpToLevelUp: 100,
+  incrementRequiredXpBy: 25,
+  experience: Object.freeze({ everyBooster: 5, everyDistinctCard: 3, nameChanged: 10 }),
+});
+
+/**
+ * Default XP granted by a trophy, per rarity ("bronze" … "emerald").
+ *
+ * A trophy JSON may override it with its own `Experience` field.
+ */
+export const DEFAULT_EXPERIENCE_PER_TROPHY = Object.freeze({
+  bronze: 25,
+  silver: 100,
+  gold: 250,
+  diamond: 500,
+  emerald: 1000,
+});
+
 export class ConfigLoader {
   /**
    * @param {string} [path=CONFIG_PATH] - Path of the configuration file to fetch.
@@ -321,6 +381,170 @@ export class ConfigLoader {
       map[rarity] = Number.isInteger(value) && value >= 0 ? value : defaults[rarity];
     });
     return map;
+  }
+
+  /**
+   * Trophy catalogue location (`trophies` section of `settings/config.json`).
+   *
+   * Every path falls back to `DEFAULT_TROPHY_SETTINGS`, so a partially edited configuration still
+   * loads the shipped catalogue.
+   *
+   * @returns {Promise<{directory: string, boostersConfigPath: string, globalConfigPath: string}>}
+   *   The directory of the per-extension trophy files and the two shared tier files.
+   * @throws {Error} See `load()`.
+   */
+  async getTrophySettings() {
+    const config = await this.getConfig();
+    const trophies = config.trophies || {};
+    return {
+      directory: ConfigLoader.normalizePath(trophies.directory, DEFAULT_TROPHY_SETTINGS.directory),
+      boostersConfigPath: ConfigLoader.normalizePath(
+        trophies.boostersConfigPath,
+        DEFAULT_TROPHY_SETTINGS.boostersConfigPath
+      ),
+      globalConfigPath: ConfigLoader.normalizePath(
+        trophies.globalConfigPath,
+        DEFAULT_TROPHY_SETTINGS.globalConfigPath
+      ),
+    };
+  }
+
+  /**
+   * Profile limits (`profile` section of `settings/config.json`).
+   *
+   * A missing or malformed limit falls back to its shipped default, so a typo in the configuration
+   * can never block the feature (a limit of 0 simply disables the corresponding pin).
+   *
+   * @returns {Promise<{maxFavorites: number, maxFeaturedTrophies: number, defaultName: string}>}
+   *   The validated profile settings.
+   * @throws {Error} See `load()`.
+   */
+  async getProfileSettings() {
+    const config = await this.getConfig();
+    const profile = config.profile || {};
+    return {
+      maxFavorites: ConfigLoader.normalizePinCount(
+        profile.maxFavorites,
+        DEFAULT_PROFILE_SETTINGS.maxFavorites
+      ),
+      maxFeaturedTrophies: ConfigLoader.normalizePinCount(
+        profile.maxFeaturedTrophies,
+        DEFAULT_PROFILE_SETTINGS.maxFeaturedTrophies
+      ),
+      defaultName: typeof profile.defaultName === 'string' ? profile.defaultName.trim() : '',
+    };
+  }
+
+  /**
+   * Profile avatar catalogue (`profileIcons` section of `settings/config.json`).
+   *
+   * Every path falls back to `DEFAULT_PROFILE_ICON_SETTINGS`, so a partially edited configuration
+   * still finds the shipped icons.
+   *
+   * @returns {Promise<{defaultPath: string, unlockablePath: string, directory: string}>}
+   *   The default list, the trophy-unlocked list and the per-extension mapping directory.
+   * @throws {Error} See `load()`.
+   */
+  async getProfileIconSettings() {
+    const config = await this.getConfig();
+    const icons = config.profileIcons || {};
+    return {
+      defaultPath: ConfigLoader.normalizePath(icons.defaultPath, DEFAULT_PROFILE_ICON_SETTINGS.defaultPath),
+      unlockablePath: ConfigLoader.normalizePath(
+        icons.unlockablePath,
+        DEFAULT_PROFILE_ICON_SETTINGS.unlockablePath
+      ),
+      directory: ConfigLoader.normalizePath(icons.directory, DEFAULT_PROFILE_ICON_SETTINGS.directory),
+    };
+  }
+
+  /**
+   * Levelling curve (`levelling` section of `settings/config.json`).
+   *
+   * `baseRequiredExpToLevelUp` is kept strictly positive (a zero requirement would make the level
+   * explode to infinity) and none of the XP rewards can be negative.
+   *
+   * @returns {Promise<{defaultLevel: number, baseRequiredExpToLevelUp: number, incrementRequiredXpBy: number, experience: {everyBooster: number, everyDistinctCard: number, nameChanged: number}}>}
+   *   The validated levelling settings.
+   * @throws {Error} See `load()`.
+   */
+  async getLevellingSettings() {
+    const config = await this.getConfig();
+    const levelling = config.levelling || {};
+    const experience = levelling.experience || {};
+    return {
+      defaultLevel: Math.max(1, ConfigLoader.normalizePinCount(
+        levelling.defaultLevel,
+        DEFAULT_LEVELLING_SETTINGS.defaultLevel
+      )),
+      baseRequiredExpToLevelUp: Math.max(
+        1,
+        ConfigLoader.normalizePinCount(
+          levelling.baseRequiredExpToLevelUp,
+          DEFAULT_LEVELLING_SETTINGS.baseRequiredExpToLevelUp
+        )
+      ),
+      incrementRequiredXpBy: ConfigLoader.normalizePinCount(
+        levelling.incrementRequiredXpBy,
+        DEFAULT_LEVELLING_SETTINGS.incrementRequiredXpBy
+      ),
+      experience: {
+        everyBooster: ConfigLoader.normalizePinCount(
+          experience.everyBooster,
+          DEFAULT_LEVELLING_SETTINGS.experience.everyBooster
+        ),
+        everyDistinctCard: ConfigLoader.normalizePinCount(
+          experience.everyDistinctCard,
+          DEFAULT_LEVELLING_SETTINGS.experience.everyDistinctCard
+        ),
+        nameChanged: ConfigLoader.normalizePinCount(
+          experience.nameChanged,
+          DEFAULT_LEVELLING_SETTINGS.experience.nameChanged
+        ),
+      },
+    };
+  }
+
+  /**
+   * XP granted by a trophy of a given rarity (`ExperiencePerTrophy`).
+   *
+   * Only the five known rarities are returned, so an unknown rarity in a trophy file yields 0 XP
+   * instead of `NaN`.
+   *
+   * @returns {Promise<Record<string, number>>} The XP per rarity ("bronze" … "emerald").
+   * @throws {Error} See `load()`.
+   */
+  async getExperiencePerTrophy() {
+    const config = await this.getConfig();
+    const raw = config.ExperiencePerTrophy || {};
+    const map = {};
+    Object.keys(DEFAULT_EXPERIENCE_PER_TROPHY).forEach((rarity) => {
+      map[rarity] = ConfigLoader.normalizePinCount(raw[rarity], DEFAULT_EXPERIENCE_PER_TROPHY[rarity]);
+    });
+    return map;
+  }
+
+  /**
+   * Normalizes a relative path read from the configuration.
+   *
+   * @param {unknown} value - Raw value.
+   * @param {string} fallback - Path used when the value is absent or blank.
+   * @returns {string} The trimmed path without a leading `./`.
+   */
+  static normalizePath(value, fallback) {
+    const raw = typeof value === 'string' && value.trim() !== '' ? value.trim() : fallback;
+    return raw.replace(/^\.\//, '').replace(/\/+$/, '');
+  }
+
+  /**
+   * Normalizes a small non-negative integer read from the configuration.
+   *
+   * @param {unknown} value - Raw value.
+   * @param {number} fallback - Value used when the input is not a valid integer.
+   * @returns {number} The validated integer.
+   */
+  static normalizePinCount(value, fallback) {
+    return Number.isInteger(value) && value >= 0 ? value : fallback;
   }
 
   /**

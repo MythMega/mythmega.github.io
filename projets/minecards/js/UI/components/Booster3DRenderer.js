@@ -9,6 +9,8 @@
  *   - let the player rotate the booster with the mouse or a finger (drag + inertia);
  *   - expose an "open" gesture: a tap or an upward swipe calls the `onOpenRequest` callback once,
  *     after playing the tear animation;
+ *   - run NON-INTERACTIVE (`interactive: false`) as the preview of the extension picker: the model
+ *     then only turns on its own and its texture can be swapped without rebuilding the scene;
  *   - release every GPU resource and stop the render loop as soon as the view is left
  *     (`stop()` / `dispose()`): a background WebGL loop on a phone drains the battery.
  *
@@ -42,6 +44,15 @@ const TAP_MAX_MOVEMENT_PX = 14;
 /** Duration of the tear ("open") animation, in milliseconds. */
 const TEAR_DURATION_MS = 700;
 
+/**
+ * Distance of the camera from the booster, i.e. how much the model is zoomed out.
+ *
+ * The original value was `3.2`; it is 10 % larger here, which shrinks the booster by 10 % in the
+ * scene. That compensates the 10 % taller (and 10 % narrower) viewport of `css/components/
+ * booster-3d.css`, so the booster keeps the same room around it and never touches the sides.
+ */
+const CAMERA_DISTANCE = 3.52;
+
 export class Booster3DRenderer {
   /**
    * @param {object} options - Renderer options.
@@ -49,6 +60,8 @@ export class Booster3DRenderer {
    * @param {string|null} [options.texturePath=null] - Booster texture from the extension JSON.
    * @param {string} [options.modelPath=DEFAULT_MODEL_PATH] - Path of the `.glb` model.
    * @param {() => void|null} [options.onOpenRequest=null] - Called once when the player opens it.
+   * @param {boolean} [options.interactive=true] - False for a preview: no drag, no tap and no tear,
+   *   so the booster merely turns on its own while the player picks an extension.
    * @param {string} [options.label='booster'] - Label used in the logs.
    */
   constructor({
@@ -56,6 +69,7 @@ export class Booster3DRenderer {
     texturePath = null,
     modelPath = DEFAULT_MODEL_PATH,
     onOpenRequest = null,
+    interactive = true,
     label = 'booster',
   } = {}) {
     if (!container || typeof container.appendChild !== 'function') {
@@ -66,6 +80,7 @@ export class Booster3DRenderer {
     this.texturePath = texturePath;
     this.modelPath = modelPath;
     this.onOpenRequest = onOpenRequest;
+    this.interactive = interactive !== false;
     this.label = label;
 
     /** @type {object|null} Dynamically imported `three` namespace. */
@@ -183,7 +198,7 @@ export class Booster3DRenderer {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-    this.camera.position.set(0, 0.2, 3.2);
+    this.camera.position.set(0, 0.2, CAMERA_DISTANCE);
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 1.1));
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
@@ -281,6 +296,36 @@ export class Booster3DRenderer {
   }
 
   /**
+   * Swaps the booster texture without rebuilding the scene (used by the extension picker preview).
+   *
+   * The previous texture is released only once the new one is in place, so a texture that fails to
+   * load leaves the model as it was instead of turning it blank.
+   *
+   * @param {string|null} texturePath - Texture of the newly selected extension, or null.
+   * @returns {Promise<boolean>} True when a texture was applied.
+   */
+  async setTexture(texturePath) {
+    if (!this.isAvailable) return false;
+    const next = texturePath ?? null;
+    if (next === this.texturePath) return false;
+
+    const previous = this.texture ?? null;
+    this.texturePath = next;
+    this.texture = null;
+    await this.applyTexture();
+
+    if (this.texture && previous) {
+      previous.dispose?.();
+    } else if (!this.texture) {
+      // The new texture could not be loaded: how far the materials got is unknown, so the previous
+      // one is restored on every material that still carries it.
+      this.texture = previous;
+    }
+    this.log(`Texture switched to "${this.texturePath ?? 'none'}".`);
+    return Boolean(this.texture);
+  }
+
+  /**
    * Returns the stage element carrying the state classes (`is-tearing`, `is-dismissed`,
    * `is-fallback`): the closest `.booster-3d` ancestor, or the container itself.
    *
@@ -291,7 +336,7 @@ export class Booster3DRenderer {
   }
 
   /**
-   * Starts the render loop and binds the interaction listeners.
+   * Starts the render loop and binds the interaction listeners (none in preview mode).
    *
    * Called every time the opening view becomes active; a second call while running is ignored.
    *
@@ -305,7 +350,9 @@ export class Booster3DRenderer {
     if (this.isRunning) return;
 
     this.isRunning = true;
-    this.bindInteractions();
+    if (this.interactive) {
+      this.bindInteractions();
+    }
     this.resizeObserver?.observe(this.container);
     this.log('Render loop started.');
     this.loop();
@@ -492,7 +539,7 @@ export class Booster3DRenderer {
    * @returns {boolean} True when the animation was started.
    */
   requestOpen() {
-    if (this.openRequested || this.isTearing) return false;
+    if (!this.interactive || this.openRequested || this.isTearing) return false;
 
     this.openRequested = true;
     this.isTearing = true;

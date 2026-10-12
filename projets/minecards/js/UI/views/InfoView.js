@@ -11,7 +11,10 @@
  *        - one table per booster slot: the rarity probabilities of that slot (`rarityConfig`),
  *        - then, for every card, its chance to come out of one booster, computed from the same
  *          table: `sum over slots of P(slot -> rarity) / number of cards of that rarity`;
- *   3. the credits (illustrations, sounds).
+ *   3. the EXPERIENCE panel: every XP source and its exact value, read live from
+ *      `settings/config.json` (`levelling` and `ExperiencePerTrophy`) with the same loaders the
+ *      level calculation uses, so the displayed numbers can never drift from the real rewards;
+ *   4. the credits (illustrations, sounds, icons).
  *
  * The view is read-only: it never writes anything and never consumes a booster.
  */
@@ -19,6 +22,7 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import boosterManager from '../../business/BoosterManager.js';
+import { configLoader } from '../../utils/ConfigLoader.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
 /** View name, matching `data-view="info"` in `index.html`. */
@@ -39,6 +43,9 @@ export class InfoView {
     this.slotsElement = this.root.querySelector('[data-info-slots]');
     this.raritySourceElement = this.root.querySelector('[data-info-rarity-source]');
     this.cardsElement = this.root.querySelector('[data-info-cards]');
+    this.experienceElement = this.root.querySelector('[data-info-experience]');
+    this.experienceTrophiesElement = this.root.querySelector('[data-info-experience-trophies]');
+    this.experienceLevelElement = this.root.querySelector('[data-info-experience-level]');
 
     this.assertMarkup();
 
@@ -78,6 +85,9 @@ export class InfoView {
       ['[data-info-slots]', this.slotsElement],
       ['[data-info-rarity-source]', this.raritySourceElement],
       ['[data-info-cards]', this.cardsElement],
+      ['[data-info-experience]', this.experienceElement],
+      ['[data-info-experience-trophies]', this.experienceTrophiesElement],
+      ['[data-info-experience-level]', this.experienceLevelElement],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -113,6 +123,7 @@ export class InfoView {
     this.listen(this.setSelect, 'change', () => this.handleSetChange());
     this.subscribeToEvents();
     await this.loadSets();
+    await this.renderExperience();
     this.isInitialized = true;
     this.log('Ready.');
   }
@@ -153,9 +164,84 @@ export class InfoView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => {
-      if (this.isInitialized) void this.renderSelected();
+      if (!this.isInitialized) return;
+      void this.renderSelected();
+      void this.renderExperience();
     }));
     this.log('Event subscriptions registered.');
+  }
+
+  /**
+   * Renders the experience panel from `settings/config.json`.
+   *
+   * The values come from the very loaders `TrophyManager` uses (`getLevellingSettings()` and
+   * `getExperiencePerTrophy()`), so the panel always explains the rules the code actually applies —
+   * including the fallbacks, should the configuration lose a key.
+   *
+   * @returns {Promise<void>} Resolves once the panel is rendered (or the error displayed).
+   */
+  async renderExperience() {
+    try {
+      const [levelling, experiencePerTrophy] = await Promise.all([
+        configLoader.getLevellingSettings(),
+        configLoader.getExperiencePerTrophy(),
+      ]);
+
+      this.experienceElement.textContent = '';
+      [
+        ['info.experience.booster', levelling.experience.everyBooster],
+        ['info.experience.card', levelling.experience.everyDistinctCard],
+        ['info.experience.name', levelling.experience.nameChanged],
+      ].forEach(([key, value]) => {
+        this.experienceElement.appendChild(InfoView.buildSourceRow(i18n.t(key), i18n.t('info.experience.value', { experience: value })));
+      });
+
+      this.experienceTrophiesElement.textContent = '';
+      Object.entries(experiencePerTrophy).forEach(([rarity, value]) => {
+        this.experienceTrophiesElement.appendChild(InfoView.buildSourceRow(
+          i18n.t(`trophy.rarity.${rarity}`),
+          i18n.t('info.experience.value', { experience: value }),
+          rarity
+        ));
+      });
+
+      this.experienceLevelElement.textContent = i18n.t('info.experience.levelText', {
+        base: levelling.baseRequiredExpToLevelUp,
+        increment: levelling.incrementRequiredXpBy,
+        next: levelling.defaultLevel + 1,
+      });
+      this.log('Experience panel rendered.');
+    } catch (error) {
+      console.error('[InfoView] The experience panel could not be rendered.', error);
+      this.setFeedback('info.error.load', 'error');
+    }
+  }
+
+  /**
+   * Builds one `<li>` of an experience list: the source on the left, its value on the right.
+   *
+   * @param {string} label - Translated source name.
+   * @param {string} value - Translated value (`+5 XP`).
+   * @param {string} [rarity] - Rarity id, to tint the value with the trophy palette.
+   * @returns {HTMLLIElement} The row.
+   */
+  static buildSourceRow(label, value, rarity = undefined) {
+    const item = document.createElement('li');
+    item.className = 'info__source';
+
+    const name = document.createElement('span');
+    name.className = 'info__source-name';
+    name.textContent = label;
+
+    const amount = document.createElement('span');
+    amount.className = 'info__source-value';
+    amount.textContent = value;
+    if (rarity) {
+      amount.dataset.rarity = rarity;
+    }
+
+    item.append(name, amount);
+    return item;
   }
 
   /**

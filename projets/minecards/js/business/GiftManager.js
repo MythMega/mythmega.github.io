@@ -558,6 +558,10 @@ export class GiftManager {
     }
 
     const receivedAt = buildCollectionTimestamp();
+    // Cards credited by the distributions, collected during the transaction: they are published
+    // AFTER the commit (`CARDS_OBTAINED`), next to the quota and the balance.
+    const grantedCards = [];
+    const grantedNewKeys = [];
     const result = await storageRepository.transaction(
       [STORES.USER_STATE, STORES.COLLECTION, STORES.GIFTS_RECEIVED],
       'readwrite',
@@ -596,6 +600,8 @@ export class GiftManager {
           } else {
             const existingEntry = await context.get(STORES.COLLECTION, item.card.uniqueKey);
             const quantity = (existingEntry?.quantity ?? 0) + item.quantity;
+            grantedCards.push(item.card);
+            if (!existingEntry) grantedNewKeys.push(item.card.uniqueKey);
             await context.put(
               STORES.COLLECTION,
               existingEntry
@@ -653,6 +659,14 @@ export class GiftManager {
       const firstSetId = plan.find((item) => item.type === GIFT_TYPES.BOOSTER).setId;
       await dateSyncManager.getRemainingBoosters(firstSetId);
       dateSyncManager.emitQuotaUpdated(firstSetId);
+    }
+
+    if (grantedCards.length > 0) {
+      eventBus.emit(EVENTS.CARDS_OBTAINED, {
+        cards: grantedCards,
+        newKeys: grantedNewKeys,
+        source: 'gift',
+      });
     }
 
     const received = plan.filter((item) => !result.alreadyReceived.includes(item.line));

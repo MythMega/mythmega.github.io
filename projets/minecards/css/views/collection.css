@@ -46,6 +46,74 @@
   margin-top: var(--space-4);
 }
 
+/* Grid item: wraps the tile and the favourite heart. The heart cannot live INSIDE the tile, which
+   is itself a `<button>` (nested buttons are invalid HTML): it is overlaid as a sibling. */
+.collection__cell {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+
+.collection__cell .collection__tile {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.collection__favorite {
+  position: absolute;
+  top: var(--space-1);
+  left: var(--space-1);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.collection__favorite svg,
+.collection-favorite__toggle svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.collection__favorite:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.collection__favorite:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* A pinned card is filled, so the state reads at a glance on a dense grid. */
+.collection__favorite.is-active {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.collection__favorite.is-active svg,
+.collection-favorite__toggle.is-active svg {
+  fill: currentColor;
+}
+
 .collection__tile {
   position: relative;
   display: flex;
@@ -136,6 +204,22 @@
   .collection__grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
+}
+
+/* --- Favourite toggle (detail modal) ------------------------------------- */
+
+.collection-favorite {
+  display: flex;
+  margin-top: var(--space-3);
+}
+
+.collection-favorite__toggle {
+  flex: 1 1 auto;
+}
+
+.collection-favorite__toggle.is-active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 /* --- Sparks trade block (detail modal) ----------------------------------- */

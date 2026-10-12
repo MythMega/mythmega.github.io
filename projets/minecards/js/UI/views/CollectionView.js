@@ -12,17 +12,28 @@
  * Illustrations go through `I18n.resolveImagePath()`, labels through `I18n.t()`, and images
  * use `loading="lazy"`. The view refreshes on `VIEW_CHANGED` (activation), `LANG_CHANGED`
  * and `BOOSTER_OPENED` (a pack just changed the quantities).
+ *
+ * FAVOURITES
+ *   An owned card carries a heart button (top-left of the tile, and in the detail modal) that pins
+ *   it in `user_state["profile"].favorites` through `ProfileManager` (at most
+ *   `profile.maxFavorites`). The heart is a SIBLING of the tile, not a child: the tile is itself a
+ *   `<button>` and nested buttons are invalid HTML. The hearts repaint from `FAVORITES_UPDATED`
+ *   without rebuilding the grid, so clicking one never restarts the tile animation.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import collectionManager from '../../business/CollectionManager.js';
 import sparksManager from '../../business/SparksManager.js';
+import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
 import Toast from '../components/Toast.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
 
 /** Icon of the Sparks currency, relative to the application root. */
 export const SPARKS_ICON_PATH = 'assets/img/sparks.png';
+
+/** SVG namespace used to build the favourite icon without injecting markup. */
+const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
 /** View name, matching `data-view="collection"` in `index.html`. */
 export const COLLECTION_VIEW_NAME = 'collection';
@@ -77,6 +88,10 @@ export class CollectionView {
     this.searchTimer = null;
     /** @type {boolean} True while a sale or a purchase is running. */
     this.tradeBusy = false;
+    /** @type {Set<string>} Collection keys pinned as favourites. */
+    this.favorites = new Set();
+    /** @type {boolean} True while a favourite toggle is running (serializes the read-modify-write). */
+    this.favoriteBusy = false;
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
@@ -247,9 +262,16 @@ export class CollectionView {
       }, 150);
     });
     this.listen(this.gridElement, 'click', (event) => {
-      const tile = event.target instanceof HTMLElement
-        ? event.target.closest('[data-collection-key]')
-        : null;
+      // `Element`, not `HTMLElement`: a click on the heart lands on its inline `<svg>`, which is an
+      // `SVGElement` and would be discarded by an HTML-only guard.
+      const target = event.target instanceof Element ? event.target : null;
+      // The heart is checked first: it is a sibling of the tile, so both would match `closest()`.
+      const heart = target?.closest('[data-collection-favorite]');
+      if (heart && this.gridElement.contains(heart)) {
+        void this.toggleFavorite(heart.dataset.collectionFavorite);
+        return;
+      }
+      const tile = target?.closest('[data-collection-key]');
       if (tile && this.gridElement.contains(tile)) {
         void this.openDetail(tile.dataset.collectionKey);
       }
@@ -284,6 +306,7 @@ export class CollectionView {
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.BOOSTER_OPENED, () => this.handleBoosterOpened()));
+    this.unsubscribers.push(eventBus.on(EVENTS.FAVORITES_UPDATED, (payload) => this.handleFavoritesUpdated(payload)));
     this.log('Event subscriptions registered.');
   }
 
@@ -298,7 +321,7 @@ export class CollectionView {
     this.setFeedback(null);
     this.log('Loading the collection…');
     try {
-      const view = await collectionManager.getCollectionView();
+      const [view] = await Promise.all([collectionManager.getCollectionView(), this.loadFavorites()]);
       this.entries = view.entries ?? [];
       this.completion = view.completion ?? { total: 0, owned: 0 };
       this.sets = view.sets ?? {};
@@ -312,6 +335,131 @@ export class CollectionView {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  /**
+   * Reads the favourite cards of the profile.
+   *
+   * A read failure is not fatal: the grid is still usable without its hearts, so the collection is
+   * drawn with an empty favourite set instead of failing the whole view.
+   *
+   * @returns {Promise<void>} Resolves once the set is up to date.
+   */
+  async loadFavorites() {
+    try {
+      const profile = await profileManager.getProfile();
+      this.favorites = new Set(profile.favorites);
+    } catch (error) {
+      console.warn('[CollectionView] The favourite cards could not be read.', error);
+      this.favorites = new Set();
+    }
+  }
+
+  /**
+   * Builds the heart icon of a favourite button.
+   *
+   * The icon is built node by node (never through `innerHTML`) and inherits `currentColor`, so the
+   * filled/outlined state only depends on the `is-active` class of its button.
+   *
+   * @returns {SVGElement} The icon.
+   */
+  static buildHeartIcon() {
+    const svg = document.createElementNS(SVG_NAMESPACE, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    const path = document.createElementNS(SVG_NAMESPACE, 'path');
+    path.setAttribute(
+      'd',
+      'M12 20.4 4.9 13.3a4.4 4.4 0 0 1 6.2-6.2l.9.8.9-.8a4.4 4.4 0 0 1 6.2 6.2z'
+    );
+    svg.appendChild(path);
+    return svg;
+  }
+
+  /**
+   * Builds the heart button overlaid on an owned tile.
+   *
+   * @param {object} entry - Owned collection entry.
+   * @returns {HTMLButtonElement} The button.
+   */
+  buildFavoriteButton(entry) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'collection__favorite';
+    button.dataset.collectionFavorite = entry.key;
+    button.appendChild(CollectionView.buildHeartIcon());
+    this.applyFavoriteState(button);
+    return button;
+  }
+
+  /**
+   * Writes the active state and the accessible label of a favourite control.
+   *
+   * @param {HTMLElement} element - Element carrying a `data-collection-favorite` or
+   *   `data-collection-modal-favorite` key.
+   * @returns {void}
+   */
+  applyFavoriteState(element) {
+    const key = element.dataset.collectionFavorite ?? element.dataset.collectionModalFavorite;
+    const active = this.favorites.has(key);
+    const label = i18n.t(active ? 'collection.favorite.remove' : 'collection.favorite.add');
+    element.classList.toggle('is-active', active);
+    element.setAttribute('aria-pressed', String(active));
+    element.setAttribute('aria-label', label);
+    element.title = label;
+    const text = element.querySelector('.collection-favorite__label');
+    if (text) text.textContent = label;
+  }
+
+  /**
+   * Repaints every heart of the grid and of the open modal.
+   *
+   * @returns {void}
+   */
+  syncFavoriteControls() {
+    this.gridElement
+      ?.querySelectorAll('[data-collection-favorite]')
+      .forEach((element) => this.applyFavoriteState(element));
+    this.modalBody
+      ?.querySelectorAll('[data-collection-modal-favorite]')
+      .forEach((element) => this.applyFavoriteState(element));
+  }
+
+  /**
+   * Pins or unpins one card and repaints the hearts.
+   *
+   * @param {string} key - Collection key.
+   * @returns {Promise<void>} Resolves once the toggle finished (or the refusal was reported).
+   */
+  async toggleFavorite(key) {
+    // `ProfileManager` toggles a favourite with a read-then-write: two fast clicks must not race.
+    if (this.favoriteBusy || typeof key !== 'string') return;
+    this.favoriteBusy = true;
+    try {
+      const { favorites, added } = await profileManager.toggleFavorite(key);
+      this.favorites = new Set(favorites);
+      this.syncFavoriteControls();
+      Toast.success(added ? 'collection.favorite.added' : 'collection.favorite.removed');
+      this.log(`Favourite ${added ? 'added' : 'removed'}: "${key}" (${favorites.length} pinned).`);
+    } catch (error) {
+      console.error('[CollectionView] The favourite card could not be saved.', error);
+      Toast.error(getProfileErrorMessageKey(error));
+    } finally {
+      this.favoriteBusy = false;
+    }
+  }
+
+  /**
+   * Repaints the hearts when the favourite list changed elsewhere (profile page).
+   *
+   * @param {{favorites?: string[]}|null} payload - `FAVORITES_UPDATED` payload.
+   * @returns {void}
+   */
+  handleFavoritesUpdated(payload) {
+    if (!Array.isArray(payload?.favorites)) return;
+    this.favorites = new Set(payload.favorites);
+    this.syncFavoriteControls();
   }
 
   /**
@@ -402,6 +550,8 @@ export class CollectionView {
    */
   buildTile(entry) {
     const lang = i18n.getLang();
+    const cell = document.createElement('div');
+    cell.className = 'collection__cell';
     const tile = document.createElement('button');
     tile.type = 'button';
     tile.className = `collection__tile${entry.owned ? '' : ' is-missing'}`;
@@ -439,7 +589,14 @@ export class CollectionView {
       badge.textContent = i18n.t('collection.quantity', { count: entry.quantity });
       tile.appendChild(badge);
     }
-    return tile;
+
+    cell.appendChild(tile);
+    // The heart is reserved to the cards the player actually owns: a favourite is a card pinned in
+    // the collection, and its key must stay resolvable when the profile page renders it.
+    if (entry.owned) {
+      cell.appendChild(this.buildFavoriteButton(entry));
+    }
+    return cell;
   }
 
   /**
@@ -481,7 +638,9 @@ export class CollectionView {
         entry.owned ? i18n.t('collection.filter.statusOwned') : i18n.t('collection.missing')],
     ];
     if (entry.owned) {
-      rows.push([i18n.t('collection.quantity', { count: entry.quantity }), `x${entry.quantity}`]);
+      // `collection.quantity` ("x{count}") is the VALUE of a copy count, not its label: using it as
+      // the label printed "x1 x1" in the detail row.
+      rows.push([i18n.t('collection.copies'), `x${entry.quantity}`]);
       if (entry.firstObtainedAt) {
         rows.push([i18n.t('collection.firstObtained'), this.formatDate(entry.firstObtainedAt)]);
       }
@@ -504,8 +663,40 @@ export class CollectionView {
       this.modalBody.appendChild(trade);
     }
 
+    if (entry.owned) {
+      this.modalBody.appendChild(this.buildFavoriteToggle(entry));
+    }
+
     this.modal.hidden = false;
     this.log(`Detail opened for "${key}".`);
+  }
+
+  /**
+   * Builds the favourite toggle of the detail modal.
+   *
+   * The element is rebuilt on every `openDetail()`, so its listener is registered through
+   * `listen()` and released with the other bindings by `destroy()`.
+   *
+   * @param {object} entry - Owned collection entry.
+   * @returns {HTMLElement} The block holding the toggle.
+   */
+  buildFavoriteToggle(entry) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'collection-favorite';
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--ghost collection-favorite__toggle';
+    button.dataset.collectionModalFavorite = entry.key;
+    button.appendChild(CollectionView.buildHeartIcon());
+    const label = document.createElement('span');
+    label.className = 'collection-favorite__label';
+    button.appendChild(label);
+    this.applyFavoriteState(button);
+
+    this.listen(button, 'click', () => void this.toggleFavorite(entry.key));
+    wrapper.appendChild(button);
+    return wrapper;
   }
 
   /**

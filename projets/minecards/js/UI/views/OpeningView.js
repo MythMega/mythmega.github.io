@@ -4,8 +4,10 @@
  * Reference: `.docs/steps/4.md` points 1, 2 and 4.
  *
  * FLOW
- *   1. "select" stage: the extension picker, the remaining quota and the open button (disabled
- *      with the countdown to the next reset when nothing is left);
+ *   1. "select" stage: the extension picker, a 3D PREVIEW of the selected booster (it turns on its
+ *      own, and the arrows on each side change the extension, which updates the combo — and the
+ *      combo updates the texture), the remaining quota and the open button (disabled with the
+ *      countdown to the next reset when nothing is left);
  *   2. pressing the button calls `BoosterManager.openBooster()`: the pack is DRAWN AND PERSISTED
  *      before anything is animated, so closing the tab during the reveal loses nothing;
  *   3. "scene" stage: the 3D booster is prepared (or the 2D fallback when WebGL/Three.js is
@@ -25,6 +27,7 @@ import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import boosterManager from '../../business/BoosterManager.js';
+import collectionManager from '../../business/CollectionManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import CardComponent from '../components/CardComponent.js';
 import Toast from '../components/Toast.js';
@@ -73,6 +76,13 @@ export class OpeningView {
     this.boosterLoading = this.root.querySelector('[data-booster-loading]');
     this.boosterHint = this.root.querySelector('[data-booster-hint]');
 
+    this.previewContainer = this.root.querySelector('[data-booster-preview]');
+    this.previewViewport = this.root.querySelector('[data-booster-preview-canvas]');
+    this.previewFallback = this.root.querySelector('[data-booster-preview-fallback]');
+    this.previewLoading = this.root.querySelector('[data-booster-preview-loading]');
+    this.prevSetButton = this.root.querySelector('[data-booster-prev-set]');
+    this.nextSetButton = this.root.querySelector('[data-booster-next-set]');
+
     this.revealHint = this.root.querySelector('[data-opening-reveal-hint]');
     this.spotlightElement = this.root.querySelector('[data-opening-spotlight]');
     this.spotlightStage = this.root.querySelector('[data-opening-stage-card]');
@@ -100,8 +110,14 @@ export class OpeningView {
 
     /** @type {Map<string, object>} Extension descriptions, keyed by id. */
     this.sets = new Map();
+    /** @type {string[]} Extension ids, in the display order of the picker (the arrows walk it). */
+    this.setOrder = [];
     /** @type {string|null} Currently selected extension. */
     this.selectedSetId = null;
+    /** @type {Booster3DRenderer|null} Non-interactive preview of the "select" stage. */
+    this.previewRenderer = null;
+    /** @type {boolean} True when the 3D preview is unavailable (2D image shown instead). */
+    this.previewFailed = false;
     /** @type {object|null} Result of the last `openBooster()`, waiting for the reveal. */
     this.pendingResult = null;
     /** @type {Booster3DRenderer|null} */
@@ -178,6 +194,10 @@ export class OpeningView {
       ['[data-opening-finish]', this.finishButton],
       ['[data-booster-3d]', this.boosterContainer],
       ['[data-booster-fallback]', this.boosterFallback],
+      ['[data-booster-preview]', this.previewContainer],
+      ['[data-booster-preview-canvas]', this.previewViewport],
+      ['[data-booster-prev-set]', this.prevSetButton],
+      ['[data-booster-next-set]', this.nextSetButton],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -231,20 +251,59 @@ export class OpeningView {
 
     this.sets.clear();
     listed.forEach((set) => this.sets.set(set.setId, set));
+    this.setOrder = listed.map((set) => set.setId);
 
+    this.selectedSetId = listed[0]?.setId ?? null;
+    await this.refreshSetOptions();
+    this.log('Extensions loaded.', { sets: loaded.sets, selected: this.selectedSetId });
+  }
+
+  /**
+   * (Re)builds the picker options, each one carrying the completion of its extension.
+   *
+   * The label reads `Nom (owned / total) [percentage %]`, where `owned` counts the DISTINCT cards
+   * owned over the whole extension rather than the raw number of cards: the player sees what there
+   * is left to find. A completion that cannot be read falls back to the extension card count
+   * (0 owned), so a picker is always displayed.
+   *
+   * @returns {Promise<void>} Resolves once the options are rendered.
+   */
+  async refreshSetOptions() {
+    let completion = null;
+    try {
+      completion = await collectionManager.getCompletion();
+    } catch (error) {
+      console.warn('[OpeningView] The completion could not be read for the extension picker.', error);
+    }
+
+    const previous = this.selectedSetId;
     this.setSelect.textContent = '';
-    listed.forEach((set) => {
+    this.setOrder.forEach((setId) => {
+      const set = this.sets.get(setId);
+      if (!set) return;
+      const stats = completion?.sets?.[setId]?.completion ?? null;
+      const total = stats?.total ?? set.cardCount;
+      const owned = stats?.owned ?? 0;
       const option = document.createElement('option');
-      option.value = set.setId;
-      option.textContent = `${set.name} (${set.cardCount})`;
+      option.value = setId;
+      option.textContent = i18n.t('opening.set.option', {
+        name: set.name,
+        owned,
+        total,
+        percent: total > 0 ? Math.round((owned / total) * 100) : 0,
+      });
       this.setSelect.appendChild(option);
     });
 
-    this.selectedSetId = listed[0]?.setId ?? null;
+    if (previous && this.setOrder.includes(previous)) {
+      this.selectedSetId = previous;
+    } else {
+      this.selectedSetId = this.setOrder[0] ?? null;
+    }
     if (this.selectedSetId) {
       this.setSelect.value = this.selectedSetId;
     }
-    this.log('Extensions loaded.', { sets: loaded.sets, selected: this.selectedSetId });
+    this.log(`Extension picker refreshed (${this.setSelect.options.length} option(s)).`);
   }
 
   /**
@@ -254,6 +313,12 @@ export class OpeningView {
    */
   bindEvents() {
     this.listen(this.setSelect, 'change', () => this.handleSetChange());
+    if (this.prevSetButton) {
+      this.listen(this.prevSetButton, 'click', () => this.cycleSet(-1));
+    }
+    if (this.nextSetButton) {
+      this.listen(this.nextSetButton, 'click', () => this.cycleSet(1));
+    }
     this.listen(this.openButton, 'click', () => this.handleOpenClick());
     this.listen(this.boosterFallback, 'click', (event) => this.handleFallbackClick(event));
     this.listen(this.copyCodeButton, 'click', () => this.handleCopyBoosterCode());
@@ -339,7 +404,7 @@ export class OpeningView {
   }
 
   /**
-   * Handles the extension picker change.
+   * Handles the extension picker change: the quota and the 3D preview follow the new selection.
    *
    * @returns {void}
    */
@@ -347,6 +412,27 @@ export class OpeningView {
     this.selectedSetId = this.setSelect.value || null;
     this.log(`Extension selected: ${this.selectedSetId}.`);
     this.refreshQuota();
+    void this.updatePreview();
+  }
+
+  /**
+   * Moves the selection by one extension (the arrows on each side of the 3D preview).
+   *
+   * The combo is updated through the same path as a manual selection, so the quota and the preview
+   * always agree with it.
+   *
+   * @param {number} step - `-1` for the previous extension, `1` for the next one.
+   * @returns {void}
+   */
+  cycleSet(step) {
+    if (this.setOrder.length < 2) {
+      this.log('Extension arrows ignored: a single extension is declared.');
+      return;
+    }
+    const current = this.setOrder.indexOf(this.selectedSetId);
+    const index = ((current + step) % this.setOrder.length + this.setOrder.length) % this.setOrder.length;
+    this.setSelect.value = this.setOrder[index];
+    this.handleSetChange();
   }
 
   /**
@@ -449,6 +535,7 @@ export class OpeningView {
     if (this.pendingResult) {
       this.renderSummary(this.pendingResult);
     } else {
+      void this.refreshSetOptions().then(() => this.updatePreview());
       this.refreshQuota();
     }
     if (this.revealStage === 'spotlight' && this.cardComponents.length > 0) {
@@ -583,6 +670,9 @@ export class OpeningView {
       }
       this.showStage('scene');
       this.showSceneSubStage('booster');
+      // The picker preview is gone from the screen: its scene is released before the real one is
+      // built, so only one WebGL loop ever runs.
+      this.disposePreview();
       await this.prepareScene(result);
       this.buildReveal(result);
     } catch (error) {
@@ -642,6 +732,96 @@ export class OpeningView {
     } else {
       console.warn('[OpeningView] 3D unavailable, showing the 2D fallback.');
       this.showBoosterFallback(set);
+    }
+  }
+
+  /**
+   * Builds the non-interactive 3D preview of the "select" stage, on first need.
+   *
+   * The preview is a SECOND scene: it only turns on its own, it never tears open, and it is released
+   * as soon as the real booster appears (two WebGL loops at once would be a waste of battery).
+   *
+   * @returns {Promise<void>} Resolves once the preview is turning (or the 2D fallback is displayed).
+   */
+  async initPreview() {
+    if (this.previewRenderer || this.previewFailed || !this.selectedSetId || !this.previewViewport) return;
+
+    const set = this.sets.get(this.selectedSetId) ?? null;
+    this.previewLoading.hidden = false;
+    this.previewFallback.hidden = true;
+    this.previewViewport.textContent = '';
+    this.log(`Preparing the booster preview for "${this.selectedSetId}"…`);
+
+    const renderer = new Booster3DRenderer({
+      container: this.previewViewport,
+      texturePath: set?.texture ?? null,
+      interactive: false,
+      label: `preview:${this.selectedSetId}`,
+    });
+    const ready = await renderer.init();
+    this.previewLoading.hidden = true;
+
+    if (!ready) {
+      console.warn('[OpeningView] The 3D preview is unavailable, showing the 2D image.');
+      renderer.dispose();
+      this.previewFailed = true;
+      this.showPreviewFallback(set);
+      return;
+    }
+
+    this.previewRenderer = renderer;
+    renderer.start();
+    this.log('Booster preview ready.');
+  }
+
+  /**
+   * Shows the booster of the selected extension in the preview.
+   *
+   * @returns {Promise<void>} Resolves once the preview shows the selection.
+   */
+  async updatePreview() {
+    if (this.previewFailed || !this.selectedSetId) return;
+    if (!this.previewRenderer) {
+      await this.initPreview();
+      return;
+    }
+    const set = this.sets.get(this.selectedSetId) ?? null;
+    await this.previewRenderer.setTexture(set?.texture ?? null);
+  }
+
+  /**
+   * Shows the 2D image of an extension when the 3D preview cannot be displayed at all.
+   *
+   * @param {{texture: string|null, name: string}|null} set - Loaded extension, if any.
+   * @returns {void}
+   */
+  showPreviewFallback(set) {
+    if (set?.texture) {
+      this.previewFallback.src = i18n.resolveImagePath(set.texture);
+      this.previewFallback.alt = set.name ?? '';
+      this.previewFallback.hidden = false;
+    }
+    this.log('2D booster preview displayed.');
+  }
+
+  /**
+   * Stops the preview render loop (the WebGL context stays ready for the next activation).
+   *
+   * @returns {void}
+   */
+  stopPreview() {
+    this.previewRenderer?.stop();
+  }
+
+  /**
+   * Releases the WebGL resources of the preview.
+   *
+   * @returns {void}
+   */
+  disposePreview() {
+    if (this.previewRenderer) {
+      this.previewRenderer.dispose();
+      this.previewRenderer = null;
     }
   }
 
@@ -821,6 +1001,7 @@ export class OpeningView {
       if (component.flip()) {
         // Mirrors what the player hears in the game: the flip, then the legendary/mythic sting.
         soundManager.playCardReveal(component.card.rarity);
+        this.announceRevealedCard(component);
       }
       if (this.revealHint) {
         this.revealHint.textContent = i18n.t('opening.reveal.hintNext');
@@ -836,6 +1017,41 @@ export class OpeningView {
     }
     this.log(`Spotlight card ${this.spotlightIndex + 1} tapped while revealed: next card.`);
     this.showNextCard({ reveal: false });
+  }
+
+  /**
+   * Announces the card the player just turned face up.
+   *
+   * The announcement is an EVENT (never a direct call): the collections the card belongs to are
+   * announced by `js/UI/components/GameNotifier.js`, which knows the trophies and the collection —
+   * the opening view only knows the pack it is revealing.
+   *
+   * @param {import('../components/CardComponent.js').CardComponent} component - Revealed card.
+   * @returns {void}
+   */
+  announceRevealedCard(component) {
+    eventBus.emit(EVENTS.CARD_REVEALED, {
+      setId: this.pendingResult?.setId ?? component.card.set,
+      card: component.card,
+      index: this.spotlightIndex,
+      revealed: this.cardComponents.filter((candidate) => candidate.isFlipped).length,
+      total: this.cardComponents.length,
+    });
+  }
+
+  /**
+   * Announces the end of the reveal (the summary is displayed, or the scene is left early).
+   *
+   * A collection is announced at most once per opening: the notifications prepared for cards that
+   * were never turned face up are sent now, so closing the reveal with Escape can not silently
+   * swallow the progress of the pack.
+   *
+   * @returns {void}
+   */
+  announceRevealFinished() {
+    eventBus.emit(EVENTS.REVEAL_FINISHED, {
+      setId: this.pendingResult?.setId ?? this.selectedSetId ?? null,
+    });
   }
 
   /**
@@ -920,6 +1136,7 @@ export class OpeningView {
       console.warn('[OpeningView] Summary ignored: no pack is waiting.');
       return;
     }
+    this.announceRevealFinished();
     this.closeCardModal();
     this.renderSummaryGrid();
     this.renderSummary(this.pendingResult);
@@ -1137,6 +1354,7 @@ export class OpeningView {
    */
   finish() {
     this.log('Finishing the reveal (no write, the pack was already persisted).');
+    this.announceRevealFinished();
     this.closeSourceModal();
     this.cancelIdleDispose();
     this.disposeRenderer();
@@ -1146,6 +1364,7 @@ export class OpeningView {
     this.setFeedback(null);
     this.showStage('select');
     this.showSceneSubStage('booster');
+    void this.refreshSetOptions().then(() => this.updatePreview());
     this.refreshQuota();
   }
 
@@ -1223,6 +1442,15 @@ export class OpeningView {
     this.cancelIdleDispose();
     this.log('View activated.');
     this.refreshQuota();
+    // The preview only runs while the picker is on screen: a pack being revealed owns the view
+    // otherwise (and its own 3D scene).
+    if (!this.selectStage.hidden) {
+      if (this.previewRenderer) {
+        this.previewRenderer.start();
+      } else {
+        void this.updatePreview();
+      }
+    }
   }
 
   /**
@@ -1233,6 +1461,7 @@ export class OpeningView {
   handleViewDeactivated() {
     this.isActive = false;
     this.log('View deactivated, stopping the render loop.');
+    this.stopPreview();
     if (this.renderer3d) {
       this.renderer3d.stop();
       this.scheduleIdleDispose();
@@ -1248,6 +1477,7 @@ export class OpeningView {
     this.log('Destroying the view.');
     this.cancelIdleDispose();
     this.disposeRenderer();
+    this.disposePreview();
     this.clearReveal();
     this.bindings.forEach(({ target, type, handler, options }) => target.removeEventListener(type, handler, options));
     this.bindings = [];

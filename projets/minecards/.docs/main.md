@@ -28,8 +28,10 @@ Clés de `user_state` :
 - `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic" }`.
 - `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number } }` (ex. `{ "set1": 2 }`).
 - `"timeAnchor"` : `{ apiUtcMs, perfNow, lastKnownUtcMs }`.
-- `"stats"` : `{ boostersOpened, drawsByRarity: {1..5}, drawsByCard: { [key]: count } }`.
+- `"stats"` : `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: {1..5}, drawsByCard: { [key]: count } }`.
 - `"giftSync"` : `{ lastCheckedLine, lastCheckAt }`.
+- `"profile"` : `{ name, photo, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, URL de la photo de profil, jusqu'à 5 cartes favorites et 3 trophées mis en avant.
+- `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
 
 Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `lang` et `theme` est autorisé, pour appliquer le thème avant le premier rendu (évite le flash).
 
@@ -71,6 +73,7 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 ### E. Rendu 3D & Animation d'Ouverture
 - Three.js + `GLTFLoader`, modèle `.glb`, texture définie dans le JSON de l'extension.
 - Workflow : interaction avec le booster 3D → 5 cartes face cachée → clic pour retourner une à une → glow CSS pour les raretés 4 et 5.
+- La boîte qui contient le booster fait **90 % de la largeur** de son conteneur et **10 % de hauteur en plus** (38 vh pour l'aperçu du sélecteur, 50 vh pour la scène d'ouverture, 42 vh et 55 vh au-delà de 768 px) : le booster garde ainsi des marges sur les côtés, ce qui laisse les deux flèches de changement d'extension collées aux bords même sur un écran vertical. La caméra est reculée d'autant (3,52 au lieu de 3,2) pour que le modèle ne grossisse pas en même temps que la boîte ; l'image 2D de secours est réduite de 10 % de la même façon.
 
 ### F. Langues & Thèmes
 - **Langues** : Français, Anglais (extensible : ajouter `settings/i18n/<code>.json` + l'entrée dans `settings/config.json`). Change les libellés et les chemins d'images, à chaud (sans rechargement).
@@ -80,13 +83,63 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 ### G. Vues & Navigation (SPA)
 0. **Accueil (onboarding)** : créer / importer, affiché seulement si aucun compte.
 1. **Ouverture** : choix du booster + scène d'ouverture.
-2. **Collection** : grille, silhouettes grisées pour les manquantes, filtres extension/style/rareté/statut.
+2. **Collection** : grille, silhouettes grisées pour les manquantes, filtres extension/style/rareté/statut, **bouton cœur** sur les cartes possédées (5 favoris maximum).
+2 bis. **Profil** : deux onglets. L'onglet *Profil* affiche l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. L'onglet *Trophées* isole le catalogue derrière deux combos (famille, statut) pour ne jamais afficher les trente trophées d'un coup.
 3. **Statistiques** : boosters ouverts, complétion par extension, répartition par rareté, carte la plus piochée.
-4. **Paramètres** : langue, thème, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
+4. **Paramètres** : langue, thème, **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
 6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
 
+L'heure UTC affichée dans les Paramètres est celle de `DateSyncManager` (jamais `Date.now()`), publiée par `CLOCK_TICK` : elle est donc toujours d'accord avec le quota quotidien et les fenêtres de disponibilité des codes.
+
+**En-tête sur écran vertical** (< 768 px) : il ne garde que la marque et les compteurs. Le slogan et l'horloge UTC sont masqués (l'heure reste lisible dans les Paramètres) et « MineCards » s'affiche centré, une taille en dessous.
+
 Sauvegarde `.save` : toutes les données → JSON → `CompressionStream('deflate')` → Base64. Import : Base64 → `DecompressionStream('deflate')` → JSON validé.
+
+### G bis. Trophées & Niveau
+
+Catalogue déclaré dans `settings/boosters_trophy.json` (paliers récurrents sur chaque extension :
+complétion et boosters ouverts), `settings/global_trophy.json` (paliers globaux : cartes possédées,
+boosters ouverts, cartes différentes) et `data/trophies/<setId>.json` (succès de collection, listes
+d'index `RequirementType: "CardList"`, layout `classic`/`fullart`/`any`). Raretés : `bronze`,
+`silver`, `gold`, `diamond`, `emerald`.
+
+Chaque trophée a une **médaille** : les paliers récurrents d'une extension la prennent dans `assets/img/trophy/<setId>/<famille>/<rareté>.png`, les paliers globaux dans `assets/img/trophy/Global/<compteur>/<rareté>.png` (le `<compteur>` est la clé de `settings/global_trophy.json` : `totalCards`, `boosters`, `differentCards`), et les trophées de collection dans le champ `Icon` de leur entrée dans `data/trophies/<setId>.json` — n'importe quelle extension, le GIF animé `QuinteFlushRoyale.gif` compris. Un trophée dont le catalogue ne déclare aucune image, ou dont le fichier ne se charge pas, retombe sur `assets/img/trophy/default.png`.
+
+L'XP totale est **dérivée** de l'état réel (`expérience.everyBooster` × boosters ouverts +
+`everyDistinctCard` × cartes différentes + `nameChanged` si le nom est personnalisé + l'XP des
+trophées, `ExperiencePerTrophy[rarité]` ou le champ `Experience` du fichier). Le niveau suit
+`levelling` (`defaultLevel`, `baseRequiredExpToLevelUp`, `incrementRequiredXpBy`). Aucun compteur
+d'XP n'est stocké : seuls les déblocages le sont (`user_state["trophies"]`), et un déblocage ne se
+perd jamais, même si la collection change ensuite.
+
+Le détail chiffré de **toutes** ces sources est affiché dans l'onglet *Informations*
+(panneau « Expérience et niveaux »), lu directement dans `settings/config.json` via
+`ConfigLoader.getLevellingSettings()` / `getExperiencePerTrophy()` : la page ne peut donc pas
+dériver des règles réellement appliquées. Les épingles utilisent `assets/img/pin.png` et
+`assets/img/unpin.png`, dont la couleur suit le thème (`--icon-filter` dans `css/themes.css`, les
+glyphes étant noirs à la source).
+
+### G ter. Notifications (ce que le jeu accorde)
+
+Deux familles de messages, à ne pas confondre :
+- les **toasts** (`js/UI/components/Toast.js`, `css/components/toast.css`) : l'accusé de réception d'une ACTION du joueur (« Carte achetée. »), empilés **en bas** de l'écran ;
+- les **notifications** (`js/UI/components/NotificationCenter.js`, `css/components/notifications.css`) : ce que le jeu VIENT d'accorder (collection avancée, expérience, niveau). Elles s'affichent **une seule à la fois**, **en haut à droite** (en **haut au centre** sur un écran vertical), juste sous l'en-tête dont la hauteur est **mesurée** pour ne jamais le recouvrir.
+
+Elles sont produites par `js/UI/components/GameNotifier.js` à partir des événements que les managers publient déjà (`js/utils/EventBus.js`) : aucun manager ne connaît l'interface. Les moments clés :
+- **ouverture d'un booster** (`BOOSTER_OPENED`) : l'XP du booster + l'XP des cartes obtenues pour la première fois (`notif.experience.booster`) ;
+- **découverte d'une carte** (`CARD_REVEALED`) : chaque collection que la carte fait avancer, **une fois par ouverture** (`notif.collection.progress`), ou sa validation (`notif.collection.complete`) — la notification est **prioritaire** ;
+- **fin de la révélation** (`REVEAL_FINISHED`) : les collections préparées que le joueur n'a pas eu le temps de voir (sortir de la scène avec Échap ne doit rien perdre) ;
+- **trophée débloqué** (`TROPHY_UNLOCKED`) : l'XP du trophée (`notif.experience.trophy`) ;
+- **carte obtenue hors ouverture** — achat en Sparks, code promo, distribution (`CARDS_OBTAINED`) : l'XP s'il s'agit d'une PREMIÈRE copie, puis les collections concernées ;
+- **nom personnalisé défini** (`PROFILE_UPDATED`) : l'XP du nom, une seule fois (le nom par défaut ne rapporte rien) ;
+- **niveau atteint** (`EXPERIENCE_UPDATED`) : « Niveau N atteint », dans sa propre variante.
+
+Règles de la file d'attente : une notification reste **3 s** (`NOTIFICATION_DURATION_MS`) puis la suivante prend sa place ; un **clic**, un **tap**, **Entrée/Espace** ou un **swipe latéral** (≥ 40 px, la carte suit le doigt) la retirent immédiatement et montrent la suivante. Une notification **prioritaire** (une collection découverte pendant la révélation) **interrompt** celle qui est affichée : celle-ci repart en tête de sa file et se réaffiche ensuite, avec sa durée complète. Le compteur d'une collection ne compte que les cartes **déjà retournées** : une notification ne peut donc pas révéler qu'une autre carte de la même collection attend encore dans le paquet.
+
+**Aucune notification au démarrage** : l'XP et les trophées sont évalués une fois au lancement, et `app.js` appelle `gameNotifier.start()` APRÈS cette première évaluation (qui prend le niveau courant comme référence). Importer une sauvegarde qui débloque dix trophées d'un coup ne déclenche donc aucun message.
+
+Enfin, les avatars (`assets/img/profile/**`) sont du **pixel art** (6x6, 8x8, 48x48 ou 192x192) : les trois endroits qui les affichent — avatar du profil, sélecteur d'icônes, section « Icônes débloquées » d'un trophée — les rendent avec `image-rendering: pixelated`, donc sans aucune interpolation.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.

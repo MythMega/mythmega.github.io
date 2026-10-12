@@ -1,0 +1,189 @@
+/* =============================================================================
+   notifications.css - Game notifications (`js/UI/components/NotificationCenter.js`).
+
+   One notification at a time, at the TOP of the screen (top right in landscape,
+   top center on a portrait screen) so it never covers the booster being opened
+   nor the bottom navigation. Colors come exclusively from `css/themes.css`.
+   ============================================================================= */
+
+.notifications {
+  position: fixed;
+  /* Under the header, which owns the safe-area inset at the top of the screen.
+     `--header-height` only describes the brand row: the counters row wraps under it on a narrow
+     screen, so `NotificationCenter` replaces this default with the MEASURED bottom of the header
+     (`--notifications-top`) every time it displays something. */
+  --notifications-top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
+  top: calc(var(--notifications-top) + var(--space-3));
+  right: var(--space-3);
+  /* Above the modals and the toasts: a notification is granted by the game, not by an action. */
+  z-index: calc(var(--z-overlay) + 2);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2);
+  width: min(100% - (2 * var(--space-4)), 21rem);
+  /* Only the notification itself is interactive: the empty area must not swallow a tap. */
+  pointer-events: none;
+}
+
+/* Portrait (a phone held upright): the notification is centered instead of pushed to the right. */
+@media (orientation: portrait) {
+  .notifications {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+.notification {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+  overflow-wrap: anywhere;
+  pointer-events: auto;
+  cursor: pointer;
+  /* A vertical drag still scrolls the page: only the horizontal swipe is ours. */
+  touch-action: pan-y;
+  animation: notification-in var(--duration-base) var(--easing-standard);
+}
+
+.notification:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* A notification that is leaving fades out IN PLACE: it is taken out of the flow so the next one
+   (often already arriving — a discovered collection interrupts the message on screen) is not
+   pushed down by it for the length of the animation. */
+.notification.is-leaving {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  animation: notification-out var(--duration-fast) var(--easing-standard) forwards;
+}
+
+.notification__badge {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.notification__title {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.notification__message {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.notification__track {
+  height: 0.35rem;
+  margin-top: var(--space-1);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.notification__fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  transition: width var(--duration-base) var(--easing-standard);
+}
+
+/* --- Kinds ------------------------------------------------------------------ */
+
+/* A collection moving forward: the accent color, with its progress bar. */
+.notification[data-type="collection"] {
+  border-left-color: var(--color-accent);
+}
+
+.notification[data-type="collection"] .notification__badge {
+  color: var(--color-accent);
+}
+
+/* Experience earned: the success color (it is a reward, not a trackable objective). */
+.notification[data-type="experience"] {
+  border-left-color: var(--color-success);
+}
+
+.notification[data-type="experience"] .notification__badge {
+  color: var(--color-success);
+}
+
+/* --- Variants --------------------------------------------------------------- */
+
+/* A collection completed by this very opening. */
+.notification[data-variant="complete"] {
+  border-left-color: var(--color-trophy-gold);
+}
+
+.notification[data-variant="complete"] .notification__badge,
+.notification[data-variant="complete"] .notification__fill {
+  color: var(--color-trophy-gold);
+  background-color: var(--color-trophy-gold);
+}
+
+.notification[data-variant="complete"] .notification__badge {
+  background-color: transparent;
+}
+
+/* A level reached: the level, not the experience, is the news. */
+.notification[data-variant="level"] {
+  border-left-color: var(--color-trophy-diamond);
+}
+
+.notification[data-variant="level"] .notification__badge {
+  color: var(--color-trophy-diamond);
+}
+
+/* --- Animations ------------------------------------------------------------- */
+
+@keyframes notification-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes notification-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notification,
+  .notification.is-leaving {
+    animation: none;
+  }
+
+  .notification__fill {
+    transition: none;
+  }
+}

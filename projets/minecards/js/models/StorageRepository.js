@@ -435,7 +435,7 @@ export class StorageRepository {
    * Reads a `user_state` entry.
    *
    * @param {string} key - State key ("account", "settings", "quota", "timeAnchor",
-   *   "stats", "giftSync").
+   *   "stats", "giftSync", "profile", "trophies").
    * @returns {Promise<unknown>} The stored state, or `undefined` when it does not exist.
    * @throws {TypeError} When the key is not a non-empty string.
    * @throws {Error} When the read fails.

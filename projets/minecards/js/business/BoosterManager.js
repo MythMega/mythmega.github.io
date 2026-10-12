@@ -22,7 +22,12 @@
  * Fields written to `collection` (see `main.md` section 2):
  *   `{ key, cardId, style, set, quantity, firstObtainedAt, lastObtainedAt }`
  * Fields written to `stats`:
- *   `{ boostersOpened, drawsByRarity: { "1".."5" }, drawsByCard: { [key]: count } }`
+ *   `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: { "1".."5" },
+ *      drawsByCard: { [key]: count } }`
+ *
+ * `boostersOpenedBySet` is what the per-extension trophy tiers read (`settings/boosters_trophy.json`
+ * `boosterStats`): the global `boostersOpened` cannot tell how many packs of one extension were
+ * opened.
  */
 
 import Card from '../classes/Card.js';
@@ -360,6 +365,7 @@ export class BoosterManager {
         historySize,
         timestamp: openedAt,
         sparksReward: boosterReward,
+        setId: key,
       });
     } catch (error) {
       await this.refundBooster(key, consumedSource, error);
@@ -496,6 +502,8 @@ export class BoosterManager {
    *   collection rows, the statistics and the history of one opening all carry the same instant.
    * @param {number} [options.sparksReward=0] - Sparks credited by the opening (`sparks.boosterReward`),
    *   written in the SAME transaction as the cards so a failed write never credits them.
+   * @param {string|null} [options.setId=null] - Extension the pack belongs to, incremented in
+   *   `stats.boostersOpenedBySet` (the per-extension trophy tiers read that counter).
    * @returns {Promise<{newKeys: string[], quantity: Record<string, number>, sparks: number}>} The
    *   keys obtained for the first time, the resulting quantity per key, and the Sparks balance
    *   after the reward.
@@ -508,6 +516,7 @@ export class BoosterManager {
       historySize = BOOSTER_HISTORY_SIZE,
       timestamp = null,
       sparksReward = 0,
+      setId = null,
     } = {}
   ) {
     const obtainedAt = timestamp ?? buildCollectionTimestamp();
@@ -544,6 +553,9 @@ export class BoosterManager {
 
         const stats = this.normalizeStats(await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS));
         stats.boostersOpened += 1;
+        if (typeof setId === 'string' && setId !== '') {
+          stats.boostersOpenedBySet[setId] = (stats.boostersOpenedBySet[setId] ?? 0) + 1;
+        }
         Object.entries(drawsByRarity).forEach(([rarity, count]) => {
           stats.drawsByRarity[rarity] = (stats.drawsByRarity[rarity] ?? 0) + count;
         });
@@ -725,7 +737,7 @@ export class BoosterManager {
    * Normalizes a raw `stats` payload read from `user_state["stats"]`.
    *
    * @param {unknown} raw - Stored statistics.
-   * @returns {{boostersOpened: number, drawsByRarity: Record<string, number>, drawsByCard: Record<string, number>}}
+   * @returns {{boostersOpened: number, boostersOpenedBySet: Record<string, number>, drawsByRarity: Record<string, number>, drawsByCard: Record<string, number>}}
    *   Statistics guaranteed to be writable, with every rarity initialized to zero.
    */
   normalizeStats(raw) {
@@ -733,9 +745,18 @@ export class BoosterManager {
     const stats = {
       boostersOpened:
         Number.isInteger(source.boostersOpened) && source.boostersOpened >= 0 ? source.boostersOpened : 0,
+      boostersOpenedBySet: {},
       drawsByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       drawsByCard: {},
     };
+
+    if (source.boostersOpenedBySet && typeof source.boostersOpenedBySet === 'object') {
+      Object.entries(source.boostersOpenedBySet).forEach(([setId, count]) => {
+        if (typeof setId === 'string' && setId !== '' && Number.isInteger(count) && count >= 0) {
+          stats.boostersOpenedBySet[setId] = count;
+        }
+      });
+    }
 
     if (source.drawsByRarity && typeof source.drawsByRarity === 'object') {
       Object.entries(source.drawsByRarity).forEach(([rarity, count]) => {

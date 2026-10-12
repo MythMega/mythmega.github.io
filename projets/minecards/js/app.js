@@ -22,6 +22,8 @@ import accountManager from './business/AccountManager.js';
 import dateSyncManager from './business/DateSyncManager.js';
 import boosterManager from './business/BoosterManager.js';
 import sparksManager from './business/SparksManager.js';
+import profileManager from './business/ProfileManager.js';
+import trophyManager from './business/TrophyManager.js';
 import i18n from './utils/I18n.js';
 import themeManager from './utils/ThemeManager.js';
 import soundManager from './utils/SoundManager.js';
@@ -33,10 +35,13 @@ import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
 import { CollectionView, COLLECTION_VIEW_NAME } from './UI/views/CollectionView.js';
 import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
+import { ProfileView, PROFILE_VIEW_NAME } from './UI/views/ProfileView.js';
+import { TrophiesView, TROPHIES_VIEW_NAME } from './UI/views/TrophiesView.js';
 import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
 import { RedeemView } from './UI/views/RedeemView.js';
 import { GiftsView } from './UI/views/GiftsView.js';
 import { InfoView, INFO_VIEW_NAME } from './UI/views/InfoView.js';
+import gameNotifier from './UI/components/GameNotifier.js';
 
 /** Id of the boot overlay removed once the application is ready. */
 export const BOOT_OVERLAY_ID = 'app-boot';
@@ -69,6 +74,8 @@ export const VIEW_NAMES = Object.freeze({
   ONBOARDING: 'onboarding',
   OPENING: 'opening',
   COLLECTION: 'collection',
+  PROFILE: 'profile',
+  TROPHIES: 'trophies',
   STATS: 'stats',
   SETTINGS: 'settings',
   INFO: 'info',
@@ -102,6 +109,10 @@ export class App {
     this.openingView = null;
     /** @type {CollectionView|null} Card collection grid (step 5). */
     this.collectionView = null;
+    /** @type {ProfileView|null} Profile page (identity, level, pinned trophies, favourites). */
+    this.profileView = null;
+    /** @type {TrophiesView|null} Trophy catalogue (its own bottom-bar destination). */
+    this.trophiesView = null;
     /** @type {StatsView|null} Statistics panels (step 5). */
     this.statsView = null;
     /** @type {SettingsView|null} Preferences, account and save management (step 6). */
@@ -114,6 +125,8 @@ export class App {
     this.infoView = null;
     /** @type {boolean} True once the header event subscriptions are registered. */
     this.headerBound = false;
+    /** @type {boolean} True once the game notifications (experience, collections) are armed. */
+    this.notificationsStarted = false;
     /** @type {boolean} True once the bonus inventory dialog is wired. */
     this.bonusInventoryBound = false;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */
@@ -212,6 +225,10 @@ export class App {
     // downloads the effects of a muted player. Missing/legacy values stay enabled.
     soundManager.setEnabled(settings.sound !== false);
 
+    // The profile and the trophies are part of the saved state: both entries are created here, so
+    // an export made before the player ever opened the profile page still carries them.
+    await this.ensureAccountStates();
+
     if (this.onboardingView) {
       this.onboardingView.destroy();
       this.onboardingView.hide();
@@ -237,6 +254,8 @@ export class App {
     await this.refreshHeaderSparks();
     await this.startOpeningView();
     await this.startCollectionView();
+    await this.startProfileView();
+    await this.startTrophiesView();
     await this.startStatsView();
     await this.startSettingsView();
     await this.startRedeemView();
@@ -245,6 +264,12 @@ export class App {
     // The deep link is handled LAST: the account exists, the views are ready and the trusted clock
     // is initialized, which is exactly what `?Redeem=` needs (step 10).
     await this.handlePendingRedeem();
+    // The trophies and the experience are evaluated once at boot, SILENTLY (a save can legitimately
+    // unlock a dozen trophies at once: a wall of notifications on load would be noise). The
+    // notifications are therefore armed only AFTER that first evaluation — from then on, every key
+    // moment (an opening, a trophy, a purchase, a custom name, a level) announces itself.
+    await this.startTrophies();
+    await this.startGameNotifications();
     if (!this.utcTimeProvider) {
       // Fallback used only when the time synchronization is unusable: the clock then shows the
       // "unknown time" placeholder instead of an untrusted system time.
@@ -311,6 +336,122 @@ export class App {
     console.info('[App] Collection view ready.');
     if (this.router?.getCurrentView() === COLLECTION_VIEW_NAME) {
       this.collectionView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Creates the `profile` and `trophies` states when the account does not have them yet.
+   *
+   * A failure is not fatal: both managers normalize a missing state on read, so the application
+   * still works (the save simply does not carry them until the first write).
+   *
+   * @returns {Promise<void>} Resolves once both states exist (or the failure was logged).
+   */
+  async ensureAccountStates() {
+    try {
+      await Promise.all([profileManager.ensureState(), trophyManager.ensureState()]);
+    } catch (error) {
+      console.warn('[App] The profile and trophy states could not be created.', error);
+    }
+  }
+
+  /**
+   * Starts the trophy system: subscribes to the openings and evaluates the catalogue once.
+   *
+   * A failure is not fatal: the trophy page then shows its own error message and the rest of the
+   * application keeps working.
+   *
+   * @returns {Promise<void>} Resolves once the first evaluation finished.
+   */
+  async startTrophies() {
+    console.info('[App] Evaluating the trophies…');
+    try {
+      const state = await trophyManager.init({ notify: false });
+      console.info(
+        `[App] Trophies ready: ${state.counters.unlocked}/${state.counters.total} unlocked (level ${state.level.level}).`
+      );
+    } catch (error) {
+      console.error('[App] The trophies could not be evaluated.', error);
+    }
+  }
+
+  /**
+   * Starts the profile view: identity (name, avatar), level, pinned trophies and favourite cards.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and the
+   * other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startProfileView() {
+    const root = document.querySelector(`[data-view="${PROFILE_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The profile view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the profile view…');
+    this.profileView = new ProfileView(root);
+    try {
+      await this.profileView.init();
+    } catch (error) {
+      console.error('[App] The profile view could not be loaded.', error);
+      this.profileView.setFeedback('profile.error.load', 'error');
+      return;
+    }
+    console.info('[App] Profile view ready.');
+    if (this.router?.getCurrentView() === PROFILE_VIEW_NAME) {
+      this.profileView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Starts the trophy catalogue view: the "Trophées" destination of the bottom bar.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and the
+   * other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startTrophiesView() {
+    const root = document.querySelector(`[data-view="${TROPHIES_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The trophies view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the trophies view…');
+    this.trophiesView = new TrophiesView(root);
+    try {
+      await this.trophiesView.init();
+    } catch (error) {
+      console.error('[App] The trophies view could not be loaded.', error);
+      this.trophiesView.setFeedback('trophies.error.load', 'error');
+      return;
+    }
+    console.info('[App] Trophies view ready.');
+    if (this.router?.getCurrentView() === TROPHIES_VIEW_NAME) {
+      this.trophiesView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Arms the notifications of the key moments (experience, collections, trophies, levels).
+   *
+   * They live here — and not in a view — because they concern the whole application: an opening
+   * happens on the opening screen, the profile shows the pins and the trophies screen shows the
+   * catalogue, and all three must see the same notification. `GameNotifier` subscribes to the events
+   * of the managers and takes the level of the boot evaluation as its baseline, which is what keeps
+   * the first evaluation silent.
+   *
+   * A failure is not fatal: the application then simply shows no notification.
+   *
+   * @returns {Promise<void>} Resolves once the notifications are armed (or have failed).
+   */
+  async startGameNotifications() {
+    if (this.notificationsStarted) return;
+    const armed = await gameNotifier.start();
+    this.notificationsStarted = armed;
+    if (!armed) {
+      console.warn('[App] The game notifications are unavailable.');
     }
   }
 
@@ -643,6 +784,14 @@ export class App {
       this.collectionView.destroy();
       this.collectionView = null;
     }
+    if (this.profileView) {
+      this.profileView.destroy();
+      this.profileView = null;
+    }
+    if (this.trophiesView) {
+      this.trophiesView.destroy();
+      this.trophiesView = null;
+    }
     if (this.statsView) {
       this.statsView.destroy();
       this.statsView = null;
@@ -664,6 +813,9 @@ export class App {
       this.infoView = null;
     }
     dateSyncManager.destroy();
+    trophyManager.destroy();
+    gameNotifier.stop();
+    this.notificationsStarted = false;
     this.stopUtcClock();
     this.utcTimeProvider = null;
     this.lastTick = null;

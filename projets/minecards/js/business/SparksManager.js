@@ -286,12 +286,20 @@ export class SparksManager {
                 lastObtainedAt: timestamp,
               }
         );
-        return { balance, quantity, spent: price };
+        return { balance, quantity, spent: price, isNew: !existing };
       }
     );
 
     this.log(`Bought "${card.uniqueKey}" for ${result.spent} Sparks (balance: ${result.balance}).`);
     eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: result.balance });
+    // A purchase is a second way into the collection (the first being an opening): publishing it
+    // lets the trophies, the experience and the notifications follow a bought card. A duplicate
+    // grants nothing, so `newKeys` is empty in that case.
+    eventBus.emit(EVENTS.CARDS_OBTAINED, {
+      cards: [card],
+      newKeys: result.isNew ? [card.uniqueKey] : [],
+      source: 'purchase',
+    });
     return result;
   }
 

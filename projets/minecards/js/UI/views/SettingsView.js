@@ -8,6 +8,7 @@
  *   - theme     : every theme declared in `settings/config.json`, applied through
  *                 `ThemeManager.applyTheme`, persisted in `settings`;
  *   - sound     : one switch ("Sons") driving `SoundManager.setEnabled`, persisted in `settings`;
+ *   - clock     : the trusted UTC time of the game (the header clock is hidden on a phone);
  *   - account   : the immutable UUID (read-only) with a copy button;
  *   - save      : export, import (with a confirmation modal, because the current data is
  *                 replaced) and full reset (confirmation modal, UUID included);
@@ -69,6 +70,8 @@ export class SettingsView {
     this.themeContainer = query('[data-settings-themes]');
     this.soundToggle = query('[data-settings-sound]');
     this.soundStateElement = query('[data-settings-sound-state]');
+    this.clockElement = query('[data-settings-utc]');
+    this.clockDayElement = query('[data-settings-utc-day]');
     this.uuidElement = query('[data-settings-uuid]');
     this.copyButton = query('[data-settings-copy]');
     this.exportButton = query('[data-settings-export]');
@@ -134,6 +137,7 @@ export class SettingsView {
       ['[data-settings-themes]', this.themeContainer],
       ['[data-settings-sound]', this.soundToggle],
       ['[data-settings-sound-state]', this.soundStateElement],
+      ['[data-settings-utc]', this.clockElement],
       ['[data-settings-uuid]', this.uuidElement],
       ['[data-settings-copy]', this.copyButton],
       ['[data-settings-export]', this.exportButton],
@@ -171,6 +175,7 @@ export class SettingsView {
     await this.renderThemeSelector();
     this.syncSoundToggle();
     await this.renderAccount();
+    this.renderClock();
     this.bindEvents();
     this.subscribeToEvents();
     this.log(`Ready (lang: ${i18n.getLang()}, theme: ${themeManager.getTheme()}).`);
@@ -239,6 +244,44 @@ export class SettingsView {
     this.uuid = await accountManager.getUuid();
     this.uuidElement.textContent = this.uuid ?? '—';
     this.uuidElement.setAttribute('title', this.uuid ?? '');
+  }
+
+  /**
+   * Displays the trusted UTC time of the game and the UTC day it belongs to.
+   *
+   * The header carries the same clock, but it is hidden on a phone; this panel is the one place
+   * where the reference time stays readable. The value never comes from `Date.now()`: it is the
+   * estimated time of `DateSyncManager`, published every second through `CLOCK_TICK`, so the panel
+   * always agrees with the daily booster quota and with the availability windows of the codes.
+   * Before the first tick — and while no provider answered — the timer shows `--:--:--`: a wrong
+   * time would be worse than no time at all.
+   *
+   * @param {{utc?: Date, formatted?: string}|null} [payload=null] - Tick payload, or null to read
+   *   the current value from the manager (used on activation, before the next tick).
+   * @returns {void}
+   */
+  renderClock(payload = null) {
+    if (!this.clockElement) return;
+
+    let formatted = typeof payload?.formatted === 'string' ? payload.formatted : null;
+    let day = null;
+    try {
+      const trusted = dateSyncManager.isTimeTrusted();
+      day = trusted ? dateSyncManager.getCurrentUtcDay() : null;
+      if (!formatted && trusted) {
+        const utc = dateSyncManager.getUtcDate();
+        formatted = [utc.getUTCHours(), utc.getUTCMinutes(), utc.getUTCSeconds()]
+          .map((value) => String(value).padStart(2, '0'))
+          .join(':');
+      }
+    } catch (error) {
+      console.warn('[SettingsView] The trusted UTC time could not be read.', error);
+    }
+
+    this.clockElement.textContent = formatted ?? '--:--:--';
+    if (this.clockDayElement) {
+      this.clockDayElement.textContent = day ? i18n.t('stats.history.date', { date: day }) : '';
+    }
   }
 
   /**
@@ -346,6 +389,7 @@ export class SettingsView {
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.THEME_CHANGED, () => this.syncThemeButtons()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.renderClock(payload)));
     this.log('Event subscriptions registered.');
   }
 
@@ -937,6 +981,7 @@ export class SettingsView {
       console.error('[SettingsView] The theme list could not be re-rendered.', error);
     });
     this.syncSoundToggle();
+    this.renderClock();
     this.renderFeedback();
     if (this.pendingModal) {
       void this.renderModal().catch((error) => {
@@ -959,6 +1004,7 @@ export class SettingsView {
     this.syncLanguageButtons();
     this.syncThemeButtons();
     this.syncSoundToggle();
+    this.renderClock();
     void this.renderAccount().catch((error) => {
       console.error('[SettingsView] The account could not be read.', error);
       this.setFeedback('settings.error.load', 'error');

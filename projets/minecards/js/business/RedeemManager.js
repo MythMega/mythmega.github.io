@@ -816,6 +816,10 @@ export class RedeemManager {
     const uuid = await accountManager.getUuid();
     const redeemId = RedeemManager.buildRedeemId();
     const receivedAt = buildCollectionTimestamp();
+    // Cards credited by the code, collected during the transaction: they are published AFTER the
+    // commit (`CARDS_OBTAINED`), like every other reward of the claim.
+    const grantedCards = [];
+    const grantedNewKeys = [];
 
     await storageRepository.transaction(
       [STORES.USER_STATE, STORES.COLLECTION, STORES.REDEEMED_CODES, STORES.GIFTS_RECEIVED],
@@ -839,7 +843,13 @@ export class RedeemManager {
           } else if (reward.type === 'sparks') {
             await sparksManager.addSparks(reward.quantity, context);
           } else {
-            await boosterManager.addCardToCollection(reward.card, reward.quantity, context);
+            const granted = await boosterManager.addCardToCollection(
+              reward.card,
+              reward.quantity,
+              context
+            );
+            grantedCards.push(reward.card);
+            grantedNewKeys.push(...granted.newKeys);
           }
 
           await context.put(STORES.GIFTS_RECEIVED, {
@@ -867,6 +877,14 @@ export class RedeemManager {
     if (rewards.some((reward) => reward.type === 'sparks')) {
       // In-transaction grants do not publish: read the committed balance back and emit it.
       await sparksManager.publishBalance();
+    }
+
+    if (grantedCards.length > 0) {
+      eventBus.emit(EVENTS.CARDS_OBTAINED, {
+        cards: grantedCards,
+        newKeys: grantedNewKeys,
+        source: 'redeem',
+      });
     }
 
     eventBus.emit(EVENTS.GIFTS_UPDATED, { count: rewards.length, source: GIFT_CATEGORIES.CODES });

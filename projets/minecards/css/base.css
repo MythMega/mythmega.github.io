@@ -280,6 +280,26 @@ body[data-connection="offline"] .app-header__clock {
   border-style: solid;
 }
 
+/* Mobile header: only the brand and the counters are kept. The tagline and the UTC clock are
+   dropped (the clock is still readable in the settings, where it is not on the way), the title
+   sits on its own centered row and is one step smaller, which leaves the counters the whole width
+   of the header. */
+@media (max-width: 767px) {
+  .app-header__brand {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .app-header__title {
+    font-size: var(--font-size-md);
+  }
+
+  .app-header__tagline,
+  .app-header__clock {
+    display: none;
+  }
+}
+
 .app-main {
   flex: 1 1 auto;
   width: 100%;
@@ -348,6 +368,19 @@ body.is-onboarding .app-main {
   max-width: 100%;
   text-align: center;
   overflow-wrap: anywhere;
+}
+
+/* The bar holds SIX destinations since the profile page was added (`.app-nav` is a grid of equal
+   columns): on a 390 px phone each column is ~60 px wide, just under the width of "Collection" at
+   `--font-size-xs`. The labels are tightened there so the bar never splits a word in two words. */
+@media (max-width: 480px) {
+  .app-nav__item {
+    font-size: 0.6875rem;
+  }
+
+  .app-nav__item span {
+    overflow-wrap: normal;
+  }
 }
 
 .app-nav__item svg {

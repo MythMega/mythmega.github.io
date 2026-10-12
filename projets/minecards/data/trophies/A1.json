@@ -11,13 +11,14 @@
                     "RequirementType": "CardList",
                     "Type": "any",
                     "Items": [
-                        "SERIE-A1 / D019",
+                        "SERIE-A1 / D017",
                         "SERIE-A1 / D018",
                         "SERIE-A1 / D019",
                         "SERIE-A1 / D020"
                     ]
                 },
-                "Experience": null
+                "Experience": null,
+                "Icon": "./assets/img/trophy/A1/custom/DiamondSteve.png"
             },
             {
                 "Name": "Quinte Flush Royale",
@@ -45,7 +46,8 @@
                         "SERIE-A1 / W016"
                     ]
                 },
-                "Experience": null
+                "Experience": null,
+                "Icon": "./assets/img/trophy/A1/custom/QuinteFlushRoyale.gif"
             },
             {
                 "Name": "Genesis Animals",
@@ -61,7 +63,8 @@
                         "SERIE-A1 / Z004"
                     ]
                 },
-                "Experience": null
+                "Experience": null,
+                "Icon": "./assets/img/trophy/A1/custom/GenesisAnimal.png"
             },
             {
                 "Name": "Genesis Mobs",
@@ -77,7 +80,8 @@
                         "SERIE-A1 / Z008"
                     ]
                 },
-                "Experience": null
+                "Experience": null,
+                "Icon": "./assets/img/trophy/A1/custom/GenesisMobs.png"
             }
         ]
     

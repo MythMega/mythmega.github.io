@@ -48,6 +48,68 @@
   outline-offset: 2px;
 }
 
+/* --- 3D preview of the chosen booster ------------------------------------ */
+
+/* The booster sits under the extension picker, with one arrow on each side: the arrows change the
+   extension (and the combo follows), the combo changes the texture. */
+.opening__preview {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.opening__preview-arrow {
+  display: grid;
+  place-items: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.opening__preview-arrow:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: scale(1.06);
+}
+
+.opening__preview-arrow:active {
+  transform: scale(0.94);
+}
+
+.opening__preview-arrow:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* The preview stage is shorter than the opening scene: the picker, the quota and the button must
+   all stay above the fold on a phone. Its height follows the one of the scene (10 % more than the
+   original 34vh), and the doubled class beats the base `.booster-3d` rule whatever the order the
+   two stylesheets are loaded in. */
+.booster-3d.booster-3d--preview {
+  min-height: 38vh;
+}
+
+.booster-3d--preview .booster-3d__viewport {
+  height: 38vh;
+}
+
+.booster-3d--preview .booster-3d__fallback {
+  max-height: 27vh;
+  cursor: default;
+}
+
 /* --- Quota and countdown ------------------------------------------------- */
 
 .opening__quota {
@@ -266,6 +328,12 @@
 }
 
 @media (min-width: 768px) {
+  .booster-3d.booster-3d--preview,
+  .booster-3d--preview .booster-3d__viewport {
+    min-height: 42vh;
+    height: 42vh;
+  }
+
   .opening__stage {
     width: min(100%, 24rem);
   }

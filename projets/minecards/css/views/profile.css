@@ -1,0 +1,444 @@
+/* =============================================================================
+   profile.css - Profile page: identity (name, avatar), level, pinned trophies and favourites.
+
+   The trophy catalogue moved to its own destination and its styles now live in
+   `css/components/trophy.css` (shared with the catalogue page). What stays here is the page
+   itself: identity, the avatar picker, the level bar, the pinned strips and the favourites grid.
+
+   Colors come exclusively from `css/themes.css` (including `--icon-filter`, which flips the black
+   pin/unpin/edit glyphs on the dark theme). The panels reuse `.panel` and `.stats__title` from
+   `css/base.css` / `css/views/stats.css`.
+   ============================================================================= */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.profile__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.profile__panel--wide {
+  grid-column: 1 / -1;
+}
+
+.profile__help,
+.profile__empty {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* --- Identity -------------------------------------------------------------- */
+
+.profile__identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.profile__avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 5.5rem;
+  height: 5.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.profile__avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The icons are pixel art (several ship as 6x6 or 8x8): a smooth upscale would turn them
+     into a blur, so the browser must repeat the pixels instead. */
+  image-rendering: pixelated;
+}
+
+.profile__avatar-fallback {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.profile__identity-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.profile__display-name {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+/* The pencil: the ONLY way to change the name or the avatar, so a stray tap can never edit them. */
+.profile__edit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.profile__edit:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.profile__edit.is-active {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.profile__edit-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  object-fit: contain;
+  filter: var(--icon-filter);
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  animation: profile-panel-in var(--duration-base) var(--easing-standard);
+}
+
+.profile__form[hidden] {
+  display: none;
+}
+
+.profile__form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* --- Avatar picker --------------------------------------------------------- */
+
+.profile__icons-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.profile__icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(3.25rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile__icon-option {
+  display: flex;
+}
+
+.profile__icon-choice {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
+}
+
+.profile__icon-choice:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+/* The selected avatar, and the one the form would store on save. */
+.profile__icon-choice[aria-checked="true"] {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-accent);
+}
+
+/* An avatar a trophy still has to grant: visible, but clearly out of reach. */
+.profile__icon-choice[data-locked="true"] {
+  opacity: 0.45;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+.profile__icon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Same as the avatar: the source images are tiny pixel art, shown without interpolation. */
+  image-rendering: pixelated;
+}
+
+.profile__icon-none {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+}
+
+/* --- Level ----------------------------------------------------------------- */
+
+.profile__level {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.profile__level-value {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+.profile__level-label {
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.profile__xp {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.profile__xp-track {
+  height: 0.9rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.profile__xp-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  transition: width var(--duration-base) var(--easing-standard);
+}
+
+.profile__xp-text {
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* --- Pinned rows (featured trophies, favourite cards) ---------------------- */
+
+/* ONE row, scrolling sideways: the pins never push the page down, however many there are. */
+.profile__strip {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0 var(--space-1) var(--space-2) 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Favourite cards: one column per allowed favourite, so they all fit without any scrolling. */
+.profile__strip--cards {
+  display: grid;
+  grid-template-columns: repeat(var(--favorite-columns, 5), minmax(0, 1fr));
+  padding-right: 0;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+.profile__tile {
+  position: relative;
+  flex: 0 0 auto;
+  width: 6.5rem;
+  scroll-snap-align: start;
+  /* `backwards` + the index-based delay stagger the entry of the row, left to right. */
+  animation: profile-tile-in var(--duration-base) var(--easing-standard) backwards;
+  animation-delay: calc(var(--tile-index, 0) * 45ms);
+}
+
+/* A favourite card fills its column, and stays small: only its illustration identifies it. */
+.profile__tile--card {
+  width: 100%;
+  min-width: 0;
+}
+
+.profile__tile-open {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
+}
+
+.profile__tile--card .profile__tile-open {
+  padding: var(--space-1);
+}
+
+.profile__tile-open:hover,
+.profile__tile-open:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+  /* A small tilt makes the row feel like a hand of cards. */
+  transform: translateY(-3px) rotate(-1.5deg);
+}
+
+.profile__tile-open:active {
+  transform: translateY(-1px) scale(0.97);
+}
+
+.profile__tile-image {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+}
+
+.profile__tile-title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.profile__tile--trophy .trophy__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+/* The unpin button of a pinned trophy: pinned to the TOP-RIGHT corner of the tile. */
+.profile__tile-action {
+  position: absolute;
+  top: calc(-1 * var(--space-1));
+  right: calc(-1 * var(--space-1));
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.profile__tile-action:hover {
+  border-color: var(--color-error);
+  transform: scale(1.12) rotate(6deg);
+}
+
+/* Shared sizing of the black pin/unpin/edit glyphs, flipped on the dark theme. */
+.profile__icon {
+  display: block;
+  width: 0.9rem;
+  height: 0.9rem;
+  object-fit: contain;
+  filter: var(--icon-filter);
+}
+
+/* --- Favourite detail ------------------------------------------------------ */
+
+.profile-modal__card {
+  align-self: center;
+  width: min(100%, 15rem);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  animation: profile-tile-in var(--duration-base) var(--easing-standard);
+}
+
+.profile-modal__remove {
+  align-self: flex-start;
+}
+
+/* --- Animations ------------------------------------------------------------ */
+
+@keyframes profile-tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes profile-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .profile {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .profile__identity {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile__xp-fill {
+    transition: none;
+  }
+}

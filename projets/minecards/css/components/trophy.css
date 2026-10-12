@@ -1,0 +1,426 @@
+/* =============================================================================
+   trophy.css - Trophy component: catalogue list, filters, detail modal blocks.
+
+   Reference: `js/UI/views/TrophiesView.js` (the catalogue), `js/UI/views/ProfileView.js` (the
+   pinned tiles) and `js/UI/components/TrophyDetail.js` (the shared detail rendering).
+
+   The trophy list used to live in `css/views/profile.css`. It is shared by two screens now — the
+   "Trophées" destination and the pinned trophies of the profile — so it lives in a component
+   stylesheet both of them load. Colors come exclusively from `css/themes.css` (including the
+   `--color-trophy-*` medal palette).
+   ============================================================================= */
+
+/* --- Catalogue page --------------------------------------------------------- */
+
+.trophies {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.trophies__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.trophies__summary {
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.trophies__empty {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* --- Filters ---------------------------------------------------------------- */
+
+.trophy-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-3);
+}
+
+.trophy-filters__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* --- List ------------------------------------------------------------------- */
+
+.trophy-group {
+  margin: var(--space-4) 0 0 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.trophy-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trophy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  animation: trophy-tile-in var(--duration-base) var(--easing-standard) backwards;
+  animation-delay: calc(var(--tile-index, 0) * 25ms);
+}
+
+/* A locked trophy stays readable but clearly recessed. */
+.trophy[data-unlocked="false"] {
+  opacity: 0.72;
+}
+
+.trophy__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.trophy__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.trophy__xp {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+.trophy[data-unlocked="false"] .trophy__xp {
+  color: var(--color-text-muted);
+}
+
+.trophy__desc {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.trophy__track {
+  height: 0.6rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  overflow: hidden;
+}
+
+.trophy__fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  transition: width var(--duration-base) var(--easing-standard);
+}
+
+.trophy__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.trophy__open {
+  min-height: 2.25rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.trophy__open:hover {
+  color: var(--color-accent-hover);
+}
+
+/* The pin toggle: on the right of the row, so the row itself only ever opens the detail. */
+.trophy__pin {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-left: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.trophy__pin:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-surface);
+  transform: translateY(-2px);
+}
+
+.trophy__pin[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-accent);
+}
+
+.trophy__pin .profile__icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* --- Medals ----------------------------------------------------------------- */
+
+/* Only the recurring tiers ship an image today; a missing file is hidden by the view. */
+.trophy__icon {
+  flex: 0 0 auto;
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+}
+
+/* A locked medal stays legible but reads as "not earned yet". */
+.trophy[data-unlocked="false"] .trophy__icon {
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+
+/* --- Rarity badges ---------------------------------------------------------- */
+
+.trophy__rarity {
+  flex: 0 0 auto;
+  padding: 2px var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.trophy__rarity[data-rarity="bronze"] {
+  border-color: var(--color-trophy-bronze);
+  color: var(--color-trophy-bronze);
+}
+
+.trophy__rarity[data-rarity="silver"] {
+  border-color: var(--color-trophy-silver);
+  color: var(--color-trophy-silver);
+}
+
+.trophy__rarity[data-rarity="gold"] {
+  border-color: var(--color-trophy-gold);
+  color: var(--color-trophy-gold);
+}
+
+.trophy__rarity[data-rarity="diamond"] {
+  border-color: var(--color-trophy-diamond);
+  color: var(--color-trophy-diamond);
+}
+
+.trophy__rarity[data-rarity="emerald"] {
+  border-color: var(--color-trophy-emerald);
+  color: var(--color-trophy-emerald);
+}
+
+/* --- Detail modal ----------------------------------------------------------- */
+
+.modal.is-opening .modal__dialog {
+  /* Slightly springier than the shared modal: this one opens from a tap on a small tile. */
+  animation: trophy-modal-in var(--duration-base) var(--easing-standard);
+}
+
+.trophy-modal__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.trophy-modal__medal {
+  width: 4rem;
+  height: 4rem;
+  object-fit: contain;
+}
+
+.trophy-modal__category {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.trophy-modal__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.trophy-modal__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.trophy-modal__section-title {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+/* Required cards: in colour when owned, in black and white when still missing. */
+.trophy-modal__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trophy-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  animation: trophy-tile-in 320ms var(--easing-standard) backwards;
+  animation-delay: calc(var(--tile-index, 0) * 20ms);
+}
+
+.trophy-card__image {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+}
+
+.trophy-card[data-owned="false"] .trophy-card__image {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+.trophy-card__name {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: var(--color-text-muted);
+}
+
+.trophy-card[data-owned="true"] .trophy-card__name {
+  color: var(--color-text);
+}
+
+/* Avatars unlocked by the trophy: the locked ones stay visible, greyed out. */
+.trophy-modal__icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trophy-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  animation: trophy-tile-in 320ms var(--easing-standard) backwards;
+  animation-delay: calc(var(--tile-index, 0) * 20ms);
+}
+
+.trophy-icon__image {
+  width: 4rem;
+  height: 4rem;
+  object-fit: contain;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  /* These are the AVATARS a trophy unlocks (`data/icon.json`): the same pixel art as the profile
+     picker (6x6 to 192x192 sprites), so they are enlarged without interpolation here too. */
+  image-rendering: pixelated;
+}
+
+.trophy-icon[data-owned="false"] .trophy-icon__image {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+.trophy-icon__name {
+  color: var(--color-text-muted);
+}
+
+/* --- Animations -------------------------------------------------------------- */
+
+@keyframes trophy-tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes trophy-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The "pop" played on a pin toggle, so the click is acknowledged without a toast. */
+.is-popping {
+  animation: trophy-pop 320ms var(--easing-standard);
+}
+
+@keyframes trophy-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.28) rotate(-8deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trophy__fill {
+    transition: none;
+  }
+}

@@ -20,6 +20,10 @@ body[data-theme="dark"],
 :root[data-theme="dark"] body {
   color-scheme: dark;
 
+  /* The icon files (`assets/img/pin.png`, `unpin.png`, `edit.png`) are pure black glyphs, so they
+     follow the palette: inverted on the dark theme, left alone on the two light ones. */
+  --icon-filter: invert(1);
+
   --color-bg: #0b0e14;
   --color-bg-elevated: #10141d;
   --color-surface: #151a24;
@@ -46,6 +50,8 @@ body[data-theme="dark"],
 body[data-theme="light"],
 :root[data-theme="light"] body {
   color-scheme: light;
+
+  --icon-filter: none;
 
   --color-bg: #eef1f8;
   --color-bg-elevated: #ffffff;
@@ -74,6 +80,8 @@ body[data-theme="classic"],
 :root[data-theme="classic"] body {
   color-scheme: light;
 
+  --icon-filter: none;
+
   --color-bg: #efe3c8;
   --color-bg-elevated: #fbf4e4;
   --color-surface: #fbf4e4;
@@ -95,4 +103,17 @@ body[data-theme="classic"],
   --shadow-sm: 0 1px 2px rgba(47, 36, 21, 0.18);
   --shadow-md: 0 10px 26px rgba(47, 36, 21, 0.2);
   --overlay: rgba(47, 36, 21, 0.5);
+}
+
+/* Trophy medals (bronze -> emerald).
+
+   Declared once on `:root` because they are NOT theme colors: a bronze trophy is bronze in the
+   dark, light and classic palettes, exactly like `--glow-rarity-*` above. The values are mid-tone
+   on purpose, so the badge stays readable on the dark and on the light surfaces. */
+:root {
+  --color-trophy-bronze: #b06a20;
+  --color-trophy-silver: #8b98a8;
+  --color-trophy-gold: #c99117;
+  --color-trophy-diamond: #2f8fbf;
+  --color-trophy-emerald: #1f9d63;
 }

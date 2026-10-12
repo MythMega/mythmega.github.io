@@ -55,7 +55,7 @@
   },
 
   "levelling": {
-    "_comment": "the default level is 'defaultLevel'. To level up the first level, you need 'baseRequiredExpToLevelUp' XP, and each level, the requirement increase by 'incrementRequiredXpBy' XP.",
+    "_comment": "the default level is 'defaultLevel'. To level up the first level, you need 'baseRequiredExpToLevelUp' XP, and each level, the requirement increase by 'incrementRequiredXpBy' XP. 'experience' is the XP earned from the account itself: every booster opened, every distinct card of the collection, and a custom player name (not 'profile.defaultName').",
     "defaultLevel": 1,
     "baseRequiredExpToLevelUp" : 100,
     "incrementRequiredXpBy": 25,
@@ -73,5 +73,26 @@
       "gold": 250,
       "diamond": 500,
       "emerald": 1000
+  },
+
+  "trophies": {
+    "_comment": "Trophy catalogue. 'boostersConfigPath' holds the tiers recurring on every extension (completion + opened boosters), 'globalConfigPath' the account wide tiers, and 'directory' one file per extension (<setId>.json) listing the collection trophies. The XP of a trophy comes from 'ExperiencePerTrophy', unless its JSON declares its own 'Experience'.",
+    "directory": "data/trophies",
+    "boostersConfigPath": "settings/boosters_trophy.json",
+    "globalConfigPath": "settings/global_trophy.json"
+  },
+
+  "profile": {
+    "_comment": "Player profile. 'maxFavorites' is the number of cards pinnable in the collection, 'maxFeaturedTrophies' the number of unlocked trophies highlighted on the profile page, and 'defaultName' the name that does NOT grant the 'nameChanged' experience (empty = any typed name counts).",
+    "maxFavorites": 5,
+    "maxFeaturedTrophies": 3,
+    "defaultName": ""
+  },
+
+  "profileIcons": {
+    "_comment": "Profile avatars. 'defaultPath' lists the icons every account can select from the start, 'unlockablePath' the icons that a trophy unlocks (matched by name), and 'directory' holds one <setId>.json per extension mapping a collection trophy name to the icons it unlocks.",
+    "defaultPath": "settings/default_profile_icons.json",
+    "unlockablePath": "data/icon.json",
+    "directory": "data/profile_icons"
   }
 }

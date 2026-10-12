@@ -15,6 +15,9 @@
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
  *   - `sparks`    : number (starting balance of the Sparks currency)
+ *   - `profile`   : { name, photo, favorites, featured } (created at the first boot, see
+ *     `js/business/ProfileManager.js`)
+ *   - `trophies`  : { unlocked } (created at the first boot, see `js/business/TrophyManager.js`)
  *
  * Timestamps note: `account.createdAt` is informational metadata produced with the system
  * clock. It must never be used for quota or expiration logic: the trusted clock is owned by
@@ -37,6 +40,8 @@ export const USER_STATE_KEYS = Object.freeze({
   GIFT_SYNC: 'giftSync',
   BOOSTER_HISTORY: 'boosterHistory',
   SPARKS: 'sparks',
+  PROFILE: 'profile',
+  TROPHIES: 'trophies',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */

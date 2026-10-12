@@ -47,6 +47,32 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ balance }`. Emitted by SparksManager whenever the currency balance changes
    * (booster reward, code, distribution, collection sale or purchase): the header listens to it. */
   SPARKS_UPDATED: 'SPARKS_UPDATED',
+  /** Payload: `{ profile }`. Emitted by ProfileManager after the name, the photo or the pinned
+   * trophies changed: the profile page and the identity displays re-render from it. */
+  PROFILE_UPDATED: 'PROFILE_UPDATED',
+  /** Payload: `{ favorites }`. Emitted by ProfileManager whenever the favourite cards changed:
+   * the collection grid repaints its hearts without reloading the whole catalogue. */
+  FAVORITES_UPDATED: 'FAVORITES_UPDATED',
+  /** Payload: `{ setId, card, revealed, total }`. Emitted by the opening view every time a card of
+   * the reveal is turned face up (including the ones a player who jumped to the summary never
+   * flipped): `GameNotifier` announces the collections those cards belong to as they appear. */
+  CARD_REVEALED: 'CARD_REVEALED',
+  /** Payload: `{ setId }`. Emitted by the opening view when the reveal ends (the summary is shown,
+   * or the scene is left with Escape): the notifications prepared for cards that were never turned
+   * face up are sent now instead of being lost. */
+  REVEAL_FINISHED: 'REVEAL_FINISHED',
+  /** Payload: `{ cards, newKeys, source }` where `source` is `'purchase'`, `'redeem'` or `'gift'`.
+   * Emitted AFTER the commit by the three flows that credit cards outside an opening — SparksManager
+   * (purchase), RedeemManager (promo code) and GiftManager (distribution) — because they own the
+   * transactions they write in (see `SparksManager.addSparks`): the trophies are re-evaluated and
+   * the experience/collection notifications are announced. */
+  CARDS_OBTAINED: 'CARDS_OBTAINED',
+  /** Payload: `{ trophies }`. Emitted by TrophyManager once at least one trophy is unlocked for
+   * the first time (the state is persisted before the event): the UI announces them. */
+  TROPHY_UNLOCKED: 'TROPHY_UNLOCKED',
+  /** Payload: `{ experience, level }`. Emitted by TrophyManager whenever the experience total or
+   * the level changes: the profile page repaints its progress bar. */
+  EXPERIENCE_UPDATED: 'EXPERIENCE_UPDATED',
 });
 
 class EventBus {

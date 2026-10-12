@@ -44,6 +44,9 @@ export const EVENTS = Object.freeze({
    * least one gift (step 8): the gift history reloads itself instead of waiting for the next
    * activation. A booster gift also refreshes the header through `QUOTA_UPDATED`. */
   GIFTS_UPDATED: 'GIFTS_UPDATED',
+  /** Payload: `{ balance }`. Emitted by SparksManager whenever the currency balance changes
+   * (booster reward, code, distribution, collection sale or purchase): the header listens to it. */
+  SPARKS_UPDATED: 'SPARKS_UPDATED',
 });
 
 class EventBus {

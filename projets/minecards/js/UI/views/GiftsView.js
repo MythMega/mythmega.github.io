@@ -291,6 +291,7 @@ export class GiftsView {
   async buildItem(gift) {
     const info = await giftManager.describeGift(gift);
     const isCard = info.type === GIFT_TYPES.CARD;
+    const isSparks = info.type === GIFT_TYPES.SPARKS;
 
     const item = document.createElement('li');
     item.className = 'gifts__item';
@@ -323,9 +324,11 @@ export class GiftsView {
           name: info.card ? info.card.getName(i18n.getLang()) : i18n.t('gifts.item.unknown', { key: gift.key }),
           rarity: info.card ? getRarityLabel(info.card.rarity, (key) => i18n.t(key)) : '',
         })
-      : i18n.t('gifts.item.booster', {
-          set: info.setName ?? i18n.t('gifts.item.unknown', { key: gift.key }),
-        });
+      : isSparks
+        ? i18n.t('gifts.item.sparks', { count: gift.quantity })
+        : i18n.t('gifts.item.booster', {
+            set: info.setName ?? i18n.t('gifts.item.unknown', { key: gift.key }),
+          });
     head.appendChild(title);
 
     const badge = document.createElement('span');

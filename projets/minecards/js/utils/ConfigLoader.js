@@ -26,6 +26,17 @@ export const TIME_UNITS = Object.freeze(['seconds', 'milliseconds', 'iso', 'http
  */
 export const TIME_FORMATS = Object.freeze(['json', 'trace', 'headers']);
 
+/**
+ * Default Sparks economy (currency), used whenever `settings/config.json` omits a value.
+ * `sellPrice` / `buyPrice` map a card rarity (1-5) to its value in Sparks; `boosterReward`
+ * is credited on every booster opening.
+ */
+export const DEFAULT_SPARKS_SETTINGS = Object.freeze({
+  sellPrice: Object.freeze({ 1: 1, 2: 3, 3: 10, 4: 25, 5: 100 }),
+  buyPrice: Object.freeze({ 1: 10, 2: 25, 3: 100, 4: 500, 5: 2500 }),
+  boosterReward: 5,
+});
+
 export class ConfigLoader {
   /**
    * @param {string} [path=CONFIG_PATH] - Path of the configuration file to fetch.
@@ -267,6 +278,49 @@ export class ConfigLoader {
       version: Number.isInteger(section.version) ? section.version : 1,
       key: typeof section.key === 'string' ? section.key.trim() : '',
     };
+  }
+
+  /**
+   * Sparks economy (currency): sell/buy price per rarity and the booster reward.
+   *
+   * Every price falls back to `DEFAULT_SPARKS_SETTINGS` when the section is missing, incomplete
+   * or malformed, so a partially edited `config.json` can never make a card free or unaffordable.
+   *
+   * @returns {Promise<{sellPrice: Record<string, number>, buyPrice: Record<string, number>, boosterReward: number}>}
+   *   The validated economy (rarity keys are strings, as in the JSON).
+   * @throws {Error} See `load()`.
+   */
+  async getSparksSettings() {
+    const config = await this.getConfig();
+    const sparks = config.sparks || {};
+    return {
+      sellPrice: ConfigLoader.normalizePriceMap(sparks.sellPrice, DEFAULT_SPARKS_SETTINGS.sellPrice),
+      buyPrice: ConfigLoader.normalizePriceMap(sparks.buyPrice, DEFAULT_SPARKS_SETTINGS.buyPrice),
+      boosterReward:
+        Number.isInteger(sparks.boosterReward) && sparks.boosterReward >= 0
+          ? sparks.boosterReward
+          : DEFAULT_SPARKS_SETTINGS.boosterReward,
+    };
+  }
+
+  /**
+   * Normalizes a `{ rarity: price }` map against its built-in defaults.
+   *
+   * Only the rarities declared by the defaults are kept, and a negative or non-integer price is
+   * replaced by the default: a typo yields the shipped price instead of `NaN` or a free card.
+   *
+   * @param {unknown} raw - Raw map read from `config.json`.
+   * @param {Record<string, number>} defaults - Reference prices.
+   * @returns {Record<string, number>} The normalized map.
+   */
+  static normalizePriceMap(raw, defaults) {
+    const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+    const map = {};
+    Object.keys(defaults).forEach((rarity) => {
+      const value = source[rarity];
+      map[rarity] = Number.isInteger(value) && value >= 0 ? value : defaults[rarity];
+    });
+    return map;
   }
 
   /**

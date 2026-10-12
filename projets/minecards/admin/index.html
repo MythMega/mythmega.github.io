@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>MineCards — Générateur de codes</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <main class="admin">
+
+    <!-- Password gate. The password itself is never stored: only its SHA-256 digest is compared. -->
+    <section class="lock" id="lock">
+      <h1 class="lock__title">Générateur de codes</h1>
+      <p class="muted">Accès réservé. Saisissez le mot de passe administrateur.</p>
+      <form id="lock-form" autocomplete="off">
+        <label class="field">
+          <span class="field__label">Mot de passe</span>
+          <input class="field__input" type="password" id="lock-input" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="btn btn--primary" id="lock-submit">Déverrouiller</button>
+        <p class="feedback" id="lock-feedback" role="status" hidden></p>
+      </form>
+    </section>
+
+    <!-- Generator, revealed once the password matched. -->
+    <section class="app" id="app" hidden>
+      <header class="app__head">
+        <div>
+          <h1 class="app__title">Codes personnels <span class="badge">admin</span></h1>
+          <p class="muted" id="key-status">Chargement de la configuration…</p>
+        </div>
+        <button type="button" class="btn btn--ghost" id="lock-again">Verrouiller</button>
+      </header>
+
+      <section class="card">
+        <h2 class="card__title">1. Destinataire</h2>
+        <label class="field">
+          <span class="field__label">UUID du joueur</span>
+          <input class="field__input" type="text" id="uuid" placeholder="123e4567-e89b-42d3-a456-426614174000" autocomplete="off" spellcheck="false">
+        </label>
+        <p class="hint" id="uuid-hint">Le code ne fonctionnera que pour ce compte précis.</p>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <h2 class="card__title">2. Récompenses</h2>
+          <button type="button" class="btn btn--ghost" id="add-reward">+ Ajouter une récompense</button>
+        </div>
+        <div id="rewards" class="rewards"></div>
+        <p class="hint">Un code porte une seule récompense : chaque ligne produit son propre code.</p>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="btn btn--primary" id="generate">Générer le(s) code(s)</button>
+      </div>
+      <p class="feedback" id="feedback" role="status" hidden></p>
+
+      <section class="card" id="results-card" hidden>
+        <h2 class="card__title">3. Codes générés</h2>
+        <p class="hint">Usage unique : chaque code est consommé au premier usage par le compte ciblé.</p>
+        <ul id="results" class="results"></ul>
+      </section>
+
+      <p class="footnote">
+        La page sert d'aide à la génération : elle n'ajoute aucune sécurité côté jeu. La clé
+        <code>useritemCode.key</code> est servie publiquement par <code>settings/config.json</code>,
+        donc toute personne qui lit les sources peut forger des codes. Ce verrou limite l'accès à
+        l'interface, pas la fabrication des codes.
+      </p>
+    </section>
+  </main>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

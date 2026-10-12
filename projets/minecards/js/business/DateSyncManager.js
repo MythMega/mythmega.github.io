@@ -116,6 +116,19 @@ function formatClockTime(utcMs) {
     .join(':');
 }
 
+/**
+ * Booster sources accepted by `consumeBooster()`.
+ *
+ * `auto` keeps the historic behaviour (daily quota first, then the per-extension bonus bucket);
+ * `daily` and `bonus` force one bucket, which is what the opening view uses when a booster is
+ * available BOTH ways and the player must choose.
+ */
+export const BOOSTER_SOURCES = Object.freeze({
+  AUTO: 'auto',
+  DAILY: 'daily',
+  BONUS: 'bonus',
+});
+
 export class DateSyncManager {
   constructor() {
     /** @type {string} Identifies the current page load: an anchor from another session is not
@@ -761,31 +774,55 @@ export class DateSyncManager {
   }
 
   /**
-   * Consumes one booster for an extension: `dailyRemaining` first, then `bonusBoosters[setId]`.
+   * Consumes one booster for an extension.
+   *
+   * With the default source (`auto`) the daily quota is spent first, then the per-extension bonus
+   * bucket. An explicit source (`daily` or `bonus`) only spends that bucket, which lets the UI ask
+   * the player which booster to use when both are available.
    *
    * The read-modify-write runs inside a single IndexedDB transaction, so two rapid openings
    * cannot both consume the same last booster.
    *
    * @param {string} setId - Extension the booster is opened for.
-   * @returns {Promise<boolean>} False when neither the daily quota nor a bonus is available.
-   * @throws {TypeError|RangeError} When `setId` is invalid or unknown.
+   * @param {'auto'|'daily'|'bonus'} [source='auto'] - Bucket to consume.
+   * @returns {Promise<boolean>} False when the requested bucket (or both, in `auto` mode) is empty.
+   * @throws {TypeError|RangeError} When `setId` is invalid/unknown or `source` is invalid.
    * @throws {Error} When the transaction fails.
    */
-  async consumeBooster(setId) {
+  async consumeBooster(setId, source = BOOSTER_SOURCES.AUTO) {
     const key = this.assertKnownSet(setId);
+    if (!Object.values(BOOSTER_SOURCES).includes(source)) {
+      throw new RangeError(
+        `Unknown booster source "${source}". Expected one of [${Object.values(BOOSTER_SOURCES).join(', ')}].`
+      );
+    }
     await this.ensureDailyReset();
 
     const result = await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
       const quota = this.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
 
-      if (quota.dailyRemaining > 0) {
+      const spendDaily = () => {
+        if (quota.dailyRemaining <= 0) return false;
         quota.dailyRemaining -= 1;
-      } else if ((quota.bonusBoosters[key] ?? 0) > 0) {
+        return true;
+      };
+      const spendBonus = () => {
+        if ((quota.bonusBoosters[key] ?? 0) <= 0) return false;
         quota.bonusBoosters[key] -= 1;
         if (quota.bonusBoosters[key] === 0) {
           delete quota.bonusBoosters[key];
         }
-      } else {
+        return true;
+      };
+
+      const consumed =
+        source === BOOSTER_SOURCES.DAILY
+          ? spendDaily()
+          : source === BOOSTER_SOURCES.BONUS
+            ? spendBonus()
+            : spendDaily() || spendBonus();
+
+      if (!consumed) {
         return { consumed: false, quota };
       }
 

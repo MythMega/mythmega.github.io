@@ -696,6 +696,8 @@ export class SettingsView {
           ? info.card.getName(i18n.getLang())
           : i18n.t('gifts.item.unknown', { key: total.key });
         items.push(i18n.t('gifts.result.card', { name, count: total.quantity }));
+      } else if (total.type === GIFT_TYPES.SPARKS) {
+        items.push(i18n.t('gifts.result.sparks', { count: total.quantity }));
       } else {
         const set = info.setName ?? i18n.t('gifts.item.unknown', { key: total.key });
         items.push(i18n.t('gifts.result.booster', { set, count: total.quantity }));

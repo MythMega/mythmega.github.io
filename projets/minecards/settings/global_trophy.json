@@ -1,0 +1,27 @@
+{
+    "_comment": "thoses stats are overall computed.", 
+    "totalcards": {
+        "_comment": "number of total cards",
+        "bronze": 100,
+        "silver": 250,
+        "gold": 500,
+        "diamond": 1000,
+        "emerald": 2500
+    },
+    "boosters": {
+        "_comment": "number of total booster opened",
+        "bronze": 25,
+        "silver": 50,
+        "gold": 100,
+        "diamond": 250,
+        "emerald": 1000
+    },
+    "differentCards": {
+        "_comment": "number of total different card owned in collection",
+        "bronze": 50,
+        "silver": 100,
+        "gold": 200,
+        "diamond": 500,
+        "emerald": 1000
+    }
+}

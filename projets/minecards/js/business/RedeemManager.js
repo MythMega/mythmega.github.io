@@ -8,7 +8,8 @@
  *     "Code": "WELC0M3ST3V3",
  *     "Rewards": [
  *       { "RewardType": "Booster", "Quantity": 1, "ItemId": "A1" },
- *       { "RewardType": "Card", "Quantity": 1, "ItemId": "SERIE-A1 / P004", "PreferedLayout": "fullart" }
+ *       { "RewardType": "Card", "Quantity": 1, "ItemId": "SERIE-A1 / P004", "PreferedLayout": "fullart" },
+ *       { "RewardType": "Sparks", "Quantity": 50 }
  *     ],
  *     "Availabilities": null,
  *     "Repeatable": false
@@ -18,8 +19,9 @@
  *                   character are significant);
  *   - `CodeHash`  : OPTIONAL hardening, a SHA-256 hex digest of the normalized (upper-cased) code,
  *                   accepted instead of `Code` so the plain code is not shipped in the file;
- *   - `RewardType`: `Booster` (ItemId = extension id) or `Card` (ItemId = `Index` of a booster
- *                   entry, e.g. `"SERIE-A1 / P004"`);
+ *   - `RewardType`: `Booster` (ItemId = extension id), `Card` (ItemId = `Index` of a booster
+ *                   entry, e.g. `"SERIE-A1 / P004"`) or `Sparks` (Quantity = Sparks to credit,
+ *                   ItemId is ignored);
  *   - `PreferedLayout`: optional `classic`/`fullart`; when set, the FIRST matching card with that
  *                   layout is preferred, otherwise the first card with that `Index`;
  *   - `Quantity`  : integer > 0;
@@ -58,13 +60,14 @@
  *   transaction. The code itself is never written to the history nor logged.
  */
 
-import { canonicalBooster, canonicalCard, userItemCode, UserItemCode } from './UserItemCode.js';
+import { canonicalBooster, canonicalCard, canonicalSparks, userItemCode, UserItemCode } from './UserItemCode.js';
 
 import Card from '../classes/Card.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
+import sparksManager from './SparksManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
@@ -72,7 +75,7 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 export const CODES_PATH = 'settings/codes.json';
 
 /** Reward types declared in `settings/codes.json`. */
-export const REDEEM_REWARD_TYPES = Object.freeze({ BOOSTER: 'Booster', CARD: 'Card' });
+export const REDEEM_REWARD_TYPES = Object.freeze({ BOOSTER: 'Booster', CARD: 'Card', SPARKS: 'Sparks' });
 
 /** Kinds of code handled by `resolveCode()` (step 10 adds `useritem`). */
 export const REDEEM_KINDS = Object.freeze({ SPECIAL: 'special', USER_ITEM: 'useritem' });
@@ -550,6 +553,12 @@ export class RedeemManager {
         continue;
       }
 
+      if (raw.RewardType === REDEEM_REWARD_TYPES.SPARKS) {
+        // `ItemId` is meaningless for the currency: `Quantity` is the whole reward.
+        rewards.push({ type: 'sparks', key: 'sparks', quantity, card: null });
+        continue;
+      }
+
       console.warn('[RedeemManager] A code declares an unknown "RewardType"; the code is refused.');
       return null;
     }
@@ -633,6 +642,9 @@ export class RedeemManager {
 
     this.userItemCatalogPromise = (async () => {
       const descriptors = [];
+      // Sparks rewards share one canonical item: the amount lives in the code `quantity`, not in
+      // the item hash, so a single descriptor covers every amount (see `UserItemCode.canonicalSparks`).
+      descriptors.push({ canonical: canonicalSparks(), target: { type: 'sparks' } });
       const sets = await boosterManager.listBoosterSets();
 
       for (const descriptor of sets) {
@@ -824,6 +836,8 @@ export class RedeemManager {
           const reward = rewards[index];
           if (reward.type === 'booster') {
             await dateSyncManager.addBonusBoosters(reward.key, reward.quantity, context);
+          } else if (reward.type === 'sparks') {
+            await sparksManager.addSparks(reward.quantity, context);
           } else {
             await boosterManager.addCardToCollection(reward.card, reward.quantity, context);
           }
@@ -849,6 +863,10 @@ export class RedeemManager {
         await dateSyncManager.getRemainingBoosters(setId);
       }
       dateSyncManager.emitQuotaUpdated(sets[0] ?? null);
+    }
+    if (rewards.some((reward) => reward.type === 'sparks')) {
+      // In-transaction grants do not publish: read the committed balance back and emit it.
+      await sparksManager.publishBalance();
     }
 
     eventBus.emit(EVENTS.GIFTS_UPDATED, { count: rewards.length, source: GIFT_CATEGORIES.CODES });

@@ -1,0 +1,42 @@
+# ============================================================================
+#  MineCards — jeu de cartes à collectionner (TCG) Minecraft, jouable au
+#  navigateur. Fichier de directives d'exploration pour les robots.
+#
+#  Public base: https://web.jmdev.fr/projets/minecards/
+#  Keep the Sitemap URL below in sync if the site moves (it must be absolute,
+#  as required by the sitemap protocol).
+# ============================================================================
+
+# The game itself is a single public page: everything a visitor needs is there.
+User-agent: *
+Allow: /
+
+# --- Never index these -------------------------------------------------------
+# The admin code generator (password protected, and it must stay out of the
+# search results: it mints personal "useritem" reward codes).
+Disallow: /admin/
+# Internal design notes, editor rules and the local AI workspace: no content.
+Disallow: /.docs/
+Disallow: /.freebuff/
+Disallow: /.clinerules/
+# Third-party experiments bundled next to the game: not part of the product.
+Disallow: /external/
+# Local development launchers (Windows batch files, never served as pages).
+Disallow: /*.cmd$
+
+# --- Explicitly welcome the bots that drive AI answers ------------------------
+# (An empty set of rules is the same as allowing everything, which is intended
+# here: the game is public and free.)
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://web.jmdev.fr/projets/minecards/sitemap.xml

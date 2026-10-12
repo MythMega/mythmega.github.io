@@ -1,0 +1,84 @@
+{
+    "Booster": "A1",
+    "TrophyList": [
+            {
+                "_comment": "name is the same in any language. Rarity can be [bronze, silver, gold, diamond, emerald]. MusthaveAllRequirementsCompleted make all requirements have to be completed, if false only one requirement must be completed. If experience is not null, take that experience, if its null, give experience depending on rarity given in config.json-ExperiencePerTrophy",
+                "Name": "Full Diam's",
+                "Rarity": "diamond",
+                "MusthaveAllRequirementsCompleted": true,
+                "Requirements": {
+                    "_comment": "Un requirement peut être de type CardList. Les autres types sont a ignorer pour l'instant. Le type peut être 'classic' si on veut les cartes de ces index au layout classic, 'fullart' dans le cas ou on requiert une full art de cet index, ou 'Any' si peu importe, juste en avoir une de cette index compte",
+                    "RequirementType": "CardList",
+                    "Type": "any",
+                    "Items": [
+                        "SERIE-A1 / D019",
+                        "SERIE-A1 / D018",
+                        "SERIE-A1 / D019",
+                        "SERIE-A1 / D020"
+                    ]
+                },
+                "Experience": null
+            },
+            {
+                "Name": "Quinte Flush Royale",
+                "Rarity": "gold",
+                "MusthaveAllRequirementsCompleted": true,
+                "Requirements": {
+                    "RequirementType": "CardList",
+                    "Type": "any",
+                    "Items": [
+                        "SERIE-A1 / W001",
+                        "SERIE-A1 / W002",
+                        "SERIE-A1 / W003",
+                        "SERIE-A1 / W004",
+                        "SERIE-A1 / W005",
+                        "SERIE-A1 / W006",
+                        "SERIE-A1 / W007",
+                        "SERIE-A1 / W008",
+                        "SERIE-A1 / W009",
+                        "SERIE-A1 / W010",
+                        "SERIE-A1 / W011",
+                        "SERIE-A1 / W012",
+                        "SERIE-A1 / W013",
+                        "SERIE-A1 / W014",
+                        "SERIE-A1 / W015",
+                        "SERIE-A1 / W016"
+                    ]
+                },
+                "Experience": null
+            },
+            {
+                "Name": "Genesis Animals",
+                "Rarity": "emerald",
+                "MusthaveAllRequirementsCompleted": true,
+                "Requirements": {
+                    "RequirementType": "CardList",
+                    "Type": "any",
+                    "Items": [
+                        "SERIE-A1 / Z001",
+                        "SERIE-A1 / Z002",
+                        "SERIE-A1 / Z003",
+                        "SERIE-A1 / Z004"
+                    ]
+                },
+                "Experience": null
+            },
+            {
+                "Name": "Genesis Mobs",
+                "Rarity": "emerald",
+                "MusthaveAllRequirementsCompleted": true,
+                "Requirements": {
+                    "RequirementType": "CardList",
+                    "Type": "any",
+                    "Items": [
+                        "SERIE-A1 / Z005",
+                        "SERIE-A1 / Z006",
+                        "SERIE-A1 / Z007",
+                        "SERIE-A1 / Z008"
+                    ]
+                },
+                "Experience": null
+            }
+        ]
+    
+}

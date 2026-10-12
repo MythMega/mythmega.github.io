@@ -17,7 +17,12 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import collectionManager from '../../business/CollectionManager.js';
+import sparksManager from '../../business/SparksManager.js';
+import Toast from '../components/Toast.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
+
+/** Icon of the Sparks currency, relative to the application root. */
+export const SPARKS_ICON_PATH = 'assets/img/sparks.png';
 
 /** View name, matching `data-view="collection"` in `index.html`. */
 export const COLLECTION_VIEW_NAME = 'collection';
@@ -70,6 +75,8 @@ export class CollectionView {
     this.isActive = false;
     /** @type {number|null} Pending search debounce timer. */
     this.searchTimer = null;
+    /** @type {boolean} True while a sale or a purchase is running. */
+    this.tradeBusy = false;
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
@@ -244,7 +251,7 @@ export class CollectionView {
         ? event.target.closest('[data-collection-key]')
         : null;
       if (tile && this.gridElement.contains(tile)) {
-        this.openDetail(tile.dataset.collectionKey);
+        void this.openDetail(tile.dataset.collectionKey);
       }
     });
     this.listen(this.modal, 'click', (event) => {
@@ -439,9 +446,9 @@ export class CollectionView {
    * Opens the large detail modal for one card.
    *
    * @param {string} key - Collection key (`${id}_${style}`).
-   * @returns {void}
+   * @returns {Promise<void>} Resolves once the modal is displayed (the Sparks actions load prices).
    */
-  openDetail(key) {
+  async openDetail(key) {
     const entry = this.entries.find((candidate) => candidate.key === key);
     if (!entry || !this.modal || !this.modalTitle || !this.modalBody) return;
     const card = entry.card;
@@ -491,8 +498,206 @@ export class CollectionView {
       list.appendChild(wrapper);
     });
     this.modalBody.appendChild(list);
+
+    const trade = await this.buildTradeActions(entry);
+    if (trade) {
+      this.modalBody.appendChild(trade);
+    }
+
     this.modal.hidden = false;
     this.log(`Detail opened for "${key}".`);
+  }
+
+  /**
+   * Builds the Sparks trade block of the detail modal: wallet, sell and buy buttons.
+   *
+   * Selling is only offered from two owned copies (the last copy is never sellable); buying is
+   * always offered for a catalog card. Prices come from `settings/config.json` (`sparks`).
+   *
+   * @param {object} entry - Collection entry.
+   * @returns {Promise<HTMLElement|null>} The block, or null when the rarity/economy is unavailable.
+   */
+  async buildTradeActions(entry) {
+    const rarity = entry.rarity ?? entry.card?.rarity ?? null;
+    if (rarity === null) return null;
+
+    let balance = 0;
+    let sellPrice = 0;
+    let buyPrice = 0;
+    try {
+      const prices = await sparksManager.getPrices();
+      sellPrice = prices.sellPrice[String(rarity)] ?? 0;
+      buyPrice = prices.buyPrice[String(rarity)] ?? 0;
+      balance = await sparksManager.getBalance();
+    } catch (error) {
+      console.warn('[CollectionView] The Sparks economy could not be read.', error);
+      return null;
+    }
+
+    const container = document.createElement('div');
+    container.className = 'collection-trade';
+
+    const wallet = document.createElement('p');
+    wallet.className = 'collection-trade__wallet';
+    const icon = document.createElement('img');
+    icon.className = 'collection-trade__icon';
+    icon.src = SPARKS_ICON_PATH;
+    icon.alt = '';
+    icon.setAttribute('aria-hidden', 'true');
+    const walletValue = document.createElement('strong');
+    walletValue.className = 'collection-trade__balance';
+    walletValue.textContent = String(balance);
+    const walletLabel = document.createElement('span');
+    walletLabel.className = 'collection-trade__label';
+    walletLabel.textContent = i18n.t('sparks.title');
+    wallet.append(icon, walletValue, walletLabel);
+
+    const actions = document.createElement('div');
+    actions.className = 'collection-trade__actions';
+
+    const quantity = entry.owned && Number.isFinite(entry.quantity) ? entry.quantity : 0;
+    if (quantity >= 2) {
+      actions.appendChild(
+        this.buildTradeButton({
+          label: i18n.t('collection.trade.sellOne'),
+          ariaLabel: i18n.t('collection.trade.sellAria', { count: 1, sparks: sellPrice }),
+          amount: sellPrice,
+          tone: 'gain',
+          variant: 'ghost',
+          onClick: () => void this.handleSell(entry, 1),
+        })
+      );
+
+      const extra = quantity - 1;
+      actions.appendChild(
+        this.buildTradeButton({
+          label: extra === 1
+            ? i18n.t('collection.trade.sellOne')
+            : i18n.t('collection.trade.sellMany', { count: extra }),
+          ariaLabel: i18n.t('collection.trade.sellAria', { count: extra, sparks: sellPrice * extra }),
+          amount: sellPrice * extra,
+          tone: 'gain',
+          variant: 'ghost',
+          onClick: () => void this.handleSell(entry, extra),
+        })
+      );
+    }
+
+    actions.appendChild(
+      this.buildTradeButton({
+        label: i18n.t('collection.trade.buyOne'),
+        ariaLabel: i18n.t('collection.trade.buyAria', { count: 1, sparks: buyPrice }),
+        amount: buyPrice,
+        tone: 'cost',
+        variant: 'primary',
+        disabled: !entry.card || balance < buyPrice,
+        onClick: () => void this.handleBuy(entry),
+      })
+    );
+
+    container.append(wallet, actions);
+    return container;
+  }
+
+  /**
+   * Builds one Sparks trade button: an action label followed by a coloured Sparks delta.
+   *
+   * The delta carries the inline Sparks icon (an `<img>`, so it cannot live in the translation
+   * string). A sale is a GAIN (green, `+`), a purchase is a COST (red, `−`).
+   *
+   * @param {object} options - Button options.
+   * @param {string} options.label - Visible action label ("Vendre 2 cartes").
+   * @param {string} options.ariaLabel - Full accessible label, price included.
+   * @param {number} options.amount - Sparks amount (always positive).
+   * @param {'gain'|'cost'} options.tone - `gain` (green, `+`) or `cost` (red, `−`).
+   * @param {'ghost'|'primary'} options.variant - Button style variant.
+   * @param {() => void} options.onClick - Click handler.
+   * @param {boolean} [options.disabled=false] - Whether the button is disabled.
+   * @returns {HTMLButtonElement} The button element.
+   */
+  buildTradeButton({ label, ariaLabel, amount, tone, variant, onClick, disabled = false }) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `btn btn--${variant}`;
+    button.disabled = disabled;
+    if (ariaLabel) {
+      button.setAttribute('aria-label', ariaLabel);
+    }
+
+    const labelElement = document.createElement('span');
+    labelElement.className = 'collection-trade__label';
+    labelElement.textContent = label;
+
+    const delta = document.createElement('span');
+    delta.className = 'collection-trade__delta';
+    delta.dataset.tone = tone;
+    const sign = tone === 'gain' ? '+' : '−';
+    const icon = document.createElement('img');
+    icon.className = 'collection-trade__delta-icon';
+    icon.src = SPARKS_ICON_PATH;
+    icon.alt = '';
+    icon.setAttribute('aria-hidden', 'true');
+    delta.append(document.createTextNode(`(${sign}${amount} `), icon, document.createTextNode(')'));
+
+    button.append(labelElement, delta);
+    button.addEventListener('click', onClick);
+    return button;
+  }
+
+  /**
+   * Sells copies of an owned card and refreshes the grid and the modal.
+   *
+   * @param {object} entry - Collection entry.
+   * @param {number} copies - Number of copies to sell (strictly positive).
+   * @returns {Promise<void>} Resolves once the sale finished (or the error was reported).
+   */
+  async handleSell(entry, copies) {
+    if (this.tradeBusy) return;
+    this.tradeBusy = true;
+    try {
+      const rarity = entry.rarity ?? entry.card?.rarity ?? null;
+      const result = await sparksManager.sellCard({ key: entry.key, rarity, copies });
+      Toast.success('collection.trade.sold', { params: { count: copies, sparks: result.gained } });
+      this.log(`Sold ${copies} copy(ies) of "${entry.key}" for ${result.gained} Sparks.`);
+      await this.reload();
+      await this.openDetail(entry.key);
+    } catch (error) {
+      if (error?.code === 'LAST_COPY_PROTECTED') {
+        Toast.error('collection.error.lastCopy');
+      } else {
+        console.error('[CollectionView] The sale failed.', error);
+        Toast.error('collection.error.sell');
+      }
+    } finally {
+      this.tradeBusy = false;
+    }
+  }
+
+  /**
+   * Buys one copy of a catalog card and refreshes the grid and the modal.
+   *
+   * @param {object} entry - Collection entry.
+   * @returns {Promise<void>} Resolves once the purchase finished (or the error was reported).
+   */
+  async handleBuy(entry) {
+    if (this.tradeBusy || !entry.card) return;
+    this.tradeBusy = true;
+    try {
+      await sparksManager.buyCard(entry.card);
+      Toast.success('collection.trade.bought');
+      this.log(`Bought a copy of "${entry.key}".`);
+      await this.reload();
+      await this.openDetail(entry.key);
+    } catch (error) {
+      if (error?.code === 'INSUFFICIENT_SPARKS') {
+        Toast.error('collection.error.insufficient');
+      } else {
+        console.error('[CollectionView] The purchase failed.', error);
+        Toast.error('collection.error.buy');
+      }
+    } finally {
+      this.tradeBusy = false;
+    }
   }
 
   /**

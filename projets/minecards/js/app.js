@@ -20,6 +20,8 @@
 import storageRepository from './models/StorageRepository.js';
 import accountManager from './business/AccountManager.js';
 import dateSyncManager from './business/DateSyncManager.js';
+import boosterManager from './business/BoosterManager.js';
+import sparksManager from './business/SparksManager.js';
 import i18n from './utils/I18n.js';
 import themeManager from './utils/ThemeManager.js';
 import soundManager from './utils/SoundManager.js';
@@ -47,6 +49,19 @@ export const HEADER_IDS = Object.freeze({
   DAILY: 'header-daily-boosters',
   BONUS: 'header-bonus-boosters',
   CLOCK: 'header-utc-clock',
+  SPARKS: 'header-sparks',
+});
+
+/**
+ * Selectors of the bonus inventory (the header count is the total, the modal splits it per set).
+ * It is a dialog of the header, not a router view.
+ */
+export const BONUS_INVENTORY_SELECTORS = Object.freeze({
+  BUTTON: '[data-header-bonus]',
+  MODAL: '[data-bonus-modal]',
+  TITLE: '[data-bonus-modal-title]',
+  BODY: '[data-bonus-modal-body]',
+  CLOSE: '[data-bonus-modal-close]',
 });
 
 /** Views managed by `index.html`, used by the router and by the reset flow. */
@@ -99,6 +114,8 @@ export class App {
     this.infoView = null;
     /** @type {boolean} True once the header event subscriptions are registered. */
     this.headerBound = false;
+    /** @type {boolean} True once the bonus inventory dialog is wired. */
+    this.bonusInventoryBound = false;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */
     this.unsubscribeViewChanged = null;
     /** @type {(() => (Date|string|number))|null} Trusted UTC provider injected by step 2. */
@@ -213,9 +230,11 @@ export class App {
     // The header listens before the time synchronization so the very first QUOTA_UPDATED and
     // CLOCK_TICK emissions are already displayed.
     this.bindHeader();
+    this.bindBonusInventory();
     this.bindViewLifecycle();
     await this.startTimeSync();
     this.renderHeaderCounters(dateSyncManager.getQuotaSnapshot());
+    await this.refreshHeaderSparks();
     await this.startOpeningView();
     await this.startCollectionView();
     await this.startStatsView();
@@ -550,6 +569,7 @@ export class App {
     if (this.headerBound) return;
     this.headerBound = true;
     eventBus.on(EVENTS.QUOTA_UPDATED, (payload) => this.renderHeaderCounters(payload));
+    eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.renderHeaderSparks(payload));
     eventBus.on(EVENTS.CONNECTION_STATUS, (payload) => this.setConnectionState(payload?.online));
     eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload));
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => this.handleAccountRemoved());
@@ -648,6 +668,8 @@ export class App {
     this.utcTimeProvider = null;
     this.lastTick = null;
     this.renderHeaderCounters(null);
+    this.closeBonusInventory();
+    this.renderHeaderSparks(null);
     this.setText(HEADER_IDS.CLOCK, '--:--:--');
     this.setConnectionState(undefined);
   }
@@ -664,6 +686,127 @@ export class App {
     const bonusTotal = Number.isFinite(quota?.bonusTotal) ? quota.bonusTotal : 0;
     this.setText(HEADER_IDS.DAILY, String(daily));
     this.setText(HEADER_IDS.BONUS, String(bonusTotal));
+  }
+
+  /**
+   * Renders the Sparks balance in the header.
+   *
+   * @param {{balance?: number}|null} payload - `SPARKS_UPDATED` payload, or null to reset.
+   * @returns {void}
+   */
+  renderHeaderSparks(payload) {
+    const balance = Number.isFinite(payload?.balance) ? payload.balance : 0;
+    this.setText(HEADER_IDS.SPARKS, String(balance));
+  }
+
+  /**
+   * Reads the current Sparks balance from storage and displays it.
+   *
+   * @returns {Promise<void>} Resolves once the header is refreshed.
+   */
+  async refreshHeaderSparks() {
+    try {
+      this.renderHeaderSparks({ balance: await sparksManager.getBalance() });
+    } catch (error) {
+      console.warn('[App] The Sparks balance could not be read.', error);
+    }
+  }
+
+  /**
+   * Wires the header bonus counter and its inventory dialog.
+   *
+   * @returns {void}
+   */
+  bindBonusInventory() {
+    if (this.bonusInventoryBound) return;
+    const button = document.querySelector(BONUS_INVENTORY_SELECTORS.BUTTON);
+    const modal = document.querySelector(BONUS_INVENTORY_SELECTORS.MODAL);
+    const close = document.querySelector(BONUS_INVENTORY_SELECTORS.CLOSE);
+    if (!button || !modal) {
+      console.warn('[App] The bonus inventory markup is missing from index.html.');
+      return;
+    }
+    this.bonusInventoryBound = true;
+    button.addEventListener('click', () => void this.openBonusInventory());
+    close?.addEventListener('click', () => this.closeBonusInventory());
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) this.closeBonusInventory();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !modal.hidden) this.closeBonusInventory();
+    });
+  }
+
+  /**
+   * Opens the bonus inventory: the number of bonus boosters of every extension.
+   *
+   * The header only shows the TOTAL (it has no room for the split), so the per-extension detail
+   * lives in this dialog, opened by clicking the counter.
+   *
+   * @returns {Promise<void>} Resolves once the dialog is displayed.
+   */
+  async openBonusInventory() {
+    const modal = document.querySelector(BONUS_INVENTORY_SELECTORS.MODAL);
+    const title = document.querySelector(BONUS_INVENTORY_SELECTORS.TITLE);
+    const body = document.querySelector(BONUS_INVENTORY_SELECTORS.BODY);
+    if (!modal || !title || !body) return;
+
+    const quota = dateSyncManager.getQuotaSnapshot();
+    title.textContent = i18n.t('header.bonus.title');
+    body.textContent = '';
+
+    let listed = [];
+    try {
+      listed = await boosterManager.listBoosterSets();
+    } catch (error) {
+      console.warn('[App] The extensions could not be listed for the bonus inventory.', error);
+    }
+    const names = new Map(listed.map((set) => [set.setId, set.name ?? set.setId]));
+    const rows = Object.entries(quota.bonusBySet)
+      .filter(([, count]) => count > 0)
+      .map(([setId, count]) => ({ label: names.get(setId) ?? setId, count }))
+      .sort((left, right) => left.label.localeCompare(right.label));
+
+    if (rows.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'bonus-inventory__empty';
+      empty.textContent = i18n.t('header.bonus.empty');
+      body.appendChild(empty);
+    } else {
+      const list = document.createElement('ul');
+      list.className = 'bonus-inventory__list';
+      rows.forEach((row) => {
+        const item = document.createElement('li');
+        item.className = 'bonus-inventory__item';
+        const label = document.createElement('span');
+        label.className = 'bonus-inventory__name';
+        label.textContent = row.label;
+        const value = document.createElement('span');
+        value.className = 'bonus-inventory__count';
+        value.textContent = `×${row.count}`;
+        item.append(label, value);
+        list.appendChild(item);
+      });
+      body.appendChild(list);
+      const total = document.createElement('p');
+      total.className = 'bonus-inventory__total';
+      total.textContent = i18n.t('header.bonus.total', { count: quota.bonusTotal });
+      body.appendChild(total);
+    }
+
+    modal.hidden = false;
+  }
+
+  /**
+   * Closes the bonus inventory dialog.
+   *
+   * @returns {void}
+   */
+  closeBonusInventory() {
+    const modal = document.querySelector(BONUS_INVENTORY_SELECTORS.MODAL);
+    if (modal && !modal.hidden) {
+      modal.hidden = true;
+    }
   }
 
   /**

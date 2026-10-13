@@ -7,6 +7,11 @@
  *   - language  : FR / EN through `I18n.setLang` (applied live), persisted in `settings`;
  *   - theme     : every theme declared in `settings/config.json`, applied through
  *                 `ThemeManager.applyTheme`, persisted in `settings`;
+ *   - animation : every mode declared in `settings/config.json` ("normal", "epic", the parodic
+ *                 "explosive"), applied through `AnimationManager.applyAnimation`, persisted in
+ *                 `settings`. A mode flagged `parodic` in the configuration is advertised as a
+ *                 deliberate joke (hazard banner + badge), and the panel carries a live DEMO of
+ *                 the three stages of an opening so the choice is made by looking;
  *   - sound     : one switch ("Sons") driving `SoundManager.setEnabled`, persisted in `settings`;
  *   - clock     : the trusted UTC time of the game (the header clock is hidden on a phone);
  *   - account   : the immutable UUID (read-only) with a copy button;
@@ -30,6 +35,7 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import themeManager from '../../utils/ThemeManager.js';
+import animationManager from '../../utils/AnimationManager.js';
 import soundManager from '../../utils/SoundManager.js';
 import accountManager from '../../business/AccountManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
@@ -68,6 +74,11 @@ export class SettingsView {
     this.feedbackElement = query('[data-settings-feedback]');
     this.languageContainer = query('[data-settings-languages]');
     this.themeContainer = query('[data-settings-themes]');
+    this.animationContainer = query('[data-settings-animations]');
+    this.animationNotice = query('[data-settings-animation-notice]');
+    this.demoStage = query('[data-animation-demo-stage]');
+    this.demoTiles = query('[data-animation-demo-tiles]');
+    this.demoPlayButton = query('[data-animation-demo-play]');
     this.soundToggle = query('[data-settings-sound]');
     this.soundStateElement = query('[data-settings-sound-state]');
     this.clockElement = query('[data-settings-utc]');
@@ -108,6 +119,10 @@ export class SettingsView {
     this.languageButtons = new Map();
     /** @type {Map<string, HTMLButtonElement>} Theme buttons, keyed by theme id. */
     this.themeButtons = new Map();
+    /** @type {Map<string, HTMLButtonElement>} Animation buttons, keyed by mode id. */
+    this.animationButtons = new Map();
+    /** @type {HTMLElement|null} Demo card (the flip preview). */
+    this.demoCard = null;
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
     /** @type {Function[]} */
@@ -135,6 +150,10 @@ export class SettingsView {
       ['[data-settings-feedback]', this.feedbackElement],
       ['[data-settings-languages]', this.languageContainer],
       ['[data-settings-themes]', this.themeContainer],
+      ['[data-settings-animations]', this.animationContainer],
+      ['[data-animation-demo-stage]', this.demoStage],
+      ['[data-animation-demo-tiles]', this.demoTiles],
+      ['[data-animation-demo-play]', this.demoPlayButton],
       ['[data-settings-sound]', this.soundToggle],
       ['[data-settings-sound-state]', this.soundStateElement],
       ['[data-settings-utc]', this.clockElement],
@@ -173,12 +192,16 @@ export class SettingsView {
     this.log('Initializing…');
     await this.renderLanguageSelector();
     await this.renderThemeSelector();
+    await this.renderAnimationSelector();
+    this.renderAnimationDemo();
     this.syncSoundToggle();
     await this.renderAccount();
     this.renderClock();
     this.bindEvents();
     this.subscribeToEvents();
-    this.log(`Ready (lang: ${i18n.getLang()}, theme: ${themeManager.getTheme()}).`);
+    this.log(
+      `Ready (lang: ${i18n.getLang()}, theme: ${themeManager.getTheme()}, animation: ${animationManager.getMode()}).`
+    );
   }
 
   /**
@@ -232,6 +255,117 @@ export class SettingsView {
       this.themeButtons.set(id, button);
     });
     this.syncThemeButtons();
+  }
+
+  /**
+   * Renders one button per animation mode declared in `config.json`.
+   *
+   * The visible label comes from the `labelKey` of the descriptor, so a new mode only needs a
+   * translation entry. A mode flagged `parodic` also carries a badge: the joke is announced before
+   * it is played, never after.
+   *
+   * @returns {Promise<void>} Resolves once the buttons exist.
+   * @throws {Error} When the mode list cannot be loaded.
+   */
+  async renderAnimationSelector() {
+    const options = await animationManager.getAnimationOptions();
+    this.animationContainer.textContent = '';
+    this.animationButtons.clear();
+
+    options.forEach(({ id, labelKey, parodic }) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'lang-switch__option';
+      button.dataset.animationId = id;
+      button.textContent = i18n.t(labelKey);
+      button.setAttribute('aria-pressed', 'false');
+      if (parodic) {
+        button.classList.add('is-parodic');
+        const badge = document.createElement('span');
+        badge.className = 'anim-option__badge';
+        // Leading space: the badge is part of the label read by a screen reader ("Explosif
+        // parodique"), while the visible gap comes from the CSS margin.
+        badge.textContent = ` ${i18n.t('settings.animation.parodic')}`;
+        button.appendChild(badge);
+      }
+      button.addEventListener('click', () => this.handleAnimationChange(id));
+      this.animationContainer.appendChild(button);
+      this.animationButtons.set(id, button);
+    });
+    this.syncAnimationButtons();
+  }
+
+  /**
+   * Builds the demo of the animation panel: one card and the five summary thumbnails.
+   *
+   * The demo reuses the REAL classes of the opening (`.card-reveal__card`,
+   * `.card-reveal__summary-item`), so `css/animations.css` dresses it exactly like the game and a
+   * mode switch changes it without a single line of extra code here. The cards carry no artwork: a
+   * dashed border makes them read as placeholders.
+   *
+   * @returns {void}
+   */
+  renderAnimationDemo() {
+    if (this.demoStage) {
+      this.demoStage.textContent = '';
+      const card = document.createElement('span');
+      card.className = 'card-reveal__card anim-demo__card card-reveal__card--r5';
+      card.append(SettingsView.buildDemoFace('back'), SettingsView.buildDemoFace('front'));
+      this.demoStage.appendChild(card);
+      this.demoCard = card;
+    }
+
+    this.renderDemoTiles();
+  }
+
+  /**
+   * Fills the demo strip with the five thumbnails of a summary.
+   *
+   * @returns {void}
+   */
+  renderDemoTiles() {
+    if (!this.demoTiles) return;
+    this.demoTiles.textContent = '';
+    for (let index = 0; index < 5; index += 1) {
+      const tile = document.createElement('span');
+      tile.className = 'card-reveal__summary-item anim-demo__tile';
+      const card = document.createElement('span');
+      card.className = 'card-reveal__card card-reveal__card--r3';
+      card.append(SettingsView.buildDemoFace('back'), SettingsView.buildDemoFace('front'));
+      tile.appendChild(card);
+      this.demoTiles.appendChild(tile);
+    }
+  }
+
+  /**
+   * Builds one face of a demo card.
+   *
+   * @param {'back'|'front'} kind - Face to build.
+   * @returns {HTMLElement} The face element.
+   */
+  static buildDemoFace(kind) {
+    const face = document.createElement('span');
+    face.className = `card-reveal__face card-reveal__face--${kind}`;
+    return face;
+  }
+
+  /**
+   * Replays the demo: the card flips and the five thumbnails enter again.
+   *
+   * Removing the class, forcing a reflow and adding it back is what restarts a CSS animation on the
+   * card; the thumbnails are rebuilt because a fresh element always plays its entry animation. The
+   * durations and the stagger themselves come from the active mode (`--anim-flip-ms`,
+   * `--anim-stagger-ms`), so nothing is duplicated here.
+   *
+   * @returns {void}
+   */
+  playAnimationDemo() {
+    if (this.demoCard) {
+      this.demoCard.classList.remove('is-flipped');
+      void this.demoCard.offsetWidth;
+      this.demoCard.classList.add('is-flipped');
+    }
+    this.renderDemoTiles();
   }
 
   /**
@@ -313,6 +447,30 @@ export class SettingsView {
   }
 
   /**
+   * Reflects the active animation mode on the picker, the hazard banner and the demo.
+   *
+   * The banner is the visual guarantee that the parodic mode is understood as a joke: it appears
+   * with the mode, in the strongest styling of the palette (dashed warning border + a wobbling
+   * icon), and disappears with it.
+   *
+   * @returns {void}
+   */
+  syncAnimationButtons() {
+    const current = animationManager.getMode();
+    const isParodic = animationManager.isParodicMode(current);
+
+    this.animationButtons.forEach((button, id) => {
+      const isActive = id === current;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    if (this.animationNotice) {
+      this.animationNotice.hidden = !isParodic;
+    }
+  }
+
+  /**
    * Reflects the sound preference on the switch.
    *
    * `SoundManager` is the single source of truth (the boot applied the stored value), and the
@@ -336,6 +494,7 @@ export class SettingsView {
    * @returns {void}
    */
   bindEvents() {
+    this.listen(this.demoPlayButton, 'click', () => this.playAnimationDemo());
     this.listen(this.soundToggle, 'click', () => this.handleSoundToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
     this.listen(this.exportButton, 'click', () => this.handleExport());
@@ -389,6 +548,14 @@ export class SettingsView {
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.THEME_CHANGED, () => this.syncThemeButtons()));
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.ANIMATION_CHANGED, () => {
+        this.syncAnimationButtons();
+        // The demo is replayed on every switch: the difference between two modes must be visible
+        // immediately, without opening a booster to find out.
+        this.playAnimationDemo();
+      })
+    );
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.renderClock(payload)));
     this.log('Event subscriptions registered.');
   }
@@ -431,6 +598,40 @@ export class SettingsView {
    * @param {string} id - Theme id of the clicked button.
    * @returns {Promise<void>} Resolves once the flow finished (success or failure).
    */
+  /**
+   * Applies an animation mode and persists the preference.
+   *
+   * Like the theme, the mode is applied live first: the demo of the panel and the next opening
+   * both follow it. A failed write leaves the session on the chosen mode and reports it, instead of
+   * pretending the click did nothing.
+   *
+   * @param {string} id - Mode id of the clicked button.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleAnimationChange(id) {
+    if (this.isBusy || id === animationManager.getMode()) return;
+
+    this.setBusy(true);
+    this.setFeedback(null);
+    try {
+      animationManager.applyAnimation(id);
+    } catch (error) {
+      console.error('[SettingsView] Unable to apply the animation mode.', error);
+      this.setFeedback('settings.error.animation', 'error');
+    } finally {
+      this.setBusy(false);
+      this.syncAnimationButtons();
+    }
+
+    try {
+      await accountManager.updateSettings({ animation: id });
+      this.log(`Animation mode set to "${id}" and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The animation preference could not be saved.', error);
+      this.setFeedback('settings.error.animation', 'error');
+    }
+  }
+
   async handleThemeChange(id) {
     if (this.isBusy || id === themeManager.getTheme()) return;
 
@@ -981,6 +1182,9 @@ export class SettingsView {
       console.error('[SettingsView] The theme list could not be re-rendered.', error);
     });
     this.syncSoundToggle();
+    void this.renderAnimationSelector().catch((error) => {
+      console.error('[SettingsView] The animation list could not be re-rendered.', error);
+    });
     this.renderClock();
     this.renderFeedback();
     if (this.pendingModal) {
@@ -1003,6 +1207,10 @@ export class SettingsView {
     this.log('View activated.');
     this.syncLanguageButtons();
     this.syncThemeButtons();
+    this.syncAnimationButtons();
+    // Arriving on the page replays the demo: an animation is the one thing a picker can not
+    // describe in words.
+    this.playAnimationDemo();
     this.syncSoundToggle();
     this.renderClock();
     void this.renderAccount().catch((error) => {
@@ -1035,6 +1243,8 @@ export class SettingsView {
     this.unsubscribers = [];
     this.languageButtons.clear();
     this.themeButtons.clear();
+    this.animationButtons.clear();
+    this.demoCard = null;
     this.closeModal();
     this.isInitialized = false;
   }

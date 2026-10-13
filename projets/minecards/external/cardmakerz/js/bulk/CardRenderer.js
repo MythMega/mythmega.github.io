@@ -7,6 +7,11 @@ class CardRenderer {
    * l'option globale « limiter le texte Full Art » est active (aperçu et export). */
   static FULLART_MAX_SENTENCES = 2;
 
+  /* Intensité du foil par couche (multiplicateur appliqué à l'opacité de la rareté).
+   * Valeurs par défaut identiques à celles de base.css. */
+  static DEFAULT_FOIL_BG_STRENGTH = 1.15;
+  static DEFAULT_FOIL_UNDERLAY_STRENGTH = 0.6;
+
   /* Classe CSS correspondant à une mise en page.
    * null / 'fullart' => full art (comportement historique), 'classic' => classique. */
   static layoutCssClass(layout) {
@@ -28,6 +33,13 @@ class CardRenderer {
     // Option globale (activée par défaut) : limite la description des cartes Full Art
     // à CardRenderer.FULLART_MAX_SENTENCES phrases. N'affecte que le rendu.
     this.limitFullArtText = true;
+
+    // Intensité du foil sur l'image de fond et sur l'underlay (réglée par l'UI).
+    this.foilBgStrength = CardRenderer.DEFAULT_FOIL_BG_STRENGTH;
+    this.foilUnderlayStrength = CardRenderer.DEFAULT_FOIL_UNDERLAY_STRENGTH;
+    // Jeu de curseurs distinct pour la rareté Mythique (foil pleine surface).
+    this.foilMythicBgStrength = CardRenderer.DEFAULT_FOIL_BG_STRENGTH;
+    this.foilMythicUnderlayStrength = CardRenderer.DEFAULT_FOIL_UNDERLAY_STRENGTH;
 
     // Mise en page actuellement appliquée au DOM (voir setupCard).
     this.currentLayout = CardItem.LAYOUT_FULLART;
@@ -56,6 +68,16 @@ class CardRenderer {
    * appliquée à l'aperçu comme aux images exportées). */
   setLimitFullArtText(enabled) {
     this.limitFullArtText = !!enabled;
+  }
+
+  /* Règle l'intensité du foil de chaque couche (1 = intensité de la rareté).
+   * Appliquée à chaque setupCard, donc à l'aperçu comme aux images exportées. */
+  setFoilStrength(background, underlay, mythicBackground = background, mythicUnderlay = underlay) {
+    const val = (v, def) => { const n = parseFloat(v); return isNaN(n) ? def : Math.max(0, n); };
+    this.foilBgStrength = val(background, CardRenderer.DEFAULT_FOIL_BG_STRENGTH);
+    this.foilUnderlayStrength = val(underlay, CardRenderer.DEFAULT_FOIL_UNDERLAY_STRENGTH);
+    this.foilMythicBgStrength = val(mythicBackground, CardRenderer.DEFAULT_FOIL_BG_STRENGTH);
+    this.foilMythicUnderlayStrength = val(mythicUnderlay, CardRenderer.DEFAULT_FOIL_UNDERLAY_STRENGTH);
   }
 
   /* Applique le contenu et le style d'une carte au DOM.
@@ -105,6 +127,14 @@ class CardRenderer {
     } else {
       this.cardElement.style.removeProperty('--card-font');
     }
+
+    // Intensité du foil par couche : variables CSS lues par .card-foil-bg et
+    // .card-foil-underlay (style en ligne, donc repris par le rendu SVG exporté).
+    const isMythic = rarity.cssClass === 'rarity-mythic';
+    this.cardElement.style.setProperty('--foil-bg-strength',
+      String(isMythic ? this.foilMythicBgStrength : this.foilBgStrength));
+    this.cardElement.style.setProperty('--foil-underlay-strength',
+      String(isMythic ? this.foilMythicUnderlayStrength : this.foilUnderlayStrength));
 
     this.cardElement.className = `card-preview ${rarity.cssClass} ${font.cssClass} ${layoutClass}`.replace(/\s+/g, ' ').trim();
     this.currentLayout = isFullArt ? CardItem.LAYOUT_FULLART : CardItem.LAYOUT_CLASSIC;

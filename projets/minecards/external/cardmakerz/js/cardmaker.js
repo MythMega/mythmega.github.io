@@ -6,6 +6,14 @@ const inputImage = document.getElementById('input-image');
 const inputUnderlay = document.getElementById('input-underlay');
 const inputText = document.getElementById('input-text');
 const inputLayout = document.getElementById('input-layout');
+const inputFoilBg = document.getElementById('input-foil-bg');
+const inputFoilUnderlay = document.getElementById('input-foil-underlay');
+const inputFoilMythicBg = document.getElementById('input-foil-mythic-bg');
+const inputFoilMythicUnderlay = document.getElementById('input-foil-mythic-underlay');
+const foilMythicBgValue = document.getElementById('foil-mythic-bg-value');
+const foilMythicUnderlayValue = document.getElementById('foil-mythic-underlay-value');
+const foilBgValue = document.getElementById('foil-bg-value');
+const foilUnderlayValue = document.getElementById('foil-underlay-value');
 
 const cardElement = document.getElementById('card');
 const cardTitle = document.getElementById('card-title');
@@ -45,7 +53,26 @@ function applyCardBackground(url) {
   }
 }
 
+/* Intensité du foil par couche (en %, 100 % = intensité de la rareté telle quelle).
+ * Pilote les variables CSS --foil-bg-strength / --foil-underlay-strength ; posées en
+ * style en ligne sur la carte, elles sont donc aussi reprises par le rendu exporté. */
+function applyFoilStrength() {
+  // La rareté Mythique (foil pleine surface, très coloré) a ses propres curseurs.
+  const rarityOption = inputRarity.options[inputRarity.selectedIndex];
+  const isMythic = rarityOption.getAttribute('data-class') === 'rarity-mythic';
+  const bg = isMythic ? inputFoilMythicBg.value : inputFoilBg.value;
+  const underlay = isMythic ? inputFoilMythicUnderlay.value : inputFoilUnderlay.value;
+
+  cardElement.style.setProperty('--foil-bg-strength', String(bg / 100));
+  cardElement.style.setProperty('--foil-underlay-strength', String(underlay / 100));
+  foilBgValue.textContent = inputFoilBg.value + '%';
+  foilUnderlayValue.textContent = inputFoilUnderlay.value + '%';
+  foilMythicBgValue.textContent = inputFoilMythicBg.value + '%';
+  foilMythicUnderlayValue.textContent = inputFoilMythicUnderlay.value + '%';
+}
+
 function updateCard() {
+  applyFoilStrength();
   cardTitle.textContent = inputTitle.value || 'Nom de la carte';
   cardSeries.textContent = inputSeries.value || '';
   cardRarity.textContent = inputRarity.value;
@@ -74,6 +101,10 @@ inputImage.addEventListener('input', updateCard);
 inputUnderlay.addEventListener('input', updateCard);
 inputText.addEventListener('input', updateCard);
 inputLayout.addEventListener('change', updateCard);
+inputFoilBg.addEventListener('input', updateCard);
+inputFoilUnderlay.addEventListener('input', updateCard);
+inputFoilMythicBg.addEventListener('input', updateCard);
+inputFoilMythicUnderlay.addEventListener('input', updateCard);
 
 updateCard();
 

@@ -20,6 +20,9 @@ export const EVENTS = Object.freeze({
   LANG_CHANGED: 'LANG_CHANGED',
   /** Payload: `{ theme, previousTheme }`. Emitted by ThemeManager after a successful switch. */
   THEME_CHANGED: 'THEME_CHANGED',
+  /** Payload: `{ mode, previousMode, parodic }`. Emitted by AnimationManager after a successful
+   * switch: the opening view re-reads its timings and adapts its comic burst to the new mode. */
+  ANIMATION_CHANGED: 'ANIMATION_CHANGED',
   /** Payload: `{ view, previousView }`. Emitted by the SPA router. */
   VIEW_CHANGED: 'VIEW_CHANGED',
   /** Payload: `{ daily, bonusBySet, bonusTotal, availableForSet }`. Emitted by DateSyncManager. */
@@ -73,6 +76,10 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ experience, level }`. Emitted by TrophyManager whenever the experience total or
    * the level changes: the profile page repaints its progress bar. */
   EXPERIENCE_UPDATED: 'EXPERIENCE_UPDATED',
+  /** Payload: `{ day, remaining, picksPerDay, totalPicks }`. Emitted by WonderPickManager after a
+   * pick and whenever the daily allowance rolls over: the Wonder Pick screen and the dedicated
+   * statistics repaint. The card itself is announced through `CARDS_OBTAINED` (`source: 'wonder'`). */
+  WONDER_PICK_UPDATED: 'WONDER_PICK_UPDATED',
 });
 
 class EventBus {

@@ -210,7 +210,13 @@
   background-color: transparent;
   cursor: pointer;
   touch-action: manipulation;
-  animation: summary-pop var(--duration-base) var(--easing-standard backwards);
+  /* Longhands rather than the `animation` shorthand: the animation mode (`css/animations.css`)
+     only swaps the name and the duration, and the shorthand would reset the staggered delays
+     below to 0. */
+  animation-name: summary-pop;
+  animation-duration: var(--duration-base);
+  animation-timing-function: var(--easing-standard);
+  animation-fill-mode: backwards;
 }
 
 .card-reveal__summary-item:focus-visible {
@@ -218,20 +224,22 @@
   outline-offset: 3px;
 }
 
+/* One delay per card, driven by the animation mode (`--anim-stagger-ms`: 60ms in "normal",
+   150ms in "epic", 90ms in "explosive"). */
 .card-reveal__summary-item:nth-child(2) {
-  animation-delay: 60ms;
+  animation-delay: calc(var(--anim-stagger-ms, 60ms) * 1);
 }
 
 .card-reveal__summary-item:nth-child(3) {
-  animation-delay: 120ms;
+  animation-delay: calc(var(--anim-stagger-ms, 60ms) * 2);
 }
 
 .card-reveal__summary-item:nth-child(4) {
-  animation-delay: 180ms;
+  animation-delay: calc(var(--anim-stagger-ms, 60ms) * 3);
 }
 
 .card-reveal__summary-item:nth-child(5) {
-  animation-delay: 240ms;
+  animation-delay: calc(var(--anim-stagger-ms, 60ms) * 4);
 }
 
 .card-reveal__summary-item .card-reveal__card {

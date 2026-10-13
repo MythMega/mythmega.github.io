@@ -1,0 +1,1069 @@
+/**
+ * WonderView - "Pioche miracle" (Wonder Pick) screen.
+ *
+ * Reference: `js/business/WonderPickManager.js` (the board, the allowance, the statistics) and
+ * `.docs/main.md` section 3.G quater.
+ *
+ * FLOW
+ *   1. `board` stage: the ten simulated boosters of the day, one per LINE, each showing its texture,
+ *      its name and its five cards FACE UP — the player chooses a pack knowing what it holds. The
+ *      line also carries the state of the booster: pickable, already picked (with the card that was
+ *      kept) or locked because the day's allowance is gone. A booster already used the same day can
+ *      not be played again, so the choices really run out before the ten lines do.
+ *   2. `pick` stage: the chosen pack is dealt face up — the very content that was listed — then its
+ *      cards turn over one after another and the pack is shuffled (a seeded permutation, so a reload
+ *      always deals the same pack the same way). Only then can the player keep a card; the other
+ *      cards are revealed one after another.
+ *   3. the result line names the kept card, says whether it was new, and the remaining picks.
+ *      "Back to the boosters" returns to the list, where the booster now shows the card that was
+ *      taken from it.
+ *
+ * The cards reuse `CardComponent`, so the Wonder Pick inherits the illustrations, the rarity glow,
+ * the language switch and — because that component is driven by CSS classes — the opening animation
+ * mode (`css/animations.css`) of the player. The view never draws anything itself:
+ * `WonderPickManager` decides the board, the shuffle and the state of every booster, and the screen
+ * only renders what came back.
+ */
+
+import eventBus, { EVENTS } from '../../utils/EventBus.js';
+import i18n from '../../utils/I18n.js';
+import wonderPickManager, {
+  getWonderPickErrorMessageKey,
+  WONDER_PICK_ERRORS,
+} from '../../business/WonderPickManager.js';
+import dateSyncManager from '../../business/DateSyncManager.js';
+import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
+import CardComponent from '../components/CardComponent.js';
+import { getRarityLabel } from '../../classes/Card.js';
+import animationManager from '../../utils/AnimationManager.js';
+
+/** View name, matching `data-view="wonder"` in `index.html`. */
+export const WONDER_VIEW_NAME = 'wonder';
+
+/**
+ * Bounds of the delay between two automatic card reveals, in milliseconds.
+ *
+ * The base value is the flip duration of the active animation mode (`AnimationManager`), so an
+ * "epic" player sees a slower sequence and an "explosive" one a snappier beat — but it is clamped:
+ * the parodic mode reaches 900 ms, which would make four reveals drag on.
+ */
+const REVEAL_STEP_MIN_MS = 180;
+const REVEAL_STEP_MAX_MS = 420;
+
+/** Delay between two cards of the same movement (dealing, turning over), in milliseconds. */
+const FLIP_STEP_MS = 70;
+
+/** Length of the staggered dealing of a pack, in milliseconds (last card of `wonder-deal`). */
+const DEAL_MS = 700;
+
+/** Bounds of the pause during which the player studies the pack face up, in milliseconds. */
+const STUDY_MIN_MS = 900;
+const STUDY_MAX_MS = 1800;
+
+/** Bounds of the movement of the shuffle, in milliseconds. */
+const SHUFFLE_MIN_MS = 320;
+const SHUFFLE_MAX_MS = 620;
+
+/** Multiplier applied to the flip duration to size the study pause. */
+const STUDY_FLIP_FACTOR = 1.5;
+
+export class WonderView {
+  /**
+   * @param {HTMLElement} rootElement - The Wonder Pick `<section>`.
+   */
+  constructor(rootElement) {
+    if (!rootElement || typeof rootElement.querySelector !== 'function') {
+      throw new TypeError('WonderView requires the wonder section element.');
+    }
+
+    this.root = rootElement;
+    this.feedbackElement = this.root.querySelector('[data-wonder-feedback]');
+    this.boardStage = this.root.querySelector('[data-wonder-stage="board"]');
+    this.pickStage = this.root.querySelector('[data-wonder-stage="pick"]');
+    this.quotaElement = this.root.querySelector('[data-wonder-quota]');
+    this.countdownElement = this.root.querySelector('[data-wonder-countdown]');
+    this.countdownValue = this.root.querySelector('[data-wonder-countdown-value]');
+    this.boardElement = this.root.querySelector('[data-wonder-board]');
+    this.setNameElement = this.root.querySelector('[data-wonder-set-name]');
+    this.hintElement = this.root.querySelector('[data-wonder-hint]');
+    this.cardsElement = this.root.querySelector('[data-wonder-cards]');
+    this.resultElement = this.root.querySelector('[data-wonder-result]');
+    this.backButton = this.root.querySelector('[data-wonder-back]');
+
+    this.assertMarkup();
+
+    /** @type {Array<object>} Boosters of the current board. */
+    this.board = [];
+    /** @type {CardComponent[]} Cards of the opened booster, in the order they were drawn. */
+    this.cardComponents = [];
+    /** @type {number|null} Index of the booster being picked from. */
+    this.boosterIndex = null;
+    /** @type {number|null} Index of the card the player kept. */
+    this.keptIndex = null;
+    /** @type {boolean} True while a pick is being committed or revealed. */
+    this.isPicking = false;
+    /** @type {boolean} True once the pack was dealt, turned over and shuffled: only then can the player pick. */
+    this.canPick = false;
+    /** @type {boolean} True once `init()` bound everything. */
+    this.isInitialized = false;
+    /** @type {boolean} True when the view is the active one. */
+    this.isActive = false;
+    /** @type {Record<string, object>} Boosters already used today, by board index. */
+    this.picksByBooster = {};
+    /** @type {number} Remaining picks of the day, as last read from the manager. */
+    this.remaining = 0;
+    /** @type {string} Signature of the rendered board state, to avoid needless rebuilds. */
+    this.boardSignature = '';
+    /** @type {string|null} Translation key currently shown in the hint line. */
+    this.hintKey = null;
+    /** @type {{key: string, tone: string}|null} Last feedback message. */
+    this.feedback = null;
+
+    /** @type {number[]} Timers of the automatic sequences (dealing, turning over, shuffling, revealing). */
+    this.timers = [];
+    /** @type {number|null} Timer clearing the inline transforms left by the shuffle. */
+    this.shuffleTimer = null;
+    /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
+    this.bindings = [];
+    /** @type {Function[]} */
+    this.unsubscribers = [];
+  }
+
+  /**
+   * Logs with the view prefix.
+   *
+   * @param {...unknown} args - Values forwarded to `console.info`.
+   * @returns {void}
+   */
+  log(...args) {
+    console.info('[WonderView]', ...args);
+  }
+
+  /**
+   * Verifies that the markup matches the contract expected by this view.
+   *
+   * @returns {void}
+   * @throws {Error} When a required element is missing from `index.html`.
+   */
+  assertMarkup() {
+    const missing = [
+      ['[data-wonder-stage="board"]', this.boardStage],
+      ['[data-wonder-stage="pick"]', this.pickStage],
+      ['[data-wonder-quota]', this.quotaElement],
+      ['[data-wonder-board]', this.boardElement],
+      ['[data-wonder-cards]', this.cardsElement],
+      ['[data-wonder-result]', this.resultElement],
+      ['[data-wonder-back]', this.backButton],
+    ]
+      .filter(([, element]) => !element)
+      .map(([selector]) => selector);
+
+    if (missing.length > 0) {
+      throw new Error(`WonderView markup is incomplete, missing: ${missing.join(', ')}.`);
+    }
+  }
+
+  /**
+   * Binds the interactions, subscribes to the events and draws the board of the day.
+   *
+   * @returns {Promise<void>} Resolves once the board is displayed.
+   * @throws {Error} When the board cannot be built.
+   */
+  async init() {
+    if (this.isInitialized) return;
+    this.isInitialized = true;
+    this.log('Initializing…');
+    this.bindEvents();
+    this.subscribeToEvents();
+    await this.reload();
+    this.log('Ready.');
+  }
+
+  /**
+   * Registers a listener and remembers it for `destroy()`.
+   *
+   * @param {EventTarget} target - Event target.
+   * @param {string} type - Event type.
+   * @param {EventListener} handler - Listener.
+   * @returns {void}
+   */
+  listen(target, type, handler) {
+    target.addEventListener(type, handler);
+    this.bindings.push({ target, type, handler });
+  }
+
+  /**
+   * Attaches the DOM listeners (the booster list, the cards and the back button).
+   *
+   * @returns {void}
+   */
+  bindEvents() {
+    this.listen(this.boardElement, 'click', (event) => this.handleBoardClick(event));
+    this.listen(this.cardsElement, 'click', (event) => this.handleCardsClick(event));
+    this.listen(this.backButton, 'click', () => this.backToBoard());
+    this.log('DOM listeners bound.');
+  }
+
+  /**
+   * Subscribes to the application events the view depends on.
+   *
+   * @returns {void}
+   */
+  subscribeToEvents() {
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
+        if (!payload || typeof payload.view !== 'string') return;
+        if (payload.view === WONDER_VIEW_NAME) {
+          this.handleViewActivated();
+        } else if (payload.previousView === WONDER_VIEW_NAME) {
+          this.handleViewDeactivated();
+        }
+      })
+    );
+    this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.WONDER_PICK_UPDATED, () => {
+        void this.refreshQuota().catch((error) => {
+          console.warn('[WonderView] The allowance could not be refreshed.', error);
+        });
+      })
+    );
+    // An imported save carries ANOTHER uuid: the board of the day changes with it.
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.SAVE_IMPORTED, () => {
+        wonderPickManager.resetBoard();
+      })
+    );
+    this.log('Event subscriptions registered.');
+  }
+
+  /**
+   * Rebuilds the board and the allowance line.
+   *
+   * @returns {Promise<void>} Resolves once the screen is rendered.
+   * @throws {Error} When the board or the state cannot be read.
+   */
+  async reload() {
+    this.setFeedback(null);
+    this.setLoading(true);
+    try {
+      this.board = await wonderPickManager.getBoard();
+      // A fresh board invalidates the rendered list whatever the stored state says.
+      this.boardSignature = '';
+      await this.refreshQuota();
+      this.renderBoard(true);
+    } catch (error) {
+      console.error('[WonderView] The Wonder Pick board could not be loaded.', error);
+      this.setFeedback('wonder.error.board', 'error');
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  /**
+   * Writes the remaining picks, the countdown and the state of every line of the list.
+   *
+   * The list is only rebuilt when something it shows actually changed (a pick, a daily reset): a
+   * clock tick that merely refreshes the countdown never rebuilds the DOM under the player's finger.
+   *
+   * @returns {Promise<void>} Resolves once the allowance line is rendered.
+   * @throws {Error} When the state cannot be read.
+   */
+  async refreshQuota() {
+    const state = await wonderPickManager.getState();
+    this.remaining = state.remaining;
+    this.picksByBooster = state.picksByBooster ?? {};
+    this.quotaElement.textContent = i18n.t('wonder.quota', {
+      remaining: state.remaining,
+      total: state.picksPerDay,
+    });
+
+    if (this.countdownElement) {
+      if (state.remaining > 0) {
+        this.countdownElement.hidden = true;
+      } else {
+        this.countdownElement.hidden = false;
+        if (this.countdownValue) {
+          this.countdownValue.textContent = dateSyncManager.getFormattedTimeUntilReset();
+        }
+      }
+    }
+
+    this.renderBoard();
+  }
+
+  /**
+   * Toggles the loading state of the board (a spinner replaces the list).
+   *
+   * @param {boolean} loading - True while the board is being read.
+   * @returns {void}
+   */
+  setLoading(loading) {
+    this.root.classList.toggle('is-loading', loading === true);
+  }
+
+  /**
+   * Displays one line per booster of the day.
+   *
+   * @param {boolean} [force=false] - Rebuild even when the rendered state did not change.
+   * @returns {void}
+   */
+  renderBoard(force = false) {
+    if (this.board.length === 0) {
+      const signature = 'empty';
+      if (!force && this.boardSignature === signature) return;
+      this.boardSignature = signature;
+      this.boardElement.textContent = '';
+      const empty = document.createElement('li');
+      empty.className = 'wonder__empty';
+      empty.textContent = i18n.t('wonder.empty');
+      this.boardElement.appendChild(empty);
+      return;
+    }
+
+    const signature = [
+      `remaining:${this.remaining}`,
+      ...Object.keys(this.picksByBooster)
+        .sort()
+        .map((index) => `${index}:${this.picksByBooster[index].key}`),
+    ].join('|');
+    if (!force && this.boardSignature === signature) return;
+    this.boardSignature = signature;
+
+    this.boardElement.textContent = '';
+    this.board.forEach((entry) => this.boardElement.appendChild(this.buildRow(entry)));
+    this.log(`Board rendered: ${this.board.length} booster(s).`);
+  }
+
+  /**
+   * Builds one line of the list: the booster, its five cards face up and its action.
+   *
+   * A line is `available` (pickable), `picked` (used today: the kept card is marked and the four
+   * others are greyed out) or `locked` (no pick left today). The texture and the name are enough to
+   * recognise the pack; the cards make the choice informed, never random.
+   *
+   * @param {{index: number, setId: string, name: string, texture: string|null, cards: Array}} entry - Board entry.
+   * @returns {HTMLElement} The `<li>` of the list.
+   */
+  buildRow(entry) {
+    const item = document.createElement('li');
+    item.className = 'wonder__slot';
+
+    const picked = this.picksByBooster[String(entry.index)] ?? null;
+    const state = picked ? 'picked' : this.remaining > 0 ? 'available' : 'locked';
+    const name = entry.name ?? entry.setId;
+    const keptCard = picked ? entry.cards.find((card) => card.uniqueKey === picked.key) ?? null : null;
+
+    const row = document.createElement('article');
+    row.className = 'wonder__row';
+    row.dataset.wonderIndex = String(entry.index);
+    row.dataset.wonderState = state;
+    if (state !== 'available') row.classList.add(`is-${state}`);
+    row.setAttribute('aria-label', i18n.t('wonder.board.booster', { index: entry.index + 1, name }));
+
+    const figure = document.createElement('div');
+    figure.className = 'wonder__row-figure';
+    if (entry.texture) {
+      const image = document.createElement('img');
+      image.className = 'wonder__booster-image';
+      image.src = i18n.resolveImagePath(entry.texture);
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      figure.appendChild(image);
+    }
+    row.appendChild(figure);
+
+    const head = document.createElement('div');
+    head.className = 'wonder__row-head';
+    const title = document.createElement('p');
+    title.className = 'wonder__booster-name';
+    // The ten packs often share one extension: the number is what tells two lines apart.
+    title.textContent = i18n.t('wonder.stage.title', { index: entry.index + 1, name });
+    const stateLine = document.createElement('p');
+    stateLine.className = 'wonder__row-state';
+    stateLine.textContent = this.buildRowStateText({ state, picked, keptCard, entry });
+    head.append(title, stateLine);
+    row.appendChild(head);
+
+    const cards = document.createElement('ul');
+    cards.className = 'wonder__row-cards';
+    cards.setAttribute('aria-label', i18n.t('wonder.board.cards'));
+    entry.cards.forEach((card) => {
+      cards.appendChild(
+        this.buildMiniCard(card, {
+          kept: Boolean(picked) && picked.key === card.uniqueKey,
+          discarded: Boolean(picked) && picked.key !== card.uniqueKey,
+        })
+      );
+    });
+    row.appendChild(cards);
+
+    const action = document.createElement('div');
+    action.className = 'wonder__row-action';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--primary btn--block';
+    button.dataset.wonderOpen = String(entry.index);
+    button.disabled = state !== 'available';
+    button.textContent = i18n.t('wonder.board.pick');
+    button.setAttribute('aria-label', `${i18n.t('wonder.board.pick')} — ${name}`);
+    action.appendChild(button);
+    row.appendChild(action);
+
+    item.appendChild(row);
+    return item;
+  }
+
+  /**
+   * Writes the small line describing the state of a booster of the list.
+   *
+   * @param {object} options - State options.
+   * @param {'available'|'picked'|'locked'} options.state - Line state.
+   * @param {object|null} options.picked - Stored pick of that booster, when it was used today.
+   * @param {object|null} options.keptCard - Card object of the pick, when it can be resolved.
+   * @param {object} options.entry - Board entry.
+   * @returns {string} The translated sentence.
+   */
+  buildRowStateText({ state, picked, keptCard, entry }) {
+    if (state === 'picked' && picked) {
+      return i18n.t('wonder.board.picked', { name: keptCard?.getName(i18n.getLang()) ?? picked.key });
+    }
+    if (state === 'locked') {
+      return i18n.t('wonder.board.locked');
+    }
+    return i18n.t('wonder.board.count', { cards: entry.cards.length });
+  }
+
+  /**
+   * Builds one face-up thumbnail of a pack.
+   *
+   * @param {object} card - Card to display.
+   * @param {object} [options] - Thumbnail options.
+   * @param {boolean} [options.kept=false] - True for the card the player kept (marked).
+   * @param {boolean} [options.discarded=false] - True for a card that was offered but not kept.
+   * @returns {HTMLElement} The `<li>` of the pack.
+   */
+  buildMiniCard(card, { kept = false, discarded = false } = {}) {
+    const item = document.createElement('li');
+    item.className = `wonder__mini wonder__mini--r${card.rarity}`;
+    if (card.isFullArt) item.classList.add('wonder__mini--fullart');
+    if (kept) item.classList.add('is-kept');
+    if (discarded) item.classList.add('is-discarded');
+
+    const image = document.createElement('img');
+    image.className = 'wonder__mini-image';
+    image.src = i18n.resolveImagePath(card.illustration);
+    image.alt = this.describeCard(card);
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    item.appendChild(image);
+
+    if (kept) {
+      const flag = document.createElement('span');
+      flag.className = 'wonder__mini-flag';
+      flag.textContent = i18n.t('wonder.board.pickedFlag');
+      item.appendChild(flag);
+    }
+    return item;
+  }
+
+  /**
+   * Describes a card for screen readers ("Name — Rarity").
+   *
+   * @param {object} card - Card to describe.
+   * @returns {string} The description.
+   */
+  describeCard(card) {
+    return `${card.getName(i18n.getLang())} — ${getRarityLabel(card.rarity, (key) => i18n.t(key))}`;
+  }
+
+  /**
+   * Handles a click on the list: the booster button, or anywhere on a pickable line.
+   *
+   * @param {MouseEvent} event - Click event (delegated).
+   * @returns {Promise<void>} Resolves once the booster is displayed.
+   */
+  async handleBoardClick(event) {
+    const cell = event?.target?.closest?.('[data-wonder-index]');
+    if (!cell) return;
+
+    const button = event.target.closest('[data-wonder-open]');
+    if (button?.disabled) return;
+
+    const row = cell.closest('.wonder__row') ?? cell;
+    const state = row.dataset.wonderState;
+    if (state === 'picked') {
+      this.setFeedback('wonder.error.alreadyPicked', 'error');
+      return;
+    }
+    if (state === 'locked') {
+      this.setFeedback('wonder.error.noPick', 'error');
+      return;
+    }
+
+    const index = Number(cell.dataset.wonderIndex);
+    if (!Number.isInteger(index)) return;
+    await this.openBooster(index);
+  }
+
+  /**
+   * Shows the cards of a booster, face up, then turns them over and shuffles them.
+   *
+   * @param {number} index - Index of the booster on the board.
+   * @returns {Promise<void>} Resolves once the sequence started.
+   */
+  async openBooster(index) {
+    const entry = this.board.find((candidate) => candidate.index === index);
+    if (!entry) {
+      console.warn(`[WonderView] Booster #${index} is not on the board.`);
+      return;
+    }
+    if (this.picksByBooster[String(index)]) {
+      this.setFeedback('wonder.error.alreadyPicked', 'error');
+      return;
+    }
+
+    const state = await wonderPickManager.getState();
+    this.remaining = state.remaining;
+    this.picksByBooster = state.picksByBooster ?? {};
+    if (state.remaining <= 0) {
+      this.setFeedback('wonder.error.noPick', 'error');
+      this.renderBoard();
+      return;
+    }
+
+    this.clearCards();
+    this.boosterIndex = index;
+    this.keptIndex = null;
+    this.isPicking = false;
+    this.canPick = false;
+    this.resultElement.hidden = true;
+    this.setFeedback(null);
+
+    if (this.setNameElement) {
+      this.setNameElement.textContent = i18n.t('wonder.stage.title', {
+        index: index + 1,
+        name: entry.name ?? entry.setId,
+      });
+    }
+    this.setHint('wonder.hint.preview');
+
+    this.buildPack();
+    this.showStage('pick');
+    this.runOpenSequence(entry);
+    this.log(`Booster #${index} dealt face up (${entry.cards.length} card(s)).`);
+  }
+
+  /**
+   * Creates the five cards of the current booster, in the order they were drawn.
+   *
+   * Every card remembers its own position in the pack (`data-wonder-card`), NOT its position on
+   * screen: the shuffle moves the elements around, and the pick must always name the same card.
+   *
+   * @returns {void}
+   */
+  buildPack() {
+    const entry = this.board.find((candidate) => candidate.index === this.boosterIndex);
+    if (!entry) return;
+
+    entry.cards.forEach((card, cardIndex) => {
+      const component = new CardComponent(card, { isNew: false, flipOnClick: false });
+      const element = component.render();
+      element.dataset.wonderCard = String(cardIndex);
+      element.classList.add('wonder__card');
+      element.disabled = true;
+      this.cardComponents.push(component);
+      this.cardsElement.appendChild(element);
+    });
+  }
+
+  /**
+   * Plays the opening ritual: deal, look at the pack, turn it over, shuffle, then hand over.
+   *
+   * Every step honours the durations of the active animation mode, and every timer goes through
+   * `setViewTimeout()` so leaving the view in the middle of the sequence cancels the rest.
+   *
+   * @param {{order: number[], cards: Array}} entry - Board entry being opened.
+   * @returns {void}
+   */
+  runOpenSequence(entry) {
+    const flipMs = this.resolveFlipDuration();
+    const step = FLIP_STEP_MS;
+    const lastFlipStart = DEAL_MS + step * (this.cardComponents.length - 1);
+    const flipUpEnd = lastFlipStart + flipMs;
+    const study = this.resolveStudyDuration();
+    const flipDownStart = flipUpEnd + study;
+    const flipDownEnd = flipDownStart + step * (this.cardComponents.length - 1) + flipMs;
+    const shuffle = this.resolveShuffleDuration();
+
+    this.cardComponents.forEach((component, index) => {
+      // Face up: the pack the player chose in the list, shown exactly as it was listed.
+      this.setViewTimeout(() => {
+        component.element.classList.add('is-preview');
+        if (index === 0) soundManager.play(SOUNDS.CARD_RETURN);
+      }, DEAL_MS + step * index);
+
+      // Face down again, one card after another.
+      this.setViewTimeout(() => component.element.classList.remove('is-preview'), flipDownStart + step * index);
+    });
+
+    this.setViewTimeout(() => this.setHint('wonder.hint.mixing'), flipDownStart);
+    this.setViewTimeout(() => this.shuffleCards(entry.order), flipDownEnd);
+    this.setViewTimeout(() => this.releasePack(), flipDownEnd + shuffle + 60);
+
+    this.log(
+      `Sequence armed: preview ${DEAL_MS} ms + ${Math.round(flipMs)} ms, study ${study} ms, shuffle ${shuffle} ms.`
+    );
+  }
+
+  /**
+   * Enables the pick once the pack is face down and shuffled.
+   *
+   * @returns {void}
+   */
+  releasePack() {
+    this.cardComponents.forEach((component) => {
+      if (component.element) component.element.disabled = false;
+    });
+    this.canPick = true;
+    this.setHint('wonder.hint');
+    this.log('Pack shuffled: the player can pick.');
+  }
+
+  /**
+   * Moves the cards to their shuffled positions, face down.
+   *
+   * A classic FLIP: the distance each card has to travel is measured BEFORE the elements are
+   * reordered, then applied as a translation that animates back to zero. The DOM is reordered while
+   * the cards are face down, which is why the swap itself can never be seen.
+   *
+   * @param {number[]} order - Display order: slot `d` holds the card `order[d]`.
+   * @returns {void}
+   */
+  shuffleCards(order) {
+    const elements = this.cardComponents.map((component) => component.element);
+    if (elements.some((element) => !element)) return;
+    if (!Array.isArray(order) || order.length !== elements.length) {
+      this.log('Shuffle skipped: the pack has no valid order.');
+      this.releasePack();
+      return;
+    }
+
+    const duration = this.resolveShuffleDuration();
+    const before = elements.map((element) => element.getBoundingClientRect());
+    this.applyCardOrder(order, elements);
+    if (duration <= 0) return;
+
+    elements.forEach((element, index) => {
+      const from = before[index];
+      const to = element.getBoundingClientRect();
+      const deltaX = from.left - to.left;
+      const deltaY = from.top - to.top;
+      if (deltaX === 0 && deltaY === 0) return;
+      element.style.transition = 'none';
+      element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      element.style.zIndex = '2';
+    });
+
+    // One reflow so the starting translations are committed before the transition is enabled.
+    void this.cardsElement.offsetWidth;
+
+    elements.forEach((element) => {
+      element.style.transition = `transform ${duration}ms var(--easing-standard)`;
+      element.style.transform = '';
+    });
+    this.shuffleTimer = this.setViewTimeout(() => this.clearShuffleTransforms(), duration + 40);
+  }
+
+  /**
+   * Reorders the card elements to the shuffled positions (no animation).
+   *
+   * @param {number[]} order - Display order: slot `d` holds the card `order[d]`.
+   * @param {HTMLElement[]} elements - Card elements, indexed by card position in the pack.
+   * @returns {void}
+   */
+  applyCardOrder(order, elements) {
+    order.forEach((cardIndex) => {
+      const element = elements[cardIndex];
+      if (element) this.cardsElement.appendChild(element);
+    });
+  }
+
+  /**
+   * Drops the inline transforms left by the shuffle.
+   *
+   * A kept card is turned over with `transform: rotateY(180deg)` (`css/components/card-reveal.css`):
+   * an inline translation would win over it, so the shuffle must be fully cleaned up before the
+   * first flip.
+   *
+   * @returns {void}
+   */
+  clearShuffleTransforms() {
+    if (this.shuffleTimer !== null) {
+      window.clearTimeout(this.shuffleTimer);
+      this.shuffleTimer = null;
+    }
+    this.cardComponents.forEach((component) => {
+      const element = component.element;
+      if (!element) return;
+      element.style.transition = '';
+      element.style.transform = '';
+      element.style.zIndex = '';
+    });
+  }
+
+  /**
+   * Writes the hint line under the title of the pack.
+   *
+   * @param {string} key - Translation key.
+   * @returns {void}
+   */
+  setHint(key) {
+    this.hintKey = key;
+    if (this.hintElement) this.hintElement.textContent = i18n.t(key);
+  }
+
+  /**
+   * Handles a click on a face-down card: keeps it, then reveals the rest of the pack.
+   *
+   * @param {MouseEvent} event - Click event (delegated).
+   * @returns {Promise<void>} Resolves once the pick is committed and revealed.
+   */
+  async handleCardsClick(event) {
+    const element = event?.target?.closest?.('[data-wonder-card]');
+    if (!element || this.isPicking || this.keptIndex !== null) return;
+    if (!this.canPick) {
+      this.log('Pick ignored: the pack is still being dealt and shuffled.');
+      return;
+    }
+    const cardIndex = Number(element.dataset.wonderCard);
+    if (!Number.isInteger(cardIndex) || this.boosterIndex === null) return;
+
+    this.isPicking = true;
+    this.canPick = false;
+    this.setFeedback(null);
+    this.clearShuffleTransforms();
+    this.lockCards();
+
+    let result;
+    try {
+      result = await wonderPickManager.pick(this.boosterIndex, cardIndex);
+    } catch (error) {
+      console.error('[WonderView] The pick failed.', error);
+      this.isPicking = false;
+      this.canPick = true;
+      this.unlockCards();
+      this.setFeedback(getWonderPickErrorMessageKey(error?.code), 'error');
+      if (error?.code === WONDER_PICK_ERRORS.NO_PICK_LEFT || error?.code === WONDER_PICK_ERRORS.ALREADY_PICKED) {
+        await this.refreshQuota().catch((error2) => {
+          console.warn('[WonderView] The allowance could not be refreshed.', error2);
+        });
+      }
+      return;
+    }
+
+    this.keptIndex = cardIndex;
+    const kept = this.cardComponents[cardIndex];
+    kept?.render().classList.add('is-kept');
+    if (kept?.flip()) {
+      // The kept card gets the full sting of its rarity: it is the one that joins the collection.
+      soundManager.playCardReveal(result.card.rarity);
+    }
+    this.announceResult(result);
+    this.revealOtherCards(cardIndex);
+    await this.refreshQuota();
+    this.isPicking = false;
+    this.log(`Kept "${result.card.uniqueKey}" (${result.remaining} pick(s) left).`);
+  }
+
+  /**
+   * Blocks the pack while the pick is being committed.
+   *
+   * @returns {void}
+   */
+  lockCards() {
+    this.cardComponents.forEach((component) => {
+      if (component.element) component.element.disabled = true;
+    });
+  }
+
+  /**
+   * Gives the pack back to the player (a refused pick must not freeze the screen).
+   *
+   * @returns {void}
+   */
+  unlockCards() {
+    this.cardComponents.forEach((component) => {
+      if (component.element && this.keptIndex === null) component.element.disabled = false;
+    });
+  }
+
+  /**
+   * Turns the other cards of the pack over, one after another.
+   *
+   * @param {number} keptIndex - Index already revealed.
+   * @returns {void}
+   */
+  revealOtherCards(keptIndex) {
+    const step = this.resolveRevealStep();
+    this.cardComponents.forEach((component, index) => {
+      if (index === keptIndex) return;
+      this.setViewTimeout(() => {
+        if (component.flip()) {
+          soundManager.play(SOUNDS.CARD_RETURN);
+        }
+      }, step * (index + 1));
+    });
+  }
+
+  /**
+   * Delay between two reveals, from the active animation mode.
+   *
+   * @returns {number} A duration in milliseconds, clamped for an automatic sequence.
+   */
+  resolveRevealStep() {
+    const { flipMs } = animationManager.getTiming();
+    return Math.min(Math.max(flipMs, REVEAL_STEP_MIN_MS), REVEAL_STEP_MAX_MS);
+  }
+
+  /**
+   * Duration of one card flip, from the active animation mode.
+   *
+   * @returns {number} A duration in milliseconds.
+   */
+  resolveFlipDuration() {
+    return Math.max(0, animationManager.getTiming().flipMs);
+  }
+
+  /**
+   * How long the pack stays face up for the player to study it.
+   *
+   * @returns {number} A duration in milliseconds, clamped so a slow mode does not become a wait.
+   */
+  resolveStudyDuration() {
+    const { flipMs } = animationManager.getTiming();
+    return Math.min(Math.max(flipMs * STUDY_FLIP_FACTOR, STUDY_MIN_MS), STUDY_MAX_MS);
+  }
+
+  /**
+   * Duration of the shuffle movement.
+   *
+   * @returns {number} A duration in milliseconds; 0 when the player asked for reduced motion.
+   */
+  resolveShuffleDuration() {
+    if (this.prefersReducedMotion()) return 0;
+    const { flipMs } = animationManager.getTiming();
+    return Math.min(Math.max(flipMs, SHUFFLE_MIN_MS), SHUFFLE_MAX_MS);
+  }
+
+  /**
+   * Tells whether the player asked the system for reduced motion.
+   *
+   * @returns {boolean} True when animations should be avoided.
+   */
+  prefersReducedMotion() {
+    return Boolean(
+      typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+  }
+
+  /**
+   * Writes the result line: the kept card, its rarity, the "new" flag and the remaining picks.
+   *
+   * @param {{card: object, isNew: boolean, remaining: number, godpack: boolean}} result - Committed pick.
+   * @returns {void}
+   */
+  announceResult(result) {
+    const name = result.card.getName(i18n.getLang());
+    const rarity = getRarityLabel(result.card.rarity, (key) => i18n.t(key));
+    const parts = [i18n.t('wonder.result.kept', { name, rarity })];
+    if (result.isNew) parts.push(i18n.t('wonder.result.new'));
+    if (result.godpack) parts.push(i18n.t('wonder.result.godpack'));
+    parts.push(i18n.t('wonder.result.remaining', { count: result.remaining }));
+    this.resultElement.textContent = parts.join(' · ');
+    this.resultElement.hidden = false;
+  }
+
+  /**
+   * Shows one of the two stages of the screen.
+   *
+   * @param {'board'|'pick'} stage - Stage to display.
+   * @returns {void}
+   */
+  showStage(stage) {
+    const showPick = stage === 'pick';
+    if (this.boardStage) this.boardStage.hidden = showPick;
+    if (this.pickStage) this.pickStage.hidden = !showPick;
+    this.log(`Stage displayed: ${stage}.`);
+  }
+
+  /**
+   * Returns to the list, where the booster just played shows the card that was kept.
+   *
+   * @returns {void}
+   */
+  backToBoard() {
+    this.clearCards();
+    this.boosterIndex = null;
+    this.keptIndex = null;
+    this.canPick = false;
+    this.showStage('board');
+    this.renderBoard(true);
+    void this.refreshQuota().catch((error) => {
+      console.warn('[WonderView] The allowance could not be refreshed.', error);
+    });
+  }
+
+  /**
+   * Removes the displayed cards, cancels the pending timers and drops the shuffle transforms.
+   *
+   * @returns {void}
+   */
+  clearCards() {
+    this.clearTimers();
+    this.clearShuffleTransforms();
+    this.cardComponents.forEach((component) => component.destroy());
+    this.cardComponents = [];
+    if (this.cardsElement) this.cardsElement.textContent = '';
+    this.keptIndex = null;
+    this.isPicking = false;
+    this.canPick = false;
+  }
+
+  /**
+   * Runs a callback later, remembering the timer so leaving the view cancels it.
+   *
+   * @param {Function} callback - Callback to run.
+   * @param {number} delay - Delay in milliseconds.
+   * @returns {number} The timer id.
+   */
+  setViewTimeout(callback, delay) {
+    const timer = window.setTimeout(() => {
+      this.timers = this.timers.filter((candidate) => candidate !== timer);
+      callback();
+    }, delay);
+    this.timers.push(timer);
+    return timer;
+  }
+
+  /**
+   * Cancels every timer of the sequences still in flight.
+   *
+   * @returns {void}
+   */
+  clearTimers() {
+    this.timers.forEach((timer) => window.clearTimeout(timer));
+    this.timers = [];
+  }
+
+  /**
+   * Writes the feedback line.
+   *
+   * @param {string|null} key - Translation key, or null to clear the line.
+   * @param {'info'|'error'} [tone='info'] - Tone of the message.
+   * @returns {void}
+   */
+  setFeedback(key, tone = 'info') {
+    this.feedback = key ? { key, tone } : null;
+    if (!this.feedbackElement) return;
+    if (!key) {
+      this.feedbackElement.hidden = true;
+      this.feedbackElement.textContent = '';
+      return;
+    }
+    this.feedbackElement.textContent = i18n.t(key);
+    this.feedbackElement.dataset.tone = tone;
+    this.feedbackElement.hidden = false;
+  }
+
+  /**
+   * Re-translates the labels when the language changes.
+   *
+   * The cards themselves follow the language on their own (`CardComponent` listens to
+   * `LANG_CHANGED`): the list, the hints and the result line are rewritten here.
+   *
+   * @returns {void}
+   */
+  handleLanguageChanged() {
+    this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
+    this.renderBoard(true);
+    if (this.feedback) {
+      this.setFeedback(this.feedback.key, this.feedback.tone);
+    }
+    if (this.hintKey) {
+      this.setHint(this.hintKey);
+    }
+    void this.refreshQuota().catch((error) => {
+      console.warn('[WonderView] The allowance could not be refreshed.', error);
+    });
+  }
+
+  /**
+   * Keeps the countdown to the next reset up to date.
+   *
+   * @param {{timeUntilReset?: string}|null} payload - Clock tick payload.
+   * @returns {void}
+   */
+  handleClockTick(payload) {
+    if (!payload || typeof payload.timeUntilReset !== 'string') return;
+    if (this.countdownElement && !this.countdownElement.hidden && this.countdownValue) {
+      this.countdownValue.textContent = payload.timeUntilReset;
+    }
+  }
+
+  /**
+   * Reloads the list and the allowance when the view becomes active (the day may have changed).
+   *
+   * The screen deliberately comes back on the LIST, never on a half-finished pick: leaving the tab
+   * in the middle of a pack would otherwise keep the pick stage on screen, with the boosters hidden
+   * behind it and no way back but a manual reload. A forgotten pack is simply dealt again (it is the
+   * same seeded pack) when its booster is opened again.
+   *
+   * @returns {void}
+   */
+  handleViewActivated() {
+    this.isActive = true;
+    this.log('View activated.');
+    this.setFeedback(null);
+    this.clearCards();
+    this.boosterIndex = null;
+    if (this.resultElement) this.resultElement.hidden = true;
+    this.showStage('board');
+    void this.reload().catch((error) => {
+      console.error('[WonderView] The board could not be reloaded.', error);
+      this.setFeedback('wonder.error.board', 'error');
+    });
+  }
+
+  /**
+   * Marks the view as inactive.
+   *
+   * @returns {void}
+   */
+  handleViewDeactivated() {
+    this.isActive = false;
+    this.log('View deactivated.');
+  }
+
+  /**
+   * Removes every listener, timer and card.
+   *
+   * @returns {void}
+   */
+  destroy() {
+    this.log('Destroying the view.');
+    this.clearCards();
+    this.bindings.forEach(({ target, type, handler }) => target.removeEventListener(type, handler));
+    this.bindings = [];
+    this.unsubscribers.forEach((unsubscribe) => unsubscribe());
+    this.unsubscribers = [];
+    this.board = [];
+    this.picksByBooster = {};
+    this.boardSignature = '';
+    this.isInitialized = false;
+  }
+}
+
+export default WonderView;

@@ -742,3 +742,36 @@
     background: transparent;
   }
 }
+
+/* --- Intensité du foil par couche (image de fond / underlay) --- */
+.foil-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.foil-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 240px;
+}
+
+.foil-slider-group label {
+  font-size: 0.85rem;
+  color: #a0a0b0;
+  font-weight: 600;
+}
+
+.foil-slider-group label span {
+  color: #7ee0c0;
+  font-family: monospace;
+}
+
+.foil-slider-group input[type="range"] {
+  width: 100%;
+  accent-color: #5865f2;
+  cursor: pointer;
+}

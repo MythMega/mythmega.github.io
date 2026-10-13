@@ -10,6 +10,15 @@ class BulkApp {
     this.exportBtn = document.getElementById('export-btn');
     this.jsonBtn = document.getElementById('download-json-btn');
     this.limitFullArtTextInput = document.getElementById('limit-fullart-text');
+    this.foilBgInput = document.getElementById('foil-bg-input');
+    this.foilUnderlayInput = document.getElementById('foil-underlay-input');
+    this.foilBgValue = document.getElementById('foil-bg-value');
+    this.foilUnderlayValue = document.getElementById('foil-underlay-value');
+    this.foilMythicBgInput = document.getElementById('foil-mythic-bg-input');
+    this.foilMythicUnderlayInput = document.getElementById('foil-mythic-underlay-input');
+    this.foilMythicBgValue = document.getElementById('foil-mythic-bg-value');
+    this.foilMythicUnderlayValue = document.getElementById('foil-mythic-underlay-value');
+    this.foilResetBtn = document.getElementById('foil-reset-btn');
     this.cardCountEl = document.getElementById('card-count');
     this.renderContainer = document.getElementById('render-card');
 
@@ -59,6 +68,9 @@ class BulkApp {
     // L'option globale de rendu est appliquée au chargement, d'après l'état de la case.
     this.applyLimitFullArtText();
 
+    // Intensités de foil initiales, d'après la position des curseurs.
+    this.applyFoilStrength();
+
     // Le tableau démarre vide, mais sa barre d'outils permet déjà d'ajouter une ligne.
     this.tableManager.render();
   }
@@ -73,6 +85,21 @@ class BulkApp {
     // aux deux moteurs de rendu (aperçu + export ZIP).
     if (this.limitFullArtTextInput) {
       this.limitFullArtTextInput.addEventListener('change', () => this.applyLimitFullArtText());
+    }
+
+    // Curseurs d'intensité du foil (image de fond / underlay)
+    if (this.foilBgInput) this.foilBgInput.addEventListener('input', () => this.applyFoilStrength());
+    if (this.foilUnderlayInput) this.foilUnderlayInput.addEventListener('input', () => this.applyFoilStrength());
+    if (this.foilMythicBgInput) this.foilMythicBgInput.addEventListener('input', () => this.applyFoilStrength());
+    if (this.foilMythicUnderlayInput) this.foilMythicUnderlayInput.addEventListener('input', () => this.applyFoilStrength());
+    if (this.foilResetBtn) {
+      this.foilResetBtn.addEventListener('click', () => {
+        this.foilBgInput.value = Math.round(CardRenderer.DEFAULT_FOIL_BG_STRENGTH * 100);
+        this.foilUnderlayInput.value = Math.round(CardRenderer.DEFAULT_FOIL_UNDERLAY_STRENGTH * 100);
+        this.foilMythicBgInput.value = Math.round(CardRenderer.DEFAULT_FOIL_BG_STRENGTH * 100);
+        this.foilMythicUnderlayInput.value = Math.round(CardRenderer.DEFAULT_FOIL_UNDERLAY_STRENGTH * 100);
+        this.applyFoilStrength();
+      });
     }
 
     // Modal
@@ -201,6 +228,30 @@ class BulkApp {
 
     // Un aperçu déjà ouvert est réactualisé immédiatement avec la nouvelle option.
     if (this.currentPreviewItem) this.showPreview(this.currentPreviewItem);
+  }
+
+  /* Intensité du foil par couche : lue sur les deux curseurs puis appliquée aux deux
+   * moteurs de rendu (aperçu + export ZIP). N'affecte que le rendu des images. */
+  applyFoilStrength() {
+    if (!this.foilBgInput || !this.foilUnderlayInput || !this.foilMythicBgInput || !this.foilMythicUnderlayInput) return;
+
+    const bg = parseInt(this.foilBgInput.value, 10) || 0;
+    const underlay = parseInt(this.foilUnderlayInput.value, 10) || 0;
+    this.foilBgValue.textContent = `${bg}%`;
+    this.foilUnderlayValue.textContent = `${underlay}%`;
+
+    // Curseurs dédiés à la rareté Mythique.
+    const mythicBg = parseInt(this.foilMythicBgInput.value, 10) || 0;
+    const mythicUnderlay = parseInt(this.foilMythicUnderlayInput.value, 10) || 0;
+    this.foilMythicBgValue.textContent = `${mythicBg}%`;
+    this.foilMythicUnderlayValue.textContent = `${mythicUnderlay}%`;
+
+    const args = [bg / 100, underlay / 100, mythicBg / 100, mythicUnderlay / 100];
+    if (this.renderer) this.renderer.setFoilStrength(...args);
+    if (this.previewRenderer) this.previewRenderer.setFoilStrength(...args);
+
+    // Un aperçu ouvert est réactualisé (sans changer la mise en page / langue choisies).
+    if (this.currentPreviewItem && this.modal.classList.contains('active')) this.renderPreview();
   }
 
   showPreview(item) {

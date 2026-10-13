@@ -6,10 +6,14 @@
  * Startup order:
  *   1. open the IndexedDB database (schema creation on the first launch);
  *   2. load and validate `settings/config.json` (languages, themes, booster settings);
- *   3. apply the theme (the pre-render inline script already did it; this re-syncs the state);
+ *   3. apply the theme and the animation mode (the pre-render inline script already set the theme;
+ *      this re-syncs both from the stored preferences);
  *   4. initialize i18n (translation files + `data-i18n` attributes);
  *   5. if no account exists: show the onboarding screen and stop here;
  *      otherwise: apply the stored settings, start the SPA router and wire the header.
+ *
+ * The statistics are NOT wired here anymore: they are a block of the profile page, hosted (and
+ * lifecycled) by `ProfileView`.
  *
  * The header booster counters and the UTC clock are fed by `DateSyncManager` (step 2) through
  * `EVENTS.QUOTA_UPDATED`, `EVENTS.CONNECTION_STATUS` and `EVENTS.CLOCK_TICK`. `Date.now()` is
@@ -26,6 +30,7 @@ import profileManager from './business/ProfileManager.js';
 import trophyManager from './business/TrophyManager.js';
 import i18n from './utils/I18n.js';
 import themeManager from './utils/ThemeManager.js';
+import animationManager from './utils/AnimationManager.js';
 import soundManager from './utils/SoundManager.js';
 import { configLoader } from './utils/ConfigLoader.js';
 import eventBus, { EVENTS } from './utils/EventBus.js';
@@ -34,7 +39,7 @@ import { SpaRouter } from './UI/SpaRouter.js';
 import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
 import { CollectionView, COLLECTION_VIEW_NAME } from './UI/views/CollectionView.js';
-import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
+import { WonderView, WONDER_VIEW_NAME } from './UI/views/WonderView.js';
 import { ProfileView, PROFILE_VIEW_NAME } from './UI/views/ProfileView.js';
 import { TrophiesView, TROPHIES_VIEW_NAME } from './UI/views/TrophiesView.js';
 import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
@@ -76,7 +81,7 @@ export const VIEW_NAMES = Object.freeze({
   COLLECTION: 'collection',
   PROFILE: 'profile',
   TROPHIES: 'trophies',
-  STATS: 'stats',
+  WONDER: 'wonder',
   SETTINGS: 'settings',
   INFO: 'info',
 });
@@ -113,8 +118,8 @@ export class App {
     this.profileView = null;
     /** @type {TrophiesView|null} Trophy catalogue (its own bottom-bar destination). */
     this.trophiesView = null;
-    /** @type {StatsView|null} Statistics panels (step 5). */
-    this.statsView = null;
+    /** @type {WonderView|null} Wonder Pick screen (ten simulated boosters a day, three picks). */
+    this.wonderView = null;
     /** @type {SettingsView|null} Preferences, account and save management (step 6). */
     this.settingsView = null;
     /** @type {RedeemView|null} Promo code entry (step 7). */
@@ -178,6 +183,9 @@ export class App {
     await storageRepository.open();
     await configLoader.load();
     await themeManager.init();
+    // The animation mode is applied before the views exist, so the very first opening already
+    // plays in the stored flavour and the stage markup is never rendered in the neutral one.
+    await animationManager.init();
     await i18n.init();
   }
 
@@ -221,6 +229,13 @@ export class App {
       : themeManager.getTheme() || (await configLoader.getDefaultTheme());
     themeManager.applyTheme(targetTheme);
 
+    // Animation mode: fall back to the neutral one when the stored value is unknown (a mode
+    // removed from `config.json` must not leave the opening without an animation).
+    const targetAnimation = animationManager.isAvailableMode(settings.animation)
+      ? settings.animation
+      : animationManager.defaultMode;
+    animationManager.applyAnimation(targetAnimation);
+
     // Sound preference: applied before the opening view is built, so its `preload()` never
     // downloads the effects of a muted player. Missing/legacy values stay enabled.
     soundManager.setEnabled(settings.sound !== false);
@@ -256,7 +271,7 @@ export class App {
     await this.startCollectionView();
     await this.startProfileView();
     await this.startTrophiesView();
-    await this.startStatsView();
+    await this.startWonderView();
     await this.startSettingsView();
     await this.startRedeemView();
     await this.startGiftsView();
@@ -456,31 +471,31 @@ export class App {
   }
 
   /**
-   * Starts the statistics view (step 5): boosters, completion, rarity bars, top card.
+   * Starts the Wonder Pick view: the ten simulated boosters of the day and the three daily picks.
    *
-   * A load failure must not break the whole boot: the view then shows its own error message
-   * and the other views keep working.
+   * A load failure must not break the whole boot: the view then shows its own error message and the
+   * other views keep working.
    *
    * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
    */
-  async startStatsView() {
-    const root = document.querySelector(`[data-view="${STATS_VIEW_NAME}"]`);
+  async startWonderView() {
+    const root = document.querySelector(`[data-view="${WONDER_VIEW_NAME}"]`);
     if (!root) {
-      console.warn('[App] The stats view is missing from index.html, skipping its wiring.');
+      console.warn('[App] The Wonder Pick view is missing from index.html, skipping its wiring.');
       return;
     }
-    console.info('[App] Starting the stats view…');
-    this.statsView = new StatsView(root);
+    console.info('[App] Starting the Wonder Pick view…');
+    this.wonderView = new WonderView(root);
     try {
-      await this.statsView.init();
+      await this.wonderView.init();
     } catch (error) {
-      console.error('[App] The stats view could not be loaded.', error);
-      this.statsView.setFeedback('stats.error.load', 'error');
+      console.error('[App] The Wonder Pick view could not be loaded.', error);
+      this.wonderView.setFeedback('wonder.error.board', 'error');
       return;
     }
-    console.info('[App] Stats view ready.');
-    if (this.router?.getCurrentView() === STATS_VIEW_NAME) {
-      this.statsView.handleViewActivated();
+    console.info('[App] Wonder Pick view ready.');
+    if (this.router?.getCurrentView() === WONDER_VIEW_NAME) {
+      this.wonderView.handleViewActivated();
     }
   }
 
@@ -792,9 +807,9 @@ export class App {
       this.trophiesView.destroy();
       this.trophiesView = null;
     }
-    if (this.statsView) {
-      this.statsView.destroy();
-      this.statsView = null;
+    if (this.wonderView) {
+      this.wonderView.destroy();
+      this.wonderView = null;
     }
     if (this.settingsView) {
       this.settingsView.destroy();

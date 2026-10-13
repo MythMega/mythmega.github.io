@@ -196,6 +196,30 @@ export class BoosterManager {
   }
 
   /**
+   * Returns an extension loaded by `init()`.
+   *
+   * Public seam used by the Wonder Pick: it draws its simulated packs from the very same card
+   * pools and rarity tables as a real opening, so both can never disagree.
+   *
+   * @param {string} setId - Extension identifier (e.g. "A1").
+   * @returns {{setId: string, name: string, texture: string|null, cards: Array, rarityConfig: Array,
+   *   cardsByRarity: object, raw: object}|null} The loaded extension, or null when unknown.
+   */
+  getLoadedSet(setId) {
+    if (typeof setId !== 'string') return null;
+    return this.boosterSets[setId.trim()] ?? null;
+  }
+
+  /**
+   * Ids of the extensions loaded by `init()`, in the order declared by `config.json`.
+   *
+   * @returns {string[]} The extension ids.
+   */
+  getLoadedSetIds() {
+    return Object.keys(this.boosterSets);
+  }
+
+  /**
    * Normalizes an asset path coming from a booster JSON.
    *
    * The generated data prefixes its paths with `./` (`./assets/boosters/A1.png`), which must be

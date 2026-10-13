@@ -1,14 +1,17 @@
 /**
  * Booster3DRenderer - Three.js booster of the opening view.
  *
- * Reference: `.docs/steps/4.md` point 1.
+ * Reference: `.docs/steps/4.md` point 1 and `css/animations.css` (the animation modes).
  *
  * RESPONSIBILITIES
  *   - load a `.glb` model (path from `config.json` -> `boosters.model`) and paint it with the
  *     texture declared by the extension JSON (`BoosterTexture`, e.g. `assets/boosters/A1.png`);
  *   - let the player rotate the booster with the mouse or a finger (drag + inertia);
- *   - expose an "open" gesture: a tap or an upward swipe calls the `onOpenRequest` callback once,
- *     after playing the tear animation;
+ *   - expose an "open" gesture: a tap or an upward swipe calls `onOpenStart` (the tear begins)
+ *     then `onOpenRequest` once the tear is over;
+ *   - play the tear in the flavour of the active animation mode: its duration and its movement come
+ *     from `AnimationManager` (`--anim-tear-ms`, the very same number the CSS of the stage uses),
+ *     so the WebGL movement, the CSS animation and the comic burst can never drift apart;
  *   - run NON-INTERACTIVE (`interactive: false`) as the preview of the extension picker: the model
  *     then only turns on its own and its texture can be swapped without rebuilding the scene;
  *   - release every GPU resource and stop the render loop as soon as the view is left
@@ -23,6 +26,8 @@
  * Logging: every lifecycle step is logged with the `[Booster3DRenderer]` prefix so the console
  * tells exactly which stage failed when the 3D scene does not show up.
  */
+
+import animationManager from '../../utils/AnimationManager.js';
 
 /** Import specifiers resolved by the import map of `index.html`. */
 const THREE_MODULE = 'three';
@@ -41,9 +46,6 @@ const SWIPE_THRESHOLD_PX = 60;
 const TAP_MAX_DURATION_MS = 400;
 const TAP_MAX_MOVEMENT_PX = 14;
 
-/** Duration of the tear ("open") animation, in milliseconds. */
-const TEAR_DURATION_MS = 700;
-
 /**
  * Distance of the camera from the booster, i.e. how much the model is zoomed out.
  *
@@ -53,6 +55,50 @@ const TEAR_DURATION_MS = 700;
  */
 const CAMERA_DISTANCE = 3.52;
 
+/* ------------------------------------------------------------------------------------------------
+ * LIGHTING / BRIGHTNESS - tweak these constants to make the booster brighter or darker.
+ * ---------------------------------------------------------------------------------------------- */
+
+/** Flat light reaching every face equally (lifts the shadows). Previously 1.1. */
+const AMBIENT_LIGHT_INTENSITY = 1.2;
+
+/** Main directional light (top right, in front of the booster). Previously 1.4. */
+const KEY_LIGHT_INTENSITY = 1.7;
+
+/** Back / bottom-left light that outlines the edges. Previously 0.7. */
+const RIM_LIGHT_INTENSITY = 1.0;
+
+/** Extra frontal light that lights the face of the booster facing the camera (0 = off). */
+const FRONT_FILL_LIGHT_INTENSITY = 0.3;
+
+/** Soft sky/ground light (0 = off). */
+const HEMISPHERE_LIGHT_INTENSITY = 0.5;
+
+/**
+ * Global exposure of the render (1 = neutral, 1.5 = +50 %, 0.8 = darker).
+ * Applied with a linear tone mapping, so colours are NOT desaturated.
+ */
+const EXPOSURE = 1.0;
+
+/**
+ * Intensity of the studio reflections (generated `RoomEnvironment`, 0 = no environment).
+ * It is the main fix for "black" models: a metallic material without environment reflects nothing.
+ * Needs Three.js r163+ (`scene.environmentIntensity`).
+ */
+const ENVIRONMENT_INTENSITY = 1.0;
+
+/** Metalness is clamped to this value: a metal without a reflected world looks black (0 = matte). */
+const MATERIAL_METALNESS_MAX = 0.25;
+
+/** Roughness is raised to at least this value (0 = mirror, 1 = fully diffuse). */
+const MATERIAL_ROUGHNESS_MIN = 0.55;
+
+/**
+ * Self-lighting: the texture glows a little by itself, whatever the lights do (0 = off).
+ * 0.3 to 0.6 gives a clearly brighter booster, past 0.8 it starts to look washed out.
+ */
+const EMISSIVE_INTENSITY = 0.1;
+
 export class Booster3DRenderer {
   /**
    * @param {object} options - Renderer options.
@@ -60,6 +106,8 @@ export class Booster3DRenderer {
    * @param {string|null} [options.texturePath=null] - Booster texture from the extension JSON.
    * @param {string} [options.modelPath=DEFAULT_MODEL_PATH] - Path of the `.glb` model.
    * @param {() => void|null} [options.onOpenRequest=null] - Called once when the player opens it.
+   * @param {() => void|null} [options.onOpenStart=null] - Called as the tear starts (the scene of
+   *   the "explosive" mode uses it to fire its comic burst at the exact moment of the blast).
    * @param {boolean} [options.interactive=true] - False for a preview: no drag, no tap and no tear,
    *   so the booster merely turns on its own while the player picks an extension.
    * @param {string} [options.label='booster'] - Label used in the logs.
@@ -69,6 +117,7 @@ export class Booster3DRenderer {
     texturePath = null,
     modelPath = DEFAULT_MODEL_PATH,
     onOpenRequest = null,
+    onOpenStart = null,
     interactive = true,
     label = 'booster',
   } = {}) {
@@ -80,6 +129,7 @@ export class Booster3DRenderer {
     this.texturePath = texturePath;
     this.modelPath = modelPath;
     this.onOpenRequest = onOpenRequest;
+    this.onOpenStart = onOpenStart;
     this.interactive = interactive !== false;
     this.label = label;
 
@@ -115,6 +165,10 @@ export class Booster3DRenderer {
     this.spinVelocity = 0;
     /** @type {number} Elapsed time of the tear animation. */
     this.tearElapsed = 0;
+    /** @type {number} Duration of the current tear, read from the animation mode. */
+    this.tearDurationMs = animationManager.getTiming().tearMs;
+    /** @type {string} Animation mode the current tear plays in. */
+    this.tearMode = animationManager.getMode();
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} Bound listeners. */
     this.bindings = [];
@@ -169,8 +223,10 @@ export class Booster3DRenderer {
       this.log(`Three.js r${this.THREE.REVISION ?? '?'} ready.`);
 
       this.buildScene();
+      await this.buildEnvironment();
       await this.loadModel(GLTFLoader);
       await this.applyTexture();
+      this.tuneMaterials();
 
       this.isAvailable = true;
       this.log('3D scene ready.', { model: this.modelPath, texture: this.texturePath ?? 'none' });
@@ -200,13 +256,26 @@ export class Booster3DRenderer {
     this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
     this.camera.position.set(0, 0.2, CAMERA_DISTANCE);
 
-    this.scene.add(new THREE.AmbientLight(0xffffff, 1.1));
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
+    // Linear tone mapping: its only effect is the exposure multiplier, colours stay untouched.
+    this.renderer.toneMapping = THREE.LinearToneMapping;
+    this.renderer.toneMappingExposure = EXPOSURE;
+
+    this.scene.add(new THREE.AmbientLight(0xffffff, AMBIENT_LIGHT_INTENSITY));
+    const keyLight = new THREE.DirectionalLight(0xffffff, KEY_LIGHT_INTENSITY);
     keyLight.position.set(2, 3, 4);
     this.scene.add(keyLight);
-    const rimLight = new THREE.DirectionalLight(0xffffff, 0.7);
+    const rimLight = new THREE.DirectionalLight(0xffffff, RIM_LIGHT_INTENSITY);
     rimLight.position.set(-3, -1, -2);
     this.scene.add(rimLight);
+
+    if (FRONT_FILL_LIGHT_INTENSITY > 0) {
+      const frontLight = new THREE.DirectionalLight(0xffffff, FRONT_FILL_LIGHT_INTENSITY);
+      frontLight.position.set(0, 0.5, 5);
+      this.scene.add(frontLight);
+    }
+    if (HEMISPHERE_LIGHT_INTENSITY > 0) {
+      this.scene.add(new THREE.HemisphereLight(0xffffff, 0xbbbbcc, HEMISPHERE_LIGHT_INTENSITY));
+    }
 
     this.pivot = new THREE.Group();
     this.scene.add(this.pivot);
@@ -219,12 +288,66 @@ export class Booster3DRenderer {
   }
 
   /**
-   * Loads the `.glb` model into the pivot group.
+   * Generates a neutral studio environment (`RoomEnvironment`) used for the reflections.
    *
-   * @param {new (manager?: object) => object} GLTFLoader - Loader class from the Three.js addons.
-   * @returns {Promise<void>} Resolves once the model is added to the scene.
-   * @throws {Error} When the model cannot be loaded.
+   * Without it, metallic materials reflect nothing and look almost black. A failure is not fatal:
+   * the booster is then lit by the lights only.
+   *
+   * @returns {Promise<void>} Resolves once the environment is set (or skipped).
    */
+  async buildEnvironment() {
+    if (ENVIRONMENT_INTENSITY <= 0) return;
+
+    try {
+      const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+      const pmrem = new this.THREE.PMREMGenerator(this.renderer);
+      const environment = new RoomEnvironment();
+      this.scene.environment = pmrem.fromScene(environment, 0.04).texture;
+      this.scene.environmentIntensity = ENVIRONMENT_INTENSITY;
+      environment.dispose?.();
+      pmrem.dispose();
+      this.log('Studio environment ready.');
+    } catch (error) {
+      console.warn(`[Booster3DRenderer:${this.label}] Environment unavailable, lights only.`, error);
+    }
+  }
+
+  /**
+   * Brightens the model materials: less metal, less gloss, and a light self-illumination taken
+   * from the texture. Safe to call several times (e.g. after a texture swap).
+   *
+   * @returns {void}
+   */
+  tuneMaterials() {
+    const THREE = this.THREE;
+    this.model?.traverse((child) => {
+      if (!child.isMesh) return;
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      materials.forEach((material) => {
+        if (!material) return;
+
+        if (typeof material.metalness === 'number') {
+          material.metalness = Math.min(material.metalness, MATERIAL_METALNESS_MAX);
+        }
+        if (typeof material.roughness === 'number') {
+          material.roughness = Math.max(material.roughness, MATERIAL_ROUGHNESS_MIN);
+        }
+        if ('emissive' in material && EMISSIVE_INTENSITY > 0) {
+          if (material.map) {
+            material.emissive = new THREE.Color(0xffffff);
+            material.emissiveMap = material.map;
+          } else {
+            // No texture: glow with the base colour instead of a flat white.
+            material.emissive = material.color ? material.color.clone() : new THREE.Color(0x000000);
+            material.emissiveMap = null;
+          }
+          material.emissiveIntensity = EMISSIVE_INTENSITY;
+        }
+        material.needsUpdate = true;
+      });
+    });
+  }
+
   /**
    * Loads the `.glb` model into the pivot group.
    *
@@ -289,6 +412,7 @@ export class Booster3DRenderer {
           }
         });
       });
+      this.tuneMaterials();
       this.log(`Texture "${this.texturePath}" applied to ${applied} material(s).`);
     } catch (error) {
       console.warn(`[Booster3DRenderer:${this.label}] Texture "${this.texturePath}" unavailable.`, error);
@@ -395,12 +519,9 @@ export class Booster3DRenderer {
     const delta = 1 / 60;
     if (this.isTearing) {
       this.tearElapsed += delta * 1000;
-      const progress = Math.min(1, this.tearElapsed / TEAR_DURATION_MS);
+      const progress = Math.min(1, this.tearElapsed / this.tearDurationMs);
       const eased = 1 - (1 - progress) ** 3;
-
-      this.pivot.rotation.y += 0.12;
-      this.pivot.position.y = eased * 1.2;
-      this.pivot.scale.setScalar(1 + eased * 0.25);
+      this.playTearMotion(progress, eased);
 
       if (progress >= 1) {
         this.log('Tear animation finished.');
@@ -422,6 +543,48 @@ export class Booster3DRenderer {
 
     this.renderer?.render(this.scene, this.camera);
     this.frameHandle = requestAnimationFrame(() => this.loop());
+  }
+
+  /**
+   * Moves the booster for the current frame of the tear, in the flavour of the active mode.
+   *
+   * The three modes only differ by those numbers: the CSS of the stage (`.booster-3d.is-tearing`)
+   * reads the same duration and draws the fades, the flash and the comic burst.
+   *
+   * @param {number} progress - Progress of the animation, in [0, 1].
+   * @param {number} eased - Cubically eased progress.
+   * @returns {void}
+   */
+  playTearMotion(progress, eased) {
+    if (!this.pivot) return;
+    const elapsed = this.tearElapsed;
+
+    switch (this.tearMode) {
+      case 'epic':
+        // A slow, wide take-off: the booster rises high while turning on itself.
+        this.pivot.rotation.y += 0.2;
+        this.pivot.rotation.z = Math.sin(progress * Math.PI) * 0.12;
+        this.pivot.position.y = eased * 2.2;
+        this.pivot.position.x = 0;
+        this.pivot.scale.setScalar(1 + eased * 0.45);
+        return;
+
+      case 'explosive':
+        // Deliberately ridiculous: the booster is shaken, spun and launched out of the frame.
+        this.pivot.rotation.y += 0.5;
+        this.pivot.rotation.x = Math.sin(elapsed * 0.03) * 0.4;
+        this.pivot.rotation.z = Math.sin(elapsed * 0.045) * 0.5;
+        this.pivot.position.x = Math.sin(elapsed * 0.02) * 0.35;
+        this.pivot.position.y = eased * 2.8;
+        this.pivot.scale.setScalar(1 + eased * 0.6 * (1 + progress));
+        return;
+
+      default:
+        // "normal": the original take-off (a light spin, a short rise, a small zoom).
+        this.pivot.rotation.y += 0.12;
+        this.pivot.position.y = eased * 1.2;
+        this.pivot.scale.setScalar(1 + eased * 0.25);
+    }
   }
 
   /**
@@ -544,8 +707,15 @@ export class Booster3DRenderer {
     this.openRequested = true;
     this.isTearing = true;
     this.tearElapsed = 0;
+    // Read the mode NOW: a switch made in the settings during the animation must not retime a tear
+    // that is already running.
+    this.tearMode = animationManager.getMode();
+    this.tearDurationMs = animationManager.getTiming().tearMs;
     this.getStageElement()?.classList?.add('is-tearing');
-    this.log('Tear animation started.');
+    if (typeof this.onOpenStart === 'function') {
+      this.onOpenStart();
+    }
+    this.log(`Tear animation started (mode: ${this.tearMode}, ${this.tearDurationMs}ms).`);
     return true;
   }
 

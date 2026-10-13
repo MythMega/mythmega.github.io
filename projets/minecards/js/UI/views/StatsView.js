@@ -1,11 +1,19 @@
 /**
- * StatsView - Booster count, completion, rarity distribution, most drawn card and the last
- * openings.
+ * StatsView - Booster count, completion, rarity distribution, most drawn card, Wonder Pick
+ * counters and the last openings.
  *
- * Reference: `.docs/steps/5.md` point 3. Reads `user_state["stats"]`, `user_state["boosterHistory"]`
- * and the collection (via `CollectionManager`). Only booster draws feed these counters:
- * redeem/gift cards (steps 7 and 8) never touch `stats`. Refreshes on `VIEW_CHANGED`,
- * `LANG_CHANGED` and `BOOSTER_OPENED`.
+ * Reference: `.docs/steps/5.md` point 3. Reads `user_state["stats"]`, `user_state["boosterHistory"]`,
+ * `user_state["wonderPick"]` (through `WonderPickManager`) and the collection (via
+ * `CollectionManager`). Only booster draws feed the opening counters: redeem/gift cards (steps 7 and
+ * 8) and wonder-picked cards never touch `stats` — the Wonder Pick keeps its own counters, because a
+ * pick is not an opened booster.
+ *
+ * HOSTED BY THE PROFILE
+ *   These panels are no longer a destination of the bottom bar: they live under the profile
+ *   (`[data-panel="stats"]`). `ProfileView` therefore owns the lifecycle — it calls `init()`,
+ *   `handleViewActivated()` / `handleViewDeactivated()`, `handleLanguageChanged()` and `destroy()` —
+ *   which is why this view does not listen to `VIEW_CHANGED` anymore. It still follows
+ *   `LANG_CHANGED`, `BOOSTER_OPENED` and `WONDER_PICK_UPDATED` on its own.
  *
  * The history panel shows the last `boosters.historySize` (10) openings with their shareable
  * `minecards:` code, the trusted UTC date of the opening and the 5 cards: each thumbnail opens the
@@ -18,19 +26,20 @@ import collectionManager from '../../business/CollectionManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
+import wonderPickManager from '../../business/WonderPickManager.js';
 import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import Toast from '../components/Toast.js';
 
-/** View name, matching `data-view="stats"` in `index.html`. */
-export const STATS_VIEW_NAME = 'stats';
+/** Panel attribute matching `[data-panel="stats"]` in `index.html` (inside the profile view). */
+export const STATS_PANEL_SELECTOR = '[data-panel="stats"]';
 
 /** Number of past openings displayed. */
 export const STATS_HISTORY_SIZE = 10;
 
 export class StatsView {
   /**
-   * @param {HTMLElement} rootElement - The stats `<section>`.
+   * @param {HTMLElement} rootElement - The statistics block of the profile (`[data-panel="stats"]`).
    */
   constructor(rootElement) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
@@ -50,6 +59,10 @@ export class StatsView {
     this.cardModalTitle = this.root.querySelector('[data-stats-modal-title]');
     this.cardModalBody = this.root.querySelector('[data-stats-modal-body]');
     this.cardModalClose = this.root.querySelector('[data-stats-modal-close]');
+    this.wonderSummaryElement = this.root.querySelector('[data-stats-wonder-summary]');
+    this.wonderRarityElement = this.root.querySelector('[data-stats-wonder-rarity]');
+    this.wonderRarestElement = this.root.querySelector('[data-stats-wonder-rarest]');
+    this.wonderHistoryElement = this.root.querySelector('[data-stats-wonder-history]');
 
     /** @type {Array<{code: string|null, setId: string, openedAt: string|null, godpack: boolean, set: object|null, cards: Array}>} */
     this.historyEntries = [];
@@ -97,6 +110,9 @@ export class StatsView {
       ['[data-stats-modal-title]', this.cardModalTitle],
       ['[data-stats-modal-body]', this.cardModalBody],
       ['[data-stats-modal-close]', this.cardModalClose],
+      ['[data-stats-wonder-summary]', this.wonderSummaryElement],
+      ['[data-stats-wonder-rarity]', this.wonderRarityElement],
+      ['[data-stats-wonder-history]', this.wonderHistoryElement],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -154,16 +170,15 @@ export class StatsView {
    * @returns {void}
    */
   subscribeToEvents() {
-    this.unsubscribers.push(eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
-      if (!payload || typeof payload.view !== 'string') return;
-      if (payload.view === STATS_VIEW_NAME) {
-        this.handleViewActivated();
-      } else if (payload.previousView === STATS_VIEW_NAME) {
-        this.handleViewDeactivated();
-      }
-    }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.BOOSTER_OPENED, () => this.handleBoosterOpened()));
+    // A wonder pick writes a card and its own counters: the dedicated panel follows it, but only
+    // while the panels are displayed (the host reloads them on activation anyway).
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.WONDER_PICK_UPDATED, () => {
+        if (this.isActive) this.handleBoosterOpened();
+      })
+    );
     this.log('Event subscriptions registered.');
   }
 
@@ -181,10 +196,12 @@ export class StatsView {
       const stats = (await storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.STATS)) ?? {};
       const view = await collectionManager.getCollectionView();
       const history = await boosterManager.getBoosterHistory(STATS_HISTORY_SIZE);
+      const wonder = await wonderPickManager.getState();
       this.renderBoosters(stats);
       this.renderCompletion(view);
       this.renderRarity(stats);
       this.renderTop(stats, view);
+      this.renderWonder(wonder, view);
       this.renderHistory(history);
     } catch (error) {
       console.error('[StatsView] The statistics could not be loaded.', error);
@@ -300,6 +317,164 @@ export class StatsView {
 
     this.topElement.appendChild(wrapper);
     this.log(`Top card: "${key}" drawn ${count} time(s).`);
+  }
+
+  // __STATS_WONDER__
+
+  /**
+   * Renders the dedicated Wonder Pick counters.
+   *
+   * The feature has its own block on purpose: a picked card is not an opened booster, so it is
+   * counted here (picks, distribution by rarity, best pick, last packs) and never in the opening
+   * counters above.
+   *
+   * @param {object} state - State returned by `WonderPickManager.getState()`.
+   * @param {{entries: object[]}} view - Collection view from the manager (resolves the card keys).
+   * @returns {void}
+   */
+  renderWonder(state, view) {
+    if (this.wonderSummaryElement) {
+      this.wonderSummaryElement.textContent = i18n.t('stats.wonder.summary', {
+        total: state?.totalPicks ?? 0,
+        remaining: state?.remaining ?? 0,
+        picksPerDay: state?.picksPerDay ?? 0,
+      });
+    }
+
+    if (this.wonderRarityElement) {
+      this.wonderRarityElement.textContent = '';
+      const picks = state?.picksByRarity ?? {};
+      const rarities = Array.from({ length: CARD_RARITY.MAX }, (_, index) => CARD_RARITY.MIN + index);
+      const total = rarities.reduce((sum, rarity) => sum + (Number(picks[String(rarity)]) || 0), 0);
+      if (total === 0) {
+        this.wonderRarityElement.textContent = i18n.t('stats.wonder.rarity.empty');
+      } else {
+        rarities.forEach((rarity) => {
+          const count = Number(picks[String(rarity)]) || 0;
+          this.wonderRarityElement.appendChild(
+            this.buildBar(getRarityLabel(rarity, (key) => i18n.t(key)), count, total)
+          );
+        });
+      }
+    }
+
+    if (this.wonderRarestElement) {
+      const rarest = this.resolveRarestPick(state, view);
+      this.wonderRarestElement.textContent = rarest
+        ? i18n.t('stats.wonder.rarest', {
+            name: rarest.card.getName(i18n.getLang()),
+            rarity: getRarityLabel(rarest.rarity, (key) => i18n.t(key)),
+          })
+        : i18n.t('stats.wonder.rarest.empty');
+    }
+
+    if (this.wonderHistoryElement) {
+      this.wonderHistoryElement.textContent = '';
+      const picks = Array.isArray(state?.history) ? state.history : [];
+      if (picks.length === 0) {
+        const empty = document.createElement('li');
+        empty.className = 'stats__line';
+        empty.textContent = i18n.t('stats.wonder.history.empty');
+        this.wonderHistoryElement.appendChild(empty);
+      } else {
+        picks.forEach((pick) => {
+          this.wonderHistoryElement.appendChild(this.buildWonderEntry(pick, view));
+        });
+      }
+    }
+
+    this.log(`Wonder Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} left today.`);
+  }
+
+  /**
+   * Finds the rarest card ever picked.
+   *
+   * @param {object} state - State returned by `WonderPickManager.getState()`.
+   * @param {{entries: object[]}} view - Collection view from the manager.
+   * @returns {{key: string, rarity: number, card: object, count: number}|null} The best pick.
+   */
+  resolveRarestPick(state, view) {
+    const entries = Array.isArray(view?.entries) ? view.entries : [];
+    let best = null;
+
+    Object.entries(state?.picksByCard ?? {}).forEach(([key, count]) => {
+      const entry = entries.find((candidate) => candidate.key === key);
+      const rarity = entry?.card?.rarity ?? 0;
+      if (!entry || rarity <= 0) return;
+      if (!best || rarity > best.rarity) {
+        best = { key, rarity, card: entry.card, count };
+      }
+    });
+    return best;
+  }
+
+  /**
+   * Builds one entry of the Wonder Pick history: the day, the extension, the kept card and its
+   * illustration.
+   *
+   * Unlike the opening history these entries are not clickable (a pick has no shareable code and
+   * only one card): the kept card is shown as a thumbnail next to the pack it came from.
+   *
+   * @param {{day: string|null, setId: string, setName: string|null, key: string, rarity: number,
+   *   godpack: boolean}} pick - History entry written by `WonderPickManager`.
+   * @param {{entries: object[]}} view - Collection view from the manager.
+   * @returns {HTMLElement} The list item.
+   */
+  buildWonderEntry(pick, view) {
+    const item = document.createElement('li');
+    item.className = 'stats__history-entry';
+
+    const head = document.createElement('div');
+    head.className = 'stats__history-head';
+    const meta = document.createElement('p');
+    meta.className = 'stats__history-meta';
+    const setName = document.createElement('span');
+    setName.className = 'stats__history-set';
+    setName.textContent = pick.setName ?? pick.setId;
+    const date = document.createElement('time');
+    date.className = 'stats__history-date';
+    if (pick.pickedAt) date.setAttribute('datetime', pick.pickedAt);
+    date.textContent = i18n.t('stats.history.date', {
+      date: pick.day ?? StatsView.formatHistoryDate(pick.pickedAt),
+    });
+    meta.append(setName, date);
+    head.appendChild(meta);
+    if (pick.godpack) {
+      const badge = document.createElement('span');
+      badge.className = 'stats__history-badge';
+      badge.textContent = i18n.t('stats.history.godpack');
+      head.appendChild(badge);
+    }
+    item.appendChild(head);
+
+    const entry = (view?.entries ?? []).find((candidate) => candidate.key === pick.key);
+    const wrapper = document.createElement('div');
+    wrapper.className = 'stats__wonder-pick';
+
+    if (entry?.card) {
+      const thumbnail = document.createElement('span');
+      thumbnail.className = `stats__history-card stats__history-card--r${entry.card.rarity}`;
+      if (entry.card.isFullArt) thumbnail.classList.add('stats__history-card--fullart');
+      const image = document.createElement('img');
+      image.className = 'stats__history-image';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.src = i18n.resolveImagePath(entry.card.illustration);
+      image.alt = '';
+      thumbnail.appendChild(image);
+      wrapper.appendChild(thumbnail);
+    }
+
+    const name = document.createElement('p');
+    name.className = 'stats__wonder-name';
+    name.textContent = `${entry?.card?.getName(i18n.getLang()) ?? pick.key} — ${getRarityLabel(
+      entry?.card?.rarity ?? pick.rarity,
+      (key) => i18n.t(key)
+    )}`;
+    wrapper.appendChild(name);
+    item.appendChild(wrapper);
+
+    return item;
   }
 
   // __STATS_HISTORY__

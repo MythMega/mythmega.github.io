@@ -34,6 +34,7 @@ import Toast from '../components/Toast.js';
 import { buildBoosterCode } from '../../utils/BoosterCode.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
+import animationManager from '../../utils/AnimationManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import Booster3DRenderer, { DEFAULT_MODEL_PATH } from '../components/Booster3DRenderer.js';
 
@@ -75,6 +76,7 @@ export class OpeningView {
     this.boosterFallback = this.root.querySelector('[data-booster-fallback]');
     this.boosterLoading = this.root.querySelector('[data-booster-loading]');
     this.boosterHint = this.root.querySelector('[data-booster-hint]');
+    this.burstElement = this.root.querySelector('[data-opening-burst]');
 
     this.previewContainer = this.root.querySelector('[data-booster-preview]');
     this.previewViewport = this.root.querySelector('[data-booster-preview-canvas]');
@@ -140,6 +142,12 @@ export class OpeningView {
     this.isFallbackMode = false;
     /** @type {number|null} Timer releasing the idle WebGL context. */
     this.idleDisposeTimer = null;
+    /** @type {number|null} Timer hiding the comic burst of the parodic mode. */
+    this.burstTimer = null;
+    /** @type {number|null} Timer guarding the arrival animation of the spotlight card. */
+    this.spotlightEntryTimer = null;
+    /** @type {boolean} True when a tap landed while the card was still arriving. */
+    this.pendingSpotlightAction = false;
     /** @type {string|null} Last feedback i18n key (re-translated on `LANG_CHANGED`). */
     this.feedbackKey = null;
     /** @type {'info'|'error'} */
@@ -177,6 +185,7 @@ export class OpeningView {
       ['[data-opening-quota]', this.quotaElement],
       ['[data-opening-open]', this.openButton],
       ['[data-booster-canvas]', this.boosterViewport],
+      ['[data-opening-burst]', this.burstElement],
       ['[data-opening-spotlight]', this.spotlightElement],
       ['[data-opening-stage-card]', this.spotlightStage],
       ['[data-opening-counter]', this.counterElement],
@@ -718,6 +727,7 @@ export class OpeningView {
       container: this.boosterViewport,
       texturePath: set?.texture ?? null,
       label: result.setId,
+      onOpenStart: () => this.handleBoosterOpenStart(),
       onOpenRequest: () => this.handleBoosterOpenGesture(),
     });
 
@@ -855,7 +865,60 @@ export class OpeningView {
   handleFallbackClick(event) {
     event?.preventDefault?.();
     if (!this.isFallbackMode) return;
+    // The 2D image has no WebGL tear to start, but it must still fire the burst of the parodic
+    // mode at the same moment the 3D scene would.
+    this.handleBoosterOpenStart();
     this.handleBoosterOpenGesture();
+  }
+
+  /**
+   * Called as the tear starts, i.e. at the exact moment the booster is hit.
+   *
+   * The "explosive" mode is the deliberate joke one: the stage takes the blast (a shake) and a
+   * comic "BOUM !" is fired over the booster. Both are replayed on every opening, and both are
+   * silent in the other modes - the burst is never even in the accessibility tree (`aria-hidden`).
+   *
+   * @returns {void}
+   */
+  handleBoosterOpenStart() {
+    if (!animationManager.isParodicMode()) return;
+
+    const timing = animationManager.getTiming();
+    this.log(`Parodic mode "${animationManager.getMode()}": firing the comic burst.`);
+    this.clearBurst();
+
+    if (this.sceneStage) {
+      this.sceneStage.classList.remove('is-booming');
+      // Reading a layout property between the two writes restarts the CSS animation.
+      void this.sceneStage.offsetWidth;
+      this.sceneStage.classList.add('is-booming');
+    }
+
+    if (this.burstElement) {
+      this.burstElement.hidden = false;
+      this.burstElement.classList.remove('is-visible');
+      void this.burstElement.offsetWidth;
+      this.burstElement.classList.add('is-visible');
+    }
+
+    this.burstTimer = window.setTimeout(() => this.clearBurst(), timing.tearMs + 1400);
+  }
+
+  /**
+   * Removes the comic burst and the shake of the stage.
+   *
+   * @returns {void}
+   */
+  clearBurst() {
+    if (this.burstTimer !== null) {
+      window.clearTimeout(this.burstTimer);
+      this.burstTimer = null;
+    }
+    this.burstElement?.classList.remove('is-visible');
+    if (this.burstElement) {
+      this.burstElement.hidden = true;
+    }
+    this.sceneStage?.classList.remove('is-booming');
   }
 
   /**
@@ -935,6 +998,7 @@ export class OpeningView {
       element.classList.add(animation === 'enter-prev' ? 'is-entering-prev' : 'is-entering-next');
     }
     this.spotlightStage.appendChild(element);
+    this.armSpotlightEntryGuard(animation === 'none' ? null : element);
 
     if (this.counterElement) {
       this.counterElement.textContent = i18n.t('opening.reveal.counter', {
@@ -948,6 +1012,72 @@ export class OpeningView {
       );
     }
     this.refreshSpotlightButtons();
+  }
+
+  /**
+   * Blocks the reveal while the arrival animation of the spotlight card is still running.
+   *
+   * A tap landing during the slide-in would REPLACE that animation: the flip of a card wins over
+   * the entry one (see `css/animations.css`), so the card would appear already face up, as if the
+   * arrival had been skipped. The guard duration is read from the element itself
+   * (`animation-duration` of the active mode), never duplicated here, and the tap is remembered:
+   * it is replayed as soon as the card is in place, so the player never has to tap twice.
+   *
+   * @param {HTMLElement|null} element - Spotlight card just inserted, or null to clear the guard.
+   * @returns {void}
+   */
+  armSpotlightEntryGuard(element = null) {
+    this.clearSpotlightEntryGuard();
+    if (!element) return;
+
+    let durationMs = 0;
+    try {
+      durationMs = getComputedStyle(element)
+        .animationDuration.split(',')
+        .reduce((longest, value) => Math.max(longest, parseFloat(value) || 0), 0) * 1000;
+    } catch (error) {
+      console.warn('[OpeningView] The duration of the arrival animation could not be read.', error);
+    }
+    if (durationMs <= 0) return;
+
+    this.spotlightEntryTimer = window.setTimeout(() => {
+      this.spotlightEntryTimer = null;
+      this.flushPendingSpotlightAction();
+    }, durationMs + 20);
+  }
+
+  /**
+   * Drops the arrival guard without replaying the remembered tap.
+   *
+   * @returns {void}
+   */
+  clearSpotlightEntryGuard() {
+    if (this.spotlightEntryTimer !== null) {
+      window.clearTimeout(this.spotlightEntryTimer);
+      this.spotlightEntryTimer = null;
+    }
+    this.pendingSpotlightAction = false;
+  }
+
+  /**
+   * Tells whether the spotlight card is still moving into place.
+   *
+   * @returns {boolean} True while the arrival animation runs.
+   */
+  isSpotlightArriving() {
+    return this.spotlightEntryTimer !== null;
+  }
+
+  /**
+   * Replays the tap that landed while the card was arriving.
+   *
+   * @returns {void}
+   */
+  flushPendingSpotlightAction() {
+    if (!this.pendingSpotlightAction) return;
+    this.pendingSpotlightAction = false;
+    this.log('Replaying the tap that landed during the arrival animation.');
+    this.handleNextAction();
   }
 
   /**
@@ -996,6 +1126,13 @@ export class OpeningView {
   handleNextAction() {
     const component = this.cardComponents[this.spotlightIndex];
     if (!component || this.revealStage !== 'spotlight') return;
+    if (this.isSpotlightArriving()) {
+      // The card is still sliding in: acting now would cut its arrival short (the flip animation
+      // replaces the entry one). The gesture is remembered and replayed once it is in place.
+      this.pendingSpotlightAction = true;
+      this.log('Tap deferred: the spotlight card is still arriving.');
+      return;
+    }
     if (!component.isFlipped) {
       this.log(`Spotlight card ${this.spotlightIndex + 1} tapped: revealing.`);
       if (component.flip()) {
@@ -1065,6 +1202,9 @@ export class OpeningView {
     void reveal;
     if (this.revealStage !== 'spotlight') return;
     if (this.spotlightIndex >= this.cardComponents.length - 1) return;
+    // An explicit navigation cancels both the guard and the tap it was holding: the next card
+    // re-arms its own.
+    this.clearSpotlightEntryGuard();
     this.spotlightIndex += 1;
     this.renderSpotlight('enter-next');
     this.log(`Spotlight moved to card ${this.spotlightIndex + 1} (face down).`);
@@ -1078,6 +1218,7 @@ export class OpeningView {
   showPreviousCard() {
     if (this.revealStage !== 'spotlight') return;
     if (this.spotlightIndex <= 0) return;
+    this.clearSpotlightEntryGuard();
     this.spotlightIndex -= 1;
     this.renderSpotlight('enter-prev');
     this.log(`Spotlight moved back to card ${this.spotlightIndex + 1}.`);
@@ -1376,6 +1517,8 @@ export class OpeningView {
    * @returns {void}
    */
   clearReveal() {
+    this.clearBurst();
+    this.clearSpotlightEntryGuard();
     this.cardComponents.forEach((component) => component.destroy());
     this.cardComponents = [];
     this.spotlightIndex = 0;

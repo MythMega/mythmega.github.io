@@ -10,7 +10,7 @@
  *
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
- *   - `settings`  : { lang, theme, sound }
+ *   - `settings`  : { lang, theme, sound, animation }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
@@ -28,6 +28,7 @@ import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import i18n, { clearMirroredLang } from '../utils/I18n.js';
 import themeManager, { clearMirroredTheme } from '../utils/ThemeManager.js';
+import animationManager from '../utils/AnimationManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /** `user_state` keys, exactly as defined in `main.md` section 2. */
@@ -42,6 +43,8 @@ export const USER_STATE_KEYS = Object.freeze({
   SPARKS: 'sparks',
   PROFILE: 'profile',
   TROPHIES: 'trophies',
+  // Daily state, statistics and history of the Wonder Pick (see `WonderPickManager`).
+  WONDER: 'wonderPick',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -222,8 +225,10 @@ export class AccountManager {
    * languages, then the `config.json` default. The theme defaults to `dark` through the
    * `config.json` default.
    *
-   * @param {{lang?: string|null, theme?: string|null}} [overrides] - Requested preferences.
-   * @returns {Promise<{lang: string, theme: string, sound: boolean}>} Validated preferences.
+   * @param {{lang?: string|null, theme?: string|null, sound?: boolean|null,
+   *   animation?: string|null}} [overrides] - Requested preferences.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string}>} Validated
+   *   preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -238,7 +243,16 @@ export class AccountManager {
     const themeCandidates = [overrides.theme, themeManager.getTheme(), defaultTheme];
     const theme = themeCandidates.find((candidate) => availableThemes.includes(candidate)) || defaultTheme;
 
-    return { lang, theme, sound: overrides.sound !== false };
+    // The animation mode is the neutral one unless `config.json` says otherwise: a new account
+    // never starts in a joke mode by accident.
+    const availableAnimations = animationManager.getAvailableModes();
+    const defaultAnimation = animationManager.defaultMode;
+    const animationCandidates = [overrides.animation, animationManager.getMode(), defaultAnimation];
+    const animation =
+      animationCandidates.find((candidate) => availableAnimations.includes(candidate)) ||
+      defaultAnimation;
+
+    return { lang, theme, sound: overrides.sound !== false, animation };
   }
 
   /**
@@ -280,7 +294,8 @@ export class AccountManager {
   /**
    * Reads the account settings, completed with safe defaults.
    *
-   * @returns {Promise<{lang: string, theme: string, sound: boolean}>} The stored preferences.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string}>} The stored
+   *   preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -294,20 +309,28 @@ export class AccountManager {
       // `false` is the only way to silence the app, so any other stored value (missing, legacy
       // save, garbage) falls back to the enabled default instead of muting by accident.
       sound: typeof stored.sound === 'boolean' ? stored.sound : defaults.sound,
+      // A mode that disappeared from `config.json` (or a save written by an older version) falls
+      // back to the current one instead of leaving the opening without an animation.
+      animation:
+        typeof stored.animation === 'string' && animationManager.isAvailableMode(stored.animation)
+          ? stored.animation
+          : defaults.animation,
     };
   }
 
   /**
    * Merges and persists the account settings.
    *
-   * Only `lang`, `theme` and `sound` are accepted; unknown keys are ignored. Values are
-   * validated against `config.json` as soon as the corresponding lists are loaded, so a typo
+   * Only `lang`, `theme`, `sound` and `animation` are accepted; unknown keys are ignored. Values
+   * are validated against `config.json` as soon as the corresponding lists are loaded, so a typo
    * cannot silently break the next startup. Applying the new values (calling `I18n.setLang`,
-   * `ThemeManager.applyTheme` and `SoundManager.setEnabled`) remains the caller's responsibility.
+   * `ThemeManager.applyTheme`, `SoundManager.setEnabled` and `AnimationManager.applyAnimation`)
+   * remains the caller's responsibility.
    *
-   * @param {{lang?: string, theme?: string, sound?: boolean}} partialSettings - Preferences to
-   *   update.
-   * @returns {Promise<{lang: string, theme: string, sound: boolean}>} The merged settings.
+   * @param {{lang?: string, theme?: string, sound?: boolean, animation?: string}} partialSettings -
+   *   Preferences to update.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string}>} The merged
+   *   settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
    * @throws {Error} When the write fails.
@@ -320,6 +343,7 @@ export class AccountManager {
     const merged = await this.getSettings();
     const availableLangs = i18n.getAvailableLangs();
     const availableThemes = themeManager.getAvailableThemes();
+    const availableAnimations = animationManager.getAvailableModes();
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'lang')) {
       const { lang } = partialSettings;
@@ -341,6 +365,19 @@ export class AccountManager {
         throw new RangeError(`Unknown theme "${theme}". Available: [${availableThemes.join(', ')}].`);
       }
       merged.theme = theme;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'animation')) {
+      const { animation } = partialSettings;
+      if (typeof animation !== 'string' || animation.trim() === '') {
+        throw new TypeError(`settings.animation must be a non-empty string (received: ${JSON.stringify(animation)}).`);
+      }
+      if (availableAnimations.length > 0 && !availableAnimations.includes(animation)) {
+        throw new RangeError(
+          `Unknown animation mode "${animation}". Available: [${availableAnimations.join(', ')}].`
+        );
+      }
+      merged.animation = animation;
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'sound')) {

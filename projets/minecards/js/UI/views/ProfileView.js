@@ -18,6 +18,12 @@
  * The favourite cards are a grid of at most `profile.maxFavorites` columns, so they all fit on one
  * screen without scrolling and without their names — the illustration is the identifier, and the
  * detail modal (tap a card) still gives the name, the rarity and the copies.
+ *
+ * HOST OF THE STATISTICS
+ *   The statistics used to be a destination of the bottom bar of their own; they are now the last
+ *   block of THIS page (`[data-panel="stats"]`), below everything that describes the player. They
+ *   are rendered by `StatsView`, whose lifecycle is driven from here (init, activation,
+ *   deactivation, language, destroy): a failure of the statistics never breaks the profile itself.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
@@ -27,6 +33,7 @@ import trophyManager from '../../business/TrophyManager.js';
 import profileIconManager from '../../business/ProfileIconManager.js';
 import collectionManager from '../../business/CollectionManager.js';
 import TrophyDetail, { TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
+import StatsView, { STATS_PANEL_SELECTOR } from './StatsView.js';
 import Toast from '../components/Toast.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
@@ -65,8 +72,16 @@ export class ProfileView {
     this.modalTitle = this.root.querySelector('[data-profile-modal-title]');
     this.modalBody = this.root.querySelector('[data-profile-modal-body]');
     this.modalClose = this.root.querySelector('[data-profile-modal-close]');
+    this.statsRoot = this.root.querySelector(STATS_PANEL_SELECTOR);
 
     this.assertMarkup();
+
+    /**
+     * @type {StatsView|null} Statistics panels embedded under the profile (boosters, completion,
+     * rarity, top card, Wonder Pick, last openings). They are not a router view anymore, so this
+     * page owns their lifecycle.
+     */
+    this.statsView = null;
 
     /** @type {object|null} Last profile read from `ProfileManager`. */
     this.profile = null;
@@ -131,6 +146,7 @@ export class ProfileView {
       ['[data-profile-modal]', this.modal],
       ['[data-profile-modal-title]', this.modalTitle],
       ['[data-profile-modal-body]', this.modalBody],
+      [STATS_PANEL_SELECTOR, this.statsRoot],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -164,8 +180,33 @@ export class ProfileView {
     this.log('Initializing…');
     this.bindEvents();
     this.subscribeToEvents();
+    await this.initStatsView();
     await this.reload();
     this.log('Ready.');
+  }
+
+  /**
+   * Mounts the statistics panels that live under the profile.
+   *
+   * A failure of the statistics must not break the profile page: the error is logged and the rest of
+   * the screen keeps working.
+   *
+   * @returns {Promise<void>} Resolves once the panels are initialized (or have failed).
+   */
+  async initStatsView() {
+    if (this.statsView || !this.statsRoot) return;
+    const statsView = new StatsView(this.statsRoot);
+    try {
+      await statsView.init();
+    } catch (error) {
+      console.error('[ProfileView] The statistics panel could not be loaded.', error);
+      statsView.setFeedback('stats.error.load', 'error');
+      return;
+    }
+    this.statsView = statsView;
+    if (this.isActive) {
+      statsView.handleViewActivated();
+    }
   }
 
   /**
@@ -897,6 +938,8 @@ export class ProfileView {
    */
   handleLanguageChanged() {
     this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
+    // The embedded statistics carry translated labels too: their host forwards the event.
+    this.statsView?.handleLanguageChanged();
     if (this.isInitialized && !this.isLoading) {
       void this.reload();
     }
@@ -910,6 +953,8 @@ export class ProfileView {
   handleViewActivated() {
     this.isActive = true;
     this.log('View activated.');
+    // The statistics are part of this page: they follow its lifecycle instead of `VIEW_CHANGED`.
+    this.statsView?.handleViewActivated();
     if (this.isInitialized && !this.isLoading) {
       void this.reload();
     }
@@ -923,6 +968,7 @@ export class ProfileView {
   handleViewDeactivated() {
     this.isActive = false;
     this.log('View deactivated.');
+    this.statsView?.handleViewDeactivated();
   }
 
   /**
@@ -932,6 +978,8 @@ export class ProfileView {
    */
   destroy() {
     this.log('Destroying the view.');
+    this.statsView?.destroy();
+    this.statsView = null;
     this.bindings.forEach(({ target, type, handler }) => target.removeEventListener(type, handler));
     this.bindings = [];
     this.unsubscribers.forEach((unsubscribe) => unsubscribe());

@@ -124,6 +124,140 @@
   }
 }
 
+/* --- Animation modes ------------------------------------------------------ */
+
+/* Hazard banner of a parodic mode ("explosif"): the screen must say, in the strongest possible
+   way, that the animation is a joke. Only shown when the active mode is flagged `parodic` in
+   `config.json`; SettingsView unhides it. */
+.anim-notice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-3);
+  border: 2px dashed var(--color-warning);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-warning);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.anim-notice__icon {
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  animation: anim-notice-wobble 2.6s ease-in-out infinite;
+}
+
+@keyframes anim-notice-wobble {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg) scale(1.12);
+  }
+}
+
+/* Badge carried by the parodic option of the picker ("💥 PARODIQUE"). */
+.anim-option__badge {
+  margin-left: var(--space-2);
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-warning);
+  color: var(--color-accent-contrast);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lang-switch__option.is-parodic {
+  border-style: dashed;
+  border-color: var(--color-warning);
+}
+
+/* --- Animation demo ------------------------------------------------------- */
+
+/* A miniature of an opening: one card that flips and the five summary thumbnails. It reuses the
+   REAL classes of the game (`.card-reveal__card`, `.card-reveal__summary-item`) so what the player
+   sees here is exactly what the opening does, in the mode selected. */
+.anim-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-alt);
+  /* The parodic shake and the comic drop are contained: the panel never widens. */
+  overflow: hidden;
+}
+
+.anim-demo__label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.anim-demo__stage {
+  display: grid;
+  place-items: center;
+  min-height: 6.5rem;
+  /* Required by the flip of the card (same value as `.opening__stage`). */
+  perspective: 1200px;
+}
+
+.anim-demo__card {
+  display: block;
+  width: 4.25rem;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+/* The demo cards are built as `<span>`s (a settings panel must not contain a button inside a
+   button): they have to be blockified explicitly, otherwise the inline box ignores
+   `aspect-ratio` and the card collapses to zero height. */
+.anim-demo__tile {
+  display: block;
+}
+
+/* The doubled class beats `.card-reveal--summary` of `css/components/card-reveal.css`, which is
+   loaded AFTER this file: the demo always shows its five thumbnails on one row, whatever the
+   screen. */
+.anim-demo .anim-demo__tiles {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: 0;
+  perspective: none;
+}
+
+/* The demo cards carry no illustration: a dashed border makes it obvious they are placeholders. */
+.anim-demo__stage .card-reveal__face,
+.anim-demo__tile .card-reveal__face {
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.anim-demo__tile .card-reveal__card {
+  display: block;
+  width: 100%;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.anim-demo__play {
+  align-self: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-notice__icon {
+    animation: none;
+  }
+}
+
 /* --- UTC clock ------------------------------------------------------------ */
 
 /* Same pill as the header clock (`css/base.css`), so the time reads identically wherever it is

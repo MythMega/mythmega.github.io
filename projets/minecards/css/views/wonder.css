@@ -1,0 +1,318 @@
+/* =============================================================================
+   wonder.css - Wonder Pick screen ("Pioche miracle").
+
+   Reference: `js/UI/views/WonderView.js` (the screen) and
+   `js/business/WonderPickManager.js` (the daily board, the allowance, the statistics).
+
+   Two stages:
+     1. the board  : the ten simulated boosters of the day, ONE PER LINE. A line carries the booster
+                     texture, its name and its five cards face up, so the pack is chosen by its
+                     content and not blindly. A line is `available`, `picked` (the card that was
+                     kept is marked, the four others are greyed out) or `locked` (no pick left today);
+     2. the pick   : the five cards of the chosen booster, dealt face up, turned over and shuffled
+                     (`.is-preview` is the face-up state, driven by the view, not by `is-flipped`).
+
+   The cards themselves are styled by `css/components/card-reveal.css`: this file only adds the list,
+   the dealing animation, the shuffle and the "kept card" markers. Colors come from `css/themes.css`.
+   ============================================================================= */
+
+.wonder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.wonder__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* --- Allowance ------------------------------------------------------------ */
+
+.wonder__quota {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.wonder__countdown {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-warning);
+}
+
+.wonder__countdown-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.wonder__help,
+.wonder__hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* --- List of the day ------------------------------------------------------ */
+
+.wonder__board {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wonder__slot {
+  display: block;
+}
+
+/* figure | head  (the name and the state of the booster)
+   cards  cards   (the five cards of the pack, face up)
+   action action  (the button, full width on a phone) */
+.wonder__row {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  grid-template-areas:
+    'figure head'
+    'cards cards'
+    'action action';
+  gap: var(--space-2) var(--space-3);
+  align-items: center;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.wonder__row[data-wonder-state='available']:hover {
+  border-color: var(--color-accent);
+}
+
+.wonder__row.is-picked {
+  border-color: var(--color-success);
+}
+
+.wonder__row.is-locked {
+  opacity: 0.7;
+}
+
+@media (min-width: 768px) {
+  /* The pack sits next to its booster, the button on the far right. */
+  .wonder__row {
+    grid-template-columns: 3.75rem minmax(0, 1fr) 9.5rem;
+    grid-template-areas:
+      'figure head action'
+      'figure cards cards';
+    align-items: start;
+  }
+}
+
+.wonder__row-figure {
+  grid-area: figure;
+  display: grid;
+  place-items: center;
+  align-self: start;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+
+.wonder__booster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.wonder__row-head {
+  grid-area: head;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.wonder__booster-name {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.wonder__row-state {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.wonder__row.is-picked .wonder__row-state {
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.wonder__row-action {
+  grid-area: action;
+}
+
+/* --- The pack, face up, inside the list ------------------------------------ */
+
+.wonder__row-cards {
+  grid-area: cards;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wonder__mini {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  transition: opacity var(--duration-fast) var(--easing-standard);
+}
+
+.wonder__mini-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.wonder__mini--r4 {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-rarity-4);
+}
+
+.wonder__mini--r5 {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-rarity-5);
+}
+
+.wonder__mini--fullart {
+  border-color: var(--color-accent);
+}
+
+/* A card that was kept is the one the pack gave away: it stays lit, the others fade. */
+.wonder__mini.is-kept {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.wonder__mini.is-discarded {
+  opacity: 0.4;
+}
+
+.wonder__mini-flag {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  padding: 1px var(--space-1);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.wonder__empty {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  list-style: none;
+}
+
+/* While the board is loading, the previous one stays readable but inactive. */
+.wonder.is-loading .wonder__board {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* --- Pick stage ----------------------------------------------------------- */
+
+.wonder__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr));
+  gap: var(--space-2);
+  /* The flip of a card needs the same perspective as the opening stage. */
+  perspective: 1200px;
+}
+
+@media (min-width: 768px) {
+  .wonder__cards {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* Dealing: the five cards land one after another, slightly rotated. */
+.wonder__cards .wonder__card {
+  width: 100%;
+  animation: wonder-deal 420ms var(--easing-standard) backwards;
+}
+
+.wonder__cards .wonder__card:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.wonder__cards .wonder__card:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+.wonder__cards .wonder__card:nth-child(4) {
+  animation-delay: 210ms;
+}
+
+.wonder__cards .wonder__card:nth-child(5) {
+  animation-delay: 280ms;
+}
+
+@keyframes wonder-deal {
+  from {
+    opacity: 0;
+    transform: translateY(-22px) rotate(-9deg) scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Face up, WITHOUT being flipped: the pack is shown before it is turned over and shuffled, and the
+   card must still be able to flip later (`is-flipped` carries the rarity animation). */
+.wonder__cards .wonder__card.is-preview {
+  transform: rotateY(180deg);
+}
+
+/* The card the player keeps: outlined like a revealed legendary, so the choice is unmistakable. */
+.wonder__cards .wonder__card.is-kept {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+}
+
+.wonder__result {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-success);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-success);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wonder__row,
+  .wonder__mini {
+    transition: none;
+  }
+
+  .wonder__cards .wonder__card {
+    animation: none;
+  }
+}

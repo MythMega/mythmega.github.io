@@ -85,6 +85,36 @@ export const DEFAULT_LEVELLING_SETTINGS = Object.freeze({
 });
 
 /**
+ * Default settings of the Wonder Pick, used whenever `settings/config.json` omits a value.
+ *
+ * The board holds `boosterCount` simulated openings (10) built from the real booster
+ * parameters, `picksPerDay` free picks per UTC day (3) and keeps `historySize` picks for the
+ * statistics. `seedSalt` + the UTC day + the account UUID seed the deterministic draw;
+ * `setWeightExponent` is the exponent of the extension weight (the highest id is the likeliest).
+ */
+export const DEFAULT_WONDER_PICK_SETTINGS = Object.freeze({
+  boosterCount: 10,
+  picksPerDay: 3,
+  historySize: 10,
+  seedSalt: 'minecards-wonder-pick-v1',
+  setWeightExponent: 2,
+});
+
+/**
+ * Default durations (milliseconds) of the opening animation, used whenever an entry of the
+ * `animations.list` section omits one of them.
+ *
+ * `tearMs` is the opening of the pack, `flipMs` a card flip and `staggerMs` the delay between two
+ * cards of the summary grid. They are published as `--anim-tear-ms` / `--anim-flip-ms` /
+ * `--anim-stagger-ms` by `js/utils/AnimationManager.js`.
+ */
+export const DEFAULT_ANIMATION_TIMING = Object.freeze({
+  tearMs: 700,
+  flipMs: 220,
+  staggerMs: 60,
+});
+
+/**
  * Default XP granted by a trophy, per rarity ("bronze" … "emerald").
  *
  * A trophy JSON may override it with its own `Experience` field.
@@ -204,6 +234,21 @@ export class ConfigLoader {
       }
     });
 
+    // Optional section: a browser still holding an older cached `config.json` must not fail its
+    // whole boot over it. An absent `animations` simply means "the neutral mode alone", which is
+    // what `AnimationManager` falls back to.
+    const animationList = rawConfig.animations?.list;
+    if (animationList !== undefined) {
+      if (!Array.isArray(animationList) || animationList.length === 0) {
+        throw new Error(`"${this.path}" must declare at least one animation in "animations.list".`);
+      }
+      animationList.forEach((entry, index) => {
+        if (!entry || typeof entry.id !== 'string' || entry.id.trim() === '') {
+          throw new Error(`"${this.path}" animation #${index} is missing a valid "id".`);
+        }
+      });
+    }
+
     return rawConfig;
   }
 
@@ -227,6 +272,106 @@ export class ConfigLoader {
   async getLanguageOptions() {
     const config = await this.getConfig();
     return config.languages.map((entry) => ({ code: entry.code, label: entry.label || entry.code }));
+  }
+
+  /**
+   * Animation modes with their labels, durations and their "parodic" flag.
+   *
+   * @returns {Promise<Array<{id: string, labelKey: string, parodic: boolean, tearMs: number,
+   *   flipMs: number, staggerMs: number}>>} Animation descriptors, in declaration order.
+   *   Returns an empty array when the section is missing (an older cached `config.json`):
+   *   `AnimationManager` then falls back to its built-in neutral mode.
+   * @throws {Error} See `load()`.
+   */
+  async getAnimationOptions() {
+    const config = await this.getConfig();
+    const list = config.animations?.list;
+    if (!Array.isArray(list)) return [];
+    return list.map((entry) => ({
+      id: entry.id,
+      labelKey: entry.labelKey || `settings.animation.${entry.id}`,
+      parodic: entry.parodic === true,
+      tearMs: ConfigLoader.normalizeDuration(entry.tearMs, DEFAULT_ANIMATION_TIMING.tearMs),
+      flipMs: ConfigLoader.normalizeDuration(entry.flipMs, DEFAULT_ANIMATION_TIMING.flipMs),
+      staggerMs: ConfigLoader.normalizeDuration(entry.staggerMs, DEFAULT_ANIMATION_TIMING.staggerMs),
+    }));
+  }
+
+  /**
+   * Default animation id (falls back to the first declared mode, then to "normal").
+   *
+   * @returns {Promise<string>} An animation id guaranteed to be declared.
+   * @throws {Error} See `load()`.
+   */
+  async getDefaultAnimation() {
+    const config = await this.getConfig();
+    const ids = (config.animations?.list ?? []).map((entry) => entry.id);
+    if (ids.length === 0) return 'normal';
+    return ids.includes(config.animations?.default) ? config.animations.default : ids[0];
+  }
+
+  /**
+   * Wonder Pick settings, completed with `DEFAULT_WONDER_PICK_SETTINGS`.
+   *
+   * Every value falls back to its default when the section is missing or a value is unusable: a
+   * partially edited configuration must never break the daily board.
+   *
+   * @returns {Promise<{boosterCount: number, picksPerDay: number, historySize: number,
+   *   seedSalt: string, setWeightExponent: number}>} The Wonder Pick settings.
+   * @throws {Error} See `load()`.
+   */
+  async getWonderPickSettings() {
+    const config = await this.getConfig();
+    const wonder = config.wonderPick || {};
+    const exponent = Number(wonder.setWeightExponent);
+    return {
+      boosterCount: ConfigLoader.normalizePositiveInteger(
+        wonder.boosterCount,
+        DEFAULT_WONDER_PICK_SETTINGS.boosterCount
+      ),
+      picksPerDay: ConfigLoader.normalizePositiveInteger(
+        wonder.picksPerDay,
+        DEFAULT_WONDER_PICK_SETTINGS.picksPerDay
+      ),
+      historySize: ConfigLoader.normalizePositiveInteger(
+        wonder.historySize,
+        DEFAULT_WONDER_PICK_SETTINGS.historySize
+      ),
+      seedSalt:
+        typeof wonder.seedSalt === 'string' && wonder.seedSalt.trim() !== ''
+          ? wonder.seedSalt.trim()
+          : DEFAULT_WONDER_PICK_SETTINGS.seedSalt,
+      setWeightExponent:
+        Number.isFinite(exponent) && exponent >= 0
+          ? exponent
+          : DEFAULT_WONDER_PICK_SETTINGS.setWeightExponent,
+    };
+  }
+
+  /**
+   * Normalizes a strictly positive whole number.
+   *
+   * @param {unknown} value - Raw value.
+   * @param {number} fallback - Value used when the raw one is unusable.
+   * @returns {number} A positive integer.
+   */
+  static normalizePositiveInteger(value, fallback) {
+    const number = Number(value);
+    if (!Number.isInteger(number) || number <= 0) return fallback;
+    return number;
+  }
+
+  /**
+   * Normalizes one duration of an animation entry.
+   *
+   * @param {unknown} value - Raw duration in milliseconds.
+   * @param {number} fallback - Value used when the entry is missing or unusable.
+   * @returns {number} A positive whole number of milliseconds.
+   */
+  static normalizeDuration(value, fallback) {
+    const duration = Number(value);
+    if (!Number.isFinite(duration) || duration <= 0) return fallback;
+    return Math.round(duration);
   }
 
   /**

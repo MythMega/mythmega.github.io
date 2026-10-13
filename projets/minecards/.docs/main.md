@@ -25,13 +25,14 @@ Base IndexedDB `CardBoosterDB` (version 1), 5 ObjectStores :
 
 Clés de `user_state` :
 - `"account"` : `{ uuid, createdAt }` — **son existence = "un compte existe"**.
-- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic" }`.
+- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive" }`.
 - `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number } }` (ex. `{ "set1": 2 }`).
 - `"timeAnchor"` : `{ apiUtcMs, perfNow, lastKnownUtcMs }`.
 - `"stats"` : `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: {1..5}, drawsByCard: { [key]: count } }`.
 - `"giftSync"` : `{ lastCheckedLine, lastCheckAt }`.
 - `"profile"` : `{ name, photo, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, URL de la photo de profil, jusqu'à 5 cartes favorites et 3 trophées mis en avant.
 - `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
+- `"wonderPick"` : `{ lastResetDay, remaining, totalPicks, picksByRarity, picksByCard, history }` — état de la Pioche miracle (`WonderPickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
 
 Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `lang` et `theme` est autorisé, pour appliquer le thème avant le premier rendu (évite le flash).
 
@@ -73,20 +74,22 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 ### E. Rendu 3D & Animation d'Ouverture
 - Three.js + `GLTFLoader`, modèle `.glb`, texture définie dans le JSON de l'extension.
 - Workflow : interaction avec le booster 3D → 5 cartes face cachée → clic pour retourner une à une → glow CSS pour les raretés 4 et 5.
+- Trois **modes d'animation** (voir section F) habillent ce workflow : en **Épique** le booster décolle lentement avec un flash et le retournement dépasse avant de se poser ; en **Explosif** — mode **parodique assumé** (`parodic: true` dans `config.json`) — le booster tremble, tourne et explose derrière un « BOUM ! » comique, la scène tremble, la carte fait deux tours et demi et les vignettes du résumé tombent du plafond en police comique. Le côté parodique est annoncé par le bandeau hachuré et le badge « Parodique » des Paramètres, et par la note sous le « BOUM ! ».
 - La boîte qui contient le booster fait **90 % de la largeur** de son conteneur et **10 % de hauteur en plus** (38 vh pour l'aperçu du sélecteur, 50 vh pour la scène d'ouverture, 42 vh et 55 vh au-delà de 768 px) : le booster garde ainsi des marges sur les côtés, ce qui laisse les deux flèches de changement d'extension collées aux bords même sur un écran vertical. La caméra est reculée d'autant (3,52 au lieu de 3,2) pour que le modèle ne grossisse pas en même temps que la boîte ; l'image 2D de secours est réduite de 10 % de la même façon.
 
 ### F. Langues & Thèmes
 - **Langues** : Français, Anglais (extensible : ajouter `settings/i18n/<code>.json` + l'entrée dans `settings/config.json`). Change les libellés et les chemins d'images, à chaud (sans rechargement).
 - **Thèmes** : **Sombre** (défaut), **Clair**, **Classic**. Chacun est un bloc de variables CSS `body[data-theme="…"]` dans `css/themes.css`. Extensible.
 - Les deux préférences sont sauvegardées dans `user_state["settings"]` et incluses dans le `.save`.
+- **Animations** : **Normal** (défaut), **Épique**, **Explosif**. Les modes sont déclarés dans `settings/config.json` (`animations.list` : `id`, `labelKey`, `parodic`, `tearMs`, `flipMs`, `staggerMs`) et le mode actif est posé en `data-animation` sur `<html>`/`<body>`, comme le thème. `js/utils/AnimationManager.js` publie les trois durées en variables CSS (`--anim-tear-ms`, `--anim-flip-ms`, `--anim-stagger-ms`) ; `css/animations.css`, chargé en dernier, n'habille que les trois temps d'une ouverture (déchirure du booster, retournement d'une carte, affichage du résumé). Le `tearMs` sert aussi au mouvement WebGL de `Booster3DRenderer`, donc le 3D, le CSS et la rafale comique ne peuvent pas se désynchroniser. Un mode déclaré sans bloc CSS réutilise simplement l'animation neutre à sa vitesse.
 
 ### G. Vues & Navigation (SPA)
 0. **Accueil (onboarding)** : créer / importer, affiché seulement si aucun compte.
 1. **Ouverture** : choix du booster + scène d'ouverture.
 2. **Collection** : grille, silhouettes grisées pour les manquantes, filtres extension/style/rareté/statut, **bouton cœur** sur les cartes possédées (5 favoris maximum).
-2 bis. **Profil** : deux onglets. L'onglet *Profil* affiche l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. L'onglet *Trophées* isole le catalogue derrière deux combos (famille, statut) pour ne jamais afficher les trente trophées d'un coup.
-3. **Statistiques** : boosters ouverts, complétion par extension, répartition par rareté, carte la plus piochée.
-4. **Paramètres** : langue, thème, **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
+2 bis. **Profil** : deux onglets. L'onglet *Profil* affiche l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. L'onglet *Trophées* isole le catalogue derrière deux combos (famille, statut) pour ne jamais afficher les trente trophées d'un coup. Le **bloc Statistiques** est le dernier de la page, sous les cartes favorites (`[data-panel="stats"]`), avec les compteurs propres à la Pioche miracle.
+3. **Pioche miracle** (*Wonder Pick*) : les dix boosters simulés du jour, **listés un par ligne avec leur contenu face visible**, et les trois pioches gratuites — voir section 3.G quater.
+4. **Paramètres** : langue, thème, **animations** (sélecteur + aperçu animé joué à l'ouverture de la page, bandeau d'avertissement pour le mode parodique), **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
 6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
 
@@ -140,6 +143,50 @@ Règles de la file d'attente : une notification reste **3 s** (`NOTIFICATION_DUR
 **Aucune notification au démarrage** : l'XP et les trophées sont évalués une fois au lancement, et `app.js` appelle `gameNotifier.start()` APRÈS cette première évaluation (qui prend le niveau courant comme référence). Importer une sauvegarde qui débloque dix trophées d'un coup ne déclenche donc aucun message.
 
 Enfin, les avatars (`assets/img/profile/**`) sont du **pixel art** (6x6, 8x8, 48x48 ou 192x192) : les trois endroits qui les affichent — avatar du profil, sélecteur d'icônes, section « Icônes débloquées » d'un trophée — les rendent avec `image-rendering: pixelated`, donc sans aucune interpolation.
+
+### G quater. Pioche miracle (Wonder Pick)
+
+Un onglet principal (`data-view="wonder"`) : chaque jour, **dix boosters simulés** sont listés, **un par
+ligne**, avec leur texture, leur nom et leurs **cinq cartes face visible** — le pack se choisit donc en
+connaissance de cause, jamais au hasard. Le joueur dispose de **trois pioches gratuites**, remises à zéro
+à minuit UTC comme le quota quotidien. Ouvrir un booster distribue son contenu face visible (exactement
+ce que la ligne annonçait), retourne les cartes une à une puis les **mélange**, et le joueur garde celle
+qu'il retourne : les autres se révèlent ensuite et la carte gardée rejoint la collection.
+
+**Un booster déjà pioché reste dans la liste**, avec la carte qui en a été gardée (marquée « Gardée », les
+quatre autres grisées) et un bouton désactivé : il n'est pas rejouable le même jour, donc les choix
+s'épuisent vraiment avant les dix lignes. Une ligne affiche donc l'un de ces trois états : *piochable*,
+*pioche faite* ou *verrouillée* (quota du jour épuisé, avec le compte à rebours de minuit UTC).
+
+**Les paquets sont réels.** Une ouverture simulée passe par le même `GachaEngine`, la même table de
+raretés (surcharge d'une extension comprise) et les mêmes `boosters.cardsPerBooster` /
+`boosters.godpackChancePercent` qu'une ouverture : modifier `settings/config.json` change donc
+réellement ce que la Pioche miracle affiche.
+
+**Déterminisme.** Le plateau entier vient d'un générateur amorcé par `wonderPick.seedSalt` + le jour UTC
+fiable + l'UUID du compte : un rechargement montre le même plateau, il change au jour UTC suivant, et
+deux comptes ne partagent jamais le même. L'extension de chaque booster est tirée avec un poids de
+`(rang + 1) ** wonderPick.setWeightExponent`, donc l'id le plus haut est le plus probable. `Math.random()`
+n'est jamais utilisé, et les tirages sont pris dans un ordre fixe : le dixième booster ne dépend pas de
+l'affichage.
+
+Le **mélange** est reproductible pour la même raison : un second générateur, dérivé de la même graine
+(`buildShuffleOrder`, Fisher-Yates), fixe l'ordre d'affichage de chaque pack **après** le tirage de tous
+les paquets — les cartes ne dépendent donc pas du mélange, et un rechargement redistribue chaque pack à
+l'identique.
+
+**Paramètres** (`settings/config.json`, section `wonderPick`) : `boosterCount` (10), `picksPerDay` (3),
+`historySize` (10), `seedSalt`, `setWeightExponent`. Chaque valeur retombe sur son défaut si la section
+est absente ou corrompue.
+
+**Ce qui est écrit** : `user_state["wonderPick"]` (quota du jour, `picksByBooster` — quel booster a été
+utilisé aujourd'hui et quelle carte en est sortie, c'est ce qui marque les lignes de la liste et ce que
+lit la garde `ALREADY_PICKED` —, `totalPicks`, `picksByRarity`, `picksByCard`, `history`) et **la seule
+carte gardée** dans la collection, dans **une seule transaction** :
+impossible de consommer une pioche sans recevoir sa carte. La carte est annoncée par `CARDS_OBTAINED`
+(`source: "wonder"`), donc XP, trophées et notifications suivent exactement comme pour une carte achetée.
+En revanche elle ne touche **jamais** `stats` (ce n'est pas un booster ouvert) : la fonctionnalité a ses
+propres compteurs, affichés dans le bloc Statistiques du Profil.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.

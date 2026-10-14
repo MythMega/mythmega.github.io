@@ -31,6 +31,7 @@ import trophyManager from './business/TrophyManager.js';
 import i18n from './utils/I18n.js';
 import themeManager from './utils/ThemeManager.js';
 import animationManager from './utils/AnimationManager.js';
+import foilManager from './utils/FoilManager.js';
 import soundManager from './utils/SoundManager.js';
 import { configLoader } from './utils/ConfigLoader.js';
 import eventBus, { EVENTS } from './utils/EventBus.js';
@@ -195,6 +196,9 @@ export class App {
     // The animation mode is applied before the views exist, so the very first opening already
     // plays in the stored flavour and the stage markup is never rendered in the neutral one.
     await animationManager.init();
+    // Same reasoning for the foil: `--foil-intensity` must exist before the first card is built,
+    // otherwise a legendary would flash at the default strength while the stored one loads.
+    await foilManager.init();
     await i18n.init();
   }
 
@@ -248,6 +252,10 @@ export class App {
     // Sound preference: applied before the opening view is built, so its `preload()` never
     // downloads the effects of a muted player. Missing/legacy values stay enabled.
     soundManager.setEnabled(settings.sound !== false);
+
+    // Foil intensity: a value stored before `config.json` narrowed the range is clamped by the
+    // manager, so an obsolete preference can never hide the foil for good.
+    foilManager.applyIntensity(settings.foilIntensity);
 
     // The profile and the trophies are part of the saved state: both entries are created here, so
     // an export made before the player ever opened the profile page still carries them.
@@ -955,13 +963,17 @@ export class App {
   /**
    * Renders the daily Mine Pick allowance in the header.
    *
-   * @param {{remaining?: number, picksPerDay?: number}|null} payload - `MINE_PICK_UPDATED` payload,
-   *   or null to reset.
+   * The counter shows the FREE picks plus the ones bought with Sparks: what it announces is how
+   * many packs the player can still open today, not how much of the free allowance is left.
+   *
+   * @param {{remaining?: number, bonusPicks?: number, picksPerDay?: number}|null} payload -
+   *   `MINE_PICK_UPDATED` payload, or null to reset.
    * @returns {void}
    */
   renderHeaderMinePick(payload) {
     const remaining = Number.isFinite(payload?.remaining) ? payload.remaining : 0;
-    this.setText(HEADER_IDS.MINE_PICK, String(Math.max(0, remaining)));
+    const bonusPicks = Number.isFinite(payload?.bonusPicks) ? payload.bonusPicks : 0;
+    this.setText(HEADER_IDS.MINE_PICK, String(Math.max(0, remaining + bonusPicks)));
   }
 
   /**
@@ -972,7 +984,11 @@ export class App {
   async refreshHeaderMinePick() {
     try {
       const state = await minePickManager.getState();
-      this.renderHeaderMinePick({ remaining: state.remaining, picksPerDay: state.picksPerDay });
+      this.renderHeaderMinePick({
+        remaining: state.remaining,
+        bonusPicks: state.bonusPicks ?? 0,
+        picksPerDay: state.picksPerDay,
+      });
     } catch (error) {
       console.warn('[App] The Mine Pick allowance could not be read.', error);
     }

@@ -12,6 +12,10 @@
  *                 `settings`. A mode flagged `parodic` in the configuration is advertised as a
  *                 deliberate joke (hazard banner + badge), and the panel carries a live DEMO of
  *                 the three stages of an opening so the choice is made by looking;
+ *   - foil      : one slider ("Intensité du foil") driving `FoilManager.applyIntensity`, persisted
+ *                 in `settings` as a percentage. The range comes from `config.json`, the value is
+ *                 applied live (the demo card of the animation panel is a mythic, so the effect is
+ *                 visible under the finger) and only the release writes to the database;
  *   - sound     : one switch ("Sons") driving `SoundManager.setEnabled`, persisted in `settings`;
  *   - clock     : the trusted UTC time of the game (the header clock is hidden on a phone);
  *   - account   : the immutable UUID (read-only) with a copy button;
@@ -36,6 +40,7 @@ import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import themeManager from '../../utils/ThemeManager.js';
 import animationManager from '../../utils/AnimationManager.js';
+import foilManager from '../../utils/FoilManager.js';
 import soundManager from '../../utils/SoundManager.js';
 import accountManager from '../../business/AccountManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
@@ -77,6 +82,8 @@ export class SettingsView {
     this.themeContainer = query('[data-settings-themes]');
     this.animationContainer = query('[data-settings-animations]');
     this.animationNotice = query('[data-settings-animation-notice]');
+    this.foilSlider = query('[data-settings-foil]');
+    this.foilValueElement = query('[data-settings-foil-value]');
     this.demoStage = query('[data-animation-demo-stage]');
     this.demoTiles = query('[data-animation-demo-tiles]');
     this.demoPlayButton = query('[data-animation-demo-play]');
@@ -152,6 +159,8 @@ export class SettingsView {
       ['[data-settings-languages]', this.languageContainer],
       ['[data-settings-themes]', this.themeContainer],
       ['[data-settings-animations]', this.animationContainer],
+      ['[data-settings-foil]', this.foilSlider],
+      ['[data-settings-foil-value]', this.foilValueElement],
       ['[data-animation-demo-stage]', this.demoStage],
       ['[data-animation-demo-tiles]', this.demoTiles],
       ['[data-animation-demo-play]', this.demoPlayButton],
@@ -195,6 +204,7 @@ export class SettingsView {
     await this.renderThemeSelector();
     await this.renderAnimationSelector();
     this.renderAnimationDemo();
+    this.renderFoilSlider();
     this.syncSoundToggle();
     await this.renderAccount();
     this.renderClock();
@@ -314,7 +324,7 @@ export class SettingsView {
       card.className = 'card-reveal__card anim-demo__card card-reveal__card--r5';
       const front = SettingsView.buildDemoFace('front');
       // Same rarity as the class above (`--r5`), so the demo and the reveal agree on the foil.
-      front.classList.add(...getShineClasses({ rarity: 5, isFullArt: false }));
+      front.classList.add(...getShineClasses({ rarity: 5 }));
       card.append(SettingsView.buildDemoFace('back'), front);
       this.demoStage.appendChild(card);
       this.demoCard = card;
@@ -494,12 +504,103 @@ export class SettingsView {
   }
 
   /**
+   * Fills the foil slider from the configuration and reflects the active intensity.
+   *
+   * The range lives in `settings/config.json` (`foil`), not in the markup: the slider is the only
+   * consumer, and the bounds a player can reach must be the ones the game was tuned for.
+   *
+   * @returns {void}
+   */
+  renderFoilSlider() {
+    if (!this.foilSlider) return;
+    const { min, max, step } = foilManager.getSettings();
+    this.foilSlider.min = String(min);
+    this.foilSlider.max = String(max);
+    this.foilSlider.step = String(step);
+    this.syncFoilSlider();
+  }
+
+  /**
+   * Reflects the active intensity on the slider and on its percentage.
+   *
+   * @returns {void}
+   */
+  syncFoilSlider() {
+    if (!this.foilSlider) return;
+    const percent = foilManager.getPercent();
+    if (this.foilSlider.value !== String(percent)) {
+      this.foilSlider.value = String(percent);
+    }
+    this.renderFoilValue(percent);
+  }
+
+  /**
+   * Writes the percentage displayed next to the slider.
+   *
+   * Written through `i18n.t` instead of `data-i18n`: the text depends on the percentage, not only
+   * on the language, exactly like the state of the sound switch.
+   *
+   * @param {number} [percent] - Value to display (the active one by default).
+   * @returns {void}
+   */
+  renderFoilValue(percent = foilManager.getPercent()) {
+    if (!this.foilValueElement) return;
+    this.foilValueElement.textContent = i18n.t('settings.foil.value', { value: percent });
+  }
+
+  /**
+   * Applies the intensity while the thumb moves.
+   *
+   * Nothing is written to the database here: `input` fires for every step of the drag, and a write
+   * per step would fill the transaction log for a value the player is still choosing. The release
+   * (`change`) is what saves. The slider element itself is left alone for the same reason - moving
+   * its value from code in the middle of a gesture is how a drag gets interrupted.
+   *
+   * @param {Event} event - Input event of the range element.
+   * @returns {void}
+   */
+  handleFoilInput(event) {
+    const percent = Number(event?.target?.value);
+    try {
+      foilManager.applyIntensity(percent);
+    } catch (error) {
+      console.error('[SettingsView] Unable to apply the foil intensity.', error);
+      this.setFeedback('settings.error.foil', 'error');
+      return;
+    }
+    this.setFeedback(null);
+    this.renderFoilValue(foilManager.getPercent());
+  }
+
+  /**
+   * Persists the intensity once the player lets go of the thumb.
+   *
+   * A failed write keeps the value applied for this session and reports it, like the animation
+   * picker: snapping the foil back under the finger would be a worse answer than a preference that
+   * only lasts until the next start.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleFoilChange() {
+    const percent = foilManager.getPercent();
+    try {
+      await accountManager.updateSettings({ foilIntensity: percent });
+      this.log(`Foil intensity set to ${percent} % and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The foil intensity could not be saved.', error);
+      this.setFeedback('settings.error.foil', 'error');
+    }
+  }
+
+  /**
    * Attaches every DOM listener (registration is tracked for `destroy()`).
    *
    * @returns {void}
    */
   bindEvents() {
     this.listen(this.demoPlayButton, 'click', () => this.playAnimationDemo());
+    this.listen(this.foilSlider, 'input', (event) => this.handleFoilInput(event));
+    this.listen(this.foilSlider, 'change', () => this.handleFoilChange());
     this.listen(this.soundToggle, 'click', () => this.handleSoundToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
     this.listen(this.exportButton, 'click', () => this.handleExport());
@@ -560,6 +661,9 @@ export class SettingsView {
         // immediately, without opening a booster to find out.
         this.playAnimationDemo();
       })
+    );
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.FOIL_INTENSITY_CHANGED, () => this.syncFoilSlider())
     );
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.renderClock(payload)));
     this.log('Event subscriptions registered.');
@@ -1190,6 +1294,9 @@ export class SettingsView {
     void this.renderAnimationSelector().catch((error) => {
       console.error('[SettingsView] The animation list could not be re-rendered.', error);
     });
+    // The animation picker rebuilds its labels on its own; the foil percentage is a translated
+    // string too, so it has to be rewritten here.
+    this.renderFoilValue();
     this.renderClock();
     this.renderFeedback();
     if (this.pendingModal) {
@@ -1216,6 +1323,7 @@ export class SettingsView {
     // Arriving on the page replays the demo: an animation is the one thing a picker can not
     // describe in words.
     this.playAnimationDemo();
+    this.syncFoilSlider();
     this.syncSoundToggle();
     this.renderClock();
     void this.renderAccount().catch((error) => {

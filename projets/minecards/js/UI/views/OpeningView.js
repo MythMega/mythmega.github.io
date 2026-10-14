@@ -28,7 +28,8 @@ import i18n from '../../utils/I18n.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import boosterManager from '../../business/BoosterManager.js';
 import collectionManager from '../../business/CollectionManager.js';
-import dateSyncManager from '../../business/DateSyncManager.js';
+import dateSyncManager, { BOOSTER_SOURCES } from '../../business/DateSyncManager.js';
+import sparksManager, { INSUFFICIENT_SPARKS } from '../../business/SparksManager.js';
 import CardComponent from '../components/CardComponent.js';
 import Toast from '../components/Toast.js';
 import { buildBoosterCode } from '../../utils/BoosterCode.js';
@@ -81,6 +82,7 @@ export class OpeningView {
     this.countdownElement = this.root.querySelector('[data-opening-countdown]');
     this.countdownValue = this.root.querySelector('[data-opening-countdown-value]');
     this.openButton = this.root.querySelector('[data-opening-open]');
+    this.buyButton = this.root.querySelector('[data-opening-buy]');
     this.feedbackElement = this.root.querySelector('[data-opening-feedback]');
 
     this.boosterContainer = this.root.querySelector('[data-booster-3d]');
@@ -166,6 +168,12 @@ export class OpeningView {
     this.feedbackTone = 'info';
     /** @type {object|null} Last quota snapshot rendered. */
     this.lastQuota = null;
+    /** @type {number} Sparks charged for one extra daily booster (`boosters`). */
+    this.extraBoosterPrice = 0;
+    /** @type {number} Last known Sparks balance, for the state of the buy button. */
+    this.sparksBalance = 0;
+    /** @type {boolean} True while the extra-booster purchase is in flight. */
+    this.isBuying = false;
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
@@ -196,6 +204,7 @@ export class OpeningView {
       ['[data-opening-set]', this.setSelect],
       ['[data-opening-quota]', this.quotaElement],
       ['[data-opening-open]', this.openButton],
+      ['[data-opening-buy]', this.buyButton],
       ['[data-booster-canvas]', this.boosterViewport],
       ['[data-opening-burst]', this.burstElement],
       ['[data-opening-spotlight]', this.spotlightElement],
@@ -255,7 +264,14 @@ export class OpeningView {
     soundManager.preload();
     this.bindEvents();
     this.subscribeToEvents();
+    try {
+      const { extraBoosterPriceSparks } = await configLoader.getBoosterSettings();
+      this.extraBoosterPrice = extraBoosterPriceSparks;
+    } catch (error) {
+      console.warn('[OpeningView] The extra-booster price could not be read.', error);
+    }
     this.refreshQuota();
+    void this.refreshSparksBalance();
     this.log(`Ready with ${this.sets.size} extension(s): ${[...this.sets.keys()].join(', ')}.`);
   }
 
@@ -341,6 +357,7 @@ export class OpeningView {
       this.listen(this.nextSetButton, 'click', () => this.cycleSet(1));
     }
     this.listen(this.openButton, 'click', () => this.handleOpenClick());
+    this.listen(this.buyButton, 'click', () => this.handleBuyExtraBooster());
     this.listen(this.boosterFallback, 'click', (event) => this.handleFallbackClick(event));
     this.listen(this.copyCodeButton, 'click', () => this.handleCopyBoosterCode());
     this.listen(this.finishButton, 'click', () => this.finish());
@@ -379,6 +396,7 @@ export class OpeningView {
    */
   subscribeToEvents() {
     this.unsubscribers.push(eventBus.on(EVENTS.QUOTA_UPDATED, (payload) => this.handleQuotaUpdated(payload)));
+    this.unsubscribers.push(eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.handleSparksUpdated(payload)));
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
     this.log('Event subscriptions registered.');
@@ -490,6 +508,62 @@ export class OpeningView {
       this.openButton.textContent = i18n.t('opening.error.noBooster');
       this.updateCountdown(dateSyncManager.getFormattedTimeUntilReset());
     }
+
+    this.renderBuyButton();
+  }
+
+  /**
+   * Renders the extra-booster button.
+   *
+   * The button answers one situation: the free daily boosters are spent and the player does not
+   * want to wait for the next UTC day. It therefore appears only when the daily allowance is at
+   * zero, carries its price, and is disabled (with the missing amount in its tooltip) while the
+   * balance is short - a click that can only fail is not a click the player should be able to make.
+   *
+   * @returns {void}
+   */
+  renderBuyButton() {
+    if (!this.buyButton) return;
+    const price = this.extraBoosterPrice;
+    const daily = this.lastQuota?.daily ?? 0;
+    const visible = price > 0 && daily <= 0;
+    this.buyButton.hidden = !visible;
+    if (!visible) return;
+
+    this.buyButton.textContent = i18n.t('opening.buyExtra', { price });
+    this.buyButton.setAttribute('aria-label', i18n.t('opening.buyExtraAria', { price }));
+    const missing = Math.max(0, price - this.sparksBalance);
+    this.buyButton.disabled = this.isBuying || missing > 0;
+    this.buyButton.title = missing > 0 ? i18n.t('opening.buyExtra.hint', { missing }) : '';
+  }
+
+  /**
+   * Reads the Sparks balance, which decides whether an extra booster is affordable.
+   *
+   * A read failure leaves the button disabled rather than offering a purchase that cannot be paid.
+   *
+   * @returns {Promise<void>} Resolves once the button reflects the balance.
+   */
+  async refreshSparksBalance() {
+    try {
+      this.sparksBalance = await sparksManager.getBalance();
+    } catch (error) {
+      console.warn('[OpeningView] The Sparks balance could not be read.', error);
+      this.sparksBalance = 0;
+    }
+    this.renderBuyButton();
+  }
+
+  /**
+   * Follows the balance when it changes elsewhere (a sale or a purchase in the collection).
+   *
+   * @param {{balance?: number}|null} payload - `SPARKS_UPDATED` payload.
+   * @returns {void}
+   */
+  handleSparksUpdated(payload) {
+    if (!Number.isFinite(payload?.balance)) return;
+    this.sparksBalance = payload.balance;
+    this.renderBuyButton();
   }
 
   /**
@@ -550,6 +624,9 @@ export class OpeningView {
    */
   handleLanguageChanged() {
     this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
+    // The price of the extra booster is part of its label, so the button is re-rendered whatever
+    // sub-stage is on screen.
+    this.renderBuyButton();
     if (this.feedbackKey) {
       this.setFeedback(this.feedbackKey, this.feedbackTone);
     }
@@ -589,6 +666,49 @@ export class OpeningView {
     this.feedbackElement.dataset.tone = tone;
     if (tone === 'error') {
       console.warn(`[OpeningView] ${i18n.t(key)}`);
+    }
+  }
+
+  /**
+   * Handles the extra-booster button: buys one booster, then opens it.
+   *
+   * Buying and opening are one gesture on purpose - the player who presses this button wants a
+   * pack, not a quota entry they must then spend by hand. The purchase itself is atomic (see
+   * `BoosterManager.buyExtraBooster`), so a failure never charges the balance.
+   *
+   * @returns {Promise<void>} Resolves once the purchase was made and the opening started.
+   */
+  async handleBuyExtraBooster() {
+    if (this.isBuying || this.isBusy || !this.selectedSetId) return;
+
+    if (this.sparksBalance < this.extraBoosterPrice) {
+      this.setFeedback('opening.error.insufficientSparks', 'error');
+      return;
+    }
+
+    this.isBuying = true;
+    this.buyButton.disabled = true;
+    this.setFeedback(null);
+    this.log(`Buying an extra booster for ${this.extraBoosterPrice} Sparks…`);
+
+    try {
+      const { price, balance } = await boosterManager.buyExtraBooster();
+      this.sparksBalance = balance;
+      Toast.success('opening.buyExtra.done', { params: { price } });
+      // `performOpen` owns `isBusy`: released here so the opening it triggers is not refused.
+      this.isBuying = false;
+      await this.performOpen(BOOSTER_SOURCES.PURCHASED);
+    } catch (error) {
+      console.error('[OpeningView] The extra booster could not be bought.', error);
+      this.setFeedback(
+        error?.code === INSUFFICIENT_SPARKS
+          ? 'opening.error.insufficientSparks'
+          : 'opening.error.buy',
+        'error'
+      );
+    } finally {
+      this.isBuying = false;
+      this.refreshQuota();
     }
   }
 
@@ -1642,6 +1762,8 @@ export class OpeningView {
     this.cancelIdleDispose();
     this.log('View activated.');
     this.refreshQuota();
+    // The balance may have moved while the collection view was open (a card sold or bought).
+    void this.refreshSparksBalance();
     // The preview only runs while the picker is on screen: a pack being revealed owns the view
     // otherwise (and its own 3D scene).
     if (!this.selectStage.hidden) {

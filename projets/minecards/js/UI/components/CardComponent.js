@@ -8,9 +8,9 @@
  *     (`assets/img/card_back.png`, fixed whatever the booster);
  *   - flip it with a CSS 3D animation when the player taps it (rarities 4 and 5 add an animated
  *     glow coming from the theme variables, and the foil reflection of
- *     `css/components/card-shine.css`: a star of rays over an embossed grid for a legendary, a bloom
- *     over a honeycomb for a mythic, laid over the artwork or over the whole card for a full art
- *     printing);
+ *     `css/components/card-shine.css`: a travelling bloom over an embossed grid for a legendary, a
+ *     wider bloom over a honeycomb for a mythic, laid over the ARTWORK - never over the frame
+ *     around it, whatever the printing);
  *   - resolve the illustration through `I18n.resolveImagePath()` and follow `LANG_CHANGED`, so
  *     the artwork and the labels switch language without rebuilding the view;
  *   - show the "NEW" badge once the card is revealed, when the card was not owned before
@@ -38,7 +38,7 @@ const CARD_BACK_IMAGE = 'assets/img/card_back.png';
 
 /**
  * Foil of the two high rarities: rarity 4 (legendary) gets the light version of the shape vocabulary
- * (star rays, embossed grid), rarity 5 (mythic) the full treatment (honeycomb, two crossing glints,
+ * (bloom, embossed grid), rarity 5 (mythic) the full treatment (honeycomb, two crossing glints,
  * 3D tilt). See `css/components/card-shine.css`.
  */
 export const SHINE_MODIFIER_BY_RARITY = Object.freeze({
@@ -54,13 +54,18 @@ export const SHINE_MODIFIER_BY_RARITY = Object.freeze({
  * halo and the reveal shockwave. The same helper dresses every place a card is shown large, so the
  * collection and the opening can never disagree on what a legendary looks like.
  *
- * @param {{rarity: number, isFullArt?: boolean}|null|undefined} card - Card to describe.
+ * The print style is deliberately ignored: the stylesheet derives the window from the ratio of the
+ * illustration, so a full art printing carries the same gloss as a classic one and neither of them
+ * paints over the frame. Nothing here would change for a full art card, and asking for it would
+ * only invite the two to drift apart.
+ *
+ * @param {{rarity: number}|null|undefined} card - Card to describe.
  * @returns {string[]} The classes, empty for a rarity that carries no foil.
  */
 export function getShineClasses(card) {
   const modifier = SHINE_MODIFIER_BY_RARITY[card?.rarity];
   if (!modifier) return [];
-  return ['card-shine', modifier, ...(card.isFullArt ? ['card-shine--fullart'] : [])];
+  return ['card-shine', modifier];
 }
 
 export class CardComponent {

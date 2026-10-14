@@ -26,13 +26,13 @@ Base IndexedDB `CardBoosterDB` (version 1), 5 ObjectStores :
 Clés de `user_state` :
 - `"account"` : `{ uuid, createdAt }` — **son existence = "un compte existe"**.
 - `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive" }`.
-- `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number } }` (ex. `{ "set1": 2 }`).
+- `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number }, purchasedBoosters }` (ex. `{ "set1": 2 }`). `purchasedBoosters` compte les boosters **achetés en Sparks** : globaux (comme les quotidiens), ils ne sont jamais effacés par le reset.
 - `"timeAnchor"` : `{ apiUtcMs, perfNow, lastKnownUtcMs }`.
 - `"stats"` : `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: {1..5}, drawsByCard: { [key]: count } }`.
 - `"giftSync"` : `{ lastCheckedLine, lastCheckAt }`.
 - `"profile"` : `{ name, photo, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, URL de la photo de profil, jusqu'à 5 cartes favorites et 3 trophées mis en avant.
 - `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
-- `"minePick"` : `{ lastResetDay, remaining, totalPicks, picksByRarity, picksByCard, history }` — état de la Mine Pick (`MinePickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
+- `"minePick"` : `{ lastResetDay, remaining, bonusPicks, totalPicks, picksByBooster, picksByRarity, picksByCard, history }` — état de la Mine Pick (`MinePickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), `bonusPicks` pour les pioches **achetées en Sparks** (jamais effacées par le reset, dépensées seulement quand les gratuites sont épuisées), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
 
 Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `lang` et `theme` est autorisé, pour appliquer le thème avant le premier rendu (évite le flash).
 
@@ -53,7 +53,8 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 ### B. Horodatage Anti-Triche (Reset Journalier à 00:00:00 UTC)
 - **3 boosters par jour** (`dailyRemaining`), remise à 3 chaque jour à 00:00:00 UTC.
 - Date du jour via `https://worldtimeapi.org/api/timezone/Etc/UTC` (prévoir un second fournisseur de secours).
-- **Les boosters bonus** (redeem, cadeaux) sont **propres à une extension** : ils sont stockés par identifiant de set dans `bonusBoosters` (ex. `{ "set1": 2 }`) et **ne sont jamais écrasés** par le reset. Les 3 boosters quotidiens, eux, sont utilisables sur n'importe quelle extension. À l'ouverture d'un booster du set S, on consomme d'abord `dailyRemaining`, puis `bonusBoosters[S]`.
+- **Les boosters bonus** (redeem, cadeaux) sont **propres à une extension** : ils sont stockés par identifiant de set dans `bonusBoosters` (ex. `{ "set1": 2 }`) et **ne sont jamais écrasés** par le reset. Les 3 boosters quotidiens, eux, sont utilisables sur n'importe quelle extension. À l'ouverture d'un booster du set S, on consomme d'abord `dailyRemaining`, puis `bonusBoosters[S]`, puis `purchasedBoosters` : un booster gratuit n'est jamais gaspillé par un achat.
+- **Boosters achetés** (quotidiens épuisés) : quand `dailyRemaining` est à 0, la vue « Ouvrir » propose d'**acheter un booster en Sparks** au prix de `boosters.extraBoosterPriceSparks` (1500 par défaut). Le débit et le crédit se font dans **une seule transaction** (`BoosterManager.buyExtraBooster`), le booster acheté est global, il **survit au reset** (il a été payé) et il est dépensé **en dernier**. L'achat enchaîne directement sur l'ouverture. Un solde insuffisant désactive le bouton et indique le manque ; un échec d'écriture après l'ouverture rembourse le booster dans son propre seau.
 - **Hors-ligne :**
   - Dans la même session de page : temps UTC estimé = `apiUtcMs + (performance.now() − perfNow)`. `Date.now()` n'est jamais utilisé.
   - Après rechargement hors-ligne : `performance.now()` repart de zéro, l'ancrage n'est donc plus exploitable. Le temps est alors **figé** à `lastKnownUtcMs` (dernier UTC fiable). Aucun reset n'est possible hors-ligne après un rechargement.
@@ -70,6 +71,13 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 - Propriétés : `id`, `name`, `rarity` (1–5), `style` (`"normal"|"fullart"`), `illustration` (nom unique dans tous les fichiers), `set`.
 - Clé unique : `${id}_${style}`. Les `id` doivent donc être uniques entre extensions.
 - Chemins d'illustration : `/fr/` ⇄ `/en/` selon la langue active.
+
+### D bis. Cartes promo (obtention par code ou événement)
+- **Déclaration :** un fichier par série dans `data/promo_cards/<serie>.json` (`promos.directory`, `promos.sets` — vide = un fichier par extension de `boosters.sets`). Le contenu est soit un tableau d'entrées de carte, soit `{ Serie, Name, Cards: [...] }` ; le groupe exposé s'appelle `<serie>-Promo` et porte le nom de la série (« Genesis Blocks · Promo »). Une série sans fichier n'a simplement pas de promo, et un fichier absent ou invalide est ignoré avec un avertissement (`PromoManager`).
+- **Jamais tirées :** `BoosterManager` ne lit pas ces fichiers et les cartes n'entrent dans **aucune** table de rareté. Elles ne peuvent donc sortir ni d'une ouverture ni d'une Mine Pick.
+- **Obtention :** uniquement par **code** (`RedeemManager` : codes de feuille et codes personnels `useritem`, catalogue étendu aux promos) ou par **cadeau** (`GiftManager`, pour les distributions d'événement).
+- **Collection :** une promo non possédée **n'apparaît pas** (pas de silhouette, pas de case vide) ; le groupe `-Promo` n'apparaît dans le filtre que dès qu'une carte du groupe est possédée. Les cartes possédées portent une pastille « Promo » et se comportent comme les autres (favoris, vente/achat, détail).
+- **Complétion :** aucune promo ne compte dans `completion` ni dans le compteur d'une extension : le groupe porte un compteur vide et la vue Statistiques l'ignore. Le pourcentage continue de ne mesurer que le catalogue tirable.
 
 ### E. Rendu 3D & Animation d'Ouverture
 - Three.js + `GLTFLoader`, modèle `.glb`, texture définie dans le JSON de l'extension.
@@ -194,8 +202,14 @@ les paquets — les cartes ne dépendent donc pas du mélange, et un rechargemen
 l'identique.
 
 **Paramètres** (`settings/config.json`, section `minePick`) : `boosterCount` (10), `picksPerDay` (3),
-`historySize` (10), `seedSalt`, `setWeightExponent`. Chaque valeur retombe sur son défaut si la section
-est absente ou corrompue.
+`extraPickPriceSparks` (1000), `historySize` (10), `seedSalt`, `setWeightExponent`. Chaque valeur retombe
+sur son défaut si la section est absente ou corrompue.
+
+**Pioche achetée.** Quand les pioches gratuites **et** les pioches achetées sont épuisées, la vue propose
+d'**acheter une pioche** pour `extraPickPriceSparks` (1000 Sparks). Le débit et le crédit se font dans une
+seule transaction (`MinePickManager.buyExtraPick`), la pioche achetée est stockée dans `bonusPicks`, elle
+**survit au reset** (elle a été payée) et n'est dépensée qu'une fois le quota gratuit épuisé — elle rend
+donc le plateau immédiatement rejouable.
 
 **Ce qui est écrit** : `user_state["minePick"]` (quota du jour, `picksByBooster` — quel booster a été
 utilisé aujourd'hui et quelle carte en est sortie, c'est ce qui marque les lignes de la liste et ce que
@@ -211,6 +225,12 @@ a fait l'objet d'une demande pour raison de droit). Conséquence assumée : la *
 la mise à jour repart sur un plateau neuf et un quota plein, puisque la graine a changé — la collection,
 elle, n'est jamais touchée.
 
+### G quinquies. Intensité du foil (réglage)
+- **Réglage :** le panneau « Foil » des Paramètres porte un curseur (0-100 %), dont les bornes viennent de `settings/config.json` (`foil.min|max|step|default`). La préférence est enregistrée dans `settings.foilIntensity`, en pourcentage ; à 0 % le foil est entièrement éteint, aperçu compris.
+- **Application :** `js/utils/FoilManager.js` publie `--foil-intensity` (facteur 0-1) sur `<html>`, et les deux plans de `css/components/card-shine.css` multiplient leur propre opacité par cette valeur : un seul levier qui atteint toutes les couches, y compris la résille hexagonale en data-URI qu'aucune variable ne pourrait teinter. La force de base reste par rareté (`--foil-strength`) : le curseur l'échelle, il ne la remplace pas.
+- **Défaut à 100 % :** c'est l'intensité pour laquelle le foil a été réglé, donc un joueur qui ne touche à rien voit exactement ce qui a été dessiné.
+- **Bornes :** une valeur hors plage est ramenée dans la plage plutôt que rejetée, afin qu'un `.save` écrit avec une plage plus large continue de se charger. À 0 le worker pose en plus `data-foil="off"` sur `<html>` et `<body>`, ce qui arrête les animations devenues invisibles.
+
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.
 - Une ligne = un cadeau : `uuid`, `type` (`booster`|`card`), `key`, `quantity`. La colonne `key` identifie le cadeau : l'identifiant du set pour un `booster` (ex. `set1`), la clé unique de la carte pour une `card` (ex. `042_fullart`). Voir Étape 8.
@@ -218,6 +238,14 @@ elle, n'est jamais touchée.
 - Chaque cadeau traité est enregistré dans `gifts_received` avec son **numéro de ligne comme clé** : impossible de le récupérer deux fois.
 - `lastCheckedLine` est mis à jour à la fin du traitement, dans la même transaction que les récompenses.
 - Une interface indique ce qui a été reçu, ou "Aucun cadeau".
+
+### I. PWA (installation & jeu hors-ligne)
+- **Fichiers :** `manifest.json` (nom, icônes, scope) et `sw.js` (service worker), tous deux à la racine ; `index.html` les déclare (`<link rel="manifest">`, meta iOS, enregistrement du worker après `load`).
+- **Chemins absolus :** `id`, `start_url`, `scope` et les icônes portent le sous-dossier servi, `/projets/minecards/`. Conséquence : le jeu doit être servi depuis ce sous-dossier pour être installable et contrôlé par le worker — lancé à la racine du domaine (`start_server.cmd`), le worker s'enregistre sans jamais contrôler la page et l'installation est refusée.
+- **Stratégies :** precache du *shell* à l'installation (HTML, CSS, modules, réglages, catalogue, dos de carte, sons, modèle 3D, Three.js épinglé) ; navigation *network-first* avec repli sur `index.html` ; assets same-origin en *stale-while-revalidate* ; CDN (unpkg) en *cache-first*. La revalidation lit **les deux** caches, le runtime d'abord (copie la plus fraîche) puis le shell : sans ce repli, une installation fraîche suivie d'un passage hors-ligne sans rechargement ne trouverait rien, puisque le cache d'exécution est encore vide.
+- **Jamais mis en cache :** les requêtes `no-store`/`reload`/`no-cache` (rafraîchissement des paramètres, des cadeaux et des codes), les requêtes `Range`, le cross-origin hors CDN (API de temps, Google Sheet), le worker lui-même et les fichiers privés (`admin/`, `useritem_codes.csv`, `.docs/`).
+- **Couverture :** tout le jeu démarre hors-ligne dès la première installation, sans rechargement intermédiaire (vérifié serveur coupé, cache d'exécution vide). En revanche les illustrations (`cards/`, 374 Mo) et les visuels de boosters ne sont mis en cache **qu'à l'usage** : une carte jamais affichée n'a pas d'image hors-ligne.
+- **Mise à jour :** incrémenter `VERSION` dans `sw.js` à chaque changement du shell ; seuls les caches préfixés `minecards-` sont purgés, ceux des autres projets de l'hôte sont laissés intacts.
 
 ---
 

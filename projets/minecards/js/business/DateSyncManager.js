@@ -19,7 +19,8 @@
  *     the system clock, not a determined attacker with full control of the browser.
  *
  * Storage (`user_state`):
- *   - `quota`      : { lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: n } }
+ *   - `quota`      : { lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: n },
+ *                    purchasedBoosters }
  *   - `timeAnchor` : { sessionId, apiUtcMs, perfNow, lastKnownUtcMs }
  *
  * TIME PROVIDERS (CORS)
@@ -33,7 +34,9 @@
  *   same-origin responses.
  *
  * Bonus boosters are granted per extension and are NEVER overwritten by the daily reset;
- * `consumeBooster()` spends `dailyRemaining` first, then `bonusBoosters[setId]`.
+ * boosters bought with Sparks (`purchasedBoosters`) are global and survive the reset too - they
+ * were paid for. `consumeBooster()` spends `dailyRemaining` first, then `bonusBoosters[setId]`,
+ * then `purchasedBoosters`, so a free booster is never wasted on a purchase.
  */
 
 import { storageRepository, STORES } from '../models/StorageRepository.js';
@@ -119,14 +122,16 @@ function formatClockTime(utcMs) {
 /**
  * Booster sources accepted by `consumeBooster()`.
  *
- * `auto` keeps the historic behaviour (daily quota first, then the per-extension bonus bucket);
- * `daily` and `bonus` force one bucket, which is what the opening view uses when a booster is
- * available BOTH ways and the player must choose.
+ * `auto` spends the daily quota first, then the per-extension bonus bucket, then the boosters
+ * bought with Sparks (a free booster is never wasted on a purchase); `daily`, `bonus` and
+ * `purchased` force one bucket, which is what the opening view uses when a booster is available
+ * BOTH ways and the player must choose.
  */
 export const BOOSTER_SOURCES = Object.freeze({
   AUTO: 'auto',
   DAILY: 'daily',
   BONUS: 'bonus',
+  PURCHASED: 'purchased',
 });
 
 export class DateSyncManager {
@@ -151,7 +156,7 @@ export class DateSyncManager {
     this.timeTrusted = false;
 
     /**
-     * @type {{lastResetDay: string|null, dailyRemaining: number, bonusBoosters: Record<string, number>}|null}
+     * @type {{lastResetDay: string|null, dailyRemaining: number, bonusBoosters: Record<string, number>, purchasedBoosters: number}|null}
      * In-memory mirror of `user_state["quota"]`, kept in sync with every write.
      */
     this.quota = null;
@@ -204,19 +209,28 @@ export class DateSyncManager {
    * Synchronous snapshot of the quota, for the header and the booster button.
    *
    * @param {string|null} [setId=null] - Extension to compute `availableForSet` for.
-   * @returns {{daily: number, bonusBySet: Record<string, number>, bonusTotal: number, availableForSet: number|null}}
-   *   The current quota (zeroes before the first `init()`).
+   * @returns {{daily: number, bonusBySet: Record<string, number>, bonusTotal: number, purchased: number, availableForSet: number|null}}
+   *   The current quota (zeroes before the first `init()`). `purchased` counts the boosters bought
+   *   with Sparks, which are not attached to an extension and are therefore added to every
+   *   `availableForSet`.
    */
   getQuotaSnapshot(setId = null) {
-    const quota = this.quota ?? { lastResetDay: null, dailyRemaining: 0, bonusBoosters: {} };
+    const quota = this.quota ?? {
+      lastResetDay: null,
+      dailyRemaining: 0,
+      bonusBoosters: {},
+      purchasedBoosters: 0,
+    };
     const bonusBoosters = { ...(quota.bonusBoosters ?? {}) };
+    const purchased = quota.purchasedBoosters ?? 0;
     const bonusTotal = Object.values(bonusBoosters).reduce((sum, value) => sum + value, 0);
 
     return {
       daily: quota.dailyRemaining,
       bonusBySet: bonusBoosters,
       bonusTotal,
-      availableForSet: setId ? quota.dailyRemaining + (bonusBoosters[setId] ?? 0) : null,
+      purchased,
+      availableForSet: setId ? quota.dailyRemaining + (bonusBoosters[setId] ?? 0) + purchased : null,
     };
   }
 
@@ -644,7 +658,7 @@ export class DateSyncManager {
    * Normalizes a raw quota payload, dropping corrupted values.
    *
    * @param {unknown} raw - Value read from `user_state["quota"]`.
-   * @returns {{lastResetDay: string|null, dailyRemaining: number, bonusBoosters: Record<string, number>}}
+   * @returns {{lastResetDay: string|null, dailyRemaining: number, bonusBoosters: Record<string, number>, purchasedBoosters: number}}
    *   A quota guaranteed to be usable by the rest of the application.
    */
   normalizeQuota(raw) {
@@ -664,6 +678,10 @@ export class DateSyncManager {
       dailyRemaining:
         Number.isInteger(source.dailyRemaining) && source.dailyRemaining >= 0 ? source.dailyRemaining : 0,
       bonusBoosters,
+      purchasedBoosters:
+        Number.isInteger(source.purchasedBoosters) && source.purchasedBoosters >= 0
+          ? source.purchasedBoosters
+          : 0,
     };
   }
 
@@ -686,6 +704,8 @@ export class DateSyncManager {
    *   - `dailyRemaining` is set back to the configured allowance (3 by default);
    *   - `bonusBoosters` is spread as-is: bonuses granted by redeem codes and gifts are never
    *     overwritten by the reset;
+   *   - `purchasedBoosters` is spread as-is too: a booster bought with Sparks was paid for and is
+   *     not swallowed by the reset;
    *   - a stored day located in the future (tampered state) is left untouched and logged once.
    *
    * @returns {Promise<boolean>} True when a reset was applied.
@@ -784,7 +804,7 @@ export class DateSyncManager {
    * cannot both consume the same last booster.
    *
    * @param {string} setId - Extension the booster is opened for.
-   * @param {'auto'|'daily'|'bonus'} [source='auto'] - Bucket to consume.
+   * @param {'auto'|'daily'|'bonus'|'purchased'} [source='auto'] - Bucket to consume.
    * @returns {Promise<boolean>} False when the requested bucket (or both, in `auto` mode) is empty.
    * @throws {TypeError|RangeError} When `setId` is invalid/unknown or `source` is invalid.
    * @throws {Error} When the transaction fails.
@@ -814,13 +834,20 @@ export class DateSyncManager {
         }
         return true;
       };
+      const spendPurchased = () => {
+        if ((quota.purchasedBoosters ?? 0) <= 0) return false;
+        quota.purchasedBoosters -= 1;
+        return true;
+      };
 
       const consumed =
         source === BOOSTER_SOURCES.DAILY
           ? spendDaily()
           : source === BOOSTER_SOURCES.BONUS
             ? spendBonus()
-            : spendDaily() || spendBonus();
+            : source === BOOSTER_SOURCES.PURCHASED
+              ? spendPurchased()
+              : spendDaily() || spendBonus() || spendPurchased();
 
       if (!consumed) {
         return { consumed: false, quota };
@@ -884,6 +911,49 @@ export class DateSyncManager {
     this.quota = updated;
     this.emitQuotaUpdated(key);
     return this.getQuotaSnapshot(key);
+  }
+
+  /**
+   * Credits boosters bought with Sparks.
+   *
+   * The global counterpart of `addBonusBoosters()`: a bought booster is NOT attached to an
+   * extension (neither is the daily allowance, which can be spent on any of them) and it is NOT
+   * cleared by the daily reset - it was paid for, so it keeps until it is opened.
+   *
+   * @param {number} quantity - Number of boosters to credit (strictly positive integer).
+   * @param {object} [context=null] - Optional `StorageRepository.transaction` context to join
+   *   instead of opening a new transaction. Used by `BoosterManager.buyExtraBooster()`, which
+   *   debits the Sparks and credits the booster in ONE transaction: the caller owns the
+   *   transaction and is responsible for refreshing the in-memory mirror afterwards.
+   * @returns {Promise<object>} The quota after the credit (a snapshot on the standalone path, the
+   *   stored record on the shared-context path).
+   * @throws {TypeError|RangeError} When `quantity` is not a strictly positive integer.
+   * @throws {Error} When the transaction fails.
+   */
+  async addPurchasedBoosters(quantity, context = null) {
+    const amount = this.assertPositiveInteger(quantity);
+
+    if (context) {
+      const quota = this.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
+      const next = { ...quota, purchasedBoosters: (quota.purchasedBoosters ?? 0) + amount };
+      await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
+      return next;
+    }
+
+    await this.ensureDailyReset();
+
+    const updated = await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (transactionContext) => {
+      const quota = this.normalizeQuota(
+        await transactionContext.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA)
+      );
+      const next = { ...quota, purchasedBoosters: (quota.purchasedBoosters ?? 0) + amount };
+      await transactionContext.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
+      return next;
+    });
+
+    this.quota = updated;
+    this.emitQuotaUpdated(null);
+    return this.getQuotaSnapshot(null);
   }
 
   /**

@@ -44,6 +44,8 @@ import minePickManager, {
   MINE_PICK_ERRORS,
 } from '../../business/MinePickManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
+import sparksManager, { INSUFFICIENT_SPARKS } from '../../business/SparksManager.js';
+import { configLoader } from '../../utils/ConfigLoader.js';
 import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
 import CardComponent from '../components/CardComponent.js';
 import { getRarityLabel } from '../../classes/Card.js';
@@ -97,6 +99,7 @@ export class MinePickView {
     this.boardStage = this.root.querySelector('[data-minepick-stage="board"]');
     this.pickStage = this.root.querySelector('[data-minepick-stage="pick"]');
     this.quotaElement = this.root.querySelector('[data-minepick-quota]');
+    this.buyButton = this.root.querySelector('[data-minepick-buy]');
     this.countdownElement = this.root.querySelector('[data-minepick-countdown]');
     this.countdownValue = this.root.querySelector('[data-minepick-countdown-value]');
     this.boardElement = this.root.querySelector('[data-minepick-board]');
@@ -128,8 +131,16 @@ export class MinePickView {
     this.isActive = false;
     /** @type {Record<string, object>} Boosters already used today, by board index. */
     this.picksByBooster = {};
-    /** @type {number} Remaining picks of the day, as last read from the manager. */
+    /** @type {number} Remaining FREE picks of the day, as last read from the manager. */
     this.remaining = 0;
+    /** @type {number} Picks bought with Sparks, as last read from the manager. */
+    this.bonusPicks = 0;
+    /** @type {number} Sparks charged for one extra pick (`minePick`). */
+    this.extraPickPrice = 0;
+    /** @type {number} Last known Sparks balance, for the state of the buy button. */
+    this.sparksBalance = 0;
+    /** @type {boolean} True while the extra-pick purchase is in flight. */
+    this.isBuying = false;
     /** @type {string} Signature of the rendered board state, to avoid needless rebuilds. */
     this.boardSignature = '';
     /** @type {string|null} Translation key currently shown in the hint line. */
@@ -158,6 +169,18 @@ export class MinePickView {
   }
 
   /**
+   * Picks the player can still make today: the free allowance plus the ones bought with Sparks.
+   *
+   * Every "is there anything left to play?" decision of the view reads this, so the free picks and
+   * the bought ones can never disagree with what the board offers.
+   *
+   * @returns {number} The number of available picks.
+   */
+  get availablePicks() {
+    return this.remaining + this.bonusPicks;
+  }
+
+  /**
    * Verifies that the markup matches the contract expected by this view.
    *
    * @returns {void}
@@ -168,6 +191,7 @@ export class MinePickView {
       ['[data-minepick-stage="board"]', this.boardStage],
       ['[data-minepick-stage="pick"]', this.pickStage],
       ['[data-minepick-quota]', this.quotaElement],
+      ['[data-minepick-buy]', this.buyButton],
       ['[data-minepick-board]', this.boardElement],
       ['[data-minepick-cards]', this.cardsElement],
       ['[data-minepick-result]', this.resultElement],
@@ -193,7 +217,14 @@ export class MinePickView {
     this.log('Initializing…');
     this.bindEvents();
     this.subscribeToEvents();
+    try {
+      const { extraPickPriceSparks } = await configLoader.getMinePickSettings();
+      this.extraPickPrice = extraPickPriceSparks;
+    } catch (error) {
+      console.warn('[MinePickView] The extra-pick price could not be read.', error);
+    }
     await this.reload();
+    void this.refreshSparksBalance();
     this.log('Ready.');
   }
 
@@ -219,6 +250,7 @@ export class MinePickView {
     this.listen(this.boardElement, 'click', (event) => this.handleBoardClick(event));
     this.listen(this.cardsElement, 'click', (event) => this.handleCardsClick(event));
     this.listen(this.backButton, 'click', () => this.backToBoard());
+    this.listen(this.buyButton, 'click', () => this.handleBuyExtraPick());
     this.log('DOM listeners bound.');
   }
 
@@ -240,6 +272,7 @@ export class MinePickView {
     );
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
+    this.unsubscribers.push(eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.handleSparksUpdated(payload)));
     this.unsubscribers.push(
       eventBus.on(EVENTS.MINE_PICK_UPDATED, () => {
         void this.refreshQuota().catch((error) => {
@@ -293,14 +326,21 @@ export class MinePickView {
   async refreshQuota() {
     const state = await minePickManager.getState();
     this.remaining = state.remaining;
+    this.bonusPicks = state.bonusPicks ?? 0;
     this.picksByBooster = state.picksByBooster ?? {};
-    this.quotaElement.textContent = i18n.t('minepick.quota', {
+    const quota = i18n.t('minepick.quota', {
       remaining: state.remaining,
       total: state.picksPerDay,
     });
+    // The bought picks are announced next to the allowance: the line must account for the picks
+    // the player can actually make, not only for the free ones.
+    this.quotaElement.textContent =
+      this.bonusPicks > 0
+        ? `${quota}${i18n.t('minepick.quota.purchased', { count: this.bonusPicks })}`
+        : quota;
 
     if (this.countdownElement) {
-      if (state.remaining > 0) {
+      if (this.availablePicks > 0) {
         this.countdownElement.hidden = true;
       } else {
         this.countdownElement.hidden = false;
@@ -310,7 +350,99 @@ export class MinePickView {
       }
     }
 
+    this.renderBuyButton();
     this.renderBoard();
+  }
+
+  /**
+   * Renders the extra-pick button.
+   *
+   * The button answers one situation: the allowance AND the bought picks are spent. While a bought
+   * pick is left there is nothing to sell (the player still has something to play), and while the
+   * free allowance lasts the extra pick would be pointless. It carries its price and stays disabled
+   * while the balance is short, with the missing amount as its tooltip.
+   *
+   * @returns {void}
+   */
+  renderBuyButton() {
+    if (!this.buyButton) return;
+    const price = this.extraPickPrice;
+    const visible = price > 0 && this.availablePicks <= 0;
+    this.buyButton.hidden = !visible;
+    if (!visible) return;
+
+    this.buyButton.textContent = i18n.t('minepick.buyExtra', { price });
+    this.buyButton.setAttribute('aria-label', i18n.t('minepick.buyExtraAria', { price }));
+    const missing = Math.max(0, price - this.sparksBalance);
+    this.buyButton.disabled = this.isBuying || missing > 0;
+    this.buyButton.title = missing > 0 ? i18n.t('minepick.buyExtra.hint', { missing }) : '';
+  }
+
+  /**
+   * Reads the Sparks balance, which decides whether an extra pick is affordable.
+   *
+   * A read failure leaves the button disabled rather than offering a purchase that cannot be paid.
+   *
+   * @returns {Promise<void>} Resolves once the button reflects the balance.
+   */
+  async refreshSparksBalance() {
+    try {
+      this.sparksBalance = await sparksManager.getBalance();
+    } catch (error) {
+      console.warn('[MinePickView] The Sparks balance could not be read.', error);
+      this.sparksBalance = 0;
+    }
+    this.renderBuyButton();
+  }
+
+  /**
+   * Follows the balance when it changes elsewhere (a card sold or bought in the collection).
+   *
+   * @param {{balance?: number}|null} payload - `SPARKS_UPDATED` payload.
+   * @returns {void}
+   */
+  handleSparksUpdated(payload) {
+    if (!Number.isFinite(payload?.balance)) return;
+    this.sparksBalance = payload.balance;
+    this.renderBuyButton();
+  }
+
+  /**
+   * Handles the extra-pick button: buys one pick, which immediately makes the board playable again.
+   *
+   * The purchase is atomic (see `MinePickManager.buyExtraPick`), so a failure never charges the
+   * balance.
+   *
+   * @returns {Promise<void>} Resolves once the purchase was made (or the refusal reported).
+   */
+  async handleBuyExtraPick() {
+    if (this.isBuying) return;
+
+    if (this.sparksBalance < this.extraPickPrice) {
+      this.setFeedback('minepick.error.insufficientSparks', 'error');
+      return;
+    }
+
+    this.isBuying = true;
+    this.renderBuyButton();
+    this.setFeedback(null);
+    this.log(`Buying an extra pick for ${this.extraPickPrice} Sparks…`);
+
+    try {
+      const { price, balance } = await minePickManager.buyExtraPick();
+      this.sparksBalance = balance;
+      this.setFeedback('minepick.buyExtra.done', 'info', { price });
+      await this.refreshQuota();
+    } catch (error) {
+      console.error('[MinePickView] The extra pick could not be bought.', error);
+      this.setFeedback(
+        error?.code === INSUFFICIENT_SPARKS ? 'minepick.error.insufficientSparks' : 'minepick.error.buy',
+        'error'
+      );
+    } finally {
+      this.isBuying = false;
+      this.renderBuyButton();
+    }
   }
 
   /**
@@ -343,7 +475,8 @@ export class MinePickView {
     }
 
     const signature = [
-      `remaining:${this.remaining}`,
+      `picks:${this.availablePicks}`,
+      `free:${this.remaining}`,
       `selected:${this.selectedIndex ?? 'none'}`,
       ...Object.keys(this.picksByBooster)
         .sort()
@@ -374,7 +507,7 @@ export class MinePickView {
     item.className = 'minepick__slot';
 
     const picked = this.picksByBooster[String(entry.index)] ?? null;
-    const state = picked ? 'picked' : this.remaining > 0 ? 'available' : 'locked';
+    const state = picked ? 'picked' : this.availablePicks > 0 ? 'available' : 'locked';
     const selected = state === 'available' && this.selectedIndex === entry.index;
     const name = entry.name ?? entry.setId;
     const keptCard = picked ? entry.cards.find((card) => card.uniqueKey === picked.key) ?? null : null;
@@ -586,8 +719,9 @@ export class MinePickView {
 
     const state = await minePickManager.getState();
     this.remaining = state.remaining;
+    this.bonusPicks = state.bonusPicks ?? 0;
     this.picksByBooster = state.picksByBooster ?? {};
-    if (state.remaining <= 0) {
+    if (this.availablePicks <= 0) {
       this.setFeedback('minepick.error.noPick', 'error');
       this.renderBoard();
       return;
@@ -1096,15 +1230,15 @@ export class MinePickView {
    * @param {'info'|'error'} [tone='info'] - Tone of the message.
    * @returns {void}
    */
-  setFeedback(key, tone = 'info') {
-    this.feedback = key ? { key, tone } : null;
+  setFeedback(key, tone = 'info', params = null) {
+    this.feedback = key ? { key, tone, params } : null;
     if (!this.feedbackElement) return;
     if (!key) {
       this.feedbackElement.hidden = true;
       this.feedbackElement.textContent = '';
       return;
     }
-    this.feedbackElement.textContent = i18n.t(key);
+    this.feedbackElement.textContent = i18n.t(key, params);
     this.feedbackElement.dataset.tone = tone;
     this.feedbackElement.hidden = false;
   }
@@ -1121,7 +1255,7 @@ export class MinePickView {
     this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
     this.renderBoard(true);
     if (this.feedback) {
-      this.setFeedback(this.feedback.key, this.feedback.tone);
+      this.setFeedback(this.feedback.key, this.feedback.tone, this.feedback.params);
     }
     if (this.hintKey) {
       this.setHint(this.hintKey);
@@ -1163,6 +1297,8 @@ export class MinePickView {
     this.clearSelection();
     if (this.resultElement) this.resultElement.hidden = true;
     this.showStage('board');
+    // The balance may have moved while another view was open (a card sold or bought).
+    void this.refreshSparksBalance();
     void this.reload().catch((error) => {
       console.error('[MinePickView] The board could not be reloaded.', error);
       this.setFeedback('minepick.error.board', 'error');

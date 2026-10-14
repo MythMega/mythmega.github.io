@@ -10,7 +10,7 @@
  *
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
- *   - `settings`  : { lang, theme, sound, animation }
+ *   - `settings`  : { lang, theme, sound, animation, foilIntensity }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
@@ -29,6 +29,7 @@ import { configLoader } from '../utils/ConfigLoader.js';
 import i18n, { clearMirroredLang } from '../utils/I18n.js';
 import themeManager, { clearMirroredTheme } from '../utils/ThemeManager.js';
 import animationManager from '../utils/AnimationManager.js';
+import foilManager from '../utils/FoilManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /** `user_state` keys, exactly as defined in `main.md` section 2. */
@@ -226,9 +227,9 @@ export class AccountManager {
    * `config.json` default.
    *
    * @param {{lang?: string|null, theme?: string|null, sound?: boolean|null,
-   *   animation?: string|null}} [overrides] - Requested preferences.
-   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string}>} Validated
-   *   preferences.
+   *   animation?: string|null, foilIntensity?: number|null}} [overrides] - Requested preferences.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
+   *   foilIntensity: number}>} Validated preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -252,7 +253,14 @@ export class AccountManager {
       animationCandidates.find((candidate) => availableAnimations.includes(candidate)) ||
       defaultAnimation;
 
-    return { lang, theme, sound: overrides.sound !== false, animation };
+    // The foil intensity follows `config.json` (`foil.default`, "100" today) as well, so a new
+    // account always starts at the intensity the foil was designed for.
+    const foilIntensity =
+      typeof overrides.foilIntensity === 'number' && Number.isFinite(overrides.foilIntensity)
+        ? foilManager.sanitizePercent(overrides.foilIntensity)
+        : foilManager.getSettings().default;
+
+    return { lang, theme, sound: overrides.sound !== false, animation, foilIntensity };
   }
 
   /**
@@ -294,8 +302,8 @@ export class AccountManager {
   /**
    * Reads the account settings, completed with safe defaults.
    *
-   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string}>} The stored
-   *   preferences.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
+   *   foilIntensity: number}>} The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -315,22 +323,29 @@ export class AccountManager {
         typeof stored.animation === 'string' && animationManager.isAvailableMode(stored.animation)
           ? stored.animation
           : defaults.animation,
+      // An intensity stored before `config.json` narrowed its range (or a corrupted value) is
+      // brought back into the current bounds instead of hiding the foil or blowing it up.
+      foilIntensity:
+        typeof stored.foilIntensity === 'number' && Number.isFinite(stored.foilIntensity)
+          ? foilManager.sanitizePercent(stored.foilIntensity)
+          : defaults.foilIntensity,
     };
   }
 
   /**
    * Merges and persists the account settings.
    *
-   * Only `lang`, `theme`, `sound` and `animation` are accepted; unknown keys are ignored. Values
-   * are validated against `config.json` as soon as the corresponding lists are loaded, so a typo
-   * cannot silently break the next startup. Applying the new values (calling `I18n.setLang`,
-   * `ThemeManager.applyTheme`, `SoundManager.setEnabled` and `AnimationManager.applyAnimation`)
-   * remains the caller's responsibility.
+   * Only `lang`, `theme`, `sound`, `animation` and `foilIntensity` are accepted; unknown keys are
+   * ignored. Values are validated against `config.json` as soon as the corresponding lists are
+   * loaded, so a typo cannot silently break the next startup. Applying the new values (calling
+   * `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
+   * `AnimationManager.applyAnimation` and `FoilManager.applyIntensity`) remains the caller's
+   * responsibility.
    *
-   * @param {{lang?: string, theme?: string, sound?: boolean, animation?: string}} partialSettings -
-   *   Preferences to update.
-   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string}>} The merged
-   *   settings.
+   * @param {{lang?: string, theme?: string, sound?: boolean, animation?: string,
+   *   foilIntensity?: number}} partialSettings - Preferences to update.
+   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
+   *   foilIntensity: number}>} The merged settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
    * @throws {Error} When the write fails.
@@ -386,6 +401,18 @@ export class AccountManager {
         throw new TypeError(`settings.sound must be a boolean (received: ${JSON.stringify(sound)}).`);
       }
       merged.sound = sound;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'foilIntensity')) {
+      const { foilIntensity } = partialSettings;
+      if (typeof foilIntensity !== 'number' || !Number.isFinite(foilIntensity)) {
+        throw new TypeError(
+          `settings.foilIntensity must be a number (received: ${JSON.stringify(foilIntensity)}).`
+        );
+      }
+      // Clamped rather than rejected: the range belongs to `config.json`, and a save file written
+      // with a wider one must keep loading.
+      merged.foilIntensity = foilManager.sanitizePercent(foilIntensity);
     }
 
     await storageRepository.setUserState(USER_STATE_KEYS.SETTINGS, merged);

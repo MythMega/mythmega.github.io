@@ -8,9 +8,10 @@
  *   booster texture, its name and its five cards FACE UP, so the player picks a pack knowing what
  *   it holds. Opening one turns its cards face down and shuffles them (a seeded permutation), the
  *   player then turns one over and KEEPS it, and the other cards are revealed. `picksPerDay` (3)
- *   free picks per UTC day, reset at midnight UTC exactly like the daily boosters. A booster already
- *   picked from stays in the list with the card that was kept and can not be picked again the same
- *   day, so the choices really run out before the ten rows do.
+ *   free picks per UTC day, reset at midnight UTC exactly like the daily boosters, plus any pick
+ *   bought with Sparks (`minePick.extraPickPriceSparks`) once the free ones are spent. A booster
+ *   already picked from stays in the list with the card that was kept and can not be picked again
+ *   the same day, so the choices really run out before the ten rows do.
  *
  * THE PACKS ARE REAL
  *   A simulated pack is drawn by the SAME `GachaEngine`, with the SAME rarity table (including the
@@ -26,6 +27,8 @@
  *
  * WHAT IS PERSISTED (`user_state["minePick"]`)
  *   `lastResetDay` / `remaining`  : the daily allowance, reset like the booster quota;
+ *   `bonusPicks`                  : picks BOUGHT with Sparks, added to the free allowance, spent
+ *                                   only once it is gone and never cleared by the daily reset;
  *   `picksByBooster`              : `{ [boosterIndex]: { key, rarity, setId, pickedAt } }` for the
  *                                   current day — what lets the list show which booster was already
  *                                   used and which card came out of it, and what `ALREADY_PICKED`
@@ -48,6 +51,7 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
+import sparksManager from './SparksManager.js';
 import GachaEngine from './GachaEngine.js';
 import { CARD_RARITY } from '../classes/Card.js';
 
@@ -184,9 +188,14 @@ export class MinePickManager {
    * with the next pick. A stored day located in the FUTURE (tampered state) is not reset either,
    * exactly like the booster quota.
    *
-   * @returns {Promise<{day: string|null, lastResetDay: string|null, remaining: number, picksPerDay: number,
-   *   totalPicks: number, picksByRarity: Record<string, number>, picksByCard: Record<string, number>,
-   *   picksByBooster: Record<string, object>, history: Array<object>}>} The effective state.
+   * `bonusPicks` counts the picks bought with Sparks: they are added to the free allowance and the
+   * daily rollover never clears them (they were paid for).
+   *
+   * @returns {Promise<{day: string|null, lastResetDay: string|null, remaining: number,
+   *   bonusPicks: number, picksPerDay: number, totalPicks: number,
+   *   picksByRarity: Record<string, number>, picksByCard: Record<string, number>,
+   *   picksByBooster: Record<string, object>, history: Array<object>}>} The effective state
+   *   (`remaining` being the FREE picks, `bonusPicks` the bought ones).
    * @throws {Error} When the read or `config.json` fails.
    */
   async getState() {
@@ -262,6 +271,9 @@ export class MinePickManager {
         Number.isInteger(source.remaining) && source.remaining >= 0
           ? Math.min(source.remaining, picksPerDay)
           : picksPerDay,
+      // Never capped by `picksPerDay`: a bought pick is an extra one, and it survives the day.
+      bonusPicks:
+        Number.isInteger(source.bonusPicks) && source.bonusPicks >= 0 ? source.bonusPicks : 0,
       totalPicks: Number.isInteger(source.totalPicks) && source.totalPicks > 0 ? source.totalPicks : 0,
       picksByRarity,
       picksByCard,
@@ -271,13 +283,81 @@ export class MinePickManager {
   }
 
   /**
-   * Remaining picks of the current UTC day.
+   * Remaining FREE picks of the current UTC day (bought picks excluded).
    *
    * @returns {Promise<number>} The number of free picks left (0 when the day is exhausted).
    * @throws {Error} See `getState()`.
    */
   async getRemainingPicks() {
     return (await this.getState()).remaining;
+  }
+
+  /**
+   * Applies the daily rollover to a state read inside a transaction.
+   *
+   * Shared by `pick()` and `buyExtraPick()` so a same-day first action can never disagree with the
+   * other one. The allowance is only refilled when the trusted day differs from the stored one AND
+   * the stored day is not ahead of it (a frozen or tampered day never refills anything); the
+   * `bonusPicks` are never touched.
+   *
+   * @param {object} state - Normalized stored state.
+   * @param {string|null} trustedDay - Trusted UTC day, or null while the clock is unknown.
+   * @param {number} picksPerDay - Configured daily allowance.
+   * @returns {object} The state to work with (the very same object when no rollover is due).
+   */
+  resolveDailyRollover(state, trustedDay, picksPerDay) {
+    if (!trustedDay || state.lastResetDay === trustedDay) return state;
+    if (state.lastResetDay && state.lastResetDay > trustedDay) {
+      console.warn(
+        `[MinePickManager] The stored day (${state.lastResetDay}) is ahead of the trusted day (${trustedDay}): the allowance is left untouched.`
+      );
+      return state;
+    }
+    return { ...state, lastResetDay: trustedDay, remaining: picksPerDay, picksByBooster: {} };
+  }
+
+  /**
+   * Buys one extra Mine Pick with Sparks (`minePick.extraPickPriceSparks`).
+   *
+   * Offered once both the free allowance and the bought picks of the day are spent: the purchased
+   * pick is added to the same state under `bonusPicks`, is spent only once the daily allowance is
+   * gone, and survives the daily reset.
+   *
+   * The debit and the credit run in ONE transaction over `user_state`: a failure can never charge
+   * the balance without granting the pick, or grant the pick without charging it.
+   *
+   * @returns {Promise<{price: number, balance: number, bonusPicks: number}>} The price charged, the
+   *   resulting Sparks balance and the number of bought picks left.
+   * @throws {SparksError} With `INSUFFICIENT_SPARKS` when the balance does not cover the price.
+   * @throws {Error} When the transaction fails.
+   */
+  async buyExtraPick() {
+    const { picksPerDay, extraPickPriceSparks } = await configLoader.getMinePickSettings();
+    const day = this.getDay();
+    const trustedDay = dateSyncManager.isTimeTrusted() && day ? day : null;
+
+    const result = await storageRepository.transaction(
+      STORES.USER_STATE,
+      'readwrite',
+      async (context) => {
+        const balance = await sparksManager.applyDelta(context, -extraPickPriceSparks);
+        const stored = this.normalizeState(
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.MINE_PICK),
+          picksPerDay
+        );
+        const state = this.resolveDailyRollover(stored, trustedDay, picksPerDay);
+        const next = { ...state, bonusPicks: (state.bonusPicks ?? 0) + 1 };
+        await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.MINE_PICK);
+        return { balance, bonusPicks: next.bonusPicks };
+      }
+    );
+
+    this.log(
+      `Extra pick bought for ${extraPickPriceSparks} Sparks (${result.bonusPicks} bought pick(s) left, balance: ${result.balance}).`
+    );
+    await sparksManager.publishBalance();
+    await this.emitStateUpdated();
+    return { price: extraPickPriceSparks, balance: result.balance, bonusPicks: result.bonusPicks };
   }
 
   /**
@@ -475,18 +555,11 @@ export class MinePickManager {
 
         // Daily reset, evaluated inside the transaction: the stored day is only trusted when the
         // clock is (a frozen or tampered day never refills the picks).
-        let state = stored;
-        if (trustedDay && stored.lastResetDay !== trustedDay) {
-          if (stored.lastResetDay && stored.lastResetDay > trustedDay) {
-            console.warn(
-              `[MinePickManager] The stored day (${stored.lastResetDay}) is ahead of the trusted day (${trustedDay}): the allowance is left untouched.`
-            );
-          } else {
-            state = { ...stored, lastResetDay: trustedDay, remaining: picksPerDay, picksByBooster: {} };
-          }
-        }
+        const state = this.resolveDailyRollover(stored, trustedDay, picksPerDay);
 
-        if (state.remaining <= 0) {
+        // A bought pick counts too: only a state with neither a free nor a bought pick left is
+        // exhausted.
+        if (state.remaining <= 0 && state.bonusPicks <= 0) {
           throw new MinePickError(
             MINE_PICK_ERRORS.NO_PICK_LEFT,
             'No Mine Pick is left for the current UTC day.'
@@ -521,10 +594,14 @@ export class MinePickManager {
         );
 
         const rarityKey = String(card.rarity);
+        // A bought pick is only spent once the free allowance is gone: the paid one keeps for
+        // later, since the daily reset never clears it.
+        const spendsBonus = state.remaining <= 0;
         const nextState = {
           ...state,
           lastResetDay: trustedDay ?? state.lastResetDay,
-          remaining: state.remaining - 1,
+          remaining: spendsBonus ? state.remaining : state.remaining - 1,
+          bonusPicks: spendsBonus ? Math.max(0, state.bonusPicks - 1) : state.bonusPicks,
           totalPicks: state.totalPicks + 1,
           picksByRarity: {
             ...state.picksByRarity,
@@ -567,7 +644,8 @@ export class MinePickManager {
     );
 
     this.log(
-      `Picked "${card.uniqueKey}" (rarity ${card.rarity}) in booster #${entry.index} of "${entry.setId}" — ${result.nextState.remaining} pick(s) left.`
+      `Picked "${card.uniqueKey}" (rarity ${card.rarity}) in booster #${entry.index} of "${entry.setId}" — ` +
+        `${result.nextState.remaining} free and ${result.nextState.bonusPicks} bought pick(s) left.`
     );
 
     eventBus.emit(EVENTS.MINE_PICK_UPDATED, this.buildUpdatePayload(result.nextState, picksPerDay));
@@ -583,7 +661,10 @@ export class MinePickManager {
       card,
       isNew: result.isNew,
       quantity: result.quantity,
-      remaining: result.nextState.remaining,
+      // Picks the player can still make today, bought ones included: that is what the result line
+      // announces ("you have N picks left today").
+      remaining: result.nextState.remaining + result.nextState.bonusPicks,
+      bonusPicks: result.nextState.bonusPicks,
       setId: entry.setId,
       setName: entry.name,
       revealed: entry.cards,
@@ -597,12 +678,15 @@ export class MinePickManager {
    *
    * @param {object} state - Normalized state.
    * @param {number} picksPerDay - Configured allowance.
-   * @returns {{day: string|null, remaining: number, picksPerDay: number, totalPicks: number}} Payload.
+   * @returns {{day: string|null, remaining: number, bonusPicks: number, picksPerDay: number,
+   *   totalPicks: number}} Payload. `remaining` counts the FREE picks only and `bonusPicks` the
+   *   bought ones, so a consumer can show the allowance without inventing a breakdown.
    */
   buildUpdatePayload(state, picksPerDay) {
     return {
       day: state.lastResetDay ?? this.getDay(),
       remaining: state.remaining,
+      bonusPicks: state.bonusPicks ?? 0,
       picksPerDay,
       totalPicks: state.totalPicks,
     };
@@ -621,6 +705,7 @@ export class MinePickManager {
     eventBus.emit(EVENTS.MINE_PICK_UPDATED, {
       day: state.day,
       remaining: state.remaining,
+      bonusPicks: state.bonusPicks ?? 0,
       picksPerDay: state.picksPerDay,
       totalPicks: state.totalPicks,
     });

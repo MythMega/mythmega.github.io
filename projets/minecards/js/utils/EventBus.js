@@ -23,6 +23,9 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ mode, previousMode, parodic }`. Emitted by AnimationManager after a successful
    * switch: the opening view re-reads its timings and adapts its comic burst to the new mode. */
   ANIMATION_CHANGED: 'ANIMATION_CHANGED',
+  /** Payload: `{ percent, previousPercent, intensity }`. Emitted by FoilManager after a successful
+   * switch: the settings slider and anything else showing the strength of a foil read it here. */
+  FOIL_INTENSITY_CHANGED: 'FOIL_INTENSITY_CHANGED',
   /** Payload: `{ view, previousView }`. Emitted by the SPA router. */
   VIEW_CHANGED: 'VIEW_CHANGED',
   /** Payload: `{ daily, bonusBySet, bonusTotal, availableForSet }`. Emitted by DateSyncManager. */

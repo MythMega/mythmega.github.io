@@ -67,6 +67,7 @@ import { storageRepository, STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
+import promoManager from './PromoManager.js';
 import sparksManager from './SparksManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
@@ -447,6 +448,9 @@ export class RedeemManager {
   /**
    * Returns every card of every declared extension, in declaration order.
    *
+   * The promo cards (`data/promo_cards/*`) are appended: they are granted by a code exactly like a
+   * drawn card, and being absent from every rarity table is what keeps them out of the boosters.
+   *
    * @returns {Promise<Card[]>} The ordered card list.
    * @throws {Error} When the extension JSONs cannot be loaded.
    */
@@ -461,6 +465,9 @@ export class RedeemManager {
         const loadedSet = await boosterManager.getBoosterSet(descriptor.setId);
         for (const card of loadedSet?.cards ?? []) cards.push(card);
       }
+      for (const group of await this.listPromoGroups()) {
+        for (const card of group.cards ?? []) cards.push(card);
+      }
       this.allCardsCache = cards;
       return cards;
     })().catch((error) => {
@@ -471,6 +478,23 @@ export class RedeemManager {
     const cards = await this.allCardsPromise;
     this.allCardsPromise = null;
     return cards;
+  }
+
+  /**
+   * Loads the promo catalogue without ever failing the code resolution.
+   *
+   * A missing or broken promo file only means "no promo card is grantable": the codes of the drawn
+   * catalogue must keep working.
+   *
+   * @returns {Promise<Array<object>>} The promo groups (empty when the catalogue is unusable).
+   */
+  async listPromoGroups() {
+    try {
+      return await promoManager.listPromoSets();
+    } catch (error) {
+      console.warn('[RedeemManager] The promo cards could not be loaded.', error);
+      return [];
+    }
   }
 
   /**
@@ -628,7 +652,8 @@ export class RedeemManager {
 
   /**
    * Builds (and caches) the personal-code catalogue: every extension (`booster:<setId>`) and every
-   * card (`card:<Index>|<Layout>`) of every declared set.
+   * card (`card:<Index>|<Layout>`) of every declared set, promo cards included - those are only
+   * ever obtainable through a code or an event.
    *
    * The catalogue is built on demand, the first time a `useritem`-shaped code is seen, and never at
    * boot: an application that only uses sheet distributions and special codes never pays for it.
@@ -647,6 +672,17 @@ export class RedeemManager {
       descriptors.push({ canonical: canonicalSparks(), target: { type: 'sparks' } });
       const sets = await boosterManager.listBoosterSets();
 
+      // The raw entries keep the exact `Index` and `Layout` of the generator, while `cards` is the
+      // same list already built as `Card` instances (same order, see `GachaEngine.parseCards`).
+      // Shared by the extensions and by the promo groups: both are addressed the same way.
+      const registerCards = (rawCards, cards) => {
+        rawCards.forEach((entry, index) => {
+          const card = cards[index];
+          if (!card || !entry || typeof entry.Index !== 'string' || typeof entry.Layout !== 'string') return;
+          descriptors.push({ canonical: canonicalCard(entry.Index, entry.Layout), target: { type: 'card', card } });
+        });
+      };
+
       for (const descriptor of sets) {
         const loadedSet = await boosterManager.getBoosterSet(descriptor.setId);
         descriptors.push({
@@ -654,15 +690,13 @@ export class RedeemManager {
           target: { type: 'booster', setId: descriptor.setId },
         });
 
-        // The raw entries keep the exact `Index` and `Layout` of the generator, while `cards` is the
-        // same list already built as `Card` instances (same order, see `GachaEngine.parseCards`).
-        const rawCards = loadedSet?.raw?.Cards ?? loadedSet?.raw?.cards ?? [];
-        const cards = loadedSet?.cards ?? [];
-        rawCards.forEach((entry, index) => {
-          const card = cards[index];
-          if (!card || !entry || typeof entry.Index !== 'string' || typeof entry.Layout !== 'string') return;
-          descriptors.push({ canonical: canonicalCard(entry.Index, entry.Layout), target: { type: 'card', card } });
-        });
+        registerCards(loadedSet?.raw?.Cards ?? loadedSet?.raw?.cards ?? [], loadedSet?.cards ?? []);
+      }
+
+      // A promo card is granted by a code exactly like a drawn one, so it must be addressable here
+      // too - without ever entering a booster pool.
+      for (const group of await this.listPromoGroups()) {
+        registerCards(group.raw ?? [], group.cards ?? []);
       }
 
       this.userItemCatalog = descriptors;

@@ -250,10 +250,15 @@ export class StatsView {
   /**
    * Renders the global completion line and one native bar per extension.
    *
+   * The promo groups are skipped: they have no completion to compare.
+   *
    * @param {{completion: object, sets: object}} view - Collection view from the manager.
    * @returns {void}
    */
   renderCompletion(view) {
+    // Promo groups carry an empty counter: they are never drawn, so there is no ratio to draw and
+    // a 0/0 bar would only be noise (see `CollectionManager`).
+    const ratedSets = Object.values(view?.sets ?? {}).filter((set) => set?.promo !== true);
     const total = view?.completion?.total ?? 0;
     const owned = view?.completion?.owned ?? 0;
     if (total === 0) {
@@ -264,7 +269,7 @@ export class StatsView {
     }
 
     this.completionSetsElement.textContent = '';
-    Object.values(view?.sets ?? {})
+    ratedSets
       .sort((left, right) => String(left.name ?? left.setId).localeCompare(String(right.name ?? right.setId)))
       .forEach((set) => {
         this.completionSetsElement.appendChild(
@@ -359,11 +364,16 @@ export class StatsView {
    */
   renderMinePick(state, view) {
     if (this.minepickSummaryElement) {
-      this.minepickSummaryElement.textContent = i18n.t('stats.minepick.summary', {
+      const summary = i18n.t('stats.minepick.summary', {
         total: state?.totalPicks ?? 0,
         remaining: state?.remaining ?? 0,
         picksPerDay: state?.picksPerDay ?? 0,
       });
+      // The bought picks are announced on top of the daily allowance: `picksPerDay` describes the
+      // FREE ones, so adding them to the first number would read as "5 / 3".
+      const bonusPicks = Number.isFinite(state?.bonusPicks) ? state.bonusPicks : 0;
+      this.minepickSummaryElement.textContent =
+        bonusPicks > 0 ? `${summary}${i18n.t('stats.minepick.purchased', { count: bonusPicks })}` : summary;
     }
 
     if (this.minepickRarityElement) {
@@ -408,7 +418,10 @@ export class StatsView {
       }
     }
 
-    this.log(`Mine Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} left today.`);
+    this.log(
+      `Mine Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} free and ` +
+        `${state?.bonusPicks ?? 0} bought left today.`
+    );
   }
 
   /**

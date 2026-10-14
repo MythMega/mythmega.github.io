@@ -45,8 +45,19 @@ namespace minecardslinks
         {
             var request = context.Request;
             using var response = context.Response;
+
+            // Ajouter les en-têtes CORS à chaque réponse
+            response.Headers.Add("Access-Control-Allow-Origin", "*"); // Ou l'URL exacte de votre front (ex: http://localhost:3000)
+            response.Headers.Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization, id");
+
             if (request.HttpMethod == "OPTIONS")
+            {
+                response.StatusCode = 204; // No Content
+                response.OutputStream.Close();
                 return;
+            }
+
             Console.WriteLine("Path: " + request.Url?.AbsolutePath + " - Method: " + request.HttpMethod);
             if (request.HttpMethod == "POST" && request.Url?.AbsolutePath == "/Link")
             {
@@ -119,20 +130,19 @@ namespace minecardslinks
                 await HandleGenerateCodeAsync(request, response);
             }
             // =================================================================
-            //  POST
+            //  GET /GetUuid?id=<ID>          (ou /GetUuid/<ID>)
             //  Renvoie simplement le UUID Minecards enregistré pour un ID
             //  Twitch/YouTube/Discord (celui enregistré par POST /Link).
             //
-            //  Exemple : POST http://localhost:9191/GetUuid
-            //            { "Id": "154512"}
+            //  Exemple : GET http://localhost:9191/GetUuid?id=mon_id
             //
             //  Réponse : { "Code": 200, "Message": "...",
             //              "Data": { "ID": "...", "Username": "...", "UUID": "..." } }
             //  404 quand l'ID n'a jamais été enregistré, 400 quand l'ID manque.
             // =================================================================
-            else if (request.HttpMethod == "POST" && IsRoute(request, "GetUuid"))
+            else if (request.HttpMethod == "GET" && IsRoute(request, "GetUuid"))
             {
-                await HandlePostUuidAsync(request, response);
+                await HandleGetUuidAsync(request, response);
             }
             else
             {
@@ -155,30 +165,49 @@ namespace minecardslinks
             return string.Equals(head, route, StringComparison.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Lit l'ID demandé : le paramètre de requête « id » d'abord, puis le segment final du
+        /// chemin (« /GetUuid/mon_id »), pour que les deux formes marchent.
+        /// </summary>
+        private static string ReadRequestedId(HttpListenerRequest request)
+        {
+            foreach (string key in request.QueryString.AllKeys)
+            {
+                if (string.Equals(key, "id", StringComparison.OrdinalIgnoreCase))
+                {
+                    string val = request.QueryString[key];
+                    if (!string.IsNullOrWhiteSpace(val))
+                        return val.Trim();
+                }
+            }
+
+            string path = (request.Url?.AbsolutePath ?? string.Empty).Trim('/');
+            int slash = path.IndexOf('/');
+            if (slash < 0)
+                return string.Empty;
+
+            string tail = path.Substring(slash + 1).Trim('/');
+            return tail.Length == 0 ? string.Empty : Uri.UnescapeDataString(tail);
+        }
 
         /// <summary>
-        /// Post /GetUuid : lit l'ID demandé et renvoie le lien enregistré, sans rien modifier.
+        /// GET /GetUuid : lit l'ID demandé et renvoie le lien enregistré, sans rien modifier.
         /// </summary>
-        private static async Task HandlePostUuidAsync(HttpListenerRequest request, HttpListenerResponse response)
+        private static async Task HandleGetUuidAsync(HttpListenerRequest request, HttpListenerResponse response)
         {
             try
             {
-
-                using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
-                string body = await reader.ReadToEndAsync();
-
-                var req = JsonSerializer.Deserialize<GenerateCodeRequest>(body, JsonOptions);
-
-                if (string.IsNullOrWhiteSpace(req.ID))
+                string id = ReadRequestedId(request);
+                if (string.IsNullOrWhiteSpace(id))
                 {
                     await SendJsonResponseAsync(response, 400, "Érreur : Paramètre 'id' manquant (GET /GetUuid?id=...).");
                     return;
                 }
 
-                LinkObject link = DatabaseApp.GetById(req.ID);
+                LinkObject link = DatabaseApp.GetById(id);
                 if (link == null)
                 {
-                    await SendJsonResponseAsync(response, 404, $"Érreur : Aucun UUID enregistré pour l'ID '{req.ID}'.");
+                    await SendJsonResponseAsync(response, 404, $"Érreur : Aucun UUID enregistré pour l'ID '{id}'.");
                     return;
                 }
 

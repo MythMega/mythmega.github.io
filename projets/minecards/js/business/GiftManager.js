@@ -64,6 +64,7 @@ import { storageRepository, STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
+import promoManager from './PromoManager.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
@@ -392,6 +393,18 @@ export class GiftManager {
       setsById.set(descriptor.setId, { setId: descriptor.setId, name: descriptor.name || descriptor.setId });
       const loadedSet = await boosterManager.getBoosterSet(descriptor.setId);
       (loadedSet?.cards ?? []).forEach((card) => cardsByKey.set(card.uniqueKey, card));
+    }
+
+    // Promo cards are distributed like any other card - an event sheet is exactly how one is
+    // handed out - so a gift sheet must be able to name one, and the gift history to display it.
+    // A broken promo file degrades to "no promo is giftable", never to a failed synchronization.
+    try {
+      for (const group of await promoManager.listPromoSets()) {
+        setsById.set(group.setId, { setId: group.setId, name: group.name || group.setId });
+        (group.cards ?? []).forEach((card) => cardsByKey.set(card.uniqueKey, card));
+      }
+    } catch (error) {
+      console.warn('[GiftManager] The promo cards could not be loaded.', error);
     }
 
     this.cardsByKey = cardsByKey;

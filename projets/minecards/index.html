@@ -21,7 +21,7 @@
        alternates and the sitemap `loc` entries must all be absolute URLs (Open Graph does not
        resolve relative paths); the public base is the static host at
        web.jmdev.fr/projets/minecards/. Keep the four files in sync if the site moves: this one,
-       `sitemap.xml`, `robots.txt` and `site.webmanifest`. -->
+       `sitemap.xml`, `robots.txt` and `manifest.json`. -->
   <link rel="canonical" href="https://web.jmdev.fr/projets/minecards/">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="googlebot" content="index, follow, max-image-preview:large">
@@ -33,9 +33,24 @@
   <link rel="alternate" hreflang="en" href="https://web.jmdev.fr/projets/minecards/?lang=en">
   <link rel="alternate" hreflang="x-default" href="https://web.jmdev.fr/projets/minecards/">
 
-  <!-- PWA / installability (rich install card in Chrome, "Add to home screen" on mobile). -->
-  <link rel="manifest" href="site.webmanifest">
+  <!-- PWA / installability (rich install card in Chrome, "Add to home screen" on mobile).
+       `manifest.json` carries the name, the icons and the `/projets/minecards/` scope that let the
+       browser install the game as a standalone app; `sw.js` (registered at the end of <body>) is
+       what makes it playable once installed and offline. -->
+  <link rel="manifest" href="manifest.json">
   <link rel="sitemap" type="application/xml" href="sitemap.xml">
+
+  <!-- Standalone execution. Chrome and Safari read the flag under different names: only the two
+       `-capable` tags together cover Android, desktop and iOS. The status bar keeps its default
+       style rather than `black-translucent`, because two of the three themes are light and a
+       translucent bar would paint white text over a pale background; `apple-mobile-web-app-title`
+       is the name under the icon, which the manifest only sets on Android. The bar color itself is
+       already declared by the `theme-color` tag above, which `ThemeManager` updates with the
+       palette. -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="MineCards">
 
   <!-- Icons: small PNGs generated from the card back. The 32/48 px favicon replaces the 546 KB
        `card_back.png` that used to be served as an icon on every visit. -->
@@ -460,6 +475,12 @@
           </p>
 
           <button type="button" class="btn btn--primary btn--block" data-opening-open data-i18n="opening.open">Ouvrir un booster</button>
+
+          <!-- Buy an extra booster with Sparks. Only offered once the free daily boosters are all
+               spent; the label carries the price read from `settings/config.json`, so it is
+               written by the view (`renderBuyButton`). -->
+          <button type="button" class="btn btn--ghost btn--block" data-opening-buy hidden></button>
+
           <p class="feedback" data-opening-feedback role="status" hidden></p>
         </div>
       </div>
@@ -805,6 +826,12 @@
             <span data-i18n="minepick.nextReset">Nouvelles pioches dans</span>
             <time class="minepick__countdown-value" data-minepick-countdown-value>--:--:--</time>
           </p>
+
+          <!-- Buy an extra pick with Sparks. Only offered once the daily allowance AND the bought
+               picks are spent; the label carries the price read from `settings/config.json`, so it
+               is written by the view (`renderBuyButton`). -->
+          <button type="button" class="btn btn--ghost btn--block" data-minepick-buy hidden></button>
+
           <ul class="minepick__board" data-minepick-board></ul>
         </section>
       </div>
@@ -860,6 +887,24 @@
             <button type="button" class="btn btn--ghost anim-demo__play" data-animation-demo-play data-i18n="settings.animation.demoPlay">Rejouer l'aperçu</button>
           </div>
           <p class="settings__help" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
+        </section>
+
+        <!-- Foil: how strong the reflection of the legendary and mythic printings is. The slider
+             drives the custom property `--foil-intensity` live, so the demo card of the panel
+             above follows the finger; the min/max/step are filled in from `settings/config.json`
+             by SettingsView (the values below are the defaults, already correct before the script
+             runs), and the value shown in the <output> is written by the view because it depends on
+             the percentage, not only on the language. -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.foil.title">Foil</h3>
+          <div class="foil-slider">
+            <div class="foil-slider__head">
+              <label class="foil-slider__label" for="settings-foil" data-i18n="settings.foil.intensity">Intensité du foil</label>
+              <output class="foil-slider__value" data-settings-foil-value for="settings-foil">100 %</output>
+            </div>
+            <input type="range" class="foil-slider__input" id="settings-foil" data-settings-foil min="0" max="100" step="5" value="100" aria-describedby="settings-foil-help">
+          </div>
+          <p class="settings__help" id="settings-foil-help" data-i18n="settings.foil.help">Réglez la force du reflet des cartes légendaires et mythiques. À 0 %, le foil disparaît complètement.</p>
         </section>
 
         <!-- Sounds: one boolean preference (SettingsView writes the state text). -->
@@ -1190,5 +1235,29 @@
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
   <script type="module" src="js/app.js"></script>
+
+  <!-- Service worker registration (PWA). It is a classic script, not a module, and it is started
+       after the `load` event for two reasons: the first paint must not wait for a registration, and
+       the worker's own `install` step precaches the whole shell (`sw.js`), which would otherwise
+       compete with the files the page is already loading.
+
+       The scope is spelled out even though `sw.js` sits at the root of the app and the browser
+       would derive exactly this value from the script URL: it names the mounted path of the game
+       (`manifest.json` declares the same one), so moving the game is one visible edit instead of a
+       silent behavior change. Registering the same path twice is a no-op, and a failure here only
+       costs the offline mode - the game itself is unaffected. -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', { scope: '/projets/minecards/' })
+          .then(function (registration) {
+            console.log('[PWA] Service worker registered:', registration.scope);
+          })
+          .catch(function (error) {
+            console.error('[PWA] Service worker registration failed:', error);
+          });
+      });
+    }
+  </script>
 </body>
 </html>

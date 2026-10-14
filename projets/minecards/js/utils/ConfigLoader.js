@@ -85,6 +85,19 @@ export const DEFAULT_LEVELLING_SETTINGS = Object.freeze({
 });
 
 /**
+ * Default locations of the promo card catalogue, used whenever `settings/config.json` omits them.
+ *
+ * Promo cards (`data/promo_cards/<serie>.json`) are only granted by a redeem code or a gift: they
+ * are never drawn from a booster and never counted in a completion ratio. `sets` lists the files to
+ * load, named after the series they decorate; when it is empty the booster extensions
+ * (`boosters.sets`) are used, so a promo file always sits next to the extension it belongs to.
+ */
+export const DEFAULT_PROMO_SETTINGS = Object.freeze({
+  directory: 'data/promo_cards',
+  sets: Object.freeze([]),
+});
+
+/**
  * Default settings of the Mine Pick, used whenever `settings/config.json` omits a value.
  *
  * The board holds `boosterCount` simulated openings (10) built from the real booster
@@ -95,10 +108,19 @@ export const DEFAULT_LEVELLING_SETTINGS = Object.freeze({
 export const DEFAULT_MINE_PICK_SETTINGS = Object.freeze({
   boosterCount: 10,
   picksPerDay: 3,
+  extraPickPriceSparks: 1000,
   historySize: 10,
   seedSalt: 'minecards-mine-pick-v1',
   setWeightExponent: 2,
 });
+
+/**
+ * Price of one extra booster, bought with Sparks once the free daily boosters are spent.
+ *
+ * A bought booster lands in its own quota bucket: it survives the daily reset and is only spent
+ * after the daily allowance and the bonuses of the selected extension.
+ */
+export const DEFAULT_EXTRA_BOOSTER_PRICE_SPARKS = 1500;
 
 /**
  * Default durations (milliseconds) of the opening animation, used whenever an entry of the
@@ -112,6 +134,22 @@ export const DEFAULT_ANIMATION_TIMING = Object.freeze({
   tearMs: 700,
   flipMs: 220,
   staggerMs: 60,
+});
+
+/**
+ * Default range of the foil intensity setting (`settings.foil` of `config.json`).
+ *
+ * The values are PERCENTAGES, not the 0-1 factor the stylesheet reads: a percentage is what the
+ * slider shows, what the save file stores and what a human edits in the configuration, while
+ * `js/utils/FoilManager.js` is the only place that divides by 100. The default (100 %) is the
+ * intensity the foil was tuned at, so a player who never touches the setting sees the cards exactly
+ * as they were designed.
+ */
+export const DEFAULT_FOIL_SETTINGS = Object.freeze({
+  min: 0,
+  max: 100,
+  step: 5,
+  default: 100,
 });
 
 /**
@@ -311,13 +349,76 @@ export class ConfigLoader {
   }
 
   /**
+   * Foil rendering settings: the range of the intensity slider.
+   *
+   * The four values are made consistent here rather than trusted: `min` stays under `max`, `step`
+   * never exceeds the span, and the default sits inside the range. A partially edited section can
+   * therefore only cost a wider or narrower slider, never a broken one.
+   *
+   * @returns {Promise<{min: number, max: number, step: number, default: number}>} The bounds, in
+   *   percentages.
+   * @throws {Error} See `load()`.
+   */
+  async getFoilSettings() {
+    const config = await this.getConfig();
+    const foil = config.foil ?? {};
+
+    const min = ConfigLoader.normalizeIntegerInRange(
+      foil.min,
+      DEFAULT_FOIL_SETTINGS.min,
+      0,
+      DEFAULT_FOIL_SETTINGS.max - 1
+    );
+    const max = ConfigLoader.normalizeIntegerInRange(
+      foil.max,
+      DEFAULT_FOIL_SETTINGS.max,
+      min + 1,
+      DEFAULT_FOIL_SETTINGS.max
+    );
+    const step = ConfigLoader.normalizeIntegerInRange(foil.step, DEFAULT_FOIL_SETTINGS.step, 1, max - min);
+    const fallbackDefault = Math.min(Math.max(DEFAULT_FOIL_SETTINGS.default, min), max);
+
+    return {
+      min,
+      max,
+      step,
+      default: ConfigLoader.normalizeIntegerInRange(foil.default, fallbackDefault, min, max),
+    };
+  }
+
+  /**
+   * Promo card catalogue settings.
+   *
+   * @returns {Promise<{directory: string, sets: string[]}>} The directory holding the promo files
+   *   and the list of series to load (empty when the section is absent, which means "every
+   *   booster extension").
+   * @throws {Error} See `load()`.
+   */
+  async getPromoSettings() {
+    const config = await this.getConfig();
+    const promos = config.promos || {};
+    const boosterSets = Array.isArray(config.boosters?.sets) ? config.boosters.sets : [];
+    const declared = Array.isArray(promos.sets) && promos.sets.length > 0 ? promos.sets : boosterSets;
+
+    return {
+      directory:
+        typeof promos.directory === 'string' && promos.directory.trim() !== ''
+          ? promos.directory.trim()
+          : DEFAULT_PROMO_SETTINGS.directory,
+      sets: declared
+        .filter((setId) => typeof setId === 'string' && setId.trim() !== '')
+        .map((setId) => setId.trim()),
+    };
+  }
+
+  /**
    * Mine Pick settings, completed with `DEFAULT_MINE_PICK_SETTINGS`.
    *
    * Every value falls back to its default when the section is missing or a value is unusable: a
    * partially edited configuration must never break the daily board.
    *
-   * @returns {Promise<{boosterCount: number, picksPerDay: number, historySize: number,
-   *   seedSalt: string, setWeightExponent: number}>} The Mine Pick settings.
+   * @returns {Promise<{boosterCount: number, picksPerDay: number, extraPickPriceSparks: number,
+   *   historySize: number, seedSalt: string, setWeightExponent: number}>} The Mine Pick settings.
    * @throws {Error} See `load()`.
    */
   async getMinePickSettings() {
@@ -337,6 +438,10 @@ export class ConfigLoader {
         minePick.historySize,
         DEFAULT_MINE_PICK_SETTINGS.historySize
       ),
+      extraPickPriceSparks: ConfigLoader.normalizePrice(
+        minePick.extraPickPriceSparks,
+        DEFAULT_MINE_PICK_SETTINGS.extraPickPriceSparks
+      ),
       seedSalt:
         typeof minePick.seedSalt === 'string' && minePick.seedSalt.trim() !== ''
           ? minePick.seedSalt.trim()
@@ -346,6 +451,19 @@ export class ConfigLoader {
           ? exponent
           : DEFAULT_MINE_PICK_SETTINGS.setWeightExponent,
     };
+  }
+
+  /**
+   * Normalizes a Sparks price (a whole number of Sparks, zero meaning "free").
+   *
+   * @param {unknown} value - Raw value.
+   * @param {number} fallback - Value used when the raw one is unusable.
+   * @returns {number} A non-negative integer.
+   */
+  static normalizePrice(value, fallback) {
+    const number = Number(value);
+    if (!Number.isInteger(number) || number < 0) return fallback;
+    return number;
   }
 
   /**
@@ -359,6 +477,26 @@ export class ConfigLoader {
     const number = Number(value);
     if (!Number.isInteger(number) || number <= 0) return fallback;
     return number;
+  }
+
+  /**
+   * Normalizes a whole number into an allowed range.
+   *
+   * An unusable value (`null`, `undefined`, an empty string, anything that is not a number) falls
+   * back to the given default; a usable but out-of-range value is CLAMPED instead, because a
+   * configuration asking for 150 out of a 100 maximum clearly means "as much as possible".
+   *
+   * @param {unknown} value - Raw value.
+   * @param {number} fallback - Value used when the raw one is unusable.
+   * @param {number} min - Lower bound, inclusive.
+   * @param {number} max - Upper bound, inclusive.
+   * @returns {number} A whole number within `[min, max]`.
+   */
+  static normalizeIntegerInRange(value, fallback, min, max) {
+    if (value === null || value === undefined || value === '') return fallback;
+    const number = Number(value);
+    if (!Number.isFinite(number)) return fallback;
+    return Math.min(Math.max(Math.round(number), min), max);
   }
 
   /**
@@ -415,7 +553,7 @@ export class ConfigLoader {
   /**
    * Booster-related global settings.
    *
-   * @returns {Promise<{sets: string[], directory: string, rarityConfigPath: string, model: string, cardsPerBooster: number, dailyFreeBoosters: number, godpackChancePercent: number, historySize: number}>}
+   * @returns {Promise<{sets: string[], directory: string, rarityConfigPath: string, model: string, cardsPerBooster: number, dailyFreeBoosters: number, extraBoosterPriceSparks: number, godpackChancePercent: number, historySize: number}>}
    *   Booster settings completed with safe defaults. `directory` locates the extension JSONs
    *   (`data/boosters`), `rarityConfigPath` the default rarity table
    *   (`settings/defaultRarity.json`) and `model` the 3D booster model used in step 4.
@@ -442,6 +580,10 @@ export class ConfigLoader {
           : 'assets/boostermodel.glb',
       cardsPerBooster: Number.isInteger(boosters.cardsPerBooster) ? boosters.cardsPerBooster : 5,
       dailyFreeBoosters: Number.isInteger(boosters.dailyFreeBoosters) ? boosters.dailyFreeBoosters : 3,
+      extraBoosterPriceSparks: ConfigLoader.normalizePrice(
+        boosters.extraBoosterPriceSparks,
+        DEFAULT_EXTRA_BOOSTER_PRICE_SPARKS
+      ),
       // A percentage (0.5 = 0.5 %, 5 = 5 %), clamped to the documented 0-100 range.
       godpackChancePercent:
         typeof boosters.godpackChancePercent === 'number' && Number.isFinite(boosters.godpackChancePercent)

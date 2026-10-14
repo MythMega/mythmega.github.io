@@ -22,13 +22,23 @@
     "default": "epic"
   },
 
+  "foil": {
+    "_comment": "Strength of the foil of the legendary and mythic printings, as a percentage of the intensity it was designed at. The four values bound the slider of the settings screen; 'min' at 0 switches the foil off completely (the planes become transparent and their animation is stopped), and 'default' is what a new account starts at and what a player who never opens the slider keeps seeing. js/utils/FoilManager.js publishes the value as `--foil-intensity` (a 0-1 factor) on <html>, which css/components/card-shine.css multiplies into the opacity of its two planes. A value outside the range is CLAMPED, never rejected: narrowing the range later must stay safe for saves written with a wider one.",
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "default": 100
+  },
+
   "boosters": {
+    "_comment": "'extraBoosterPriceSparks' is the price of ONE extra daily booster, bought with Sparks once the free daily boosters ('dailyFreeBoosters') are all spent. A bought booster is kept in the quota under its own bucket, is spent AFTER the daily quota and the redeem/gift bonuses of an extension (so a free booster is never wasted by a purchase), and - unlike the daily allowance - is NOT cleared by the daily reset: it was paid for.",
     "sets": ["A1", "A2"],
     "directory": "data/boosters",
     "rarityConfigPath": "settings/defaultRarity.json",
     "model": "assets/boostermodel.glb",
     "cardsPerBooster": 5,
     "dailyFreeBoosters": 3,
+    "extraBoosterPriceSparks": 1500,
 
     "godpackChancePercent": 0.5,
     "historySize": 10
@@ -38,9 +48,15 @@
     "_comment": "Mine Pick. The daily board holds 'boosterCount' SIMULATED openings, built from the real booster parameters: 'boosters.cardsPerBooster', the rarity table of each extension (which may override 'defaultRarity.json') and 'boosters.godpackChancePercent'. A simulated pack is therefore drawn exactly like an opened one. 'picksPerDay' free picks per UTC day (reset at midnight UTC, like the daily boosters), 'historySize' picks kept for the statistics. The board is deterministic: it is seeded with 'seedSalt' + the UTC day + the account UUID, so a reload shows the same board, it changes at the next UTC day, and two accounts never share one (changing 'seedSalt' rebuilds the board of the CURRENT day, and the boosters already picked become stale). The extension of each booster is drawn at random with a weight of (rank + 1) ** 'setWeightExponent': the extension whose id ranks highest is the most likely.",
     "boosterCount": 10,
     "picksPerDay": 3,
+    "extraPickPriceSparks": 1000,
     "historySize": 10,
     "seedSalt": "minecards-mine-pick-v1",
     "setWeightExponent": 2
+  },
+  "promos": {
+    "_comment": "Promo cards. 'directory' holds one file per series ('A1.json' -> the 'A1-Promo' group), an entry being a card built exactly like a booster card ('Index', 'Name_XX', 'Desc_XX', 'Rarity', 'Style', 'Layout', 'Path'). Promo cards are NEVER drawn from a booster: they only enter the collection through a redeem code or a gift, only appear in the collection when they are owned, and never count in a completion ratio. 'sets' lists the files to load; leave it empty to load one file per booster extension of 'boosters.sets'. A series without a promo file simply has no promo.",
+    "directory": "data/promo_cards",
+    "sets": []
   },
 
   "timeSync": {

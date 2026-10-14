@@ -258,6 +258,51 @@
   }
 }
 
+/* --- Foil intensity ------------------------------------------------------- */
+
+/* The slider drives the custom property `--foil-intensity` of `css/components/card-shine.css` (see
+   `js/utils/FoilManager.js`). It sits right under the animation demo on purpose: the demo card is a
+   mythic, so dragging the thumb shows the strength being chosen instead of describing it. The track
+   and the thumb are left to the browser, colored with `accent-color` - a themed variable, so all
+   three palettes stay in charge, and nothing has to be re-styled per vendor. */
+.foil-slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.foil-slider__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.foil-slider__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+/* Tabular figures: the value must not shift left and right while the thumb moves. */
+.foil-slider__value {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.foil-slider__input {
+  width: 100%;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.foil-slider__input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
 /* --- UTC clock ------------------------------------------------------------ */
 
 /* Same pill as the header clock (`css/base.css`), so the time reads identically wherever it is

@@ -34,6 +34,7 @@ import Card from '../classes/Card.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager, { BOOSTER_SOURCES } from './DateSyncManager.js';
+import sparksManager from './SparksManager.js';
 import GachaEngine from './GachaEngine.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import { buildBoosterCode } from '../utils/BoosterCode.js';
@@ -335,7 +336,9 @@ export class BoosterManager {
         ? quotaBefore.daily > 0
         : source === BOOSTER_SOURCES.BONUS
           ? bonusBefore > 0
-          : quotaBefore.availableForSet > 0;
+          : source === BOOSTER_SOURCES.PURCHASED
+            ? (quotaBefore.purchased ?? 0) > 0
+            : quotaBefore.availableForSet > 0;
     if (!available) {
       throw BoosterManager.buildNoBoosterError(key);
     }
@@ -365,11 +368,16 @@ export class BoosterManager {
     // An explicit source is trusted as-is; in `auto` mode `consumeBooster()` deletes the bonus key
     // once its bucket reaches zero, so the comparison needs a nullish fallback (`undefined < 1` is
     // false and would report "daily" wrongly).
+    // In `auto` mode the buckets are read back: the bonus bucket first, then the boosters bought
+    // with Sparks, and the daily allowance otherwise - the same order `consumeBooster()` spends
+    // them in, so the reported source is the bucket that was really decremented.
     const consumedSource =
       source === BOOSTER_SOURCES.AUTO
         ? (quotaAfter.bonusBySet[key] ?? 0) < bonusBefore
-          ? 'bonus'
-          : 'daily'
+          ? BOOSTER_SOURCES.BONUS
+          : (quotaAfter.purchased ?? 0) < (quotaBefore.purchased ?? 0)
+            ? BOOSTER_SOURCES.PURCHASED
+            : BOOSTER_SOURCES.DAILY
         : source;
 
     // One single trusted timestamp for the collection row, the history entry and the stats.
@@ -413,6 +421,57 @@ export class BoosterManager {
       eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: result.sparks });
     }
     return summary;
+  }
+
+  /**
+   * Buys one extra booster with Sparks (`boosters.extraBoosterPriceSparks`).
+   *
+   * Offered once the free daily boosters are all spent: the bought booster lands in its own quota
+   * bucket, is spent after the daily allowance and the redeem/gift bonuses of the extension, and
+   * survives the daily reset (it was paid for). The player can therefore keep opening without
+   * waiting for midnight UTC.
+   *
+   * The debit and the credit run in ONE transaction over `user_state`: a failure can never charge
+   * the balance without granting the booster, or grant the booster without charging it.
+   *
+   * @returns {Promise<{price: number, balance: number, quota: object}>} The price charged, the
+   *   resulting Sparks balance and the quota after the purchase.
+   * @throws {SparksError} With `INSUFFICIENT_SPARKS` when the balance does not cover the price.
+   * @throws {Error} When the transaction fails.
+   */
+  async buyExtraBooster() {
+    const { extraBoosterPriceSparks } = await configLoader.getBoosterSettings();
+
+    const result = await storageRepository.transaction(
+      STORES.USER_STATE,
+      'readwrite',
+      async (context) => {
+        const balance = await sparksManager.applyDelta(context, -extraBoosterPriceSparks);
+        await dateSyncManager.addPurchasedBoosters(1, context);
+        return { balance };
+      }
+    );
+
+    console.info(
+      `[BoosterManager] Extra booster bought for ${extraBoosterPriceSparks} Sparks (balance: ${result.balance}).`
+    );
+
+    // THE PURCHASE IS COMMITTED from here on. Refreshing the mirrors is best effort on purpose: a
+    // failure in that bookkeeping must never be reported as a failed purchase, or the player would
+    // be told nothing happened while having been charged.
+    let quota = dateSyncManager.getQuotaSnapshot(null);
+    try {
+      // `addPurchasedBoosters` wrote the record inside the shared transaction and left the
+      // in-memory mirror alone on purpose: re-reading the quota refreshes it (and applies a pending
+      // daily reset, which never clears the boosters that were bought).
+      quota = await dateSyncManager.getRemainingBoosters();
+      await sparksManager.publishBalance();
+    } catch (error) {
+      console.warn('[BoosterManager] The mirrors could not be refreshed after the purchase.', error);
+    }
+    dateSyncManager.emitQuotaUpdated(null);
+
+    return { price: extraBoosterPriceSparks, balance: result.balance, quota };
   }
 
   /**
@@ -623,10 +682,11 @@ export class BoosterManager {
    * Gives a booster back after a failed write, so a storage error is never charged to the player.
    *
    * A `daily` booster is restored into `dailyRemaining`, capped at the configured allowance to
-   * avoid creating one out of nothing; a `bonus` booster is given back to its extension bucket.
+   * avoid creating one out of nothing; a `bonus` booster is given back to its extension bucket;
+   * a `purchased` booster is refunded to its own bucket, uncapped - the player paid for it.
    *
    * @param {string} setId - Extension the booster was consumed for.
-   * @param {'daily'|'bonus'} source - Bucket the booster came from.
+   * @param {'daily'|'bonus'|'purchased'} source - Bucket the booster came from.
    * @param {unknown} cause - Original error, only logged.
    * @returns {Promise<void>} Resolves once the refund committed (failures are logged, not thrown).
    */
@@ -640,9 +700,16 @@ export class BoosterManager {
       await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
         const quota = dateSyncManager.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
 
-        if (source === 'bonus') {
+        if (source === BOOSTER_SOURCES.BONUS) {
           const bonusBoosters = { ...quota.bonusBoosters, [setId]: (quota.bonusBoosters[setId] ?? 0) + 1 };
           await context.put(STORES.USER_STATE, { ...quota, bonusBoosters }, USER_STATE_KEYS.QUOTA);
+          restored = true;
+          return;
+        }
+
+        if (source === BOOSTER_SOURCES.PURCHASED) {
+          const purchasedBoosters = (quota.purchasedBoosters ?? 0) + 1;
+          await context.put(STORES.USER_STATE, { ...quota, purchasedBoosters }, USER_STATE_KEYS.QUOTA);
           restored = true;
           return;
         }

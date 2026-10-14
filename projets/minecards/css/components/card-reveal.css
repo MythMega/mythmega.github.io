@@ -13,7 +13,8 @@
        halo, held longer. The halo fades out and leaves nothing behind;
      - the two glows and the halo are the only rarity effects left here: the foil itself is its own
        component, `css/components/card-shine.css`, applied by `CardComponent` as a window laid over
-       the card (two layered planes, moving back and forth);
+       the artwork (two layered planes, moving back and forth, clipped to the illustration so the
+       frame of the card keeps no gloss);
      - full art printings drift a hair, like a lenticular print.
    Every color comes from `css/themes.css`, so the three themes stay readable.
 

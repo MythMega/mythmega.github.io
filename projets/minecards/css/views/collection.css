@@ -169,6 +169,22 @@
   font-weight: 700;
 }
 
+/* Promo chip: mirrors the quantity badge, on the opposite corner, in the "promo" tone. Same pill
+   shape and weight, so a promo card reads as one more kind of card, not as a warning. */
+.collection__promo {
+  position: absolute;
+  top: var(--space-1);
+  left: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-promo);
+  color: var(--color-accent-contrast);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 /* The artwork box is the window of the foil reflection (`css/components/card-shine.css`): it takes
    the exact shape of the card, so the highlight lines up with the illustration instead of the
    modal. The height is capped in viewport units, the width follows the ratio. */

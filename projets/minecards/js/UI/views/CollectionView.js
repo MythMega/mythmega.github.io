@@ -597,6 +597,15 @@ export class CollectionView {
     tile.appendChild(image);
     tile.appendChild(caption);
 
+    // A promo card is not drawn: it was granted by a code or an event. The chip is what tells the
+    // player where that card they cannot open their way to came from.
+    if (entry.promo) {
+      const chip = document.createElement('span');
+      chip.className = 'collection__promo';
+      chip.textContent = i18n.t('collection.promo');
+      tile.appendChild(chip);
+    }
+
     if (entry.owned && entry.quantity > 1) {
       const badge = document.createElement('span');
       badge.className = 'collection__badge';
@@ -683,10 +692,11 @@ export class CollectionView {
   /**
    * Builds the large artwork of the detail modal, wrapped so the foil reflection has a window.
    *
-   * The wrapper takes the exact shape of the card (`--card-reveal-art-ratio`), which is what lets
-   * the highlight of `css/components/card-shine.css` line up with the illustration. The reflection
-   * itself is only added for the rarities that carry one, through the very same helper the opening
-   * uses, so a legendary looks the same in both places.
+   * The wrapper takes the exact shape of the ILLUSTRATION (`--card-reveal-art-ratio`), which is what
+   * lets the highlight of `css/components/card-shine.css` line up with the artwork and stop there -
+   * a classic and a full art printing get the same window. The reflection itself is only added for
+   * the rarities that carry one, through the very same helper the opening uses, so a legendary looks
+   * the same in both places.
    *
    * @param {object} card - Card to display.
    * @param {string} name - Translated card name (also the accessible text).

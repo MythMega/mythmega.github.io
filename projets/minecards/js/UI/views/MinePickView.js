@@ -1,7 +1,7 @@
 /**
- * WonderView - "Pioche miracle" (Wonder Pick) screen.
+ * MinePickView - Mine Pick screen.
  *
- * Reference: `js/business/WonderPickManager.js` (the board, the allowance, the statistics) and
+ * Reference: `js/business/MinePickManager.js` (the board, the allowance, the statistics) and
  * `.docs/main.md` section 3.G quater.
  *
  * FLOW
@@ -10,6 +10,10 @@
  *      line also carries the state of the booster: pickable, already picked (with the card that was
  *      kept) or locked because the day's allowance is gone. A booster already used the same day can
  *      not be played again, so the choices really run out before the ten lines do.
+ *      Picking a pack takes TWO taps, on purpose: the first one only SELECTS the line (it lights
+ *      up, its button turns into "Open this booster" and nothing is spent), the second one opens
+ *      it. Opening a pack costs a free pick, so it must never happen because a thumb brushed a
+ *      row while the list was scrolling.
  *   2. `pick` stage: the chosen pack is dealt face up — the very content that was listed — then its
  *      cards turn over one after another and the pack is shuffled (a seeded permutation, so a reload
  *      always deals the same pack the same way). Only then can the player keep a card; the other
@@ -18,27 +22,35 @@
  *      "Back to the boosters" returns to the list, where the booster now shows the card that was
  *      taken from it.
  *
- * The cards reuse `CardComponent`, so the Wonder Pick inherits the illustrations, the rarity glow,
+ * Every step of that ritual is animated (`css/views/minepick.css`): the blast of light when the
+ * pack lands, the cards dealing in, the slow breathing of the pack face up while it is studied,
+ * the turn-over, a wobble during the shuffle and the shockwave of the kept card. The durations
+ * come from the animation mode, so an "epic" player gets a slower, wider version of all of it.
+ *
+ * Reference: `settings/config.json` (`minePick`).
+ *
+
+ * The cards reuse `CardComponent`, so the Mine Pick inherits the illustrations, the rarity glow,
  * the language switch and — because that component is driven by CSS classes — the opening animation
- * mode (`css/animations.css`) of the player. The view never draws anything itself:
- * `WonderPickManager` decides the board, the shuffle and the state of every booster, and the screen
+ * mode (`css/animations/`) of the player. The view never draws anything itself:
+ * `MinePickManager` decides the board, the shuffle and the state of every booster, and the screen
  * only renders what came back.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
-import wonderPickManager, {
-  getWonderPickErrorMessageKey,
-  WONDER_PICK_ERRORS,
-} from '../../business/WonderPickManager.js';
+import minePickManager, {
+  getMinePickErrorMessageKey,
+  MINE_PICK_ERRORS,
+} from '../../business/MinePickManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
 import CardComponent from '../components/CardComponent.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import animationManager from '../../utils/AnimationManager.js';
 
-/** View name, matching `data-view="wonder"` in `index.html`. */
-export const WONDER_VIEW_NAME = 'wonder';
+/** View name, matching `data-view="minepick"` in `index.html`. */
+export const MINE_PICK_VIEW_NAME = 'minepick';
 
 /**
  * Bounds of the delay between two automatic card reveals, in milliseconds.
@@ -53,7 +65,11 @@ const REVEAL_STEP_MAX_MS = 420;
 /** Delay between two cards of the same movement (dealing, turning over), in milliseconds. */
 const FLIP_STEP_MS = 70;
 
-/** Length of the staggered dealing of a pack, in milliseconds (last card of `wonder-deal`). */
+/**
+ * Length of the staggered dealing of a pack, in milliseconds (last card of `minepick-deal`).
+ *
+ * Picked by hand, not computed: 700 ms reads as a deal, 500 flies by and 900 feels like a wait.
+ */
 const DEAL_MS = 700;
 
 /** Bounds of the pause during which the player studies the pack face up, in milliseconds. */
@@ -67,28 +83,28 @@ const SHUFFLE_MAX_MS = 620;
 /** Multiplier applied to the flip duration to size the study pause. */
 const STUDY_FLIP_FACTOR = 1.5;
 
-export class WonderView {
+export class MinePickView {
   /**
-   * @param {HTMLElement} rootElement - The Wonder Pick `<section>`.
+   * @param {HTMLElement} rootElement - The Mine Pick `<section>`.
    */
   constructor(rootElement) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
-      throw new TypeError('WonderView requires the wonder section element.');
+      throw new TypeError('MinePickView requires the minepick section element.');
     }
 
     this.root = rootElement;
-    this.feedbackElement = this.root.querySelector('[data-wonder-feedback]');
-    this.boardStage = this.root.querySelector('[data-wonder-stage="board"]');
-    this.pickStage = this.root.querySelector('[data-wonder-stage="pick"]');
-    this.quotaElement = this.root.querySelector('[data-wonder-quota]');
-    this.countdownElement = this.root.querySelector('[data-wonder-countdown]');
-    this.countdownValue = this.root.querySelector('[data-wonder-countdown-value]');
-    this.boardElement = this.root.querySelector('[data-wonder-board]');
-    this.setNameElement = this.root.querySelector('[data-wonder-set-name]');
-    this.hintElement = this.root.querySelector('[data-wonder-hint]');
-    this.cardsElement = this.root.querySelector('[data-wonder-cards]');
-    this.resultElement = this.root.querySelector('[data-wonder-result]');
-    this.backButton = this.root.querySelector('[data-wonder-back]');
+    this.feedbackElement = this.root.querySelector('[data-minepick-feedback]');
+    this.boardStage = this.root.querySelector('[data-minepick-stage="board"]');
+    this.pickStage = this.root.querySelector('[data-minepick-stage="pick"]');
+    this.quotaElement = this.root.querySelector('[data-minepick-quota]');
+    this.countdownElement = this.root.querySelector('[data-minepick-countdown]');
+    this.countdownValue = this.root.querySelector('[data-minepick-countdown-value]');
+    this.boardElement = this.root.querySelector('[data-minepick-board]');
+    this.setNameElement = this.root.querySelector('[data-minepick-set-name]');
+    this.hintElement = this.root.querySelector('[data-minepick-hint]');
+    this.cardsElement = this.root.querySelector('[data-minepick-cards]');
+    this.resultElement = this.root.querySelector('[data-minepick-result]');
+    this.backButton = this.root.querySelector('[data-minepick-back]');
 
     this.assertMarkup();
 
@@ -96,6 +112,8 @@ export class WonderView {
     this.board = [];
     /** @type {CardComponent[]} Cards of the opened booster, in the order they were drawn. */
     this.cardComponents = [];
+    /** @type {number|null} Index of the booster SELECTED in the list (not opened yet). */
+    this.selectedIndex = null;
     /** @type {number|null} Index of the booster being picked from. */
     this.boosterIndex = null;
     /** @type {number|null} Index of the card the player kept. */
@@ -136,7 +154,7 @@ export class WonderView {
    * @returns {void}
    */
   log(...args) {
-    console.info('[WonderView]', ...args);
+    console.info('[MinePickView]', ...args);
   }
 
   /**
@@ -147,19 +165,19 @@ export class WonderView {
    */
   assertMarkup() {
     const missing = [
-      ['[data-wonder-stage="board"]', this.boardStage],
-      ['[data-wonder-stage="pick"]', this.pickStage],
-      ['[data-wonder-quota]', this.quotaElement],
-      ['[data-wonder-board]', this.boardElement],
-      ['[data-wonder-cards]', this.cardsElement],
-      ['[data-wonder-result]', this.resultElement],
-      ['[data-wonder-back]', this.backButton],
+      ['[data-minepick-stage="board"]', this.boardStage],
+      ['[data-minepick-stage="pick"]', this.pickStage],
+      ['[data-minepick-quota]', this.quotaElement],
+      ['[data-minepick-board]', this.boardElement],
+      ['[data-minepick-cards]', this.cardsElement],
+      ['[data-minepick-result]', this.resultElement],
+      ['[data-minepick-back]', this.backButton],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
 
     if (missing.length > 0) {
-      throw new Error(`WonderView markup is incomplete, missing: ${missing.join(', ')}.`);
+      throw new Error(`MinePickView markup is incomplete, missing: ${missing.join(', ')}.`);
     }
   }
 
@@ -213,9 +231,9 @@ export class WonderView {
     this.unsubscribers.push(
       eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
         if (!payload || typeof payload.view !== 'string') return;
-        if (payload.view === WONDER_VIEW_NAME) {
+        if (payload.view === MINE_PICK_VIEW_NAME) {
           this.handleViewActivated();
-        } else if (payload.previousView === WONDER_VIEW_NAME) {
+        } else if (payload.previousView === MINE_PICK_VIEW_NAME) {
           this.handleViewDeactivated();
         }
       })
@@ -223,16 +241,16 @@ export class WonderView {
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
     this.unsubscribers.push(
-      eventBus.on(EVENTS.WONDER_PICK_UPDATED, () => {
+      eventBus.on(EVENTS.MINE_PICK_UPDATED, () => {
         void this.refreshQuota().catch((error) => {
-          console.warn('[WonderView] The allowance could not be refreshed.', error);
+          console.warn('[MinePickView] The allowance could not be refreshed.', error);
         });
       })
     );
     // An imported save carries ANOTHER uuid: the board of the day changes with it.
     this.unsubscribers.push(
       eventBus.on(EVENTS.SAVE_IMPORTED, () => {
-        wonderPickManager.resetBoard();
+        minePickManager.resetBoard();
       })
     );
     this.log('Event subscriptions registered.');
@@ -248,14 +266,16 @@ export class WonderView {
     this.setFeedback(null);
     this.setLoading(true);
     try {
-      this.board = await wonderPickManager.getBoard();
-      // A fresh board invalidates the rendered list whatever the stored state says.
+      this.board = await minePickManager.getBoard();
+      // A fresh board invalidates the rendered list whatever the stored state says. The selection
+      // goes with it: the index may not even point at the same pack anymore.
       this.boardSignature = '';
+      this.selectedIndex = null;
       await this.refreshQuota();
       this.renderBoard(true);
     } catch (error) {
-      console.error('[WonderView] The Wonder Pick board could not be loaded.', error);
-      this.setFeedback('wonder.error.board', 'error');
+      console.error('[MinePickView] The Mine Pick board could not be loaded.', error);
+      this.setFeedback('minepick.error.board', 'error');
     } finally {
       this.setLoading(false);
     }
@@ -271,10 +291,10 @@ export class WonderView {
    * @throws {Error} When the state cannot be read.
    */
   async refreshQuota() {
-    const state = await wonderPickManager.getState();
+    const state = await minePickManager.getState();
     this.remaining = state.remaining;
     this.picksByBooster = state.picksByBooster ?? {};
-    this.quotaElement.textContent = i18n.t('wonder.quota', {
+    this.quotaElement.textContent = i18n.t('minepick.quota', {
       remaining: state.remaining,
       total: state.picksPerDay,
     });
@@ -316,14 +336,15 @@ export class WonderView {
       this.boardSignature = signature;
       this.boardElement.textContent = '';
       const empty = document.createElement('li');
-      empty.className = 'wonder__empty';
-      empty.textContent = i18n.t('wonder.empty');
+      empty.className = 'minepick__empty';
+      empty.textContent = i18n.t('minepick.empty');
       this.boardElement.appendChild(empty);
       return;
     }
 
     const signature = [
       `remaining:${this.remaining}`,
+      `selected:${this.selectedIndex ?? 'none'}`,
       ...Object.keys(this.picksByBooster)
         .sort()
         .map((index) => `${index}:${this.picksByBooster[index].key}`),
@@ -343,30 +364,34 @@ export class WonderView {
    * others are greyed out) or `locked` (no pick left today). The texture and the name are enough to
    * recognise the pack; the cards make the choice informed, never random.
    *
+   * An available line can also be `is-selected`: the row the player previewed with a first tap.
+   *
    * @param {{index: number, setId: string, name: string, texture: string|null, cards: Array}} entry - Board entry.
    * @returns {HTMLElement} The `<li>` of the list.
    */
   buildRow(entry) {
     const item = document.createElement('li');
-    item.className = 'wonder__slot';
+    item.className = 'minepick__slot';
 
     const picked = this.picksByBooster[String(entry.index)] ?? null;
     const state = picked ? 'picked' : this.remaining > 0 ? 'available' : 'locked';
+    const selected = state === 'available' && this.selectedIndex === entry.index;
     const name = entry.name ?? entry.setId;
     const keptCard = picked ? entry.cards.find((card) => card.uniqueKey === picked.key) ?? null : null;
 
     const row = document.createElement('article');
-    row.className = 'wonder__row';
-    row.dataset.wonderIndex = String(entry.index);
-    row.dataset.wonderState = state;
+    row.className = 'minepick__row';
+    row.dataset.minepickIndex = String(entry.index);
+    row.dataset.minepickState = state;
+    if (selected) row.classList.add('is-selected');
     if (state !== 'available') row.classList.add(`is-${state}`);
-    row.setAttribute('aria-label', i18n.t('wonder.board.booster', { index: entry.index + 1, name }));
+    row.setAttribute('aria-label', i18n.t('minepick.board.booster', { index: entry.index + 1, name }));
 
     const figure = document.createElement('div');
-    figure.className = 'wonder__row-figure';
+    figure.className = 'minepick__row-figure';
     if (entry.texture) {
       const image = document.createElement('img');
-      image.className = 'wonder__booster-image';
+      image.className = 'minepick__booster-image';
       image.src = i18n.resolveImagePath(entry.texture);
       image.alt = '';
       image.loading = 'lazy';
@@ -376,20 +401,22 @@ export class WonderView {
     row.appendChild(figure);
 
     const head = document.createElement('div');
-    head.className = 'wonder__row-head';
+    head.className = 'minepick__row-head';
     const title = document.createElement('p');
-    title.className = 'wonder__booster-name';
+    title.className = 'minepick__booster-name';
     // The ten packs often share one extension: the number is what tells two lines apart.
-    title.textContent = i18n.t('wonder.stage.title', { index: entry.index + 1, name });
+    title.textContent = i18n.t('minepick.stage.title', { index: entry.index + 1, name });
     const stateLine = document.createElement('p');
-    stateLine.className = 'wonder__row-state';
-    stateLine.textContent = this.buildRowStateText({ state, picked, keptCard, entry });
+    stateLine.className = 'minepick__row-state';
+    stateLine.textContent = selected
+      ? i18n.t('minepick.board.selected')
+      : this.buildRowStateText({ state, picked, keptCard, entry });
     head.append(title, stateLine);
     row.appendChild(head);
 
     const cards = document.createElement('ul');
-    cards.className = 'wonder__row-cards';
-    cards.setAttribute('aria-label', i18n.t('wonder.board.cards'));
+    cards.className = 'minepick__row-cards';
+    cards.setAttribute('aria-label', i18n.t('minepick.board.cards'));
     entry.cards.forEach((card) => {
       cards.appendChild(
         this.buildMiniCard(card, {
@@ -401,14 +428,16 @@ export class WonderView {
     row.appendChild(cards);
 
     const action = document.createElement('div');
-    action.className = 'wonder__row-action';
+    action.className = 'minepick__row-action';
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'btn btn--primary btn--block';
-    button.dataset.wonderOpen = String(entry.index);
+    button.className = selected ? 'btn btn--primary btn--block' : 'btn btn--ghost btn--block';
+    button.dataset.minepickOpen = String(entry.index);
     button.disabled = state !== 'available';
-    button.textContent = i18n.t('wonder.board.pick');
-    button.setAttribute('aria-label', `${i18n.t('wonder.board.pick')} — ${name}`);
+    const label = i18n.t(selected ? 'minepick.board.open' : 'minepick.board.pick');
+    button.textContent = label;
+    if (selected) button.dataset.minepickSelected = 'true';
+    button.setAttribute('aria-label', `${label} — ${name}`);
     action.appendChild(button);
     row.appendChild(action);
 
@@ -428,12 +457,12 @@ export class WonderView {
    */
   buildRowStateText({ state, picked, keptCard, entry }) {
     if (state === 'picked' && picked) {
-      return i18n.t('wonder.board.picked', { name: keptCard?.getName(i18n.getLang()) ?? picked.key });
+      return i18n.t('minepick.board.picked', { name: keptCard?.getName(i18n.getLang()) ?? picked.key });
     }
     if (state === 'locked') {
-      return i18n.t('wonder.board.locked');
+      return i18n.t('minepick.board.locked');
     }
-    return i18n.t('wonder.board.count', { cards: entry.cards.length });
+    return i18n.t('minepick.board.count', { cards: entry.cards.length });
   }
 
   /**
@@ -447,13 +476,13 @@ export class WonderView {
    */
   buildMiniCard(card, { kept = false, discarded = false } = {}) {
     const item = document.createElement('li');
-    item.className = `wonder__mini wonder__mini--r${card.rarity}`;
-    if (card.isFullArt) item.classList.add('wonder__mini--fullart');
+    item.className = `minepick__mini minepick__mini--r${card.rarity}`;
+    if (card.isFullArt) item.classList.add('minepick__mini--fullart');
     if (kept) item.classList.add('is-kept');
     if (discarded) item.classList.add('is-discarded');
 
     const image = document.createElement('img');
-    image.className = 'wonder__mini-image';
+    image.className = 'minepick__mini-image';
     image.src = i18n.resolveImagePath(card.illustration);
     image.alt = this.describeCard(card);
     image.loading = 'lazy';
@@ -462,8 +491,8 @@ export class WonderView {
 
     if (kept) {
       const flag = document.createElement('span');
-      flag.className = 'wonder__mini-flag';
-      flag.textContent = i18n.t('wonder.board.pickedFlag');
+      flag.className = 'minepick__mini-flag';
+      flag.textContent = i18n.t('minepick.board.pickedFlag');
       item.appendChild(flag);
     }
     return item;
@@ -482,30 +511,60 @@ export class WonderView {
   /**
    * Handles a click on the list: the booster button, or anywhere on a pickable line.
    *
+   * Two taps to open a pack, and the first one only selects: a pick is spent for good, so it can
+   * not be triggered by a thumb sliding over the list. Clicking the row of the SELECTED booster
+   * opens it, which is also what its button does.
+   *
    * @param {MouseEvent} event - Click event (delegated).
-   * @returns {Promise<void>} Resolves once the booster is displayed.
+   * @returns {Promise<void>} Resolves once the booster is selected or displayed.
    */
   async handleBoardClick(event) {
-    const cell = event?.target?.closest?.('[data-wonder-index]');
+    const cell = event?.target?.closest?.('[data-minepick-index]');
     if (!cell) return;
 
-    const button = event.target.closest('[data-wonder-open]');
+    const button = event.target.closest('[data-minepick-open]');
     if (button?.disabled) return;
 
-    const row = cell.closest('.wonder__row') ?? cell;
-    const state = row.dataset.wonderState;
+    const row = cell.closest('.minepick__row') ?? cell;
+    const state = row.dataset.minepickState;
     if (state === 'picked') {
-      this.setFeedback('wonder.error.alreadyPicked', 'error');
+      this.setFeedback('minepick.error.alreadyPicked', 'error');
       return;
     }
     if (state === 'locked') {
-      this.setFeedback('wonder.error.noPick', 'error');
+      this.setFeedback('minepick.error.noPick', 'error');
       return;
     }
 
-    const index = Number(cell.dataset.wonderIndex);
+    const index = Number(cell.dataset.minepickIndex);
     if (!Number.isInteger(index)) return;
+    if (this.selectedIndex !== index) {
+      this.selectBooster(index);
+      return;
+    }
     await this.openBooster(index);
+  }
+
+  /**
+   * Marks one booster of the list as the chosen one (no pick is spent yet).
+   *
+   * @param {number} index - Index of the booster on the board.
+   * @returns {void}
+   */
+  selectBooster(index) {
+    this.selectedIndex = index;
+    this.setFeedback(null);
+    this.renderBoard(true);
+    this.log(`Booster #${index} selected (not opened yet).`);
+  }
+
+  /**
+   * Clears the selection.
+   *
+   * @returns {void}
+   */
+  clearSelection() {
+    this.selectedIndex = null;
   }
 
   /**
@@ -517,19 +576,19 @@ export class WonderView {
   async openBooster(index) {
     const entry = this.board.find((candidate) => candidate.index === index);
     if (!entry) {
-      console.warn(`[WonderView] Booster #${index} is not on the board.`);
+      console.warn(`[MinePickView] Booster #${index} is not on the board.`);
       return;
     }
     if (this.picksByBooster[String(index)]) {
-      this.setFeedback('wonder.error.alreadyPicked', 'error');
+      this.setFeedback('minepick.error.alreadyPicked', 'error');
       return;
     }
 
-    const state = await wonderPickManager.getState();
+    const state = await minePickManager.getState();
     this.remaining = state.remaining;
     this.picksByBooster = state.picksByBooster ?? {};
     if (state.remaining <= 0) {
-      this.setFeedback('wonder.error.noPick', 'error');
+      this.setFeedback('minepick.error.noPick', 'error');
       this.renderBoard();
       return;
     }
@@ -539,27 +598,47 @@ export class WonderView {
     this.keptIndex = null;
     this.isPicking = false;
     this.canPick = false;
+    this.clearSelection();
     this.resultElement.hidden = true;
     this.setFeedback(null);
 
     if (this.setNameElement) {
-      this.setNameElement.textContent = i18n.t('wonder.stage.title', {
+      this.setNameElement.textContent = i18n.t('minepick.stage.title', {
         index: index + 1,
         name: entry.name ?? entry.setId,
       });
     }
-    this.setHint('wonder.hint.preview');
+    this.setHint('minepick.hint.preview');
 
     this.buildPack();
     this.showStage('pick');
+    this.flashStage();
     this.runOpenSequence(entry);
     this.log(`Booster #${index} dealt face up (${entry.cards.length} card(s)).`);
   }
 
   /**
+   * Fires the light burst of the "pack lands here" moment.
+   *
+   * The animation itself lives in `css/views/minepick.css` (`.is-dealing`); the class is dropped
+   * when it is over so the next opening replays it, and it is only there for decoration - a
+   * reduced-motion player never sees it. Yes, `offsetWidth` below is a reflow asked on purpose
+   * (the classic way to restart a CSS animation), not an accident.
+   *
+   * @returns {void}
+   */
+  flashStage() {
+    if (!this.cardsElement) return;
+    this.cardsElement.classList.remove('is-dealing');
+    void this.cardsElement.offsetWidth;
+    this.cardsElement.classList.add('is-dealing');
+    this.setViewTimeout(() => this.cardsElement?.classList.remove('is-dealing'), DEAL_MS + FLIP_STEP_MS * 4);
+  }
+
+  /**
    * Creates the five cards of the current booster, in the order they were drawn.
    *
-   * Every card remembers its own position in the pack (`data-wonder-card`), NOT its position on
+   * Every card remembers its own position in the pack (`data-minepick-card`), NOT its position on
    * screen: the shuffle moves the elements around, and the pick must always name the same card.
    *
    * @returns {void}
@@ -571,8 +650,8 @@ export class WonderView {
     entry.cards.forEach((card, cardIndex) => {
       const component = new CardComponent(card, { isNew: false, flipOnClick: false });
       const element = component.render();
-      element.dataset.wonderCard = String(cardIndex);
-      element.classList.add('wonder__card');
+      element.dataset.minepickCard = String(cardIndex);
+      element.classList.add('minepick__card');
       element.disabled = true;
       this.cardComponents.push(component);
       this.cardsElement.appendChild(element);
@@ -605,17 +684,33 @@ export class WonderView {
         if (index === 0) soundManager.play(SOUNDS.CARD_RETURN);
       }, DEAL_MS + step * index);
 
-      // Face down again, one card after another.
-      this.setViewTimeout(() => component.element.classList.remove('is-preview'), flipDownStart + step * index);
+      // Face down again, one card after another. `is-turning` carries the motion and goes away
+      // when it is done, so the inline styles of the shuffle start from a clean card.
+      this.setViewTimeout(() => this.turnCardDown(component, flipMs), flipDownStart + step * index);
     });
 
-    this.setViewTimeout(() => this.setHint('wonder.hint.mixing'), flipDownStart);
+    this.setViewTimeout(() => this.setHint('minepick.hint.mixing'), flipDownStart);
     this.setViewTimeout(() => this.shuffleCards(entry.order), flipDownEnd);
     this.setViewTimeout(() => this.releasePack(), flipDownEnd + shuffle + 60);
 
     this.log(
       `Sequence armed: preview ${DEAL_MS} ms + ${Math.round(flipMs)} ms, study ${study} ms, shuffle ${shuffle} ms.`
     );
+  }
+
+  /**
+   * Turns one card face down, with the little lift of the turn-over animation.
+   *
+   * @param {CardComponent} component - Card to turn over.
+   * @param {number} flipMs - Duration of the movement, in milliseconds.
+   * @returns {void}
+   */
+  turnCardDown(component, flipMs) {
+    const element = component.element;
+    if (!element) return;
+    element.classList.remove('is-preview');
+    element.classList.add('is-turning');
+    this.setViewTimeout(() => element.classList.remove('is-turning'), Math.max(flipMs, 120) + 40);
   }
 
   /**
@@ -628,7 +723,8 @@ export class WonderView {
       if (component.element) component.element.disabled = false;
     });
     this.canPick = true;
-    this.setHint('wonder.hint');
+    this.cardsElement?.classList.remove('is-shuffling');
+    this.setHint('minepick.hint');
     this.log('Pack shuffled: the player can pick.');
   }
 
@@ -655,6 +751,14 @@ export class WonderView {
     const before = elements.map((element) => element.getBoundingClientRect());
     this.applyCardOrder(order, elements);
     if (duration <= 0) return;
+
+    // The wobble: a rotation applied through the independent `rotate`/`scale` properties, which
+    // composes with the inline translation below instead of fighting it. The duration rides on
+    // the container so the stylesheet does not have to guess how long this shuffle lasts.
+    this.cardsElement.style.setProperty('--minepick-shuffle-ms', `${duration}ms`);
+    this.cardsElement.classList.remove('is-shuffling');
+    void this.cardsElement.offsetWidth;
+    this.cardsElement.classList.add('is-shuffling');
 
     elements.forEach((element, index) => {
       const from = before[index];
@@ -732,13 +836,13 @@ export class WonderView {
    * @returns {Promise<void>} Resolves once the pick is committed and revealed.
    */
   async handleCardsClick(event) {
-    const element = event?.target?.closest?.('[data-wonder-card]');
+    const element = event?.target?.closest?.('[data-minepick-card]');
     if (!element || this.isPicking || this.keptIndex !== null) return;
     if (!this.canPick) {
       this.log('Pick ignored: the pack is still being dealt and shuffled.');
       return;
     }
-    const cardIndex = Number(element.dataset.wonderCard);
+    const cardIndex = Number(element.dataset.minepickCard);
     if (!Number.isInteger(cardIndex) || this.boosterIndex === null) return;
 
     this.isPicking = true;
@@ -749,16 +853,16 @@ export class WonderView {
 
     let result;
     try {
-      result = await wonderPickManager.pick(this.boosterIndex, cardIndex);
+      result = await minePickManager.pick(this.boosterIndex, cardIndex);
     } catch (error) {
-      console.error('[WonderView] The pick failed.', error);
+      console.error('[MinePickView] The pick failed.', error);
       this.isPicking = false;
       this.canPick = true;
       this.unlockCards();
-      this.setFeedback(getWonderPickErrorMessageKey(error?.code), 'error');
-      if (error?.code === WONDER_PICK_ERRORS.NO_PICK_LEFT || error?.code === WONDER_PICK_ERRORS.ALREADY_PICKED) {
+      this.setFeedback(getMinePickErrorMessageKey(error?.code), 'error');
+      if (error?.code === MINE_PICK_ERRORS.NO_PICK_LEFT || error?.code === MINE_PICK_ERRORS.ALREADY_PICKED) {
         await this.refreshQuota().catch((error2) => {
-          console.warn('[WonderView] The allowance could not be refreshed.', error2);
+          console.warn('[MinePickView] The allowance could not be refreshed.', error2);
         });
       }
       return;
@@ -767,6 +871,7 @@ export class WonderView {
     this.keptIndex = cardIndex;
     const kept = this.cardComponents[cardIndex];
     kept?.render().classList.add('is-kept');
+    this.hitStage();
     if (kept?.flip()) {
       // The kept card gets the full sting of its rarity: it is the one that joins the collection.
       soundManager.playCardReveal(result.card.rarity);
@@ -776,6 +881,24 @@ export class WonderView {
     await this.refreshQuota();
     this.isPicking = false;
     this.log(`Kept "${result.card.uniqueKey}" (${result.remaining} pick(s) left).`);
+  }
+
+  /**
+   * Sends the shockwave of the stage when a card is kept.
+   *
+   * The animation lives on the stage container (`.is-hitting`, `css/views/minepick.css`) rather
+   * than on the card: the card is already busy playing the flip of the current animation mode,
+   * and two animations on the same property would have meant choosing between them.
+   *
+   * @returns {void}
+   */
+  hitStage() {
+    if (!this.cardsElement) return;
+    this.cardsElement.classList.remove('is-hitting');
+    // A reflow between the two writes, so a second pick replays the animation.
+    void this.cardsElement.offsetWidth;
+    this.cardsElement.classList.add('is-hitting');
+    this.setViewTimeout(() => this.cardsElement?.classList.remove('is-hitting'), 900);
   }
 
   /**
@@ -820,6 +943,9 @@ export class WonderView {
 
   /**
    * Delay between two reveals, from the active animation mode.
+   *
+   * TODO: the two bounds below are hard-coded on purpose for now. If a fourth mode ever shows up,
+   * move them to `settings/config.json` (`minePick.revealStepMs`) instead of piling up clamps here.
    *
    * @returns {number} A duration in milliseconds, clamped for an automatic sequence.
    */
@@ -878,10 +1004,10 @@ export class WonderView {
   announceResult(result) {
     const name = result.card.getName(i18n.getLang());
     const rarity = getRarityLabel(result.card.rarity, (key) => i18n.t(key));
-    const parts = [i18n.t('wonder.result.kept', { name, rarity })];
-    if (result.isNew) parts.push(i18n.t('wonder.result.new'));
-    if (result.godpack) parts.push(i18n.t('wonder.result.godpack'));
-    parts.push(i18n.t('wonder.result.remaining', { count: result.remaining }));
+    const parts = [i18n.t('minepick.result.kept', { name, rarity })];
+    if (result.isNew) parts.push(i18n.t('minepick.result.new'));
+    if (result.godpack) parts.push(i18n.t('minepick.result.godpack'));
+    parts.push(i18n.t('minepick.result.remaining', { count: result.remaining }));
     this.resultElement.textContent = parts.join(' · ');
     this.resultElement.hidden = false;
   }
@@ -909,10 +1035,11 @@ export class WonderView {
     this.boosterIndex = null;
     this.keptIndex = null;
     this.canPick = false;
+    this.clearSelection();
     this.showStage('board');
     this.renderBoard(true);
     void this.refreshQuota().catch((error) => {
-      console.warn('[WonderView] The allowance could not be refreshed.', error);
+      console.warn('[MinePickView] The allowance could not be refreshed.', error);
     });
   }
 
@@ -926,7 +1053,11 @@ export class WonderView {
     this.clearShuffleTransforms();
     this.cardComponents.forEach((component) => component.destroy());
     this.cardComponents = [];
-    if (this.cardsElement) this.cardsElement.textContent = '';
+    if (this.cardsElement) {
+      this.cardsElement.textContent = '';
+      // The classes of the sequence live on the container, not on the cards it just dropped.
+      this.cardsElement.classList.remove('is-dealing', 'is-shuffling', 'is-hitting');
+    }
     this.keptIndex = null;
     this.isPicking = false;
     this.canPick = false;
@@ -996,7 +1127,7 @@ export class WonderView {
       this.setHint(this.hintKey);
     }
     void this.refreshQuota().catch((error) => {
-      console.warn('[WonderView] The allowance could not be refreshed.', error);
+      console.warn('[MinePickView] The allowance could not be refreshed.', error);
     });
   }
 
@@ -1029,11 +1160,12 @@ export class WonderView {
     this.setFeedback(null);
     this.clearCards();
     this.boosterIndex = null;
+    this.clearSelection();
     if (this.resultElement) this.resultElement.hidden = true;
     this.showStage('board');
     void this.reload().catch((error) => {
-      console.error('[WonderView] The board could not be reloaded.', error);
-      this.setFeedback('wonder.error.board', 'error');
+      console.error('[MinePickView] The board could not be reloaded.', error);
+      this.setFeedback('minepick.error.board', 'error');
     });
   }
 
@@ -1062,8 +1194,9 @@ export class WonderView {
     this.board = [];
     this.picksByBooster = {};
     this.boardSignature = '';
+    this.selectedIndex = null;
     this.isInitialized = false;
   }
 }
 
-export default WonderView;
+export default MinePickView;

@@ -46,6 +46,7 @@ import giftManager, {
   GIFT_TYPES,
 } from '../../business/GiftManager.js';
 import Toast from '../components/Toast.js';
+import { getShineClasses } from '../components/CardComponent.js';
 
 /** View name, matching `data-view="settings"` in `index.html`. */
 export const SETTINGS_VIEW_NAME = 'settings';
@@ -299,9 +300,10 @@ export class SettingsView {
    * Builds the demo of the animation panel: one card and the five summary thumbnails.
    *
    * The demo reuses the REAL classes of the opening (`.card-reveal__card`,
-   * `.card-reveal__summary-item`), so `css/animations.css` dresses it exactly like the game and a
+   * `.card-reveal__summary-item`), so `css/animations/` dresses it exactly like the game and a
    * mode switch changes it without a single line of extra code here. The cards carry no artwork: a
-   * dashed border makes them read as placeholders.
+   * dashed border makes them read as placeholders. The big one is a mythic, so the demo also shows
+   * the foil reflection of `css/components/card-shine.css`.
    *
    * @returns {void}
    */
@@ -310,7 +312,10 @@ export class SettingsView {
       this.demoStage.textContent = '';
       const card = document.createElement('span');
       card.className = 'card-reveal__card anim-demo__card card-reveal__card--r5';
-      card.append(SettingsView.buildDemoFace('back'), SettingsView.buildDemoFace('front'));
+      const front = SettingsView.buildDemoFace('front');
+      // Same rarity as the class above (`--r5`), so the demo and the reveal agree on the foil.
+      front.classList.add(...getShineClasses({ rarity: 5, isFullArt: false }));
+      card.append(SettingsView.buildDemoFace('back'), front);
       this.demoStage.appendChild(card);
       this.demoCard = card;
     }

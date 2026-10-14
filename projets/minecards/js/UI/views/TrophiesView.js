@@ -14,9 +14,16 @@
  *     `data/trophies/<setId>.json` — a collection trophy always depends on its extension);
  *   - STATUS: every trophy, the unlocked ones, or the ones still to unlock.
  *
- * A row opens the shared detail modal (medal, rarity, progress, XP, unlock date, the cards the
- * trophy requires — in colour when owned — and the avatars it unlocks). An unlocked row carries the
- * pin toggle: the picks shown on the profile page are made from here.
+ * Once a family and a status are chosen, the list itself is a GRID of tiles — three per row on a
+ * phone, five on a wide screen, centred — and every tile shows nothing but its medal, its name and
+ * its progress bar with the percentage. Tapping a tile opens the shared detail modal, which carries
+ * everything else: rarity, description, XP, unlock date, the cards the trophy requires (in colour
+ * when owned) and the avatars it unlocks. The pin toggle of an unlocked trophy lives in that modal
+ * too (the picks shown on the profile page are made from there), so a tile stays a pure button.
+ *
+ * Inside one category the tiles are cut into GROUPS of the same type (`trophy.group.*`): the
+ * completion tiers of an extension read nothing like its "boosters opened" tiers, and the global
+ * counters have nothing to do with the collection trophies, so each type gets its own heading.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
@@ -177,16 +184,19 @@ export class TrophiesView {
       this.renderTrophies();
     });
 
-    // One delegated listener: the rows are rebuilt on every render.
+    // One delegated listener: the tiles are rebuilt on every render. A tile is a plain button that
+    // opens the detail, nothing else.
     this.listen(this.listElement, 'click', (event) => {
       if (!(event.target instanceof Element)) return;
-      const pin = event.target.closest('[data-trophy-pin]');
-      if (pin) {
-        void this.toggleFeatured(pin.dataset.trophyPin);
-        return;
-      }
       const open = event.target.closest('[data-trophy-open]');
       if (open) void this.openTrophyDetail(open.dataset.trophyOpen);
+    });
+
+    // The pin toggle lives in the detail modal, whose body is rebuilt on every opening.
+    this.listen(this.modalBody, 'click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const pin = event.target.closest('[data-trophy-pin]');
+      if (pin) void this.toggleFeatured(pin.dataset.trophyPin);
     });
 
     this.listen(this.modal, 'click', (event) => {
@@ -375,24 +385,50 @@ export class TrophiesView {
 
     this.listElement.textContent = '';
     CATEGORY_ORDER.forEach((category) => {
-      const group = trophies.filter((trophy) => trophy.category === category);
-      if (group.length === 0) return;
+      const inCategory = trophies.filter((trophy) => trophy.category === category);
+      if (inCategory.length === 0) return;
 
       const heading = document.createElement('h3');
       heading.className = 'trophy-group';
       heading.textContent = i18n.t(`trophy.category.${category}`);
+      this.listElement.appendChild(heading);
 
-      const list = document.createElement('ul');
-      list.className = 'trophy-list';
-      group.forEach((trophy, index) => list.appendChild(this.buildTrophyRow(trophy, index)));
+      // Then the TYPE of trophy: the tiers of one extension do not all measure the same thing, so
+      // "complétion" and "boosters ouverts" are separated instead of being mixed in one grid.
+      TrophiesView.groupByType(inCategory).forEach((entries) => {
+        const subheading = document.createElement('h4');
+        subheading.className = 'trophy-subgroup';
+        subheading.textContent = i18n.t(entries[0].groupKey ?? `trophy.category.${category}`);
 
-      this.listElement.append(heading, list);
+        const list = document.createElement('ul');
+        list.className = 'trophy-grid';
+        entries.forEach((trophy, index) => list.appendChild(this.buildTrophyTile(trophy, index)));
+
+        this.listElement.append(subheading, list);
+      });
     });
 
     if (this.emptyElement) {
       this.emptyElement.hidden = trophies.length > 0;
     }
     this.log(`${trophies.length} trophy(ies) rendered (family: ${this.family}, status: ${this.status}).`);
+  }
+
+  /**
+   * Cuts a list of trophies into its types, keeping the order of the state.
+   *
+   * @param {object[]} trophies - Trophies of one category.
+   * @returns {Array<object[]>} One array per type, in order of first appearance.
+   */
+  static groupByType(trophies) {
+    const groups = new Map();
+    trophies.forEach((trophy) => {
+      // The category is part of the key: two categories must never share a group by accident.
+      const key = `${trophy.category}:${trophy.group ?? ''}`;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(trophy);
+    });
+    return Array.from(groups.values());
   }
 
   /**
@@ -419,82 +455,102 @@ export class TrophiesView {
   }
 
   /**
-   * Builds one trophy row: rarity, title, XP, progress and the pin/unpin icon button.
+   * Builds one trophy tile: its medal, its name and its progress bar with the percentage.
+   *
+   * Nothing else is printed here — the rarity, the description, the experience, the unlock date,
+   * the required cards and the avatars the trophy grants all live in the detail modal, which the
+   * tile opens. The accessible name of the button therefore carries the two facts a screen reader
+   * cannot read from the pictures: the rarity and the state of the trophy.
    *
    * @param {object} trophy - Trophy state.
-   * @param {number} index - Position in the list (drives the staggered entry animation).
+   * @param {number} index - Position in the grid (drives the staggered entry animation).
    * @returns {HTMLLIElement} The `<li>` element.
    */
-  buildTrophyRow(trophy, index = 0) {
+  buildTrophyTile(trophy, index = 0) {
     const item = document.createElement('li');
-    item.className = 'trophy';
+    item.className = 'trophy-tile';
     item.dataset.trophyId = trophy.id;
     item.dataset.rarity = trophy.rarity;
     item.dataset.unlocked = String(trophy.unlocked);
     item.style.setProperty('--tile-index', String(index));
 
-    const head = document.createElement('div');
-    head.className = 'trophy__head';
-
-    const medal = TrophyDetail.buildMedal(trophy);
-    const title = document.createElement('span');
-    title.className = 'trophy__title';
-    title.textContent = TrophyDetail.trophyTitle(trophy);
-
-    const xp = document.createElement('span');
-    xp.className = 'trophy__xp';
-    xp.textContent = trophy.unlocked
-      ? i18n.t('trophy.xp', {
-        experience: TrophyDetail.resolveExperience(trophy, this.trophyState?.experiencePerTrophy),
-      })
-      : i18n.t('trophy.locked');
-
-    if (medal) head.appendChild(medal);
-    head.append(TrophyDetail.buildRarityBadge(trophy), title, xp);
-    item.appendChild(head);
-
-    const description = document.createElement('p');
-    description.className = 'trophy__desc';
-    description.textContent = TrophyDetail.trophyDescription(trophy);
-    item.appendChild(description);
-
-    item.appendChild(TrophyDetail.buildProgress(trophy));
-
-    // The whole row opens the detail; the icon button next to it pins, so a tap on the row never
-    // toggles a pin by accident.
-    const actions = document.createElement('div');
-    actions.className = 'trophy__actions';
-
     const open = document.createElement('button');
     open.type = 'button';
-    open.className = 'trophy__open';
+    open.className = 'trophy-tile__open';
     open.dataset.trophyOpen = trophy.id;
-    open.textContent = i18n.t('trophies.details');
-    actions.appendChild(open);
+    open.title = TrophyDetail.trophyTitle(trophy);
+    open.setAttribute(
+      'aria-label',
+      `${TrophyDetail.trophyTitle(trophy)} — ${TrophyDetail.rarityLabel(trophy.rarity)} — ` +
+        i18n.t(trophy.unlocked ? 'trophy.unlocked' : 'trophy.locked')
+    );
 
-    if (trophy.unlocked) {
-      const pinned = (this.profile?.featured ?? []).includes(trophy.id);
-      actions.appendChild(TrophyDetail.buildIconButton({
-        className: 'trophy__pin',
-        datasetKey: 'trophyPin',
-        value: trophy.id,
-        icon: pinned ? TROPHY_UNPIN_ICON : TROPHY_PIN_ICON,
-        label: i18n.t(pinned ? 'profile.featured.unpin' : 'profile.featured.pin'),
-        pressed: pinned,
-      }));
-    }
+    const medal = TrophyDetail.buildMedal(trophy, 'trophy-tile__icon');
+    if (medal) open.appendChild(medal);
 
-    item.appendChild(actions);
+    const title = document.createElement('span');
+    title.className = 'trophy-tile__title';
+    title.textContent = TrophyDetail.trophyTitle(trophy);
+    open.appendChild(title);
+
+    const progress = document.createElement('span');
+    progress.className = 'trophy-tile__progress';
+    progress.appendChild(TrophyDetail.buildProgress(trophy, 'trophy-tile__track'));
+
+    const percent = document.createElement('span');
+    percent.className = 'trophy-tile__percent';
+    percent.textContent = i18n.t('trophy.progressValue', {
+      percent: Math.round((trophy.progress ?? 0) * 100),
+    });
+    progress.appendChild(percent);
+    open.appendChild(progress);
+
+    item.appendChild(open);
     return item;
+  }
+
+  /**
+   * Builds the pin toggle of the detail modal.
+   *
+   * The pins of the profile are chosen from the detail of a trophy, because the tiles of the
+   * catalogue are plain buttons: an unlocked trophy is therefore pinned (or unpinned) here.
+   *
+   * @param {object} trophy - Trophy state.
+   * @returns {HTMLElement|null} The toggle with its label, or null when the trophy is locked.
+   */
+  buildModalPin(trophy) {
+    if (!trophy.unlocked) return null;
+    const pinned = (this.profile?.featured ?? []).includes(trophy.id);
+    const label = i18n.t(pinned ? 'profile.featured.unpin' : 'profile.featured.pin');
+
+    const row = document.createElement('div');
+    row.className = 'trophy-modal__actions';
+    row.appendChild(TrophyDetail.buildIconButton({
+      className: 'trophy-modal__pin',
+      datasetKey: 'trophyPin',
+      value: trophy.id,
+      icon: pinned ? TROPHY_UNPIN_ICON : TROPHY_PIN_ICON,
+      label,
+      pressed: pinned,
+    }));
+
+    const text = document.createElement('span');
+    text.className = 'trophy-modal__pin-label';
+    text.textContent = label;
+    row.appendChild(text);
+    return row;
   }
 
   /**
    * Opens the detail modal for one trophy.
    *
    * @param {string} id - Trophy id.
+   * @param {object} [options] - Opening options.
+   * @param {boolean} [options.animate=true] - Replays the entry animation. Only a refresh of an
+   *   already open modal (a pin toggled from it) turns it off.
    * @returns {Promise<void>} Resolves once the modal is displayed.
    */
-  async openTrophyDetail(id) {
+  async openTrophyDetail(id, { animate = true } = {}) {
     const trophy = this.trophyState?.trophies?.find((candidate) => candidate.id === id);
     if (!trophy || !this.modal || !this.modalBody || !this.modalTitle) {
       console.warn(`[TrophiesView] Unknown trophy "${id}".`);
@@ -515,7 +571,15 @@ export class TrophiesView {
       experiencePerTrophy: this.trophyState.experiencePerTrophy,
       icons,
     }));
-    this.openModal(trophy.id);
+
+    const pin = this.buildModalPin(trophy);
+    if (pin) this.modalBody.appendChild(pin);
+
+    if (animate) {
+      this.openModal(trophy.id);
+    } else {
+      this.log(`Detail refreshed for "${id}".`);
+    }
   }
 
   /**
@@ -553,9 +617,13 @@ export class TrophiesView {
     try {
       const { featured, added } = await profileManager.toggleFeatured(id);
       this.profile = { ...this.profile, featured };
-      this.renderTrophies();
-      TrophiesView.pop(this.listElement.querySelector(`[data-trophy-pin="${id}"]`));
       Toast.success(added ? 'profile.featured.pinned' : 'profile.featured.unpinned');
+      // The toggle only exists in the detail modal: it is rebuilt in place (no entry animation) so
+      // its icon, its label and `aria-pressed` follow the new state immediately.
+      if (this.modal && !this.modal.hidden) {
+        await this.openTrophyDetail(id, { animate: false });
+        TrophiesView.pop(this.modalBody.querySelector(`[data-trophy-pin="${id}"]`));
+      }
     } catch (error) {
       console.error('[TrophiesView] The trophy could not be pinned.', error);
       Toast.error(getProfileErrorMessageKey(error));

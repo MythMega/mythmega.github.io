@@ -1,0 +1,60 @@
+/* =============================================================================
+   animations/accessibility.css - `prefers-reduced-motion` wins over every mode.
+
+   Loaded LAST, after all the modes: a player who asked for reduced motion must get it whatever
+   the selected mode. The selectors below are the ones of the mode rules, copied as they are,
+   because a shorter list would lose against a more specific mode rule.
+   ============================================================================= */
+
+/* =============================================================================
+   ACCESSIBILITY
+   ============================================================================= */
+
+/* A player who asked for reduced motion gets it whatever the selected mode: the flip still ends
+   on the front face (the static `transform: rotateY(180deg)` of `card-reveal.css` applies again),
+   the summary cards are simply there, and the tear keeps its instant hide.
+
+   The selectors are the ones of the rules above, copied as they are: a shorter list (say
+   `body[data-animation="epic"] .card-reveal__card`) loses against `.opening__stage
+   .card-reveal__card--r5.is-flipped`, which is more specific and would keep breathing. */
+@media (prefers-reduced-motion: reduce) {
+  body[data-animation="epic"] .booster-3d.is-tearing .booster-3d__viewport,
+  body[data-animation="epic"] .booster-3d.is-tearing .booster-3d__fallback,
+  body[data-animation="epic"] .booster-3d.is-tearing::after,
+  body[data-animation="epic"] .booster-3d.is-tearing::before,
+  body[data-animation="epic"] .opening__stage::before,
+  body[data-animation="epic"] .opening__stage .card-reveal__card,
+  body[data-animation="epic"] .opening__stage .card-reveal__card.is-entering-next,
+  body[data-animation="epic"] .opening__stage .card-reveal__card.is-entering-prev,
+  body[data-animation="epic"] .card-reveal__card.is-flipped,
+  body[data-animation="epic"] .opening__stage .card-reveal__card--r5.is-flipped,
+  body[data-animation="epic"] .card-reveal__card.is-flipped::after,
+  body[data-animation="epic"] .card-reveal--summary::after,
+  body[data-animation="epic"] .card-reveal__summary-item,
+  body[data-animation="epic"] .opening__summary,
+  body[data-animation="explosive"] .booster-3d.is-tearing .booster-3d__viewport,
+  body[data-animation="explosive"] .booster-3d.is-tearing .booster-3d__fallback,
+  body[data-animation="explosive"] .booster-3d.is-tearing::after,
+  body[data-animation="explosive"] .booster-3d.is-tearing::before,
+  body[data-animation="explosive"] .opening__scene.is-booming,
+  body[data-animation="explosive"] .opening__scene.is-booming .opening__spotlight,
+  body[data-animation="explosive"] .opening__scene.is-booming .booster-3d__hint,
+  body[data-animation="explosive"] .card-reveal__card.is-flipped,
+  body[data-animation="explosive"] .card-reveal__card.is-flipped::after,
+  body[data-animation="explosive"] .card-reveal--summary,
+  body[data-animation="explosive"] .card-reveal__summary-item,
+  body[data-animation="explosive"] .opening__summary,
+  body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-word,
+  body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-note,
+  body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-sticker,
+  body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-confetti,
+  body[data-animation="explosive"] .minepick__cards.is-dealing,
+  body[data-animation="explosive"] .minepick__cards.is-shuffling .minepick__card {
+    animation: none;
+  }
+
+  /* The confetti would otherwise sit on top of the "BOUM !": simply hide it. */
+  body[data-animation="explosive"] .opening__burst-confetti {
+    display: none;
+  }
+}

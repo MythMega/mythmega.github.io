@@ -1,28 +1,38 @@
 /* =============================================================================
-   wonder.css - Wonder Pick screen ("Pioche miracle").
+   minepick.css - Mine Pick screen.
 
-   Reference: `js/UI/views/WonderView.js` (the screen) and
-   `js/business/WonderPickManager.js` (the daily board, the allowance, the statistics).
+   Reference: `js/UI/views/MinePickView.js` (the screen) and
+   `js/business/MinePickManager.js` (the daily board, the allowance, the statistics).
 
    Two stages:
      1. the board  : the ten simulated boosters of the day, ONE PER LINE. A line carries the booster
                      texture, its name and its five cards face up, so the pack is chosen by its
-                     content and not blindly. A line is `available`, `picked` (the card that was
-                     kept is marked, the four others are greyed out) or `locked` (no pick left today);
+                     content and not blindly. A line is `available`, `selected` (previewed with a
+                     first tap, nothing spent yet), `picked` (the card that was kept is marked, the
+                     four others are greyed out) or `locked` (no pick left today);
      2. the pick   : the five cards of the chosen booster, dealt face up, turned over and shuffled
                      (`.is-preview` is the face-up state, driven by the view, not by `is-flipped`).
+
+   The rituals of that second stage are the fun part and all of them live down here:
+     `.is-dealing`   the pack lands in a burst of light;
+     `minepick-deal` the five cards deal in, one after another;
+     `.is-preview`   the pack breathes while the player memorises it;
+     `.is-turning`   each card lifts as it goes back face down;
+     `.is-shuffling` the cards wobble while the FLIP of `MinePickView` moves them;
+     `.is-chosen`    the kept card sends a shockwave.
+   The durations follow the animation mode (`--anim-flip-ms`), so "epic" is slower and wider.
 
    The cards themselves are styled by `css/components/card-reveal.css`: this file only adds the list,
    the dealing animation, the shuffle and the "kept card" markers. Colors come from `css/themes.css`.
    ============================================================================= */
 
-.wonder {
+.minepick {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
 }
 
-.wonder__panel {
+.minepick__panel {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -30,13 +40,13 @@
 
 /* --- Allowance ------------------------------------------------------------ */
 
-.wonder__quota {
+.minepick__quota {
   font-size: var(--font-size-sm);
   font-weight: 700;
   color: var(--color-text);
 }
 
-.wonder__countdown {
+.minepick__countdown {
   display: flex;
   align-items: baseline;
   gap: var(--space-2);
@@ -44,20 +54,20 @@
   color: var(--color-warning);
 }
 
-.wonder__countdown-value {
+.minepick__countdown-value {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
-.wonder__help,
-.wonder__hint {
+.minepick__help,
+.minepick__hint {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
 }
 
 /* --- List of the day ------------------------------------------------------ */
 
-.wonder__board {
+.minepick__board {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -66,14 +76,14 @@
   list-style: none;
 }
 
-.wonder__slot {
+.minepick__slot {
   display: block;
 }
 
 /* figure | head  (the name and the state of the booster)
    cards  cards   (the five cards of the pack, face up)
    action action  (the button, full width on a phone) */
-.wonder__row {
+.minepick__row {
   display: grid;
   grid-template-columns: 3.25rem minmax(0, 1fr);
   grid-template-areas:
@@ -89,21 +99,46 @@
   transition: border-color var(--duration-fast) var(--easing-standard);
 }
 
-.wonder__row[data-wonder-state='available']:hover {
+.minepick__row[data-minepick-state='available'] {
+  cursor: pointer;
+}
+
+.minepick__row[data-minepick-state='available']:hover {
   border-color: var(--color-accent);
 }
 
-.wonder__row.is-picked {
+/* The line the player previewed: outlined, lifted a hair, and nothing has been spent yet. */
+.minepick__row.is-selected {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-rarity-4);
+  animation: minepick-select 320ms var(--easing-standard);
+}
+
+.minepick__row.is-selected .minepick__row-state {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+@keyframes minepick-select {
+  from {
+    scale: 0.985;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+.minepick__row.is-picked {
   border-color: var(--color-success);
 }
 
-.wonder__row.is-locked {
+.minepick__row.is-locked {
   opacity: 0.7;
 }
 
 @media (min-width: 768px) {
   /* The pack sits next to its booster, the button on the far right. */
-  .wonder__row {
+  .minepick__row {
     grid-template-columns: 3.75rem minmax(0, 1fr) 9.5rem;
     grid-template-areas:
       'figure head action'
@@ -112,7 +147,7 @@
   }
 }
 
-.wonder__row-figure {
+.minepick__row-figure {
   grid-area: figure;
   display: grid;
   place-items: center;
@@ -121,13 +156,13 @@
   aspect-ratio: 3 / 4;
 }
 
-.wonder__booster-image {
+.minepick__booster-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.wonder__row-head {
+.minepick__row-head {
   grid-area: head;
   display: flex;
   flex-direction: column;
@@ -135,31 +170,31 @@
   min-width: 0;
 }
 
-.wonder__booster-name {
+.minepick__booster-name {
   margin: 0;
   font-size: var(--font-size-sm);
   font-weight: 700;
   color: var(--color-text);
 }
 
-.wonder__row-state {
+.minepick__row-state {
   margin: 0;
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
 }
 
-.wonder__row.is-picked .wonder__row-state {
+.minepick__row.is-picked .minepick__row-state {
   color: var(--color-success);
   font-weight: 700;
 }
 
-.wonder__row-action {
+.minepick__row-action {
   grid-area: action;
 }
 
 /* --- The pack, face up, inside the list ------------------------------------ */
 
-.wonder__row-cards {
+.minepick__row-cards {
   grid-area: cards;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -169,7 +204,7 @@
   list-style: none;
 }
 
-.wonder__mini {
+.minepick__mini {
   position: relative;
   overflow: hidden;
   aspect-ratio: 2 / 3;
@@ -179,38 +214,38 @@
   transition: opacity var(--duration-fast) var(--easing-standard);
 }
 
-.wonder__mini-image {
+.minepick__mini-image {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.wonder__mini--r4 {
+.minepick__mini--r4 {
   border-color: var(--color-accent);
   box-shadow: var(--glow-rarity-4);
 }
 
-.wonder__mini--r5 {
+.minepick__mini--r5 {
   border-color: var(--color-accent);
   box-shadow: var(--glow-rarity-5);
 }
 
-.wonder__mini--fullart {
+.minepick__mini--fullart {
   border-color: var(--color-accent);
 }
 
 /* A card that was kept is the one the pack gave away: it stays lit, the others fade. */
-.wonder__mini.is-kept {
+.minepick__mini.is-kept {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-.wonder__mini.is-discarded {
+.minepick__mini.is-discarded {
   opacity: 0.4;
 }
 
-.wonder__mini-flag {
+.minepick__mini-flag {
   position: absolute;
   right: 2px;
   bottom: 2px;
@@ -222,81 +257,212 @@
   font-weight: 700;
 }
 
-.wonder__empty {
+.minepick__empty {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
   list-style: none;
 }
 
 /* While the board is loading, the previous one stays readable but inactive. */
-.wonder.is-loading .wonder__board {
+.minepick.is-loading .minepick__board {
   opacity: 0.5;
   pointer-events: none;
 }
 
 /* --- Pick stage ----------------------------------------------------------- */
 
-.wonder__cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr));
+/* Flex rather than grid, and that is the whole point: a grid of three columns would leave the
+   last row (two cards) glued to the left. Wrapped flex centres whatever the last row holds, so
+   a vertical phone shows 3 + 2 in the middle of the screen instead of 4 + 1 in a corner. */
+.minepick__cards {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-2);
   /* The flip of a card needs the same perspective as the opening stage. */
   perspective: 1200px;
 }
 
-@media (min-width: 768px) {
-  .wonder__cards {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+/* The burst of light of the deal lives on the stage itself: a pseudo-element, so nothing is added
+   to the markup and it can never push a card around. */
+.minepick__cards::before {
+  content: '';
+  position: absolute;
+  inset: -14% -6%;
+  opacity: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 50% 46%, var(--color-accent), transparent 62%);
+}
+
+.minepick__cards.is-dealing::before {
+  animation: minepick-flash 760ms var(--easing-standard);
+}
+
+@keyframes minepick-flash {
+  0% {
+    opacity: 0;
+    scale: 0.7;
+  }
+  25% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.1;
   }
 }
 
-/* Dealing: the five cards land one after another, slightly rotated. */
-.wonder__cards .wonder__card {
-  width: 100%;
-  animation: wonder-deal 420ms var(--easing-standard) backwards;
+/* Three per line on a phone, five from the tablet up. */
+.minepick__cards .minepick__card {
+  flex: 0 0 auto;
+  width: calc((100% - 2 * var(--space-2)) / 3);
+  max-width: 9rem;
+  animation: minepick-deal 520ms var(--easing-standard) backwards;
 }
 
-.wonder__cards .wonder__card:nth-child(2) {
+@media (min-width: 768px) {
+  /* `width` and not only `max-width`: this box is a flex item of a column panel, and auto margins
+     on the cross axis cancel the stretch - the stage would shrink to the width of its own cards
+     (which are sized in % of it... circular, and it collapses to a few pixels). */
+  .minepick__cards {
+    width: min(100%, 46rem);
+    margin-inline: auto;
+  }
+
+  .minepick__cards .minepick__card {
+    width: calc((100% - 4 * var(--space-2)) / 5);
+  }
+}
+
+/* Dealing: the five cards drop in one after another, tilted, and settle with a tiny bounce. */
+.minepick__cards .minepick__card:nth-child(2) {
   animation-delay: 70ms;
 }
 
-.wonder__cards .wonder__card:nth-child(3) {
+.minepick__cards .minepick__card:nth-child(3) {
   animation-delay: 140ms;
 }
 
-.wonder__cards .wonder__card:nth-child(4) {
+.minepick__cards .minepick__card:nth-child(4) {
   animation-delay: 210ms;
 }
 
-.wonder__cards .wonder__card:nth-child(5) {
+.minepick__cards .minepick__card:nth-child(5) {
   animation-delay: 280ms;
 }
 
-@keyframes wonder-deal {
-  from {
+@keyframes minepick-deal {
+  0% {
     opacity: 0;
-    transform: translateY(-22px) rotate(-9deg) scale(0.88);
+    transform: translateY(-46px) rotate(-11deg) scale(0.82);
   }
-  to {
+  70% {
+    opacity: 1;
+    transform: translateY(4px) rotate(2deg) scale(1.03);
+  }
+  100% {
     opacity: 1;
     transform: none;
   }
 }
 
 /* Face up, WITHOUT being flipped: the pack is shown before it is turned over and shuffled, and the
-   card must still be able to flip later (`is-flipped` carries the rarity animation). */
-.wonder__cards .wonder__card.is-preview {
+   card must still be able to flip later (`is-flipped` carries the rarity animation). The pack
+   breathes while it is studied - the rotation stays in the keyframes, since the card IS the
+   180deg turn, not a child of it. */
+.minepick__cards .minepick__card.is-preview {
   transform: rotateY(180deg);
+  animation: minepick-study calc(var(--anim-flip-ms, 220ms) * 4) ease-in-out infinite alternate;
+}
+
+@keyframes minepick-study {
+  from {
+    transform: rotateY(180deg) translateY(0) scale(1);
+  }
+  to {
+    transform: rotateY(180deg) translateY(-4px) scale(1.035);
+  }
+}
+
+/* Back face down: the card lifts and settles instead of simply turning. The animation ends on the
+   resting state, so the view can drop the class without a jump. */
+.minepick__cards .minepick__card.is-turning {
+  animation: minepick-turn-down var(--anim-flip-ms, 220ms) var(--easing-standard) both;
+}
+
+@keyframes minepick-turn-down {
+  0% {
+    transform: rotateY(180deg) scale(1);
+  }
+  55% {
+    transform: rotateY(70deg) translateY(-10px) scale(1.05);
+  }
+  100% {
+    transform: rotateY(0deg) translateY(0) scale(1);
+  }
+}
+
+/* The wobble of the shuffle. It rides on the `rotate`/`scale` properties, never on `transform`:
+   the view translates the cards inline at the same moment (FLIP), and an animation on `transform`
+   would simply erase that translation. The duration is published by `MinePickView`. */
+.minepick__cards.is-shuffling .minepick__card {
+  animation: minepick-wobble var(--minepick-shuffle-ms, 420ms) var(--easing-standard);
+}
+
+@keyframes minepick-wobble {
+  0%,
+  100% {
+    rotate: 0deg;
+    scale: 1;
+  }
+  40% {
+    rotate: -4deg;
+    scale: 0.92;
+  }
+  75% {
+    rotate: 3deg;
+    scale: 1.02;
+  }
 }
 
 /* The card the player keeps: outlined like a revealed legendary, so the choice is unmistakable. */
-.wonder__cards .wonder__card.is-kept {
+.minepick__cards .minepick__card.is-kept {
   outline: 3px solid var(--color-accent);
   outline-offset: 4px;
   border-radius: var(--radius-md);
 }
 
-.wonder__result {
+/* ... and the pick itself sends a shockwave. It is fired by the view on the WHOLE stage, not on
+   the kept card: the card is busy playing the flip animation of the current mode (and in epic
+   or explosive, its own override of it), and stacking a second animation on the same property
+   would have replaced that flip with a boring little pulse. */
+.minepick__cards::after {
+  content: '';
+  position: absolute;
+  inset: 8% 14%;
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.minepick__cards.is-hitting::after {
+  animation: minepick-shockwave 720ms var(--easing-standard) both;
+}
+
+@keyframes minepick-shockwave {
+  0% {
+    opacity: 0.9;
+    scale: 0.82;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.14;
+  }
+}
+
+.minepick__result {
   padding: var(--space-2) var(--space-3);
   border: 1px solid var(--color-success);
   border-radius: var(--radius-md);
@@ -307,12 +473,22 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wonder__row,
-  .wonder__mini {
+  .minepick__row,
+  .minepick__mini {
     transition: none;
   }
 
-  .wonder__cards .wonder__card {
+  /* Careful with the specificity here: `.minepick__cards .minepick__card.is-preview` and friends
+     are MORE specific than the plain card rule, so listing only the generic selectors would
+     leave half the ritual running (that is exactly what the first version of this block did).
+     Every selector below mirrors the one that starts an animation, one for one. */
+  .minepick__row.is-selected,
+  .minepick__cards.is-dealing::before,
+  .minepick__cards.is-hitting::after,
+  .minepick__cards .minepick__card,
+  .minepick__cards .minepick__card.is-preview,
+  .minepick__cards .minepick__card.is-turning,
+  .minepick__cards.is-shuffling .minepick__card {
     animation: none;
   }
 }

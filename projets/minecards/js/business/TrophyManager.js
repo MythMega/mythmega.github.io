@@ -464,6 +464,11 @@ export class TrophyManager {
           trophies.push({
             id: buildTrophyId(TROPHY_CATEGORIES.BOOSTER, [set.setId, 'completion', tier.rarity]),
             category: TROPHY_CATEGORIES.BOOSTER,
+            // `group` sorts the catalogue page into blocks of the same TYPE of trophy (the label of
+            // the block is `groupKey`): completion tiers and "boosters opened" tiers do not read the
+            // same at all, and the page shows them apart.
+            group: 'completion',
+            groupKey: 'trophy.group.completion',
             rarity: tier.rarity,
             setId: set.setId,
             setName: set.name,
@@ -488,6 +493,8 @@ export class TrophyManager {
           trophies.push({
             id: buildTrophyId(TROPHY_CATEGORIES.BOOSTER, [set.setId, 'opened', tier.rarity]),
             category: TROPHY_CATEGORIES.BOOSTER,
+            group: 'opened',
+            groupKey: 'trophy.group.opened',
             rarity: tier.rarity,
             setId: set.setId,
             setName: set.name,
@@ -531,6 +538,10 @@ export class TrophyManager {
         trophies.push({
           id: buildTrophyId(TROPHY_CATEGORIES.GLOBAL, [statKey, tier.rarity]),
           category: TROPHY_CATEGORIES.GLOBAL,
+          // One block per global counter (`totalCards`, `boosters`, `differentCards`…), labelled by
+          // the same slug as the title/description keys.
+          group: statKey,
+          groupKey: `trophy.group.${slug}`,
           rarity: tier.rarity,
           setId: null,
           setName: null,
@@ -592,6 +603,9 @@ export class TrophyManager {
         trophies.push({
           id: buildTrophyId(TROPHY_CATEGORIES.COLLECTION, [set.setId, name]),
           category: TROPHY_CATEGORIES.COLLECTION,
+          // Every collection trophy is of the same type (a list of cards to own): one single block.
+          group: 'cards',
+          groupKey: 'trophy.group.cards',
           rarity,
           setId: set.setId,
           setName: set.name,

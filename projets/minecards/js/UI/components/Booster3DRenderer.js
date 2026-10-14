@@ -1,7 +1,7 @@
 /**
  * Booster3DRenderer - Three.js booster of the opening view.
  *
- * Reference: `.docs/steps/4.md` point 1 and `css/animations.css` (the animation modes).
+ * Reference: `.docs/steps/4.md` point 1 and `css/animations/` (the animation modes).
  *
  * RESPONSIBILITIES
  *   - load a `.glb` model (path from `config.json` -> `boosters.model`) and paint it with the
@@ -59,33 +59,33 @@ const CAMERA_DISTANCE = 3.52;
  * LIGHTING / BRIGHTNESS - tweak these constants to make the booster brighter or darker.
  * ---------------------------------------------------------------------------------------------- */
 
-/** Flat light reaching every face equally (lifts the shadows). Previously 1.1. */
-const AMBIENT_LIGHT_INTENSITY = 1.2;
+/** Flat light reaching every face equally (lifts the shadows). */
+const AMBIENT_LIGHT_INTENSITY = 1.1;
 
-/** Main directional light (top right, in front of the booster). Previously 1.4. */
-const KEY_LIGHT_INTENSITY = 1.7;
+/** Main directional light (top right, in front of the booster). */
+const KEY_LIGHT_INTENSITY = 1.5;
 
-/** Back / bottom-left light that outlines the edges. Previously 0.7. */
-const RIM_LIGHT_INTENSITY = 1.0;
+/** Back / bottom-left light that outlines the edges. */
+const RIM_LIGHT_INTENSITY = 0.9;
 
 /** Extra frontal light that lights the face of the booster facing the camera (0 = off). */
-const FRONT_FILL_LIGHT_INTENSITY = 0.3;
+const FRONT_FILL_LIGHT_INTENSITY = 0.25;
 
 /** Soft sky/ground light (0 = off). */
-const HEMISPHERE_LIGHT_INTENSITY = 0.5;
+const HEMISPHERE_LIGHT_INTENSITY = 0.4;
 
 /**
  * Global exposure of the render (1 = neutral, 1.5 = +50 %, 0.8 = darker).
  * Applied with a linear tone mapping, so colours are NOT desaturated.
  */
-const EXPOSURE = 1.0;
+const EXPOSURE = 0.94;
 
 /**
  * Intensity of the studio reflections (generated `RoomEnvironment`, 0 = no environment).
  * It is the main fix for "black" models: a metallic material without environment reflects nothing.
  * Needs Three.js r163+ (`scene.environmentIntensity`).
  */
-const ENVIRONMENT_INTENSITY = 1.0;
+const ENVIRONMENT_INTENSITY = 0.9;
 
 /** Metalness is clamped to this value: a metal without a reflected world looks black (0 = matte). */
 const MATERIAL_METALNESS_MAX = 0.25;
@@ -97,7 +97,7 @@ const MATERIAL_ROUGHNESS_MIN = 0.55;
  * Self-lighting: the texture glows a little by itself, whatever the lights do (0 = off).
  * 0.3 to 0.6 gives a clearly brighter booster, past 0.8 it starts to look washed out.
  */
-const EMISSIVE_INTENSITY = 0.1;
+const EMISSIVE_INTENSITY = 0.06;
 
 export class Booster3DRenderer {
   /**

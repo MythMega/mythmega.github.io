@@ -1,0 +1,58 @@
+/* =============================================================================
+   animations/opening.css - Keyframes of the NEUTRAL opening choreography.
+
+   The movement is separated from the structure: `css/views/opening.css` keeps the boxes of
+   the screen and the `animation:` declarations, and points here for the keyframes themselves,
+   which live with the other motion. The modes (`epic.css`, `explosive.css`) override the
+   resulting animation, never these keyframes.
+   ============================================================================= */
+
+/* The card lands from behind and above, slightly tilted: enough travel to feel like an arrival,
+   short enough that the player never waits for it. */
+@keyframes spotlight-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.91) rotateX(11deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes spotlight-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(84px) rotate(5deg) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes spotlight-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-84px) rotate(-5deg) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes summary-pop {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.82) rotate(-4deg);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.05) rotate(1deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

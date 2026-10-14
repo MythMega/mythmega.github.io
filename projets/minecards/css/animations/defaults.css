@@ -1,0 +1,65 @@
+/* =============================================================================
+   animations/defaults.css - Opening animation modes: the shared contract.
+
+   Reference: `js/utils/AnimationManager.js` (which mode is active) and
+   `settings/config.json` (`animations.list`, which modes exist and how long they last).
+
+   THE FOLDER
+     `css/animations/` holds the OPENING ANIMATION MODES, and nothing else. It is the LAST group of
+     stylesheets of the chain on purpose: these files only override the animation of the three
+     stages of an opening, never the layout. One file per concern, so a mode can be read - and
+     changed - without reading the others:
+       `defaults.css`       this file: the duration defaults every mode inherits;
+       `opening.css`        the keyframes of the neutral choreography. `css/views/opening.css`
+                            keeps the structure and the `animation:` declarations naming them;
+       `epic.css`           the `epic` mode;
+       `explosive.css`      the `explosive` (parodic) mode, burst structure included;
+       `minepick.css`       what the modes add to the Mine Pick screen;
+       `accessibility.css`  `prefers-reduced-motion`. Loaded LAST: it must win over every mode.
+     A component that MOVES is not here: the card flip, the foil reflection of a legendary, a toast
+     and so on keep their keyframes next to their own rules, in `css/components/`.
+
+   A mode is selected by `data-animation` on <html>/<body>, exactly like the theme.
+
+   STAGES
+     1. opening of the pack : `.booster-3d.is-tearing` (the viewport is torn, thrown away
+                              or blown up) - `--anim-tear-ms`;
+     2. card flip           : `.card-reveal__card.is-flipped` - `--anim-flip-ms`;
+     3. summary             : `.card-reveal__summary-item` (and its stagger) -
+                              `--anim-stagger-ms`.
+
+   MODES
+     - `normal`    : nothing is overridden here. The neutral look lives in the component
+                     stylesheets and is already cinematic: the flip overshoots and zooms
+                     (`css/components/card-reveal.css`), the spotlight card drops in tilted
+                     and the summary tiles bounce (`css/views/opening.css`). This mode only
+                     owns the duration of the WebGL tear (`--anim-tear-ms`, read by
+                     `Booster3DRenderer`);
+     - `epic`      : the same choreography, staged. The pack rises inside a field of light
+                     rays with dust motes, the booster leaves a streak, the flipped card
+                     sends a shockwave ring and zooms, rarities 4 and 5 get a real halo and
+                     the summary raises a light sweep over every tile;
+     - `explosive` : DELIBERATELY RIDICULOUS (flagged `parodic: true` in `config.json`).
+                     On top of the comic tear, the shake, the "BOUM !" and the fairground
+                     flip, the pack now throws confetti (`OpeningView.spawnConfetti()`),
+                     slaps stickers around the burst, doubles the shake and rolls the whole
+                     panel. It is a joke mode and the settings screen says so.
+
+   IMPORTANT: every rule of a mode is keyed on `body[data-animation="…"]` so a mode can never leak
+   into another one, and `prefers-reduced-motion: reduce` still wins over all three
+   (`css/animations/accessibility.css`). Animations only move `transform`, `translate`, `scale` and
+   `opacity`: a `filter` would flatten the 3D stacking context of a flipping card
+   (`backface-visibility` would break). Every color comes from `css/themes.css`.
+   ============================================================================= */
+
+/* --- Defaults -------------------------------------------------------------- */
+
+/* Safety net for the moment between the first paint and `AnimationManager.init()` (and for a
+   runtime where the module could not load): the values mirror `DEFAULT_ANIMATION_TIMING` of
+   `js/utils/ConfigLoader.js`. */
+:root {
+  --anim-tear-ms: 700ms;
+  --anim-flip-ms: 220ms;
+  --anim-stagger-ms: 60ms;
+  --anim-comic-font: var(--font-family-base);
+}

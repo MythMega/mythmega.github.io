@@ -32,7 +32,7 @@ Clés de `user_state` :
 - `"giftSync"` : `{ lastCheckedLine, lastCheckAt }`.
 - `"profile"` : `{ name, photo, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, URL de la photo de profil, jusqu'à 5 cartes favorites et 3 trophées mis en avant.
 - `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
-- `"wonderPick"` : `{ lastResetDay, remaining, totalPicks, picksByRarity, picksByCard, history }` — état de la Pioche miracle (`WonderPickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
+- `"minePick"` : `{ lastResetDay, remaining, totalPicks, picksByRarity, picksByCard, history }` — état de la Mine Pick (`MinePickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
 
 Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `lang` et `theme` est autorisé, pour appliquer le thème avant le premier rendu (évite le flash).
 
@@ -74,21 +74,22 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 ### E. Rendu 3D & Animation d'Ouverture
 - Three.js + `GLTFLoader`, modèle `.glb`, texture définie dans le JSON de l'extension.
 - Workflow : interaction avec le booster 3D → 5 cartes face cachée → clic pour retourner une à une → glow CSS pour les raretés 4 et 5.
-- Trois **modes d'animation** (voir section F) habillent ce workflow : en **Épique** le booster décolle lentement avec un flash et le retournement dépasse avant de se poser ; en **Explosif** — mode **parodique assumé** (`parodic: true` dans `config.json`) — le booster tremble, tourne et explose derrière un « BOUM ! » comique, la scène tremble, la carte fait deux tours et demi et les vignettes du résumé tombent du plafond en police comique. Le côté parodique est annoncé par le bandeau hachuré et le badge « Parodique » des Paramètres, et par la note sous le « BOUM ! ».
+- Les animations de base sont **cinématographiques** : le retournement dépasse légèrement avant de se poser (`card-flip`, avec un zoom au passage), la carte du projecteur arrive de plus haut et de biais, la vignette de résumé rebondit, les raretés 4 et 5 s'entourent d'un halo et les Full Art dérivent doucement (`css/components/card-reveal.css`, `css/views/opening.css`).
+- Trois **modes d'animation** (voir section F) habillent ce workflow. **Normal** ne change rien au mouvement, seulement ses durées. **Épique** le met en scène : rayons de lumière et poussières autour du booster, traînée de décollage, onde de choc à l'ouverture de la carte, halo renforcé sur les raretés hautes, balayage lumineux sur le résumé. **Explosif** — mode **parodique assumé** (`parodic: true` dans `config.json`) — en rajoute : le booster tremble, tourne et explose derrière un « BOUM ! » entouré d'autocollants comiques, la scène **et** le panneau tremblent, un anneau de BD part du choc, des **confettis** sont tirés à chaque ouverture (`OpeningView.spawnConfetti()`), la carte fait deux tours et demi et les vignettes du résumé tombent du plafond en police comique. Le côté parodique est annoncé par le bandeau hachuré et le badge « Parodique » des Paramètres, et par la note sous le « BOUM ! ».
 - La boîte qui contient le booster fait **90 % de la largeur** de son conteneur et **10 % de hauteur en plus** (38 vh pour l'aperçu du sélecteur, 50 vh pour la scène d'ouverture, 42 vh et 55 vh au-delà de 768 px) : le booster garde ainsi des marges sur les côtés, ce qui laisse les deux flèches de changement d'extension collées aux bords même sur un écran vertical. La caméra est reculée d'autant (3,52 au lieu de 3,2) pour que le modèle ne grossisse pas en même temps que la boîte ; l'image 2D de secours est réduite de 10 % de la même façon.
 
 ### F. Langues & Thèmes
 - **Langues** : Français, Anglais (extensible : ajouter `settings/i18n/<code>.json` + l'entrée dans `settings/config.json`). Change les libellés et les chemins d'images, à chaud (sans rechargement).
 - **Thèmes** : **Sombre** (défaut), **Clair**, **Classic**. Chacun est un bloc de variables CSS `body[data-theme="…"]` dans `css/themes.css`. Extensible.
 - Les deux préférences sont sauvegardées dans `user_state["settings"]` et incluses dans le `.save`.
-- **Animations** : **Normal** (défaut), **Épique**, **Explosif**. Les modes sont déclarés dans `settings/config.json` (`animations.list` : `id`, `labelKey`, `parodic`, `tearMs`, `flipMs`, `staggerMs`) et le mode actif est posé en `data-animation` sur `<html>`/`<body>`, comme le thème. `js/utils/AnimationManager.js` publie les trois durées en variables CSS (`--anim-tear-ms`, `--anim-flip-ms`, `--anim-stagger-ms`) ; `css/animations.css`, chargé en dernier, n'habille que les trois temps d'une ouverture (déchirure du booster, retournement d'une carte, affichage du résumé). Le `tearMs` sert aussi au mouvement WebGL de `Booster3DRenderer`, donc le 3D, le CSS et la rafale comique ne peuvent pas se désynchroniser. Un mode déclaré sans bloc CSS réutilise simplement l'animation neutre à sa vitesse.
+- **Animations** : **Normal** (défaut), **Épique**, **Explosif**. Les modes sont déclarés dans `settings/config.json` (`animations.list` : `id`, `labelKey`, `parodic`, `tearMs`, `flipMs`, `staggerMs`) et le mode actif est posé en `data-animation` sur `<html>`/`<body>`, comme le thème. `js/utils/AnimationManager.js` publie les trois durées en variables CSS (`--anim-tear-ms`, `--anim-flip-ms`, `--anim-stagger-ms`), que le **JS lit aussi** : les séquences automatiques (révélations de la Mine Pick, garde d'arrivée du projecteur) ne peuvent pas se désynchroniser du CSS. Le `tearMs` sert en plus au mouvement WebGL de `Booster3DRenderer`, donc la 3D, le CSS et la rafale comique restent sur la même horloge. `css/animations/`, chargé en dernier, ne fait qu'**habiller** les animations de base décrites en 3.E : un mode sans bloc CSS réutilise simplement le mouvement neutre à sa vitesse, et un mode qui en a un ne remplace jamais l'animation de base sans raison. La Mine Pick suit le mode actif (voir 3.G quater).
 
 ### G. Vues & Navigation (SPA)
 0. **Accueil (onboarding)** : créer / importer, affiché seulement si aucun compte.
 1. **Ouverture** : choix du booster + scène d'ouverture.
 2. **Collection** : grille, silhouettes grisées pour les manquantes, filtres extension/style/rareté/statut, **bouton cœur** sur les cartes possédées (5 favoris maximum).
-2 bis. **Profil** : deux onglets. L'onglet *Profil* affiche l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. L'onglet *Trophées* isole le catalogue derrière deux combos (famille, statut) pour ne jamais afficher les trente trophées d'un coup. Le **bloc Statistiques** est le dernier de la page, sous les cartes favorites (`[data-panel="stats"]`), avec les compteurs propres à la Pioche miracle.
-3. **Pioche miracle** (*Wonder Pick*) : les dix boosters simulés du jour, **listés un par ligne avec leur contenu face visible**, et les trois pioches gratuites — voir section 3.G quater.
+2 bis. **Profil** : deux onglets. L'onglet *Profil* affiche l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. L'onglet *Trophées* isole le catalogue derrière deux combos (famille, statut) pour ne jamais afficher les trente trophées d'un coup. Le **bloc Statistiques** est le dernier de la page, sous les cartes favorites (`[data-panel="stats"]`), avec les compteurs propres à la Mine Pick.
+3. **Mine Pick** : les dix boosters simulés du jour, **listés un par ligne avec leur contenu face visible**, et les trois pioches gratuites. Un premier clic **sélectionne** la ligne (aperçu), le second l'ouvre — voir section 3.G quater.
 4. **Paramètres** : langue, thème, **animations** (sélecteur + aperçu animé joué à l'ouverture de la page, bandeau d'avertissement pour le mode parodique), **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
 6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
@@ -144,29 +145,46 @@ Règles de la file d'attente : une notification reste **3 s** (`NOTIFICATION_DUR
 
 Enfin, les avatars (`assets/img/profile/**`) sont du **pixel art** (6x6, 8x8, 48x48 ou 192x192) : les trois endroits qui les affichent — avatar du profil, sélecteur d'icônes, section « Icônes débloquées » d'un trophée — les rendent avec `image-rendering: pixelated`, donc sans aucune interpolation.
 
-### G quater. Pioche miracle (Wonder Pick)
+### G quater. Mine Pick
 
-Un onglet principal (`data-view="wonder"`) : chaque jour, **dix boosters simulés** sont listés, **un par
+Un onglet principal (`data-view="minepick"`) : chaque jour, **dix boosters simulés** sont listés, **un par
 ligne**, avec leur texture, leur nom et leurs **cinq cartes face visible** — le pack se choisit donc en
 connaissance de cause, jamais au hasard. Le joueur dispose de **trois pioches gratuites**, remises à zéro
 à minuit UTC comme le quota quotidien. Ouvrir un booster distribue son contenu face visible (exactement
 ce que la ligne annonçait), retourne les cartes une à une puis les **mélange**, et le joueur garde celle
 qu'il retourne : les autres se révèlent ensuite et la carte gardée rejoint la collection.
 
+**Deux clics pour ouvrir, et c'est volontaire.** Le premier **sélectionne** la ligne : elle se borde et
+s'illumine, sa ligne d'état annonce « Sélectionné », son bouton (jusqu'ici gris) devient « Ouvrir ce
+booster » — et **rien n'est consommé**. Le second clic (sur la ligne ou sur ce bouton) ouvre vraiment le
+pack. Une pioche gratuite ne se dépense pas parce qu'un pouce a frôlé une ligne en scrollant.
+
 **Un booster déjà pioché reste dans la liste**, avec la carte qui en a été gardée (marquée « Gardée », les
 quatre autres grisées) et un bouton désactivé : il n'est pas rejouable le même jour, donc les choix
-s'épuisent vraiment avant les dix lignes. Une ligne affiche donc l'un de ces trois états : *piochable*,
-*pioche faite* ou *verrouillée* (quota du jour épuisé, avec le compte à rebours de minuit UTC).
+s'épuisent vraiment avant les dix lignes. Une ligne affiche donc l'un de ces quatre états : *piochable*,
+*sélectionnée*, *pioche faite* ou *verrouillée* (quota du jour épuisé, avec le compte à rebours de minuit
+UTC).
+
+**Les animations sont au rendez-vous** (`css/views/minepick.css`) : le pack atterrit dans une déflagration
+de lumière, les cinq cartes se distribuent une à une en se posant, le paquet face visible « respire »
+pendant qu'on le mémorise, chaque carte se retourne avec une petite levée, les cartes se dandinent pendant
+le mélange, ondes de choc et vibration de la ligne sélectionnée comprises. Les durées viennent du mode
+d'animations actif (`--anim-flip-ms`) : l'Épique est plus lent et plus large, l'Explosif secoue la scène
+et fait sautiller les cartes. `prefers-reduced-motion` les coupe toutes.
+
+**Sur écran vertical, le paquet se pose en 3 + 2 centré** : `.minepick__cards` est un conteneur `flex`
+qui centre sa dernière ligne (une grille de trois colonnes aurait collé les deux cartes restantes à
+gauche), et passe à cinq colonnes au-delà de 768 px.
 
 **Les paquets sont réels.** Une ouverture simulée passe par le même `GachaEngine`, la même table de
 raretés (surcharge d'une extension comprise) et les mêmes `boosters.cardsPerBooster` /
 `boosters.godpackChancePercent` qu'une ouverture : modifier `settings/config.json` change donc
-réellement ce que la Pioche miracle affiche.
+réellement ce que la Mine Pick affiche.
 
-**Déterminisme.** Le plateau entier vient d'un générateur amorcé par `wonderPick.seedSalt` + le jour UTC
+**Déterminisme.** Le plateau entier vient d'un générateur amorcé par `minePick.seedSalt` + le jour UTC
 fiable + l'UUID du compte : un rechargement montre le même plateau, il change au jour UTC suivant, et
 deux comptes ne partagent jamais le même. L'extension de chaque booster est tirée avec un poids de
-`(rang + 1) ** wonderPick.setWeightExponent`, donc l'id le plus haut est le plus probable. `Math.random()`
+`(rang + 1) ** minePick.setWeightExponent`, donc l'id le plus haut est le plus probable. `Math.random()`
 n'est jamais utilisé, et les tirages sont pris dans un ordre fixe : le dixième booster ne dépend pas de
 l'affichage.
 
@@ -175,18 +193,23 @@ Le **mélange** est reproductible pour la même raison : un second générateur,
 les paquets — les cartes ne dépendent donc pas du mélange, et un rechargement redistribue chaque pack à
 l'identique.
 
-**Paramètres** (`settings/config.json`, section `wonderPick`) : `boosterCount` (10), `picksPerDay` (3),
+**Paramètres** (`settings/config.json`, section `minePick`) : `boosterCount` (10), `picksPerDay` (3),
 `historySize` (10), `seedSalt`, `setWeightExponent`. Chaque valeur retombe sur son défaut si la section
 est absente ou corrompue.
 
-**Ce qui est écrit** : `user_state["wonderPick"]` (quota du jour, `picksByBooster` — quel booster a été
+**Ce qui est écrit** : `user_state["minePick"]` (quota du jour, `picksByBooster` — quel booster a été
 utilisé aujourd'hui et quelle carte en est sortie, c'est ce qui marque les lignes de la liste et ce que
 lit la garde `ALREADY_PICKED` —, `totalPicks`, `picksByRarity`, `picksByCard`, `history`) et **la seule
 carte gardée** dans la collection, dans **une seule transaction** :
 impossible de consommer une pioche sans recevoir sa carte. La carte est annoncée par `CARDS_OBTAINED`
-(`source: "wonder"`), donc XP, trophées et notifications suivent exactement comme pour une carte achetée.
+(`source: "minepick"`), donc XP, trophées et notifications suivent exactement comme pour une carte achetée.
 En revanche elle ne touche **jamais** `stats` (ce n'est pas un booster ouvert) : la fonctionnalité a ses
 propres compteurs, affichés dans le bloc Statistiques du Profil.
+
+**Renommage.** La fonctionnalité, sa clé de sauvegarde et son `seedSalt` ont été renommés (l'ancien nom
+a fait l'objet d'une demande pour raison de droit). Conséquence assumée : la **première** ouverture après
+la mise à jour repart sur un plateau neuf et un quota plein, puisque la graine a changé — la collection,
+elle, n'est jamais touchée.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.

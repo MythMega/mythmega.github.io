@@ -76,10 +76,10 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ experience, level }`. Emitted by TrophyManager whenever the experience total or
    * the level changes: the profile page repaints its progress bar. */
   EXPERIENCE_UPDATED: 'EXPERIENCE_UPDATED',
-  /** Payload: `{ day, remaining, picksPerDay, totalPicks }`. Emitted by WonderPickManager after a
-   * pick and whenever the daily allowance rolls over: the Wonder Pick screen and the dedicated
-   * statistics repaint. The card itself is announced through `CARDS_OBTAINED` (`source: 'wonder'`). */
-  WONDER_PICK_UPDATED: 'WONDER_PICK_UPDATED',
+  /** Payload: `{ day, remaining, picksPerDay, totalPicks }`. Emitted by MinePickManager after a
+   * pick and whenever the daily allowance rolls over: the Mine Pick screen and the dedicated
+   * statistics repaint. The card itself is announced through `CARDS_OBTAINED` (`source: 'minepick'`). */
+  MINE_PICK_UPDATED: 'MINE_PICK_UPDATED',
 });
 
 class EventBus {

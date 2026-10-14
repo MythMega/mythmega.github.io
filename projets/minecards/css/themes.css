@@ -42,6 +42,22 @@ body[data-theme="dark"],
   --glow-rarity-4: 0 0 14px rgba(120, 200, 255, 0.55);
   --glow-rarity-5: 0 0 18px rgba(255, 200, 90, 0.65);
 
+  /* Foil of the legendary/mythic shine (`css/components/card-shine.css`). The foil is WHITE light:
+     the five first tokens differ only in strength, not in hue, and they are what draws the shapes
+     (glints, star rays, hexagon lattice, embossed dot grid) of a printing.
+       --shine      the heart of a glint, the peak of a band;
+       --shine-soft the wide halo around it;
+       --foil-mid   the middle strength - star rays, honeycomb;
+       --foil-faint the micro relief - embossing, dot grid, barely there;
+       --foil-line  a drawn shape (a lattice edge, a sparkle) - a line, not a wash;
+       --foil-shade the dark side of the bevel, the only one that is not white: it is a shadow. */
+  --shine: rgba(255, 255, 255, 0.85);
+  --shine-soft: rgba(255, 255, 255, 0.22);
+  --foil-mid: rgba(255, 255, 255, 0.5);
+  --foil-faint: rgba(255, 255, 255, 0.13);
+  --foil-line: rgba(255, 255, 255, 0.42);
+  --foil-shade: rgba(0, 0, 0, 0.38);
+
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
   --overlay: rgba(4, 7, 14, 0.72);
@@ -71,6 +87,16 @@ body[data-theme="light"],
   --glow-rarity-4: 0 0 12px rgba(38, 139, 210, 0.45);
   --glow-rarity-5: 0 0 16px rgba(214, 158, 46, 0.55);
 
+  /* The foil stays white on a light palette (`css/components/card-shine.css`): a white reflection
+     on a pale surface reads through its shapes and its bevel, so `--foil-shade` carries more of the
+     effect here than it does on the dark theme. */
+  --shine: rgba(255, 255, 255, 0.95);
+  --shine-soft: rgba(255, 255, 255, 0.32);
+  --foil-mid: rgba(255, 255, 255, 0.55);
+  --foil-faint: rgba(255, 255, 255, 0.18);
+  --foil-line: rgba(255, 255, 255, 0.5);
+  --foil-shade: rgba(18, 26, 43, 0.3);
+
   --shadow-sm: 0 1px 2px rgba(18, 26, 43, 0.12);
   --shadow-md: 0 10px 26px rgba(18, 26, 43, 0.16);
   --overlay: rgba(18, 26, 43, 0.45);
@@ -99,6 +125,13 @@ body[data-theme="classic"],
   --glow-accent: 0 0 10px rgba(165, 84, 31, 0.35);
   --glow-rarity-4: 0 0 12px rgba(47, 111, 168, 0.45);
   --glow-rarity-5: 0 0 16px rgba(180, 132, 20, 0.6);
+
+  --shine: rgba(255, 250, 236, 0.9);
+  --shine-soft: rgba(255, 250, 236, 0.28);
+  --foil-mid: rgba(255, 250, 236, 0.55);
+  --foil-faint: rgba(255, 250, 236, 0.17);
+  --foil-line: rgba(255, 250, 236, 0.48);
+  --foil-shade: rgba(47, 36, 21, 0.32);
 
   --shadow-sm: 0 1px 2px rgba(47, 36, 21, 0.18);
   --shadow-md: 0 10px 26px rgba(47, 36, 21, 0.2);

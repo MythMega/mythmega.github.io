@@ -1,19 +1,19 @@
 /**
- * StatsView - Booster count, completion, rarity distribution, most drawn card, Wonder Pick
+ * StatsView - Booster count, completion, rarity distribution, most drawn card, Mine Pick
  * counters and the last openings.
  *
  * Reference: `.docs/steps/5.md` point 3. Reads `user_state["stats"]`, `user_state["boosterHistory"]`,
- * `user_state["wonderPick"]` (through `WonderPickManager`) and the collection (via
+ * `user_state["minePick"]` (through `MinePickManager`) and the collection (via
  * `CollectionManager`). Only booster draws feed the opening counters: redeem/gift cards (steps 7 and
- * 8) and wonder-picked cards never touch `stats` — the Wonder Pick keeps its own counters, because a
+ * 8) and minepick-picked cards never touch `stats` — the Mine Pick keeps its own counters, because a
  * pick is not an opened booster.
  *
- * HOSTED BY THE PROFILE
- *   These panels are no longer a destination of the bottom bar: they live under the profile
- *   (`[data-panel="stats"]`). `ProfileView` therefore owns the lifecycle — it calls `init()`,
- *   `handleViewActivated()` / `handleViewDeactivated()`, `handleLanguageChanged()` and `destroy()` —
- *   which is why this view does not listen to `VIEW_CHANGED` anymore. It still follows
- *   `LANG_CHANGED`, `BOOSTER_OPENED` and `WONDER_PICK_UPDATED` on its own.
+ * A PAGE OF ITS OWN
+ *   These panels used to be a block at the bottom of the profile (`[data-panel="stats"]`) and, before
+ *   that, a destination of the bottom bar. They are now the `stats` router view
+ *   (`[data-view="stats"]`), opened from the small button of the profile and left with the back
+ *   button under the title: the page shows nothing but the statistics, and it owns its lifecycle
+ *   again (it follows `VIEW_CHANGED`, plus `LANG_CHANGED`, `BOOSTER_OPENED` and `MINE_PICK_UPDATED`).
  *
  * The history panel shows the last `boosters.historySize` (10) openings with their shareable
  * `minecards:` code, the trusted UTC date of the opening and the 5 cards: each thumbnail opens the
@@ -26,27 +26,36 @@ import collectionManager from '../../business/CollectionManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
-import wonderPickManager from '../../business/WonderPickManager.js';
+import minePickManager from '../../business/MinePickManager.js';
 import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import Toast from '../components/Toast.js';
 
-/** Panel attribute matching `[data-panel="stats"]` in `index.html` (inside the profile view). */
-export const STATS_PANEL_SELECTOR = '[data-panel="stats"]';
+/** View name, matching `data-view="stats"` in `index.html`. */
+export const STATS_VIEW_NAME = 'stats';
+
+/** View the back button returns to: the profile, which carries the button that opens this page. */
+export const STATS_BACK_VIEW = 'profile';
 
 /** Number of past openings displayed. */
 export const STATS_HISTORY_SIZE = 10;
 
 export class StatsView {
   /**
-   * @param {HTMLElement} rootElement - The statistics block of the profile (`[data-panel="stats"]`).
+   * @param {HTMLElement} rootElement - The statistics `<section>` (`[data-view="stats"]`).
+   * @param {object} [options] - View options.
+   * @param {(viewName: string) => void} [options.onNavigate] - Called by the back button to switch
+   *   view: the router belongs to `app.js`, which passes its `show()`.
    */
-  constructor(rootElement) {
+  constructor(rootElement, { onNavigate = null } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('StatsView requires the stats section element.');
     }
 
     this.root = rootElement;
+    /** @type {((viewName: string) => void)|null} */
+    this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
+    this.backButton = this.root.querySelector('[data-stats-back]');
     this.feedbackElement = this.root.querySelector('[data-stats-feedback]');
     this.boostersElement = this.root.querySelector('[data-stats-boosters]');
     this.completionGlobalElement = this.root.querySelector('[data-stats-completion-global]');
@@ -59,10 +68,10 @@ export class StatsView {
     this.cardModalTitle = this.root.querySelector('[data-stats-modal-title]');
     this.cardModalBody = this.root.querySelector('[data-stats-modal-body]');
     this.cardModalClose = this.root.querySelector('[data-stats-modal-close]');
-    this.wonderSummaryElement = this.root.querySelector('[data-stats-wonder-summary]');
-    this.wonderRarityElement = this.root.querySelector('[data-stats-wonder-rarity]');
-    this.wonderRarestElement = this.root.querySelector('[data-stats-wonder-rarest]');
-    this.wonderHistoryElement = this.root.querySelector('[data-stats-wonder-history]');
+    this.minepickSummaryElement = this.root.querySelector('[data-stats-minepick-summary]');
+    this.minepickRarityElement = this.root.querySelector('[data-stats-minepick-rarity]');
+    this.minepickRarestElement = this.root.querySelector('[data-stats-minepick-rarest]');
+    this.minepickHistoryElement = this.root.querySelector('[data-stats-minepick-history]');
 
     /** @type {Array<{code: string|null, setId: string, openedAt: string|null, godpack: boolean, set: object|null, cards: Array}>} */
     this.historyEntries = [];
@@ -100,6 +109,7 @@ export class StatsView {
    */
   assertMarkup() {
     const missing = [
+      ['[data-stats-back]', this.backButton],
       ['[data-stats-boosters]', this.boostersElement],
       ['[data-stats-completion-global]', this.completionGlobalElement],
       ['[data-stats-completion-sets]', this.completionSetsElement],
@@ -110,9 +120,9 @@ export class StatsView {
       ['[data-stats-modal-title]', this.cardModalTitle],
       ['[data-stats-modal-body]', this.cardModalBody],
       ['[data-stats-modal-close]', this.cardModalClose],
-      ['[data-stats-wonder-summary]', this.wonderSummaryElement],
-      ['[data-stats-wonder-rarity]', this.wonderRarityElement],
-      ['[data-stats-wonder-history]', this.wonderHistoryElement],
+      ['[data-stats-minepick-summary]', this.minepickSummaryElement],
+      ['[data-stats-minepick-rarity]', this.minepickRarityElement],
+      ['[data-stats-minepick-history]', this.minepickHistoryElement],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -157,6 +167,7 @@ export class StatsView {
    * @returns {void}
    */
   bindEvents() {
+    this.listen(this.backButton, 'click', () => this.onNavigate?.(STATS_BACK_VIEW));
     this.listen(this.historyElement, 'click', (event) => this.handleHistoryClick(event));
     this.listen(this.cardModal, 'click', (event) => this.handleModalBackdropClick(event));
     this.listen(this.cardModalClose, 'click', () => this.closeCardModal());
@@ -170,12 +181,26 @@ export class StatsView {
    * @returns {void}
    */
   subscribeToEvents() {
+    this.unsubscribers.push(eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
+      if (!payload || typeof payload.view !== 'string') return;
+      if (payload.view === STATS_VIEW_NAME) {
+        this.handleViewActivated();
+      } else if (payload.previousView === STATS_VIEW_NAME) {
+        this.handleViewDeactivated();
+      }
+    }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
-    this.unsubscribers.push(eventBus.on(EVENTS.BOOSTER_OPENED, () => this.handleBoosterOpened()));
-    // A wonder pick writes a card and its own counters: the dedicated panel follows it, but only
-    // while the panels are displayed (the host reloads them on activation anyway).
+    // An opening moves every counter of the page: it is only repainted while it is on screen, since
+    // the activation of the view reloads it anyway.
     this.unsubscribers.push(
-      eventBus.on(EVENTS.WONDER_PICK_UPDATED, () => {
+      eventBus.on(EVENTS.BOOSTER_OPENED, () => {
+        if (this.isActive) this.handleBoosterOpened();
+      })
+    );
+    // A mine pick writes a card and its own counters: the dedicated panel follows it, but only
+    // while the panels are displayed (the activation of the view reloads them anyway).
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.MINE_PICK_UPDATED, () => {
         if (this.isActive) this.handleBoosterOpened();
       })
     );
@@ -196,12 +221,12 @@ export class StatsView {
       const stats = (await storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.STATS)) ?? {};
       const view = await collectionManager.getCollectionView();
       const history = await boosterManager.getBoosterHistory(STATS_HISTORY_SIZE);
-      const wonder = await wonderPickManager.getState();
+      const minepick = await minePickManager.getState();
       this.renderBoosters(stats);
       this.renderCompletion(view);
       this.renderRarity(stats);
       this.renderTop(stats, view);
-      this.renderWonder(wonder, view);
+      this.renderMinePick(minepick, view);
       this.renderHistory(history);
     } catch (error) {
       console.error('[StatsView] The statistics could not be loaded.', error);
@@ -319,77 +344,77 @@ export class StatsView {
     this.log(`Top card: "${key}" drawn ${count} time(s).`);
   }
 
-  // __STATS_WONDER__
+  // __STATS_MINE_PICK__
 
   /**
-   * Renders the dedicated Wonder Pick counters.
+   * Renders the dedicated Mine Pick counters.
    *
    * The feature has its own block on purpose: a picked card is not an opened booster, so it is
    * counted here (picks, distribution by rarity, best pick, last packs) and never in the opening
    * counters above.
    *
-   * @param {object} state - State returned by `WonderPickManager.getState()`.
+   * @param {object} state - State returned by `MinePickManager.getState()`.
    * @param {{entries: object[]}} view - Collection view from the manager (resolves the card keys).
    * @returns {void}
    */
-  renderWonder(state, view) {
-    if (this.wonderSummaryElement) {
-      this.wonderSummaryElement.textContent = i18n.t('stats.wonder.summary', {
+  renderMinePick(state, view) {
+    if (this.minepickSummaryElement) {
+      this.minepickSummaryElement.textContent = i18n.t('stats.minepick.summary', {
         total: state?.totalPicks ?? 0,
         remaining: state?.remaining ?? 0,
         picksPerDay: state?.picksPerDay ?? 0,
       });
     }
 
-    if (this.wonderRarityElement) {
-      this.wonderRarityElement.textContent = '';
+    if (this.minepickRarityElement) {
+      this.minepickRarityElement.textContent = '';
       const picks = state?.picksByRarity ?? {};
       const rarities = Array.from({ length: CARD_RARITY.MAX }, (_, index) => CARD_RARITY.MIN + index);
       const total = rarities.reduce((sum, rarity) => sum + (Number(picks[String(rarity)]) || 0), 0);
       if (total === 0) {
-        this.wonderRarityElement.textContent = i18n.t('stats.wonder.rarity.empty');
+        this.minepickRarityElement.textContent = i18n.t('stats.minepick.rarity.empty');
       } else {
         rarities.forEach((rarity) => {
           const count = Number(picks[String(rarity)]) || 0;
-          this.wonderRarityElement.appendChild(
+          this.minepickRarityElement.appendChild(
             this.buildBar(getRarityLabel(rarity, (key) => i18n.t(key)), count, total)
           );
         });
       }
     }
 
-    if (this.wonderRarestElement) {
+    if (this.minepickRarestElement) {
       const rarest = this.resolveRarestPick(state, view);
-      this.wonderRarestElement.textContent = rarest
-        ? i18n.t('stats.wonder.rarest', {
+      this.minepickRarestElement.textContent = rarest
+        ? i18n.t('stats.minepick.rarest', {
             name: rarest.card.getName(i18n.getLang()),
             rarity: getRarityLabel(rarest.rarity, (key) => i18n.t(key)),
           })
-        : i18n.t('stats.wonder.rarest.empty');
+        : i18n.t('stats.minepick.rarest.empty');
     }
 
-    if (this.wonderHistoryElement) {
-      this.wonderHistoryElement.textContent = '';
+    if (this.minepickHistoryElement) {
+      this.minepickHistoryElement.textContent = '';
       const picks = Array.isArray(state?.history) ? state.history : [];
       if (picks.length === 0) {
         const empty = document.createElement('li');
         empty.className = 'stats__line';
-        empty.textContent = i18n.t('stats.wonder.history.empty');
-        this.wonderHistoryElement.appendChild(empty);
+        empty.textContent = i18n.t('stats.minepick.history.empty');
+        this.minepickHistoryElement.appendChild(empty);
       } else {
         picks.forEach((pick) => {
-          this.wonderHistoryElement.appendChild(this.buildWonderEntry(pick, view));
+          this.minepickHistoryElement.appendChild(this.buildMinePickEntry(pick, view));
         });
       }
     }
 
-    this.log(`Wonder Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} left today.`);
+    this.log(`Mine Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} left today.`);
   }
 
   /**
    * Finds the rarest card ever picked.
    *
-   * @param {object} state - State returned by `WonderPickManager.getState()`.
+   * @param {object} state - State returned by `MinePickManager.getState()`.
    * @param {{entries: object[]}} view - Collection view from the manager.
    * @returns {{key: string, rarity: number, card: object, count: number}|null} The best pick.
    */
@@ -409,18 +434,18 @@ export class StatsView {
   }
 
   /**
-   * Builds one entry of the Wonder Pick history: the day, the extension, the kept card and its
+   * Builds one entry of the Mine Pick history: the day, the extension, the kept card and its
    * illustration.
    *
    * Unlike the opening history these entries are not clickable (a pick has no shareable code and
    * only one card): the kept card is shown as a thumbnail next to the pack it came from.
    *
    * @param {{day: string|null, setId: string, setName: string|null, key: string, rarity: number,
-   *   godpack: boolean}} pick - History entry written by `WonderPickManager`.
+   *   godpack: boolean}} pick - History entry written by `MinePickManager`.
    * @param {{entries: object[]}} view - Collection view from the manager.
    * @returns {HTMLElement} The list item.
    */
-  buildWonderEntry(pick, view) {
+  buildMinePickEntry(pick, view) {
     const item = document.createElement('li');
     item.className = 'stats__history-entry';
 
@@ -449,7 +474,7 @@ export class StatsView {
 
     const entry = (view?.entries ?? []).find((candidate) => candidate.key === pick.key);
     const wrapper = document.createElement('div');
-    wrapper.className = 'stats__wonder-pick';
+    wrapper.className = 'stats__minepick-pick';
 
     if (entry?.card) {
       const thumbnail = document.createElement('span');
@@ -466,7 +491,7 @@ export class StatsView {
     }
 
     const name = document.createElement('p');
-    name.className = 'stats__wonder-name';
+    name.className = 'stats__minepick-name';
     name.textContent = `${entry?.card?.getName(i18n.getLang()) ?? pick.key} — ${getRarityLabel(
       entry?.card?.rarity ?? pick.rarity,
       (key) => i18n.t(key)
@@ -809,6 +834,7 @@ export class StatsView {
    */
   handleLanguageChanged() {
     this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
+    this.closeCardModal();
     if (this.isInitialized && !this.isLoading) {
       void this.reload();
     }
@@ -845,6 +871,9 @@ export class StatsView {
    */
   handleViewDeactivated() {
     this.isActive = false;
+    // The page is left through its back button: a card detail left open must not come back with
+    // the next visit (the section is merely hidden, so the dialog would still be displayed).
+    this.closeCardModal();
     this.log('View deactivated.');
   }
 

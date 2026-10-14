@@ -8,6 +8,11 @@
    "Trophées" destination and the pinned trophies of the profile — so it lives in a component
    stylesheet both of them load. Colors come exclusively from `css/themes.css` (including the
    `--color-trophy-*` medal palette).
+
+   The catalogue itself is a CENTRED flex grid of small tiles (three per row on a phone, five from
+   the tablet up), cut into a category heading and, under it, one heading per TYPE of trophy. The
+   `.trophy-tile*` classes belong to it; `.trophy__track` / `.trophy__fill` / `.trophy__icon` /
+   `.trophy__rarity` are shared with the pinned tiles of the profile and the detail modal.
    ============================================================================= */
 
 /* --- Catalogue page --------------------------------------------------------- */
@@ -49,8 +54,9 @@
   gap: var(--space-1);
 }
 
-/* --- List ------------------------------------------------------------------- */
+/* --- Groups ----------------------------------------------------------------- */
 
+/* The category ("Par extension", "Global", "Collection"): the widest cut of the catalogue. */
 .trophy-group {
   margin: var(--space-4) 0 0 0;
   font-size: var(--font-size-sm);
@@ -60,62 +66,138 @@
   color: var(--color-text-muted);
 }
 
-.trophy-list {
+/* The TYPE of trophy inside a category ("Complétion des extensions", "Boosters ouverts par
+   extension"…): one step lighter than the category above it. */
+.trophy-subgroup {
+  margin: var(--space-3) 0 0 0;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+/* --- Grid of tiles ---------------------------------------------------------- */
+
+/* Flex rather than grid on purpose: a partial row (the last tiles of a group) stays CENTRED instead
+   of hugging the left edge. Three tiles per row on a phone, five on a wide screen. */
+.trophy-grid {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-3);
   margin: var(--space-3) 0 0 0;
   padding: 0;
   list-style: none;
 }
 
-.trophy {
+.trophy-tile {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-alt);
+  flex: 0 0 calc((100% - 2 * var(--space-3)) / 3);
+  max-width: 11rem;
   animation: trophy-tile-in var(--duration-base) var(--easing-standard) backwards;
   animation-delay: calc(var(--tile-index, 0) * 25ms);
 }
 
+/* From the tablet up there is room for five tiles per row. */
+@media (min-width: 768px) {
+  .trophy-tile {
+    flex-basis: calc((100% - 4 * var(--space-3)) / 5);
+  }
+}
+
 /* A locked trophy stays readable but clearly recessed. */
-.trophy[data-unlocked="false"] {
+.trophy-tile[data-unlocked="false"] {
   opacity: 0.72;
 }
 
-.trophy__head {
+/* The tile is ONE button: the medal, the name and the bar with its percentage, nothing else. */
+.trophy-tile__open {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.trophy__title {
   flex: 1 1 auto;
-  min-width: 0;
-  font-size: var(--font-size-sm);
-  font-weight: 700;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-3) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
 }
 
-.trophy__xp {
+.trophy-tile__open:hover,
+.trophy-tile__open:focus-visible {
+  border-color: var(--color-accent);
+  background-color: var(--color-surface);
+  transform: translateY(-2px);
+}
+
+/* A keyboard focus must be unmistakable, so it does not rely on the default ring alone. */
+.trophy-tile__open:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.trophy-tile__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  object-fit: contain;
+}
+
+/* A locked medal stays legible but reads as "not earned yet". */
+.trophy-tile[data-unlocked="false"] .trophy-tile__icon {
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+
+.trophy-tile__title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   font-size: var(--font-size-xs);
   font-weight: 700;
+  text-align: center;
+}
+
+/* `margin-top: auto` keeps the bars of a row aligned even when one title wraps to two lines. */
+.trophy-tile__progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  margin-top: auto;
+  padding-top: var(--space-1);
+}
+
+.trophy-tile__track {
+  flex: 1 1 auto;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  overflow: hidden;
+}
+
+.trophy-tile__percent {
+  flex: 0 0 auto;
+  font-size: var(--font-size-xs);
   font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* An unlocked trophy shows a full, accented bar: the percentage is what it earned. */
+.trophy-tile[data-unlocked="true"] .trophy-tile__percent {
+  font-weight: 700;
   color: var(--color-accent);
 }
 
-.trophy[data-unlocked="false"] .trophy__xp {
-  color: var(--color-text-muted);
-}
-
-.trophy__desc {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
+/* Shared by the profile strip and the detail modal (the catalogue tiles have their own track). */
 .trophy__track {
   height: 0.6rem;
   border-radius: var(--radius-pill);
@@ -130,63 +212,6 @@
   transition: width var(--duration-base) var(--easing-standard);
 }
 
-.trophy__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.trophy__open {
-  min-height: 2.25rem;
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--color-accent);
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-  text-decoration: underline;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.trophy__open:hover {
-  color: var(--color-accent-hover);
-}
-
-/* The pin toggle: on the right of the row, so the row itself only ever opens the detail. */
-.trophy__pin {
-  display: grid;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  margin-left: auto;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: transparent;
-  cursor: pointer;
-  touch-action: manipulation;
-  transition: transform var(--duration-fast) var(--easing-standard),
-    border-color var(--duration-fast) var(--easing-standard),
-    background-color var(--duration-fast) var(--easing-standard);
-}
-
-.trophy__pin:hover {
-  border-color: var(--color-accent);
-  background-color: var(--color-surface);
-  transform: translateY(-2px);
-}
-
-.trophy__pin[aria-pressed="true"] {
-  border-color: var(--color-accent);
-  box-shadow: var(--glow-accent);
-}
-
-.trophy__pin .profile__icon {
-  width: 1rem;
-  height: 1rem;
-}
-
 /* --- Medals ----------------------------------------------------------------- */
 
 /* Only the recurring tiers ship an image today; a missing file is hidden by the view. */
@@ -197,11 +222,6 @@
   object-fit: contain;
 }
 
-/* A locked medal stays legible but reads as "not earned yet". */
-.trophy[data-unlocked="false"] .trophy__icon {
-  filter: grayscale(1);
-  opacity: 0.7;
-}
 
 /* --- Rarity badges ---------------------------------------------------------- */
 
@@ -243,6 +263,51 @@
 }
 
 /* --- Detail modal ----------------------------------------------------------- */
+
+/* The pin toggle of an unlocked trophy: it lives at the bottom of the detail, not on the tile. */
+.trophy-modal__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+.trophy-modal__pin {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.trophy-modal__pin:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-surface-alt);
+  transform: translateY(-2px);
+}
+
+.trophy-modal__pin[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-accent);
+}
+
+.trophy-modal__pin .profile__icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.trophy-modal__pin-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
 
 .modal.is-opening .modal__dialog {
   /* Slightly springier than the shared modal: this one opens from a tap on a small tile. */
@@ -422,5 +487,19 @@
 @media (prefers-reduced-motion: reduce) {
   .trophy__fill {
     transition: none;
+  }
+
+  /* The entry of the tiles, of the required cards and of the avatars is motion: the tiles are
+     simply painted in place, and the hover of a tile stops lifting it. */
+  .trophy-tile,
+  .trophy-card,
+  .trophy-icon {
+    animation: none;
+  }
+
+  .trophy-tile__open:hover,
+  .trophy-tile__open:focus-visible,
+  .trophy-modal__pin:hover {
+    transform: none;
   }
 }

@@ -1,11 +1,11 @@
 /**
  * AnimationManager - Selects the flavour of the opening animations.
  *
- * Reference: `settings/config.json` (`animations.list`) and `css/animations.css`.
+ * Reference: `settings/config.json` (`animations.list`) and `css/animations/`.
  *
  * HOW A MODE IS APPLIED
  *   - `data-animation="<id>"` is set on `<html>` AND on `<body>`, exactly like the theme:
- *     `css/animations.css` keys every override on `body[data-animation="…"]`, while a rule that
+ *     `css/animations/` keys every override on `body[data-animation="…"]`, while a rule that
  *     needs the value before `<body>` exists can use the `<html>` one;
  *   - the three durations of the mode are published as custom properties on `<html>`
  *     (`--anim-tear-ms`, `--anim-flip-ms`, `--anim-stagger-ms`), so the stylesheets AND the JS
@@ -24,7 +24,7 @@
  *   "BOUM !" burst. `isParodic()` is the single place that decides whether a mode is a joke.
  *
  * The available modes come from `config.json`, so a new mode only needs a `list` entry and,
- * optionally, its own block in `css/animations.css`. When the section is missing (an older cached
+ * optionally, its own block in `css/animations/`. When the section is missing (an older cached
  * `config.json`), the manager degrades to the built-in neutral mode instead of throwing: the game
  * must stay playable.
  *

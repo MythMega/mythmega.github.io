@@ -7,7 +7,10 @@
  *   - render a face-down card whose back shows the shared card-back illustration
  *     (`assets/img/card_back.png`, fixed whatever the booster);
  *   - flip it with a CSS 3D animation when the player taps it (rarities 4 and 5 add an animated
- *     glow coming from the theme variables, full art printings get a light sweep);
+ *     glow coming from the theme variables, and the foil reflection of
+ *     `css/components/card-shine.css`: a star of rays over an embossed grid for a legendary, a bloom
+ *     over a honeycomb for a mythic, laid over the artwork or over the whole card for a full art
+ *     printing);
  *   - resolve the illustration through `I18n.resolveImagePath()` and follow `LANG_CHANGED`, so
  *     the artwork and the labels switch language without rebuilding the view;
  *   - show the "NEW" badge once the card is revealed, when the card was not owned before
@@ -32,6 +35,33 @@ import { getRarityLabel } from '../../classes/Card.js';
  * themed fallback colour if the file is missing.
  */
 const CARD_BACK_IMAGE = 'assets/img/card_back.png';
+
+/**
+ * Foil of the two high rarities: rarity 4 (legendary) gets the light version of the shape vocabulary
+ * (star rays, embossed grid), rarity 5 (mythic) the full treatment (honeycomb, two crossing glints,
+ * 3D tilt). See `css/components/card-shine.css`.
+ */
+export const SHINE_MODIFIER_BY_RARITY = Object.freeze({
+  4: 'card-shine--legendary',
+  5: 'card-shine--mythic',
+});
+
+/**
+ * Classes that give a card the foil reflection of `css/components/card-shine.css`.
+ *
+ * They belong on the box the highlight may cover - the front face of a reveal, the artwork of the
+ * collection detail - never on the card element itself, which already owns its `::after` for the
+ * halo and the reveal shockwave. The same helper dresses every place a card is shown large, so the
+ * collection and the opening can never disagree on what a legendary looks like.
+ *
+ * @param {{rarity: number, isFullArt?: boolean}|null|undefined} card - Card to describe.
+ * @returns {string[]} The classes, empty for a rarity that carries no foil.
+ */
+export function getShineClasses(card) {
+  const modifier = SHINE_MODIFIER_BY_RARITY[card?.rarity];
+  if (!modifier) return [];
+  return ['card-shine', modifier, ...(card.isFullArt ? ['card-shine--fullart'] : [])];
+}
 
 export class CardComponent {
   /**
@@ -109,6 +139,7 @@ export class CardComponent {
 
     const front = document.createElement('span');
     front.className = 'card-reveal__face card-reveal__face--front';
+    front.classList.add(...getShineClasses(this.card));
 
     if (this.isNew) {
       const badge = document.createElement('span');
@@ -123,6 +154,9 @@ export class CardComponent {
     image.loading = 'eager';
     image.decoding = 'async';
     image.addEventListener('error', () => this.handleImageError());
+    // The shine of a classic printing (`css/components/card-reveal.css`) is laid over the artwork,
+    // so it needs the real ratio of the illustration, not a guess.
+    image.addEventListener('load', () => this.applyArtworkRatio());
     front.appendChild(image);
 
     const nameFallback = document.createElement('span');
@@ -224,6 +258,22 @@ export class CardComponent {
     const rarityLabel = getRarityLabel(this.card.rarity, (key) => i18n.t(key));
     const suffix = this.isNew ? ` — ${i18n.t('opening.card.new')}` : '';
     this.element.setAttribute('aria-label', `${name} — ${rarityLabel}${suffix}`);
+  }
+
+  /**
+   * Publishes the aspect ratio of the loaded illustration as `--card-reveal-art-ratio`.
+   *
+   * `css/components/card-reveal.css` reads it to lay the shine of a classic printing exactly over
+   * the artwork instead of the whole face. A width of 100 % then gives the layer the exact height
+   * of the rendered image. A missing illustration leaves the stylesheet's own default in place, so
+   * the shine never disappears.
+   *
+   * @returns {void}
+   */
+  applyArtworkRatio() {
+    const { naturalWidth, naturalHeight } = this.image ?? {};
+    if (!this.element || !naturalWidth || !naturalHeight) return;
+    this.element.style.setProperty('--card-reveal-art-ratio', String(naturalWidth / naturalHeight));
   }
 
   /**

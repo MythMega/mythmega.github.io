@@ -198,7 +198,7 @@ export class BoosterManager {
   /**
    * Returns an extension loaded by `init()`.
    *
-   * Public seam used by the Wonder Pick: it draws its simulated packs from the very same card
+   * Public seam used by the Mine Pick: it draws its simulated packs from the very same card
    * pools and rarity tables as a real opening, so both can never disagree.
    *
    * @param {string} setId - Extension identifier (e.g. "A1").

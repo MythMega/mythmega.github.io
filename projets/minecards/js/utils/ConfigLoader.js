@@ -85,18 +85,18 @@ export const DEFAULT_LEVELLING_SETTINGS = Object.freeze({
 });
 
 /**
- * Default settings of the Wonder Pick, used whenever `settings/config.json` omits a value.
+ * Default settings of the Mine Pick, used whenever `settings/config.json` omits a value.
  *
  * The board holds `boosterCount` simulated openings (10) built from the real booster
  * parameters, `picksPerDay` free picks per UTC day (3) and keeps `historySize` picks for the
  * statistics. `seedSalt` + the UTC day + the account UUID seed the deterministic draw;
  * `setWeightExponent` is the exponent of the extension weight (the highest id is the likeliest).
  */
-export const DEFAULT_WONDER_PICK_SETTINGS = Object.freeze({
+export const DEFAULT_MINE_PICK_SETTINGS = Object.freeze({
   boosterCount: 10,
   picksPerDay: 3,
   historySize: 10,
-  seedSalt: 'minecards-wonder-pick-v1',
+  seedSalt: 'minecards-mine-pick-v1',
   setWeightExponent: 2,
 });
 
@@ -311,40 +311,40 @@ export class ConfigLoader {
   }
 
   /**
-   * Wonder Pick settings, completed with `DEFAULT_WONDER_PICK_SETTINGS`.
+   * Mine Pick settings, completed with `DEFAULT_MINE_PICK_SETTINGS`.
    *
    * Every value falls back to its default when the section is missing or a value is unusable: a
    * partially edited configuration must never break the daily board.
    *
    * @returns {Promise<{boosterCount: number, picksPerDay: number, historySize: number,
-   *   seedSalt: string, setWeightExponent: number}>} The Wonder Pick settings.
+   *   seedSalt: string, setWeightExponent: number}>} The Mine Pick settings.
    * @throws {Error} See `load()`.
    */
-  async getWonderPickSettings() {
+  async getMinePickSettings() {
     const config = await this.getConfig();
-    const wonder = config.wonderPick || {};
-    const exponent = Number(wonder.setWeightExponent);
+    const minePick = config.minePick || {};
+    const exponent = Number(minePick.setWeightExponent);
     return {
       boosterCount: ConfigLoader.normalizePositiveInteger(
-        wonder.boosterCount,
-        DEFAULT_WONDER_PICK_SETTINGS.boosterCount
+        minePick.boosterCount,
+        DEFAULT_MINE_PICK_SETTINGS.boosterCount
       ),
       picksPerDay: ConfigLoader.normalizePositiveInteger(
-        wonder.picksPerDay,
-        DEFAULT_WONDER_PICK_SETTINGS.picksPerDay
+        minePick.picksPerDay,
+        DEFAULT_MINE_PICK_SETTINGS.picksPerDay
       ),
       historySize: ConfigLoader.normalizePositiveInteger(
-        wonder.historySize,
-        DEFAULT_WONDER_PICK_SETTINGS.historySize
+        minePick.historySize,
+        DEFAULT_MINE_PICK_SETTINGS.historySize
       ),
       seedSalt:
-        typeof wonder.seedSalt === 'string' && wonder.seedSalt.trim() !== ''
-          ? wonder.seedSalt.trim()
-          : DEFAULT_WONDER_PICK_SETTINGS.seedSalt,
+        typeof minePick.seedSalt === 'string' && minePick.seedSalt.trim() !== ''
+          ? minePick.seedSalt.trim()
+          : DEFAULT_MINE_PICK_SETTINGS.seedSalt,
       setWeightExponent:
         Number.isFinite(exponent) && exponent >= 0
           ? exponent
-          : DEFAULT_WONDER_PICK_SETTINGS.setWeightExponent,
+          : DEFAULT_MINE_PICK_SETTINGS.setWeightExponent,
     };
   }
 

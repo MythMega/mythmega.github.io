@@ -169,12 +169,40 @@
   font-weight: 700;
 }
 
+/* The artwork box is the window of the foil reflection (`css/components/card-shine.css`): it takes
+   the exact shape of the card, so the highlight lines up with the illustration instead of the
+   modal. The height is capped in viewport units, the width follows the ratio. */
+.collection-modal__art {
+  position: relative;
+  height: min(46vh, 32rem);
+  aspect-ratio: var(--card-reveal-art-ratio, 0.72);
+  width: auto;
+  margin-inline: auto;
+}
+
 .collection-modal__image {
+  display: block;
   width: 100%;
-  max-height: 46vh;
+  height: 100%;
   object-fit: contain;
   border-radius: var(--radius-md);
   background-color: var(--color-surface-alt);
+}
+
+/* --- Foil reflection toggle (detail modal) ------------------------------- */
+
+.collection-shine {
+  display: flex;
+  margin-top: var(--space-3);
+}
+
+.collection-shine__toggle {
+  flex: 1 1 auto;
+}
+
+.collection-shine__toggle.is-active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 @keyframes collection-pop {

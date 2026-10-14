@@ -43,8 +43,8 @@ export const USER_STATE_KEYS = Object.freeze({
   SPARKS: 'sparks',
   PROFILE: 'profile',
   TROPHIES: 'trophies',
-  // Daily state, statistics and history of the Wonder Pick (see `WonderPickManager`).
-  WONDER: 'wonderPick',
+  // Daily state, statistics and history of the Mine Pick (see `MinePickManager`).
+  MINE_PICK: 'minePick',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -243,8 +243,8 @@ export class AccountManager {
     const themeCandidates = [overrides.theme, themeManager.getTheme(), defaultTheme];
     const theme = themeCandidates.find((candidate) => availableThemes.includes(candidate)) || defaultTheme;
 
-    // The animation mode is the neutral one unless `config.json` says otherwise: a new account
-    // never starts in a joke mode by accident.
+    // The animation mode follows `config.json` (`animations.default`, "epic" today), so a new
+    // account never starts in a joke mode by accident.
     const availableAnimations = animationManager.getAvailableModes();
     const defaultAnimation = animationManager.defaultMode;
     const animationCandidates = [overrides.animation, animationManager.getMode(), defaultAnimation];

@@ -47,6 +47,18 @@ const IDLE_DISPOSE_DELAY_MS = 30000;
 /** Minimum horizontal swipe distance on the spotlight card, in pixels. */
 const SWIPE_THRESHOLD_PX = 24;
 
+/** Pieces the "explosive" mode throws over the stage. Enough to be silly, few enough to keep
+ *  the burst readable (and 18 compositor layers is about what a phone takes for free). */
+const CONFETTI_COUNT = 18;
+
+/** Confetti palette. Theme variables, not hex codes: the three themes stay in charge. */
+const CONFETTI_COLORS = [
+  'var(--color-accent)',
+  'var(--color-warning)',
+  'var(--color-success)',
+  'var(--color-text)',
+];
+
 export class OpeningView {
   /**
    * @param {HTMLElement} rootElement - The opening `<section>`.
@@ -884,7 +896,7 @@ export class OpeningView {
     if (!animationManager.isParodicMode()) return;
 
     const timing = animationManager.getTiming();
-    this.log(`Parodic mode "${animationManager.getMode()}": firing the comic burst.`);
+    this.log(`Parodic mode "${animationManager.getMode()}": shake, boom and confetti, off we go.`);
     this.clearBurst();
 
     if (this.sceneStage) {
@@ -900,12 +912,56 @@ export class OpeningView {
       void this.burstElement.offsetWidth;
       this.burstElement.classList.add('is-visible');
     }
+    this.spawnConfetti();
 
     this.burstTimer = window.setTimeout(() => this.clearBurst(), timing.tearMs + 1400);
   }
 
   /**
+   * Throws a handful of confetti over the burst.
+   *
+   * Every piece is a span whose direction, spin and delay ride in custom properties (see
+   * `.opening__burst-confetti` in `css/animations/`), so the markup stays dumb and the CSS
+   * stays the only thing that knows how a confetti moves. `Math.random()` is fine here: this is
+   * decoration, nothing about it may ever be reproducible.
+   *
+   * @returns {void}
+   */
+  spawnConfetti() {
+    if (!this.burstElement) return;
+    this.clearConfetti();
+
+    const fragment = document.createDocumentFragment();
+    for (let index = 0; index < CONFETTI_COUNT; index += 1) {
+      const piece = document.createElement('span');
+      piece.className = 'opening__burst-confetti';
+      piece.style.setProperty('--confetti-color', CONFETTI_COLORS[index % CONFETTI_COLORS.length]);
+      // Mostly outward, a bit upward: a puff, not a fountain.
+      piece.style.setProperty('--confetti-x', `${Math.round((Math.random() - 0.5) * 260)}px`);
+      piece.style.setProperty('--confetti-y', `${Math.round(-40 - Math.random() * 170)}px`);
+      piece.style.setProperty('--confetti-spin', `${Math.round(240 + Math.random() * 720)}deg`);
+      piece.style.setProperty('--confetti-delay', `${Math.round(Math.random() * 160)}ms`);
+      piece.style.setProperty('--confetti-flight', `${Math.round(1000 + Math.random() * 500)}ms`);
+      fragment.appendChild(piece);
+    }
+    this.burstElement.appendChild(fragment);
+  }
+
+  /**
+   * Drops the confetti of the previous blast.
+   *
+   * @returns {void}
+   */
+  clearConfetti() {
+    if (!this.burstElement) return;
+    this.burstElement.querySelectorAll('.opening__burst-confetti').forEach((piece) => piece.remove());
+  }
+
+  /**
    * Removes the comic burst and the shake of the stage.
+   *
+   * The confetti goes with it: the pieces are one-shot, and a leftover would fly again the next
+   * time `is-visible` comes back.
    *
    * @returns {void}
    */
@@ -918,6 +974,7 @@ export class OpeningView {
     if (this.burstElement) {
       this.burstElement.hidden = true;
     }
+    this.clearConfetti();
     this.sceneStage?.classList.remove('is-booming');
   }
 
@@ -1018,7 +1075,7 @@ export class OpeningView {
    * Blocks the reveal while the arrival animation of the spotlight card is still running.
    *
    * A tap landing during the slide-in would REPLACE that animation: the flip of a card wins over
-   * the entry one (see `css/animations.css`), so the card would appear already face up, as if the
+   * the entry one (see `css/animations/`), so the card would appear already face up, as if the
    * arrival had been skipped. The guard duration is read from the element itself
    * (`animation-duration` of the active mode), never duplicated here, and the tap is remembered:
    * it is replayed as soon as the card is in place, so the player never has to tap twice.

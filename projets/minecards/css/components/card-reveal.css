@@ -2,11 +2,25 @@
    card-reveal.css - Face-down cards, CSS flip and rarity effects.
 
    Reference: `.docs/steps/4.md` point 3.
-     - rarities 1 to 3: plain rendering, light inner reflection;
-     - rarity 4: animated glow (`--glow-rarity-4`);
-     - rarity 5: stronger animated glow (`--glow-rarity-5`) plus a holographic sheen;
-     - full art printings get a moving light sweep.
+     - the flip itself is now a keyframe animation (`card-flip`): a half turn that overshoots
+       before it settles, with a slight zoom on the way. It runs whatever the animation mode
+       (`css/animations/epic.css` only adds decoration on top for "epic"), so the card always answers
+       the tap the same way;
+     - rarities 1 to 3: plain rendering, light inner reflection, a glint when revealed;
+     - rarity 4 (legendary): animated glow (`--glow-rarity-4`), the light foil and a halo ring on
+       reveal;
+     - rarity 5 (mythic): stronger animated glow (`--glow-rarity-5`), the full foil and the same
+       halo, held longer. The halo fades out and leaves nothing behind;
+     - the two glows and the halo are the only rarity effects left here: the foil itself is its own
+       component, `css/components/card-shine.css`, applied by `CardComponent` as a window laid over
+       the card (two layered planes, moving back and forth);
+     - full art printings drift a hair, like a lenticular print.
    Every color comes from `css/themes.css`, so the three themes stay readable.
+
+   Watch out: `transform` is reserved for the flip (read by `backface-visibility`), so anything
+   that moves a card on hover uses the independent `translate` / `scale` properties. They compose
+   with the transform instead of replacing it - a plain `transform` there would cancel the half
+   turn and show the front face again.
    ============================================================================= */
 
 .card-reveal {
@@ -46,14 +60,45 @@
   cursor: pointer;
   touch-action: manipulation;
   transform-style: preserve-3d;
-  transition: transform var(--duration-base) var(--easing-standard);
+  transition: transform var(--duration-base) var(--easing-standard),
+    translate var(--duration-fast) var(--easing-standard),
+    scale var(--duration-fast) var(--easing-standard);
   /* Step 7 point 4: targeted promotion. A card is the only element of the grid whose animation
      runs on every interaction, so only it asks for a compositor layer (never the whole grid). */
   will-change: transform;
 }
 
+/* The card lifts a little under the finger: it tells a clickable card from a decorative one
+   without a single line of JavaScript. */
+.card-reveal__card:not(:disabled):hover {
+  translate: 0 -4px;
+}
+
+.card-reveal__card:not(:disabled):active {
+  scale: 0.97;
+}
+
+/* The flip: the rotation keeps the `transform` property, the animation only fills it in with
+   a cinematic curve. `both` holds the last keyframe, so the card stays at 180deg once the
+   animation is over (and the plain `transform` below is what a reduced-motion player sees). */
 .card-reveal__card.is-flipped {
   transform: rotateY(180deg);
+  animation: card-flip var(--anim-flip-ms, 220ms) var(--easing-standard) both;
+}
+
+@keyframes card-flip {
+  0% {
+    transform: rotateY(0deg) scale(1);
+  }
+  55% {
+    transform: rotateY(146deg) scale(1.1);
+  }
+  78% {
+    transform: rotateY(196deg) scale(1.03);
+  }
+  100% {
+    transform: rotateY(180deg) scale(1);
+  }
 }
 
 .card-reveal__card:focus-visible {
@@ -139,35 +184,70 @@
   animation: card-glow-soft 2.4s ease-in-out infinite alternate;
 }
 
-/* Rarity 5: stronger glow and a slow holographic sheen. */
+/* Rarity 5: stronger glow and the same foil reflection as the legendary, only harder. */
 .card-reveal__card--r5 .card-reveal__face--front {
   box-shadow: var(--glow-rarity-5), 0 0 8px var(--overlay);
   animation: card-glow-strong 2s ease-in-out infinite alternate;
 }
 
-.card-reveal__card--r5 .card-reveal__face--front::after {
+/* A mythic breathes: the artwork drifts a hair while the reflection crosses over it. */
+.card-reveal__card--r5 .card-reveal__face--front .card-reveal__image {
+  animation: card-holo 5.2s ease-in-out infinite alternate;
+}
+
+/* The halo: a ring of light that leaves the card the moment it is revealed. Rarities 4 and 5
+   only - a common card does not deserve fireworks. */
+.card-reveal__card--r4.is-flipped::after,
+.card-reveal__card--r5.is-flipped::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-    115deg,
-    transparent 35%,
-    var(--overlay) 48%,
-    transparent 62%
-  );
-  animation: card-sheen 3.6s linear infinite;
+  inset: -8%;
+  z-index: 1;
+  border-radius: var(--radius-md);
+  background-image: radial-gradient(circle at 50% 50%, var(--color-accent) 8%, transparent 68%);
+  /* Invisible at rest. The keyframes already fade the ring back to `opacity: 0`, but with no
+     fill mode the element falls back to its own styles once the animation ends: without this the
+     blue disc would come back, frozen, and stay on the card. */
+  opacity: 0;
+  animation: card-halo 900ms var(--easing-standard) 140ms;
   pointer-events: none;
 }
 
-/* Full art printings: moving light sweep, whatever the rarity. */
-.card-reveal__card--fullart .card-reveal__face--front::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(120deg, transparent 45%, var(--color-surface-alt) 50%, transparent 55%);
-  opacity: 0.55;
-  animation: card-sweep 4.5s ease-in-out infinite;
-  pointer-events: none;
+.card-reveal__card--r5.is-flipped::after {
+  animation-duration: 1300ms;
+}
+
+@keyframes card-halo {
+  0% {
+    opacity: 0;
+    scale: 0.7;
+  }
+  35% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.25;
+  }
+}
+
+/* A discreet glint on every other card: the reveal is always an event, never a plain swap. */
+.card-reveal__card--r1.is-flipped .card-reveal__face--front,
+.card-reveal__card--r2.is-flipped .card-reveal__face--front,
+.card-reveal__card--r3.is-flipped .card-reveal__face--front {
+  animation: card-glint 620ms var(--easing-standard);
+}
+
+@keyframes card-glint {
+  0% {
+    box-shadow: inset 0 0 18px var(--overlay), 0 0 0 var(--overlay);
+  }
+  40% {
+    box-shadow: inset 0 0 18px var(--overlay), 0 0 18px var(--overlay);
+  }
+  100% {
+    box-shadow: inset 0 0 18px var(--overlay), 0 0 0 var(--overlay);
+  }
 }
 
 @keyframes card-glow-soft {
@@ -188,22 +268,28 @@
   }
 }
 
-@keyframes card-sheen {
+/* Full art: the artwork drifts a hair, like a lenticular print. */
+.card-reveal__card--fullart .card-reveal__face--front .card-reveal__image {
+  animation: card-float 7s ease-in-out infinite alternate;
+}
+
+@keyframes card-holo {
   from {
-    transform: translateX(-120%);
+    scale: 1;
   }
   to {
-    transform: translateX(120%);
+    scale: 1.025;
   }
 }
 
-@keyframes card-sweep {
-  0%,
-  100% {
-    transform: translateX(-60%);
+@keyframes card-float {
+  from {
+    translate: 0 -0.6%;
+    scale: 1.01;
   }
-  50% {
-    transform: translateX(60%);
+  to {
+    translate: 0 0.6%;
+    scale: 1.03;
   }
 }
 
@@ -214,4 +300,24 @@
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: var(--radius-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Everything that moves: the flip, the halo, the glint, the continuous glows of the high
+     rarities (they pulsed before this block existed - a pulsing border is motion too), the
+     drift of the artwork. */
+  .card-reveal__card.is-flipped,
+  .card-reveal__card--r4.is-flipped::after,
+  .card-reveal__card--r5.is-flipped::after,
+  .card-reveal__card.is-flipped .card-reveal__face--front,
+  .card-reveal__card--r4 .card-reveal__face--front,
+  .card-reveal__card--r5 .card-reveal__face--front,
+  .card-reveal__card--r5 .card-reveal__face--front .card-reveal__image,
+  .card-reveal__card--fullart .card-reveal__face--front .card-reveal__image {
+    animation: none;
+  }
+
+  .card-reveal__card:not(:disabled):hover {
+    translate: none;
+  }
 }

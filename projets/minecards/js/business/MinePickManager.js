@@ -1,7 +1,7 @@
 /**
- * WonderPickManager - "Pioche miracle" (Wonder Pick): ten simulated boosters a day, three picks.
+ * MinePickManager - Mine Pick: ten simulated boosters a day, three picks.
  *
- * Reference: `settings/config.json` (`wonderPick`), `.docs/main.md` section 3.H.
+ * Reference: `settings/config.json` (`minePick`), `.docs/main.md` section 3.H.
  *
  * WHAT THE PLAYER SEES
  *   A board of `boosterCount` (10) simulated openings, laid out as a LIST: every row shows the
@@ -15,7 +15,7 @@
  * THE PACKS ARE REAL
  *   A simulated pack is drawn by the SAME `GachaEngine`, with the SAME rarity table (including the
  *   per-extension override) and the SAME `boosters.cardsPerBooster` / `boosters.godpackChancePercent`
- *   as an opened booster: editing `settings/config.json` really changes what the Wonder Pick shows.
+ *   as an opened booster: editing `settings/config.json` really changes what the Mine Pick shows.
  *   The only difference is the randomness source (below), and that only the picked card is written.
  *
  * DETERMINISM
@@ -24,7 +24,7 @@
  *   accounts never share one. The seed never uses `Math.random()`, and every draw is taken in a
  *   fixed order (boosters in index order), so the tenth booster does not depend on rendering.
  *
- * WHAT IS PERSISTED (`user_state["wonderPick"]`)
+ * WHAT IS PERSISTED (`user_state["minePick"]`)
  *   `lastResetDay` / `remaining`  : the daily allowance, reset like the booster quota;
  *   `picksByBooster`              : `{ [boosterIndex]: { key, rarity, setId, pickedAt } }` for the
  *                                   current day — what lets the list show which booster was already
@@ -35,9 +35,9 @@
  *   `history`                     : the last `historySize` picks (day, booster index, extension,
  *                                   card, revealed pack).
  *
- * A pick is committed in ONE transaction (collection row + wonder state), so a failure can never
+ * A pick is committed in ONE transaction (collection row + minepick state), so a failure can never
  * consume a pick without granting the card. The obtained card is announced through
- * `CARDS_OBTAINED` (`source: 'wonder'`), which is what feeds the trophies, the experience and the
+ * `CARDS_OBTAINED` (`source: 'minepick'`), which is what feeds the trophies, the experience and the
  * notifications: a picked card counts exactly like a drawn one for the collection, but it never
  * appears in the opening statistics (it is not an opened booster).
  */
@@ -52,10 +52,10 @@ import GachaEngine from './GachaEngine.js';
 import { CARD_RARITY } from '../classes/Card.js';
 
 /** Source carried by the `CARDS_OBTAINED` event of a picked card. */
-export const WONDER_PICK_SOURCE = 'wonder';
+export const MINE_PICK_SOURCE = 'minepick';
 
 /** Error codes raised by this manager. */
-export const WONDER_PICK_ERRORS = Object.freeze({
+export const MINE_PICK_ERRORS = Object.freeze({
   NO_PICK_LEFT: 'NO_PICK_LEFT',
   ALREADY_PICKED: 'ALREADY_PICKED',
   UNKNOWN_BOOSTER: 'UNKNOWN_BOOSTER',
@@ -65,21 +65,21 @@ export const WONDER_PICK_ERRORS = Object.freeze({
 
 /** i18n keys of the error codes, so a view never invents its own message. */
 const ERROR_MESSAGE_KEYS = Object.freeze({
-  [WONDER_PICK_ERRORS.NO_PICK_LEFT]: 'wonder.error.noPick',
-  [WONDER_PICK_ERRORS.ALREADY_PICKED]: 'wonder.error.alreadyPicked',
-  [WONDER_PICK_ERRORS.UNKNOWN_BOOSTER]: 'wonder.error.booster',
-  [WONDER_PICK_ERRORS.UNKNOWN_CARD]: 'wonder.error.card',
-  [WONDER_PICK_ERRORS.NO_BOARD]: 'wonder.error.board',
+  [MINE_PICK_ERRORS.NO_PICK_LEFT]: 'minepick.error.noPick',
+  [MINE_PICK_ERRORS.ALREADY_PICKED]: 'minepick.error.alreadyPicked',
+  [MINE_PICK_ERRORS.UNKNOWN_BOOSTER]: 'minepick.error.booster',
+  [MINE_PICK_ERRORS.UNKNOWN_CARD]: 'minepick.error.card',
+  [MINE_PICK_ERRORS.NO_BOARD]: 'minepick.error.board',
 });
 
 /**
- * Returns the i18n key describing a Wonder Pick error code.
+ * Returns the i18n key describing a Mine Pick error code.
  *
- * @param {unknown} code - Error code (`WONDER_PICK_ERRORS`).
+ * @param {unknown} code - Error code (`MINE_PICK_ERRORS`).
  * @returns {string} The translation key, falling back to the generic one.
  */
-export function getWonderPickErrorMessageKey(code) {
-  return ERROR_MESSAGE_KEYS[code] ?? 'wonder.error.board';
+export function getMinePickErrorMessageKey(code) {
+  return ERROR_MESSAGE_KEYS[code] ?? 'minepick.error.board';
 }
 
 /**
@@ -118,20 +118,20 @@ export function createSeededRandom(seed) {
   };
 }
 
-/** Raised by every refused Wonder Pick operation, with a stable `code`. */
-export class WonderPickError extends Error {
+/** Raised by every refused Mine Pick operation, with a stable `code`. */
+export class MinePickError extends Error {
   /**
-   * @param {string} code - One of `WONDER_PICK_ERRORS`.
+   * @param {string} code - One of `MINE_PICK_ERRORS`.
    * @param {string} message - Technical message (the UI shows a translated one).
    */
   constructor(code, message) {
     super(message);
-    this.name = 'WonderPickError';
+    this.name = 'MinePickError';
     this.code = code;
   }
 }
 
-export class WonderPickManager {
+export class MinePickManager {
   constructor() {
     /** @type {{day: string|null, uuid: string|null, board: Array<object>}|null} In-memory board. */
     this.boardCache = null;
@@ -148,11 +148,11 @@ export class WonderPickManager {
    * @returns {void}
    */
   log(...args) {
-    console.info('[WonderPickManager]', ...args);
+    console.info('[MinePickManager]', ...args);
   }
 
   /**
-   * Loads the Wonder Pick settings and the booster pools.
+   * Loads the Mine Pick settings and the booster pools.
    *
    * @param {object} [options] - Load options.
    * @param {boolean} [options.force=false] - Reload even when already initialized.
@@ -161,7 +161,7 @@ export class WonderPickManager {
    */
   async init({ force = false } = {}) {
     if (this.isInitialized && !force) return;
-    await configLoader.getWonderPickSettings();
+    await configLoader.getMinePickSettings();
     await boosterManager.init();
     this.isInitialized = true;
     this.log(`Ready (${boosterManager.getLoadedSetIds().length} extension(s) available).`);
@@ -190,9 +190,12 @@ export class WonderPickManager {
    * @throws {Error} When the read or `config.json` fails.
    */
   async getState() {
-    const { picksPerDay } = await configLoader.getWonderPickSettings();
+    const { picksPerDay } = await configLoader.getMinePickSettings();
+    // Nothing to migrate: the save of a player who picked before the rename keeps its collection,
+    // but its old board state is simply not read anymore (the seed changed, so the packs it
+    // remembers are not the ones on the screen anyway).
     const stored = this.normalizeState(
-      await storageRepository.getUserState(USER_STATE_KEYS.WONDER),
+      await storageRepository.getUserState(USER_STATE_KEYS.MINE_PICK),
       picksPerDay
     );
     const day = this.getDay();
@@ -212,7 +215,7 @@ export class WonderPickManager {
   }
 
   /**
-   * Normalizes a raw `user_state["wonderPick"]` payload.
+   * Normalizes a raw `user_state["minePick"]` payload.
    *
    * @param {unknown} raw - Stored value.
    * @param {number} picksPerDay - Configured allowance.
@@ -328,12 +331,12 @@ export class WonderPickManager {
    * @throws {Error} See `getBoard()`.
    */
   async buildBoard({ day, uuid }) {
-    const { boosterCount, seedSalt, setWeightExponent } = await configLoader.getWonderPickSettings();
+    const { boosterCount, seedSalt, setWeightExponent } = await configLoader.getMinePickSettings();
     const { cardsPerBooster, godpackChancePercent } = await configLoader.getBoosterSettings();
 
     const setIds = boosterManager.getLoadedSetIds();
     if (setIds.length === 0) {
-      throw new WonderPickError(WONDER_PICK_ERRORS.NO_BOARD, 'No extension is available for the board.');
+      throw new MinePickError(MINE_PICK_ERRORS.NO_BOARD, 'No extension is available for the board.');
     }
 
     const random = createSeededRandom(hashSeed(`${seedSalt}|${day ?? 'unknown-day'}|${uuid ?? 'no-account'}`));
@@ -346,7 +349,7 @@ export class WonderPickManager {
 
     const board = [];
     for (let index = 0; index < boosterCount; index += 1) {
-      const setId = WonderPickManager.pickWeightedSet(weightedSets, setWeightExponent, random);
+      const setId = MinePickManager.pickWeightedSet(weightedSets, setWeightExponent, random);
       const loadedSet = boosterManager.getLoadedSet(setId);
       if (!loadedSet) continue;
 
@@ -375,7 +378,7 @@ export class WonderPickManager {
       hashSeed(`${seedSalt}|order|${day ?? 'unknown-day'}|${uuid ?? 'no-account'}`)
     );
     board.forEach((entry) => {
-      entry.order = WonderPickManager.buildShuffleOrder(entry.cards.length, orderRandom);
+      entry.order = MinePickManager.buildShuffleOrder(entry.cards.length, orderRandom);
     });
 
     this.log(`Board of ${board.length} booster(s) drawn for day ${day ?? 'unknown'} (seed "${seedSalt}").`);
@@ -436,7 +439,7 @@ export class WonderPickManager {
    *   setId: string, setName: string, revealed: Array<object>, order: number[], godpack: boolean}>}
    *   The committed pick. `revealed` lists the whole pack and `order` the position of each card on
    *   screen, so the view can turn the other cards over where they stand.
-   * @throws {WonderPickError} With `NO_PICK_LEFT`, `ALREADY_PICKED`, `UNKNOWN_BOOSTER` or
+   * @throws {MinePickError} With `NO_PICK_LEFT`, `ALREADY_PICKED`, `UNKNOWN_BOOSTER` or
    *   `UNKNOWN_CARD`.
    * @throws {Error} When the transaction fails.
    */
@@ -444,20 +447,20 @@ export class WonderPickManager {
     const board = await this.getBoard();
     const entry = board.find((candidate) => candidate.index === Number(boosterIndex));
     if (!entry) {
-      throw new WonderPickError(
-        WONDER_PICK_ERRORS.UNKNOWN_BOOSTER,
+      throw new MinePickError(
+        MINE_PICK_ERRORS.UNKNOWN_BOOSTER,
         `No booster #${boosterIndex} on the board of the day.`
       );
     }
     const card = entry.cards[Number(cardIndex)];
     if (!card) {
-      throw new WonderPickError(
-        WONDER_PICK_ERRORS.UNKNOWN_CARD,
+      throw new MinePickError(
+        MINE_PICK_ERRORS.UNKNOWN_CARD,
         `No card #${cardIndex} in booster #${boosterIndex}.`
       );
     }
 
-    const { picksPerDay, historySize } = await configLoader.getWonderPickSettings();
+    const { picksPerDay, historySize } = await configLoader.getMinePickSettings();
     const day = this.getDay();
     const trustedDay = dateSyncManager.isTimeTrusted() && day ? day : null;
 
@@ -466,7 +469,7 @@ export class WonderPickManager {
       'readwrite',
       async (context) => {
         const stored = this.normalizeState(
-          await context.get(STORES.USER_STATE, USER_STATE_KEYS.WONDER),
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.MINE_PICK),
           picksPerDay
         );
 
@@ -476,7 +479,7 @@ export class WonderPickManager {
         if (trustedDay && stored.lastResetDay !== trustedDay) {
           if (stored.lastResetDay && stored.lastResetDay > trustedDay) {
             console.warn(
-              `[WonderPickManager] The stored day (${stored.lastResetDay}) is ahead of the trusted day (${trustedDay}): the allowance is left untouched.`
+              `[MinePickManager] The stored day (${stored.lastResetDay}) is ahead of the trusted day (${trustedDay}): the allowance is left untouched.`
             );
           } else {
             state = { ...stored, lastResetDay: trustedDay, remaining: picksPerDay, picksByBooster: {} };
@@ -484,17 +487,17 @@ export class WonderPickManager {
         }
 
         if (state.remaining <= 0) {
-          throw new WonderPickError(
-            WONDER_PICK_ERRORS.NO_PICK_LEFT,
-            'No Wonder Pick is left for the current UTC day.'
+          throw new MinePickError(
+            MINE_PICK_ERRORS.NO_PICK_LEFT,
+            'No Mine Pick is left for the current UTC day.'
           );
         }
 
         // One pick per booster and per day: the list keeps showing the booster with the card that
         // came out of it, so it must never be played again the same day.
         if (state.picksByBooster[String(entry.index)]) {
-          throw new WonderPickError(
-            WONDER_PICK_ERRORS.ALREADY_PICKED,
+          throw new MinePickError(
+            MINE_PICK_ERRORS.ALREADY_PICKED,
             `Booster #${entry.index} was already used for the current UTC day.`
           );
         }
@@ -558,7 +561,7 @@ export class WonderPickManager {
           ].slice(0, historySize),
         };
 
-        await context.put(STORES.USER_STATE, nextState, USER_STATE_KEYS.WONDER);
+        await context.put(STORES.USER_STATE, nextState, USER_STATE_KEYS.MINE_PICK);
         return { nextState, quantity, isNew: !existing };
       }
     );
@@ -567,13 +570,13 @@ export class WonderPickManager {
       `Picked "${card.uniqueKey}" (rarity ${card.rarity}) in booster #${entry.index} of "${entry.setId}" — ${result.nextState.remaining} pick(s) left.`
     );
 
-    eventBus.emit(EVENTS.WONDER_PICK_UPDATED, this.buildUpdatePayload(result.nextState, picksPerDay));
+    eventBus.emit(EVENTS.MINE_PICK_UPDATED, this.buildUpdatePayload(result.nextState, picksPerDay));
     // A picked card is a second way into the collection (the first being an opening): publishing it
     // lets the trophies, the experience and the notifications follow it, exactly like a bought card.
     eventBus.emit(EVENTS.CARDS_OBTAINED, {
       cards: [card],
       newKeys: result.isNew ? [card.uniqueKey] : [],
-      source: WONDER_PICK_SOURCE,
+      source: MINE_PICK_SOURCE,
     });
 
     return {
@@ -590,7 +593,7 @@ export class WonderPickManager {
   }
 
   /**
-   * Payload published on `WONDER_PICK_UPDATED`.
+   * Payload published on `MINE_PICK_UPDATED`.
    *
    * @param {object} state - Normalized state.
    * @param {number} picksPerDay - Configured allowance.
@@ -606,7 +609,7 @@ export class WonderPickManager {
   }
 
   /**
-   * Publishes the current state on `WONDER_PICK_UPDATED`.
+   * Publishes the current state on `MINE_PICK_UPDATED`.
    *
    * Used after a clock tick or an import, so the screen reacts without waiting for the next pick.
    *
@@ -615,7 +618,7 @@ export class WonderPickManager {
    */
   async emitStateUpdated() {
     const state = await this.getState();
-    eventBus.emit(EVENTS.WONDER_PICK_UPDATED, {
+    eventBus.emit(EVENTS.MINE_PICK_UPDATED, {
       day: state.day,
       remaining: state.remaining,
       picksPerDay: state.picksPerDay,
@@ -634,7 +637,7 @@ export class WonderPickManager {
   }
 }
 
-/** Shared instance used by the Wonder Pick view and by `app.js`. */
-export const wonderPickManager = new WonderPickManager();
+/** Shared instance used by the Mine Pick view and by `app.js`. */
+export const minePickManager = new MinePickManager();
 
-export default wonderPickManager;
+export default minePickManager;

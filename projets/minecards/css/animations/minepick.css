@@ -1,0 +1,60 @@
+/* =============================================================================
+   animations/minepick.css - What the animation modes add to the Mine Pick screen.
+
+   The Mine Pick is not a mode of its own: it follows the selected one. A couple of touches per
+   mode are enough here, since its ritual (deal, study, turn over, shuffle, pick) already reads
+   its durations from `--anim-flip-ms`. The base choreography itself lives in
+   `css/views/minepick.css`.
+   ============================================================================= */
+
+/* =============================================================================
+   MINE PICK
+
+   The Mine Pick screen is not a mode of its own: it follows the one selected here. Two touches
+   are enough, since its ritual (deal, study, turn over, shuffle, pick) already reads its
+   durations from `--anim-flip-ms`. See `css/views/minepick.css` for the base choreography.
+   ============================================================================= */
+
+/* Epic: the deal has all the time in the world, and the selected line glows harder. */
+body[data-animation="epic"] .minepick__cards.is-dealing::before {
+  animation-duration: 1100ms;
+}
+
+body[data-animation="epic"] .minepick__row.is-selected {
+  box-shadow: var(--glow-rarity-4), var(--glow-rarity-5);
+}
+
+/* Explosive: the stage takes the deal like a hit, and the cards jiggle through the shuffle. */
+body[data-animation="explosive"] .minepick__cards.is-dealing {
+  animation: minepick-panel-roll 480ms var(--easing-standard);
+}
+
+body[data-animation="explosive"] .minepick__cards.is-shuffling .minepick__card {
+  animation:
+    minepick-wobble var(--minepick-shuffle-ms, 420ms) var(--easing-standard),
+    minepick-jiggle 260ms linear infinite;
+}
+
+@keyframes minepick-panel-roll {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  30% {
+    rotate: -1.4deg;
+  }
+  65% {
+    rotate: 1.1deg;
+  }
+}
+
+@keyframes minepick-jiggle {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -3px;
+  }
+}
+

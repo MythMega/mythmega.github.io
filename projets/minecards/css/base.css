@@ -74,6 +74,20 @@ button {
   display: none !important;
 }
 
+/* Keeps a label available to a screen reader while removing it from the screen: the header counts
+   its boosters and its picks with icons only, and the text of each one must not be lost. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* --- Design tokens -------------------------------------------------------- */
 
 :root {
@@ -209,15 +223,16 @@ body {
   color: var(--color-text);
 }
 
-.app-header__sparks-icon {
-  width: 1.1em;
-  height: 1.1em;
+/* The counters of the header are ICONS only (each label is `.sr-only`): the icon, then the value.
+   The size is in `rem`, not in `em`: the bonus counter is a `<button>` whose `font: inherit` resets
+   its font-size, so an `em` size would make that one icon bigger than the other three. */
+.app-header__stat-icon {
+  flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
   object-fit: contain;
 }
 
-.app-header__sparks-label {
-  letter-spacing: 0.02em;
-}
 
 /* Bonus inventory dialog (opened from the header counter). */
 .bonus-inventory__list {
@@ -455,6 +470,27 @@ body.is-onboarding .app-main {
   color: var(--color-text-muted);
 }
 
+/* The actions of a view header (the statistics button of the profile, the back button of the
+   statistics page): a discreet row under the subtitle. */
+.view__header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+/* The icon of a `.btn` (an inline SVG path, never a picture). */
+.btn__icon {
+  flex: 0 0 auto;
+  width: 1.15em;
+  height: 1.15em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* --- Panels and placeholders -------------------------------------------- */
 
 .panel {
@@ -532,6 +568,13 @@ body.is-onboarding .app-main {
 
 .btn--block {
   width: 100%;
+}
+
+/* A small action keeps a real touch target but reads as secondary to the page it sits in. */
+.btn--small {
+  min-height: 2.25rem;
+  padding: 0 var(--space-3);
+  font-size: var(--font-size-xs);
 }
 
 .btn:disabled {

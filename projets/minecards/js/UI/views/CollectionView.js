@@ -27,6 +27,7 @@ import collectionManager from '../../business/CollectionManager.js';
 import sparksManager from '../../business/SparksManager.js';
 import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
 import Toast from '../components/Toast.js';
+import { getShineClasses } from '../components/CardComponent.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
 
 /** Icon of the Sparks currency, relative to the application root. */
@@ -92,6 +93,10 @@ export class CollectionView {
     this.favorites = new Set();
     /** @type {boolean} True while a favourite toggle is running (serializes the read-modify-write). */
     this.favoriteBusy = false;
+    /** @type {boolean} Foil reflection of the large card of the detail modal (on by default). */
+    this.shineEnabled = true;
+    /** @type {HTMLElement|null} Window carrying the foil reflection of the open detail. */
+    this.shineWindow = null;
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
@@ -282,6 +287,15 @@ export class CollectionView {
       }
     });
     this.listen(this.modalClose, 'click', () => this.closeDetail());
+    // The modal body is rebuilt on every opening, so its buttons are handled by delegation instead
+    // of one listener per built button.
+    this.listen(this.modalBody, 'click', (event) => {
+      const toggle =
+        event?.target instanceof Element ? event.target.closest('[data-collection-shine]') : null;
+      if (toggle && this.modalBody?.contains(toggle)) {
+        this.toggleShine();
+      }
+    });
     this.listen(document, 'keydown', (event) => {
       if (event?.key === 'Escape' && this.modal && !this.modal.hidden) {
         this.closeDetail();
@@ -615,15 +629,10 @@ export class CollectionView {
     this.modalBody.textContent = '';
 
     if (card) {
-      const image = document.createElement('img');
-      image.className = 'collection-modal__image';
-      image.src = i18n.resolveImagePath(card.illustration);
-      image.alt = `${name} — ${getRarityLabel(card.rarity, (key) => i18n.t(key))}`;
-      image.addEventListener('error', () => {
-        console.warn(`[CollectionView] Detail illustration not found for "${key}": ${image.src}`);
-        image.hidden = true;
-      });
-      this.modalBody.appendChild(image);
+      this.modalBody.appendChild(this.buildDetailArtwork(card, name, key));
+      if (getShineClasses(card).length > 0) {
+        this.modalBody.appendChild(this.buildShineToggle());
+      }
     }
 
     const list = document.createElement('dl');
@@ -669,6 +678,90 @@ export class CollectionView {
 
     this.modal.hidden = false;
     this.log(`Detail opened for "${key}".`);
+  }
+
+  /**
+   * Builds the large artwork of the detail modal, wrapped so the foil reflection has a window.
+   *
+   * The wrapper takes the exact shape of the card (`--card-reveal-art-ratio`), which is what lets
+   * the highlight of `css/components/card-shine.css` line up with the illustration. The reflection
+   * itself is only added for the rarities that carry one, through the very same helper the opening
+   * uses, so a legendary looks the same in both places.
+   *
+   * @param {object} card - Card to display.
+   * @param {string} name - Translated card name (also the accessible text).
+   * @param {string} key - Collection key, used in the logs.
+   * @returns {HTMLElement} The artwork box.
+   */
+  buildDetailArtwork(card, name, key) {
+    const art = document.createElement('div');
+    art.className = 'collection-modal__art';
+
+    const image = document.createElement('img');
+    image.className = 'collection-modal__image';
+    image.src = i18n.resolveImagePath(card.illustration);
+    image.alt = `${name} — ${getRarityLabel(card.rarity, (labelKey) => i18n.t(labelKey))}`;
+    // The shine is laid over the artwork, so the box needs the real ratio of the illustration.
+    image.addEventListener('load', () => {
+      if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+        art.style.setProperty(
+          '--card-reveal-art-ratio',
+          String(image.naturalWidth / image.naturalHeight)
+        );
+      }
+    });
+    image.addEventListener('error', () => {
+      console.warn(`[CollectionView] Detail illustration not found for "${key}": ${image.src}`);
+      image.hidden = true;
+    });
+    art.appendChild(image);
+
+    art.classList.add(...getShineClasses(card));
+    art.classList.toggle('is-off', !this.shineEnabled);
+    this.shineWindow = art;
+    return art;
+  }
+
+  /**
+   * Builds the button switching the foil reflection of the large card on and off.
+   *
+   * @returns {HTMLElement} The block holding the toggle.
+   */
+  buildShineToggle() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'collection-shine';
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--ghost collection-shine__toggle';
+    button.dataset.collectionShine = 'toggle';
+    button.textContent = i18n.t('collection.shine.toggle');
+    button.setAttribute('aria-label', i18n.t('collection.shine.aria'));
+    button.setAttribute('aria-pressed', String(this.shineEnabled));
+    if (this.shineEnabled) {
+      button.classList.add('is-active');
+    }
+
+    wrapper.appendChild(button);
+    return wrapper;
+  }
+
+  /**
+   * Switches the foil reflection of the open detail on or off.
+   *
+   * The choice is kept on the view, so opening another card keeps it for the session; it is not a
+   * stored preference, since it is a reading comfort, not a game setting.
+   *
+   * @returns {void}
+   */
+  toggleShine() {
+    this.shineEnabled = !this.shineEnabled;
+    this.shineWindow?.classList.toggle('is-off', !this.shineEnabled);
+    this.modalBody?.querySelectorAll('[data-collection-shine]').forEach((button) => {
+      button.classList.toggle('is-active', this.shineEnabled);
+      button.setAttribute('aria-pressed', String(this.shineEnabled));
+    });
+    this.log(`Foil reflection ${this.shineEnabled ? 'enabled' : 'disabled'}.`);
   }
 
   /**
@@ -916,6 +1009,7 @@ export class CollectionView {
   closeDetail() {
     if (!this.modal || this.modal.hidden) return;
     this.modal.hidden = true;
+    this.shineWindow = null;
     this.log('Detail closed.');
   }
 

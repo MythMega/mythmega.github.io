@@ -226,7 +226,7 @@
   <link rel="stylesheet" href="css/views/opening.css">
   <link rel="stylesheet" href="css/views/collection.css">
   <link rel="stylesheet" href="css/views/stats.css">
-  <link rel="stylesheet" href="css/views/wonder.css">
+  <link rel="stylesheet" href="css/views/minepick.css">
   <link rel="stylesheet" href="css/views/profile.css">
   <link rel="stylesheet" href="css/components/trophy.css">
   <link rel="stylesheet" href="css/views/settings.css">
@@ -235,12 +235,20 @@
   <link rel="stylesheet" href="css/views/info.css">
   <link rel="stylesheet" href="css/components/booster-3d.css">
   <link rel="stylesheet" href="css/components/card-reveal.css">
+  <link rel="stylesheet" href="css/components/card-shine.css">
   <link rel="stylesheet" href="css/components/modal.css">
   <link rel="stylesheet" href="css/components/toast.css">
   <link rel="stylesheet" href="css/components/notifications.css">
-  <!-- Animation modes: loaded LAST on purpose, it only overrides the animation of an opening
-       (tear, card flip, summary) according to `data-animation` on <html>/<body>. -->
-  <link rel="stylesheet" href="css/animations.css">
+  <!-- Animation modes: loaded LAST on purpose, they only override the animation of an opening
+       (tear, card flip, summary) according to `data-animation` on <html>/<body>. One file per
+       concern, and `accessibility.css` closes the group so `prefers-reduced-motion` wins over
+       every mode. The contract is documented in `css/animations/defaults.css`. -->
+  <link rel="stylesheet" href="css/animations/defaults.css">
+  <link rel="stylesheet" href="css/animations/opening.css">
+  <link rel="stylesheet" href="css/animations/epic.css">
+  <link rel="stylesheet" href="css/animations/explosive.css">
+  <link rel="stylesheet" href="css/animations/minepick.css">
+  <link rel="stylesheet" href="css/animations/accessibility.css">
 
   <!-- Three.js is pinned so the 3D scene stays reproducible. It is imported dynamically by
        `js/UI/components/Booster3DRenderer.js`: if the CDN is unreachable (offline use, blocked
@@ -346,19 +354,31 @@
     </div>
 
     <div class="app-header__stats">
-      <span class="app-header__stat">
-        <span data-i18n="header.boosters.daily">Boosters du jour</span>
+      <!-- The four counters of the header are ICONS only: the label of each one is kept in the
+           markup but hidden (`.sr-only`), so a screen reader still announces what the number is,
+           and the tooltip gives it back on hover. Order: what the day grants (daily boosters,
+           bonus boosters, the three Mine Pick picks) then the currency. -->
+      <span class="app-header__stat" data-i18n-title="header.boosters.daily" title="Boosters du jour">
+        <img class="app-header__stat-icon" src="assets/img/daily_boosters.png" alt="" aria-hidden="true">
         <span class="app-header__stat-value" id="header-daily-boosters">0</span>
+        <span class="sr-only" data-i18n="header.boosters.daily">Boosters du jour</span>
       </span>
       <!-- Bonus boosters are clickable: the tooltip panel opens the per-extension inventory. -->
-      <button type="button" class="app-header__stat app-header__stat--action" data-header-bonus aria-haspopup="dialog" data-i18n-aria-label="header.boosters.bonusTitle">
-        <span data-i18n="header.boosters.bonus">Bonus</span>
+      <button type="button" class="app-header__stat app-header__stat--action" data-header-bonus aria-haspopup="dialog" data-i18n-aria-label="header.boosters.bonusTitle" data-i18n-title="header.boosters.bonusTitle" title="Boosters bonus par extension">
+        <img class="app-header__stat-icon" src="assets/img/bonus_booster.png" alt="" aria-hidden="true">
         <span class="app-header__stat-value" id="header-bonus-boosters">0</span>
+        <span class="sr-only" data-i18n="header.boosters.bonus">Bonus</span>
       </button>
-      <span class="app-header__stat app-header__stat--sparks">
-        <img class="app-header__sparks-icon" src="assets/img/sparks.png" alt="" aria-hidden="true">
+      <!-- Mine Pick: the free picks left today. -->
+      <span class="app-header__stat" data-i18n-title="header.minepick.title" title="Pioches Mine Pick restantes">
+        <img class="app-header__stat-icon" src="assets/img/minepick.png" alt="" aria-hidden="true">
+        <span class="app-header__stat-value" id="header-minepick">0</span>
+        <span class="sr-only" data-i18n="header.minepick.title">Pioches Mine Pick restantes</span>
+      </span>
+      <span class="app-header__stat" data-i18n-title="sparks.title" title="Sparks">
+        <img class="app-header__stat-icon" src="assets/img/sparks.png" alt="" aria-hidden="true">
         <span class="app-header__stat-value" id="header-sparks">0</span>
-        <span class="app-header__sparks-label" data-i18n="sparks.title">Sparks</span>
+        <span class="sr-only" data-i18n="sparks.title">Sparks</span>
       </span>
       <span class="app-header__clock">
         <span data-i18n="header.clock.utc">UTC</span>
@@ -455,8 +475,14 @@
 
         <!-- Comic burst of the "explosive" mode (deliberately parodic). The element is always in
              the DOM but only revealed when that mode is active: a translated sentence can not come
-             from a stylesheet, and the view replays the animation by toggling `is-visible`. -->
+             from a stylesheet, and the view replays the animation by toggling `is-visible`.
+             The stickers are decoration around the word; the confetti is injected by
+             `OpeningView.spawnConfetti()` at the moment of the blast. -->
         <div class="opening__burst" data-opening-burst aria-hidden="true" hidden>
+          <span class="opening__burst-sticker" style="top: 12%; left: 10%; --sticker-rot: -14deg" data-i18n="opening.burst.stickerA">POW !</span>
+          <span class="opening__burst-sticker" style="bottom: 16%; right: 8%; --sticker-rot: 11deg" data-i18n="opening.burst.stickerB">BAM !</span>
+          <span class="opening__burst-sticker opening__burst-sticker--glyph" style="top: 22%; right: 14%; --sticker-rot: 18deg">✦</span>
+          <span class="opening__burst-sticker opening__burst-sticker--glyph" style="bottom: 22%; left: 16%; --sticker-rot: -9deg">✷</span>
           <p class="opening__burst-word" data-i18n="opening.burst.word">BOUM !</p>
           <p class="opening__burst-note" data-i18n="opening.burst.note">Mode explosif - parodique assumé</p>
         </div>
@@ -559,6 +585,14 @@
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.profile.title">Profil</h2>
         <p class="view__subtitle" data-i18n="view.profile.subtitle">Votre nom, votre icône, vos trophées mis en avant et vos cartes favorites.</p>
+        <!-- The statistics are a page of their own (`#view-stats`), reached from here: a small
+             action under the title, never a tab next to the profile itself. -->
+        <div class="view__header-actions">
+          <button type="button" class="btn btn--ghost btn--small" data-profile-stats>
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+            <span data-i18n="profile.stats.open">Statistiques</span>
+          </button>
+        </div>
       </div>
 
       <p class="feedback" data-profile-feedback role="status" hidden></p>
@@ -633,69 +667,81 @@
         </section>
       </div>
 
-      <!-- Statistics (step 5). They used to be a bottom-bar destination of their own: they now live
-           UNDER the profile, on the page that describes the player. Rendered by `StatsView`, which
-           is driven by `ProfileView` (it is no longer a router view) and wired on
-           `[data-panel="stats"]`. -->
-      <section class="profile__stats" data-panel="stats">
-        <h3 class="profile__section-title" data-i18n="view.stats.title">Statistiques</h3>
-        <p class="feedback" data-stats-feedback role="status" hidden></p>
-        <div class="stats" data-stats-content>
-          <div class="panel stats__panel">
-            <h3 class="stats__title" data-i18n="stats.boosters.title">Boosters ouverts</h3>
-            <p class="stats__big" data-stats-boosters>0</p>
-          </div>
-
-          <div class="panel stats__panel">
-            <h3 class="stats__title" data-i18n="stats.completion.title">Complétion</h3>
-            <p class="stats__line" data-stats-completion-global></p>
-            <div class="stats__bars" data-stats-completion-sets></div>
-          </div>
-
-          <div class="panel stats__panel">
-            <h3 class="stats__title" data-i18n="stats.rarity.title">Tirages par rareté</h3>
-            <div class="stats__bars" data-stats-rarity></div>
-          </div>
-
-          <div class="panel stats__panel">
-            <h3 class="stats__title" data-i18n="stats.top.title">Carte la plus piochée</h3>
-            <div class="stats__top" data-stats-top></div>
-          </div>
-
-          <!-- Miracle picks: the dedicated counters of the Wonder Pick (a pack of its own, written
-               by `WonderPickManager`). -->
-          <div class="panel stats__panel stats__panel--wonder">
-            <h3 class="stats__title" data-i18n="stats.wonder.title">Pioche miracle</h3>
-            <p class="stats__line" data-stats-wonder-summary></p>
-            <div class="stats__bars" data-stats-wonder-rarity></div>
-            <p class="stats__line stats__line--muted" data-stats-wonder-rarest></p>
-            <ol class="stats__history stats__history--wonder" data-stats-wonder-history></ol>
-          </div>
-
-          <!-- Last openings (the codes are shareable, the cards open the detail modal). -->
-          <div class="panel stats__panel stats__panel--history">
-            <h3 class="stats__title" data-i18n="stats.history.title">Dernières ouvertures</h3>
-            <p class="stats__line" data-stats-history-empty hidden data-i18n="stats.history.empty">Aucune ouverture enregistrée pour le moment.</p>
-            <ol class="stats__history" data-stats-history></ol>
-          </div>
-        </div>
-
-        <!-- Card detail popup of the history -->
-        <div class="modal" data-stats-modal hidden>
-          <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="stats-card-modal-title">
-            <button type="button" class="modal__close" data-stats-modal-close aria-label="×">×</button>
-            <h2 class="modal__title" id="stats-card-modal-title" data-stats-modal-title></h2>
-            <div class="modal__body" data-stats-modal-body></div>
-          </div>
-        </div>
-      </section>
-
       <!-- Detail modal: shared by the pinned trophies and the favourite cards (one at a time). -->
       <div class="modal" data-profile-modal hidden>
         <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
           <button type="button" class="modal__close" data-profile-modal-close aria-label="×">×</button>
           <h2 class="modal__title" id="profile-modal-title" data-profile-modal-title></h2>
           <div class="modal__body" data-profile-modal-body></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 ter. Statistics: opened boosters, completion, draws by rarity, the most drawn card, the
+         Mine Pick counters and the last openings. They used to be a destination of the bottom bar,
+         then a block at the bottom of the profile: they are a page of their OWN now, reached from
+         the small button of the profile (`[data-profile-stats]`) and left with the back button
+         under the title. Nothing but the statistics is shown here (no tab next to the title), and
+         the page is rendered by `StatsView`, which listens to `VIEW_CHANGED` like the other views. -->
+    <section class="view" id="view-stats" data-view="stats" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.stats.title">Statistiques</h2>
+        <p class="view__subtitle" data-i18n="view.stats.subtitle">Boosters ouverts, complétion de la collection, tirages par rareté, Mine Pick et dernières ouvertures.</p>
+        <div class="view__header-actions">
+          <button type="button" class="btn btn--ghost btn--small" data-stats-back>
+            <span data-i18n="stats.back">Retour au profil</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="feedback" data-stats-feedback role="status" hidden></p>
+
+      <div class="stats" data-stats-content>
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.boosters.title">Boosters ouverts</h3>
+          <p class="stats__big" data-stats-boosters>0</p>
+        </div>
+
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.completion.title">Complétion</h3>
+          <p class="stats__line" data-stats-completion-global></p>
+          <div class="stats__bars" data-stats-completion-sets></div>
+        </div>
+
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.rarity.title">Tirages par rareté</h3>
+          <div class="stats__bars" data-stats-rarity></div>
+        </div>
+
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.top.title">Carte la plus piochée</h3>
+          <div class="stats__top" data-stats-top></div>
+        </div>
+
+        <!-- Mine Pick: the dedicated counters of the Mine Pick (a pack of its own, written
+             by `MinePickManager`). The explanations of the mode live on the Info page. -->
+        <div class="panel stats__panel stats__panel--minepick">
+          <h3 class="stats__title" data-i18n="stats.minepick.title">Mine Pick</h3>
+          <p class="stats__line" data-stats-minepick-summary></p>
+          <div class="stats__bars" data-stats-minepick-rarity></div>
+          <p class="stats__line stats__line--muted" data-stats-minepick-rarest></p>
+          <ol class="stats__history stats__history--minepick" data-stats-minepick-history></ol>
+        </div>
+
+        <!-- Last openings (the codes are shareable, the cards open the detail modal). -->
+        <div class="panel stats__panel stats__panel--history">
+          <h3 class="stats__title" data-i18n="stats.history.title">Dernières ouvertures</h3>
+          <p class="stats__line" data-stats-history-empty hidden data-i18n="stats.history.empty">Aucune ouverture enregistrée pour le moment.</p>
+          <ol class="stats__history" data-stats-history></ol>
+        </div>
+      </div>
+
+      <!-- Card detail popup of the history -->
+      <div class="modal" data-stats-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="stats-card-modal-title">
+          <button type="button" class="modal__close" data-stats-modal-close aria-label="×">×</button>
+          <h2 class="modal__title" id="stats-card-modal-title" data-stats-modal-title></h2>
+          <div class="modal__body" data-stats-modal-body></div>
         </div>
       </div>
     </section>
@@ -739,40 +785,38 @@
       </div>
     </section>
 
-    <!-- 4. Wonder Pick ("Pioche miracle"). Ten boosters are simulated for the day from the UTC date
+    <!-- 4. Mine Pick. Ten boosters are simulated for the day from the UTC date
          and the account UUID (deterministic, same board all day, three free picks). Every booster
          is listed with its texture, its name and its five cards FACE UP: the pack is chosen by its
          content. Opening one turns the cards over, shuffles them, and the player keeps the one they
          turn over; the booster then stays in the list with the card that was taken from it. -->
-    <section class="view" id="view-wonder" data-view="wonder" aria-hidden="true">
+    <section class="view" id="view-minepick" data-view="minepick" aria-hidden="true">
       <div class="view__header">
-        <h2 class="view__title" data-i18n="view.wonder.title">Pioche miracle</h2>
-        <p class="view__subtitle" data-i18n="view.wonder.subtitle">Dix boosters simulés chaque jour avec vos vrais paramètres : choisissez le pack que vous voulez, son contenu est visible. Il se retourne et se mélange, puis gardez la carte que vous voulez. Trois pioches gratuites par jour.</p>
+        <h2 class="view__title" data-i18n="view.minepick.title">Mine Pick</h2>
       </div>
 
-      <p class="feedback" data-wonder-feedback role="status" hidden></p>
+      <p class="feedback" data-minepick-feedback role="status" hidden></p>
 
       <!-- Stage 1: the ten boosters of the day, one per line, pack face up. -->
-      <div class="wonder" data-wonder-stage="board">
-        <section class="panel wonder__panel">
-          <p class="wonder__quota" data-wonder-quota aria-live="polite"></p>
-          <p class="wonder__countdown" data-wonder-countdown hidden>
-            <span data-i18n="wonder.nextReset">Nouvelles pioches dans</span>
-            <time class="wonder__countdown-value" data-wonder-countdown-value>--:--:--</time>
+      <div class="minepick" data-minepick-stage="board">
+        <section class="panel minepick__panel">
+          <p class="minepick__quota" data-minepick-quota aria-live="polite"></p>
+          <p class="minepick__countdown" data-minepick-countdown hidden>
+            <span data-i18n="minepick.nextReset">Nouvelles pioches dans</span>
+            <time class="minepick__countdown-value" data-minepick-countdown-value>--:--:--</time>
           </p>
-          <p class="wonder__help" data-i18n="wonder.help">Le plateau est calculé à partir de la date UTC et de votre identifiant : il ne change pas avant minuit UTC, et il vous est propre. Un booster déjà pioché reste affiché avec la carte que vous en avez gardée.</p>
-          <ul class="wonder__board" data-wonder-board></ul>
+          <ul class="minepick__board" data-minepick-board></ul>
         </section>
       </div>
 
       <!-- Stage 2: the chosen booster, its cards dealt face up, turned over and shuffled. -->
-      <div class="wonder wonder__stage" data-wonder-stage="pick" hidden>
-        <section class="panel wonder__panel">
-          <h3 class="stats__title" data-wonder-set-name></h3>
-          <p class="wonder__hint" data-wonder-hint></p>
-          <div class="wonder__cards" data-wonder-cards></div>
-          <p class="wonder__result" data-wonder-result role="status" hidden></p>
-          <button type="button" class="btn btn--ghost btn--block" data-wonder-back data-i18n="wonder.back">Retour aux boosters</button>
+      <div class="minepick minepick__stage" data-minepick-stage="pick" hidden>
+        <section class="panel minepick__panel">
+          <h3 class="stats__title" data-minepick-set-name></h3>
+          <p class="minepick__hint" data-minepick-hint></p>
+          <div class="minepick__cards" data-minepick-cards></div>
+          <p class="minepick__result" data-minepick-result role="status" hidden></p>
+          <button type="button" class="btn btn--ghost btn--block" data-minepick-back data-i18n="minepick.back">Retour aux boosters</button>
         </section>
       </div>
     </section>
@@ -975,6 +1019,23 @@
           <p class="info__text" data-i18n="info.how.godpack">Rarement, un booster peut être un « godpack » : ses 5 cartes sont alors toutes des impressions Full Art, quelle que soit leur rareté.</p>
         </section>
 
+        <!-- Mine Pick: the daily board of ten simulated boosters. Its explanations used to be printed
+             on the screen itself, where they pushed the board down: they live here now. A simulated
+             pack is drawn with the REAL booster parameters — same rarity table, same
+             `boosters.cardsPerBooster` and the same `boosters.godpackChancePercent`, so a godpack is
+             as rare on this board as in a real opening. -->
+        <section class="panel info__panel">
+          <h3 class="stats__title" data-i18n="info.minepick.title">Mine Pick</h3>
+          <p class="info__text" data-i18n="info.minepick.intro">Le Mine Pick est un mini-jeu quotidien : dix boosters sont simulés chaque jour avec vos vrais paramètres de tirage, et leur contenu est visible avant de choisir. Ouvrez le pack que vous voulez, retournez ses cartes, puis gardez celle qui vous plaît.</p>
+          <ol class="info__steps">
+            <li data-i18n="info.minepick.step1">Chaque booster du plateau est tiré exactement comme un vrai booster : même table de raretés, même nombre de cartes et même taux de godpack (cinq Full Art).</li>
+            <li data-i18n="info.minepick.step2">Le plateau est calculé à partir de la date UTC et de votre identifiant : il ne change pas avant minuit UTC, et il vous est propre.</li>
+            <li data-i18n="info.minepick.step3">Trois pioches gratuites par jour, remises à zéro à minuit UTC. Elles sont indépendantes des trois boosters gratuits quotidiens.</li>
+            <li data-i18n="info.minepick.step4">Un booster déjà pioché reste affiché avec la carte que vous en avez gardée : la carte rejoint la collection et alimente les compteurs Mine Pick des statistiques.</li>
+          </ol>
+          <p class="info__note" data-i18n="info.minepick.help">Le Mine Pick ne consomme pas de booster : il simule les ouvertures du jour, et une seule carte est gardée par pioche.</p>
+        </section>
+
         <!-- Experience: EVERY XP source and its exact value, read live from `settings/config.json`
              (`levelling` and `ExperiencePerTrophy`) so the page can never drift from the rules the
              code really applies. -->
@@ -1063,11 +1124,25 @@
               <a href="https://icons8.com/icon/56937/unpin" target="_blank" rel="noopener noreferrer">Unpin</a>
               icon by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer">Icons8</a>
             </li>
-              <a target="_blank" href="https://icons8.com/icon/JAkSwKbmdA8m/cards">Playing Card</a>
-              icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+            <li>
+              <a target="_blank" href="https://icons8.com/icon/JAkSwKbmdA8m/cards" rel="noopener noreferrer">Playing Card</a>
+              icon by <a target="_blank" href="https://icons8.com" rel="noopener noreferrer">Icons8</a>
             </li>
-              <a target="_blank" href="https://icons8.com/icon/4c5LJr2wNums/cards">Playing Card</a>
-              icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+            <li>
+              <a target="_blank" href="https://icons8.com/icon/4c5LJr2wNums/cards" rel="noopener noreferrer">Playing Card</a>
+              icon by <a target="_blank" href="https://icons8.com" rel="noopener noreferrer">Icons8</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://icons8.com/icon/338/gift" rel="noopener noreferrer">Bonus</a>
+              icon by <a target="_blank" href="https://icons8.com" rel="noopener noreferrer">Icons8</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://icons8.com/icon/vwGXRtPWrZSn/calendar" rel="noopener noreferrer">Calendar</a>
+              icon by <a target="_blank" href="https://icons8.com" rel="noopener noreferrer">Icons8</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://icons8.com/icon/76yLqTvX0yRJ/pickaxe" rel="noopener noreferrer">pickaxe</a>
+              icon by <a target="_blank" href="https://icons8.com" rel="noopener noreferrer">Icons8</a>
             </li>
           </ul>
         </section>
@@ -1097,10 +1172,10 @@
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>
       <span data-i18n="nav.opening">Ouvrir</span>
     </button>
-    <button type="button" class="app-nav__item" data-nav-target="wonder">
-      <!-- A four-pointed star ("miracle"): the two diagonal glints around a diamond core. -->
+    <button type="button" class="app-nav__item" data-nav-target="minepick">
+      <!-- A four-pointed sparkle: the two diagonal glints around a diamond core. -->
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5 14 9.5 20 12 14 14.5 12 20.5 10 14.5 4 12 10 9.5Z"/><path d="M18.5 4.5v3M17 6h3"/></svg>
-      <span data-i18n="nav.wonder">Miracle</span>
+      <span data-i18n="nav.minepick">Mine</span>
     </button>
     <button type="button" class="app-nav__item" data-nav-target="info">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>

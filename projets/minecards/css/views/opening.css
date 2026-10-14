@@ -210,7 +210,7 @@
   background-color: transparent;
   cursor: pointer;
   touch-action: manipulation;
-  /* Longhands rather than the `animation` shorthand: the animation mode (`css/animations.css`)
+  /* Longhands rather than the `animation` shorthand: the animation mode (`css/animations/`)
      only swaps the name and the duration, and the shorthand would reset the staggered delays
      below to 0. */
   animation-name: summary-pop;
@@ -291,50 +291,9 @@
   text-align: right;
 }
 
-@keyframes spotlight-rise {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes spotlight-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(48px) rotate(2deg);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes spotlight-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-48px) rotate(-2deg);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes summary-pop {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
+/* The movement of this screen - the arrival of the spotlight card, the pop of the summary
+   tiles - lives in `css/animations/opening.css`. This file keeps the structure and the
+   `animation:` declarations that name its keyframes. */
 @media (min-width: 768px) {
   .booster-3d.booster-3d--preview,
   .booster-3d--preview .booster-3d__viewport {

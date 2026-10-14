@@ -1,0 +1,393 @@
+/* =============================================================================
+   animations/explosive.css - The `explosive` mode, the PARODIC one (`parodic: true` in
+   `settings/config.json`, advertised as such by the settings screen).
+
+   Everything here is deliberately ridiculous: the comic tear, the shake of the whole stage,
+   the "BOUM !" burst, the confetti and the fairground flip. The structure of the burst lives
+   at the bottom of this file, with its keyframes, because it only ever shows in this mode.
+   ============================================================================= */
+
+/* =============================================================================
+   EXPLOSIVE (parodic mode - the joke is on purpose)
+   ============================================================================= */
+
+body[data-animation="explosive"] {
+  /* Comic stack: the first family available wins - the system one is a fallback, never a
+     download, so the mode stays offline-friendly. */
+  --anim-comic-font: "Comic Sans MS", "Comic Neue", "Chalkboard SE", "Segoe Print", cursive;
+}
+
+/* --- The pack --------------------------------------------------------------- */
+
+/* Tear: the booster takes a hit, wobbles, then is launched out of the frame. */
+body[data-animation="explosive"] .booster-3d.is-tearing .booster-3d__viewport,
+body[data-animation="explosive"] .booster-3d.is-tearing .booster-3d__fallback {
+  animation: booster-tear-explosive var(--anim-tear-ms) var(--easing-standard) forwards;
+}
+
+body[data-animation="explosive"] .booster-3d::after {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  opacity: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 50% 44%, var(--color-warning), transparent 68%);
+}
+
+body[data-animation="explosive"] .booster-3d.is-tearing::after {
+  animation: animation-flash 560ms var(--easing-standard) forwards;
+}
+
+/* The comic shockwave of the blast: a fat dashed ring, because subtlety is not the point. */
+body[data-animation="explosive"] .booster-3d.is-tearing::before {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  z-index: 2;
+  border: 4px dashed var(--color-warning);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: comic-ring 620ms var(--easing-standard) 40ms;
+}
+
+@keyframes comic-ring {
+  0% {
+    opacity: 0.9;
+    scale: 0.3;
+    rotate: 0deg;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.35;
+    rotate: 40deg;
+  }
+}
+
+@keyframes booster-tear-explosive {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(3%, -4%) scale(1.1) rotate(7deg);
+  }
+  42% {
+    opacity: 1;
+    transform: translate(-4%, 2%) scale(0.9) rotate(-9deg);
+  }
+  68% {
+    opacity: 1;
+    transform: translate(2%, -9%) scale(1.22) rotate(15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -62%) scale(0.45) rotate(48deg);
+  }
+}
+
+/* The whole stage takes the blast. The class is added by `OpeningView` at the exact moment the
+   burst is fired, and removed at the end of the animation. */
+body[data-animation="explosive"] .opening__scene.is-booming {
+  animation: scene-shake var(--anim-tear-ms) var(--easing-standard);
+}
+
+/* Second shake, on the panel above: the blast reaches the whole screen, not only the stage. */
+body[data-animation="explosive"] .opening__scene.is-booming .opening__spotlight,
+body[data-animation="explosive"] .opening__scene.is-booming .booster-3d__hint {
+  animation: panel-roll 520ms var(--easing-standard);
+}
+
+@keyframes panel-roll {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -1.2deg;
+  }
+  55% {
+    rotate: 1.4deg;
+  }
+  80% {
+    rotate: -0.6deg;
+  }
+}
+
+@keyframes scene-shake {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  12% {
+    transform: translate(-9px, 6px) rotate(-1.1deg);
+  }
+  26% {
+    transform: translate(10px, -7px) rotate(1.2deg);
+  }
+  40% {
+    transform: translate(-11px, 5px) rotate(-1.3deg);
+  }
+  54% {
+    transform: translate(9px, -6px) rotate(1deg);
+  }
+  68% {
+    transform: translate(-6px, 4px) rotate(-0.7deg);
+  }
+  82% {
+    transform: translate(4px, -3px) rotate(0.4deg);
+  }
+}
+
+/* --- The comic burst -------------------------------------------------------- */
+
+/* Comic "BOUM !" burst. The element lives in `index.html` (a translated string can not come from
+   a stylesheet) and is only revealed in this mode; `OpeningView` toggles `is-visible` to replay
+   the animation on every opening. The stickers and the confetti are injected by the view. */
+.opening__burst {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-content: center;
+  gap: var(--space-2);
+  pointer-events: none;
+  text-align: center;
+  transform: rotate(-8deg);
+}
+
+body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-word {
+  animation: burst-word var(--anim-tear-ms) var(--easing-standard) both;
+}
+
+.opening__burst-word {
+  font-family: var(--anim-comic-font);
+  font-size: clamp(2rem, 13vw, 4rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--color-accent);
+  text-shadow: 0 4px 0 var(--color-bg);
+  -webkit-text-stroke: 3px var(--color-accent-contrast);
+  transform-origin: 50% 60%;
+}
+
+body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-note {
+  animation: burst-word 1120ms var(--easing-standard) 160ms both;
+}
+
+.opening__burst-note {
+  font-family: var(--anim-comic-font);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-warning);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+@keyframes burst-word {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-24deg);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.35) rotate(6deg);
+  }
+  48% {
+    transform: scale(1) rotate(-3deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.9) rotate(3deg);
+  }
+}
+
+/* Stickers: the onomatopoeias the word alone was missing. Position and tilt come from the
+   markup, the comic font and the pop from here. */
+.opening__burst-sticker {
+  position: absolute;
+  font-family: var(--anim-comic-font);
+  font-size: clamp(1rem, 5vw, 1.7rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--color-warning);
+  text-shadow: 0 3px 0 var(--color-bg);
+  -webkit-text-stroke: 2px var(--color-accent-contrast);
+  opacity: 0;
+}
+
+.opening__burst-sticker--glyph {
+  font-size: clamp(1.6rem, 8vw, 2.8rem);
+  color: var(--color-accent);
+  -webkit-text-stroke: 0;
+}
+
+body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-sticker {
+  animation: sticker-pop 900ms var(--easing-standard) both;
+}
+
+@keyframes sticker-pop {
+  0% {
+    opacity: 0;
+    scale: 0.2;
+    rotate: var(--sticker-rot, 0deg);
+  }
+  30% {
+    opacity: 1;
+    scale: 1.25;
+  }
+  55% {
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.1;
+    rotate: calc(var(--sticker-rot, 0deg) + 18deg);
+  }
+}
+
+/* Confetti: the pieces are `<span>`s created by `OpeningView.spawnConfetti()`, one per line of
+   `CONFETTI_COLORS`; everything else (direction, spin, delay) rides in custom properties. */
+.opening__burst-confetti {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 14px;
+  border-radius: 2px;
+  background-color: var(--confetti-color, var(--color-accent));
+  opacity: 0;
+}
+
+body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-confetti {
+  animation: confetti-fly var(--confetti-flight, 1200ms) cubic-bezier(0.2, 0.7, 0.4, 1)
+    var(--confetti-delay, 0ms) both;
+}
+
+@keyframes confetti-fly {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.4);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-50% + var(--confetti-x, 60px)),
+        calc(-50% + var(--confetti-y, -160px))
+      )
+      rotate(var(--confetti-spin, 540deg)) scale(1);
+  }
+}
+
+/* --- The card --------------------------------------------------------------- */
+
+/* Flip: the card goes for a ride (two and a half turns) and lands with a dashed comic outline. */
+body[data-animation="explosive"] .card-reveal__card.is-flipped {
+  animation: card-flip-explosive var(--anim-flip-ms) linear both;
+  outline: 3px dashed var(--color-accent);
+  outline-offset: 4px;
+}
+
+@keyframes card-flip-explosive {
+  0% {
+    transform: rotateY(0deg) rotateZ(0deg) scale(1);
+  }
+  15% {
+    transform: rotateY(-42deg) rotateZ(-7deg) scale(1.09);
+  }
+  55% {
+    transform: rotateY(620deg) rotateZ(9deg) scale(0.9);
+  }
+  82% {
+    transform: rotateY(870deg) rotateZ(-5deg) scale(1.07);
+  }
+  100% {
+    transform: rotateY(900deg) rotateZ(0deg) scale(1);
+  }
+}
+
+/* An exuberant "TA-DA" ring on the reveal, in the comic dotted style. */
+body[data-animation="explosive"] .card-reveal__card.is-flipped::after {
+  content: '';
+  position: absolute;
+  inset: -16%;
+  z-index: 1;
+  border: 3px dotted var(--color-warning);
+  border-radius: var(--radius-md);
+  opacity: 0;
+  pointer-events: none;
+  animation: comic-ring 780ms var(--easing-standard) both;
+}
+
+/* --- The summary ------------------------------------------------------------ */
+
+/* The thumbnails fall from the ceiling, tilted, and bounce into place. */
+body[data-animation="explosive"] .card-reveal--summary {
+  animation: summary-thump 560ms var(--easing-standard);
+}
+
+body[data-animation="explosive"] .card-reveal__summary-item {
+  animation-name: summary-drop-explosive;
+  animation-duration: var(--anim-flip-ms);
+  animation-timing-function: cubic-bezier(0.16, 1.6, 0.3, 1);
+  animation-fill-mode: backwards;
+}
+
+@keyframes summary-drop-explosive {
+  0% {
+    opacity: 0;
+    transform: translateY(-150%) rotate(-26deg) scale(0.75);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(7%) rotate(7deg) scale(1.07);
+  }
+  80% {
+    transform: translateY(-4%) rotate(-3deg) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes summary-thump {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(6px);
+  }
+}
+
+body[data-animation="explosive"] .opening__summary {
+  animation: summary-shout 460ms var(--easing-standard) backwards;
+  font-family: var(--anim-comic-font);
+  font-size: var(--font-size-lg);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+  transform-origin: 50% 50%;
+}
+
+@keyframes summary-shout {
+  0% {
+    opacity: 0;
+    transform: scale(1.6) rotate(-6deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.94) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+

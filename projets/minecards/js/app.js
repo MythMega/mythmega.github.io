@@ -39,13 +39,15 @@ import { SpaRouter } from './UI/SpaRouter.js';
 import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
 import { CollectionView, COLLECTION_VIEW_NAME } from './UI/views/CollectionView.js';
-import { WonderView, WONDER_VIEW_NAME } from './UI/views/WonderView.js';
+import { MinePickView, MINE_PICK_VIEW_NAME } from './UI/views/MinePickView.js';
 import { ProfileView, PROFILE_VIEW_NAME } from './UI/views/ProfileView.js';
+import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
 import { TrophiesView, TROPHIES_VIEW_NAME } from './UI/views/TrophiesView.js';
 import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
 import { RedeemView } from './UI/views/RedeemView.js';
 import { GiftsView } from './UI/views/GiftsView.js';
 import { InfoView, INFO_VIEW_NAME } from './UI/views/InfoView.js';
+import minePickManager from './business/MinePickManager.js';
 import gameNotifier from './UI/components/GameNotifier.js';
 
 /** Id of the boot overlay removed once the application is ready. */
@@ -58,6 +60,7 @@ export const FATAL_ERROR_ID = 'app-fatal';
 export const HEADER_IDS = Object.freeze({
   DAILY: 'header-daily-boosters',
   BONUS: 'header-bonus-boosters',
+  MINE_PICK: 'header-minepick',
   CLOCK: 'header-utc-clock',
   SPARKS: 'header-sparks',
 });
@@ -80,8 +83,10 @@ export const VIEW_NAMES = Object.freeze({
   OPENING: 'opening',
   COLLECTION: 'collection',
   PROFILE: 'profile',
+  // Statistics: opened from the profile, not a destination of the bottom bar of its own anymore.
+  STATS: 'stats',
   TROPHIES: 'trophies',
-  WONDER: 'wonder',
+  MINE_PICK: 'minepick',
   SETTINGS: 'settings',
   INFO: 'info',
 });
@@ -116,10 +121,12 @@ export class App {
     this.collectionView = null;
     /** @type {ProfileView|null} Profile page (identity, level, pinned trophies, favourites). */
     this.profileView = null;
+    /** @type {StatsView|null} Statistics page (opened from the profile). */
+    this.statsView = null;
     /** @type {TrophiesView|null} Trophy catalogue (its own bottom-bar destination). */
     this.trophiesView = null;
-    /** @type {WonderView|null} Wonder Pick screen (ten simulated boosters a day, three picks). */
-    this.wonderView = null;
+    /** @type {MinePickView|null} Mine Pick screen (ten simulated boosters a day, three picks). */
+    this.minePickView = null;
     /** @type {SettingsView|null} Preferences, account and save management (step 6). */
     this.settingsView = null;
     /** @type {RedeemView|null} Promo code entry (step 7). */
@@ -142,6 +149,8 @@ export class App {
     this.clockTimer = null;
     /** @type {{utc: Date, formatted: string, timeUntilReset: string}|null} Last published tick. */
     this.lastTick = null;
+    /** @type {string|null} UTC day the header Mine Pick counter was last refreshed for. */
+    this.headerMinePickDay = null;
     /** @type {boolean} */
     this.isStarted = false;
   }
@@ -270,8 +279,9 @@ export class App {
     await this.startOpeningView();
     await this.startCollectionView();
     await this.startProfileView();
+    await this.startStatsView();
     await this.startTrophiesView();
-    await this.startWonderView();
+    await this.startMinePickView();
     await this.startSettingsView();
     await this.startRedeemView();
     await this.startGiftsView();
@@ -405,7 +415,10 @@ export class App {
       return;
     }
     console.info('[App] Starting the profile view…');
-    this.profileView = new ProfileView(root);
+    // The profile carries the button that opens the statistics: the router stays here.
+    this.profileView = new ProfileView(root, {
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
     try {
       await this.profileView.init();
     } catch (error) {
@@ -416,6 +429,38 @@ export class App {
     console.info('[App] Profile view ready.');
     if (this.router?.getCurrentView() === PROFILE_VIEW_NAME) {
       this.profileView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Starts the statistics page: opened from the small button of the profile, never from the bottom
+   * bar (it is therefore not a navigation destination, only a view).
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and the
+   * other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startStatsView() {
+    const root = document.querySelector(`[data-view="${STATS_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The statistics view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the statistics view…');
+    this.statsView = new StatsView(root, {
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
+    try {
+      await this.statsView.init();
+    } catch (error) {
+      console.error('[App] The statistics view could not be loaded.', error);
+      this.statsView.setFeedback('stats.error.load', 'error');
+      return;
+    }
+    console.info('[App] Statistics view ready.');
+    if (this.router?.getCurrentView() === STATS_VIEW_NAME) {
+      this.statsView.handleViewActivated();
     }
   }
 
@@ -471,31 +516,31 @@ export class App {
   }
 
   /**
-   * Starts the Wonder Pick view: the ten simulated boosters of the day and the three daily picks.
+   * Starts the Mine Pick view: the ten simulated boosters of the day and the three daily picks.
    *
    * A load failure must not break the whole boot: the view then shows its own error message and the
    * other views keep working.
    *
    * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
    */
-  async startWonderView() {
-    const root = document.querySelector(`[data-view="${WONDER_VIEW_NAME}"]`);
+  async startMinePickView() {
+    const root = document.querySelector(`[data-view="${MINE_PICK_VIEW_NAME}"]`);
     if (!root) {
-      console.warn('[App] The Wonder Pick view is missing from index.html, skipping its wiring.');
+      console.warn('[App] The Mine Pick view is missing from index.html, skipping its wiring.');
       return;
     }
-    console.info('[App] Starting the Wonder Pick view…');
-    this.wonderView = new WonderView(root);
+    console.info('[App] Starting the Mine Pick view…');
+    this.minePickView = new MinePickView(root);
     try {
-      await this.wonderView.init();
+      await this.minePickView.init();
     } catch (error) {
-      console.error('[App] The Wonder Pick view could not be loaded.', error);
-      this.wonderView.setFeedback('wonder.error.board', 'error');
+      console.error('[App] The Mine Pick view could not be loaded.', error);
+      this.minePickView.setFeedback('minepick.error.board', 'error');
       return;
     }
-    console.info('[App] Wonder Pick view ready.');
-    if (this.router?.getCurrentView() === WONDER_VIEW_NAME) {
-      this.wonderView.handleViewActivated();
+    console.info('[App] Mine Pick view ready.');
+    if (this.router?.getCurrentView() === MINE_PICK_VIEW_NAME) {
+      this.minePickView.handleViewActivated();
     }
   }
 
@@ -726,6 +771,7 @@ export class App {
     this.headerBound = true;
     eventBus.on(EVENTS.QUOTA_UPDATED, (payload) => this.renderHeaderCounters(payload));
     eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.renderHeaderSparks(payload));
+    eventBus.on(EVENTS.MINE_PICK_UPDATED, (payload) => this.renderHeaderMinePick(payload));
     eventBus.on(EVENTS.CONNECTION_STATUS, (payload) => this.setConnectionState(payload?.online));
     eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload));
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => this.handleAccountRemoved());
@@ -746,6 +792,27 @@ export class App {
     this.lastTick = payload;
     this.setText(HEADER_IDS.CLOCK, payload.formatted);
     this.stopUtcClock();
+    this.refreshHeaderMinePickOnNewDay(payload);
+  }
+
+  /**
+   * Refreshes the Mine Pick counter when the UTC day changes while the page stays open.
+   *
+   * The free picks roll over at midnight UTC, exactly like the daily boosters, but nothing else
+   * announces it to the header: the day carried by the clock is the trigger (and it is also the
+   * first refresh after the boot, since no day was known yet).
+   *
+   * @param {{utc?: Date, formatted?: string}} payload - `CLOCK_TICK` payload.
+   * @returns {void}
+   */
+  refreshHeaderMinePickOnNewDay(payload) {
+    // A placeholder tick (before the first trusted synchronization) carries an estimated date: it
+    // must not be mistaken for a real day change.
+    if (!(payload.utc instanceof Date) || payload.formatted === '--:--:--') return;
+    const day = payload.utc.toISOString().slice(0, 10);
+    if (day === this.headerMinePickDay) return;
+    this.headerMinePickDay = day;
+    void this.refreshHeaderMinePick();
   }
 
   /**
@@ -803,13 +870,17 @@ export class App {
       this.profileView.destroy();
       this.profileView = null;
     }
+    if (this.statsView) {
+      this.statsView.destroy();
+      this.statsView = null;
+    }
     if (this.trophiesView) {
       this.trophiesView.destroy();
       this.trophiesView = null;
     }
-    if (this.wonderView) {
-      this.wonderView.destroy();
-      this.wonderView = null;
+    if (this.minePickView) {
+      this.minePickView.destroy();
+      this.minePickView = null;
     }
     if (this.settingsView) {
       this.settingsView.destroy();
@@ -837,6 +908,8 @@ export class App {
     this.renderHeaderCounters(null);
     this.closeBonusInventory();
     this.renderHeaderSparks(null);
+    this.renderHeaderMinePick(null);
+    this.headerMinePickDay = null;
     this.setText(HEADER_IDS.CLOCK, '--:--:--');
     this.setConnectionState(undefined);
   }
@@ -876,6 +949,32 @@ export class App {
       this.renderHeaderSparks({ balance: await sparksManager.getBalance() });
     } catch (error) {
       console.warn('[App] The Sparks balance could not be read.', error);
+    }
+  }
+
+  /**
+   * Renders the daily Mine Pick allowance in the header.
+   *
+   * @param {{remaining?: number, picksPerDay?: number}|null} payload - `MINE_PICK_UPDATED` payload,
+   *   or null to reset.
+   * @returns {void}
+   */
+  renderHeaderMinePick(payload) {
+    const remaining = Number.isFinite(payload?.remaining) ? payload.remaining : 0;
+    this.setText(HEADER_IDS.MINE_PICK, String(Math.max(0, remaining)));
+  }
+
+  /**
+   * Reads the free picks left today from the Mine Pick state and displays them.
+   *
+   * @returns {Promise<void>} Resolves once the header is refreshed.
+   */
+  async refreshHeaderMinePick() {
+    try {
+      const state = await minePickManager.getState();
+      this.renderHeaderMinePick({ remaining: state.remaining, picksPerDay: state.picksPerDay });
+    } catch (error) {
+      console.warn('[App] The Mine Pick allowance could not be read.', error);
     }
   }
 

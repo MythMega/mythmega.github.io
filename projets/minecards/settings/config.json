@@ -13,17 +13,17 @@
   "defaultTheme": "dark",
 
   "animations": {
-    "_comment": "Opening animation modes. 'id' becomes the `data-animation` attribute of <html>/<body> and therefore selects the flavour declared in css/animations.css; 'labelKey' is the translation of the picker button; 'parodic' flags a mode that is deliberately ridiculous (the settings screen advertises it); 'tearMs'/'flipMs'/'staggerMs' are the durations in milliseconds (opening of the pack, one card flip, delay between two summary cards) applied through the `--anim-tear-ms`/`--anim-flip-ms`/`--anim-stagger-ms` custom properties, so a mode only needs numbers here. A mode declared without a matching CSS block simply reuses the neutral animation at its own speed.",
+    "_comment": "Opening animation modes. 'id' becomes the `data-animation` attribute of <html>/<body> and therefore selects the flavour declared in css/animations/; 'labelKey' is the translation of the picker button; 'parodic' flags a mode that is deliberately ridiculous (the settings screen advertises it); 'tearMs'/'flipMs'/'staggerMs' are the durations in milliseconds (opening of the pack, one card flip, delay between two summary cards) applied through the `--anim-tear-ms`/`--anim-flip-ms`/`--anim-stagger-ms` custom properties, so a mode only needs numbers here. 'normal' is the cinematic base (see css/components/card-reveal.css and css/views/opening.css), 'epic' stages it (light rays, shockwave, motes) and 'explosive' is the joke one (confetti, stickers, shake). A mode declared without a matching CSS block simply reuses the base animation at its own speed. The Mine Pick reads the very same durations.",
     "list": [
       { "id": "normal", "labelKey": "settings.animation.normal", "tearMs": 700, "flipMs": 220, "staggerMs": 60 },
       { "id": "epic", "labelKey": "settings.animation.epic", "tearMs": 1200, "flipMs": 640, "staggerMs": 150 },
       { "id": "explosive", "labelKey": "settings.animation.explosive", "parodic": true, "tearMs": 950, "flipMs": 900, "staggerMs": 90 }
     ],
-    "default": "normal"
+    "default": "epic"
   },
 
   "boosters": {
-    "sets": ["A1"],
+    "sets": ["A1", "A2"],
     "directory": "data/boosters",
     "rarityConfigPath": "settings/defaultRarity.json",
     "model": "assets/boostermodel.glb",
@@ -34,12 +34,12 @@
     "historySize": 10
   },
 
-  "wonderPick": {
-    "_comment": "Pioche miracle (Wonder Pick). The daily board holds 'boosterCount' SIMULATED openings, built from the real booster parameters: 'boosters.cardsPerBooster', the rarity table of each extension (which may override 'defaultRarity.json') and 'boosters.godpackChancePercent'. A simulated pack is therefore drawn exactly like an opened one. 'picksPerDay' free picks per UTC day (reset at midnight UTC, like the daily boosters), 'historySize' picks kept for the statistics. The board is deterministic: it is seeded with 'seedSalt' + the UTC day + the account UUID, so a reload shows the same board, it changes at the next UTC day, and two accounts never share one. The extension of each booster is drawn at random with a weight of (rank + 1) ** 'setWeightExponent': the extension whose id ranks highest is the most likely.",
+  "minePick": {
+    "_comment": "Mine Pick. The daily board holds 'boosterCount' SIMULATED openings, built from the real booster parameters: 'boosters.cardsPerBooster', the rarity table of each extension (which may override 'defaultRarity.json') and 'boosters.godpackChancePercent'. A simulated pack is therefore drawn exactly like an opened one. 'picksPerDay' free picks per UTC day (reset at midnight UTC, like the daily boosters), 'historySize' picks kept for the statistics. The board is deterministic: it is seeded with 'seedSalt' + the UTC day + the account UUID, so a reload shows the same board, it changes at the next UTC day, and two accounts never share one (changing 'seedSalt' rebuilds the board of the CURRENT day, and the boosters already picked become stale). The extension of each booster is drawn at random with a weight of (rank + 1) ** 'setWeightExponent': the extension whose id ranks highest is the most likely.",
     "boosterCount": 10,
     "picksPerDay": 3,
     "historySize": 10,
-    "seedSalt": "minecards-wonder-pick-v1",
+    "seedSalt": "minecards-mine-pick-v1",
     "setWeightExponent": 2
   },
 

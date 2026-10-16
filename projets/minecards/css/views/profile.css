@@ -336,7 +336,7 @@
 
 .profile__tile-image {
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: var(--card-ratio);
   object-fit: contain;
   border-radius: var(--radius-sm);
   background-color: var(--color-surface);
@@ -352,6 +352,22 @@
 .profile__tile--trophy .trophy__icon {
   width: 2.5rem;
   height: 2.5rem;
+}
+
+/* Every pinned-trophy box has the same size. The strip stretches its items on the cross axis, and
+   the tile is a flex box so the button fills that stretched height; the medal and the rarity badge
+   are fixed, so only the name varies, and reserving two lines there makes a one-line and a
+   two-line title end on the same edge. */
+.profile__tile--trophy {
+  display: flex;
+}
+
+.profile__tile--trophy .profile__tile-open {
+  flex: 1 1 auto;
+}
+
+.profile__tile--trophy .profile__tile-title {
+  min-height: 2.6em;
 }
 
 /* The unpin button of a pinned trophy: pinned to the TOP-RIGHT corner of the tile. */

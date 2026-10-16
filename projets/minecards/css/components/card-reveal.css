@@ -6,15 +6,17 @@
        before it settles, with a slight zoom on the way. It runs whatever the animation mode
        (`css/animations/epic.css` only adds decoration on top for "epic"), so the card always answers
        the tap the same way;
-     - rarities 1 to 3: plain rendering, light inner reflection, a glint when revealed;
+     - rarities 1 and 2: plain rendering, light inner reflection, a glint when revealed;
+     - rarity 3 (super rare): the lightest foil (the fine diagonal weave of
+       `css/components/card-shine.css`) over the same inner reflection and glint;
      - rarity 4 (legendary): animated glow (`--glow-rarity-4`), the light foil and a halo ring on
        reveal;
      - rarity 5 (mythic): stronger animated glow (`--glow-rarity-5`), the full foil and the same
        halo, held longer. The halo fades out and leaves nothing behind;
      - the two glows and the halo are the only rarity effects left here: the foil itself is its own
-       component, `css/components/card-shine.css`, applied by `CardComponent` as a window laid over
-       the artwork (two layered planes, moving back and forth, clipped to the illustration so the
-       frame of the card keeps no gloss);
+       component, `css/components/card-shine.css`, applied by `CardComponent` (`applyShine`) as a
+       window laid over the artwork (shapes, light and the sweeping line, each moving back and forth,
+       clipped to the illustration so the frame of the card keeps no gloss);
      - full art printings drift a hair, like a lenticular print.
    Every color comes from `css/themes.css`, so the three themes stay readable.
 
@@ -54,7 +56,10 @@
 
 .card-reveal__card {
   position: relative;
-  aspect-ratio: 2 / 3;
+  /* The ratio of the assets themselves (`css/base.css`, `--card-ratio`): a card box matching its
+     artwork exactly is what lets the foil window of `css/components/card-shine.css` land on the
+     picture instead of on letterbox bands. */
+  aspect-ratio: var(--card-ratio);
   padding: 0;
   border: 0;
   background-color: transparent;
@@ -120,7 +125,7 @@
 }
 
 /* The back shows the shared illustration (`assets/img/card_back.png`, see `CardComponent`).
-   It is a fixed 2:3 image like the card itself, so `cover` fills the frame without cropping.
+   It is a fixed image like the card itself, so `cover` fills the frame without cropping.
    The themed surface colour stays as a fallback if the file cannot be loaded. */
 .card-reveal__face--back {
   background-color: var(--color-surface-alt);
@@ -295,9 +300,16 @@
 }
 
 /* The revealed card pops slightly, drawing the eye to the latest flip (outline, not filter:
-   the filter would flatten the 3D stacking context, see above). */
-.card-reveal__card.is-flipped.card-reveal__card--r4,
-.card-reveal__card.is-flipped.card-reveal__card--r5 {
+   the filter would flatten the 3D stacking context, see above).
+
+   The Mine Pick stage is EXCLUDED (`:not(.minepick__card)`): its cards are flipped to shuffle the
+   pack, not to reveal it, and the state that matters there is the ring of `css/views/minepick.css`
+   - the rarity colour first, then green for the card the player keeps. Without the exclusion this
+   rule (same specificity, and card-reveal.css is loaded after minepick.css) painted every flipped
+   legendary and mythic blue and hid the green of the kept card. The `:not()` also raises the
+   specificity, so the exclusion is not a cascade accident. */
+.card-reveal__card.is-flipped.card-reveal__card--r4:not(.minepick__card),
+.card-reveal__card.is-flipped.card-reveal__card--r5:not(.minepick__card) {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: var(--radius-md);

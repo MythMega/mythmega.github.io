@@ -240,6 +240,7 @@
   <link rel="stylesheet" href="css/views/onboarding.css">
   <link rel="stylesheet" href="css/views/opening.css">
   <link rel="stylesheet" href="css/views/collection.css">
+  <link rel="stylesheet" href="css/views/binders.css">
   <link rel="stylesheet" href="css/views/stats.css">
   <link rel="stylesheet" href="css/views/minepick.css">
   <link rel="stylesheet" href="css/views/profile.css">
@@ -369,29 +370,46 @@
     </div>
 
     <div class="app-header__stats">
-      <!-- The four counters of the header are ICONS only: the label of each one is kept in the
-           markup but hidden (`.sr-only`), so a screen reader still announces what the number is,
-           and the tooltip gives it back on hover. Order: what the day grants (daily boosters,
-           bonus boosters, the three Mine Pick picks) then the currency. -->
+      <!-- The four counters of the header are ICONS first: the full label of each one is kept in
+           the markup but hidden (`.sr-only`), so a screen reader announces what the number is, and
+           the tooltip gives it back on hover. On a wide screen the SHORT label
+           (`.app-header__stat-label`) becomes visible next to the icon - an icon alone is a guess
+           (see `css/base.css`), and the full label would not fit in the header row. The short
+           label is `aria-hidden`: the accessible name stays the full `.sr-only` one, so a screen
+           reader never reads a truncated word. Order: what the day grants (daily boosters, bonus
+           boosters, the three Mine Pick picks) then the currency. -->
       <span class="app-header__stat" data-i18n-title="header.boosters.daily" title="Boosters du jour">
         <img class="app-header__stat-icon" src="assets/img/daily_boosters.png" alt="" aria-hidden="true">
+        <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.boosters.daily.short">Quotidiens</span>
         <span class="app-header__stat-value" id="header-daily-boosters">0</span>
         <span class="sr-only" data-i18n="header.boosters.daily">Boosters du jour</span>
       </span>
       <!-- Bonus boosters are clickable: the tooltip panel opens the per-extension inventory. -->
       <button type="button" class="app-header__stat app-header__stat--action" data-header-bonus aria-haspopup="dialog" data-i18n-aria-label="header.boosters.bonusTitle" data-i18n-title="header.boosters.bonusTitle" title="Boosters bonus par extension">
         <img class="app-header__stat-icon" src="assets/img/bonus_booster.png" alt="" aria-hidden="true">
+        <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.boosters.bonus.short">Bonus</span>
         <span class="app-header__stat-value" id="header-bonus-boosters">0</span>
         <span class="sr-only" data-i18n="header.boosters.bonus">Bonus</span>
       </button>
       <!-- Mine Pick: the free picks left today. -->
       <span class="app-header__stat" data-i18n-title="header.minepick.title" title="Pioches Mine Pick restantes">
         <img class="app-header__stat-icon" src="assets/img/minepick.png" alt="" aria-hidden="true">
+        <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.minepick.short">Pioches</span>
         <span class="app-header__stat-value" id="header-minepick">0</span>
         <span class="sr-only" data-i18n="header.minepick.title">Pioches Mine Pick restantes</span>
       </span>
+      <!-- Binders: the personal pages of the player. Same shape as the bonus counter (an icon, the
+           count, and a click that does something): the button shows how many binders exist and
+           opens their list, which is where they are created, edited and shared. -->
+      <button type="button" class="app-header__stat app-header__stat--action" data-header-binders aria-haspopup="dialog" data-i18n-title="header.binders.title" data-i18n-aria-label="header.binders.title" title="Binders">
+        <img class="app-header__stat-icon" src="assets/img/binders.png" alt="" aria-hidden="true">
+        <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.binders.short">Binders</span>
+        <span class="app-header__stat-value" id="header-binders">0</span>
+        <span class="sr-only" data-i18n="header.binders.title">Binders</span>
+      </button>
       <span class="app-header__stat" data-i18n-title="sparks.title" title="Sparks">
         <img class="app-header__stat-icon" src="assets/img/sparks.png" alt="" aria-hidden="true">
+        <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.sparks.short">Sparks</span>
         <span class="app-header__stat-value" id="header-sparks">0</span>
         <span class="sr-only" data-i18n="sparks.title">Sparks</span>
       </span>
@@ -554,31 +572,31 @@
 
     <!-- 2. Collection -->
     <section class="view" id="view-collection" data-view="collection" aria-hidden="true">
-      <div class="view__header">
-        <h2 class="view__title" data-i18n="view.collection.title">Collection</h2>
-        <p class="view__subtitle" data-collection-progress role="status"></p>
+      <div class="view__header view__header--split">
+        <div class="view__heading">
+          <h2 class="view__title" data-i18n="view.collection.title">Collection</h2>
+          <p class="view__subtitle" data-collection-progress role="status"></p>
+        </div>
+        <!-- Binders: the personal 30-slot pages. The button lives in the header of the page, to the
+             right of the title and OUTSIDE the filter panel below - a binder is a place of its own,
+             not one more filter of the grid. It opens the list of the player's binders, and the
+             editor behind it. -->
+        <button type="button" class="btn btn--ghost collection__binders-open" data-collection-binders-open aria-haspopup="dialog" aria-expanded="false">
+          <img class="collection__binders-icon" src="assets/img/binders.png" alt="" aria-hidden="true">
+          <span data-i18n="binders.title">Binders</span>
+        </button>
       </div>
 
       <div class="collection__filters panel" data-collection-filters>
-        <label class="field collection__field">
-          <span class="field__label" data-i18n="collection.filter.set">Extension</span>
-          <select class="field__select" data-collection-set></select>
-        </label>
-
-        <label class="field collection__field">
-          <span class="field__label" data-i18n="collection.filter.rarity">Rareté</span>
-          <select class="field__select" data-collection-rarity></select>
-        </label>
-
-        <label class="field collection__field">
-          <span class="field__label" data-i18n="collection.filter.style">Style</span>
-          <select class="field__select" data-collection-style></select>
-        </label>
-
-        <label class="field collection__field">
-          <span class="field__label" data-i18n="collection.filter.status">Statut</span>
-          <select class="field__select" data-collection-status></select>
-        </label>
+        <div class="collection__toolbar">
+          <!-- Every detailed filter lives in the popup below: the bar keeps the search, the button
+               that opens the rest and the card count. -->
+          <button type="button" class="btn btn--ghost collection__filter-open" data-collection-filter-open aria-haspopup="dialog" aria-expanded="false">
+            <span data-i18n="collection.filter.open">Filtres &amp; tri</span>
+            <span class="collection__filter-badge" data-collection-filter-badge hidden></span>
+          </button>
+          <p class="collection__summary" data-collection-filter-summary role="status"></p>
+        </div>
 
         <label class="field collection__field collection__field--search">
           <span class="field__label" data-i18n="collection.filter.search">Recherche</span>
@@ -591,6 +609,66 @@
       <p class="feedback" data-collection-feedback role="status" hidden></p>
       <div class="collection__grid" data-collection-grid></div>
       <p class="placeholder" data-collection-empty hidden data-i18n="collection.empty">Aucune carte ne correspond aux filtres.</p>
+
+      <!-- Filter & sort popup. Its body is rebuilt by `CollectionView` from the loaded catalog
+           (the extension list is dynamic), so the markup only carries the shell. -->
+      <div class="modal" data-collection-filter-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="collection-filter-modal-title">
+          <button type="button" class="modal__close" data-collection-filter-close aria-label="×">×</button>
+          <h2 class="modal__title" id="collection-filter-modal-title" data-i18n="collection.filter.title">Filtres &amp; tri</h2>
+          <div class="modal__body collection-filter" data-collection-filter-body></div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-collection-filter-reset data-i18n="collection.filter.reset">Réinitialiser</button>
+            <button type="button" class="btn btn--primary" data-collection-filter-apply data-i18n="collection.filter.apply">Afficher les cartes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Binders: the list of the personal pages the player owns. The creation gesture is the LAST
+           LINE of that list - a dashed, binder-shaped tile with a big "+" in the middle, built by
+           `CollectionView.buildBinderCreateTile()` - so the popup carries no "create" button at
+           all. -->
+      <div class="modal" data-collection-binders-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="collection-binders-title">
+          <button type="button" class="modal__close" data-collection-binders-close aria-label="×">×</button>
+          <h2 class="modal__title" id="collection-binders-title" data-i18n="binders.title">Binders</h2>
+          <p class="binders__summary" data-collection-binders-summary role="status"></p>
+          <ul class="binders__list" data-collection-binders-list></ul>
+          <p class="placeholder" data-collection-binders-empty hidden data-i18n="binders.empty">Vous n'avez encore aucun binder.</p>
+        </div>
+      </div>
+
+      <!-- Binder editor: the draft of one page (name, cover, 30 slots). Nothing is stored until
+           "Enregistrer", so a closed editor never leaves half of a page behind. -->
+      <div class="modal" data-collection-binder-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="collection-binder-title">
+          <button type="button" class="modal__close" data-collection-binder-close aria-label="×">×</button>
+          <h2 class="modal__title" id="collection-binder-title" data-collection-binder-title></h2>
+          <div class="modal__body binder-editor" data-collection-binder-body></div>
+          <p class="feedback" data-collection-binder-feedback role="status" hidden></p>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-collection-binder-share data-i18n="binders.share">Partager</button>
+            <button type="button" class="btn btn--danger" data-collection-binder-delete hidden data-i18n="binders.delete">Supprimer</button>
+            <button type="button" class="btn btn--ghost" data-collection-binder-cancel data-i18n="binders.cancel">Fermer</button>
+            <button type="button" class="btn btn--primary" data-collection-binder-save data-i18n="binders.save">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card picker: chooses the representative card or fills one slot. -->
+      <div class="modal" data-collection-binder-picker-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="collection-binder-picker-title">
+          <button type="button" class="modal__close" data-collection-binder-picker-close aria-label="×">×</button>
+          <h2 class="modal__title" id="collection-binder-picker-title" data-collection-binder-picker-title></h2>
+          <input class="field__input" type="search" data-collection-binder-picker-search data-i18n-placeholder="binders.pickSearch" placeholder="Rechercher une carte…">
+          <div class="modal__body binder-picker" data-collection-binder-picker-body></div>
+          <p class="placeholder" data-collection-binder-picker-empty hidden data-i18n="binders.pickEmpty">Aucune carte ne peut être placée ici.</p>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-collection-binder-picker-clear data-i18n="binders.pickClear">Vider l'emplacement</button>
+            <button type="button" class="btn btn--primary" data-collection-binder-picker-cancel data-i18n="binders.cancel">Fermer</button>
+          </div>
+        </div>
+      </div>
 
       <div class="modal" data-collection-modal hidden>
         <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="collection-card-modal-title">
@@ -889,9 +967,10 @@
           <p class="settings__help" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
         </section>
 
-        <!-- Foil: how strong the reflection of the legendary and mythic printings is. The slider
-             drives the custom property `--foil-intensity` live, so the demo card of the panel
-             above follows the finger; the min/max/step are filled in from `settings/config.json`
+        <!-- Foil: how strong the reflection of the super rare, legendary and mythic printings is, and
+             how bright the line sweeping across them is. Each slider drives its own custom property
+             live (`--foil-intensity` and `--glare-intensity`), so the demo card of the panel above
+             follows the finger; the min/max/step of each one are filled in from `settings/config.json`
              by SettingsView (the values below are the defaults, already correct before the script
              runs), and the value shown in the <output> is written by the view because it depends on
              the percentage, not only on the language. -->
@@ -904,7 +983,15 @@
             </div>
             <input type="range" class="foil-slider__input" id="settings-foil" data-settings-foil min="0" max="100" step="5" value="100" aria-describedby="settings-foil-help">
           </div>
-          <p class="settings__help" id="settings-foil-help" data-i18n="settings.foil.help">Réglez la force du reflet des cartes légendaires et mythiques. À 0 %, le foil disparaît complètement.</p>
+          <div class="foil-slider">
+            <div class="foil-slider__head">
+              <label class="foil-slider__label" for="settings-glare" data-i18n="settings.foil.glare">Brillance</label>
+              <output class="foil-slider__value" data-settings-glare-value for="settings-glare">100 %</output>
+            </div>
+            <input type="range" class="foil-slider__input" id="settings-glare" data-settings-glare min="0" max="100" step="5" value="100" aria-describedby="settings-glare-help">
+          </div>
+          <p class="settings__help" id="settings-foil-help" data-i18n="settings.foil.help">Le foil dessine les motifs de la carte (grille, nid d'abeilles, trame) ; la brillance règle le trait de lumière qui la traverse. À 0 %, l'effet correspondant disparaît complètement.</p>
+          <p class="settings__help" id="settings-glare-help" data-i18n="settings.foil.glareHelp">La brillance ne touche que le reflet qui balaie la carte : les motifs du foil restent visibles même à 0 %.</p>
         </section>
 
         <!-- Sounds: one boolean preference (SettingsView writes the state text). -->
@@ -915,6 +1002,18 @@
             <span class="switch__state" data-settings-sound-state></span>
           </button>
           <p class="settings__help" data-i18n="settings.sound.help">Coupez les effets sonores de l'ouverture. La préférence est enregistrée sur cet appareil.</p>
+        </section>
+
+        <!-- Developer mode: one boolean preference. When it is on, the detail of a card in the
+             collection shows its key and a button copying it (CollectionView reads the setting on
+             every opening, so the switch takes effect without a reload). -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.dev.title">Mode développeur</h3>
+          <button type="button" class="switch" data-settings-dev role="switch" aria-checked="false" data-i18n-aria-label="settings.dev.title">
+            <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+            <span class="switch__state" data-settings-dev-state></span>
+          </button>
+          <p class="settings__help" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier. Sans effet sur le jeu.</p>
         </section>
 
         <!-- Account: read-only UUID, copy button (SettingsView never writes it). -->

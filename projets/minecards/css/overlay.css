@@ -21,6 +21,11 @@
   --ov-glow-5: 0 0 26px rgba(255, 200, 90, 0.75);
   --ov-card-radius: 14px;
 
+  /* The ratio of every card illustration of the game (720x1000 PNGs). `css/base.css` declares the
+     same token for the application, but this page deliberately shares no stylesheet with it, so the
+     value is restated here: a card box that took an approximate ratio would letterbox the artwork. */
+  --card-ratio: 720 / 1000;
+
   /* Fallbacks mirroring DEFAULT_CONFIG in `js/overlay.js` (see `settings/overlay.json`). */
   --ov-easing: cubic-bezier(0.2, 0.8, 0.25, 1);
   --ov-card-entry-ms: 250ms;
@@ -144,7 +149,7 @@ body {
 
 .overlay__spotlight {
   width: min(42vmin, 300px);
-  aspect-ratio: 2 / 3;
+  aspect-ratio: var(--card-ratio);
   perspective: 1200px;
 }
 
@@ -238,7 +243,7 @@ body {
 
 .overlay__grid .overlay__tile {
   position: relative;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: var(--card-ratio);
   border-radius: var(--ov-card-radius);
   overflow: hidden;
   background-color: #141a26;

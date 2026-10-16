@@ -286,9 +286,19 @@ body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-conf
 
 /* --- The card --------------------------------------------------------------- */
 
-/* Flip: the card goes for a ride (two and a half turns) and lands with a dashed comic outline. */
+/* Flip: the card goes for a ride (two and a half turns) and lands with a dashed comic outline.
+
+   The ride is for every card, the dashed outline only for the ones whose outline this file owns.
+   The Mine Pick stage is excluded from the outline (`:not(.minepick__card)`), like in `css/
+   components/card-reveal.css`: there the outline carries the rarity ring of `css/views/
+   minepick.css`, then the green of the card that was kept - and this file is loaded last, so
+   without the exclusion the dashed accent would repaint every ring. The animation, on the other
+   hand, stays: without it the Mine Pick card would not turn at all in this mode. */
 body[data-animation="explosive"] .card-reveal__card.is-flipped {
   animation: card-flip-explosive var(--anim-flip-ms) linear both;
+}
+
+body[data-animation="explosive"] .card-reveal__card.is-flipped:not(.minepick__card) {
   outline: 3px dashed var(--color-accent);
   outline-offset: 4px;
 }

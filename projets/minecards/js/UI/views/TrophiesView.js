@@ -474,6 +474,11 @@ export class TrophiesView {
     item.dataset.unlocked = String(trophy.unlocked);
     item.style.setProperty('--tile-index', String(index));
 
+    // A pinned trophy is flagged on the tile itself. The pin is only toggled from the detail modal,
+    // so without this marker the catalogue gives no sign of what the profile already highlights.
+    const pinned = (this.profile?.featured ?? []).includes(trophy.id);
+    item.dataset.pinned = String(pinned);
+
     const open = document.createElement('button');
     open.type = 'button';
     open.className = 'trophy-tile__open';
@@ -482,7 +487,8 @@ export class TrophiesView {
     open.setAttribute(
       'aria-label',
       `${TrophyDetail.trophyTitle(trophy)} — ${TrophyDetail.rarityLabel(trophy.rarity)} — ` +
-        i18n.t(trophy.unlocked ? 'trophy.unlocked' : 'trophy.locked')
+        i18n.t(trophy.unlocked ? 'trophy.unlocked' : 'trophy.locked') +
+        (pinned ? ` — ${i18n.t('profile.featured.badge')}` : '')
     );
 
     const medal = TrophyDetail.buildMedal(trophy, 'trophy-tile__icon');
@@ -506,7 +512,52 @@ export class TrophiesView {
     open.appendChild(progress);
 
     item.appendChild(open);
+
+    // The marker itself: a small pin in the top-right corner of the tile, drawn outside the button
+    // so the tile stays one single interactive element.
+    if (pinned) {
+      const marker = document.createElement('span');
+      marker.className = 'trophy-tile__pin';
+      marker.title = i18n.t('profile.featured.badge');
+      marker.setAttribute('aria-hidden', 'true');
+      const glyph = document.createElement('img');
+      glyph.src = TROPHY_PIN_ICON;
+      glyph.alt = '';
+      marker.appendChild(glyph);
+      item.appendChild(marker);
+    }
+
     return item;
+  }
+
+  /**
+   * Adds or removes the pin marker of one already-rendered catalogue tile.
+   *
+   * @param {string} id - Trophy id.
+   * @param {boolean} pinned - New pin state.
+   * @returns {void}
+   */
+  syncPinnedMarker(id, pinned) {
+    const tile = this.listElement?.querySelector(`[data-trophy-id="${id}"]`);
+    if (!tile) return;
+    tile.dataset.pinned = String(pinned);
+
+    const existing = tile.querySelector('.trophy-tile__pin');
+    if (!pinned) {
+      existing?.remove();
+      return;
+    }
+    if (existing) return;
+
+    const marker = document.createElement('span');
+    marker.className = 'trophy-tile__pin';
+    marker.title = i18n.t('profile.featured.badge');
+    marker.setAttribute('aria-hidden', 'true');
+    const glyph = document.createElement('img');
+    glyph.src = TROPHY_PIN_ICON;
+    glyph.alt = '';
+    marker.appendChild(glyph);
+    tile.appendChild(marker);
   }
 
   /**
@@ -618,6 +669,9 @@ export class TrophiesView {
       const { featured, added } = await profileManager.toggleFeatured(id);
       this.profile = { ...this.profile, featured };
       Toast.success(added ? 'profile.featured.pinned' : 'profile.featured.unpinned');
+      // The tile marker follows without a full re-render: re-rendering the grid would replay the
+      // entry animation of every tile just to light up one corner.
+      this.syncPinnedMarker(id, added);
       // The toggle only exists in the detail modal: it is rebuilt in place (no entry animation) so
       // its icon, its label and `aria-pressed` follow the new state immediately.
       if (this.modal && !this.modal.hidden) {

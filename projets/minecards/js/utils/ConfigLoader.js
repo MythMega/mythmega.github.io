@@ -153,6 +153,22 @@ export const DEFAULT_FOIL_SETTINGS = Object.freeze({
 });
 
 /**
+ * Default range of the "brillance" setting (`settings.foil.glare` of `config.json`).
+ *
+ * Same unit and same rules as `DEFAULT_FOIL_SETTINGS`, for the OTHER foil effect: the bright line
+ * that sweeps across a card (`css/components/card-shine.css`, layer `.card-shine__gleam`) instead of
+ * the shapes of the foil itself. Two ranges rather than one, because the two effects are tuned
+ * separately: "Brillance" at 0 % keeps the honeycomb and the embossing of a mythic while leaving the
+ * moving line out.
+ */
+export const DEFAULT_GLARE_SETTINGS = Object.freeze({
+  min: 0,
+  max: 100,
+  step: 5,
+  default: 100,
+});
+
+/**
  * Default XP granted by a trophy, per rarity ("bronze" … "emerald").
  *
  * A trophy JSON may override it with its own `Experience` field.
@@ -361,28 +377,48 @@ export class ConfigLoader {
    */
   async getFoilSettings() {
     const config = await this.getConfig();
-    const foil = config.foil ?? {};
+    return ConfigLoader.normalizePercentRange(config.foil, DEFAULT_FOIL_SETTINGS);
+  }
 
-    const min = ConfigLoader.normalizeIntegerInRange(
-      foil.min,
-      DEFAULT_FOIL_SETTINGS.min,
-      0,
-      DEFAULT_FOIL_SETTINGS.max - 1
-    );
-    const max = ConfigLoader.normalizeIntegerInRange(
-      foil.max,
-      DEFAULT_FOIL_SETTINGS.max,
-      min + 1,
-      DEFAULT_FOIL_SETTINGS.max
-    );
-    const step = ConfigLoader.normalizeIntegerInRange(foil.step, DEFAULT_FOIL_SETTINGS.step, 1, max - min);
-    const fallbackDefault = Math.min(Math.max(DEFAULT_FOIL_SETTINGS.default, min), max);
+  /**
+   * Brillance settings: the range of the slider driving the sweeping line of the foil.
+   *
+   * It is declared as `foil.glare`, next to the foil it belongs to, so the two sliders of the same
+   * panel are configured side by side; a missing or malformed block falls back to its own defaults
+   * through the very same validation as the foil above.
+   *
+   * @returns {Promise<{min: number, max: number, step: number, default: number}>} The bounds, in
+   *   percentages.
+   * @throws {Error} See `load()`.
+   */
+  async getGlareSettings() {
+    const config = await this.getConfig();
+    return ConfigLoader.normalizePercentRange(config.foil?.glare, DEFAULT_GLARE_SETTINGS);
+  }
+
+  /**
+   * Validates one `{ min, max, step, default }` block of percentages.
+   *
+   * Shared by the foil and the brillance sliders: both are bounded by the same rules, and having a
+   * single implementation is what keeps a partially edited section harmless for either of them.
+   *
+   * @param {unknown} raw - Raw block read from `config.json`.
+   * @param {{min: number, max: number, step: number, default: number}} defaults - Fallback bounds.
+   * @returns {{min: number, max: number, step: number, default: number}} Consistent bounds.
+   */
+  static normalizePercentRange(raw, defaults) {
+    const block = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+
+    const min = ConfigLoader.normalizeIntegerInRange(block.min, defaults.min, 0, defaults.max - 1);
+    const max = ConfigLoader.normalizeIntegerInRange(block.max, defaults.max, min + 1, defaults.max);
+    const step = ConfigLoader.normalizeIntegerInRange(block.step, defaults.step, 1, max - min);
+    const fallbackDefault = Math.min(Math.max(defaults.default, min), max);
 
     return {
       min,
       max,
       step,
-      default: ConfigLoader.normalizeIntegerInRange(foil.default, fallbackDefault, min, max),
+      default: ConfigLoader.normalizeIntegerInRange(block.default, fallbackDefault, min, max),
     };
   }
 

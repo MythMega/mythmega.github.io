@@ -18,6 +18,13 @@
  * BUY RULE: buying one copy of any catalog card is always possible while the balance covers
  * `buyPrice[rarity]`. The balance check is inside the transaction, next to the write.
  *
+ * PROMO RULE (absolute): a promo card (`data/promo_cards/*`, a set id ending in `-Promo`) is
+ * neither sellable nor buyable, whatever the caller does. It only ever enters the collection
+ * through a redeem code or a distribution, so allowing a sale would turn a reward that cannot be
+ * drawn into free Sparks, and allowing a purchase would turn Sparks into a reward that is supposed
+ * to be earned. The check is the LAST one before the write, so no reloaded page, stale view or
+ * hand-crafted call can bypass it.
+ *
  * After every change the balance is published through `EVENTS.SPARKS_UPDATED` so the header and
  * the collection view refresh without a direct dependency on this module.
  */
@@ -28,12 +35,18 @@ import dateSyncManager from './DateSyncManager.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import Card from '../classes/Card.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
+// Leaf module: it holds nothing but the `-Promo` suffix, so asking "is this a promo card?" never
+// drags `PromoManager` (and the whole catalogue loader) into the currency module.
+import { isPromoSetId } from './PromoSet.js';
 
 /** Error code thrown when the balance does not cover a purchase. */
 export const INSUFFICIENT_SPARKS = 'INSUFFICIENT_SPARKS';
 
 /** Error code thrown when a sale would remove the last copy of a card. */
 export const LAST_COPY_PROTECTED = 'LAST_COPY_PROTECTED';
+
+/** Error code thrown when a promo card is bought or sold, which is never allowed. */
+export const PROMO_PROTECTED = 'PROMO_PROTECTED';
 
 /**
  * Error raised by the currency subsystem.
@@ -204,7 +217,7 @@ export class SparksManager {
    *   remaining quantity of the card and the Sparks credited.
    * @throws {TypeError} When the payload is invalid.
    * @throws {SparksError} With `LAST_COPY_PROTECTED` when the sale would remove the last copy, or
-   *   when the card is not owned.
+   *   when the card is not owned; with `PROMO_PROTECTED` when the card belongs to a promo group.
    * @throws {Error} When the write fails.
    */
   async sellCard({ key, rarity, copies = 1 } = {}) {
@@ -225,6 +238,14 @@ export class SparksManager {
       'readwrite',
       async (context) => {
         const entry = await context.get(STORES.COLLECTION, key);
+        // The stored row is the authority on the group of the card: nothing the caller says can
+        // make a promo card look like a drawn one.
+        if (isPromoSetId(entry?.set)) {
+          throw new SparksError(
+            PROMO_PROTECTED,
+            `"${key}" belongs to the promo group "${entry.set}": it can never be sold.`
+          );
+        }
         const quantity = Number.isFinite(entry?.quantity) ? entry.quantity : 0;
         if (quantity - copies < 1) {
           throw new SparksError(
@@ -255,12 +276,20 @@ export class SparksManager {
    * @returns {Promise<{balance: number, quantity: number, spent: number}>} The new balance, the
    *   resulting quantity of the card and the Sparks charged.
    * @throws {TypeError} When `card` is not a `Card` instance.
-   * @throws {SparksError} With `INSUFFICIENT_SPARKS` when the balance does not cover the price.
+   * @throws {SparksError} With `INSUFFICIENT_SPARKS` when the balance does not cover the price, or
+   *   with `PROMO_PROTECTED` when the card belongs to a promo group.
    * @throws {Error} When the write fails.
    */
   async buyCard(card) {
     if (!(card instanceof Card)) {
       throw new TypeError('SparksManager.buyCard expects a Card instance.');
+    }
+    // Checked before the price is even read: a promo card is not part of the economy at all.
+    if (isPromoSetId(card.set)) {
+      throw new SparksError(
+        PROMO_PROTECTED,
+        `"${card.uniqueKey}" belongs to the promo group "${card.set}": it can never be bought.`
+      );
     }
     const price = await this.getBuyPrice(card.rarity);
 

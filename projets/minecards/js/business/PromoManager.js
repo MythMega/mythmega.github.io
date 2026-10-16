@@ -17,7 +17,16 @@
  *
  * PAYLOAD SHAPE. Two shapes are accepted, in the same spirit as `Card.fromAnySchema`:
  *   - a bare array of card entries, which is what the shipped example uses;
- *   - the booster-schema object `{ Serie, Name, Cards: [...] }`, for a generated file.
+ *   - the booster-schema object `{ Serie, Name, Card: [...] }`, for a generated file. The list
+ *     key is read as `Card`, `Cards` or `cards`, so both spellings of the generator work.
+ *
+ * `Serie` AND `Name` ARE DISPLAY VALUES, NOT IDENTIFIERS. `Serie` names the PROMO SERIES as the
+ * player sees it in the collection filters ("Promo A1"), `Name` is the full title of the series
+ * ("Promo Genesis Block"); neither is compared to the file name any more - the file name is what
+ * identifies the group, because it is also the folder the illustrations are stored in
+ * (`cards/A1-Promo/<lang>/...`). A group therefore carries `label` (from `Serie`) next to `name`
+ * (from `Name`), and falls back to "<extension> · Promo" when its file declares neither.
+ *
  * A missing file is NOT an error: an extension that ships no promo simply has none. The load
  * is cached (the files ship with the application and never change while the page is open).
  */
@@ -25,47 +34,15 @@
 import { configLoader } from '../utils/ConfigLoader.js';
 import boosterManager from './BoosterManager.js';
 import GachaEngine from './GachaEngine.js';
+// The id helpers live in a leaf module (no import at all), so `SparksManager` can recognise a promo
+// card without this file - and therefore without `BoosterManager` - being pulled in. They are
+// re-exported below to keep the historical import path working.
+import { buildPromoSetId, isPromoSetId, PROMO_LABEL, PROMO_SET_SUFFIX } from './PromoSet.js';
 
 /** Directory holding the promo files, relative to the application root. */
 export const PROMO_DIRECTORY = 'data/promo_cards';
 
-/** Suffix appended to the parent series id to build a promo group id (`A1` -> `A1-Promo`). */
-export const PROMO_SET_SUFFIX = '-Promo';
-
-/**
- * Word appended to the parent extension name in the promo group label ("Genesis Blocks · Promo").
- *
- * Deliberately a neutral literal rather than a translation key: the two shipped languages spell
- * it identically, and a business module has no access to the i18n dictionary.
- */
-export const PROMO_LABEL = 'Promo';
-
-/**
- * Builds the group id of a promo file.
- *
- * @param {string} parentId - File basename / parent series id (e.g. "A1").
- * @returns {string} The promo group id (e.g. "A1-Promo").
- * @throws {TypeError} When the parent id is not a non-empty string.
- */
-export function buildPromoSetId(parentId) {
-  if (typeof parentId !== 'string' || parentId.trim() === '') {
-    throw new TypeError(`A promo set id must be a non-empty string (received: ${JSON.stringify(parentId)}).`);
-  }
-  const id = parentId.trim();
-  return id.toLowerCase().endsWith(PROMO_SET_SUFFIX.toLowerCase()) ? id : `${id}${PROMO_SET_SUFFIX}`;
-}
-
-/**
- * Indicates whether a collection/extension id designates a promo group.
- *
- * @param {unknown} setId - Candidate id.
- * @returns {boolean} True for an id ending with the promo suffix.
- */
-export function isPromoSetId(setId) {
-  return (
-    typeof setId === 'string' && setId.trim().toLowerCase().endsWith(PROMO_SET_SUFFIX.toLowerCase())
-  );
-}
+export { buildPromoSetId, isPromoSetId, PROMO_LABEL, PROMO_SET_SUFFIX };
 
 export class PromoManager {
   /**
@@ -163,19 +140,21 @@ export class PromoManager {
           console.warn(`[PromoManager] "${path}" declares no promo card: the group is skipped.`);
           continue;
         }
-        const declaredId = PromoManager.readDeclaredId(payload);
-        if (declaredId && declaredId !== parentId) {
-          throw new Error(
-            `the file declares the identifier "${declaredId}" while its name is "${parentId}"`
-          );
-        }
+        // The file NAME identifies the group (it is the illustration folder, `cards/A1-Promo/`),
+        // so the declared `Serie` is a LABEL for the series, never a second identifier to compare:
+        // the two are not supposed to match ("Promo A1" vs. the file "A1.json").
+        const parentName = parentNames.get(parentId) ?? null;
+        const label =
+          PromoManager.readDeclaredLabel(payload) ??
+          (parentName ? `${parentName} · ${PROMO_LABEL}` : `${parentId} · ${PROMO_LABEL}`);
 
         const cards = GachaEngine.parseCards({ cards: entries }, { setId: groupId });
-        const parentName = parentNames.get(parentId) ?? PromoManager.readDeclaredName(payload) ?? parentId;
         this.promoSets[groupId] = {
           setId: groupId,
           parentSetId: parentId,
-          name: `${parentName} · ${PROMO_LABEL}`,
+          // What the collection filters display, and what the detail shows as the extension.
+          label,
+          name: PromoManager.readDeclaredName(payload) ?? label,
           cards,
           raw: entries,
         };
@@ -203,17 +182,23 @@ export class PromoManager {
   static getRawEntries(payload) {
     if (Array.isArray(payload)) return payload;
     if (!payload || typeof payload !== 'object') return [];
-    const entries = payload.Cards ?? payload.cards;
+    // `Card` is the spelling of the promo files (`data/promo_cards/*.json`), `Cards` the one of the
+    // extension files: both are accepted so a hand-written or generated file never comes out empty.
+    const entries = payload.Card ?? payload.Cards ?? payload.cards;
     return Array.isArray(entries) ? entries : [];
   }
 
   /**
-   * Reads the series identifier declared by a wrapped payload, when it declares one.
+   * Reads the promo series label declared by a wrapped payload, when it declares one.
+   *
+   * The label is a DISPLAY value ("Promo A1"), used by the collection filters and by the detail
+   * modal; the group itself is identified by its file name. `setId` and `id` are still read for a
+   * file written with an older payload.
    *
    * @param {unknown} payload - Parsed promo JSON.
-   * @returns {string|null} The declared identifier, or null for a bare array.
+   * @returns {string|null} The declared label, or null for a bare array.
    */
-  static readDeclaredId(payload) {
+  static readDeclaredLabel(payload) {
     if (Array.isArray(payload) || !payload || typeof payload !== 'object') return null;
     const candidate = payload.Serie ?? payload.serie ?? payload.setId ?? payload.id;
     if (typeof candidate === 'number') return String(candidate);
@@ -265,7 +250,8 @@ export class PromoManager {
   /**
    * Lists the loaded promo groups, for the collection view.
    *
-   * @returns {Promise<Array<{setId: string, parentSetId: string, name: string, cards: Array, raw: Array}>>}
+   * @returns {Promise<Array<{setId: string, parentSetId: string, label: string, name: string,
+   *   cards: Array, raw: Array}>>}
    *   A lightweight description of every group, `raw` holding the generator entries (needed by the
    *   personal-code catalogue, which keys on `Index` + `Layout`).
    * @throws {Error} See `init()`.
@@ -275,6 +261,7 @@ export class PromoManager {
     return Object.values(this.promoSets).map((group) => ({
       setId: group.setId,
       parentSetId: group.parentSetId,
+      label: group.label,
       name: group.name,
       cards: group.cards,
       raw: group.raw,

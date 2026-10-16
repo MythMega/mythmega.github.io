@@ -10,7 +10,7 @@
  *
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
- *   - `settings`  : { lang, theme, sound, animation, foilIntensity }
+ *   - `settings`  : { lang, theme, sound, animation, foilIntensity, glareIntensity }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
@@ -46,6 +46,10 @@ export const USER_STATE_KEYS = Object.freeze({
   TROPHIES: 'trophies',
   // Daily state, statistics and history of the Mine Pick (see `MinePickManager`).
   MINE_PICK: 'minePick',
+  // Personal binders (see `BinderManager`). A single value: the array of binders, in creation
+  // order. It lives in `user_state` rather than in a store of its own so that a `.save` export
+  // carries it with no change to the save format.
+  BINDERS: 'binders',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -227,9 +231,10 @@ export class AccountManager {
    * `config.json` default.
    *
    * @param {{lang?: string|null, theme?: string|null, sound?: boolean|null,
-   *   animation?: string|null, foilIntensity?: number|null}} [overrides] - Requested preferences.
+   *   animation?: string|null, foilIntensity?: number|null, glareIntensity?: number|null,
+   *   devMode?: boolean|null}} [overrides] - Requested preferences.
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number}>} Validated preferences.
+   *   foilIntensity: number, glareIntensity: number, devMode: boolean}>} Validated preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -254,13 +259,28 @@ export class AccountManager {
       defaultAnimation;
 
     // The foil intensity follows `config.json` (`foil.default`, "100" today) as well, so a new
-    // account always starts at the intensity the foil was designed for.
+    // account always starts at the intensity the foil was designed for. The brillance (the sweeping
+    // line of the same foil) has its own range and its own default, right next to it.
     const foilIntensity =
       typeof overrides.foilIntensity === 'number' && Number.isFinite(overrides.foilIntensity)
         ? foilManager.sanitizePercent(overrides.foilIntensity)
         : foilManager.getSettings().default;
+    const glareIntensity =
+      typeof overrides.glareIntensity === 'number' && Number.isFinite(overrides.glareIntensity)
+        ? foilManager.sanitizeGlarePercent(overrides.glareIntensity)
+        : foilManager.getGlareSettings().default;
 
-    return { lang, theme, sound: overrides.sound !== false, animation, foilIntensity };
+    // `devMode` is off unless it was explicitly asked for: it only adds a tool to the collection
+    // (the key of the open card and a copy button), never anything a player would want by default.
+    return {
+      lang,
+      theme,
+      sound: overrides.sound !== false,
+      animation,
+      foilIntensity,
+      glareIntensity,
+      devMode: overrides.devMode === true,
+    };
   }
 
   /**
@@ -303,7 +323,7 @@ export class AccountManager {
    * Reads the account settings, completed with safe defaults.
    *
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number}>} The stored preferences.
+   *   foilIntensity: number, glareIntensity: number, devMode: boolean}>} The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -324,28 +344,37 @@ export class AccountManager {
           ? stored.animation
           : defaults.animation,
       // An intensity stored before `config.json` narrowed its range (or a corrupted value) is
-      // brought back into the current bounds instead of hiding the foil or blowing it up.
+      // brought back into the current bounds instead of hiding the foil or blowing it up. Both
+      // intensities of the foil panel (the foil and its brillance) follow the same rule.
       foilIntensity:
         typeof stored.foilIntensity === 'number' && Number.isFinite(stored.foilIntensity)
           ? foilManager.sanitizePercent(stored.foilIntensity)
           : defaults.foilIntensity,
+      glareIntensity:
+        typeof stored.glareIntensity === 'number' && Number.isFinite(stored.glareIntensity)
+          ? foilManager.sanitizeGlarePercent(stored.glareIntensity)
+          : defaults.glareIntensity,
+      // Same rule as the sounds: only an explicit `true` turns it on, so a missing key, an old save
+      // or a corrupted value reads as "off" instead of surprising the player with developer tools.
+      devMode: typeof stored.devMode === 'boolean' ? stored.devMode : defaults.devMode,
     };
   }
 
   /**
    * Merges and persists the account settings.
    *
-   * Only `lang`, `theme`, `sound`, `animation` and `foilIntensity` are accepted; unknown keys are
-   * ignored. Values are validated against `config.json` as soon as the corresponding lists are
-   * loaded, so a typo cannot silently break the next startup. Applying the new values (calling
-   * `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
-   * `AnimationManager.applyAnimation` and `FoilManager.applyIntensity`) remains the caller's
-   * responsibility.
+   * Only `lang`, `theme`, `sound`, `animation`, `foilIntensity`, `glareIntensity` and `devMode` are accepted;
+   * unknown keys are ignored. Values are validated against `config.json` as soon as the corresponding
+   * lists are loaded, so a typo cannot silently break the next startup. Applying the new values
+   * (calling `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
+   * `AnimationManager.applyAnimation`, `FoilManager.applyIntensity` and
+   * `FoilManager.applyGlareIntensity`) remains the caller's responsibility.
    *
    * @param {{lang?: string, theme?: string, sound?: boolean, animation?: string,
-   *   foilIntensity?: number}} partialSettings - Preferences to update.
+   *   foilIntensity?: number, glareIntensity?: number, devMode?: boolean}} partialSettings -
+   *   Preferences to update.
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number}>} The merged settings.
+   *   foilIntensity: number, glareIntensity: number, devMode: boolean}>} The merged settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
    * @throws {Error} When the write fails.
@@ -403,6 +432,14 @@ export class AccountManager {
       merged.sound = sound;
     }
 
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'devMode')) {
+      const { devMode } = partialSettings;
+      if (typeof devMode !== 'boolean') {
+        throw new TypeError(`settings.devMode must be a boolean (received: ${JSON.stringify(devMode)}).`);
+      }
+      merged.devMode = devMode;
+    }
+
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'foilIntensity')) {
       const { foilIntensity } = partialSettings;
       if (typeof foilIntensity !== 'number' || !Number.isFinite(foilIntensity)) {
@@ -413,6 +450,17 @@ export class AccountManager {
       // Clamped rather than rejected: the range belongs to `config.json`, and a save file written
       // with a wider one must keep loading.
       merged.foilIntensity = foilManager.sanitizePercent(foilIntensity);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'glareIntensity')) {
+      const { glareIntensity } = partialSettings;
+      if (typeof glareIntensity !== 'number' || !Number.isFinite(glareIntensity)) {
+        throw new TypeError(
+          `settings.glareIntensity must be a number (received: ${JSON.stringify(glareIntensity)}).`
+        );
+      }
+      // Same clamping rule as the foil above, against its own range.
+      merged.glareIntensity = foilManager.sanitizeGlarePercent(glareIntensity);
     }
 
     await storageRepository.setUserState(USER_STATE_KEYS.SETTINGS, merged);

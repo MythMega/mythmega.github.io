@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Binder partagé — MineCards</title>
+  <meta name="description" content="Un binder partagé de MineCards : une page de collection personnalisée, en lecture seule.">
+
+  <!-- The read-only page of a shared binder.
+
+       It is deliberately tiny and standalone: it carries no account, no database and no game
+       engine. The binder it shows is entirely described by the `code` query parameter (see
+       `js/utils/BinderCode.js`), which is inflated and rendered by `js/binder-share.js`. Nothing
+       here is ever written back: a share is looked at, never edited.
+
+       Three stylesheets beyond the theme, and nothing else: the page component of a binder
+       (`binders.css`), the dialog that shows a card in detail (`modal.css`) and the foil of the
+       high rarities (`card-shine.css`) - the same files the game paints those three things with. -->
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components/modal.css">
+  <link rel="stylesheet" href="css/components/card-shine.css">
+  <link rel="stylesheet" href="css/views/binders.css">
+
+  <!-- The theme is the one preferred on the device, read before the first paint so a shared binder
+       never flashes the wrong palette. `ThemeManager` (the game) does the same on `index.html`;
+       this page has no settings to store, so the media query is enough. -->
+  <script>
+    document.documentElement.dataset.theme =
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark';
+  </script>
+</head>
+
+<body class="binder-share">
+  <main class="binder-share__panel">
+    <header class="binder-share__header">
+      <!-- The identity of the author, carried by the code itself: the photo and the pseudo the
+           player has in the game, and nothing else (no account, no statistics). The row is built
+           for EVERY readable code, even one that carries no author at all: it then shows the
+           question mark of the game's profile page and the wording the game uses for a player
+           without a name (`profile.anonymous`), so the page always opens on the same layout.
+           It stays `hidden` in the markup so the error page (which has no author to show) does not
+           display an empty pill, and `js/binder-share.js` reveals it once the code has been read. -->
+      <p class="binder-share__identity" data-binder-share-identity hidden>
+        <img class="binder-share__avatar" data-binder-share-avatar alt="" hidden>
+        <span class="binder-share__avatar-fallback" data-binder-share-avatar-fallback aria-hidden="true">?</span>
+        <span class="binder-share__author" data-binder-share-author></span>
+      </p>
+      <h1 class="binder-share__title" data-binder-share-title>Binder</h1>
+      <p class="binder-share__meta" data-binder-share-meta></p>
+    </header>
+
+    <div class="binder-page" data-binder-share-page>
+      <ul class="binder-slots" data-binder-share-slots></ul>
+    </div>
+
+    <p class="binder-share__empty" data-binder-share-empty hidden></p>
+
+    <p class="binder-share__hint" data-binder-share-hint hidden></p>
+
+    <footer class="binder-share__footer">
+      <a class="btn btn--primary" href="./">Ouvrir MineCards</a>
+    </footer>
+  </main>
+
+  <!-- One card in detail: what a click on a slot opens. Built by `js/binder-share.js` from the
+       master fields the code carries, so the page stays a single-file, storage-free document. -->
+  <div class="modal" data-binder-share-modal hidden>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="binder-share-modal-title">
+      <button type="button" class="modal__close" data-binder-share-modal-close aria-label="Fermer">×</button>
+      <h2 class="modal__title" id="binder-share-modal-title" data-binder-share-modal-title></h2>
+      <div class="modal__body binder-share__card" data-binder-share-modal-body></div>
+    </div>
+  </div>
+
+  <script type="module" src="js/binder-share.js"></script>
+</body>
+</html>

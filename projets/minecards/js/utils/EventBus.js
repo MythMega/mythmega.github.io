@@ -26,6 +26,9 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ percent, previousPercent, intensity }`. Emitted by FoilManager after a successful
    * switch: the settings slider and anything else showing the strength of a foil read it here. */
   FOIL_INTENSITY_CHANGED: 'FOIL_INTENSITY_CHANGED',
+  /** Payload: `{ percent, previousPercent, intensity }`. Same as `FOIL_INTENSITY_CHANGED`, for the
+   * OTHER foil slider: the "brillance", the bright line sweeping across a card. */
+  GLARE_INTENSITY_CHANGED: 'GLARE_INTENSITY_CHANGED',
   /** Payload: `{ view, previousView }`. Emitted by the SPA router. */
   VIEW_CHANGED: 'VIEW_CHANGED',
   /** Payload: `{ daily, bonusBySet, bonusTotal, availableForSet }`. Emitted by DateSyncManager. */
@@ -83,6 +86,10 @@ export const EVENTS = Object.freeze({
    * pick and whenever the daily allowance rolls over: the Mine Pick screen and the dedicated
    * statistics repaint. The card itself is announced through `CARDS_OBTAINED` (`source: 'minepick'`). */
   MINE_PICK_UPDATED: 'MINE_PICK_UPDATED',
+  /** Payload: `{ binders }`. Emitted by BinderManager after a binder was created, edited, deleted or
+   * after a card sold from the collection was taken out of the binders that showed it: the binder
+   * list and the open binder repaint from it. */
+  BINDERS_UPDATED: 'BINDERS_UPDATED',
 });
 
 class EventBus {

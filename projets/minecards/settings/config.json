@@ -23,11 +23,19 @@
   },
 
   "foil": {
-    "_comment": "Strength of the foil of the legendary and mythic printings, as a percentage of the intensity it was designed at. The four values bound the slider of the settings screen; 'min' at 0 switches the foil off completely (the planes become transparent and their animation is stopped), and 'default' is what a new account starts at and what a player who never opens the slider keeps seeing. js/utils/FoilManager.js publishes the value as `--foil-intensity` (a 0-1 factor) on <html>, which css/components/card-shine.css multiplies into the opacity of its two planes. A value outside the range is CLAMPED, never rejected: narrowing the range later must stay safe for saves written with a wider one.",
+    "_comment": "Strength of the foil of the super rare, legendary and mythic printings, as a percentage of the intensity it was designed at. The four values bound the first slider of the settings screen; 'min' at 0 switches the foil off completely (the planes become transparent and their animation is stopped), and 'default' is what a new account starts at and what a player who never opens the slider keeps seeing. js/utils/FoilManager.js publishes the value as `--foil-intensity` (a 0-1 factor) on <html>, which css/components/card-shine.css multiplies into the opacity of its planes. A value outside the range is CLAMPED, never rejected: narrowing the range later must stay safe for saves written with a wider one.",
     "min": 0,
     "max": 100,
     "step": 5,
-    "default": 100
+    "default": 100,
+
+    "glare": {
+      "_comment": "Strength of the SECOND slider of the foil panel ('Brillance'): the bright line that sweeps across the artwork, back and forth, on top of the foil's shapes. It has its own range and its own preference because the two effects are independent - a player can keep the honeycomb and the embossing while muting the moving line, or the other way round. FoilManager publishes it as `--glare-intensity` (a 0-1 factor) on <html>; the line is drawn by the `.card-shine__gleam` layer. Same clamping rule as the foil above.",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 100
+    }
   },
 
   "boosters": {

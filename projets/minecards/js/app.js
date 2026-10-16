@@ -49,7 +49,9 @@ import { RedeemView } from './UI/views/RedeemView.js';
 import { GiftsView } from './UI/views/GiftsView.js';
 import { InfoView, INFO_VIEW_NAME } from './UI/views/InfoView.js';
 import minePickManager from './business/MinePickManager.js';
+import binderManager from './business/BinderManager.js';
 import gameNotifier from './UI/components/GameNotifier.js';
+import ViewHelp from './UI/components/ViewHelp.js';
 
 /** Id of the boot overlay removed once the application is ready. */
 export const BOOT_OVERLAY_ID = 'app-boot';
@@ -64,7 +66,17 @@ export const HEADER_IDS = Object.freeze({
   MINE_PICK: 'header-minepick',
   CLOCK: 'header-utc-clock',
   SPARKS: 'header-sparks',
+  BINDERS: 'header-binders',
 });
+
+/**
+ * Selector of the header counter of the binders.
+ *
+ * A selector of its own (rather than one more entry of `HEADER_IDS`) because the button carries the
+ * click while the id only carries the value: `renderHeaderBinders` writes into `HEADER_IDS.BINDERS`,
+ * `bindBindersCounter` listens on this one.
+ */
+export const BINDERS_COUNTER_SELECTOR = '[data-header-binders]';
 
 /**
  * Selectors of the bonus inventory (the header count is the total, the modal splits it per set).
@@ -136,6 +148,8 @@ export class App {
     this.giftsView = null;
     /** @type {InfoView|null} Information page (mechanics, drop rates, credits). */
     this.infoView = null;
+    /** @type {ViewHelp|null} "How does it work?" popup mounted on every view. */
+    this.viewHelp = null;
     /** @type {boolean} True once the header event subscriptions are registered. */
     this.headerBound = false;
     /** @type {boolean} True once the game notifications (experience, collections) are armed. */
@@ -196,8 +210,9 @@ export class App {
     // The animation mode is applied before the views exist, so the very first opening already
     // plays in the stored flavour and the stage markup is never rendered in the neutral one.
     await animationManager.init();
-    // Same reasoning for the foil: `--foil-intensity` must exist before the first card is built,
-    // otherwise a legendary would flash at the default strength while the stored one loads.
+    // Same reasoning for the foil: `--foil-intensity` (and `--glare-intensity`, the sweeping line)
+    // must exist before the first card is built, otherwise a legendary would flash at the default
+    // strength while the stored one loads.
     await foilManager.init();
     await i18n.init();
   }
@@ -254,8 +269,10 @@ export class App {
     soundManager.setEnabled(settings.sound !== false);
 
     // Foil intensity: a value stored before `config.json` narrowed the range is clamped by the
-    // manager, so an obsolete preference can never hide the foil for good.
+    // manager, so an obsolete preference can never hide the foil for good. The brillance (the
+    // sweeping line of the same foil) is its own preference and its own range.
     foilManager.applyIntensity(settings.foilIntensity);
+    foilManager.applyGlareIntensity(settings.glareIntensity);
 
     // The profile and the trophies are part of the saved state: both entries are created here, so
     // an export made before the player ever opened the profile page still carries them.
@@ -280,10 +297,13 @@ export class App {
     // CLOCK_TICK emissions are already displayed.
     this.bindHeader();
     this.bindBonusInventory();
+    this.bindBindersCounter();
     this.bindViewLifecycle();
+    this.startViewHelp();
     await this.startTimeSync();
     this.renderHeaderCounters(dateSyncManager.getQuotaSnapshot());
     await this.refreshHeaderSparks();
+    await this.refreshHeaderBinders();
     await this.startOpeningView();
     await this.startCollectionView();
     await this.startProfileView();
@@ -725,6 +745,21 @@ export class App {
   }
 
   /**
+   * Mounts the "how does it work?" popup on every view.
+   *
+   * The markup is static (one `.view__header` per section), so the popups are built once, right
+   * after the router has been started: a view is equipped before it can be displayed, and the popup
+   * of a view the player never opens costs nothing but its DOM.
+   *
+   * @returns {number} The number of views equipped.
+   */
+  startViewHelp() {
+    if (this.viewHelp) return this.viewHelp.mounts.size;
+    this.viewHelp = new ViewHelp({ onNavigate: (view) => this.router?.show(view) });
+    return this.viewHelp.mount();
+  }
+
+  /**
    * Forwards the router activations to the opening view so the WebGL loop never runs while
    * another view is displayed (step 4, point 1).
    *
@@ -780,6 +815,9 @@ export class App {
     eventBus.on(EVENTS.QUOTA_UPDATED, (payload) => this.renderHeaderCounters(payload));
     eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.renderHeaderSparks(payload));
     eventBus.on(EVENTS.MINE_PICK_UPDATED, (payload) => this.renderHeaderMinePick(payload));
+    // The binder counter follows every write of `BinderManager` (create, delete, share): the number
+    // of the header is the length of the stored list, and nothing else announces a change of it.
+    eventBus.on(EVENTS.BINDERS_UPDATED, (payload) => this.renderHeaderBinders(payload));
     eventBus.on(EVENTS.CONNECTION_STATUS, (payload) => this.setConnectionState(payload?.online));
     eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload));
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => this.handleAccountRemoved());
@@ -917,6 +955,7 @@ export class App {
     this.closeBonusInventory();
     this.renderHeaderSparks(null);
     this.renderHeaderMinePick(null);
+    this.renderHeaderBinders(null);
     this.headerMinePickDay = null;
     this.setText(HEADER_IDS.CLOCK, '--:--:--');
     this.setConnectionState(undefined);
@@ -992,6 +1031,67 @@ export class App {
     } catch (error) {
       console.warn('[App] The Mine Pick allowance could not be read.', error);
     }
+  }
+
+  /**
+   * Renders the number of binders the player owns in the header.
+   *
+   * @param {{binders?: Array}|null} payload - `BINDERS_UPDATED` payload, or null to reset.
+   * @returns {void}
+   */
+  renderHeaderBinders(payload) {
+    const count = Array.isArray(payload?.binders) ? payload.binders.length : 0;
+    this.setText(HEADER_IDS.BINDERS, String(count));
+  }
+
+  /**
+   * Reads the stored binders and displays how many exist.
+   *
+   * Called once at boot: the header must not wait for the first binder of the session to show the
+   * pages the player already had.
+   *
+   * @returns {Promise<void>} Resolves once the header is refreshed.
+   */
+  async refreshHeaderBinders() {
+    try {
+      this.renderHeaderBinders({ binders: await binderManager.listBinders() });
+    } catch (error) {
+      console.warn('[App] The binders could not be counted.', error);
+    }
+  }
+
+  /**
+   * Wires the header binder counter: a click opens the list of the binders.
+   *
+   * The list is a dialog of the COLLECTION view (the binder editor fills a page from the catalogue
+   * the collection has already loaded), so the click switches to that view first and only then asks
+   * it to open the list. `show()` is synchronous for the routing, the dialog opens a tick later.
+   *
+   * @returns {void}
+   */
+  bindBindersCounter() {
+    if (this.bindersCounterBound) return;
+    const button = document.querySelector(BINDERS_COUNTER_SELECTOR);
+    if (!button) {
+      console.warn('[App] The binder counter is missing from index.html.');
+      return;
+    }
+    this.bindersCounterBound = true;
+    button.addEventListener('click', () => void this.openBinders());
+  }
+
+  /**
+   * Opens the binder list of the collection from the header.
+   *
+   * @returns {Promise<void>} Resolves once the list is displayed (or the view is unavailable).
+   */
+  async openBinders() {
+    this.router?.show(COLLECTION_VIEW_NAME);
+    if (!this.collectionView) {
+      console.warn('[App] The collection view is not ready: the binders cannot be listed.');
+      return;
+    }
+    await this.collectionView.openBinders();
   }
 
   /**

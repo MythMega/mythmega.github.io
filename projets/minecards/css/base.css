@@ -121,6 +121,13 @@ button {
   --nav-height: 4rem;
   --touch-target: 44px;
 
+  /* The card ratio, in one place. Every illustration of the game is a 720x1000 PNG, whatever its
+     rarity or its printing, so this single ratio is what EVERY box displaying a card takes
+     (`.collection__image`, `.card-reveal__card`, `.stats__history-card`, `.trophy-card__image`, the
+     tiles of the overlay, and the foil window of `css/components/card-shine.css`). A box keeping an
+     approximate ratio would letterbox the artwork and the foil would then be painted outside it. */
+  --card-ratio: 720 / 1000;
+
   /* Motion */
   --duration-fast: 120ms;
   --duration-base: 220ms;
@@ -192,6 +199,7 @@ body {
 .app-header__stat {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
   padding: var(--space-1) var(--space-3);
   min-height: calc(var(--touch-target) - 12px);
@@ -208,9 +216,15 @@ body {
   color: var(--color-text);
 }
 
-/* The bonus counter is a button: it opens the per-extension inventory dialog. */
+/* The bonus counter is a button: it opens the per-extension inventory dialog.
+
+   `font-family` alone, never the `font: inherit` shorthand: the shorthand resets `font-size` too, and
+   that is what made the two CLICKABLE counters (bonus and binders) render bigger than the `<span>`
+   ones - their label at the body size instead of `--font-size-xs`, on a box three pixels taller.
+   A `<button>` does not inherit the typography of its container the way a `<span>` does, so the
+   family always comes from here (and from the `button` rule of this file). */
 .app-header__stat--action {
-  font: inherit;
+  font-family: inherit;
   color: inherit;
   cursor: pointer;
   -webkit-appearance: none;
@@ -224,13 +238,53 @@ body {
 }
 
 /* The counters of the header are ICONS only (each label is `.sr-only`): the icon, then the value.
-   The size is in `rem`, not in `em`: the bonus counter is a `<button>` whose `font: inherit` resets
-   its font-size, so an `em` size would make that one icon bigger than the other three. */
+   The size is in `rem`, not in `em`: two of the five counters are `<button>`s, whose typography the
+   browser does not inherit from the container the way a `<span>` does, so an `em` size would make
+   those two icons a pixel bigger than the other three. */
 .app-header__stat-icon {
   flex: 0 0 auto;
   width: 1.05rem;
   height: 1.05rem;
   object-fit: contain;
+}
+
+/* A wide screen shows the NAME of each counter next to its icon: four icons and four numbers ask the
+   player to memorise a legend, and there is room for a word once the header leaves the phone layout.
+   Only a short label appears ("Quotidiens", "Pioches"): the whole label lives in the `.sr-only`
+   span above, which stays the accessible name - this one is `aria-hidden`, so a screen reader never
+   hears a truncated version of it.
+   The breakpoint is the one where the counters and the brand stop fitting on the same row: the
+   tagline (pure decoration, already hidden on a phone) then steps aside instead of wrapping the
+   header onto a second line. */
+.app-header__stat-label {
+  display: none;
+  color: var(--color-text-muted);
+  /* Spelled out rather than inherited: the label is the one part of a counter whose size can be
+     stolen by the element around it (a `<button>` resets the font, see `.app-header__stat--action`). */
+  font-size: var(--font-size-xs);
+}
+
+@media (min-width: 1024px) {
+  .app-header__stat-label {
+    display: inline;
+  }
+
+  .app-header__tagline {
+    display: none;
+  }
+
+  /* Every element of the header row, the counters and the clock alike, is the SAME box: one row of
+     a grid whose columns are all `1fr` takes the width of the WIDEST of them - the longest label of
+     the current language, or the clock of the moment - and stretches them to one height. A flex row
+     cannot: it sizes each chip to its own content, which is why "Quotidiens 3" used to be half as
+     wide again as "Bonus 0", and the clock, which counts nothing at all, was the narrowest of all.
+     The row keeps its place in the header line: pushed to the right of the brand, on one line. */
+  .app-header__stats {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    align-items: stretch;
+  }
 }
 
 
@@ -280,6 +334,7 @@ body {
 .app-header__clock {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-1);
   padding: var(--space-1) var(--space-3);
   min-height: calc(var(--touch-target) - 12px);
@@ -312,6 +367,21 @@ body[data-connection="offline"] .app-header__clock {
   .app-header__tagline,
   .app-header__clock {
     display: none;
+  }
+
+  /* The five counters of a phone: three on the first row, two on the second, centered under the
+     trio - they used to hang from the left edge, four on a row and the fifth alone underneath. Each
+     one takes a third of the row, so the five are the same width whatever their number, and a
+     number of three or four digits still fits inside. (The clock is hidden on a phone, so the row
+     holds the counters only.) */
+  .app-header__stats {
+    width: 100%;
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .app-header__stat {
+    flex: 0 0 calc((100% - 2 * var(--space-2)) / 3);
   }
 }
 
@@ -460,6 +530,26 @@ body.is-onboarding .app-main {
   margin-bottom: var(--space-4);
 }
 
+/* The heading of a view: the title and its subtitle as one block, so a view header that carries an
+   action of its own (the binders button of the collection) can push that block and the action apart
+   without the two lines of text separating. */
+.view__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* A view header with an action at its reading end. The action is pinned to the TOP of the header
+   (`flex-start`), which is what puts it "at the top right of the page" whatever the height of the
+   subtitle next to it. */
+.view__header--split {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
 .view__title {
   font-size: var(--font-size-xl);
   font-weight: 700;
@@ -479,6 +569,93 @@ body.is-onboarding .app-main {
   margin-top: var(--space-2);
 }
 
+/* --- "How does it work?" popup (`js/UI/components/ViewHelp.js`) ---------- */
+
+/* One pill under the header of every view, and the small panel it opens: two sentences on what the
+   page does, then the way to the information page. The pill is a dashed outline, quieter than a
+   real action - it explains the page, it does not do anything to it - and it sits at the reading
+   start of the header, where the eye already is when it has just read the title. */
+.view-help {
+  position: relative;
+  align-self: flex-start;
+  margin-top: var(--space-2);
+}
+
+.view-help__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 2rem;
+  padding: 0 var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.view-help__button:hover,
+.view-help__button[aria-expanded="true"] {
+  border-style: solid;
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.view-help__button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* The icon is drawn, not loaded: it follows the colour of the pill like a glyph would. */
+.view-help__icon {
+  flex: 0 0 auto;
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+/* The panel floats over the view instead of pushing it down: the explanation is read once, the
+   layout of the page must not jump when it opens. Widths are capped in `rem` AND against the
+   viewport, so the same block fits a phone without ever overflowing it. */
+.view-help__panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  z-index: var(--z-header);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: min(22rem, calc(100vw - (2 * var(--space-4) + 2px)));
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.view-help__title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.view-help__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.view-help__more {
+  margin-top: var(--space-1);
+}
+
 /* The icon of a `.btn` (an inline SVG path, never a picture). */
 .btn__icon {
   flex: 0 0 auto;
@@ -489,6 +666,92 @@ body.is-onboarding .app-main {
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* --- Switch --------------------------------------------------------------- */
+
+/* A real switch (`role="switch"` on a `<button>`, `aria-checked` carrying the state): the
+   track/thumb pair shows it, the adjacent text is written by the view so it always matches the
+   active language. Used by the sound preference of the settings and by the "Effets" switch of the
+   card detail (`js/UI/views/CollectionView.js`, where the row itself carries `.switch`), which is
+   why it lives here and not in a view stylesheet: a control shared by two screens belongs to the
+   shared layer. The host is free to place and size it (`.settings__panel .switch`,
+   `.collection-shine`), never to redraw the track or the thumb. */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.switch:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.switch__track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 2.75rem;
+  height: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.switch__thumb {
+  position: absolute;
+  top: 50%;
+  left: 0.2rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  background-color: var(--color-text-muted);
+  transform: translateY(-50%);
+  transition: left 160ms ease, background-color 160ms ease;
+}
+
+.switch[aria-checked="true"] .switch__track {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+}
+
+.switch[aria-checked="true"] .switch__thumb {
+  left: calc(100% - 1.25rem);
+  background-color: var(--color-accent-contrast);
+}
+
+/* The caption of the switch is written by the view (`SettingsView`, `CollectionView`), never in the
+   markup. It is muted while the switch is off and plain while it is on: someone who cannot read the
+   position of the thumb still gets the state from the colour of the word. */
+.switch__state {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.switch[aria-checked="true"] .switch__state {
+  color: var(--color-text);
+}
+
+.switch:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch__track,
+  .switch__thumb {
+    transition: none;
+  }
 }
 
 /* --- Panels and placeholders -------------------------------------------- */

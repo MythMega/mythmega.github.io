@@ -27,6 +27,7 @@ import boosterManager from '../../business/BoosterManager.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
 import minePickManager from '../../business/MinePickManager.js';
+import miningManager from '../../business/MiningManager.js';
 import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import Toast from '../components/Toast.js';
@@ -72,6 +73,9 @@ export class StatsView {
     this.minepickRarityElement = this.root.querySelector('[data-stats-minepick-rarity]');
     this.minepickRarestElement = this.root.querySelector('[data-stats-minepick-rarest]');
     this.minepickHistoryElement = this.root.querySelector('[data-stats-minepick-history]');
+    this.miningSummaryElement = this.root.querySelector('[data-stats-mining-summary]');
+    this.miningBlocksElement = this.root.querySelector('[data-stats-mining-blocks]');
+    this.miningResourcesElement = this.root.querySelector('[data-stats-mining-resources]');
 
     /** @type {Array<{code: string|null, setId: string, openedAt: string|null, godpack: boolean, set: object|null, cards: Array}>} */
     this.historyEntries = [];
@@ -123,6 +127,9 @@ export class StatsView {
       ['[data-stats-minepick-summary]', this.minepickSummaryElement],
       ['[data-stats-minepick-rarity]', this.minepickRarityElement],
       ['[data-stats-minepick-history]', this.minepickHistoryElement],
+      ['[data-stats-mining-summary]', this.miningSummaryElement],
+      ['[data-stats-mining-blocks]', this.miningBlocksElement],
+      ['[data-stats-mining-resources]', this.miningResourcesElement],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -204,6 +211,13 @@ export class StatsView {
         if (this.isActive) this.handleBoosterOpened();
       })
     );
+    // A block broken on the mine screen moves its own counters: the panel follows, but only while
+    // the panels are displayed (the activation of the view reloads them anyway).
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.MINING_UPDATED, () => {
+        if (this.isActive) this.handleBoosterOpened();
+      })
+    );
     this.log('Event subscriptions registered.');
   }
 
@@ -222,11 +236,15 @@ export class StatsView {
       const view = await collectionManager.getCollectionView();
       const history = await boosterManager.getBoosterHistory(STATS_HISTORY_SIZE);
       const minepick = await minePickManager.getState();
+      const mining = await miningManager.getState({ lang: i18n.getLang() });
+      const miningBlocks = await miningManager.listBlocks(i18n.getLang());
+      const miningResources = await miningManager.listResources();
       this.renderBoosters(stats);
       this.renderCompletion(view);
       this.renderRarity(stats);
       this.renderTop(stats, view);
       this.renderMinePick(minepick, view);
+      this.renderMining(mining, miningBlocks, miningResources);
       this.renderHistory(history);
     } catch (error) {
       console.error('[StatsView] The statistics could not be loaded.', error);
@@ -422,6 +440,68 @@ export class StatsView {
       `Mine Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} free and ` +
         `${state?.bonusPicks ?? 0} bought left today.`
     );
+  }
+
+  /**
+   * Renders the Mine panel: the allowance, the blocks broken per KIND and the resources harvested.
+   *
+   * The per-kind counters are the dedicated statistics of the mine (`blocksMined` in
+   * `user_state["mining"]`), which is why every declared block gets a bar - including the ones the
+   * player never came across, whose bar is simply empty (a catalogue, not a scoreboard).
+   *
+   * @param {object} state - State returned by `MiningManager.getState()`.
+   * @param {Array<{id: string, name: string}>} blocks - Block kinds, in declaration order.
+   * @param {Array<{slug: string, type: string, nameKey: string}>} resources - Harvestable resources.
+   * @returns {void}
+   */
+  renderMining(state, blocks, resources) {
+    if (this.miningSummaryElement) {
+      this.miningSummaryElement.textContent = i18n.t('stats.mining.summary', {
+        total: state?.totalMined ?? 0,
+        remaining: state?.remaining ?? 0,
+        blocksPerDay: state?.blocksPerDay ?? 0,
+      });
+    }
+
+    if (this.miningBlocksElement) {
+      this.miningBlocksElement.textContent = '';
+      const mined = state?.blocksMined ?? {};
+      const total = Object.values(mined).reduce((sum, count) => sum + (Number(count) || 0), 0);
+      if (total === 0) {
+        this.miningBlocksElement.textContent = i18n.t('stats.mining.empty');
+      } else {
+        (blocks ?? []).forEach((block) => {
+          const count = Number(mined[block.id]) || 0;
+          this.miningBlocksElement.appendChild(this.buildBar(block.name, count, total));
+        });
+      }
+    }
+
+    if (this.miningResourcesElement) {
+      const harvested = state?.resources ?? {};
+      const lines = (resources ?? [])
+        .map((resource) => ({ resource, count: Number(harvested[resource.slug]) || 0 }))
+        .filter(({ count }) => count > 0)
+        .map(({ resource, count }) => `${this.resolveResourceLabel(resource)} : ${count}`);
+      this.miningResourcesElement.textContent =
+        lines.length > 0 ? lines.join(' · ') : i18n.t('stats.mining.empty');
+    }
+  }
+
+  /**
+   * Label of a resource: its translation, falling back to the raw type of the configuration.
+   *
+   * `settings/mining.json` decides what a block gives; a resource added there before its two
+   * translations still reads as something (`Stone Dust`) instead of a raw key.
+   *
+   * @param {{nameKey?: string, type?: string}} resource - Resource descriptor.
+   * @returns {string} The player-facing label.
+   */
+  resolveResourceLabel(resource) {
+    const key = resource?.nameKey;
+    if (!key) return resource?.type ?? '';
+    const translated = i18n.t(key);
+    return translated === key ? resource.type ?? translated : translated;
   }
 
   /**

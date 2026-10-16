@@ -61,6 +61,13 @@
     "seedSalt": "minecards-mine-pick-v1",
     "setWeightExponent": 2
   },
+  "mining": {
+    "_comment": "Mine (MineBlock). The rules of the blocks themselves - the five kinds, their 'Weight' (the chance of falling on one), their 'Hardness' (the number of taps needed to break one) and their loot (a guaranteed 'dust', sometimes 'Sparks') - live in 'configPath', so the mine can be rebalanced without touching this file. 'blocksPerDay' blocks are offered every UTC day (reset at midnight UTC, like the daily boosters and the Mine Pick) and they are mined ONE BY ONE: the next block is only drawn once the previous one is broken. The order of the day is seeded with 'seedSalt' + the UTC day + the account UUID, so a reload resumes the very block that was being mined and two accounts never share the same sequence. 'nextBlockDelayMs' is how long the broken block stays on screen before the next one drops in (the rewards keep flying while it does): a small value keeps the mining fast, a large one lets the loot be admired.",
+    "configPath": "settings/mining.json",
+    "blocksPerDay": 50,
+    "nextBlockDelayMs": 100,
+    "seedSalt": "minecards-mining-v1"
+  },
   "promos": {
     "_comment": "Promo cards. 'directory' holds one file per series ('A1.json' -> the 'A1-Promo' group), an entry being a card built exactly like a booster card ('Index', 'Name_XX', 'Desc_XX', 'Rarity', 'Style', 'Layout', 'Path'). Promo cards are NEVER drawn from a booster: they only enter the collection through a redeem code or a gift, only appear in the collection when they are owned, and never count in a completion ratio. 'sets' lists the files to load; leave it empty to load one file per booster extension of 'boosters.sets'. A series without a promo file simply has no promo.",
     "directory": "data/promo_cards",
@@ -140,6 +147,13 @@
   },
 
   "shop": {
+    "allItemsUniques": true,
+    "rarityValues": {
+      "1": 50,
+      "2": 100,
+      "3": 250,
+      "4": 500
+  },
     "itemsValues": {
       "Stone Dust": 1,
       "Sculk Dust": 5,

@@ -35,6 +35,7 @@ export const VIEW_HELP_NAMES = Object.freeze([
   'stats',
   'trophies',
   'minepick',
+  'mineblock',
   'settings',
   'info',
 ]);

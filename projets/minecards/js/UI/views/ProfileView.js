@@ -7,9 +7,9 @@
  *
  * The page shows the player's identity read-only — the pencil reveals the form, so a stray tap can
  * never change the name or the avatar — the level right under it, the pinned trophies and the
- * favourite cards. The whole trophy CATALOGUE is not here any more: it is the "Trophées"
- * destination of the bottom bar (`js/UI/views/TrophiesView.js`), which pins the trophies this page
- * highlights.
+ * favourite cards. The whole trophy CATALOGUE is not here any more: it is a page of its own
+ * (`js/UI/views/TrophiesView.js`), which pins the trophies this page highlights, opened by the
+ * second small button under the subtitle since it left the bottom bar (the Mine took that slot).
  *
  * The avatar is picked from a closed list of icons (`js/business/ProfileIconManager.js`): the
  * default ones are always available, the others are granted by a trophy. A profile written by an
@@ -35,6 +35,7 @@ import profileIconManager from '../../business/ProfileIconManager.js';
 import collectionManager from '../../business/CollectionManager.js';
 import TrophyDetail, { TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
 import { STATS_VIEW_NAME } from './StatsView.js';
+import { TROPHIES_VIEW_NAME } from './TrophiesView.js';
 import Toast from '../components/Toast.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
@@ -77,6 +78,7 @@ export class ProfileView {
     this.modalBody = this.root.querySelector('[data-profile-modal-body]');
     this.modalClose = this.root.querySelector('[data-profile-modal-close]');
     this.statsButton = this.root.querySelector('[data-profile-stats]');
+    this.trophiesButton = this.root.querySelector('[data-profile-trophies]');
 
     this.assertMarkup();
 
@@ -147,6 +149,7 @@ export class ProfileView {
       ['[data-profile-modal-title]', this.modalTitle],
       ['[data-profile-modal-body]', this.modalBody],
       ['[data-profile-stats]', this.statsButton],
+      ['[data-profile-trophies]', this.trophiesButton],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -190,8 +193,10 @@ export class ProfileView {
    * @returns {void}
    */
   bindEvents() {
-    // The statistics live on their own page: this button only asks the application to show it.
+    // The statistics and the trophy catalogue both live on their own page: these buttons only ask
+    // the application to show it (the catalogue left the bottom bar for this row).
     this.listen(this.statsButton, 'click', () => this.onNavigate?.(STATS_VIEW_NAME));
+    this.listen(this.trophiesButton, 'click', () => this.onNavigate?.(TROPHIES_VIEW_NAME));
     this.listen(this.editButton, 'click', () => this.setEditing(!this.isEditing));
     this.listen(this.cancelButton, 'click', () => {
       this.renderIdentity(this.profile);

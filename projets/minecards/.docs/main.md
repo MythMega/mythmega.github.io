@@ -34,6 +34,7 @@ Clés de `user_state` :
 - `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
 - `"binders"` : `[{ id, name, cover, createdAt, slots: (string|null)[30] }]` — les **binders** du joueur (`BinderManager`), dans l'ordre de création. `cover` est la clé de collection de la carte représentative (le `Background` de cette carte devient le fond de la page), `slots` les 30 emplacements (clé de collection ou `null`). Rangé dans `user_state` — et non dans un store à part — pour qu'un `.save` l'emporte sans changer le format de sauvegarde.
 - `"minePick"` : `{ lastResetDay, remaining, bonusPicks, totalPicks, picksByBooster, picksByRarity, picksByCard, history }` — état de la Mine Pick (`MinePickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), `bonusPicks` pour les pioches **achetées en Sparks** (jamais effacées par le reset, dépensées seulement quand les gratuites sont épuisées), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
+- `"mining"` : `{ lastResetDay, minedToday, clicks, resources, blocksMined, totalMined, sparksFound }` — état de la **Mine** (`MiningManager`) : quota du jour (remis à `blocksPerDay` blocs à minuit UTC), `clicks` = les coups déjà portés au bloc du moment (le bloc lui-même n'est **jamais stocké** : il est dérivé de la graine du jour, voir 3.G sexies), `resources` = la quantité de chacune des ressources récoltées, `blocksMined` = un compteur **par type de bloc** (la statistique propre à la fonctionnalité) et les totaux (blocs cassés, Sparks trouvés).
 
 Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `lang` et `theme` est autorisé, pour appliquer le thème avant le premier rendu (évite le flash).
 
@@ -101,8 +102,9 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 2. **Collection** : grille, silhouettes grisées pour les manquantes, **bouton cœur** sur les cartes possédées (5 favoris maximum), **bouton « Filtres & tri »**. Les filtres vivent dans une **popup** (`CollectionView`) : on y active/désactive chaque extension (plusieurs à la fois) et **chaque rareté (plusieurs à la fois, comme les extensions : `filters.rarities` est un `Set`)**, la famille **Promo** dans son ensemble, le statut (toutes / **possédées — l'état par défaut** / manquantes / **vendables**, c'est-à-dire 2 exemplaires ou plus), le style, et l'on y choisit le **tri** (numéro, **index du fichier**, rareté, style, quantité possédée) et son sens. La grille ouvre donc sur **les cartes possédées** et non sur les 343 silhouettes du catalogue ; « Réinitialiser » y revient. La barre sous le titre ne garde que la recherche, le bouton qui ouvre la popup (avec un badge du nombre de filtres actifs) et le compte de cartes : **aucun filtre n'y est plus dupliqué**. Le **bouton « Binders »** siège **dans l'en-tête de la page, en haut à droite et hors du panneau de filtres** (`css/base.css` : `.view__header--split` met titre et action sur une ligne, `.view__heading` garde titre et sous-titre groupés), et l'en-tête de l'application porte en plus un **compteur Binders** (icône `assets/img/binders.png` + nombre de pages, voir 3.H bis). Le tri par numéro compare les `id` en `numeric: true`, pour que `W2` passe bien avant `W10`.
 
 **Deux axes de numérotation, et deux tris** : chaque entrée porte à la fois `cardId` (le champ `Index` de la carte, « SERIE-A1 / W001 ») et `index` (sa **position dans le tableau `Cards` de son fichier d'extension**), les deux étant calculés par `CollectionManager` à chaque lecture — rien n'est stocké, donc réordonner un fichier se voit tout de suite. Ils ne se confondent pas : un fichier **groupe ses cartes par thème**, son ordre n'est donc pas celui des `Index` (la A1 commence par `W001`, pas par `A001`). D'où les deux tris de la popup : **« Numéro »** (le défaut) suit `cardId`, extension par extension ; **« Index »** suit `index`, c'est-à-dire le fichier tel qu'il a été écrit (`CollectionView.applyFilters`, `COLLECTION_SORT`).
-2 bis. **Profil** : deux onglets. L'onglet *Profil* affiche l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. L'onglet *Trophées* isole le catalogue derrière deux combos (famille, statut) pour ne jamais afficher les trente trophées d'un coup. Le **bloc Statistiques** est le dernier de la page, sous les cartes favorites (`[data-panel="stats"]`), avec les compteurs propres à la Mine Pick.
-3. **Mine Pick** : les dix boosters simulés du jour, **listés un par ligne avec leur contenu face visible**, et les trois pioches gratuites. Un premier clic **sélectionne** la ligne (aperçu), le second l'ouvre — voir section 3.G quater.
+2 bis. **Profil** : l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. Deux **petits boutons** sous le sous-titre (`view__header-actions`) mènent aux deux pages que la barre du bas ne porte plus : **Statistiques** et **Trophées** (le catalogue, isolé derrière deux combos — famille, statut — pour ne jamais afficher les trente trophées d'un coup, et muni de son propre retour au profil). Les compteurs propres à la Mine Pick, eux, sont dans le panneau « Mine Pick » de la page Statistiques, à côté du panneau « Mine ».
+3. **Pick** (Mine Pick) : les dix boosters simulés du jour, **listés un par ligne avec leur contenu face visible**, et les trois pioches gratuites. Un premier clic **sélectionne** la ligne (aperçu), le second l'ouvre — voir section 3.G quater. Son libellé de barre est **« Pick »** (la fonctionnalité garde son nom, « Mine Pick », dans son titre et sa page).
+3 bis. **Mine** (`data-view="mineblock"`) : les **dix blocs du jour**, minés **un par un**, avec les ressources récoltées — voir section 3.G sexies. Elle occupe l'emplacement que les **Trophées** tenaient dans la barre du bas : le catalogue des trophées s'ouvre désormais depuis le **Profil**, par un second bouton à côté de « Statistiques », et porte pour cela son propre **bouton retour** (comme la page Statistiques, elle aussi ouverte depuis le Profil). Trois fonctions ont donc leur page **hors** de la barre — Statistiques, Trophées — ou **dedans** — la Mine — et chacune des deux premières sait revenir au profil.
 4. **Paramètres** : langue, thème, **animations** (sélecteur + aperçu animé joué à l'ouverture de la page, bandeau d'avertissement pour le mode parodique), **foil** (deux curseurs : intensité des motifs, **brillance** de la ligne qui balaie la carte — l'aperçu du panneau est un mythique, donc l'effet suit le doigt), **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
 6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
@@ -115,7 +117,7 @@ L'heure UTC affichée dans les Paramètres est celle de `DateSyncManager` (jamai
 
 **En-tête sur écran large** (≥ 1024 px) : les cinq compteurs (boosters quotidiens, boosters bonus, pioches Mine Pick, Binders, Sparks) affichent leur **nom court** à côté de leur icône (« Quotidiens », « Bonus », « Pioches », « Binders », « Sparks » / « Daily », « Bonus », « Picks », « Binders », « Sparks »), et le slogan — pure décoration, déjà absent sur un téléphone — laisse la place. Le libellé long de chaque compteur reste dans un `.sr-only`, qui est le nom accessible : le libellé visible est `aria-hidden`, donc un lecteur d'écran n'entend jamais une version tronquée.
 
-**Aide de page :** chaque vue (Ouverture, Collection, Profil, Statistiques, Trophées, Mine Pick, Paramètres, Informations) porte une pastille « Comment ça marche ? » sous son titre (`js/UI/components/ViewHelp.js`, styles dans `css/base.css`). Elle ouvre une **mini-popup** : le titre de la vue, **deux phrases** d'explication (`view.<vue>.help`) et un bouton « Plus d'infos » qui mène à la page Informations. Une seule popup ouverte à la fois ; `Échap`, un clic à l'extérieur ou un second clic sur la pastille la referment. Le texte passe par `data-i18n` : un changement de langue la retraduit sans la rouvrir.
+**Aide de page :** chaque vue (Ouverture, Collection, Profil, Statistiques, Trophées, Mine Pick, Mine, Paramètres, Informations) porte une pastille « Comment ça marche ? » sous son titre (`js/UI/components/ViewHelp.js`, styles dans `css/base.css`). Elle ouvre une **mini-popup** : le titre de la vue, **deux phrases** d'explication (`view.<vue>.help`) et un bouton « Plus d'infos » qui mène à la page Informations. Une seule popup ouverte à la fois ; `Échap`, un clic à l'extérieur ou un second clic sur la pastille la referment. Le texte passe par `data-i18n` : un changement de langue la retraduit sans la rouvrir.
 
 **Le rituel prend tout l'écran** (`js/utils/FocusMode.js`, `body.is-focus` dans `css/base.css`) : deux moments du jeu sont des **rituels** et non des pages — **l'ouverture d'un booster**, à partir du moment où le joueur en a choisi un (`OpeningView.performOpen` → `showStage('scene')`), et **la pioche du Mine Pick**, à partir du moment où le paquet est distribué (`MinePickView.showStage('pick')`). Pendant ceux-ci, la **marque, les compteurs, la barre de navigation du bas, la pastille « Comment ça marche ? » et le titre de la vue sont masqués** : rien ne doit disputer l'écran au booster ni aux cartes. L'état est **une seule classe sur `<body>`**, posée par `setFocusMode()` au moment exact du changement d'étape — `showStage` est cette frontière des deux côtés — et retirée au retour (`finish()`, « Retour aux boosters »), par `handleViewDeactivated()` (quitter la vue en pleine ouverture par un lien profond ou le bouton retour rend le chrome) et par `destroy()`. L'espace de `padding-bottom` réservé à la barre disparaît avec elle et `--nav-height` passe à `0`, pour que la pile de toasts suive au lieu de flotter au-dessus du vide ; la bannière de notification, elle, se place en mesurant le bas de l'en-tête, dont la hauteur vaut zéro une fois masqué.
 
@@ -266,6 +268,76 @@ elle, n'est jamais touchée.
 - **Résille du mythique** : le tracé du data-URI est à **0,3** d'alpha, soit la moitié des 0,6 du créateur de cartes — la résille est la forme la plus dense des trois et, à pleine force, elle se lisait comme un fil de fer dessiné sur l'illustration plutôt que comme un reflet.
 - **Défaut à 100 %** pour les deux : c'est l'intensité pour laquelle les effets ont été réglés, donc un joueur qui ne touche à rien voit exactement ce qui a été dessiné. Une sauvegarde antérieure (sans `glareIntensity`) retombe sur le défaut.
 - **Bornes :** une valeur hors plage est ramenée dans la plage plutôt que rejetée, afin qu'un `.save` écrit avec une plage plus large continue de se charger. À 0 sur l'intensité du foil, `FoilManager` pose en plus `data-foil="off"` sur `<html>` et `<body>`, ce qui arrête les animations devenues invisibles — et **retire la ligne** (`display: none`) : elle ne répond qu'à la brillance, donc rien ne l'éteindrait d'autre, et elle resterait peinte, figée, sur une carte sans foil.
+
+### G sexies. Mine (MineBlock)
+
+Un onglet principal (`data-view="mineblock"`) : **dix blocs par jour**, minés **un par un**. Le bloc du
+moment est affiché **en grand au centre**, son nom au-dessus, le nombre de blocs restants du jour, et
+sous lui **chaque ressource** récoltée : **son icône et son nombre**, rien d'autre (le nom est dans
+l'**inventaire** et dans le texte accessible de la pastille). Le nombre de coups qu'il reste à porter
+n'est **jamais** écrit : la craquelure sous le doigt dit déjà où en est le bloc, et un compteur à côté
+transformait le rituel en rapport de progression.
+
+**Cinq sortes de blocs**, décrites dans `settings/mining.json` : `Weight` (le poids du tirage : la pierre
+est commune, l'obsidienne rare) et `Hardness` (le nombre de coups à porter pour casser le bloc, de 3 à
+30). La texture de chaque bloc vit dans `assets/img/blocks/<bloc>.webp`, ses deux sons dans
+`assets/sound/blocks/<bloc>.mine.mp3` et `<bloc>.break.mp3` : ces chemins sont **dérivés de l'id** du bloc
+(`material.stone` → `stone.webp`), donc une nouvelle sorte de bloc n'a que ses fichiers à fournir.
+
+**La casse se voit.** À chaque coup qui ne casse pas, le bloc est **fêlé** un peu plus : la table `Cracks`
+de `mining.json` associe une plage de pourcentage (`Min`/`Max`) à une texture de craquelure
+(`assets/img/blocks/break/<n>.png`), posée **sur** l'image du bloc, à la même taille et au même endroit
+(d'où `image-rendering: pixelated` sur les deux). Les trois premiers coups d'une pierre montrent donc
+33 %, 66 %, puis le bloc se brise ; les pourcentages sont calculés en JS (`MiningManager.percentOf`) et
+la correspondance plage → texture reste dans le fichier de données.
+
+**Le butin sort du bloc.** Quand un bloc se casse, ses récompenses **s'échappent** : un élément volant par
+unité obtenue — la poussière du bloc (toujours), et les Sparks quand le tirage les accorde (quatre Sparks
+→ quatre étoiles) — chacun dans une **direction aléatoire**, avec sa distance, son délai et sa rotation
+tirés au sort, plus un toast par récompense (« +1 Poussière de pierre », « +4 Sparks »). Le bloc suivant
+n'arrive qu'après ce départ (`mining.nextBlockDelayMs`, **100 ms** dans `settings/config.json`), puis
+tombe en place — une chute brève et animée (`mineblock-arrive`, 160 ms, la durée que la vue attend
+avant de retirer la classe) — avec sa texture, son nom et sa
+dureté. Le rythme de la mine est donc un réglage : la casse et l'arrivée sont courtes pour que le joueur
+enchaîne les blocs sans attendre. Chaque coup joue le `.mine` de son bloc, le coup qui le casse joue son `.break` : les deux sons du
+bloc affiché sont **préchauffés à son affichage** (une seule fois par chemin : un `load()` sur un son en
+cours de lecture le coupe).
+
+**Ce qui est tiré, et où c'est écrit.** `Weight`/`Hardness`/`Rewards` viennent de `settings/mining.json`
+(un `Rewards` sans `Chance` est garanti, un `Range` absent vaut 1) ; le **quota** (`blocksPerDay`, 10), le
+chemin du fichier et la graine vivent dans `settings/config.json` (section `mining`). L'**ordre du jour est
+déterministe** : `seedSalt` + le jour UTC fiable + l'UUID du compte + le rang du bloc, par le même
+générateur amorcé que le plateau de la Mine Pick — deux comptes ne partagent donc jamais la même séquence,
+et un rechargement **reprend le bloc en cours** avec ses coups déjà portés (seul `clicks` est stocké, le
+bloc est recalculé). Seul le **butin** est tiré en direct (`MiningManager.random`, fourni par `crypto`
+quand il existe). Un bloc cassé s'écrit dans **une seule transaction** (état de la mine + solde de Sparks,
+tous deux dans `user_state`) : un échec ne peut pas consommer le coup sans accorder le butin.
+
+**Ressources.** Chaque récompense non-Sparks a un identifiant stable dérivé de son `Type`
+(`"Stone Dust"` → `stone_dust`), qui sert à la fois de clé de sauvegarde, de nom de texture
+(`assets/img/dusts/<slug>.png`) et de clé de traduction (`mineblock.resource.<slug>`, avec repli sur le
+`Type` brut si la traduction manque). La liste des pastilles est celle **déclarée** par le fichier : une
+ressource jamais récoltée s'affiche à `0` plutôt que de disparaître. Les **Sparks n'y figurent pas** :
+c'est la monnaie, elle a son compteur dans l'en-tête (et ses toasts à la casse) — la liste est celle des
+matières que l'inventaire sert à échanger.
+
+**Inventaire.** Sous les ressources, un **coffre** (`assets/img/chest.webp`, une image **animée**) est le
+seul bouton de cette zone : il ouvre une **popup** listant chaque ressource avec son icône, son **nom** et
+sa quantité — c'est là, et nulle part ailleurs, que les noms sont écrits. Le coffre ne bouge **pas** au
+repos : la vue dessine une fois sa première image sur un canvas et l'affiche à la place du fichier animé,
+puis remet le fichier animé le temps d'**une** lecture à chaque clic (un second clic relance l'animation
+au lieu d'empiler les minuteries). Si le gel échoue, le coffre s'anime simplement tout le temps : une
+régression cosmétique, jamais un contrôle cassé.
+
+**Statistiques.** `blocksMined` compte les blocs cassés **par sorte**, `resources` la quantité récoltée et
+`sparksFound` les Sparks trouvés. Le panneau « Mine » de la page Statistiques affiche l'allowance du jour,
+une barre par sorte de bloc (y compris celles jamais rencontrées, à 0 — c'est un catalogue) et les
+ressources récoltées.
+
+**Marchand itinérant.** Le bouton en haut à droite — son icône `assets/img/wanderingtrader.png`, puis son
+libellé — ouvre un **écran du même nom** (`Marchand itinérant` / `Wandering Trader`), implémenté plus
+tard : pour l'instant il explique ce qu'il proposera et se ferme par son bouton, le voile ou `Échap`. Un
+seul dialogue est ouvert à la fois : ouvrir l'inventaire ferme le marchand, et l'inverse.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.

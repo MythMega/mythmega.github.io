@@ -16,6 +16,15 @@
   font-size: var(--font-size-md);
 }
 
+/* A secondary heading inside a panel (the two blocks of the Mine panel): same weight as the title
+   of the panel, quieter, and close to what it introduces. */
+.stats__title--sub {
+  margin: var(--space-2) 0 var(--space-1) 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
 .stats__big {
   margin: 0;
   font-size: var(--font-size-xl);

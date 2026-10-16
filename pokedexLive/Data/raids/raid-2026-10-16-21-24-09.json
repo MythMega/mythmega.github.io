@@ -1,0 +1,180 @@
+{
+  "bossName": "Dynavolt",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Electrike_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Electrike_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 65000,
+  "date": "2026-10-16 21:24:09",
+  "durationSec": 729,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 48750,
+      "countAtk": 3,
+      "baseDmg": 42538,
+      "level": 20,
+      "raidCount": 1133,
+      "luck": 0.38201138
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 17259,
+      "countAtk": 2,
+      "baseDmg": 8596,
+      "level": 16,
+      "raidCount": 355,
+      "luck": 1.0038972
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 2817,
+      "countAtk": 2,
+      "baseDmg": 917,
+      "level": 10,
+      "raidCount": 53,
+      "luck": 1.5359869
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 68826
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-16 21:24:41",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 48750,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 21:27:28",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 917,
+      "pvAfter": 47833,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 21:28:34",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 31583,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 21:33:34",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 16250,
+      "pvAfter": 15333,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-10-16 21:35:59",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1900,
+      "pvAfter": 13433,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 21:36:17",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8596,
+      "pvAfter": 4837,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 21:36:18",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8663,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

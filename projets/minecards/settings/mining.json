@@ -1,0 +1,188 @@
+{
+    "Cracks": [
+        {
+            "Range": {
+                "Min": 0,
+                "Max": 9
+            },
+            "Texture": null
+        },
+        {
+            "Range": {
+                "Min": 10,
+                "Max": 19
+            },
+            "Texture": "./assets/img/blocks/break/1.png"
+        },
+        {
+            "Range": {
+                "Min": 20,
+                "Max": 29
+            },
+            "Texture": "./assets/img/blocks/break/2.png"
+        },
+        {
+            "Range": {
+                "Min": 30,
+                "Max": 39
+            },
+            "Texture": "./assets/img/blocks/break/3.png"
+        },
+        {
+            "Range": {
+                "Min": 40,
+                "Max": 49
+            },
+            "Texture": "./assets/img/blocks/break/4.png"
+        },
+        {
+            "Range": {
+                "Min": 50,
+                "Max": 59
+            },
+            "Texture": "./assets/img/blocks/break/5.png"
+        },
+        {
+            "Range": {
+                "Min": 60,
+                "Max": 69
+            },
+            "Texture": "./assets/img/blocks/break/6.png"
+        },
+        {
+            "Range": {
+                "Min": 70,
+                "Max": 79
+            },
+            "Texture": "./assets/img/blocks/break/7.png"
+        },
+        {
+            "Range": {
+                "Min": 80,
+                "Max": 89
+            },
+            "Texture": "./assets/img/blocks/break/8.png"
+        },
+        {
+            "Range": {
+                "Min": 90,
+                "Max": 99
+            },
+            "Texture": "./assets/img/blocks/break/9.png"
+        },
+        {
+            "Range": {
+                "Min": 100,
+                "Max": 100
+            },
+            "Texture": "./assets/img/blocks/break/10.png"
+        }
+    ],
+    "Blocks": [
+        {
+            "ID": "material.stone",
+            "Name_FR": "Pierre",
+            "Name_EN": "Stone",
+            "Weight": 100,
+            "Rewards": [
+                {
+                    "Type": "Sparks",
+                    "Chance": 0.01,
+                    "Range": {
+                        "Min": 1,
+                        "Max": 5
+                    }
+                },
+                {
+                    "_comment": "Chance is null, default value is 1 (so 100% chance). Range is null, defaults values are Min=1 & Max=1.",
+                    "Type": "Stone Dust"
+                }
+            ],
+            "Hardness": "3"
+        },
+        {
+            "ID": "material.deepslate",
+            "Name_FR": "Pierre des abîmes",
+            "Name_EN": "Deepslate",
+            "Weight": 30,
+            "Rewards": [
+                {
+                    "Type": "Sparks",
+                    "Chance": 0.1,
+                    "Range": {
+                        "Min": 1,
+                        "Max": 7
+                    } 
+                },
+                {
+                    "_comment": "Chance is null, default value is 1 (so 100% chance). Range is null, defaults values are Min=1 & Max=1.",
+                    "Type": "Sculk Dust"
+                }
+            ],
+            "Hardness": "5"
+        },
+        {
+            "ID": "material.blackstone",
+            "Name_FR": "Roche noire",
+            "Name_EN": "Blackstone",
+            "Weight": 10,
+            "Rewards": [
+                {
+                    "Type": "Sparks",
+                    "Chance": 0.2,
+                    "Range": {
+                        "Min": 2,
+                        "Max": 9
+                    } 
+                },
+                {
+                    "_comment": "Chance is null, default value is 1 (so 100% chance). Range is null, defaults values are Min=1 & Max=1.",
+                    "Type": "Glowstone Dust"
+                }
+            ],
+            "Hardness": "10"
+        },
+        {
+            "ID": "material.endstone",
+            "Name_FR": "Roche de l'End",
+            "Name_EN": "End Stone",
+            "Weight": 5,
+            "Rewards": [
+                {
+                    "Type": "Sparks",
+                    "Chance": 0.3,
+                    "Range": {
+                        "Min": 3,
+                        "Max": 11
+                    } 
+                },
+                {
+                    "_comment": "Chance is null, default value is 1 (so 100% chance). Range is null, defaults values are Min=1 & Max=1.",
+                    "Type": "Void Dust"
+                }
+            ],
+            "Hardness": "15"
+        },
+        {
+            "ID": "material.obsidian",
+            "Name_FR": "Obsidienne",
+            "Name_EN": "Obsidian",
+            "Weight": 1,
+            "Rewards": [
+                {
+                    "Type": "Sparks",
+                    "Chance": 0.5,
+                    "Range": {
+                        "Min": 4,
+                        "Max": 14
+                    } 
+                },
+                {
+                    "_comment": "Chance is null, default value is 1 (so 100% chance). Range is null, defaults values are Min=1 & Max=1.",
+                    "Type": "Ultima"
+                }
+            ],
+            "Hardness": "30"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+[
+    {
+        "OfferID": 1,
+        "MaxUse": 1,
+        "Card": {
+            "Index": "PROMO-A1 / M01",
+            "isPromotional": true
+        },
+        "Price": {
+            "Stone Dust": 20,
+            "Sculk Dust": 10,
+            "Glowstone Dust": 5,
+            "Void Dust": 3,
+            "Ultima": 1
+        }
+    }
+]

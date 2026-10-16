@@ -36,6 +36,7 @@ import { buildBoosterCode } from '../../utils/BoosterCode.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
 import animationManager from '../../utils/AnimationManager.js';
+import { setFocusMode } from '../../utils/FocusMode.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import Booster3DRenderer, { DEFAULT_MODEL_PATH } from '../components/Booster3DRenderer.js';
 
@@ -418,7 +419,13 @@ export class OpeningView {
     const showScene = stage === 'scene';
     this.selectStage.hidden = showScene;
     this.sceneStage.hidden = !showScene;
-    this.log(`Stage displayed: ${stage}.`);
+    // The ritual takes the whole screen: the brand, the counters, the bottom bar, the "how does it
+    // work" pill and the title of the view go away for as long as the scene is up, and come back on
+    // the way out (`setFocusMode`, `css/base.css`). It is toggled HERE because this method is the
+    // exact boundary: the pack is drawn, then `showStage('scene')`; the summary is dismissed, then
+    // `showStage('select')`.
+    setFocusMode(showScene);
+    this.log(`Stage displayed: ${stage} (focus mode ${showScene ? 'on' : 'off'}).`);
   }
 
   /**
@@ -824,6 +831,9 @@ export class OpeningView {
         console.error('[OpeningView] The booster could not be opened.', error);
         this.setFeedback('opening.error.open', 'error');
       }
+      // A failed opening must never leave the player on a scene with no way out: the app chrome
+      // comes back, whatever the stage the failure happened in.
+      setFocusMode(false);
       this.refreshQuota();
     } finally {
       this.openButton.textContent = previousLabel;
@@ -1783,6 +1793,9 @@ export class OpeningView {
   handleViewDeactivated() {
     this.isActive = false;
     this.log('View deactivated, stopping the render loop.');
+    // Leaving the view mid-ritual (a deep link, the back button) gives the chrome back: the focus
+    // class belongs to the screen, not to the pack being revealed.
+    setFocusMode(false);
     this.stopPreview();
     if (this.renderer3d) {
       this.renderer3d.stop();
@@ -1797,6 +1810,7 @@ export class OpeningView {
    */
   destroy() {
     this.log('Destroying the view.');
+    setFocusMode(false);
     this.cancelIdleDispose();
     this.disposeRenderer();
     this.disposePreview();

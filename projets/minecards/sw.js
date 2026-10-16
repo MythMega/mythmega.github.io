@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v11';
+const VERSION = 'v12';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -171,6 +171,7 @@ const PRECACHE_URLS = [
   './js/utils/ConfigLoader.js',
   './js/utils/DeepLink.js',
   './js/utils/EventBus.js',
+  './js/utils/FocusMode.js',
   './js/utils/FoilManager.js',
   './js/utils/I18n.js',
   './js/utils/Shine.js',

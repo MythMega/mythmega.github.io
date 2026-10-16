@@ -10,10 +10,23 @@
         "Desc_EN": "Arachnid pyramid build. By hyperlapse !",
         "Rarity": 5,
         "Style": "Press Start 2P (Pixel)",
-        "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_pig.png",
-        "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_pig.png",
+        "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/Promo_B1_Art.png",
+        "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/Promo_B1_Art-fg.png",
         "Layout": "fullart",
         "Path": "./cards/A1-Promo/<lang>/PROMO-A1 _ B01_fullart.png"
+      },
+      {
+        "Index": "PROMO-A1 / M01",
+        "Name_FR": "Villageois Gourmand",
+        "Name_EN": "Greedy Villager",
+        "Desc_FR": "C'est le villageois le plus gourmand du village.",
+        "Desc_EN": "The most greedy villager from its village.",
+        "Rarity": 5,
+        "Style": "Press Start 2P (Pixel)",
+        "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/villager_bg-cropped.png",
+        "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/villager_fg-cropped.png",
+        "Layout": "fullart",
+        "Path": "./cards/A1-Promo/<lang>/PROMO-A1 _ M01_fullart.png"
       }
   ]
 }

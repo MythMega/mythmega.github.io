@@ -79,6 +79,27 @@ export const HEADER_IDS = Object.freeze({
 export const BINDERS_COUNTER_SELECTOR = '[data-header-binders]';
 
 /**
+ * Largest value a header counter displays before it switches to the "9999+" form.
+ *
+ * The five counters share ONE row on a phone (see the mobile block of `css/base.css`), and five
+ * glyphs is the widest a fifth of a 360 px screen holds next to its icon. Nothing is lost: the exact
+ * balance is on the Sparks page and the per-extension split is in the bonus inventory, which the
+ * counter opens.
+ */
+const HEADER_COUNT_MAX = 9999;
+
+/**
+ * Formats a header counter for its chip.
+ *
+ * @param {number} value - Raw value (the daily boosters, the bonus total, the Sparks balance…).
+ * @returns {string} The value as text, or `"9999+"` past {@link HEADER_COUNT_MAX}.
+ */
+function formatHeaderCount(value) {
+  const count = Number.isFinite(value) ? Math.trunc(value) : 0;
+  return count > HEADER_COUNT_MAX ? `${HEADER_COUNT_MAX}+` : String(count);
+}
+
+/**
  * Selectors of the bonus inventory (the header count is the total, the modal splits it per set).
  * It is a dialog of the header, not a router view.
  */
@@ -971,8 +992,8 @@ export class App {
   renderHeaderCounters(quota) {
     const daily = Number.isFinite(quota?.daily) ? quota.daily : 0;
     const bonusTotal = Number.isFinite(quota?.bonusTotal) ? quota.bonusTotal : 0;
-    this.setText(HEADER_IDS.DAILY, String(daily));
-    this.setText(HEADER_IDS.BONUS, String(bonusTotal));
+    this.setCount(HEADER_IDS.DAILY, daily);
+    this.setCount(HEADER_IDS.BONUS, bonusTotal);
   }
 
   /**
@@ -983,7 +1004,7 @@ export class App {
    */
   renderHeaderSparks(payload) {
     const balance = Number.isFinite(payload?.balance) ? payload.balance : 0;
-    this.setText(HEADER_IDS.SPARKS, String(balance));
+    this.setCount(HEADER_IDS.SPARKS, balance);
   }
 
   /**
@@ -1012,7 +1033,7 @@ export class App {
   renderHeaderMinePick(payload) {
     const remaining = Number.isFinite(payload?.remaining) ? payload.remaining : 0;
     const bonusPicks = Number.isFinite(payload?.bonusPicks) ? payload.bonusPicks : 0;
-    this.setText(HEADER_IDS.MINE_PICK, String(Math.max(0, remaining + bonusPicks)));
+    this.setCount(HEADER_IDS.MINE_PICK, Math.max(0, remaining + bonusPicks));
   }
 
   /**
@@ -1041,7 +1062,7 @@ export class App {
    */
   renderHeaderBinders(payload) {
     const count = Array.isArray(payload?.binders) ? payload.binders.length : 0;
-    this.setText(HEADER_IDS.BINDERS, String(count));
+    this.setCount(HEADER_IDS.BINDERS, count);
   }
 
   /**
@@ -1298,6 +1319,20 @@ export class App {
     if (element) {
       element.textContent = text;
     }
+  }
+
+  /**
+   * Writes one of the header counters, capped for the narrow chips of a phone.
+   *
+   * Every counter of the header goes through here; the UTC clock does NOT (it is not a counter, it
+   * has its own width and its own meaning, and it goes through `setText` directly).
+   *
+   * @param {string} id - Element id of the counter (`HEADER_IDS`).
+   * @param {number} value - Raw value to display.
+   * @returns {void}
+   */
+  setCount(id, value) {
+    this.setText(id, formatHeaderCount(value));
   }
 
   /**

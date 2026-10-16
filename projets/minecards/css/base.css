@@ -369,19 +369,40 @@ body[data-connection="offline"] .app-header__clock {
     display: none;
   }
 
-  /* The five counters of a phone: three on the first row, two on the second, centered under the
-     trio - they used to hang from the left edge, four on a row and the fifth alone underneath. Each
-     one takes a third of the row, so the five are the same width whatever their number, and a
-     number of three or four digits still fits inside. (The clock is hidden on a phone, so the row
-     holds the counters only.) */
+  /* The five counters of a phone, ALL ON ONE ROW under the title: three chips on the first row and
+     two on the second used to eat the whole first screenful, and the header of the game is read at
+     a glance or not at all. The clock is hidden here, so the row holds the counters only.
+
+     Each chip is a fifth of the width (`flex: 1 1 0`, never a fixed `calc()`: the five share exactly
+     what is left, whatever the padding of the header), and `nowrap` forbids the row from ever
+     splitting again at an in-between width. The icon and the value shrink with the chip, and the
+     value is capped at "9999+" by `App.setCount` - five glyphs is what a fifth of a 360 px phone
+     can hold. */
   .app-header__stats {
     width: 100%;
     margin-left: 0;
     justify-content: center;
+    flex-wrap: nowrap;
+    gap: var(--space-1);
   }
 
   .app-header__stat {
-    flex: 0 0 calc((100% - 2 * var(--space-2)) / 3);
+    flex: 1 1 0;
+    min-width: 0;
+    padding: var(--space-1);
+    gap: var(--space-1);
+    /* A number that could not fit is clipped inside its pill rather than pushed over the next one.
+       It only ever happens with five digits, which `setCount` already caps. */
+    overflow: hidden;
+  }
+
+  .app-header__stat-icon {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+
+  .app-header__stat-value {
+    font-size: var(--font-size-xs);
   }
 }
 
@@ -422,6 +443,65 @@ body.is-onboarding .app-nav {
 
 body.is-onboarding .app-main {
   padding-bottom: var(--space-5);
+}
+
+/* --- Focus mode: the RITUAL screens hide the chrome too ------------------- */
+
+/* `js/utils/FocusMode.js` turns this on while a booster is opened (from the moment the pack is
+   drawn) and while the card of a Mine Pick pack is chosen: the brand, the counters, the bottom bar
+   and the "Comment ça marche ?" pill all step aside, so the only things left on the screen are the
+   pack and its cards. The title of the view goes with them - "Ouverture" says nothing about what is
+   happening in the scene, and on a phone every line of height is a card that fits.
+
+   The same rules as `is-onboarding` (which hides the same two blocks), extended to the two elements
+   that belong to the VIEW rather than to the shell: a focus screen is one where a page header and a
+   help pill would be read by a player who is in the middle of a gesture. */
+body.is-focus .app-header,
+body.is-focus .app-nav,
+body.is-focus .view-help,
+body.is-focus .view__header {
+  display: none;
+}
+
+/* The bottom padding of the main area exists to clear the fixed bar: with the bar gone, it would be
+   dead space under the ritual. The safe area is kept, a phone with a notch still has one. */
+body.is-focus .app-main {
+  padding-top: var(--space-4);
+  padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+}
+
+/* The scene of the opening sits in the MIDDLE of the screen, both ways: with the header and the
+   bottom bar gone, a pack pinned to the top of the page left the bottom of the screen empty, which
+   is the opposite of focus.
+
+   `.app-main` already takes the whole height of the window (it is the flexible child of the
+   `body` column), so the view only has to take that height too and centre its own column. The
+   height is written as `100dvh` minus the two paddings above, exactly like the two other full
+   height blocks of the stylesheet.
+
+   `safe center` is what makes it hold on a phone: a scene taller than the window - a spotlight card
+   and its two buttons, once the browser bar is counted - must keep its top REACHABLE rather than
+   overflow above the fold with no way to scroll back to it. A browser that does not know `safe`
+   drops the declaration and keeps the initial `flex-start`, which is the safe behaviour by
+   definition. Only the vertical axis is set: the horizontal centring of the scene is already the
+   business of its own children (`.booster-3d` is `90%` wide with `margin-inline: auto`, the
+   spotlight also centres its column, and the summary is a grid of equal columns).
+
+   Scoped to the OPENING view: the MinePick stage keeps its panel hanging from the top of the screen,
+   where its list of cards and its result line are read in the order they are written. */
+body.is-focus [data-view="opening"].is-active {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - (2 * var(--space-4)) - env(safe-area-inset-bottom, 0px));
+  justify-content: safe center;
+}
+
+/* Everything that was placed relative to the bottom bar follows it out of the screen - the toast
+   stack, which would otherwise hover 4.5rem above the bottom of an empty page. The notification
+   banner needs nothing: `NotificationCenter` measures the bottom of the header to place it, and a
+   hidden header measures zero. */
+body.is-focus {
+  --nav-height: 0px;
 }
 
 

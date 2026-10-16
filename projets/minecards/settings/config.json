@@ -137,5 +137,15 @@
     "defaultPath": "settings/default_profile_icons.json",
     "unlockablePath": "data/icon.json",
     "directory": "data/profile_icons"
+  },
+
+  "shop": {
+    "itemsValues": {
+      "Stone Dust": 1,
+      "Sculk Dust": 5,
+      "Glowstone Dust": 20,
+      "Void Dust": 50,
+      "Ultima": 100
+    }
   }
 }

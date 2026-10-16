@@ -95,12 +95,21 @@ body[data-animation="epic"] .booster-3d::before {
   }
 }
 
-/* Dust motes drifting up in the light, behind the spotlight card. Two layers of dots at
-   different speeds: cheap, and it never asked the compositor for more than it can give. */
-body[data-animation="epic"] .opening__stage::before {
+/* Dust motes drifting up in the light, behind the cards. Two layers of dots at different speeds:
+   cheap, and it never asked the compositor for more than it can give.
+
+   They cover the WHOLE opening screen, not the box of the spotlight card: the ritual is one scene
+   from the pack landing to the summary, and light that drifts only around one card made the rest
+   of the screen look like it was switched off. The pseudo-element therefore hangs on the SCENE
+   (which exists for the whole ritual and is `hidden` on the picker screen), is `fixed` - the scene
+   is a plain `position: relative` box, so it really is the viewport - and carries a NEGATIVE
+   `z-index`: dots painted in the in-flow layer would end up over the hints and the texts, while a
+   negative one stays above the background of the page and below everything the player reads. */
+body[data-animation="epic"] .opening__scene::before {
   content: '';
-  position: absolute;
-  inset: -18% -8%;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   pointer-events: none;
   opacity: 0.4;
   background-image:

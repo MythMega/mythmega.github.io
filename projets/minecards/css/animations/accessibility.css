@@ -22,7 +22,7 @@
   body[data-animation="epic"] .booster-3d.is-tearing .booster-3d__fallback,
   body[data-animation="epic"] .booster-3d.is-tearing::after,
   body[data-animation="epic"] .booster-3d.is-tearing::before,
-  body[data-animation="epic"] .opening__stage::before,
+  body[data-animation="epic"] .opening__scene::before,
   body[data-animation="epic"] .opening__stage .card-reveal__card,
   body[data-animation="epic"] .opening__stage .card-reveal__card.is-entering-next,
   body[data-animation="epic"] .opening__stage .card-reveal__card.is-entering-prev,

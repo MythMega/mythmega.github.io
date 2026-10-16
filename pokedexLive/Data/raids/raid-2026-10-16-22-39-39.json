@@ -1,0 +1,246 @@
+{
+  "bossName": "Vivaldaim",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Deerling_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Deerling_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 70000,
+  "date": "2026-10-16 22:39:39",
+  "durationSec": 46,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 61283,
+      "countAtk": 10,
+      "baseDmg": 8728,
+      "level": 16,
+      "raidCount": 356,
+      "luck": 0.70214254
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 17500,
+      "countAtk": 1,
+      "baseDmg": 42654,
+      "level": 20,
+      "raidCount": 1136,
+      "luck": 0.41027805
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "jmdevfr",
+      "damage": 281,
+      "countAtk": 1,
+      "baseDmg": 281,
+      "level": 5,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 79064
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 4
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-16 22:39:53",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 281,
+      "pvAfter": 69719,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 22:39:56",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8728,
+      "pvAfter": 60991,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 22:39:56",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8732,
+      "pvAfter": 52259,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 22:39:57",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8728,
+      "pvAfter": 43531,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-10-16 22:39:58",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 43531,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 22h44:57."
+    },
+    {
+      "at": "2026-10-16 22:39:59",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 43531,
+      "heal": false,
+      "critical": true,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 22h44:57."
+    },
+    {
+      "at": "2026-10-16 22:39:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 17500,
+      "pvAfter": 26031,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 22:40:00",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 26031,
+      "heal": false,
+      "critical": true,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 22h44:57."
+    },
+    {
+      "at": "2026-10-16 22:40:06",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 26031,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 22h44:57."
+    },
+    {
+      "at": "2026-10-16 22:40:18",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 26031,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "jmdevfr a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-10-16 22:40:23",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8753,
+      "pvAfter": 17278,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 22:40:24",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 13099,
+      "pvAfter": 4179,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-16 22:40:25",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 13243,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 [
     {
         "file": "./assets/img/profile/default/minecards.png",
-        "name": "Minecards"
+        "name": "Minecards",
+        "defaultProfile": true
     },
     {
         "file": "./assets/img/profile/default/steve.png",
@@ -13,34 +14,42 @@
     },
     {
         "file": "./assets/img/profile/default/pig.png",
-        "name": "Pig"
+        "name": "Pig",
+        "requiredLevel": 2
     },
     {
         "file": "./assets/img/profile/default/cow.png",
-        "name": "Cow"
+        "name": "Cow",
+        "requiredLevel": 3
     },
     {
         "file": "./assets/img/profile/default/sheep.png",
-        "name": "Sheep"
+        "name": "Sheep",
+        "requiredLevel": 4
     },
     {
         "file": "./assets/img/profile/default/chicken.png",
-        "name": "Chicken"
+        "name": "Chicken",
+        "requiredLevel": 8
     },
     {
         "file": "./assets/img/profile/default/zombie.png",
-        "name": "Zombie"
+        "name": "Zombie",
+        "requiredLevel": 5
     },
     {
         "file": "./assets/img/profile/default/creeper.png",
-        "name": "Creeper"
+        "name": "Creeper",
+        "requiredLevel": 6
     },
     {
         "file": "./assets/img/profile/default/skeleton.png",
-        "name": "Skeleton"
+        "name": "Skeleton",
+        "requiredLevel": 7
     },
     {
         "file": "./assets/img/profile/default/enderman.png",
-        "name": "Enderman"
+        "name": "Enderman",
+        "requiredLevel": 9
     }
 ]

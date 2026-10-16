@@ -91,11 +91,40 @@
 }
 
 .trophy-tile {
+  position: relative;
   display: flex;
   flex: 0 0 calc((100% - 2 * var(--space-3)) / 3);
   max-width: 11rem;
   animation: trophy-tile-in var(--duration-base) var(--easing-standard) backwards;
   animation-delay: calc(var(--tile-index, 0) * 25ms);
+}
+
+/* A pinned trophy is flagged on the tile: the catalogue is where the three highlighted trophies are
+   picked, and the pin itself is only toggled from the detail modal. */
+.trophy-tile[data-pinned="true"] .trophy-tile__open {
+  border-color: var(--color-accent);
+}
+
+.trophy-tile__pin {
+  position: absolute;
+  top: calc(-1 * var(--space-1));
+  right: calc(-1 * var(--space-1));
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.trophy-tile__pin img {
+  width: 0.78rem;
+  height: 0.78rem;
+  object-fit: contain;
+  filter: var(--icon-filter);
 }
 
 /* From the tablet up there is room for five tiles per row. */
@@ -377,7 +406,7 @@
 
 .trophy-card__image {
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: var(--card-ratio);
   object-fit: contain;
   border-radius: var(--radius-sm);
   background-color: var(--color-surface-alt);

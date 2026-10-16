@@ -253,8 +253,13 @@ body[data-animation="epic"] .card-reveal__card--r5.is-flipped::after {
 }
 
 /* ... and mythics breathe in the spotlight. `card-glow-strong` already runs on the front face;
-   this is the whole card leaning in and out of the light. */
-body[data-animation="epic"] .card-reveal__card--r5.is-flipped {
+   this is the whole card leaning in and out of the light.
+
+   The Mine Pick stage is EXCLUDED (`:not(.minepick__card)`), like in `css/components/
+   card-reveal.css`: the outline of a card there belongs to the ring of `css/views/minepick.css`
+   (rarity colour, then green for the card that was kept), and this rule is MORE specific than
+   that one, so a blue `outline-color` would repaint a mythic and hide the green. */
+body[data-animation="epic"] .card-reveal__card--r5.is-flipped:not(.minepick__card) {
   outline-color: var(--color-accent);
 }
 

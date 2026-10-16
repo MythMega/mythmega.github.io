@@ -39,6 +39,57 @@
   color: var(--color-text-muted);
 }
 
+/* The bar of the filter panel: the button that opens the popup, the small badge of the active
+   filter count and the line that names it. It spans every column, like the search does. */
+.collection__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  grid-column: 1 / -1;
+}
+
+.collection__filter-open {
+  gap: var(--space-2);
+}
+
+.collection__filter-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+/* `hidden` alone is not enough on an element that has a `display` of its own. */
+.collection__filter-badge[hidden] {
+  display: none;
+}
+
+.collection__summary {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* The binders button of the view header: the same icon as the header counter, at the size of the
+   text next to it (it names the door, it does not count what is behind it). */
+.collection__binders-open {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.collection__binders-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  object-fit: contain;
+}
+
 .collection__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -141,7 +192,7 @@
 
 .collection__image {
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: var(--card-ratio);
   object-fit: contain;
   border-radius: var(--radius-sm);
   background-color: var(--color-surface-alt);
@@ -191,7 +242,7 @@
 .collection-modal__art {
   position: relative;
   height: min(46vh, 32rem);
-  aspect-ratio: var(--card-reveal-art-ratio, 0.72);
+  aspect-ratio: var(--card-reveal-art-ratio, var(--card-ratio));
   width: auto;
   margin-inline: auto;
 }
@@ -205,20 +256,71 @@
   background-color: var(--color-surface-alt);
 }
 
-/* --- Foil reflection toggle (detail modal) ------------------------------- */
+/* --- Developer block (detail modal) -------------------------------------- */
 
-.collection-shine {
+/* Only exists while "Mode développeur" is on (settings). It shows the exact key of the open card -
+   the one the `collection` store is keyed on - and a button copying it, so an operator never has
+   to guess it from the illustration file name. The key wraps instead of overflowing: it is long by
+   nature ("SERIE-A1 _ W001_classic") and the dialog is 32rem wide at most. */
+.collection-dev {
   display: flex;
-  margin-top: var(--space-3);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
 }
 
-.collection-shine__toggle {
-  flex: 1 1 auto;
+.collection-dev__key {
+  flex: 1 1 12rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
 }
 
-.collection-shine__toggle.is-active {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+.collection-dev__copy {
+  flex: 0 0 auto;
+}
+
+/* --- Card effects switch (detail modal) ---------------------------------- */
+
+/* A label on the left, a real switch on the right (`css/base.css`, `.switch`). The whole ROW is the
+   control: the label pushes the switch to the right edge (`margin-right: auto`) so the track and its
+   caption stay glued together, and a click anywhere on the row toggles instead of a dead caption
+   sitting next to a small target. The track itself keeps its own size, whatever the row does. */
+.collection-shine {
+  width: 100%;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-1);
+  border-radius: var(--radius-md);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.collection-shine:hover {
+  background-color: var(--color-surface-alt);
+}
+
+.collection-shine__label {
+  margin-right: auto;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+/* Promo card: the trade block is replaced by the reason there is none. Purple, the tone of every
+   promo mark (`--color-promo`, same as the chip on the tile), so the two read as one thing. */
+.collection-trade__locked {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-promo);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
 }
 
 @keyframes collection-pop {
@@ -331,6 +433,65 @@
   height: 1em;
   vertical-align: -0.15em;
   object-fit: contain;
+}
+
+/* --- Filter & sort popup -------------------------------------------------- */
+
+/* The popup is one scrolling column of sections: extensions (the long one), then the single-choice
+   rows, then the live count. Every section is a title and a row of pills that wrap. */
+.collection-filter {
+  gap: var(--space-4);
+}
+
+.collection-filter__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.collection-filter__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.collection-filter__option {
+  min-height: var(--touch-target);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.collection-filter__option:hover {
+  border-color: var(--color-accent);
+}
+
+.collection-filter__option:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* An active toggle is FILLED: in a popup full of pills, an outline alone does not read. */
+.collection-filter__option.is-active {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-weight: 700;
+}
+
+.collection-filter__count {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {

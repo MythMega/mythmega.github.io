@@ -143,6 +143,18 @@ body[data-theme="classic"],
   --color-promo: #8b5cf6;
 }
 
+/* Rarity rings.
+
+   Declared once on `:root` for the same reason as the trophy medals below: they are NOT theme
+   colors. A legendary card is ringed in gold, a mythic one in pink and a super rare one in purple
+   in the dark, light and classic palettes alike, so a ring always means the same rarity. Mid-tone
+   values, readable on the dark and on the light surfaces. */
+:root {
+  --color-rarity-super: #a855f7;
+  --color-rarity-legendary: #e0a63a;
+  --color-rarity-mythic: #f472b6;
+}
+
 /* Trophy medals (bronze -> emerald).
 
    Declared once on `:root` because they are NOT theme colors: a bronze trophy is bronze in the

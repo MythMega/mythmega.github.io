@@ -1,15 +1,19 @@
-[
-    {
-      "Index": "PROMO-A1 / 001",
-      "Name_FR": "Cochon Volant",
-      "Name_EN": "Flying Pig",
-      "Desc_FR": "Les cochons (nom anglais : pigs) sont des créatures passives qui peuvent être chevauchées avec une selle.",
-      "Desc_EN": "A pig is a passive mob found commonly in most grassy biomes. Adult pigs are a source of porkchops and can be ridden using a saddle and a carrot on a stick. They have three variants based on the temperature of the biome they spawn in.",
-      "Rarity": 5,
-      "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_pig.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_pig.png",
-      "Layout": "fullart",
-      "Path": "./cards/A1-Promo/<lang>/PROMO-A1 _ 001_fullart.png"
-    }
-]
+{
+  "Serie": "Promo A1",
+  "Name": "Promo Genesis Block",
+  "Card": [
+      {
+        "Index": "PROMO-A1 / B01",
+        "Name_FR": "Build It Spideryde",
+        "Name_EN": "Build It Spideryde",
+        "Desc_FR": "Construction pyramidale arachnide. En hyperlapse.",
+        "Desc_EN": "Arachnid pyramid build. By hyperlapse !",
+        "Rarity": 5,
+        "Style": "Press Start 2P (Pixel)",
+        "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_pig.png",
+        "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_pig.png",
+        "Layout": "fullart",
+        "Path": "./cards/A1-Promo/<lang>/PROMO-A1 _ B01_fullart.png"
+      }
+  ]
+}

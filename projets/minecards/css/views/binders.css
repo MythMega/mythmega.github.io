@@ -1,0 +1,601 @@
+/* =============================================================================
+   binders.css - The personal binders: the list, the editor and the card picker.
+
+   A binder is a NAMED page of 30 slots (see `BinderManager`). Two rules shape everything here:
+     1. the page is laid out on rows of THREE, always, whatever the width of the screen;
+     2. the backdrop of a page is the `Background` image of its representative card, published by
+        the view as `--binder-backdrop` on the element itself - the stylesheet never hard-codes a
+        URL, and simply draws that custom property when it is set (a binder with no cover simply
+        has no backdrop).
+
+   Colors come exclusively from `css/themes.css`.
+   ============================================================================= */
+
+/* --- The list of binders (popup) ------------------------------------------ */
+
+.binders__summary {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.binders__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.binders__item {
+  position: relative;
+  display: flex;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  /* The row previews the page: the backdrop of the binder already shows behind its title. */
+  background-image: var(--binder-backdrop, none);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+/* A veil keeps the title readable over any backdrop. */
+.binders__item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--overlay);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.binders__open {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  grid-template-areas:
+    'thumb name'
+    'thumb count';
+  align-items: center;
+  gap: 0 var(--space-3);
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--space-3);
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.binders__open:hover,
+.binders__open:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.binders__thumb {
+  grid-area: thumb;
+  display: block;
+  aspect-ratio: var(--card-ratio);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  overflow: hidden;
+}
+
+.binders__thumb-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.binders__name {
+  grid-area: name;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.binders__count {
+  grid-area: count;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* The actions of a row: OPEN, SHARE then DELETE, side by side at the trailing edge of the row. The
+   separator of the row is drawn once by the group, so adding an action never doubles it. */
+.binders__actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  border-left: 1px solid var(--color-border);
+}
+
+/* "Open": the read-only page of the binder, in a new tab. A NAMED button rather than a third glyph
+   - it is not the same gesture as the share one (nothing is copied, the page is simply put on
+   screen) and two arrows would say neither. */
+.binders__view {
+  margin-inline: var(--space-2);
+  white-space: nowrap;
+}
+
+.binders__share,
+.binders__remove {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  width: var(--touch-target);
+  border: 0;
+  background: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* Two square cells, so the two glyphs sit on the same baseline however wide they are. */
+.binders__share + .binders__remove {
+  border-left: 1px solid var(--color-border);
+}
+
+.binders__share svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.binders__remove {
+  font-size: var(--font-size-lg);
+  line-height: 1;
+}
+
+.binders__share:hover,
+.binders__share:focus-visible {
+  color: var(--color-accent);
+}
+
+.binders__remove:hover,
+.binders__remove:focus-visible {
+  color: var(--color-error);
+}
+
+/* --- The editor ----------------------------------------------------------- */
+
+.binder-editor__field {
+  width: 100%;
+}
+
+.binder-editor__cover {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.binder-editor__cover-button {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.binder-editor__cover-button:hover,
+.binder-editor__cover-button:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.binder-editor__cover-image {
+  width: 1.75rem;
+  aspect-ratio: var(--card-ratio);
+  object-fit: contain;
+}
+
+/* The page: the 30 slots over the backdrop of the representative card. The backdrop is drawn
+   BEHIND a translucent surface, so the slots stay readable whatever the image is. */
+.binder-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  background-image: var(--binder-backdrop, none);
+  background-size: cover;
+  background-position: center;
+}
+
+/* The creation tile: the last line of the list. It wears the SHAPE of the rows above it (same
+   width, same radius, same height as a row) but its border is dashed and it carries a big "+":
+   the list ends on "one more page" rather than on a form button. */
+.binders__create {
+  display: flex;
+}
+
+.binders__create-button {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  /* The height of a row: its thumbnail (`2.75rem` wide, at the ratio of a card, so `1000 / 720`
+     tall) plus the padding and the border of the row it imitates. Matching it exactly is what makes
+     the tile read as one more page rather than as a form button. */
+  min-height: calc(2 * var(--space-3) + 2px + 2.75rem * 1000 / 720);
+  padding: var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: color-mix(in srgb, var(--color-surface-alt) 55%, transparent);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.binders__create-button:hover,
+.binders__create-button:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* The three columns are the shape of a binder, never a responsive choice: a page is read row by
+   row, and a fourth column would break every page ever built. */
+.binder-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.binder-slot {
+  /* The foil of a high rarity (`css/components/card-shine.css`, appended by `applyShine`) is painted
+     by absolutely positioned layers inside this box: the slot is their window, so it has to be their
+     positioning context. They take the ratio of the illustration from `--card-ratio`, the fallback
+     the stylesheet already carries for a box that never publishes `--card-reveal-art-ratio`. */
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: var(--card-ratio);
+  padding: 0;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  /* Semi-transparent on purpose: the backdrop of the page shows through the empty slots. */
+  background-color: color-mix(in srgb, var(--color-surface) 72%, transparent);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+}
+
+.binder-slot:hover,
+.binder-slot:focus-visible {
+  border-color: var(--color-accent);
+  border-style: solid;
+  transform: translateY(-2px);
+}
+
+.binder-slot.is-filled {
+  border-style: solid;
+}
+
+.binder-slot__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.binder-slot__mark {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+/* --- The card picker ------------------------------------------------------ */
+
+/* The cards offered to a slot: FIVE per row from the tablet up, exactly like the collection grid the
+   player is already used to - a binder is filled by browsing a collection, and a narrower grid means
+   scrolling five times as far to find the same card. A phone keeps three columns, where five would
+   leave a thumbnail too small to recognise.
+
+   The selector is TWO classes on purpose. The body of every modal is a column flex container
+   (`.modal__body`, `css/components/modal.css`), and that stylesheet is loaded AFTER this one: at
+   equal specificity its `display: flex` therefore won, and the picker that was declared a grid here
+   has always been painted as a single column of cards, one per line. Naming the element by both of
+   its classes puts this rule above `.modal__body` whatever the order of the files - which is also
+   why the track list is repeated below instead of the `gap` alone. */
+.modal__body.binder-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .modal__body.binder-picker {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.binder-picker__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-size-xs);
+  text-align: center;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.binder-picker__card:hover,
+.binder-picker__card:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.binder-picker__card.is-current {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-accent);
+}
+
+.binder-picker__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--card-ratio);
+  object-fit: contain;
+}
+
+.binder-picker__name {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+}
+
+.binder-picker__left {
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .binder-slot {
+    transition: none;
+  }
+}
+
+/* --- The read-only page of a shared binder (`collection.html?code=…`) ----- */
+
+/* Same page component as the editor, in a standalone document: it is centred, capped in width and
+   carries the identity of the author above it.
+
+   `body` is already a COLUMN flex container (`css/base.css`): the axis that centres the panel is
+   therefore `align-items`, not `justify-content`. Which is exactly the correction of a bug - the
+   page used to declare `align-items: flex-start` with `justify-content: center`, so the 46rem panel
+   was centred VERTICALLY and glued to the left edge horizontally, and a wide screen showed the
+   binder hanging in the left half of the window. Stated in both directions here so the rule no
+   longer depends on what the shell of the document happens to be. */
+.binder-share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.binder-share__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: min(100%, 46rem);
+}
+
+.binder-share__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+/* The avatar of the pill: the icon the code carries, or - when it carries none - the question mark
+   the profile page of the game shows in the same case. One box for both, so the pill never changes
+   size with the picture it happens to have. */
+.binder-share__avatar,
+.binder-share__avatar-fallback {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.binder-share__avatar {
+  object-fit: contain;
+}
+
+.binder-share__avatar-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--color-accent);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+}
+
+/* `[hidden]` is not enough on an element with a `display` of its own. */
+.binder-share__avatar[hidden],
+.binder-share__avatar-fallback[hidden],
+.binder-share__author[hidden] {
+  display: none;
+}
+
+.binder-share__author {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.binder-share__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+}
+
+.binder-share__meta {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.binder-share__empty {
+  margin: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  text-align: center;
+}
+
+.binder-share__footer {
+  display: flex;
+  justify-content: center;
+}
+
+/* A FILLED slot of a shared page is a button - it opens the detail of its card - so it keeps the
+   pointer and the focus ring of one; it loses the `:hover` LIFT of the editor, because a shared
+   page is read, and a card that jumps under the cursor is a page that does not hold still. */
+.binder-slot--shared.is-filled {
+  transform: none;
+}
+
+.binder-slot--shared.is-filled:hover,
+.binder-slot--shared.is-filled:focus-visible {
+  border-color: var(--color-border);
+  transform: none;
+}
+
+/* An EMPTY slot of a shared page is a hole of the layout, not a control: no pointer, no ring. */
+.binder-slot.is-empty {
+  border-style: dashed;
+  background-color: color-mix(in srgb, var(--color-surface) 45%, transparent);
+  cursor: default;
+  transform: none;
+}
+
+/* --- The identity row of a shared binder ---------------------------------- */
+
+/* The photo and the pseudo of the author, as one pill above the title of the page. */
+.binder-share__identity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-1);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+}
+
+/* `[hidden]` is not enough on an element with a `display` of its own. */
+.binder-share__identity[hidden] {
+  display: none;
+}
+
+.binder-share__hint {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* `[hidden]` is not enough on an element with a `display` of its own. */
+.binder-share__hint[hidden] {
+  display: none;
+}
+
+/* --- The detail dialog of a shared card ----------------------------------- */
+
+.binder-share__card {
+  align-items: stretch;
+}
+
+/* The window of the foil: the artwork at the ratio of a card, and the positioning context the
+   layers of `css/components/card-shine.css` need. */
+.binder-share__art {
+  position: relative;
+  align-self: center;
+  width: min(100%, 14rem);
+  aspect-ratio: var(--card-ratio);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.binder-share__art-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.binder-share__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.binder-share__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.binder-share__term {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.binder-share__value {
+  margin: 0;
+  color: var(--color-text);
+  text-align: right;
+}

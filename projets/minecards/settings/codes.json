@@ -24,8 +24,13 @@
         "Rewards": [
             {
                 "RewardType": "Booster",
-                "Quantity": 3,
+                "Quantity": 30,
                 "ItemId": "A1"
+            },
+            {
+                "RewardType": "Booster",
+                "Quantity": 30,
+                "ItemId": "A2"
             },
             {
                 "RewardType": "Card",
@@ -35,13 +40,29 @@
             },
             {
                 "RewardType": "Sparks",
-                "Quantity": 100
+                "Quantity": 100000000
             }
         ],
         "Availabilities" : {
             "StartDate": null,
-            "EndDate": "2026-10-15"
+            "EndDate": "2026-10-25"
         },
         "Repeatable": true
+    },
+    {
+        "Code": "SPIDERD4NCE",
+        "Rewards": [
+            {
+                "RewardType": "Card",
+                "Quantity": 1,
+                "ItemId": "PROMO-A1 / B01",
+                "PreferedLayout": null
+            },
+            {
+                "RewardType": "Sparks",
+                "Quantity": 5
+            }
+        ],
+        "Repeatable": false
     }
 ]

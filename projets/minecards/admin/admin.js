@@ -43,6 +43,19 @@ const CONFIG_PATH = '../settings/config.json';
 /** Default directory of the booster JSONs, used when `config.json` omits `boosters.directory`. */
 const DEFAULT_BOOSTER_DIRECTORY = 'data/boosters';
 
+/** Default directory of the promo JSONs, used when `config.json` omits `promos.directory`. */
+const DEFAULT_PROMO_DIRECTORY = 'data/promo_cards';
+
+/**
+ * Suffix appended to the parent extension id to build a promo group id (`A1` -> `A1-Promo`).
+ *
+ * Mirrors `PROMO_SET_SUFFIX` of `js/business/PromoSet.js`. It is duplicated rather than imported
+ * because this page loads standalone (`admin/` has its own HTML) and only needs the string to NAME
+ * the group, not to resolve anything: the canonical item of a code is built from `Index` + `Layout`,
+ * which the game reads from the same value.
+ */
+const PROMO_SET_SUFFIX = '-Promo';
+
 /** Placeholder key shipped in `config.json`: it must be replaced before any real distribution. */
 const PLACEHOLDER_KEY = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=';
 
@@ -229,10 +242,58 @@ function resolveKey(config) {
 }
 
 /**
- * Loads every declared extension and its cards (the same source `RedeemManager` uses).
+ * Reads one catalog file (relative to `admin/`) and returns its parsed payload.
+ *
+ * @param {string} directory - Directory holding the file, relative to the application root.
+ * @param {string} fileName - File basename, without its extension.
+ * @returns {Promise<object>} The parsed JSON.
+ * @throws {Error} When the request fails or the payload is not JSON.
+ */
+async function fetchCatalogFile(directory, fileName) {
+  const response = await fetch(`../${directory}/${fileName}.json`, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
+
+/**
+ * Reads the card rows of a catalog payload, in the shape the reward editor needs.
+ *
+ * Both spellings of the list are accepted: `Cards`/`cards` in an extension file, `Card` in a promo
+ * file. Only `Index` and `Layout` matter - they are what `canonicalCard()` is built from - so an
+ * entry missing either one is dropped rather than offered as a reward that could never match.
+ *
+ * @param {object} raw - Parsed catalog payload.
+ * @returns {Array<{index: string, layout: string, name: string|null}>} The card options.
+ */
+function collectCardRows(raw) {
+  const entries = Array.isArray(raw?.Cards)
+    ? raw.Cards
+    : Array.isArray(raw?.cards)
+      ? raw.cards
+      : Array.isArray(raw?.Card)
+        ? raw.Card
+        : [];
+
+  return entries
+    .filter((entry) => entry && typeof entry.Index === 'string' && typeof entry.Layout === 'string')
+    .map((entry) => ({
+      index: entry.Index,
+      layout: entry.Layout,
+      name: typeof entry.Name_FR === 'string' ? entry.Name_FR : null,
+    }));
+}
+
+/**
+ * Loads every declared extension AND every declared promo group (the same sources the game uses).
+ *
+ * The promo groups are part of the catalog on purpose: a personal code can grant a promo card
+ * exactly like a drawn one (that is the only way such a card ever enters a collection), so the
+ * operator must be able to pick one here. They are read from `promos` in `settings/config.json`,
+ * fall back to one file per declared extension, and a series without a promo file is simply skipped:
+ * a missing promo is the normal case, never an error.
  *
  * @param {object} config - Parsed configuration.
- * @returns {Promise<Array<{setId: string, name: string, cards: Array<{index: string, layout: string, name: string|null}>}>>}
+ * @returns {Promise<Array<{setId: string, name: string, promo: boolean, cards: Array<{index: string, layout: string, name: string|null}>}>>}
  *   The catalog.
  * @throws {Error} When a declared extension file cannot be read.
  */
@@ -247,28 +308,59 @@ async function loadCatalog(config) {
   for (const setId of sets) {
     let raw;
     try {
-      const response = await fetch(`../${directory}/${setId}.json`, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      raw = await response.json();
+      raw = await fetchCatalogFile(directory, setId);
     } catch (error) {
       throw new Error(`Extension « ${setId} » illisible (${directory}/${setId}.json).`, { cause: error });
     }
 
-    const entries = Array.isArray(raw?.Cards) ? raw.Cards : Array.isArray(raw?.cards) ? raw.cards : [];
-    const cards = entries
-      .filter((entry) => entry && typeof entry.Index === 'string' && typeof entry.Layout === 'string')
-      .map((entry) => ({
-        index: entry.Index,
-        layout: entry.Layout,
-        name: typeof entry.Name_FR === 'string' ? entry.Name_FR : null,
-      }));
-
     result.push({
       setId,
       name: typeof raw?.Name === 'string' && raw.Name !== '' ? raw.Name : setId,
+      promo: false,
+      cards: collectCardRows(raw),
+    });
+  }
+
+  const promoDirectory =
+    typeof config?.promos?.directory === 'string' && config.promos.directory.trim() !== ''
+      ? config.promos.directory.trim().replace(/^\.\//, '')
+      : DEFAULT_PROMO_DIRECTORY;
+  // An empty `promos.sets` means "one file per extension", exactly like in the game
+  // (`ConfigLoader.getPromoSettings()`).
+  const promoSets =
+    Array.isArray(config?.promos?.sets) && config.promos.sets.length > 0
+      ? config.promos.sets
+      : sets;
+
+  for (const parentId of promoSets) {
+    const setId = `${parentId}${PROMO_SET_SUFFIX}`;
+    let raw;
+    try {
+      raw = await fetchCatalogFile(promoDirectory, parentId);
+    } catch (error) {
+      console.info(
+        `[Admin] Pas de promo pour « ${parentId} » (${promoDirectory}/${parentId}.json), série ignorée.`
+      );
+      continue;
+    }
+
+    const cards = collectCardRows(raw);
+    if (cards.length === 0) {
+      console.warn(`[Admin] « ${promoDirectory}/${parentId}.json » ne déclare aucune carte promo : ignoré.`);
+      continue;
+    }
+
+    // `Name` is the title of the series, `Serie` its short label (`data/promo_cards/*.json`).
+    const declaredName = typeof raw?.Name === 'string' && raw.Name !== '' ? raw.Name : null;
+    const declaredLabel = typeof raw?.Serie === 'string' && raw.Serie !== '' ? raw.Serie : null;
+    result.push({
+      setId,
+      name: declaredName ?? declaredLabel ?? setId,
+      promo: true,
       cards,
     });
   }
+
   return result;
 }
 
@@ -320,6 +412,9 @@ function buildKindSelect(value) {
 /**
  * Builds the `<select>` of the extensions (disabled when no extension is known).
  *
+ * The promo groups are listed after the extensions, marked `promo`, so the operator sees at once
+ * which families are not drawable.
+ *
  * @returns {HTMLSelectElement} The select element.
  */
 function buildSetSelect() {
@@ -329,7 +424,7 @@ function buildSetSelect() {
   (catalog ?? []).forEach((set) => {
     const option = document.createElement('option');
     option.value = set.setId;
-    option.textContent = `${set.name} (${set.setId})`;
+    option.textContent = `${set.promo ? 'Promo · ' : ''}${set.name} (${set.setId})`;
     select.appendChild(option);
   });
   select.disabled = (catalog ?? []).length === 0;

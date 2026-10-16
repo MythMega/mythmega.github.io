@@ -553,6 +553,9 @@ export class MinePickView {
     entry.cards.forEach((card) => {
       cards.appendChild(
         this.buildMiniCard(card, {
+          // A pack only tells what it held once it has been opened AND picked from: the ring of a
+          // legendary is information, and the board would otherwise hand it over for free.
+          revealed: Boolean(picked),
           kept: Boolean(picked) && picked.key === card.uniqueKey,
           discarded: Boolean(picked) && picked.key !== card.uniqueKey,
         })
@@ -603,14 +606,17 @@ export class MinePickView {
    *
    * @param {object} card - Card to display.
    * @param {object} [options] - Thumbnail options.
+   * @param {boolean} [options.revealed=false] - True once the pack was opened and picked from: only
+   *   then does the thumbnail carry the rarity ring of the card (see `css/views/minepick.css`).
    * @param {boolean} [options.kept=false] - True for the card the player kept (marked).
    * @param {boolean} [options.discarded=false] - True for a card that was offered but not kept.
    * @returns {HTMLElement} The `<li>` of the pack.
    */
-  buildMiniCard(card, { kept = false, discarded = false } = {}) {
+  buildMiniCard(card, { revealed = false, kept = false, discarded = false } = {}) {
     const item = document.createElement('li');
     item.className = `minepick__mini minepick__mini--r${card.rarity}`;
     if (card.isFullArt) item.classList.add('minepick__mini--fullart');
+    if (revealed) item.classList.add('is-revealed');
     if (kept) item.classList.add('is-kept');
     if (discarded) item.classList.add('is-discarded');
 
@@ -785,7 +791,9 @@ export class MinePickView {
       const component = new CardComponent(card, { isNew: false, flipOnClick: false });
       const element = component.render();
       element.dataset.minepickCard = String(cardIndex);
-      element.classList.add('minepick__card');
+      // The rarity is duplicated on the stage element as a plain class: the ring of the card is
+      // drawn by `minepick.css`, which must not have to know the internal classes of `CardComponent`.
+      element.classList.add('minepick__card', `minepick__card--r${card.rarity}`);
       element.disabled = true;
       this.cardComponents.push(component);
       this.cardsElement.appendChild(element);
@@ -1065,14 +1073,34 @@ export class MinePickView {
    */
   revealOtherCards(keptIndex) {
     const step = this.resolveRevealStep();
+    let lastTurn = 0;
     this.cardComponents.forEach((component, index) => {
       if (index === keptIndex) return;
+      const delay = step * (index + 1);
+      lastTurn = Math.max(lastTurn, delay);
       this.setViewTimeout(() => {
         if (component.flip()) {
           soundManager.play(SOUNDS.CARD_RETURN);
         }
-      }, step * (index + 1));
+      }, delay);
     });
+    // The rarity rings of the pack appear ONLY once the last card has finished turning over: the
+    // pack keeps its secret until the player has looked at all five of them.
+    this.setViewTimeout(() => this.markPackRevealed(), lastTurn + this.resolveFlipDuration());
+  }
+
+  /**
+   * Marks the end of the pick: every card of the pack is face up.
+   *
+   * This is the ONLY moment the rarity rings of the pick stage appear (`.is-summary`, see the rarity
+   * rules of `css/views/minepick.css`). Drawn any earlier - they used to be drawn from the deal, on
+   * every card of the pack - they hand the player the rarity of the four cards they did not keep
+   * while those are still turning over, which is exactly what a face-down pack is there to hide.
+   *
+   * @returns {void}
+   */
+  markPackRevealed() {
+    this.cardsElement?.classList.add('is-summary');
   }
 
   /**
@@ -1189,8 +1217,9 @@ export class MinePickView {
     this.cardComponents = [];
     if (this.cardsElement) {
       this.cardsElement.textContent = '';
-      // The classes of the sequence live on the container, not on the cards it just dropped.
-      this.cardsElement.classList.remove('is-dealing', 'is-shuffling', 'is-hitting');
+      // The classes of the sequence live on the container, not on the cards it just dropped. The
+      // RINGS of the pack go with them: a new pack starts with its rarities hidden again.
+      this.cardsElement.classList.remove('is-dealing', 'is-shuffling', 'is-hitting', 'is-summary');
     }
     this.keptIndex = null;
     this.isPicking = false;

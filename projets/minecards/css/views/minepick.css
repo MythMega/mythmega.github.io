@@ -207,7 +207,7 @@
 .minepick__mini {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: var(--card-ratio);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background-color: var(--color-surface);
@@ -221,23 +221,46 @@
   object-fit: contain;
 }
 
-.minepick__mini--r4 {
-  border-color: var(--color-accent);
-  box-shadow: var(--glow-rarity-4);
-}
-
-.minepick__mini--r5 {
-  border-color: var(--color-accent);
-  box-shadow: var(--glow-rarity-5);
-}
-
+/* The full art printing keeps its accented edge on the rarities that carry no ring of their own: a
+   legendary or a mythic must stay gold or pink whatever its printing, and the full bleed of the
+   artwork already tells a full art from a classic one. It is therefore NOT gated on `is-revealed`:
+   it names the printing, which the thumbnail shows anyway, while the ring below names the RARITY.
+   The rarity rules carry one class more (`is-revealed`), so they win whatever this order is. */
 .minepick__mini--fullart {
   border-color: var(--color-accent);
 }
 
-/* A card that was kept is the one the pack gave away: it stays lit, the others fade. */
+/* The rarity ring of a thumbnail: the thickness AND the hue carry the rarity. Thin purple for a
+   super rare, a small gold ring for a legendary, the thickest pink one for a mythic.
+
+   THE RING IS EARNED. It is drawn on `.is-revealed` and nowhere else: a pack that has not been
+   opened yet is listed as five closed cards, and a ring there would announce the legendary of every
+   pack of the board before the player has chosen one - the one piece of information the whole game
+   is about. `MinePickView.buildMiniCard()` sets the class once the pack was opened AND picked from,
+   which is also when the kept/discarded states appear. */
+.minepick__mini.is-revealed.minepick__mini--r3 {
+  border-color: var(--color-rarity-super);
+  border-width: 1px;
+  box-shadow: 0 0 8px var(--color-rarity-super);
+}
+
+.minepick__mini.is-revealed.minepick__mini--r4 {
+  border-color: var(--color-rarity-legendary);
+  border-width: 2px;
+  box-shadow: 0 0 10px var(--color-rarity-legendary);
+}
+
+.minepick__mini.is-revealed.minepick__mini--r5 {
+  border-color: var(--color-rarity-mythic);
+  border-width: 3px;
+  box-shadow: 0 0 14px var(--color-rarity-mythic);
+}
+
+/* A card that was kept is the one the pack gave away: the thickest ring of the board, in green -
+   on top of the rarity ring, and the others fade. */
 .minepick__mini.is-kept {
-  outline: 2px solid var(--color-accent);
+  border-color: var(--color-success);
+  outline: 3px solid var(--color-success);
   outline-offset: 2px;
 }
 
@@ -426,9 +449,41 @@
   }
 }
 
-/* The card the player keeps: outlined like a revealed legendary, so the choice is unmistakable. */
+/* The rarity ring of the pack on the pick stage, the same code as the thumbnails of the list: thin
+   purple, small gold, thicker pink. The outline (not a border) is deliberate - the card is a
+   flipping plane, and only an outline keeps `backface-visibility` intact.
+
+   THE RING IS EARNED, AND EARNED AT THE END. It is drawn on `.is-summary` and nowhere else: the view
+   sets that class once the player has kept a card AND the four others have finished turning over
+   (`MinePickView.markPackRevealed`). Without it the rings are up from the deal - on the backs, then
+   on the faces - and the pack announces the rarity of the four cards the player did not keep while
+   they are still turning over, which is the one thing a face-down pack is there to hide. The
+   thumbnails of the board rows are gated the same way (`is-revealed`).
+
+   The outline of the KEPT card is not one of these: it is the green confirmation of the choice, and
+   it is drawn the instant the player clicks (see `.is-kept` below), ring of rarity or not. */
+.minepick__cards.is-summary .minepick__card--r3 {
+  outline: 1px solid var(--color-rarity-super);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+.minepick__cards.is-summary .minepick__card--r4 {
+  outline: 2px solid var(--color-rarity-legendary);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+.minepick__cards.is-summary .minepick__card--r5 {
+  outline: 3px solid var(--color-rarity-mythic);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+/* The card the player keeps: the thickest ring of the stage, in green, over its rarity ring - so
+   the choice is unmistakable whatever the card is. */
 .minepick__cards .minepick__card.is-kept {
-  outline: 3px solid var(--color-accent);
+  outline: 4px solid var(--color-success);
   outline-offset: 4px;
   border-radius: var(--radius-md);
 }

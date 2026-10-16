@@ -12,10 +12,13 @@
  *                 `settings`. A mode flagged `parodic` in the configuration is advertised as a
  *                 deliberate joke (hazard banner + badge), and the panel carries a live DEMO of
  *                 the three stages of an opening so the choice is made by looking;
- *   - foil      : one slider ("Intensité du foil") driving `FoilManager.applyIntensity`, persisted
- *                 in `settings` as a percentage. The range comes from `config.json`, the value is
- *                 applied live (the demo card of the animation panel is a mythic, so the effect is
- *                 visible under the finger) and only the release writes to the database;
+ *   - foil      : TWO sliders, one per foil effect. "Intensité du foil" drives
+ *                 `FoilManager.applyIntensity` (the shapes of the print: grid, embossing, honeycomb,
+ *                 weave) and "Brillance" drives `FoilManager.applyGlareIntensity` (the bright line
+ *                 sweeping across the artwork). Each one is persisted in `settings` as a percentage,
+ *                 takes its range from `config.json` (`foil` and `foil.glare`), applies its value
+ *                 live (the demo card of the animation panel is a mythic, so the effect is visible
+ *                 under the finger) and only writes to the database on release;
  *   - sound     : one switch ("Sons") driving `SoundManager.setEnabled`, persisted in `settings`;
  *   - clock     : the trusted UTC time of the game (the header clock is hidden on a phone);
  *   - account   : the immutable UUID (read-only) with a copy button;
@@ -51,7 +54,7 @@ import giftManager, {
   GIFT_TYPES,
 } from '../../business/GiftManager.js';
 import Toast from '../components/Toast.js';
-import { getShineClasses } from '../components/CardComponent.js';
+import { applyShine } from '../components/CardComponent.js';
 
 /** View name, matching `data-view="settings"` in `index.html`. */
 export const SETTINGS_VIEW_NAME = 'settings';
@@ -84,11 +87,15 @@ export class SettingsView {
     this.animationNotice = query('[data-settings-animation-notice]');
     this.foilSlider = query('[data-settings-foil]');
     this.foilValueElement = query('[data-settings-foil-value]');
+    this.glareSlider = query('[data-settings-glare]');
+    this.glareValueElement = query('[data-settings-glare-value]');
     this.demoStage = query('[data-animation-demo-stage]');
     this.demoTiles = query('[data-animation-demo-tiles]');
     this.demoPlayButton = query('[data-animation-demo-play]');
     this.soundToggle = query('[data-settings-sound]');
     this.soundStateElement = query('[data-settings-sound-state]');
+    this.devToggle = query('[data-settings-dev]');
+    this.devModeStateElement = query('[data-settings-dev-state]');
     this.clockElement = query('[data-settings-utc]');
     this.clockDayElement = query('[data-settings-utc-day]');
     this.uuidElement = query('[data-settings-uuid]');
@@ -114,6 +121,8 @@ export class SettingsView {
     this.isActive = false;
     /** @type {boolean} True while an export/import/reset runs. */
     this.isBusy = false;
+    /** @type {boolean} Last known developer mode (the store is the source of truth). */
+    this.devMode = false;
     /** @type {string|null} UUID of the current account (read-only display). */
     this.uuid = null;
     /** @type {{key: string, tone: string, params: object|null}|null} Last feedback message. */
@@ -161,11 +170,15 @@ export class SettingsView {
       ['[data-settings-animations]', this.animationContainer],
       ['[data-settings-foil]', this.foilSlider],
       ['[data-settings-foil-value]', this.foilValueElement],
+      ['[data-settings-glare]', this.glareSlider],
+      ['[data-settings-glare-value]', this.glareValueElement],
       ['[data-animation-demo-stage]', this.demoStage],
       ['[data-animation-demo-tiles]', this.demoTiles],
       ['[data-animation-demo-play]', this.demoPlayButton],
       ['[data-settings-sound]', this.soundToggle],
       ['[data-settings-sound-state]', this.soundStateElement],
+      ['[data-settings-dev]', this.devToggle],
+      ['[data-settings-dev-state]', this.devModeStateElement],
       ['[data-settings-utc]', this.clockElement],
       ['[data-settings-uuid]', this.uuidElement],
       ['[data-settings-copy]', this.copyButton],
@@ -205,7 +218,9 @@ export class SettingsView {
     await this.renderAnimationSelector();
     this.renderAnimationDemo();
     this.renderFoilSlider();
+    this.renderGlareSlider();
     this.syncSoundToggle();
+    await this.syncDevToggle();
     await this.renderAccount();
     this.renderClock();
     this.bindEvents();
@@ -323,8 +338,9 @@ export class SettingsView {
       const card = document.createElement('span');
       card.className = 'card-reveal__card anim-demo__card card-reveal__card--r5';
       const front = SettingsView.buildDemoFace('front');
-      // Same rarity as the class above (`--r5`), so the demo and the reveal agree on the foil.
-      front.classList.add(...getShineClasses({ rarity: 5 }));
+      // Same rarity as the class above (`--r5`), so the demo and the reveal agree on the foil. The
+      // demo card is what both sliders of the panel below move under the finger.
+      applyShine(front, { rarity: 5 });
       card.append(SettingsView.buildDemoFace('back'), front);
       this.demoStage.appendChild(card);
       this.demoCard = card;
@@ -504,6 +520,65 @@ export class SettingsView {
   }
 
   /**
+   * Reflects the stored developer mode on its switch.
+   *
+   * Unlike the sounds, there is no manager holding the value in memory: the account settings ARE
+   * the state, so it is re-read here (another screen may have imported a save, and the collection
+   * reads the very same setting on every card it opens).
+   *
+   * @returns {Promise<void>} Resolves once the switch matches the stored preference.
+   */
+  async syncDevToggle() {
+    if (!this.devToggle) return;
+    let enabled = false;
+    try {
+      const settings = await accountManager.getSettings();
+      enabled = settings.devMode === true;
+    } catch (error) {
+      console.warn('[SettingsView] The developer mode could not be read.', error);
+    }
+    this.devMode = enabled;
+    this.devToggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+    if (this.devModeStateElement) {
+      this.devModeStateElement.textContent = i18n.t(enabled ? 'settings.dev.on' : 'settings.dev.off');
+    }
+  }
+
+  /**
+   * Flips the developer mode and persists it.
+   *
+   * The switch moves first so the tap feels immediate; a failed write moves it back and says why,
+   * like the sound preference: a switch left on that would come back off after a reload would lie.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleDevToggle() {
+    if (this.isBusy) return;
+
+    const previous = this.devMode;
+    const next = !previous;
+    this.devMode = next;
+    this.devToggle.setAttribute('aria-checked', next ? 'true' : 'false');
+    if (this.devModeStateElement) {
+      this.devModeStateElement.textContent = i18n.t(next ? 'settings.dev.on' : 'settings.dev.off');
+    }
+    this.setFeedback(null);
+
+    try {
+      await accountManager.updateSettings({ devMode: next });
+      this.log(`Developer mode ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The developer mode could not be saved.', error);
+      this.devMode = previous;
+      this.devToggle.setAttribute('aria-checked', previous ? 'true' : 'false');
+      if (this.devModeStateElement) {
+        this.devModeStateElement.textContent = i18n.t(previous ? 'settings.dev.on' : 'settings.dev.off');
+      }
+      this.setFeedback('settings.error.dev', 'error');
+    }
+  }
+
+  /**
    * Fills the foil slider from the configuration and reflects the active intensity.
    *
    * The range lives in `settings/config.json` (`foil`), not in the markup: the slider is the only
@@ -546,6 +621,87 @@ export class SettingsView {
   renderFoilValue(percent = foilManager.getPercent()) {
     if (!this.foilValueElement) return;
     this.foilValueElement.textContent = i18n.t('settings.foil.value', { value: percent });
+  }
+
+  /**
+   * Fills the brillance slider from the configuration and reflects the active value.
+   *
+   * Same contract as `renderFoilSlider()` for the second effect of the panel: the range belongs to
+   * `config.json` (`foil.glare`), not to the markup, so a tuning change never has to touch the HTML.
+   *
+   * @returns {void}
+   */
+  renderGlareSlider() {
+    if (!this.glareSlider) return;
+    const { min, max, step } = foilManager.getGlareSettings();
+    this.glareSlider.min = String(min);
+    this.glareSlider.max = String(max);
+    this.glareSlider.step = String(step);
+    this.syncGlareSlider();
+  }
+
+  /**
+   * Reflects the active brillance on the slider and on its percentage.
+   *
+   * @returns {void}
+   */
+  syncGlareSlider() {
+    if (!this.glareSlider) return;
+    const percent = foilManager.getGlarePercent();
+    if (this.glareSlider.value !== String(percent)) {
+      this.glareSlider.value = String(percent);
+    }
+    this.renderGlareValue(percent);
+  }
+
+  /**
+   * Writes the percentage displayed next to the brillance slider.
+   *
+   * @param {number} [percent] - Value to display (the active one by default).
+   * @returns {void}
+   */
+  renderGlareValue(percent = foilManager.getGlarePercent()) {
+    if (!this.glareValueElement) return;
+    this.glareValueElement.textContent = i18n.t('settings.foil.value', { value: percent });
+  }
+
+  /**
+   * Applies the brillance while the thumb moves (the release is what saves).
+   *
+   * @param {Event} event - Input event of the range element.
+   * @returns {void}
+   */
+  handleGlareInput(event) {
+    const percent = Number(event?.target?.value);
+    try {
+      foilManager.applyGlareIntensity(percent);
+    } catch (error) {
+      console.error('[SettingsView] Unable to apply the brillance.', error);
+      this.setFeedback('settings.error.glare', 'error');
+      return;
+    }
+    this.setFeedback(null);
+    this.renderGlareValue(foilManager.getGlarePercent());
+  }
+
+  /**
+   * Persists the brillance once the player lets go of the thumb.
+   *
+   * Like the foil intensity, a failed write keeps the value applied for this session and reports it:
+   * snapping the slider back under the finger would be a worse answer than a preference that only
+   * lasts until the next start.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleGlareChange() {
+    const percent = foilManager.getGlarePercent();
+    try {
+      await accountManager.updateSettings({ glareIntensity: percent });
+      this.log(`Glare intensity set to ${percent} % and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The brillance could not be saved.', error);
+      this.setFeedback('settings.error.glare', 'error');
+    }
   }
 
   /**
@@ -601,7 +757,10 @@ export class SettingsView {
     this.listen(this.demoPlayButton, 'click', () => this.playAnimationDemo());
     this.listen(this.foilSlider, 'input', (event) => this.handleFoilInput(event));
     this.listen(this.foilSlider, 'change', () => this.handleFoilChange());
+    this.listen(this.glareSlider, 'input', (event) => this.handleGlareInput(event));
+    this.listen(this.glareSlider, 'change', () => this.handleGlareChange());
     this.listen(this.soundToggle, 'click', () => this.handleSoundToggle());
+    this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
     this.listen(this.exportButton, 'click', () => this.handleExport());
     this.listen(this.importButton, 'click', () => this.handleImportClick());
@@ -664,6 +823,9 @@ export class SettingsView {
     );
     this.unsubscribers.push(
       eventBus.on(EVENTS.FOIL_INTENSITY_CHANGED, () => this.syncFoilSlider())
+    );
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.GLARE_INTENSITY_CHANGED, () => this.syncGlareSlider())
     );
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.renderClock(payload)));
     this.log('Event subscriptions registered.');
@@ -1233,6 +1395,7 @@ export class SettingsView {
     this.isBusy = isBusy;
     [
       this.soundToggle,
+      this.devToggle,
       this.copyButton,
       this.exportButton,
       this.importButton,
@@ -1291,6 +1454,7 @@ export class SettingsView {
       console.error('[SettingsView] The theme list could not be re-rendered.', error);
     });
     this.syncSoundToggle();
+    void this.syncDevToggle();
     void this.renderAnimationSelector().catch((error) => {
       console.error('[SettingsView] The animation list could not be re-rendered.', error);
     });
@@ -1325,6 +1489,7 @@ export class SettingsView {
     this.playAnimationDemo();
     this.syncFoilSlider();
     this.syncSoundToggle();
+    void this.syncDevToggle();
     this.renderClock();
     void this.renderAccount().catch((error) => {
       console.error('[SettingsView] The account could not be read.', error);

@@ -40,6 +40,12 @@
   animation: modal-rise var(--duration-base) var(--easing-standard);
 }
 
+/* A dialog whose content is a set of control rows rather than a paragraph (the collection filter &
+   sort popup): a little wider than a text dialog, and still clamped by the viewport. */
+.modal__dialog--wide {
+  width: min(100%, 40rem);
+}
+
 .modal__close {
   position: absolute;
   top: var(--space-2);

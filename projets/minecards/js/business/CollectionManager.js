@@ -18,6 +18,13 @@
  *   3. a promo group only appears in `sets` (the extension filter and the per-extension ratios)
  *      once it holds at least one owned card: a player without promos sees the very same
  *      collection as before.
+ *
+ * TWO NUMBERING AXES
+ * Every entry carries `cardId` (the `Index` field of the card, "SERIE-A1 / W001") AND `index`
+ * (its position in the `Cards` array of its extension file). They are genuinely different: a file
+ * groups its cards by theme, so its order is not the order of the `Index` values. The grid offers
+ * both as sorts - `index` is the default - and neither is stored: both are recomputed on every
+ * `getCollectionView()`, so a reordered or extended file shows up immediately.
  */
 
 import boosterManager from './BoosterManager.js';
@@ -37,12 +44,15 @@ function emptyCompletion() {
  * Builds a collection entry for a card the player never drew.
  *
  * @param {Card} card - Catalog card.
+ * @param {number} index - Position of the card in its extension JSON (`Cards` order).
  * @returns {object} The missing entry (`owned: false`, quantity 0).
  */
-function buildMissingEntry(card) {
+function buildMissingEntry(card, index) {
   return {
     key: card.uniqueKey,
     cardId: card.id,
+    // The order the extension FILE lists the cards in (see "two numbering axes" above).
+    index,
     style: card.style,
     set: card.set,
     rarity: card.rarity,
@@ -61,12 +71,15 @@ function buildMissingEntry(card) {
  * @param {object} record - Raw `collection` row.
  * @param {object} [options] - Entry options.
  * @param {boolean} [options.promo=false] - Marks an entry of the promo catalogue.
+ * @param {number} [options.index=0] - Position of the card in its extension JSON (`Cards` order).
  * @returns {object} The owned entry.
  */
-function buildOwnedEntry(card, record, { promo = false } = {}) {
+function buildOwnedEntry(card, record, { promo = false, index = 0 } = {}) {
   return {
     key: card.uniqueKey,
     cardId: card.id,
+    // The order the extension FILE lists the cards in (see "two numbering axes" above).
+    index,
     style: card.style,
     set: card.set,
     rarity: card.rarity,
@@ -129,9 +142,13 @@ export class CollectionManager {
         completion: setCompletion,
       };
 
-      for (const card of set.cards ?? []) {
+      const cards = set.cards ?? [];
+      for (let index = 0; index < cards.length; index += 1) {
+        const card = cards[index];
         const record = ownedByKey.get(card.uniqueKey);
-        const entry = record ? buildOwnedEntry(card, record) : buildMissingEntry(card);
+        const entry = record
+          ? buildOwnedEntry(card, record, { index })
+          : buildMissingEntry(card, index);
         entries.push(entry);
         seenKeys.add(card.uniqueKey);
         completion.total += 1;
@@ -146,13 +163,15 @@ export class CollectionManager {
     // Promo catalogue: owned cards only, and never counted in a completion ratio.
     for (const group of await this.loadPromoSets()) {
       let ownedInGroup = 0;
-      for (const card of group.cards ?? []) {
+      const promoCards = group.cards ?? [];
+      for (let index = 0; index < promoCards.length; index += 1) {
+        const card = promoCards[index];
         // Registered as seen even when not owned: a promo card is a known card, so an owned row
         // must never be reported as an orphan once its file stops being loaded.
         seenKeys.add(card.uniqueKey);
         const record = ownedByKey.get(card.uniqueKey);
         if (!record) continue;
-        entries.push(buildOwnedEntry(card, record, { promo: true }));
+        entries.push(buildOwnedEntry(card, record, { promo: true, index }));
         ownedInGroup += 1;
       }
 
@@ -160,6 +179,8 @@ export class CollectionManager {
         sets[group.setId] = {
           setId: group.setId,
           name: group.name,
+          // Short label of the promo series ("Promo A1"): what the collection filters display.
+          label: group.label ?? group.name,
           parentSetId: group.parentSetId,
           promo: true,
           // An empty counter on purpose: a promo group has no completion to report. The views
@@ -174,6 +195,9 @@ export class CollectionManager {
       orphans.push({
         key: row.key,
         cardId: row.cardId ?? row.key,
+        // An orphan has no catalog card, hence no place in any file: it sorts with the first ones
+        // rather than shuffling the sort of the entries that do have one.
+        index: null,
         style: row.style ?? null,
         set: row.set ?? null,
         rarity: null,

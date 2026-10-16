@@ -8,9 +8,9 @@
  *     (`assets/img/card_back.png`, fixed whatever the booster);
  *   - flip it with a CSS 3D animation when the player taps it (rarities 4 and 5 add an animated
  *     glow coming from the theme variables, and the foil reflection of
- *     `css/components/card-shine.css`: a travelling bloom over an embossed grid for a legendary, a
- *     wider bloom over a honeycomb for a mythic, laid over the ARTWORK - never over the frame
- *     around it, whatever the printing);
+ *     `css/components/card-shine.css`: a diagonal weave for a super rare, a travelling bloom over an
+ *     embossed grid for a legendary, a wider bloom over a honeycomb for a mythic, laid over the
+ *     ARTWORK - never over the frame around it, whatever the printing);
  *   - resolve the illustration through `I18n.resolveImagePath()` and follow `LANG_CHANGED`, so
  *     the artwork and the labels switch language without rebuilding the view;
  *   - show the "NEW" badge once the card is revealed, when the card was not owned before
@@ -25,6 +25,17 @@
 import i18n from '../../utils/I18n.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import {
+  SHINE_MODIFIER_BY_RARITY,
+  SHINE_GLEAM_CLASS,
+  getShineClasses,
+  applyShine,
+} from '../../utils/Shine.js';
+
+// The foil helpers live in `js/utils/Shine.js` (a module with no import at all, so the read-only
+// page of a shared binder can paint a foil without pulling the game in) and are re-exported here,
+// which is where every caller has always imported them from.
+export { SHINE_MODIFIER_BY_RARITY, SHINE_GLEAM_CLASS, getShineClasses, applyShine };
 
 /**
  * Shared illustration printed on the back of every face-down card.
@@ -35,38 +46,6 @@ import { getRarityLabel } from '../../classes/Card.js';
  * themed fallback colour if the file is missing.
  */
 const CARD_BACK_IMAGE = 'assets/img/card_back.png';
-
-/**
- * Foil of the two high rarities: rarity 4 (legendary) gets the light version of the shape vocabulary
- * (bloom, embossed grid), rarity 5 (mythic) the full treatment (honeycomb, two crossing glints,
- * 3D tilt). See `css/components/card-shine.css`.
- */
-export const SHINE_MODIFIER_BY_RARITY = Object.freeze({
-  4: 'card-shine--legendary',
-  5: 'card-shine--mythic',
-});
-
-/**
- * Classes that give a card the foil reflection of `css/components/card-shine.css`.
- *
- * They belong on the box the highlight may cover - the front face of a reveal, the artwork of the
- * collection detail - never on the card element itself, which already owns its `::after` for the
- * halo and the reveal shockwave. The same helper dresses every place a card is shown large, so the
- * collection and the opening can never disagree on what a legendary looks like.
- *
- * The print style is deliberately ignored: the stylesheet derives the window from the ratio of the
- * illustration, so a full art printing carries the same gloss as a classic one and neither of them
- * paints over the frame. Nothing here would change for a full art card, and asking for it would
- * only invite the two to drift apart.
- *
- * @param {{rarity: number}|null|undefined} card - Card to describe.
- * @returns {string[]} The classes, empty for a rarity that carries no foil.
- */
-export function getShineClasses(card) {
-  const modifier = SHINE_MODIFIER_BY_RARITY[card?.rarity];
-  if (!modifier) return [];
-  return ['card-shine', modifier];
-}
 
 export class CardComponent {
   /**
@@ -144,7 +123,7 @@ export class CardComponent {
 
     const front = document.createElement('span');
     front.className = 'card-reveal__face card-reveal__face--front';
-    front.classList.add(...getShineClasses(this.card));
+    applyShine(front, this.card);
 
     if (this.isNew) {
       const badge = document.createElement('span');

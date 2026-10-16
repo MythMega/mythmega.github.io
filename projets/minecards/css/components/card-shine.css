@@ -1,35 +1,48 @@
 /* =============================================================================
-   card-shine.css - The foil of the legendary and mythic printings.
+   card-shine.css - The foil of the super rare, legendary and mythic printings.
 
    Applied to the box that DISPLAYS a card (the front face of a reveal, the large card of a
-   modal...), never to the card as a whole: the box is the window and the foil is painted by its two
-   pseudo-elements, so the reflection can never leave the card it belongs to. The host box must
-   already be a positioning context - this file never sets `position`, which would override the
+   modal...), never to the card as a whole: the box is the window and the foil is painted by its
+   layers, so the reflection can never leave the card it belongs to. The host box must already be a
+   positioning context - this file never sets `position`, which would override the
    `position: absolute` of `.card-reveal__face` and break the stacking of a flipped card.
 
    WHAT A FOIL IS
    A real foil is not a moving line: it is a stack of SHAPES - a bloom, a honeycomb lattice, a grid
-   of embossed dots - that shift against each other as the card turns, on top of a bevelled edge
-   that catches the light on one side and keeps a shadow on the other. The shape vocabulary (dot
-   grid, emboss, honeycomb) and the layering come from `external/cardmakerz/styles/base.css`, the
-   card maker of the project, which gives each rarity its own foil: the legendary one is a light
-   wash over an embossed grid, the mythic one is a bloom over a honeycomb, with more layers. Both
-   are reused here, adapted to the rarity, but drawn WHITE: the `--shine*` / `--foil*` tokens of
-   `css/themes.css` differ in strength only, never in hue. One token, `--foil-shade`, is the dark
-   side of the bevel - it is a shadow, so it stays dark.
+   of embossed dots, a diagonal weave - that shift against each other as the card turns, on top of a
+   bevelled edge that catches the light on one side and keeps a shadow on the other. The shape
+   vocabulary (dot grid, emboss, honeycomb, weave) and the layering come from
+   `external/cardmakerz/styles/base.css`, the card maker of the project, which gives each rarity its
+   own foil: the super rare one is a fine diagonal weave, the legendary one a light wash over an
+   embossed grid, the mythic one a bloom over a honeycomb, with more layers. All are reused here,
+   adapted to the rarity, but drawn WHITE: the `--shine*` / `--foil*` tokens of `css/themes.css`
+   differ in strength only, never in hue. One token, `--foil-shade`, is the dark side of the bevel -
+   it is a shadow, so it stays dark. The card maker paints its super rare with a colour dodge over a
+   coloured gradient; here the same shapes are drawn in white light over the `overlay` / `soft-light`
+   blends the other rarities use, so the three palettes of the game stay in charge.
 
-   Two kinds of light are separated, because they do not move at the same speed:
-     `::before` the RELIEF: the bevel, the lattice and the embossed grid, painted in `soft-light`
-                (a metallic paper lift that never blows the artwork out). It licks from side to side;
-     `::after`  the LIGHT: the bloom, the glints, the band, painted in `overlay` (the holographic
-                bloom of a foil). It drifts ACROSS the card while the plane itself tilts in 3D.
+   TWO EFFECTS, THREE LAYERS
+     `::before`             the RELIEF: the bevel, the lattice, the embossed grid and the weave,
+                            painted in `soft-light` (a metallic paper lift that never blows the
+                            artwork out). It licks from side to side;
+     `::after`              the LIGHT: the bloom and the glints, painted in `overlay` (the
+                            holographic bloom of a foil). It drifts ACROSS the card while the plane
+                            itself tilts in 3D;
+     `.card-shine__gleam`   the BRILLANCE: the bright LINE that crosses the artwork, back and forth.
+   The three move at different, prime-ish speeds, so their motions never resynchronise: that parallax
+   between the shapes and the light is the depth, and it is done with `transform` / `background-
+   position` only.
+   The line is a real element rather than one more background layer of `::after` because it is the
+   only layer with an intensity of its own: `--glare-intensity` can mute it while the shapes of the
+   foil stay exactly as they are (the "Brillance" slider of the settings). A background layer inside
+   `::after` would have shared the opacity of the whole plane and could not have been tuned apart.
+   `js/UI/components/CardComponent.js` appends that element (`applyShine`) wherever a card is shown
+   large, right after the classes of the rarity.
 
    Deliberately NOT here: rays radiating from the centre of the card. A star of `repeating-conic-
    gradient` rays was tried and removed - read as a sunburst it competes with the artwork instead of
    reading as light on a print. The conic gradients that remain are the embossing of the RELIEF,
    anchored on the 14px/12px grid rather than on the centre.
-   The two planes run on different, prime-ish durations, so their motions never resynchronise: that
-   parallax between the shapes is the depth, and it is done with `transform` only (see below).
 
    MOVEMENT
    Every animation is `alternate` on purpose: the light travels back and forth instead of jumping
@@ -37,19 +50,20 @@
    cut any more.
 
    INTENSITY
-   The player sets how strong the foil is from the settings screen ("Intensité du foil"). The slider
-   publishes `--foil-intensity` (0 to 1, 1 by default) on `<html>` through
-   `js/utils/FoilManager.js`, and BOTH planes multiply their own opacity by it: one lever, applied
-   where every layer meets - the gradients, the data-URI honeycomb that no variable could ever tint,
-   and the glints alike. The per-rarity base strength stays where it belongs, in `--foil-strength`
-   of each rarity block below, so the slider scales the tuning of a rarity instead of replacing it.
-   At 0 the manager also flags `<html>` with `data-foil="off"`: the planes are invisible so the
-   animation underneath is pure waste, and the rule at the end of this file stops it.
+   The player sets the two effects apart from the settings screen: "Intensité du foil" (the shapes)
+   and "Brillance" (the line). Each slider is published as a 0-1 factor on `<html>` by
+   `js/utils/FoilManager.js` (`--foil-intensity` and `--glare-intensity`) and EVERY layer multiplies
+   its own opacity by the one that owns it, applied where the layers meet - the gradients, the
+   data-URI honeycomb that no variable could ever tint, the glints and the line alike. The per-rarity
+   base strength stays where it belongs, in `--foil-strength` and `--gleam-strength` below, so a
+   slider scales the tuning of a rarity instead of replacing it. At 0 the manager also flags `<html>`
+   with `data-foil="off"`: the layers are invisible so the animation underneath is pure waste, and
+   the rule at the end of this file stops it.
 
    THE WINDOW
-   The foil is painted on the ARTWORK and never on what surrounds it. Both planes are full width
-   and take the ratio of the illustration itself (`--card-reveal-art-ratio`, published by
-   `CardComponent` from the loaded image, 0.72 by default for the 720x1000 assets), centred
+   The foil is painted on the ARTWORK and never on what surrounds it. Every layer is full width and
+   takes the ratio of the illustration itself (`--card-reveal-art-ratio`, published by
+   `CardComponent` from the loaded image, `--card-ratio` - 720x1000 - by default), centred
    vertically - which is exactly the box an `object-fit: contain` image paints itself in. The
    letterbox bands of that fit, the rounded corners and the border of the host therefore keep none
    of the gloss.
@@ -58,49 +72,103 @@
    picture. It no longer is: a full art card is a full bleed of its ILLUSTRATION, not of its box.
 
    MODIFIERS
-     `card-shine--legendary` : rarity 4, the light version of the vocabulary above;
-     `card-shine--mythic`    : rarity 5, the full treatment (extra shapes, 3D tilt, brighter);
-     `.is-off`               : the player switched the effect off (collection detail); nothing is
+     `card-shine--super-rare` : rarity 3, the fine diagonal weave, the lightest of the three;
+     `card-shine--legendary`  : rarity 4, the light version of the vocabulary above;
+     `card-shine--mythic`     : rarity 5, the full treatment (extra shapes, 3D tilt, brighter);
+     `.is-off`                : the player switched the effect off (collection detail); nothing is
                                painted at all.
 
    Watch out:
-     - `overflow` and `isolation` are set on the window itself: the first clips the two planes when
-       they tilt (a rotated plane spills out of the box otherwise), the second makes the blend modes
-       land on the artwork instead of the page behind the card;
+     - `overflow` and `isolation` are set on the window itself: the first clips the layers when they
+       tilt (a rotated plane spills out of the box otherwise), the second makes the blend modes land
+       on the artwork instead of the page behind the card;
      - nothing here uses a `filter`: a `filter` would flatten the 3D stacking context of a flipping
        card and hide it (`backface-visibility` shares the transform). `transform`, on the other
-       hand, is free - the two planes are not the flipping element, they are painted inside it.
+       hand, is free - the layers are not the flipping element, they are painted inside it.
    ============================================================================= */
 
 .card-shine {
-  /* The window clips its own light: both planes are tilted, and a tilted plane is wider than the box
+  /* The window clips its own light: the layers are tilted, and a tilted plane is wider than the box
      it sits in. `isolation` keeps the blend modes inside the card - a `mix-blend-mode` would
      otherwise reach the modal or the page behind it. */
   overflow: hidden;
   isolation: isolate;
 }
 
-/* Both planes cover the same window: the artwork, whatever the printing. `width: 100%` plus the
+/* --- The window, shared by the three layers -------------------------------- */
+
+/* All of them cover the same window: the artwork, whatever the printing. `width: 100%` plus the
    ratio gives the layer the exact height of the rendered image, and the centring puts it back where
    `contain` drew it.
 
    The window is WIDTH-driven, which is exact because every illustration of the game is 720x1000
-   (ratio 0.72, including the 108 full art ones) and the card face is 2/3: the face is the narrower
-   of the two, so `contain` fits the image by its width and the vertical centring above lands on it.
-   An illustration WIDER than its box would be fitted by height instead, and this window would then
-   be taller than the picture - it would take a constraint on both axes to follow it. */
+   (ratio 0.72, including the 108 full art ones) and the card face takes that very ratio
+   (`--card-ratio`): the face is the narrower of the two, so `contain` fits the image by its width
+   and the vertical centring above lands on it. An illustration WIDER than its box would be fitted
+   by height instead, and this window would then be taller than the picture - it would take a
+   constraint on both axes to follow it. */
 .card-shine::before,
-.card-shine::after {
-  content: '';
+.card-shine::after,
+.card-shine__gleam {
   position: absolute;
   left: 0;
   top: 50%;
   width: 100%;
-  aspect-ratio: var(--card-reveal-art-ratio, 0.72);
+  aspect-ratio: var(--card-reveal-art-ratio, var(--card-ratio, 720 / 1000));
   translate: 0 -50%;
   z-index: 1;
   pointer-events: none;
   background-repeat: no-repeat;
+}
+
+.card-shine::before,
+.card-shine::after {
+  content: '';
+}
+
+/* =============================================================================
+   SUPER RARE - the fine diagonal weave
+   ============================================================================= */
+
+/* The shapes of `cardmakerz`: the same `repeating-linear-gradient` at 60deg (4px of light, 12px of
+   period), turned into a paper weave by `soft-light`. It is the only rarity without a lattice: what
+   tells a super rare from a legendary at a glance is that its texture is a diagonal grain rather
+   than a grid of cells. */
+.card-shine--super-rare {
+  --gleam-angle: 100deg;
+  --gleam-strength: 0.6;
+  --gleam-duration: 6.4s;
+}
+
+.card-shine--super-rare::before {
+  background-image:
+    /* bevelled edge: light on the top-left, shadow on the bottom-right */
+    linear-gradient(135deg, var(--shine) 0%, transparent 14%),
+    linear-gradient(315deg, var(--foil-shade) 0%, transparent 18%),
+    /* the diagonal weave of the card maker: 4px of light, 12px of period */
+    repeating-linear-gradient(
+      60deg,
+      var(--foil-faint) 0 4px,
+      transparent 4px 12px
+    );
+  background-size: 100% 100%, 100% 100%, auto;
+  --foil-strength: 0.7;
+  opacity: calc(var(--foil-strength) * var(--foil-intensity, 1));
+  mix-blend-mode: soft-light;
+  animation: card-shine-relief 9.2s var(--easing-standard) infinite alternate;
+}
+
+/* --- The light: a single small bloom --------------------------------------- */
+.card-shine--super-rare::after {
+  background-image:
+    radial-gradient(circle at 50% 50%, var(--shine-soft) 0%, transparent 60%);
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  transform: perspective(900px) rotateX(-4deg) rotateY(-3deg);
+  --foil-strength: 0.5;
+  opacity: calc(var(--foil-strength) * var(--foil-intensity, 1));
+  mix-blend-mode: overlay;
+  animation: card-shine-light-super 6.4s var(--easing-standard) infinite alternate;
 }
 
 /* =============================================================================
@@ -112,6 +180,12 @@
    what makes the print look thick, the dot grid is the guilloche of the paper and the
    `repeating-conic-gradient` is the woven embossing. Transparent for the rest, so the artwork
    underneath stays readable - `soft-light` only lifts what it covers. */
+.card-shine--legendary {
+  --gleam-angle: 115deg;
+  --gleam-strength: 0.72;
+  --gleam-duration: 5.4s;
+}
+
 .card-shine--legendary::before {
   background-image:
     /* bevelled edge: light on the top-left, shadow on the bottom-right */
@@ -134,17 +208,16 @@
   animation: card-shine-relief 7.4s var(--easing-standard) infinite alternate;
 }
 
-/* --- The light: a bloom and a band -------------------------------------------
-   `size: 200% 200%` makes the maths exact: `0% 0%` parks a layer on one corner, `100% 100%` on the
-   opposite one, which is what the keyframes below swap. */
+/* --- The light: a bloom ------------------------------------------------------
+   `size: 200% 200%` makes the maths exact: `0% 0%` parks the layer on one corner, `100% 100%` on the
+   opposite one, which is what the keyframes below swap. The line that used to sweep along with it
+   is now the `.card-shine__gleam` layer of its own. */
 .card-shine--legendary::after {
   background-image:
     /* the bloom that opens as the light travels */
-    radial-gradient(circle at 50% 50%, var(--shine) 0%, var(--shine-soft) 34%, transparent 68%),
-    /* the band that crosses the artwork */
-    linear-gradient(115deg, transparent 40%, var(--shine) 50%, transparent 60%);
-  background-size: 200% 200%, 200% 100%;
-  background-position: 0% 0%, 0% 50%;
+    radial-gradient(circle at 50% 50%, var(--shine) 0%, var(--shine-soft) 34%, transparent 68%);
+  background-size: 200% 200%;
+  background-position: 0% 0%;
   transform: perspective(900px) rotateX(-5deg) rotateY(-4deg);
   --foil-strength: 0.72;
   opacity: calc(var(--foil-strength) * var(--foil-intensity, 1));
@@ -158,16 +231,28 @@
 
 /* --- The relief: bevelled edge, honeycomb, finer dot grid -------------------
    The honeycomb is the hexagonal lattice of `cardmakerz`'s mythic foil, same path, drawn white. A
-   data URI cannot read a CSS variable, so its stroke is a fixed white: that is the point of a foil
+   data URI cannot read a CSS variable, so its stroke is a fixed white - that is the point of a foil
    (white light), and on the pale themes the visibility rests on the blend mode and on the bevel
-   shadow, which are themed. The grid of the mythic is tighter than the legendary one - a denser
-   lattice is what tells the two rarities apart at a glance. */
+   shadow, which are themed. Its alpha is set to HALF of the card maker's (0.3 instead of 0.6): the
+   lattice is the densest shape of the three rarities and at full strength it read as a wireframe
+   drawn on the artwork rather than as a reflection. The strokes are still the only thing this
+   layer changes - the blend mode, the tilt and the animation are untouched, so halving the alpha
+   halves what is seen of the hexagons and nothing else.
+   The grid of the mythic is tighter than the legendary one - a denser lattice is what tells the two
+   rarities apart at a glance. */
+.card-shine--mythic {
+  --gleam-angle: 135deg;
+  --gleam-strength: 0.78;
+  --gleam-duration: 8.6s;
+}
+
 .card-shine--mythic::before {
   background-image:
     linear-gradient(135deg, var(--shine) 0%, transparent 13%),
     linear-gradient(315deg, var(--foil-shade) 0%, transparent 17%),
-    /* honeycomb, `micro1` spacing of the card maker: 48 x 27.713 scaled to 42 x 24.25 */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='27.713' viewBox='0 0 48 27.713'%3E%3Cpath d='M16 0h16l8 13.856-8 13.857H16L8 13.856zm-16 13.856h8m32 0h8' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='1.5'/%3E%3C/svg%3E"),
+    /* honeycomb, `micro1` spacing of the card maker: 48 x 27.713 scaled to 42 x 24.25, stroke at
+       half visibility (see above) */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='27.713' viewBox='0 0 48 27.713'%3E%3Cpath d='M16 0h16l8 13.856-8 13.857H16L8 13.856zm-16 13.856h8m32 0h8' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='1.5'/%3E%3C/svg%3E"),
     radial-gradient(circle at 12px 12px, var(--foil-mid) 1px, transparent 1.7px),
     repeating-conic-gradient(
       from 45deg at 12px 12px,
@@ -183,20 +268,20 @@
   animation: card-shine-relief 11s var(--easing-standard) infinite alternate;
 }
 
-/* --- The light: bloom, two crossing glints, honeycomb band -------------------
-   The mythic adds what the legendary does not have: a wider bloom, two ROUNDED glints (a radial
+/* --- The light: bloom and two crossing glints --------------------------------
+   The mythic adds what the legendary does not have: a wider bloom and two ROUNDED glints (a radial
    gradient reads as a curve where a linear one reads as a border) that start on opposite corners
-   and swap places, and a band at the angle of the honeycomb so the two shapes line up as they pass.
+   and swap places. The line that used to run at the angle of the honeycomb is now the
+   `.card-shine__gleam` layer, which keeps that angle through `--gleam-angle`.
    On top of the drift, the plane itself tips: `perspective()` + `rotateX/rotateY` is what gives the
    flare its slight 3D, and the `scale` keeps the tilted plane covering the window. */
 .card-shine--mythic::after {
   background-image:
     radial-gradient(circle at 50% 50%, var(--shine) 0%, transparent 42%),
     radial-gradient(23% 30% at 50% 50%, var(--shine) 0%, transparent 72%),
-    radial-gradient(18% 25% at 50% 50%, var(--shine-soft) 0%, transparent 78%),
-    linear-gradient(135deg, transparent 34%, var(--shine) 50%, transparent 66%);
-  background-size: 130% 130%, 200% 200%, 200% 200%, 200% 200%;
-  background-position: 50% 50%, 0% 0%, 100% 100%, 0% 0%;
+    radial-gradient(18% 25% at 50% 50%, var(--shine-soft) 0%, transparent 78%);
+  background-size: 130% 130%, 200% 200%, 200% 200%;
+  background-position: 50% 50%, 0% 0%, 100% 100%;
   transform: perspective(800px) rotateX(-8deg) rotateY(-7deg) rotate(-3deg) scale(1.08);
   --foil-strength: 0.78;
   opacity: calc(var(--foil-strength) * var(--foil-intensity, 1));
@@ -204,13 +289,38 @@
   animation: card-shine-light-mythic 8.6s var(--easing-standard) infinite alternate;
 }
 
+/* =============================================================================
+   THE BRILLANCE - the line that crosses the artwork
+   ============================================================================= */
+
+/* One definition for the three rarities: they differ by the angle and the strength their own block
+   above declares (`--gleam-*`), never by the shape. `background-size: 200% 100%` is what makes the
+   sweep exact - `0%` parks the line on one side of the window, `100%` on the other - and the
+   `alternate` keyframe brings it back.
+   The base strength is the legendary one, which is the state a card shows before its rarity block
+   has been parsed; the angle and the duration fall back the same way. */
+.card-shine__gleam {
+  background-image: linear-gradient(
+    var(--gleam-angle, 115deg),
+    transparent 40%,
+    var(--shine) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  opacity: calc(var(--gleam-strength, 0.72) * var(--glare-intensity, 1));
+  mix-blend-mode: overlay;
+  animation: card-shine-gleam var(--gleam-duration, 5.4s) var(--easing-standard) infinite alternate;
+}
+
 /* Switched off from the collection: the reflection leaves without a trace. */
 .card-shine.is-off::before,
-.card-shine.is-off::after {
+.card-shine.is-off::after,
+.card-shine.is-off .card-shine__gleam {
   display: none;
 }
 
-/* Intensity set to 0 in the settings: the two planes are already transparent, so their movement
+/* Foil intensity set to 0 in the settings: the two planes are already transparent, so their movement
    would only burn frames for nothing. `FoilManager` flags `<html>` (and `<body>`, like the theme and
    the animation mode) instead of the stylesheet having to compare a variable to zero. */
 [data-foil="off"] .card-shine::before,
@@ -218,13 +328,25 @@
   animation: none;
 }
 
-/* A player who asked for reduced motion keeps the foil but loses the movement: each plane stays
+/* The line follows the foil it belongs to and LEAVES with it: a print whose foil is switched off has
+   no reflection left to sweep. This is the one place the two effects have to agree explicitly - the
+   line's opacity answers to the brillance slider (`--glare-intensity`), not to the foil one, so
+   stopping its animation would leave it painted, frozen, across the artwork. Hiding it is therefore
+   not a second "off" switch: it is the consequence of the foil being gone. */
+[data-foil="off"] .card-shine__gleam {
+  display: none;
+}
+
+/* A player who asked for reduced motion keeps the foil but loses the movement: every layer stays
    where its own rule parked it, which is a static, still layered gloss. */
 @media (prefers-reduced-motion: reduce) {
+  .card-shine--super-rare::before,
+  .card-shine--super-rare::after,
   .card-shine--legendary::before,
   .card-shine--legendary::after,
   .card-shine--mythic::before,
-  .card-shine--mythic::after {
+  .card-shine--mythic::after,
+  .card-shine__gleam {
     animation: none;
   }
 }
@@ -233,7 +355,7 @@
    Component-local on purpose: they belong to the foil and to nothing else. The opening animation
    MODES live in `css/animations/`, which is a different concern.
 
-   All three are read with `alternate`: the plane goes from the first keyframe to the second, then
+   All of them are read with `alternate`: each layer goes from the first keyframe to the second, then
    comes back, forever. `from` is also the state a reduced-motion player sees, since the base rules
    declare the same values. */
 
@@ -248,28 +370,53 @@
   }
 }
 
-/* The legendary light: the bloom walks to the opposite corner, the band sweeps through, and the
-   whole plane tips a little - enough to feel solid, not enough to be a scene of its own. */
+/* The super rare light: the small bloom walks to the opposite corner, with the same discreet tilt
+   as the legendary - the weave is what tells the rarity apart, not a bigger flare. */
+@keyframes card-shine-light-super {
+  from {
+    background-position: 0% 0%;
+    transform: perspective(900px) rotateX(-4deg) rotateY(-3deg);
+  }
+  to {
+    background-position: 100% 100%;
+    transform: perspective(900px) rotateX(4deg) rotateY(3deg);
+  }
+}
+
+/* The legendary light: the bloom walks to the opposite corner and the whole plane tips a little -
+   enough to feel solid, not enough to be a scene of its own. */
 @keyframes card-shine-light {
   from {
-    background-position: 0% 0%, 0% 50%;
+    background-position: 0% 0%;
     transform: perspective(900px) rotateX(-5deg) rotateY(-4deg);
   }
   to {
-    background-position: 100% 100%, 100% 50%;
+    background-position: 100% 100%;
     transform: perspective(900px) rotateX(5deg) rotateY(4deg);
   }
 }
 
 /* The mythic light: the two glints swap corners while the bloom holds the centre, and the plane
-   tips deeper and turns on itself, so the honeycomb and the band slide against each other. */
+   tips deeper and turns on itself, so the honeycomb and the bloom slide against each other. */
 @keyframes card-shine-light-mythic {
   from {
-    background-position: 50% 50%, 0% 0%, 100% 100%, 0% 0%;
+    background-position: 50% 50%, 0% 0%, 100% 100%;
     transform: perspective(800px) rotateX(-8deg) rotateY(-7deg) rotate(-3deg) scale(1.08);
   }
   to {
-    background-position: 50% 50%, 100% 100%, 0% 0%, 100% 100%;
+    background-position: 50% 50%, 100% 100%, 0% 0%;
     transform: perspective(800px) rotateX(7deg) rotateY(8deg) rotate(3deg) scale(1.08);
+  }
+}
+
+/* The brillance: the line crosses the whole artwork - from one edge of the window to the other, then
+   back, like every other layer of this file. It moves on its own axis and at its own speed, which is
+   what makes it read as a reflection travelling over the print instead of a shape painted on it. */
+@keyframes card-shine-gleam {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
   }
 }

@@ -113,10 +113,12 @@ export class Card {
    * @param {string} payload.style - "classic" or "fullart" ("normal" is normalized to classic).
    * @param {string} payload.illustration - Illustration path, `<lang>` placeholder or `/fr/`.
    * @param {string} payload.set - Owning extension id (e.g. "A1").
+   * @param {string} [payload.background=''] - Raw `Background` image of the card data (the artwork
+   *   behind the card). Optional: it is only used as the backdrop of a binder. Empty when absent.
    * @throws {TypeError|RangeError} When a field is missing or has an invalid type/range.
    */
   constructor(payload = {}) {
-    const { id, names, descriptions, rarity, style, illustration, set } = payload;
+    const { id, names, descriptions, rarity, style, illustration, set, background } = payload;
 
     this.id = assertNonEmptyString(id, 'id');
     this.names = Object.freeze(Card.normalizeLocalizedMap(names, 'names'));
@@ -125,6 +127,10 @@ export class Card {
     this.style = Card.assertStyle(style);
     this.illustration = assertNonEmptyString(illustration, 'illustration');
     this.set = assertNonEmptyString(set, 'set');
+    // Raw on purpose: `Background` is an absolute URL of the asset repository, never a local
+    // `<lang>` path, so it is NOT run through `resolveImagePath`. An unusable value is dropped
+    // rather than thrown: a card without a backdrop is still a perfectly valid card.
+    this.background = typeof background === 'string' ? background.trim() : '';
 
     Object.freeze(this);
   }
@@ -328,6 +334,7 @@ export class Card {
       style,
       illustration,
       set,
+      background: entry.Background,
     });
   }
 
@@ -352,6 +359,7 @@ export class Card {
       style: raw.style,
       illustration: raw.illustration,
       set: raw.set,
+      background: raw.background,
     });
   }
 
@@ -397,7 +405,7 @@ export class Card {
   /**
    * Serializes the card back to a plain object (safe for a `.save` export or a legacy JSON).
    *
-   * @returns {{id: string, names: Record<string, string>, descriptions: Record<string, string>, rarity: number, style: string, illustration: string, set: string}}
+   * @returns {{id: string, names: Record<string, string>, descriptions: Record<string, string>, rarity: number, style: string, illustration: string, set: string, background: string}}
    *   A plain descriptor with the persisted fields only.
    */
   toJSON() {
@@ -409,6 +417,7 @@ export class Card {
       style: this.style,
       illustration: this.illustration,
       set: this.set,
+      background: this.background,
     };
   }
 }

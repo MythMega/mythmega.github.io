@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v4';
+const VERSION = 'v11';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -79,9 +79,11 @@ const BYPASS_PATTERNS = [/\/sw\.js$/, /^\/admin\//, /\/\.docs\//, /\/\.freebuff\
  * capability from the second visit to the first.
  */
 const PRECACHE_URLS = [
-  /* Pages: the game itself and the standalone streaming overlay. */
+  /* Pages: the game itself, the standalone streaming overlay and the read-only page a shared
+     binder opens. */
   SHELL_INDEX,
   './overlay.html',
+  './collection.html',
   /* The manifest, so an offline install still gets its name and icons. */
   './manifest.json',
   /* Icons: what the operating system shows on the home screen and in the task switcher. */
@@ -97,6 +99,7 @@ const PRECACHE_URLS = [
   './css/views/onboarding.css',
   './css/views/opening.css',
   './css/views/collection.css',
+  './css/views/binders.css',
   './css/views/stats.css',
   './css/views/minepick.css',
   './css/views/profile.css',
@@ -120,6 +123,7 @@ const PRECACHE_URLS = [
   /* ES modules: the entry point and every module it imports, because a missing one is a blank page
      offline - the browser stops execution instead of degrading. */
   './js/app.js',
+  './js/binder-share.js',
   './js/overlay.js',
   './js/UI/SpaRouter.js',
   './js/UI/components/Booster3DRenderer.js',
@@ -128,6 +132,7 @@ const PRECACHE_URLS = [
   './js/UI/components/NotificationCenter.js',
   './js/UI/components/Toast.js',
   './js/UI/components/TrophyDetail.js',
+  './js/UI/components/ViewHelp.js',
   './js/UI/views/CollectionView.js',
   './js/UI/views/GiftsView.js',
   './js/UI/views/InfoView.js',
@@ -140,6 +145,7 @@ const PRECACHE_URLS = [
   './js/UI/views/StatsView.js',
   './js/UI/views/TrophiesView.js',
   './js/business/AccountManager.js',
+  './js/business/BinderManager.js',
   './js/business/BoosterManager.js',
   './js/business/CollectionManager.js',
   './js/business/DateSyncManager.js',
@@ -149,6 +155,7 @@ const PRECACHE_URLS = [
   './js/business/ProfileIconManager.js',
   './js/business/ProfileManager.js',
   './js/business/PromoManager.js',
+  './js/business/PromoSet.js',
   './js/business/RedeemManager.js',
   './js/business/SparksManager.js',
   './js/business/TrophyManager.js',
@@ -157,6 +164,7 @@ const PRECACHE_URLS = [
   './js/classes/SaveFile.js',
   './js/models/StorageRepository.js',
   './js/utils/AnimationManager.js',
+  './js/utils/BinderCode.js',
   './js/utils/BoosterCode.js',
   './js/utils/Clipboard.js',
   './js/utils/Compression.js',
@@ -165,6 +173,7 @@ const PRECACHE_URLS = [
   './js/utils/EventBus.js',
   './js/utils/FoilManager.js',
   './js/utils/I18n.js',
+  './js/utils/Shine.js',
   './js/utils/SoundManager.js',
   './js/utils/ThemeManager.js',
   /* Configuration and data: the settings screen, the two languages and the card catalogues. Without

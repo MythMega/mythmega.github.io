@@ -41,6 +41,7 @@ import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
 import { CollectionView, COLLECTION_VIEW_NAME } from './UI/views/CollectionView.js';
 import { MinePickView, MINE_PICK_VIEW_NAME } from './UI/views/MinePickView.js';
+import { MineBlockView, MINE_BLOCK_VIEW_NAME } from './UI/views/MineBlockView.js';
 import { ProfileView, PROFILE_VIEW_NAME } from './UI/views/ProfileView.js';
 import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
 import { TrophiesView, TROPHIES_VIEW_NAME } from './UI/views/TrophiesView.js';
@@ -121,6 +122,8 @@ export const VIEW_NAMES = Object.freeze({
   STATS: 'stats',
   TROPHIES: 'trophies',
   MINE_PICK: 'minepick',
+  // The Mine: the bottom-bar destination that replaced the trophies (now opened from the profile).
+  MINE_BLOCK: 'mineblock',
   SETTINGS: 'settings',
   INFO: 'info',
 });
@@ -157,10 +160,13 @@ export class App {
     this.profileView = null;
     /** @type {StatsView|null} Statistics page (opened from the profile). */
     this.statsView = null;
-    /** @type {TrophiesView|null} Trophy catalogue (its own bottom-bar destination). */
+    /** @type {TrophiesView|null} Trophy catalogue (opened from the profile since the Mine took its
+     * bottom-bar slot). */
     this.trophiesView = null;
     /** @type {MinePickView|null} Mine Pick screen (ten simulated boosters a day, three picks). */
     this.minePickView = null;
+    /** @type {MineBlockView|null} Mine screen (ten blocks a day, mined one by one). */
+    this.mineBlockView = null;
     /** @type {SettingsView|null} Preferences, account and save management (step 6). */
     this.settingsView = null;
     /** @type {RedeemView|null} Promo code entry (step 7). */
@@ -331,6 +337,7 @@ export class App {
     await this.startStatsView();
     await this.startTrophiesView();
     await this.startMinePickView();
+    await this.startMineBlockView();
     await this.startSettingsView();
     await this.startRedeemView();
     await this.startGiftsView();
@@ -514,7 +521,7 @@ export class App {
   }
 
   /**
-   * Starts the trophy catalogue view: the "Trophées" destination of the bottom bar.
+   * Starts the trophy catalogue view: opened from the profile, next to the statistics.
    *
    * A load failure must not break the whole boot: the view then shows its own error message and the
    * other views keep working.
@@ -528,7 +535,11 @@ export class App {
       return;
     }
     console.info('[App] Starting the trophies view…');
-    this.trophiesView = new TrophiesView(root);
+    // The catalogue carries its own back button since it left the bottom bar for the Mine: the
+    // router stays here, the view only asks for the profile.
+    this.trophiesView = new TrophiesView(root, {
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
     try {
       await this.trophiesView.init();
     } catch (error) {
@@ -590,6 +601,35 @@ export class App {
     console.info('[App] Mine Pick view ready.');
     if (this.router?.getCurrentView() === MINE_PICK_VIEW_NAME) {
       this.minePickView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Starts the mine view: the block of the moment, its cracks, its loot and the resources.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and the
+   * other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startMineBlockView() {
+    const root = document.querySelector(`[data-view="${MINE_BLOCK_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The mine view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the mine view…');
+    this.mineBlockView = new MineBlockView(root);
+    try {
+      await this.mineBlockView.init();
+    } catch (error) {
+      console.error('[App] The mine view could not be loaded.', error);
+      this.mineBlockView.setFeedback('mineblock.error.load', 'error');
+      return;
+    }
+    console.info('[App] Mine view ready.');
+    if (this.router?.getCurrentView() === MINE_BLOCK_VIEW_NAME) {
+      this.mineBlockView.handleViewActivated();
     }
   }
 
@@ -948,6 +988,10 @@ export class App {
     if (this.minePickView) {
       this.minePickView.destroy();
       this.minePickView = null;
+    }
+    if (this.mineBlockView) {
+      this.mineBlockView.destroy();
+      this.mineBlockView = null;
     }
     if (this.settingsView) {
       this.settingsView.destroy();

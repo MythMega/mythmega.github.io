@@ -1,0 +1,382 @@
+/* =============================================================================
+   mineblock.css - Mine screen (MineBlock).
+
+   Reference: `js/UI/views/MineBlockView.js` (the screen) and
+   `js/business/MiningManager.js` (the blocks, the allowance and the loot).
+
+   What is here, top to bottom:
+     `.mineblock__header-actions` the wandering-trader button, pushed to the reading end;
+     `.mineblock__rock`           the block of the moment, with the CRACK texture laid over its
+                                  picture (`.mineblock__crack`, chosen by the break percentage);
+     `.mineblock__burst`          the layer the rewards fly into: one element per unit obtained,
+                                  each sent in its own direction, its own distance, its own spin;
+     `.mineblock__resources`      the chips of the harvested resources: an icon and a count, nothing
+                                  else (the name is in the inventory, and in the accessible text);
+     `.mineblock__inventory`      the chest under them: a picture, and the name of the dialog.
+
+   Two rituals on `.mineblock__rock-inner`, so the crack follows its picture, plus the landing of
+   the next block - the fourth name is the one the view writes on `.mineblock__rock` itself:
+     `.is-hit`      the block flinches under a tap that did not break it (180ms);
+     `.is-broken`   it blows up and disappears (240ms: the loot has just been spat out);
+     `.is-arriving` the next block drops in (160ms, the pace the view waits for before taking the
+                    class back off - the two numbers must stay in step).
+
+   The mining must stay FAST: the view swaps the block after `mining.nextBlockDelayMs` of
+   `settings/config.json` (100ms), whatever this file says - the break animation is cut short when
+   it is longer, which the fade-in of `.is-arriving` hides.
+
+   Colors come from `css/themes.css`. A player who asked for reduced motion keeps the game
+   readable: the flying rewards simply appear and are removed (see the last block of this file).
+   ============================================================================= */
+
+.mineblock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mineblock__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: center;
+  text-align: center;
+}
+
+/* The wandering trader is the one action of the page: it sits at the reading end of the header,
+   exactly like the statistics button of the profile. */
+.mineblock__header-actions {
+  justify-content: flex-end;
+}
+
+/* The mob is coloured pixel art, so it is NOT run through `--icon-filter` (which flips the black
+   glyphs of the interface): `pixelated` keeps it crisp at any size. */
+.mineblock__trader-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* --- The block of the moment --------------------------------------------- */
+
+.mineblock__name {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.mineblock__remaining {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.mineblock__countdown {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-warning);
+}
+
+.mineblock__countdown-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.mineblock__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.mineblock__rock {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(62vw, 16rem);
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mineblock__rock:disabled {
+  cursor: default;
+}
+
+.mineblock__rock:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 6px;
+  border-radius: var(--radius-md);
+}
+
+.mineblock__rock-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* `image-rendering: pixelated` keeps the blocks and their crack as the pixel art they are, at any
+   size; the crack is stretched over the very same box, so the two pictures stay aligned. */
+.mineblock__texture,
+.mineblock__crack {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.mineblock__texture {
+  filter: drop-shadow(0 6px 16px var(--overlay));
+}
+
+.mineblock__crack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* --- The rituals --------------------------------------------------------- */
+
+.mineblock__rock.is-hit .mineblock__rock-inner {
+  animation: mineblock-hit 180ms var(--easing-standard);
+}
+
+.mineblock__rock.is-broken .mineblock__rock-inner {
+  animation: mineblock-break 240ms var(--easing-standard) forwards;
+}
+
+.mineblock__rock.is-arriving .mineblock__rock-inner {
+  animation: mineblock-arrive 160ms var(--easing-standard);
+}
+
+@keyframes mineblock-hit {
+  0% {
+    transform: none;
+  }
+  35% {
+    transform: translateY(3px) scale(0.975);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes mineblock-break {
+  0% {
+    transform: none;
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(0.78) rotate(4deg);
+    opacity: 0;
+  }
+}
+
+@keyframes mineblock-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- The loot flying out of the rock ------------------------------------- */
+
+/* The layer covers the block, so a reward is spat out from its centre. `--burst-x`, `--burst-y`,
+   `--burst-spin` and `--burst-delay` are written by the view on every element: the geometry of a
+   burst is data, not five more classes. */
+.mineblock__burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.mineblock__burst-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 6px var(--color-accent));
+  animation: mineblock-escape 900ms var(--easing-standard) var(--burst-delay, 0ms) forwards;
+}
+
+@keyframes mineblock-escape {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-50% + var(--burst-x, 0px)),
+        calc(-50% + var(--burst-y, 0px))
+      )
+      scale(0.85) rotate(var(--burst-spin, 0deg));
+  }
+}
+
+/* --- Hint, empty state and resources ------------------------------------- */
+
+.mineblock__hint,
+.mineblock__empty {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__resources {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mineblock__resource {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+}
+
+.mineblock__resource-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.mineblock__resource-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+/* --- The inventory (a chest, and nothing else) --------------------------- */
+
+/* The chest IS the button: no border, no background, nothing but the picture. Its size is decided
+   here rather than by the file (150px), and the still frame the view paints over the animation is
+   drawn in the very same box. */
+.mineblock__inventory {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mineblock__inventory-icon {
+  display: block;
+  width: 3.5rem;
+  height: auto;
+  image-rendering: pixelated;
+  transition: transform var(--duration-fast) var(--easing-standard);
+}
+
+/* The chest leans forward under the finger and settles back: the animation of the webp is the
+   reward, this is only the acknowledgement of the tap. */
+.mineblock__inventory:hover .mineblock__inventory-icon,
+.mineblock__inventory:focus-visible .mineblock__inventory-icon {
+  transform: scale(1.06);
+}
+
+.mineblock__inventory:active .mineblock__inventory-icon {
+  transform: scale(0.95);
+}
+
+.mineblock__inventory:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+}
+
+/* --- The inventory dialog ------------------------------------------------ */
+
+.mineblock__inventory-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Icon, name, then the count pushed to the reading end: the quantities line up in a column. */
+.mineblock__inventory-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.mineblock__inventory-item-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.mineblock__inventory-item-name {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__inventory-item-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+.mineblock__inventory-empty {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* --- A player who asked for less motion ---------------------------------- */
+
+/* The base rituals of the mine do not belong to an animation mode, so the reduced-motion guard
+   lives here: the block still cracks (that IS the game) but nothing flies around it. */
+@media (prefers-reduced-motion: reduce) {
+  .mineblock__rock.is-hit .mineblock__rock-inner,
+  .mineblock__rock.is-broken .mineblock__rock-inner,
+  .mineblock__rock.is-arriving .mineblock__rock-inner {
+    animation: none;
+  }
+
+  /* The rewards still exist and are still announced (the toasts carry the numbers); they simply do
+     not fly: leaving them on screen would pile them up in the middle of the block. */
+  .mineblock__burst-item {
+    display: none;
+  }
+}

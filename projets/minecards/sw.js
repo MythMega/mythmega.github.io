@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v12';
+const VERSION = 'v13';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -102,6 +102,7 @@ const PRECACHE_URLS = [
   './css/views/binders.css',
   './css/views/stats.css',
   './css/views/minepick.css',
+  './css/views/mineblock.css',
   './css/views/profile.css',
   './css/components/trophy.css',
   './css/views/settings.css',
@@ -136,6 +137,7 @@ const PRECACHE_URLS = [
   './js/UI/views/CollectionView.js',
   './js/UI/views/GiftsView.js',
   './js/UI/views/InfoView.js',
+  './js/UI/views/MineBlockView.js',
   './js/UI/views/MinePickView.js',
   './js/UI/views/OnboardingView.js',
   './js/UI/views/OpeningView.js',
@@ -152,6 +154,7 @@ const PRECACHE_URLS = [
   './js/business/GachaEngine.js',
   './js/business/GiftManager.js',
   './js/business/MinePickManager.js',
+  './js/business/MiningManager.js',
   './js/business/ProfileIconManager.js',
   './js/business/ProfileManager.js',
   './js/business/PromoManager.js',
@@ -184,6 +187,7 @@ const PRECACHE_URLS = [
   './settings/i18n/en.json',
   './settings/codes.json',
   './settings/defaultRarity.json',
+  './settings/mining.json',
   './settings/default_profile_icons.json',
   './settings/boosters_trophy.json',
   './settings/global_trophy.json',

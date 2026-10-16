@@ -243,6 +243,7 @@
   <link rel="stylesheet" href="css/views/binders.css">
   <link rel="stylesheet" href="css/views/stats.css">
   <link rel="stylesheet" href="css/views/minepick.css">
+  <link rel="stylesheet" href="css/views/mineblock.css">
   <link rel="stylesheet" href="css/views/profile.css">
   <link rel="stylesheet" href="css/components/trophy.css">
   <link rel="stylesheet" href="css/views/settings.css">
@@ -691,6 +692,11 @@
             <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
             <span data-i18n="profile.stats.open">Statistiques</span>
           </button>
+          <!-- The trophy catalogue left the bottom bar: this is where it is opened from now on. -->
+          <button type="button" class="btn btn--ghost btn--small" data-profile-trophies>
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M12 12v5"/><path d="M8.5 17h7"/><path d="M8 5.5H6a3 3 0 0 0 3 3M16 5.5h2a3 3 0 0 1-3 3"/></svg>
+            <span data-i18n="nav.trophies">Trophées</span>
+          </button>
         </div>
       </div>
 
@@ -827,6 +833,17 @@
           <ol class="stats__history stats__history--minepick" data-stats-minepick-history></ol>
         </div>
 
+        <!-- Mine: how many blocks of each kind were broken, and what they gave (written by
+             `MiningManager`, whose state carries one counter per block). -->
+        <div class="panel stats__panel stats__panel--mining">
+          <h3 class="stats__title" data-i18n="stats.mining.title">Mine</h3>
+          <p class="stats__line" data-stats-mining-summary></p>
+          <p class="stats__title stats__title--sub" data-i18n="stats.mining.blocks">Blocs minés</p>
+          <div class="stats__bars" data-stats-mining-blocks></div>
+          <p class="stats__title stats__title--sub" data-i18n="stats.mining.resources">Ressources récoltées</p>
+          <p class="stats__line" data-stats-mining-resources></p>
+        </div>
+
         <!-- Last openings (the codes are shareable, the cards open the detail modal). -->
         <div class="panel stats__panel stats__panel--history">
           <h3 class="stats__title" data-i18n="stats.history.title">Dernières ouvertures</h3>
@@ -845,11 +862,18 @@
       </div>
     </section>
 
-    <!-- 3 bis. Trophies: the whole catalogue, narrowed down by two combos. -->
+    <!-- 3 bis. Trophies: the whole catalogue, narrowed down by two combos. The page is opened from
+         the profile (next to the statistics) since the bottom bar hosts the Mine: it therefore
+         carries a back button, exactly like the statistics page. -->
     <section class="view" id="view-trophies" data-view="trophies" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.trophies.title">Trophées</h2>
         <p class="view__subtitle" data-i18n="view.trophies.subtitle">Tous les trophées du jeu : filtrez par famille et par statut, puis touchez-en un pour voir son détail.</p>
+        <div class="view__header-actions">
+          <button type="button" class="btn btn--ghost btn--small" data-trophies-back>
+            <span data-i18n="trophies.back">Retour au profil</span>
+          </button>
+        </div>
       </div>
 
       <p class="feedback" data-trophies-feedback role="status" hidden></p>
@@ -923,6 +947,98 @@
           <p class="minepick__result" data-minepick-result role="status" hidden></p>
           <button type="button" class="btn btn--ghost btn--block" data-minepick-back data-i18n="minepick.back">Retour aux boosters</button>
         </section>
+      </div>
+    </section>
+
+    <!-- 4 bis. Mine: ten blocks a day, mined ONE BY ONE.
+         The block of the moment is drawn at random (by weight) among the five kinds shipped with the
+         application, and breaking it takes as many taps as its hardness. It is always worth its own
+         dust, sometimes Sparks, and the screen shows the resources harvested so far. The daily
+         allowance resets at midnight UTC, exactly like the boosters and the Mine Pick. Everything is
+         rendered by `MineBlockView`; the rules live in `settings/mining.json`. -->
+    <section class="view" id="view-mineblock" data-view="mineblock" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.mineblock.title">Mine</h2>
+        <p class="view__subtitle" data-i18n="view.mineblock.subtitle">Minez les blocs du jour et récoltez leurs ressources.</p>
+        <!-- The one action of the page, pushed to the top right of the screen. A screen of its own,
+             opened here and closed with its close button (the trade itself comes later): the markup
+             is the modal below. -->
+        <div class="view__header-actions mineblock__header-actions">
+          <button type="button" class="btn btn--ghost btn--small" data-mineblock-trader aria-haspopup="dialog" aria-expanded="false">
+            <img class="mineblock__trader-icon" src="assets/img/wanderingtrader.png" alt="" aria-hidden="true" decoding="async">
+            <span data-i18n="mineblock.trader">Marchand itinérant</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="feedback" data-mineblock-feedback role="status" hidden></p>
+
+      <div class="mineblock">
+        <section class="panel mineblock__panel">
+          <p class="mineblock__name" data-mineblock-name></p>
+          <p class="mineblock__remaining" data-mineblock-remaining aria-live="polite"></p>
+          <p class="mineblock__countdown" data-mineblock-countdown hidden>
+            <span data-i18n="mineblock.nextReset">Nouveaux blocs dans</span>
+            <time class="mineblock__countdown-value" data-mineblock-countdown-value>--:--:--</time>
+          </p>
+
+          <!-- The block of the moment, and the layer its rewards fly out into (the bursts are built
+               by the view: nothing is written here by hand). -->
+          <div class="mineblock__stage">
+            <button type="button" class="mineblock__rock" data-mineblock-rock>
+              <span class="mineblock__rock-inner">
+                <img class="mineblock__texture" data-mineblock-texture alt="" decoding="async">
+                <img class="mineblock__crack" data-mineblock-crack alt="" aria-hidden="true" hidden>
+              </span>
+              <span class="mineblock__burst" data-mineblock-burst aria-hidden="true"></span>
+            </button>
+            <p class="mineblock__hint" data-mineblock-hint></p>
+          </div>
+
+          <p class="mineblock__empty" data-mineblock-empty hidden data-i18n="mineblock.empty">Tous les blocs du jour sont minés : revenez après minuit UTC.</p>
+
+          <h3 class="stats__title" data-i18n="mineblock.resources.title">Ressources</h3>
+          <ul class="mineblock__resources" data-mineblock-resources></ul>
+
+          <!-- The inventory: a chest, and nothing else. The picture is an ANIMATED webp, so the view
+               shows a still frame of it (drawn once on a canvas) and swaps the animated file back in
+               for the length of one play when the chest is opened. The label below is the accessible
+               name of the button (`.sr-only`): the chest IS the button. -->
+          <button type="button" class="mineblock__inventory" data-mineblock-inventory aria-haspopup="dialog" aria-expanded="false">
+            <img class="mineblock__inventory-icon" data-mineblock-inventory-icon src="assets/img/chest.webp" alt="" decoding="async">
+            <span class="sr-only" data-i18n="mineblock.inventory">Inventaire</span>
+          </button>
+        </section>
+      </div>
+
+      <!-- Inventory: every resource harvested so far, with its name. Opened by the chest. -->
+      <div class="modal" data-mineblock-inventory-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="mineblock-inventory-title">
+          <button type="button" class="modal__close" data-mineblock-inventory-close aria-label="×">×</button>
+          <h2 class="modal__title" id="mineblock-inventory-title" data-i18n="mineblock.inventory.title">Inventaire</h2>
+          <div class="modal__body">
+            <ul class="mineblock__inventory-list" data-mineblock-inventory-list></ul>
+            <p class="mineblock__inventory-empty" data-mineblock-inventory-empty hidden data-i18n="mineblock.inventory.empty">Aucune ressource récoltée pour le moment : cassez un bloc !</p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-mineblock-inventory-dismiss data-i18n="mineblock.inventory.close">Fermer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wandering trader: a screen of the same name, implemented later. For now it opens and
+           closes (close button, backdrop or Escape) and explains what it will do. -->
+      <div class="modal" data-mineblock-trader-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="mineblock-trader-title">
+          <button type="button" class="modal__close" data-mineblock-trader-close aria-label="×">×</button>
+          <h2 class="modal__title" id="mineblock-trader-title" data-i18n="mineblock.trader.title">Marchand itinérant</h2>
+          <div class="modal__body">
+            <p data-i18n="mineblock.trader.soon">Le marchand itinérant arrive bientôt : il aura des échanges à vous proposer contre vos ressources.</p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-mineblock-trader-dismiss data-i18n="mineblock.trader.close">Fermer</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1307,9 +1423,12 @@
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>
       <span data-i18n="nav.collection">Collection</span>
     </button>
-    <button type="button" class="app-nav__item" data-nav-target="trophies">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M12 12v5"/><path d="M8.5 17h7"/><path d="M8 5.5H6a3 3 0 0 0 3 3M16 5.5h2a3 3 0 0 1-3 3"/></svg>
-      <span data-i18n="nav.trophies">Trophées</span>
+    <!-- The Mine: ten blocks a day, mined one by one. It takes the slot the trophies used to hold;
+         the trophy catalogue is now reached from the profile, next to the statistics. -->
+    <button type="button" class="app-nav__item" data-nav-target="mineblock">
+      <!-- A pickaxe: the crescent head with its two tips, and the handle running down to the right. -->
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 9.5c4-4.5 11.5-4.5 17 .5-4.5 1.6-9.4 1.5-13.3-.6"/><path d="M11.5 10.5 20.5 20"/></svg>
+      <span data-i18n="nav.mineblock">Mine</span>
     </button>
     <!-- The main action: styled like a primary button so it reads as THE thing to do. -->
     <button type="button" class="app-nav__item app-nav__item--primary" data-nav-target="opening">

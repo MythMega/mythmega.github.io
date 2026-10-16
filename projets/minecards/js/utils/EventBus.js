@@ -86,6 +86,11 @@ export const EVENTS = Object.freeze({
    * pick and whenever the daily allowance rolls over: the Mine Pick screen and the dedicated
    * statistics repaint. The card itself is announced through `CARDS_OBTAINED` (`source: 'minepick'`). */
   MINE_PICK_UPDATED: 'MINE_PICK_UPDATED',
+  /** Payload: `{ day, minedToday, remaining, blocksPerDay, totalMined }`. Emitted by MiningManager
+   * after a tap on a block and whenever the daily allowance rolls over: the mine screen and its
+   * dedicated statistics repaint. The rewards themselves are carried by the result of `mine()`,
+   * and the Sparks go through `SPARKS_UPDATED` like every other credit. */
+  MINING_UPDATED: 'MINING_UPDATED',
   /** Payload: `{ binders }`. Emitted by BinderManager after a binder was created, edited, deleted or
    * after a card sold from the collection was taken out of the binders that showed it: the binder
    * list and the open binder repaint from it. */

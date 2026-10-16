@@ -37,6 +37,16 @@ import Toast from '../components/Toast.js';
 /** View name, matching `data-view="trophies"` in `index.html`. */
 export const TROPHIES_VIEW_NAME = 'trophies';
 
+/**
+ * View the back button returns to: the profile.
+ *
+ * The catalogue is no longer a destination of the bottom bar, it is opened from the profile (next
+ * to the statistics, which work exactly the same way): a page reached that way owes the player a
+ * way back to where they came from. Spelled out here rather than imported from `ProfileView`, which
+ * imports THIS module: the two would then depend on each other.
+ */
+export const TROPHIES_BACK_VIEW = 'profile';
+
 /** Status filter of the trophy list (the second combo). */
 export const TROPHY_FILTERS = Object.freeze({
   ALL: 'all',
@@ -66,13 +76,17 @@ const CATEGORY_ORDER = Object.freeze([
 export class TrophiesView {
   /**
    * @param {HTMLElement} rootElement - The trophies `<section>`.
+   * @param {object} [options] - View options.
+   * @param {(viewName: string) => void} [options.onNavigate] - Called by the back button to switch
+   *   view (the router belongs to `app.js`, which passes its `show()`).
    */
-  constructor(rootElement) {
+  constructor(rootElement, { onNavigate = null } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('TrophiesView requires the trophies section element.');
     }
 
     this.root = rootElement;
+    this.backButton = this.root.querySelector('[data-trophies-back]');
     this.feedbackElement = this.root.querySelector('[data-trophies-feedback]');
     this.summaryElement = this.root.querySelector('[data-trophies-summary]');
     this.familySelect = this.root.querySelector('[data-trophies-family]');
@@ -85,6 +99,9 @@ export class TrophiesView {
     this.modalClose = this.root.querySelector('[data-trophies-modal-close]');
 
     this.assertMarkup();
+
+    /** @type {((viewName: string) => void)|null} */
+    this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
 
     /** @type {object|null} Last trophy state returned by `TrophyManager`. */
     this.trophyState = null;
@@ -125,12 +142,14 @@ export class TrophiesView {
    */
   assertMarkup() {
     const missing = [
+      ['[data-trophies-back]', this.backButton],
       ['[data-trophies-summary]', this.summaryElement],
       ['[data-trophies-family]', this.familySelect],
       ['[data-trophies-status]', this.statusSelect],
       ['[data-trophies-list]', this.listElement],
       ['[data-trophies-modal]', this.modal],
       ['[data-trophies-modal-title]', this.modalTitle],
+      ['[data-trophies-modal-close]', this.modalClose],
       ['[data-trophies-modal-body]', this.modalBody],
     ]
       .filter(([, element]) => !element)
@@ -175,6 +194,8 @@ export class TrophiesView {
    * @returns {void}
    */
   bindEvents() {
+    // The catalogue lives on its own page: this button only asks the application to leave it.
+    this.listen(this.backButton, 'click', () => this.onNavigate?.(TROPHIES_BACK_VIEW));
     this.listen(this.familySelect, 'change', () => {
       this.family = this.familySelect.value;
       this.renderTrophies();

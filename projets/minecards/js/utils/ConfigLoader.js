@@ -115,6 +115,22 @@ export const DEFAULT_MINE_PICK_SETTINGS = Object.freeze({
 });
 
 /**
+ * Default settings of the Mine (MineBlock), used whenever `settings/config.json` omits a value.
+ *
+ * `configPath` locates the rules of the blocks themselves (`settings/mining.json`: the five kinds,
+ * their weight, their hardness and their loot), `blocksPerDay` is the daily allowance of blocks
+ * (reset at midnight UTC, like the boosters), `nextBlockDelayMs` is how long the broken block stays
+ * on screen before the next one drops in, and `seedSalt` salts the order of the day, which is
+ * derived from the account UUID so two accounts never share one.
+ */
+export const DEFAULT_MINING_SETTINGS = Object.freeze({
+  configPath: 'settings/mining.json',
+  blocksPerDay: 10,
+  nextBlockDelayMs: 100,
+  seedSalt: 'minecards-mining-v1',
+});
+
+/**
  * Price of one extra booster, bought with Sparks once the free daily boosters are spent.
  *
  * A bought booster lands in its own quota bucket: it survives the daily reset and is only spent
@@ -486,6 +502,37 @@ export class ConfigLoader {
         Number.isFinite(exponent) && exponent >= 0
           ? exponent
           : DEFAULT_MINE_PICK_SETTINGS.setWeightExponent,
+    };
+  }
+
+  /**
+   * Mine (MineBlock) settings, completed with `DEFAULT_MINING_SETTINGS`.
+   *
+   * The daily allowance of blocks, the path of the block rules and the seed salt fall back to
+   * their shipped defaults when the section is missing or a value is unusable: a partially edited
+   * configuration must never leave the mine without a block to mine.
+   *
+   * @returns {Promise<{configPath: string, blocksPerDay: number, nextBlockDelayMs: number,
+   *   seedSalt: string}>} The mine settings.
+   * @throws {Error} See `load()`.
+   */
+  async getMiningSettings() {
+    const config = await this.getConfig();
+    const mining = config.mining || {};
+    return {
+      configPath: ConfigLoader.normalizePath(mining.configPath, DEFAULT_MINING_SETTINGS.configPath),
+      blocksPerDay: ConfigLoader.normalizePositiveInteger(
+        mining.blocksPerDay,
+        DEFAULT_MINING_SETTINGS.blocksPerDay
+      ),
+      nextBlockDelayMs: ConfigLoader.normalizePositiveInteger(
+        mining.nextBlockDelayMs,
+        DEFAULT_MINING_SETTINGS.nextBlockDelayMs
+      ),
+      seedSalt:
+        typeof mining.seedSalt === 'string' && mining.seedSalt.trim() !== ''
+          ? mining.seedSalt.trim()
+          : DEFAULT_MINING_SETTINGS.seedSalt,
     };
   }
 

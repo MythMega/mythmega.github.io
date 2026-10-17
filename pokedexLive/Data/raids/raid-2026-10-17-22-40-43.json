@@ -1,0 +1,131 @@
+{
+  "bossName": "Bras\u00E9gali",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blaziken_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Blaziken_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-10-17 22:40:43",
+  "durationSec": 5840,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 59913,
+      "countAtk": 4,
+      "baseDmg": 14913,
+      "level": 17,
+      "raidCount": 519,
+      "luck": 1.0043753
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 966,
+      "countAtk": 1,
+      "baseDmg": 966,
+      "level": 10,
+      "raidCount": 57,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 60879
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-17 22:42:17",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 966,
+      "pvAfter": 59034,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-17 22:44:03",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 14913,
+      "pvAfter": 44121,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-17 23:06:04",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 29121,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-17 23:33:26",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 14121,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-18 00:18:04",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

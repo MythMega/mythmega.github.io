@@ -98,7 +98,7 @@
                     "Type": "Stone Dust"
                 }
             ],
-            "Hardness": 3
+            "Hardness": 10
         },
         {
             "ID": "material.deepslate",
@@ -119,7 +119,7 @@
                     "Type": "Sculk Dust"
                 }
             ],
-            "Hardness": 5
+            "Hardness": 20
         },
         {
             "ID": "material.blackstone",
@@ -140,7 +140,7 @@
                     "Type": "Glowstone Dust"
                 }
             ],
-            "Hardness": 10
+            "Hardness": 35
         },
         {
             "ID": "material.endstone",
@@ -161,7 +161,7 @@
                     "Type": "Void Dust"
                 }
             ],
-            "Hardness": 15
+            "Hardness": 50
         },
         {
             "ID": "material.obsidian",
@@ -182,7 +182,7 @@
                     "Type": "Ultima"
                 }
             ],
-            "Hardness": 30
+            "Hardness": 100
         }
     ]
 }

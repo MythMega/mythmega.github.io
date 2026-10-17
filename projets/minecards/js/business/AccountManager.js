@@ -48,6 +48,9 @@ export const USER_STATE_KEYS = Object.freeze({
   MINE_PICK: 'minePick',
   // Daily allowance, resources and statistics of the Mine (see `MiningManager`).
   MINING: 'mining',
+  // Weekly shop of the Wandering Trader: the Monday its purchases belong to, and how many times
+  // each offer was bought (see `TraderManager`).
+  TRADER: 'trader',
   // Personal binders (see `BinderManager`). A single value: the array of binders, in creation
   // order. It lives in `user_state` rather than in a store of its own so that a `.save` export
   // carries it with no change to the save format.

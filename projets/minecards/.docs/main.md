@@ -35,6 +35,7 @@ Clés de `user_state` :
 - `"binders"` : `[{ id, name, cover, createdAt, slots: (string|null)[30] }]` — les **binders** du joueur (`BinderManager`), dans l'ordre de création. `cover` est la clé de collection de la carte représentative (le `Background` de cette carte devient le fond de la page), `slots` les 30 emplacements (clé de collection ou `null`). Rangé dans `user_state` — et non dans un store à part — pour qu'un `.save` l'emporte sans changer le format de sauvegarde.
 - `"minePick"` : `{ lastResetDay, remaining, bonusPicks, totalPicks, picksByBooster, picksByRarity, picksByCard, history }` — état de la Mine Pick (`MinePickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), `bonusPicks` pour les pioches **achetées en Sparks** (jamais effacées par le reset, dépensées seulement quand les gratuites sont épuisées), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
 - `"mining"` : `{ lastResetDay, minedToday, clicks, resources, blocksMined, totalMined, sparksFound }` — état de la **Mine** (`MiningManager`) : quota du jour (remis à `blocksPerDay` blocs à minuit UTC), `clicks` = les coups déjà portés au bloc du moment (le bloc lui-même n'est **jamais stocké** : il est dérivé de la graine du jour, voir 3.G sexies), `resources` = la quantité de chacune des ressources récoltées, `blocksMined` = un compteur **par type de bloc** (la statistique propre à la fonctionnalité) et les totaux (blocs cassés, Sparks trouvés).
+- `"trader"` : `{ week, purchases: { [offerKey]: number } }` — état du **Marchand itinérant** (`TraderManager`) : `week` est le **lundi** auquel appartiennent les achats enregistrés, `purchases` le nombre de fois que chaque offre de la boutique a été achetée cette semaine-là. Un état dont `week` n'est pas la semaine courante est lu comme vide : c'est le reroll de la boutique, qui n'écrit rien tant que rien n'est acheté.
 
 Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `lang` et `theme` est autorisé, pour appliquer le thème avant le premier rendu (évite le flash).
 
@@ -335,9 +336,42 @@ une barre par sorte de bloc (y compris celles jamais rencontrées, à 0 — c'es
 ressources récoltées.
 
 **Marchand itinérant.** Le bouton en haut à droite — son icône `assets/img/wanderingtrader.png`, puis son
-libellé — ouvre un **écran du même nom** (`Marchand itinérant` / `Wandering Trader`), implémenté plus
-tard : pour l'instant il explique ce qu'il proposera et se ferme par son bouton, le voile ou `Échap`. Un
-seul dialogue est ouvert à la fois : ouvrir l'inventaire ferme le marchand, et l'inverse.
+libellé — ouvre la **boutique de la semaine** : des cartes s'achètent avec les ressources de la mine
+(`js/business/TraderManager.js`). Un seul dialogue est ouvert à la fois : ouvrir l'inventaire ferme le
+marchand, et l'inverse.
+
+**La même boutique pour tout le monde.** Le tirage de la semaine est amorcé par la seule **date du lundi**
+de la semaine courante (jour UTC fiable de `DateSyncManager`, jamais `Date.now()`, et **pas** l'UUID du
+compte) : deux joueurs voient donc les mêmes cartes aux mêmes prix, un rechargement ne les change pas, et
+la boutique **se reroll toute seule le lundi à minuit UTC** (c'est `week` qui suit). La composition est
+celle de `shop.offers` (deux cartes de rareté 1, une de rareté 2, une de rareté 3, une de rareté 4) : les
+cartes d'une rareté sont **mises en commun depuis toutes les extensions chargées** (les promos sont
+exclues : elles ne se tirent jamais, une offre épinglée est la seule façon d'en vendre une) et aucune
+carte n'apparaît deux fois dans la boutique de la semaine.
+
+**Le prix.** Une carte se paie en **exactement trois** sortes de ressources, et le prix vaut **au centime
+près** la valeur de sa rareté (`shop.rarityValues` / `shop.itemsValues`, lus dans la même unité). Les trois
+ressources sont tirées au sort (distinctes), puis toutes les quantités qui paient la cible exactement sont
+énumérées — la moins chère absorbe le reste, donc elle doit le diviser — et l'amorçage choisit parmi les
+trois combinaisons les plus sobres : jamais de montagne d'une même poussière pour une carte, toujours le
+compte juste, et un tirage sans solution (une ressource qui vaut plus que la cible) est simplement
+remplacé par un autre. Une ressource que `itemsValues` nomme mais que la mine ne récolte pas ne peut
+donc **jamais** être demandée.
+
+**Ce qu'on peut acheter.** `shop.allItemsUniques` décide si une offre se rachète : à `true` une offre
+achetée est **épuisée jusqu'au lundi suivant** ; à `false` la boutique la revend tant que le joueur a les
+ressources. Les **offres épinglées** de `data/shop/pinned_offers.json` ne sont jamais aléatoires : chacune
+porte sa carte (`Index`, avec `isPromotional` pour une promo), son prix (autant de lignes qu'elle veut,
+en noms de ressources), ses dates d'entrée et d'expiration (`Period`) et son stock (`MaxUse`). Les deux
+familles d'offres sont dessinées par la même vue, dans la même liste, les épinglées en tête.
+
+**Un achat, une transaction.** Le prix (les ressources de la mine), la ligne de collection et le compteur
+d'achats s'écrivent dans **une seule** transaction : un échec ne peut ni débiter sans donner la carte, ni
+donner la carte sans débiter. Le reroll est évalué **dans** la transaction, donc un achat lancé juste
+après le changement de semaine ne peut pas consommer le stock de la précédente. La carte achetée est
+annoncée par `CARDS_OBTAINED` (`source: 'trader'`) comme toute carte obtenue — trophées, expérience et
+notifications suivent — et les ressources dépensées par `MINING_UPDATED`, ce qui fait vivre les pastilles
+de la mine et la page Statistiques.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.

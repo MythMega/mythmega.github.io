@@ -147,13 +147,22 @@
   },
 
   "shop": {
+    "_comment": "Wandering Trader (the trading screen of the Mine, `js/business/TraderManager.js`). Two kinds of offers. THE WEEKLY SHOP is drawn from a seed built on the date of the MONDAY of the current week and nothing else - no account, no device: every player sees the same cards at the same price, and the shop rerolls by itself every Monday at 00:00 UTC ('seedSalt' changes the draw for everyone, and rebuilds the CURRENT week). 'offers' is its composition (rarity -> how many cards, pooled from every loaded extension, never twice the same card). A card is paid in exactly three kinds of mined resource, and 'rarityValues' (what a card of that rarity is worth) and 'itemsValues' (what one unit of a resource is worth) are read in the same unit, so the price of a card is always worth its rarity to the unit - a name in 'itemsValues' that matches no reward of 'settings/mining.json' can never be asked for. 'allItemsUniques' decides whether an offer can be bought again once it was bought: true, it is exhausted until the next reroll; false, the shop sells it as long as the player has the resources. THE PINNED OFFERS are hand-written in 'pinnedPath' (card, price, days it is sold in and stock, see the file itself): they are never random.",
+    "seedSalt": "minecards-trader-v1",
     "allItemsUniques": true,
+    "pinnedPath": "data/shop/pinned_offers.json",
+    "offers": {
+      "1": 2,
+      "2": 1,
+      "3": 1,
+      "4": 1
+    },
     "rarityValues": {
       "1": 50,
       "2": 100,
       "3": 250,
       "4": 500
-  },
+    },
     "itemsValues": {
       "Stone Dust": 1,
       "Sculk Dust": 5,

@@ -123,7 +123,7 @@ export class ViewHelp {
     button.dataset.viewHelpToggle = name;
     button.setAttribute('aria-expanded', 'false');
     button.setAttribute('aria-controls', panelId);
-    button.setAttribute('aria-label', `${i18n.t('view.help.label')} — ${i18n.t(`view.${name}.title`)}`);
+    button.setAttribute('aria-label', `${i18n.t('view.help.label')} (${i18n.t(`view.${name}.title`)})`);
     button.appendChild(ViewHelp.buildInfoIcon());
     const label = document.createElement('span');
     label.dataset.i18n = 'view.help.label';

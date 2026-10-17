@@ -447,6 +447,9 @@
 
 .binder-share__avatar {
   object-fit: contain;
+  /* The avatars are pixel art: letting the browser interpolate them is what turns a crisp 32px
+     icon into a blurry circle once it is drawn at another size. */
+  image-rendering: pixelated;
 }
 
 .binder-share__avatar-fallback {

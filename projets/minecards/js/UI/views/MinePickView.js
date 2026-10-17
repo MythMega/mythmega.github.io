@@ -14,17 +14,19 @@
  *      up, its button turns into "Open this booster" and nothing is spent), the second one opens
  *      it. Opening a pack costs a free pick, so it must never happen because a thumb brushed a
  *      row while the list was scrolling.
- *   2. `pick` stage: the chosen pack is dealt face up — the very content that was listed — then its
+ *   2. `pick` stage: the chosen pack is dealt face up (the very content that was listed), then its
  *      cards turn over one after another and the pack is shuffled (a seeded permutation, so a reload
- *      always deals the same pack the same way). Only then can the player keep a card; the other
- *      cards are revealed one after another.
+ *      always deals the same pack the same way). The shuffle gathers every card into ONE pile in the
+ *      middle of the stage before dealing them back out: a player who could follow a single card
+ *      from slot to slot would no longer be picking at random. Only then can the player keep a card;
+ *      the other cards are revealed one after another.
  *   3. the result line names the kept card, says whether it was new, and the remaining picks.
  *      "Back to the boosters" returns to the list, where the booster now shows the card that was
  *      taken from it.
  *
  * Every step of that ritual is animated (`css/views/minepick.css`): the blast of light when the
  * pack lands, the cards dealing in, the slow breathing of the pack face up while it is studied,
- * the turn-over, a wobble during the shuffle and the shockwave of the kept card. The durations
+ * the turn-over, the pile of the shuffle and the shockwave of the kept card. The durations
  * come from the animation mode, so an "epic" player gets a slower, wider version of all of it.
  *
  * Reference: `settings/config.json` (`minePick`).
@@ -79,9 +81,18 @@ const DEAL_MS = 700;
 const STUDY_MIN_MS = 900;
 const STUDY_MAX_MS = 1800;
 
-/** Bounds of the movement of the shuffle, in milliseconds. */
-const SHUFFLE_MIN_MS = 320;
-const SHUFFLE_MAX_MS = 620;
+/**
+ * Bounds of the shuffle, in milliseconds.
+ *
+ * The gesture is read in three beats (gather, pile, deal back out), so it is deliberately longer
+ * than a simple swap: under half a second the pile is a blink, and the player cannot tell that the
+ * cards really went through one single place.
+ */
+const SHUFFLE_MIN_MS = 620;
+const SHUFFLE_MAX_MS = 900;
+
+/** How long the pack sits in its pile before it is dealt back out, in milliseconds. */
+const PILE_HOLD_MS = 140;
 
 /** Multiplier applied to the flip duration to size the study pause. */
 const STUDY_FLIP_FACTOR = 1.5;
@@ -574,7 +585,7 @@ export class MinePickView {
     const label = i18n.t(selected ? 'minepick.board.open' : 'minepick.board.pick');
     button.textContent = label;
     if (selected) button.dataset.minepickSelected = 'true';
-    button.setAttribute('aria-label', `${label} — ${name}`);
+    button.setAttribute('aria-label', `${label} (${name})`);
     action.appendChild(button);
     row.appendChild(action);
 
@@ -645,7 +656,7 @@ export class MinePickView {
    * @returns {string} The description.
    */
   describeCard(card) {
-    return `${card.getName(i18n.getLang())} — ${getRarityLabel(card.rarity, (key) => i18n.t(key))}`;
+    return `${card.getName(i18n.getLang())} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
   }
 
   /**
@@ -872,11 +883,14 @@ export class MinePickView {
   }
 
   /**
-   * Moves the cards to their shuffled positions, face down.
+   * Shuffles the pack by piling every card in ONE place, face down.
    *
-   * A classic FLIP: the distance each card has to travel is measured BEFORE the elements are
-   * reordered, then applied as a translation that animates back to zero. The DOM is reordered while
-   * the cards are face down, which is why the swap itself can never be seen.
+   * Tracking a card from its slot to another would defeat the whole ritual: a player who can
+   * follow the one they want would not be picking at random any more. So the pack is NOT spread into
+   * its new order at all: every card travels to the same point, in the middle of the stage, where
+   * they all end up stacked on top of each other. The DOM is reordered while they are in that pile
+   * (an invisible moment: same place, same face), then they fly back out to the five slots, where
+   * any of them could be the one that started anywhere.
    *
    * @param {number[]} order - Display order: slot `d` holds the card `order[d]`.
    * @returns {void}
@@ -891,37 +905,97 @@ export class MinePickView {
     }
 
     const duration = this.resolveShuffleDuration();
-    const before = elements.map((element) => element.getBoundingClientRect());
-    this.applyCardOrder(order, elements);
-    if (duration <= 0) return;
+    // The turn-down animation of the last card may still own `transform`: it has to go before an
+    // inline translation can move the card.
+    this.cardComponents.forEach((component) => component.element?.classList.remove('is-turning'));
+    if (duration <= 0) {
+      this.applyCardOrder(order, elements);
+      return;
+    }
 
-    // The wobble: a rotation applied through the independent `rotate`/`scale` properties, which
-    // composes with the inline translation below instead of fighting it. The duration rides on
-    // the container so the stylesheet does not have to guess how long this shuffle lasts.
+    // The three beats of the gesture: gather into the pile, hold it, then deal back out of it.
+    const gather = Math.round(duration * 0.4);
+    const spread = Math.max(0, duration - gather - PILE_HOLD_MS);
+    const stage = this.cardsElement.getBoundingClientRect();
+    const center = {
+      x: stage.left + stage.width / 2,
+      y: stage.top + stage.height / 2,
+    };
+    const tilts = [-5, 4, -3, 6, -6];
+
+    elements.forEach((element) => {
+      element.style.transition = 'none';
+      element.style.transform = '';
+    });
+    void this.cardsElement.offsetWidth;
+
+    // 1. Every card, to the same point. The slight tilts and the z-index make a believable pile
+    //    instead of five cards perfectly glued together.
+    elements.forEach((element, index) => {
+      const rect = element.getBoundingClientRect();
+      const deltaX = center.x - (rect.left + rect.width / 2);
+      const deltaY = center.y - (rect.top + rect.height / 2);
+      element.style.transition = `transform ${gather}ms var(--easing-standard)`;
+      element.style.transform =
+        `translate(${deltaX}px, ${deltaY}px) rotate(${tilts[index % tilts.length]}deg) scale(0.9)`;
+      element.style.zIndex = String(index + 1);
+    });
+
+    // The wobble rides on the independent `rotate`/`scale` properties, which composes with the
+    // inline translation instead of fighting it. The duration rides on the container so the
+    // stylesheet does not have to guess how long this shuffle lasts.
     this.cardsElement.style.setProperty('--minepick-shuffle-ms', `${duration}ms`);
     this.cardsElement.classList.remove('is-shuffling');
     void this.cardsElement.offsetWidth;
     this.cardsElement.classList.add('is-shuffling');
 
-    elements.forEach((element, index) => {
-      const from = before[index];
-      const to = element.getBoundingClientRect();
-      const deltaX = from.left - to.left;
-      const deltaY = from.top - to.top;
-      if (deltaX === 0 && deltaY === 0) return;
-      element.style.transition = 'none';
-      element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-      element.style.zIndex = '2';
-    });
+    this.shuffleTimer = this.setViewTimeout(
+      () => this.dealFromPile(order, { center, spread, tilts }),
+      gather + PILE_HOLD_MS
+    );
+  }
 
-    // One reflow so the starting translations are committed before the transition is enabled.
-    void this.cardsElement.offsetWidth;
+  /**
+   * Reorders the pack inside the pile, then deals it back out to the five slots.
+   *
+   * The reorder happens with every card still at the same place and under the same face: the browser
+   * paints once, at the end of this task, so not a single frame ever shows a card jumping to another
+   * slot. What leaves the pile is therefore a pack nobody can map back to the one that went in.
+   *
+   * @param {number[]} order - Display order: slot `d` holds the card `order[d]`.
+   * @param {{center: {x: number, y: number}, spread: number, tilts: number[]}} scene - Geometry of
+   *   the gesture, measured by `shuffleCards()`.
+   * @returns {void}
+   */
+  dealFromPile(order, { center, spread, tilts }) {
+    const elements = this.cardComponents.map((component) => component.element);
+    if (elements.some((element) => !element)) return;
 
     elements.forEach((element) => {
-      element.style.transition = `transform ${duration}ms var(--easing-standard)`;
+      element.style.transition = 'none';
       element.style.transform = '';
     });
-    this.shuffleTimer = this.setViewTimeout(() => this.clearShuffleTransforms(), duration + 40);
+    void this.cardsElement.offsetWidth;
+    this.applyCardOrder(order, elements);
+
+    // 2. Back on the pile, from the fresh layout of each card's NEW slot: one synchronous block, so
+    //    the swap itself is never painted.
+    elements.forEach((element, index) => {
+      const rect = element.getBoundingClientRect();
+      const deltaX = center.x - (rect.left + rect.width / 2);
+      const deltaY = center.y - (rect.top + rect.height / 2);
+      element.style.transition = 'none';
+      element.style.transform =
+        `translate(${deltaX}px, ${deltaY}px) rotate(${tilts[index % tilts.length]}deg) scale(0.9)`;
+    });
+    void this.cardsElement.offsetWidth;
+
+    // 3. And out to the slots, where the pack is finally handed to the player.
+    elements.forEach((element) => {
+      element.style.transition = `transform ${spread}ms var(--easing-standard)`;
+      element.style.transform = '';
+    });
+    this.shuffleTimer = this.setViewTimeout(() => this.clearShuffleTransforms(), spread + 40);
   }
 
   /**

@@ -146,6 +146,11 @@ export const DEFAULT_SHOP_SETTINGS = Object.freeze({
   seedSalt: 'minecards-trader-v1',
   allItemsUniques: true,
   pinnedPath: 'data/shop/pinned_offers.json',
+  // Daily resource-for-resource trades shown by the trader: each one exchanges two mined resources
+  // for the same value, the dearest side counting one unit (`1 Ultima` against `2 Void Dust`). They
+  // are drawn from the UTC day alone, so every player sees the same ones, and they roll over at
+  // midnight UTC.
+  tradesPerDay: 3,
   rarityValues: Object.freeze({ 1: 50, 2: 100, 3: 250, 4: 500 }),
   itemsValues: Object.freeze({
     'Stone Dust': 1,
@@ -576,7 +581,8 @@ export class ConfigLoader {
    * An empty list of offers, or a value map without a single usable entry, is read as the default
    * one - a price needs resources to be built from, and a shop needs cards.
    *
-   * @returns {Promise<{seedSalt: string, allItemsUniques: boolean, pinnedPath: string,
+   * @returns {Promise<{seedSalt: string, allItemsUniques: boolean, tradesPerDay: number,
+   *   pinnedPath: string,
    *   rarityValues: Record<string, number>, itemsValues: Record<string, number>,
    *   offers: Array<[number, number]>}>} The shop settings. `offers` is a list of
    *   `[rarity, count]`, from the lowest rarity to the highest.
@@ -594,6 +600,10 @@ export class ConfigLoader {
         typeof shop.allItemsUniques === 'boolean'
           ? shop.allItemsUniques
           : DEFAULT_SHOP_SETTINGS.allItemsUniques,
+      tradesPerDay: ConfigLoader.normalizePositiveInteger(
+        shop.tradesPerDay,
+        DEFAULT_SHOP_SETTINGS.tradesPerDay
+      ),
       pinnedPath: ConfigLoader.normalizePath(shop.pinnedPath, DEFAULT_SHOP_SETTINGS.pinnedPath),
       rarityValues: ConfigLoader.normalizeValueMap(shop.rarityValues, DEFAULT_SHOP_SETTINGS.rarityValues),
       itemsValues: ConfigLoader.normalizeValueMap(shop.itemsValues, DEFAULT_SHOP_SETTINGS.itemsValues),

@@ -479,10 +479,19 @@ export class StatsView {
 
     if (this.miningResourcesElement) {
       const harvested = state?.resources ?? {};
-      const lines = (resources ?? [])
-        .map((resource) => ({ resource, count: Number(harvested[resource.slug]) || 0 }))
-        .filter(({ count }) => count > 0)
-        .map(({ resource, count }) => `${this.resolveResourceLabel(resource)} : ${count}`);
+      // Every resource the mine can give is listed, even at zero: the panel is a catalogue, like
+      // the bars above it, and a resource that is missing from the line reads as a bug rather than
+      // as an empty stock. A resource the configuration no longer declares is appended as well, so
+      // a save never hides what the player actually holds.
+      const declared = new Map((resources ?? []).map((resource) => [resource.slug, resource]));
+      Object.keys(harvested).forEach((slug) => {
+        if (!declared.has(slug)) declared.set(slug, { slug, type: slug, nameKey: null });
+      });
+
+      const lines = Array.from(declared.values()).map(
+        (resource) =>
+          `${this.resolveResourceLabel(resource)} : ${Number(harvested[resource.slug]) || 0}`
+      );
       this.miningResourcesElement.textContent =
         lines.length > 0 ? lines.join(' · ') : i18n.t('stats.mining.empty');
     }
@@ -585,7 +594,7 @@ export class StatsView {
 
     const name = document.createElement('p');
     name.className = 'stats__minepick-name';
-    name.textContent = `${entry?.card?.getName(i18n.getLang()) ?? pick.key} — ${getRarityLabel(
+    name.textContent = `${entry?.card?.getName(i18n.getLang()) ?? pick.key} · ${getRarityLabel(
       entry?.card?.rarity ?? pick.rarity,
       (key) => i18n.t(key)
     )}`;
@@ -699,7 +708,7 @@ export class StatsView {
     button.dataset.cardIndex = String(cardIndex);
     const name = card.getName(i18n.getLang());
     const rarityLabel = getRarityLabel(card.rarity, (key) => i18n.t(key));
-    button.setAttribute('aria-label', `${name} — ${rarityLabel}`);
+    button.setAttribute('aria-label', `${name} (${rarityLabel})`);
 
     const image = document.createElement('img');
     image.className = 'stats__history-image';
@@ -776,7 +785,7 @@ export class StatsView {
     const image = document.createElement('img');
     image.className = 'card-modal__image';
     image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = `${name} — ${getRarityLabel(card.rarity, (key) => i18n.t(key))}`;
+    image.alt = `${name} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
     image.addEventListener('error', () => {
       console.warn(`[StatsView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
       image.hidden = true;
@@ -850,7 +859,7 @@ export class StatsView {
    * @returns {string} `YYYY-MM-DD HH:MM`, or a placeholder when the value is missing.
    */
   static formatHistoryDate(value) {
-    if (typeof value !== 'string' || value.length < 16) return '—';
+    if (typeof value !== 'string' || value.length < 16) return i18n.t('common.unknown');
     return `${value.slice(0, 10)} ${value.slice(11, 16)}`;
   }
 

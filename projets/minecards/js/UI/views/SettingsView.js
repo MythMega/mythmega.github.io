@@ -84,7 +84,6 @@ export class SettingsView {
     this.languageContainer = query('[data-settings-languages]');
     this.themeContainer = query('[data-settings-themes]');
     this.animationContainer = query('[data-settings-animations]');
-    this.animationNotice = query('[data-settings-animation-notice]');
     this.foilSlider = query('[data-settings-foil]');
     this.foilValueElement = query('[data-settings-foil-value]');
     this.glareSlider = query('[data-settings-glare]');
@@ -310,7 +309,7 @@ export class SettingsView {
         const badge = document.createElement('span');
         badge.className = 'anim-option__badge';
         // Leading space: the badge is part of the label read by a screen reader ("Explosif
-        // parodique"), while the visible gap comes from the CSS margin.
+        // BLAGUE"), while the visible gap comes from the CSS margin.
         badge.textContent = ` ${i18n.t('settings.animation.parodic')}`;
         button.appendChild(badge);
       }
@@ -407,7 +406,7 @@ export class SettingsView {
    */
   async renderAccount() {
     this.uuid = await accountManager.getUuid();
-    this.uuidElement.textContent = this.uuid ?? '—';
+    this.uuidElement.textContent = this.uuid ?? i18n.t('common.unknown');
     this.uuidElement.setAttribute('title', this.uuid ?? '');
   }
 
@@ -488,17 +487,12 @@ export class SettingsView {
    */
   syncAnimationButtons() {
     const current = animationManager.getMode();
-    const isParodic = animationManager.isParodicMode(current);
 
     this.animationButtons.forEach((button, id) => {
       const isActive = id === current;
       button.classList.toggle('is-active', isActive);
       button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     });
-
-    if (this.animationNotice) {
-      this.animationNotice.hidden = !isParodic;
-    }
   }
 
   /**
@@ -864,12 +858,6 @@ export class SettingsView {
   }
 
   /**
-   * Applies a theme and persists the preference.
-   *
-   * @param {string} id - Theme id of the clicked button.
-   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
-   */
-  /**
    * Applies an animation mode and persists the preference.
    *
    * Like the theme, the mode is applied live first: the demo of the panel and the next opening
@@ -903,6 +891,12 @@ export class SettingsView {
     }
   }
 
+  /**
+   * Applies a theme and persists the preference.
+   *
+   * @param {string} id - Theme id of the clicked button.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
   async handleThemeChange(id) {
     if (this.isBusy || id === themeManager.getTheme()) return;
 

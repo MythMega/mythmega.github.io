@@ -9,7 +9,7 @@
   <!-- Primary SEO metadata. The title stays under ~60 characters and leads with the brand, the
        description under ~160 characters and names the genre first ("jeu de cartes TCG Minecraft"),
        then the concrete hooks a player looks for (boosters gratuits, nombre de cartes). -->
-  <title>MineCards — jeu de cartes TCG Minecraft à collectionner</title>
+  <title>MineCards : jeu de cartes TCG Minecraft à collectionner</title>
   <meta name="description" content="Ouvrez des boosters gratuits et collectionnez les cartes de l'univers Minecraft : 222 cartes, 5 raretés, impressions classiques et Full Art. Jeu de cartes à collectionner (TCG) gratuit, jouable dans le navigateur sans inscription.">
   <meta name="keywords" content="MineCards, TCG Minecraft, jeu de cartes Minecraft, cartes Minecraft, booster Minecraft, ouvrir des boosters, collection de cartes, jeu de cartes à collectionner, jeu de cartes en ligne, Minecraft card game, Minecraft TCG">
   <meta name="author" content="JMDev">
@@ -60,7 +60,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MineCards">
-  <meta property="og:title" content="MineCards — jeu de cartes TCG Minecraft à collectionner">
+  <meta property="og:title" content="MineCards : jeu de cartes TCG Minecraft à collectionner">
   <meta property="og:description" content="3 boosters gratuits par jour, 222 cartes à collectionner, 5 raretés : ouvrez des boosters et complétez votre collection de cartes Minecraft, gratuitement et sans inscription.">
   <meta property="og:url" content="https://web.jmdev.fr/projets/minecards/">
   <!-- 1200x630 JPEG (75 KB) rather than the 546 KB card back: the dimensions are declared so
@@ -70,15 +70,15 @@
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="MineCards — ouverture de boosters et collection de cartes Minecraft">
+  <meta property="og:image:alt" content="MineCards : ouverture de boosters et collection de cartes Minecraft">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:locale:alternate" content="en_US">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MineCards — jeu de cartes TCG Minecraft à collectionner">
+  <meta name="twitter:title" content="MineCards : jeu de cartes TCG Minecraft à collectionner">
   <meta name="twitter:description" content="3 boosters gratuits par jour, 222 cartes à collectionner, 5 raretés. Ouvrez des boosters et complétez votre collection de cartes Minecraft.">
   <meta name="twitter:image" content="https://web.jmdev.fr/projets/minecards/assets/img/og-image.jpg">
-  <meta name="twitter:image:alt" content="MineCards — ouverture de boosters et collection de cartes Minecraft">
+  <meta name="twitter:image:alt" content="MineCards : ouverture de boosters et collection de cartes Minecraft">
 
   <meta name="application-name" content="MineCards">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -121,7 +121,7 @@
           "@type": "WebPage",
           "@id": "https://web.jmdev.fr/projets/minecards/#webpage",
           "url": "https://web.jmdev.fr/projets/minecards/",
-          "name": "MineCards — jeu de cartes TCG Minecraft à collectionner",
+          "name": "MineCards : jeu de cartes TCG Minecraft à collectionner",
           "description": "Ouvrez des boosters gratuits et collectionnez les cartes de l'univers Minecraft : 222 cartes, 5 raretés, impressions classiques et Full Art.",
           "isPartOf": { "@id": "https://web.jmdev.fr/projets/minecards/#website" },
           "about": { "@id": "https://web.jmdev.fr/projets/minecards/#game" },
@@ -1037,14 +1037,46 @@
             <p class="mineblock__trader-intro" data-i18n="mineblock.trader.intro">Payez ses cartes avec les ressources de la mine. Sa marchandise change tous les lundis, pour tout le monde en même temps.</p>
             <p class="mineblock__trader-week">
               <span data-i18n="mineblock.trader.week">Semaine du</span>
-              <time class="mineblock__trader-week-value" data-mineblock-trader-week>—</time>
+              <time class="mineblock__trader-week-value" data-mineblock-trader-week>…</time>
             </p>
+            <!-- The clock of the shop: the five drawn offers all reroll on Monday, 00:00 UTC. -->
+            <p class="mineblock__trader-restock" data-mineblock-trader-restock-row hidden>
+              <span class="mineblock__trader-restock-label" data-i18n="mineblock.trader.restock">Renouvellement dans</span>
+              <time class="mineblock__trader-restock-value" data-mineblock-trader-restock>--:--:--</time>
+            </p>
+            <!-- The trades of the day: resource for resource, one side always counting a single
+                 unit, drawn from the UTC day alone so every player sees the same three. -->
+            <section class="mineblock__trades">
+              <div class="mineblock__trades-head">
+                <h3 class="mineblock__trades-title" data-i18n="mineblock.trader.trades.title">Échanges du jour</h3>
+                <p class="mineblock__trades-reset" data-mineblock-trade-restock-row hidden>
+                  <span class="mineblock__trades-reset-label" data-i18n="mineblock.trader.trades.reset">Nouveaux échanges dans</span>
+                  <time class="mineblock__trades-reset-value" data-mineblock-trade-restock>--:--:--</time>
+                </p>
+              </div>
+              <p class="mineblock__trades-empty" data-mineblock-trade-empty hidden data-i18n="mineblock.trader.trades.empty">Aucun échange aujourd'hui.</p>
+              <ul class="mineblock__trade-list" data-mineblock-trade-list></ul>
+            </section>
             <p class="mineblock__trader-empty" data-mineblock-trader-empty hidden data-i18n="mineblock.trader.empty">Le marchand n'a rien à vendre pour le moment.</p>
             <ul class="mineblock__trader-list" data-mineblock-trader-list></ul>
             <p class="feedback mineblock__trader-feedback" data-mineblock-trader-feedback role="status" hidden></p>
           </div>
           <div class="modal__actions">
             <button type="button" class="btn btn--primary" data-mineblock-trader-dismiss data-i18n="mineblock.trader.close">Fermer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- One offer in detail: the card, large, with its description, its price and its stock.
+           Opened by a tap on the picture of an offer and stacked ON TOP of the shop, so the
+           player never loses the list they were browsing. -->
+      <div class="modal mineblock__offer-modal" data-mineblock-offer-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="mineblock-offer-title">
+          <button type="button" class="modal__close" data-mineblock-offer-close aria-label="×">×</button>
+          <h2 class="modal__title" id="mineblock-offer-title" data-mineblock-offer-title></h2>
+          <div class="modal__body" data-mineblock-offer-body></div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-mineblock-offer-dismiss data-i18n="mineblock.trader.close">Fermer</button>
           </div>
         </div>
       </div>
@@ -1074,14 +1106,10 @@
         <!-- Animations: the flavour of the opening ("normal", "epic", "explosive"). The buttons are
              generated from `config.json` by SettingsView, like the languages and the themes, and
              the demo replays the three stages with the real card markup: the choice is made by
-             looking at it. The notice is only shown for a mode flagged "parodic". -->
+             looking at it. The parodic mode is flagged by the badge of its own button. -->
         <section class="panel settings__panel">
           <h3 class="settings__title" data-i18n="settings.animation.title">Animations</h3>
           <div class="lang-switch settings__choices" data-settings-animations role="group" data-i18n-aria-label="settings.animation.title" aria-label="Animations"></div>
-          <p class="anim-notice" data-settings-animation-notice hidden>
-            <span class="anim-notice__icon" aria-hidden="true">💥</span>
-            <span data-i18n="settings.animation.notice">Mode parodique assumé : c'est fait exprès.</span>
-          </p>
           <div class="anim-demo">
             <p class="anim-demo__label" data-i18n="settings.animation.demo">Aperçu de l'animation</p>
             <div class="anim-demo__stage" data-animation-demo-stage aria-hidden="true"></div>
@@ -1145,7 +1173,7 @@
           <h3 class="settings__title" data-i18n="settings.account.title">Compte</h3>
           <p class="settings__help" data-i18n="settings.account.help">Communiquez cet identifiant pour recevoir des cadeaux. Il ne change jamais.</p>
           <p class="settings__uuid">
-            <code class="settings__uuid-value" data-settings-uuid>—</code>
+            <code class="settings__uuid-value" data-settings-uuid>…</code>
             <button type="button" class="btn btn--ghost" data-settings-copy data-i18n="settings.account.copy">Copier</button>
           </p>
         </section>
@@ -1331,7 +1359,7 @@
         <section class="panel info__panel">
           <h3 class="stats__title" data-i18n="info.about.title">À propos de MineCards</h3>
           <p class="info__text" data-i18n="info.about.intro">MineCards est un jeu de cartes à collectionner (TCG) inspiré de l'univers Minecraft, jouable gratuitement dans le navigateur. Trois boosters gratuits sont offerts chaque jour et par extension : chacun contient 5 cartes, tirées selon des taux de drop publiés ci-dessous.</p>
-          <p class="info__text" data-i18n="info.about.collection">L'extension Genèse (A1) réunit 222 cartes réparties en cinq raretés — Commune, Rare, Super rare, Légendaire et Mythique — en impression classique ou Full Art. Les cartes obtenues rejoignent la collection, où les doublons se revendent en Sparks pour acheter directement une carte manquante.</p>
+          <p class="info__text" data-i18n="info.about.collection">L'extension Genèse (A1) réunit 222 cartes en cinq raretés : Commune, Rare, Super rare, Légendaire et Mythique, en impression classique ou Full Art. Chaque carte obtenue rejoint votre collection. Les doublons se revendent en Sparks, de quoi acheter directement une carte qui vous manque.</p>
           <p class="info__text" data-i18n="info.about.local">Aucune inscription n'est nécessaire et rien n'est envoyé à un serveur : la collection, les Sparks et les statistiques restent stockés dans le navigateur, et une sauvegarde peut être exportée puis réimportée.</p>
 
           <h3 class="stats__title info__faq-title" data-i18n="info.faq.title">Questions fréquentes</h3>

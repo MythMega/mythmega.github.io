@@ -1093,4 +1093,3 @@ export class DateSyncManager {
 export const dateSyncManager = new DateSyncManager();
 
 export default dateSyncManager;
-

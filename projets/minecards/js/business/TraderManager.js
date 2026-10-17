@@ -5,13 +5,27 @@
  * (the resources spent here) and `js/business/BoosterManager.js` (the cards granted here).
  *
  * WHAT THE PLAYER SEES
- *   The trading screen of the mine (the "Marchand itinérant" button). It holds two kinds of offers:
+ *   The trading screen of the mine (the "Marchand itinérant" button). It holds three kinds of
+ *   offers:
  *   - the WEEKLY offers: five cards drawn for everybody, two of rarity 1, one of rarity 2, one of
  *     rarity 3 and one of rarity 4 (`shop.offers`). Each one is priced in exactly three kinds of
  *     mined resource, and the whole price is worth the rarity of the card (`shop.rarityValues` /
  *     `shop.itemsValues`).
  *   - the PINNED offers: hand-written in `data/shop/pinned_offers.json`, never random. Each one
  *     carries its own card, its own price, the window it is sold in and its stock (`MaxUse`).
+ *   - the DAILY TRADES: `shop.tradesPerDay` (3) resource-for-resource swaps, drawn from the UTC
+ *     day alone (see below). Each one is worth the same on both sides and can be taken in either
+ *     direction, once per day.
+ *
+ * THE DAILY TRADES
+ *   Two mined resources are drawn, and the amounts follow their VALUES: the dearest side is one
+ *   unit, the cheapest one as many units as it takes to match it (`1 Ultima` against `2 Void Dust`).
+ *   One side is therefore always 1, which is what forbids a trade to be scaled up (`2 Ultima`
+ *   against `4 Void Dust` is the same trade written twice). A pair whose values are not a multiple
+ *   of one another has no such exchange at all (`Glowstone Dust` at 20 and `Void Dust` at 50), so
+ *   the pair is dropped and another one is drawn; the same pair is never drawn twice in a day.
+ *   The draw is seeded with the salt of the configuration and the UTC day ONLY, exactly like the
+ *   weekly shop: every player sees the same three trades, and they roll over at midnight UTC.
  *
  * THE SAME SHOP FOR EVERYONE
  *   The weekly seed is built from the date of the MONDAY of the current week and nothing else: no
@@ -49,6 +63,18 @@ export const WEEKLY_OFFER_PREFIX = 'weekly';
 /** Prefix of the key of a pinned offer (`pinned-<OfferID>`). */
 export const PINNED_OFFER_PREFIX = 'pinned';
 
+/** Prefix of the key of a daily trade (`swap-<day>-<rank>`). */
+export const TRADE_PREFIX = 'swap';
+
+/** How many pairs a daily trade draw tries before falling back to a deterministic pick. */
+const TRADE_ATTEMPTS = 40;
+
+/** How many daily trades a shop shows when `shop.tradesPerDay` is absent from the configuration. */
+export const DEFAULT_TRADES_PER_DAY = 3;
+
+/** How many times the SAME trade may be taken in a day (a trade is an exchange, not a faucet). */
+export const TRADE_MAX_USES = 1;
+
 /** How many distinct resource kinds a price is built from. */
 export const PRICE_ITEM_COUNT = 3;
 
@@ -65,6 +91,7 @@ export const TRADER_ERRORS = Object.freeze({
   INSUFFICIENT_RESOURCES: 'INSUFFICIENT_RESOURCES',
   NO_CARD: 'NO_CARD',
   NO_PRICE: 'NO_PRICE',
+  NO_TRADE: 'NO_TRADE',
 });
 
 /** i18n keys of the error codes, so a view never invents its own message. */
@@ -74,6 +101,7 @@ const ERROR_MESSAGE_KEYS = Object.freeze({
   [TRADER_ERRORS.INSUFFICIENT_RESOURCES]: 'mineblock.trader.error.resources',
   [TRADER_ERRORS.NO_CARD]: 'mineblock.trader.error.card',
   [TRADER_ERRORS.NO_PRICE]: 'mineblock.trader.error.price',
+  [TRADER_ERRORS.NO_TRADE]: 'mineblock.trader.error.trade',
 });
 
 /**
@@ -206,6 +234,129 @@ export class TraderPrice {
   }
 }
 
+/**
+ * Draws the resource-for-resource trades of a day.
+ *
+ * A trade is an EQUATION, and the whole class exists to keep it true: the dearest resource counts
+ * one unit, the cheapest one as many units as its value asks for, and a pair whose values are not a
+ * multiple of one another is simply not a trade (`Glowstone Dust` at 20 against `Void Dust` at 50
+ * has no solution in whole units, so it is never offered). One side is therefore always 1, which is
+ * what stops a trade from being written twice as large.
+ */
+export class TraderTrade {
+  /**
+   * Builds the trades of one day.
+   *
+   * @param {object} options - Draw options.
+   * @param {number} options.count - How many trades to draw.
+   * @param {Array<{slug: string, type: string, nameKey: string, texture: string, value: number}>} options.pool
+   *   The priced resources of the mine.
+   * @param {() => number} options.random - Seeded generator returning a float in [0, 1).
+   * @returns {Array<{left: object, right: object}>} The trades, each side carrying its `quantity`.
+   *   `left` is always the dearest side (quantity 1), `right` the cheapest one.
+   */
+  static build({ count, pool, random }) {
+    const usable = pool.filter((item) => Number.isFinite(item.value) && item.value > 0);
+    const trades = [];
+    const used = new Set();
+    const wanted = Math.max(0, Math.trunc(Number(count) || 0));
+
+    for (let attempt = 0; attempt < TRADE_ATTEMPTS * Math.max(1, wanted); attempt += 1) {
+      if (trades.length >= wanted) break;
+      const pair = TraderTrade.pickPair(usable, random);
+      if (!pair) break;
+      const key = TraderTrade.pairKey(pair[0], pair[1]);
+      // A pair the day already offers is redrawn, exactly like a pair whose values do not divide.
+      if (used.has(key)) continue;
+      const trade = TraderTrade.equation(pair[0], pair[1]);
+      if (!trade) continue;
+      used.add(key);
+      trades.push(trade);
+    }
+
+    // A draw that never fell on a usable pair (a configuration with a single divisible pair, for
+    // instance) still owes the player their trades: the remaining ones are taken in a fixed order,
+    // which keeps the result deterministic.
+    if (trades.length < wanted) {
+      TraderTrade.listEquations(usable).forEach((trade) => {
+        if (trades.length >= wanted) return;
+        const key = TraderTrade.pairKey(trade.left, trade.right);
+        if (used.has(key)) return;
+        used.add(key);
+        trades.push(trade);
+      });
+    }
+
+    return trades;
+  }
+
+  /**
+   * Draws two distinct resources.
+   *
+   * @param {Array<object>} pool - Priced resources.
+   * @param {() => number} random - Seeded generator.
+   * @returns {Array<object>|null} The two resources (draw order), or null when the pool is too small.
+   */
+  static pickPair(pool, random) {
+    if (pool.length < 2) return null;
+    const remaining = pool.slice();
+    const picks = [];
+    while (picks.length < 2 && remaining.length > 0) {
+      const index = Math.min(remaining.length - 1, Math.floor(random() * remaining.length));
+      picks.push(remaining[index]);
+      remaining.splice(index, 1);
+    }
+    return picks.length === 2 ? picks : null;
+  }
+
+  /**
+   * Turns two resources into a trade, or refuses the pair.
+   *
+   * @param {object} first - One resource.
+   * @param {object} second - The other one.
+   * @returns {{left: object, right: object}|null} The trade, or null when the two values do not
+   *   divide: `20` against `50` has no whole-unit exchange, so it is never offered. Two resources of
+   *   the SAME value are a legitimate pair (`1` against `1`).
+   */
+  static equation(first, second) {
+    const [dearest, cheapest] = [first, second].sort((left, right) => right.value - left.value);
+    if (dearest.value % cheapest.value !== 0) return null;
+    const ratio = dearest.value / cheapest.value;
+    return {
+      left: { ...dearest, quantity: 1 },
+      right: { ...cheapest, quantity: ratio },
+    };
+  }
+
+  /**
+   * Lists every trade the pool can offer, in a fixed order.
+   *
+   * @param {Array<object>} pool - Priced resources.
+   * @returns {Array<{left: object, right: object}>} The trades.
+   */
+  static listEquations(pool) {
+    const trades = [];
+    for (let first = 0; first < pool.length; first += 1) {
+      for (let second = first + 1; second < pool.length; second += 1) {
+        const trade = TraderTrade.equation(pool[first], pool[second]);
+        if (trade) trades.push(trade);
+      }
+    }
+    return trades;
+  }
+
+  /**
+   * Names a pair of resources, whichever way round it was drawn.
+   *
+   * @param {{slug: string}} first - One resource.
+   * @param {{slug: string}} second - The other one.
+   * @returns {string} A stable key (`glowstone_dust|void_dust`).
+   */
+  static pairKey(first, second) {
+    return [first.slug, second.slug].sort().join('|');
+  }
+}
+
 /** Raised by every refused trader operation, with a stable `code`. */
 export class TraderError extends Error {
   /**
@@ -233,6 +384,10 @@ export class TraderManager {
     this.offersCache = null;
     /** @type {Promise<Array<object>>|null} In-flight shop build. */
     this.offersPromise = null;
+    /** @type {{day: string, trades: Array<object>}|null} Cached trades of the day. */
+    this.tradesCache = null;
+    /** @type {Promise<Array<object>>|null} In-flight trade draw. */
+    this.tradesPromise = null;
   }
 
   /**
@@ -335,21 +490,148 @@ export class TraderManager {
    * hand-edited one) starts with an untouched shop instead of throwing.
    *
    * @param {unknown} raw - Value read from `user_state["trader"]`.
-   * @returns {{week: string|null, purchases: Record<string, number>}} The normalized state.
+   * @returns {{week: string|null, purchases: Record<string, number>, tradeDay: string|null,
+   *   tradeUses: Record<string, number>}} The normalized state.
    */
   normalizeState(raw) {
     const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
-    const purchases = {};
-    const rawPurchases = source.purchases;
-    if (rawPurchases && typeof rawPurchases === 'object' && !Array.isArray(rawPurchases)) {
-      Object.entries(rawPurchases).forEach(([key, value]) => {
-        const count = Math.trunc(Number(value));
-        if (Number.isFinite(count) && count > 0) purchases[key] = count;
-      });
-    }
     return {
       week: /^\d{4}-\d{2}-\d{2}$/.test(source.week) ? source.week : null,
-      purchases,
+      purchases: TraderManager.normalizeCounters(source.purchases),
+      // The daily trades are counted apart from the weekly purchases: they roll over at midnight
+      // UTC, while the shop rolls over on Monday (`tradeDay` is the day the counts belong to).
+      tradeDay: /^\d{4}-\d{2}-\d{2}$/.test(source.tradeDay) ? source.tradeDay : null,
+      tradeUses: TraderManager.normalizeCounters(source.tradeUses),
+    };
+  }
+
+  /**
+   * Reads a `{ key: count }` map, dropping what is not a positive integer.
+   *
+   * @param {unknown} raw - Raw map.
+   * @returns {Record<string, number>} The usable counts.
+   */
+  static normalizeCounters(raw) {
+    const counters = {};
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return counters;
+    Object.entries(raw).forEach(([key, value]) => {
+      const count = Math.trunc(Number(value));
+      if (Number.isFinite(count) && count > 0) counters[key] = count;
+    });
+    return counters;
+  }
+
+  /**
+   * Returns the UTC day the daily trades belong to.
+   *
+   * The day comes from the TRUSTED clock, never from `Date.now()`, so every player trades on the
+   * same three pairs and they roll over together at midnight UTC. A clock that was never anchored
+   * gives no day at all, and the fallback is the day already stored in the save: the trades of a
+   * player coming back offline are the ones they left.
+   *
+   * @returns {Promise<string|null>} `YYYY-MM-DD`, or null when no day is known at all.
+   * @throws {Error} When the stored state cannot be read.
+   */
+  async getTradeDay() {
+    const day = dateSyncManager.getCurrentUtcDay();
+    if (day) return day;
+    const state = this.normalizeState(await storageRepository.getUserState(USER_STATE_KEYS.TRADER));
+    return state.tradeDay;
+  }
+
+  /**
+   * Returns the trades of the day, without what the player can pay for them.
+   *
+   * The draw is seeded with the salt of the configuration and the UTC day ONLY: no account, no
+   * device, no `Math.random()`. Every player therefore sees the same three trades, they never
+   * change before midnight UTC, and a reload shows the very same equation.
+   *
+   * @param {object} [options] - Read options.
+   * @param {boolean} [options.force=false] - Redraw even when the day is cached.
+   * @returns {Promise<Array<{key: string, source: 'swap', day: string, left: object, right: object}>>}
+   *   The trades of the day, in draw order.
+   * @throws {Error} When the configuration cannot be read.
+   */
+  async getTrades({ force = false } = {}) {
+    await this.init();
+    const day = await this.getTradeDay();
+    const stamp = day ?? 'unknown-day';
+
+    if (force) {
+      this.tradesCache = null;
+      this.tradesPromise = null;
+    }
+    if (this.tradesCache && this.tradesCache.day === stamp) return this.tradesCache.trades;
+    if (this.tradesPromise) return this.tradesPromise;
+
+    this.tradesPromise = (async () => {
+      const wanted = Number.isInteger(this.settings.tradesPerDay) && this.settings.tradesPerDay > 0
+        ? this.settings.tradesPerDay
+        : DEFAULT_TRADES_PER_DAY;
+      const random = createSeededRandom(hashSeed(`${this.settings.seedSalt}|trades|${stamp}`));
+      const trades = TraderTrade.build({ count: wanted, pool: this.items, random }).map(
+        (trade, index) => ({
+          key: `${TRADE_PREFIX}-${stamp}-${index + 1}`,
+          source: 'swap',
+          day: stamp,
+          left: trade.left,
+          right: trade.right,
+        })
+      );
+      this.tradesCache = { day: stamp, trades };
+      this.log(`Trades of ${stamp}: ${trades.length} drawn.`);
+      return trades;
+    })();
+
+    try {
+      return await this.tradesPromise;
+    } finally {
+      this.tradesPromise = null;
+    }
+  }
+
+  /**
+   * Builds the description of a trade, as the view reads it.
+   *
+   * A trade is an exchange, so it is presented as its TWO directions: each one says what it gives,
+   * what it receives and whether the player can afford it. The view never computes an amount
+   * itself - the quantities come from here, and `swap()` reads them again from the draw.
+   *
+   * @param {object} trade - Trade from `getTrades()`.
+   * @param {Record<string, number>} resources - Resources of the mine, by slug.
+   * @param {number} uses - Times the trade was already taken today.
+   * @param {number} maxUses - How many times a trade may be taken in a day.
+   * @returns {object} The trade, with its `moves` and its state.
+   */
+  describeTrade(trade, resources, uses, maxUses) {
+    /**
+     * Describes one direction of the trade.
+     *
+     * @param {object} from - Side the player gives.
+     * @param {object} to - Side the player receives.
+     * @returns {object} The direction.
+     */
+    const describeMove = (from, to) => {
+      const available = resources[from.slug] ?? 0;
+      return {
+        fromSlug: from.slug,
+        toSlug: to.slug,
+        give: from.quantity,
+        receive: to.quantity,
+        available,
+        missing: Math.max(0, from.quantity - available),
+        affordable: available >= from.quantity,
+      };
+    };
+
+    const remaining = Math.max(0, maxUses - uses);
+    return {
+      ...trade,
+      maxUses,
+      bought: uses,
+      remaining,
+      exhausted: remaining === 0,
+      moves: [describeMove(trade.left, trade.right), describeMove(trade.right, trade.left)],
     };
   }
 
@@ -749,21 +1031,33 @@ export class TraderManager {
    *
    * @param {object} [options] - Read options.
    * @param {boolean} [options.force=false] - Rebuild the shop even when it is cached.
-   * @returns {Promise<{week: string|null, allItemsUniques: boolean, offers: Array<object>,
-   *   resources: Record<string, number>}>} The shop. Every offer carries an `affordable` flag and
-   *   the quantity missing from every line it cannot pay for.
+   * @returns {Promise<{week: string|null, tradeDay: string|null, allItemsUniques: boolean,
+   *   trades: Array<object>, offers: Array<object>, resources: Record<string, number>}>} The shop.
+   *   Every offer carries an `affordable` flag and the quantity missing from every line it cannot
+   *   pay for, and every trade carries its two directions with the same information.
    * @throws {Error} See `getOffers()`.
    */
   async getState({ force = false } = {}) {
     await this.init();
     const week = await this.getWeekStart();
-    const offers = await this.getOffers({ force });
+    const tradeDay = await this.getTradeDay();
+    const [offers, trades] = await Promise.all([
+      this.getOffers({ force }),
+      this.getTrades({ force }),
+    ]);
     const stored = await miningManager.getState();
+    const state = this.normalizeState(await storageRepository.getUserState(USER_STATE_KEYS.TRADER));
+    // A stamp that is not the current day is a rollover: yesterday's trades are available again.
+    const tradeUses = state.tradeDay === tradeDay ? state.tradeUses : {};
 
     return {
       week,
+      tradeDay,
       allItemsUniques: this.settings.allItemsUniques,
       resources: stored.resources,
+      trades: trades.map((trade) =>
+        this.describeTrade(trade, stored.resources, tradeUses[trade.key] ?? 0, TRADE_MAX_USES)
+      ),
       offers: offers.map((offer) => {
         const lines = offer.price.map((line) => {
           const available = stored.resources[line.slug] ?? 0;
@@ -845,7 +1139,7 @@ export class TraderManager {
     this.log(
       `Bought "${offer.card.uniqueKey}" (${offer.key}) for ${offer.price
         .map((line) => `${line.quantity} ${line.type}`)
-        .join(', ')} — ${result.isNew ? 'new' : 'duplicate'}.`
+        .join(', ')}, ${result.isNew ? 'new' : 'duplicate'}.`
     );
 
     // The shop itself changed (a stock went down), and so did the resources of the mine: the two
@@ -878,6 +1172,111 @@ export class TraderManager {
   }
 
   /**
+   * Takes one of the trades of the day: the player gives one resource and receives the other.
+   *
+   * The whole read-modify-write runs in ONE transaction (the mined resources and the use count), so
+   * two rapid touches can never take the same trade twice, and a failure never moves one side of the
+   * exchange without the other. The QUANTITIES are read from the draw again here, never from the
+   * caller: a client can name a trade and a direction, not an amount.
+   *
+   * @param {string} tradeKey - Key of the trade (`swap-<day>-<rank>`).
+   * @param {string} fromSlug - Resource the player gives (one of the two sides of the trade).
+   * @returns {Promise<{key: string, give: {slug: string, quantity: number},
+   *   receive: {slug: string, quantity: number}, resources: Record<string, number>, day: string,
+   *   trade: object|null, creates: boolean}>} The committed exchange, `trade` being the state of
+   *   that trade after the exchange. `creates` tells whether the resource received was held at all
+   *   before.
+   * @throws {TraderError} With `NO_TRADE` (unknown trade or direction), `SOLD_OUT` (already taken
+   *   today) or `INSUFFICIENT_RESOURCES`.
+   * @throws {Error} When the transaction fails.
+   */
+  async swap(tradeKey, fromSlug) {
+    if (typeof fromSlug !== 'string' || fromSlug.trim() === '') {
+      throw new TraderError(TRADER_ERRORS.NO_TRADE, `Trade "${tradeKey}" was asked with no direction.`);
+    }
+    const trades = await this.getTrades();
+    const trade = trades.find((candidate) => candidate.key === tradeKey);
+    if (!trade) {
+      throw new TraderError(TRADER_ERRORS.NO_TRADE, `No trade "${tradeKey}" on the board of the day.`);
+    }
+    const given = [trade.left, trade.right].find((side) => side.slug === fromSlug.trim());
+    const received = given === trade.left ? trade.right : given === trade.right ? trade.left : null;
+    if (!given || !received) {
+      throw new TraderError(
+        TRADER_ERRORS.NO_TRADE,
+        `Trade "${tradeKey}" does not exchange "${fromSlug}".`
+      );
+    }
+
+    const day = trade.day;
+    const cost = { [given.slug]: given.quantity };
+    const gains = { [received.slug]: received.quantity };
+
+    const result = await storageRepository.transaction(
+      [STORES.USER_STATE],
+      'readwrite',
+      async (context) => {
+        const state = this.normalizeState(await context.get(STORES.USER_STATE, USER_STATE_KEYS.TRADER));
+        // The rollover is evaluated INSIDE the transaction: a trade taken a second after midnight
+        // can never spend the use count of the previous day.
+        const uses = state.tradeDay === day ? state.tradeUses : {};
+        const taken = uses[trade.key] ?? 0;
+        if (taken >= TRADE_MAX_USES) {
+          throw new TraderError(TRADER_ERRORS.SOLD_OUT, `Trade "${trade.key}" was already taken today.`);
+        }
+        const before = miningManager.normalizeState(
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.MINING)
+        ).resources;
+        const resources = await miningManager.swapResources({ give: cost, receive: gains }, context);
+        await context.put(
+          STORES.USER_STATE,
+          {
+            week: state.week,
+            purchases: state.purchases,
+            tradeDay: day,
+            tradeUses: { ...uses, [trade.key]: taken + 1 },
+          },
+          USER_STATE_KEYS.TRADER
+        );
+        return { resources, creates: (before[received.slug] ?? 0) === 0 };
+      }
+    );
+
+    this.log(
+      `Trade "${trade.key}": ${given.quantity} ${given.type} against ` +
+        `${received.quantity} ${received.type} (day ${day}).`
+    );
+
+    // Both screens repaint from these two events: the resources of the mine changed, and the trade
+    // is one use shorter. No card is involved, so nothing is announced to the collection.
+    const state = await this.getState({ force: true });
+    const mining = await miningManager.getState();
+    eventBus.emit(EVENTS.TRADER_UPDATED, { week: state.week, offers: state.offers });
+    eventBus.emit(EVENTS.MINING_UPDATED, {
+      day: mining.day,
+      minedToday: mining.minedToday,
+      remaining: mining.remaining,
+      blocksPerDay: mining.blocksPerDay,
+      totalMined: mining.totalMined,
+    });
+
+    return {
+      key: trade.key,
+      give: { slug: given.slug, type: given.type, nameKey: given.nameKey, quantity: given.quantity },
+      receive: {
+        slug: received.slug,
+        type: received.type,
+        nameKey: received.nameKey,
+        quantity: received.quantity,
+      },
+      resources: result.resources,
+      day,
+      trade: state.trades.find((candidate) => candidate.key === trade.key) ?? null,
+      creates: result.creates,
+    };
+  }
+
+  /**
    * Publishes the current shop on `TRADER_UPDATED`.
    *
    * Used after an imported save or a clock tick, so the screen reacts without waiting for a
@@ -900,6 +1299,8 @@ export class TraderManager {
     this.offersCache = null;
     this.offersPromise = null;
     this.pinnedEntries = null;
+    this.tradesCache = null;
+    this.tradesPromise = null;
   }
 }
 

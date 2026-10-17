@@ -644,7 +644,7 @@ export class MinePickManager {
     );
 
     this.log(
-      `Picked "${card.uniqueKey}" (rarity ${card.rarity}) in booster #${entry.index} of "${entry.setId}" — ` +
+      `Picked "${card.uniqueKey}" (rarity ${card.rarity}) in booster #${entry.index} of "${entry.setId}", ` +
         `${result.nextState.remaining} free and ${result.nextState.bonusPicks} bought pick(s) left.`
     );
 

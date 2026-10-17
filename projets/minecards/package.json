@@ -1,0 +1,16 @@
+{
+  "name": "minecards",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MineCards - Minecraft TCG collection game (static site: ES modules, CSS, JSON data).",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "lint": "node tools/lint.mjs",
+    "lint:fix": "node tools/lint.mjs --fix",
+    "lint:strict": "node tools/lint.mjs --strict",
+    "lint:list": "node tools/lint.mjs --list"
+  }
+}

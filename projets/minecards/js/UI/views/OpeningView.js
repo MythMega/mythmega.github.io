@@ -1492,7 +1492,7 @@ export class OpeningView {
       tile.tabIndex = 0;
       const name = component.card.getName(i18n.getLang());
       const rarityLabel = getRarityLabel(component.card.rarity, (key) => i18n.t(key));
-      tile.setAttribute('aria-label', `${name} — ${rarityLabel}`);
+      tile.setAttribute('aria-label', `${name} (${rarityLabel})`);
       const thumbnail = component.render();
       thumbnail.setAttribute('aria-hidden', 'true');
       thumbnail.tabIndex = -1;
@@ -1517,7 +1517,7 @@ export class OpeningView {
   renderSummary(result) {
     const sourceLabel = i18n.t(result.source === 'bonus' ? 'opening.source.bonus' : 'opening.source.daily');
     this.summaryElement.hidden = false;
-    this.summaryElement.textContent = `${sourceLabel} — ${i18n.t('opening.summary', { count: result.cards.length })}`;
+    this.summaryElement.textContent = `${sourceLabel} : ${i18n.t('opening.summary', { count: result.cards.length })}`;
   }
 
   /**
@@ -1538,7 +1538,7 @@ export class OpeningView {
     const image = document.createElement('img');
     image.className = 'card-modal__image';
     image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = `${name} — ${getRarityLabel(card.rarity, (key) => i18n.t(key))}`;
+    image.alt = `${name} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
     image.addEventListener('error', () => {
       console.warn(`[OpeningView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
       image.hidden = true;

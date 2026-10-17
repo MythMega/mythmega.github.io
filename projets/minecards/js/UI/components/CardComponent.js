@@ -211,7 +211,7 @@ export class CardComponent {
 
     if (this.image) {
       this.image.src = i18n.resolveImagePath(this.card.illustration);
-      this.image.alt = `${name} — ${rarityLabel}`;
+      this.image.alt = `${name} (${rarityLabel})`;
     }
     if (this.nameFallback) {
       this.nameFallback.textContent = name;
@@ -240,8 +240,8 @@ export class CardComponent {
     }
     const name = this.card.getName(i18n.getLang());
     const rarityLabel = getRarityLabel(this.card.rarity, (key) => i18n.t(key));
-    const suffix = this.isNew ? ` — ${i18n.t('opening.card.new')}` : '';
-    this.element.setAttribute('aria-label', `${name} — ${rarityLabel}${suffix}`);
+    const suffix = this.isNew ? `, ${i18n.t('opening.card.new')}` : '';
+    this.element.setAttribute('aria-label', `${name} (${rarityLabel})${suffix}`);
   }
 
   /**

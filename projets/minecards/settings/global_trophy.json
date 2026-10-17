@@ -1,5 +1,5 @@
 {
-    "_comment": "thoses stats are overall computed.", 
+    "_comment": "thoses stats are overall computed.",
     "totalCards": {
         "_comment": "number of total cards",
         "bronze": 100,
@@ -39,5 +39,21 @@
         "gold": 100,
         "diamond": 250,
         "emerald": 500
+    },
+    "minepickTotalPicks": {
+        "_comment": "number of total picks from minepick, whatever the rarity: medals in 'assets/img/trophy/Global/minepickTotalPicks/'",
+        "bronze": 10,
+        "silver": 50,
+        "gold": 100,
+        "diamond": 250,
+        "emerald": 500
+    },
+    "minepickSpecificPicks": {
+        "_comment": "number of picks OF A CARD of each rarity (1 = common … 5 = mythic): one set of trophies per rarity, medals in 'assets/img/trophy/Global/minepickSpecificPicks/<rarity>/'",
+        "bronze": 3,
+        "silver": 15,
+        "gold": 50,
+        "diamond": 100,
+        "emerald": 250
     }
 }

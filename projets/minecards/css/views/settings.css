@@ -67,40 +67,8 @@
 
 /* --- Animation modes ------------------------------------------------------ */
 
-/* Hazard banner of a parodic mode ("explosif"): the screen must say, in the strongest possible
-   way, that the animation is a joke. Only shown when the active mode is flagged `parodic` in
-   `config.json`; SettingsView unhides it. */
-.anim-notice {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  align-self: flex-start;
-  padding: var(--space-2) var(--space-3);
-  border: 2px dashed var(--color-warning);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-alt);
-  color: var(--color-warning);
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-}
-
-.anim-notice__icon {
-  font-size: var(--font-size-lg);
-  line-height: 1;
-  animation: anim-notice-wobble 2.6s ease-in-out infinite;
-}
-
-@keyframes anim-notice-wobble {
-  0%,
-  100% {
-    transform: rotate(-10deg);
-  }
-  50% {
-    transform: rotate(10deg) scale(1.12);
-  }
-}
-
-/* Badge carried by the parodic option of the picker ("💥 PARODIQUE"). */
+/* Badge carried by the parodic option of the picker ("EXPLOSIF BLAGUE"): the joke needs no long
+   explanation, the badge says it on the button itself. */
 .anim-option__badge {
   margin-left: var(--space-2);
   padding: 1px var(--space-2);
@@ -191,12 +159,6 @@
 
 .anim-demo__play {
   align-self: flex-start;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .anim-notice__icon {
-    animation: none;
-  }
 }
 
 /* --- Foil intensity ------------------------------------------------------- */

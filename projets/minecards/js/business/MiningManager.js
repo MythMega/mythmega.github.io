@@ -91,6 +91,22 @@ export function getMiningErrorMessageKey(code) {
 }
 
 /**
+ * Turns a `{ slug: quantity }` map into the list of lines worth writing.
+ *
+ * Shared by `spendResources()` and `swapResources()` so a payment and an exchange can never
+ * disagree on what a usable line is: a slug must be a non-empty string and a quantity a positive
+ * integer, anything else is dropped rather than written as `NaN` or as a zero entry.
+ *
+ * @param {unknown} raw - Raw map (`{ "stone_dust": 20 }`).
+ * @returns {Array<{slug: string, quantity: number}>} The lines, in the order of the map.
+ */
+function normalizeResourceLines(raw) {
+  return Object.entries(raw && typeof raw === 'object' ? raw : {})
+    .map(([slug, quantity]) => ({ slug, quantity: MiningManager.normalizeCounter(quantity) }))
+    .filter((line) => line.slug !== '' && line.quantity > 0);
+}
+
+/**
  * Turns a reward type into a stable resource slug.
  *
  * `"Stone Dust"` -> `"stone_dust"`, which is both the key stored in the save and the name of the
@@ -762,9 +778,7 @@ export class MiningManager {
    * @throws {Error} When the write fails.
    */
   async spendResources(cost, context = null) {
-    const lines = Object.entries(cost && typeof cost === 'object' ? cost : {})
-      .map(([slug, quantity]) => ({ slug, quantity: MiningManager.normalizeCounter(quantity) }))
-      .filter((line) => line.quantity > 0);
+    const lines = normalizeResourceLines(cost);
     if (lines.length === 0) {
       throw new TypeError('MiningManager.spendResources expects at least one resource to spend.');
     }
@@ -796,6 +810,73 @@ export class MiningManager {
         } else {
           resources[slug] = available - quantity;
         }
+      });
+
+      await activeContext.put(STORES.USER_STATE, { ...stored, resources }, USER_STATE_KEYS.MINING);
+      return resources;
+    };
+
+    return context
+      ? apply(context)
+      : storageRepository.transaction(STORES.USER_STATE, 'readwrite', apply);
+  }
+
+  /**
+   * Exchanges one harvested resource for another, in ONE read-modify-write.
+   *
+   * This is what the daily trades of the Wandering Trader are made of (`TraderManager.trades`): the
+   * player gives a quantity of one resource and immediately receives a quantity of another. The two
+   * movements go through the CALLER's context whenever one is given, so a trade can never take the
+   * resource away without giving the other one in return.
+   *
+   * The caller announces the change (`MINING_UPDATED`) once its transaction has committed.
+   *
+   * @param {object} exchange - The two sides of the trade.
+   * @param {Record<string, number>} exchange.give - Resources paid, by slug.
+   * @param {Record<string, number>} exchange.receive - Resources received, by slug.
+   * @param {object|null} [context=null] - Transaction context (`StorageRepository.transaction`).
+   * @returns {Promise<Record<string, number>>} The resources left after the exchange.
+   * @throws {TypeError} When one of the two sides carries no usable line.
+   * @throws {MiningError} With `INSUFFICIENT_RESOURCES` when a paid line is not covered.
+   * @throws {Error} When the write fails.
+   */
+  async swapResources({ give, receive } = {}, context = null) {
+    const cost = normalizeResourceLines(give);
+    const gains = normalizeResourceLines(receive);
+    if (cost.length === 0 || gains.length === 0) {
+      throw new TypeError('MiningManager.swapResources expects a resource on each side of the trade.');
+    }
+
+    /**
+     * Applies the exchange inside an active transaction.
+     *
+     * @param {object} activeContext - Transaction context.
+     * @returns {Promise<Record<string, number>>} The remaining resources.
+     */
+    const apply = async (activeContext) => {
+      const stored = this.normalizeState(
+        await activeContext.get(STORES.USER_STATE, USER_STATE_KEYS.MINING)
+      );
+      const resources = { ...stored.resources };
+
+      cost.forEach(({ slug, quantity }) => {
+        const available = resources[slug] ?? 0;
+        if (available < quantity) {
+          throw new MiningError(
+            MINING_ERRORS.INSUFFICIENT_RESOURCES,
+            `"${slug}" is at ${available}, the trade asks for ${quantity}.`
+          );
+        }
+        // A stock paid to zero leaves the map, exactly like a price paid to zero.
+        if (available === quantity) {
+          delete resources[slug];
+        } else {
+          resources[slug] = available - quantity;
+        }
+      });
+
+      gains.forEach(({ slug, quantity }) => {
+        resources[slug] = (resources[slug] ?? 0) + quantity;
       });
 
       await activeContext.put(STORES.USER_STATE, { ...stored, resources }, USER_STATE_KEYS.MINING);

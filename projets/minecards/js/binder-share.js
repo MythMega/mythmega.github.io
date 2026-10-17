@@ -44,6 +44,8 @@ const STRINGS = {
     fullart: 'Full Art',
     close: 'Fermer',
     anonymous: 'Joueur anonyme',
+    unknown: 'Inconnu',
+    cardCount: 'MineCards : {name}',
     rarities: { 1: 'Commune', 2: 'Rare', 3: 'Super rare', 4: 'Légendaire', 5: 'Mythique' },
     missingCode: 'Ce lien ne contient aucun binder. Le paramètre « code » est manquant.',
     damaged: 'Ce binder est illisible : le lien est incomplet ou a été abîmé.',
@@ -59,6 +61,8 @@ const STRINGS = {
     fullart: 'Full Art',
     close: 'Close',
     anonymous: 'Anonymous player',
+    unknown: 'Unknown',
+    cardCount: 'MineCards: {name}',
     rarities: { 1: 'Common', 2: 'Rare', 3: 'Super rare', 4: 'Legendary', 5: 'Mythic' },
     missingCode: 'This link carries no binder: the "code" parameter is missing.',
     damaged: 'This binder cannot be read: the link is incomplete or has been damaged.',
@@ -95,7 +99,7 @@ function resolvePath(path) {
  */
 function cardName(master) {
   const names = master?.n ?? {};
-  return names[LANG] || names.fr || names.en || Object.values(names)[0] || master?.i || '—';
+  return names[LANG] || names.fr || names.en || Object.values(names)[0] || master?.i || T.unknown;
 }
 
 /**
@@ -106,7 +110,7 @@ function cardName(master) {
  */
 function cardRarity(master) {
   const rarity = Number(master?.r);
-  return T.rarities[rarity] ?? String(master?.r ?? '—');
+  return T.rarities[rarity] ?? String(master?.r ?? T.unknown);
 }
 
 /**
@@ -131,7 +135,7 @@ function cardStyle(master) {
  */
 function cardSet(payload, master) {
   const setId = master?.e;
-  if (typeof setId !== 'string' || setId === '') return '—';
+  if (typeof setId !== 'string' || setId === '') return T.unknown;
   return payload.sets?.[setId] ?? setId;
 }
 
@@ -190,7 +194,7 @@ function openCardDetail(payload, master) {
     buildDetailRow(T.rarity, cardRarity(master)),
     buildDetailRow(T.style, cardStyle(master)),
     buildDetailRow(T.set, cardSet(payload, master)),
-    buildDetailRow(T.number, String(master?.i ?? '—'))
+    buildDetailRow(T.number, String(master?.i ?? T.unknown))
   );
 
   body.append(art, rows);
@@ -233,7 +237,7 @@ function render(payload) {
   const filled = slots.reduce((count, value) => count + (value === null ? 0 : 1), 0);
   const total = slots.length || FALLBACK_SLOT_COUNT;
 
-  document.title = `${payload.name || 'Binder'} — MineCards`;
+  document.title = T.cardCount.replace('{name}', payload.name || 'Binder');
   if (title) title.textContent = payload.name || 'Binder';
   if (meta) meta.textContent = T.cards(filled, total);
 
@@ -371,6 +375,14 @@ function bindCardDetail() {
   });
 }
 
+/**
+ * Entry point of the shared binder page: decodes the code of the URL and renders the binder.
+ *
+ * A page that carries no code at all, and a code that cannot be decoded (truncated link, binder
+ * written by a newer version), both end on the same explanation panel instead of an empty page.
+ *
+ * @returns {Promise<void>} Resolves once the binder or the error panel was rendered.
+ */
 async function main() {
   const code = readBinderCodeFromUrl();
   if (code === '') {

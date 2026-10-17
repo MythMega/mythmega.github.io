@@ -23,8 +23,9 @@
  * Every entry carries `cardId` (the `Index` field of the card, "SERIE-A1 / W001") AND `index`
  * (its position in the `Cards` array of its extension file). They are genuinely different: a file
  * groups its cards by theme, so its order is not the order of the `Index` values. The grid offers
- * both as sorts - `index` is the default - and neither is stored: both are recomputed on every
- * `getCollectionView()`, so a reordered or extended file shows up immediately.
+ * both as sorts - the file order is the default - and neither is stored: both are recomputed on
+ * every `getCollectionView()`, so a reordered or extended file shows up immediately. A third sort
+ * follows `firstObtainedAt`, the day the player got their first copy of each card.
  */
 
 import boosterManager from './BoosterManager.js';

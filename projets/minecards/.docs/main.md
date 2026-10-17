@@ -35,7 +35,7 @@ Clés de `user_state` :
 - `"binders"` : `[{ id, name, cover, createdAt, slots: (string|null)[30] }]` — les **binders** du joueur (`BinderManager`), dans l'ordre de création. `cover` est la clé de collection de la carte représentative (le `Background` de cette carte devient le fond de la page), `slots` les 30 emplacements (clé de collection ou `null`). Rangé dans `user_state` — et non dans un store à part — pour qu'un `.save` l'emporte sans changer le format de sauvegarde.
 - `"minePick"` : `{ lastResetDay, remaining, bonusPicks, totalPicks, picksByBooster, picksByRarity, picksByCard, history }` — état de la Mine Pick (`MinePickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), `bonusPicks` pour les pioches **achetées en Sparks** (jamais effacées par le reset, dépensées seulement quand les gratuites sont épuisées), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
 - `"mining"` : `{ lastResetDay, minedToday, clicks, resources, blocksMined, totalMined, sparksFound }` — état de la **Mine** (`MiningManager`) : quota du jour (remis à `blocksPerDay` blocs à minuit UTC), `clicks` = les coups déjà portés au bloc du moment (le bloc lui-même n'est **jamais stocké** : il est dérivé de la graine du jour, voir 3.G sexies), `resources` = la quantité de chacune des ressources récoltées, `blocksMined` = un compteur **par type de bloc** (la statistique propre à la fonctionnalité) et les totaux (blocs cassés, Sparks trouvés).
-- `"trader"` : `{ week, purchases: { [offerKey]: number } }` — état du **Marchand itinérant** (`TraderManager`) : `week` est le **lundi** auquel appartiennent les achats enregistrés, `purchases` le nombre de fois que chaque offre de la boutique a été achetée cette semaine-là. Un état dont `week` n'est pas la semaine courante est lu comme vide : c'est le reroll de la boutique, qui n'écrit rien tant que rien n'est acheté.
+- `"trader"` : `{ week, purchases: { [offerKey]: number }, tradeDay, tradeUses: { [tradeKey]: number } }` — état du **Marchand itinérant** (`TraderManager`) : `week` est le **lundi** auquel appartiennent les achats enregistrés, `purchases` le nombre de fois que chaque offre de la boutique a été achetée cette semaine-là. Un état dont `week` n'est pas la semaine courante est lu comme vide : c'est le reroll de la boutique, qui n'écrit rien tant que rien n'est acheté. Les **échanges du jour** sont comptés à part, sous leur propre jour : `tradeDay` est le jour UTC auquel appartiennent les compteurs `tradeUses`, si bien qu'à minuit UTC les échanges redeviennent disponibles sans que la boutique de la semaine bouge.
 
 Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `lang` et `theme` est autorisé, pour appliquer le thème avant le premier rendu (évite le flash).
 
@@ -88,7 +88,7 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 - Three.js + `GLTFLoader`, modèle `.glb`, texture définie dans le JSON de l'extension.
 - Workflow : interaction avec le booster 3D → 5 cartes face cachée → clic pour retourner une à une → glow CSS pour les raretés 4 et 5.
 - Les animations de base sont **cinématographiques** : le retournement dépasse légèrement avant de se poser (`card-flip`, avec un zoom au passage), la carte du projecteur arrive de plus haut et de biais, la vignette de résumé rebondit, les raretés 4 et 5 s'entourent d'un halo et les Full Art dérivent doucement (`css/components/card-reveal.css`, `css/views/opening.css`).
-- Trois **modes d'animation** (voir section F) habillent ce workflow. **Normal** ne change rien au mouvement, seulement ses durées. **Épique** le met en scène : rayons de lumière et **poussières sur toute la vue d'ouverture** (`css/animations/epic.css` : le `::before` est posé sur la **scène** et non sur la boîte de la carte — elle existe pendant tout le rituel et n'est `hidden` que sur l'écran de choix. Il est en `position: fixed; inset: 0` et porte un `z-index` **négatif**, ce qui le laisse au-dessus du fond de la page et **derrière les textes et les cartes** : un pseudo-élément dans le flux passerait par-dessus les phrases), traînée de décollage, onde de choc à l'ouverture de la carte, halo renforcé sur les raretés hautes, balayage lumineux sur le résumé. **Explosif** — mode **parodique assumé** (`parodic: true` dans `config.json`) — en rajoute : le booster tremble, tourne et explose derrière un « BOUM ! » entouré d'autocollants comiques, la scène **et** le panneau tremblent, un anneau de BD part du choc, des **confettis** sont tirés à chaque ouverture (`OpeningView.spawnConfetti()`), la carte fait deux tours et demi et les vignettes du résumé tombent du plafond en police comique. Le côté parodique est annoncé par le bandeau hachuré et le badge « Parodique » des Paramètres, et par la note sous le « BOUM ! ».
+- Trois **modes d'animation** (voir section F) habillent ce workflow. **Normal** ne change rien au mouvement, seulement ses durées. **Épique** le met en scène : rayons de lumière et **poussières sur toute la vue d'ouverture** (`css/animations/epic.css` : le `::before` est posé sur la **scène** et non sur la boîte de la carte — elle existe pendant tout le rituel et n'est `hidden` que sur l'écran de choix. Il est en `position: fixed; inset: 0` et porte un `z-index` **négatif**, ce qui le laisse au-dessus du fond de la page et **derrière les textes et les cartes** : un pseudo-élément dans le flux passerait par-dessus les phrases), traînée de décollage, onde de choc à l'ouverture de la carte, halo renforcé sur les raretés hautes, balayage lumineux sur le résumé. **Explosif** — mode **parodique assumé** (`parodic: true` dans `config.json`) — en rajoute : le booster tremble, tourne et explose derrière un « BOUM ! » entouré d'autocollants comiques, la scène **et** le panneau tremblent, un anneau de BD part du choc, des **confettis** sont tirés à chaque ouverture (`OpeningView.spawnConfetti()`), la carte fait deux tours et demi et les vignettes du résumé tombent du plafond en police comique. Le côté parodique est annoncé par la pastille « BLAGUE » de son bouton dans les Paramètres, et par la note sous le « BOUM ! ». Aucun paragraphe d'explication : la pastille suffit.
 - La boîte qui contient le booster fait **90 % de la largeur** de son conteneur et **10 % de hauteur en plus** (38 vh pour l'aperçu du sélecteur, 50 vh pour la scène d'ouverture, 42 vh et 55 vh au-delà de 768 px) : le booster garde ainsi des marges sur les côtés, ce qui laisse les deux flèches de changement d'extension collées aux bords même sur un écran vertical. La caméra est reculée d'autant (3,52 au lieu de 3,2) pour que le modèle ne grossisse pas en même temps que la boîte ; l'image 2D de secours est réduite de 10 % de la même façon.
 
 ### F. Langues & Thèmes
@@ -100,13 +100,13 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 ### G. Vues & Navigation (SPA)
 0. **Accueil (onboarding)** : créer / importer, affiché seulement si aucun compte.
 1. **Ouverture** : choix du booster + scène d'ouverture.
-2. **Collection** : grille, silhouettes grisées pour les manquantes, **bouton cœur** sur les cartes possédées (5 favoris maximum), **bouton « Filtres & tri »**. Les filtres vivent dans une **popup** (`CollectionView`) : on y active/désactive chaque extension (plusieurs à la fois) et **chaque rareté (plusieurs à la fois, comme les extensions : `filters.rarities` est un `Set`)**, la famille **Promo** dans son ensemble, le statut (toutes / **possédées — l'état par défaut** / manquantes / **vendables**, c'est-à-dire 2 exemplaires ou plus), le style, et l'on y choisit le **tri** (numéro, **index du fichier**, rareté, style, quantité possédée) et son sens. La grille ouvre donc sur **les cartes possédées** et non sur les 343 silhouettes du catalogue ; « Réinitialiser » y revient. La barre sous le titre ne garde que la recherche, le bouton qui ouvre la popup (avec un badge du nombre de filtres actifs) et le compte de cartes : **aucun filtre n'y est plus dupliqué**. Le **bouton « Binders »** siège **dans l'en-tête de la page, en haut à droite et hors du panneau de filtres** (`css/base.css` : `.view__header--split` met titre et action sur une ligne, `.view__heading` garde titre et sous-titre groupés), et l'en-tête de l'application porte en plus un **compteur Binders** (icône `assets/img/binders.png` + nombre de pages, voir 3.H bis). Le tri par numéro compare les `id` en `numeric: true`, pour que `W2` passe bien avant `W10`.
+2. **Collection** : grille, silhouettes grisées pour les manquantes, **bouton cœur** sur les cartes possédées (5 favoris maximum), **bouton « Filtres & tri »**. Les filtres vivent dans une **popup** (`CollectionView`) : on y active/désactive chaque extension (plusieurs à la fois) et **chaque rareté (plusieurs à la fois, comme les extensions : `filters.rarities` est un `Set`)**, la famille **Promo** dans son ensemble, le statut (toutes / **possédées — l'état par défaut** / manquantes / **vendables**, c'est-à-dire 2 exemplaires ou plus), le style, et l'on y choisit le **tri** (**index du fichier, l'état par défaut**, numéro, rareté, style, quantité possédée, date d'obtention) et son sens. La grille ouvre donc sur **les cartes possédées** et non sur les 343 silhouettes du catalogue ; « Réinitialiser » y revient. La barre sous le titre ne garde que la recherche, le bouton qui ouvre la popup (avec un badge du nombre de filtres actifs) et le compte de cartes : **aucun filtre n'y est plus dupliqué**. Le **bouton « Binders »** siège **dans l'en-tête de la page, en haut à droite et hors du panneau de filtres** (`css/base.css` : `.view__header--split` met titre et action sur une ligne, `.view__heading` garde titre et sous-titre groupés), et l'en-tête de l'application porte en plus un **compteur Binders** (icône `assets/img/binders.png` + nombre de pages, voir 3.H bis). Le tri par numéro compare les `id` en `numeric: true`, pour que `W2` passe bien avant `W10`.
 
-**Deux axes de numérotation, et deux tris** : chaque entrée porte à la fois `cardId` (le champ `Index` de la carte, « SERIE-A1 / W001 ») et `index` (sa **position dans le tableau `Cards` de son fichier d'extension**), les deux étant calculés par `CollectionManager` à chaque lecture — rien n'est stocké, donc réordonner un fichier se voit tout de suite. Ils ne se confondent pas : un fichier **groupe ses cartes par thème**, son ordre n'est donc pas celui des `Index` (la A1 commence par `W001`, pas par `A001`). D'où les deux tris de la popup : **« Numéro »** (le défaut) suit `cardId`, extension par extension ; **« Index »** suit `index`, c'est-à-dire le fichier tel qu'il a été écrit (`CollectionView.applyFilters`, `COLLECTION_SORT`).
+**Deux axes de numérotation, et deux tris** : chaque entrée porte à la fois `cardId` (le champ `Index` de la carte, « SERIE-A1 / W001 ») et `index` (sa **position dans le tableau `Cards` de son fichier d'extension**), les deux étant calculés par `CollectionManager` à chaque lecture — rien n'est stocké, donc réordonner un fichier se voit tout de suite. Ils ne se confondent pas : un fichier **groupe ses cartes par thème**, son ordre n'est donc pas celui des `Index` (la A1 commence par `W001`, pas par `A001`). D'où les deux tris de la popup : **« Index »** (le défaut) suit `index`, c'est-à-dire le fichier tel qu'il a été écrit ; **« Numéro »** suit `cardId`, extension par extension (`CollectionView.applyFilters`, `COLLECTION_SORT`). Un troisième tri, **« Date d'obtention »**, suit `firstObtainedAt` (la première copie de chaque carte) du plus ancien au plus récent : les cartes non possédées, qui n'ont pas de date, restent toujours à la fin quelle que soit la direction.
 2 bis. **Profil** : l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. Deux **petits boutons** sous le sous-titre (`view__header-actions`) mènent aux deux pages que la barre du bas ne porte plus : **Statistiques** et **Trophées** (le catalogue, isolé derrière deux combos — famille, statut — pour ne jamais afficher les trente trophées d'un coup, et muni de son propre retour au profil). Les compteurs propres à la Mine Pick, eux, sont dans le panneau « Mine Pick » de la page Statistiques, à côté du panneau « Mine ».
 3. **Pick** (Mine Pick) : les dix boosters simulés du jour, **listés un par ligne avec leur contenu face visible**, et les trois pioches gratuites. Un premier clic **sélectionne** la ligne (aperçu), le second l'ouvre — voir section 3.G quater. Son libellé de barre est **« Pick »** (la fonctionnalité garde son nom, « Mine Pick », dans son titre et sa page).
 3 bis. **Mine** (`data-view="mineblock"`) : les **dix blocs du jour**, minés **un par un**, avec les ressources récoltées — voir section 3.G sexies. Elle occupe l'emplacement que les **Trophées** tenaient dans la barre du bas : le catalogue des trophées s'ouvre désormais depuis le **Profil**, par un second bouton à côté de « Statistiques », et porte pour cela son propre **bouton retour** (comme la page Statistiques, elle aussi ouverte depuis le Profil). Trois fonctions ont donc leur page **hors** de la barre — Statistiques, Trophées — ou **dedans** — la Mine — et chacune des deux premières sait revenir au profil.
-4. **Paramètres** : langue, thème, **animations** (sélecteur + aperçu animé joué à l'ouverture de la page, bandeau d'avertissement pour le mode parodique), **foil** (deux curseurs : intensité des motifs, **brillance** de la ligne qui balaie la carte — l'aperçu du panneau est un mythique, donc l'effet suit le doigt), **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
+4. **Paramètres** : langue, thème, **animations** (sélecteur + aperçu animé joué à l'ouverture de la page, le mode explosif marqué de sa seule pastille « BLAGUE »), **foil** (deux curseurs : intensité des motifs, **brillance** de la ligne qui balaie la carte — l'aperçu du panneau est un mythique, donc l'effet suit le doigt), **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
 6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
 
@@ -130,11 +130,27 @@ Sauvegarde `.save` : toutes les données → JSON → `CompressionStream('deflat
 
 Catalogue déclaré dans `settings/boosters_trophy.json` (paliers récurrents sur chaque extension :
 complétion et boosters ouverts), `settings/global_trophy.json` (paliers globaux : cartes possédées,
-boosters ouverts, cartes différentes) et `data/trophies/<setId>.json` (succès de collection, listes
-d'index `RequirementType: "CardList"`, layout `classic`/`fullart`/`any`). Raretés : `bronze`,
-`silver`, `gold`, `diamond`, `emerald`.
+boosters ouverts, cartes différentes, **blocs minés au total** et **blocs minés par sorte**,
+**cartes piochées en Mine Pick** et **piochées par rareté de carte**) et
+`data/trophies/<setId>.json` (succès de collection, listes d'index `RequirementType: "CardList"`,
+layout `classic`/`fullart`/`any`). Raretés : `bronze`, `silver`, `gold`, `diamond`, `emerald`.
 
-Chaque trophée a une **médaille** : les paliers récurrents d'une extension la prennent dans `assets/img/trophy/<setId>/<famille>/<rareté>.png`, les paliers globaux dans `assets/img/trophy/Global/<compteur>/<rareté>.png` (le `<compteur>` est la clé de `settings/global_trophy.json` : `totalCards`, `boosters`, `differentCards`), et les trophées de collection dans le champ `Icon` de leur entrée dans `data/trophies/<setId>.json` — n'importe quelle extension, le GIF animé `QuinteFlushRoyale.gif` compris. Un trophée dont le catalogue ne déclare aucune image, ou dont le fichier ne se charge pas, retombe sur `assets/img/trophy/default.png`.
+**Les deux familles de la mine.** `miningAllBlock` lit le compteur `totalMined` de la mine (tous les
+blocs confondus). `miningEachBlock` est une **seule** table de paliers qui se déploie sur **chaque**
+sorte de bloc de `settings/mining.json` : `TrophyManager.buildMiningBlockTrophies` fabrique ainsi
+cinq trophées par bloc, chacun avec son propre groupe (`miningEachBlock:<bloc>`) et son nom de bloc
+traduit (les noms viennent du JSON de la mine, pas des dictionnaires). Côté catalogue, la combo
+« Famille » gagne une entrée **Mine** (les deux familles d'un coup) et une entrée par sorte de bloc.
+
+**Les deux familles du Mine Pick.** `minepickTotalPicks` lit le compteur `totalPicks` de la Mine Pick
+(toutes raretés confondues). `minepickSpecificPicks` est une **seule** table de paliers qui se
+déploie sur **chaque** rareté de carte : `TrophyManager.buildMinePickRarityTrophies` fabrique cinq
+trophées par rareté (`1` commune … `5` mythique), chacun avec son propre groupe
+(`minepickSpecificPicks:<rareté>`). Le libellé de la rareté de carte est une traduction
+(`rarity.1` … `rarity.5`) résolue par la modale de détail : changer de langue relabelle le trophée.
+La combo « Famille » gagne une entrée **Mine Pick** pour les deux familles d'un coup.
+
+Chaque trophée a une **médaille** : les paliers récurrents d'une extension la prennent dans `assets/img/trophy/<setId>/<famille>/<rareté>.png`, les paliers globaux dans `assets/img/trophy/Global/<compteur>/<rareté>.png` (le `<compteur>` est la clé de `settings/global_trophy.json` : `totalCards`, `boosters`, `differentCards`), les deux familles de la mine dans `assets/img/trophy/Global/miningAllBlock/<rareté>.png` et `assets/img/trophy/Global/miningEachBlock/<bloc>/<rareté>.png` (le `<bloc>` est l'`ID` brut de `settings/mining.json`, point compris : `material.stone/bronze.png`), celles du Mine Pick dans `assets/img/trophy/Global/minepickTotalPicks/<rareté>.png` et `assets/img/trophy/Global/minepickSpecificPicks/<raretéDeCarte>/<rareté>.png`, et les trophées de collection dans le champ `Icon` de leur entrée dans `data/trophies/<setId>.json` — n'importe quelle extension, le GIF animé `QuinteFlushRoyale.gif` compris. Un trophée dont le catalogue ne déclare aucune image, ou dont le fichier ne se charge pas, retombe sur `assets/img/trophy/default.png`.
 
 L'XP totale est **dérivée** de l'état réel (`expérience.everyBooster` × boosters ouverts +
 `everyDistinctCard` × cartes différentes + `nameChanged` si le nom est personnalisé + l'XP des
@@ -169,7 +185,7 @@ Règles de la file d'attente : une notification reste **3 s** (`NOTIFICATION_DUR
 
 **Aucune notification au démarrage** : l'XP et les trophées sont évalués une fois au lancement, et `app.js` appelle `gameNotifier.start()` APRÈS cette première évaluation (qui prend le niveau courant comme référence). Importer une sauvegarde qui débloque dix trophées d'un coup ne déclenche donc aucun message.
 
-Enfin, les avatars (`assets/img/profile/**`) sont du **pixel art** (6x6, 8x8, 48x48 ou 192x192) : les trois endroits qui les affichent — avatar du profil, sélecteur d'icônes, section « Icônes débloquées » d'un trophée — les rendent avec `image-rendering: pixelated`, donc sans aucune interpolation.
+Enfin, les avatars (`assets/img/profile/**`) sont du **pixel art** (6x6, 8x8, 48x48 ou 192x192) : les quatre endroits qui les affichent — avatar du profil, sélecteur d'icônes, section « Icônes débloquées » d'un trophée et avatar de la page d'un binder partagé (`collection.html`) — les rendent avec `image-rendering: pixelated`, donc sans aucune interpolation.
 
 ### G quater. Mine Pick
 
@@ -207,10 +223,16 @@ est dite.
 Le liseré **full art** (accent) n'est pas gaté : il nomme le tirage, que la vignette montre déjà, pas la
 rareté.
 
+**Le mélange ne dit jamais où va une carte.** Les cinq cartes ne sont pas échangées de case en case :
+elles se rassemblent toutes au **même point**, au centre de la scène, où elles forment une pile (léger
+biais et décalage de profondeur pour chacune). L'ordre du DOM change **pendant** qu'elles sont dans cette
+pile — même endroit, même dos, un seul repaint — puis elles repartent vers les cinq emplacements. Rien
+ne permet donc de suivre la carte que l'on convoitait : c'est un tirage, pas un bonneteau.
+
 **Les animations sont au rendez-vous** (`css/views/minepick.css`) : le pack atterrit dans une déflagration
 de lumière, les cinq cartes se distribuent une à une en se posant, le paquet face visible « respire »
-pendant qu'on le mémorise, chaque carte se retourne avec une petite levée, les cartes se dandinent pendant
-le mélange, ondes de choc et vibration de la ligne sélectionnée comprises. Les durées viennent du mode
+pendant qu'on le mémorise, chaque carte se retourne avec une petite levée, la pile se forme et se
+déploie, ondes de choc et vibration de la ligne sélectionnée comprises. Les durées viennent du mode
 d'animations actif (`--anim-flip-ms`) : l'Épique est plus lent et plus large, l'Explosif secoue la scène
 et fait sautiller les cartes. `prefers-reduced-motion` les coupe toutes.
 
@@ -333,12 +355,22 @@ régression cosmétique, jamais un contrôle cassé.
 **Statistiques.** `blocksMined` compte les blocs cassés **par sorte**, `resources` la quantité récoltée et
 `sparksFound` les Sparks trouvés. Le panneau « Mine » de la page Statistiques affiche l'allowance du jour,
 une barre par sorte de bloc (y compris celles jamais rencontrées, à 0 — c'est un catalogue) et les
-ressources récoltées.
+ressources récoltées — toutes, à 0 compris, dans l'ordre de la configuration ; une ressource que la
+configuration ne déclare plus mais que la sauvegarde contient encore est ajoutée en fin de ligne.
 
 **Marchand itinérant.** Le bouton en haut à droite — son icône `assets/img/wanderingtrader.png`, puis son
 libellé — ouvre la **boutique de la semaine** : des cartes s'achètent avec les ressources de la mine
 (`js/business/TraderManager.js`). Un seul dialogue est ouvert à la fois : ouvrir l'inventaire ferme le
-marchand, et l'inverse.
+marchand, et l'inverse. **L'image d'une offre est un bouton** : elle ouvre le détail de la carte
+(illustration en grand, description, prix complet avec ce qui manque, stock) dans un second dialogue
+**empilé au-dessus** de la boutique, qui reste ouverte derrière (`Échap` ferme d'abord le détail).
+
+**Deux horloges.** La boutique affiche le **temps restant avant le reroll** (le lundi suivant à
+00:00 UTC, donc le lundi de la boutique plus sept jours) et chaque **offre épinglée** son propre
+compte à rebours jusqu'à la fin de sa fenêtre (le dernier jour de `Period.Max`, à minuit UTC). Les deux
+sont retranscrits chaque seconde depuis `CLOCK_TICK` ; sans heure UTC fiable, ils affichent un
+placeholder plutôt qu'une échéance inventée. Une offre épinglée est aussi mise en avant : bordure
+d'accent, halo et pastille « Offre épinglée », puisqu'elle est écrite à la main, rare et limitée.
 
 **La même boutique pour tout le monde.** Le tirage de la semaine est amorcé par la seule **date du lundi**
 de la semaine courante (jour UTC fiable de `DateSyncManager`, jamais `Date.now()`, et **pas** l'UUID du
@@ -364,6 +396,17 @@ ressources. Les **offres épinglées** de `data/shop/pinned_offers.json` ne sont
 porte sa carte (`Index`, avec `isPromotional` pour une promo), son prix (autant de lignes qu'elle veut,
 en noms de ressources), ses dates d'entrée et d'expiration (`Period`) et son stock (`MaxUse`). Les deux
 familles d'offres sont dessinées par la même vue, dans la même liste, les épinglées en tête.
+
+**Les échanges du jour.** Sous les offres, la boutique affiche `shop.tradesPerDay` **échanges de
+ressources** (trois par défaut), tirés de la seule **journée UTC** : tout le monde voit les mêmes, et
+ils changent à minuit UTC (compte à rebours affiché). Un échange est une **équation** : le côté le plus
+cher compte **un** exemplaire, l'autre autant d'exemplaires que `shop.itemsValues` l'exige, donc les deux
+côtés valent exactement la même chose et `2 Ultima contre 4 Void Dust` ne peut jamais être écrit à la
+place de `1 contre 2`. Une paire dont les valeurs ne se divisent pas (`Glowstone Dust` à 20 contre
+`Void Dust` à 50) n'a pas d'échange en unités entières : elle est retirée au sort et remplacée, tout
+comme une paire déjà proposée le même jour. Chaque échange se prend **dans les deux sens** (on donne
+l'un ou l'autre côté) et **une fois par jour** (`tradeUses`) ; les deux mouvements et ce compteur
+s'écrivent dans la même transaction que l'échange lui-même.
 
 **Un achat, une transaction.** Le prix (les ressources de la mine), la ligne de collection et le compteur
 d'achats s'écrivent dans **une seule** transaction : un échec ne peut ni débiter sans donner la carte, ni
@@ -407,6 +450,38 @@ de la mine et la page Statistiques.
 - **Jamais mis en cache :** les requêtes `no-store`/`reload`/`no-cache` (rafraîchissement des paramètres, des cadeaux et des codes), les requêtes `Range`, le cross-origin hors CDN (API de temps, Google Sheet), le worker lui-même et les fichiers privés (`admin/`, `useritem_codes.csv`, `.docs/`).
 - **Couverture :** tout le jeu démarre hors-ligne dès la première installation, sans rechargement intermédiaire (vérifié serveur coupé, cache d'exécution vide). En revanche les illustrations (`cards/`, 374 Mo) et les visuels de boosters ne sont mis en cache **qu'à l'usage** : une carte jamais affichée n'a pas d'image hors-ligne.
 - **Mise à jour :** incrémenter `VERSION` dans `sw.js` à chaque changement du shell ; seuls les caches préfixés `minecards-` sont purgés, ceux des autres projets de l'hôte sont laissés intacts.
+
+### J. Qualité du code (linter)
+
+Le projet n'a ni bundler ni transpileur : rien ne relit les sources entre l'éditeur et le
+navigateur. `tools/lint.mjs` (aucune dépendance, aucun `npm install`) est cette étape-là, et c'est
+lui qui fait tenir l'unité du code :
+
+```
+npm run lint          # tout vérifier (sortie en erreur dès la première erreur)
+npm run lint:fix      # corriger ce qui peut l'être sans arbitrage, puis vérifier
+npm run lint:strict   # les avertissements comptent comme des erreurs (ce qu'une CI doit lancer)
+lint.cmd              # la même chose depuis Windows, sans npm (double clic)
+node tools/lint.mjs --only i18n/ --json
+```
+
+Deux niveaux, et rien d'autre : **erreur** (le projet est cassé ou incohérent aujourd'hui, la
+vérification échoue) et **avertissement** (quelque chose est attendu et pas encore là, le jeu s'en
+sort tout seul : une médaille absente retombe sur `assets/img/trophy/default.png`, une illustration
+référencée par un fichier de données est masquée). Aucun mécanisme de silence n'existe : une règle
+qui ne correspond plus au projet se corrige ou se supprime, elle ne se met jamais en sourdine.
+
+Les 23 règles couvrent : l'hygiène de tous les fichiers texte (BOM, fins de ligne mélangées, espaces
+en fin de ligne, saut de ligne final, tabulations, JSON invalide ou clé déclarée deux fois) ; le
+JavaScript (`node --check`, en-tête documentaire de module, bloc de documentation par fonction et
+méthode, `var`/`==`/`console.log`/`debugger`, imports qui ne résolvent pas ou en double) ; les
+traductions (parité des clés entre langues, placeholders identiques, aucun tiret cadratin dans un
+texte lu par le joueur, clé utilisée mais non déclarée, clés composées par le catalogue des trophées) ;
+les feuilles de style et les pages (classes BEM, `!important` réservé à ses deux exceptions, `id`
+unique par page, aucun `onclick`) ; et les chemins (`assets/` cité mais absent, liste de precache du
+service worker, médailles attendues par le catalogue).
+
+Détail des règles, architecture et recette pour en ajouter une : `tools/lint/README.md`.
 
 ---
 

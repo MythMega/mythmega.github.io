@@ -897,4 +897,3 @@ export class BoosterManager {
 export const boosterManager = new BoosterManager();
 
 export default boosterManager;
-

@@ -362,7 +362,10 @@ export class ProfileView {
     this.hasLegacyAvatar = this.selectedIcon === ''
       && typeof profile.photo === 'string'
       && profile.photo !== '';
-    this.nameInput.value = name;
+    // Only write the field when the value really changes: the preview is re-rendered when the
+    // player picks another avatar, and re-assigning the same text would move the caret to the end
+    // of a pseudo being typed.
+    if (this.nameInput.value !== name) this.nameInput.value = name;
 
     const avatarPath = this.selectedIcon !== ''
       ? this.selectedIcon
@@ -440,7 +443,8 @@ export class ProfileView {
     if (icon.file === '') {
       const fallback = document.createElement('span');
       fallback.className = 'profile__icon-none';
-      fallback.textContent = '—';
+      // The "no avatar" tile: the empty set reads as "nothing" without borrowing a dash.
+      fallback.textContent = '∅';
       fallback.setAttribute('aria-hidden', 'true');
       button.appendChild(fallback);
     } else {
@@ -507,8 +511,14 @@ export class ProfileView {
       button.setAttribute('aria-checked', String(this.isIconChecked(button.dataset.profileIcon)));
     });
     // The preview mirrors what the save will store: the picked icon replaces the legacy URL (`photo`)
-    // of an older save, so choosing "no icon" clears the displayed avatar right away.
-    this.renderIdentity({ ...this.profile, icon: this.selectedIcon, photo: '' });
+    // of an older save, so choosing "no icon" clears the displayed avatar right away. The pseudo
+    // being typed is carried over: picking an avatar must never undo a name that is not saved yet.
+    this.renderIdentity({
+      ...this.profile,
+      name: this.nameInput?.value ?? this.profile?.name ?? '',
+      icon: this.selectedIcon,
+      photo: '',
+    });
     this.log(`Avatar icon selected: ${this.selectedIcon === '' ? 'none' : this.selectedIcon}.`);
   }
 
@@ -803,7 +813,7 @@ export class ProfileView {
    * @returns {string} The translated or stored name, or an em dash.
    */
   resolveSetName(setId) {
-    if (!setId) return '—';
+    if (!setId) return i18n.t('common.unknown');
     return this.sets?.get(setId)?.name ?? setId;
   }
 

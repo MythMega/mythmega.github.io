@@ -13,7 +13,9 @@
  *        - `boosterStats`      : N boosters of that extension must have been opened
  *          (`stats.boostersOpenedBySet`, written by `BoosterManager`).
  *   2. `global`  — account-wide, declared in `settings/global_trophy.json`: total cards owned,
- *      boosters opened, and distinct cards of the collection.
+ *      boosters opened, distinct cards of the collection, the blocks mined (all of them, or one
+ *      block at a time) and the cards kept in the Mine Pick (all of them, or one card rarity at a
+ *      time).
  *   3. `collection` — declared in `data/trophies/<setId>.json`: a list of card indexes to own
  *      (`RequirementType: "CardList"`), optionally restricted to one layout (`classic` / `fullart`).
  *      `MusthaveAllRequirementsCompleted` tells whether every listed index is required or one is
@@ -33,10 +35,12 @@
  *   plus `incrementRequiredXpBy` XP.
  */
 
-import Card from '../classes/Card.js';
+import Card, { CARD_RARITY } from '../classes/Card.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
+import miningManager from './MiningManager.js';
+import minePickManager from './MinePickManager.js';
 import profileManager from './ProfileManager.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
@@ -63,7 +67,10 @@ export const TROPHY_REQUIREMENT_TYPES = Object.freeze({ CARD_LIST: 'cardlist' })
  * Three layouts, one per trophy family:
  *   - recurring per-extension tiers: `assets/img/trophy/<setId>/<family>/<rarity>.png`;
  *   - account-wide tiers: `assets/img/trophy/Global/<counter>/<rarity>.png`, the `<counter>` being
- *     the key of `settings/global_trophy.json` (`totalCards`, `boosters`, `differentCards`);
+ *     the key of `settings/global_trophy.json` (`totalCards`, `boosters`, `differentCards`,
+ *     `miningAllBlock`, `minepickTotalPicks`), the two families split one folder deeper
+ *     (`Global/miningEachBlock/<block>/…`, `Global/minepickSpecificPicks/<cardRarity>/…`) adding
+ *     that extra level;
  *   - collection trophies: the `Icon` field of the entry in `data/trophies/<setId>.json`, whatever
  *     its extension (the animated `QuinteFlushRoyale.gif` ships that way).
  *
@@ -107,6 +114,21 @@ export function buildGlobalTrophyIconPath(statKey, rarity) {
 }
 
 /**
+ * Builds the medal path of an account-wide family that is split one folder deeper.
+ *
+ * The mining and Mine Pick families live under `Global/` like every account-wide counter, but add
+ * a level: the block id (`Global/miningEachBlock/material.stone/…`) or the card rarity
+ * (`Global/minepickSpecificPicks/3/…`). The `family` therefore already carries that level.
+ *
+ * @param {string} family - Folder below `Global/` (a counter, or `<counter>/<key>`).
+ * @param {string} rarity - Rarity id (`bronze` … `emerald`).
+ * @returns {string} The path, relative to the application root.
+ */
+export function buildGlobalFamilyIconPath(family, rarity) {
+  return `${TROPHY_ICON_DIRECTORY}/${TROPHY_ICON_FOLDERS.GLOBAL}/${family}/${rarity}.png`;
+}
+
+/**
  * Normalizes the `Icon` of a trophy entry read from `data/trophies/<setId>.json`.
  *
  * The field is optional and the file writes it with a leading `./` (`./assets/img/…`): both are
@@ -139,6 +161,41 @@ export const GLOBAL_TROPHY_STATS = Object.freeze({
   TOTAL_CARDS: 'totalcards',
   BOOSTERS: 'boosters',
   DIFFERENT_CARDS: 'differentcards',
+  /** Every block ever mined, whatever its type (the `totalMined` counter of the mine). */
+  MINING_ALL_BLOCKS: 'miningallblock',
+  /** One tier table applied to EVERY type of block of the mine (see `buildMiningBlockTrophies`). */
+  MINING_EACH_BLOCK: 'miningeachblock',
+  /** Every card ever kept in the Mine Pick (the `totalPicks` counter of the feature). */
+  MINEPICK_TOTAL_PICKS: 'minepicktotalpicks',
+  /** One tier table applied to the picks of EVERY card rarity (see `buildMinePickRarityTrophies`). */
+  MINEPICK_SPECIFIC_PICKS: 'minepickspecificpicks',
+});
+
+/**
+ * Directory of the mining medals, relative to `TROPHY_ICON_DIRECTORY`.
+ *
+ * Two layouts, both under `Global/` and named after the counter of
+ * `settings/global_trophy.json`:
+ *   - every block together: `Global/miningAllBlock/<rarity>.png`;
+ *   - one block at a time:    `Global/miningEachBlock/<blockId>/<rarity>.png`, the folder being the
+ *     raw `ID` of `settings/mining.json` (`material.stone`, dot included).
+ */
+export const MINING_TROPHY_ICON_FOLDERS = Object.freeze({
+  ALL: 'miningAllBlock',
+  EACH: 'miningEachBlock',
+});
+
+/**
+ * Directory of the Mine Pick medals, relative to `TROPHY_ICON_DIRECTORY`.
+ *
+ * Both folders live under `Global/`, like every account-wide counter:
+ *   - every pick together: `Global/minepickTotalPicks/<rarity>.png`;
+ *   - one card rarity at a time: `Global/minepickSpecificPicks/<cardRarity>/<rarity>.png`, the
+ *     folder being the rarity value used by the card files (`1` = common … `5` = mythic).
+ */
+export const MINEPICK_TROPHY_ICON_FOLDERS = Object.freeze({
+  TOTAL: 'minepickTotalPicks',
+  SPECIFIC: 'minepickSpecificPicks',
 });
 
 /**
@@ -356,6 +413,27 @@ export class TrophyManager {
         configLoader.getLevellingSettings(),
         configLoader.getExperiencePerTrophy(),
       ]);
+    // The mine keeps its counters apart from `stats` (a mined block is not an opened booster): the
+    // two mining families read them here, once, instead of each trophy re-reading the save. A mine
+    // whose files cannot be read leaves the two families at zero instead of taking the whole
+    // catalogue down with it: the other trophies have nothing to do with it.
+    let mining = { totalMined: 0, blocksMined: {} };
+    let miningBlocks = [];
+    try {
+      mining = await miningManager.getState({ lang: 'fr' });
+      miningBlocks = await miningManager.listBlocks();
+    } catch (error) {
+      console.warn('[TrophyManager] The counters of the mine could not be read.', error);
+    }
+    // The Mine Pick keeps its own counters too (`totalPicks`, `picksByRarity`): they feed its two
+    // families of trophies. A feature that cannot be read leaves them at zero, exactly like the
+    // mine: the rest of the catalogue has nothing to do with it.
+    let minePick = { totalPicks: 0, picksByRarity: {} };
+    try {
+      minePick = await minePickManager.getState();
+    } catch (error) {
+      console.warn('[TrophyManager] The counters of the Mine Pick could not be read.', error);
+    }
 
     const rows = Array.isArray(ownedRows) ? ownedRows.filter((row) => row && typeof row.key === 'string') : [];
     const ownedKeys = new Set(rows.map((row) => row.key));
@@ -398,6 +476,13 @@ export class TrophyManager {
       totalCards,
       boostersOpened,
       boostersOpenedBySet,
+      // Mining counters, shared by the two mining families.
+      totalMined: mining.totalMined,
+      blocksMined: mining.blocksMined,
+      blocks: miningBlocks,
+      // Mine Pick counters, shared by its two families.
+      minePickTotalPicks: minePick.totalPicks,
+      minePickPicksByRarity: minePick.picksByRarity ?? {},
       profile,
       defaultName: limits.defaultName,
       levelling,
@@ -526,6 +611,17 @@ export class TrophyManager {
 
     Object.entries(source).forEach(([statKey, tiers]) => {
       if (statKey.startsWith('_')) return;
+      // `miningEachBlock` is one tier table for EVERY block of the mine: it expands into a family of
+      // its own instead of reading a single counter.
+      if (TrophyManager.isEachBlockCounter(statKey)) {
+        trophies.push(...this.buildMiningBlockTrophies(statKey, tiers, context));
+        return;
+      }
+      // `minepickSpecificPicks` works the same way, one family per rarity of the kept card.
+      if (TrophyManager.isSpecificPickCounter(statKey)) {
+        trophies.push(...this.buildMinePickRarityTrophies(statKey, tiers, context));
+        return;
+      }
       const current = TrophyManager.readGlobalCounter(statKey, context);
       if (current === null) {
         console.warn(`[TrophyManager] The global counter \"${statKey}\" is not implemented, its trophies are ignored.`);
@@ -547,7 +643,7 @@ export class TrophyManager {
           setName: null,
           titleKey: `trophy.global.${slug}.title`,
           descriptionKey: `trophy.global.${slug}.desc`,
-          icon: buildGlobalTrophyIconPath(statKey, tier.rarity),
+          icon: TrophyManager.globalTrophyIcon(statKey, tier.rarity),
           params: { rarityKey: `trophy.rarity.${tier.rarity}`, current, target: tier.target },
           progress: tier.target > 0 ? Math.min(current / tier.target, 1) : 1,
           unlocked: current >= tier.target,
@@ -632,6 +728,212 @@ export class TrophyManager {
   }
 
   /**
+   * Resolves the medal of a single-counter global trophy.
+   *
+   * Most counters name their folder verbatim (`Global/totalCards/bronze.png`), but the mining one
+   * and the Mine Pick one have their own, explicitly named folders: this keeps the path in one
+   * place instead of duplicating the condition in the catalogue builder.
+   *
+   * @param {string} statKey - Key of `settings/global_trophy.json`.
+   * @param {string} rarity - Rarity id (`bronze` … `emerald`).
+   * @returns {string} The medal path, relative to the application root.
+   */
+  static globalTrophyIcon(statKey, rarity) {
+    const key = String(statKey ?? '').trim().toLowerCase();
+    if (key === GLOBAL_TROPHY_STATS.MINING_ALL_BLOCKS) {
+      return buildGlobalFamilyIconPath(MINING_TROPHY_ICON_FOLDERS.ALL, rarity);
+    }
+    if (key === GLOBAL_TROPHY_STATS.MINEPICK_TOTAL_PICKS) {
+      return buildGlobalFamilyIconPath(MINEPICK_TROPHY_ICON_FOLDERS.TOTAL, rarity);
+    }
+    return buildGlobalTrophyIconPath(statKey, rarity);
+  }
+
+  /**
+   * Tells whether a global counter is the per-block mining one.
+   *
+   * @param {string} statKey - Key of `settings/global_trophy.json`.
+   * @returns {boolean} True for `miningEachBlock` (case-insensitive).
+   */
+  static isEachBlockCounter(statKey) {
+    return String(statKey ?? '').trim().toLowerCase() === GLOBAL_TROPHY_STATS.MINING_EACH_BLOCK;
+  }
+
+  /**
+   * Tells whether a global counter is the all-blocks mining one.
+   *
+   * @param {string} statKey - Key of `settings/global_trophy.json`.
+   * @returns {boolean} True for `miningAllBlock` (case-insensitive).
+   */
+  static isMiningAllBlocksCounter(statKey) {
+    return String(statKey ?? '').trim().toLowerCase() === GLOBAL_TROPHY_STATS.MINING_ALL_BLOCKS;
+  }
+
+  /**
+   * Tells whether a trophy belongs to one of the two mining families.
+   *
+   * The family combo of the catalogue offers a single "Mine" entry for both of them (every block
+   * together, then each block), so the view never has to know the shape of their groups.
+   *
+   * @param {object} trophy - Trophy state.
+   * @returns {boolean} True for a mining trophy.
+   */
+  static isMiningTrophy(trophy) {
+    if (trophy?.category !== TROPHY_CATEGORIES.GLOBAL) return false;
+    // The group keeps the spelling of the file (`miningAllBlock`), while the slugs above are
+    // lowercase: the comparison ignores the case so the two can never drift apart.
+    const group = String(trophy.group ?? '').toLowerCase();
+    return group === GLOBAL_TROPHY_STATS.MINING_ALL_BLOCKS ||
+      group.startsWith(GLOBAL_TROPHY_STATS.MINING_EACH_BLOCK);
+  }
+
+  /**
+   * Expands the per-block mining tiers: one trophy per block AND per rarity.
+   *
+   * The same `{ bronze: 5, silver: 25… }` table applies to every block of `settings/mining.json`, so
+   * the catalogue grows by five medals per block without a line of configuration per block. Each
+   * block gets its OWN group (`miningEachBlock:<blockId>`), otherwise the twenty-five trophies of
+   * the five blocks would pile up in a single grid with five identical headings.
+   *
+   * @param {string} statKey - Key of the file (`miningEachBlock`).
+   * @param {unknown} tiers - Raw tier table.
+   * @param {object} context - Reading context (needs `blocks` and `blocksMined`).
+   * @returns {object[]} The trophies, block by block.
+   */
+  buildMiningBlockTrophies(statKey, tiers, context) {
+    const trophies = [];
+    const slug = slugify(statKey);
+    const blocks = Array.isArray(context.blocks) ? context.blocks : [];
+
+    blocks.forEach((block) => {
+      const current = Number.isInteger(context.blocksMined?.[block.id]) ? context.blocksMined[block.id] : 0;
+      TrophyManager.readTiers(tiers).forEach((tier) => {
+        trophies.push({
+          id: buildTrophyId(TROPHY_CATEGORIES.GLOBAL, [statKey, block.id, tier.rarity]),
+          category: TROPHY_CATEGORIES.GLOBAL,
+          group: `${statKey}:${block.id}`,
+          groupKey: `trophy.group.${slug}`,
+          blockId: block.id,
+          // The heading of the block is a translation with the name of the block in it, so the
+          // heading is built from the same parameters as the trophy itself.
+          groupParams: { block: block.name ?? block.id },
+          rarity: tier.rarity,
+          setId: null,
+          setName: null,
+          titleKey: `trophy.global.${slug}.title`,
+          descriptionKey: `trophy.global.${slug}.desc`,
+          // The folder of a block is the raw ID of the mine (`material.stone`), dot included.
+          icon: buildGlobalFamilyIconPath(
+            `${MINING_TROPHY_ICON_FOLDERS.EACH}/${block.id}`,
+            tier.rarity
+          ),
+          // The name of the block is data (the mine files it in two languages), not a translation
+          // key: both versions are carried and the detail picks the one of the current language.
+          blockNames: block.names ?? null,
+          params: {
+            rarityKey: `trophy.rarity.${tier.rarity}`,
+            current,
+            target: tier.target,
+            block: block.name ?? block.id,
+          },
+          progress: tier.target > 0 ? Math.min(current / tier.target, 1) : 1,
+          unlocked: current >= tier.target,
+          experience: null,
+        });
+      });
+    });
+
+    return trophies;
+  }
+
+  /**
+   * Tells whether a global counter is the per-rarity Mine Pick one.
+   *
+   * @param {string} statKey - Key of `settings/global_trophy.json`.
+   * @returns {boolean} True for `minepickSpecificPicks` (case-insensitive).
+   */
+  static isSpecificPickCounter(statKey) {
+    return (
+      String(statKey ?? '').trim().toLowerCase() === GLOBAL_TROPHY_STATS.MINEPICK_SPECIFIC_PICKS
+    );
+  }
+
+  /**
+   * Tells whether a trophy belongs to the Mine Pick family.
+   *
+   * The family combo of the catalogue offers a single "Mine Pick" entry for both counters (every
+   * pick together, then each card rarity), the same way the mine has one "Mine" entry.
+   *
+   * @param {object} trophy - Trophy state.
+   * @returns {boolean} True for a Mine Pick trophy.
+   */
+  static isMinePickTrophy(trophy) {
+    if (trophy?.category !== TROPHY_CATEGORIES.GLOBAL) return false;
+    const group = String(trophy.group ?? '').toLowerCase();
+    return (
+      group === GLOBAL_TROPHY_STATS.MINEPICK_TOTAL_PICKS ||
+      group.startsWith(GLOBAL_TROPHY_STATS.MINEPICK_SPECIFIC_PICKS)
+    );
+  }
+
+  /**
+   * Expands the per-rarity Mine Pick tiers: one trophy per card rarity AND per tier.
+   *
+   * `minepickSpecificPicks` counts the cards KEPT per rarity of the card (1 = common … 5 =
+   * mythic), so its single tier table applies to each of the five rarities. Every rarity gets its
+   * own group (`minepickSpecificPicks:<rarity>`), otherwise the twenty-five trophies would pile up
+   * in one grid with five identical headings.
+   *
+   * @param {string} statKey - Key of the file (`minepickSpecificPicks`).
+   * @param {unknown} tiers - Raw tier table.
+   * @param {object} context - Reading context (needs `minePickPicksByRarity`).
+   * @returns {object[]} The trophies, rarity by rarity.
+   */
+  buildMinePickRarityTrophies(statKey, tiers, context) {
+    const trophies = [];
+    const slug = slugify(statKey);
+
+    for (let cardRarity = CARD_RARITY.MIN; cardRarity <= CARD_RARITY.MAX; cardRarity += 1) {
+      const current = Number.isInteger(context.minePickPicksByRarity?.[String(cardRarity)])
+        ? context.minePickPicksByRarity[String(cardRarity)]
+        : 0;
+      TrophyManager.readTiers(tiers).forEach((tier) => {
+        trophies.push({
+          id: buildTrophyId(TROPHY_CATEGORIES.GLOBAL, [statKey, cardRarity, tier.rarity]),
+          category: TROPHY_CATEGORIES.GLOBAL,
+          group: `${statKey}:${cardRarity}`,
+          groupKey: `trophy.group.${slug}`,
+          cardRarity,
+          // The name of the card rarity is a translation (`rarity.1` … `rarity.5`), resolved by the
+          // detail modal in the language of the player.
+          cardRarityKey: `rarity.${cardRarity}`,
+          rarity: tier.rarity,
+          setId: null,
+          setName: null,
+          titleKey: `trophy.global.${slug}.title`,
+          descriptionKey: `trophy.global.${slug}.desc`,
+          // `Global/minepickSpecificPicks/<cardRarity>/<trophyRarity>.png`: the folder is the rarity
+          // value of the card files, exactly like the folders of this repository.
+          icon: buildGlobalFamilyIconPath(
+            `${MINEPICK_TROPHY_ICON_FOLDERS.SPECIFIC}/${cardRarity}`,
+            tier.rarity
+          ),
+          params: {
+            rarityKey: `trophy.rarity.${tier.rarity}`,
+            current,
+            target: tier.target,
+          },
+          progress: tier.target > 0 ? Math.min(current / tier.target, 1) : 1,
+          unlocked: current >= tier.target,
+          experience: null,
+        });
+      });
+    }
+
+    return trophies;
+  }
+
+  /**
    * Reads the experience a trophy grants.
    *
    * @param {object} trophy - Trophy state.
@@ -662,6 +964,10 @@ export class TrophyManager {
         return context.boostersOpened;
       case GLOBAL_TROPHY_STATS.DIFFERENT_CARDS:
         return context.distinctOwned;
+      case GLOBAL_TROPHY_STATS.MINING_ALL_BLOCKS:
+        return context.totalMined ?? 0;
+      case GLOBAL_TROPHY_STATS.MINEPICK_TOTAL_PICKS:
+        return context.minePickTotalPicks ?? 0;
       default:
         return null;
     }

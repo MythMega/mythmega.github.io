@@ -44,6 +44,18 @@ export class TrophyDetail {
     const params = { ...(trophy.params ?? {}) };
     params.set = trophy.setName ?? '';
     params.rarity = TrophyDetail.rarityLabel(trophy.rarity);
+    // A trophy measured against one block of the mine carries the names of that block in the two
+    // languages of the game (the mine files them in its own JSON, not in the dictionaries).
+    if (trophy.blockNames) {
+      params.block = trophy.blockNames[i18n.getLang()] ?? trophy.blockNames.en ?? params.block ?? '';
+    }
+    // A Mine Pick trophy measured against one card rarity names it through the dictionaries
+    // (`rarity.1` … `rarity.5`), never through a label frozen at build time: switching the language
+    // must relabel the trophy along with the rest of the screen. `params.rarity` is already taken by
+    // the trophy's own rarity (`bronze` … `emerald`), hence the separate placeholder.
+    if (trophy.cardRarityKey) {
+      params.cardRarity = i18n.t(trophy.cardRarityKey);
+    }
     return params;
   }
 
@@ -276,7 +288,7 @@ export class TrophyDetail {
       ]);
       rows.push([
         i18n.t('trophies.unlockedAt'),
-        trophy.unlockedAt ? TrophyDetail.formatDate(trophy.unlockedAt) : '—',
+        trophy.unlockedAt ? TrophyDetail.formatDate(trophy.unlockedAt) : i18n.t('common.unknown'),
       ]);
     }
     rows.forEach(([term, value]) => list.appendChild(TrophyDetail.buildDetailRow(term, value)));
@@ -347,7 +359,7 @@ export class TrophyDetail {
 
       item.setAttribute(
         'aria-label',
-        `${name} — ${i18n.t(entry.owned ? 'trophy.cards.owned' : 'trophy.cards.missing')}`
+        `${name}, ${i18n.t(entry.owned ? 'trophy.cards.owned' : 'trophy.cards.missing')}`
       );
       grid.appendChild(item);
     });
@@ -402,7 +414,7 @@ export class TrophyDetail {
 
       item.setAttribute(
         'aria-label',
-        `${icon.name} — ${i18n.t(icon.unlocked ? 'trophy.icons.unlocked' : 'trophy.icons.locked')}`
+        `${icon.name}, ${i18n.t(icon.unlocked ? 'trophy.icons.unlocked' : 'trophy.icons.locked')}`
       );
       grid.appendChild(item);
     });

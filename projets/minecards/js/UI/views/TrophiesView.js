@@ -28,7 +28,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
-import trophyManager, { TROPHY_CATEGORIES } from '../../business/TrophyManager.js';
+import trophyManager, { TROPHY_CATEGORIES, TrophyManager } from '../../business/TrophyManager.js';
 import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
 import profileIconManager from '../../business/ProfileIconManager.js';
 import TrophyDetail, { TROPHY_PIN_ICON, TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
@@ -62,6 +62,15 @@ export const TROPHY_FAMILY_SET_PREFIX = 'set:';
 
 /** Value of the "account-wide trophies" option of the family combo. */
 export const TROPHY_FAMILY_GLOBAL = 'global';
+
+/** Value of the "every mining trophy" option of the family combo. */
+export const TROPHY_FAMILY_MINING = 'mining';
+
+/** Value of the "every Mine Pick trophy" option of the family combo. */
+export const TROPHY_FAMILY_MINEPICK = 'minepick';
+
+/** Prefix of the per-block options of the family combo (`block:<blockId>`). */
+export const TROPHY_FAMILY_BLOCK_PREFIX = 'block:';
 
 /** Prefix of the per-extension collection options of the family combo (`collection:<setId>`). */
 export const TROPHY_FAMILY_COLLECTION_PREFIX = 'collection:';
@@ -352,6 +361,29 @@ export class TrophiesView {
       label: i18n.t('trophy.category.global'),
     });
 
+    // The mining families are account-wide too, and they are the two only ones a player may want
+    // to isolate block by block: the per-block tiers are twenty-five trophies on their own.
+    const miningBlocks = new Map();
+    trophies.forEach((trophy) => {
+      if (typeof trophy.blockId !== 'string' || trophy.blockId === '') return;
+      const label = trophy.blockNames?.[i18n.getLang()] ?? trophy.blockNames?.en ?? trophy.blockId;
+      if (!miningBlocks.has(trophy.blockId)) miningBlocks.set(trophy.blockId, label);
+    });
+    if (miningBlocks.size > 0 || trophies.some((trophy) => TrophyManager.isMiningTrophy(trophy))) {
+      options.push({ value: TROPHY_FAMILY_MINING, label: i18n.t('trophies.familyMining') });
+    }
+    // The Mine Pick families also hold thirty trophies on their own: they get their own entry, so
+    // the global list never buries them among the collection counters.
+    if (trophies.some((trophy) => TrophyManager.isMinePickTrophy(trophy))) {
+      options.push({ value: TROPHY_FAMILY_MINEPICK, label: i18n.t('trophies.familyMinePick') });
+    }
+    miningBlocks.forEach((label, blockId) => {
+      options.push({
+        value: `${TROPHY_FAMILY_BLOCK_PREFIX}${blockId}`,
+        label: i18n.t('trophies.familyMiningBlock', { block: label }),
+      });
+    });
+
     const collectionSets = new Map();
     trophies.forEach((trophy) => {
       if (trophy.category !== TROPHY_CATEGORIES.COLLECTION) return;
@@ -419,7 +451,12 @@ export class TrophiesView {
       TrophiesView.groupByType(inCategory).forEach((entries) => {
         const subheading = document.createElement('h4');
         subheading.className = 'trophy-subgroup';
-        subheading.textContent = i18n.t(entries[0].groupKey ?? `trophy.category.${category}`);
+        // The heading may name a block (the per-block mining tiers): the parameters of the group
+        // resolve that name in the language of the player, exactly like the trophy itself.
+        subheading.textContent = i18n.t(
+          entries[0].groupKey ?? `trophy.category.${category}`,
+          TrophyDetail.buildParams(entries[0])
+        );
 
         const list = document.createElement('ul');
         list.className = 'trophy-grid';
@@ -462,6 +499,15 @@ export class TrophiesView {
     if (this.family === TROPHY_FAMILY_ALL) return true;
     if (this.family === TROPHY_FAMILY_GLOBAL) {
       return trophy.category === TROPHY_CATEGORIES.GLOBAL;
+    }
+    if (this.family === TROPHY_FAMILY_MINING) {
+      return TrophyManager.isMiningTrophy(trophy);
+    }
+    if (this.family === TROPHY_FAMILY_MINEPICK) {
+      return TrophyManager.isMinePickTrophy(trophy);
+    }
+    if (this.family.startsWith(TROPHY_FAMILY_BLOCK_PREFIX)) {
+      return trophy.blockId === this.family.slice(TROPHY_FAMILY_BLOCK_PREFIX.length);
     }
     if (this.family.startsWith(TROPHY_FAMILY_SET_PREFIX)) {
       return trophy.setId === this.family.slice(TROPHY_FAMILY_SET_PREFIX.length);
@@ -507,9 +553,9 @@ export class TrophiesView {
     open.title = TrophyDetail.trophyTitle(trophy);
     open.setAttribute(
       'aria-label',
-      `${TrophyDetail.trophyTitle(trophy)} — ${TrophyDetail.rarityLabel(trophy.rarity)} — ` +
+      `${TrophyDetail.trophyTitle(trophy)}, ${TrophyDetail.rarityLabel(trophy.rarity)}, ` +
         i18n.t(trophy.unlocked ? 'trophy.unlocked' : 'trophy.locked') +
-        (pinned ? ` — ${i18n.t('profile.featured.badge')}` : '')
+        (pinned ? `, ${i18n.t('profile.featured.badge')}` : '')
     );
 
     const medal = TrophyDetail.buildMedal(trophy, 'trophy-tile__icon');

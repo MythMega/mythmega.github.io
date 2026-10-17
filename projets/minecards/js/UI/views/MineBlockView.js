@@ -114,9 +114,20 @@ export class MineBlockView {
     this.traderClose = this.root.querySelector('[data-mineblock-trader-close]');
     this.traderDismiss = this.root.querySelector('[data-mineblock-trader-dismiss]');
     this.traderWeek = this.root.querySelector('[data-mineblock-trader-week]');
+    this.traderRestockRow = this.root.querySelector('[data-mineblock-trader-restock-row]');
+    this.traderRestock = this.root.querySelector('[data-mineblock-trader-restock]');
     this.traderList = this.root.querySelector('[data-mineblock-trader-list]');
     this.traderEmpty = this.root.querySelector('[data-mineblock-trader-empty]');
     this.traderFeedback = this.root.querySelector('[data-mineblock-trader-feedback]');
+    this.tradeList = this.root.querySelector('[data-mineblock-trade-list]');
+    this.tradeEmpty = this.root.querySelector('[data-mineblock-trade-empty]');
+    this.tradeRestockRow = this.root.querySelector('[data-mineblock-trade-restock-row]');
+    this.tradeRestock = this.root.querySelector('[data-mineblock-trade-restock]');
+    this.offerModal = this.root.querySelector('[data-mineblock-offer-modal]');
+    this.offerTitle = this.root.querySelector('[data-mineblock-offer-title]');
+    this.offerBody = this.root.querySelector('[data-mineblock-offer-body]');
+    this.offerClose = this.root.querySelector('[data-mineblock-offer-close]');
+    this.offerDismiss = this.root.querySelector('[data-mineblock-offer-dismiss]');
 
     this.assertMarkup();
 
@@ -137,6 +148,21 @@ export class MineBlockView {
     this.traderState = null;
     /** @type {boolean} True while a purchase is being committed (guards double taps). */
     this.isBuying = false;
+    /**
+     * @type {{modal: HTMLElement, trigger: HTMLElement}|null} Detail of an offer stacked on top of
+     *   the shop. It is kept apart from `openDialog` on purpose: the shop stays open behind it, so
+     *   a player who wanted the details of a card never loses the list they were reading.
+     */
+    this.offerDialog = null;
+    /** @type {string|null} Key of the offer the detail dialog shows. */
+    this.offerDetailKey = null;
+    /** @type {boolean} True while a daily trade is being taken (one at a time). */
+    this.isTrading = false;
+    /**
+     * @type {Array<{element: HTMLElement, endMs: number}>} Every countdown of the shop, with the
+     *   instant it runs to. Rebuilt on each render and ticked by `CLOCK_TICK`.
+     */
+    this.traderCountdowns = [];
     /** @type {boolean} True while a tap is being committed (guards double taps). */
     this.isMining = false;
     /** @type {boolean} True while the screen is reading its data. */
@@ -202,9 +228,18 @@ export class MineBlockView {
       ['[data-mineblock-trader-close]', this.traderClose],
       ['[data-mineblock-trader-dismiss]', this.traderDismiss],
       ['[data-mineblock-trader-week]', this.traderWeek],
+      ['[data-mineblock-trader-restock]', this.traderRestock],
       ['[data-mineblock-trader-list]', this.traderList],
       ['[data-mineblock-trader-empty]', this.traderEmpty],
       ['[data-mineblock-trader-feedback]', this.traderFeedback],
+      ['[data-mineblock-trade-list]', this.tradeList],
+      ['[data-mineblock-trade-empty]', this.tradeEmpty],
+      ['[data-mineblock-trade-restock]', this.tradeRestock],
+      ['[data-mineblock-offer-modal]', this.offerModal],
+      ['[data-mineblock-offer-title]', this.offerTitle],
+      ['[data-mineblock-offer-body]', this.offerBody],
+      ['[data-mineblock-offer-close]', this.offerClose],
+      ['[data-mineblock-offer-dismiss]', this.offerDismiss],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -275,11 +310,24 @@ export class MineBlockView {
 
     this.listen(this.traderButton, 'click', () => this.openModal(this.traderModal, this.traderButton));
     // One listener for the whole shop: the offers are rebuilt on every purchase, so a listener per
-    // button would have to be undone each time (the dealer reads the key from the button itself).
+    // button would have to be undone each time (the view reads the key from the button itself).
     this.listen(this.traderList, 'click', (event) => {
       if (!(event.target instanceof Element)) return;
-      const button = event.target.closest('[data-offer-buy]');
-      if (button instanceof HTMLElement) void this.buyOffer(button.dataset.offerBuy);
+      const buy = event.target.closest('[data-offer-buy]');
+      if (buy instanceof HTMLElement) {
+        void this.buyOffer(buy.dataset.offerBuy);
+        return;
+      }
+      // The picture of an offer opens the card itself: the shop only shows a thumbnail of it.
+      const open = event.target.closest('[data-offer-open]');
+      if (open instanceof HTMLElement) this.openOfferDetail(open.dataset.offerOpen, open);
+    });
+    // One listener for the trades too, for the same reason: the list is rebuilt at every exchange.
+    this.listen(this.tradeList, 'click', (event) => {
+      const action = event.target.closest('[data-trade-from]');
+      if (action instanceof HTMLElement) {
+        void this.swapTrade(action.dataset.tradeKey, action.dataset.tradeFrom);
+      }
     });
     this.listen(this.traderClose, 'click', () => this.closeModal(this.traderModal));
     this.listen(this.traderDismiss, 'click', () => this.closeModal(this.traderModal));
@@ -288,8 +336,18 @@ export class MineBlockView {
       if (event.target === this.traderModal) this.closeModal(this.traderModal);
     });
 
+    // The offer detail is opened from the shop and stays on top of it.
+    this.listen(this.offerClose, 'click', () => this.closeOfferDetail());
+    this.listen(this.offerDismiss, 'click', () => this.closeOfferDetail());
+    this.listen(this.offerModal, 'click', (event) => {
+      if (event.target === this.offerModal) this.closeOfferDetail();
+    });
+
     this.listen(document, 'keydown', (event) => {
-      if (event.key === 'Escape') this.closeModal();
+      if (event.key !== 'Escape') return;
+      // The detail is the topmost dialog: Escape closes it before the shop behind it.
+      if (this.offerDialog) this.closeOfferDetail();
+      else this.closeModal();
     });
     this.log('DOM listeners bound.');
   }
@@ -766,6 +824,9 @@ export class MineBlockView {
    * @returns {void}
    */
   openModal(modal, trigger) {
+    // One dialog at a time, detail included: opening the shop while a card is being studied would
+    // otherwise leave two dialogs fighting for the same backdrop.
+    if (this.offerDialog) this.closeOfferDetail();
     if (this.openDialog && this.openDialog.modal !== modal) {
       this.closeModal();
     }
@@ -800,6 +861,118 @@ export class MineBlockView {
     trigger.setAttribute('aria-expanded', 'false');
     this.openDialog = null;
     trigger.focus();
+  }
+
+  /**
+   * Opens the detail of one offer, on top of the shop.
+   *
+   * The detail is a READ-ONLY view of the card: the shop behind it keeps the buy button, so the
+   * price and the stock stay in one place only.
+   *
+   * @param {string|null|undefined} offerKey - Key of the offer (`weekly-…` or `pinned-…`).
+   * @param {HTMLElement} trigger - Picture that opened it (receives the focus back on close).
+   * @returns {void}
+   */
+  openOfferDetail(offerKey, trigger) {
+    const offer = (this.traderState?.offers ?? []).find((candidate) => candidate.key === offerKey);
+    if (!offer) {
+      console.warn(`[MineBlockView] The offer "${offerKey}" is not in the shop any more.`);
+      return;
+    }
+
+    this.offerDetailKey = offer.key;
+    this.offerTitle.textContent = offer.card.getName(i18n.getLang());
+    this.offerBody.textContent = '';
+    this.offerBody.appendChild(this.buildOfferDetail(offer));
+
+    this.offerModal.hidden = false;
+    this.offerModal.dataset.source = offer.source;
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    this.offerDialog = { modal: this.offerModal, trigger: trigger ?? null };
+    this.offerClose.focus();
+    this.log(`Offer detail displayed: ${offer.key}.`);
+  }
+
+  /**
+   * Closes the detail of the open offer and gives the focus back to its picture.
+   *
+   * @returns {void}
+   */
+  closeOfferDetail() {
+    if (!this.offerDialog) return;
+    const { trigger } = this.offerDialog;
+    this.offerModal.hidden = true;
+    this.offerDialog = null;
+    this.offerDetailKey = null;
+    if (trigger && typeof trigger.focus === 'function' && trigger.isConnected) {
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.focus();
+    }
+  }
+
+  /**
+   * Builds the body of the detail of one offer: the artwork, its set, its description and the
+   * whole price with what the player already owns of each line.
+   *
+   * @param {object} offer - Offer returned by `TraderManager.getState()`.
+   * @returns {DocumentFragment} The content of the dialog.
+   */
+  buildOfferDetail(offer) {
+    const fragment = document.createDocumentFragment();
+    const lang = i18n.getLang();
+    const rarityLabel = getRarityLabel(offer.rarity, (key) => i18n.t(key));
+
+    const figure = document.createElement('figure');
+    figure.className = 'mineblock__detail-figure';
+    const picture = document.createElement('img');
+    picture.className = 'mineblock__detail-image';
+    picture.src = i18n.resolveImagePath(offer.card.illustration);
+    picture.alt = `${offer.card.getName(lang)}, ${rarityLabel}`;
+    picture.decoding = 'async';
+    picture.addEventListener('error', () => picture.classList.add('is-missing'));
+    figure.appendChild(picture);
+    fragment.appendChild(figure);
+
+    const meta = document.createElement('p');
+    meta.className = 'mineblock__detail-meta';
+    const parts = [rarityLabel];
+    if (offer.card.set) parts.push(offer.card.set);
+    if (offer.source === 'pinned') parts.push(i18n.t('mineblock.trader.pinned'));
+    meta.textContent = parts.join(' · ');
+    fragment.appendChild(meta);
+
+    const description = offer.card.getDescription(lang);
+    if (description) {
+      const text = document.createElement('p');
+      text.className = 'mineblock__detail-desc';
+      text.textContent = description;
+      fragment.appendChild(text);
+    }
+
+    const heading = document.createElement('h3');
+    heading.className = 'mineblock__detail-subtitle';
+    heading.textContent = i18n.t('mineblock.trader.price');
+    const price = document.createElement('ul');
+    price.className = 'mineblock__offer-price mineblock__detail-price';
+    offer.price.forEach((line) => price.appendChild(this.buildPriceLine(line)));
+    fragment.append(heading, price);
+
+    const footer = document.createElement('p');
+    footer.className = 'mineblock__detail-stock';
+    const stockParts = [];
+    if (offer.maxUses !== null) {
+      stockParts.push(
+        i18n.t('mineblock.trader.stock', { remaining: offer.remaining, max: offer.maxUses })
+      );
+    }
+    if (offer.source === 'pinned' && offer.period?.max) {
+      stockParts.push(this.formatTraderPeriod(offer.period));
+    }
+    footer.textContent = stockParts.join(' · ');
+    footer.hidden = stockParts.length === 0;
+    fragment.appendChild(footer);
+
+    return fragment;
   }
 
   /**
@@ -864,8 +1037,146 @@ export class MineBlockView {
     } else {
       this.traderWeek.removeAttribute('datetime');
     }
+    this.renderTrades();
     this.renderOffers();
-    this.log(`Shop rendered: ${this.traderState.offers.length} offer(s).`);
+    this.renderTraderClock();
+    this.log(
+      `Shop rendered: ${this.traderState.offers.length} offer(s), ` +
+        `${this.traderState.trades.length} daily trade(s).`
+    );
+  }
+
+  /**
+   * Draws the trades of the day, then the empty state when the configuration offers none.
+   *
+   * A trade is an exchange of equal value: it is shown as its two sides (one of them always counts
+   * a single unit) and it can be taken in either direction, once a day. The quantities come from
+   * `TraderManager`, never from this view.
+   *
+   * @returns {void}
+   */
+  renderTrades() {
+    const trades = this.traderState?.trades ?? [];
+    this.tradeList.textContent = '';
+    trades.forEach((trade) => this.tradeList.appendChild(this.buildTrade(trade)));
+    if (this.tradeEmpty) this.tradeEmpty.hidden = trades.length > 0;
+  }
+
+  /**
+   * Builds one trade: its two sides, what the player holds of each, and a button per direction.
+   *
+   * @param {object} trade - Trade returned by `TraderManager.getState()`.
+   * @returns {HTMLElement} The `<li>` of the trade.
+   */
+  buildTrade(trade) {
+    const item = document.createElement('li');
+    item.className = 'mineblock__trade';
+    item.dataset.tradeKey = trade.key;
+    item.dataset.state = trade.exhausted
+      ? 'used'
+      : trade.moves.some((move) => move.affordable)
+        ? 'ready'
+        : 'expensive';
+
+    const head = document.createElement('div');
+    head.className = 'mineblock__trade-head';
+    head.append(
+      this.buildTradeSide(trade, trade.left),
+      this.buildTradeSign(),
+      this.buildTradeSide(trade, trade.right)
+    );
+
+    const actions = document.createElement('div');
+    actions.className = 'mineblock__trade-actions';
+    trade.moves.forEach((move, index) => {
+      const from = index === 0 ? trade.left : trade.right;
+      const to = index === 0 ? trade.right : trade.left;
+      const amount = (side) =>
+        i18n.t('mineblock.trader.trades.amount', {
+          count: side.quantity,
+          resource: this.resolveResourceLabel(side),
+        });
+      const give = amount(from);
+      const receive = amount(to);
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn btn--ghost btn--small mineblock__trade-action';
+      button.dataset.tradeKey = trade.key;
+      button.dataset.tradeFrom = from.slug;
+      button.disabled = trade.exhausted || !move.affordable;
+      button.textContent = trade.exhausted
+        ? i18n.t('mineblock.trader.trades.used')
+        : i18n.t('mineblock.trader.trades.take', { receive });
+      button.setAttribute('aria-label', i18n.t('mineblock.trader.trades.takeAria', { give, receive }));
+      button.title = move.affordable
+        ? i18n.t('mineblock.trader.trades.takeAria', { give, receive })
+        : i18n.t('mineblock.trader.missing', { count: move.missing });
+      if (index > 0) button.classList.add('mineblock__trade-action--reverse');
+      actions.appendChild(button);
+    });
+
+    item.append(head, actions);
+    return item;
+  }
+
+  /**
+   * Builds one side of a trade: the texture of the resource, the amount it counts and its name.
+   *
+   * @param {object} trade - Trade being drawn (its state tells whether it was already taken).
+   * @param {{slug: string, type: string, nameKey: string, texture: string, quantity: number}} side -
+   *   The side to draw.
+   * @returns {HTMLElement} The chip.
+   */
+  buildTradeSide(trade, side) {
+    const chip = document.createElement('span');
+    chip.className = 'mineblock__trade-chip';
+    chip.dataset.resource = side.slug;
+
+    const icon = document.createElement('img');
+    icon.className = 'mineblock__trade-chip-icon';
+    icon.src = side.texture;
+    // The name next to it says everything the picture says: the chip is not announced twice.
+    icon.alt = '';
+    icon.decoding = 'async';
+    icon.addEventListener('error', () => {
+      icon.hidden = true;
+    });
+
+    const text = document.createElement('span');
+    text.className = 'mineblock__trade-chip-text';
+    text.textContent = i18n.t('mineblock.trader.trades.amount', {
+      count: side.quantity,
+      resource: this.resolveResourceLabel(side),
+    });
+
+    chip.append(icon, text);
+
+    // What the player holds of that resource: the same fact the price lines of the offers carry,
+    // and what makes a disabled button readable at a glance.
+    const move = trade.moves.find((candidate) => candidate.fromSlug === side.slug);
+    if (move) {
+      const have = document.createElement('span');
+      have.className = 'mineblock__trade-chip-have';
+      have.textContent = `×${move.available}`;
+      have.title = i18n.t('mineblock.trader.trades.have', { count: move.available });
+      chip.appendChild(have);
+    }
+
+    return chip;
+  }
+
+  /**
+   * Builds the sign between the two sides of a trade.
+   *
+   * @returns {HTMLElement} The separator (decorative: the equation reads through the chips).
+   */
+  buildTradeSign() {
+    const sign = document.createElement('span');
+    sign.className = 'mineblock__trade-sign';
+    sign.textContent = '⇄';
+    sign.setAttribute('aria-hidden', 'true');
+    return sign;
   }
 
   /**
@@ -875,6 +1186,10 @@ export class MineBlockView {
    */
   renderOffers() {
     const offers = this.traderState?.offers ?? [];
+    // The list is rebuilt from scratch, which drops the button the open detail was attached to:
+    // closing it here is the only way to keep the focus and the "open" state honest.
+    if (this.offerDialog) this.closeOfferDetail();
+    this.traderCountdowns = [];
     this.traderList.textContent = '';
     offers.forEach((offer) => this.traderList.appendChild(this.buildOffer(offer)));
     this.traderEmpty.hidden = offers.length > 0;
@@ -903,14 +1218,32 @@ export class MineBlockView {
     const picture = document.createElement('img');
     picture.className = 'mineblock__offer-image';
     picture.src = i18n.resolveImagePath(offer.card.illustration);
-    // The card is the offer: its accessible name carries the card and its rarity in one go.
-    picture.alt = `${name} — ${rarityLabel}`;
+    // The picture is decorative inside the button below: the button is what is announced.
+    picture.alt = '';
     picture.loading = 'lazy';
     picture.decoding = 'async';
     picture.addEventListener('error', () => picture.classList.add('is-missing'));
 
+    // The picture is a button: the shop only shows a thumbnail, so a tap on it opens the card
+    // itself (artwork, description, whole price).
+    const open = document.createElement('button');
+    open.type = 'button';
+    open.className = 'mineblock__offer-open';
+    open.dataset.offerOpen = offer.key;
+    open.setAttribute('aria-expanded', String(this.offerDetailKey === offer.key));
+    open.setAttribute('aria-label', i18n.t('mineblock.trader.details', { card: name }));
+    open.title = i18n.t('mineblock.trader.details', { card: name });
+    open.appendChild(picture);
+
     const body = document.createElement('div');
     body.className = 'mineblock__offer-body';
+
+    if (offer.source === 'pinned') {
+      const badge = document.createElement('span');
+      badge.className = 'mineblock__offer-badge';
+      badge.textContent = i18n.t('mineblock.trader.pinned');
+      body.appendChild(badge);
+    }
 
     const heading = document.createElement('p');
     heading.className = 'mineblock__offer-name';
@@ -918,8 +1251,8 @@ export class MineBlockView {
 
     const meta = document.createElement('p');
     meta.className = 'mineblock__offer-meta';
-    meta.textContent =
-      offer.source === 'pinned' ? `${rarityLabel} · ${i18n.t('mineblock.trader.pinned')}` : rarityLabel;
+    // A pinned offer already carries its badge above the name: repeating it here would read twice.
+    meta.textContent = rarityLabel;
 
     const price = document.createElement('ul');
     price.className = 'mineblock__offer-price';
@@ -937,7 +1270,7 @@ export class MineBlockView {
       : i18n.t('mineblock.trader.buy');
     body.appendChild(button);
 
-    item.append(picture, body);
+    item.append(open, body);
     return item;
   }
 
@@ -948,6 +1281,8 @@ export class MineBlockView {
    * @returns {HTMLElement} The paragraph (empty attributes when the offer has no stock).
    */
   buildOfferFooter(offer) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'mineblock__offer-footer';
     const footer = document.createElement('p');
     footer.className = 'mineblock__offer-stock';
 
@@ -957,22 +1292,136 @@ export class MineBlockView {
         i18n.t('mineblock.trader.stock', { remaining: offer.remaining, max: offer.maxUses })
       );
     }
-    // A pinned offer says when it is sold: the window comes from its own file, so the player knows
-    // how long they have left to pay for it.
-    if (offer.source === 'pinned' && offer.period?.min && offer.period?.max) {
-      parts.push(
-        i18n.t('mineblock.trader.period', {
-          from: this.formatTraderWeek(offer.period.min),
-          to: this.formatTraderWeek(offer.period.max),
-        })
-      );
-    } else if (offer.period?.max) {
-      parts.push(i18n.t('mineblock.trader.until', { date: this.formatTraderWeek(offer.period.max) }));
+    if (offer.source === 'pinned' && offer.period) {
+      parts.push(this.formatTraderPeriod(offer.period));
     }
 
     footer.textContent = parts.join(' · ');
     footer.hidden = parts.length === 0;
-    return footer;
+    wrapper.appendChild(footer);
+
+    // A pinned offer is also counted down, live: the window comes from its own file, and the last
+    // day it is sold ends at midnight UTC.
+    if (offer.source === 'pinned' && offer.period?.max) {
+      const endMs = MineBlockView.endOfUtcDay(offer.period.max);
+      if (endMs !== null) {
+        const countdown = document.createElement('p');
+        countdown.className = 'mineblock__offer-countdown';
+        const label = document.createElement('span');
+        label.className = 'mineblock__offer-countdown-label';
+        label.textContent = i18n.t('mineblock.trader.endsIn');
+        const value = document.createElement('time');
+        value.className = 'mineblock__offer-countdown-value';
+        const now = dateSyncManager.getEstimatedUtcMs();
+        // Without a trusted clock there is no countdown to show: a wrong deadline would be worse
+        // than a placeholder.
+        value.textContent = now > 0 ? this.formatRemaining(endMs - now) : '--:--:--';
+        countdown.append(label, value);
+        wrapper.appendChild(countdown);
+        if (now > 0) this.traderCountdowns.push({ element: value, endMs });
+      }
+    }
+
+    return wrapper;
+  }
+
+  /**
+   * Writes a remaining time as a short, readable countdown (`2 j 04:12:33`).
+   *
+   * @param {number} remainingMs - Milliseconds left (anything negative reads as zero).
+   * @returns {string} The countdown, or the "finished" wording once the deadline has passed.
+   */
+  formatRemaining(remainingMs) {
+    const total = Math.max(0, Math.floor(Number(remainingMs) / 1000));
+    if (!Number.isFinite(total)) return '';
+    if (total === 0) return i18n.t('mineblock.trader.ended');
+    const days = Math.floor(total / 86400);
+    const hours = Math.floor((total % 86400) / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const seconds = total % 60;
+    const clock = [hours, minutes, seconds].map((value) => String(value).padStart(2, '0')).join(':');
+    return days > 0 ? i18n.t('mineblock.trader.countdownDays', { days, time: clock }) : clock;
+  }
+
+  /**
+   * Writes the restock clock of the shop and starts the countdown of each pinned offer.
+   *
+   * The weekly offers all reroll on the Monday that follows the one they were drawn from, at 00:00
+   * UTC: the deadline is therefore the start of the shop, plus seven days, and it is the same for
+   * every player.
+   *
+   * @returns {void}
+   */
+  renderTraderClock() {
+    // The list of countdowns was started afresh by `renderOffers()`: the pinned ones are already in
+    // it, and this method only adds the ones of the two rerolls before ticking them all.
+    const now = dateSyncManager.getEstimatedUtcMs();
+
+    // The daily trades end with the UTC day they were drawn from, exactly when the next ones begin.
+    const tradeEndMs = MineBlockView.endOfUtcDay(this.traderState?.tradeDay ?? null);
+    if (this.tradeRestockRow) {
+      this.tradeRestockRow.hidden = tradeEndMs === null;
+    }
+    if (tradeEndMs !== null && this.tradeRestock) {
+      this.tradeRestock.textContent = now > 0 ? this.formatRemaining(tradeEndMs - now) : '--:--:--';
+      this.tradeRestock.setAttribute('datetime', new Date(tradeEndMs).toISOString());
+      if (now > 0) this.traderCountdowns.push({ element: this.tradeRestock, endMs: tradeEndMs });
+    }
+
+    // The weekly shop rerolls on the Monday that follows the one it was drawn from, at 00:00 UTC.
+    const week = this.traderState?.week ?? null;
+    const startMs = week ? Date.parse(`${week}T00:00:00.000Z`) : Number.NaN;
+    const endMs = Number.isFinite(startMs) ? startMs + 7 * 24 * 60 * 60 * 1000 : null;
+
+    if (this.traderRestockRow) {
+      this.traderRestockRow.hidden = endMs === null;
+    }
+    if (endMs !== null && this.traderRestock) {
+      this.traderRestock.textContent = now > 0 ? this.formatRemaining(endMs - now) : '--:--:--';
+      this.traderRestock.setAttribute('datetime', new Date(endMs).toISOString());
+      if (now > 0) this.traderCountdowns.push({ element: this.traderRestock, endMs });
+    }
+
+    if (now > 0) this.updateTraderCountdowns(now);
+  }
+
+  /**
+   * Ticks every countdown of the shop.
+   *
+   * @param {number} [now] - Current trusted UTC time in milliseconds (read from the clock manager
+   *   when omitted).
+   * @returns {void}
+   */
+  updateTraderCountdowns(now = dateSyncManager.getEstimatedUtcMs()) {
+    if (this.traderCountdowns.length === 0 || !(now > 0)) return;
+    this.traderCountdowns.forEach(({ element, endMs }) => {
+      if (element) element.textContent = this.formatRemaining(endMs - now);
+    });
+  }
+
+  /**
+   * Returns the instant a UTC day ends (`YYYY-MM-DD` at 23:59:59.999 UTC).
+   *
+   * @param {string|null} day - UTC day.
+   * @returns {number|null} The epoch milliseconds, or null when the day is malformed.
+   */
+  static endOfUtcDay(day) {
+    const start = Date.parse(`${day}T00:00:00.000Z`);
+    return Number.isFinite(start) ? start + 24 * 60 * 60 * 1000 : null;
+  }
+
+  /**
+   * Writes a sale window as a sentence (`du 15 oct. 2026 au 1 déc. 2026`).
+   *
+   * @param {{min?: string|null, max?: string|null}} period - Window of a pinned offer.
+   * @returns {string} The sentence, or an empty string when the window is incomplete.
+   */
+  formatTraderPeriod(period) {
+    if (!period?.min || !period?.max) return '';
+    return i18n.t('mineblock.trader.period', {
+      from: this.formatTraderWeek(period.min),
+      to: this.formatTraderWeek(period.max),
+    });
   }
 
   /**
@@ -1058,20 +1507,70 @@ export class MineBlockView {
   }
 
   /**
+   * Takes one of the daily trades: one resource is given, the other one is received.
+   *
+   * The exchange itself belongs to `TraderManager` (one transaction for both sides and the use
+   * count), and so do the AMOUNTS: this view only names the trade and the side the player pays.
+   *
+   * @param {string} tradeKey - Key of the trade to take.
+   * @param {string} fromSlug - Resource the player gives.
+   * @returns {Promise<void>} Resolves once the exchange was reported.
+   */
+  async swapTrade(tradeKey, fromSlug) {
+    if (!tradeKey || !fromSlug || this.isTrading) return;
+    this.isTrading = true;
+    this.setTraderFeedback(null);
+    this.tradeList.classList.add('is-busy');
+
+    /**
+     * Reads a side of the exchange as `"2 Poussière du vide"`.
+     *
+     * @param {{nameKey?: string, type?: string, quantity: number}} side - Side of the exchange.
+     * @returns {string} The readable amount.
+     */
+    const amount = (side) =>
+      i18n.t('mineblock.trader.trades.amount', {
+        count: side.quantity,
+        resource: this.resolveResourceLabel(side),
+      });
+
+    try {
+      const result = await traderManager.swap(tradeKey, fromSlug);
+      Toast.success('mineblock.trader.trades.done', {
+        params: { give: amount(result.give), receive: amount(result.receive) },
+      });
+      // A resource the player never held is worth saying out loud: it is a first of its kind, and
+      // the inventory of the mine grows by one line.
+      if (result.creates) {
+        Toast.info('mineblock.trader.trades.discovered', {
+          params: { resource: this.resolveResourceLabel(result.receive) },
+        });
+      }
+    } catch (error) {
+      console.error('[MineBlockView] The trade could not be taken.', error);
+      this.setTraderFeedback(getTraderErrorMessageKey(error?.code), 'error');
+    } finally {
+      this.isTrading = false;
+      this.tradeList.classList.remove('is-busy');
+    }
+  }
+
+  /**
    * Writes the feedback line of the shop.
    *
    * @param {string|null} key - Translation key, or null to clear the line.
    * @param {'info'|'error'} [tone='info'] - Tone of the message.
+   * @param {object} [params] - Values interpolated into the message.
    * @returns {void}
    */
-  setTraderFeedback(key, tone = 'info') {
+  setTraderFeedback(key, tone = 'info', params = undefined) {
     if (!this.traderFeedback) return;
     if (!key) {
       this.traderFeedback.hidden = true;
       this.traderFeedback.textContent = '';
       return;
     }
-    this.traderFeedback.textContent = i18n.t(key);
+    this.traderFeedback.textContent = i18n.t(key, params);
     this.traderFeedback.dataset.tone = tone;
     this.traderFeedback.hidden = false;
   }
@@ -1086,7 +1585,7 @@ export class MineBlockView {
     // The day is the one the SHOP uses (UTC), so it is formatted as UTC: a player west of Greenwich
     // must read the Monday the offers were drawn from, not the Sunday before it.
     const time = Date.parse(`${day}T00:00:00.000Z`);
-    if (!Number.isFinite(time)) return '—';
+    if (!Number.isFinite(time)) return i18n.t('common.unknown');
     return new Intl.DateTimeFormat(i18n.getLang(), { dateStyle: 'medium', timeZone: 'UTC' }).format(
       new Date(time)
     );
@@ -1158,6 +1657,7 @@ export class MineBlockView {
    * @returns {void}
    */
   handleClockTick(payload) {
+    if (payload?.utc instanceof Date) this.updateTraderCountdowns(payload.utc.getTime());
     if (!payload || typeof payload.timeUntilReset !== 'string') return;
     if (!this.countdownElement.hidden) {
       this.countdownValue.textContent = payload.timeUntilReset;
@@ -1196,6 +1696,7 @@ export class MineBlockView {
     this.isActive = false;
     this.log('View deactivated.');
     this.clearTimers();
+    this.closeOfferDetail();
     this.closeModal();
     this.burstElement.textContent = '';
     this.rockElement.classList.remove('is-hit', 'is-broken', 'is-arriving');

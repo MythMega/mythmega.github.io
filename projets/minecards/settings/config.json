@@ -115,7 +115,7 @@
       "nameChanged": 10
     }
   },
-  
+
   "ExperiencePerTrophy": {
     "_comment": "Trophies gives thoses experience with thoses rarity. Except if it's explicitly said in the trophy json",
       "bronze": 25,
@@ -147,9 +147,10 @@
   },
 
   "shop": {
-    "_comment": "Wandering Trader (the trading screen of the Mine, `js/business/TraderManager.js`). Two kinds of offers. THE WEEKLY SHOP is drawn from a seed built on the date of the MONDAY of the current week and nothing else - no account, no device: every player sees the same cards at the same price, and the shop rerolls by itself every Monday at 00:00 UTC ('seedSalt' changes the draw for everyone, and rebuilds the CURRENT week). 'offers' is its composition (rarity -> how many cards, pooled from every loaded extension, never twice the same card). A card is paid in exactly three kinds of mined resource, and 'rarityValues' (what a card of that rarity is worth) and 'itemsValues' (what one unit of a resource is worth) are read in the same unit, so the price of a card is always worth its rarity to the unit - a name in 'itemsValues' that matches no reward of 'settings/mining.json' can never be asked for. 'allItemsUniques' decides whether an offer can be bought again once it was bought: true, it is exhausted until the next reroll; false, the shop sells it as long as the player has the resources. THE PINNED OFFERS are hand-written in 'pinnedPath' (card, price, days it is sold in and stock, see the file itself): they are never random.",
+    "_comment": "Wandering Trader (the trading screen of the Mine, `js/business/TraderManager.js`). Three kinds of offers. THE WEEKLY SHOP is drawn from a seed built on the date of the MONDAY of the current week and nothing else - no account, no device: every player sees the same cards at the same price, and the shop rerolls by itself every Monday at 00:00 UTC ('seedSalt' changes the draw for everyone, and rebuilds the CURRENT week). 'offers' is its composition (rarity -> how many cards, pooled from every loaded extension, never twice the same card). A card is paid in exactly three kinds of mined resource, and 'rarityValues' (what a card of that rarity is worth) and 'itemsValues' (what one unit of a resource is worth) are read in the same unit, so the price of a card is always worth its rarity to the unit - a name in 'itemsValues' that matches no reward of 'settings/mining.json' can never be asked for. 'allItemsUniques' decides whether an offer can be bought again once it was bought: true, it is exhausted until the next reroll; false, the shop sells it as long as the player has the resources. THE PINNED OFFERS are hand-written in 'pinnedPath' (card, price, days it is sold in and stock, see the file itself): they are never random. THE DAILY TRADES are 'tradesPerDay' resource-for-resource swaps drawn from the UTC DAY alone (same trades for everyone, new ones at midnight UTC): the dearest side counts 1 unit and the cheapest one as many units as 'itemsValues' asks for (1 Ultima against 2 Void Dust), so a trade is always worth the same on both sides and can be taken in either direction, once per day. A pair whose values are not a multiple of one another (Glowstone Dust at 20 against Void Dust at 50) has no such exchange and is never drawn.",
     "seedSalt": "minecards-trader-v1",
     "allItemsUniques": true,
+    "tradesPerDay": 3,
     "pinnedPath": "data/shop/pinned_offers.json",
     "offers": {
       "1": 2,

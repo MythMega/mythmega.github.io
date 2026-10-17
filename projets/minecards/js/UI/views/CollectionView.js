@@ -89,19 +89,25 @@ export const COLLECTION_STATUS = Object.freeze({
 /** Sort keys of the collection grid. */
 export const COLLECTION_SORT = Object.freeze({
   /**
-   * The card NUMBER ("SERIE-A1 / W001", `entry.cardId`) - the default. The extension id comes
-   * first, so the grid reads extension by extension.
+   * The card NUMBER ("SERIE-A1 / W001", `entry.cardId`). The extension id comes first, so the grid
+   * reads extension by extension.
    */
   INDEX: 'index',
   /**
-   * The order the extension FILE lists the cards in (`entry.index`), extension first as well.
-   * Distinct from `INDEX` on purpose: a file groups its cards by theme, so its order is not the
-   * order of the card numbers. The option is labelled "Index" in the popup.
+   * The order the extension FILE lists the cards in (`entry.index`), extension first as well - the
+   * default. Distinct from `INDEX` on purpose: a file groups its cards by theme, so its order is
+   * not the order of the card numbers. The option is labelled "Index" in the popup.
    */
   FILE_INDEX: 'fileIndex',
   RARITY: 'rarity',
   STYLE: 'style',
   QUANTITY: 'quantity',
+  /**
+   * The day the player got the card for the first time (`entry.firstObtainedAt`), oldest first. The
+   * cards never obtained (the silhouettes) always come last, in both directions: a missing card has
+   * no date, and mixing it into the dates would push the collection around at random.
+   */
+  OBTAINED: 'obtained',
 });
 
 /** Sort directions. */
@@ -227,7 +233,7 @@ export class CollectionView {
       status: COLLECTION_STATUS.OWNED,
       rarities: new Set(),
       style: '',
-      sort: COLLECTION_SORT.INDEX,
+      sort: COLLECTION_SORT.FILE_INDEX,
       direction: COLLECTION_DIRECTION.ASC,
     };
 
@@ -372,6 +378,7 @@ export class CollectionView {
           { value: COLLECTION_SORT.RARITY, label: i18n.t('collection.sort.rarity') },
           { value: COLLECTION_SORT.STYLE, label: i18n.t('collection.sort.style') },
           { value: COLLECTION_SORT.QUANTITY, label: i18n.t('collection.sort.quantity') },
+          { value: COLLECTION_SORT.OBTAINED, label: i18n.t('collection.sort.obtained') },
         ],
       }),
       this.buildFilterGroup({
@@ -659,7 +666,7 @@ export class CollectionView {
     this.filters.status = COLLECTION_STATUS.OWNED;
     this.filters.rarities.clear();
     this.filters.style = '';
-    this.filters.sort = COLLECTION_SORT.INDEX;
+    this.filters.sort = COLLECTION_SORT.FILE_INDEX;
     this.filters.direction = COLLECTION_DIRECTION.ASC;
     if (this.searchInput) this.searchInput.value = '';
 
@@ -703,7 +710,7 @@ export class CollectionView {
    * @returns {string} The display name, or the id.
    */
   resolveSetName(setId) {
-    if (!setId) return '—';
+    if (!setId) return i18n.t('common.unknown');
     return this.sets?.[setId]?.name ?? setId;
   }
 
@@ -1112,6 +1119,19 @@ export class CollectionView {
   }
 
   /**
+   * Reads the timestamp a card entered the collection.
+   *
+   * @param {object} entry - Collection entry.
+   * @returns {number|null} The epoch milliseconds of the first copy, or null when the card is not
+   *   owned (or when a very old save recorded no date).
+   */
+  static obtainedTime(entry) {
+    if (!entry?.owned || !entry.firstObtainedAt) return null;
+    const time = Date.parse(entry.firstObtainedAt);
+    return Number.isFinite(time) ? time : null;
+  }
+
+  /**
    * Applies the active filters to the loaded entries.
    *
    * An extension is kept when it is one of the enabled ones; `promoAll` gathers every promo group
@@ -1164,6 +1184,17 @@ export class CollectionView {
             return ((left.quantity ?? 0) - (right.quantity ?? 0)) * direction;
           }
           break;
+        case COLLECTION_SORT.OBTAINED: {
+          const leftTime = CollectionView.obtainedTime(left);
+          const rightTime = CollectionView.obtainedTime(right);
+          // A card the player does not own goes after the owned ones whatever the direction is.
+          if (leftTime === null || rightTime === null) {
+            if (leftTime === rightTime) break;
+            return leftTime === null ? 1 : -1;
+          }
+          if (leftTime !== rightTime) return (leftTime - rightTime) * direction;
+          break;
+        }
         case COLLECTION_SORT.FILE_INDEX:
           // The order of the extension FILE, `entry.index`: the grid follows the JSON exactly as it
           // was authored, extension by extension. Not to be confused with the card NUMBER below.
@@ -1238,7 +1269,7 @@ export class CollectionView {
     const name = entry.card?.getName(lang) ?? entry.cardId ?? entry.key;
     tile.setAttribute(
       'aria-label',
-      entry.owned ? name : `${name} — ${i18n.t('collection.missing')}`
+      entry.owned ? name : `${name} (${i18n.t('collection.missing')})`
     );
 
     const image = document.createElement('img');
@@ -1327,7 +1358,9 @@ export class CollectionView {
     const rows = [
       [i18n.t('opening.card.name'), name],
       [i18n.t('opening.card.rarity'),
-        rarityValue === null ? '—' : getRarityLabel(rarityValue, (key) => i18n.t(key))],
+        rarityValue === null
+          ? i18n.t('common.unknown')
+          : getRarityLabel(rarityValue, (key) => i18n.t(key))],
       [i18n.t('opening.card.set'), this.resolveSetName(entry.set ?? card?.set ?? null)],
       [i18n.t('collection.filter.status'),
         entry.owned ? i18n.t('collection.filter.statusOwned') : i18n.t('collection.missing')],
@@ -1387,7 +1420,7 @@ export class CollectionView {
     const image = document.createElement('img');
     image.className = 'collection-modal__image';
     image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = `${name} — ${getRarityLabel(card.rarity, (labelKey) => i18n.t(labelKey))}`;
+    image.alt = `${name} (${getRarityLabel(card.rarity, (labelKey) => i18n.t(labelKey))})`;
     // The shine is laid over the artwork, so the box needs the real ratio of the illustration.
     image.addEventListener('load', () => {
       if (image.naturalWidth > 0 && image.naturalHeight > 0) {
@@ -2200,7 +2233,7 @@ export class CollectionView {
       button.setAttribute(
         'aria-label',
         entry?.card
-          ? `${index + 1} — ${entry.card.getName(i18n.getLang())}`
+          ? `${index + 1}. ${entry.card.getName(i18n.getLang())}`
           : i18n.t('binders.slotEmpty', { index: index + 1 })
       );
       if (entry?.card) {
@@ -2550,6 +2583,14 @@ export class CollectionView {
     this.binderFeedback.dataset.tone = tone;
   }
 
+  /**
+   * Closes the card detail dialog and forgets the card it was showing.
+   *
+   * The shine of the enlarged card runs on an animation frame of its own: dropping the handle here
+   * stops it, so a dialog left open in the background cannot keep the game busy.
+   *
+   * @returns {void}
+   */
   closeDetail() {
     if (!this.modal || this.modal.hidden) return;
     this.modal.hidden = true;
@@ -2653,4 +2694,3 @@ export class CollectionView {
 }
 
 export default CollectionView;
-

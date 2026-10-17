@@ -249,6 +249,31 @@
   color: var(--color-text-muted);
 }
 
+/* --- Mine Pick history ---------------------------------------------------- */
+
+/* A pick is ONE card, not a pack: its history is a list of compact rows whose card is a miniature.
+   Displayed at the size of a card of the openings, ten picks would take the whole page. */
+.stats__minepick-pick {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.stats__minepick-pick .stats__history-card {
+  flex: 0 0 auto;
+  width: 2.75rem;
+  cursor: default;
+}
+
+.stats__minepick-name {
+  margin: 0;
+  min-width: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
 @media (min-width: 768px) {
   .stats {
     display: grid;

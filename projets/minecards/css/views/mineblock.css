@@ -387,6 +387,135 @@
   font-weight: 700;
 }
 
+/* --- The trades of the day ------------------------------------------------ */
+
+/* They sit ABOVE the offers, separated by a rule: an exchange is not a purchase, and the two must
+   never be read as one list. */
+.mineblock__trades {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.mineblock__trades-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.mineblock__trades-title {
+  margin: 0;
+  font-size: var(--font-size-md);
+}
+
+.mineblock__trades-reset {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__trades-reset-value {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.mineblock__trades-empty {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__trade-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* An exchange in flight freezes the whole list, for the same reason as a purchase: a second tap
+   would spend a resource the first one already took. */
+.mineblock__trade-list.is-busy {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.mineblock__trade {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+/* Ready to be taken, out of reach, already taken: three states, three borders. */
+.mineblock__trade[data-state="ready"] {
+  border-color: var(--color-accent);
+}
+
+.mineblock__trade[data-state="used"] {
+  opacity: 0.6;
+}
+
+.mineblock__trade-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.mineblock__trade-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  font-size: var(--font-size-sm);
+}
+
+.mineblock__trade-chip-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+}
+
+.mineblock__trade-chip-text {
+  font-weight: 700;
+}
+
+/* What the player holds of that resource, next to its name: the reason a button is disabled. */
+.mineblock__trade-chip-have {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.mineblock__trade-sign {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+}
+
+.mineblock__trade-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* The two directions share the row: either half of the equation can be given. */
+.mineblock__trade-action {
+  flex: 1 1 10rem;
+}
+
 .mineblock__trader-list {
   display: grid;
   gap: var(--space-3);
@@ -410,6 +539,65 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background-color: var(--color-surface-alt);
+}
+
+/* A pinned offer is written by hand, it is rare and it is finite: it gets the accent border, a
+   halo and a badge, so it is never mistaken for one of the five drawn ones. */
+.mineblock__offer[data-source="pinned"] {
+  position: relative;
+  border: 2px solid var(--color-accent);
+  background-color: var(--color-surface);
+  box-shadow: 0 0 0 3px rgba(96, 200, 255, 0.08), var(--shadow-md);
+}
+
+.mineblock__offer-badge {
+  align-self: flex-start;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* The picture is a button: it opens the card. It brings no chrome of its own, so the offer keeps
+   its layout whatever the platform's default button styling is. */
+.mineblock__offer-open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  touch-action: manipulation;
+}
+
+.mineblock__offer-open:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.mineblock__offer-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mineblock__offer-countdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.mineblock__offer-countdown-value {
+  font-variant-numeric: tabular-nums;
 }
 
 /* An offer that cannot be bought right now stays readable: it is a goal, not a dead end. */
@@ -499,6 +687,79 @@
 
 .mineblock__offer-buy {
   align-self: flex-start;
+}
+
+/* The clock of the reroll, in the header of the dialog. */
+.mineblock__trader-restock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__trader-restock-value {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- One offer in detail -------------------------------------------------- */
+
+.mineblock__detail-figure {
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+.mineblock__detail-image {
+  width: min(100%, 15rem);
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.mineblock__detail-image.is-missing {
+  visibility: hidden;
+}
+
+.mineblock__detail-meta {
+  margin: 0;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__detail-desc {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.mineblock__detail-subtitle {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.mineblock__detail-price {
+  margin: 0;
+}
+
+.mineblock__detail-stock {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* The detail sits ON TOP of the shop (two classes, so it wins over the shared `.modal` rule whatever
+   the order of the stylesheets is). */
+.modal.mineblock__offer-modal {
+  z-index: calc(var(--z-overlay) + 1);
 }
 
 /* --- A player who asked for less motion ---------------------------------- */

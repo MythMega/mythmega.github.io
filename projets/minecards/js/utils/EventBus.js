@@ -91,6 +91,11 @@ export const EVENTS = Object.freeze({
    * dedicated statistics repaint. The rewards themselves are carried by the result of `mine()`,
    * and the Sparks go through `SPARKS_UPDATED` like every other credit. */
   MINING_UPDATED: 'MINING_UPDATED',
+  /** Payload: `{ week, offers }`. Emitted by TraderManager after a purchase and whenever the shop
+   * is rebuilt: the trading screen repaints its offers and its prices. The card itself is announced
+   * through `CARDS_OBTAINED` (`source: 'trader'`), and the resources spent through `MINING_UPDATED`
+   * (`getState()` of the mine, which the trade also changes). */
+  TRADER_UPDATED: 'TRADER_UPDATED',
   /** Payload: `{ binders }`. Emitted by BinderManager after a binder was created, edited, deleted or
    * after a card sold from the collection was taken out of the binders that showed it: the binder
    * list and the open binder repaint from it. */

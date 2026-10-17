@@ -131,6 +131,38 @@ export const DEFAULT_MINING_SETTINGS = Object.freeze({
 });
 
 /**
+ * Default settings of the shop of the Wandering Trader (`settings/config.json`, section `shop`).
+ *
+ * `seedSalt` salts the WEEKLY draw, which is derived from the Monday of the current week and from
+ * nothing else: every player sees the same shop, and changing the salt rerolls it. `offers` is the
+ * composition of that shop (rarity -> how many cards), `rarityValues` what a card of each rarity is
+ * worth and `itemsValues` what one unit of each mined resource is worth, both in the same unit, so
+ * a price is a sum of resources worth exactly the rarity of the card. `allItemsUniques` decides
+ * whether an offer can be bought again once it was bought (false) or is exhausted until the next
+ * reroll (true). `pinnedPath` locates the hand-written offers, sold during the window they declare
+ * and limited by their own stock.
+ */
+export const DEFAULT_SHOP_SETTINGS = Object.freeze({
+  seedSalt: 'minecards-trader-v1',
+  allItemsUniques: true,
+  pinnedPath: 'data/shop/pinned_offers.json',
+  rarityValues: Object.freeze({ 1: 50, 2: 100, 3: 250, 4: 500 }),
+  itemsValues: Object.freeze({
+    'Stone Dust': 1,
+    'Sculk Dust': 5,
+    'Glowstone Dust': 20,
+    'Void Dust': 50,
+    Ultima: 100,
+  }),
+  offers: Object.freeze([
+    Object.freeze([1, 2]),
+    Object.freeze([2, 1]),
+    Object.freeze([3, 1]),
+    Object.freeze([4, 1]),
+  ]),
+});
+
+/**
  * Price of one extra booster, bought with Sparks once the free daily boosters are spent.
  *
  * A bought booster lands in its own quota bucket: it survives the daily reset and is only spent
@@ -534,6 +566,75 @@ export class ConfigLoader {
           ? mining.seedSalt.trim()
           : DEFAULT_MINING_SETTINGS.seedSalt,
     };
+  }
+
+  /**
+   * Shop (Wandering Trader) settings, completed with `DEFAULT_SHOP_SETTINGS`.
+   *
+   * A missing or unusable value falls back to the shipped default, exactly like the mine and the
+   * Mine Pick: a partially edited `settings/config.json` must never leave the trader without a shop.
+   * An empty list of offers, or a value map without a single usable entry, is read as the default
+   * one - a price needs resources to be built from, and a shop needs cards.
+   *
+   * @returns {Promise<{seedSalt: string, allItemsUniques: boolean, pinnedPath: string,
+   *   rarityValues: Record<string, number>, itemsValues: Record<string, number>,
+   *   offers: Array<[number, number]>}>} The shop settings. `offers` is a list of
+   *   `[rarity, count]`, from the lowest rarity to the highest.
+   * @throws {Error} See `load()`.
+   */
+  async getShopSettings() {
+    const config = await this.getConfig();
+    const shop = config.shop || {};
+    return {
+      seedSalt:
+        typeof shop.seedSalt === 'string' && shop.seedSalt.trim() !== ''
+          ? shop.seedSalt.trim()
+          : DEFAULT_SHOP_SETTINGS.seedSalt,
+      allItemsUniques:
+        typeof shop.allItemsUniques === 'boolean'
+          ? shop.allItemsUniques
+          : DEFAULT_SHOP_SETTINGS.allItemsUniques,
+      pinnedPath: ConfigLoader.normalizePath(shop.pinnedPath, DEFAULT_SHOP_SETTINGS.pinnedPath),
+      rarityValues: ConfigLoader.normalizeValueMap(shop.rarityValues, DEFAULT_SHOP_SETTINGS.rarityValues),
+      itemsValues: ConfigLoader.normalizeValueMap(shop.itemsValues, DEFAULT_SHOP_SETTINGS.itemsValues),
+      offers: ConfigLoader.normalizeOffers(shop.offers, DEFAULT_SHOP_SETTINGS.offers),
+    };
+  }
+
+  /**
+   * Normalizes a `{ key: value }` map of positive numbers (the worth of a rarity or a resource).
+   *
+   * @param {unknown} raw - Raw value read from the configuration.
+   * @param {Record<string, number>} fallback - Value used when nothing usable is declared.
+   * @returns {Record<string, number>} The map, without its unusable entries.
+   */
+  static normalizeValueMap(raw, fallback) {
+    const map = {};
+    if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+      Object.entries(raw).forEach(([key, value]) => {
+        const number = Number(value);
+        if (typeof key === 'string' && key.trim() !== '' && Number.isFinite(number) && number > 0) {
+          map[key.trim()] = number;
+        }
+      });
+    }
+    return Object.keys(map).length > 0 ? map : { ...fallback };
+  }
+
+  /**
+   * Normalizes the composition of the weekly shop (`{ "1": 2, "2": 1 }`).
+   *
+   * @param {unknown} raw - Raw value read from the configuration.
+   * @param {Array<[number, number]>} fallback - Value used when nothing usable is declared.
+   * @returns {Array<[number, number]>} `[rarity, count]`, from the lowest rarity to the highest.
+   */
+  static normalizeOffers(raw, fallback) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return fallback.map((entry) => [...entry]);
+    const entries = Object.entries(raw)
+      .map(([rarity, count]) => [Math.trunc(Number(rarity)), ConfigLoader.normalizePositiveInteger(count, 0)])
+      .filter(([rarity, count]) => Number.isFinite(rarity) && rarity > 0 && count > 0)
+      .sort((left, right) => left[0] - right[0]);
+    return entries.length > 0 ? entries : fallback.map((entry) => [...entry]);
   }
 
   /**

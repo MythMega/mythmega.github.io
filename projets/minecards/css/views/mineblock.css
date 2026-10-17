@@ -363,6 +363,144 @@
   color: var(--color-text-muted);
 }
 
+/* --- The shop of the wandering trader ------------------------------------ */
+
+/* The card on the left, everything that is read and touched on the right: the offers of a week are
+   a LIST inside a dialog, so each one has to stay compact enough to be scanned. */
+.mineblock__trader-intro,
+.mineblock__trader-empty {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__trader-week {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.mineblock__trader-week-value {
+  font-weight: 700;
+}
+
+.mineblock__trader-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A purchase in flight freezes the whole list: a second tap on another offer while the first one is
+   being written would spend resources the player no longer has. */
+.mineblock__trader-list.is-busy {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.mineblock__offer {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+/* An offer that cannot be bought right now stays readable: it is a goal, not a dead end. */
+.mineblock__offer[data-state="exhausted"] {
+  opacity: 0.6;
+}
+
+.mineblock__offer-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+/* An illustration that did not ship keeps its room: the offers stay aligned. */
+.mineblock__offer-image.is-missing {
+  visibility: hidden;
+}
+
+.mineblock__offer-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mineblock__offer-name {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.mineblock__offer-meta,
+.mineblock__offer-stock {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.mineblock__offer-price {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mineblock__price {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  font-size: var(--font-size-xs);
+}
+
+/* The line the player cannot pay for yet: the price of an offer is a shopping list, so what is
+   missing has to be visible without reading the shop twice. */
+.mineblock__price.is-missing {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.mineblock__price-icon {
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.mineblock__price-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: inherit;
+}
+
+.mineblock__price-name {
+  color: var(--color-text-muted);
+}
+
+.mineblock__price.is-missing .mineblock__price-name {
+  color: inherit;
+}
+
+.mineblock__offer-buy {
+  align-self: flex-start;
+}
+
 /* --- A player who asked for less motion ---------------------------------- */
 
 /* The base rituals of the mine do not belong to an animation mode, so the reduced-motion guard

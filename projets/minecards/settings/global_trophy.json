@@ -23,5 +23,21 @@
         "gold": 200,
         "diamond": 500,
         "emerald": 1000
+    },
+    "miningAllBlock": {
+        "_comment": "number of total block mined",
+        "bronze": 25,
+        "silver": 250,
+        "gold": 500,
+        "diamond": 1000,
+        "emerald": 2500
+    },
+    "miningEachBlock": {
+        "_comment": "number of this amount of blocks mined. 1 set of trophy for each 5 types of block",
+        "bronze": 5,
+        "silver": 25,
+        "gold": 100,
+        "diamond": 250,
+        "emerald": 500
     }
 }

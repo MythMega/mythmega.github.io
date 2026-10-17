@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v13';
+const VERSION = 'v14';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -155,6 +155,7 @@ const PRECACHE_URLS = [
   './js/business/GiftManager.js',
   './js/business/MinePickManager.js',
   './js/business/MiningManager.js',
+  './js/business/TraderManager.js',
   './js/business/ProfileIconManager.js',
   './js/business/ProfileManager.js',
   './js/business/PromoManager.js',
@@ -196,6 +197,7 @@ const PRECACHE_URLS = [
   './data/boosters/A2.json',
   './data/icon.json',
   './data/profile_icons/A1.json',
+  './data/shop/pinned_offers.json',
   /* Promo cards: one file per series, and a series without promos simply has none. Only the files
      that ship are listed (a missing entry costs a warning, never the installation); a promo file
      added later is fetched and stored by the runtime strategy on the visit that needs it. */

@@ -70,12 +70,14 @@ export const BLOCK_SOUND_DIRECTORY = 'assets/sound/blocks';
 export const MINING_ERRORS = Object.freeze({
   NO_BLOCK: 'NO_BLOCK',
   NO_BLOCK_CONFIGURED: 'NO_BLOCK_CONFIGURED',
+  INSUFFICIENT_RESOURCES: 'INSUFFICIENT_RESOURCES',
 });
 
 /** i18n keys of the error codes, so a view never invents its own message. */
 const ERROR_MESSAGE_KEYS = Object.freeze({
   [MINING_ERRORS.NO_BLOCK]: 'mineblock.error.empty',
   [MINING_ERRORS.NO_BLOCK_CONFIGURED]: 'mineblock.error.load',
+  [MINING_ERRORS.INSUFFICIENT_RESOURCES]: 'mineblock.error.resources',
 });
 
 /**
@@ -738,6 +740,71 @@ export class MiningManager {
       totalMined,
       sparksFound,
     };
+  }
+
+  /**
+   * Pays a price in harvested resources, through a transaction.
+   *
+   * The resources of the mine are the currency of the Wandering Trader (`TraderManager`), which is
+   * the only caller: the cost is a `{ slug: quantity }` map, and every line must be covered. The
+   * state is read and written through the CALLER's context whenever one is given, so paying a price
+   * and receiving what it buys always land in the SAME transaction - two writes would either give
+   * the goods away or take the payment for nothing.
+   *
+   * The caller announces the change (`MINING_UPDATED`) once its transaction has committed: the
+   * amount spent here is only one part of what it did.
+   *
+   * @param {Record<string, number>} cost - Resources to spend, by slug.
+   * @param {object|null} [context=null] - Transaction context (`StorageRepository.transaction`).
+   * @returns {Promise<Record<string, number>>} The resources left after the payment.
+   * @throws {TypeError} When no usable line is given.
+   * @throws {MiningError} With `INSUFFICIENT_RESOURCES` when a line is not covered.
+   * @throws {Error} When the write fails.
+   */
+  async spendResources(cost, context = null) {
+    const lines = Object.entries(cost && typeof cost === 'object' ? cost : {})
+      .map(([slug, quantity]) => ({ slug, quantity: MiningManager.normalizeCounter(quantity) }))
+      .filter((line) => line.quantity > 0);
+    if (lines.length === 0) {
+      throw new TypeError('MiningManager.spendResources expects at least one resource to spend.');
+    }
+
+    /**
+     * Applies the payment inside an active transaction.
+     *
+     * @param {object} activeContext - Transaction context.
+     * @returns {Promise<Record<string, number>>} The remaining resources.
+     */
+    const apply = async (activeContext) => {
+      const stored = this.normalizeState(
+        await activeContext.get(STORES.USER_STATE, USER_STATE_KEYS.MINING)
+      );
+      const resources = { ...stored.resources };
+
+      lines.forEach(({ slug, quantity }) => {
+        const available = resources[slug] ?? 0;
+        if (available < quantity) {
+          throw new MiningError(
+            MINING_ERRORS.INSUFFICIENT_RESOURCES,
+            `"${slug}" is at ${available}, the price asks for ${quantity}.`
+          );
+        }
+        // A line paid to zero leaves the map: an empty stock is the absence of an entry (see
+        // `normalizeCounters`), not a zero that would come back at the next read.
+        if (available === quantity) {
+          delete resources[slug];
+        } else {
+          resources[slug] = available - quantity;
+        }
+      });
+
+      await activeContext.put(STORES.USER_STATE, { ...stored, resources }, USER_STATE_KEYS.MINING);
+      return resources;
+    };
+
+    return context
+      ? apply(context)
+      : storageRepository.transaction(STORES.USER_STATE, 'readwrite', apply);
   }
 
   /**

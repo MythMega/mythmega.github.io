@@ -27,16 +27,20 @@
  *     name and its quantity. The chest is an ANIMATED webp, so a still frame of it is drawn once on
  *     a canvas and shown the rest of the time; clicking it swaps the animated file back in for the
  *     length of one play, so the chest only moves when it is opened.
- *   - the WANDERING TRADER, a screen of the same name implemented later: its button opens a dialog
- *     that only knows how to close itself (button, backdrop or `Escape`).
+ *   - the WANDERING TRADER, opened by its button in the header: the shop of the week, paid with the
+ *     resources of the mine (`js/business/TraderManager.js` owns the offers, this view only draws
+ *     them and hands the key of the bought one back). The cards of the week are drawn from a seed
+ *     built on the Monday of the week, so the screen is the same for every player.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import miningManager, { getMiningErrorMessageKey } from '../../business/MiningManager.js';
+import traderManager, { getTraderErrorMessageKey } from '../../business/TraderManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
-import soundManager from '../../utils/SoundManager.js';
+import soundManager, { RARITY_SOUNDS } from '../../utils/SoundManager.js';
 import Toast from '../components/Toast.js';
+import { getRarityLabel } from '../../classes/Card.js';
 
 /** View name, matching `data-view="mineblock"` in `index.html`. */
 export const MINE_BLOCK_VIEW_NAME = 'mineblock';
@@ -109,6 +113,10 @@ export class MineBlockView {
     this.traderModal = this.root.querySelector('[data-mineblock-trader-modal]');
     this.traderClose = this.root.querySelector('[data-mineblock-trader-close]');
     this.traderDismiss = this.root.querySelector('[data-mineblock-trader-dismiss]');
+    this.traderWeek = this.root.querySelector('[data-mineblock-trader-week]');
+    this.traderList = this.root.querySelector('[data-mineblock-trader-list]');
+    this.traderEmpty = this.root.querySelector('[data-mineblock-trader-empty]');
+    this.traderFeedback = this.root.querySelector('[data-mineblock-trader-feedback]');
 
     this.assertMarkup();
 
@@ -124,6 +132,11 @@ export class MineBlockView {
     this.chestTimer = null;
     /** @type {{modal: HTMLElement, trigger: HTMLElement}|null} Dialog currently open. */
     this.openDialog = null;
+    /** @type {{week: string|null, allItemsUniques: boolean, offers: Array<object>,
+     *   resources: Record<string, number>}|null} Last shop read from `TraderManager`. */
+    this.traderState = null;
+    /** @type {boolean} True while a purchase is being committed (guards double taps). */
+    this.isBuying = false;
     /** @type {boolean} True while a tap is being committed (guards double taps). */
     this.isMining = false;
     /** @type {boolean} True while the screen is reading its data. */
@@ -188,6 +201,10 @@ export class MineBlockView {
       ['[data-mineblock-trader-modal]', this.traderModal],
       ['[data-mineblock-trader-close]', this.traderClose],
       ['[data-mineblock-trader-dismiss]', this.traderDismiss],
+      ['[data-mineblock-trader-week]', this.traderWeek],
+      ['[data-mineblock-trader-list]', this.traderList],
+      ['[data-mineblock-trader-empty]', this.traderEmpty],
+      ['[data-mineblock-trader-feedback]', this.traderFeedback],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -257,6 +274,13 @@ export class MineBlockView {
     });
 
     this.listen(this.traderButton, 'click', () => this.openModal(this.traderModal, this.traderButton));
+    // One listener for the whole shop: the offers are rebuilt on every purchase, so a listener per
+    // button would have to be undone each time (the dealer reads the key from the button itself).
+    this.listen(this.traderList, 'click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const button = event.target.closest('[data-offer-buy]');
+      if (button instanceof HTMLElement) void this.buyOffer(button.dataset.offerBuy);
+    });
     this.listen(this.traderClose, 'click', () => this.closeModal(this.traderModal));
     this.listen(this.traderDismiss, 'click', () => this.closeModal(this.traderModal));
     // The backdrop closes a dialog: a tap outside is never a dead end.
@@ -302,9 +326,22 @@ export class MineBlockView {
         }
       })
     );
-    // An imported save carries ANOTHER uuid, and therefore another order of the day.
+    // The shop repaints from the trader's own event: a purchase changes the stock and the resources
+    // long before the dialog is closed, so the screen can never show an offer that is already gone.
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.TRADER_UPDATED, () => {
+        if (this.openDialog?.modal === this.traderModal) {
+          void this.renderTrader().catch((error) => {
+            console.warn('[MineBlockView] The shop could not be refreshed.', error);
+          });
+        }
+      })
+    );
+    // An imported save carries ANOTHER uuid, and therefore another order of the day — and another
+    // shop, since its purchases are part of the save.
     this.unsubscribers.push(
       eventBus.on(EVENTS.SAVE_IMPORTED, () => {
+        traderManager.resetOffers();
         void miningManager
           .init({ force: true })
           .then(() => this.reload())
@@ -733,6 +770,15 @@ export class MineBlockView {
       this.closeModal();
     }
     if (modal === this.inventoryModal) this.renderInventory();
+    if (modal === this.traderModal) {
+      // The shop is read when it is opened, never at boot: a player who never trades with the
+      // merchant never downloads his file, and one who does always sees the offers of the moment.
+      this.setTraderFeedback(null);
+      void this.renderTrader().catch((error) => {
+        console.error('[MineBlockView] The shop could not be loaded.', error);
+        this.setTraderFeedback(getTraderErrorMessageKey(error?.code), 'error');
+      });
+    }
     modal.hidden = false;
     trigger.setAttribute('aria-expanded', 'true');
     this.openDialog = { modal, trigger };
@@ -796,6 +842,254 @@ export class MineBlockView {
       item.append(icon, name, value);
       this.inventoryList.appendChild(item);
     });
+  }
+
+  /**
+   * Reads the shop of the week, then draws it.
+   *
+   * The offers live in `TraderManager` (they are shared by every player and drawn from the Monday
+   * of the week), the view only adds what the player can pay: the resources come with the shop so a
+   * price line can be flagged the moment it is out of reach.
+   *
+   * @param {object} [options] - Read options.
+   * @param {boolean} [options.force=false] - Rebuild the shop even when it is cached.
+   * @returns {Promise<void>} Resolves once the shop is on screen.
+   * @throws {Error} When the shop cannot be read.
+   */
+  async renderTrader({ force = false } = {}) {
+    this.traderState = await traderManager.getState({ force });
+    this.traderWeek.textContent = this.formatTraderWeek(this.traderState.week);
+    if (this.traderState.week) {
+      this.traderWeek.setAttribute('datetime', this.traderState.week);
+    } else {
+      this.traderWeek.removeAttribute('datetime');
+    }
+    this.renderOffers();
+    this.log(`Shop rendered: ${this.traderState.offers.length} offer(s).`);
+  }
+
+  /**
+   * Draws every offer of the shop, then the empty state when there is none.
+   *
+   * @returns {void}
+   */
+  renderOffers() {
+    const offers = this.traderState?.offers ?? [];
+    this.traderList.textContent = '';
+    offers.forEach((offer) => this.traderList.appendChild(this.buildOffer(offer)));
+    this.traderEmpty.hidden = offers.length > 0;
+  }
+
+  /**
+   * Builds one offer: the card, its name and its rarity, its price and the button that pays it.
+   *
+   * @param {object} offer - Offer returned by `TraderManager.getState()`.
+   * @returns {HTMLElement} The `<li>` of the offer.
+   */
+  buildOffer(offer) {
+    const name = offer.card.getName(i18n.getLang());
+    const rarityLabel = getRarityLabel(offer.rarity, (key) => i18n.t(key));
+
+    const item = document.createElement('li');
+    item.className = 'mineblock__offer';
+    item.dataset.offerKey = offer.key;
+    item.dataset.source = offer.source;
+    if (offer.exhausted) {
+      item.dataset.state = 'exhausted';
+    } else if (!offer.affordable) {
+      item.dataset.state = 'expensive';
+    }
+
+    const picture = document.createElement('img');
+    picture.className = 'mineblock__offer-image';
+    picture.src = i18n.resolveImagePath(offer.card.illustration);
+    // The card is the offer: its accessible name carries the card and its rarity in one go.
+    picture.alt = `${name} — ${rarityLabel}`;
+    picture.loading = 'lazy';
+    picture.decoding = 'async';
+    picture.addEventListener('error', () => picture.classList.add('is-missing'));
+
+    const body = document.createElement('div');
+    body.className = 'mineblock__offer-body';
+
+    const heading = document.createElement('p');
+    heading.className = 'mineblock__offer-name';
+    heading.textContent = name;
+
+    const meta = document.createElement('p');
+    meta.className = 'mineblock__offer-meta';
+    meta.textContent =
+      offer.source === 'pinned' ? `${rarityLabel} · ${i18n.t('mineblock.trader.pinned')}` : rarityLabel;
+
+    const price = document.createElement('ul');
+    price.className = 'mineblock__offer-price';
+    offer.price.forEach((line) => price.appendChild(this.buildPriceLine(line)));
+
+    body.append(heading, meta, price, this.buildOfferFooter(offer));
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--primary btn--small mineblock__offer-buy';
+    button.dataset.offerBuy = offer.key;
+    button.disabled = offer.exhausted || !offer.affordable;
+    button.textContent = offer.exhausted
+      ? i18n.t('mineblock.trader.exhausted')
+      : i18n.t('mineblock.trader.buy');
+    body.appendChild(button);
+
+    item.append(picture, body);
+    return item;
+  }
+
+  /**
+   * Builds the line under the price of an offer (its stock, and the reminder of a closed window).
+   *
+   * @param {object} offer - Offer returned by `TraderManager.getState()`.
+   * @returns {HTMLElement} The paragraph (empty attributes when the offer has no stock).
+   */
+  buildOfferFooter(offer) {
+    const footer = document.createElement('p');
+    footer.className = 'mineblock__offer-stock';
+
+    const parts = [];
+    if (offer.maxUses !== null && (offer.maxUses > 1 || offer.bought > 0)) {
+      parts.push(
+        i18n.t('mineblock.trader.stock', { remaining: offer.remaining, max: offer.maxUses })
+      );
+    }
+    // A pinned offer says when it is sold: the window comes from its own file, so the player knows
+    // how long they have left to pay for it.
+    if (offer.source === 'pinned' && offer.period?.min && offer.period?.max) {
+      parts.push(
+        i18n.t('mineblock.trader.period', {
+          from: this.formatTraderWeek(offer.period.min),
+          to: this.formatTraderWeek(offer.period.max),
+        })
+      );
+    } else if (offer.period?.max) {
+      parts.push(i18n.t('mineblock.trader.until', { date: this.formatTraderWeek(offer.period.max) }));
+    }
+
+    footer.textContent = parts.join(' · ');
+    footer.hidden = parts.length === 0;
+    return footer;
+  }
+
+  /**
+   * Builds one line of the price of an offer: the picture of the resource, its quantity and its name.
+   *
+   * A line the player cannot pay for yet is flagged (`is-missing`): the shop shows the WHOLE price
+   * even when it is out of reach, because the whole price is exactly what has to be mined.
+   *
+   * @param {{slug: string, type: string, nameKey?: string, texture: string, quantity: number,
+   *   missing: number}} line - Price line.
+   * @returns {HTMLElement} The `<li>` of the line.
+   */
+  buildPriceLine(line) {
+    const entry = document.createElement('li');
+    entry.className = 'mineblock__price';
+    entry.dataset.resource = line.slug;
+    if (line.missing > 0) entry.classList.add('is-missing');
+
+    const icon = document.createElement('img');
+    icon.className = 'mineblock__price-icon';
+    icon.src = line.texture;
+    icon.alt = '';
+    icon.decoding = 'async';
+    icon.addEventListener('error', () => {
+      icon.hidden = true;
+    });
+
+    const value = document.createElement('span');
+    value.className = 'mineblock__price-value';
+    value.textContent = `×${line.quantity}`;
+
+    const label = document.createElement('span');
+    label.className = 'mineblock__price-name';
+    label.textContent = this.resolveResourceLabel(line);
+
+    // The price of a line that is out of reach says how much is missing, in the accessible text.
+    if (line.missing > 0) {
+      const missing = document.createElement('span');
+      missing.className = 'sr-only';
+      missing.textContent = i18n.t('mineblock.trader.missing', { count: line.missing });
+      entry.append(icon, value, label, missing);
+      return entry;
+    }
+
+    entry.append(icon, value, label);
+    return entry;
+  }
+
+  /**
+   * Pays an offer and grants its card.
+   *
+   * The commit itself belongs to `TraderManager` (one transaction for the price, the card and the
+   * stock): this method only reports what came out of it. A refusal is shown in the dialog, next to
+   * the offer that was refused.
+   *
+   * @param {string} offerKey - Key of the offer to buy.
+   * @returns {Promise<void>} Resolves once the purchase was reported.
+   */
+  async buyOffer(offerKey) {
+    if (!offerKey || this.isBuying) return;
+    this.isBuying = true;
+    this.setTraderFeedback(null);
+    this.traderList.classList.add('is-busy');
+
+    try {
+      const result = await traderManager.buy(offerKey);
+      const name = result.card.getName(i18n.getLang());
+      const toast = result.isNew
+        ? Toast.success('mineblock.trader.boughtNew', { params: { card: name } })
+        : Toast.info('mineblock.trader.bought', { params: { card: name } });
+      if (toast) toast.dataset.card = result.card.uniqueKey;
+      // The card is what was bought: it is announced with the sound of its rarity (only 3, 4 and 5
+      // ship one, a more ordinary card simply arrives in silence).
+      const sound = RARITY_SOUNDS[result.card.rarity];
+      if (sound) soundManager.play(sound);
+    } catch (error) {
+      console.error('[MineBlockView] The offer could not be bought.', error);
+      this.setTraderFeedback(getTraderErrorMessageKey(error?.code), 'error');
+    } finally {
+      this.isBuying = false;
+      this.traderList.classList.remove('is-busy');
+    }
+  }
+
+  /**
+   * Writes the feedback line of the shop.
+   *
+   * @param {string|null} key - Translation key, or null to clear the line.
+   * @param {'info'|'error'} [tone='info'] - Tone of the message.
+   * @returns {void}
+   */
+  setTraderFeedback(key, tone = 'info') {
+    if (!this.traderFeedback) return;
+    if (!key) {
+      this.traderFeedback.hidden = true;
+      this.traderFeedback.textContent = '';
+      return;
+    }
+    this.traderFeedback.textContent = i18n.t(key);
+    this.traderFeedback.dataset.tone = tone;
+    this.traderFeedback.hidden = false;
+  }
+
+  /**
+   * Writes a UTC day of the shop in the language of the player.
+   *
+   * @param {string|null} day - Day returned by the shop (`YYYY-MM-DD`).
+   * @returns {string} The formatted day, or a dash when the clock is unknown.
+   */
+  formatTraderWeek(day) {
+    // The day is the one the SHOP uses (UTC), so it is formatted as UTC: a player west of Greenwich
+    // must read the Monday the offers were drawn from, not the Sunday before it.
+    const time = Date.parse(`${day}T00:00:00.000Z`);
+    if (!Number.isFinite(time)) return '—';
+    return new Intl.DateTimeFormat(i18n.getLang(), { dateStyle: 'medium', timeZone: 'UTC' }).format(
+      new Date(time)
+    );
   }
 
   /**
@@ -919,6 +1213,12 @@ export class MineBlockView {
     });
     if (this.feedback) {
       this.setFeedback(this.feedback.key, this.feedback.tone, this.feedback.params);
+    }
+    // The name and the rarity of every offer are translated on screen, so an open shop is redrawn.
+    if (this.openDialog?.modal === this.traderModal) {
+      void this.renderTrader().catch((error) => {
+        console.warn('[MineBlockView] The shop could not be re-rendered.', error);
+      });
     }
   }
 

@@ -23,12 +23,14 @@
  *      stays silent. `REVEAL_FINISHED` sends whatever is left with the final state (a player who
  *      skips the scene with Escape must not lose the progress of the pack).
  *   3. `TROPHY_UNLOCKED` — every trophy unlocked for the first time, with the experience it grants.
- *   4. `CARDS_OBTAINED`  — a card bought with Sparks, credited by a promo code or a distribution:
+ *   4. `TITLE_UNLOCKED`  — every player TITLE that just became selectable (a level reached or a
+ *      collection trophy unlocked, both derived by `TitleManager`).
+ *   5. `CARDS_OBTAINED`  — a card bought with Sparks, credited by a promo code or a distribution:
  *      its experience (only a FIRST copy is a distinct card) and, straight away, the collections it
  *      moves forward.
- *   5. `PROFILE_UPDATED` — the player chose their own display name (the experience is granted once,
+ *   6. `PROFILE_UPDATED` — the player chose their own display name (the experience is granted once,
  *      when the name stops being the default one).
- *   6. `EXPERIENCE_UPDATED` — a level was reached.
+ *   7. `EXPERIENCE_UPDATED` — a level was reached.
  *
  * NO NOTIFICATION AT BOOT
  *   The experience and the trophies are evaluated once when the application starts, and a save can
@@ -52,6 +54,7 @@ import trophyManager, {
   normalizeRarity,
 } from '../../business/TrophyManager.js';
 import profileManager from '../../business/ProfileManager.js';
+import { TitleManager } from '../../business/TitleManager.js';
 import TrophyDetail from './TrophyDetail.js';
 import notificationCenter, {
   NOTIFICATION_TYPES,
@@ -160,6 +163,9 @@ export class GameNotifier {
       );
       this.unsubscribers.push(
         eventBus.on(EVENTS.TROPHY_UNLOCKED, (payload) => this.handleTrophyUnlocked(payload))
+      );
+      this.unsubscribers.push(
+        eventBus.on(EVENTS.TITLE_UNLOCKED, (payload) => this.handleTitleUnlocked(payload))
       );
       this.unsubscribers.push(
         eventBus.on(EVENTS.PROFILE_UPDATED, (payload) => this.handleProfileUpdated(payload))
@@ -321,6 +327,28 @@ export class GameNotifier {
         amount: this.resolveTrophyExperience(trophy),
         titleKey: 'notif.experience.trophy',
         titleParams: { title: TrophyDetail.trophyTitle(trophy) },
+      });
+    });
+  }
+
+  /**
+   * Announces every player title that just became selectable.
+   *
+   * A title comes with no experience of its own (it is not a trophy): it is announced for what it
+   * is - a line the player may now wear under their pseudo, written in the pixel face and in the
+   * yellow of the notification (`css/components/notifications.css`).
+   *
+   * @param {object} payload - `TITLE_UNLOCKED` payload.
+   * @param {object[]} [payload.titles] - Titles unlocked for the first time.
+   * @returns {void}
+   */
+  handleTitleUnlocked({ titles } = {}) {
+    if (!this.isReady) return;
+    (Array.isArray(titles) ? titles : []).forEach((title) => {
+      this.center.push({
+        type: NOTIFICATION_TYPES.TITLE,
+        badge: i18n.t('notif.title.badge'),
+        title: i18n.t('notif.title.unlocked', { title: TitleManager.titleText(title, i18n.getLang()) }),
       });
     });
   }

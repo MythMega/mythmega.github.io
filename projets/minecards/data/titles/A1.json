@@ -1,0 +1,29 @@
+{
+    "Booster": "A1",
+    "CollectionTitle":[
+        {
+            "CollectionTrophy": "Quinte Flush Royale",
+            "UnlockedTitle": [
+                {
+                    "id": "collection-A1-1",
+                    "text": {
+                        "fr": "Approuvé par Jeb_.",
+                        "en": "Jeb_ approved."
+                    }
+                }
+            ]
+        },
+        {
+            "CollectionTrophy": "Genesis Mobs",
+            "UnlockedTitle": [
+                {
+                    "id": "collection-A1-2",
+                    "text": {
+                        "fr": "Spawner à monstre.",
+                        "en": "Mob Spawner."
+                    }
+                }
+            ]
+        }
+    ]
+}

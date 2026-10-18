@@ -31,6 +31,7 @@ import i18n from '../../utils/I18n.js';
 import trophyManager, { TROPHY_CATEGORIES, TrophyManager } from '../../business/TrophyManager.js';
 import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
 import profileIconManager from '../../business/ProfileIconManager.js';
+import titleManager from '../../business/TitleManager.js';
 import TrophyDetail, { TROPHY_PIN_ICON, TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
 import Toast from '../components/Toast.js';
 
@@ -678,16 +679,23 @@ export class TrophiesView {
     this.modalTitle.textContent = TrophyDetail.trophyTitle(trophy);
     this.modalBody.textContent = '';
 
-    let icons = [];
-    try {
-      icons = await profileIconManager.getIconsForTrophy(trophy);
-    } catch (error) {
-      console.warn(`[TrophiesView] The avatars unlocked by "${id}" could not be read.`, error);
-    }
+    // What the trophy GRANTS is read before its detail is built: the avatars and the player titles
+    // both come from a catalogue of their own (`ProfileIconManager`, `TitleManager`).
+    const [icons, titles] = await Promise.all([
+      profileIconManager.getIconsForTrophy(trophy).catch((error) => {
+        console.warn(`[TrophiesView] The avatars unlocked by "${id}" could not be read.`, error);
+        return [];
+      }),
+      titleManager.getTitlesForTrophy(trophy).catch((error) => {
+        console.warn(`[TrophiesView] The titles unlocked by "${id}" could not be read.`, error);
+        return [];
+      }),
+    ]);
 
     this.modalBody.appendChild(TrophyDetail.buildDetailBody(trophy, {
       experiencePerTrophy: this.trophyState.experiencePerTrophy,
       icons,
+      titles,
     }));
 
     const pin = this.buildModalPin(trophy);

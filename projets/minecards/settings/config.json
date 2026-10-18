@@ -38,6 +38,16 @@
     }
   },
 
+  "glow": {
+    "_comment": "Glow ('Illumination') ranges. Each effect has its own 0-N slider on the settings screen, so a future one never inherits the bounds of another: 'trophies' is the halo around a trophy medal (none for bronze, light for silver and gold, medium for diamond and emerald - see css/components/trophy.css), and a 'cards' block will be added here when the card glow is tuned. The intensity is stored per account in `user_state[\"settings\"].glowTrophies`; `js/utils/GlowManager.js` publishes it as the 0-N factor `--trophy-glow-scale` on <html>, which the stylesheets multiply into the radius of their shadows. 0 switches the effect off completely.",
+    "trophies": {
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 2
+    }
+  },
+
   "boosters": {
     "_comment": "'extraBoosterPriceSparks' is the price of ONE extra daily booster, bought with Sparks once the free daily boosters ('dailyFreeBoosters') are all spent. A bought booster is kept in the quota under its own bucket, is spent AFTER the daily quota and the redeem/gift bonuses of an extension (so a free booster is never wasted by a purchase), and - unlike the daily allowance - is NOT cleared by the daily reset: it was paid for.",
     "sets": ["A1", "A2"],
@@ -144,6 +154,40 @@
     "defaultPath": "settings/default_profile_icons.json",
     "unlockablePath": "data/icon.json",
     "directory": "data/profile_icons"
+  },
+
+  "titles": {
+    "_comment": "Player titles (the line under the pseudo). 'defaultPath' lists the titles unlocked by LEVEL - one entry per title, with its 'requiredLevel' and its 'text' per language - and 'directory' holds one <setId>.json per extension mapping a collection trophy name to the titles it unlocks (the titles are written in the file itself, unlike the icons, which share the trophy of an extension). A title is designated by its 'id' everywhere: a save only ever stores that id.",
+    "defaultPath": "settings/default_titles.json",
+    "directory": "data/titles"
+  },
+
+  "profileCard": {
+    "_comment": "Profile card (section 3.G octies): the trading card the profile page draws from the account with the card maker of 'external/cardmakerz/'. 'rarityThresholds' maps a card rarity (1 = Commune ... 5 = Mythique, the rarity scale of the card data) to the NUMBER OF UNLOCKED TROPHIES it takes to reach it; the card takes the highest rarity whose threshold the account reaches, so a brand new account is Commune. A threshold that is missing, malformed or LOWER than the previous one falls back to the shipped value (the sequence can never make a rarer card easier). 'defaultArtPath' is the illustration used as the card background when the player has no favourite card to borrow one from. 'seriesDigits' is how many last characters of the account UUID the series line prints after the player title.",
+    "rarityThresholds": { "1": 0, "2": 5, "3": 15, "4": 30, "5": 50 },
+    "defaultArtPath": "assets/img/card_back.png",
+    "seriesDigits": 4,
+
+    "titleColors": {
+      "_comment": "Colours of the TITLE line of the profile card (the `<title> #<number>` series), bought with Sparks like the Full Art layout. 'defaultPriceSparks' is the price of every colour that does not declare its own, so changing the economy is one number; each entry of 'items' may override it with 'priceSparks'. An entry nobody knows (see `PROFILE_CARD_TITLE_COLORS` in js/business/ProfileCardManager.js) is ignored rather than sold blind, and a missing price falls back to 'defaultPriceSparks'. The 'auto' choice is free and never listed here: it is the rarity colour of the card, defined by the stylesheet. Buying a colour is final (no refund).",
+      "defaultPriceSparks": 125,
+      "items": {
+        "gold": { "priceSparks": 125 },
+        "silver": { "priceSparks": 125 },
+        "crimson": { "priceSparks": 125 },
+        "emerald": { "priceSparks": 125 },
+        "azure": { "priceSparks": 125 },
+        "violet": { "priceSparks": 125 },
+        "rose": { "priceSparks": 125 }
+      }
+    }
+  },
+
+  "features": {
+    "_comment": "Extra features bought with Sparks (see `js/business/FeatureManager.js`). Each entry of 'items' is one purchasable feature, under the identifier the code knows it by: 'cardLayoutFullArt' locks the Full Art layout of the profile card. 'priceSparks' is what it costs, a whole number of Sparks. An entry the code knows (see `FeatureManager.FEATURES`) falls back to its shipped price when the value here is missing, negative or malformed, so a typo can never give a paid feature away; an entry nobody knows is ignored rather than sold blind. Buying is final: there is no refund, which is why the price is shown before the confirmation.",
+    "items": {
+      "cardLayoutFullArt": { "priceSparks": 1000 }
+    }
   },
 
   "shop": {

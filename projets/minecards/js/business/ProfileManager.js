@@ -12,9 +12,14 @@
  *     name:      string,          // "" means "no name chosen yet" (the UI shows the default name)
  *     icon:      string,          // "" or a path of the catalogue (`ProfileIconManager`)
  *     photo:     string,          // legacy avatar URL, read (displayed) but no longer written
+ *     title:     string,          // "" or the id of a title (`TitleManager`)
  *     favorites: string[],        // card keys (`${id}_${style}`), at most `profile.maxFavorites`
  *     featured:  string[],        // unlocked trophy ids, at most `profile.maxFeaturedTrophies`
  *   }
+ *
+ * A TITLE is deliberately OPTIONAL, and clearing it is a choice of its own: unlike the avatar (which
+ * always shows something, if only the initial of the pseudo), the player may own titles and still
+ * want none displayed, so `""` is a legitimate stored value and the picker offers it explicitly.
  *
  * The avatar used to be a free URL. It is now picked from `ProfileIconManager`, which owns the list
  * of the shipped icons; the `photo` key stays readable so a profile written by an older version
@@ -33,6 +38,7 @@ import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
 import profileIconManager from './ProfileIconManager.js';
+import titleManager from './TitleManager.js';
 
 /**
  * `user_state` key holding the profile.
@@ -59,6 +65,7 @@ export const PROFILE_ERROR_CODES = Object.freeze({
   NAME_TOO_LONG: 'name',
   PHOTO_INVALID_URL: 'photo',
   ICON_UNKNOWN: 'icon',
+  TITLE_UNKNOWN: 'title',
   FAVORITES_FULL: 'favoritesFull',
   FEATURED_FULL: 'featuredFull',
   INVALID_KEY: 'invalidKey',
@@ -91,12 +98,11 @@ export function getProfileErrorMessageKey(error) {
 
 /**
  * Builds the profile every account starts with.
- *
- * @returns {{name: string, icon: string, photo: string, favorites: string[], featured: string[]}}
- *   An empty profile.
- */
+ *   * @returns {{name: string, icon: string, photo: string, title: string, favorites: string[], featured: string[]}}
+   *   An empty profile.
+   */
 export function buildDefaultProfile() {
-  return { name: '', icon: '', photo: '', favorites: [], featured: [] };
+  return { name: '', icon: '', photo: '', title: '', favorites: [], featured: [] };
 }
 
 export class ProfileManager {
@@ -136,7 +142,7 @@ export class ProfileManager {
    * Never throws on a malformed state: an imported save may come from any version, so anything
    * unusable is replaced by its default instead of failing the profile page.
    *
-   * @returns {Promise<{name: string, icon: string, photo: string, favorites: string[], featured: string[]}>}
+   * @returns {Promise<{name: string, icon: string, photo: string, title: string, favorites: string[], featured: string[]}>}
    *   The normalized profile.
    * @throws {Error} When the read or the configuration loading fails.
    */
@@ -166,22 +172,25 @@ export class ProfileManager {
   }
 
   /**
-   * Saves the display name and the avatar.
+   * Saves the display name, the avatar and the title.
    *
    * Every field is optional: only the ones present in the payload are updated, so the profile page
-   * can save its two inputs in a single call without erasing the other one. A supplied `icon` is the
-   * avatar of the whole profile though: it always replaces `photo`, since only one avatar is ever
-   * displayed (see `renderIdentity`).
+   * can save its two inputs in a single call without erasing the other one, and the titles page can
+   * store a title without touching the pseudo. A supplied `icon` is the avatar of the whole profile
+   * though: it always replaces `photo`, since only one avatar is ever displayed (see
+   * `renderIdentity`).
    *
    * @param {object} payload - Identity fields to update.
    * @param {unknown} [payload.name] - New display name (empty string clears it).
    * @param {unknown} [payload.icon] - Catalogue path of the new avatar (empty string clears it, and
    *   with it the legacy URL of an older save).
    * @param {unknown} [payload.photo] - Legacy avatar URL (still accepted, no longer offered).
+   * @param {unknown} [payload.title] - Id of a catalogue title (empty string clears it: displaying
+   *   no title is a choice of its own).
    * @returns {Promise<object>} The stored profile after the update.
    * @throws {TypeError} When `payload` is not a plain object.
    * @throws {ProfileError} When the name is too long, the URL is not an absolute http(s) URL, or the
-   *   icon does not belong to the catalogue.
+   *   icon or the title does not belong to the catalogue.
    * @throws {Error} When the write fails.
    */
   async setIdentity(payload = {}) {
@@ -206,11 +215,15 @@ export class ProfileManager {
       next.photo = ProfileManager.normalizePhoto(payload.photo);
       if (next.photo !== '') next.icon = '';
     }
+    if (Object.prototype.hasOwnProperty.call(payload, 'title')) {
+      next.title = await ProfileManager.normalizeTitle(payload.title);
+    }
 
     await storageRepository.setUserState(PROFILE_STATE_KEY, next);
     this.log(
       `Identity saved (name: ${next.name === '' ? 'none' : 'set'}, ` +
-        `avatar: ${next.icon !== '' ? 'icon' : next.photo !== '' ? 'legacy photo' : 'none'}).`
+        `avatar: ${next.icon !== '' ? 'icon' : next.photo !== '' ? 'legacy photo' : 'none'}, ` +
+        `title: ${next.title === '' ? 'none' : 'set'}).`
     );
     eventBus.emit(EVENTS.PROFILE_UPDATED, { profile: next });
     return next;
@@ -383,7 +396,7 @@ export class ProfileManager {
    *
    * @param {unknown} raw - Stored value.
    * @param {{maxFavorites?: number, maxFeaturedTrophies?: number}} [limits] - Configured limits.
-   * @returns {{name: string, icon: string, photo: string, favorites: string[], featured: string[]}}
+   * @returns {{name: string, icon: string, photo: string, title: string, favorites: string[], featured: string[]}}
    *   A writable profile.
    */
   static normalizeProfile(raw, limits = {}) {
@@ -395,6 +408,7 @@ export class ProfileManager {
       name: ProfileManager.sanitizeName(source.name),
       icon: ProfileManager.sanitizeIcon(source.icon),
       photo: ProfileManager.sanitizePhoto(source.photo),
+      title: ProfileManager.sanitizeTitle(source.title),
       favorites: ProfileManager.sanitizeKeyList(source.favorites).slice(0, Math.max(maxFavorites, 0)),
       featured: ProfileManager.sanitizeKeyList(source.featured).slice(0, Math.max(maxFeatured, 0)),
     };
@@ -489,6 +503,44 @@ export class ProfileManager {
    */
   static sanitizeIcon(value) {
     return typeof value === 'string' ? value.trim().replace(/^\.\//, '').slice(0, PROFILE_PHOTO_MAX_LENGTH) : '';
+  }
+
+  /**
+   * Validates the title coming from the titles page.
+   *
+   * The value must be the id of a title the catalogue declares (`TitleManager`), or the empty
+   * string, which is the explicit "no title" choice: a title is never displayed by accident, and a
+   * repaired save can never point the profile at an id that does not exist.
+   *
+   * The UNLOCK state is deliberately not checked here: this manager owns the shape of the profile,
+   * not the conditions of the catalogue (the picker only offers the unlocked ones, and a title that
+   * a later rebalance locks again simply stays displayed until the player chooses another).
+   *
+   * @param {unknown} title - Submitted id.
+   * @returns {Promise<string>} The id (empty when no title was chosen).
+   * @throws {ProfileError} When the id is not part of the catalogue.
+   * @throws {Error} When the catalogue cannot be read.
+   */
+  static async normalizeTitle(title) {
+    const text = ProfileManager.sanitizeTitle(title);
+    if (text === '') return '';
+    if (!(await titleManager.isKnownTitle(text))) {
+      throw new ProfileError(
+        PROFILE_ERROR_CODES.TITLE_UNKNOWN,
+        `The title must be one of the declared ones (received: ${JSON.stringify(text.slice(0, 64))}).`
+      );
+    }
+    return text;
+  }
+
+  /**
+   * Cleans a raw value into a title id (no validation: used on read, not on write).
+   *
+   * @param {unknown} value - Raw value.
+   * @returns {string} The trimmed id, or an empty string.
+   */
+  static sanitizeTitle(value) {
+    return typeof value === 'string' ? value.trim().slice(0, 120) : '';
   }
 
   /**

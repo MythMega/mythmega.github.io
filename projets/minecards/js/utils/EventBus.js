@@ -79,6 +79,10 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ trophies }`. Emitted by TrophyManager once at least one trophy is unlocked for
    * the first time (the state is persisted before the event): the UI announces them. */
   TROPHY_UNLOCKED: 'TROPHY_UNLOCKED',
+  /** Payload: `{ titles }` (`{ id, text, source, unlocked, … }`). Emitted by TitleManager when a
+   * title becomes selectable and was never announced (`GameNotifier` announces it). The unlock
+   * itself is derived — a level or a trophy — so nothing is persisted by that event. */
+  TITLE_UNLOCKED: 'TITLE_UNLOCKED',
   /** Payload: `{ experience, level }`. Emitted by TrophyManager whenever the experience total or
    * the level changes: the profile page repaints its progress bar. */
   EXPERIENCE_UPDATED: 'EXPERIENCE_UPDATED',
@@ -100,6 +104,11 @@ export const EVENTS = Object.freeze({
    * after a card sold from the collection was taken out of the binders that showed it: the binder
    * list and the open binder repaint from it. */
   BINDERS_UPDATED: 'BINDERS_UPDATED',
+  /** Payload: `{ id, priceSparks, balance }`. Emitted by FeatureManager once a feature is bought
+   * and persisted: the screens that lock something behind it unlock it (the profile card switch
+   * stops showing a price). The Sparks themselves go through `SPARKS_UPDATED`, like every other
+   * debit. */
+  FEATURE_UNLOCKED: 'FEATURE_UNLOCKED',
 });
 
 class EventBus {

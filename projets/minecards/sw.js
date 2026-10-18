@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v17';
+const VERSION = 'v22';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -94,6 +94,11 @@ const PRECACHE_URLS = [
   './assets/icons/apple-touch-icon.png',
   /* Stylesheets, in the load order of `index.html`: theme tokens, base, components, views, then the
      animation modes last (they override an opening and `accessibility.css` closes the group). */
+  /* Fonts first, like in `index.html`: the pixel face of a player title is declared before the
+     stylesheets that use it (a title with no font would simply fall back to monospace). */
+  './css/fonts.css',
+  './assets/fonts/press-start-2p-latin.woff2',
+  './assets/fonts/press-start-2p-latin-ext.woff2',
   './css/themes.css',
   './css/base.css',
   './css/views/onboarding.css',
@@ -104,12 +109,14 @@ const PRECACHE_URLS = [
   './css/views/minepick.css',
   './css/views/mineblock.css',
   './css/views/profile.css',
+  './css/views/titles.css',
   './css/components/trophy.css',
   './css/views/settings.css',
   './css/views/redeem.css',
   './css/views/gifts.css',
   './css/views/info.css',
   './css/components/booster-3d.css',
+  './css/components/profile-card.css',
   './css/components/card-reveal.css',
   './css/components/card-shine.css',
   './css/components/modal.css',
@@ -131,6 +138,7 @@ const PRECACHE_URLS = [
   './js/UI/components/CardComponent.js',
   './js/UI/components/GameNotifier.js',
   './js/UI/components/NotificationCenter.js',
+  './js/UI/components/ProfileCard.js',
   './js/UI/components/Toast.js',
   './js/UI/components/TrophyDetail.js',
   './js/UI/components/ViewHelp.js',
@@ -145,6 +153,7 @@ const PRECACHE_URLS = [
   './js/UI/views/RedeemView.js',
   './js/UI/views/SettingsView.js',
   './js/UI/views/StatsView.js',
+  './js/UI/views/TitlesView.js',
   './js/UI/views/TrophiesView.js',
   './js/business/AccountManager.js',
   './js/business/BinderManager.js',
@@ -152,16 +161,19 @@ const PRECACHE_URLS = [
   './js/business/CollectionManager.js',
   './js/business/DateSyncManager.js',
   './js/business/GachaEngine.js',
+  './js/business/FeatureManager.js',
   './js/business/GiftManager.js',
   './js/business/MinePickManager.js',
   './js/business/MiningManager.js',
   './js/business/TraderManager.js',
   './js/business/ProfileIconManager.js',
+  './js/business/ProfileCardManager.js',
   './js/business/ProfileManager.js',
   './js/business/PromoManager.js',
   './js/business/PromoSet.js',
   './js/business/RedeemManager.js',
   './js/business/SparksManager.js',
+  './js/business/TitleManager.js',
   './js/business/TrophyManager.js',
   './js/business/UserItemCode.js',
   './js/classes/Card.js',
@@ -177,6 +189,7 @@ const PRECACHE_URLS = [
   './js/utils/EventBus.js',
   './js/utils/FocusMode.js',
   './js/utils/FoilManager.js',
+  './js/utils/GlowManager.js',
   './js/utils/I18n.js',
   './js/utils/Shine.js',
   './js/utils/SoundManager.js',
@@ -190,6 +203,7 @@ const PRECACHE_URLS = [
   './settings/defaultRarity.json',
   './settings/mining.json',
   './settings/default_profile_icons.json',
+  './settings/default_titles.json',
   './settings/boosters_trophy.json',
   './settings/global_trophy.json',
   './settings/overlay.json',
@@ -197,6 +211,7 @@ const PRECACHE_URLS = [
   './data/boosters/A2.json',
   './data/icon.json',
   './data/profile_icons/A1.json',
+  './data/titles/A1.json',
   './data/shop/pinned_offers.json',
   /* Promo cards: one file per series, and a series without promos simply has none. Only the files
      that ship are listed (a missing entry costs a warning, never the installation); a promo file

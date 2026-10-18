@@ -45,6 +45,7 @@ import themeManager from '../../utils/ThemeManager.js';
 import animationManager from '../../utils/AnimationManager.js';
 import glowManager from '../../utils/GlowManager.js';
 import foilManager from '../../utils/FoilManager.js';
+import { configLoader } from '../../utils/ConfigLoader.js';
 import soundManager from '../../utils/SoundManager.js';
 import accountManager from '../../business/AccountManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
@@ -55,6 +56,7 @@ import giftManager, {
   GIFT_TYPES,
 } from '../../business/GiftManager.js';
 import Toast from '../components/Toast.js';
+import notificationCenter from '../components/NotificationCenter.js';
 import { applyShine } from '../components/CardComponent.js';
 
 /** View name, matching `data-view="settings"` in `index.html`. */
@@ -91,6 +93,18 @@ export class SettingsView {
     this.glareValueElement = query('[data-settings-glare-value]');
     this.glowSlider = query('[data-settings-glow]');
     this.glowValueElement = query('[data-settings-glow-value]');
+    this.notificationDurationSlider = query('[data-settings-notification-duration]');
+    this.notificationDurationValue = query('[data-settings-notification-duration-value]');
+    this.notificationToggles = {
+      collection: query('[data-settings-notification-collection]'),
+      experience: query('[data-settings-notification-experience]'),
+      title: query('[data-settings-notification-title]'),
+    };
+    this.notificationStateElements = {
+      collection: query('[data-settings-notification-collection-state]'),
+      experience: query('[data-settings-notification-experience-state]'),
+      title: query('[data-settings-notification-title-state]'),
+    };
     this.demoStage = query('[data-animation-demo-stage]');
     this.demoTiles = query('[data-animation-demo-tiles]');
     this.demoPlayButton = query('[data-animation-demo-play]');
@@ -125,6 +139,10 @@ export class SettingsView {
     this.isBusy = false;
     /** @type {boolean} Last known developer mode (the store is the source of truth). */
     this.devMode = false;
+    /** @type {number} Duration of one notification, in seconds. */
+    this.notificationDuration = 3;
+    /** @type {Record<string, boolean>} Allowed notification kinds. */
+    this.notificationTypes = { collection: true, experience: true, title: true };
     /** @type {string|null} UUID of the current account (read-only display). */
     this.uuid = null;
     /** @type {{key: string, tone: string, params: object|null}|null} Last feedback message. */
@@ -176,6 +194,11 @@ export class SettingsView {
       ['[data-settings-glare-value]', this.glareValueElement],
       ['[data-settings-glow]', this.glowSlider],
       ['[data-settings-glow-value]', this.glowValueElement],
+      ['[data-settings-notification-duration]', this.notificationDurationSlider],
+      ['[data-settings-notification-duration-value]', this.notificationDurationValue],
+      ['[data-settings-notification-collection]', this.notificationToggles.collection],
+      ['[data-settings-notification-experience]', this.notificationToggles.experience],
+      ['[data-settings-notification-title]', this.notificationToggles.title],
       ['[data-animation-demo-stage]', this.demoStage],
       ['[data-animation-demo-tiles]', this.demoTiles],
       ['[data-animation-demo-play]', this.demoPlayButton],
@@ -224,6 +247,7 @@ export class SettingsView {
     this.renderFoilSlider();
     this.renderGlareSlider();
     this.renderGlowSlider();
+    await this.renderNotificationSettings();
     this.syncSoundToggle();
     await this.syncDevToggle();
     await this.renderAccount();
@@ -789,6 +813,142 @@ export class SettingsView {
   }
 
   /**
+   * Fills the notification controls from `config.json` and the stored preferences.
+   *
+   * The duration range belongs to `notifications.duration`, like every other slider, and the
+   * switches are the kinds `NotificationCenter` knows. The stored values are applied to the live
+   * queue at the same time, so the screen can never show a state the next opening would ignore.
+   *
+   * @returns {Promise<void>} Resolves once the controls are painted.
+   */
+  async renderNotificationSettings() {
+    if (!this.notificationDurationSlider) return;
+    const { duration } = await configLoader.getNotificationSettings();
+    this.notificationDurationSlider.min = String(duration.min);
+    this.notificationDurationSlider.max = String(duration.max);
+    this.notificationDurationSlider.step = String(duration.step);
+
+    try {
+      const settings = await accountManager.getSettings();
+      this.notificationDuration = settings.notificationDuration ?? duration.default;
+      this.notificationTypes = { ...settings.notificationTypes };
+    } catch (error) {
+      console.warn('[SettingsView] The notification settings could not be read.', error);
+      this.notificationDuration = duration.default;
+    }
+
+    this.applyNotificationSettings();
+  }
+
+  /**
+   * Writes the notification preferences on the controls and on the live queue.
+   *
+   * @returns {void}
+   */
+  applyNotificationSettings() {
+    if (this.notificationDurationSlider) {
+      this.notificationDurationSlider.value = String(this.notificationDuration);
+    }
+    notificationCenter.setDurationSeconds(this.notificationDuration);
+    notificationCenter.setEnabledTypes(this.notificationTypes);
+    this.renderNotificationDurationValue();
+    Object.keys(this.notificationTypes).forEach((type) => this.syncNotificationToggle(type));
+  }
+
+  /**
+   * Writes the duration displayed next to its slider.
+   *
+   * @param {number} [seconds] - Value to display (the current one by default).
+   * @returns {void}
+   */
+  renderNotificationDurationValue(seconds = this.notificationDuration) {
+    if (!this.notificationDurationValue) return;
+    this.notificationDurationValue.textContent = i18n.t('settings.notifications.value', {
+      value: seconds,
+    });
+  }
+
+  /**
+   * Reflects one kind switch and its caption.
+   *
+   * @param {string} type - Notification kind (`collection`, `experience`, `title`).
+   * @returns {void}
+   */
+  syncNotificationToggle(type) {
+    const toggle = this.notificationToggles[type];
+    if (!toggle) return;
+    const enabled = this.notificationTypes[type] !== false;
+    toggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+    const state = this.notificationStateElements[type];
+    if (state) {
+      state.textContent = i18n.t(enabled ? 'settings.dev.on' : 'settings.dev.off');
+    }
+  }
+
+  /**
+   * Applies the notification duration while the thumb moves (the release is what saves).
+   *
+   * @param {Event} event - Input event of the range element.
+   * @returns {void}
+   */
+  handleNotificationDurationInput(event) {
+    const seconds = Number(event?.target?.value);
+    if (!Number.isFinite(seconds)) return;
+    this.notificationDuration = Math.round(seconds);
+    notificationCenter.setDurationSeconds(this.notificationDuration);
+    this.setFeedback(null);
+    this.renderNotificationDurationValue();
+  }
+
+  /**
+   * Persists the notification duration once the player lets go of the thumb.
+   *
+   * Like the other sliders, a failed write keeps the value applied for this session and reports it.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleNotificationDurationChange() {
+    try {
+      await accountManager.updateSettings({ notificationDuration: this.notificationDuration });
+      this.log(`Notification duration set to ${this.notificationDuration} s and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The notification duration could not be saved.', error);
+      this.setFeedback('settings.error.notifications', 'error');
+    }
+  }
+
+  /**
+   * Flips one notification kind and persists it.
+   *
+   * The switch applies live first, exactly like the sound preference: a kind switched off stops
+   * appearing immediately, and a failed write moves the switch back so it cannot lie.
+   *
+   * @param {string} type - Notification kind (`collection`, `experience`, `title`).
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleNotificationToggle(type) {
+    if (this.isBusy || !this.notificationToggles[type]) return;
+
+    const previous = this.notificationTypes[type] !== false;
+    const next = !previous;
+    this.notificationTypes = { ...this.notificationTypes, [type]: next };
+    this.syncNotificationToggle(type);
+    notificationCenter.setEnabledTypes(this.notificationTypes);
+    this.setFeedback(null);
+
+    try {
+      await accountManager.updateSettings({ notificationTypes: { [type]: next } });
+      this.log(`Notification kind "${type}" ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The notification kind could not be saved.', error);
+      this.notificationTypes = { ...this.notificationTypes, [type]: previous };
+      this.syncNotificationToggle(type);
+      notificationCenter.setEnabledTypes(this.notificationTypes);
+      this.setFeedback('settings.error.notifications', 'error');
+    }
+  }
+
+  /**
    * Applies the intensity while the thumb moves.
    *
    * Nothing is written to the database here: `input` fires for every step of the drag, and a write
@@ -845,6 +1005,15 @@ export class SettingsView {
     this.listen(this.glareSlider, 'change', () => this.handleGlareChange());
     this.listen(this.glowSlider, 'input', (event) => this.handleGlowInput(event));
     this.listen(this.glowSlider, 'change', () => this.handleGlowChange());
+    this.listen(this.notificationDurationSlider, 'input', (event) =>
+      this.handleNotificationDurationInput(event)
+    );
+    this.listen(this.notificationDurationSlider, 'change', () =>
+      this.handleNotificationDurationChange()
+    );
+    Object.entries(this.notificationToggles).forEach(([type, toggle]) => {
+      this.listen(toggle, 'click', () => void this.handleNotificationToggle(type));
+    });
     this.listen(this.soundToggle, 'click', () => this.handleSoundToggle());
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
@@ -1547,6 +1716,7 @@ export class SettingsView {
     // The animation picker rebuilds its labels on its own; the foil percentage is a translated
     // string too, so it has to be rewritten here.
     this.renderFoilValue();
+    this.renderNotificationDurationValue();
     this.renderClock();
     this.renderFeedback();
     if (this.pendingModal) {

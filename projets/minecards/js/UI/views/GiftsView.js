@@ -23,6 +23,7 @@ import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
 import { giftManager, GIFT_TYPES, GIFT_CATEGORIES } from '../../business/GiftManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import { applyCardGlow } from '../../utils/Shine.js';
 
 /**
  * Identity of the panel. It is NOT a router view anymore: the gift history lives inside the
@@ -35,27 +36,23 @@ export class GiftsView {
   /**
    * @param {HTMLElement} rootElement - The gifts panel inside the settings screen.
    * @param {object} [options] - View options.
-   * @param {(viewName: string) => void} [options.onNavigate=null] - Called when the empty state
-   *   asks the application to open another view (the settings screen, where the check lives).
    * @param {string} [options.viewName=GIFTS_VIEW_NAME] - Name of the ROUTER view this panel belongs
    *   to. The panel is embedded in the settings screen, so the application passes `"settings"`:
    *   the panel then activates and reloads with that view instead of waiting for a `"gifts"` view
    *   that no longer exists in the bottom bar.
    */
-  constructor(rootElement, { onNavigate = null, viewName = GIFTS_VIEW_NAME } = {}) {
+  constructor(rootElement, { viewName = GIFTS_VIEW_NAME } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('GiftsView requires the gifts section element.');
     }
 
     this.root = rootElement;
-    this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
     this.viewName = typeof viewName === 'string' && viewName !== '' ? viewName : GIFTS_VIEW_NAME;
     this.feedbackElement = this.root.querySelector('[data-gifts-feedback]');
     this.lastCheckElement = this.root.querySelector('[data-gifts-last-check]');
     this.countElement = this.root.querySelector('[data-gifts-count]');
     this.listElement = this.root.querySelector('[data-gifts-list]');
     this.emptyElement = this.root.querySelector('[data-gifts-empty]');
-    this.emptyAction = this.root.querySelector('[data-gifts-empty-action]');
     this.filtersElement = this.root.querySelector('[data-gifts-filters]');
     this.filterButtons = Array.from(this.root.querySelectorAll('[data-gifts-filter]'));
 
@@ -103,7 +100,6 @@ export class GiftsView {
       ['[data-gifts-count]', this.countElement],
       ['[data-gifts-list]', this.listElement],
       ['[data-gifts-empty]', this.emptyElement],
-      ['[data-gifts-empty-action]', this.emptyAction],
       ['[data-gifts-filters]', this.filtersElement],
     ]
       .filter(([, element]) => !element)
@@ -135,7 +131,6 @@ export class GiftsView {
    * @returns {void}
    */
   bindEvents() {
-    this.listen(this.emptyAction, 'click', () => this.handleEmptyAction());
     this.filterButtons.forEach((button) => {
       this.listen(button, 'click', () => this.handleFilter(button.dataset.giftsFilter));
     });
@@ -299,6 +294,7 @@ export class GiftsView {
     item.dataset.category = gift.category;
 
     if (isCard && info.card) {
+      applyCardGlow(item, info.card);
       const image = document.createElement('img');
       image.className = 'gifts__image';
       image.loading = 'lazy';
@@ -379,19 +375,6 @@ export class GiftsView {
       console.warn(`[GiftsView] Date formatting failed for "${value}".`, error);
       return String(value);
     }
-  }
-
-  /**
-   * Opens the settings screen, where the distributions are checked.
-   *
-   * @returns {void}
-   */
-  handleEmptyAction() {
-    if (!this.onNavigate) {
-      console.warn('[GiftsView] No navigation callback was provided.');
-      return;
-    }
-    this.onNavigate('settings');
   }
 
   /**

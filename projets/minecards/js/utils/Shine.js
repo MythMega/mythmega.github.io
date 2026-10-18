@@ -3,12 +3,12 @@
  *
  * Reference: `css/components/card-shine.css`, `.docs/main.md` section 3.G quinquies.
  *
- * WHY A MODULE OF ITS OWN. These two helpers used to live in `js/UI/components/CardComponent.js`,
+ * WHY A MODULE OF ITS OWN. These helpers used to live in `js/UI/components/CardComponent.js`,
  * which is where they were written - but that module imports `I18n`, `EventBus` and `Card`, so the
  * only way to reuse them elsewhere was to pull the whole game in. The read-only page of a shared
  * binder (`js/binder-share.js`) must NOT do that: it paints the foil of the cards of the binder and
- * knows nothing of the account, the database or the catalogue. The two helpers import nothing at
- * all, so they belong here, and `CardComponent` re-exports them so every existing caller keeps
+ * knows nothing of the account, the database or the catalogue. The helpers import nothing at all,
+ * so they belong here, and `CardComponent` re-exports them so every existing caller keeps
  * importing from where it always did.
  *
  * WHAT A FOIL IS. A stack of shapes painted by `css/components/card-shine.css` on the box that
@@ -31,6 +31,18 @@ export const SHINE_MODIFIER_BY_RARITY = Object.freeze({
 
 /** Class of the layer drawing the sweeping line (the "brillance") inside a shine window. */
 export const SHINE_GLEAM_CLASS = 'card-shine__gleam';
+
+/**
+ * Subtle halo of the high rarities, from the lightest to the heaviest: violet for a super rare, gold
+ * for a legendary, orange for a mythic. It is NOT the foil: the foil is the print of the card, the
+ * halo only says "this card is rare" from across a grid, and it is deliberately much weaker than
+ * the glow of a trophy. See `css/components/card-shine.css`.
+ */
+export const CARD_GLOW_MODIFIER_BY_RARITY = Object.freeze({
+  3: 'card-glow--super-rare',
+  4: 'card-glow--legendary',
+  5: 'card-glow--mythic',
+});
 
 /**
  * Classes that give a card the foil reflection of `css/components/card-shine.css`.
@@ -82,4 +94,23 @@ export function applyShine(box, card) {
   return box;
 }
 
-export default { getShineClasses, applyShine };
+/**
+ * Adds the subtle halo of a high rarity to a card surface.
+ *
+ * It is deliberately separate from `applyShine()`: the foil is the PRINT of the card and belongs to
+ * the three high rarities only, while this halo marks those rarities on a small thumbnail too (the
+ * collection grid, the Mine Pick board, a binder slot, the statistics). The helper is idempotent and
+ * does nothing for the rarities that carry no halo.
+ *
+ * @param {HTMLElement} element - Card surface (tile, thumbnail, artwork box).
+ * @param {{rarity: number}|null|undefined} card - Card to describe.
+ * @returns {HTMLElement} The same element, for chaining.
+ */
+export function applyCardGlow(element, card) {
+  const modifier = CARD_GLOW_MODIFIER_BY_RARITY[card?.rarity];
+  if (!modifier || !element?.classList) return element;
+  element.classList.add('card-glow', modifier);
+  return element;
+}
+
+export default { getShineClasses, applyShine, applyCardGlow };

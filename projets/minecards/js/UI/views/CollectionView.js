@@ -53,7 +53,7 @@ import binderManager, {
 } from '../../business/BinderManager.js';
 import Toast from '../components/Toast.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
-import { getShineClasses, applyShine } from '../components/CardComponent.js';
+import { getShineClasses, applyShine, applyCardGlow } from '../components/CardComponent.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
 
 /** Icon of the Sparks currency, relative to the application root. */
@@ -870,8 +870,23 @@ export class CollectionView {
         void this.copyDetailKey();
       }
     });
-    this.listen(document, 'keydown', (event) => {
-      if (event?.key !== 'Escape') return;
+    this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
+    this.log('DOM listeners bound.');
+  }
+
+  /**
+   * Handles the keyboard shortcuts: Escape closes the topmost popup, and the open card can be
+   * sold (`S` / `V`, `Shift` for every duplicate), bought (`B` / `A`) or pinned (`P` / `F`).
+   *
+   * The keys mirror the buttons of the detail modal, they never replace them: the same guards
+   * apply (`handleSell`, `handleBuy` and `toggleFavorite` own the economy rules).
+   *
+   * @param {KeyboardEvent} event - Key event.
+   * @returns {void}
+   */
+  handleDocumentKeyDown(event) {
+    if (!event || typeof event.key !== 'string') return;
+    if (event.key === 'Escape') {
       // The popups stack: the card picker sits on the editor, which sits on the binder list, which
       // sits on the filter popup, which sits on the card detail. Escape closes the topmost one only.
       if (this.binderPickerModal && !this.binderPickerModal.hidden) {
@@ -893,8 +908,49 @@ export class CollectionView {
       if (this.modal && !this.modal.hidden) {
         this.closeDetail();
       }
-    });
-    this.log('DOM listeners bound.');
+      return;
+    }
+
+    if (!this.isActive || !this.modal || this.modal.hidden || !this.detailKey) return;
+    if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+    if (this.isPopupAboveDetail()) return;
+    const target = event.target;
+    if (target instanceof HTMLElement
+      && target.closest('input, textarea, select, [contenteditable="true"]')) {
+      return;
+    }
+
+    const entry = this.entries.find((candidate) => candidate.key === this.detailKey);
+    if (!entry) return;
+    const key = event.key.toLowerCase();
+    const quantity = entry.owned && Number.isFinite(entry.quantity) ? entry.quantity : 0;
+
+    if ((key === 's' || key === 'v') && quantity >= 2) {
+      event.preventDefault();
+      // Shift sells every duplicate, exactly like the second button of the modal (which keeps
+      // the last copy of the card).
+      void this.handleSell(entry, event.shiftKey ? quantity - 1 : 1);
+      return;
+    }
+    if ((key === 'b' || key === 'a') && entry.card && !entry.promo) {
+      event.preventDefault();
+      void this.handleBuy(entry);
+      return;
+    }
+    if ((key === 'p' || key === 'f') && entry.owned) {
+      event.preventDefault();
+      void this.toggleFavorite(entry.key);
+    }
+  }
+
+  /**
+   * Tells whether a popup is stacked over the card detail (its shortcuts must not fire then).
+   *
+   * @returns {boolean} True when the filter, the binders or the binder editor is open.
+   */
+  isPopupAboveDetail() {
+    return [this.filterModal, this.bindersModal, this.binderModal, this.binderPickerModal]
+      .some((modal) => modal && !modal.hidden);
   }
 
   /**
@@ -1271,6 +1327,9 @@ export class CollectionView {
       'aria-label',
       entry.owned ? name : `${name} (${i18n.t('collection.missing')})`
     );
+    // Only an OWNED card carries the halo of its rarity: a missing one is a grey silhouette, and
+    // glowing it would announce a card the player does not have.
+    if (entry.owned && entry.card) applyCardGlow(tile, entry.card);
 
     const image = document.createElement('img');
     image.className = 'collection__image';
@@ -1439,6 +1498,7 @@ export class CollectionView {
     // `applyShine` adds the classes of the rarity AND the sweeping line (`card-shine__gleam`),
     // which is a layer of its own so the "Brillance" slider can scale it alone.
     applyShine(art, card);
+    applyCardGlow(art, card);
     art.classList.toggle('is-off', !this.shineEnabled);
     this.shineWindow = art;
     return art;
@@ -1961,6 +2021,7 @@ export class CollectionView {
       image.alt = '';
       image.loading = 'lazy';
       thumb.appendChild(image);
+      applyCardGlow(thumb, cover.card);
     }
 
     const name = document.createElement('span');
@@ -2247,6 +2308,7 @@ export class CollectionView {
         // The foil and the brillance of the high rarities are painted on the slot itself: a binder
         // shows the very printings of the collection, not a flat thumbnail of them.
         applyShine(button, entry.card);
+        applyCardGlow(button, entry.card);
         button.classList.add(`binder-slot--r${entry.card.rarity}`);
       } else {
         const mark = document.createElement('span');

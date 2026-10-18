@@ -65,6 +65,39 @@
   align-self: flex-start;
 }
 
+/* --- Notification kinds --------------------------------------------------- */
+
+/* One labelled switch per kind. The label is a text node the view never rewrites, so the caption
+   of the switch itself can stay the short "Activé"/"Désactivé" the other switches use. */
+.settings__toggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.settings__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.settings__toggle:last-child {
+  border-bottom: none;
+}
+
+.settings__toggle-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+/* The panel is a flex column: a row must keep its switch on the right, not stretch it. */
+.settings__toggle .switch {
+  align-self: center;
+}
+
 /* --- Animation modes ------------------------------------------------------ */
 
 /* Badge carried by the parodic option of the picker ("EXPLOSIF BLAGUE"): the joke needs no long

@@ -13,22 +13,24 @@
  * QUEUE
  *   Notifications are queued, never stacked: a booster opening can grant experience AND move two
  *   collections forward at once, and three cards sliding over the booster would be unreadable.
- *   The first item of the queue is displayed for `NOTIFICATION_DURATION_MS`, then the next one
- *   takes its place. A `priority` item (a collection discovered while the reveal is playing) is news
+ *   The first item of the queue is displayed for the DURATION THE PLAYER CHOSE in the settings
+ *   (`settings.notificationDuration`, in seconds, `NOTIFICATION_DURATION_MS` by default), then the
+ *   next one takes its place. A KIND the player switched off (`settings.notificationTypes`) is
+ *   dropped on arrival, so a silenced family never even waits in the queue. A `priority` item (a collection discovered while the reveal is playing) is news
  *   the player must read AT THE MOMENT its card is turned over: it therefore jumps to the front of
  *   the queue AND interrupts the message on screen, which goes back to the front of its own band and
  *   is shown again (for a full duration) once the discoveries have been read.
  *
  * DISMISSAL
- *   A notification disappears on its own after `NOTIFICATION_DURATION_MS`, and immediately when it
+ *   A notification disappears on its own after the chosen duration, and immediately when it
  *   is clicked, tapped, activated from the keyboard (Enter/Space) or swiped sideways on a touch
  *   screen. Dismissing always reveals the next queued item.
  *
  * TEXT
  *   Unlike `Toast`, this component carries RESOLVED strings: a notification mixes data (a trophy or
  *   card name) with translated labels, so the caller (`GameNotifier`) owns the translation and the
- *   component stays a pure renderer. It re-reads nothing on a language switch — a notification
- *   lives three seconds.
+ *   component stays a pure renderer. It re-reads nothing on a language switch: a notification
+ *   only lives a few seconds.
  *
  * Styling lives in `css/components/notifications.css`.
  */
@@ -90,6 +92,55 @@ export class NotificationCenter {
     this.swipeDelta = 0;
     /** @type {number|null} Horizontal position where the running swipe started. */
     this.swipeStartX = null;
+    /** @type {number} How long one notification stays on screen, in milliseconds. */
+    this.durationMs = NOTIFICATION_DURATION_MS;
+    /** @type {Set<string>} Kinds the player allows (`settings.notificationTypes`). */
+    this.enabledTypes = new Set(Object.values(NOTIFICATION_TYPES));
+  }
+
+  /**
+   * Sets how long one notification stays on screen.
+   *
+   * The settings screen stores whole SECONDS; the queue schedules milliseconds. The value is
+   * clamped to a readable window (half a second to a minute), so a hand-edited save can neither
+   * flash a message away nor freeze the queue.
+   *
+   * @param {number} seconds - Duration, in seconds.
+   * @returns {number} The applied duration, in milliseconds.
+   */
+  setDurationSeconds(seconds) {
+    if (typeof seconds !== 'number' || !Number.isFinite(seconds)) return this.durationMs;
+    this.durationMs = Math.min(60000, Math.max(500, Math.round(seconds * 1000)));
+    this.log(`Notification duration: ${this.durationMs} ms.`);
+    return this.durationMs;
+  }
+
+  /**
+   * Applies the per-kind switches of the settings.
+   *
+   * A missing kind reads as enabled, like every other preference of the game: only an explicit
+   * `false` silences one. Unknown keys are ignored, and the order of `NOTIFICATION_TYPES` always
+   * decides what the queue accepts.
+   *
+   * @param {Record<string, boolean>|null|undefined} types - Enabled kinds.
+   * @returns {void}
+   */
+  setEnabledTypes(types) {
+    const source = types && typeof types === 'object' && !Array.isArray(types) ? types : {};
+    this.enabledTypes = new Set(
+      Object.values(NOTIFICATION_TYPES).filter((type) => source[type] !== false)
+    );
+    this.log(`Enabled notification types: ${[...this.enabledTypes].join(', ') || 'none'}.`);
+  }
+
+  /**
+   * Tells whether one kind of notification is allowed.
+   *
+   * @param {string} type - Notification kind (`data-type`).
+   * @returns {boolean} True when the queue may display it.
+   */
+  isTypeEnabled(type) {
+    return this.enabledTypes.has(type);
   }
 
   /**
@@ -186,6 +237,13 @@ export class NotificationCenter {
       /** @type {boolean} True when the item jumped the queue (kept in its own order band). */
       priority: priority === true,
     };
+
+    // A silenced family never enters the queue: dropping it here also keeps a disabled collection
+    // notification from interrupting the message on screen.
+    if (!this.isTypeEnabled(normalized.type)) {
+      this.log(`Dropped "${normalized.title}" (${normalized.type} is switched off).`);
+      return;
+    }
 
     // Queued FIRST: if the new item has to interrupt the message on screen, dismissing that message
     // displays the head of the queue — which must be the new item, not the interrupted one.
@@ -285,7 +343,7 @@ export class NotificationCenter {
     this.bind(element, 'touchend', () => this.handleTouchEnd(element));
     this.bind(element, 'touchcancel', () => this.handleTouchEnd(element));
 
-    this.timer = window.setTimeout(() => this.dismiss(element), NOTIFICATION_DURATION_MS);
+    this.timer = window.setTimeout(() => this.dismiss(element), this.durationMs);
     this.log(`Displayed "${item.title}" (${this.queue.length} item(s) left in the queue).`);
   }
 
@@ -362,8 +420,8 @@ export class NotificationCenter {
     this.unbindAll(element);
 
     // The element is left in the DOM for its exit animation, but it no longer takes a place, so the
-    // next notification is displayed AT ONCE: the player waits three seconds per message, not
-    // three seconds plus an animation.
+    // next notification is displayed AT ONCE: the player waits one duration per message, not one
+    // duration plus an animation.
     element.classList.add(NOTIFICATION_LEAVING_CLASS);
     window.setTimeout(() => element.remove(), NOTIFICATION_EXIT_MS);
     this.showNext();

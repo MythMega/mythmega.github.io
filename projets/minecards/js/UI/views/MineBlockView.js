@@ -53,6 +53,13 @@ export const MINE_BLOCK_VIEW_NAME = 'mineblock';
  */
 export const DEFAULT_NEXT_BLOCK_DELAY_MS = 100;
 
+/**
+ * Beat of the automatic mining while Shift+Space is held, in milliseconds.
+ *
+ * Only a fallback: the real value is `mining.keyHoldIntervalMs` of `settings/config.json`.
+ */
+export const DEFAULT_KEY_HOLD_INTERVAL_MS = 250;
+
 /** Texture of the chest that opens the inventory (an ANIMATED webp). */
 export const CHEST_TEXTURE = 'assets/img/chest.webp';
 
@@ -137,6 +144,10 @@ export class MineBlockView {
     this.resources = [];
     /** @type {number} Delay before the next block lands, in milliseconds (from the configuration). */
     this.nextBlockDelayMs = DEFAULT_NEXT_BLOCK_DELAY_MS;
+    /** @type {number} Beat of the automatic mining while Shift+Space is held, in milliseconds. */
+    this.keyHoldIntervalMs = DEFAULT_KEY_HOLD_INTERVAL_MS;
+    /** @type {number|null} Interval applying a tap while Shift+Space is held. */
+    this.mineHoldTimer = null;
     /** @type {string|null} Still frame of the chest, drawn once (`null` until it is ready). */
     this.chestStillFrame = null;
     /** @type {number|null} Timer that puts the still frame back on the chest. */
@@ -267,6 +278,11 @@ export class MineBlockView {
       if (Number.isFinite(miningManager.settings?.nextBlockDelayMs)) {
         this.nextBlockDelayMs = miningManager.settings.nextBlockDelayMs;
       }
+      // The beat of the held Shift+Space (`mining.keyHoldIntervalMs`): no faster than 100 ms, so an
+      // edited configuration can never turn the mine into an infinite tap loop.
+      if (Number.isFinite(miningManager.settings?.keyHoldIntervalMs)) {
+        this.keyHoldIntervalMs = Math.max(100, miningManager.settings.keyHoldIntervalMs);
+      }
     } catch (error) {
       console.error('[MineBlockView] The resources of the mine could not be listed.', error);
       this.resources = [];
@@ -343,13 +359,106 @@ export class MineBlockView {
       if (event.target === this.offerModal) this.closeOfferDetail();
     });
 
-    this.listen(document, 'keydown', (event) => {
-      if (event.key !== 'Escape') return;
+    this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
+    this.listen(document, 'keyup', (event) => this.handleDocumentKeyUp(event));
+    // A window that loses the focus never sends the keyup of a held Space.
+    this.listen(window, 'blur', () => this.stopMineHold());
+    this.log('DOM listeners bound.');
+  }
+
+  /**
+   * Handles the keyboard of the mine: Space applies one tap, holding Shift+Space mines on a beat,
+   * `S` opens the Wandering Trader, Escape closes the topmost dialog.
+   *
+   * A key is ignored while a dialog is open or while the focus sits on a control (a focused button
+   * already reacts to Space by itself).
+   *
+   * @param {KeyboardEvent} event - Key event.
+   * @returns {void}
+   */
+  handleDocumentKeyDown(event) {
+    if (!event || typeof event.key !== 'string') return;
+    if (event.key === 'Escape') {
+      this.stopMineHold();
       // The detail is the topmost dialog: Escape closes it before the shop behind it.
       if (this.offerDialog) this.closeOfferDetail();
       else this.closeModal();
-    });
-    this.log('DOM listeners bound.');
+      return;
+    }
+    if (!this.isActive || !this.state?.block) return;
+    if (this.openDialog || this.offerDialog) return;
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+    if (event.key === ' ') {
+      // A focused button (the chest, the trader…) already answers Space by itself: only the rock
+      // is mined. The rock itself is a button too, so its default activation is cancelled below
+      // to avoid landing the same tap twice (keydown here, click on keyup).
+      const target = event.target;
+      const onOtherControl = target instanceof HTMLElement
+        && target.closest('button, a, input, textarea, select, [contenteditable="true"]') !== null
+        && target.closest('[data-mineblock-rock]') === null;
+      if (onOtherControl) return;
+      event.preventDefault();
+      if (event.shiftKey) {
+        // Hold to mine: the first tap lands immediately, then every `keyHoldIntervalMs`.
+        if (!event.repeat) this.startMineHold();
+        return;
+      }
+      this.stopMineHold();
+      if (!event.repeat) void this.handleMine();
+      return;
+    }
+
+    if (event.key.toLowerCase() !== 's' || event.shiftKey) return;
+    const target = event.target;
+    // A button that still holds the focus (the rock, the chest) is not a reason to swallow `S`:
+    // only a text field owns its letters.
+    if (target instanceof HTMLElement
+      && target.closest('input, textarea, select, [contenteditable="true"]')) {
+      return;
+    }
+    event.preventDefault();
+    this.openModal(this.traderModal, this.traderButton);
+  }
+
+  /**
+   * Stops the automatic mining when Space comes back up.
+   *
+   * @param {KeyboardEvent} event - Key event.
+   * @returns {void}
+   */
+  handleDocumentKeyUp(event) {
+    if (event?.key === ' ') this.stopMineHold();
+  }
+
+  /**
+   * Applies one tap immediately, then keeps tapping while Shift+Space is held.
+   *
+   * @returns {void}
+   */
+  startMineHold() {
+    this.stopMineHold();
+    void this.handleMine();
+    this.mineHoldTimer = window.setInterval(() => {
+      if (!this.isActive || !this.state?.block || this.openDialog || this.offerDialog) {
+        this.stopMineHold();
+        return;
+      }
+      void this.handleMine();
+    }, this.keyHoldIntervalMs);
+    this.log(`Shift+Space held: a tap every ${this.keyHoldIntervalMs} ms.`);
+  }
+
+  /**
+   * Stops the automatic mining.
+   *
+   * @returns {void}
+   */
+  stopMineHold() {
+    if (this.mineHoldTimer === null) return;
+    window.clearInterval(this.mineHoldTimer);
+    this.mineHoldTimer = null;
+    this.log('Automatic mining stopped.');
   }
 
   /**
@@ -1694,6 +1803,7 @@ export class MineBlockView {
    */
   handleViewDeactivated() {
     this.isActive = false;
+    this.stopMineHold();
     this.log('View deactivated.');
     this.clearTimers();
     this.closeOfferDetail();
@@ -1751,6 +1861,7 @@ export class MineBlockView {
    */
   destroy() {
     this.log('Destroying the view.');
+    this.stopMineHold();
     this.clearTimers();
     if (this.chestTimer) window.clearTimeout(this.chestTimer);
     this.chestTimer = null;

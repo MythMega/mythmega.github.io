@@ -31,6 +31,7 @@ import miningManager from '../../business/MiningManager.js';
 import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import Toast from '../components/Toast.js';
+import { applyCardGlow } from '../../utils/Shine.js';
 
 /** View name, matching `data-view="stats"` in `index.html`. */
 export const STATS_VIEW_NAME = 'stats';
@@ -341,6 +342,7 @@ export class StatsView {
     wrapper.className = 'stats__top-card';
 
     if (entry?.card) {
+      applyCardGlow(wrapper, entry.card);
       const image = document.createElement('img');
       image.className = 'stats__top-image';
       image.loading = 'lazy';
@@ -582,6 +584,7 @@ export class StatsView {
       const thumbnail = document.createElement('span');
       thumbnail.className = `stats__history-card stats__history-card--r${entry.card.rarity}`;
       if (entry.card.isFullArt) thumbnail.classList.add('stats__history-card--fullart');
+      applyCardGlow(thumbnail, entry.card);
       const image = document.createElement('img');
       image.className = 'stats__history-image';
       image.loading = 'lazy';
@@ -706,6 +709,7 @@ export class StatsView {
     if (card.isFullArt) button.classList.add('stats__history-card--fullart');
     button.dataset.statsHistoryCard = String(index);
     button.dataset.cardIndex = String(cardIndex);
+    applyCardGlow(button, card);
     const name = card.getName(i18n.getLang());
     const rarityLabel = getRarityLabel(card.rarity, (key) => i18n.t(key));
     button.setAttribute('aria-label', `${name} (${rarityLabel})`);
@@ -790,6 +794,7 @@ export class StatsView {
       console.warn(`[StatsView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
       image.hidden = true;
     });
+    applyCardGlow(image, card);
 
     const list = document.createElement('dl');
     list.className = 'card-modal__details';

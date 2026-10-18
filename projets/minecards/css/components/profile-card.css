@@ -397,12 +397,15 @@
 }
 
 /* The pinned trophies, on ONE line: the card is an overview, not a list. They are shown as their
-   MEDALS (the reward itself), never as their names, which would take the whole description. */
+   MEDALS (the reward itself), never as their names, which would take the whole description. The
+   line is CENTRED: three medals are the only content, and aligning them on the left left a hole on
+   the right half of the card. */
 .profile-card-root .card-text__featured {
   display: flex;
   flex-wrap: nowrap;
+  justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding-bottom: 6px;
   margin-bottom: 6px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
@@ -417,41 +420,17 @@
 .profile-card-root .card-text__medal {
   flex: none;
   width: auto;
-  height: 24px;
+  /* Twice the size the card maker draws a medal at (24px): on the profile card the three trophies
+     are a headline, not a footnote, so they read without zooming. */
+  height: 48px;
   /* The medals are pixel art, like every icon of the game. */
   image-rendering: pixelated;
-  /* Halo of the trophy, keyed by its rarity (bronze has none). The radius is the rarity's, the
-     strength comes from `--trophy-glow-scale` (0-2.5, set on the card by `ProfileCard`), so the
-     settings slider scales all three surfaces at once. */
-  --trophy-glow-color: transparent;
-  --trophy-glow-radius: 0px;
-  filter: drop-shadow(
-    0 0 calc(var(--trophy-glow-radius) * var(--trophy-glow-scale, 1)) var(--trophy-glow-color)
-  );
-}
-
-.profile-card-root .card-text__medal[data-rarity="silver"] {
-  --trophy-glow-color: rgba(255, 255, 255, 0.75);
-  --trophy-glow-radius: 4px;
-}
-
-.profile-card-root .card-text__medal[data-rarity="gold"] {
-  --trophy-glow-color: rgba(255, 205, 80, 0.85);
-  --trophy-glow-radius: 5px;
-}
-
-.profile-card-root .card-text__medal[data-rarity="diamond"] {
-  --trophy-glow-color: rgba(150, 225, 255, 0.9);
-  --trophy-glow-radius: 8px;
-}
-
-.profile-card-root .card-text__medal[data-rarity="emerald"] {
-  --trophy-glow-color: rgba(53, 224, 138, 0.9);
-  --trophy-glow-radius: 8px;
+  /* No halo here: the profile page and the trophy catalogue own the glow, and a glowing line of
+     medals on the card would compete with the title and the counters. */
 }
 
 .profile-card-root .font-pixel .card-text__medal {
-  height: 20px;
+  height: 40px;
 }
 
 .profile-card-root .card-text__stats {

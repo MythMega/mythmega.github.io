@@ -17,6 +17,7 @@
 import i18n from '../../utils/I18n.js';
 import { DEFAULT_TROPHY_ICON, resolveTrophyIcon } from '../../business/TrophyManager.js';
 import { TitleManager } from '../../business/TitleManager.js';
+import { applyCardGlow } from '../../utils/Shine.js';
 
 /** Icon of the "pin this trophy" action. */
 export const TROPHY_PIN_ICON = 'assets/img/pin.png';
@@ -118,6 +119,12 @@ export class TrophyDetail {
     image.src = resolveTrophyIcon(trophy?.icon);
     image.alt = '';
     image.setAttribute('aria-hidden', 'true');
+    // The rarity and the state travel with the image: the detail modal paints the halo from them
+    // (a locked trophy shows none), and a future surface can reuse the very same medal.
+    if (typeof trophy?.rarity === 'string' && trophy.rarity !== '') {
+      image.dataset.rarity = trophy.rarity;
+    }
+    image.dataset.unlocked = String(trophy?.unlocked === true);
     image.addEventListener('error', () => {
       // `image.src` is absolute by now: the default is recognized by its tail.
       if (image.src.endsWith(DEFAULT_TROPHY_ICON)) {
@@ -354,6 +361,8 @@ export class TrophyDetail {
           console.warn(`[TrophyDetail] Required card illustration not found for "${entry.index}": ${image.src}`);
           image.hidden = true;
         });
+        // Only the OWNED printing glows: a missing one is greyed out and must stay flat.
+        if (entry.owned) applyCardGlow(image, card);
         item.appendChild(image);
       }
 

@@ -18,8 +18,9 @@
  * phone, five on a wide screen, centred — and every tile shows nothing but its medal, its name and
  * its progress bar with the percentage. Tapping a tile opens the shared detail modal, which carries
  * everything else: rarity, description, XP, unlock date, the cards the trophy requires (in colour
- * when owned) and the avatars it unlocks. The pin toggle of an unlocked trophy lives in that modal
- * too (the picks shown on the profile page are made from there), so a tile stays a pure button.
+ * when owned) and the avatars it unlocks. An unlocked tile also carries its own pin button in the
+ * top-right corner, exactly like the favourite heart of a collection card: the picks shown on the
+ * profile page can be made without opening each trophy. The detail modal keeps its pin toggle.
  *
  * Inside one category the tiles are cut into GROUPS of the same type (`trophy.group.*`): the
  * completion tiers of an extension read nothing like its "boosters opened" tiers, and the global
@@ -127,6 +128,8 @@ export class TrophiesView {
     this.isActive = false;
     /** @type {boolean} True while the view is loading its data. */
     this.isLoading = false;
+    /** @type {string|null} Id of the trophy the detail modal shows. */
+    this.detailId = null;
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
@@ -215,10 +218,15 @@ export class TrophiesView {
       this.renderTrophies();
     });
 
-    // One delegated listener: the tiles are rebuilt on every render. A tile is a plain button that
-    // opens the detail, nothing else.
+    // One delegated listener: the tiles are rebuilt on every render. The pin button is a SIBLING of
+    // the tile button (a button cannot contain another one), so its click never opens the detail.
     this.listen(this.listElement, 'click', (event) => {
       if (!(event.target instanceof Element)) return;
+      const pin = event.target.closest('[data-trophy-pin-tile]');
+      if (pin) {
+        void this.toggleFeatured(pin.dataset.trophyPinTile);
+        return;
+      }
       const open = event.target.closest('[data-trophy-open]');
       if (open) void this.openTrophyDetail(open.dataset.trophyOpen);
     });
@@ -235,11 +243,37 @@ export class TrophiesView {
       if (event?.target === this.modal) this.closeDetail();
     });
     this.listen(this.modalClose, 'click', () => this.closeDetail());
-    this.listen(document, 'keydown', (event) => {
-      if (event?.key === 'Escape' && this.modal && !this.modal.hidden) this.closeDetail();
-    });
+    this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
 
     this.log('DOM listeners bound.');
+  }
+
+  /**
+   * Handles the keyboard shortcuts of the detail modal: Escape closes it, `P` / `F` pins the open
+   * trophy exactly like the button under it.
+   *
+   * @param {KeyboardEvent} event - Key event.
+   * @returns {void}
+   */
+  handleDocumentKeyDown(event) {
+    if (!event || typeof event.key !== 'string') return;
+    if (event.key === 'Escape') {
+      if (this.modal && !this.modal.hidden) this.closeDetail();
+      return;
+    }
+    if (!this.isActive || !this.modal || this.modal.hidden || !this.detailId) return;
+    if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+    const key = event.key.toLowerCase();
+    if (key !== 'p' && key !== 'f') return;
+    const target = event.target;
+    if (target instanceof HTMLElement
+      && target.closest('input, textarea, select, [contenteditable="true"]')) {
+      return;
+    }
+    const trophy = this.trophyState?.trophies?.find((candidate) => candidate.id === this.detailId);
+    if (!trophy?.unlocked) return;
+    event.preventDefault();
+    void this.toggleFeatured(this.detailId);
   }
 
   /**
@@ -542,8 +576,8 @@ export class TrophiesView {
     item.dataset.unlocked = String(trophy.unlocked);
     item.style.setProperty('--tile-index', String(index));
 
-    // A pinned trophy is flagged on the tile itself. The pin is only toggled from the detail modal,
-    // so without this marker the catalogue gives no sign of what the profile already highlights.
+    // A pinned trophy is flagged on the tile itself, and the flag is what the top-right button
+    // toggles: the catalogue is where the player picks the three trophies the profile highlights.
     const pinned = (this.profile?.featured ?? []).includes(trophy.id);
     item.dataset.pinned = String(pinned);
 
@@ -581,58 +615,69 @@ export class TrophiesView {
 
     item.appendChild(open);
 
-    // The marker itself: a small pin in the top-right corner of the tile, drawn outside the button
-    // so the tile stays one single interactive element.
-    if (pinned) {
-      const marker = document.createElement('span');
-      marker.className = 'trophy-tile__pin';
-      marker.title = i18n.t('profile.featured.badge');
-      marker.setAttribute('aria-hidden', 'true');
-      const glyph = document.createElement('img');
-      glyph.src = TROPHY_PIN_ICON;
-      glyph.alt = '';
-      marker.appendChild(glyph);
-      item.appendChild(marker);
-    }
+    // The pin lives in the top-right corner, outside the tile button: a LOCKED trophy has no
+    // button at all (it cannot be pinned before it is earned), exactly like the heart the
+    // collection only draws on an owned card.
+    if (trophy.unlocked) item.appendChild(this.buildTilePin(trophy, pinned));
 
     return item;
   }
 
   /**
-   * Adds or removes the pin marker of one already-rendered catalogue tile.
+   * Builds the pin button of one catalogue tile.
+   *
+   * The icon and the label follow the state: a pinned trophy offers "unpin" and shows the crossed
+   * pin, an unpinned one offers "pin". `aria-pressed` carries the same truth for a screen reader.
+   *
+   * @param {object} trophy - Trophy state (unlocked).
+   * @param {boolean} pinned - Current pin state.
+   * @returns {HTMLButtonElement} The button, ready to be overlaid on the tile.
+   */
+  buildTilePin(trophy, pinned) {
+    const label = i18n.t(pinned ? 'profile.featured.unpin' : 'profile.featured.pin');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'trophy-tile__pin';
+    button.dataset.trophyPinTile = trophy.id;
+    button.title = label;
+    button.setAttribute('aria-label', label);
+    button.setAttribute('aria-pressed', String(pinned));
+
+    const glyph = document.createElement('img');
+    glyph.src = pinned ? TROPHY_UNPIN_ICON : TROPHY_PIN_ICON;
+    glyph.alt = '';
+    glyph.setAttribute('aria-hidden', 'true');
+    button.appendChild(glyph);
+    return button;
+  }
+
+  /**
+   * Syncs the top-right button of one already-rendered tile.
+   *
+   * Re-rendering the grid would replay the entry animation of every tile just to turn one pin
+   * around, so the button is updated in place.
    *
    * @param {string} id - Trophy id.
    * @param {boolean} pinned - New pin state.
    * @returns {void}
    */
-  syncPinnedMarker(id, pinned) {
+  syncTilePin(id, pinned) {
     const tile = this.listElement?.querySelector(`[data-trophy-id="${id}"]`);
     if (!tile) return;
     tile.dataset.pinned = String(pinned);
 
     const existing = tile.querySelector('.trophy-tile__pin');
-    if (!pinned) {
-      existing?.remove();
-      return;
+    const trophy = this.trophyState?.trophies?.find((candidate) => candidate.id === id);
+    if (existing && trophy) {
+      existing.replaceWith(this.buildTilePin(trophy, pinned));
     }
-    if (existing) return;
-
-    const marker = document.createElement('span');
-    marker.className = 'trophy-tile__pin';
-    marker.title = i18n.t('profile.featured.badge');
-    marker.setAttribute('aria-hidden', 'true');
-    const glyph = document.createElement('img');
-    glyph.src = TROPHY_PIN_ICON;
-    glyph.alt = '';
-    marker.appendChild(glyph);
-    tile.appendChild(marker);
   }
 
   /**
    * Builds the pin toggle of the detail modal.
    *
-   * The pins of the profile are chosen from the detail of a trophy, because the tiles of the
-   * catalogue are plain buttons: an unlocked trophy is therefore pinned (or unpinned) here.
+   * The catalogue tile has its own pin button in the top-right corner; this one repeats the same
+   * control inside the detail, so a player who opened the trophy can pin it without going back.
    *
    * @param {object} trophy - Trophy state.
    * @returns {HTMLElement|null} The toggle with its label, or null when the trophy is locked.
@@ -678,6 +723,7 @@ export class TrophiesView {
 
     this.modalTitle.textContent = TrophyDetail.trophyTitle(trophy);
     this.modalBody.textContent = '';
+    this.detailId = id;
 
     // What the trophy GRANTS is read before its detail is built: the avatars and the player titles
     // both come from a catalogue of their own (`ProfileIconManager`, `TitleManager`).
@@ -731,6 +777,7 @@ export class TrophiesView {
     if (!this.modal || this.modal.hidden) return;
     this.modal.hidden = true;
     this.modal.classList.remove('is-opening');
+    this.detailId = null;
   }
 
   /**
@@ -744,11 +791,11 @@ export class TrophiesView {
       const { featured, added } = await profileManager.toggleFeatured(id);
       this.profile = { ...this.profile, featured };
       Toast.success(added ? 'profile.featured.pinned' : 'profile.featured.unpinned');
-      // The tile marker follows without a full re-render: re-rendering the grid would replay the
+      // The tile button follows without a full re-render: re-rendering the grid would replay the
       // entry animation of every tile just to light up one corner.
-      this.syncPinnedMarker(id, added);
-      // The toggle only exists in the detail modal: it is rebuilt in place (no entry animation) so
-      // its icon, its label and `aria-pressed` follow the new state immediately.
+      this.syncTilePin(id, added);
+      // The modal toggle is rebuilt in place (no entry animation) so its icon, its label and
+      // `aria-pressed` follow the new state immediately.
       if (this.modal && !this.modal.hidden) {
         await this.openTrophyDetail(id, { animate: false });
         TrophiesView.pop(this.modalBody.querySelector(`[data-trophy-pin="${id}"]`));

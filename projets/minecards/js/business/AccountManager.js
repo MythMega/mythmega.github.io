@@ -10,7 +10,8 @@
  *
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
- *   - `settings`  : { lang, theme, sound, animation, foilIntensity, glareIntensity, glowTrophies }
+ *   - `settings`  : { lang, theme, sound, animation, foilIntensity, glareIntensity,
+ *                   glowTrophies, notificationDuration, notificationTypes }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
@@ -245,10 +246,13 @@ export class AccountManager {
    *
    * @param {{lang?: string|null, theme?: string|null, sound?: boolean|null,
    *   animation?: string|null, foilIntensity?: number|null, glareIntensity?: number|null,
-   *   glowTrophies?: number|null, devMode?: boolean|null}} [overrides] - Requested preferences.
+   *   glowTrophies?: number|null, notificationDuration?: number|null,
+   *   notificationTypes?: Record<string, boolean>|null, devMode?: boolean|null}} [overrides] -
+   *   Requested preferences.
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number, glareIntensity: number, glowTrophies: number, devMode: boolean}>}
-   *   Validated preferences.
+   *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
+   *   notificationDuration: number, notificationTypes: Record<string, boolean>,
+   *   devMode: boolean}>} Validated preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -291,6 +295,19 @@ export class AccountManager {
         ? glowManager.sanitizeLevel(overrides.glowTrophies)
         : glowManager.getSettings().default;
 
+    // The notifications have their own block (`notifications` of `config.json`): the duration is in
+    // SECONDS and every known kind starts enabled. A new account therefore hears about everything
+    // the game grants, and can shorten or silence it from the settings screen.
+    const notificationSettings = await configLoader.getNotificationSettings();
+    const notificationDuration = AccountManager.sanitizeNotificationDuration(
+      overrides.notificationDuration,
+      notificationSettings.duration
+    );
+    const notificationTypes = AccountManager.normalizeNotificationTypes(
+      overrides.notificationTypes,
+      notificationSettings.types
+    );
+
     // `devMode` is off unless it was explicitly asked for: it only adds a tool to the collection
     // (the key of the open card and a copy button), never anything a player would want by default.
     return {
@@ -301,8 +318,46 @@ export class AccountManager {
       foilIntensity,
       glareIntensity,
       glowTrophies,
+      notificationDuration,
+      notificationTypes,
       devMode: overrides.devMode === true,
     };
+  }
+
+  /**
+   * Brings a notification duration back into the declared range.
+   *
+   * The value is whole SECONDS. A missing or corrupted value reads as the configured default, and a
+   * value outside the range is clamped rather than rejected: a save written with an older range
+   * must keep loading, it simply lands on the closest duration the slider offers.
+   *
+   * @param {unknown} value - Requested duration, in seconds.
+   * @param {{min: number, max: number, step: number, default: number}} range - Declared bounds.
+   * @returns {number} A whole duration inside the range.
+   */
+  static sanitizeNotificationDuration(value, range) {
+    if (typeof value !== 'number' || !Number.isFinite(value)) return range.default;
+    return Math.min(range.max, Math.max(range.min, Math.round(value)));
+  }
+
+  /**
+   * Normalizes the per-kind switches of the notifications.
+   *
+   * Only the known kinds are kept, and only an explicit `false` turns one off: a missing key (an
+   * older save, a save written before a kind existed) reads as enabled, exactly like the sound
+   * preference reads a missing value as on.
+   *
+   * @param {unknown} value - Stored or requested map of kinds.
+   * @param {string[]} types - Kinds the configuration declares.
+   * @returns {Record<string, boolean>} One boolean per known kind.
+   */
+  static normalizeNotificationTypes(value, types) {
+    const source = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+    const normalized = {};
+    types.forEach((type) => {
+      normalized[type] = source[type] !== false;
+    });
+    return normalized;
   }
 
   /**
@@ -345,13 +400,15 @@ export class AccountManager {
    * Reads the account settings, completed with safe defaults.
    *
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number, glareIntensity: number, glowTrophies: number, devMode: boolean}>}
-   *   The stored preferences.
+   *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
+   *   notificationDuration: number, notificationTypes: Record<string, boolean>,
+   *   devMode: boolean}>} The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
     const stored = await storageRepository.getUserState(USER_STATE_KEYS.SETTINGS);
     const defaults = await this.buildInitialSettings();
+    const notificationSettings = await configLoader.getNotificationSettings();
     if (!stored || typeof stored !== 'object') return defaults;
 
     return {
@@ -383,6 +440,16 @@ export class AccountManager {
         typeof stored.glowTrophies === 'number' && Number.isFinite(stored.glowTrophies)
           ? glowManager.sanitizeLevel(stored.glowTrophies)
           : defaults.glowTrophies,
+      // The duration lives in whole seconds and is clamped like the sliders above; the switches
+      // keep one boolean per kind the configuration declares, defaulting every missing one to on.
+      notificationDuration: AccountManager.sanitizeNotificationDuration(
+        stored.notificationDuration,
+        notificationSettings.duration
+      ),
+      notificationTypes: AccountManager.normalizeNotificationTypes(
+        stored.notificationTypes,
+        notificationSettings.types
+      ),
       // Same rule as the sounds: only an explicit `true` turns it on, so a missing key, an old save
       // or a corrupted value reads as "off" instead of surprising the player with developer tools.
       devMode: typeof stored.devMode === 'boolean' ? stored.devMode : defaults.devMode,
@@ -392,8 +459,8 @@ export class AccountManager {
   /**
    * Merges and persists the account settings.
    *
-   * Only `lang`, `theme`, `sound`, `animation`, `foilIntensity`, `glareIntensity`, `glowTrophies`
-   * and `devMode` are accepted;
+   * Only `lang`, `theme`, `sound`, `animation`, `foilIntensity`, `glareIntensity`, `glowTrophies`,
+   * `notificationDuration`, `notificationTypes` and `devMode` are accepted;
    * unknown keys are ignored. Values are validated against `config.json` as soon as the corresponding
    * lists are loaded, so a typo cannot silently break the next startup. Applying the new values
    * (calling `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
@@ -402,10 +469,12 @@ export class AccountManager {
    *
    * @param {{lang?: string, theme?: string, sound?: boolean, animation?: string,
    *   foilIntensity?: number, glareIntensity?: number, glowTrophies?: number,
+   *   notificationDuration?: number, notificationTypes?: Record<string, boolean>,
    *   devMode?: boolean}} partialSettings - Preferences to update.
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number, glareIntensity: number, glowTrophies: number, devMode: boolean}>}
-   *   The merged settings.
+   *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
+   *   notificationDuration: number, notificationTypes: Record<string, boolean>,
+   *   devMode: boolean}>} The merged settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
    * @throws {Error} When the write fails.
@@ -503,6 +572,43 @@ export class AccountManager {
       }
       // Clamped like the foil: the 0-5 range belongs to `config.json`.
       merged.glowTrophies = glowManager.sanitizeLevel(glowTrophies);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'notificationDuration')) {
+      const { notificationDuration } = partialSettings;
+      if (typeof notificationDuration !== 'number' || !Number.isFinite(notificationDuration)) {
+        throw new TypeError(
+          `settings.notificationDuration must be a number (received: ${JSON.stringify(notificationDuration)}).`
+        );
+      }
+      const { duration } = await configLoader.getNotificationSettings();
+      merged.notificationDuration = AccountManager.sanitizeNotificationDuration(
+        notificationDuration,
+        duration
+      );
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'notificationTypes')) {
+      const { notificationTypes } = partialSettings;
+      if (!notificationTypes || typeof notificationTypes !== 'object' || Array.isArray(notificationTypes)) {
+        throw new TypeError(
+          `settings.notificationTypes must be an object (received: ${JSON.stringify(notificationTypes)}).`
+        );
+      }
+      const { types } = await configLoader.getNotificationSettings();
+      // A PARTIAL map is accepted (the settings screen flips one switch at a time): unknown kinds
+      // are refused instead of silently stored, and the others keep their current value.
+      Object.entries(notificationTypes).forEach(([type, enabled]) => {
+        if (!types.includes(type)) {
+          throw new RangeError(`Unknown notification type "${type}". Available: [${types.join(', ')}].`);
+        }
+        if (typeof enabled !== 'boolean') {
+          throw new TypeError(
+            `settings.notificationTypes.${type} must be a boolean (received: ${JSON.stringify(enabled)}).`
+          );
+        }
+        merged.notificationTypes[type] = enabled;
+      });
     }
 
     await storageRepository.setUserState(USER_STATE_KEYS.SETTINGS, merged);

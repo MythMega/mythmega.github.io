@@ -19,7 +19,6 @@
  *                         the CSS value the component applies inline (`titleColorValue`);
  *   - `background`      : the illustration of the first favourite card, or the configured fallback;
  *   - `underlay`        : the avatar icon of the profile, drawn over the illustration;
- *   - `glowStrength`    : the trophy-glow level of the account, and `glowScale` its 0-N factor;
  *   - the counters      : pinned trophies, boosters opened, distinct cards, oldest card, Sparks,
  *                         blocks mined and Mine Picks made.
  *
@@ -35,7 +34,6 @@ import { configLoader } from '../utils/ConfigLoader.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import featureManager, { FeatureManager } from './FeatureManager.js';
-import glowManager from '../utils/GlowManager.js';
 import minePickManager from './MinePickManager.js';
 import miningManager from './MiningManager.js';
 import sparksManager from './SparksManager.js';
@@ -482,12 +480,11 @@ export class ProfileCardManager {
     uuid = null,
     preferences = null,
   } = {}) {
-    const [settings, boostersOpened, stored, counters, accountSettings, purchases] = await Promise.all([
+    const [settings, boostersOpened, stored, counters, purchases] = await Promise.all([
       this.getSettings(),
       this.getBoostersOpened(),
       preferences ?? this.getPreferences(),
       this.getProgressCounters(),
-      accountManager.getSettings(),
       featureManager.getPurchases(),
     ]);
     const entries = Array.isArray(collection?.entries) ? collection.entries : [];
@@ -514,8 +511,6 @@ export class ProfileCardManager {
       // colour is selected; `titleColorValue` is the CSS value the component applies inline.
       titleColor,
       titleColorValue: titleColorEntry ? titleColorEntry.color : null,
-      glowStrength: accountSettings.glowTrophies,
-      glowScale: glowManager.toScale(accountSettings.glowTrophies),
       trophyCount,
       thresholds: settings.rarityThresholds,
       rarities: ProfileCardManager.listRarities(settings.rarityThresholds, trophyCount, chosenRarity),

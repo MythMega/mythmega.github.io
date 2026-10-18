@@ -35,6 +35,7 @@ import profileIconManager from '../../business/ProfileIconManager.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import collectionManager from '../../business/CollectionManager.js';
 import TrophyDetail, { TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
+import { applyCardGlow } from '../../utils/Shine.js';
 import ProfileCard, {
   PROFILE_CARD_DEFAULT_LAYOUT,
   PROFILE_CARD_LAYOUT_ORDER,
@@ -882,7 +883,10 @@ export class ProfileView {
     const item = document.createElement('li');
     item.className = 'profile__tile profile__tile--card';
     item.style.setProperty('--tile-index', String(index));
-    if (card) item.dataset.rarity = String(card.rarity);
+    if (card) {
+      item.dataset.rarity = String(card.rarity);
+      applyCardGlow(item, card);
+    }
 
     const open = document.createElement('button');
     open.type = 'button';
@@ -1573,6 +1577,7 @@ export class ProfileView {
         console.warn(`[ProfileView] Detail illustration not found for "${key}": ${image.src}`);
         image.hidden = true;
       });
+      applyCardGlow(image, card);
       this.modalBody.appendChild(image);
     }
 

@@ -144,6 +144,183 @@ body[data-theme="classic"],
   --overlay: rgba(47, 36, 21, 0.5);
 }
 
+/* Day sky.
+
+   A Minecraft-like daylight: a blue sky behind the app, with blocky clouds drifting across it.
+   The palette itself stays light so every surface keeps its contrast over the sky. */
+body[data-theme="day"],
+:root[data-theme="day"] body {
+  color-scheme: light;
+
+  --icon-filter: none;
+
+  --color-bg: #7fc0ea;
+  --color-bg-elevated: #f4fbff;
+  --color-surface: #ffffff;
+  --color-surface-alt: #dceefb;
+  --color-border: #a9c9dd;
+  --color-text: #10263a;
+  --color-text-muted: #2f4f66;
+  --color-accent: #1d6fb8;
+  --color-accent-hover: #155a99;
+  --color-accent-contrast: #ffffff;
+  --color-success: #127a4b;
+  --color-error: #c0392b;
+  --color-warning: #a86b00;
+  --color-title: #8a5a00;
+
+  --glow-accent: 0 0 10px rgba(29, 111, 184, 0.35);
+  --glow-rarity-4: 0 0 12px rgba(38, 139, 210, 0.45);
+  --glow-rarity-5: 0 0 16px rgba(214, 158, 46, 0.55);
+
+  --shine: rgba(255, 255, 255, 0.95);
+  --shine-soft: rgba(255, 255, 255, 0.32);
+  --foil-mid: rgba(255, 255, 255, 0.55);
+  --foil-faint: rgba(255, 255, 255, 0.18);
+  --foil-shade: rgba(16, 38, 58, 0.3);
+
+  --shadow-sm: 0 1px 2px rgba(16, 38, 58, 0.12);
+  --shadow-md: 0 10px 26px rgba(16, 38, 58, 0.18);
+  --overlay: rgba(16, 38, 58, 0.45);
+}
+
+body[data-theme="day"] {
+  background: linear-gradient(180deg, #4f9fd5 0%, #7fc0ea 45%, #b9e2f8 100%) fixed;
+}
+
+/* Night sky.
+
+   A deep blue that fades to black towards the top, dotted with stars. Same contract as every
+   other palette: a full set of tokens, so no view needs to know which theme is active. */
+body[data-theme="night"],
+:root[data-theme="night"] body {
+  color-scheme: dark;
+
+  --icon-filter: invert(1);
+
+  --color-bg: #050b1c;
+  --color-bg-elevated: #0b1224;
+  --color-surface: #0d1730;
+  --color-surface-alt: #152139;
+  --color-border: #24324f;
+  --color-text: #e8efff;
+  --color-text-muted: #93a2c4;
+  --color-accent: #7fa5ff;
+  --color-accent-hover: #a0bcff;
+  --color-accent-contrast: #050b1a;
+  --color-success: #4ade80;
+  --color-error: #ff6b7d;
+  --color-warning: #ffd166;
+  --color-title: #ffe066;
+
+  --glow-accent: 0 0 12px rgba(127, 165, 255, 0.5);
+  --glow-rarity-4: 0 0 14px rgba(120, 200, 255, 0.6);
+  --glow-rarity-5: 0 0 18px rgba(255, 200, 90, 0.7);
+
+  --shine: rgba(255, 255, 255, 0.88);
+  --shine-soft: rgba(255, 255, 255, 0.24);
+  --foil-mid: rgba(255, 255, 255, 0.5);
+  --foil-faint: rgba(255, 255, 255, 0.14);
+  --foil-shade: rgba(0, 0, 0, 0.4);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 10px 26px rgba(0, 0, 0, 0.5);
+  --overlay: rgba(2, 4, 12, 0.78);
+}
+
+body[data-theme="night"] {
+  background: linear-gradient(to top, #0d2350 0%, #050b1c 55%, #000000 100%) fixed;
+}
+
+/* --- Decorative layer of the two sky themes ------------------------------- */
+
+.theme-scenery {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The application keeps its own stacking context above the sky. The header and the bottom bar
+   already sit at their own z-index; only the main column needed one. */
+body[data-theme="day"] .app-main,
+body[data-theme="night"] .app-main {
+  position: relative;
+  z-index: 1;
+}
+
+.theme-scenery__cloud {
+  position: absolute;
+  left: 0;
+  display: block;
+  background-color: #ffffff;
+  border-radius: 8px;
+  animation: theme-cloud-drift linear infinite;
+  will-change: transform;
+}
+
+/* Two pale blocks stacked on the rectangle give the cloud its blocky, Minecraft silhouette. */
+.theme-scenery__cloud::before,
+.theme-scenery__cloud::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  background-color: inherit;
+  border-radius: 8px 8px 0 0;
+}
+
+.theme-scenery__cloud::before {
+  left: 8%;
+  width: 52%;
+  height: 62%;
+}
+
+.theme-scenery__cloud::after {
+  right: 10%;
+  width: 38%;
+  height: 100%;
+}
+
+@keyframes theme-cloud-drift {
+  from {
+    transform: translate3d(-40vw, 0, 0);
+  }
+  to {
+    transform: translate3d(140vw, 0, 0);
+  }
+}
+
+.theme-scenery__star {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 0 6px rgba(190, 215, 255, 0.9);
+  opacity: var(--star-opacity, 0.7);
+  animation: theme-star-twinkle ease-in-out infinite alternate;
+}
+
+@keyframes theme-star-twinkle {
+  from {
+    opacity: var(--star-opacity, 0.7);
+    transform: scale(1);
+  }
+  to {
+    opacity: calc(var(--star-opacity, 0.7) * 0.3);
+    transform: scale(0.7);
+  }
+}
+
+/* Reduced motion keeps the decoration but freezes it: the negative delays already spread the
+   clouds across the sky, so a paused animation reads as a still picture, not as a pile. */
+@media (prefers-reduced-motion: reduce) {
+  .theme-scenery__cloud,
+  .theme-scenery__star {
+    animation-play-state: paused;
+  }
+}
+
 /* Promo cards.
 
    Declared once on `:root` as well: a promo card is a promo card in every palette, and the chip

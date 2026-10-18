@@ -8,7 +8,9 @@
   "themes": [
     { "id": "dark", "labelKey": "settings.theme.dark" },
     { "id": "light", "labelKey": "settings.theme.light" },
-    { "id": "classic", "labelKey": "settings.theme.classic" }
+    { "id": "classic", "labelKey": "settings.theme.classic" },
+    { "id": "day", "labelKey": "settings.theme.day" },
+    { "id": "night", "labelKey": "settings.theme.night" }
   ],
   "defaultTheme": "dark",
 
@@ -38,6 +40,16 @@
     }
   },
 
+  "notifications": {
+    "_comment": "Game notifications (the queue at the top of the screen: collection progress, experience earned, a player title unlocked). 'duration' bounds the slider that decides how many SECONDS one notification stays on screen, 'default' is what a new account starts at; 'types' lists the kinds the player can switch off in the settings (a disabled kind is dropped by `NotificationCenter.push`). The values live per account in `user_state[\"settings\"].notificationDuration` and `.notificationTypes`. These are NOT the action toasts of the bottom of the screen: those keep their own short life.",
+    "duration": {
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 3
+    },
+    "types": ["collection", "experience", "title"]
+  },
   "glow": {
     "_comment": "Glow ('Illumination') ranges. Each effect has its own 0-N slider on the settings screen, so a future one never inherits the bounds of another: 'trophies' is the halo around a trophy medal (none for bronze, light for silver and gold, medium for diamond and emerald - see css/components/trophy.css), and a 'cards' block will be added here when the card glow is tuned. The intensity is stored per account in `user_state[\"settings\"].glowTrophies`; `js/utils/GlowManager.js` publishes it as the 0-N factor `--trophy-glow-scale` on <html>, which the stylesheets multiply into the radius of their shadows. 0 switches the effect off completely.",
     "trophies": {
@@ -76,6 +88,7 @@
     "configPath": "settings/mining.json",
     "blocksPerDay": 50,
     "nextBlockDelayMs": 100,
+    "keyHoldIntervalMs": 250,
     "seedSalt": "minecards-mining-v1"
   },
   "promos": {

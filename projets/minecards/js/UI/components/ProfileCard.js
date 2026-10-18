@@ -341,7 +341,6 @@ export class ProfileCard {
     this.rarityElement.title = i18n.t(rarity.labelKey);
 
     this.renderTitleColor(model);
-    this.renderGlow(model);
     this.renderLayers(model);
     this.renderText(model);
 
@@ -371,21 +370,6 @@ export class ProfileCard {
       return;
     }
     this.cardElement.style.setProperty('--card-title-color', value);
-  }
-
-  /**
-   * Publishes the strength of the trophy halos inside the card.
-   *
-   * The medals read `--trophy-glow-scale`, which the page sets on `<html>`. Setting it on the card
-   * as well has two effects: the component does not depend on a page variable it cannot see in the
-   * exported image, and the PNG carries the same halos as the preview.
-   *
-   * @param {object} model - The card facts.
-   * @returns {void}
-   */
-  renderGlow(model) {
-    const scale = Number.isFinite(model.glowScale) ? model.glowScale : 1;
-    this.cardElement.style.setProperty('--trophy-glow-scale', String(Math.max(0, scale)));
   }
 
   /**
@@ -438,8 +422,8 @@ export class ProfileCard {
     featured.forEach((trophy) => {
       const medal = document.createElement('img');
       medal.className = 'card-text__medal';
-      // The rarity drives the halo of the medal (bronze none, silver and gold light, diamond and
-      // emerald medium), exactly like the trophy catalogue. The strength comes as a variable.
+      // The rarity stays on the medal as data, even though the card paints no halo: a profile could
+      // one day style its trophies by rarity without rebuilding the component.
       if (typeof trophy.rarity === 'string' && trophy.rarity !== '') {
         medal.dataset.rarity = trophy.rarity;
       }

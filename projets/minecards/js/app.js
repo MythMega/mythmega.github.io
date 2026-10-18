@@ -37,6 +37,7 @@ import soundManager from './utils/SoundManager.js';
 import { configLoader } from './utils/ConfigLoader.js';
 import eventBus, { EVENTS } from './utils/EventBus.js';
 import { capturePendingRedeem, consumePendingRedeem } from './utils/DeepLink.js';
+import notificationCenter from './UI/components/NotificationCenter.js';
 import { SpaRouter } from './UI/SpaRouter.js';
 import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
@@ -311,6 +312,10 @@ export class App {
     // Trophy glow: a level outside the declared range is clamped by the manager, so an obsolete
     // preference can never blow the halos up (or hide them for good).
     glowManager.applyLevel(settings.glowTrophies);
+    // Game notifications: the duration and the per-kind switches live in the same settings block,
+    // and are applied here so the very first opening already obeys them.
+    notificationCenter.setDurationSeconds(settings.notificationDuration);
+    notificationCenter.setEnabledTypes(settings.notificationTypes);
 
     // The profile and the trophies are part of the saved state: both entries are created here, so
     // an export made before the player ever opened the profile page still carries them.
@@ -835,8 +840,6 @@ export class App {
     this.giftsView = new GiftsView(root, {
       // Embedded in the settings screen: it activates with that view.
       viewName: SETTINGS_VIEW_NAME,
-      // The empty state already sits in the settings screen: only scroll it into sight.
-      onNavigate: () => this.revealSettingsPanel(SETTINGS_PANELS.GIFTS),
     });
     try {
       await this.giftsView.init();

@@ -420,3 +420,41 @@
     background-position: 100% 50%;
   }
 }
+
+/* =============================================================================
+   Rarity halo
+   ============================================================================= */
+
+/* A very light halo around a card, so a super rare, a legendary and a mythic read as
+   such from across a grid of thumbnails. It is NOT the foil above: the foil is the print
+   of the card and only exists on the large surfaces, while this halo is painted on every
+   place a card is shown (collection grid, Mine Pick board, binder slot, statistics, the
+   lists of the profile and of the gifts). It is deliberately MUCH weaker than the halo of
+   a trophy: a thin violet edge, a thin gold one, and a slightly wider orange one.
+   The filter is what makes the halo follow the rounded silhouette of the box instead of
+   its label box; it is idempotent and applied by `applyCardGlow()` (`js/utils/Shine.js`). */
+.card-glow {
+  --card-glow-color: transparent;
+  --card-glow-radius: 0px;
+  filter: drop-shadow(
+    0 0 var(--card-glow-radius) var(--card-glow-color)
+  );
+}
+
+/* Super rare: violet, the thinnest. */
+.card-glow--super-rare {
+  --card-glow-color: rgba(168, 85, 247, 0.45);
+  --card-glow-radius: 4px;
+}
+
+/* Legendary: gold, the same thin edge. */
+.card-glow--legendary {
+  --card-glow-color: rgba(224, 166, 58, 0.5);
+  --card-glow-radius: 4px;
+}
+
+/* Mythic: orange, the widest of the three (never wider than a trophy halo). */
+.card-glow--mythic {
+  --card-glow-color: rgba(255, 138, 61, 0.55);
+  --card-glow-radius: 8px;
+}

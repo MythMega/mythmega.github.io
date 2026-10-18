@@ -49,6 +49,9 @@ const IDLE_DISPOSE_DELAY_MS = 30000;
 /** Minimum horizontal swipe distance on the spotlight card, in pixels. */
 const SWIPE_THRESHOLD_PX = 24;
 
+/** Beat of the automatic reveal while Space is held, in milliseconds (the overlay's own pace). */
+const SPACE_AUTO_ADVANCE_MS = 900;
+
 /** Pieces the "explosive" mode throws over the stage. Enough to be silly, few enough to keep
  *  the burst readable (and 18 compositor layers is about what a phone takes for free). */
 const CONFETTI_COUNT = 18;
@@ -163,6 +166,8 @@ export class OpeningView {
     this.spotlightEntryTimer = null;
     /** @type {boolean} True when a tap landed while the card was still arriving. */
     this.pendingSpotlightAction = false;
+    /** @type {number|null} Interval advancing the reveal while Space is held. */
+    this.spaceHoldTimer = null;
     /** @type {string|null} Last feedback i18n key (re-translated on `LANG_CHANGED`). */
     this.feedbackKey = null;
     /** @type {'info'|'error'} */
@@ -387,6 +392,9 @@ export class OpeningView {
       this.listen(button, 'click', () => this.handleSourceChoice(button.dataset.openingSourceChoice));
     });
     this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
+    this.listen(document, 'keyup', (event) => this.handleDocumentKeyUp(event));
+    // A window that loses the focus never sends the keyup: the automatic reveal must stop anyway.
+    this.listen(window, 'blur', () => this.stopSpaceAutoAdvance());
     this.log('DOM listeners bound.');
   }
 
@@ -1460,6 +1468,7 @@ export class OpeningView {
    * @returns {void}
    */
   showSummaryStage() {
+    this.stopSpaceAutoAdvance();
     if (!this.pendingResult) {
       console.warn('[OpeningView] Summary ignored: no pack is waiting.');
       return;
@@ -1618,17 +1627,66 @@ export class OpeningView {
     }
     if (this.revealStage !== 'spotlight' || this.sceneStage.hidden) return;
     const target = event.target;
-    const isFormControl = target instanceof HTMLElement
-      && (target.closest('button, input, select, textarea, [contenteditable="true"]') !== null);
-    if (isFormControl) return;
+    // Only a text field keeps its own keys: a button that still holds the focus ("Suivante" was
+    // just clicked) must not swallow the hold of Space or the arrows.
+    const isTextControl = target instanceof HTMLElement
+      && (target.closest('input, select, textarea, [contenteditable="true"]') !== null);
+    if (isTextControl) return;
     if (event.key === 'ArrowLeft') {
+      this.stopSpaceAutoAdvance();
       this.showPreviousCard();
-    } else if (event.key === 'ArrowRight' || event.key === ' ') {
-      event.preventDefault();
+    } else if (event.key === 'ArrowRight') {
+      this.stopSpaceAutoAdvance();
       this.handleNextAction();
+    } else if (event.key === ' ') {
+      // Holding Space walks the pack automatically, the way the streaming overlay does. The first
+      // press acts immediately; the auto-repeat of the browser is ignored (the interval owns it).
+      event.preventDefault();
+      if (event.repeat) return;
+      this.startSpaceAutoAdvance();
     } else if (event.key === 'Escape') {
       this.finish();
     }
+  }
+
+  /**
+   * Stops the automatic reveal when Space comes back up.
+   *
+   * @param {KeyboardEvent} event - Key event.
+   * @returns {void}
+   */
+  handleDocumentKeyUp(event) {
+    if (event?.key === ' ') this.stopSpaceAutoAdvance();
+  }
+
+  /**
+   * Starts advancing the spotlight on a steady beat until Space is released.
+   *
+   * @returns {void}
+   */
+  startSpaceAutoAdvance() {
+    this.stopSpaceAutoAdvance();
+    this.handleNextAction();
+    this.spaceHoldTimer = window.setInterval(() => {
+      if (this.revealStage !== 'spotlight' || !this.isActive) {
+        this.stopSpaceAutoAdvance();
+        return;
+      }
+      this.handleNextAction();
+    }, SPACE_AUTO_ADVANCE_MS);
+    this.log('Space held: automatic reveal started.');
+  }
+
+  /**
+   * Stops the automatic reveal (Space released, stage left, view hidden…).
+   *
+   * @returns {void}
+   */
+  stopSpaceAutoAdvance() {
+    if (this.spaceHoldTimer === null) return;
+    window.clearInterval(this.spaceHoldTimer);
+    this.spaceHoldTimer = null;
+    this.log('Automatic reveal stopped.');
   }
 
   /**
@@ -1704,6 +1762,7 @@ export class OpeningView {
    * @returns {void}
    */
   clearReveal() {
+    this.stopSpaceAutoAdvance();
     this.clearBurst();
     this.clearSpotlightEntryGuard();
     this.cardComponents.forEach((component) => component.destroy());
@@ -1792,6 +1851,7 @@ export class OpeningView {
    */
   handleViewDeactivated() {
     this.isActive = false;
+    this.stopSpaceAutoAdvance();
     this.log('View deactivated, stopping the render loop.');
     // Leaving the view mid-ritual (a deep link, the back button) gives the chrome back: the focus
     // class belongs to the screen, not to the pack being revealed.

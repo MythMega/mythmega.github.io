@@ -49,7 +49,7 @@ import dateSyncManager from '../../business/DateSyncManager.js';
 import sparksManager, { INSUFFICIENT_SPARKS } from '../../business/SparksManager.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
-import CardComponent from '../components/CardComponent.js';
+import CardComponent, { applyCardGlow } from '../components/CardComponent.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import animationManager from '../../utils/AnimationManager.js';
 import { setFocusMode } from '../../utils/FocusMode.js';
@@ -96,6 +96,20 @@ const PILE_HOLD_MS = 140;
 
 /** Multiplier applied to the flip duration to size the study pause. */
 const STUDY_FLIP_FACTOR = 1.5;
+
+/**
+ * Number-row shortcuts of the pick stage, as a visible SLOT (0-based).
+ *
+ * The digits are the QWERTY shape and the five other characters the unshifted number row of an
+ * AZERTY keyboard (& é " ' (): both layouts can pick a card without switching anything.
+ */
+const CARD_SLOT_KEYS = new Map([
+  ['1', 0], ['&', 0],
+  ['2', 1], ['é', 1],
+  ['3', 2], ['"', 2],
+  ['4', 3], ["'", 3],
+  ['5', 4], ['(', 4],
+]);
 
 export class MinePickView {
   /**
@@ -193,6 +207,18 @@ export class MinePickView {
   }
 
   /**
+   * Boosters of the day that have not been picked from yet.
+   *
+   * The board is FINITE (`minePick.boosterCount`): once every pack has been used, an extra pick has
+   * nothing left to open, so the allowance is no longer what makes the day playable.
+   *
+   * @returns {number} The number of rows still waiting for their pick.
+   */
+  get openBoosters() {
+    return this.board.filter((entry) => !this.picksByBooster[String(entry.index)]).length;
+  }
+
+  /**
    * Verifies that the markup matches the contract expected by this view.
    *
    * @returns {void}
@@ -263,7 +289,36 @@ export class MinePickView {
     this.listen(this.cardsElement, 'click', (event) => this.handleCardsClick(event));
     this.listen(this.backButton, 'click', () => this.backToBoard());
     this.listen(this.buyButton, 'click', () => this.handleBuyExtraPick());
+    this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
     this.log('DOM listeners bound.');
+  }
+
+  /**
+   * Picks a face-down card with the number row (`1`-`5`, and the AZERTY `& é " ' (`).
+   *
+   * The key names the SLOT on screen, not the card in the pack: after the shuffle the two differ,
+   * and a player pressing "3" expects the third card from the left. The actual pick goes through
+   * the very click handler of the card, so the guards (pack being dealt, pick already committed)
+   * stay in one place only.
+   *
+   * @param {KeyboardEvent} event - Key event.
+   * @returns {void}
+   */
+  handleDocumentKeyDown(event) {
+    if (!event || typeof event.key !== 'string') return;
+    if (!this.isActive || this.pickStage?.hidden || !this.canPick) return;
+    if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+    const slot = CARD_SLOT_KEYS.get(event.key);
+    if (slot === undefined) return;
+    const target = event.target;
+    if (target instanceof HTMLElement
+      && target.closest('input, textarea, select, [contenteditable="true"]')) {
+      return;
+    }
+    const element = this.cardsElement?.children?.[slot];
+    if (!(element instanceof HTMLElement) || element.disabled) return;
+    event.preventDefault();
+    element.click();
   }
 
   /**
@@ -374,6 +429,10 @@ export class MinePickView {
    * free allowance lasts the extra pick would be pointless. It carries its price and stays disabled
    * while the balance is short, with the missing amount as its tooltip.
    *
+   * It is ALSO disabled once every booster of the day has been picked: the board holds
+   * `minePick.boosterCount` packs, and a bought pick would have nothing to open until the reset.
+   * Selling it then would charge the player for an unusable pick.
+   *
    * @returns {void}
    */
   renderBuyButton() {
@@ -386,8 +445,13 @@ export class MinePickView {
     this.buyButton.textContent = i18n.t('minepick.buyExtra', { price });
     this.buyButton.setAttribute('aria-label', i18n.t('minepick.buyExtraAria', { price }));
     const missing = Math.max(0, price - this.sparksBalance);
-    this.buyButton.disabled = this.isBuying || missing > 0;
-    this.buyButton.title = missing > 0 ? i18n.t('minepick.buyExtra.hint', { missing }) : '';
+    const exhausted = this.openBoosters <= 0;
+    this.buyButton.disabled = this.isBuying || exhausted || missing > 0;
+    this.buyButton.title = exhausted
+      ? i18n.t('minepick.buyExtra.exhausted')
+      : missing > 0
+        ? i18n.t('minepick.buyExtra.hint', { missing })
+        : '';
   }
 
   /**
@@ -429,6 +493,14 @@ export class MinePickView {
    */
   async handleBuyExtraPick() {
     if (this.isBuying) return;
+
+    // The button is already disabled in that case; this guards a stale render (the last pack was
+    // picked while the pointer was on its way to the button).
+    if (this.openBoosters <= 0) {
+      this.setFeedback('minepick.buyExtra.exhausted', 'info');
+      this.renderBuyButton();
+      return;
+    }
 
     if (this.sparksBalance < this.extraPickPrice) {
       this.setFeedback('minepick.error.insufficientSparks', 'error');
@@ -628,7 +700,13 @@ export class MinePickView {
     const item = document.createElement('li');
     item.className = `minepick__mini minepick__mini--r${card.rarity}`;
     if (card.isFullArt) item.classList.add('minepick__mini--fullart');
-    if (revealed) item.classList.add('is-revealed');
+    if (revealed) {
+      item.classList.add('is-revealed');
+      // The halo names the rarity, so it follows the same rule as the ring of the thumbnail: only
+      // once the pack has been opened AND picked from. Before that the board would announce where
+      // every legendary is.
+      applyCardGlow(item, card);
+    }
     if (kept) item.classList.add('is-kept');
     if (discarded) item.classList.add('is-discarded');
 

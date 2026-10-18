@@ -30,12 +30,13 @@ import {
   SHINE_GLEAM_CLASS,
   getShineClasses,
   applyShine,
+  applyCardGlow,
 } from '../../utils/Shine.js';
 
 // The foil helpers live in `js/utils/Shine.js` (a module with no import at all, so the read-only
 // page of a shared binder can paint a foil without pulling the game in) and are re-exported here,
 // which is where every caller has always imported them from.
-export { SHINE_MODIFIER_BY_RARITY, SHINE_GLEAM_CLASS, getShineClasses, applyShine };
+export { SHINE_MODIFIER_BY_RARITY, SHINE_GLEAM_CLASS, getShineClasses, applyShine, applyCardGlow };
 
 /**
  * Shared illustration printed on the back of every face-down card.

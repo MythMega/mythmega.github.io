@@ -17,7 +17,7 @@
  */
 
 import { decodeBinderCode, readBinderCodeFromUrl } from './utils/BinderCode.js';
-import { applyShine } from './utils/Shine.js';
+import { applyShine, applyCardGlow } from './utils/Shine.js';
 
 /** Language of the visitor, limited to the two the card data is written in. */
 const LANG = (() => {
@@ -187,6 +187,7 @@ function openCardDetail(payload, master) {
   image.alt = name;
   art.appendChild(image);
   applyShine(art, { rarity: Number(master?.r) || 1 });
+  applyCardGlow(art, { rarity: Number(master?.r) || 1 });
 
   const rows = document.createElement('dl');
   rows.className = 'binder-share__rows';
@@ -320,6 +321,7 @@ function render(payload) {
       image.loading = 'lazy';
       button.appendChild(image);
       applyShine(button, { rarity: Number(master.r) || 1 });
+      applyCardGlow(button, { rarity: Number(master.r) || 1 });
 
       button.addEventListener('click', () => {
         button.setAttribute('aria-expanded', 'true');

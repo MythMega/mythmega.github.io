@@ -23,6 +23,29 @@ import eventBus, { EVENTS } from './EventBus.js';
 export const THEME_STORAGE_KEY = 'mc_theme';
 
 /**
+ * Color of the browser chrome for each theme (mirrors the `--color-bg` of `css/themes.css`).
+ *
+ * The pre-render bootstrap of `index.html` owns its own copy for the very first paint; this one
+ * keeps the meta tag right when the player switches theme without reloading.
+ */
+const THEME_COLORS = {
+  dark: '#0b0e14',
+  light: '#eef1f8',
+  classic: '#efe3c8',
+  day: '#7fc0ea',
+  night: '#050b1c',
+};
+
+/** Themes that draw the decorative layer (clouds or stars) behind the application. */
+const DECORATED_THEMES = new Set(['day', 'night']);
+
+/** Number of clouds of the day theme. */
+const CLOUD_COUNT = 14;
+
+/** Number of stars of the night theme. */
+const STAR_COUNT = 220;
+
+/**
  * Reads the mirrored theme from `localStorage`.
  *
  * @returns {string|null} The stored theme id, or null when absent/unreadable.
@@ -127,9 +150,81 @@ export class ThemeManager {
       document.body.dataset.theme = requested;
     }
     if (mirror) writeMirroredTheme(requested);
+    this.renderScenery(requested);
+    const themeColor = document.getElementById('meta-theme-color');
+    if (themeColor && THEME_COLORS[requested]) {
+      themeColor.setAttribute('content', THEME_COLORS[requested]);
+    }
 
     eventBus.emit(EVENTS.THEME_CHANGED, { theme: requested, previousTheme });
     return requested;
+  }
+
+  /**
+   * Fills the decorative layer of the sky themes: clouds for `day`, stars for `night`.
+   *
+   * The layer is a single fixed element behind the application (`data-theme-scenery` in
+   * `index.html`). The other themes own no decoration at all, so the layer is simply emptied: the
+   * palettes of `dark`, `light` and `classic` are untouched.
+   *
+   * @param {string} theme - Theme being applied.
+   * @returns {void}
+   */
+  renderScenery(theme) {
+    const layer = document.querySelector('[data-theme-scenery]');
+    if (!layer) return;
+    layer.textContent = '';
+    if (!DECORATED_THEMES.has(theme)) return;
+    if (theme === 'day') {
+      this.renderClouds(layer);
+    } else {
+      this.renderStars(layer);
+    }
+  }
+
+  /**
+   * Scatters blocky clouds of different sizes across the day sky.
+   *
+   * @param {HTMLElement} layer - Decorative layer.
+   * @returns {void}
+   */
+  renderClouds(layer) {
+    for (let index = 0; index < CLOUD_COUNT; index += 1) {
+      const cloud = document.createElement('span');
+      cloud.className = 'theme-scenery__cloud';
+      const duration = 70 + Math.random() * 80;
+      cloud.style.width = `${90 + Math.random() * 180}px`;
+      cloud.style.height = `${28 + Math.random() * 38}px`;
+      cloud.style.top = `${Math.random() * 82}%`;
+      cloud.style.opacity = String(0.6 + Math.random() * 0.2);
+      cloud.style.animationDuration = `${duration.toFixed(1)}s`;
+      // A negative delay spreads the clouds out immediately instead of leaving the sky empty.
+      cloud.style.animationDelay = `${(-Math.random() * duration).toFixed(1)}s`;
+      layer.appendChild(cloud);
+    }
+  }
+
+  /**
+   * Scatters the stars of the night sky, with their own size, glow and twinkle.
+   *
+   * @param {HTMLElement} layer - Decorative layer.
+   * @returns {void}
+   */
+  renderStars(layer) {
+    for (let index = 0; index < STAR_COUNT; index += 1) {
+      const star = document.createElement('span');
+      star.className = 'theme-scenery__star';
+      const roll = Math.random();
+      const size = roll < 0.78 ? 1 : roll < 0.96 ? 2 + Math.random() * 0.8 : 3 + Math.random();
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.width = `${size.toFixed(2)}px`;
+      star.style.height = star.style.width;
+      star.style.setProperty('--star-opacity', (0.35 + Math.random() * 0.65).toFixed(2));
+      star.style.animationDuration = `${(2.5 + Math.random() * 4).toFixed(2)}s`;
+      star.style.animationDelay = `${(-Math.random() * 6).toFixed(2)}s`;
+      layer.appendChild(star);
+    }
   }
 
   /**

@@ -261,6 +261,19 @@ export const DEFAULT_GLOW_SETTINGS = Object.freeze({
 });
 
 /**
+ * Defaults of the game notifications (`notifications` of `settings/config.json`).
+ *
+ * `duration` bounds the slider deciding how many SECONDS one notification stays on screen, and
+ * `types` lists the kinds the player may switch off (`collection`, `experience`, `title`). A missing
+ * or malformed block falls back to these values: the queue always has a readable duration and the
+ * settings screen always has at least the three kinds it knows to draw.
+ */
+export const DEFAULT_NOTIFICATION_SETTINGS = Object.freeze({
+  duration: Object.freeze({ min: 1, max: 8, step: 1, default: 3 }),
+  types: Object.freeze(['collection', 'experience', 'title']),
+});
+
+/**
  * Default prices of the title colours of the profile card (`profileCard.titleColors`).
  *
  * `defaultPriceSparks` applies to every colour that declares no price of its own, so the economy of
@@ -537,6 +550,31 @@ export class ConfigLoader {
   async getGlowSettings() {
     const config = await this.getConfig();
     return ConfigLoader.normalizeSliderRange(config.glow?.trophies, DEFAULT_GLOW_SETTINGS);
+  }
+
+  /**
+   * Bounds of the notification duration slider, and the kinds that can be switched off.
+   *
+   * The duration is expressed in SECONDS (`notifications.duration`); the center converts it to
+   * milliseconds when it schedules a message. An unknown type in the configuration is ignored and
+   * an empty list falls back to the shipped three, so the settings screen can always render one
+   * switch per kind it knows.
+   *
+   * @returns {Promise<{duration: {min: number, max: number, step: number, default: number},
+   *   types: string[]}>} The duration bounds and the known types.
+   * @throws {Error} See `load()`.
+   */
+  async getNotificationSettings() {
+    const config = await this.getConfig();
+    const block = config.notifications;
+    const duration = ConfigLoader.normalizeSliderRange(
+      block?.duration,
+      DEFAULT_NOTIFICATION_SETTINGS.duration
+    );
+    const declared = Array.isArray(block?.types) ? block.types : [];
+    const known = DEFAULT_NOTIFICATION_SETTINGS.types;
+    const types = known.filter((type) => declared.includes(type));
+    return { duration, types: types.length > 0 ? types : known.slice() };
   }
 
   /**

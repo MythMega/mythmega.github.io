@@ -25,8 +25,8 @@ Base IndexedDB `CardBoosterDB` (version 1), 5 ObjectStores :
 
 Clés de `user_state` :
 - `"account"` : `{ uuid, createdAt }` — **son existence = "un compte existe"**.
-- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive", foilIntensity: number, glareIntensity: number, glowTrophies: number, devMode: boolean }`.
-  `glowTrophies` est le **niveau** d'illumination des trophées (0-5, 2 par défaut, voir 3.G nonies).
+- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive", foilIntensity: number, glareIntensity: number, glowTrophies: number, notificationDuration: number, notificationTypes: { collection: boolean, experience: boolean, title: boolean }, devMode: boolean }`.
+  `glowTrophies` est le **niveau** d'illumination des trophées (0-5, 2 par défaut, voir 3.G nonies) ; `notificationDuration` est la durée d'une notification **en secondes** (1-8, 3 par défaut) et `notificationTypes` les trois interrupteurs de la page Paramètres (voir 3.G ter).
 - `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number }, purchasedBoosters }` (ex. `{ "set1": 2 }`). `purchasedBoosters` compte les boosters **achetés en Sparks** : globaux (comme les quotidiens), ils ne sont jamais effacés par le reset.
 - `"timeAnchor"` : `{ apiUtcMs, perfNow, lastKnownUtcMs }`.
 - `"stats"` : `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: {1..5}, drawsByCard: { [key]: count } }`.
@@ -80,6 +80,14 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 - Clé unique : `${id}_${style}`. Les `id` doivent donc être uniques entre extensions.
 - Chemins d'illustration : `/fr/` ⇄ `/en/` selon la langue active.
 - **Format unique : 720 × 1000** (ratio 0,72), quelle que soit la rareté ou l'impression. Le ratio est déclaré une seule fois, `--card-ratio` dans `css/base.css` (et dans `css/overlay.css`, qui ne partage aucune feuille avec l'application), et **toute** boîte qui affiche une carte le reprend : vignette de collection, face de carte de l'ouverture, détail agrandi, carte du résumé, historique des Statistiques, pioche de la Mine Pick, cartes et icônes des trophées, vignettes de l'overlay. Une boîte au ratio approximatif (2/3, par exemple) laissait des bandes autour de l'illustration, et la fenêtre du foil (`css/components/card-shine.css`) se peignait alors au-delà de l'image.
+- **Halo de rareté (très léger).** En plus du foil, une carte **super rare** (rareté 3) porte un liseré
+  **violet fin**, une **légendaire** (4) un liseré **or fin**, et une **mythique** (5) un halo **orange un
+  peu plus large** : `card-glow--super-rare/legendary/mythic` dans `css/components/card-shine.css`.
+  `applyCardGlow()` (`js/utils/Shine.js`) le pose sur **toutes** les surfaces qui montrent une carte :
+  grille de collection, grand détail, pioche du Mine Pick (seulement une fois le paquet révélé, pour ne
+  pas spoiler la rareté), binders, page d'un binder partagé, profil (favoris et détail), Statistiques,
+  cadeaux, codes et cartes exigées d'un trophée. Il est **beaucoup plus discret** que le halo d'un
+  trophée et n'a pas de réglage ; une carte manquante ne le reçoit pas (silhouette grise).
 
 ### D bis. Cartes promo (obtention par code ou événement)
 - **Déclaration :** un fichier par série dans `data/promo_cards/<serie>.json` (`promos.directory`, `promos.sets` — vide = un fichier par extension de `boosters.sets`). Le contenu est soit un tableau d'entrées de carte, soit `{ Serie, Name, Cards: [...] }` ; le groupe exposé s'appelle `<serie>-Promo` et porte le nom de la série (« Genesis Blocks · Promo »). Une série sans fichier n'a simplement pas de promo, et un fichier absent ou invalide est ignoré avec un avertissement (`PromoManager`).
@@ -93,18 +101,19 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 - Workflow : interaction avec le booster 3D → 5 cartes face cachée → clic pour retourner une à une → glow CSS pour les raretés 4 et 5.
 - Les animations de base sont **cinématographiques** : le retournement dépasse légèrement avant de se poser (`card-flip`, avec un zoom au passage), la carte du projecteur arrive de plus haut et de biais, la vignette de résumé rebondit, les raretés 4 et 5 s'entourent d'un halo et les Full Art dérivent doucement (`css/components/card-reveal.css`, `css/views/opening.css`).
 - Trois **modes d'animation** (voir section F) habillent ce workflow. **Normal** ne change rien au mouvement, seulement ses durées. **Épique** le met en scène : rayons de lumière et **poussières sur toute la vue d'ouverture** (`css/animations/epic.css` : le `::before` est posé sur la **scène** et non sur la boîte de la carte — elle existe pendant tout le rituel et n'est `hidden` que sur l'écran de choix. Il est en `position: fixed; inset: 0` et porte un `z-index` **négatif**, ce qui le laisse au-dessus du fond de la page et **derrière les textes et les cartes** : un pseudo-élément dans le flux passerait par-dessus les phrases), traînée de décollage, onde de choc à l'ouverture de la carte, halo renforcé sur les raretés hautes, balayage lumineux sur le résumé. **Explosif** — mode **parodique assumé** (`parodic: true` dans `config.json`) — en rajoute : le booster tremble, tourne et explose derrière un « BOUM ! » entouré d'autocollants comiques, la scène **et** le panneau tremblent, un anneau de BD part du choc, des **confettis** sont tirés à chaque ouverture (`OpeningView.spawnConfetti()`), la carte fait deux tours et demi et les vignettes du résumé tombent du plafond en police comique. Le côté parodique est annoncé par la pastille « BLAGUE » de son bouton dans les Paramètres, et par la note sous le « BOUM ! ». Aucun paragraphe d'explication : la pastille suffit.
+- **Au clavier** : une fois le booster ouvert, `←` / `→` reculent et avancent d'une carte (le geste du swipe sur mobile), et **maintenir `Espace` enchaîne les révélations** au rythme de l'overlay (900 ms) jusqu'au relâchement. Le premier appui agit immédiatement ; la répétition automatique du navigateur est ignorée, l'intervalle de la vue s'en charge.
 - La boîte qui contient le booster fait **90 % de la largeur** de son conteneur et **10 % de hauteur en plus** (38 vh pour l'aperçu du sélecteur, 50 vh pour la scène d'ouverture, 42 vh et 55 vh au-delà de 768 px) : le booster garde ainsi des marges sur les côtés, ce qui laisse les deux flèches de changement d'extension collées aux bords même sur un écran vertical. La caméra est reculée d'autant (3,52 au lieu de 3,2) pour que le modèle ne grossisse pas en même temps que la boîte ; l'image 2D de secours est réduite de 10 % de la même façon.
 
 ### F. Langues & Thèmes
 - **Langues** : Français, Anglais (extensible : ajouter `settings/i18n/<code>.json` + l'entrée dans `settings/config.json`). Change les libellés et les chemins d'images, à chaud (sans rechargement).
-- **Thèmes** : **Sombre** (défaut), **Clair**, **Classic**. Chacun est un bloc de variables CSS `body[data-theme="…"]` dans `css/themes.css`. Extensible.
+- **Thèmes** : **Sombre** (défaut), **Clair**, **Classic**, **Ciel** et **Nuit**. Chacun est un bloc de variables CSS `body[data-theme="…"]` dans `css/themes.css`. **Ciel** pose un ciel bleu et des **nuages rectangulaires** à coins arrondis qui dérivent en arrière-plan ; **Nuit** descend d'un bleu très foncé vers le noir avec un **champ d'étoiles** qui scintillent. Les deux décors sont créés par `ThemeManager.renderScenery()` dans une couche fixe (`data-theme-scenery`, `z-index: 0`, `pointer-events: none`) : aucun autre thème n'est modifié, et `prefers-reduced-motion` fige les nuages et les étoiles au lieu de les animer. Extensible.
 - Les deux préférences sont sauvegardées dans `user_state["settings"]` et incluses dans le `.save`.
 - **Animations** : **Normal** (défaut), **Épique**, **Explosif**. Les modes sont déclarés dans `settings/config.json` (`animations.list` : `id`, `labelKey`, `parodic`, `tearMs`, `flipMs`, `staggerMs`) et le mode actif est posé en `data-animation` sur `<html>`/`<body>`, comme le thème. `js/utils/AnimationManager.js` publie les trois durées en variables CSS (`--anim-tear-ms`, `--anim-flip-ms`, `--anim-stagger-ms`), que le **JS lit aussi** : les séquences automatiques (révélations de la Mine Pick, garde d'arrivée du projecteur) ne peuvent pas se désynchroniser du CSS. Le `tearMs` sert en plus au mouvement WebGL de `Booster3DRenderer`, donc la 3D, le CSS et la rafale comique restent sur la même horloge. `css/animations/`, chargé en dernier, ne fait qu'**habiller** les animations de base décrites en 3.E : un mode sans bloc CSS réutilise simplement le mouvement neutre à sa vitesse, et un mode qui en a un ne remplace jamais l'animation de base sans raison. La Mine Pick suit le mode actif (voir 3.G quater).
 
 ### G. Vues & Navigation (SPA)
 0. **Accueil (onboarding)** : créer / importer, affiché seulement si aucun compte.
 1. **Ouverture** : choix du booster + scène d'ouverture.
-2. **Collection** : grille, silhouettes grisées pour les manquantes, **bouton cœur** sur les cartes possédées (5 favoris maximum), **bouton « Filtres & tri »**. Les filtres vivent dans une **popup** (`CollectionView`) : on y active/désactive chaque extension (plusieurs à la fois) et **chaque rareté (plusieurs à la fois, comme les extensions : `filters.rarities` est un `Set`)**, la famille **Promo** dans son ensemble, le statut (toutes / **possédées — l'état par défaut** / manquantes / **vendables**, c'est-à-dire 2 exemplaires ou plus), le style, et l'on y choisit le **tri** (**index du fichier, l'état par défaut**, numéro, rareté, style, quantité possédée, date d'obtention) et son sens. La grille ouvre donc sur **les cartes possédées** et non sur les 343 silhouettes du catalogue ; « Réinitialiser » y revient. La barre sous le titre ne garde que la recherche, le bouton qui ouvre la popup (avec un badge du nombre de filtres actifs) et le compte de cartes : **aucun filtre n'y est plus dupliqué**. Le **bouton « Binders »** siège **dans l'en-tête de la page, en haut à droite et hors du panneau de filtres** (`css/base.css` : `.view__header--split` met titre et action sur une ligne, `.view__heading` garde titre et sous-titre groupés), et l'en-tête de l'application porte en plus un **compteur Binders** (icône `assets/img/binders.png` + nombre de pages, voir 3.H bis). Le tri par numéro compare les `id` en `numeric: true`, pour que `W2` passe bien avant `W10`.
+2. **Collection** : grille, silhouettes grisées pour les manquantes, **bouton cœur** sur les cartes possédées (5 favoris maximum), **bouton « Filtres & tri »**. Dans la fiche d'une carte, le clavier refait les boutons : `S` / `V` vendent un exemplaire, `Maj+S` / `Maj+V` vendent **tous les doublons** (le dernier exemplaire reste protégé), `B` / `A` achètent un exemplaire et `P` / `F` mettent la carte en favori. Aucun raccourci ne tire pendant qu'une popup est empilée sur la fiche (filtres, binders, éditeur). Les filtres vivent dans une **popup** (`CollectionView`) : on y active/désactive chaque extension (plusieurs à la fois) et **chaque rareté (plusieurs à la fois, comme les extensions : `filters.rarities` est un `Set`)**, la famille **Promo** dans son ensemble, le statut (toutes / **possédées — l'état par défaut** / manquantes / **vendables**, c'est-à-dire 2 exemplaires ou plus), le style, et l'on y choisit le **tri** (**index du fichier, l'état par défaut**, numéro, rareté, style, quantité possédée, date d'obtention) et son sens. La grille ouvre donc sur **les cartes possédées** et non sur les 343 silhouettes du catalogue ; « Réinitialiser » y revient. La barre sous le titre ne garde que la recherche, le bouton qui ouvre la popup (avec un badge du nombre de filtres actifs) et le compte de cartes : **aucun filtre n'y est plus dupliqué**. Le **bouton « Binders »** siège **dans l'en-tête de la page, en haut à droite et hors du panneau de filtres** (`css/base.css` : `.view__header--split` met titre et action sur une ligne, `.view__heading` garde titre et sous-titre groupés), et l'en-tête de l'application porte en plus un **compteur Binders** (icône `assets/img/binders.png` + nombre de pages, voir 3.H bis). Le tri par numéro compare les `id` en `numeric: true`, pour que `W2` passe bien avant `W10`.
 
 **Deux axes de numérotation, et deux tris** : chaque entrée porte à la fois `cardId` (le champ `Index` de la carte, « SERIE-A1 / W001 ») et `index` (sa **position dans le tableau `Cards` de son fichier d'extension**), les deux étant calculés par `CollectionManager` à chaque lecture — rien n'est stocké, donc réordonner un fichier se voit tout de suite. Ils ne se confondent pas : un fichier **groupe ses cartes par thème**, son ordre n'est donc pas celui des `Index` (la A1 commence par `W001`, pas par `A001`). D'où les deux tris de la popup : **« Index »** (le défaut) suit `index`, c'est-à-dire le fichier tel qu'il a été écrit ; **« Numéro »** suit `cardId`, extension par extension (`CollectionView.applyFilters`, `COLLECTION_SORT`). Un troisième tri, **« Date d'obtention »**, suit `firstObtainedAt` (la première copie de chaque carte) du plus ancien au plus récent : les cartes non possédées, qui n'ont pas de date, restent toujours à la fin quelle que soit la direction.
 2 bis. **Profil** : l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. Trois **petits boutons** sous le sous-titre (`view__header-actions`) mènent aux trois pages que la barre du bas ne porte plus : **Statistiques**, **Trophées** (le catalogue, isolé derrière deux combos — famille, statut — pour ne jamais afficher les trente trophées d'un coup, et muni de son propre retour au profil) et **Titre** (la liste des titres de joueur, un par ligne, voir 3.I). Les compteurs propres à la Mine Pick, eux, sont dans le panneau « Mine Pick » de la page Statistiques, à côté du panneau « Mine ».
@@ -159,11 +168,19 @@ Chaque trophée a une **médaille** : les paliers récurrents d'une extension la
 **Halo des médailles.** Chaque médaille porte un halo dont le **rayon et la couleur dépendent de la
 rareté du trophée** : aucun pour `bronze`, léger et blanc pour `silver`, léger et doré pour `gold`,
 plus large et bleu clair pour `diamond`, plus large et vert émeraude pour `emerald`
-(`css/components/trophy.css`, plus les médailles épinglées de `css/views/profile.css` et celles de la
-carte de profil dans `css/components/profile-card.css`). L'**intensité** est un réglage du joueur,
-de 0 à 5, publié par `GlowManager` sous la variable `--trophy-glow-scale` (le niveau 2, défaut,
-vaut 1) : les trois surfaces multiplient le rayon de leur rareté par ce facteur, donc un seul curseur
-les règle toutes. À 0, plus aucun halo.
+(`css/components/trophy.css`, plus les médailles épinglées de `css/views/profile.css` et la médaille
+agrandie de la modale de détail). L'**intensité** est un réglage du joueur, de 0 à 5, publié par
+`GlowManager` sous la variable `--trophy-glow-scale` (le niveau 2, défaut, vaut 1) : chaque surface
+multiplie le rayon de sa rareté par ce facteur, donc un seul curseur les règle toutes. À 0, plus aucun
+halo. Un trophée **non obtenu** ne brille jamais : la tuile grisée garde sa médaille mais perd le halo,
+qui est une récompense et non une propriété de la rareté. La **carte de profil** ne peint aucun halo
+sur ses médailles (elle les double de taille et les centre sur une ligne, voir 3.G octies).
+
+**Épingler depuis la liste.** Une tuile de trophée **débloqué** porte un bouton d'épingle dans son coin
+supérieur droit, comme le cœur d'une carte de la collection : le clic épingle ou désépingle le trophée
+(`ProfileManager.toggleFeatured`) sans ouvrir la modale. Une tuile verrouillée n'a pas ce bouton (un
+trophée ne s'épingle qu'une fois obtenu), et la modale de détail garde son propre bouton, doublé au
+clavier par `P` / `F` (le trophée ouvert doit être débloqué, comme le bouton).
 
 L'XP totale est **dérivée** de l'état réel (`expérience.everyBooster` × boosters ouverts +
 `everyDistinctCard` × cartes différentes + `nameChanged` si le nom est personnalisé + l'XP des
@@ -195,7 +212,7 @@ Elles sont produites par `js/UI/components/GameNotifier.js` à partir des évén
 - **nom personnalisé défini** (`PROFILE_UPDATED`) : l'XP du nom, une seule fois (le nom par défaut ne rapporte rien) ;
 - **niveau atteint** (`EXPERIENCE_UPDATED`) : « Niveau N atteint », dans sa propre variante.
 
-Règles de la file d'attente : une notification reste **3 s** (`NOTIFICATION_DURATION_MS`) puis la suivante prend sa place ; un **clic**, un **tap**, **Entrée/Espace** ou un **swipe latéral** (≥ 40 px, la carte suit le doigt) la retirent immédiatement et montrent la suivante. Une notification **prioritaire** (une collection découverte pendant la révélation) **interrompt** celle qui est affichée : celle-ci repart en tête de sa file et se réaffiche ensuite, avec sa durée complète. Le compteur d'une collection ne compte que les cartes **déjà retournées** : une notification ne peut donc pas révéler qu'une autre carte de la même collection attend encore dans le paquet.
+Règles de la file d'attente : une notification reste **3 s** par défaut (`NOTIFICATION_DURATION_MS`, bornes et défaut dans `notifications.duration` de `config.json`) puis la suivante prend sa place ; le joueur règle cette durée de **1 à 8 s** dans le panneau Notifications des Paramètres. Un **clic**, un **tap**, **Entrée/Espace** ou un **swipe latéral** (≥ 40 px, la carte suit le doigt) la retirent immédiatement et montrent la suivante. Trois interrupteurs (`settings.notificationTypes`) coupent respectivement la **progression des collections**, l'**expérience gagnée** et les **titres débloqués** ; une famille coupée est ignorée dès `NotificationCenter.push`, elle n'entre donc même pas dans la file et n'interrompt rien. Les messages d'action (toasts du bas de l'écran) ne sont pas concernés. Une notification **prioritaire** (une collection découverte pendant la révélation) **interrompt** celle qui est affichée : celle-ci repart en tête de sa file et se réaffiche ensuite, avec sa durée complète. Le compteur d'une collection ne compte que les cartes **déjà retournées** : une notification ne peut donc pas révéler qu'une autre carte de la même collection attend encore dans le paquet.
 
 **Aucune notification au démarrage** : l'XP et les trophées sont évalués une fois au lancement, et `app.js` appelle `gameNotifier.start()` APRÈS cette première évaluation (qui prend le niveau courant comme référence). Importer une sauvegarde qui débloque dix trophées d'un coup ne déclenche donc aucun message.
 
@@ -250,6 +267,8 @@ déploie, ondes de choc et vibration de la ligne sélectionnée comprises. Les d
 d'animations actif (`--anim-flip-ms`) : l'Épique est plus lent et plus large, l'Explosif secoue la scène
 et fait sautiller les cartes. `prefers-reduced-motion` les coupe toutes.
 
+**Au clavier**, une fois le paquet mélangé, les touches `1` `2` `3` `4` `5` (et la rangée AZERTY non majuscule `& é " ' (`) gardent la carte du **même emplacement à l'écran** : c'est le clic de la carte qui est déclenché, donc les gardes de la vue restent uniques.
+
 **Sur écran vertical, le paquet se pose en 3 + 2 centré** : `.minepick__cards` est un conteneur `flex`
 qui centre sa dernière ligne (une grille de trois colonnes aurait collé les deux cartes restantes à
 gauche), et passe à cinq colonnes au-delà de 768 px.
@@ -279,7 +298,11 @@ sur son défaut si la section est absente ou corrompue.
 d'**acheter une pioche** pour `extraPickPriceSparks` (1000 Sparks). Le débit et le crédit se font dans une
 seule transaction (`MinePickManager.buyExtraPick`), la pioche achetée est stockée dans `bonusPicks`, elle
 **survit au reset** (elle a été payée) et n'est dépensée qu'une fois le quota gratuit épuisé — elle rend
-donc le plateau immédiatement rejouable.
+donc le plateau immédiatement rejouable. Le plateau est **fini** (`boosterCount`, 10) : quand toutes les
+lignes du jour ont été piochées, le bouton reste affiché mais **désactivé** (infobulle « tous les boosters
+du jour ont été ouverts »), car une pioche achetée n'aurait plus rien à ouvrir avant minuit UTC.
+`handleBuyExtraPick` refait la vérification au clic, au cas où la dernière ligne aurait été utilisée
+entre l'affichage et le clic.
 
 **Ce qui est écrit** : `user_state["minePick"]` (quota du jour, `picksByBooster` — quel booster a été
 utilisé aujourd'hui et quelle carte en est sortie, c'est ce qui marque les lignes de la liste et ce que
@@ -314,6 +337,11 @@ sous lui **chaque ressource** récoltée : **son icône et son nombre**, rien d'
 l'**inventaire** et dans le texte accessible de la pastille). Le nombre de coups qu'il reste à porter
 n'est **jamais** écrit : la craquelure sous le doigt dit déjà où en est le bloc, et un compteur à côté
 transformait le rituel en rapport de progression.
+
+**Au clavier** : `Espace` porte un coup, **maintenir `Maj+Espace`** en porte un toutes les
+`mining.keyHoldIntervalMs` (250 ms par défaut, plancher à 100 ms) et `S` ouvre le **Wandering Trader**.
+Un dialogue ouvert, un champ de saisie ou un autre bouton ayant le focus reprennent la main : le mineur
+ne vole jamais `Espace` à un contrôle qui l'utilise déjà.
 
 **Cinq sortes de blocs**, décrites dans `settings/mining.json` : `Weight` (le poids du tirage : la pierre
 est commune, l'obsidienne rare) et `Hardness` (le nombre de coups à porter pour casser le bloc, de 3 à
@@ -505,9 +533,10 @@ Rien n'est stocké : la carte est une **projection** du profil, recalculée à c
   surmonter (la disposition normale le confine déjà à la bande centrale). Il est dessiné **20 % plus
   petit** que le sprite plein cadre du générateur (`auto 80 %` dans la bande centrale, `auto 32 %` en
   Full Art), pour laisser respirer l'illustration qu'il recouvre.
-- **Description :** les trois trophées mis en avant, **en icônes et sur une seule ligne** (les noms
-  seraient trois lignes rognées sur 360 pixels ; ils restent en infobulle et dans le libellé
-  accessible), puis les compteurs : **boosters ouverts** (`user_state["stats"].boostersOpened`),
+- **Description :** les trois trophées mis en avant, **en icônes, centrés et sur une seule ligne**
+  (les noms seraient trois lignes rognées sur 360 pixels ; ils restent en infobulle et dans le libellé
+  accessible). Les médailles sont dessinées **deux fois plus grandes** que sur une tuile (48 px, 40 px
+  en police pixel) et ne portent **aucun halo**, puis les compteurs : **boosters ouverts** (`user_state["stats"].boostersOpened`),
   **cartes différentes** possédées (promos comprises), date de la **plus ancienne carte** obtenue,
   **Sparks en banque** (`user_state["sparks"]`), **blocs minés** (`mining.totalMined`) et **Mine Pick
   faits** (`minePick.totalPicks`).
@@ -555,20 +584,29 @@ et les fichiers de police sont donc **incorporés en data URLs** (`css/fonts.css
 
 ### G nonies. Illumination (réglage « Illumination » / « Glow »)
 
-Le panneau **Illumination** des Paramètres règle la force des halos, effet par effet : aujourd'hui les
-**trophées**, demain les cartes. Chaque effet a son propre bloc dans `settings/config.json` (`glow.trophies`
-aujourd'hui, `glow.cards` plus tard) avec ses bornes `{ min, max, step, default }` : `min: 0` éteint
-l'effet, `max: 5` est le plus fort, le défaut est 2. Un niveau hors bornes est **ramené dans la plage**,
-jamais rejeté.
+Le panneau **Illumination** des Paramètres règle la force du halo des **trophées**. Le bloc
+`glow.trophies` de `settings/config.json` porte ses bornes `{ min, max, step, default }` : `min: 0`
+éteint l'effet, `max: 5` est le plus fort, le défaut est 2. Un niveau hors bornes est **ramené dans la
+plage**, jamais rejeté. Le halo des **cartes** (raretés 3 à 5) est volontairement fixe et beaucoup plus
+discret : il n'a pas de curseur.
 
 `js/utils/GlowManager.js` publie le niveau sous forme de **facteur** `--trophy-glow-scale` sur `<html>`
 (le niveau 2, référence, vaut 1 ; 0 vaut 0). Les halos sont entièrement décrits par la rareté du
 trophée dans les feuilles (rayon et couleur), et multiplient ce rayon par le facteur : un seul
-curseur règle donc la liste des trophées, les trophées épinglés du profil et les médailles de la carte
-de profil. La préférence vit dans `user_state["settings"].glowTrophies` (`AccountManager`), appliquée
-au démarrage comme le foil. La carte de profil reçoit en plus le facteur **en style inline**
-(`ProfileCard.renderGlow`) : le document exporté n'a pas de `<html>` à hériter, et le PNG montre donc
-les mêmes halos que l'aperçu.
+curseur règle donc la liste des trophées, les trophées épinglés du profil et la médaille agrandie de
+la modale de détail. La préférence vit dans `user_state["settings"].glowTrophies` (`AccountManager`),
+appliquée au démarrage comme le foil. La carte de profil ne peint aucun halo sur ses trophées.
+
+### G decies. Sons d'interface (carte des sons)
+
+`settings/sounds.json` est un **audit**, pas encore une fonctionnalité : il liste les moments de
+**navigation** où un court son rendrait un clic plus agréable (changement d'onglet, retour, ouverture
+et fermeture de modale et de panneau, changement de filtre ou de section, ouverture du détail d'une
+carte, pas suivant/précédent de la révélation, apparition d'une notification). Chaque entrée porte
+`event` (identifiant stable), `file` (emplacement prévu sous `assets/sound/ui/`, les fichiers ne sont
+pas livrés), `_comment` (ce que le son accompagne, en anglais) et `enabled` (interrupteur pour
+l'activer une fois le fichier ajouté). Les cinq sons existants de l'ouverture restent dans
+`js/utils/SoundManager.js` ; les actions qui en ont déjà un ne figurent pas dans cette carte.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.

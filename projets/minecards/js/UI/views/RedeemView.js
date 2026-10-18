@@ -28,6 +28,7 @@ import redeemManager, {
 } from '../../business/RedeemManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import { applyCardGlow } from '../../utils/Shine.js';
 
 /**
  * Identity of the panel. It is NOT a router view anymore: the promo codes live inside the settings
@@ -406,6 +407,7 @@ export class RedeemView {
     item.dataset.type = reward.type;
 
     if (reward.type === 'card' && reward.card) {
+      applyCardGlow(item, reward.card);
       const image = document.createElement('img');
       image.className = 'redeem__reward-image';
       image.loading = 'lazy';

@@ -333,7 +333,9 @@
       document.documentElement.dataset.theme = theme;
 
       // Keeps the mobile status bar in sync with the JS theme of the frame (`css/themes.css`).
-      var THEME_COLORS = { dark: '#0b0e14', light: '#eef1f8', classic: '#efe3c8' };
+      var THEME_COLORS = {
+        dark: '#0b0e14', light: '#eef1f8', classic: '#efe3c8', day: '#7fc0ea', night: '#050b1c'
+      };
       var themeColor = document.getElementById('meta-theme-color');
       if (themeColor && THEME_COLORS[theme]) {
         themeColor.setAttribute('content', THEME_COLORS[theme]);
@@ -357,6 +359,10 @@
   <div class="app-boot" id="app-boot">
     <span data-i18n="app.loading">Chargement…</span>
   </div>
+
+  <!-- Decoration of the sky themes (filled by `js/utils/ThemeManager.js`, empty for the three
+       historical palettes). It is purely decorative and never receives a pointer event. -->
+  <div class="theme-scenery" data-theme-scenery aria-hidden="true"></div>
 
   <noscript>
     <p class="app-fatal" data-i18n="app.noscript">Cette application nécessite JavaScript pour fonctionner.</p>
@@ -1288,7 +1294,47 @@
             <input type="range" class="foil-slider__input" id="settings-glow-trophies" data-settings-glow min="0" max="5" step="1" value="2" aria-describedby="settings-glow-help">
           </div>
           <p class="settings__help" id="settings-glow-help" data-i18n="settings.glow.help">Règle le halo autour des médailles de trophées : discret sur l'argent et l'or, plus large sur le diamant et l'émeraude. À 0, plus aucun halo. Le bronze n'en a jamais.</p>
-          <p class="settings__help" data-i18n="settings.glow.soon">La même famille de réglages s'appliquera bientôt aux cartes.</p>
+        </section>
+
+        <!-- Notifications: how long one game notification stays on screen, and which kinds are
+             allowed at all. The bounds of the slider come from `config.json` (`notifications`),
+             and the three switches are always the kinds `NotificationCenter` knows: the duration
+             is written in seconds and applied live, while the switches are merged one by one in
+             `settings.notificationTypes`. -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.notifications.title">Notifications</h3>
+          <div class="foil-slider">
+            <div class="foil-slider__head">
+              <label class="foil-slider__label" for="settings-notification-duration" data-i18n="settings.notifications.duration">Durée des notifications</label>
+              <output class="foil-slider__value" data-settings-notification-duration-value for="settings-notification-duration">3 s</output>
+            </div>
+            <input type="range" class="foil-slider__input" id="settings-notification-duration" data-settings-notification-duration min="1" max="8" step="1" value="3" aria-describedby="settings-notification-duration-help">
+          </div>
+          <p class="settings__help" id="settings-notification-duration-help" data-i18n="settings.notifications.durationHelp">Temps pendant lequel une notification reste affichée avant de laisser la place à la suivante.</p>
+          <div class="settings__toggles">
+            <div class="settings__toggle">
+              <span class="settings__toggle-label" data-i18n="settings.notifications.collection">Progression des collections</span>
+              <button type="button" class="switch" data-settings-notification-collection role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.collection">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-notification-collection-state></span>
+              </button>
+            </div>
+            <div class="settings__toggle">
+              <span class="settings__toggle-label" data-i18n="settings.notifications.experience">Expérience gagnée</span>
+              <button type="button" class="switch" data-settings-notification-experience role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.experience">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-notification-experience-state></span>
+              </button>
+            </div>
+            <div class="settings__toggle">
+              <span class="settings__toggle-label" data-i18n="settings.notifications.titleKind">Titres débloqués</span>
+              <button type="button" class="switch" data-settings-notification-title role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.titleKind">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-notification-title-state></span>
+              </button>
+            </div>
+          </div>
+          <p class="settings__help" data-i18n="settings.notifications.help">Choisissez ce que le jeu annonce en haut de l'écran. Les messages d'action (un achat, une sauvegarde) ne sont pas concernés.</p>
         </section>
 
         <!-- Sounds: one boolean preference (SettingsView writes the state text). -->
@@ -1416,7 +1462,6 @@
 
           <div class="gifts__empty" data-gifts-empty hidden>
             <p class="gifts__empty-text" data-i18n="gifts.empty">Aucun cadeau reçu pour le moment.</p>
-            <button type="button" class="btn btn--ghost" data-gifts-empty-action data-i18n="gifts.emptyAction">Vérifier les distributions</button>
           </div>
         </div>
       </section>

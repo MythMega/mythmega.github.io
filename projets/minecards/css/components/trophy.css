@@ -99,32 +99,62 @@
   animation-delay: calc(var(--tile-index, 0) * 25ms);
 }
 
-/* A pinned trophy is flagged on the tile: the catalogue is where the three highlighted trophies are
-   picked, and the pin itself is only toggled from the detail modal. */
+/* A pinned trophy is flagged on the tile: the catalogue is where the three highlighted trophies
+   are picked, and the top-right button below is what picks them. */
 .trophy-tile[data-pinned="true"] .trophy-tile__open {
   border-color: var(--color-accent);
 }
 
+/* The pin toggle, in the top-right corner. It is a SIBLING of the tile button (nested buttons are
+   invalid HTML), so it can be a real, focusable control instead of a dead marker. Unpinned it
+   stays discreet; pinned it takes the accent, like the favourite heart of the collection. */
 .trophy-tile__pin {
   position: absolute;
   top: calc(-1 * var(--space-1));
   right: calc(-1 * var(--space-1));
-  z-index: 1;
+  z-index: 2;
   display: grid;
   place-items: center;
-  width: 1.4rem;
-  height: 1.4rem;
-  border: 1px solid var(--color-accent);
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
 }
 
 .trophy-tile__pin img {
-  width: 0.78rem;
-  height: 0.78rem;
+  width: 0.9rem;
+  height: 0.9rem;
   object-fit: contain;
   filter: var(--icon-filter);
+}
+
+.trophy-tile__pin[aria-pressed="false"] {
+  opacity: 0.65;
+}
+
+.trophy-tile__pin:hover,
+.trophy-tile__pin:focus-visible {
+  opacity: 1;
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.trophy-tile__pin:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.trophy-tile__pin[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
 }
 
 /* From the tablet up there is room for five tiles per row. */
@@ -208,12 +238,14 @@
   --trophy-glow-radius: 8px;
 }
 
-/* A locked medal stays legible but reads as "not earned yet". The halo is kept (it is the rarity of
-   the trophy, not a reward) but greyed with the medal, hence the full filter repeated here: a
-   `filter` declaration replaces the one above instead of adding to it. */
+/* A locked medal stays legible but reads as "not earned yet": greyed out and WITHOUT the halo.
+   The glow is a reward, not a property of the rarity, so a trophy the player has not unlocked
+   must not shine. The full filter is repeated here because a `filter` declaration replaces the
+   one above instead of adding to it. */
 .trophy-tile[data-unlocked="false"] .trophy-tile__icon {
-  filter: grayscale(1)
-    drop-shadow(0 0 calc(var(--trophy-glow-radius) * var(--trophy-glow-scale, 1)) var(--trophy-glow-color));
+  --trophy-glow-color: transparent;
+  --trophy-glow-radius: 0px;
+  filter: grayscale(1);
   opacity: 0.7;
 }
 
@@ -386,6 +418,33 @@
   width: 4rem;
   height: 4rem;
   object-fit: contain;
+  /* The halo of an EARNED trophy, keyed by its rarity and scaled by the settings slider, exactly
+     like the catalogue tile. A locked medal has no `data-unlocked="true"` and therefore no halo. */
+  --trophy-glow-color: transparent;
+  --trophy-glow-radius: 0px;
+  filter: drop-shadow(
+    0 0 calc(var(--trophy-glow-radius) * var(--trophy-glow-scale, 1)) var(--trophy-glow-color)
+  );
+}
+
+.trophy-modal__medal[data-unlocked="true"][data-rarity="silver"] {
+  --trophy-glow-color: rgba(255, 255, 255, 0.75);
+  --trophy-glow-radius: 4px;
+}
+
+.trophy-modal__medal[data-unlocked="true"][data-rarity="gold"] {
+  --trophy-glow-color: rgba(255, 205, 80, 0.85);
+  --trophy-glow-radius: 5px;
+}
+
+.trophy-modal__medal[data-unlocked="true"][data-rarity="diamond"] {
+  --trophy-glow-color: rgba(150, 225, 255, 0.9);
+  --trophy-glow-radius: 8px;
+}
+
+.trophy-modal__medal[data-unlocked="true"][data-rarity="emerald"] {
+  --trophy-glow-color: rgba(53, 224, 138, 0.9);
+  --trophy-glow-radius: 8px;
 }
 
 .trophy-modal__category {

@@ -39,6 +39,8 @@ export const NOTIFICATION_TYPES = Object.freeze({
   COLLECTION: 'collection',
   /** Experience earned, or a level reached. */
   EXPERIENCE: 'experience',
+  /** A player TITLE became selectable (a level reached, or a collection trophy unlocked). */
+  TITLE: 'title',
 });
 
 /** Visual variants, exposed as `data-variant` (an extra accent on top of the type). */
@@ -157,7 +159,7 @@ export class NotificationCenter {
    * Queues a notification and displays it when its turn comes.
    *
    * @param {object} item - Notification content (see the module header for the text rule).
-   * @param {'collection'|'experience'} item.type - Notification kind (`data-type`).
+   * @param {'collection'|'experience'|'title'} item.type - Notification kind (`data-type`).
    * @param {string} [item.variant='default'] - Extra accent (`data-variant`).
    * @param {string} [item.badge=''] - Short label shown above the title (e.g. "+15 XP").
    * @param {string} item.title - Main line (already translated / already a data name).

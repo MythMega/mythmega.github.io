@@ -10,7 +10,7 @@
  *
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
- *   - `settings`  : { lang, theme, sound, animation, foilIntensity, glareIntensity }
+ *   - `settings`  : { lang, theme, sound, animation, foilIntensity, glareIntensity, glowTrophies }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
@@ -29,6 +29,7 @@ import { configLoader } from '../utils/ConfigLoader.js';
 import i18n, { clearMirroredLang } from '../utils/I18n.js';
 import themeManager, { clearMirroredTheme } from '../utils/ThemeManager.js';
 import animationManager from '../utils/AnimationManager.js';
+import glowManager from '../utils/GlowManager.js';
 import foilManager from '../utils/FoilManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
@@ -55,6 +56,13 @@ export const USER_STATE_KEYS = Object.freeze({
   // order. It lives in `user_state` rather than in a store of its own so that a `.save` export
   // carries it with no change to the save format.
   BINDERS: 'binders',
+  // Purchased features (see `FeatureManager`): one entry per bought feature, so a `.save` carries
+  // what the player paid for like any other progression.
+  PURCHASES: 'purchases',
+  // Display preferences of the profile card (see `ProfileCardManager`): the layout the player chose
+  // and the rarity the card wears, both optional. Kept out of `profile` on purpose: the profile is
+  // the identity other screens read, while these two only dress the card.
+  PROFILE_CARD: 'profileCard',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -237,9 +245,10 @@ export class AccountManager {
    *
    * @param {{lang?: string|null, theme?: string|null, sound?: boolean|null,
    *   animation?: string|null, foilIntensity?: number|null, glareIntensity?: number|null,
-   *   devMode?: boolean|null}} [overrides] - Requested preferences.
+   *   glowTrophies?: number|null, devMode?: boolean|null}} [overrides] - Requested preferences.
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number, glareIntensity: number, devMode: boolean}>} Validated preferences.
+   *   foilIntensity: number, glareIntensity: number, glowTrophies: number, devMode: boolean}>}
+   *   Validated preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -275,6 +284,13 @@ export class AccountManager {
         ? foilManager.sanitizeGlarePercent(overrides.glareIntensity)
         : foilManager.getGlareSettings().default;
 
+    // The trophy glow is a LEVEL (0-5, 2 by default), with its own range next to the foil above.
+    // A brand new account starts at the intensity the halos were tuned at.
+    const glowTrophies =
+      typeof overrides.glowTrophies === 'number' && Number.isFinite(overrides.glowTrophies)
+        ? glowManager.sanitizeLevel(overrides.glowTrophies)
+        : glowManager.getSettings().default;
+
     // `devMode` is off unless it was explicitly asked for: it only adds a tool to the collection
     // (the key of the open card and a copy button), never anything a player would want by default.
     return {
@@ -284,6 +300,7 @@ export class AccountManager {
       animation,
       foilIntensity,
       glareIntensity,
+      glowTrophies,
       devMode: overrides.devMode === true,
     };
   }
@@ -328,7 +345,8 @@ export class AccountManager {
    * Reads the account settings, completed with safe defaults.
    *
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number, glareIntensity: number, devMode: boolean}>} The stored preferences.
+   *   foilIntensity: number, glareIntensity: number, glowTrophies: number, devMode: boolean}>}
+   *   The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -359,6 +377,12 @@ export class AccountManager {
         typeof stored.glareIntensity === 'number' && Number.isFinite(stored.glareIntensity)
           ? foilManager.sanitizeGlarePercent(stored.glareIntensity)
           : defaults.glareIntensity,
+      // A level outside the declared range (an older save, a hand-edited file) is clamped, never
+      // rejected: the halos simply come back to the strongest or dimmest level the game offers.
+      glowTrophies:
+        typeof stored.glowTrophies === 'number' && Number.isFinite(stored.glowTrophies)
+          ? glowManager.sanitizeLevel(stored.glowTrophies)
+          : defaults.glowTrophies,
       // Same rule as the sounds: only an explicit `true` turns it on, so a missing key, an old save
       // or a corrupted value reads as "off" instead of surprising the player with developer tools.
       devMode: typeof stored.devMode === 'boolean' ? stored.devMode : defaults.devMode,
@@ -368,7 +392,8 @@ export class AccountManager {
   /**
    * Merges and persists the account settings.
    *
-   * Only `lang`, `theme`, `sound`, `animation`, `foilIntensity`, `glareIntensity` and `devMode` are accepted;
+   * Only `lang`, `theme`, `sound`, `animation`, `foilIntensity`, `glareIntensity`, `glowTrophies`
+   * and `devMode` are accepted;
    * unknown keys are ignored. Values are validated against `config.json` as soon as the corresponding
    * lists are loaded, so a typo cannot silently break the next startup. Applying the new values
    * (calling `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
@@ -376,10 +401,11 @@ export class AccountManager {
    * `FoilManager.applyGlareIntensity`) remains the caller's responsibility.
    *
    * @param {{lang?: string, theme?: string, sound?: boolean, animation?: string,
-   *   foilIntensity?: number, glareIntensity?: number, devMode?: boolean}} partialSettings -
-   *   Preferences to update.
+   *   foilIntensity?: number, glareIntensity?: number, glowTrophies?: number,
+   *   devMode?: boolean}} partialSettings - Preferences to update.
    * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
-   *   foilIntensity: number, glareIntensity: number, devMode: boolean}>} The merged settings.
+   *   foilIntensity: number, glareIntensity: number, glowTrophies: number, devMode: boolean}>}
+   *   The merged settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
    * @throws {Error} When the write fails.
@@ -466,6 +492,17 @@ export class AccountManager {
       }
       // Same clamping rule as the foil above, against its own range.
       merged.glareIntensity = foilManager.sanitizeGlarePercent(glareIntensity);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'glowTrophies')) {
+      const { glowTrophies } = partialSettings;
+      if (typeof glowTrophies !== 'number' || !Number.isFinite(glowTrophies)) {
+        throw new TypeError(
+          `settings.glowTrophies must be a number (received: ${JSON.stringify(glowTrophies)}).`
+        );
+      }
+      // Clamped like the foil: the 0-5 range belongs to `config.json`.
+      merged.glowTrophies = glowManager.sanitizeLevel(glowTrophies);
     }
 
     await storageRepository.setUserState(USER_STATE_KEYS.SETTINGS, merged);

@@ -61,6 +61,34 @@ export const DEFAULT_PROFILE_SETTINGS = Object.freeze({
 });
 
 /**
+ * Default prices of the purchasable features, used whenever `settings/config.json` omits a value.
+ *
+ * A feature is an extra the player buys with Sparks (`js/business/FeatureManager.js`). The keys are
+ * the identifiers the code knows (`FeatureManager.FEATURES`); an identifier declared by the
+ * configuration but absent here is kept as written, and one whose price is malformed is dropped
+ * rather than sold at an unknown price.
+ */
+export const DEFAULT_FEATURE_SETTINGS = Object.freeze({
+  items: Object.freeze({
+    cardLayoutFullArt: Object.freeze({ priceSparks: 1000 }),
+  }),
+});
+
+/**
+ * Default settings of the profile card, used whenever `settings/config.json` omits a value.
+ *
+ * `rarityThresholds` maps a card rarity (1 = Commune … 5 = Mythique) to the number of unlocked
+ * trophies it takes to reach it, `defaultArtPath` is the illustration used as the card background
+ * when the account has no favourite card to borrow one from, and `seriesDigits` is how many last
+ * characters of the account UUID the series line prints.
+ */
+export const DEFAULT_PROFILE_CARD_SETTINGS = Object.freeze({
+  rarityThresholds: Object.freeze({ 1: 0, 2: 5, 3: 15, 4: 30, 5: 50 }),
+  defaultArtPath: 'assets/img/card_back.png',
+  seriesDigits: 4,
+});
+
+/**
  * Default locations of the profile avatars, used whenever `settings/config.json` omits a path.
  *
  * `defaultPath` holds the icons every account can pick from the start, `unlockablePath` the icons a
@@ -71,6 +99,19 @@ export const DEFAULT_PROFILE_ICON_SETTINGS = Object.freeze({
   defaultPath: 'settings/default_profile_icons.json',
   unlockablePath: 'data/icon.json',
   directory: 'data/profile_icons',
+});
+
+/**
+ * Default locations of the player titles, used whenever `settings/config.json` omits a path.
+ *
+ * `defaultPath` holds the titles a LEVEL unlocks, `directory` one `<setId>.json` per extension
+ * mapping a collection trophy name to the titles it unlocks. Unlike the icons, a title carries its
+ * own text (one per language), so there is no shared unlockable list: the titles of a collection
+ * trophy are written in the file that grants them.
+ */
+export const DEFAULT_TITLE_SETTINGS = Object.freeze({
+  defaultPath: 'settings/default_titles.json',
+  directory: 'data/titles',
 });
 
 /**
@@ -203,6 +244,40 @@ export const DEFAULT_FOIL_SETTINGS = Object.freeze({
   max: 100,
   step: 5,
   default: 100,
+});
+
+/**
+ * Default range of the trophy glow slider (`glow.trophies` of `config.json`).
+ *
+ * A level, not a percentage: 0 switches every trophy halo off, 5 is the strongest one the stylesheet
+ * draws, and a new account starts at 2 (the intensity the halos of silver to emerald were tuned at).
+ * The cards get their own block later (`glow.cards`), which is why the range is declared per effect.
+ */
+export const DEFAULT_GLOW_SETTINGS = Object.freeze({
+  min: 0,
+  max: 5,
+  step: 1,
+  default: 2,
+});
+
+/**
+ * Default prices of the title colours of the profile card (`profileCard.titleColors`).
+ *
+ * `defaultPriceSparks` applies to every colour that declares no price of its own, so the economy of
+ * the whole palette is one number; `items` holds one entry per colour the code knows (the palette
+ * itself lives in `PROFILE_CARD_TITLE_COLORS`, `js/business/ProfileCardManager.js`).
+ */
+export const DEFAULT_TITLE_COLOR_SETTINGS = Object.freeze({
+  defaultPriceSparks: 125,
+  items: Object.freeze({
+    gold: 125,
+    silver: 125,
+    crimson: 125,
+    emerald: 125,
+    azure: 125,
+    violet: 125,
+    rose: 125,
+  }),
 });
 
 /**
@@ -430,7 +505,7 @@ export class ConfigLoader {
    */
   async getFoilSettings() {
     const config = await this.getConfig();
-    return ConfigLoader.normalizePercentRange(config.foil, DEFAULT_FOIL_SETTINGS);
+    return ConfigLoader.normalizeSliderRange(config.foil, DEFAULT_FOIL_SETTINGS);
   }
 
   /**
@@ -446,20 +521,70 @@ export class ConfigLoader {
    */
   async getGlareSettings() {
     const config = await this.getConfig();
-    return ConfigLoader.normalizePercentRange(config.foil?.glare, DEFAULT_GLARE_SETTINGS);
+    return ConfigLoader.normalizeSliderRange(config.foil?.glare, DEFAULT_GLARE_SETTINGS);
   }
 
   /**
-   * Validates one `{ min, max, step, default }` block of percentages.
+   * Range of the trophy glow slider (`glow.trophies` of `settings/config.json`).
    *
-   * Shared by the foil and the brillance sliders: both are bounded by the same rules, and having a
-   * single implementation is what keeps a partially edited section harmless for either of them.
+   * A level from 0 to 5 by default, declared per effect so a future card glow can have its own
+   * bounds. Same validation as the foil sliders: a partially edited block only costs a narrower
+   * slider, never a broken one.
+   *
+   * @returns {Promise<{min: number, max: number, step: number, default: number}>} The bounds.
+   * @throws {Error} See `load()`.
+   */
+  async getGlowSettings() {
+    const config = await this.getConfig();
+    return ConfigLoader.normalizeSliderRange(config.glow?.trophies, DEFAULT_GLOW_SETTINGS);
+  }
+
+  /**
+   * Prices of the title colours of the profile card (`profileCard.titleColors`).
+   *
+   * A colour the code knows always has a price: the declared one when it is a whole, non-negative
+   * number, the section's `defaultPriceSparks` otherwise, and the shipped 125 Sparks when that one
+   * is malformed too. A colour nobody knows is dropped (it could not be applied), and the section's
+   * default price can never be negative.
+   *
+   * @returns {Promise<{defaultPriceSparks: number, items: Record<string, number>}>} The palette
+   *   prices, in Sparks, keyed by colour id.
+   * @throws {Error} See `load()`.
+   */
+  async getTitleColorSettings() {
+    const config = await this.getConfig();
+    const block = config.profileCard?.titleColors;
+    const source = block && typeof block === 'object' && !Array.isArray(block) ? block : {};
+    const rawItems = source.items && typeof source.items === 'object' && !Array.isArray(source.items)
+      ? source.items
+      : {};
+    const defaults = DEFAULT_TITLE_COLOR_SETTINGS;
+    const defaultPriceSparks = Number.isInteger(source.defaultPriceSparks)
+      && source.defaultPriceSparks >= 0
+      ? source.defaultPriceSparks
+      : defaults.defaultPriceSparks;
+
+    const items = {};
+    Object.keys(defaults.items).forEach((id) => {
+      const entry = rawItems[id];
+      const declared = entry && typeof entry === 'object' ? entry.priceSparks : entry;
+      items[id] = Number.isInteger(declared) && declared >= 0 ? declared : defaultPriceSparks;
+    });
+    return { defaultPriceSparks, items };
+  }
+
+  /**
+   * Validates one `{ min, max, step, default }` slider block.
+   *
+   * Shared by the two foil sliders and the trophy glow slider: they are bounded by the same rules,
+   * and having a single implementation is what keeps a partially edited section harmless for all of
+   * them. The unit (percents or levels) belongs to the caller.
    *
    * @param {unknown} raw - Raw block read from `config.json`.
    * @param {{min: number, max: number, step: number, default: number}} defaults - Fallback bounds.
    * @returns {{min: number, max: number, step: number, default: number}} Consistent bounds.
    */
-  static normalizePercentRange(raw, defaults) {
+  static normalizeSliderRange(raw, defaults) {
     const block = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
 
     const min = ConfigLoader.normalizeIntegerInRange(block.min, defaults.min, 0, defaults.max - 1);
@@ -913,6 +1038,98 @@ export class ConfigLoader {
         DEFAULT_PROFILE_SETTINGS.maxFeaturedTrophies
       ),
       defaultName: typeof profile.defaultName === 'string' ? profile.defaultName.trim() : '',
+    };
+  }
+
+  /**
+   * Prices of the purchasable features (`features` section of `settings/config.json`).
+   *
+   * Only whole, non-negative prices survive: a known feature whose price is missing or malformed
+   * falls back to its shipped price, and an unknown one is dropped (the code could not honour it
+   * anyway, and selling it at a guessed price would be worse than not selling it).
+   *
+   * @returns {Promise<{items: Record<string, {priceSparks: number}>}>} The validated catalogue.
+   * @throws {Error} See `load()`.
+   */
+  async getFeatureSettings() {
+    const config = await this.getConfig();
+    const features = config.features || {};
+    const raw = features.items && typeof features.items === 'object' && !Array.isArray(features.items)
+      ? features.items
+      : {};
+    const defaults = DEFAULT_FEATURE_SETTINGS.items;
+    const items = {};
+
+    Object.entries(raw).forEach(([id, entry]) => {
+      if (id.startsWith('_') || typeof id !== 'string' || id === '') return;
+      const declared = entry && typeof entry === 'object' ? entry.priceSparks : null;
+      const known = Object.prototype.hasOwnProperty.call(defaults, id);
+      if (Number.isInteger(declared) && declared >= 0) {
+        items[id] = { priceSparks: declared };
+        return;
+      }
+      if (known) items[id] = { priceSparks: defaults[id].priceSparks };
+    });
+
+    // A feature the code knows but the file does not declare is still offered at its shipped price.
+    Object.entries(defaults).forEach(([id, entry]) => {
+      if (!Object.prototype.hasOwnProperty.call(items, id)) items[id] = { ...entry };
+    });
+    return { items };
+  }
+
+  /**
+   * Settings of the profile card (`profileCard` section of `settings/config.json`).
+   *
+   * The thresholds are read for the five card rarities only, a malformed one falls back to its
+   * shipped value, and the sequence is kept ascending so a typo can never make a rarer card
+   * easier to reach than the one below it.
+   *
+   * @returns {Promise<{rarityThresholds: Record<number, number>, defaultArtPath: string, seriesDigits: number}>}
+   *   The validated profile card settings.
+   * @throws {Error} See `load()`.
+   */
+  async getProfileCardSettings() {
+    const config = await this.getConfig();
+    const card = config.profileCard || {};
+    const raw = card.rarityThresholds && typeof card.rarityThresholds === 'object' ? card.rarityThresholds : {};
+    const rarityThresholds = {};
+    let previous = 0;
+    for (let rarity = 1; rarity <= 5; rarity += 1) {
+      const value = raw[rarity];
+      const fallback = DEFAULT_PROFILE_CARD_SETTINGS.rarityThresholds[rarity];
+      const threshold = Number.isInteger(value) && value >= 0 ? value : fallback;
+      previous = Math.max(previous, threshold);
+      rarityThresholds[rarity] = previous;
+    }
+    return {
+      rarityThresholds,
+      defaultArtPath: ConfigLoader.normalizePath(
+        card.defaultArtPath,
+        DEFAULT_PROFILE_CARD_SETTINGS.defaultArtPath
+      ),
+      seriesDigits: Number.isInteger(card.seriesDigits)
+        ? Math.min(8, Math.max(1, card.seriesDigits))
+        : DEFAULT_PROFILE_CARD_SETTINGS.seriesDigits,
+    };
+  }
+
+  /**
+   * Player title catalogue (`titles` section of `settings/config.json`).
+   *
+   * Every path falls back to `DEFAULT_TITLE_SETTINGS`, so a partially edited configuration still
+   * finds the shipped titles.
+   *
+   * @returns {Promise<{defaultPath: string, directory: string}>}
+   *   The level-unlocked list and the per-extension directory of the trophy-unlocked titles.
+   * @throws {Error} See `load()`.
+   */
+  async getTitleSettings() {
+    const config = await this.getConfig();
+    const titles = config.titles || {};
+    return {
+      defaultPath: ConfigLoader.normalizePath(titles.defaultPath, DEFAULT_TITLE_SETTINGS.defaultPath),
+      directory: ConfigLoader.normalizePath(titles.directory, DEFAULT_TITLE_SETTINGS.directory),
     };
   }
 

@@ -127,6 +127,23 @@
   color: var(--color-success);
 }
 
+/* A player TITLE unlocked: the yellow of `--color-title`, and the line itself is written in the
+   pixel face it will be worn in (the same face the pseudo wears under it). */
+.notification[data-type="title"] {
+  border-left-color: var(--color-title);
+}
+
+.notification[data-type="title"] .notification__badge {
+  color: var(--color-title);
+}
+
+.notification[data-type="title"] .notification__title {
+  font-family: var(--font-family-title);
+  font-size: var(--font-size-xs);
+  line-height: 1.7;
+  color: var(--color-title);
+}
+
 /* --- Variants --------------------------------------------------------------- */
 
 /* A collection completed by this very opening. */

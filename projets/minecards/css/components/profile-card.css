@@ -1,0 +1,576 @@
+/* =============================================================================
+   profile-card.css - The player's own trading card, drawn for the profile page.
+
+   Reference: `js/UI/components/ProfileCard.js`, `js/business/ProfileCardManager.js`, and the card
+   maker this is adapted from (`external/cardmakerz/styles/base.css`).
+
+   The whole card lives in a SHADOW ROOT: the game's own stylesheets never reach it, and these
+   rules never leak into the application. Two consequences this file has to handle on its own:
+     - the card maker stylesheet relies on the page it was written for (`body` colors, a global
+       `*` reset, a `:root` palette). Here the palette is scoped to `.profile-card-root` and the
+       reset is repeated for the shadow subtree, so the card looks the same wherever it is shown;
+     - the card is sized in PIXELS (360x500, the card maker's canvas) and scaled as a whole by the
+       stage (`--profile-card-scale`, set by the component from the available width). Every
+       measurement below therefore stays in the card's own coordinate system.
+
+   The files under `external/cardmakerz/` are a REFERENCE, not a dependency: the game cannot load
+   those classic scripts (they are not modules and define globals), so the few rules the card needs
+   are copied here, with the same class names and the same rarity variables, which keeps the card
+   recognizable next to the tool it came from.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------- */
+/* Palette and frame: the card maker's `:root`, scoped to the card's own root.   */
+/* ---------------------------------------------------------------------------- */
+.profile-card-root {
+  --card-width: 360px;
+  --card-height: 500px;
+  /* The pixel face is the only family the game ships (`css/fonts.css`), and the one the export
+     can embed: a system sans would render differently in the PNG. */
+  --card-font: 'Press Start 2P', monospace;
+  --border-thickness: 4px;
+
+  /* Commune (★) */
+  --rarity-border: #4a4a5a;
+  --rarity-glow: rgba(0, 0, 0, 0.6);
+  --rarity-badge-bg: rgba(15, 15, 20, 0.7);
+  --rarity-text-color: #ffffff;
+  --rarity-accent: #a0a0b0;
+
+  --foil-opacity: 0;
+  --foil-gradient: linear-gradient(135deg, transparent, transparent);
+  --foil-pattern: none;
+  --foil-pattern-size: auto;
+  --foil-blend: overlay;
+
+  --foil-bg-strength: 1.15;
+  --foil-underlay-strength: 0.6;
+
+  --corner-clip: polygon(
+    0 10px,
+    10px 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
+
+  display: block;
+  width: var(--card-width);
+  height: var(--card-height);
+  /* The stage scales the card as a single block (see `ProfileCard.applyScale`). */
+  transform: scale(var(--profile-card-scale, 1));
+  transform-origin: top center;
+  color: #fff;
+  font-family: var(--card-font);
+  text-align: left;
+  line-height: normal;
+}
+
+/* The card maker's `*` reset, which the shadow tree does not inherit from the game. */
+.profile-card-root *,
+.profile-card-root *::before,
+.profile-card-root *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------------------------------------------------------------------------- */
+/* Rarities: the card maker's palette, one class per rarity.                     */
+/* ---------------------------------------------------------------------------- */
+.profile-card-root .rarity-common {
+  --rarity-border: #4a4a5a;
+  --rarity-glow: rgba(0, 0, 0, 0.6);
+  --rarity-badge-bg: rgba(15, 15, 20, 0.7);
+  --rarity-text-color: #ffffff;
+  --rarity-accent: #a0a0b0;
+  /* Colour the series line wears when the title colour is `auto`. */
+  --rarity-title-color: #cfd3dd;
+}
+
+.profile-card-root .rarity-rare {
+  --rarity-border: #93b5c6;
+  --rarity-glow: rgba(70, 130, 180, 0.4);
+  --rarity-badge-bg: rgba(15, 25, 35, 0.75);
+  --rarity-text-color: #e0f7fa;
+  --rarity-accent: #4dd0e1;
+  --rarity-title-color: #4dd0e1;
+  --foil-opacity: 0.25;
+  --foil-gradient: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.7) 45%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0.7) 55%,
+    transparent 80%
+  );
+  --foil-pattern-size: cover;
+}
+
+.profile-card-root .rarity-super-rare {
+  --rarity-border: #a855f7;
+  --rarity-glow: rgba(168, 85, 247, 0.45);
+  --rarity-badge-bg: rgba(30, 10, 40, 0.8);
+  --rarity-text-color: #f3e8ff;
+  --rarity-accent: #c084fc;
+  --rarity-title-color: #c084fc;
+  --foil-opacity: 0.3;
+  --foil-gradient: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.6),
+    rgba(56, 189, 248, 0.6),
+    rgba(168, 85, 247, 0.6)
+  );
+  --foil-pattern: repeating-linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0.15) 0,
+    rgba(255, 255, 255, 0.15) 4px,
+    transparent 4px,
+    transparent 12px
+  );
+  --foil-pattern-size: cover;
+  --foil-blend: color-dodge;
+}
+
+.profile-card-root .rarity-legendary {
+  --rarity-border: #ffd700;
+  --rarity-glow: rgba(255, 215, 0, 0.5);
+  --rarity-badge-bg: rgba(35, 25, 5, 0.85);
+  --rarity-text-color: #fff8e1;
+  --rarity-accent: #ffb300;
+  --rarity-title-color: #ffd54a;
+  --foil-opacity: 0.45;
+  --foil-gradient: linear-gradient(
+    125deg,
+    transparent 25%,
+    rgba(255, 223, 118, 0.7) 46%,
+    rgba(255, 245, 180, 0.95) 50%,
+    rgba(255, 180, 50, 0.8) 54%,
+    transparent 75%
+  );
+  --foil-pattern:
+    radial-gradient(circle at 50% 50%, rgba(255, 240, 160, 0.9) 0%, rgba(255, 200, 50, 0.4) 15%, transparent 45%),
+    conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(255, 215, 0, 0.45) 45deg,
+      transparent 90deg,
+      rgba(255, 255, 255, 0.7) 135deg,
+      transparent 180deg,
+      rgba(255, 215, 0, 0.45) 225deg,
+      transparent 270deg,
+      rgba(255, 255, 255, 0.7) 315deg,
+      transparent 360deg
+    ),
+    radial-gradient(circle at 18px 18px, rgba(255, 255, 255, 0.6) 1.5px, transparent 2px),
+    repeating-conic-gradient(
+      from 45deg at 18px 18px,
+      rgba(255, 215, 0, 0.22) 0deg 90deg,
+      transparent 90deg 180deg
+    );
+  --foil-pattern-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+  --foil-blend: color-dodge;
+}
+
+.profile-card-root .rarity-mythic {
+  --rarity-border: #ff2a8d;
+  --rarity-glow: rgba(255, 42, 141, 0.6);
+  --rarity-badge-bg: rgba(35, 5, 25, 0.85);
+  --rarity-text-color: #ffffff;
+  --rarity-accent: #00ffff;
+  --rarity-title-color: #ff6fae;
+  --foil-opacity: 0.35;
+  --foil-gradient: linear-gradient(
+    135deg,
+    rgba(255, 0, 128, 0.5),
+    rgba(0, 255, 255, 0.5),
+    rgba(255, 220, 0, 0.5),
+    rgba(160, 32, 240, 0.5),
+    rgba(255, 0, 128, 0.5)
+  );
+  --foil-pattern:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6) 0%, rgba(0, 255, 255, 0.25) 30%, transparent 65%),
+    url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSIyNy43MTMiIHZpZXdCb3g9IjAgMCA0OCAyNy43MTMiPjxwYXRoIGQ9Ik0xNiAwaDE2bDggMTMuODU2LTggMTMuODU3SDE2TDggMTMuODU2em0tMTYgMTMuODU2aDhtMzIgMGg4IiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48L3N2Zz4=");
+  --foil-pattern-size: 100% 100%, 48px 27.713px;
+  --foil-blend: color-dodge;
+}
+
+/* ---------------------------------------------------------------------------- */
+/* The card itself: the card maker's `.card-preview` and its layers.             */
+/* ---------------------------------------------------------------------------- */
+.profile-card-root .card-preview {
+  width: var(--card-width);
+  height: var(--card-height);
+  position: relative;
+  background: var(--rarity-border);
+  clip-path: var(--corner-clip);
+  padding: var(--border-thickness);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px var(--rarity-glow);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  font-family: var(--card-font);
+}
+
+.profile-card-root .card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  clip-path: var(--corner-clip);
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px;
+  overflow: hidden;
+}
+
+/* Background illustration (the first favourite card, or the configured fallback). */
+.profile-card-root .card-art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+/* Foil over the illustration, then the avatar underlay, then the second foil. */
+.profile-card-root .card-foil-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: calc(var(--foil-opacity) * var(--foil-bg-strength));
+  background-image: var(--foil-pattern), var(--foil-gradient);
+  background-size: var(--foil-pattern-size), 200% 200%;
+  mix-blend-mode: var(--foil-blend);
+  transition: all 0.3s ease;
+}
+
+.profile-card-root .card-underlay {
+  position: absolute;
+  inset: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 3;
+  pointer-events: none;
+  /* The avatar illustrations are pixel art: never smooth them. */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* The card maker fills the underlay with a pixel-art SPRITE, which is meant to cover the card. The
+   game hands it a square avatar instead: on a Full Art card, `contain` would blow it up to the
+   whole surface and hide the illustration it is supposed to sit on. It is therefore anchored in the
+   height of a character, in the middle of the art area. The normal layout needs no override: its
+   underlay is already confined to the band between the name and the description. */
+.profile-card-root .card-preview.card-layout-fullart .card-underlay {
+  background-size: auto 32%;
+  background-position: center 42%;
+}
+
+.profile-card-root .card-foil-underlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: calc(var(--foil-opacity) * var(--foil-underlay-strength));
+  background-image: var(--foil-pattern), var(--foil-gradient);
+  background-size: var(--foil-pattern-size), 200% 200%;
+  mix-blend-mode: var(--foil-blend);
+  transition: all 0.3s ease;
+}
+
+/* Name + series band, and the rarity symbol on its right. */
+.profile-card-root .card-header {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: var(--rarity-badge-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 8px 14px;
+  clip-path: polygon(
+    0 6px,
+    6px 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+  border: 1px solid var(--rarity-border);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.profile-card-root .card-title-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.profile-card-root .card-title {
+  display: block;
+  max-width: 100%;
+  font-weight: 800;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--rarity-text-color);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  /* A long pseudo truncates rather than wrapping under the series line. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-card-root .card-series {
+  display: block;
+  max-width: 100%;
+  font-size: 0.65rem;
+  font-weight: 600;
+  /* The series line is the player's TITLE and their number. Its colour, in that order:
+       - `--card-title-color`, set inline by the component when the player BOUGHT a colour;
+       - `--rarity-title-color`, the `auto` choice, one value per rarity class below;
+       - the yellow of a title (`--color-title`), for a stylesheet loaded outside a rarity.
+     The inline property is also what travels into the exported PNG, where no page variable exists. */
+  color: var(--card-title-color, var(--rarity-title-color, var(--color-title, #ffd54a)));
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-card-root .card-rarity {
+  flex: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+}
+
+/* Description block: the pinned trophies on one line, then the three counters. */
+.profile-card-root .card-body {
+  position: relative;
+  z-index: 5;
+  background: var(--rarity-badge-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 14px;
+  clip-path: polygon(
+    0 6px,
+    6px 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+  border: 1px solid var(--rarity-border);
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.profile-card-root .card-text {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #e0e0e0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+/* The card maker's Full Art band is a lightly tinted glass panel, which works over a photograph but
+   not over what the game hands the card here: a FAVOURITE ILLUSTRATION, which is a whole card and
+   therefore full of text. The band is darkened, exactly like the one of the normal layout, so the
+   counters stay readable over it. */
+.profile-card-root .card-preview.card-layout-fullart .card-body {
+  background-color: rgba(9, 9, 13, 0.86);
+}
+
+/* The pinned trophies, on ONE line: the card is an overview, not a list. They are shown as their
+   MEDALS (the reward itself), never as their names, which would take the whole description. */
+.profile-card-root .card-text__featured {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--rarity-text-color);
+  overflow: hidden;
+}
+
+.profile-card-root .card-text__featured[hidden] {
+  display: none;
+}
+
+.profile-card-root .card-text__medal {
+  flex: none;
+  width: auto;
+  height: 24px;
+  /* The medals are pixel art, like every icon of the game. */
+  image-rendering: pixelated;
+  /* Halo of the trophy, keyed by its rarity (bronze has none). The radius is the rarity's, the
+     strength comes from `--trophy-glow-scale` (0-2.5, set on the card by `ProfileCard`), so the
+     settings slider scales all three surfaces at once. */
+  --trophy-glow-color: transparent;
+  --trophy-glow-radius: 0px;
+  filter: drop-shadow(
+    0 0 calc(var(--trophy-glow-radius) * var(--trophy-glow-scale, 1)) var(--trophy-glow-color)
+  );
+}
+
+.profile-card-root .card-text__medal[data-rarity="silver"] {
+  --trophy-glow-color: rgba(255, 255, 255, 0.75);
+  --trophy-glow-radius: 4px;
+}
+
+.profile-card-root .card-text__medal[data-rarity="gold"] {
+  --trophy-glow-color: rgba(255, 205, 80, 0.85);
+  --trophy-glow-radius: 5px;
+}
+
+.profile-card-root .card-text__medal[data-rarity="diamond"] {
+  --trophy-glow-color: rgba(150, 225, 255, 0.9);
+  --trophy-glow-radius: 8px;
+}
+
+.profile-card-root .card-text__medal[data-rarity="emerald"] {
+  --trophy-glow-color: rgba(53, 224, 138, 0.9);
+  --trophy-glow-radius: 8px;
+}
+
+.profile-card-root .font-pixel .card-text__medal {
+  height: 20px;
+}
+
+.profile-card-root .card-text__stats {
+  display: block;
+}
+
+/* One counter per line: the numbers stay aligned whatever their length. */
+.profile-card-root .card-text__stats span {
+  display: block;
+}
+
+/* The card maker's pixel-face adjustments, plus the small size the counters need. */
+.profile-card-root .font-pixel .card-title {
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+.profile-card-root .font-pixel .card-series {
+  font-size: 0.5rem;
+}
+
+.profile-card-root .font-pixel .card-text {
+  font-size: 0.6rem;
+  line-height: 1.7;
+}
+
+/* =============================================================================
+   "Normal" layout: the name band across the top and the description block across
+   the bottom, with the illustration (and the avatar) in the middle strip. This is
+   the card maker's `card-layout-classic`.
+   ============================================================================= */
+.profile-card-root .card-preview.card-layout-classic {
+  --foil-classic-strength: 0.35;
+}
+
+.profile-card-root .card-preview.card-layout-classic .card-art,
+.profile-card-root .card-preview.card-layout-classic .card-foil-bg,
+.profile-card-root .card-preview.card-layout-classic .card-underlay,
+.profile-card-root .card-preview.card-layout-classic .card-foil-underlay {
+  top: calc(var(--card-height) * 0.1);
+  bottom: calc(var(--card-height) * 0.5);
+  height: auto;
+}
+
+.profile-card-root .card-preview.card-layout-classic .card-inner {
+  display: block;
+  padding: 0;
+}
+
+.profile-card-root .card-preview.card-layout-classic .card-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--card-height) * 0.1);
+  padding: 0 12px;
+  clip-path: none;
+  border: none;
+  border-bottom: 2px solid var(--rarity-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.profile-card-root .card-preview.card-layout-classic .card-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--card-height) * 0.5);
+  padding: 16px;
+  clip-path: none;
+  border: none;
+  border-top: 2px solid var(--rarity-border);
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  background-color: rgba(9, 9, 13, 0.93);
+}
+
+/* The avatar covers 80 % of the height of the band it is confined to: it sits ON the artwork
+   instead of hiding it (the card maker would draw a full-band sprite here). */
+.profile-card-root .card-preview.card-layout-classic .card-underlay {
+  background-size: auto 80%;
+}
+
+/* A blurred wash of the illustration keeps the description readable without hiding it. */
+.profile-card-root .card-preview.card-layout-classic .card-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--card-background-image, none);
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) saturate(1.15);
+  transform: scale(1.2);
+  opacity: 0.4;
+}
+
+.profile-card-root .card-preview.card-layout-classic .card-body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: calc(var(--foil-opacity) * var(--foil-classic-strength));
+  background-image: var(--foil-pattern), var(--foil-gradient);
+  background-size: var(--foil-pattern-size), 200% 200%;
+  mix-blend-mode: var(--foil-blend);
+}
+
+.profile-card-root .card-preview.card-layout-classic .card-text {
+  position: relative;
+  z-index: 2;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+/* The export renders the card at its own size: the stage's scale is a screen concern. */
+.profile-card-root.is-exporting {
+  transform: none;
+}

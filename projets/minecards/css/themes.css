@@ -37,6 +37,10 @@ body[data-theme="dark"],
   --color-success: #3ddc84;
   --color-error: #ff6272;
   --color-warning: #ffc857;
+  /* The yellow of a player TITLE (`css/views/titles.css`, `css/views/profile.css`): the line under
+     the pseudo and the title rows of the titles page. Its own token rather than `--color-warning`:
+     a title must keep reading as a reward whatever a future palette does to the warning tone. */
+  --color-title: #ffd54a;
 
   --glow-accent: 0 0 12px rgba(108, 140, 255, 0.45);
   --glow-rarity-4: 0 0 14px rgba(120, 200, 255, 0.55);
@@ -80,6 +84,9 @@ body[data-theme="light"],
   --color-success: #0f9d58;
   --color-error: #d93025;
   --color-warning: #b7791f;
+  /* The pale surfaces of the light theme need a title yellow dark enough to stay readable (see the
+     dark palette for what this token is). */
+  --color-title: #a8790a;
 
   --glow-accent: 0 0 10px rgba(59, 91, 219, 0.35);
   --glow-rarity-4: 0 0 12px rgba(38, 139, 210, 0.45);
@@ -118,6 +125,9 @@ body[data-theme="classic"],
   --color-success: #4f7a2b;
   --color-error: #a52318;
   --color-warning: #b8860b;
+  /* Goldenrod against the parchment of the classic palette (see the dark palette for what this
+     token is). */
+  --color-title: #8a6a12;
 
   --glow-accent: 0 0 10px rgba(165, 84, 31, 0.35);
   --glow-rarity-4: 0 0 12px rgba(47, 111, 168, 0.45);

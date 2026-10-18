@@ -43,6 +43,7 @@ import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import themeManager from '../../utils/ThemeManager.js';
 import animationManager from '../../utils/AnimationManager.js';
+import glowManager from '../../utils/GlowManager.js';
 import foilManager from '../../utils/FoilManager.js';
 import soundManager from '../../utils/SoundManager.js';
 import accountManager from '../../business/AccountManager.js';
@@ -88,6 +89,8 @@ export class SettingsView {
     this.foilValueElement = query('[data-settings-foil-value]');
     this.glareSlider = query('[data-settings-glare]');
     this.glareValueElement = query('[data-settings-glare-value]');
+    this.glowSlider = query('[data-settings-glow]');
+    this.glowValueElement = query('[data-settings-glow-value]');
     this.demoStage = query('[data-animation-demo-stage]');
     this.demoTiles = query('[data-animation-demo-tiles]');
     this.demoPlayButton = query('[data-animation-demo-play]');
@@ -171,6 +174,8 @@ export class SettingsView {
       ['[data-settings-foil-value]', this.foilValueElement],
       ['[data-settings-glare]', this.glareSlider],
       ['[data-settings-glare-value]', this.glareValueElement],
+      ['[data-settings-glow]', this.glowSlider],
+      ['[data-settings-glow-value]', this.glowValueElement],
       ['[data-animation-demo-stage]', this.demoStage],
       ['[data-animation-demo-tiles]', this.demoTiles],
       ['[data-animation-demo-play]', this.demoPlayButton],
@@ -218,6 +223,7 @@ export class SettingsView {
     this.renderAnimationDemo();
     this.renderFoilSlider();
     this.renderGlareSlider();
+    this.renderGlowSlider();
     this.syncSoundToggle();
     await this.syncDevToggle();
     await this.renderAccount();
@@ -699,6 +705,90 @@ export class SettingsView {
   }
 
   /**
+   * Fills the trophy glow slider from the configuration and reflects the active level.
+   *
+   * The range belongs to `settings/config.json` (`glow.trophies`), not to the markup: the slider
+   * and the game must agree on what "strongest" means.
+   *
+   * @returns {void}
+   */
+  renderGlowSlider() {
+    if (!this.glowSlider) return;
+    const { min, max, step } = glowManager.getSettings();
+    this.glowSlider.min = String(min);
+    this.glowSlider.max = String(max);
+    this.glowSlider.step = String(step);
+    this.syncGlowSlider();
+  }
+
+  /**
+   * Reflects the active level on the slider and on its value.
+   *
+   * @returns {void}
+   */
+  syncGlowSlider() {
+    if (!this.glowSlider) return;
+    const level = glowManager.getLevel();
+    if (this.glowSlider.value !== String(level)) {
+      this.glowSlider.value = String(level);
+    }
+    this.renderGlowValue(level);
+  }
+
+  /**
+   * Writes the level displayed next to the slider.
+   *
+   * @param {number} [level] - Value to display (the active one by default).
+   * @returns {void}
+   */
+  renderGlowValue(level = glowManager.getLevel()) {
+    if (!this.glowValueElement) return;
+    // The maximum comes from `config.json`, like the bounds of the slider: hard-coding it in the
+    // translation would lie as soon as the range is retuned.
+    this.glowValueElement.textContent = i18n.t('settings.glow.value', {
+      value: level,
+      max: glowManager.getSettings().max,
+    });
+  }
+
+  /**
+   * Applies the trophy glow while the thumb moves (the release is what saves).
+   *
+   * @param {Event} event - Input event of the range element.
+   * @returns {void}
+   */
+  handleGlowInput(event) {
+    const level = Number(event?.target?.value);
+    try {
+      glowManager.applyLevel(level);
+    } catch (error) {
+      console.error('[SettingsView] Unable to apply the trophy glow.', error);
+      this.setFeedback('settings.error.glow', 'error');
+      return;
+    }
+    this.setFeedback(null);
+    this.renderGlowValue(glowManager.getLevel());
+  }
+
+  /**
+   * Persists the trophy glow once the player lets go of the thumb.
+   *
+   * Like the foil sliders, a failed write keeps the value applied for this session and reports it.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleGlowChange() {
+    const level = glowManager.getLevel();
+    try {
+      await accountManager.updateSettings({ glowTrophies: level });
+      this.log(`Trophy glow set to ${level} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The trophy glow could not be saved.', error);
+      this.setFeedback('settings.error.glow', 'error');
+    }
+  }
+
+  /**
    * Applies the intensity while the thumb moves.
    *
    * Nothing is written to the database here: `input` fires for every step of the drag, and a write
@@ -753,6 +843,8 @@ export class SettingsView {
     this.listen(this.foilSlider, 'change', () => this.handleFoilChange());
     this.listen(this.glareSlider, 'input', (event) => this.handleGlareInput(event));
     this.listen(this.glareSlider, 'change', () => this.handleGlareChange());
+    this.listen(this.glowSlider, 'input', (event) => this.handleGlowInput(event));
+    this.listen(this.glowSlider, 'change', () => this.handleGlowChange());
     this.listen(this.soundToggle, 'click', () => this.handleSoundToggle());
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());

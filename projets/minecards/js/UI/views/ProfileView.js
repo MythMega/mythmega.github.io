@@ -30,11 +30,40 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
-import trophyManager from '../../business/TrophyManager.js';
+import trophyManager, { DEFAULT_TROPHY_ICON } from '../../business/TrophyManager.js';
 import profileIconManager from '../../business/ProfileIconManager.js';
+import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import collectionManager from '../../business/CollectionManager.js';
 import TrophyDetail, { TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
+import ProfileCard, {
+  PROFILE_CARD_DEFAULT_LAYOUT,
+  PROFILE_CARD_LAYOUT_ORDER,
+  PROFILE_CARD_LAYOUTS,
+  PROFILE_CARD_RARITIES,
+} from '../components/ProfileCard.js';
+import profileCardManager, {
+  ProfileCardManager,
+  PROFILE_CARD_DEFAULT_TITLE_COLOR,
+  PROFILE_CARD_TITLE_COLORS,
+} from '../../business/ProfileCardManager.js';
+import featureManager, {
+  FEATURES,
+  FEATURE_ERROR_CODES,
+  TITLE_COLOR_FEATURE_PREFIX,
+} from '../../business/FeatureManager.js';
+import sparksManager from '../../business/SparksManager.js';
+
+/**
+ * i18n keys naming the purchasable features (`FeatureManager.FEATURES`).
+ *
+ * The catalogue is keyed by identifier, so the name of a feature is read from this table: a feature
+ * added later needs one entry here and one key per dictionary, nothing else.
+ */
+const FEATURE_LABEL_KEYS = Object.freeze({
+  [FEATURES.CARD_LAYOUT_FULL_ART]: 'profile.card.feature.cardLayoutFullArt',
+});
 import { STATS_VIEW_NAME } from './StatsView.js';
+import { TITLES_VIEW_NAME } from './TitlesView.js';
 import { TROPHIES_VIEW_NAME } from './TrophiesView.js';
 import Toast from '../components/Toast.js';
 import { getRarityLabel } from '../../classes/Card.js';
@@ -59,6 +88,7 @@ export class ProfileView {
     this.avatarImage = this.root.querySelector('[data-profile-avatar]');
     this.avatarFallback = this.root.querySelector('[data-profile-avatar-fallback]');
     this.displayNameElement = this.root.querySelector('[data-profile-display-name]');
+    this.titleLineElement = this.root.querySelector('[data-profile-title-line]');
     this.form = this.root.querySelector('[data-profile-form]');
     this.nameInput = this.root.querySelector('[data-profile-name]');
     this.iconsList = this.root.querySelector('[data-profile-icons]');
@@ -73,12 +103,37 @@ export class ProfileView {
     this.favoritesElement = this.root.querySelector('[data-profile-favorites]');
     this.favoritesCountElement = this.root.querySelector('[data-profile-favorites-count]');
     this.favoritesEmptyElement = this.root.querySelector('[data-profile-favorites-empty]');
+    this.cardStage = this.root.querySelector('[data-profile-card-stage]');
+    this.cardRarityElement = this.root.querySelector('[data-profile-card-rarity]');
+    this.cardFeedbackElement = this.root.querySelector('[data-profile-card-feedback]');
+    this.cardLayoutsElement = this.root.querySelector('[data-profile-card-layouts]');
+    this.cardFullArtButton = this.root.querySelector('[data-profile-card-layout="fullart"]');
+    this.cardLockElement = this.root.querySelector('[data-profile-card-layout-lock]');
+    this.cardPriceElement = this.root.querySelector('[data-profile-card-layout-price]');
+    this.cardPriceValueElement = this.root.querySelector('[data-profile-card-layout-price-value]');
+    this.cardRaritiesElement = this.root.querySelector('[data-profile-card-rarities]');
+    this.cardTitleColorsElement = this.root.querySelector('[data-profile-card-title-colors]');
+    this.cardTitleColorsPriceElement = this.root.querySelector('[data-profile-card-title-colors-price]');
+    this.cardBuyModal = this.root.querySelector('[data-profile-card-buy-modal]');
+    this.cardBuyFeatureElement = this.root.querySelector('[data-profile-card-buy-feature]');
+    this.cardBuyPriceElement = this.root.querySelector('[data-profile-card-buy-price]');
+    this.cardBuyBalanceElement = this.root.querySelector('[data-profile-card-buy-balance]');
+    this.cardBuyMessageElement = this.root.querySelector('[data-profile-card-buy-message]');
+    this.cardBuyConfirmButton = this.root.querySelector('[data-profile-card-buy-confirm]');
+    this.cardBuyCloseButtons = this.root.querySelectorAll('[data-profile-card-buy-close]');
+    this.cardDownloadButton = this.root.querySelector('[data-profile-card-download]');
+    this.cardExpandButton = this.root.querySelector('[data-profile-card-expand]');
+    this.cardModal = this.root.querySelector('[data-profile-card-modal]');
+    this.cardModalBody = this.root.querySelector('[data-profile-card-modal-body]');
+    this.cardModalDownloadButton = this.root.querySelector('[data-profile-card-modal-download]');
+    this.cardModalCloseButtons = this.root.querySelectorAll('[data-profile-card-modal-close]');
     this.modal = this.root.querySelector('[data-profile-modal]');
     this.modalTitle = this.root.querySelector('[data-profile-modal-title]');
     this.modalBody = this.root.querySelector('[data-profile-modal-body]');
     this.modalClose = this.root.querySelector('[data-profile-modal-close]');
     this.statsButton = this.root.querySelector('[data-profile-stats]');
     this.trophiesButton = this.root.querySelector('[data-profile-trophies]');
+    this.titlesButton = this.root.querySelector('[data-profile-titles]');
 
     this.assertMarkup();
 
@@ -91,6 +146,40 @@ export class ProfileView {
     this.trophyState = null;
     /** @type {Map<string, object>} Collection entries keyed by card key. */
     this.entriesByKey = new Map();
+    /** @type {object|null} Last value returned by `CollectionManager.getCollectionView()`. */
+    this.collection = null;
+    /** @type {ProfileCard|null} The card of the profile (built on first render). */
+    this.profileCard = null;
+    /**
+     * @type {string} Layout of the card, kept by the view so a reload (an opening, a language
+     * change) does not reset the switch the player chose.
+     */
+    this.cardLayout = PROFILE_CARD_DEFAULT_LAYOUT;
+    /** @type {{layout: string, rarity: number|null, titleColor: string}} Display preferences stored
+     *   by the account. */
+    this.cardPreferences = {
+      layout: PROFILE_CARD_DEFAULT_LAYOUT,
+      rarity: null,
+      titleColor: PROFILE_CARD_DEFAULT_TITLE_COLOR,
+    };
+    /** @type {object|null} Last card model built by `ProfileCardManager` (drives the rarity picker). */
+    this.lastCardModel = null;
+    /** @type {boolean} True when the Full Art layout has been bought (`FeatureManager`). */
+    this.fullArtOwned = false;
+    /** @type {number} Price of the Full Art layout, in Sparks. */
+    this.fullArtPrice = 0;
+    /** @type {Record<string, number>} Price of each title colour, in Sparks. */
+    this.titleColorPrices = {};
+    /** @type {number} Price announced for a colour that declares none, in Sparks. */
+    this.titleColorDefaultPrice = 0;
+    /** @type {Set<string>} Ids of the title colours the account bought. */
+    this.ownedTitleColors = new Set();
+    /** @type {string} Identifier the buy modal is about (a feature or a colour). */
+    this.pendingFeatureId = null;
+    /** @type {'feature'|'titleColor'} Which catalogue the pending purchase belongs to. */
+    this.pendingPurchaseType = 'feature';
+    /** @type {HTMLElement|null} Element the card stage lives in outside the enlargement modal. */
+    this.cardStageHome = null;
     /** @type {Map<string, object>} Extension descriptors keyed by id (for the set names). */
     this.sets = new Map();
     /** @type {{default: object[], unlockable: object[]}|null} Avatar catalogue of the last render. */
@@ -145,11 +234,29 @@ export class ProfileView {
       ['[data-profile-xp-fill]', this.xpFill],
       ['[data-profile-featured]', this.featuredElement],
       ['[data-profile-favorites]', this.favoritesElement],
+      ['[data-profile-card-stage]', this.cardStage],
+      ['[data-profile-card-rarity]', this.cardRarityElement],
+      ['[data-profile-card-feedback]', this.cardFeedbackElement],
+      ['[data-profile-card-layouts]', this.cardLayoutsElement],
+      ['[data-profile-card-layout="fullart"]', this.cardFullArtButton],
+      ['[data-profile-card-layout-lock]', this.cardLockElement],
+      ['[data-profile-card-layout-price]', this.cardPriceElement],
+      ['[data-profile-card-rarities]', this.cardRaritiesElement],
+      ['[data-profile-card-title-colors]', this.cardTitleColorsElement],
+      ['[data-profile-card-title-colors-price]', this.cardTitleColorsPriceElement],
+      ['[data-profile-card-buy-modal]', this.cardBuyModal],
+      ['[data-profile-card-buy-feature]', this.cardBuyFeatureElement],
+      ['[data-profile-card-buy-confirm]', this.cardBuyConfirmButton],
+      ['[data-profile-card-download]', this.cardDownloadButton],
+      ['[data-profile-card-expand]', this.cardExpandButton],
+      ['[data-profile-card-modal]', this.cardModal],
+      ['[data-profile-card-modal-body]', this.cardModalBody],
       ['[data-profile-modal]', this.modal],
       ['[data-profile-modal-title]', this.modalTitle],
       ['[data-profile-modal-body]', this.modalBody],
       ['[data-profile-stats]', this.statsButton],
       ['[data-profile-trophies]', this.trophiesButton],
+      ['[data-profile-titles]', this.titlesButton],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -193,10 +300,11 @@ export class ProfileView {
    * @returns {void}
    */
   bindEvents() {
-    // The statistics and the trophy catalogue both live on their own page: these buttons only ask
-    // the application to show it (the catalogue left the bottom bar for this row).
+    // The statistics, the trophy catalogue and the titles all live on their own page: these buttons
+    // only ask the application to show them (the catalogue left the bottom bar for this row).
     this.listen(this.statsButton, 'click', () => this.onNavigate?.(STATS_VIEW_NAME));
     this.listen(this.trophiesButton, 'click', () => this.onNavigate?.(TROPHIES_VIEW_NAME));
+    this.listen(this.titlesButton, 'click', () => this.onNavigate?.(TITLES_VIEW_NAME));
     this.listen(this.editButton, 'click', () => this.setEditing(!this.isEditing));
     this.listen(this.cancelButton, 'click', () => {
       this.renderIdentity(this.profile);
@@ -244,7 +352,51 @@ export class ProfileView {
     });
     this.listen(this.modalClose, 'click', () => this.closeDetail());
     this.listen(document, 'keydown', (event) => {
-      if (event?.key === 'Escape' && this.modal && !this.modal.hidden) this.closeDetail();
+      if (event?.key !== 'Escape') return;
+      // The enlargement of the card is on top of everything: Escape closes it first.
+      if (this.cardBuyModal && !this.cardBuyModal.hidden) {
+        this.closeBuyModal();
+        return;
+      }
+      if (this.cardModal && !this.cardModal.hidden) {
+        this.closeCardModal();
+        return;
+      }
+      if (this.modal && !this.modal.hidden) this.closeDetail();
+    });
+
+    // Profile card: the layout switch, the rarity picker, the PNG export and the enlargement.
+    this.listen(this.cardLayoutsElement, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-profile-card-layout]')
+        : null;
+      if (button) this.handleCardLayoutClick(button.dataset.profileCardLayout);
+    });
+    this.listen(this.cardRaritiesElement, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-profile-card-rarity-option]')
+        : null;
+      if (button && !button.disabled) this.setCardRarity(Number(button.dataset.profileCardRarityOption));
+    });
+    this.listen(this.cardTitleColorsElement, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-profile-card-title-color]')
+        : null;
+      if (button) this.handleCardTitleColorClick(button.dataset.profileCardTitleColor);
+    });
+
+    // Buying a feature: the confirmation modal, reachable from a locked switch button only.
+    this.listen(this.cardBuyConfirmButton, 'click', () => void this.confirmFeaturePurchase());
+    this.cardBuyCloseButtons.forEach((button) => this.listen(button, 'click', () => this.closeBuyModal()));
+    this.listen(this.cardBuyModal, 'click', (event) => {
+      if (event?.target === this.cardBuyModal) this.closeBuyModal();
+    });
+    this.listen(this.cardDownloadButton, 'click', () => void this.downloadProfileCard());
+    this.listen(this.cardModalDownloadButton, 'click', () => void this.downloadProfileCard());
+    this.listen(this.cardExpandButton, 'click', () => this.openCardModal());
+    this.cardModalCloseButtons.forEach((button) => this.listen(button, 'click', () => this.closeCardModal()));
+    this.listen(this.cardModal, 'click', (event) => {
+      if (event?.target === this.cardModal) this.closeCardModal();
     });
 
     // The modal is rebuilt on every open, so its action buttons are handled by delegation.
@@ -272,11 +424,26 @@ export class ProfileView {
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.TROPHY_UNLOCKED, () => this.handleTrophyUnlocked()));
+    this.unsubscribers.push(eventBus.on(EVENTS.TITLE_UNLOCKED, () => this.handleTitleUnlocked()));
     this.unsubscribers.push(eventBus.on(EVENTS.EXPERIENCE_UPDATED, (payload) => {
       if (payload?.level) this.renderLevel(payload.level);
     }));
+    // A profile change (a new title, another avatar, a pin) redraws the card: it is a picture of
+    // the account, so it must never show what the page next to it no longer says.
+    this.unsubscribers.push(eventBus.on(EVENTS.PROFILE_UPDATED, (payload) => {
+      if (payload?.profile) this.profile = payload.profile;
+      void this.renderProfileCard();
+    }));
     this.unsubscribers.push(eventBus.on(EVENTS.FAVORITES_UPDATED, (payload) => {
-      if (Array.isArray(payload?.favorites)) void this.renderFavorites({ ...this.profile, favorites: payload.favorites });
+      if (!Array.isArray(payload?.favorites)) return;
+      this.profile = { ...this.profile, favorites: payload.favorites };
+      void this.renderFavorites(this.profile);
+      // The FIRST favourite lends its illustration to the card background.
+      void this.renderProfileCard();
+    }));
+    // A feature bought from another tab (or another screen, later) unlocks its switch here too.
+    this.unsubscribers.push(eventBus.on(EVENTS.FEATURE_UNLOCKED, () => {
+      if (this.isInitialized && !this.isLoading) void this.reload();
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.BOOSTER_OPENED, () => {
       // An opening adds cards: the level, the counters and the trophies all move.
@@ -299,23 +466,46 @@ export class ProfileView {
       // The evaluation stays SILENT here: opening the page must never announce trophies. Only the
       // openings (`TrophyManager` subscribes to `BOOSTER_OPENED`) and the automatic boot evaluation
       // own the announcements, so a save that unlocks a dozen trophies shows one toast, not twelve.
-      const [profile, trophyState, collection] = await Promise.all([
-        profileManager.getProfile(),
-        trophyManager.evaluate({ notify: false }),
-        collectionManager.getCollectionView(),
-      ]);
+      const [profile, trophyState, collection, preferences, catalog, purchases, titleColors] =
+        await Promise.all([
+          profileManager.getProfile(),
+          trophyManager.evaluate({ notify: false }),
+          collectionManager.getCollectionView(),
+          profileCardManager.getPreferences(),
+          featureManager.getCatalog(),
+          featureManager.getPurchases(),
+          featureManager.getTitleColors(),
+        ]);
       this.profile = profile;
       this.trophyState = trophyState;
+      this.collection = collection;
+      this.cardPreferences = preferences;
+      this.fullArtPrice = catalog[FEATURES.CARD_LAYOUT_FULL_ART]?.priceSparks ?? 0;
+      this.fullArtOwned = Object.prototype.hasOwnProperty.call(
+        purchases,
+        FEATURES.CARD_LAYOUT_FULL_ART
+      );
+      this.titleColorPrices = { ...(titleColors.items ?? {}) };
+      this.titleColorDefaultPrice = Number.isInteger(titleColors.defaultPriceSparks)
+        ? titleColors.defaultPriceSparks
+        : 0;
+      this.ownedTitleColors = new Set(
+        Object.keys(purchases)
+          .filter((id) => id.startsWith(TITLE_COLOR_FEATURE_PREFIX))
+          .map((id) => id.slice(TITLE_COLOR_FEATURE_PREFIX.length))
+      );
       this.entriesByKey = new Map((collection.entries ?? []).map((entry) => [entry.key, entry]));
       this.sets = new Map(Object.entries(collection.sets ?? {}));
       this.icons = await profileIconManager.listIcons({ trophyState });
 
       this.selectedIcon = profile.icon;
       this.renderIdentity(profile);
+      await this.renderTitleLine(profile);
       this.renderIconPicker();
       this.renderLevel(trophyState.level);
       this.renderFeatured(trophyState, profile);
       await this.renderFavorites(profile);
+      await this.renderProfileCard();
     } catch (error) {
       console.error('[ProfileView] The profile could not be loaded.', error);
       this.setFeedback('profile.error.load', 'error');
@@ -383,6 +573,33 @@ export class ProfileView {
     if (this.displayNameElement) {
       this.displayNameElement.textContent = display;
     }
+  }
+
+  /**
+   * Renders the player TITLE, the line under the pseudo.
+   *
+   * The profile only stores the ID of the title (`ProfileManager`): the catalogue is what turns it
+   * into the sentence of the active language, and a title that left the catalogue simply leaves the
+   * line empty (a worn title is never a broken string).
+   *
+   * @param {object} profile - Stored profile.
+   * @returns {Promise<void>} Resolves once the line is rendered.
+   */
+  async renderTitleLine(profile) {
+    if (!this.titleLineElement) return;
+    const id = typeof profile?.title === 'string' ? profile.title.trim() : '';
+    let text = '';
+    if (id !== '') {
+      try {
+        const title = await titleManager.getTitle(id);
+        if (title) text = TitleManager.titleText(title, i18n.getLang());
+      } catch (error) {
+        console.warn(`[ProfileView] The title "${id}" could not be read.`, error);
+      }
+    }
+    this.titleLineElement.textContent = text;
+    this.titleLineElement.hidden = text === '';
+    this.titleLineElement.dataset.titleId = text === '' ? '' : id;
   }
 
   /**
@@ -694,6 +911,607 @@ export class ProfileView {
   }
 
   /**
+   * Renders the player CARD: the account itself, drawn as a trading card.
+   *
+   * Everything the card shows is read from the account on every render (`ProfileCardManager`), so
+   * the panel can never drift from the identity, the pins and the collection around it. The card is
+   * built once (`ensureProfileCard`) and only UPDATED afterwards: keeping the same component is
+   * what lets the player's layout choice survive a reload of the page (an opening, a new language),
+   * and what keeps the shadow tree out of the DOM churn of every other panel.
+   *
+   * @returns {Promise<void>} Resolves once the card is displayed.
+   */
+  async renderProfileCard() {
+    if (!this.profile || !this.cardStage) return;
+    try {
+      const model = await profileCardManager.build({
+        profile: this.profile,
+        trophyState: this.trophyState,
+        collection: this.collection,
+        entriesByKey: this.entriesByKey,
+        preferences: this.cardPreferences,
+      });
+      this.lastCardModel = model;
+      this.cardLayout = this.resolveCardLayout(model.layout);
+      this.ensureProfileCard();
+      this.profileCard.setLayout(this.cardLayout);
+      await this.profileCard.render(model);
+      this.renderCardRarity(model);
+      this.renderCardRarities(model);
+      this.renderCardTitleColors(model);
+      this.renderCardLayoutPrice();
+    } catch (error) {
+      console.error('[ProfileView] The profile card could not be built.', error);
+      this.setCardFeedback('profile.card.error.load', 'error');
+    }
+  }
+
+  /**
+   * Creates the card component on first use.
+   *
+   * The component owns a shadow root: creating it lazily keeps the page light for a player who
+   * never opens the profile, and creating it only ONCE is what makes the enlargement a move of the
+   * same element rather than a second card.
+   *
+   * @returns {void}
+   */
+  ensureProfileCard() {
+    if (this.profileCard || !this.cardStage) return;
+    this.cardStageHome = this.cardStage.parentElement ?? null;
+    this.profileCard = new ProfileCard(this.cardStage, {
+      onLayoutChange: (layout) => this.syncCardLayoutButtons(layout),
+    });
+    this.profileCard.setLayout(this.cardLayout);
+    this.syncCardLayoutButtons(this.cardLayout);
+    this.log('Profile card component created.');
+  }
+
+  /**
+   * Renders the line under the card: the rarity reached, then the next one as a goal.
+   *
+   * The thresholds live in `settings/config.json` (section `profileCard`), so the line is also what
+   * tells the player how far the card still has to grow.
+   *
+   * @param {object} model - Card model built by `ProfileCardManager`.
+   * @returns {void}
+   */
+  renderCardRarity(model) {
+    if (!this.cardRarityElement) return;
+    const translate = (key) => i18n.t(key);
+    const label = getRarityLabel(model.rarity, translate);
+    this.cardRarityElement.textContent = [
+      i18n.t('profile.card.rarity', { rarity: label }),
+      i18n.t('profile.card.trophies', { count: model.trophyCount }),
+    ].join(' · ');
+
+    const next = ProfileCardManager.findNextRarity(model.thresholds, model.rarity, model.trophyCount);
+    const goal = document.createElement('span');
+    goal.className = 'profile-card-panel__goal';
+    goal.textContent = next
+      ? i18n.t('profile.card.next', {
+          count: next.count,
+          rarity: getRarityLabel(next.rarity, translate),
+        })
+      : i18n.t('profile.card.max');
+    this.cardRarityElement.appendChild(document.createElement('br'));
+    this.cardRarityElement.appendChild(goal);
+    this.cardRarityElement.dataset.rarity = String(model.rarity);
+  }
+
+  /**
+   * Resolves the layout the card may actually wear.
+   *
+   * Full Art is a FEATURE (`FeatureManager`): a stored preference that has not been paid for (a save
+   * written by another version, or a purchase removed from the configuration) falls back to the
+   * free layout instead of granting a paid one.
+   *
+   * @param {string} layout - Stored layout.
+   * @returns {string} The layout to display.
+   */
+  resolveCardLayout(layout) {
+    if (layout === PROFILE_CARD_LAYOUTS.FULL_ART && !this.fullArtOwned) {
+      return PROFILE_CARD_DEFAULT_LAYOUT;
+    }
+    return PROFILE_CARD_LAYOUT_ORDER.includes(layout) ? layout : PROFILE_CARD_DEFAULT_LAYOUT;
+  }
+
+  /**
+   * Reacts to a click on the layout switch.
+   *
+   * A locked layout does NOT switch and does not buy: it opens the confirmation, and the switch only
+   * moves on a LATER click, once the feature is owned.
+   *
+   * @param {string} layout - Layout of the clicked button.
+   * @returns {void}
+   */
+  handleCardLayoutClick(layout) {
+    if (layout === PROFILE_CARD_LAYOUTS.FULL_ART && !this.fullArtOwned) {
+      void this.openBuyModal(FEATURES.CARD_LAYOUT_FULL_ART);
+      return;
+    }
+    this.setCardLayout(layout);
+  }
+
+  /**
+   * Applies one layout to the card ("Normale" or "Full Art") and remembers it.
+   *
+   * @param {string} layout - Layout name, one of `PROFILE_CARD_LAYOUT_ORDER`.
+   * @returns {void}
+   */
+  setCardLayout(layout) {
+    const next = this.resolveCardLayout(layout);
+    this.cardLayout = next;
+    this.cardPreferences = { ...this.cardPreferences, layout: next };
+    this.profileCard?.setLayout(next);
+    this.syncCardLayoutButtons(next);
+    void profileCardManager.savePreferences({ layout: next }).catch((error) => {
+      console.error('[ProfileView] The card layout could not be saved.', error);
+      this.setCardFeedback('profile.card.error.load', 'error');
+    });
+  }
+
+  /**
+   * Reads the label of a purchasable feature.
+   *
+   * @param {string} id - Feature identifier.
+   * @returns {string} The translated name (the identifier itself when it has no entry yet).
+   */
+  static featureLabel(id) {
+    const key = FEATURE_LABEL_KEYS[id];
+    return key ? i18n.t(key) : id;
+  }
+
+  /**
+   * Marks the Full Art button as a price tag while the feature is not owned.
+   *
+   * @returns {void}
+   */
+  renderCardLayoutPrice() {
+    if (!this.cardFullArtButton) return;
+    const locked = !this.fullArtOwned;
+    this.cardFullArtButton.dataset.locked = String(locked);
+    this.cardLockElement.hidden = !locked;
+    this.cardPriceElement.hidden = !locked;
+    this.cardPriceValueElement.textContent = String(this.fullArtPrice);
+    this.cardFullArtButton.setAttribute(
+      'aria-label',
+      locked
+        ? i18n.t('profile.card.layout.locked', { price: this.fullArtPrice })
+        : i18n.t('profile.card.layout.fullart')
+    );
+  }
+
+  /**
+   * Builds the rarity picker of the card.
+   *
+   * One option per card rarity: the unlocked ones are selectable and show their symbol and name, the
+   * locked ones are disabled and show the trophy medal with the count the account has against the
+   * count the threshold asks for, in the colour of a refusal. The picker is therefore also the list
+   * of the rarities the card can still grow into.
+   *
+   * @param {object} model - Card model built by `ProfileCardManager`.
+   * @returns {void}
+   */
+  renderCardRarities(model) {
+    if (!this.cardRaritiesElement) return;
+    const translate = (key) => i18n.t(key);
+    this.cardRaritiesElement.textContent = '';
+
+    (model?.rarities ?? []).forEach((entry) => {
+      const rarity = PROFILE_CARD_RARITIES[entry.rarity] ?? PROFILE_CARD_RARITIES[1];
+      const label = getRarityLabel(entry.rarity, translate);
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'profile-card-panel__rarity';
+      button.dataset.profileCardRarityOption = String(entry.rarity);
+      button.setAttribute('role', 'radio');
+      button.setAttribute('aria-checked', String(entry.worn));
+      button.disabled = !entry.unlocked;
+      button.setAttribute(
+        'aria-label',
+        entry.unlocked
+          ? label
+          : i18n.t('profile.card.rarity.lockedLabel', {
+              rarity: label,
+              count: entry.count,
+              required: entry.required,
+            })
+      );
+      button.title = button.getAttribute('aria-label');
+
+      const symbol = document.createElement('span');
+      symbol.className = 'profile-card-panel__rarity-symbol';
+      symbol.textContent = rarity.symbol;
+      symbol.setAttribute('aria-hidden', 'true');
+      button.appendChild(symbol);
+
+      const name = document.createElement('span');
+      name.className = 'profile-card-panel__rarity-name';
+      name.textContent = label;
+      button.appendChild(name);
+
+      if (!entry.unlocked) {
+        const count = document.createElement('span');
+        count.className = 'profile-card-panel__rarity-count';
+        const medal = document.createElement('img');
+        medal.className = 'profile-card-panel__rarity-medal';
+        medal.src = DEFAULT_TROPHY_ICON;
+        medal.alt = '';
+        medal.setAttribute('aria-hidden', 'true');
+        const text = document.createElement('span');
+        text.textContent = `${entry.count} / ${entry.required}`;
+        count.append(medal, text);
+        button.appendChild(count);
+      }
+
+      this.cardRaritiesElement.appendChild(button);
+    });
+  }
+
+  /**
+   * Builds the title-colour picker of the card.
+   *
+   * `auto` comes first and is always available: it is the rarity colour, so it costs nothing and
+   * follows the rarity the player picked just above. The palette follows; a colour that was not
+   * bought is dimmed, carries its price and opens the purchase confirmation instead of selecting
+   * itself. The swatch itself is the colour, which is the only label a player needs.
+   *
+   * @param {object} model - Card model built by `ProfileCardManager`.
+   * @returns {void}
+   */
+  renderCardTitleColors(model) {
+    if (!this.cardTitleColorsElement) return;
+    const chosen = typeof model?.titleColor === 'string'
+      ? model.titleColor
+      : this.cardPreferences.titleColor;
+
+    const entries = [
+      {
+        id: PROFILE_CARD_DEFAULT_TITLE_COLOR,
+        color: 'var(--color-title)',
+        label: i18n.t('profile.card.titleColor.auto'),
+        owned: true,
+        price: 0,
+      },
+      ...PROFILE_CARD_TITLE_COLORS.map((entry) => ({
+        id: entry.id,
+        color: entry.color,
+        label: i18n.t(entry.labelKey),
+        owned: this.ownedTitleColors.has(entry.id),
+        price: this.titleColorPrices[entry.id] ?? this.titleColorDefaultPrice,
+      })),
+    ];
+
+    this.cardTitleColorsElement.textContent = '';
+    entries.forEach((entry) => {
+      const selected = entry.id === chosen;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'profile-card-panel__color';
+      button.dataset.profileCardTitleColor = entry.id;
+      button.dataset.owned = String(entry.owned);
+      button.dataset.selected = String(selected);
+      button.setAttribute('aria-pressed', String(selected));
+      button.style.setProperty('--swatch-color', entry.color);
+
+      const label = entry.owned
+        ? entry.label
+        : i18n.t('profile.card.titleColor.locked', { color: entry.label, price: entry.price });
+      button.title = label;
+      button.setAttribute('aria-label', label);
+
+      const dot = document.createElement('span');
+      dot.className = 'profile-card-panel__color-dot';
+      dot.setAttribute('aria-hidden', 'true');
+      button.appendChild(dot);
+
+      const name = document.createElement('span');
+      name.className = 'profile-card-panel__color-name';
+      name.textContent = entry.label;
+      button.appendChild(name);
+
+      if (!entry.owned) {
+        const price = document.createElement('span');
+        price.className = 'profile-card-panel__color-price';
+        const coin = document.createElement('img');
+        coin.className = 'profile-card-panel__price-icon';
+        coin.src = 'assets/img/sparks.png';
+        coin.alt = '';
+        coin.setAttribute('aria-hidden', 'true');
+        const value = document.createElement('span');
+        value.textContent = String(entry.price);
+        price.append(coin, value);
+        button.appendChild(price);
+      }
+
+      this.cardTitleColorsElement.appendChild(button);
+    });
+
+    if (this.cardTitleColorsPriceElement) {
+      this.cardTitleColorsPriceElement.textContent = i18n.t('profile.card.titleColor.help', {
+        price: this.titleColorDefaultPrice,
+      });
+    }
+  }
+
+  /**
+   * Handles a click on a title colour.
+   *
+   * An owned colour (and `auto`) is worn immediately; a locked one opens the purchase confirmation,
+   * exactly like the Full Art switch. Nothing is bought without a second click in the modal.
+   *
+   * @param {string} id - Colour id, or `auto`.
+   * @returns {void}
+   */
+  handleCardTitleColorClick(id) {
+    if (typeof id !== 'string' || id === '') return;
+    if (id === PROFILE_CARD_DEFAULT_TITLE_COLOR || this.ownedTitleColors.has(id)) {
+      this.setCardTitleColor(id);
+      return;
+    }
+    const entry = PROFILE_CARD_TITLE_COLORS.find((candidate) => candidate.id === id);
+    if (!entry) return;
+    void this.openBuyModal(id, {
+      type: 'titleColor',
+      label: i18n.t(entry.labelKey),
+      price: this.titleColorPrices[id] ?? this.titleColorDefaultPrice,
+    });
+  }
+
+  /**
+   * Wears one title colour and remembers it.
+   *
+   * Only `auto` and an OWNED colour are accepted (the picker already blocks the others): a
+   * hand-written preference can never dress the card in a colour the player did not pay for.
+   *
+   * @param {string} id - Colour id, or `auto`.
+   * @returns {void}
+   */
+  setCardTitleColor(id) {
+    const accepted = id === PROFILE_CARD_DEFAULT_TITLE_COLOR || this.ownedTitleColors.has(id);
+    if (!accepted) return;
+    this.cardPreferences = { ...this.cardPreferences, titleColor: id };
+    void profileCardManager.savePreferences({ titleColor: id }).catch((error) => {
+      console.error('[ProfileView] The title colour could not be saved.', error);
+      this.setCardFeedback('profile.card.error.load', 'error');
+    });
+    void this.renderProfileCard();
+  }
+
+  /**
+   * Wears one of the unlocked rarities.
+   *
+   * Only an UNLOCKED rarity is accepted (the picker already disables the others): the card can never
+   * show a rarity the account did not earn, whatever a hand-written save says.
+   *
+   * @param {number} rarity - Rarity to wear.
+   * @returns {void}
+   */
+  setCardRarity(rarity) {
+    const entry = (this.lastCardModel?.rarities ?? []).find(
+      (candidate) => candidate.rarity === rarity
+    );
+    if (!entry || !entry.unlocked) return;
+    this.cardPreferences = { ...this.cardPreferences, rarity };
+    void profileCardManager.savePreferences({ rarity }).catch((error) => {
+      console.error('[ProfileView] The card rarity could not be saved.', error);
+      this.setCardFeedback('profile.card.error.load', 'error');
+    });
+    void this.renderProfileCard();
+  }
+
+  /**
+   * Opens the purchase confirmation of one feature.
+   *
+   * The balance is read NOW rather than from the last render: it is what decides between the
+   * confirmation and the "not enough Sparks" refusal, and a booster may have been opened since.
+   *
+   * @param {string} id - Feature identifier.
+   * @returns {Promise<void>} Resolves once the modal is displayed.
+   */
+  async openBuyModal(id, { type = 'feature', label = null, price = null } = {}) {
+    if (!this.cardBuyModal) return;
+    this.pendingFeatureId = id;
+    this.pendingPurchaseType = type === 'titleColor' ? 'titleColor' : 'feature';
+    const featureLabel = label ?? ProfileView.featureLabel(id);
+    const knownPrice = Number.isInteger(price) ? price : null;
+    let priceValue = knownPrice ?? 0;
+    let balance = 0;
+    try {
+      [priceValue, balance] = await Promise.all([
+        knownPrice !== null
+          ? Promise.resolve(knownPrice)
+          : featureManager.getPrice(id),
+        sparksManager.getBalance(),
+      ]);
+    } catch (error) {
+      console.error('[ProfileView] The price of the feature could not be read.', error);
+      Toast.error('profile.card.buy.error');
+      this.pendingFeatureId = null;
+      return;
+    }
+
+    const enough = balance >= priceValue;
+    this.cardBuyFeatureElement.textContent = featureLabel;
+    this.cardBuyPriceElement.textContent = i18n.t('profile.card.buy.price', { price: priceValue });
+    this.cardBuyBalanceElement.textContent = i18n.t('profile.card.buy.balance', { balance });
+    this.cardBuyMessageElement.textContent = enough
+      ? i18n.t('profile.card.buy.ask', { feature: featureLabel, price: priceValue })
+      : i18n.t('profile.card.buy.insufficient', { balance, price: priceValue });
+    this.cardBuyMessageElement.dataset.tone = enough ? 'info' : 'error';
+    this.cardBuyConfirmButton.disabled = !enough;
+
+    this.cardBuyModal.hidden = false;
+    this.cardBuyModal.classList.remove('is-opening');
+    void this.cardBuyModal.offsetWidth;
+    this.cardBuyModal.classList.add('is-opening');
+    this.log(`Purchase of "${id}" offered (${priceValue} Sparks, balance ${balance}).`);
+  }
+
+  /**
+   * Closes the purchase confirmation.
+   *
+   * @returns {void}
+   */
+  closeBuyModal() {
+    if (!this.cardBuyModal || this.cardBuyModal.hidden) return;
+    this.cardBuyModal.hidden = true;
+    this.cardBuyModal.classList.remove('is-opening');
+    this.pendingFeatureId = null;
+    this.pendingPurchaseType = 'feature';
+  }
+
+  /**
+   * Buys the feature the modal is about.
+   *
+   * Neither the layout nor the title colour moves here: the player asked to OWN them, not to wear
+   * them, so they only change on the next click. A refusal (not enough Sparks in the meantime) is
+   * shown in the modal rather than thrown away.
+   *
+   * @returns {Promise<void>} Resolves once the purchase finished (or the refusal was reported).
+   */
+  async confirmFeaturePurchase() {
+    const id = this.pendingFeatureId;
+    if (!id) return;
+    const isColor = this.pendingPurchaseType === 'titleColor';
+    this.cardBuyConfirmButton.disabled = true;
+    try {
+      const result = isColor
+        ? await featureManager.purchaseTitleColor(id)
+        : await featureManager.purchase(id);
+      let label;
+      if (isColor) {
+        this.ownedTitleColors.add(id);
+        const entry = PROFILE_CARD_TITLE_COLORS.find((candidate) => candidate.id === id);
+        label = entry ? i18n.t(entry.labelKey) : id;
+      } else {
+        this.fullArtOwned = this.fullArtOwned || id === FEATURES.CARD_LAYOUT_FULL_ART;
+        label = ProfileView.featureLabel(id);
+      }
+      this.setCardFeedback('profile.card.buy.bought', 'info', { feature: label });
+      if (!result.alreadyOwned) Toast.success('profile.card.buy.bought', { params: { feature: label } });
+      this.closeBuyModal();
+      // The lock and the price go away; the switch (and the worn colour) stay where they are.
+      this.renderCardLayoutPrice();
+      this.renderCardTitleColors(this.lastCardModel);
+    } catch (error) {
+      console.error('[ProfileView] The feature could not be bought.', error);
+      if (error?.code === FEATURE_ERROR_CODES.INSUFFICIENT_SPARKS) {
+        const price = await (isColor
+          ? featureManager.getTitleColorPrice(id)
+          : featureManager.getPrice(id)
+        ).catch(() => 0);
+        const balance = await sparksManager.getBalance().catch(() => 0);
+        this.cardBuyMessageElement.textContent = i18n.t('profile.card.buy.insufficient', {
+          balance,
+          price,
+        });
+        this.cardBuyMessageElement.dataset.tone = 'error';
+        this.cardBuyConfirmButton.disabled = true;
+        return;
+      }
+      this.setCardFeedback('profile.card.buy.error', 'error');
+      Toast.error('profile.card.buy.error');
+      this.closeBuyModal();
+    } finally {
+      if (this.cardBuyModal?.hidden) this.cardBuyConfirmButton.disabled = false;
+    }
+  }
+
+  /**
+   * Marks the layout button of the active layout.
+   *
+   * @param {string} layout - Active layout.
+   * @returns {void}
+   */
+  syncCardLayoutButtons(layout) {
+    if (!this.cardLayoutsElement) return;
+    this.cardLayoutsElement.querySelectorAll('[data-profile-card-layout]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.dataset.profileCardLayout === layout));
+    });
+  }
+
+  /**
+   * Displays a translated message under the card.
+   *
+   * @param {string|null} key - i18n key, or null to hide the message.
+   * @param {'info'|'error'} [tone='info'] - Visual tone.
+   * @param {object|null} [params=null] - Interpolation values.
+   * @returns {void}
+   */
+  setCardFeedback(key, tone = 'info', params = null) {
+    if (!this.cardFeedbackElement) return;
+    if (!key) {
+      this.cardFeedbackElement.hidden = true;
+      this.cardFeedbackElement.textContent = '';
+      return;
+    }
+    this.cardFeedbackElement.hidden = false;
+    this.cardFeedbackElement.textContent = i18n.t(key, params ?? undefined);
+    this.cardFeedbackElement.dataset.tone = tone;
+    if (tone === 'error') console.warn(`[ProfileView] ${this.cardFeedbackElement.textContent}`);
+  }
+
+  /**
+   * Exports the card as a PNG and hands it to the browser.
+   *
+   * Both download buttons (the panel and the enlarged card) are disabled while the image is built:
+   * rasterizing the card twice at once would only waste memory.
+   *
+   * @returns {Promise<void>} Resolves once the file was written (or the failure reported).
+   */
+  async downloadProfileCard() {
+    if (!this.profileCard) return;
+    const buttons = [this.cardDownloadButton, this.cardModalDownloadButton].filter((button) => button);
+    buttons.forEach((button) => {
+      button.disabled = true;
+    });
+    this.setCardFeedback('profile.card.exporting');
+    try {
+      const file = await this.profileCard.download();
+      this.setCardFeedback('profile.card.downloaded', 'info', { file });
+    } catch (error) {
+      console.error('[ProfileView] The profile card could not be exported.', error);
+      this.setCardFeedback('profile.card.error.export', 'error');
+      Toast.error('profile.card.error.export');
+    } finally {
+      buttons.forEach((button) => {
+        button.disabled = false;
+      });
+    }
+  }
+
+  /**
+   * Enlarges the card by moving its stage into the modal.
+   *
+   * Moving the host (never rebuilding it) keeps the shadow tree, the selected layout and the
+   * already-decoded illustrations: the enlarged card is literally the same card, drawn bigger.
+   *
+   * @returns {void}
+   */
+  openCardModal() {
+    if (!this.cardModal || !this.cardModalBody || !this.cardStage) return;
+    this.cardModalBody.appendChild(this.cardStage);
+    this.cardModal.hidden = false;
+    this.profileCard?.applyStage();
+    this.log('Profile card enlarged.');
+  }
+
+  /**
+   * Puts the card back into its panel.
+   *
+   * @returns {void}
+   */
+  closeCardModal() {
+    if (!this.cardModal || this.cardModal.hidden) return;
+    this.cardModal.hidden = true;
+    // `prepend` restores the exact place the stage has in the panel (its first child).
+    if (this.cardStageHome && this.cardStage) this.cardStageHome.prepend(this.cardStage);
+    this.profileCard?.applyStage();
+  }
+
+  /**
    * Opens the detail modal for one pinned trophy.
    *
    * @param {string} id - Trophy id.
@@ -709,16 +1527,23 @@ export class ProfileView {
     this.modalTitle.textContent = TrophyDetail.trophyTitle(trophy);
     this.modalBody.textContent = '';
 
-    let icons = [];
-    try {
-      icons = await profileIconManager.getIconsForTrophy(trophy);
-    } catch (error) {
-      console.warn(`[ProfileView] The avatars unlocked by "${id}" could not be read.`, error);
-    }
+    // Avatars and player titles are read from their own catalogues, and a failure of one must not
+    // hide the trophy itself: each read falls back to an empty list.
+    const [icons, titles] = await Promise.all([
+      profileIconManager.getIconsForTrophy(trophy).catch((error) => {
+        console.warn(`[ProfileView] The avatars unlocked by "${id}" could not be read.`, error);
+        return [];
+      }),
+      titleManager.getTitlesForTrophy(trophy).catch((error) => {
+        console.warn(`[ProfileView] The titles unlocked by "${id}" could not be read.`, error);
+        return [];
+      }),
+    ]);
 
     this.modalBody.appendChild(TrophyDetail.buildDetailBody(trophy, {
       experiencePerTrophy: this.trophyState.experiencePerTrophy,
       icons,
+      titles,
     }));
     this.openModal(trophy.id);
   }
@@ -891,6 +1716,21 @@ export class ProfileView {
   }
 
   /**
+   * Refreshes the page when a title was unlocked or selected.
+   *
+   * The titles page is a view of its own: coming back from it re-renders this page anyway
+   * (`handleViewActivated`), but a title may also be unlocked by an opening while the profile is on
+   * screen, and the line under the pseudo must follow the announcement.
+   *
+   * @returns {void}
+   */
+  handleTitleUnlocked() {
+    if (this.isInitialized && !this.isLoading) {
+      void this.reload();
+    }
+  }
+
+  /**
    * Refreshes the page when a trophy is unlocked (the announcement is made by `app.js`).
    *
    * @returns {void}
@@ -969,8 +1809,11 @@ export class ProfileView {
     this.bindings = [];
     this.unsubscribers.forEach((unsubscribe) => unsubscribe());
     this.unsubscribers = [];
+    this.profileCard?.destroy();
+    this.profileCard = null;
     this.profile = null;
     this.trophyState = null;
+    this.collection = null;
     this.entriesByKey = new Map();
     this.sets = new Map();
     this.icons = null;

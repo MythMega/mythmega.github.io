@@ -1,0 +1,26 @@
+[
+    {
+        "id": "level-1",
+        "requiredLevel": 1,
+        "text": {
+            "fr": "Zombie",
+            "en": "Zombie"
+        }
+    },
+    {
+        "id": "level-2",
+        "requiredLevel": 2,
+        "text": {
+            "fr": "Dandelion",
+            "en": "Dandelion"
+        }
+    },
+    {
+        "id": "level-3",
+        "requiredLevel": 3,
+        "text": {
+            "fr": "Cubiste",
+            "en": "Cubist"
+        }
+    }
+]

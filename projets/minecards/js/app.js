@@ -32,6 +32,7 @@ import i18n from './utils/I18n.js';
 import themeManager from './utils/ThemeManager.js';
 import animationManager from './utils/AnimationManager.js';
 import foilManager from './utils/FoilManager.js';
+import glowManager from './utils/GlowManager.js';
 import soundManager from './utils/SoundManager.js';
 import { configLoader } from './utils/ConfigLoader.js';
 import eventBus, { EVENTS } from './utils/EventBus.js';
@@ -45,10 +46,12 @@ import { MineBlockView, MINE_BLOCK_VIEW_NAME } from './UI/views/MineBlockView.js
 import { ProfileView, PROFILE_VIEW_NAME } from './UI/views/ProfileView.js';
 import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
 import { TrophiesView, TROPHIES_VIEW_NAME } from './UI/views/TrophiesView.js';
+import { TitlesView, TITLES_VIEW_NAME } from './UI/views/TitlesView.js';
 import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
 import { RedeemView } from './UI/views/RedeemView.js';
 import { GiftsView } from './UI/views/GiftsView.js';
 import { InfoView, INFO_VIEW_NAME } from './UI/views/InfoView.js';
+import titleManager from './business/TitleManager.js';
 import minePickManager from './business/MinePickManager.js';
 import binderManager from './business/BinderManager.js';
 import gameNotifier from './UI/components/GameNotifier.js';
@@ -163,6 +166,8 @@ export class App {
     /** @type {TrophiesView|null} Trophy catalogue (opened from the profile since the Mine took its
      * bottom-bar slot). */
     this.trophiesView = null;
+    /** @type {TitlesView|null} Player titles (opened from the profile, next to the trophies). */
+    this.titlesView = null;
     /** @type {MinePickView|null} Mine Pick screen (ten simulated boosters a day, three picks). */
     this.minePickView = null;
     /** @type {MineBlockView|null} Mine screen (ten blocks a day, mined one by one). */
@@ -241,6 +246,9 @@ export class App {
     // must exist before the first card is built, otherwise a legendary would flash at the default
     // strength while the stored one loads.
     await foilManager.init();
+    // Same for the trophy glow: `--trophy-glow-scale` must exist before the first trophy is drawn
+    // (the profile names its pinned ones on its first paint).
+    await glowManager.init();
     await i18n.init();
   }
 
@@ -300,6 +308,9 @@ export class App {
     // sweeping line of the same foil) is its own preference and its own range.
     foilManager.applyIntensity(settings.foilIntensity);
     foilManager.applyGlareIntensity(settings.glareIntensity);
+    // Trophy glow: a level outside the declared range is clamped by the manager, so an obsolete
+    // preference can never blow the halos up (or hide them for good).
+    glowManager.applyLevel(settings.glowTrophies);
 
     // The profile and the trophies are part of the saved state: both entries are created here, so
     // an export made before the player ever opened the profile page still carries them.
@@ -336,6 +347,7 @@ export class App {
     await this.startProfileView();
     await this.startStatsView();
     await this.startTrophiesView();
+    await this.startTitlesView();
     await this.startMinePickView();
     await this.startMineBlockView();
     await this.startSettingsView();
@@ -348,8 +360,11 @@ export class App {
     // The trophies and the experience are evaluated once at boot, SILENTLY (a save can legitimately
     // unlock a dozen trophies at once: a wall of notifications on load would be noise). The
     // notifications are therefore armed only AFTER that first evaluation — from then on, every key
-    // moment (an opening, a trophy, a purchase, a custom name, a level) announces itself.
+    // moment (an opening, a trophy, a title, a purchase, a custom name, a level) announces itself.
     await this.startTrophies();
+    // The titles are derived from that very evaluation (a level, an unlocked trophy) and have to be
+    // seeded BEFORE the notifications are armed, for the same reason.
+    await this.startTitles();
     await this.startGameNotifications();
     if (!this.utcTimeProvider) {
       // Fallback used only when the time synchronization is unusable: the clock then shows the
@@ -554,7 +569,62 @@ export class App {
   }
 
   /**
-   * Arms the notifications of the key moments (experience, collections, trophies, levels).
+   * Starts the player titles page: opened from the profile, next to the trophies.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and the
+   * other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startTitlesView() {
+    const root = document.querySelector(`[data-view="${TITLES_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The titles view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the titles view…');
+    // Like the statistics and the trophies, the page left the bottom bar: it carries its own back
+    // button and only asks the router for the profile.
+    this.titlesView = new TitlesView(root, {
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
+    try {
+      await this.titlesView.init();
+    } catch (error) {
+      console.error('[App] The titles view could not be loaded.', error);
+      this.titlesView.setFeedback('titles.error.load', 'error');
+      return;
+    }
+    console.info('[App] Titles view ready.');
+    if (this.router?.getCurrentView() === TITLES_VIEW_NAME) {
+      this.titlesView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Starts the player titles: seeds what the save already unlocked and follows the progress.
+   *
+   * The catalogue itself is loaded lazily by whoever needs it; what happens here is the SEEDING of
+   * the announced titles (`notify: false`) and the subscriptions that will announce the next ones
+   * (`TROPHY_UNLOCKED`, `EXPERIENCE_UPDATED`, both handled by `TitleManager`).
+   *
+   * A failure is not fatal: the titles page then shows its own error message and the rest of the
+   * application keeps working.
+   *
+   * @returns {Promise<void>} Resolves once the titles are seeded.
+   */
+  async startTitles() {
+    console.info('[App] Seeding the player titles…');
+    try {
+      const trophyState = await trophyManager.getSummary();
+      await titleManager.init({ trophyState, notify: false });
+    } catch (error) {
+      console.error('[App] The titles could not be evaluated.', error);
+    }
+  }
+
+  /**
+   * Arms the notifications of the key moments (experience, collections, trophies, titles, levels).
    *
    * They live here — and not in a view — because they concern the whole application: an opening
    * happens on the opening screen, the profile shows the pins and the trophies screen shows the
@@ -985,6 +1055,10 @@ export class App {
       this.trophiesView.destroy();
       this.trophiesView = null;
     }
+    if (this.titlesView) {
+      this.titlesView.destroy();
+      this.titlesView = null;
+    }
     if (this.minePickView) {
       this.minePickView.destroy();
       this.minePickView = null;
@@ -1011,6 +1085,7 @@ export class App {
     }
     dateSyncManager.destroy();
     trophyManager.destroy();
+    titleManager.destroy();
     gameNotifier.stop();
     this.notificationsStarted = false;
     this.stopUtcClock();

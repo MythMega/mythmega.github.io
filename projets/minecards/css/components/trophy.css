@@ -177,11 +177,43 @@
   width: 2.75rem;
   height: 2.75rem;
   object-fit: contain;
+  /* Halo of the medal, keyed by the rarity of the trophy: bronze has none, silver and gold are
+     light, diamond and emerald are medium. The RADIUS is the rarity's; the STRENGTH is
+     `--trophy-glow-scale` (0-2.5), published on <html> by `GlowManager` from the settings slider.
+     Level 2, the default, is a factor of 1 - the intensity these radii were tuned at. */
+  --trophy-glow-color: transparent;
+  --trophy-glow-radius: 0px;
+  filter: drop-shadow(
+    0 0 calc(var(--trophy-glow-radius) * var(--trophy-glow-scale, 1)) var(--trophy-glow-color)
+  );
 }
 
-/* A locked medal stays legible but reads as "not earned yet". */
+.trophy-tile[data-rarity="silver"] .trophy-tile__icon {
+  --trophy-glow-color: rgba(255, 255, 255, 0.75);
+  --trophy-glow-radius: 4px;
+}
+
+.trophy-tile[data-rarity="gold"] .trophy-tile__icon {
+  --trophy-glow-color: rgba(255, 205, 80, 0.85);
+  --trophy-glow-radius: 5px;
+}
+
+.trophy-tile[data-rarity="diamond"] .trophy-tile__icon {
+  --trophy-glow-color: rgba(150, 225, 255, 0.9);
+  --trophy-glow-radius: 8px;
+}
+
+.trophy-tile[data-rarity="emerald"] .trophy-tile__icon {
+  --trophy-glow-color: rgba(53, 224, 138, 0.9);
+  --trophy-glow-radius: 8px;
+}
+
+/* A locked medal stays legible but reads as "not earned yet". The halo is kept (it is the rarity of
+   the trophy, not a reward) but greyed with the medal, hence the full filter repeated here: a
+   `filter` declaration replaces the one above instead of adding to it. */
 .trophy-tile[data-unlocked="false"] .trophy-tile__icon {
-  filter: grayscale(1);
+  filter: grayscale(1)
+    drop-shadow(0 0 calc(var(--trophy-glow-radius) * var(--trophy-glow-scale, 1)) var(--trophy-glow-color));
   opacity: 0.7;
 }
 
@@ -469,6 +501,42 @@
 }
 
 .trophy-icon__name {
+  color: var(--color-text-muted);
+}
+
+/* Player TITLES granted by the trophy: one per LINE, in the pixel face they are worn in
+   (`css/fonts.css`). A locked one is greyed out and loses the yellow of `--color-title`: it is a
+   promise, not a reward yet. */
+.trophy-modal__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trophy-title {
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  animation: trophy-tile-in 320ms var(--easing-standard) backwards;
+  animation-delay: calc(var(--tile-index, 0) * 20ms);
+}
+
+.trophy-title__text {
+  font-family: var(--font-family-title);
+  font-size: var(--font-size-xs);
+  line-height: 1.7;
+  color: var(--color-title);
+}
+
+.trophy-title[data-owned="false"] {
+  opacity: 0.6;
+}
+
+.trophy-title[data-owned="false"] .trophy-title__text {
   color: var(--color-text-muted);
 }
 

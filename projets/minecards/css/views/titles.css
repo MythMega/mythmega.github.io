@@ -1,0 +1,189 @@
+/* =============================================================================
+   titles.css - Player titles page ("Titre", `js/UI/views/TitlesView.js`).
+
+   Reference: `.docs/main.md` (section 3.I, player titles).
+
+   ONE ROW PER TITLE, and the title is written in the very face it will be worn in
+   (`--font-family-title`, the pixel "Press Start 2P" of `css/fonts.css`), in yellow
+   (`--color-title`): the page is therefore its own preview - what a row looks like here is what the
+   pseudo looks like under it.
+
+   THREE STATES, one row each:
+     data-unlocked="true"   the title may be picked (the row is a radio);
+     data-unlocked="false"  greyed out and not clickable, with the "voir la condition" button;
+     data-selected="true"   the title the profile displays (an accent border and a check mark).
+
+   A title is a sentence, so the row is a flex line that WRAPS: the text keeps its own line on a
+   narrow screen and the buttons slide under it instead of squeezing it.
+   ============================================================================= */
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.titles__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.titles__summary {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.titles__note {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.titles__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  /* A `<ul>` of rows (one `<li>` per title, one per group heading): the bullets are not part of
+     the design, the rows are their own surfaces. */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.titles__group {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* --- One row ------------------------------------------------------------------------------- */
+
+.titles__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  transition: border-color var(--duration-base) var(--easing-standard),
+    background-color var(--duration-base) var(--easing-standard);
+}
+
+.titles__row[data-selected='true'] {
+  border-color: var(--color-title);
+  background: color-mix(in srgb, var(--color-title) 12%, var(--color-surface-alt));
+}
+
+/* A locked title stays VISIBLE (the list is also the catalogue of what there is to earn) but
+   clearly out of reach: dimmed, and its text is not written in the reward's yellow. */
+.titles__row[data-unlocked='false'] {
+  opacity: 0.6;
+}
+
+.titles__row[data-unlocked='false'] .titles__text {
+  color: var(--color-text-muted);
+}
+
+.titles__choose {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex: 1 1 60%;
+  min-width: 0;
+  /* The row itself carries the border and the surface: the button is only the clickable area. */
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.titles__choose:disabled {
+  cursor: default;
+}
+
+.titles__choose:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.titles__text {
+  font-family: var(--font-family-title);
+  font-size: var(--font-size-xs);
+  line-height: 1.7;
+  color: var(--color-title);
+  overflow-wrap: anywhere;
+}
+
+/* The "Aucun titre" row: it is a choice, not a title, so it is written like the rest of the
+   interface - and in the muted tone, since it displays nothing. */
+.titles__text[data-variant='none'] {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.titles__hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* A check mark on the selected row: the colour alone is not enough for a colour blind player, and
+   the list is a form - the chosen answer has to be unmistakable. */
+.titles__row[data-selected='true'] .titles__choose::after {
+  content: '✓';
+  order: 3;
+  margin-left: auto;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  color: var(--color-title);
+}
+
+.titles__condition {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.titles__row[data-selected='true'] .titles__condition {
+  margin-left: 0;
+}
+
+.titles__empty {
+  color: var(--color-text-muted);
+}
+
+/* --- Condition modal ----------------------------------------------------------------------- */
+
+.titles-modal__intro {
+  margin-bottom: var(--space-3);
+  font-weight: 700;
+}
+
+.titles-modal__text {
+  margin-bottom: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+/* The pixel face is tiny at the base size: the two levels of the condition keep their own line. */
+.titles-modal__text .card-modal__details {
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 560px) {
+  .titles__choose {
+    flex: 1 1 100%;
+  }
+
+  .titles__condition {
+    margin-left: 0;
+  }
+}

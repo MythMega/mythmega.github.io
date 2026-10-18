@@ -235,6 +235,9 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link rel="dns-prefetch" href="https://unpkg.com">
 
+  <!-- Fonts first: the two `@font-face` of the pixel face a player title is written in are
+       declared before anything that uses them (see `css/fonts.css`). -->
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/views/onboarding.css">
@@ -245,6 +248,7 @@
   <link rel="stylesheet" href="css/views/minepick.css">
   <link rel="stylesheet" href="css/views/mineblock.css">
   <link rel="stylesheet" href="css/views/profile.css">
+  <link rel="stylesheet" href="css/views/titles.css">
   <link rel="stylesheet" href="css/components/trophy.css">
   <link rel="stylesheet" href="css/views/settings.css">
   <link rel="stylesheet" href="css/views/redeem.css">
@@ -697,6 +701,11 @@
             <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M12 12v5"/><path d="M8.5 17h7"/><path d="M8 5.5H6a3 3 0 0 0 3 3M16 5.5h2a3 3 0 0 1-3 3"/></svg>
             <span data-i18n="nav.trophies">Trophées</span>
           </button>
+          <!-- The player TITLES (the line under the pseudo) are picked on their own page too. -->
+          <button type="button" class="btn btn--ghost btn--small" data-profile-titles>
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16v12H4z"/><path d="M8 11h8M8 14.5h5"/><path d="M6 7V5h12v2"/></svg>
+            <span data-i18n="nav.titles">Titre</span>
+          </button>
         </div>
       </div>
 
@@ -714,6 +723,10 @@
             </div>
             <div class="profile__identity-fields">
               <p class="profile__display-name" data-profile-display-name></p>
+
+              <!-- The player TITLE: the line under the pseudo, in the pixel face ("Press Start 2P")
+                   and in yellow. Empty (and hidden) until one is selected - see `TitlesView`. -->
+              <p class="profile__title" data-profile-title-line hidden></p>
 
               <!-- Level: right under the identity and without the wall of text (every XP
                    source is spelled out on the Info page instead). -->
@@ -770,6 +783,84 @@
           <ul class="profile__strip profile__strip--cards" data-profile-favorites></ul>
           <p class="profile__empty" data-profile-favorites-empty hidden data-i18n="profile.favorites.empty">Ajoutez jusqu'à 5 cartes en favori depuis la collection, avec le cœur affiché sur les cartes que vous possédez.</p>
         </section>
+
+        <!-- Profile card: the account itself, drawn as a trading card by `ProfileCard` (a shadow
+             root, so the card maker's CSS never touches the game). Only the controls live here:
+             the layout switch, the PNG export and the enlargement modal. -->
+        <section class="panel profile__panel profile__panel--wide">
+          <h3 class="stats__title" data-i18n="profile.card.title">Carte de profil</h3>
+          <p class="profile__help" data-i18n="profile.card.help">Votre pseudo, votre titre et vos trophées réunis sur une carte, générée depuis votre profil.</p>
+          <p class="profile-card-panel__rarity" data-profile-card-rarity></p>
+          <div class="profile-card-panel">
+            <!-- Shadow host: the card is built by `ProfileCard`, never by this page. -->
+            <div class="profile-card-panel__stage" data-profile-card-stage></div>
+            <!-- Rarity of the card: one option per rarity, the unlocked ones only. `ProfileView`
+                 builds the five buttons (symbol, name, and the medal + "N / X" for the locked ones). -->
+            <div class="profile-card-panel__rarities" role="radiogroup" data-profile-card-rarities data-i18n-aria-label="profile.card.rarity.pick" aria-label="Rareté de la carte"></div>
+            <!-- Title colour: "Auto" (the rarity colour) plus the colours bought with Sparks. A
+                 locked colour shows its price and opens the purchase confirmation instead of
+                 selecting itself, exactly like the Full Art switch. -->
+            <div class="profile-card-panel__colors-block">
+              <p class="profile-card-panel__colors-title" data-i18n="profile.card.titleColor.title">Couleur du titre</p>
+              <div class="profile-card-panel__colors" role="group" data-profile-card-title-colors data-i18n-aria-label="profile.card.titleColor.title" aria-label="Couleur du titre"></div>
+              <p class="profile-card-panel__colors-help" data-profile-card-title-colors-price></p>
+            </div>
+            <div class="profile-card-panel__actions">
+              <div class="profile-card-panel__layouts" role="group" data-profile-card-layouts data-i18n-aria-label="profile.card.layout" aria-label="Disposition de la carte">
+                <button type="button" class="btn btn--ghost btn--small" data-profile-card-layout="classic" aria-pressed="true" data-i18n="profile.card.layout.normal">Normale</button>
+                <!-- Full Art is a FEATURE: until it is bought, the button reads as a lock, its price
+                     and the Sparks icon, and clicking it opens the confirmation instead of switching. -->
+                <button type="button" class="btn btn--ghost btn--small" data-profile-card-layout="fullart" aria-pressed="false">
+                  <svg class="profile-card-panel__lock" data-profile-card-layout-lock viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden><path d="M7 10V8a5 5 0 0 1 10 0v2"/><rect x="5" y="10" width="14" height="10" rx="2"/></svg>
+                  <span data-profile-card-layout-label data-i18n="profile.card.layout.fullart">Full Art</span>
+                  <span class="profile-card-panel__price" data-profile-card-layout-price hidden>
+                    <img class="profile-card-panel__price-icon" src="assets/img/sparks.png" alt="" aria-hidden="true">
+                    <span data-profile-card-layout-price-value>0</span>
+                  </span>
+                </button>
+              </div>
+              <div class="profile-card-panel__buttons">
+                <button type="button" class="btn btn--primary btn--small" data-profile-card-download data-i18n="profile.card.download">Télécharger la carte</button>
+                <button type="button" class="btn btn--small" data-profile-card-expand data-i18n="profile.card.expand">Agrandir la carte</button>
+              </div>
+            </div>
+            <p class="profile-card-panel__feedback" data-profile-card-feedback role="status" hidden></p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Buy modal of a feature (the Full Art layout for now): the price, the current balance and
+           a confirmation. It also carries the "not enough Sparks" refusal, so the player learns the
+           price of what they want instead of a silent nothing. -->
+      <div class="modal" data-profile-card-buy-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="profile-card-buy-title">
+          <button type="button" class="modal__close" data-profile-card-buy-close aria-label="×">×</button>
+          <h2 class="modal__title" id="profile-card-buy-title" data-i18n="profile.card.buy.title">Débloquer une fonctionnalité</h2>
+          <div class="modal__body profile-card-buy">
+            <p class="profile-card-buy__feature" data-profile-card-buy-feature></p>
+            <p class="profile-card-buy__price" data-profile-card-buy-price></p>
+            <p class="profile-card-buy__balance" data-profile-card-buy-balance></p>
+            <p class="profile-card-buy__message" data-profile-card-buy-message data-tone="info"></p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-profile-card-buy-confirm data-i18n="profile.card.buy.confirm">Acheter</button>
+            <button type="button" class="btn btn--ghost" data-profile-card-buy-close data-i18n="profile.card.buy.cancel">Annuler</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile card modal: the card alone, at full size, and its own download button. The host
+           element of the card is moved here by `ProfileView`, never rebuilt. -->
+      <div class="modal" data-profile-card-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="profile-card-modal-title">
+          <button type="button" class="modal__close" data-profile-card-modal-close aria-label="×">×</button>
+          <h2 class="modal__title" id="profile-card-modal-title" data-i18n="profile.card.title">Carte de profil</h2>
+          <div class="modal__body profile-card-modal__body" data-profile-card-modal-body></div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-profile-card-modal-download data-i18n="profile.card.download">Télécharger la carte</button>
+            <button type="button" class="btn btn--ghost" data-profile-card-modal-close data-i18n="profile.card.close">Fermer la carte</button>
+          </div>
+        </div>
       </div>
 
       <!-- Detail modal: shared by the pinned trophies and the favourite cards (one at a time). -->
@@ -904,6 +995,44 @@
           <button type="button" class="modal__close" data-trophies-modal-close aria-label="×">×</button>
           <h2 class="modal__title" id="trophies-modal-title" data-trophies-modal-title></h2>
           <div class="modal__body" data-trophies-modal-body></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 quater. Titles: the whole catalogue, one row per title. Like the statistics and the
+         trophies, the page is opened from the profile (never from the bottom bar) and comes back
+         with its own back button. `TitlesView` owns the list; a locked row carries the button that
+         explains its unlock condition. -->
+    <section class="view" id="view-titles" data-view="titles" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.titles.title">Titre</h2>
+        <p class="view__subtitle" data-i18n="view.titles.subtitle">Choisissez le titre affiché sous votre pseudo : un élément par ligne, en grisé tant qu'il n'est pas débloqué.</p>
+        <div class="view__header-actions">
+          <button type="button" class="btn btn--ghost btn--small" data-titles-back>
+            <span data-i18n="titles.back">Retour au profil</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="feedback" data-titles-feedback role="status" hidden></p>
+
+      <div class="titles">
+        <section class="panel titles__panel">
+          <p class="titles__summary" data-titles-summary></p>
+          <p class="titles__note" data-i18n="titles.note">Un titre n'est jamais obligatoire : « Aucun titre » n'en affiche aucun, même si vous en avez déjà débloqué un.</p>
+          <!-- A `<ul>` of rows: one element per title, plus its group headings. Every row is a
+               button whose `aria-pressed` says whether it is the displayed title. -->
+          <ul class="titles__list" data-titles-list></ul>
+          <p class="titles__empty" data-titles-empty hidden data-i18n="titles.empty">Aucun titre au catalogue.</p>
+        </section>
+      </div>
+
+      <!-- Condition modal: what unlocks the clicked title (a level, or the detail of a trophy). -->
+      <div class="modal" data-titles-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="titles-modal-title">
+          <button type="button" class="modal__close" data-titles-modal-close aria-label="×">×</button>
+          <h2 class="modal__title" id="titles-modal-title" data-titles-modal-title></h2>
+          <div class="modal__body" data-titles-modal-body></div>
         </div>
       </div>
     </section>
@@ -1144,6 +1273,22 @@
           </div>
           <p class="settings__help" id="settings-foil-help" data-i18n="settings.foil.help">Le foil dessine les motifs de la carte (grille, nid d'abeilles, trame) ; la brillance règle le trait de lumière qui la traverse. À 0 %, l'effet correspondant disparaît complètement.</p>
           <p class="settings__help" id="settings-glare-help" data-i18n="settings.foil.glareHelp">La brillance ne touche que le reflet qui balaie la carte : les motifs du foil restent visibles même à 0 %.</p>
+        </section>
+
+        <!-- Illumination: the halo around the trophy medals, as a level from 0 (off) to 5. It has
+             its own panel - and its own range in `config.json` (`glow.trophies`) - because the
+             cards will get the same kind of setting later, each with its own bounds. -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.glow.title">Illumination</h3>
+          <div class="foil-slider">
+            <div class="foil-slider__head">
+              <label class="foil-slider__label" for="settings-glow-trophies" data-i18n="settings.glow.trophies">Lueur des trophées</label>
+              <output class="foil-slider__value" data-settings-glow-value for="settings-glow-trophies">2</output>
+            </div>
+            <input type="range" class="foil-slider__input" id="settings-glow-trophies" data-settings-glow min="0" max="5" step="1" value="2" aria-describedby="settings-glow-help">
+          </div>
+          <p class="settings__help" id="settings-glow-help" data-i18n="settings.glow.help">Règle le halo autour des médailles de trophées : discret sur l'argent et l'or, plus large sur le diamant et l'émeraude. À 0, plus aucun halo. Le bronze n'en a jamais.</p>
+          <p class="settings__help" data-i18n="settings.glow.soon">La même famille de réglages s'appliquera bientôt aux cartes.</p>
         </section>
 
         <!-- Sounds: one boolean preference (SettingsView writes the state text). -->

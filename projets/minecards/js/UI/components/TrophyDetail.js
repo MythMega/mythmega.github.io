@@ -1,14 +1,14 @@
 /**
  * TrophyDetail - Shared rendering of a trophy: title, medal, badge and detail modal body.
  *
- * Reference: `js/business/TrophyManager.js` (trophy state) and `js/business/ProfileIconManager.js`
- * (the icons a trophy unlocks).
+ * Reference: `js/business/TrophyManager.js` (trophy state), `js/business/ProfileIconManager.js`
+ * (the icons a trophy unlocks) and `js/business/TitleManager.js` (the titles it unlocks).
  *
  * The trophy catalogue and the pinned trophies of the profile are TWO different screens (a router
  * view and a panel), yet a trophy must look and read exactly the same on both. Everything they
  * share therefore lives here: the title/description resolution, the medal, the pin icon button, the
  * detail rows, the required cards of a collection trophy (in colour when owned, in black and white
- * otherwise) and the avatars the trophy unlocks.
+ * otherwise), the avatars the trophy unlocks and the player titles it grants.
  *
  * This module owns no state: it only builds DOM from a trophy state, which keeps both views free of
  * duplicated markup.
@@ -16,6 +16,7 @@
 
 import i18n from '../../utils/I18n.js';
 import { DEFAULT_TROPHY_ICON, resolveTrophyIcon } from '../../business/TrophyManager.js';
+import { TitleManager } from '../../business/TitleManager.js';
 
 /** Icon of the "pin this trophy" action. */
 export const TROPHY_PIN_ICON = 'assets/img/pin.png';
@@ -250,9 +251,10 @@ export class TrophyDetail {
    * @param {object} [options] - Body options.
    * @param {Record<string, number>} [options.experiencePerTrophy] - `ExperiencePerTrophy` of the config.
    * @param {object[]} [options.icons] - Icons the trophy unlocks (`ProfileIconManager.getIconsForTrophy`).
+   * @param {object[]} [options.titles] - Titles the trophy grants (`TitleManager.getTitlesForTrophy`).
    * @returns {DocumentFragment} The body content, ready to replace the modal body.
    */
-  static buildDetailBody(trophy, { experiencePerTrophy = null, icons = [] } = {}) {
+  static buildDetailBody(trophy, { experiencePerTrophy = null, icons = [], titles = [] } = {}) {
     const fragment = document.createDocumentFragment();
 
     const header = document.createElement('div');
@@ -299,6 +301,9 @@ export class TrophyDetail {
 
     const iconsSection = TrophyDetail.buildUnlockedIcons(icons);
     if (iconsSection) fragment.appendChild(iconsSection);
+
+    const titlesSection = TrophyDetail.buildUnlockedTitles(titles);
+    if (titlesSection) fragment.appendChild(titlesSection);
 
     return fragment;
   }
@@ -360,6 +365,54 @@ export class TrophyDetail {
       item.setAttribute(
         'aria-label',
         `${name}, ${i18n.t(entry.owned ? 'trophy.cards.owned' : 'trophy.cards.missing')}`
+      );
+      grid.appendChild(item);
+    });
+    section.appendChild(grid);
+    return section;
+  }
+
+  /**
+   * Builds the "unlocked titles" block of a trophy.
+   *
+   * A collection trophy can also grant a player TITLE, and the detail modal is where a player reads
+   * what a trophy gives before completing it: the titles are therefore listed next to the avatars,
+   * in the pixel face they are worn in, greyed out while the trophy is not unlocked.
+   *
+   * @param {object[]} titles - Titles the trophy grants (`{ id, text, unlocked }`).
+   * @returns {HTMLElement|null} The block, or null when the trophy grants no title.
+   */
+  static buildUnlockedTitles(titles) {
+    const list = Array.isArray(titles) ? titles : [];
+    if (list.length === 0) return null;
+
+    const section = document.createElement('section');
+    section.className = 'trophy-modal__section';
+    section.dataset.trophyTitles = String(list.length);
+
+    const title = document.createElement('h3');
+    title.className = 'trophy-modal__section-title';
+    title.textContent = i18n.t('trophy.titles.title', { count: list.length });
+    section.appendChild(title);
+
+    const grid = document.createElement('ul');
+    grid.className = 'trophy-modal__titles';
+    list.forEach((entry, index) => {
+      const item = document.createElement('li');
+      item.className = 'trophy-title';
+      item.dataset.owned = String(Boolean(entry.unlocked));
+      item.dataset.titleId = entry.id;
+      item.style.setProperty('--tile-index', String(index));
+
+      const text = document.createElement('span');
+      text.className = 'trophy-title__text';
+      text.textContent = TitleManager.titleText(entry, i18n.getLang());
+      item.appendChild(text);
+
+      item.setAttribute(
+        'aria-label',
+        `${TitleManager.titleText(entry, i18n.getLang())}, ` +
+          i18n.t(entry.unlocked ? 'trophy.titles.unlocked' : 'trophy.titles.locked')
       );
       grid.appendChild(item);
     });

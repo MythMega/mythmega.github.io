@@ -77,10 +77,32 @@
   min-width: 0;
 }
 
+/* The pseudo is the identity of the page (and the NAME of the profile card below): it is set a step
+   above the rest of the screen, while the worn title under it is set a step below. */
 .profile__display-name {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-2xl);
   font-weight: 700;
+  line-height: 1.1;
   overflow-wrap: anywhere;
+}
+
+/* The player TITLE: the line under the pseudo, in the pixel face of the card Styles ("Press Start
+   2P") and in the yellow of `--color-title`. It is the reward the player chose to wear, so it
+   keeps the reward's tone in every palette. `hidden` is enough to take it away: no space is left
+   behind when no title is selected. */
+.profile__title {
+  font-family: var(--font-family-title);
+  /* One step below the smallest text size: the pixel face is wide and tall for its point size, so
+     the title has to be a notch smaller than the pseudo to read as a subtitle under it. */
+  font-size: 0.625rem;
+  line-height: 1.7;
+  color: var(--color-title);
+  overflow-wrap: anywhere;
+  text-shadow: 0 0 10px rgba(255, 213, 74, 0.25);
+}
+
+.profile__title[hidden] {
+  display: none;
 }
 
 /* The pencil: the ONLY way to change the name or the avatar, so a stray tap can never edit them. */
@@ -352,6 +374,33 @@
 .profile__tile--trophy .trophy__icon {
   width: 2.5rem;
   height: 2.5rem;
+  /* Same halo as the trophy catalogue: the radius belongs to the rarity, the strength to the
+     `--trophy-glow-scale` the settings slider publishes (`js/utils/GlowManager.js`). */
+  --trophy-glow-color: transparent;
+  --trophy-glow-radius: 0px;
+  filter: drop-shadow(
+    0 0 calc(var(--trophy-glow-radius) * var(--trophy-glow-scale, 1)) var(--trophy-glow-color)
+  );
+}
+
+.profile__tile--trophy[data-rarity="silver"] .trophy__icon {
+  --trophy-glow-color: rgba(255, 255, 255, 0.75);
+  --trophy-glow-radius: 4px;
+}
+
+.profile__tile--trophy[data-rarity="gold"] .trophy__icon {
+  --trophy-glow-color: rgba(255, 205, 80, 0.85);
+  --trophy-glow-radius: 5px;
+}
+
+.profile__tile--trophy[data-rarity="diamond"] .trophy__icon {
+  --trophy-glow-color: rgba(150, 225, 255, 0.9);
+  --trophy-glow-radius: 8px;
+}
+
+.profile__tile--trophy[data-rarity="emerald"] .trophy__icon {
+  --trophy-glow-color: rgba(53, 224, 138, 0.9);
+  --trophy-glow-radius: 8px;
 }
 
 /* Every pinned-trophy box has the same size. The strip stretches its items on the cross axis, and
@@ -457,4 +506,349 @@
   .profile__xp-fill {
     transition: none;
   }
+}
+
+/* --- Profile card --------------------------------------------------------- */
+
+/* The card itself is a shadow tree (`js/UI/components/ProfileCard.js`, styled by
+   `css/components/profile-card.css`): what these rules size is only its STAGE and the controls
+   around it. The stage is where the card is fitted to the panel, and where the enlargement modal
+   moves it to. */
+
+.profile-card-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.profile-card-panel__rarity {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.profile-card-panel__rarity strong {
+  color: var(--color-accent);
+}
+
+.profile-card-panel__stage {
+  /* The card keeps its authored size and is scaled as a whole: on a narrow screen its layout box is
+     therefore wider than the panel, and the overflow is clipped on both sides (it is centered). */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  overflow: hidden;
+}
+
+.profile-card-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.profile-card-panel__layouts {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+}
+
+/* The active layout reads as the selected one of a two-choice switch. */
+.profile-card-panel__layouts .btn {
+  border-color: transparent;
+  background-color: transparent;
+  border-radius: var(--radius-pill);
+}
+
+.profile-card-panel__layouts .btn[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  background-color: var(--color-surface);
+  color: var(--color-accent);
+  box-shadow: var(--glow-accent);
+}
+
+.profile-card-panel__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.profile-card-panel__feedback {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.profile-card-panel__feedback[data-tone="error"] {
+  color: var(--color-error);
+}
+
+.profile-card-modal__body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* The card is 500px tall: the modal body scrolls rather than pushing the actions off screen. */
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+}
+
+/* --- Profile card: rarity picker ------------------------------------------ */
+
+/* One option per card rarity. The unlocked ones are selectable and show their symbol and name; the
+   locked ones are disabled and show the trophy medal with the count the account has against the
+   count the threshold asks for ("22 / 30"), in the colour of a refusal: the picker is also the list
+   of what there is to earn, exactly like the avatar picker. */
+
+.profile-card-panel__rarities {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.profile-card-panel__rarity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 4.75rem;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-card-panel__rarity:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.profile-card-panel__rarity[aria-checked="true"] {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-accent);
+}
+
+.profile-card-panel__rarity:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.profile-card-panel__rarity-symbol {
+  font-size: var(--font-size-md);
+  line-height: 1.1;
+}
+
+.profile-card-panel__rarity-name {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.profile-card-panel__rarity[aria-checked="true"] .profile-card-panel__rarity-name {
+  color: var(--color-accent);
+}
+
+.profile-card-panel__rarity-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+.profile-card-panel__rarity-medal {
+  width: 0.9rem;
+  height: 0.9rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* --- Profile card: the title colour -------------------------------------- */
+
+.profile-card-panel__colors-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.profile-card-panel__colors-title {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.profile-card-panel__colors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.profile-card-panel__color {
+  --swatch-color: var(--color-title);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 4.5rem;
+  padding: var(--space-2) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.profile-card-panel__color:hover {
+  border-color: var(--swatch-color);
+  transform: translateY(-2px);
+}
+
+.profile-card-panel__color-dot {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--swatch-color);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+
+.profile-card-panel__color-name {
+  font-size: var(--font-size-xs);
+}
+
+/* The worn colour: a ring of its own colour, matching the rarity picker above. */
+.profile-card-panel__color[data-selected="true"] {
+  border-color: var(--swatch-color);
+  box-shadow: 0 0 0 1px var(--swatch-color);
+  color: var(--color-text);
+}
+
+.profile-card-panel__color[data-selected="true"] .profile-card-panel__color-name {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+/* A colour that was not bought yet: dashed, dimmed, with its price. It is still a button, because
+   clicking it is how the purchase starts. */
+.profile-card-panel__color[data-owned="false"] {
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+/* A locked swatch keeps its colour readable (it is what the player is buying): only a slight
+   desaturation, plus the dashed border and the price, tells it apart. */
+.profile-card-panel__color[data-owned="false"] .profile-card-panel__color-dot {
+  filter: grayscale(0.35) brightness(0.8);
+}
+
+/* "Auto" is not a colour but the rarity colour: a wheel of the five values it can take. */
+.profile-card-panel__color[data-profile-card-title-color="auto"] .profile-card-panel__color-dot {
+  background: conic-gradient(
+    #cfd3dd 0 20%,
+    #4dd0e1 20% 40%,
+    #c084fc 40% 60%,
+    #ffd54a 60% 80%,
+    #ff6fae 80% 100%
+  );
+}
+
+.profile-card-panel__color-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.profile-card-panel__color-price .profile-card-panel__price-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.profile-card-panel__colors-help {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* --- Profile card: a paid layout ----------------------------------------- */
+
+.profile-card-panel__lock {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.profile-card-panel__price {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+}
+
+.profile-card-panel__price-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  object-fit: contain;
+}
+
+/* The locked layout reads as a price tag, not as a switch that refuses to move. */
+.profile-card-panel__layouts .btn[data-profile-card-layout="fullart"][data-locked="true"] {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.profile-card-panel__layouts .btn[data-profile-card-layout="fullart"][data-locked="true"]:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+/* --- Profile card: buy modal --------------------------------------------- */
+
+.profile-card-buy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.profile-card-buy__feature {
+  font-weight: 700;
+}
+
+.profile-card-buy__price,
+.profile-card-buy__balance {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.profile-card-buy__message[data-tone="error"] {
+  color: var(--color-error);
+  font-weight: 600;
 }

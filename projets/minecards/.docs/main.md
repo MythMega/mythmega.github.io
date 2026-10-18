@@ -25,12 +25,16 @@ Base IndexedDB `CardBoosterDB` (version 1), 5 ObjectStores :
 
 Clés de `user_state` :
 - `"account"` : `{ uuid, createdAt }` — **son existence = "un compte existe"**.
-- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive" }`.
+- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive", foilIntensity: number, glareIntensity: number, glowTrophies: number, devMode: boolean }`.
+  `glowTrophies` est le **niveau** d'illumination des trophées (0-5, 2 par défaut, voir 3.G nonies).
 - `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number }, purchasedBoosters }` (ex. `{ "set1": 2 }`). `purchasedBoosters` compte les boosters **achetés en Sparks** : globaux (comme les quotidiens), ils ne sont jamais effacés par le reset.
 - `"timeAnchor"` : `{ apiUtcMs, perfNow, lastKnownUtcMs }`.
 - `"stats"` : `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: {1..5}, drawsByCard: { [key]: count } }`.
 - `"giftSync"` : `{ lastCheckedLine, lastCheckAt }`.
-- `"profile"` : `{ name, photo, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, URL de la photo de profil, jusqu'à 5 cartes favorites et 3 trophées mis en avant.
+- `"sparks"` : `number` — solde de Sparks du joueur (`SparksManager`), la monnaie du jeu.
+- `"profileCard"` : `{ layout: "classic"|"fullart", rarity: 1..5|null }` — préférences d'affichage de la carte de profil (`ProfileCardManager`) : la disposition choisie et la rareté portée (`null` = la plus haute atteinte).
+- `"purchases"` : `{ [featureId]: { boughtAt } }` — les **fonctionnalités achetées en Sparks** (`FeatureManager`), indexées par identifiant. Seul ce qui a été payé est écrit : le prix reste dans `settings/config.json`, donc le changer ne recharge jamais un propriétaire.
+- `"profile"` : `{ name, icon, photo, title, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, icône du catalogue (`icon`), URL de la photo d'une sauvegarde ancienne (`photo`, lue et affichée, plus jamais écrite), **titre** affiché sous le pseudo (`title`, `""` = aucun — voir 3.I), jusqu'à 5 cartes favorites et 3 trophées mis en avant.
 - `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
 - `"binders"` : `[{ id, name, cover, createdAt, slots: (string|null)[30] }]` — les **binders** du joueur (`BinderManager`), dans l'ordre de création. `cover` est la clé de collection de la carte représentative (le `Background` de cette carte devient le fond de la page), `slots` les 30 emplacements (clé de collection ou `null`). Rangé dans `user_state` — et non dans un store à part — pour qu'un `.save` l'emporte sans changer le format de sauvegarde.
 - `"minePick"` : `{ lastResetDay, remaining, bonusPicks, totalPicks, picksByBooster, picksByRarity, picksByCard, history }` — état de la Mine Pick (`MinePickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), `bonusPicks` pour les pioches **achetées en Sparks** (jamais effacées par le reset, dépensées seulement quand les gratuites sont épuisées), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
@@ -103,9 +107,9 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 2. **Collection** : grille, silhouettes grisées pour les manquantes, **bouton cœur** sur les cartes possédées (5 favoris maximum), **bouton « Filtres & tri »**. Les filtres vivent dans une **popup** (`CollectionView`) : on y active/désactive chaque extension (plusieurs à la fois) et **chaque rareté (plusieurs à la fois, comme les extensions : `filters.rarities` est un `Set`)**, la famille **Promo** dans son ensemble, le statut (toutes / **possédées — l'état par défaut** / manquantes / **vendables**, c'est-à-dire 2 exemplaires ou plus), le style, et l'on y choisit le **tri** (**index du fichier, l'état par défaut**, numéro, rareté, style, quantité possédée, date d'obtention) et son sens. La grille ouvre donc sur **les cartes possédées** et non sur les 343 silhouettes du catalogue ; « Réinitialiser » y revient. La barre sous le titre ne garde que la recherche, le bouton qui ouvre la popup (avec un badge du nombre de filtres actifs) et le compte de cartes : **aucun filtre n'y est plus dupliqué**. Le **bouton « Binders »** siège **dans l'en-tête de la page, en haut à droite et hors du panneau de filtres** (`css/base.css` : `.view__header--split` met titre et action sur une ligne, `.view__heading` garde titre et sous-titre groupés), et l'en-tête de l'application porte en plus un **compteur Binders** (icône `assets/img/binders.png` + nombre de pages, voir 3.H bis). Le tri par numéro compare les `id` en `numeric: true`, pour que `W2` passe bien avant `W10`.
 
 **Deux axes de numérotation, et deux tris** : chaque entrée porte à la fois `cardId` (le champ `Index` de la carte, « SERIE-A1 / W001 ») et `index` (sa **position dans le tableau `Cards` de son fichier d'extension**), les deux étant calculés par `CollectionManager` à chaque lecture — rien n'est stocké, donc réordonner un fichier se voit tout de suite. Ils ne se confondent pas : un fichier **groupe ses cartes par thème**, son ordre n'est donc pas celui des `Index` (la A1 commence par `W001`, pas par `A001`). D'où les deux tris de la popup : **« Index »** (le défaut) suit `index`, c'est-à-dire le fichier tel qu'il a été écrit ; **« Numéro »** suit `cardId`, extension par extension (`CollectionView.applyFilters`, `COLLECTION_SORT`). Un troisième tri, **« Date d'obtention »**, suit `firstObtainedAt` (la première copie de chaque carte) du plus ancien au plus récent : les cartes non possédées, qui n'ont pas de date, restent toujours à la fin quelle que soit la direction.
-2 bis. **Profil** : l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. Deux **petits boutons** sous le sous-titre (`view__header-actions`) mènent aux deux pages que la barre du bas ne porte plus : **Statistiques** et **Trophées** (le catalogue, isolé derrière deux combos — famille, statut — pour ne jamais afficher les trente trophées d'un coup, et muni de son propre retour au profil). Les compteurs propres à la Mine Pick, eux, sont dans le panneau « Mine Pick » de la page Statistiques, à côté du panneau « Mine ».
+2 bis. **Profil** : l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. Trois **petits boutons** sous le sous-titre (`view__header-actions`) mènent aux trois pages que la barre du bas ne porte plus : **Statistiques**, **Trophées** (le catalogue, isolé derrière deux combos — famille, statut — pour ne jamais afficher les trente trophées d'un coup, et muni de son propre retour au profil) et **Titre** (la liste des titres de joueur, un par ligne, voir 3.I). Les compteurs propres à la Mine Pick, eux, sont dans le panneau « Mine Pick » de la page Statistiques, à côté du panneau « Mine ».
 3. **Pick** (Mine Pick) : les dix boosters simulés du jour, **listés un par ligne avec leur contenu face visible**, et les trois pioches gratuites. Un premier clic **sélectionne** la ligne (aperçu), le second l'ouvre — voir section 3.G quater. Son libellé de barre est **« Pick »** (la fonctionnalité garde son nom, « Mine Pick », dans son titre et sa page).
-3 bis. **Mine** (`data-view="mineblock"`) : les **dix blocs du jour**, minés **un par un**, avec les ressources récoltées — voir section 3.G sexies. Elle occupe l'emplacement que les **Trophées** tenaient dans la barre du bas : le catalogue des trophées s'ouvre désormais depuis le **Profil**, par un second bouton à côté de « Statistiques », et porte pour cela son propre **bouton retour** (comme la page Statistiques, elle aussi ouverte depuis le Profil). Trois fonctions ont donc leur page **hors** de la barre — Statistiques, Trophées — ou **dedans** — la Mine — et chacune des deux premières sait revenir au profil.
+3 bis. **Mine** (`data-view="mineblock"`) : les **dix blocs du jour**, minés **un par un**, avec les ressources récoltées — voir section 3.G sexies. Elle occupe l'emplacement que les **Trophées** tenaient dans la barre du bas : le catalogue des trophées s'ouvre désormais depuis le **Profil**, par un second bouton à côté de « Statistiques », et porte pour cela son propre **bouton retour** (comme la page Statistiques, elle aussi ouverte depuis le Profil). Quatre fonctions ont donc leur page **hors** de la barre — Statistiques, Trophées, Titres — ou **dedans** — la Mine — et les trois premières savent revenir au profil.
 4. **Paramètres** : langue, thème, **animations** (sélecteur + aperçu animé joué à l'ouverture de la page, le mode explosif marqué de sa seule pastille « BLAGUE »), **foil** (deux curseurs : intensité des motifs, **brillance** de la ligne qui balaie la carte — l'aperçu du panneau est un mythique, donc l'effet suit le doigt), **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
 6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
@@ -118,7 +122,7 @@ L'heure UTC affichée dans les Paramètres est celle de `DateSyncManager` (jamai
 
 **En-tête sur écran large** (≥ 1024 px) : les cinq compteurs (boosters quotidiens, boosters bonus, pioches Mine Pick, Binders, Sparks) affichent leur **nom court** à côté de leur icône (« Quotidiens », « Bonus », « Pioches », « Binders », « Sparks » / « Daily », « Bonus », « Picks », « Binders », « Sparks »), et le slogan — pure décoration, déjà absent sur un téléphone — laisse la place. Le libellé long de chaque compteur reste dans un `.sr-only`, qui est le nom accessible : le libellé visible est `aria-hidden`, donc un lecteur d'écran n'entend jamais une version tronquée.
 
-**Aide de page :** chaque vue (Ouverture, Collection, Profil, Statistiques, Trophées, Mine Pick, Mine, Paramètres, Informations) porte une pastille « Comment ça marche ? » sous son titre (`js/UI/components/ViewHelp.js`, styles dans `css/base.css`). Elle ouvre une **mini-popup** : le titre de la vue, **deux phrases** d'explication (`view.<vue>.help`) et un bouton « Plus d'infos » qui mène à la page Informations. Une seule popup ouverte à la fois ; `Échap`, un clic à l'extérieur ou un second clic sur la pastille la referment. Le texte passe par `data-i18n` : un changement de langue la retraduit sans la rouvrir.
+**Aide de page :** chaque vue (Ouverture, Collection, Profil, Statistiques, Trophées, Titre, Mine Pick, Mine, Paramètres, Informations) porte une pastille « Comment ça marche ? » sous son titre (`js/UI/components/ViewHelp.js`, styles dans `css/base.css`). Elle ouvre une **mini-popup** : le titre de la vue, **deux phrases** d'explication (`view.<vue>.help`) et un bouton « Plus d'infos » qui mène à la page Informations. Une seule popup ouverte à la fois ; `Échap`, un clic à l'extérieur ou un second clic sur la pastille la referment. Le texte passe par `data-i18n` : un changement de langue la retraduit sans la rouvrir.
 
 **Le rituel prend tout l'écran** (`js/utils/FocusMode.js`, `body.is-focus` dans `css/base.css`) : deux moments du jeu sont des **rituels** et non des pages — **l'ouverture d'un booster**, à partir du moment où le joueur en a choisi un (`OpeningView.performOpen` → `showStage('scene')`), et **la pioche du Mine Pick**, à partir du moment où le paquet est distribué (`MinePickView.showStage('pick')`). Pendant ceux-ci, la **marque, les compteurs, la barre de navigation du bas, la pastille « Comment ça marche ? » et le titre de la vue sont masqués** : rien ne doit disputer l'écran au booster ni aux cartes. L'état est **une seule classe sur `<body>`**, posée par `setFocusMode()` au moment exact du changement d'étape — `showStage` est cette frontière des deux côtés — et retirée au retour (`finish()`, « Retour aux boosters »), par `handleViewDeactivated()` (quitter la vue en pleine ouverture par un lien profond ou le bouton retour rend le chrome) et par `destroy()`. L'espace de `padding-bottom` réservé à la barre disparaît avec elle et `--nav-height` passe à `0`, pour que la pile de toasts suive au lieu de flotter au-dessus du vide ; la bannière de notification, elle, se place en mesurant le bas de l'en-tête, dont la hauteur vaut zéro une fois masqué.
 
@@ -152,6 +156,15 @@ La combo « Famille » gagne une entrée **Mine Pick** pour les deux familles d'
 
 Chaque trophée a une **médaille** : les paliers récurrents d'une extension la prennent dans `assets/img/trophy/<setId>/<famille>/<rareté>.png`, les paliers globaux dans `assets/img/trophy/Global/<compteur>/<rareté>.png` (le `<compteur>` est la clé de `settings/global_trophy.json` : `totalCards`, `boosters`, `differentCards`), les deux familles de la mine dans `assets/img/trophy/Global/miningAllBlock/<rareté>.png` et `assets/img/trophy/Global/miningEachBlock/<bloc>/<rareté>.png` (le `<bloc>` est l'`ID` brut de `settings/mining.json`, point compris : `material.stone/bronze.png`), celles du Mine Pick dans `assets/img/trophy/Global/minepickTotalPicks/<rareté>.png` et `assets/img/trophy/Global/minepickSpecificPicks/<raretéDeCarte>/<rareté>.png`, et les trophées de collection dans le champ `Icon` de leur entrée dans `data/trophies/<setId>.json` — n'importe quelle extension, le GIF animé `QuinteFlushRoyale.gif` compris. Un trophée dont le catalogue ne déclare aucune image, ou dont le fichier ne se charge pas, retombe sur `assets/img/trophy/default.png`.
 
+**Halo des médailles.** Chaque médaille porte un halo dont le **rayon et la couleur dépendent de la
+rareté du trophée** : aucun pour `bronze`, léger et blanc pour `silver`, léger et doré pour `gold`,
+plus large et bleu clair pour `diamond`, plus large et vert émeraude pour `emerald`
+(`css/components/trophy.css`, plus les médailles épinglées de `css/views/profile.css` et celles de la
+carte de profil dans `css/components/profile-card.css`). L'**intensité** est un réglage du joueur,
+de 0 à 5, publié par `GlowManager` sous la variable `--trophy-glow-scale` (le niveau 2, défaut,
+vaut 1) : les trois surfaces multiplient le rayon de leur rareté par ce facteur, donc un seul curseur
+les règle toutes. À 0, plus aucun halo.
+
 L'XP totale est **dérivée** de l'état réel (`expérience.everyBooster` × boosters ouverts +
 `everyDistinctCard` × cartes différentes + `nameChanged` si le nom est personnalisé + l'XP des
 trophées, `ExperiencePerTrophy[rarité]` ou le champ `Experience` du fichier). Le niveau suit
@@ -177,6 +190,7 @@ Elles sont produites par `js/UI/components/GameNotifier.js` à partir des évén
 - **découverte d'une carte** (`CARD_REVEALED`) : chaque collection que la carte fait avancer, **une fois par ouverture** (`notif.collection.progress`), ou sa validation (`notif.collection.complete`) — la notification est **prioritaire** ;
 - **fin de la révélation** (`REVEAL_FINISHED`) : les collections préparées que le joueur n'a pas eu le temps de voir (sortir de la scène avec Échap ne doit rien perdre) ;
 - **trophée débloqué** (`TROPHY_UNLOCKED`) : l'XP du trophée (`notif.experience.trophy`) ;
+- **titre de joueur débloqué** (`TITLE_UNLOCKED`) : le titre lui-même, dans sa propre famille de notification (`notif.title.unlocked`), écrit dans la police pixel et en jaune — voir 3.I ;
 - **carte obtenue hors ouverture** — achat en Sparks, code promo, distribution (`CARDS_OBTAINED`) : l'XP s'il s'agit d'une PREMIÈRE copie, puis les collections concernées ;
 - **nom personnalisé défini** (`PROFILE_UPDATED`) : l'XP du nom, une seule fois (le nom par défaut ne rapporte rien) ;
 - **niveau atteint** (`EXPERIENCE_UPDATED`) : « Niveau N atteint », dans sa propre variante.
@@ -415,6 +429,146 @@ après le changement de semaine ne peut pas consommer le stock de la précédent
 annoncée par `CARDS_OBTAINED` (`source: 'trader'`) comme toute carte obtenue — trophées, expérience et
 notifications suivent — et les ressources dépensées par `MINING_UPDATED`, ce qui fait vivre les pastilles
 de la mine et la page Statistiques.
+
+### G septies. Titres de joueur (Titre)
+
+Le **titre** est la ligne affichée **sous le pseudo**, sur la page Profil : en **jaune**
+(`--color-title`, une valeur par palette) et dans la police pixel **Press Start 2P**
+(`css/fonts.css` : les deux sous-ensembles latin auto-hébergés, préchargés par `sw.js`, donc lisibles
+hors-ligne). Il est **facultatif** : là où l'avatar montre toujours quelque chose (au pire l'initiale
+du pseudo), aucun titre ne peut être affiché, et « Aucun titre » reste un choix explicite de la page
+Titre même quand dix titres sont débloqués.
+
+Deux sources, deux conditions (`js/business/TitleManager.js`) :
+- les titres de **niveau** (`settings/default_titles.json`) : `{ id, requiredLevel, text: { fr, en } }`,
+  débloqués quand le niveau atteint `requiredLevel` ;
+- les titres de **collection** (`data/titles/<setId>.json`) : chacun est donné par **un** trophée de
+  collection et porte son propre texte (`CollectionTitle[].UnlockedTitle[]`). Un trophée est désigné
+  par son extension et son `Name`, jamais par un identifiant fabriqué, exactement comme les icônes.
+
+Un titre est désigné par son **`id`** partout : le profil ne stocke que lui
+(`user_state["profile"].title`, validé par `ProfileManager` contre le catalogue), et les textes sont
+résolus dans la langue active au moment du rendu.
+
+**Le déblocage n'est pas stocké** : il est **dérivé** (`TitleManager.listTitles({ trophyState })`),
+puisqu'un niveau ne redescend jamais et qu'un trophée ne se reprend jamais. `TITLE_UNLOCKED` n'existe
+donc que pour l'**annonce** : le manager garde en mémoire les titres déjà annoncés, `app.js` amorce cet
+ensemble à l'ouverture (`notify: false`), puis il suit `TROPHY_UNLOCKED` et `EXPERIENCE_UPDATED`. Une
+sauvegarde qui débloque dix titres au chargement ne dit donc rien, comme pour les trophées, et
+`GameNotifier` transforme l'événement en notification (police pixel, en jaune, dans sa propre famille
+`data-type="title"`).
+
+La page **Titre** (`data-view="titles"`, `js/UI/views/TitlesView.js`) affiche **un élément par
+ligne**, groupés par source (le niveau, puis une section par extension) : la ligne « Aucun titre »
+d'abord, puis les titres, chacun écrit dans la police où il sera porté — la page est donc son propre
+aperçu. Un titre **débloqué** se sélectionne d'un clic (aucun bouton « Enregistrer » : un titre est un
+choix, pas un formulaire) ; un titre **verrouillé** est **grisé**, non cliquable, et porte le bouton
+**« Voir la condition de déblocage »**. La modale montre alors soit le niveau requis et le niveau
+courant, soit — pour un titre de collection — le **détail complet du trophée** à obtenir
+(`TrophyDetail.buildDetailBody`), cartes requises et récompenses comprises.
+
+Sur la fiche d'un trophée de collection, les titres qu'il donne sont affichés **à côté des avatars**
+(section « Titres débloqués »), en police pixel et en jaune quand le trophée est débloqué, grisés
+sinon : on lit ce qu'un trophée rapporte avant de le compléter.
+
+### G octies. Carte de profil (Carte de profil)
+
+Sous « Trophées mis en avant » et « Cartes favorites », la page Profil affiche la **carte du joueur** :
+le compte lui-même, dessiné comme une carte à collectionner avec le générateur de `external/cardmakerz/`.
+Rien n'est stocké : la carte est une **projection** du profil, recalculée à chaque rendu
+(`js/business/ProfileCardManager.js`), donc elle ne peut pas contredire la page qui la porte.
+
+- **Nom :** le pseudo (`profile.name`), « Joueur anonyme » s'il n'y en a pas.
+- **Série :** `<titre> #<numéro>`, où le titre est celui porté sous le pseudo (à défaut, le mot
+  « Profil ») et où le numéro est constitué des **`profileCard.seriesDigits` derniers caractères de
+  l'UUID** du compte, tirés une fois pour toutes. Toute la ligne — titre **et** numéro — est écrite
+  en **jaune** (`--color-title`, la couleur d'un titre sur la page Profil) : c'est le couple
+  pseudo/titre de la page qui se retrouve sur la carte.
+- **Rareté (`★` … `💎`) :** le **nombre de trophées débloqués** la donne, par paliers déclarés dans
+  `settings/config.json` (`profileCard.rarityThresholds`, `_comment` compris). La carte prend la
+  rareté la **plus haute** atteinte, donc un compte neuf est Commune. Un palier absent, malformé ou
+  plus bas que le précédent retombe sur la valeur livrée : une faute de frappe ne peut pas rendre une
+  carte plus rare plus facile à obtenir. La ligne sous la carte annonce la rareté atteinte, le nombre
+  de trophées et les trophées restants avant la suivante. Le joueur peut **choisir** la rareté portée
+  parmi celles que ses trophées ont débloquées : une rareté verrouillée reste affichée, désactivée,
+  avec la **médaille de trophée** et le compte `N / X` en rouge (N trophées débloqués, X requis).
+  Rien n'est jamais accepté au-delà des paliers atteints, même dans une sauvegarde écrite à la main.
+- **Illustration :** celle de la **première carte favorite** (l'ordre des épingles fait foi) ; sans
+  favori, le dos de carte livré (`profileCard.defaultArtPath`). C'est le champ **`Background`** de la
+  carte qui est lu, jamais son `Path` : `Path` est l'image de la carte **entière** (cadre, titre,
+  description), qui dessinerait une carte dans la carte, tandis que `Background` est l'illustration
+  seule, la même que celle qu'un binder prend pour fond. Un favori dont la carte a quitté le
+  catalogue est sauté, jamais affiché vide.
+- **Underlay :** l'**icône de profil** choisie (ou la `photo` d'une sauvegarde plus ancienne). Le
+  générateur y place un sprite plein cadre ; ici l'avatar est **ancré au milieu de l'illustration, à
+  hauteur de personnage** en Full Art, sans quoi un avatar carré masquerait le fond qu'il doit
+  surmonter (la disposition normale le confine déjà à la bande centrale). Il est dessiné **20 % plus
+  petit** que le sprite plein cadre du générateur (`auto 80 %` dans la bande centrale, `auto 32 %` en
+  Full Art), pour laisser respirer l'illustration qu'il recouvre.
+- **Description :** les trois trophées mis en avant, **en icônes et sur une seule ligne** (les noms
+  seraient trois lignes rognées sur 360 pixels ; ils restent en infobulle et dans le libellé
+  accessible), puis les compteurs : **boosters ouverts** (`user_state["stats"].boostersOpened`),
+  **cartes différentes** possédées (promos comprises), date de la **plus ancienne carte** obtenue,
+  **Sparks en banque** (`user_state["sparks"]`), **blocs minés** (`mining.totalMined`) et **Mine Pick
+  faits** (`minePick.totalPicks`).
+- **Deux dispositions** : « Normale » (bandeau du nom en haut, bloc de description en bas, illustration
+  entre les deux) et « Full Art » (illustration pleine carte). Elles sont celles du générateur
+  (`card-layout-classic` / `card-layout-fullart`). En Full Art, le bloc de description est assombri :
+  posé sur la photo d'une carte favorite, un panneau translucide rendrait les compteurs illisibles.
+- **Full Art est une fonctionnalité à acheter :** `features.items.cardLayoutFullArt.priceSparks`
+  (1000 Sparks par défaut) dans `settings/config.json`, débit et achat écrits dans **une seule**
+  transaction (`FeatureManager`). Tant qu'elle n'est pas possédée, le bouton affiche un **cadenas** et
+  le prix avec l'icône de Sparks ; le cliquer ouvre une **confirmation** (prix, solde) au lieu de
+  changer de disposition, et un solde insuffisant affiche le refus et désactive « Acheter ». Après
+  l'achat, la disposition **ne bouge pas** : c'est le clic suivant du joueur qui l'active. L'achat
+  est définitif (pas de remboursement) et la fonctionnalité reste acquise dans la sauvegarde.
+- **Couleur du titre :** la ligne `<titre> #<numéro>` porte une couleur choisie par le joueur. « Auto »
+  (défaut, gratuit) prend la **couleur de la rareté de la carte** (`--rarity-title-color`, une valeur
+  par classe de rareté), donc elle suit le joueur quand il change de rareté. Les sept autres couleurs
+  (`gold`, `silver`, `crimson`, `emerald`, `azure`, `violet`, `rose`, palette
+  `PROFILE_CARD_TITLE_COLORS`) s'**achètent en Sparks** : `profileCard.titleColors.defaultPriceSparks`
+  (125 par défaut) s'applique à toute couleur sans prix propre, et chaque entrée de `items` peut le
+  surcharger. Tant qu'une couleur n'est pas achetée, sa pastille est en pointillés avec son prix et un
+  clic ouvre la **confirmation** (même modale que le Full Art, même transaction, même refus si le
+  solde ne couvre pas) ; elle ne se sélectionne qu'une fois possédée, et l'achat ne change PAS la
+  couleur portée. Le choix est enregistré dans `user_state["profileCard"].titleColor` ; une couleur
+  non possédée (sauvegarde retouchée) retombe sur « Auto ». La couleur est appliquée en style
+  **inline** sur la carte (`--card-title-color`), donc elle survit à l'export du PNG.
+- **Voir et télécharger :** « Agrandir la carte » **déplace** la carte dans une modale (l'élément est
+  déplacé, jamais reconstruit : disposition choisie et images déjà décodées suivent) et
+  « Télécharger la carte » écrit un PNG de 720 × 1000, nommé d'après le numéro de série de la carte.
+
+**Pourquoi une racine fantôme (`js/UI/components/ProfileCard.js`) :** la carte vient d'un outil qui a
+ses propres règles CSS (`clip-path` des cadres, `mix-blend-mode` des foils, conic gradients, variables
+de rareté, classes `.card-*` et `.rarity-*`). Ces règles saliraient le jeu et le jeu salirait la carte.
+La feuille (`css/components/profile-card.css`, adaptée du générateur) est **récupérée puis injectée**
+dans la racine fantôme, et c'est **ce même texte** qui est intégré à l'image exportée : l'aperçu et le
+PNG ne peuvent pas diverger.
+
+**Pourquoi un rasteriseur maison :** `html2canvas` (utilisé par le générateur en repli) ne sait peindre
+ni `clip-path`, ni `mix-blend-mode`, ni les conic gradients, c'est-à-dire exactement ce dont une carte
+est faite. La carte est donc sérialisée dans un SVG `foreignObject`, chargé comme image puis dessinée
+dans un canvas, technique du générateur (`external/cardmakerz/js/render/SvgDomRenderer.js`). Un document
+SVG chargé en image ne peut atteindre **aucune** ressource externe : la feuille, les deux illustrations
+et les fichiers de police sont donc **incorporés en data URLs** (`css/fonts.css` inclus, sans quoi
+« Press Start 2P » retomberait sur une police système et le PNG ne ressemblerait plus à l'aperçu).
+
+### G nonies. Illumination (réglage « Illumination » / « Glow »)
+
+Le panneau **Illumination** des Paramètres règle la force des halos, effet par effet : aujourd'hui les
+**trophées**, demain les cartes. Chaque effet a son propre bloc dans `settings/config.json` (`glow.trophies`
+aujourd'hui, `glow.cards` plus tard) avec ses bornes `{ min, max, step, default }` : `min: 0` éteint
+l'effet, `max: 5` est le plus fort, le défaut est 2. Un niveau hors bornes est **ramené dans la plage**,
+jamais rejeté.
+
+`js/utils/GlowManager.js` publie le niveau sous forme de **facteur** `--trophy-glow-scale` sur `<html>`
+(le niveau 2, référence, vaut 1 ; 0 vaut 0). Les halos sont entièrement décrits par la rareté du
+trophée dans les feuilles (rayon et couleur), et multiplient ce rayon par le facteur : un seul
+curseur règle donc la liste des trophées, les trophées épinglés du profil et les médailles de la carte
+de profil. La préférence vit dans `user_state["settings"].glowTrophies` (`AccountManager`), appliquée
+au démarrage comme le foil. La carte de profil reçoit en plus le facteur **en style inline**
+(`ProfileCard.renderGlow`) : le document exporté n'a pas de `<html>` à hériter, et le PNG montre donc
+les mêmes halos que l'aperçu.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.

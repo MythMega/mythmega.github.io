@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "fr.jmdev.minecards",
+      "sha256_cert_fingerprints": [
+        "60:DF:DD:72:9F:E9:F6:42:11:D1:D1:3C:9E:7F:5E:0A:1A:20:B4:92:83:2F:9B:5E:FB:FD:E9:72:21:15:A3:76"
+      ]
+    }
+  }
+]

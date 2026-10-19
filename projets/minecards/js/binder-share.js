@@ -18,6 +18,7 @@
 
 import { decodeBinderCode, readBinderCodeFromUrl } from './utils/BinderCode.js';
 import { applyShine, applyCardGlow } from './utils/Shine.js';
+import { attachCardTilt } from './utils/CardTilt.js';
 
 /** Language of the visitor, limited to the two the card data is written in. */
 const LANG = (() => {
@@ -188,6 +189,7 @@ function openCardDetail(payload, master) {
   art.appendChild(image);
   applyShine(art, { rarity: Number(master?.r) || 1 });
   applyCardGlow(art, { rarity: Number(master?.r) || 1 });
+  attachCardTilt(art);
 
   const rows = document.createElement('dl');
   rows.className = 'binder-share__rows';

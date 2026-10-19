@@ -1,0 +1,54 @@
+{
+  "_comment": "Colour catalogue of the player identity. Every entry has a stable 'id' (stored in a save), a translated 'name' ({ fr, en }), a 'hex' CSS colour, and two independent prices in Sparks: 'titlePrice' for the title line of the profile card and 'usernamePrice' for the player pseudo. The order of the list is the order of the pickers. A malformed entry is ignored rather than sold with guessed values; the shipped catalogue is used when the whole file is unreadable.",
+  "colors": [
+    {
+      "id": "gold",
+      "name": { "fr": "Or", "en": "Gold" },
+      "hex": "#ffd54a",
+      "titlePrice": 125,
+      "usernamePrice": 125
+    },
+    {
+      "id": "silver",
+      "name": { "fr": "Argent", "en": "Silver" },
+      "hex": "#d9dee8",
+      "titlePrice": 125,
+      "usernamePrice": 125
+    },
+    {
+      "id": "crimson",
+      "name": { "fr": "Cramoisi", "en": "Crimson" },
+      "hex": "#ff6b6b",
+      "titlePrice": 125,
+      "usernamePrice": 125
+    },
+    {
+      "id": "emerald",
+      "name": { "fr": "Émeraude", "en": "Emerald" },
+      "hex": "#35e08a",
+      "titlePrice": 125,
+      "usernamePrice": 125
+    },
+    {
+      "id": "azure",
+      "name": { "fr": "Azur", "en": "Azure" },
+      "hex": "#5bc8ff",
+      "titlePrice": 125,
+      "usernamePrice": 125
+    },
+    {
+      "id": "violet",
+      "name": { "fr": "Violet", "en": "Violet" },
+      "hex": "#b98cff",
+      "titlePrice": 125,
+      "usernamePrice": 125
+    },
+    {
+      "id": "rose",
+      "name": { "fr": "Rose", "en": "Rose" },
+      "hex": "#ff8fc7",
+      "titlePrice": 125,
+      "usernamePrice": 125
+    }
+  ]
+}

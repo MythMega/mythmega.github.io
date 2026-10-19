@@ -13,8 +13,9 @@
  *     icon:      string,          // "" or a path of the catalogue (`ProfileIconManager`)
  *     photo:     string,          // legacy avatar URL, read (displayed) but no longer written
  *     title:     string,          // "" or the id of a title (`TitleManager`)
- *     favorites: string[],        // card keys (`${id}_${style}`), at most `profile.maxFavorites`
- *     featured:  string[],        // unlocked trophy ids, at most `profile.maxFeaturedTrophies`
+ *     usernameColor: string,      // "auto" or the id of a colour (`settings/colors.json`)
+ *     favorites: string[],        // card keys (`${id}_${style}`), up to the owned favourite slots
+ *     featured:  string[],        // unlocked trophy ids, up to the owned featured slots
  *   }
  *
  * A TITLE is deliberately OPTIONAL, and clearing it is a choice of its own: unlike the avatar (which
@@ -39,6 +40,8 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
 import profileIconManager from './ProfileIconManager.js';
 import titleManager from './TitleManager.js';
+import featureManager, { FeatureManager, PROFILE_SLOT_KINDS } from './FeatureManager.js';
+import { USERNAME_DEFAULT_COLOR, isColorId } from './ColorManager.js';
 
 /**
  * `user_state` key holding the profile.
@@ -66,6 +69,7 @@ export const PROFILE_ERROR_CODES = Object.freeze({
   PHOTO_INVALID_URL: 'photo',
   ICON_UNKNOWN: 'icon',
   TITLE_UNKNOWN: 'title',
+  COLOR_UNKNOWN: 'color',
   FAVORITES_FULL: 'favoritesFull',
   FEATURED_FULL: 'featuredFull',
   INVALID_KEY: 'invalidKey',
@@ -98,11 +102,19 @@ export function getProfileErrorMessageKey(error) {
 
 /**
  * Builds the profile every account starts with.
- *   * @returns {{name: string, icon: string, photo: string, title: string, favorites: string[], featured: string[]}}
+ *   * @returns {{name: string, icon: string, photo: string, title: string, usernameColor: string, favorites: string[], featured: string[]}}
    *   An empty profile.
    */
 export function buildDefaultProfile() {
-  return { name: '', icon: '', photo: '', title: '', favorites: [], featured: [] };
+  return {
+    name: '',
+    icon: '',
+    photo: '',
+    title: '',
+    usernameColor: USERNAME_DEFAULT_COLOR,
+    favorites: [],
+    featured: [],
+  };
 }
 
 export class ProfileManager {
@@ -126,14 +138,40 @@ export class ProfileManager {
   }
 
   /**
-   * Reads the profile limits declared in `settings/config.json`.
+   * Reads the EFFECTIVE limits of the profile: the slots every account starts with, plus the ones
+   * it bought with Sparks (`FeatureManager`).
    *
-   * @returns {Promise<{maxFavorites: number, maxFeaturedTrophies: number, defaultName: string}>}
-   *   The validated limits.
-   * @throws {Error} When `settings/config.json` cannot be loaded.
+   * Every caller (the profile page, the collection hearts, the trophy pins) reads its maximum here,
+   * so a purchased slot opens everywhere at once and a hand-edited save can never use a slot it did
+   * not pay for. The configured absolute limits stay available in `configuredMaxFavorites` and
+   * `configuredMaxFeaturedTrophies` for the page that draws the next price.
+   *
+   * @returns {Promise<{maxFavorites: number, maxFeaturedTrophies: number, defaultFavorites: number,
+   *   defaultFeaturedTrophies: number, favoriteSlotPrices: Record<number, number>,
+   *   featuredSlotPrices: Record<number, number>, configuredMaxFavorites: number,
+   *   configuredMaxFeaturedTrophies: number, defaultName: string}>} The effective limits.
+   * @throws {Error} When `settings/config.json` or the purchases cannot be loaded.
    */
   async getLimits() {
-    return configLoader.getProfileSettings();
+    const [settings, purchases] = await Promise.all([
+      configLoader.getProfileSettings(),
+      featureManager.getPurchases(),
+    ]);
+    return {
+      ...settings,
+      maxFavorites: FeatureManager.countOwnedSlots(
+        PROFILE_SLOT_KINDS.FAVORITES,
+        settings,
+        purchases
+      ),
+      maxFeaturedTrophies: FeatureManager.countOwnedSlots(
+        PROFILE_SLOT_KINDS.FEATURED,
+        settings,
+        purchases
+      ),
+      configuredMaxFavorites: settings.maxFavorites,
+      configuredMaxFeaturedTrophies: settings.maxFeaturedTrophies,
+    };
   }
 
   /**
@@ -142,7 +180,7 @@ export class ProfileManager {
    * Never throws on a malformed state: an imported save may come from any version, so anything
    * unusable is replaced by its default instead of failing the profile page.
    *
-   * @returns {Promise<{name: string, icon: string, photo: string, title: string, favorites: string[], featured: string[]}>}
+   * @returns {Promise<{name: string, icon: string, photo: string, title: string, usernameColor: string, favorites: string[], featured: string[]}>}
    *   The normalized profile.
    * @throws {Error} When the read or the configuration loading fails.
    */
@@ -187,6 +225,8 @@ export class ProfileManager {
    * @param {unknown} [payload.photo] - Legacy avatar URL (still accepted, no longer offered).
    * @param {unknown} [payload.title] - Id of a catalogue title (empty string clears it: displaying
    *   no title is a choice of its own).
+   * @param {unknown} [payload.usernameColor] - `auto` or the id of a username colour. Owning the
+   *   colour is checked by `ColorManager`; an unknown orientation falls back to `auto`.
    * @returns {Promise<object>} The stored profile after the update.
    * @throws {TypeError} When `payload` is not a plain object.
    * @throws {ProfileError} When the name is too long, the URL is not an absolute http(s) URL, or the
@@ -217,6 +257,9 @@ export class ProfileManager {
     }
     if (Object.prototype.hasOwnProperty.call(payload, 'title')) {
       next.title = await ProfileManager.normalizeTitle(payload.title);
+    }
+    if (Object.prototype.hasOwnProperty.call(payload, 'usernameColor')) {
+      next.usernameColor = ProfileManager.normalizeUsernameColor(payload.usernameColor);
     }
 
     await storageRepository.setUserState(PROFILE_STATE_KEY, next);
@@ -321,7 +364,7 @@ export class ProfileManager {
    * @returns {Promise<{featured: string[], added: boolean}>} The resulting list and whether the
    *   trophy was pinned (false when it was unpinned).
    * @throws {TypeError} When the id is not a non-empty string.
-   * @throws {ProfileError} When three trophies are already pinned and this one is not.
+   * @throws {ProfileError} When every owned slot is already pinned and this one is not.
    * @throws {Error} When the write fails.
    */
   async toggleFeatured(id) {
@@ -396,7 +439,7 @@ export class ProfileManager {
    *
    * @param {unknown} raw - Stored value.
    * @param {{maxFavorites?: number, maxFeaturedTrophies?: number}} [limits] - Configured limits.
-   * @returns {{name: string, icon: string, photo: string, title: string, favorites: string[], featured: string[]}}
+   * @returns {{name: string, icon: string, photo: string, title: string, usernameColor: string, favorites: string[], featured: string[]}}
    *   A writable profile.
    */
   static normalizeProfile(raw, limits = {}) {
@@ -409,6 +452,7 @@ export class ProfileManager {
       icon: ProfileManager.sanitizeIcon(source.icon),
       photo: ProfileManager.sanitizePhoto(source.photo),
       title: ProfileManager.sanitizeTitle(source.title),
+      usernameColor: ProfileManager.sanitizeColorId(source.usernameColor),
       favorites: ProfileManager.sanitizeKeyList(source.favorites).slice(0, Math.max(maxFavorites, 0)),
       featured: ProfileManager.sanitizeKeyList(source.featured).slice(0, Math.max(maxFeatured, 0)),
     };
@@ -541,6 +585,37 @@ export class ProfileManager {
    */
   static sanitizeTitle(value) {
     return typeof value === 'string' ? value.trim().slice(0, 120) : '';
+  }
+
+  /**
+   * Cleans a raw value into a username colour id (no ownership check: used on read).
+   *
+   * @param {unknown} value - Raw value.
+   * @returns {string} The id, or `auto` when the value is not usable.
+   */
+  static sanitizeColorId(value) {
+    const text = typeof value === 'string' ? value.trim().slice(0, 40) : '';
+    return text === '' ? USERNAME_DEFAULT_COLOR : text;
+  }
+
+  /**
+   * Validates the username colour chosen in the profile editor.
+   *
+   * Any syntactically valid id is stored, but a colour the player does not OWN paints nothing:
+   * `ProfileCardManager` and `ProfileView` resolve the preference against the purchases, exactly
+   * like the title colour of the profile card.
+   *
+   * @param {unknown} value - Submitted id (`auto` clears the colour).
+   * @returns {string} The stored id.
+   * @throws {ProfileError} When the id cannot be a colour identifier.
+   */
+  static normalizeUsernameColor(value) {
+    const text = ProfileManager.sanitizeColorId(value);
+    if (isColorId(text)) return text;
+    throw new ProfileError(
+      PROFILE_ERROR_CODES.COLOR_UNKNOWN,
+      `The username colour must be a colour identifier (received: ${JSON.stringify(text.slice(0, 64))}).`
+    );
   }
 
   /**

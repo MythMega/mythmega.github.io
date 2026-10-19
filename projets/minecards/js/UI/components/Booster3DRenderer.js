@@ -32,9 +32,91 @@ import animationManager from '../../utils/AnimationManager.js';
 /** Import specifiers resolved by the import map of `index.html`. */
 const THREE_MODULE = 'three';
 const GLTF_LOADER_MODULE = 'three/addons/loaders/GLTFLoader.js';
+const ROOM_ENVIRONMENT_MODULE = 'three/addons/environments/RoomEnvironment.js';
 
 /** Default model, used when the caller does not provide one. */
 export const DEFAULT_MODEL_PATH = 'assets/boostermodel.glb';
+
+/**
+ * Delay before the studio environment is built, in milliseconds.
+ *
+ * The reflections are a detail of the lighting: the booster must be on screen first. Building the
+ * PMREM (a chain of GPU passes and shader compilations) during `init()` is what made a phone wait
+ * after the model was already uploaded, so it is now deferred by a few frames.
+ */
+const ENVIRONMENT_DELAY_MS = 250;
+
+/**
+ * Binary payloads already downloaded in this page, keyed by URL.
+ *
+ * The select-stage preview, the opening scene and every later booster share the same `.glb` and
+ * the same textures: keeping the bytes (and the object URLs made from them) means the second scene
+ * never touches the network again, even if the HTTP cache is cold or disabled.
+ *
+ * @type {Map<string, Promise<ArrayBuffer>>}
+ */
+const BINARY_CACHE = new Map();
+
+/** Object URLs created from `BINARY_CACHE`, keyed by the source URL. @type {Map<string, Promise<string>>} */
+const BLOB_URL_CACHE = new Map();
+
+/**
+ * Downloads a file once per page and hands back its bytes.
+ *
+ * A shared `fetch` also lets several renderers await the same in-flight download instead of
+ * starting a second request.
+ *
+ * @param {string} url - Path of the file.
+ * @returns {Promise<ArrayBuffer>} The downloaded bytes.
+ * @throws {Error} When the response is not successful.
+ */
+function fetchBinary(url) {
+  const cached = BINARY_CACHE.get(url);
+  if (cached) return cached;
+
+  const promise = fetch(url, { credentials: 'same-origin' }).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Unable to download "${url}" (HTTP ${response.status}).`);
+    }
+    return response.arrayBuffer();
+  });
+  BINARY_CACHE.set(url, promise);
+  promise.catch(() => BINARY_CACHE.delete(url));
+  return promise;
+}
+
+/**
+ * Downloads an image once per page and returns a local object URL for it.
+ *
+ * The texture loader then decodes it from memory: the network request overlaps the model and the
+ * Three.js modules instead of following them.
+ *
+ * @param {string} url - Path of the image.
+ * @returns {Promise<string>} Object URL of the downloaded image.
+ * @throws {Error} When the response is not successful.
+ */
+function fetchBlobUrl(url) {
+  const cached = BLOB_URL_CACHE.get(url);
+  if (cached) return cached;
+
+  const promise = fetch(url, { credentials: 'same-origin' })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Unable to download "${url}" (HTTP ${response.status}).`);
+      }
+      return response.blob();
+    })
+    .then((blob) => URL.createObjectURL(blob));
+  BLOB_URL_CACHE.set(url, promise);
+  promise.catch(() => BLOB_URL_CACHE.delete(url));
+  return promise;
+}
+
+// The opening screen is the default view and always shows the booster: the model starts
+// downloading while the rest of the application boots, so the 960 KB no longer sits on the
+// critical path of `init()`. The promise is the very one `init()` awaits, so this costs one
+// request, not two.
+void fetchBinary(DEFAULT_MODEL_PATH).catch(() => {});
 
 /** Radians added per pixel of horizontal drag. */
 const DRAG_ROTATION_SPEED = 0.01;
@@ -56,48 +138,56 @@ const TAP_MAX_MOVEMENT_PX = 14;
 const CAMERA_DISTANCE = 3.52;
 
 /* ------------------------------------------------------------------------------------------------
- * LIGHTING / BRIGHTNESS - tweak these constants to make the booster brighter or darker.
+ * LIGHTING / MATERIALS
+ *
+ * The values below are the CLASSIC recipe, used when no render mode was provided (a renderer built
+ * by hand) or as the fallback of a mode that omits a value. The shipped recipes live in
+ * `settings/config.json` (`boosterRender`) and reach this class through `BoosterRenderManager`:
+ * a mode can be switched at runtime without rebuilding the scene.
  * ---------------------------------------------------------------------------------------------- */
 
-/** Flat light reaching every face equally (lifts the shadows). */
-const AMBIENT_LIGHT_INTENSITY = 1.1;
-
-/** Main directional light (top right, in front of the booster). */
-const KEY_LIGHT_INTENSITY = 1.5;
-
-/** Back / bottom-left light that outlines the edges. */
-const RIM_LIGHT_INTENSITY = 0.9;
-
-/** Extra frontal light that lights the face of the booster facing the camera (0 = off). */
-const FRONT_FILL_LIGHT_INTENSITY = 0.25;
-
-/** Soft sky/ground light (0 = off). */
-const HEMISPHERE_LIGHT_INTENSITY = 0.4;
+/**
+ * Classic lighting and material recipe of the booster.
+ *
+ * `exposure` is the linear tone-mapping exposure, `environmentIntensity` the strength of the studio
+ * reflections on each material, then the five lights, the PBR surface, the clearcoat layer (a
+ * blister plastic film, 0 disables it), the self-illumination and the multiplier of the normal map
+ * baked in the `.glb`.
+ */
+export const DEFAULT_RENDER_SETTINGS = Object.freeze({
+  id: 'classic',
+  exposure: 0.94,
+  environmentIntensity: 0.9,
+  ambient: 1.1,
+  key: 1.5,
+  rim: 0.9,
+  front: 0.25,
+  hemisphere: 0.4,
+  metalness: 0.25,
+  roughness: 0.55,
+  clearcoat: 0,
+  clearcoatRoughness: 0.4,
+  emissive: 0.06,
+  normalScale: 1,
+});
 
 /**
- * Global exposure of the render (1 = neutral, 1.5 = +50 %, 0.8 = darker).
- * Applied with a linear tone mapping, so colours are NOT desaturated.
+ * Properties never copied when a standard material is converted to a physical one.
+ *
+ * They belong to the object identity of the material (`uuid`, `id`, `version`), to its compiled
+ * shader (`defines`) or to the previous instance's bookkeeping (`userData`): copying them would
+ * either throw or make two materials share state. Every texture, colour, vector and scalar is
+ * copied, which is what preserves the normal map baked in the model.
  */
-const EXPOSURE = 0.94;
-
-/**
- * Intensity of the studio reflections (generated `RoomEnvironment`, 0 = no environment).
- * It is the main fix for "black" models: a metallic material without environment reflects nothing.
- * Needs Three.js r163+ (`scene.environmentIntensity`).
- */
-const ENVIRONMENT_INTENSITY = 0.9;
-
-/** Metalness is clamped to this value: a metal without a reflected world looks black (0 = matte). */
-const MATERIAL_METALNESS_MAX = 0.25;
-
-/** Roughness is raised to at least this value (0 = mirror, 1 = fully diffuse). */
-const MATERIAL_ROUGHNESS_MIN = 0.55;
-
-/**
- * Self-lighting: the texture glows a little by itself, whatever the lights do (0 = off).
- * 0.3 to 0.6 gives a clearly brighter booster, past 0.8 it starts to look washed out.
- */
-const EMISSIVE_INTENSITY = 0.06;
+const IGNORED_MATERIAL_KEYS = new Set([
+  'uuid',
+  'id',
+  'type',
+  'version',
+  'defines',
+  'userData',
+  'needsUpdate',
+]);
 
 export class Booster3DRenderer {
   /**
@@ -110,6 +200,8 @@ export class Booster3DRenderer {
    *   the "explosive" mode uses it to fire its comic burst at the exact moment of the blast).
    * @param {boolean} [options.interactive=true] - False for a preview: no drag, no tap and no tear,
    *   so the booster merely turns on its own while the player picks an extension.
+   * @param {object|null} [options.renderSettings=null] - Lighting/material recipe of the active
+   *   render mode (see `BoosterRenderManager`); the classic recipe is used when omitted.
    * @param {string} [options.label='booster'] - Label used in the logs.
    */
   constructor({
@@ -119,6 +211,7 @@ export class Booster3DRenderer {
     onOpenRequest = null,
     onOpenStart = null,
     interactive = true,
+    renderSettings = null,
     label = 'booster',
   } = {}) {
     if (!container || typeof container.appendChild !== 'function') {
@@ -132,6 +225,11 @@ export class Booster3DRenderer {
     this.onOpenStart = onOpenStart;
     this.interactive = interactive !== false;
     this.label = label;
+    /** @type {object} Active lighting/material recipe (merged over the classic defaults). */
+    this.renderSettings = { ...DEFAULT_RENDER_SETTINGS, ...(renderSettings ?? {}) };
+    /** @type {{ambient?: object, key?: object, rim?: object, front?: object, hemisphere?: object}}
+     *   Lights kept by reference so a mode switch only changes their intensity. */
+    this.lights = {};
 
     /** @type {object|null} Dynamically imported `three` namespace. */
     this.THREE = null;
@@ -172,6 +270,10 @@ export class Booster3DRenderer {
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} Bound listeners. */
     this.bindings = [];
+    /** @type {Promise<object>|null} In-flight import of the studio environment module. */
+    this.environmentPromise = null;
+    /** @type {number|null} Timer deferring the environment pass out of the first frames. */
+    this.environmentTimer = null;
   }
 
   /**
@@ -217,19 +319,33 @@ export class Booster3DRenderer {
     }
 
     try {
-      this.log('importing Three.js…');
-      this.THREE = await import(THREE_MODULE);
-      const { GLTFLoader } = await import(GLTF_LOADER_MODULE);
+      // Every download starts here, at the SAME time: the pinned Three.js modules, the `.glb` and
+      // the texture of the set. Awaiting them one after the other (three, the loader, the
+      // environment, the model, the texture) added one network round trip per step - the very
+      // thing that made a phone feel slow while a stripped-down prototype stayed quick. On a
+      // remote connection the whole payload now travels in a single wave.
+      this.log('loading the 3D payload…');
+      const threePromise = import(THREE_MODULE);
+      const gltfPromise = import(GLTF_LOADER_MODULE);
+      const modelPromise = fetchBinary(this.modelPath);
+      const texturePromise = this.texturePath ? fetchBlobUrl(this.texturePath) : null;
+      // Always fetched, even when the active recipe asks for no reflection: another mode can be
+      // selected afterwards, and the module travels with Three.js anyway. Never awaited here: the
+      // reflections land after the booster.
+      this.environmentPromise = import(ROOM_ENVIRONMENT_MODULE);
+
+      this.THREE = await threePromise;
+      const { GLTFLoader } = await gltfPromise;
       this.log(`Three.js r${this.THREE.REVISION ?? '?'} ready.`);
 
       this.buildScene();
-      await this.buildEnvironment();
-      await this.loadModel(GLTFLoader);
-      await this.applyTexture();
+      await this.loadModel(GLTFLoader, await modelPromise);
+      await this.applyTexture(texturePromise ? await texturePromise : null);
       this.tuneMaterials();
 
       this.isAvailable = true;
       this.log('3D scene ready.', { model: this.modelPath, texture: this.texturePath ?? 'none' });
+      this.scheduleEnvironment();
       return true;
     } catch (error) {
       console.error(`[Booster3DRenderer:${this.label}] 3D initialization failed: 2D fallback.`, error);
@@ -249,7 +365,16 @@ export class Booster3DRenderer {
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    this.renderer.setSize(this.container.clientWidth || 320, this.container.clientHeight || 320);
+    // `updateStyle: false` on purpose: the canvas is sized by the stylesheet
+    // (`.booster-3d__viewport canvas { width: 100%; height: 100% }`). Letting Three write an
+    // inline width/height here would freeze the size of the PREVIEW container on the canvas, and
+    // moving that canvas to the opening viewport (`adopt()`) would leave it small and pinned to the
+    // left instead of filling the new stage.
+    this.renderer.setSize(
+      this.container.clientWidth || 320,
+      this.container.clientHeight || 320,
+      false
+    );
     this.container.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
@@ -258,24 +383,28 @@ export class Booster3DRenderer {
 
     // Linear tone mapping: its only effect is the exposure multiplier, colours stay untouched.
     this.renderer.toneMapping = THREE.LinearToneMapping;
-    this.renderer.toneMappingExposure = EXPOSURE;
 
-    this.scene.add(new THREE.AmbientLight(0xffffff, AMBIENT_LIGHT_INTENSITY));
-    const keyLight = new THREE.DirectionalLight(0xffffff, KEY_LIGHT_INTENSITY);
-    keyLight.position.set(2, 3, 4);
-    this.scene.add(keyLight);
-    const rimLight = new THREE.DirectionalLight(0xffffff, RIM_LIGHT_INTENSITY);
-    rimLight.position.set(-3, -1, -2);
-    this.scene.add(rimLight);
+    const { ambient, key, rim, front, hemisphere } = this.renderSettings;
+    this.lights.ambient = new THREE.AmbientLight(0xffffff, ambient);
+    this.scene.add(this.lights.ambient);
 
-    if (FRONT_FILL_LIGHT_INTENSITY > 0) {
-      const frontLight = new THREE.DirectionalLight(0xffffff, FRONT_FILL_LIGHT_INTENSITY);
-      frontLight.position.set(0, 0.5, 5);
-      this.scene.add(frontLight);
-    }
-    if (HEMISPHERE_LIGHT_INTENSITY > 0) {
-      this.scene.add(new THREE.HemisphereLight(0xffffff, 0xbbbbcc, HEMISPHERE_LIGHT_INTENSITY));
-    }
+    this.lights.key = new THREE.DirectionalLight(0xffffff, key);
+    this.lights.key.position.set(2, 3, 4);
+    this.scene.add(this.lights.key);
+
+    this.lights.rim = new THREE.DirectionalLight(0xffffff, rim);
+    this.lights.rim.position.set(-3, -1, -2);
+    this.scene.add(this.lights.rim);
+
+    // The two fill lights are ALWAYS created, at whatever intensity the recipe asks for (0 = off):
+    // a mode switch has to be able to turn them back on without rebuilding the scene.
+    this.lights.front = new THREE.DirectionalLight(0xffffff, front);
+    this.lights.front.position.set(0, 0.5, 5);
+    this.scene.add(this.lights.front);
+
+    this.lights.hemisphere = new THREE.HemisphereLight(0xffffff, 0xbbbbcc, hemisphere);
+    this.scene.add(this.lights.hemisphere);
+    this.applyLighting();
 
     this.pivot = new THREE.Group();
     this.scene.add(this.pivot);
@@ -288,6 +417,22 @@ export class Booster3DRenderer {
   }
 
   /**
+   * Defers the studio environment out of the loading path.
+   *
+   * The pass is a chain of GPU renders (PMREM) that can take a few hundred milliseconds on a
+   * phone: the booster is shown first, the reflections follow.
+   *
+   * @returns {void}
+   */
+  scheduleEnvironment() {
+    if (!this.environmentPromise || this.environmentTimer !== null) return;
+    this.environmentTimer = window.setTimeout(() => {
+      this.environmentTimer = null;
+      void this.buildEnvironment();
+    }, ENVIRONMENT_DELAY_MS);
+  }
+
+  /**
    * Generates a neutral studio environment (`RoomEnvironment`) used for the reflections.
    *
    * Without it, metallic materials reflect nothing and look almost black. A failure is not fatal:
@@ -296,17 +441,26 @@ export class Booster3DRenderer {
    * @returns {Promise<void>} Resolves once the environment is set (or skipped).
    */
   async buildEnvironment() {
-    if (ENVIRONMENT_INTENSITY <= 0) return;
+    if (!this.scene || !this.renderer) return;
 
     try {
-      const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+      const source = this.environmentPromise ?? import(ROOM_ENVIRONMENT_MODULE);
+      const { RoomEnvironment } = await source;
+      // The scene may have been disposed while the module was in flight.
+      if (!this.scene || !this.renderer) return;
       const pmrem = new this.THREE.PMREMGenerator(this.renderer);
       const environment = new RoomEnvironment();
       this.scene.environment = pmrem.fromScene(environment, 0.04).texture;
-      this.scene.environmentIntensity = ENVIRONMENT_INTENSITY;
+      // `scene.environmentIntensity` needs Three.js r163+, while the pinned build is older: the
+      // strength is ALSO written on each material (`envMapIntensity`), which is what actually
+      // drives the reflection of this renderer. The scene property is kept for a future upgrade.
+      this.scene.environmentIntensity = this.renderSettings.environmentIntensity;
+      this.applyEnvironmentIntensity();
       environment.dispose?.();
       pmrem.dispose();
-      this.log('Studio environment ready.');
+      this.log(
+        `Studio environment ready (intensity: ${this.renderSettings.environmentIntensity}).`
+      );
     } catch (error) {
       console.warn(`[Booster3DRenderer:${this.label}] Environment unavailable, lights only.`, error);
     }
@@ -319,46 +473,220 @@ export class Booster3DRenderer {
    * @returns {void}
    */
   tuneMaterials() {
+    if (!this.model || !this.THREE) return;
+
     const THREE = this.THREE;
-    this.model?.traverse((child) => {
+    const settings = this.renderSettings;
+    let tuned = 0;
+    let normalMapped = 0;
+
+    this.model.traverse((child) => {
+      if (!child.isMesh) return;
+      const isArray = Array.isArray(child.material);
+      const materials = isArray ? child.material : [child.material];
+
+      const nextMaterials = materials.map((material) => {
+        if (!material) return material;
+
+        // A clearcoat only exists on `MeshPhysicalMaterial`: the standard material of the `.glb`
+        // is converted when a recipe asks for it, and stays physical afterwards (clearcoat 0 is
+        // simply a disabled layer). Every texture, including the normal map, is carried over.
+        const tunedMaterial =
+          settings.clearcoat > 0 ? this.ensurePhysicalMaterial(material) : material;
+
+        if (typeof tunedMaterial.metalness === 'number') {
+          tunedMaterial.metalness = settings.metalness;
+        }
+        if (typeof tunedMaterial.roughness === 'number') {
+          tunedMaterial.roughness = settings.roughness;
+        }
+        if ('envMapIntensity' in tunedMaterial) {
+          tunedMaterial.envMapIntensity = settings.environmentIntensity;
+        }
+        if ('clearcoat' in tunedMaterial) {
+          tunedMaterial.clearcoat = settings.clearcoat;
+          tunedMaterial.clearcoatRoughness = settings.clearcoatRoughness;
+        }
+
+        // The normal map baked in the `.glb` (tangent-space, authored at a small scale) is kept
+        // exactly as the loader built it: the mode only multiplies its authored scale. The first
+        // authored value is remembered on the material so repeated switches never compound.
+        if (tunedMaterial.normalMap && tunedMaterial.normalScale) {
+          if (!tunedMaterial.userData) tunedMaterial.userData = {};
+          if (!tunedMaterial.userData.boosterBaseNormalScale) {
+            tunedMaterial.userData.boosterBaseNormalScale = {
+              x: tunedMaterial.normalScale.x,
+              y: tunedMaterial.normalScale.y,
+            };
+          }
+          const base = tunedMaterial.userData.boosterBaseNormalScale;
+          tunedMaterial.normalScale.set(
+            base.x * settings.normalScale,
+            base.y * settings.normalScale
+          );
+          normalMapped += 1;
+        }
+
+        if ('emissive' in tunedMaterial) {
+          if (settings.emissive > 0) {
+            if (tunedMaterial.map) {
+              tunedMaterial.emissive = new THREE.Color(0xffffff);
+              tunedMaterial.emissiveMap = tunedMaterial.map;
+            } else {
+              // No texture: glow with the base colour instead of a flat white.
+              tunedMaterial.emissive = tunedMaterial.color
+                ? tunedMaterial.color.clone()
+                : new THREE.Color(0x000000);
+              tunedMaterial.emissiveMap = null;
+            }
+            tunedMaterial.emissiveIntensity = settings.emissive;
+          } else {
+            tunedMaterial.emissive = new THREE.Color(0x000000);
+            tunedMaterial.emissiveMap = null;
+            tunedMaterial.emissiveIntensity = 0;
+          }
+        }
+
+        tunedMaterial.needsUpdate = true;
+        tuned += 1;
+        return tunedMaterial;
+      });
+
+      child.material = isArray ? nextMaterials : nextMaterials[0];
+    });
+
+    if (tuned > 0) {
+      this.log(
+        `Materials tuned (${tuned} material(s), ${normalMapped} normal map(s), ` +
+          `mode: ${settings.id ?? 'custom'}).`
+      );
+    }
+  }
+
+  /**
+   * Applies the active recipe to the lights and to the tone mapping.
+   *
+   * The lights are held by reference, so switching a mode never rebuilds the scene: only their
+   * intensity (and the exposure) changes. Safe to call before the scene exists.
+   *
+   * @returns {void}
+   */
+  applyLighting() {
+    if (!this.renderer) return;
+    const settings = this.renderSettings;
+    this.renderer.toneMappingExposure = settings.exposure;
+    if (this.scene) {
+      this.scene.environmentIntensity = settings.environmentIntensity;
+    }
+
+    const { ambient, key, rim, front, hemisphere } = this.lights;
+    if (ambient) ambient.intensity = settings.ambient;
+    if (key) key.intensity = settings.key;
+    if (rim) rim.intensity = settings.rim;
+    if (front) front.intensity = settings.front;
+    if (hemisphere) hemisphere.intensity = settings.hemisphere;
+  }
+
+  /**
+   * Writes the reflection strength of the active recipe on every material.
+   *
+   * `MeshStandardMaterial.envMapIntensity` is what the pinned Three.js build actually reads: the
+   * `scene.environmentIntensity` property of the newest versions is kept for a future upgrade, but
+   * it is not enough on its own today.
+   *
+   * @returns {void}
+   */
+  applyEnvironmentIntensity() {
+    if (!this.model) return;
+    const intensity = this.renderSettings.environmentIntensity;
+    this.model.traverse((child) => {
       if (!child.isMesh) return;
       const materials = Array.isArray(child.material) ? child.material : [child.material];
       materials.forEach((material) => {
-        if (!material) return;
-
-        if (typeof material.metalness === 'number') {
-          material.metalness = Math.min(material.metalness, MATERIAL_METALNESS_MAX);
+        if (material && 'envMapIntensity' in material) {
+          material.envMapIntensity = intensity;
         }
-        if (typeof material.roughness === 'number') {
-          material.roughness = Math.max(material.roughness, MATERIAL_ROUGHNESS_MIN);
-        }
-        if ('emissive' in material && EMISSIVE_INTENSITY > 0) {
-          if (material.map) {
-            material.emissive = new THREE.Color(0xffffff);
-            material.emissiveMap = material.map;
-          } else {
-            // No texture: glow with the base colour instead of a flat white.
-            material.emissive = material.color ? material.color.clone() : new THREE.Color(0x000000);
-            material.emissiveMap = null;
-          }
-          material.emissiveIntensity = EMISSIVE_INTENSITY;
-        }
-        material.needsUpdate = true;
       });
     });
+  }
+
+  /**
+   * Converts a material to `MeshPhysicalMaterial` so it can carry a clearcoat layer.
+   *
+   * Three.js has no `MeshPhysicalMaterial` variant of `MeshStandardMaterial.clone()`: the new
+   * material is built property by property. Textures (map, normalMap, emissiveMap, the PBR maps),
+   * colours and vectors are copied, while the identity, the compiled defines and the bookkeeping of
+   * the previous object are not. The old material is disposed (its textures are untouched).
+   *
+   * @param {object} material - A material of the loaded model.
+   * @returns {object} The same material when it is already physical, a physical copy otherwise.
+   */
+  ensurePhysicalMaterial(material) {
+    const THREE = this.THREE;
+    if (!material || material.isMeshPhysicalMaterial || !THREE?.MeshPhysicalMaterial) {
+      return material;
+    }
+
+    const physical = new THREE.MeshPhysicalMaterial();
+    Object.keys(material).forEach((key) => {
+      if (IGNORED_MATERIAL_KEYS.has(key) || key.startsWith('_')) return;
+      if (!(key in physical)) return;
+      const value = material[key];
+      if (typeof value === 'function') return;
+
+      // Clone the small value objects: sharing a colour or a vector between two materials would
+      // make a later tuning of one visible on the other.
+      if (value?.isColor || value?.isVector2 || value?.isVector3 || value?.isVector4) {
+        physical[key] = value.clone();
+        return;
+      }
+      try {
+        physical[key] = value;
+      } catch (error) {
+        console.warn(`[Booster3DRenderer:${this.label}] Material property "${key}" skipped.`, error);
+      }
+    });
+
+    // Kept on purpose: it holds the authored normal scale remembered by `tuneMaterials()`.
+    physical.userData = { ...(material.userData ?? {}) };
+    physical.name = material.name;
+    physical.needsUpdate = true;
+    material.dispose?.();
+    return physical;
+  }
+
+  /**
+   * Applies another lighting/material recipe to the live scene.
+   *
+   * Called when the developer render picker changes the mode: the lights, the exposure and every
+   * material are retuned, while the geometry and the textures stay uploaded. Safe to call before
+   * `init()` (the recipe is kept and used when the scene is built).
+   *
+   * @param {object|null} [settings=null] - Recipe to apply, or null to reset to the classic one.
+   * @returns {object} The applied recipe.
+   */
+  setRenderSettings(settings = null) {
+    this.renderSettings = { ...DEFAULT_RENDER_SETTINGS, ...(settings ?? {}) };
+    if (!this.isAvailable) return this.renderSettings;
+
+    this.applyLighting();
+    this.tuneMaterials();
+    this.log(`Render mode "${this.renderSettings.id ?? 'custom'}" applied.`);
+    return this.renderSettings;
   }
 
   /**
    * Loads the `.glb` model into the pivot group.
    *
    * @param {new (manager?: object) => object} GLTFLoader - Loader class from the Three.js addons.
+   * @param {ArrayBuffer} buffer - Bytes of the `.glb`, downloaded by `fetchBinary`.
    * @returns {Promise<void>} Resolves once the model is added to the scene.
-   * @throws {Error} When the model cannot be loaded.
+   * @throws {Error} When the model cannot be parsed.
    */
-  async loadModel(GLTFLoader) {
-    this.log(`loading model "${this.modelPath}"…`);
+  async loadModel(GLTFLoader, buffer) {
+    this.log(`parsing model "${this.modelPath}"…`);
     const loader = new GLTFLoader();
-    const gltf = await loader.loadAsync(this.modelPath);
+    const gltf = await this.parseModel(loader, buffer);
 
     let meshCount = 0;
     gltf.scene.traverse((child) => {
@@ -380,23 +708,43 @@ export class Booster3DRenderer {
   }
 
   /**
+   * Parses a `.glb` already in memory.
+   *
+   * `parseAsync` is the r160 API; the explicit Promise keeps an older pinned build working.
+   *
+   * @param {object} loader - `GLTFLoader` instance.
+   * @param {ArrayBuffer} buffer - Bytes of the model.
+   * @returns {Promise<object>} The parsed glTF payload.
+   */
+  parseModel(loader, buffer) {
+    if (typeof loader.parseAsync === 'function') {
+      return loader.parseAsync(buffer, '');
+    }
+    return new Promise((resolve, reject) => {
+      loader.parse(buffer, '', resolve, reject);
+    });
+  }
+
+  /**
    * Applies the texture declared by the extension JSON to the model materials.
    *
    * The `.glb` may already carry its own texture: in that case the JSON texture overrides it, as
    * required by `.docs/steps/4.md` ("texture issue du JSON du set"). A missing or failing texture
    * is not fatal, the model keeps its baked material.
    *
+   * @param {string|null} [preloadedUrl=null] - Object URL of a texture already downloaded, used
+   *   instead of a second request to `this.texturePath`.
    * @returns {Promise<void>} Resolves once the texture is applied (or skipped).
    */
-  async applyTexture() {
-    if (!this.texturePath) {
+  async applyTexture(preloadedUrl = null) {
+    if (!this.texturePath && !preloadedUrl) {
       this.log('No texture declared by the extension JSON: keeping the model material.');
       return;
     }
 
     const THREE = this.THREE;
     try {
-      const texture = await new THREE.TextureLoader().loadAsync(this.texturePath);
+      const texture = await new THREE.TextureLoader().loadAsync(preloadedUrl ?? this.texturePath);
       texture.colorSpace = THREE.SRGBColorSpace;
       this.texture = texture;
 
@@ -436,7 +784,8 @@ export class Booster3DRenderer {
     const previous = this.texture ?? null;
     this.texturePath = next;
     this.texture = null;
-    await this.applyTexture();
+    const preloaded = next ? await fetchBlobUrl(next) : null;
+    await this.applyTexture(preloaded);
 
     if (this.texture && previous) {
       previous.dispose?.();
@@ -720,6 +1069,45 @@ export class Booster3DRenderer {
   }
 
   /**
+   * Turns the picker preview into the interactive booster of the opening, without rebuilding it.
+   *
+   * The preview and the opening scene show the same model and the same texture: downloading,
+   * parsing and uploading them again when the player pressed "Open" was the largest remaining cost
+   * of the flow. The scene is moved to the new viewport instead, so the canvas, the geometry and
+   * the GPU textures are reused as they are.
+   *
+   * @param {object} options - Adoption options.
+   * @param {HTMLElement} options.container - Viewport that must host the canvas.
+   * @param {() => void|null} [options.onOpenStart=null] - Tear-start callback.
+   * @param {() => void|null} [options.onOpenRequest=null] - Reveal callback.
+   * @returns {boolean} True when the scene was adopted.
+   */
+  adopt({ container, onOpenStart = null, onOpenRequest = null } = {}) {
+    if (!this.isAvailable || !this.renderer || !container || typeof container.appendChild !== 'function') {
+      return false;
+    }
+    this.unbindInteractions();
+    this.resizeObserver?.unobserve(this.container);
+    // Cleared on the PREVIOUS stage element, before the canvas moves.
+    this.getStageElement()?.classList?.remove('is-tearing', 'is-dismissed', 'is-fallback');
+    this.container = container;
+    container.appendChild(this.renderer.domElement);
+    this.interactive = true;
+    this.openRequested = false;
+    this.isTearing = false;
+    this.spinVelocity = 0;
+    this.pointerStart = null;
+    this.tearElapsed = 0;
+    this.onOpenStart = onOpenStart;
+    this.onOpenRequest = onOpenRequest;
+    this.resizeObserver?.observe(container);
+    this.handleResize();
+    if (this.isRunning) this.bindInteractions();
+    this.log('Scene adopted by the opening stage.');
+    return true;
+  }
+
+  /**
    * Adapts the renderer to the container size.
    *
    * @returns {void}
@@ -743,6 +1131,11 @@ export class Booster3DRenderer {
   dispose() {
     this.stop();
     this.unbindInteractions();
+    if (this.environmentTimer !== null) {
+      window.clearTimeout(this.environmentTimer);
+      this.environmentTimer = null;
+    }
+    this.environmentPromise = null;
     this.getStageElement()?.classList?.remove('is-tearing', 'is-dismissed');
     this.resizeObserver?.disconnect();
     this.resizeObserver = null;

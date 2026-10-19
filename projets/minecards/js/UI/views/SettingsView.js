@@ -45,8 +45,15 @@ import themeManager from '../../utils/ThemeManager.js';
 import animationManager from '../../utils/AnimationManager.js';
 import glowManager from '../../utils/GlowManager.js';
 import foilManager from '../../utils/FoilManager.js';
+import boosterRenderManager from '../../utils/BoosterRenderManager.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
-import soundManager from '../../utils/SoundManager.js';
+import soundManager, {
+  DEFAULT_SOUND_CATEGORIES,
+  SOUND_CATEGORIES,
+  SOUND_CATEGORY_ORDER,
+  SOUND_VOLUME_LEVELS,
+  UI_SOUNDS,
+} from '../../utils/SoundManager.js';
 import accountManager from '../../business/AccountManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import { saveFile, getSaveErrorMessageKey, SAVE_EXTENSION } from '../../classes/SaveFile.js';
@@ -87,6 +94,9 @@ export class SettingsView {
     this.languageContainer = query('[data-settings-languages]');
     this.themeContainer = query('[data-settings-themes]');
     this.animationContainer = query('[data-settings-animations]');
+    this.renderPanel = query('[data-settings-render-panel]');
+    this.renderContainer = query('[data-settings-render]');
+    this.renderDetailElement = query('[data-settings-render-detail]');
     this.foilSlider = query('[data-settings-foil]');
     this.foilValueElement = query('[data-settings-foil-value]');
     this.glareSlider = query('[data-settings-glare]');
@@ -110,6 +120,8 @@ export class SettingsView {
     this.demoPlayButton = query('[data-animation-demo-play]');
     this.soundToggle = query('[data-settings-sound]');
     this.soundStateElement = query('[data-settings-sound-state]');
+    this.soundCategoriesElement = query('[data-settings-sound-categories]');
+    this.soundHelpElement = query('[data-settings-sound-help]');
     this.devToggle = query('[data-settings-dev]');
     this.devModeStateElement = query('[data-settings-dev-state]');
     this.clockElement = query('[data-settings-utc]');
@@ -158,6 +170,11 @@ export class SettingsView {
     this.themeButtons = new Map();
     /** @type {Map<string, HTMLButtonElement>} Animation buttons, keyed by mode id. */
     this.animationButtons = new Map();
+    /** @type {Map<string, HTMLButtonElement>} Booster render buttons, keyed by mode id. */
+    this.renderButtons = new Map();
+    /** @type {Map<string, {switch: HTMLButtonElement, state: HTMLElement,
+     *   slider: HTMLInputElement, output: HTMLOutputElement}>} Sound family controls. */
+    this.soundCategoryControls = new Map();
     /** @type {HTMLElement|null} Demo card (the flip preview). */
     this.demoCard = null;
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
@@ -202,8 +219,12 @@ export class SettingsView {
       ['[data-animation-demo-stage]', this.demoStage],
       ['[data-animation-demo-tiles]', this.demoTiles],
       ['[data-animation-demo-play]', this.demoPlayButton],
+      ['[data-settings-render-panel]', this.renderPanel],
+      ['[data-settings-render]', this.renderContainer],
+      ['[data-settings-render-detail]', this.renderDetailElement],
       ['[data-settings-sound]', this.soundToggle],
       ['[data-settings-sound-state]', this.soundStateElement],
+      ['[data-settings-sound-categories]', this.soundCategoriesElement],
       ['[data-settings-dev]', this.devToggle],
       ['[data-settings-dev-state]', this.devModeStateElement],
       ['[data-settings-utc]', this.clockElement],
@@ -243,12 +264,14 @@ export class SettingsView {
     await this.renderLanguageSelector();
     await this.renderThemeSelector();
     await this.renderAnimationSelector();
+    this.renderRenderSelector();
     this.renderAnimationDemo();
     this.renderFoilSlider();
     this.renderGlareSlider();
     this.renderGlowSlider();
     await this.renderNotificationSettings();
     this.syncSoundToggle();
+    this.renderSoundCategories();
     await this.syncDevToggle();
     await this.renderAccount();
     this.renderClock();
@@ -348,6 +371,108 @@ export class SettingsView {
       this.animationButtons.set(id, button);
     });
     this.syncAnimationButtons();
+  }
+
+  /**
+   * Renders one button per booster render mode declared in `config.json`.
+   *
+   * The picker is a developer tool: the whole panel stays hidden until the developer mode is on
+   * (`syncRenderPanelVisibility`), and the visible labels come from the `labelKey` of each mode so
+   * a new recipe only needs a translation entry. Choosing a mode retunes the live 3D scenes through
+   * `boosterRenderManager`, then persists the id in `settings.boosterRenderMode`.
+   *
+   * @returns {void}
+   */
+  renderRenderSelector() {
+    if (!this.renderContainer) return;
+
+    const modes = boosterRenderManager.getModes();
+    this.renderContainer.textContent = '';
+    this.renderButtons.clear();
+
+    modes.forEach(({ id, labelKey }) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'lang-switch__option';
+      button.dataset.renderId = id;
+      button.textContent = i18n.t(labelKey);
+      button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', () => void this.handleRenderModeChange(id));
+      this.renderContainer.appendChild(button);
+      this.renderButtons.set(id, button);
+    });
+
+    this.syncRenderButtons();
+    this.renderRenderDetail();
+  }
+
+  /**
+   * Reflects the active booster render mode on the picker buttons.
+   *
+   * @returns {void}
+   */
+  syncRenderButtons() {
+    const current = boosterRenderManager.getMode();
+    this.renderButtons.forEach((button, id) => {
+      const isActive = id === current;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  /**
+   * Writes the description of the active booster render mode under the picker.
+   *
+   * @returns {void}
+   */
+  renderRenderDetail() {
+    if (!this.renderDetailElement) return;
+    const { helpKey } = boosterRenderManager.getRenderSettings();
+    this.renderDetailElement.textContent = helpKey ? i18n.t(helpKey) : '';
+  }
+
+  /**
+   * Shows the booster render panel only when the developer mode is on.
+   *
+   * @returns {void}
+   */
+  syncRenderPanelVisibility() {
+    if (this.renderPanel) {
+      this.renderPanel.hidden = !this.devMode;
+    }
+  }
+
+  /**
+   * Applies a booster render mode and persists the preference.
+   *
+   * Like the animation mode, the recipe is applied live first: the picker preview and the opening
+   * scene follow it immediately. A failed write keeps the mode for this session and reports it,
+   * instead of pretending the click did nothing.
+   *
+   * @param {string} id - Mode id of the clicked button.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleRenderModeChange(id) {
+    if (this.isBusy || id === boosterRenderManager.getMode()) return;
+
+    this.setFeedback(null);
+    try {
+      boosterRenderManager.applyMode(id);
+    } catch (error) {
+      console.error('[SettingsView] Unable to apply the booster render mode.', error);
+      this.setFeedback('settings.error.render', 'error');
+      return;
+    }
+    this.syncRenderButtons();
+    this.renderRenderDetail();
+
+    try {
+      await accountManager.updateSettings({ boosterRenderMode: id });
+      this.log(`Booster render mode set to "${id}" and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The booster render mode could not be saved.', error);
+      this.setFeedback('settings.error.render', 'error');
+    }
   }
 
   /**
@@ -544,6 +669,187 @@ export class SettingsView {
   }
 
   /**
+   * Builds one row per sound family: a switch and a 0-5 volume slider.
+   *
+   * The rows are generated from `SOUND_CATEGORY_ORDER`, so a family added to the manager appears
+   * here (and in the settings it stores) without touching the markup.
+   *
+   * @returns {void}
+   */
+  renderSoundCategories() {
+    if (!this.soundCategoriesElement) return;
+    this.soundCategoryControls.clear();
+    this.soundCategoriesElement.textContent = '';
+    this.soundCategoriesElement.setAttribute('role', 'group');
+    this.soundCategoriesElement.setAttribute(
+      'aria-label',
+      i18n.t('settings.sound.categories')
+    );
+
+    const settings = soundManager.getCategorySettings();
+    SOUND_CATEGORY_ORDER.forEach((category) => {
+      const entry = settings[category] ?? DEFAULT_SOUND_CATEGORIES[category];
+      const row = document.createElement('div');
+      row.className = 'settings__sound-row';
+      row.dataset.soundCategory = category;
+
+      const head = document.createElement('div');
+      head.className = 'settings__sound-head';
+      const label = document.createElement('span');
+      label.className = 'settings__toggle-label';
+      label.textContent = i18n.t(`settings.sound.category.${category}`);
+
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'switch';
+      toggle.dataset.settingsSoundCategoryToggle = category;
+      toggle.setAttribute('role', 'switch');
+      toggle.setAttribute('aria-checked', String(entry.enabled));
+      toggle.setAttribute('aria-label', i18n.t(`settings.sound.category.${category}`));
+      const track = document.createElement('span');
+      track.className = 'switch__track';
+      track.setAttribute('aria-hidden', 'true');
+      const thumb = document.createElement('span');
+      thumb.className = 'switch__thumb';
+      track.appendChild(thumb);
+      const state = document.createElement('span');
+      state.className = 'switch__state';
+      toggle.append(track, state);
+      head.append(label, toggle);
+
+      const sliderWrapper = document.createElement('div');
+      sliderWrapper.className = 'foil-slider settings__sound-slider';
+      const sliderHead = document.createElement('div');
+      sliderHead.className = 'foil-slider__head';
+      const sliderLabel = document.createElement('label');
+      sliderLabel.className = 'foil-slider__label';
+      const inputId = `settings-sound-${category}`;
+      sliderLabel.setAttribute('for', inputId);
+      sliderLabel.textContent = i18n.t('settings.sound.volume');
+      const output = document.createElement('output');
+      output.className = 'foil-slider__value';
+      output.setAttribute('for', inputId);
+      output.textContent = String(entry.volume);
+      sliderHead.append(sliderLabel, output);
+
+      const slider = document.createElement('input');
+      slider.type = 'range';
+      slider.className = 'foil-slider__input';
+      slider.id = inputId;
+      slider.dataset.settingsSoundCategoryVolume = category;
+      slider.min = String(SOUND_VOLUME_LEVELS.MIN);
+      slider.max = String(SOUND_VOLUME_LEVELS.MAX);
+      slider.step = '1';
+      slider.value = String(entry.volume);
+      sliderWrapper.append(sliderHead, slider);
+
+      row.append(head, sliderWrapper);
+      this.soundCategoriesElement.appendChild(row);
+      this.soundCategoryControls.set(category, {
+        switch: toggle,
+        state,
+        slider,
+        output,
+      });
+    });
+
+    this.syncSoundCategories();
+  }
+
+  /**
+   * Reflects the global switch and the family settings on the rows.
+   *
+   * The whole block is hidden while the master switch is off, as the sound is then a single on/off
+   * decision. Inside it, a family switched off keeps its slider disabled (its volume is remembered
+   * for the next time it is turned back on).
+   *
+   * @returns {void}
+   */
+  syncSoundCategories() {
+    if (!this.soundCategoriesElement) return;
+    const enabled = soundManager.isEnabled();
+    this.soundCategoriesElement.hidden = !enabled;
+    // The explanatory line belongs to the families: with the master switch off there is nothing
+    // left to explain, so it folds away with the rows instead of floating alone under the switch.
+    if (this.soundHelpElement) this.soundHelpElement.hidden = !enabled;
+    const settings = soundManager.getCategorySettings();
+    this.soundCategoryControls.forEach((controls, category) => {
+      const entry = settings[category] ?? DEFAULT_SOUND_CATEGORIES[category];
+      controls.switch.setAttribute('aria-checked', String(entry.enabled));
+      controls.switch.disabled = !enabled;
+      controls.state.textContent = i18n.t(entry.enabled ? 'settings.sound.on' : 'settings.sound.off');
+      controls.slider.disabled = !enabled || !entry.enabled;
+      controls.slider.value = String(entry.volume);
+      controls.output.textContent = String(entry.volume);
+      controls.slider.closest('.settings__sound-row')?.setAttribute(
+        'data-enabled',
+        String(enabled && entry.enabled)
+      );
+    });
+  }
+
+  /**
+   * Flips one sound family and persists the whole map.
+   *
+   * @param {string} category - Family id.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleSoundCategoryToggle(category) {
+    if (this.isBusy) return;
+    const settings = soundManager.getCategorySettings();
+    const entry = settings[category];
+    if (!entry) return;
+    const previous = entry.enabled !== false;
+    soundManager.setCategoryEnabled(category, !previous);
+    this.syncSoundCategories();
+    this.setFeedback(null);
+    try {
+      await accountManager.updateSettings({ soundCategories: soundManager.getCategorySettings() });
+      this.log(`Sound family "${category}" ${previous ? 'disabled' : 'enabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The sound family could not be saved.', error);
+      soundManager.setCategoryEnabled(category, previous);
+      this.syncSoundCategories();
+      this.setFeedback('settings.error.sound', 'error');
+    }
+  }
+
+  /**
+   * Applies the volume of one family while the thumb moves.
+   *
+   * Nothing is written here (a write per step would fill the transaction log); the release saves.
+   *
+   * @param {string} category - Family id.
+   * @param {Event} event - Input event of the range element.
+   * @returns {void}
+   */
+  handleSoundCategoryVolumeInput(category, event) {
+    const controls = this.soundCategoryControls.get(category);
+    if (!controls) return;
+    const level = Number(event?.target?.value);
+    if (!Number.isFinite(level)) return;
+    soundManager.setCategoryVolume(category, level);
+    const applied = soundManager.getCategorySettings()[category];
+    controls.output.textContent = String(applied.volume);
+    this.setFeedback(null);
+  }
+
+  /**
+   * Persists the family settings once the player lets go of a volume thumb.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleSoundCategoryVolumeChange() {
+    try {
+      await accountManager.updateSettings({ soundCategories: soundManager.getCategorySettings() });
+      this.log('Sound family volumes saved.');
+    } catch (error) {
+      console.error('[SettingsView] The sound family volumes could not be saved.', error);
+      this.setFeedback('settings.error.sound', 'error');
+    }
+  }
+
+  /**
    * Reflects the stored developer mode on its switch.
    *
    * Unlike the sounds, there is no manager holding the value in memory: the account settings ARE
@@ -566,6 +872,7 @@ export class SettingsView {
     if (this.devModeStateElement) {
       this.devModeStateElement.textContent = i18n.t(enabled ? 'settings.dev.on' : 'settings.dev.off');
     }
+    this.syncRenderPanelVisibility();
   }
 
   /**
@@ -600,6 +907,7 @@ export class SettingsView {
       }
       this.setFeedback('settings.error.dev', 'error');
     }
+    this.syncRenderPanelVisibility();
   }
 
   /**
@@ -1015,6 +1323,26 @@ export class SettingsView {
       this.listen(toggle, 'click', () => void this.handleNotificationToggle(type));
     });
     this.listen(this.soundToggle, 'click', () => this.handleSoundToggle());
+    this.listen(this.soundCategoriesElement, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-settings-sound-category-toggle]')
+        : null;
+      if (button) void this.handleSoundCategoryToggle(button.dataset.settingsSoundCategoryToggle);
+    });
+    this.listen(this.soundCategoriesElement, 'input', (event) => {
+      const slider = event.target instanceof Element
+        ? event.target.closest('[data-settings-sound-category-volume]')
+        : null;
+      if (slider) {
+        this.handleSoundCategoryVolumeInput(slider.dataset.settingsSoundCategoryVolume, event);
+      }
+    });
+    this.listen(this.soundCategoriesElement, 'change', (event) => {
+      const slider = event.target instanceof Element
+        ? event.target.closest('[data-settings-sound-category-volume]')
+        : null;
+      if (slider) void this.handleSoundCategoryVolumeChange();
+    });
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
     this.listen(this.exportButton, 'click', () => this.handleExport());
@@ -1082,6 +1410,12 @@ export class SettingsView {
     this.unsubscribers.push(
       eventBus.on(EVENTS.GLARE_INTENSITY_CHANGED, () => this.syncGlareSlider())
     );
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.BOOSTER_RENDER_CHANGED, () => {
+        this.syncRenderButtons();
+        this.renderRenderDetail();
+      })
+    );
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.renderClock(payload)));
     this.log('Event subscriptions registered.');
   }
@@ -1095,6 +1429,7 @@ export class SettingsView {
   async handleLanguageChange(code) {
     if (this.isBusy || code === i18n.getLang()) return;
 
+    soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
     this.setBusy(true);
     this.setFeedback(null);
     try {
@@ -1131,6 +1466,7 @@ export class SettingsView {
   async handleAnimationChange(id) {
     if (this.isBusy || id === animationManager.getMode()) return;
 
+    soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
     this.setBusy(true);
     this.setFeedback(null);
     try {
@@ -1161,6 +1497,7 @@ export class SettingsView {
   async handleThemeChange(id) {
     if (this.isBusy || id === themeManager.getTheme()) return;
 
+    soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
     this.setBusy(true);
     this.setFeedback(null);
     try {
@@ -1199,6 +1536,7 @@ export class SettingsView {
 
     soundManager.setEnabled(next);
     this.syncSoundToggle();
+    this.syncSoundCategories();
     this.setFeedback(null);
 
     try {
@@ -1208,6 +1546,7 @@ export class SettingsView {
       console.error('[SettingsView] The sound preference could not be saved.', error);
       soundManager.setEnabled(previous);
       this.syncSoundToggle();
+      this.syncSoundCategories();
       this.setFeedback('settings.error.sound', 'error');
     }
   }
@@ -1660,6 +1999,12 @@ export class SettingsView {
     ].forEach((button) => {
       button.disabled = isBusy;
     });
+    this.soundCategoriesElement
+      ?.querySelectorAll('button, input')
+      .forEach((control) => {
+        control.disabled = isBusy;
+      });
+    if (!isBusy) this.syncSoundCategories();
     // The check button also announces its own loading state: it is the only long network call here.
     this.checkGiftsButton.setAttribute('aria-busy', isBusy ? 'true' : 'false');
     this.root.setAttribute('aria-busy', isBusy ? 'true' : 'false');
@@ -1708,11 +2053,13 @@ export class SettingsView {
     void this.renderThemeSelector().catch((error) => {
       console.error('[SettingsView] The theme list could not be re-rendered.', error);
     });
+    this.renderSoundCategories();
     this.syncSoundToggle();
     void this.syncDevToggle();
     void this.renderAnimationSelector().catch((error) => {
       console.error('[SettingsView] The animation list could not be re-rendered.', error);
     });
+    this.renderRenderSelector();
     // The animation picker rebuilds its labels on its own; the foil percentage is a translated
     // string too, so it has to be rewritten here.
     this.renderFoilValue();
@@ -1740,11 +2087,14 @@ export class SettingsView {
     this.syncLanguageButtons();
     this.syncThemeButtons();
     this.syncAnimationButtons();
+    this.syncRenderButtons();
+    this.renderRenderDetail();
     // Arriving on the page replays the demo: an animation is the one thing a picker can not
     // describe in words.
     this.playAnimationDemo();
     this.syncFoilSlider();
     this.syncSoundToggle();
+    this.syncSoundCategories();
     void this.syncDevToggle();
     this.renderClock();
     void this.renderAccount().catch((error) => {
@@ -1778,6 +2128,7 @@ export class SettingsView {
     this.languageButtons.clear();
     this.themeButtons.clear();
     this.animationButtons.clear();
+    this.renderButtons.clear();
     this.demoCard = null;
     this.closeModal();
     this.isInitialized = false;

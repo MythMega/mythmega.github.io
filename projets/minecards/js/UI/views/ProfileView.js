@@ -36,6 +36,7 @@ import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import collectionManager from '../../business/CollectionManager.js';
 import TrophyDetail, { TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
 import { applyCardGlow } from '../../utils/Shine.js';
+import { attachCardTilt } from '../../utils/CardTilt.js';
 import ProfileCard, {
   PROFILE_CARD_DEFAULT_LAYOUT,
   PROFILE_CARD_LAYOUT_ORDER,
@@ -45,14 +46,17 @@ import ProfileCard, {
 import profileCardManager, {
   ProfileCardManager,
   PROFILE_CARD_DEFAULT_TITLE_COLOR,
-  PROFILE_CARD_TITLE_COLORS,
 } from '../../business/ProfileCardManager.js';
+import colorManager, { AUTO_COLOR_ID, colorName } from '../../business/ColorManager.js';
 import featureManager, {
   FEATURES,
   FEATURE_ERROR_CODES,
+  PROFILE_SLOT_KINDS,
   TITLE_COLOR_FEATURE_PREFIX,
+  USERNAME_COLOR_FEATURE_PREFIX,
 } from '../../business/FeatureManager.js';
 import sparksManager from '../../business/SparksManager.js';
+import slotPurchaseModal from '../components/SlotPurchaseModal.js';
 
 /**
  * i18n keys naming the purchasable features (`FeatureManager.FEATURES`).
@@ -101,10 +105,14 @@ export class ProfileView {
     this.xpTextElement = this.root.querySelector('[data-profile-xp-text]');
     this.featuredElement = this.root.querySelector('[data-profile-featured]');
     this.featuredEmptyElement = this.root.querySelector('[data-profile-featured-empty]');
+    this.featuredHelpElement = this.root.querySelector('[data-profile-featured-help]');
     this.favoritesElement = this.root.querySelector('[data-profile-favorites]');
     this.favoritesCountElement = this.root.querySelector('[data-profile-favorites-count]');
     this.favoritesEmptyElement = this.root.querySelector('[data-profile-favorites-empty]');
+    this.cardBackgroundsElement = this.root.querySelector('[data-profile-card-backgrounds]');
+    this.cardBackgroundsHelpElement = this.root.querySelector('[data-profile-card-backgrounds-help]');
     this.cardStage = this.root.querySelector('[data-profile-card-stage]');
+    this.cardHost = this.root.querySelector('[data-profile-card-host]');
     this.cardRarityElement = this.root.querySelector('[data-profile-card-rarity]');
     this.cardFeedbackElement = this.root.querySelector('[data-profile-card-feedback]');
     this.cardLayoutsElement = this.root.querySelector('[data-profile-card-layouts]');
@@ -115,6 +123,8 @@ export class ProfileView {
     this.cardRaritiesElement = this.root.querySelector('[data-profile-card-rarities]');
     this.cardTitleColorsElement = this.root.querySelector('[data-profile-card-title-colors]');
     this.cardTitleColorsPriceElement = this.root.querySelector('[data-profile-card-title-colors-price]');
+    this.usernameColorsElement = this.root.querySelector('[data-profile-username-colors]');
+    this.usernameColorsHelpElement = this.root.querySelector('[data-profile-username-colors-help]');
     this.cardBuyModal = this.root.querySelector('[data-profile-card-buy-modal]');
     this.cardBuyFeatureElement = this.root.querySelector('[data-profile-card-buy-feature]');
     this.cardBuyPriceElement = this.root.querySelector('[data-profile-card-buy-price]');
@@ -162,6 +172,7 @@ export class ProfileView {
       layout: PROFILE_CARD_DEFAULT_LAYOUT,
       rarity: null,
       titleColor: PROFILE_CARD_DEFAULT_TITLE_COLOR,
+      background: null,
     };
     /** @type {object|null} Last card model built by `ProfileCardManager` (drives the rarity picker). */
     this.lastCardModel = null;
@@ -175,9 +186,18 @@ export class ProfileView {
     this.titleColorDefaultPrice = 0;
     /** @type {Set<string>} Ids of the title colours the account bought. */
     this.ownedTitleColors = new Set();
+    /** @type {Array<object>} Palette read from `settings/colors.json`. */
+    this.colorCatalog = [];
+    /** @type {Record<string, number>} Price of each pseudo colour, in Sparks. */
+    this.usernameColorPrices = {};
+    /** @type {Set<string>} Ids of the pseudo colours the account bought. */
+    this.ownedUsernameColors = new Set();
+    /** @type {string} Pseudo colour selected in the form (saved with the identity). */
+    this.selectedUsernameColor = AUTO_COLOR_ID;
     /** @type {string} Identifier the buy modal is about (a feature or a colour). */
     this.pendingFeatureId = null;
-    /** @type {'feature'|'titleColor'} Which catalogue the pending purchase belongs to. */
+    /** @type {'feature'|'titleColor'|'usernameColor'|'icon'} Which catalogue the pending purchase
+     *   belongs to. */
     this.pendingPurchaseType = 'feature';
     /** @type {HTMLElement|null} Element the card stage lives in outside the enlargement modal. */
     this.cardStageHome = null;
@@ -234,8 +254,12 @@ export class ProfileView {
       ['[data-profile-level]', this.levelElement],
       ['[data-profile-xp-fill]', this.xpFill],
       ['[data-profile-featured]', this.featuredElement],
+      ['[data-profile-featured-help]', this.featuredHelpElement],
       ['[data-profile-favorites]', this.favoritesElement],
+      ['[data-profile-card-backgrounds]', this.cardBackgroundsElement],
+      ['[data-profile-card-backgrounds-help]', this.cardBackgroundsHelpElement],
       ['[data-profile-card-stage]', this.cardStage],
+      ['[data-profile-card-host]', this.cardHost],
       ['[data-profile-card-rarity]', this.cardRarityElement],
       ['[data-profile-card-feedback]', this.cardFeedbackElement],
       ['[data-profile-card-layouts]', this.cardLayoutsElement],
@@ -245,6 +269,7 @@ export class ProfileView {
       ['[data-profile-card-rarities]', this.cardRaritiesElement],
       ['[data-profile-card-title-colors]', this.cardTitleColorsElement],
       ['[data-profile-card-title-colors-price]', this.cardTitleColorsPriceElement],
+      ['[data-profile-username-colors]', this.usernameColorsElement],
       ['[data-profile-card-buy-modal]', this.cardBuyModal],
       ['[data-profile-card-buy-feature]', this.cardBuyFeatureElement],
       ['[data-profile-card-buy-confirm]', this.cardBuyConfirmButton],
@@ -320,7 +345,7 @@ export class ProfileView {
     // A single delegated listener: the picker is rebuilt whenever the catalogue changes.
     this.listen(this.iconsList, 'click', (event) => {
       const button = event.target instanceof Element ? event.target.closest('[data-profile-icon]') : null;
-      if (button && !button.disabled) this.selectIcon(button.dataset.profileIcon);
+      if (button && !button.disabled) this.handleIconClick(button.dataset.profileIcon);
     });
 
     // A dead avatar (an old remote photo URL) must not leave a broken image icon: the initial takes over.
@@ -333,6 +358,16 @@ export class ProfileView {
     // One delegated listener per strip: the tiles are rebuilt on every render.
     this.listen(this.featuredElement, 'click', (event) => {
       if (!(event.target instanceof Element)) return;
+      const buy = event.target.closest('[data-profile-slot-buy]');
+      if (buy) {
+        void this.openSlotPurchase(buy.dataset.profileSlotBuy);
+        return;
+      }
+      const pick = event.target.closest('[data-profile-slot-pick]');
+      if (pick) {
+        void this.openSlotPicker(pick.dataset.profileSlotPick);
+        return;
+      }
       const unpin = event.target.closest('[data-trophy-unpin]');
       if (unpin) {
         void this.toggleFeatured(unpin.dataset.trophyUnpin);
@@ -343,7 +378,18 @@ export class ProfileView {
     });
 
     this.listen(this.favoritesElement, 'click', (event) => {
-      const open = event.target instanceof Element ? event.target.closest('[data-favorite-open]') : null;
+      if (!(event.target instanceof Element)) return;
+      const buy = event.target.closest('[data-profile-slot-buy]');
+      if (buy) {
+        void this.openSlotPurchase(buy.dataset.profileSlotBuy);
+        return;
+      }
+      const pick = event.target.closest('[data-profile-slot-pick]');
+      if (pick) {
+        void this.openSlotPicker(pick.dataset.profileSlotPick);
+        return;
+      }
+      const open = event.target.closest('[data-favorite-open]');
       if (open) void this.openCardDetail(open.dataset.favoriteOpen);
     });
 
@@ -385,6 +431,18 @@ export class ProfileView {
         : null;
       if (button) this.handleCardTitleColorClick(button.dataset.profileCardTitleColor);
     });
+    this.listen(this.usernameColorsElement, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-profile-username-color]')
+        : null;
+      if (button) this.handleUsernameColorClick(button.dataset.profileUsernameColor);
+    });
+    this.listen(this.cardBackgroundsElement, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-profile-card-background]')
+        : null;
+      if (button) this.setCardBackground(button.dataset.profileCardBackground);
+    });
 
     // Buying a feature: the confirmation modal, reachable from a locked switch button only.
     this.listen(this.cardBuyConfirmButton, 'click', () => void this.confirmFeaturePurchase());
@@ -402,8 +460,16 @@ export class ProfileView {
 
     // The modal is rebuilt on every open, so its action buttons are handled by delegation.
     this.listen(this.modalBody, 'click', (event) => {
-      const button = event.target instanceof Element ? event.target.closest('[data-favorite-remove]') : null;
-      if (button) void this.removeFavorite(button.dataset.favoriteRemove);
+      if (!(event.target instanceof Element)) return;
+      const remove = event.target.closest('[data-favorite-remove]');
+      if (remove) {
+        void this.removeFavorite(remove.dataset.favoriteRemove);
+        return;
+      }
+      const choice = event.target.closest('[data-profile-slot-choice]');
+      if (choice) {
+        void this.applySlotChoice(choice.dataset.profileSlotChoice, choice.dataset.profileSlotValue);
+      }
     });
 
     this.log('DOM listeners bound.');
@@ -439,7 +505,7 @@ export class ProfileView {
       if (!Array.isArray(payload?.favorites)) return;
       this.profile = { ...this.profile, favorites: payload.favorites };
       void this.renderFavorites(this.profile);
-      // The FIRST favourite lends its illustration to the card background.
+      // The card borrows its illustration from one of the favourites.
       void this.renderProfileCard();
     }));
     // A feature bought from another tab (or another screen, later) unlocks its switch here too.
@@ -467,16 +533,18 @@ export class ProfileView {
       // The evaluation stays SILENT here: opening the page must never announce trophies. Only the
       // openings (`TrophyManager` subscribes to `BOOSTER_OPENED`) and the automatic boot evaluation
       // own the announcements, so a save that unlocks a dozen trophies shows one toast, not twelve.
-      const [profile, trophyState, collection, preferences, catalog, purchases, titleColors] =
-        await Promise.all([
-          profileManager.getProfile(),
-          trophyManager.evaluate({ notify: false }),
-          collectionManager.getCollectionView(),
-          profileCardManager.getPreferences(),
-          featureManager.getCatalog(),
-          featureManager.getPurchases(),
-          featureManager.getTitleColors(),
-        ]);
+      const [profile, trophyState, collection, preferences, catalog, purchases, titleColors,
+        usernameColors, colorCatalog] = await Promise.all([
+        profileManager.getProfile(),
+        trophyManager.evaluate({ notify: false }),
+        collectionManager.getCollectionView(),
+        profileCardManager.getPreferences(),
+        featureManager.getCatalog(),
+        featureManager.getPurchases(),
+        featureManager.getTitleColors(),
+        featureManager.getUsernameColors(),
+        colorManager.listColors(),
+      ]);
       this.profile = profile;
       this.trophyState = trophyState;
       this.collection = collection;
@@ -486,25 +554,38 @@ export class ProfileView {
         purchases,
         FEATURES.CARD_LAYOUT_FULL_ART
       );
+      this.colorCatalog = Array.isArray(colorCatalog) ? colorCatalog : [];
       this.titleColorPrices = { ...(titleColors.items ?? {}) };
-      this.titleColorDefaultPrice = Number.isInteger(titleColors.defaultPriceSparks)
-        ? titleColors.defaultPriceSparks
-        : 0;
+      this.titleColorDefaultPrice = 0;
       this.ownedTitleColors = new Set(
         Object.keys(purchases)
           .filter((id) => id.startsWith(TITLE_COLOR_FEATURE_PREFIX))
           .map((id) => id.slice(TITLE_COLOR_FEATURE_PREFIX.length))
       );
+      this.usernameColorPrices = { ...(usernameColors.items ?? {}) };
+      this.ownedUsernameColors = new Set(
+        Object.keys(purchases)
+          .filter((id) => id.startsWith(USERNAME_COLOR_FEATURE_PREFIX))
+          .map((id) => id.slice(USERNAME_COLOR_FEATURE_PREFIX.length))
+      );
+      this.selectedUsernameColor = typeof profile.usernameColor === 'string'
+        ? profile.usernameColor
+        : AUTO_COLOR_ID;
       this.entriesByKey = new Map((collection.entries ?? []).map((entry) => [entry.key, entry]));
       this.sets = new Map(Object.entries(collection.sets ?? {}));
-      this.icons = await profileIconManager.listIcons({ trophyState });
+      this.icons = await profileIconManager.listIcons({
+        trophyState,
+        level: trophyState.level?.level ?? 1,
+        purchases,
+      });
 
       this.selectedIcon = profile.icon;
       this.renderIdentity(profile);
+      this.renderUsernameColors();
       await this.renderTitleLine(profile);
       this.renderIconPicker();
       this.renderLevel(trophyState.level);
-      this.renderFeatured(trophyState, profile);
+      await this.renderFeatured(trophyState, profile);
       await this.renderFavorites(profile);
       await this.renderProfileCard();
     } catch (error) {
@@ -571,8 +652,176 @@ export class ProfileView {
 
     const display = name !== '' ? name : i18n.t('profile.anonymous');
     this.avatarFallback.textContent = display.slice(0, 1).toUpperCase();
+    this.selectedUsernameColor = ProfileView.resolveOwnedColor(
+      profile.usernameColor,
+      this.ownedUsernameColors,
+      this.colorCatalog
+    );
     if (this.displayNameElement) {
       this.displayNameElement.textContent = display;
+      this.displayNameElement.style.removeProperty('--profile-name-color');
+      const colorId = ProfileView.resolveOwnedColor(
+        profile.usernameColor,
+        this.ownedUsernameColors,
+        this.colorCatalog
+      );
+      const entry = this.colorCatalog.find((candidate) => candidate.id === colorId);
+      if (entry) this.displayNameElement.style.setProperty('--profile-name-color', entry.hex);
+    }
+  }
+
+  /**
+   * Resolves a stored colour against what the account can actually wear.
+   *
+   * `auto` is always allowed; any other id must be both declared by `settings/colors.json` and
+   * bought (`FeatureManager`). A hand-edited save therefore cannot paint the pseudo with a colour
+   * that was never paid for.
+   *
+   * @param {unknown} preference - Stored colour id.
+   * @param {Set<string>} owned - Ids the account bought.
+   * @param {Array<{id: string}>} catalog - Palette read from `settings/colors.json`.
+   * @returns {string} `auto` or the id of an owned colour.
+   */
+  static resolveOwnedColor(preference, owned, catalog) {
+    const text = typeof preference === 'string' ? preference : '';
+    if (text === AUTO_COLOR_ID) return AUTO_COLOR_ID;
+    const declared = Array.isArray(catalog) && catalog.some((entry) => entry.id === text);
+    return declared && owned instanceof Set && owned.has(text) ? text : AUTO_COLOR_ID;
+  }
+
+  /**
+   * Renders the pseudo-colour picker of the identity form.
+   *
+   * It shares the palette of `settings/colors.json` with the title line, but not the purchases:
+   * a colour bought for one line is not bought for the other. A locked swatch stays clickable and
+   * opens the same confirmation modal as the title colours.
+   *
+   * @returns {void}
+   */
+  renderUsernameColors() {
+    if (!this.usernameColorsElement) return;
+    const entries = [
+      { id: AUTO_COLOR_ID, hex: 'var(--color-text)', name: i18n.t('profile.usernameColor.auto') },
+      ...this.colorCatalog.map((entry) => ({
+        id: entry.id,
+        hex: entry.hex,
+        name: colorName(entry, i18n.getLang()),
+      })),
+    ];
+
+    this.usernameColorsElement.textContent = '';
+    entries.forEach((entry) => {
+      const owned = entry.id === AUTO_COLOR_ID || this.ownedUsernameColors.has(entry.id);
+      const selected = entry.id === this.selectedUsernameColor;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'profile__color profile-card-panel__color';
+      button.dataset.profileUsernameColor = entry.id;
+      button.dataset.owned = String(owned);
+      button.dataset.selected = String(selected);
+      button.setAttribute('aria-pressed', String(selected));
+      button.style.setProperty('--swatch-color', entry.hex);
+
+      const price = this.usernameColorPrices[entry.id] ?? 0;
+      const label = owned
+        ? entry.name
+        : i18n.t('profile.usernameColor.locked', { color: entry.name, price });
+      button.title = label;
+      button.setAttribute('aria-label', label);
+
+      const dot = document.createElement('span');
+      dot.className = 'profile-card-panel__color-dot';
+      dot.setAttribute('aria-hidden', 'true');
+      button.appendChild(dot);
+
+      const name = document.createElement('span');
+      name.className = 'profile-card-panel__color-name';
+      name.textContent = entry.name;
+      button.appendChild(name);
+
+      if (!owned) {
+        const priceElement = document.createElement('span');
+        priceElement.className = 'profile-card-panel__color-price';
+        const coin = document.createElement('img');
+        coin.className = 'profile-card-panel__price-icon';
+        coin.src = 'assets/img/sparks.png';
+        coin.alt = '';
+        coin.setAttribute('aria-hidden', 'true');
+        const value = document.createElement('span');
+        value.textContent = String(price);
+        priceElement.append(coin, value);
+        button.appendChild(priceElement);
+      }
+
+      this.usernameColorsElement.appendChild(button);
+    });
+
+    if (this.usernameColorsHelpElement) {
+      this.usernameColorsHelpElement.textContent = i18n.t('profile.usernameColor.help');
+    }
+  }
+
+  /**
+   * Selects a pseudo colour in the form (a live preview, saved with the identity).
+   *
+   * An owned (or `auto`) colour is applied right away; a locked one opens the purchase instead,
+   * exactly like the title colours of the profile card.
+   *
+   * @param {string} id - Colour id, or `auto`.
+   * @returns {void}
+   */
+  handleUsernameColorClick(id) {
+    if (typeof id !== 'string' || id === '') return;
+    if (id === AUTO_COLOR_ID || this.ownedUsernameColors.has(id)) {
+      this.selectedUsernameColor = id;
+      // The pseudo being typed is carried over: picking a colour must never undo a name that is
+      // not saved yet (the same rule as the avatar picker).
+      const preview = {
+        ...this.profile,
+        name: this.nameInput?.value ?? this.profile?.name ?? '',
+        usernameColor: id,
+      };
+      this.renderIdentity(preview);
+      this.renderUsernameColors();
+      // The picker lives with the card controls now, away from the identity form's Save button:
+      // wearing an owned colour is saved immediately, exactly like the title colour above it.
+      void this.persistUsernameColor(id);
+      return;
+    }
+    const entry = this.colorCatalog.find((candidate) => candidate.id === id);
+    if (!entry) return;
+    void this.openBuyModal(id, {
+      type: 'usernameColor',
+      label: colorName(entry, i18n.getLang()),
+      price: this.usernameColorPrices[id] ?? 0,
+    });
+  }
+
+  /**
+   * Wears one pseudo colour and stores it on the profile.
+   *
+   * Only `auto` and an OWNED colour are accepted. The identity itself (name and avatar) is carried
+   * over untouched: this is a colour choice, not a save of the edit form.
+   *
+   * @param {string} id - Colour id, or `auto`.
+   * @returns {Promise<void>} Resolves once the choice is stored (or the failure reported).
+   */
+  async persistUsernameColor(id) {
+    if (!this.profile) return;
+    const accepted = id === AUTO_COLOR_ID || this.ownedUsernameColors.has(id);
+    if (!accepted) return;
+    try {
+      const next = await profileManager.setIdentity({
+        name: this.profile.name ?? '',
+        icon: this.profile.icon ?? '',
+        usernameColor: id,
+      });
+      this.profile = next;
+      void this.renderProfileCard();
+      this.log(`Pseudo colour set to "${id}" and saved.`);
+    } catch (error) {
+      console.error('[ProfileView] The pseudo colour could not be saved.', error);
+      this.setCardFeedback('profile.error.color', 'error');
     }
   }
 
@@ -628,6 +877,27 @@ export class ProfileView {
   }
 
   /**
+   * Re-reads the avatar catalogue after a purchase and redraws the picker.
+   *
+   * The bought icon must stop showing its price (and become selectable) without a page reload.
+   *
+   * @returns {Promise<void>} Resolves once the picker is redrawn.
+   */
+  async refreshIcons() {
+    try {
+      const purchases = await featureManager.getPurchases();
+      this.icons = await profileIconManager.listIcons({
+        trophyState: this.trophyState,
+        level: this.trophyState?.level?.level ?? 1,
+        purchases,
+      });
+      this.renderIconPicker();
+    } catch (error) {
+      console.error('[ProfileView] The avatar catalogue could not be refreshed.', error);
+    }
+  }
+
+  /**
    * Builds one picker entry (`role="radio"` button wrapping the icon image).
    *
    * @param {object} icon - Icon descriptor (`{ name, file, unlocked, source, grantingTrophy }`).
@@ -643,17 +913,34 @@ export class ProfileView {
     button.dataset.profileIcon = icon.file;
     button.setAttribute('role', 'radio');
     button.setAttribute('aria-checked', String(this.isIconChecked(icon.file)));
-    button.disabled = !icon.unlocked;
+    // A paid icon the player can afford to unlock stays CLICKABLE: it opens the purchase instead of
+    // selecting itself. An icon gated by a level (or by a trophy) stays disabled.
+    button.disabled = !icon.unlocked && !icon.purchasable;
     button.dataset.locked = String(!icon.unlocked);
+    button.dataset.purchasable = String(Boolean(icon.purchasable));
 
     let accessibleLabel = icon.file === '' ? i18n.t('profile.icons.none') : icon.name;
     if (!icon.unlocked) {
-      // A locked icon names the trophy that grants it: the picker doubles as a to-do list.
-      const trophy = ProfileView.findGrantingTrophy(this.trophyState, icon.grantingTrophy);
-      accessibleLabel = i18n.t('profile.icons.lockedBy', {
-        trophy: trophy ? TrophyDetail.trophyTitle(trophy) : i18n.t('trophy.unknown'),
-      });
-      if (trophy) button.dataset.lockedBy = trophy.id;
+      if (icon.lockedReason === 'price') {
+        accessibleLabel = i18n.t('profile.icons.lockedByPrice', {
+          name: icon.name,
+          price: icon.price,
+        });
+      } else if (icon.lockedReason === 'level') {
+        accessibleLabel = icon.price > 0
+          ? i18n.t('profile.icons.lockedByLevelPrice', {
+              level: icon.requiredLevel,
+              price: icon.price,
+            })
+          : i18n.t('profile.icons.lockedByLevel', { level: icon.requiredLevel });
+      } else {
+        // A trophy-gated icon names the trophy that grants it: the picker doubles as a to-do list.
+        const trophy = ProfileView.findGrantingTrophy(this.trophyState, icon.grantingTrophy);
+        accessibleLabel = i18n.t('profile.icons.lockedBy', {
+          trophy: trophy ? TrophyDetail.trophyTitle(trophy) : i18n.t('trophy.unknown'),
+        });
+        if (trophy) button.dataset.lockedBy = trophy.id;
+      }
     }
     button.setAttribute('aria-label', accessibleLabel);
     button.title = accessibleLabel;
@@ -680,8 +967,47 @@ export class ProfileView {
       button.appendChild(image);
     }
 
+    if (icon.price > 0 && !icon.owned) {
+      const price = document.createElement('span');
+      price.className = 'profile__icon-price';
+      const coin = document.createElement('img');
+      coin.className = 'profile-card-panel__price-icon';
+      coin.src = 'assets/img/sparks.png';
+      coin.alt = '';
+      coin.setAttribute('aria-hidden', 'true');
+      const value = document.createElement('span');
+      value.textContent = String(icon.price);
+      price.append(coin, value);
+      button.appendChild(price);
+    }
+
     item.appendChild(button);
     return item;
+  }
+
+  /**
+   * Handles a click on one avatar tile.
+   *
+   * An available icon is selected; a paid one the level does not gate opens the purchase modal. A
+   * tile gated by a level or a trophy is disabled and never reaches this method.
+   *
+   * @param {string} file - Icon path.
+   * @returns {void}
+   */
+  handleIconClick(file) {
+    const icon = [...(this.icons?.default ?? []), ...(this.icons?.unlockable ?? [])]
+      .find((candidate) => candidate.file === file);
+    if (!icon) return;
+    if (icon.unlocked) {
+      this.selectIcon(file);
+      return;
+    }
+    if (!icon.purchasable) return;
+    void this.openBuyModal(file, {
+      type: 'icon',
+      label: icon.name,
+      price: icon.price,
+    });
   }
 
   /**
@@ -774,18 +1100,302 @@ export class ProfileView {
    * @param {object} profile - Stored profile.
    * @returns {void}
    */
-  renderFeatured(trophyState, profile) {
+  async renderFeatured(trophyState, profile) {
     const byId = new Map(trophyState.trophies.map((trophy) => [trophy.id, trophy]));
     const pinned = (profile.featured ?? [])
       .map((id) => byId.get(id))
       .filter((trophy) => Boolean(trophy));
+    const slotState = await featureManager.getSlotState(PROFILE_SLOT_KINDS.FEATURED);
+    // Every slot is always drawn: the owned ones are either a trophy or an empty slot the player
+    // can fill, the others carry their price and can be bought one after the other.
+    const slots = Math.max(slotState.owned, pinned.length);
 
     this.featuredElement.textContent = '';
-    pinned.forEach((trophy, index) => {
-      this.featuredElement.appendChild(this.buildTrophyTile(trophy, index));
-    });
+    for (let index = 0; index < slots; index += 1) {
+      const trophy = pinned[index];
+      this.featuredElement.appendChild(trophy
+        ? this.buildTrophyTile(trophy, index)
+        : this.buildEmptySlotTile(PROFILE_SLOT_KINDS.FEATURED, index + 1, index));
+    }
+    this.renderLockedSlots(this.featuredElement, slotState, slots, PROFILE_SLOT_KINDS.FEATURED);
+
+    if (this.featuredHelpElement) {
+      this.featuredHelpElement.textContent = i18n.t('profile.featured.help', {
+        max: slotState.owned,
+      });
+    }
     if (this.featuredEmptyElement) {
-      this.featuredEmptyElement.hidden = pinned.length > 0;
+      // Slots are always visible now: the empty state would only repeat them.
+      this.featuredEmptyElement.hidden = true;
+    }
+  }
+
+  /**
+   * Appends the slots the account does not own yet.
+   *
+   * Only the NEXT slot is purchasable (the prices are a ladder); the following ones are drawn as
+   * locked slots with their price, so the player sees what the list can become.
+   *
+   * @param {HTMLElement} container - Strip receiving the tiles.
+   * @param {{owned: number, max: number, next: object|null, prices: Record<number, number>}} slotState
+   *   Value returned by `FeatureManager.getSlotState()`.
+   * @param {number} start - First slot to draw (the owned count).
+   * @param {string} kind - `PROFILE_SLOT_KINDS` member.
+   * @returns {void}
+   */
+  renderLockedSlots(container, slotState, start, kind) {
+    for (let slot = start + 1; slot <= slotState.max; slot += 1) {
+      const price = slotState.prices[slot];
+      if (!Number.isInteger(price) || price < 0) continue;
+      const purchasable = slotState.next?.slot === slot;
+      container.appendChild(this.buildLockedSlotTile(kind, slot, price, purchasable, slot - 1));
+    }
+  }
+
+  /**
+   * Builds an EMPTY owned slot: clicking it opens the picker of trophies or cards.
+   *
+   * @param {string} kind - `PROFILE_SLOT_KINDS` member.
+   * @param {number} slot - Slot number (1-based).
+   * @param {number} index - Position in the strip.
+   * @returns {HTMLLIElement} The tile.
+   */
+  buildEmptySlotTile(kind, slot, index) {
+    const label = i18n.t(
+      kind === PROFILE_SLOT_KINDS.FAVORITES
+        ? 'profile.slots.pick.favorites'
+        : 'profile.slots.pick.featured'
+    );
+    const item = document.createElement('li');
+    item.className = 'profile__tile profile__tile--slot';
+    item.style.setProperty('--tile-index', String(index));
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'profile__tile-open profile__tile-slot-empty';
+    button.dataset.profileSlotPick = kind;
+    button.setAttribute('aria-label', label);
+    button.title = label;
+
+    const plus = document.createElement('span');
+    plus.className = 'profile__tile-slot-plus';
+    plus.textContent = '+';
+    plus.setAttribute('aria-hidden', 'true');
+
+    const text = document.createElement('span');
+    text.className = 'profile__tile-slot-label';
+    text.textContent = i18n.t('profile.slots.label', { slot });
+
+    button.append(plus, text);
+    item.appendChild(button);
+    return item;
+  }
+
+  /**
+   * Builds a slot that is not owned yet, with its price.
+   *
+   * @param {string} kind - `PROFILE_SLOT_KINDS` member.
+   * @param {number} slot - Slot number (1-based).
+   * @param {number} price - Price in Sparks.
+   * @param {boolean} purchasable - True for the next slot of the ladder only.
+   * @param {number} index - Position in the strip.
+   * @returns {HTMLLIElement} The tile.
+   */
+  buildLockedSlotTile(kind, slot, price, purchasable, index) {
+    const label = purchasable
+      ? i18n.t(
+          kind === PROFILE_SLOT_KINDS.FAVORITES
+            ? 'profile.slots.buy.favoritesAria'
+            : 'profile.slots.buy.featuredAria',
+          { slot, price }
+        )
+      : i18n.t('profile.slots.locked', { slot });
+
+    const item = document.createElement('li');
+    item.className = 'profile__tile profile__tile--slot profile__tile--slot-locked';
+    item.style.setProperty('--tile-index', String(index));
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'profile__tile-open profile__tile-slot-locked';
+    button.setAttribute('aria-label', label);
+    button.title = label;
+    button.disabled = !purchasable;
+    if (purchasable) button.dataset.profileSlotBuy = kind;
+
+    const name = document.createElement('span');
+    name.className = 'profile__tile-slot-label';
+    name.textContent = i18n.t('profile.slots.label', { slot });
+
+    const lock = document.createElement('span');
+    lock.className = 'profile__tile-slot-lock';
+    lock.textContent = '🔒';
+    lock.setAttribute('aria-hidden', 'true');
+
+    const priceElement = document.createElement('span');
+    priceElement.className = 'profile__tile-buy-price';
+    const coin = document.createElement('img');
+    coin.className = 'profile-card-panel__price-icon';
+    coin.src = 'assets/img/sparks.png';
+    coin.alt = '';
+    coin.setAttribute('aria-hidden', 'true');
+    const value = document.createElement('span');
+    value.textContent = String(price);
+    priceElement.append(coin, value);
+
+    button.append(lock, name, priceElement);
+    item.appendChild(button);
+    return item;
+  }
+
+  /**
+   * Opens the shared purchase dialog for the next slot of one list.
+   *
+   * @param {string} kind - `PROFILE_SLOT_KINDS` member.
+   * @returns {Promise<void>} Resolves once the dialog is displayed.
+   */
+  async openSlotPurchase(kind) {
+    try {
+      await slotPurchaseModal.open({
+        kind,
+        onPurchased: () => {
+          if (this.isInitialized && !this.isLoading) void this.reload();
+        },
+      });
+    } catch (error) {
+      console.error('[ProfileView] The slot purchase could not be opened.', error);
+      Toast.error('profile.card.buy.error');
+    }
+  }
+
+  /**
+   * Opens the picker filling one empty owned slot.
+   *
+   * `featured` offers the unlocked trophies that are not pinned yet, `favorites` the owned cards
+   * that are not favourites. The choice is applied through the same `ProfileManager` calls the
+   * catalogue pages use, so the limits are still enforced in one place.
+   *
+   * @param {string} kind - `PROFILE_SLOT_KINDS` member.
+   * @returns {void}
+   */
+  openSlotPicker(kind) {
+    if (!this.profile || !this.modal || !this.modalBody || !this.modalTitle) return;
+    const normalized = kind === PROFILE_SLOT_KINDS.FAVORITES
+      ? PROFILE_SLOT_KINDS.FAVORITES
+      : PROFILE_SLOT_KINDS.FEATURED;
+    const isFavorites = normalized === PROFILE_SLOT_KINDS.FAVORITES;
+    this.modalTitle.textContent = i18n.t(
+      isFavorites ? 'profile.slots.pick.favoritesTitle' : 'profile.slots.pick.featuredTitle'
+    );
+    this.modalBody.textContent = '';
+
+    const list = document.createElement('ul');
+    list.className = 'profile-picker';
+
+    if (isFavorites) {
+      const favorites = new Set(this.profile.favorites ?? []);
+      const entries = Array.from(this.entriesByKey.values())
+        .filter((entry) => entry?.owned && entry.card && !favorites.has(entry.key))
+        .sort((a, b) => a.card.getName(i18n.getLang()).localeCompare(b.card.getName(i18n.getLang())));
+      entries.forEach((entry) => {
+        const name = entry.card.getName(i18n.getLang());
+        const item = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'profile-picker__choice';
+        button.dataset.profileSlotChoice = 'card';
+        button.dataset.profileSlotValue = entry.key;
+        button.setAttribute('aria-label', name);
+        button.title = name;
+
+        const image = document.createElement('img');
+        image.className = 'profile-picker__image';
+        image.src = i18n.resolveImagePath(entry.card.illustration);
+        image.alt = '';
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.setAttribute('aria-hidden', 'true');
+
+        const label = document.createElement('span');
+        label.className = 'profile-picker__label';
+        label.textContent = name;
+
+        button.append(image, label);
+        item.appendChild(button);
+        list.appendChild(item);
+      });
+    } else {
+      const pinned = new Set(this.profile.featured ?? []);
+      const trophies = (this.trophyState?.trophies ?? [])
+        .filter((trophy) => trophy.unlocked && !pinned.has(trophy.id));
+      trophies.forEach((trophy) => {
+        const item = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'profile-picker__choice profile-picker__choice--trophy';
+        button.dataset.profileSlotChoice = 'trophy';
+        button.dataset.profileSlotValue = trophy.id;
+        const name = TrophyDetail.trophyTitle(trophy);
+        button.setAttribute('aria-label', name);
+        button.title = name;
+
+        const medal = TrophyDetail.buildMedal(trophy);
+        if (medal) button.appendChild(medal);
+
+        const label = document.createElement('span');
+        label.className = 'profile-picker__label';
+        label.textContent = name;
+        button.appendChild(label);
+        item.appendChild(button);
+        list.appendChild(item);
+      });
+    }
+
+    if (list.children.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'profile-picker__empty';
+      empty.textContent = i18n.t(
+        isFavorites ? 'profile.slots.pick.noCard' : 'profile.slots.pick.noTrophy'
+      );
+      this.modalBody.appendChild(empty);
+    } else {
+      this.modalBody.appendChild(list);
+    }
+    this.openModal(`slot-picker:${normalized}`);
+  }
+
+  /**
+   * Fills an empty slot with the chosen trophy or card.
+   *
+   * @param {string} kind - `trophy` or `card`.
+   * @param {string} value - Trophy id or collection key.
+   * @returns {Promise<void>} Resolves once the choice is stored (or the failure reported).
+   */
+  async applySlotChoice(kind, value) {
+    if (!this.profile || typeof value !== 'string' || value === '') return;
+    try {
+      if (kind === 'trophy') {
+        const featured = new Set(this.profile.featured ?? []);
+        if (featured.has(value)) return;
+        const result = await profileManager.toggleFeatured(value);
+        this.profile = { ...this.profile, featured: result.featured };
+        await this.renderFeatured(this.trophyState, this.profile);
+        Toast.success('profile.featured.pinned');
+      } else if (kind === 'card') {
+        const favorites = new Set(this.profile.favorites ?? []);
+        if (favorites.has(value)) return;
+        const { favorites: next } = await profileManager.toggleFavorite(value);
+        this.profile = { ...this.profile, favorites: next };
+        await this.renderFavorites(this.profile);
+        void this.renderProfileCard();
+        Toast.success('profile.favorites.added');
+      } else {
+        return;
+      }
+      this.closeDetail();
+    } catch (error) {
+      console.error('[ProfileView] The slot could not be filled.', error);
+      Toast.error(getProfileErrorMessageKey(error));
     }
   }
 
@@ -841,11 +1451,18 @@ export class ProfileView {
    */
   async renderFavorites(profile) {
     if (!profile) return;
-    const limits = await profileManager.getLimits();
+    const [limits, slotState] = await Promise.all([
+      profileManager.getLimits(),
+      featureManager.getSlotState(PROFILE_SLOT_KINDS.FAVORITES),
+    ]);
     const favorites = Array.isArray(profile.favorites) ? profile.favorites : [];
 
-    // The grid has exactly one column per allowed favourite: five cards, no horizontal scrolling.
-    this.favoritesElement.style.setProperty('--favorite-columns', String(Math.max(limits.maxFavorites, 1)));
+    // The grid has exactly one column per slot the list can ever have: every card and every empty
+    // or locked slot stays on one row, with no horizontal scrolling.
+    this.favoritesElement.style.setProperty(
+      '--favorite-columns',
+      String(Math.max(slotState.max, limits.maxFavorites, 1))
+    );
 
     if (this.favoritesCountElement) {
       this.favoritesCountElement.textContent = i18n.t('profile.favorites.count', {
@@ -859,10 +1476,19 @@ export class ProfileView {
     }
 
     this.favoritesElement.textContent = '';
-    favorites.forEach((key, index) => {
-      const entry = this.entriesByKey.get(key);
-      this.favoritesElement.appendChild(this.buildCardTile(key, entry, index));
-    });
+    const slots = Math.max(slotState.owned, favorites.length);
+    for (let index = 0; index < slots; index += 1) {
+      const key = favorites[index];
+      if (key) {
+        this.favoritesElement.appendChild(this.buildCardTile(key, this.entriesByKey.get(key), index));
+      } else {
+        this.favoritesElement.appendChild(
+          this.buildEmptySlotTile(PROFILE_SLOT_KINDS.FAVORITES, index + 1, index)
+        );
+      }
+    }
+    this.renderLockedSlots(this.favoritesElement, slotState, slots, PROFILE_SLOT_KINDS.FAVORITES);
+    if (this.favoritesEmptyElement) this.favoritesEmptyElement.hidden = true;
   }
 
   /**
@@ -943,6 +1569,7 @@ export class ProfileView {
       this.renderCardRarity(model);
       this.renderCardRarities(model);
       this.renderCardTitleColors(model);
+      this.renderCardBackgrounds(model);
       this.renderCardLayoutPrice();
     } catch (error) {
       console.error('[ProfileView] The profile card could not be built.', error);
@@ -960,9 +1587,14 @@ export class ProfileView {
    * @returns {void}
    */
   ensureProfileCard() {
-    if (this.profileCard || !this.cardStage) return;
+    if (this.profileCard || !this.cardStage || !this.cardHost) return;
     this.cardStageHome = this.cardStage.parentElement ?? null;
-    this.profileCard = new ProfileCard(this.cardStage, {
+    // The STAGE is moved, never rebuilt, when the card is enlarged: one controller follows the card
+    // into the modal instead of a second one being attached there. The tilt is attached to the
+    // inner host (the exact card footprint), not to the stage, so the wide strip and its shadow do
+    // not rotate with the card.
+    attachCardTilt(this.cardHost);
+    this.profileCard = new ProfileCard(this.cardHost, {
       onLayoutChange: (layout) => this.syncCardLayoutButtons(layout),
     });
     this.profileCard.setLayout(this.cardLayout);
@@ -1178,10 +1810,10 @@ export class ProfileView {
         owned: true,
         price: 0,
       },
-      ...PROFILE_CARD_TITLE_COLORS.map((entry) => ({
+      ...this.colorCatalog.map((entry) => ({
         id: entry.id,
-        color: entry.color,
-        label: i18n.t(entry.labelKey),
+        color: entry.hex,
+        label: colorName(entry, i18n.getLang()),
         owned: this.ownedTitleColors.has(entry.id),
         price: this.titleColorPrices[entry.id] ?? this.titleColorDefaultPrice,
       })),
@@ -1233,10 +1865,95 @@ export class ProfileView {
     });
 
     if (this.cardTitleColorsPriceElement) {
-      this.cardTitleColorsPriceElement.textContent = i18n.t('profile.card.titleColor.help', {
-        price: this.titleColorDefaultPrice,
-      });
+      this.cardTitleColorsPriceElement.textContent = i18n.t('profile.card.titleColor.help');
     }
+  }
+
+  /**
+   * Builds the background picker of the card from the FAVOURITE cards.
+   *
+   * The first favourite is the default: the card borrows its artwork until the player picks another
+   * one. A favourite whose card left the catalogue is skipped (its key stays in the profile, the
+   * picker simply cannot draw it), and a selection that is no longer a favourite falls back to the
+   * first one through `ProfileCardManager`.
+   *
+   * @param {object} model - Card model built by `ProfileCardManager`.
+   * @returns {void}
+   */
+  renderCardBackgrounds(model) {
+    if (!this.cardBackgroundsElement) return;
+    const favorites = Array.isArray(this.profile?.favorites) ? this.profile.favorites : [];
+    const selected = typeof model?.backgroundKey === 'string' ? model.backgroundKey : null;
+    let offered = 0;
+
+    this.cardBackgroundsElement.textContent = '';
+    favorites.forEach((key) => {
+      const entry = this.entriesByKey.get(key);
+      const card = entry?.card;
+      if (!card) return;
+      // The same fallback order as `ProfileCardManager`: `Background`, then `Underlay`, then the
+      // card illustration. A card with no `Background` is therefore still offered, with the very
+      // backdrop the profile card will actually use.
+      const artwork = ProfileCardManager.cardBackdrop(card);
+      if (artwork === '') return;
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'profile-card-panel__background';
+      button.dataset.profileCardBackground = key;
+      button.dataset.selected = String(key === selected);
+      button.setAttribute('aria-pressed', String(key === selected));
+      const name = card.getName(i18n.getLang());
+      button.setAttribute('aria-label', i18n.t('profile.card.background.pick', { card: name }));
+      button.title = name;
+
+      const image = document.createElement('img');
+      image.className = 'profile-card-panel__background-image';
+      image.src = i18n.resolveImagePath(artwork);
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.setAttribute('aria-hidden', 'true');
+      image.addEventListener('error', () => {
+        console.warn(`[ProfileView] Background artwork not found for "${key}": ${image.src}`);
+        image.hidden = true;
+      });
+      button.appendChild(image);
+
+      const label = document.createElement('span');
+      label.className = 'profile-card-panel__background-name';
+      label.textContent = name;
+      button.appendChild(label);
+
+      this.cardBackgroundsElement.appendChild(button);
+      offered += 1;
+    });
+
+    if (this.cardBackgroundsHelpElement) {
+      this.cardBackgroundsHelpElement.textContent = offered > 0
+        ? i18n.t('profile.card.background.help')
+        : i18n.t('profile.card.background.empty');
+    }
+  }
+
+  /**
+   * Wears one favourite card as the background of the profile card.
+   *
+   * Only a favourite is accepted: the picker only offers those, and a removed favourite must never
+   * stay on the card through a hand-written preference.
+   *
+   * @param {string} key - Collection key of a favourite card.
+   * @returns {void}
+   */
+  setCardBackground(key) {
+    if (typeof key !== 'string' || key === '') return;
+    if (!(this.profile?.favorites ?? []).includes(key)) return;
+    this.cardPreferences = { ...this.cardPreferences, background: key };
+    void profileCardManager.savePreferences({ background: key }).catch((error) => {
+      console.error('[ProfileView] The card background could not be saved.', error);
+      this.setCardFeedback('profile.card.error.load', 'error');
+    });
+    void this.renderProfileCard();
   }
 
   /**
@@ -1254,11 +1971,11 @@ export class ProfileView {
       this.setCardTitleColor(id);
       return;
     }
-    const entry = PROFILE_CARD_TITLE_COLORS.find((candidate) => candidate.id === id);
+    const entry = this.colorCatalog.find((candidate) => candidate.id === id);
     if (!entry) return;
     void this.openBuyModal(id, {
       type: 'titleColor',
-      label: i18n.t(entry.labelKey),
+      label: colorName(entry, i18n.getLang()),
       price: this.titleColorPrices[id] ?? this.titleColorDefaultPrice,
     });
   }
@@ -1317,7 +2034,9 @@ export class ProfileView {
   async openBuyModal(id, { type = 'feature', label = null, price = null } = {}) {
     if (!this.cardBuyModal) return;
     this.pendingFeatureId = id;
-    this.pendingPurchaseType = type === 'titleColor' ? 'titleColor' : 'feature';
+    this.pendingPurchaseType = type === 'titleColor' || type === 'usernameColor' || type === 'icon'
+      ? type
+      : 'feature';
     const featureLabel = label ?? ProfileView.featureLabel(id);
     const knownPrice = Number.isInteger(price) ? price : null;
     let priceValue = knownPrice ?? 0;
@@ -1378,17 +2097,29 @@ export class ProfileView {
   async confirmFeaturePurchase() {
     const id = this.pendingFeatureId;
     if (!id) return;
-    const isColor = this.pendingPurchaseType === 'titleColor';
+    const purchaseType = this.pendingPurchaseType;
+    const isTitleColor = purchaseType === 'titleColor';
+    const isUsernameColor = purchaseType === 'usernameColor';
+    const isIcon = purchaseType === 'icon';
     this.cardBuyConfirmButton.disabled = true;
     try {
-      const result = isColor
+      const result = isTitleColor
         ? await featureManager.purchaseTitleColor(id)
-        : await featureManager.purchase(id);
+        : isUsernameColor
+          ? await featureManager.purchaseUsernameColor(id)
+          : isIcon
+            ? await featureManager.purchaseProfileIcon(id)
+            : await featureManager.purchase(id);
       let label;
-      if (isColor) {
+      const entry = this.colorCatalog.find((candidate) => candidate.id === id);
+      if (isTitleColor) {
         this.ownedTitleColors.add(id);
-        const entry = PROFILE_CARD_TITLE_COLORS.find((candidate) => candidate.id === id);
-        label = entry ? i18n.t(entry.labelKey) : id;
+        label = entry ? colorName(entry, i18n.getLang()) : id;
+      } else if (isUsernameColor) {
+        this.ownedUsernameColors.add(id);
+        label = entry ? colorName(entry, i18n.getLang()) : id;
+      } else if (isIcon) {
+        label = this.icons?.default?.find((candidate) => candidate.file === id)?.name ?? id;
       } else {
         this.fullArtOwned = this.fullArtOwned || id === FEATURES.CARD_LAYOUT_FULL_ART;
         label = ProfileView.featureLabel(id);
@@ -1399,12 +2130,18 @@ export class ProfileView {
       // The lock and the price go away; the switch (and the worn colour) stay where they are.
       this.renderCardLayoutPrice();
       this.renderCardTitleColors(this.lastCardModel);
+      this.renderUsernameColors();
+      if (isIcon) await this.refreshIcons();
     } catch (error) {
       console.error('[ProfileView] The feature could not be bought.', error);
       if (error?.code === FEATURE_ERROR_CODES.INSUFFICIENT_SPARKS) {
-        const price = await (isColor
+        const price = await (isTitleColor
           ? featureManager.getTitleColorPrice(id)
-          : featureManager.getPrice(id)
+          : isUsernameColor
+            ? featureManager.getUsernameColorPrice(id)
+            : isIcon
+              ? featureManager.getProfileIconPrice(id)
+              : featureManager.getPrice(id)
         ).catch(() => 0);
         const balance = await sparksManager.getBalance().catch(() => 0);
         this.cardBuyMessageElement.textContent = i18n.t('profile.card.buy.insufficient', {
@@ -1578,6 +2315,7 @@ export class ProfileView {
         image.hidden = true;
       });
       applyCardGlow(image, card);
+      attachCardTilt(image);
       this.modalBody.appendChild(image);
     }
 
@@ -1660,6 +2398,7 @@ export class ProfileView {
       const next = await profileManager.setIdentity({
         name: this.nameInput.value,
         icon: this.selectedIcon,
+        usernameColor: this.selectedUsernameColor,
       });
       this.profile = next;
       this.renderIdentity(next);

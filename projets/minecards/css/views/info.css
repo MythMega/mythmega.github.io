@@ -48,6 +48,37 @@
   color: var(--color-text-muted);
 }
 
+/* Keyboard shortcuts: one line per shortcut, the keys in a small pixel-ish cap and the sentence
+   next to them. The keys are real <kbd> elements so a screen reader announces them as such. */
+.info__shortcuts {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.info__shortcuts li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.info__shortcuts kbd {
+  padding: 0.12rem 0.4rem;
+  border: 1px solid var(--color-border);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: var(--font-size-xs);
+}
+
 .info__note {
   margin: 0;
   font-size: var(--font-size-xs);

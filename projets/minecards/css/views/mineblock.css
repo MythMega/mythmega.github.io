@@ -387,10 +387,116 @@
   font-weight: 700;
 }
 
+/* --- The cards of the merchant ------------------------------------------- */
+
+/* The cards come first: the pinned offer opens the shop, so it must never sit below the daily
+   sections. */
+.mineblock__offers {
+  margin-top: var(--space-3);
+}
+
+.mineblock__offers-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-md);
+}
+
+/* --- The daily Sparks offer ---------------------------------------------- */
+
+/* One resource drawn for the day, sold once. It sits between the cards and the trades: a purchase
+   in Sparks, not an exchange of resources. */
+.mineblock__spark-offer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.mineblock__spark-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.mineblock__spark-help {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__spark-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.mineblock__spark-card[data-state="ready"] {
+  border-color: var(--color-accent);
+}
+
+.mineblock__spark-card[data-state="used"] {
+  opacity: 0.6;
+}
+
+.mineblock__spark-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.mineblock__spark-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.mineblock__spark-name {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.mineblock__spark-value,
+.mineblock__spark-price {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__spark-buy {
+  white-space: nowrap;
+}
+
+.mineblock__spark-body.is-busy {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* On a phone the buy button takes its own row: three columns leave too little width for the name,
+   the value and the price, and the button would overlap the text it is meant to follow. */
+@media (max-width: 560px) {
+  .mineblock__spark-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .mineblock__spark-buy {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
 /* --- The trades of the day ------------------------------------------------ */
 
-/* They sit ABOVE the offers, separated by a rule: an exchange is not a purchase, and the two must
-   never be read as one list. */
+/* They sit under the cards and the Sparks offer, separated by a rule: an exchange is not a purchase,
+   and the two must never be read as one list. */
 .mineblock__trades {
   margin-top: var(--space-4);
   padding-top: var(--space-3);

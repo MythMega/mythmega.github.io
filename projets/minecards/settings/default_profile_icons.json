@@ -51,5 +51,10 @@
         "file": "./assets/img/profile/default/enderman.png",
         "name": "Enderman",
         "requiredLevel": 9
+    },
+    {
+        "file": "./assets/img/profile/buyable/chicken_gold.png",
+        "name": "Chicken Gold",
+        "price": 150
     }
 ]

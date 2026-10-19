@@ -80,12 +80,6 @@
   <meta name="twitter:image" content="https://web.jmdev.fr/projets/minecards/assets/img/og-image.jpg">
   <meta name="twitter:image:alt" content="MineCards : ouverture de boosters et collection de cartes Minecraft">
 
-  <meta name="application-name" content="MineCards">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="MineCards">
-  <meta name="mobile-web-app-capable" content="yes">
-
   <!-- Structured data. One `@graph` describes the site, its publisher, the page and the game
        itself, so search engines and AI answer engines can identify `MineCards` as a free
        browser-based collectible card game. The FAQ block mirrors, question for question, the
@@ -283,6 +277,20 @@
     }
   </script>
 
+  <!-- The 3D booster is the first thing the opening screen shows: its modules are fetched while
+       the application modules boot instead of after the first view is activated. The connection
+       to the pinned CDN is opened during the HTML parse, which is what a remote phone needs most
+       (DNS + TLS and the 1.3 MB Three.js payload no longer start at `Booster3DRenderer.init()`). -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="modulepreload" href="https://unpkg.com/three@0.160.0/build/three.module.js" crossorigin>
+  <link rel="modulepreload" href="https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js" crossorigin>
+  <link rel="modulepreload" href="https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js" crossorigin>
+  <!-- The renderer module starts the `.glb` download at its top level, so it begins during the
+       application boot instead of waiting for the opening view to be activated. Preloading the
+       module only saves its fetch round trip (a `as="fetch"` preload of the model itself would be
+       downloaded twice, so it is not used). -->
+  <link rel="modulepreload" href="js/UI/components/Booster3DRenderer.js">
+
   <!-- Pre-render bootstrap: applies the stored theme and language before the first paint so
        the page never flashes the wrong palette. The keys mirror what `js/utils/ThemeManager.js`
        (`mc_theme`) and `js/utils/I18n.js` (`mc_lang`) write; the authoritative values live in
@@ -404,7 +412,9 @@
       </button>
       <!-- Mine Pick: the free picks left today. -->
       <span class="app-header__stat" data-i18n-title="header.minepick.title" title="Pioches Mine Pick restantes">
-        <img class="app-header__stat-icon" src="assets/img/minepick.png" alt="" aria-hidden="true">
+        <!-- Same four-pointed sparkle as the "Pick" button of the bottom bar, drawn inline so both
+             icons can never drift apart: the counter is about the picks of the Mine Pick. -->
+        <svg class="app-header__stat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5 14 9.5 20 12 14 14.5 12 20.5 10 14.5 4 12 10 9.5Z"/><path d="M18.5 4.5v3M17 6h3"/></svg>
         <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.minepick.short">Pioches</span>
         <span class="app-header__stat-value" id="header-minepick">0</span>
         <span class="sr-only" data-i18n="header.minepick.title">Pioches Mine Pick restantes</span>
@@ -777,7 +787,7 @@
         <!-- Highlighted trophies: up to `profile.maxFeaturedTrophies` unlocked ones, all on one row. -->
         <section class="panel profile__panel">
           <h3 class="stats__title" data-i18n="profile.featured.title">Trophées mis en avant</h3>
-          <p class="profile__help" data-i18n="profile.featured.help">Épinglez jusqu'à 3 trophées débloqués pour les afficher en haut de votre profil. Touchez-en un pour voir son détail.</p>
+          <p class="profile__help" data-profile-featured-help data-i18n="profile.featured.help">Épinglez jusqu'à 1 trophée débloqué pour l'afficher en haut de votre profil. Les emplacements suivants s'achètent avec des Sparks.</p>
           <ul class="profile__strip" data-profile-featured></ul>
           <p class="profile__empty" data-profile-featured-empty hidden data-i18n="profile.featured.empty">Aucun trophée mis en avant pour le moment. Épinglez-en un depuis l'onglet Trophées.</p>
         </section>
@@ -798,8 +808,19 @@
           <p class="profile__help" data-i18n="profile.card.help">Votre pseudo, votre titre et vos trophées réunis sur une carte, générée depuis votre profil.</p>
           <p class="profile-card-panel__rarity" data-profile-card-rarity></p>
           <div class="profile-card-panel">
-            <!-- Shadow host: the card is built by `ProfileCard`, never by this page. -->
-            <div class="profile-card-panel__stage" data-profile-card-stage></div>
+            <!-- The stage keeps the card fitted to the panel. The inner host is the shadow host AND
+                 the tilt surface: rotating the stage itself would tilt the whole strip (and its
+                 shadow) instead of just the card. -->
+            <div class="profile-card-panel__stage" data-profile-card-stage>
+              <div class="profile-card-panel__card" data-profile-card-host></div>
+            </div>
+            <!-- Background: one tile per FAVOURITE card. The first one is the default, so a player
+                 who never picks one still gets a card borrowed from their collection. -->
+            <div class="profile-card-panel__backgrounds-block">
+              <p class="profile-card-panel__colors-title" data-i18n="profile.card.background.title">Fond de la carte</p>
+              <div class="profile-card-panel__backgrounds" role="group" data-profile-card-backgrounds data-i18n-aria-label="profile.card.background.title" aria-label="Fond de la carte"></div>
+              <p class="profile-card-panel__colors-help" data-profile-card-backgrounds-help></p>
+            </div>
             <!-- Rarity of the card: one option per rarity, the unlocked ones only. `ProfileView`
                  builds the five buttons (symbol, name, and the medal + "N / X" for the locked ones). -->
             <div class="profile-card-panel__rarities" role="radiogroup" data-profile-card-rarities data-i18n-aria-label="profile.card.rarity.pick" aria-label="Rareté de la carte"></div>
@@ -810,6 +831,14 @@
               <p class="profile-card-panel__colors-title" data-i18n="profile.card.titleColor.title">Couleur du titre</p>
               <div class="profile-card-panel__colors" role="group" data-profile-card-title-colors data-i18n-aria-label="profile.card.titleColor.title" aria-label="Couleur du titre"></div>
               <p class="profile-card-panel__colors-help" data-profile-card-title-colors-price></p>
+            </div>
+            <!-- Pseudo colour: the palette of `settings/colors.json`, bought with Sparks separately
+                 from the title colours above. It sits right under the title purchase so both are
+                 chosen in the same place; `auto` keeps the theme colour. -->
+            <div class="profile-card-panel__colors-block">
+              <p class="profile-card-panel__colors-title" data-i18n="profile.usernameColor.title">Couleur du pseudo</p>
+              <div class="profile-card-panel__colors" role="group" data-profile-username-colors data-i18n-aria-label="profile.usernameColor.title" aria-label="Couleur du pseudo"></div>
+              <p class="profile-card-panel__colors-help" data-profile-username-colors-help data-i18n="profile.usernameColor.help">« Auto » garde la couleur du thème. Les autres couleurs s'achètent séparément de celles du titre.</p>
             </div>
             <div class="profile-card-panel__actions">
               <div class="profile-card-panel__layouts" role="group" data-profile-card-layouts data-i18n-aria-label="profile.card.layout" aria-label="Disposition de la carte">
@@ -1179,6 +1208,25 @@
               <span class="mineblock__trader-restock-label" data-i18n="mineblock.trader.restock">Renouvellement dans</span>
               <time class="mineblock__trader-restock-value" data-mineblock-trader-restock>--:--:--</time>
             </p>
+            <!-- The cards of the merchant come FIRST: the pinned one (when it is on sale) opens the
+                 shop, then the five drawn for the week. -->
+            <section class="mineblock__offers">
+              <h3 class="mineblock__offers-title" data-i18n="mineblock.trader.offers.title">Cartes du marchand</h3>
+              <p class="mineblock__trader-empty" data-mineblock-trader-empty hidden data-i18n="mineblock.trader.empty">Le marchand n'a rien à vendre pour le moment.</p>
+              <ul class="mineblock__trader-list" data-mineblock-trader-list></ul>
+            </section>
+            <!-- One resource sold for Sparks, drawn for the day, once a day. The view builds the
+                 body from the offer: only the shell and the reset clock live here. -->
+            <section class="mineblock__spark-offer" data-mineblock-spark-offer hidden>
+              <div class="mineblock__spark-head">
+                <h3 class="mineblock__trades-title" data-i18n="mineblock.trader.spark.title">Achat du jour en Sparks</h3>
+                <p class="mineblock__trades-reset" data-mineblock-spark-restock-row hidden>
+                  <span class="mineblock__trades-reset-label" data-i18n="mineblock.trader.trades.reset">Nouveaux échanges dans</span>
+                  <time class="mineblock__trades-reset-value" data-mineblock-spark-restock>--:--:--</time>
+                </p>
+              </div>
+              <div class="mineblock__spark-body" data-mineblock-spark-body></div>
+            </section>
             <!-- The trades of the day: resource for resource, one side always counting a single
                  unit, drawn from the UTC day alone so every player sees the same three. -->
             <section class="mineblock__trades">
@@ -1192,8 +1240,6 @@
               <p class="mineblock__trades-empty" data-mineblock-trade-empty hidden data-i18n="mineblock.trader.trades.empty">Aucun échange aujourd'hui.</p>
               <ul class="mineblock__trade-list" data-mineblock-trade-list></ul>
             </section>
-            <p class="mineblock__trader-empty" data-mineblock-trader-empty hidden data-i18n="mineblock.trader.empty">Le marchand n'a rien à vendre pour le moment.</p>
-            <ul class="mineblock__trader-list" data-mineblock-trader-list></ul>
             <p class="feedback mineblock__trader-feedback" data-mineblock-trader-feedback role="status" hidden></p>
           </div>
           <div class="modal__actions">
@@ -1337,14 +1383,18 @@
           <p class="settings__help" data-i18n="settings.notifications.help">Choisissez ce que le jeu annonce en haut de l'écran. Les messages d'action (un achat, une sauvegarde) ne sont pas concernés.</p>
         </section>
 
-        <!-- Sounds: one boolean preference (SettingsView writes the state text). -->
+        <!-- Sounds: the global switch (master gate) then one row per family. The rows are built by
+             SettingsView from `SoundManager.SOUND_CATEGORY_ORDER`; each has its own switch and a
+             volume from 0 to 5. When the master switch is off the whole block is hidden. -->
         <section class="panel settings__panel">
           <h3 class="settings__title" data-i18n="settings.sound.title">Sons</h3>
           <button type="button" class="switch" data-settings-sound role="switch" aria-checked="true" data-i18n-aria-label="settings.sound.title">
             <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
             <span class="switch__state" data-settings-sound-state></span>
           </button>
-          <p class="settings__help" data-i18n="settings.sound.help">Coupez les effets sonores de l'ouverture. La préférence est enregistrée sur cet appareil.</p>
+          <p class="settings__help" data-i18n="settings.sound.help">Activez ou coupez tous les sons du jeu, puis réglez chaque famille séparément.</p>
+          <div class="settings__sound" data-settings-sound-categories></div>
+          <p class="settings__help" data-settings-sound-help data-i18n="settings.sound.category.help">Chaque famille a son propre interrupteur et un volume de 0 à 5. À 0, elle est silencieuse.</p>
         </section>
 
         <!-- Developer mode: one boolean preference. When it is on, the detail of a card in the
@@ -1356,7 +1406,17 @@
             <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
             <span class="switch__state" data-settings-dev-state></span>
           </button>
-          <p class="settings__help" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier. Sans effet sur le jeu.</p>
+          <p class="settings__help" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier.</p>
+        </section>
+
+        <!-- Booster rendering: a developer tool, hidden unless the switch above is on. The choices
+             are generated from `boosterRender.modes` of `config.json` by SettingsView, and the
+             recipe is applied live to the 3D preview and to the opening scene. -->
+        <section class="panel settings__panel" data-settings-render-panel hidden>
+          <h3 class="settings__title" data-i18n="settings.render.title">Rendu du booster</h3>
+          <div class="lang-switch settings__choices" data-settings-render role="group" data-i18n-aria-label="settings.render.title" aria-label="Rendu du booster"></div>
+          <p class="settings__help" data-i18n="settings.render.help">Réservé au mode développeur : choisissez la façon dont le booster 3D réfléchit la lumière. Le mode est enregistré et s'applique à l'aperçu comme à l'ouverture.</p>
+          <p class="settings__help" data-settings-render-detail></p>
         </section>
 
         <!-- Account: read-only UUID, copy button (SettingsView never writes it). -->
@@ -1522,6 +1582,46 @@
           <p class="info__note" data-i18n="info.minepick.help">Le Mine Pick ne consomme pas de booster : il simule les ouvertures du jour, et une seule carte est gardée par pioche.</p>
         </section>
 
+        <!-- Keyboard: every shortcut the game listens to. The Mine is the only screen with controls
+             of its own; the dialogs of the whole application close with Escape. -->
+        <section class="panel info__panel">
+          <h3 class="stats__title" data-i18n="info.keyboard.title">Contrôles clavier</h3>
+          <p class="info__text" data-i18n="info.keyboard.intro">La souris et le tactile suffisent partout. Ces raccourcis accélèrent la Mine et la fermeture des fenêtres.</p>
+          <ul class="info__shortcuts">
+            <li><kbd>Espace</kbd><span data-i18n="info.keyboard.mine">Miner une fois le bloc affiché.</span></li>
+            <li><kbd>Maj</kbd> + <kbd>Espace</kbd><span data-i18n="info.keyboard.hold">Miner en continu tant que la combinaison reste enfoncée.</span></li>
+            <li><kbd>S</kbd><span data-i18n="info.keyboard.trader">Ouvrir le Marchand itinérant depuis la Mine.</span></li>
+            <li><kbd>Échap</kbd><span data-i18n="info.keyboard.escape">Fermer la fenêtre ouverte (boutique, inventaire, détail d'une carte).</span></li>
+          </ul>
+          <p class="info__note" data-i18n="info.keyboard.help">Les raccourcis sont ignorés quand le curseur est dans un champ de texte ou sur un autre bouton : ils ne volent jamais une frappe.</p>
+        </section>
+
+        <!-- Mine: the ten blocks of the day and the resources they give. -->
+        <section class="panel info__panel">
+          <h3 class="stats__title" data-i18n="info.mining.title">Mine</h3>
+          <p class="info__text" data-i18n="info.mining.intro">La Mine donne un quota de blocs chaque jour, remis à zéro à minuit UTC. Chaque bloc demande plusieurs coups avant de se casser, puis laisse tomber ses ressources.</p>
+          <ol class="info__steps">
+            <li data-i18n="info.mining.step1">Touchez le bloc, ou appuyez sur Espace, pour porter un coup : la fissure montre les dégâts déjà infligés.</li>
+            <li data-i18n="info.mining.step2">Maintenez Maj + Espace pour enchaîner les coups sans relâcher la touche.</li>
+            <li data-i18n="info.mining.step3">Un bloc cassé donne sa poussière, parfois des Sparks. Les ressources récoltées s'accumulent dans l'inventaire du coffre.</li>
+            <li data-i18n="info.mining.step4">Les ressources servent au Marchand itinérant : elles paient ses cartes ou s'échangent entre elles.</li>
+          </ol>
+          <p class="info__note" data-i18n="info.mining.help">Les blocs, leur dureté et leur butin sont décrits dans les fichiers de configuration du jeu : leur ordre du jour est propre à chaque compte.</p>
+        </section>
+
+        <!-- Wandering Trader: three ways to spend what the mine harvests, and one to spend Sparks. -->
+        <section class="panel info__panel">
+          <h3 class="stats__title" data-i18n="info.trader.title">Marchand itinérant</h3>
+          <p class="info__text" data-i18n="info.trader.intro">Le Marchand itinérant s'ouvre depuis la Mine, avec le bouton du même nom ou la touche S. Il vend des cartes contre les ressources récoltées.</p>
+          <ol class="info__steps">
+            <li data-i18n="info.trader.step1">La carte épinglée est écrite à la main : elle ouvre la boutique, avec sa propre fenêtre de vente et son stock.</li>
+            <li data-i18n="info.trader.step2">Les cinq cartes de la semaine sont les mêmes pour tous les joueurs et changent le lundi à minuit UTC. Leur prix est payé en trois ressources dont la valeur totale correspond à la rareté de la carte.</li>
+            <li data-i18n="info.trader.step3">Les échanges du jour permettent de trocher une ressource contre une autre de même valeur, une fois par jour et par échange.</li>
+            <li data-i18n="info.trader.step4">Une offre quotidienne vend une ressource contre des Sparks : la quantité est tirée au sort dans la limite d'une valeur fixée par la configuration, et son prix vaut le double de cette valeur.</li>
+          </ol>
+          <p class="info__note" data-i18n="info.trader.help">Tout ce que le marchand vend revient à minuit UTC pour les offres du jour, et le lundi pour les cartes de la semaine.</p>
+        </section>
+
         <!-- Experience: EVERY XP source and its exact value, read live from `settings/config.json`
              (`levelling` and `ExperiencePerTrophy`) so the page can never drift from the rules the
              code really applies. -->
@@ -1652,8 +1752,15 @@
     <!-- The Mine: ten blocks a day, mined one by one. It takes the slot the trophies used to hold;
          the trophy catalogue is now reached from the profile, next to the statistics. -->
     <button type="button" class="app-nav__item" data-nav-target="mineblock">
-      <!-- A pickaxe: the crescent head with its two tips, and the handle running down to the right. -->
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 9.5c4-4.5 11.5-4.5 17 .5-4.5 1.6-9.4 1.5-13.3-.6"/><path d="M11.5 10.5 20.5 20"/></svg>
+      <!-- A stylized pickaxe rotated 45 degrees counter-clockwise: a crescent-shaped head tapered at both tips, connected at its center to a straight handle extending down to the right. -->
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+        <g transform="rotate(-45 12 12)">
+          <!-- Tête de la pioche -->
+          <path d="M 3 9 C 8 4 16 4 21 9 C 16 6.5 8 6.5 3 9 Z" fill="currentColor"></path>
+          <!-- Manche de la pioche -->
+          <path d="M 12 7 L 12 21"></path>
+        </g>
+      </svg>
       <span data-i18n="nav.mineblock">Mine</span>
     </button>
     <!-- The main action: styled like a primary button so it reads as THE thing to do. -->

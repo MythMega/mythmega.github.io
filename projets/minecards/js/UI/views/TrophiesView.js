@@ -30,11 +30,17 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import trophyManager, { TROPHY_CATEGORIES, TrophyManager } from '../../business/TrophyManager.js';
-import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
+import profileManager, {
+  PROFILE_ERROR_CODES,
+  getProfileErrorMessageKey,
+} from '../../business/ProfileManager.js';
+import { PROFILE_SLOT_KINDS } from '../../business/FeatureManager.js';
+import slotPurchaseModal from '../components/SlotPurchaseModal.js';
 import profileIconManager from '../../business/ProfileIconManager.js';
 import titleManager from '../../business/TitleManager.js';
 import TrophyDetail, { TROPHY_PIN_ICON, TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
 import Toast from '../components/Toast.js';
+import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 
 /** View name, matching `data-view="trophies"` in `index.html`. */
 export const TROPHIES_VIEW_NAME = 'trophies';
@@ -212,10 +218,12 @@ export class TrophiesView {
     this.listen(this.familySelect, 'change', () => {
       this.family = this.familySelect.value;
       this.renderTrophies();
+      soundManager.playUi(UI_SOUNDS.FILTER_CHANGE);
     });
     this.listen(this.statusSelect, 'change', () => {
       this.status = this.statusSelect.value;
       this.renderTrophies();
+      soundManager.playUi(UI_SOUNDS.FILTER_CHANGE);
     });
 
     // One delegated listener: the tiles are rebuilt on every render. The pin button is a SIBLING of
@@ -802,6 +810,14 @@ export class TrophiesView {
       }
     } catch (error) {
       console.error('[TrophiesView] The trophy could not be pinned.', error);
+      // The catalogue can sell the missing slot: the pin is retried by the modal once it is owned.
+      if (error?.code === PROFILE_ERROR_CODES.FEATURED_FULL) {
+        const opened = await slotPurchaseModal.open({
+          kind: PROFILE_SLOT_KINDS.FEATURED,
+          onPurchased: () => void this.toggleFeatured(id),
+        }).catch(() => false);
+        if (opened) return;
+      }
       Toast.error(getProfileErrorMessageKey(error));
     }
   }

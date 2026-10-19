@@ -1,8 +1,8 @@
 /**
  * sw.js - Service worker of MineCards.
  *
- * Reference: `manifest.json` (what turns the page into an installable app) and `index.html`, which
- * registers this file.
+ * Reference: `manifest.json` (what turns the page into an installable app, portrait orientation
+ * included) and `index.html`, which registers this file.
  *
  * WHAT IT DOES
  * The game is a static single page (HTML + ES modules + CSS + JSON data); once a player has opened
@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v25';
+const VERSION = 'v37';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -62,13 +62,15 @@ const CDN_ORIGINS = new Set(['https://unpkg.com']);
 
 /* Same-origin paths that never enter a cache: the worker script itself (browsers do not route a
    registration or an update check through the worker, but a page is free to fetch that URL and a
-   stored copy could then be handed to a later update), the private tooling of the project, and the
-   CSV code registry that `.gitignore` keeps out of the repository. */
-const BYPASS_PATTERNS = [/\/sw\.js$/, /^\/admin\//, /\/\.docs\//, /\/\.freebuff\//, /\/\.clinerules\//, /\.csv$/];
+   stored copy could then be handed to a later update), the private tooling of the project, the
+   CSV code registry that `.gitignore` keeps out of the repository, and the Digital Asset Links
+   file that binds the Android wrapper to this origin - a verifier must always read the live copy,
+   never one this worker happened to store. */
+const BYPASS_PATTERNS = [/\/sw\.js$/, /^\/admin\//, /\/\.docs\//, /\/\.freebuff\//, /\/\.clinerules\//, /\/\.well-known\//, /\.csv$/];
 
 /**
  * Files fetched at install time: the whole shell, and nothing heavy. The illustrations (`cards/`,
- * 374 MB), the boosters, the sounds and the 3D model are deliberately NOT here - they are large,
+ * 374 MB), the boosters and the mining sounds are deliberately NOT here - they are large,
  * optional per screen and cached on first use by the runtime strategy.
  *
  * Every path is relative to this file, which is what keeps the game working both at the domain root
@@ -139,6 +141,7 @@ const PRECACHE_URLS = [
   './js/UI/components/GameNotifier.js',
   './js/UI/components/NotificationCenter.js',
   './js/UI/components/ProfileCard.js',
+  './js/UI/components/SlotPurchaseModal.js',
   './js/UI/components/Toast.js',
   './js/UI/components/TrophyDetail.js',
   './js/UI/components/ViewHelp.js',
@@ -159,6 +162,7 @@ const PRECACHE_URLS = [
   './js/business/BinderManager.js',
   './js/business/BoosterManager.js',
   './js/business/CollectionManager.js',
+  './js/business/ColorManager.js',
   './js/business/DateSyncManager.js',
   './js/business/GachaEngine.js',
   './js/business/FeatureManager.js',
@@ -182,6 +186,8 @@ const PRECACHE_URLS = [
   './js/utils/AnimationManager.js',
   './js/utils/BinderCode.js',
   './js/utils/BoosterCode.js',
+  './js/utils/BoosterRenderManager.js',
+  './js/utils/CardTilt.js',
   './js/utils/Clipboard.js',
   './js/utils/Compression.js',
   './js/utils/ConfigLoader.js',
@@ -197,6 +203,7 @@ const PRECACHE_URLS = [
   /* Configuration and data: the settings screen, the two languages and the card catalogues. Without
      them the game boots but has nothing to open. */
   './settings/config.json',
+  './settings/colors.json',
   './settings/i18n/fr.json',
   './settings/i18n/en.json',
   './settings/codes.json',
@@ -207,6 +214,7 @@ const PRECACHE_URLS = [
   './settings/boosters_trophy.json',
   './settings/global_trophy.json',
   './settings/overlay.json',
+  './settings/sounds.json',
   './data/boosters/A1.json',
   './data/boosters/A2.json',
   './data/icon.json',
@@ -222,14 +230,30 @@ const PRECACHE_URLS = [
      runtime strategy: they are far too big to fetch up front, and the screen that uses one of them
      has to be visited before it can be needed offline anyway. What is stored here is what the core
      loop cannot do without, where a missing file is not a missing decoration: the shared card back
-     (drawn on every face-down card), the 3D booster model and the sounds of a flip. */
+     (drawn on every face-down card), the 3D booster model and the (small) opening and interface
+     sounds. */
   './assets/img/card_back.png',
   './assets/boostermodel.glb',
   './assets/sound/booster_opening.mp3',
   './assets/sound/card_return.mp3',
   './assets/sound/card_rarity_3.mp3',
   './assets/sound/card_rarity_4.mp3',
-  './assets/sound/card_rarity_5.mp3'
+  './assets/sound/card_rarity_5.mp3',
+  /* The interface map of `settings/sounds.json` is small (a few tens of KB) and plays on the very
+     first tab switch, so it belongs to the shell: precaching it with the reload cache mode is also
+     what makes a corrected sound file reach a player whose HTTP cache still holds the previous one. */
+  './assets/sound/ui/nav_view.mp3',
+  './assets/sound/ui/nav_back.mp3',
+  './assets/sound/ui/modal_open.mp3',
+  './assets/sound/ui/modal_close.mp3',
+  './assets/sound/ui/panel_open.mp3',
+  './assets/sound/ui/panel_close.mp3',
+  './assets/sound/ui/filter_change.mp3',
+  './assets/sound/ui/section_switch.mp3',
+  './assets/sound/ui/card_open.mp3',
+  './assets/sound/ui/card_close.mp3',
+  './assets/sound/ui/reveal_step.mp3',
+  './assets/sound/ui/notification_show.mp3'
 ];
 
 /**

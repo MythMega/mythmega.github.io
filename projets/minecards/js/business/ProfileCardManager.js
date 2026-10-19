@@ -17,7 +17,8 @@
  *                         player picked among the unlocked ones;
  *   - `titleColor`      : `auto` (the rarity colour, free) or an OWNED colour of the palette, with
  *                         the CSS value the component applies inline (`titleColorValue`);
- *   - `background`      : the illustration of the first favourite card, or the configured fallback;
+ *   - `background`      : the artwork of the favourite card the player picked (the first one by
+ *                         default), or the configured fallback;
  *   - `underlay`        : the avatar icon of the profile, drawn over the illustration;
  *   - the counters      : pinned trophies, boosters opened, distinct cards, oldest card, Sparks,
  *                         blocks mined and Mine Picks made.
@@ -33,6 +34,7 @@
 import { configLoader } from '../utils/ConfigLoader.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
+import { AUTO_COLOR_ID, colorManager, findColor, isColorId } from './ColorManager.js';
 import featureManager, { FeatureManager } from './FeatureManager.js';
 import minePickManager from './MinePickManager.js';
 import miningManager from './MiningManager.js';
@@ -48,36 +50,8 @@ export const PROFILE_CARD_LAYOUTS = Object.freeze(['classic', 'fullart']);
 /** Layout stored when the account has never chosen one. */
 export const PROFILE_CARD_DEFAULT_LAYOUT = 'classic';
 
-/**
- * Colours the title line of the card can wear once bought.
- *
- * `auto` (the default) is NOT listed here: it is not a colour but the rarity colour of the card,
- * resolved by the stylesheet (`--rarity-title-color`), so it costs nothing and adapts whenever the
- * player changes the rarity. Each entry is a purchasable colour: `id` is what a save stores, `color`
- * is the CSS value the card paints, and `labelKey` names it in both languages.
- */
-export const PROFILE_CARD_TITLE_COLORS = Object.freeze([
-  Object.freeze({ id: 'gold', color: '#ffd54a', labelKey: 'profile.card.titleColor.gold' }),
-  Object.freeze({ id: 'silver', color: '#d9dee8', labelKey: 'profile.card.titleColor.silver' }),
-  Object.freeze({ id: 'crimson', color: '#ff6b6b', labelKey: 'profile.card.titleColor.crimson' }),
-  Object.freeze({ id: 'emerald', color: '#35e08a', labelKey: 'profile.card.titleColor.emerald' }),
-  Object.freeze({ id: 'azure', color: '#5bc8ff', labelKey: 'profile.card.titleColor.azure' }),
-  Object.freeze({ id: 'violet', color: '#b98cff', labelKey: 'profile.card.titleColor.violet' }),
-  Object.freeze({ id: 'rose', color: '#ff8fc7', labelKey: 'profile.card.titleColor.rose' }),
-]);
-
 /** Title colour stored when the account has never chosen one (the rarity colour). */
-export const PROFILE_CARD_DEFAULT_TITLE_COLOR = 'auto';
-
-/**
- * Finds one colour of the palette.
- *
- * @param {unknown} id - Colour id.
- * @returns {object|null} The entry, or null when the id is not a colour (including `auto`).
- */
-export function findProfileCardTitleColor(id) {
-  return PROFILE_CARD_TITLE_COLORS.find((entry) => entry.id === id) ?? null;
-}
+export const PROFILE_CARD_DEFAULT_TITLE_COLOR = AUTO_COLOR_ID;
 
 export class ProfileCardManager {
   /**
@@ -192,8 +166,8 @@ export class ProfileCardManager {
    * Normalizes the stored `user_state["profileCard"]` preferences.
    *
    * @param {unknown} raw - Stored value.
-   * @returns {{layout: string, rarity: number|null, titleColor: string}} The validated preferences
-   *   (shipped defaults for anything malformed).
+   * @returns {{layout: string, rarity: number|null, titleColor: string, background: string|null}}
+   *   The validated preferences (shipped defaults for anything malformed).
    */
   static normalizePreferences(raw) {
     const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
@@ -205,13 +179,18 @@ export class ProfileCardManager {
       && source.rarity <= PROFILE_CARD_RARITY_MAX
       ? source.rarity
       : null;
-    // `auto` and the palette are the only accepted values: a colour removed from the game (or a
-    // hand-edited save) falls back to the rarity colour instead of leaving the title unpainted.
-    const titleColor = source.titleColor === PROFILE_CARD_DEFAULT_TITLE_COLOR
-      || findProfileCardTitleColor(source.titleColor)
+    // `auto` and a syntactically valid colour id are stored as-is. The catalogue is checked when
+    // the card is BUILT, so removing a colour from `settings/colors.json` falls back to `auto`
+    // instead of leaving the title unpainted.
+    const titleColor = isColorId(source.titleColor)
       ? source.titleColor
       : PROFILE_CARD_DEFAULT_TITLE_COLOR;
-    return { layout, rarity, titleColor };
+    // The background is a FAVOURITE key, never a path: the page refuses a key that is not pinned,
+    // and the model falls back to the first favourite when this one is gone.
+    const background = typeof source.background === 'string' && source.background.trim() !== ''
+      ? source.background.trim()
+      : null;
+    return { layout, rarity, titleColor, background };
   }
 
   /**
@@ -240,8 +219,10 @@ export class ProfileCardManager {
    * @param {unknown} [payload.layout] - `'classic'` or `'fullart'`.
    * @param {unknown} [payload.rarity] - Rarity 1-5, or null to go back to the highest reached.
    * @param {unknown} [payload.titleColor] - `'auto'` or the id of a palette colour.
-   * @returns {Promise<{layout: string, rarity: number|null, titleColor: string}>} The resulting
-   *   preferences.
+   * @param {unknown} [payload.background] - Collection key of a favourite card, or null for "the
+   *   first favourite".
+   * @returns {Promise<{layout: string, rarity: number|null, titleColor: string,
+   *   background: string|null}>} The resulting preferences.
    * @throws {Error} When the write fails.
    */
   async savePreferences(payload = {}) {
@@ -263,11 +244,16 @@ export class ProfileCardManager {
           titleColor: payload.titleColor,
         }).titleColor;
       }
+      if (Object.prototype.hasOwnProperty.call(payload, 'background')) {
+        next.background = ProfileCardManager.normalizePreferences({
+          background: payload.background,
+        }).background;
+      }
     }
     await storageRepository.setUserState(USER_STATE_KEYS.PROFILE_CARD, next);
     this.log(
       `Card preferences saved (layout: ${next.layout}, rarity: ${next.rarity ?? 'auto'}, ` +
-        `title colour: ${next.titleColor}).`
+        `title colour: ${next.titleColor}, background: ${next.background ?? 'first favourite'}).`
     );
     return next;
   }
@@ -312,26 +298,66 @@ export class ProfileCardManager {
   }
 
   /**
+   * Resolves which favourite lends its artwork to the card.
+   *
+   * The chosen key wins while it is still a favourite whose card resolves; anything else falls back
+   * to the FIRST favourite, which is therefore the default without storing anything.
+   *
+   * @param {object} profile - Stored profile.
+   * @param {Map<string, object>} entriesByKey - Collection entries keyed by card key.
+   * @param {string|null} [preferred=null] - Stored choice.
+   * @returns {string|null} The key of the favourite used, or null when none resolves.
+   */
+  static resolveBackgroundKey(profile, entriesByKey, preferred = null) {
+    const favorites = Array.isArray(profile?.favorites) ? profile.favorites : [];
+    // A card without `Background` is still a usable backdrop: its `Underlay` and, failing that,
+    // its own illustration (`Path`) are the two documented fallbacks (see `findBackground`).
+    const usable = favorites.filter((key) => {
+      const card = entriesByKey?.get(key)?.card;
+      return ProfileCardManager.cardBackdrop(card) !== '';
+    });
+    if (typeof preferred === 'string' && usable.includes(preferred)) return preferred;
+    return usable[0] ?? null;
+  }
+
+  /**
+   * Resolves the backdrop of one card, in the documented fallback order.
+   *
+   * `Background` is the artwork alone (the very image a binder uses), `Underlay` is the texture
+   * behind the illustration, and `Path` (the illustration) is the last resort: it is the WHOLE card
+   * (frame, title, description), so it is only used when a card has neither of the two others.
+   *
+   * @param {object|null} card - Card instance.
+   * @returns {string} The best backdrop path, or an empty string when the card declares none.
+   */
+  static cardBackdrop(card) {
+    if (!card) return '';
+    const candidates = [card.background, card.underlay, card.illustration];
+    return candidates.find((path) => typeof path === 'string' && path !== '') ?? '';
+  }
+
+  /**
    * Resolves the illustration that fills the card background.
    *
-   * The FIRST favourite card lends its illustration, in the order the player pinned them. A
-   * favourite whose card left the catalogue is skipped: a pin the player can no longer resolve must
-   * not leave a blank card.
+   * The chosen favourite lends its artwork, or the first one when no choice was made. A favourite
+   * whose card left the catalogue is skipped: a pin the player can no longer resolve must not leave
+   * a blank card.
    *
    * @param {object} profile - Stored profile.
    * @param {Map<string, object>} entriesByKey - Collection entries keyed by card key.
    * @param {string} fallback - Illustration used when no favourite resolves.
+   * @param {string|null} [preferred=null] - Stored choice.
    * @returns {string} The illustration path (may still contain the `<lang>` placeholder).
    */
-  static findBackground(profile, entriesByKey, fallback) {
-    const favorites = Array.isArray(profile?.favorites) ? profile.favorites : [];
-    for (const key of favorites) {
-      // `Background` and not the illustration (`Path`): the illustration of a card data file is the
-      // WHOLE card (frame, title, description), which would draw a card inside the card, while
-      // `Background` is the artwork alone, the very image a binder uses as its backdrop.
-      const artwork = entriesByKey?.get(key)?.card?.background;
-      if (typeof artwork === 'string' && artwork !== '') return artwork;
-    }
+  static findBackground(profile, entriesByKey, fallback, preferred = null) {
+    const key = ProfileCardManager.resolveBackgroundKey(profile, entriesByKey, preferred);
+    // `Background` and not the illustration (`Path`) when it exists: the illustration of a card
+    // data file is the WHOLE card (frame, title, description), which would draw a card inside the
+    // card. Cards that declare no `Background` nevertheless have an `Underlay` (the texture behind
+    // the illustration) and, failing that, their illustration is the last resort - a fallback is
+    // always better than a blank card.
+    const artwork = key ? ProfileCardManager.cardBackdrop(entriesByKey?.get(key)?.card) : '';
+    if (artwork !== '') return artwork;
     return typeof fallback === 'string' ? fallback : '';
   }
 
@@ -427,23 +453,27 @@ export class ProfileCardManager {
   }
 
   /**
-   * Resolves the title colour the card may actually wear.
+   * Resolves the colour a line of the card may actually wear.
    *
-   * `auto` (the rarity colour) is always allowed and costs nothing. A palette colour is only
-   * applied when it was BOUGHT: the preference alone is not enough, so a hand-edited save can never
-   * dress the card in a colour the player did not pay for.
+   * `auto` is always allowed and costs nothing. A palette colour is only applied when it exists
+   * in `settings/colors.json` AND was bought for that line: the preference alone is not enough, so
+   * a hand-edited save can never dress the card in a colour the player did not pay for.
    *
-   * @param {string} preference - Stored preference (`auto` or a colour id).
+   * @param {unknown} preference - Stored preference (`auto` or a colour id).
    * @param {Record<string, {boughtAt: string}>} purchases - Value of `FeatureManager.getPurchases()`.
+   * @param {Array<{id: string}>} catalog - Palette returned by `ColorManager.listColors()`.
+   * @param {'title'|'username'} kind - Which purchase unlocks the colour.
    * @returns {string} `auto` or the id of an owned colour.
    */
-  static resolveTitleColor(preference, purchases) {
-    if (preference === PROFILE_CARD_DEFAULT_TITLE_COLOR) return PROFILE_CARD_DEFAULT_TITLE_COLOR;
-    const entry = findProfileCardTitleColor(preference);
-    if (!entry) return PROFILE_CARD_DEFAULT_TITLE_COLOR;
-    const featureId = FeatureManager.titleColorFeatureId(entry.id);
+  static resolveColor(preference, purchases, catalog, kind) {
+    if (preference === AUTO_COLOR_ID) return AUTO_COLOR_ID;
+    const entry = findColor(catalog, preference);
+    if (!entry) return AUTO_COLOR_ID;
+    const featureId = kind === 'username'
+      ? FeatureManager.usernameColorFeatureId(entry.id)
+      : FeatureManager.titleColorFeatureId(entry.id);
     const owned = Boolean(purchases) && Object.prototype.hasOwnProperty.call(purchases, featureId);
-    return owned ? entry.id : PROFILE_CARD_DEFAULT_TITLE_COLOR;
+    return owned ? entry.id : AUTO_COLOR_ID;
   }
 
   /**
@@ -480,12 +510,13 @@ export class ProfileCardManager {
     uuid = null,
     preferences = null,
   } = {}) {
-    const [settings, boostersOpened, stored, counters, purchases] = await Promise.all([
+    const [settings, boostersOpened, stored, counters, purchases, colorCatalog] = await Promise.all([
       this.getSettings(),
       this.getBoostersOpened(),
       preferences ?? this.getPreferences(),
       this.getProgressCounters(),
       featureManager.getPurchases(),
+      colorManager.listColors(),
     ]);
     const entries = Array.isArray(collection?.entries) ? collection.entries : [];
     const byKey = entriesByKey instanceof Map
@@ -497,8 +528,20 @@ export class ProfileCardManager {
       ? trophyState.counters.unlocked
       : 0;
     const chosenRarity = stored.rarity;
-    const titleColor = ProfileCardManager.resolveTitleColor(stored.titleColor, purchases);
-    const titleColorEntry = findProfileCardTitleColor(titleColor);
+    const titleColor = ProfileCardManager.resolveColor(
+      stored.titleColor,
+      purchases,
+      colorCatalog,
+      'title'
+    );
+    const titleColorEntry = findColor(colorCatalog, titleColor);
+    const nameColor = ProfileCardManager.resolveColor(
+      profile?.usernameColor,
+      purchases,
+      colorCatalog,
+      'username'
+    );
+    const nameColorEntry = findColor(colorCatalog, nameColor);
 
     const model = {
       name: typeof profile?.name === 'string' ? profile.name.trim() : '',
@@ -510,11 +553,19 @@ export class ProfileCardManager {
       // The title line wears `auto` (the rarity colour, resolved by the stylesheet) unless an OWNED
       // colour is selected; `titleColorValue` is the CSS value the component applies inline.
       titleColor,
-      titleColorValue: titleColorEntry ? titleColorEntry.color : null,
+      titleColorValue: titleColorEntry ? titleColorEntry.hex : null,
+      nameColor,
+      nameColorValue: nameColorEntry ? nameColorEntry.hex : null,
       trophyCount,
       thresholds: settings.rarityThresholds,
       rarities: ProfileCardManager.listRarities(settings.rarityThresholds, trophyCount, chosenRarity),
-      background: ProfileCardManager.findBackground(profile, byKey, settings.defaultArtPath),
+      backgroundKey: ProfileCardManager.resolveBackgroundKey(profile, byKey, stored.background),
+      background: ProfileCardManager.findBackground(
+        profile,
+        byKey,
+        settings.defaultArtPath,
+        stored.background
+      ),
       underlay: ProfileCardManager.findUnderlay(profile),
       featuredTrophies: ProfileCardManager.findFeaturedTrophies(profile, trophyState),
       boostersOpened,

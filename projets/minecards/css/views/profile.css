@@ -84,6 +84,20 @@
   font-weight: 700;
   line-height: 1.1;
   overflow-wrap: anywhere;
+  /* Set inline by `ProfileView` when the pseudo colour was bought; the theme colour otherwise. */
+  color: var(--profile-name-color, var(--color-text));
+}
+
+/* Pseudo-colour picker of the identity form: it reuses the swatches of the profile card panel. */
+.profile__colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+.profile__colors .profile-card-panel__color {
+  padding: 0.35rem 0.5rem;
 }
 
 /* The player TITLE: the line under the pseudo, in the pixel face of the card Styles ("Press Start
@@ -185,6 +199,7 @@
 }
 
 .profile__icon-choice {
+  position: relative;
   display: grid;
   place-items: center;
   width: 100%;
@@ -216,6 +231,41 @@
   opacity: 0.45;
   filter: grayscale(1);
   cursor: not-allowed;
+}
+
+/* A paid avatar the level already allows: it stays clickable (the click opens the purchase), so it
+   must not look like a trophy-gated one. */
+.profile__icon-choice[data-purchasable="true"] {
+  opacity: 0.8;
+  filter: none;
+  cursor: pointer;
+  border-style: dashed;
+}
+
+.profile__icon-choice[data-purchasable="true"]:hover {
+  border-color: var(--color-accent);
+  opacity: 1;
+}
+
+.profile__icon-price {
+  position: absolute;
+  right: 0.15rem;
+  bottom: 0.15rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.05rem 0.25rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-warning);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.profile__icon-price .profile-card-panel__price-icon {
+  width: 0.7rem;
+  height: 0.7rem;
 }
 
 .profile__icon-image {
@@ -544,6 +594,17 @@
   overflow: hidden;
 }
 
+/* The tilt surface: sized to the card (its shadow content is 360 px wide), never to the panel.
+   Rotating the stage instead would carry the empty strip and its shadow around the card. */
+.profile-card-panel__card {
+  position: relative;
+  flex: 0 0 auto;
+  /* The shadow content is authored at 360 px: `fit-content` makes the tilt surface the card's own
+     footprint instead of the full width of the panel. */
+  width: fit-content;
+  max-width: 100%;
+}
+
 .profile-card-panel__actions {
   display: flex;
   flex-wrap: wrap;
@@ -679,6 +740,66 @@
 }
 
 /* --- Profile card: the title colour -------------------------------------- */
+
+/* --- Profile card: the background ---------------------------------------- */
+
+/* One tile per favourite card: the artwork is the label, the name is the accessible one. The
+   first favourite is the default, marked like any other selection. */
+.profile-card-panel__backgrounds-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.profile-card-panel__backgrounds {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.profile-card-panel__background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  width: 5.4rem;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.profile-card-panel__background:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.profile-card-panel__background[data-selected="true"] {
+  border-color: var(--color-accent);
+  box-shadow: var(--glow-accent);
+}
+
+.profile-card-panel__background-image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.profile-card-panel__background-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-size-xs);
+}
 
 .profile-card-panel__colors-block {
   display: flex;
@@ -829,6 +950,44 @@
   color: var(--color-text);
 }
 
+/* --- Profile: the "+" tile that buys a slot ------------------------------ */
+
+/* Same shape as the tiles of the strip, dashed and with a price: the next slot is visibly empty and
+   visibly for sale, never mistaken for an empty pin. */
+.profile__tile--buy .profile__tile-buy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+.profile__tile--buy .profile__tile-buy:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.profile__tile-buy-plus {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.profile__tile-buy-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.profile__tile-buy-price .profile-card-panel__price-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
 /* --- Profile card: buy modal --------------------------------------------- */
 
 .profile-card-buy {
@@ -851,4 +1010,125 @@
 .profile-card-buy__message[data-tone="error"] {
   color: var(--color-error);
   font-weight: 600;
+}
+
+/* --- Profile: empty and locked slots -------------------------------------- */
+
+/* Every slot of both lists is drawn, even when nothing fills it: an empty owned slot invites a
+   choice, a locked one shows its price. Both borrow the tile shape of the pinned entries. */
+.profile__tile--slot .profile__tile-open {
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 6.5rem;
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+.profile__tile-slot-plus {
+  font-size: var(--font-size-xl);
+  line-height: 1;
+  color: var(--color-accent);
+}
+
+.profile__tile-slot-label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.profile__tile-slot-empty:hover .profile__tile-slot-plus,
+.profile__tile-slot-empty:focus-visible .profile__tile-slot-plus {
+  transform: scale(1.15);
+}
+
+.profile__tile--slot-locked .profile__tile-open {
+  border-style: solid;
+  opacity: 0.6;
+}
+
+.profile__tile-slot-locked:disabled {
+  cursor: not-allowed;
+}
+
+.profile__tile-slot-lock {
+  font-size: var(--font-size-sm);
+  line-height: 1;
+  opacity: 0.75;
+}
+
+/* The favourite grid packs five slots per row: an empty tile keeps the ratio of a card so the row
+   reads as one hand, not as cards followed by boxes. */
+.profile__strip--cards .profile__tile--slot {
+  /* A slot is a grid cell, not a fixed 6.5 rem tile: it must share the five columns with the
+     cards without overflowing the panel. */
+  width: 100%;
+  min-width: 0;
+}
+
+.profile__strip--cards .profile__tile--slot .profile__tile-open {
+  min-height: 0;
+  aspect-ratio: var(--card-ratio);
+}
+
+/* --- Profile: slot picker ------------------------------------------------- */
+
+.profile-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile-picker__choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+}
+
+.profile-picker__choice:hover,
+.profile-picker__choice:focus-visible {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.profile-picker__image {
+  width: 100%;
+  aspect-ratio: var(--card-ratio);
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+}
+
+.profile-picker__choice--trophy .trophy__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.profile-picker__label {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.profile-picker__empty {
+  margin: 0;
+  color: var(--color-text-muted);
+  text-align: center;
 }

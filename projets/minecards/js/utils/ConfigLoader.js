@@ -56,7 +56,11 @@ export const DEFAULT_TROPHY_SETTINGS = Object.freeze({
  */
 export const DEFAULT_PROFILE_SETTINGS = Object.freeze({
   maxFavorites: 5,
-  maxFeaturedTrophies: 3,
+  maxFeaturedTrophies: 5,
+  defaultFavorites: 3,
+  defaultFeaturedTrophies: 1,
+  favoriteSlotPrices: Object.freeze({ 4: 100, 5: 250 }),
+  featuredSlotPrices: Object.freeze({ 2: 25, 3: 100, 4: 250, 5: 500 }),
   defaultName: '',
 });
 
@@ -86,6 +90,19 @@ export const DEFAULT_PROFILE_CARD_SETTINGS = Object.freeze({
   rarityThresholds: Object.freeze({ 1: 0, 2: 5, 3: 15, 4: 30, 5: 50 }),
   defaultArtPath: 'assets/img/card_back.png',
   seriesDigits: 4,
+});
+
+/**
+ * Default settings of the tilt interaction on the CARD DETAIL surfaces.
+ *
+ * A card detail can be dragged with the mouse or the finger: it tilts by at most `maxTiltDegrees`
+ * on each axis and shows a slight `thicknessPx` edge, so it reads as an object rather than a flat
+ * picture. `enabled: false` puts every card back to a plain image.
+ */
+export const DEFAULT_CARD_DETAIL_SETTINGS = Object.freeze({
+  enabled: true,
+  maxTiltDegrees: 15,
+  thicknessPx: 6,
 });
 
 /**
@@ -206,6 +223,12 @@ export const DEFAULT_SHOP_SETTINGS = Object.freeze({
     Object.freeze([3, 1]),
     Object.freeze([4, 1]),
   ]),
+  // One resource sold for Sparks, once a day: the quantity is drawn so that its value never
+  // exceeds `maxResourceValue`, and the price is `priceMultiplier` times that value.
+  dailySparkOffer: Object.freeze({
+    maxResourceValue: 100,
+    priceMultiplier: 2,
+  }),
 });
 
 /**
@@ -261,6 +284,49 @@ export const DEFAULT_GLOW_SETTINGS = Object.freeze({
 });
 
 /**
+ * Classic lighting and material recipe of the 3D booster.
+ *
+ * These are the values the opening scene was tuned at before the render modes existed: a fairly
+ * matte, slightly metallic surface with a small self-illumination. Every mode of
+ * `boosterRender.modes` is completed with the values it omits, and a mode that cannot be read at
+ * all falls back to this one, so the scene always has a complete recipe.
+ */
+export const DEFAULT_BOOSTER_RENDER_MODE = Object.freeze({
+  exposure: 0.94,
+  environmentIntensity: 0.9,
+  ambient: 1.1,
+  key: 1.5,
+  rim: 0.9,
+  front: 0.25,
+  hemisphere: 0.4,
+  metalness: 0.25,
+  roughness: 0.55,
+  clearcoat: 0,
+  clearcoatRoughness: 0.4,
+  emissive: 0.06,
+  normalScale: 1,
+});
+
+/**
+ * Default rendering modes of the 3D booster (`boosterRender` of `settings/config.json`).
+ *
+ * A single classic mode is enough to keep the opening alive when the block is missing; the shipped
+ * `config.json` declares the full set (blister, classic, satin, metal). The ids are stable and are
+ * what `settings.boosterRenderMode` stores in the save.
+ */
+export const DEFAULT_BOOSTER_RENDER_SETTINGS = Object.freeze({
+  defaultMode: 'classic',
+  modes: Object.freeze([
+    Object.freeze({
+      id: 'classic',
+      labelKey: 'settings.render.classic',
+      helpKey: 'settings.render.classicHelp',
+      ...DEFAULT_BOOSTER_RENDER_MODE,
+    }),
+  ]),
+});
+
+/**
  * Defaults of the game notifications (`notifications` of `settings/config.json`).
  *
  * `duration` bounds the slider deciding how many SECONDS one notification stays on screen, and
@@ -271,26 +337,6 @@ export const DEFAULT_GLOW_SETTINGS = Object.freeze({
 export const DEFAULT_NOTIFICATION_SETTINGS = Object.freeze({
   duration: Object.freeze({ min: 1, max: 8, step: 1, default: 3 }),
   types: Object.freeze(['collection', 'experience', 'title']),
-});
-
-/**
- * Default prices of the title colours of the profile card (`profileCard.titleColors`).
- *
- * `defaultPriceSparks` applies to every colour that declares no price of its own, so the economy of
- * the whole palette is one number; `items` holds one entry per colour the code knows (the palette
- * itself lives in `PROFILE_CARD_TITLE_COLORS`, `js/business/ProfileCardManager.js`).
- */
-export const DEFAULT_TITLE_COLOR_SETTINGS = Object.freeze({
-  defaultPriceSparks: 125,
-  items: Object.freeze({
-    gold: 125,
-    silver: 125,
-    crimson: 125,
-    emerald: 125,
-    azure: 125,
-    violet: 125,
-    rose: 125,
-  }),
 });
 
 /**
@@ -553,6 +599,97 @@ export class ConfigLoader {
   }
 
   /**
+   * Rendering modes of the 3D booster (`boosterRender` of `settings/config.json`).
+   *
+   * Every mode is a complete recipe: a numeric value that is missing or unusable is replaced by
+   * the classic one, and a value outside its documented range is clamped. A mode without an `id`
+   * is ignored (the picker could neither label nor store it), a duplicate id keeps its first
+   * declaration, and an empty list falls back to the classic mode so the opening always has a
+   * scene to build. `labelKey` / `helpKey` default to `settings.render.<id>` and
+   * `settings.render.<id>Help`, which is what a new mode only needs in the dictionaries.
+   *
+   * @returns {Promise<{defaultMode: string, modes: Array<{id: string, labelKey: string,
+   *   helpKey: string, exposure: number, environmentIntensity: number, ambient: number,
+   *   key: number, rim: number, front: number, hemisphere: number, metalness: number,
+   *   roughness: number, clearcoat: number, clearcoatRoughness: number, emissive: number,
+   *   normalScale: number}>}>} The default id and the validated modes, in declaration order.
+   * @throws {Error} See `load()`.
+   */
+  async getBoosterRenderSettings() {
+    const config = await this.getConfig();
+    const block = config.boosterRender;
+    const declared = Array.isArray(block?.modes) ? block.modes : [];
+    const seen = new Set();
+    const modes = [];
+
+    declared.forEach((entry) => {
+      if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return;
+      if (typeof entry.id !== 'string' || entry.id.trim() === '') return;
+      const id = entry.id.trim().toLowerCase();
+      if (seen.has(id)) return;
+      seen.add(id);
+
+      const fallback = DEFAULT_BOOSTER_RENDER_MODE;
+      modes.push({
+        id,
+        labelKey:
+          typeof entry.labelKey === 'string' && entry.labelKey.trim() !== ''
+            ? entry.labelKey.trim()
+            : `settings.render.${id}`,
+        helpKey:
+          typeof entry.helpKey === 'string' && entry.helpKey.trim() !== ''
+            ? entry.helpKey.trim()
+            : `settings.render.${id}Help`,
+        exposure: ConfigLoader.normalizeNumberInRange(entry.exposure, fallback.exposure, 0.1, 3),
+        environmentIntensity: ConfigLoader.normalizeNumberInRange(
+          entry.environmentIntensity,
+          fallback.environmentIntensity,
+          0,
+          4
+        ),
+        ambient: ConfigLoader.normalizeNumberInRange(entry.ambient, fallback.ambient, 0, 5),
+        key: ConfigLoader.normalizeNumberInRange(entry.key, fallback.key, 0, 5),
+        rim: ConfigLoader.normalizeNumberInRange(entry.rim, fallback.rim, 0, 5),
+        front: ConfigLoader.normalizeNumberInRange(entry.front, fallback.front, 0, 5),
+        hemisphere: ConfigLoader.normalizeNumberInRange(
+          entry.hemisphere,
+          fallback.hemisphere,
+          0,
+          5
+        ),
+        metalness: ConfigLoader.normalizeNumberInRange(entry.metalness, fallback.metalness, 0, 1),
+        roughness: ConfigLoader.normalizeNumberInRange(entry.roughness, fallback.roughness, 0, 1),
+        clearcoat: ConfigLoader.normalizeNumberInRange(entry.clearcoat, fallback.clearcoat, 0, 1),
+        clearcoatRoughness: ConfigLoader.normalizeNumberInRange(
+          entry.clearcoatRoughness,
+          fallback.clearcoatRoughness,
+          0,
+          1
+        ),
+        emissive: ConfigLoader.normalizeNumberInRange(entry.emissive, fallback.emissive, 0, 2),
+        normalScale: ConfigLoader.normalizeNumberInRange(
+          entry.normalScale,
+          fallback.normalScale,
+          0,
+          3
+        ),
+      });
+    });
+
+    const list =
+      modes.length > 0
+        ? modes
+        : DEFAULT_BOOSTER_RENDER_SETTINGS.modes.map((mode) => ({ ...mode }));
+    const requested =
+      typeof block?.defaultMode === 'string' ? block.defaultMode.trim().toLowerCase() : '';
+    const defaultMode = list.some((mode) => mode.id === requested)
+      ? requested
+      : list[0].id;
+
+    return { defaultMode, modes: list };
+  }
+
+  /**
    * Bounds of the notification duration slider, and the kinds that can be switched off.
    *
    * The duration is expressed in SECONDS (`notifications.duration`); the center converts it to
@@ -575,40 +712,6 @@ export class ConfigLoader {
     const known = DEFAULT_NOTIFICATION_SETTINGS.types;
     const types = known.filter((type) => declared.includes(type));
     return { duration, types: types.length > 0 ? types : known.slice() };
-  }
-
-  /**
-   * Prices of the title colours of the profile card (`profileCard.titleColors`).
-   *
-   * A colour the code knows always has a price: the declared one when it is a whole, non-negative
-   * number, the section's `defaultPriceSparks` otherwise, and the shipped 125 Sparks when that one
-   * is malformed too. A colour nobody knows is dropped (it could not be applied), and the section's
-   * default price can never be negative.
-   *
-   * @returns {Promise<{defaultPriceSparks: number, items: Record<string, number>}>} The palette
-   *   prices, in Sparks, keyed by colour id.
-   * @throws {Error} See `load()`.
-   */
-  async getTitleColorSettings() {
-    const config = await this.getConfig();
-    const block = config.profileCard?.titleColors;
-    const source = block && typeof block === 'object' && !Array.isArray(block) ? block : {};
-    const rawItems = source.items && typeof source.items === 'object' && !Array.isArray(source.items)
-      ? source.items
-      : {};
-    const defaults = DEFAULT_TITLE_COLOR_SETTINGS;
-    const defaultPriceSparks = Number.isInteger(source.defaultPriceSparks)
-      && source.defaultPriceSparks >= 0
-      ? source.defaultPriceSparks
-      : defaults.defaultPriceSparks;
-
-    const items = {};
-    Object.keys(defaults.items).forEach((id) => {
-      const entry = rawItems[id];
-      const declared = entry && typeof entry === 'object' ? entry.priceSparks : entry;
-      items[id] = Number.isInteger(declared) && declared >= 0 ? declared : defaultPriceSparks;
-    });
-    return { defaultPriceSparks, items };
   }
 
   /**
@@ -747,13 +850,18 @@ export class ConfigLoader {
    * @returns {Promise<{seedSalt: string, allItemsUniques: boolean, tradesPerDay: number,
    *   pinnedPath: string,
    *   rarityValues: Record<string, number>, itemsValues: Record<string, number>,
-   *   offers: Array<[number, number]>}>} The shop settings. `offers` is a list of
-   *   `[rarity, count]`, from the lowest rarity to the highest.
+   *   offers: Array<[number, number]>,
+   *   dailySparkOffer: {maxResourceValue: number, priceMultiplier: number}}>} The shop settings.
+   *   `offers` is a list of `[rarity, count]`, from the lowest rarity to the highest.
    * @throws {Error} See `load()`.
    */
   async getShopSettings() {
     const config = await this.getConfig();
     const shop = config.shop || {};
+    const spark = shop.dailySparkOffer && typeof shop.dailySparkOffer === 'object'
+      ? shop.dailySparkOffer
+      : {};
+    const multiplier = Number(spark.priceMultiplier);
     return {
       seedSalt:
         typeof shop.seedSalt === 'string' && shop.seedSalt.trim() !== ''
@@ -771,6 +879,15 @@ export class ConfigLoader {
       rarityValues: ConfigLoader.normalizeValueMap(shop.rarityValues, DEFAULT_SHOP_SETTINGS.rarityValues),
       itemsValues: ConfigLoader.normalizeValueMap(shop.itemsValues, DEFAULT_SHOP_SETTINGS.itemsValues),
       offers: ConfigLoader.normalizeOffers(shop.offers, DEFAULT_SHOP_SETTINGS.offers),
+      dailySparkOffer: {
+        maxResourceValue: ConfigLoader.normalizePositiveInteger(
+          spark.maxResourceValue,
+          DEFAULT_SHOP_SETTINGS.dailySparkOffer.maxResourceValue
+        ),
+        priceMultiplier: Number.isFinite(multiplier) && multiplier > 0
+          ? multiplier
+          : DEFAULT_SHOP_SETTINGS.dailySparkOffer.priceMultiplier,
+      },
     };
   }
 
@@ -854,6 +971,27 @@ export class ConfigLoader {
     const number = Number(value);
     if (!Number.isFinite(number)) return fallback;
     return Math.min(Math.max(Math.round(number), min), max);
+  }
+
+  /**
+   * Normalizes a decimal number into an allowed range.
+   *
+   * Same contract as `normalizeIntegerInRange()` for the values that cannot be rounded: an
+   * exposure, a roughness or a clearcoat is a real number, and rounding it would quietly retune
+   * the render. An unusable value falls back to the given default; a usable but out-of-range one
+   * is clamped.
+   *
+   * @param {unknown} value - Raw value.
+   * @param {number} fallback - Value used when the raw one is unusable.
+   * @param {number} min - Lower bound, inclusive.
+   * @param {number} max - Upper bound, inclusive.
+   * @returns {number} A decimal number within `[min, max]`.
+   */
+  static normalizeNumberInRange(value, fallback, min, max) {
+    if (value === null || value === undefined || value === '') return fallback;
+    const number = Number(value);
+    if (!Number.isFinite(number)) return fallback;
+    return Math.min(Math.max(number, min), max);
   }
 
   /**
@@ -1059,21 +1197,53 @@ export class ConfigLoader {
    * A missing or malformed limit falls back to its shipped default, so a typo in the configuration
    * can never block the feature (a limit of 0 simply disables the corresponding pin).
    *
-   * @returns {Promise<{maxFavorites: number, maxFeaturedTrophies: number, defaultName: string}>}
+   * @returns {Promise<{maxFavorites: number, maxFeaturedTrophies: number, defaultFavorites: number,
+   *   defaultFeaturedTrophies: number, favoriteSlotPrices: Record<number, number>,
+   *   featuredSlotPrices: Record<number, number>, defaultName: string}>}
    *   The validated profile settings.
    * @throws {Error} See `load()`.
    */
   async getProfileSettings() {
     const config = await this.getConfig();
     const profile = config.profile || {};
+    const maxFavorites = ConfigLoader.normalizePinCount(
+      profile.maxFavorites,
+      DEFAULT_PROFILE_SETTINGS.maxFavorites
+    );
+    const maxFeaturedTrophies = ConfigLoader.normalizePinCount(
+      profile.maxFeaturedTrophies,
+      DEFAULT_PROFILE_SETTINGS.maxFeaturedTrophies
+    );
+    const defaultFavorites = Math.min(
+      maxFavorites,
+      ConfigLoader.normalizePinCount(
+        profile.defaultFavorites,
+        Math.min(DEFAULT_PROFILE_SETTINGS.defaultFavorites, maxFavorites)
+      )
+    );
+    const defaultFeaturedTrophies = Math.min(
+      maxFeaturedTrophies,
+      ConfigLoader.normalizePinCount(
+        profile.defaultFeaturedTrophies,
+        Math.min(DEFAULT_PROFILE_SETTINGS.defaultFeaturedTrophies, maxFeaturedTrophies)
+      )
+    );
     return {
-      maxFavorites: ConfigLoader.normalizePinCount(
-        profile.maxFavorites,
-        DEFAULT_PROFILE_SETTINGS.maxFavorites
+      maxFavorites,
+      maxFeaturedTrophies,
+      defaultFavorites,
+      defaultFeaturedTrophies,
+      favoriteSlotPrices: ConfigLoader.normalizeSlotPriceMap(
+        profile.favoriteSlotPrices,
+        DEFAULT_PROFILE_SETTINGS.favoriteSlotPrices,
+        defaultFavorites,
+        maxFavorites
       ),
-      maxFeaturedTrophies: ConfigLoader.normalizePinCount(
-        profile.maxFeaturedTrophies,
-        DEFAULT_PROFILE_SETTINGS.maxFeaturedTrophies
+      featuredSlotPrices: ConfigLoader.normalizeSlotPriceMap(
+        profile.featuredSlotPrices,
+        DEFAULT_PROFILE_SETTINGS.featuredSlotPrices,
+        defaultFeaturedTrophies,
+        maxFeaturedTrophies
       ),
       defaultName: typeof profile.defaultName === 'string' ? profile.defaultName.trim() : '',
     };
@@ -1114,6 +1284,32 @@ export class ConfigLoader {
       if (!Object.prototype.hasOwnProperty.call(items, id)) items[id] = { ...entry };
     });
     return { items };
+  }
+
+  /**
+   * Settings of the drag-to-tilt interaction of a card detail (`cardDetail` section).
+   *
+   * The angle is capped at 45 degrees and the edge at 24 px, so an edited configuration can make
+   * the card dramatic but never unreadable. A malformed value falls back to its shipped default.
+   *
+   * @returns {Promise<{enabled: boolean, maxTiltDegrees: number, thicknessPx: number}>}
+   *   The validated interaction settings.
+   * @throws {Error} See `load()`.
+   */
+  async getCardDetailSettings() {
+    const config = await this.getConfig();
+    const section = config.cardDetail || {};
+    const maxTiltDegrees = section.maxRotationDeg;
+    const thicknessPx = section.thicknessPx;
+    return {
+      enabled: section.enabled !== false,
+      maxTiltDegrees: typeof maxTiltDegrees === 'number' && Number.isFinite(maxTiltDegrees)
+        ? Math.min(45, Math.max(0, maxTiltDegrees))
+        : DEFAULT_CARD_DETAIL_SETTINGS.maxTiltDegrees,
+      thicknessPx: typeof thicknessPx === 'number' && Number.isFinite(thicknessPx)
+        ? Math.min(24, Math.max(0, Math.round(thicknessPx)))
+        : DEFAULT_CARD_DETAIL_SETTINGS.thicknessPx,
+    };
   }
 
   /**
@@ -1270,6 +1466,31 @@ export class ConfigLoader {
   static normalizePath(value, fallback) {
     const raw = typeof value === 'string' && value.trim() !== '' ? value.trim() : fallback;
     return raw.replace(/^\.\//, '').replace(/\/+$/, '');
+  }
+
+  /**
+   * Normalizes the price of every purchasable profile slot.
+   *
+   * Only slots ABOVE the free ones and up to the absolute maximum survive, and a price that is
+   * missing or malformed falls back to the shipped one: a typo can never make an extra slot free
+   * (or make it disappear from the page).
+   *
+   * @param {unknown} raw - `{ "4": 100 }` read from the configuration.
+   * @param {Record<number, number>} fallback - Shipped prices, by slot.
+   * @param {number} base - Number of free slots.
+   * @param {number} max - Absolute number of slots.
+   * @returns {Record<number, number>} One price per purchasable slot, in ascending order.
+   */
+  static normalizeSlotPriceMap(raw, fallback, base, max) {
+    const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+    const prices = {};
+    for (let slot = base + 1; slot <= max; slot += 1) {
+      const declared = Number(source[String(slot)]);
+      const shipped = Number(fallback?.[slot]);
+      if (Number.isInteger(declared) && declared >= 0) prices[slot] = declared;
+      else if (Number.isInteger(shipped) && shipped >= 0) prices[slot] = shipped;
+    }
+    return prices;
   }
 
   /**

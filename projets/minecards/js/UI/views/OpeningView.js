@@ -34,11 +34,13 @@ import CardComponent from '../components/CardComponent.js';
 import Toast from '../components/Toast.js';
 import { buildBoosterCode } from '../../utils/BoosterCode.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
-import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
+import soundManager, { SOUNDS, UI_SOUNDS } from '../../utils/SoundManager.js';
 import animationManager from '../../utils/AnimationManager.js';
 import { setFocusMode } from '../../utils/FocusMode.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import { attachCardTilt } from '../../utils/CardTilt.js';
 import Booster3DRenderer, { DEFAULT_MODEL_PATH } from '../components/Booster3DRenderer.js';
+import boosterRenderManager from '../../utils/BoosterRenderManager.js';
 
 /** View name, matching `data-view="opening"` in `index.html`. */
 export const OPENING_VIEW_NAME = 'opening';
@@ -136,6 +138,8 @@ export class OpeningView {
     this.selectedSetId = null;
     /** @type {Booster3DRenderer|null} Non-interactive preview of the "select" stage. */
     this.previewRenderer = null;
+    /** @type {Promise<void>|null} In-flight construction of the preview scene. */
+    this.previewInitPromise = null;
     /** @type {boolean} True when the 3D preview is unavailable (2D image shown instead). */
     this.previewFailed = false;
     /** @type {object|null} Result of the last `openBooster()`, waiting for the reveal. */
@@ -408,7 +412,29 @@ export class OpeningView {
     this.unsubscribers.push(eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.handleSparksUpdated(payload)));
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.BOOSTER_RENDER_CHANGED, (payload) => this.handleRenderModeChanged(payload))
+    );
     this.log('Event subscriptions registered.');
+  }
+
+  /**
+   * Retunes the live 3D scenes when the developer render picker changes the mode.
+   *
+   * Both the picker preview and the opening scene may exist at the same time for a moment (the
+   * preview is adopted by the opening stage): retuning both is cheap and keeps the recipe the same
+   * on whichever canvas the player is looking at. The scene is NOT rebuilt: the geometry and the
+   * textures stay uploaded, only the lights, the exposure and the materials change.
+   *
+   * @param {{mode?: string, settings?: object}|null} [payload=null] - Event payload; the manager's
+   *   active recipe is used when it is missing.
+   * @returns {void}
+   */
+  handleRenderModeChanged(payload = null) {
+    const settings = payload?.settings ?? boosterRenderManager.getRenderSettings();
+    this.previewRenderer?.setRenderSettings(settings);
+    this.renderer3d?.setRenderSettings(settings);
+    this.log(`Booster render mode applied to the live scenes: ${payload?.mode ?? settings.id}.`);
   }
 
   /**
@@ -826,9 +852,8 @@ export class OpeningView {
       }
       this.showStage('scene');
       this.showSceneSubStage('booster');
-      // The picker preview is gone from the screen: its scene is released before the real one is
-      // built, so only one WebGL loop ever runs.
-      this.disposePreview();
+      // The picker preview is not thrown away: `prepareScene` moves its scene into the opening
+      // viewport whenever it can, so the model already in GPU memory is simply adopted.
       await this.prepareScene(result);
       this.buildReveal(result);
     } catch (error) {
@@ -873,9 +898,37 @@ export class OpeningView {
     }
 
     this.disposeRenderer();
+    const texture = set?.texture ?? null;
+    const preview = await this.takePreviewRenderer();
+    if (preview) {
+      try {
+        if (preview.texturePath !== texture) {
+          await preview.setTexture(texture);
+        }
+        const adopted = preview.adopt({
+          container: this.boosterViewport,
+          onOpenStart: () => this.handleBoosterOpenStart(),
+          onOpenRequest: () => this.handleBoosterOpenGesture(),
+        });
+        if (adopted) {
+          this.renderer3d = preview;
+          this.boosterLoading.hidden = true;
+          this.log('The picker scene was adopted by the opening: no second download.');
+          this.renderer3d.start();
+          this.boosterHint.hidden = false;
+          this.scheduleIdleDispose();
+          return;
+        }
+      } catch (error) {
+        console.warn('[OpeningView] The picker scene could not be adopted.', error);
+      }
+      preview.dispose();
+    }
+
     this.renderer3d = new Booster3DRenderer({
       container: this.boosterViewport,
-      texturePath: set?.texture ?? null,
+      texturePath: texture,
+      renderSettings: boosterRenderManager.getRenderSettings(),
       label: result.setId,
       onOpenStart: () => this.handleBoosterOpenStart(),
       onOpenRequest: () => this.handleBoosterOpenGesture(),
@@ -904,34 +957,68 @@ export class OpeningView {
    * @returns {Promise<void>} Resolves once the preview is turning (or the 2D fallback is displayed).
    */
   async initPreview() {
-    if (this.previewRenderer || this.previewFailed || !this.selectedSetId || !this.previewViewport) return;
+    if (this.previewRenderer) return;
+    if (this.previewInitPromise) return this.previewInitPromise;
+    if (this.previewFailed || !this.selectedSetId || !this.previewViewport) return;
 
-    const set = this.sets.get(this.selectedSetId) ?? null;
+    const setId = this.selectedSetId;
+    const set = this.sets.get(setId) ?? null;
     this.previewLoading.hidden = false;
     this.previewFallback.hidden = true;
     this.previewViewport.textContent = '';
-    this.log(`Preparing the booster preview for "${this.selectedSetId}"…`);
+    this.log(`Preparing the booster preview for "${setId}"…`);
 
     const renderer = new Booster3DRenderer({
       container: this.previewViewport,
       texturePath: set?.texture ?? null,
       interactive: false,
-      label: `preview:${this.selectedSetId}`,
+      renderSettings: boosterRenderManager.getRenderSettings(),
+      label: `preview:${setId}`,
     });
-    const ready = await renderer.init();
-    this.previewLoading.hidden = true;
+    this.previewInitPromise = (async () => {
+      const ready = await renderer.init();
+      this.previewLoading.hidden = true;
 
-    if (!ready) {
-      console.warn('[OpeningView] The 3D preview is unavailable, showing the 2D image.');
-      renderer.dispose();
-      this.previewFailed = true;
-      this.showPreviewFallback(set);
-      return;
+      if (!ready) {
+        console.warn('[OpeningView] The 3D preview is unavailable, showing the 2D image.');
+        renderer.dispose();
+        this.previewFailed = true;
+        this.showPreviewFallback(set);
+        return;
+      }
+
+      this.previewRenderer = renderer;
+      renderer.start();
+      this.log('Booster preview ready.');
+    })();
+
+    try {
+      await this.previewInitPromise;
+    } finally {
+      this.previewInitPromise = null;
     }
+  }
 
-    this.previewRenderer = renderer;
-    renderer.start();
-    this.log('Booster preview ready.');
+  /**
+   * Hands the preview scene over to the opening stage.
+   *
+   * Waits for a construction that is still in flight (a player can press "Open" while the picker
+   * preview is loading), then clears the reference so `disposePreview()` never releases a scene
+   * that has become the opening one.
+   *
+   * @returns {Promise<Booster3DRenderer|null>} The adopted scene, or null when there is none.
+   */
+  async takePreviewRenderer() {
+    if (this.previewInitPromise) {
+      try {
+        await this.previewInitPromise;
+      } catch (error) {
+        console.warn('[OpeningView] The preview scene failed while the opening started.', error);
+      }
+    }
+    const renderer = this.previewRenderer;
+    this.previewRenderer = null;
+    return renderer;
   }
 
   /**
@@ -1402,6 +1489,7 @@ export class OpeningView {
     this.clearSpotlightEntryGuard();
     this.spotlightIndex += 1;
     this.renderSpotlight('enter-next');
+    soundManager.playUi(UI_SOUNDS.REVEAL_STEP);
     this.log(`Spotlight moved to card ${this.spotlightIndex + 1} (face down).`);
   }
 
@@ -1416,6 +1504,7 @@ export class OpeningView {
     this.clearSpotlightEntryGuard();
     this.spotlightIndex -= 1;
     this.renderSpotlight('enter-prev');
+    soundManager.playUi(UI_SOUNDS.REVEAL_STEP);
     this.log(`Spotlight moved back to card ${this.spotlightIndex + 1}.`);
   }
 
@@ -1552,6 +1641,7 @@ export class OpeningView {
       console.warn(`[OpeningView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
       image.hidden = true;
     });
+    attachCardTilt(image);
 
     const list = document.createElement('dl');
     list.className = 'card-modal__details';
@@ -1613,9 +1703,20 @@ export class OpeningView {
    */
   handleDocumentKeyDown(event) {
     if (!event || typeof event.key !== 'string') return;
+    const isSpace = event.key === ' ' || event.code === 'Space';
+    const target = event.target;
+    // Only a text field keeps its own keys: a button that still holds the focus ("Ouvrir" was just
+    // clicked, or "Suivante") must not swallow Space.
+    const isTextControl = target instanceof HTMLElement
+      && (target.closest('input, select, textarea, [contenteditable="true"]') !== null);
     if (this.sourceModal && !this.sourceModal.hidden) {
       if (event.key === 'Escape') {
         this.closeSourceModal();
+      } else if (isSpace && !event.repeat && !isTextControl) {
+        // The dialog asks which bucket pays: Space picks the free daily booster, the default the
+        // same key chooses on the button itself.
+        event.preventDefault();
+        void this.handleSourceChoice('daily');
       }
       return;
     }
@@ -1625,12 +1726,24 @@ export class OpeningView {
       }
       return;
     }
+
+    if (isSpace && !event.repeat && !isTextControl) {
+      // On the "Ouvrir" page, Space IS the open button.
+      if (this.selectStage && !this.selectStage.hidden) {
+        event.preventDefault();
+        if (!this.openButton.disabled) this.openButton.click();
+        return;
+      }
+      // Once the pack is drawn, the only gesture left is the tap on the 3D booster: Space plays it
+      // (and lets the tear animation run) instead of skipping straight to the reveal.
+      if (this.sceneStage && !this.sceneStage.hidden && this.revealStage === 'idle' && this.pendingResult) {
+        event.preventDefault();
+        this.openBoosterFromKeyboard();
+        return;
+      }
+    }
+
     if (this.revealStage !== 'spotlight' || this.sceneStage.hidden) return;
-    const target = event.target;
-    // Only a text field keeps its own keys: a button that still holds the focus ("Suivante" was
-    // just clicked) must not swallow the hold of Space or the arrows.
-    const isTextControl = target instanceof HTMLElement
-      && (target.closest('input, select, textarea, [contenteditable="true"]') !== null);
     if (isTextControl) return;
     if (event.key === 'ArrowLeft') {
       this.stopSpaceAutoAdvance();
@@ -1657,6 +1770,31 @@ export class OpeningView {
    */
   handleDocumentKeyUp(event) {
     if (event?.key === ' ') this.stopSpaceAutoAdvance();
+  }
+
+  /**
+   * Simulates the tap on the booster from the keyboard (Space).
+   *
+   * The 3D renderer owns the tear animation: asking it to open keeps the same timing as a click.
+   * When it is unavailable (2D fallback), the shared gesture handler does exactly what a tap does.
+   *
+   * @returns {void}
+   */
+  openBoosterFromKeyboard() {
+    if (!this.pendingResult) return;
+    if (this.isFallbackMode) {
+      this.handleFallbackClick({ preventDefault() {} });
+      return;
+    }
+    if (this.renderer3d) {
+      const started = this.renderer3d.requestOpen();
+      if (started) this.log('Space simulated the tap on the 3D booster.');
+      return;
+    }
+    // The scene is still being built (or failed without a fallback): start the reveal directly so
+    // Space never becomes a dead key.
+    this.handleBoosterOpenStart();
+    this.handleBoosterOpenGesture();
   }
 
   /**

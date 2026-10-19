@@ -52,6 +52,7 @@ import { USER_STATE_KEYS } from './AccountManager.js';
 import boosterManager, { BoosterManager } from './BoosterManager.js';
 import promoManager from './PromoManager.js';
 import miningManager, { resourceSlug } from './MiningManager.js';
+import sparksManager from './SparksManager.js';
 import { createSeededRandom, hashSeed } from './MinePickManager.js';
 
 /** Source carried by the `CARDS_OBTAINED` event of a bought card. */
@@ -65,6 +66,9 @@ export const PINNED_OFFER_PREFIX = 'pinned';
 
 /** Prefix of the key of a daily trade (`swap-<day>-<rank>`). */
 export const TRADE_PREFIX = 'swap';
+
+/** Prefix of the key of the daily Sparks offer (`spark-<day>`). */
+export const SPARK_OFFER_PREFIX = 'spark';
 
 /** How many pairs a daily trade draw tries before falling back to a deterministic pick. */
 const TRADE_ATTEMPTS = 40;
@@ -92,6 +96,9 @@ export const TRADER_ERRORS = Object.freeze({
   NO_CARD: 'NO_CARD',
   NO_PRICE: 'NO_PRICE',
   NO_TRADE: 'NO_TRADE',
+  NO_SPARK_OFFER: 'NO_SPARK_OFFER',
+  INSUFFICIENT_SPARKS: 'INSUFFICIENT_SPARKS',
+  SPARK_OFFER_USED: 'SPARK_OFFER_USED',
 });
 
 /** i18n keys of the error codes, so a view never invents its own message. */
@@ -102,6 +109,9 @@ const ERROR_MESSAGE_KEYS = Object.freeze({
   [TRADER_ERRORS.NO_CARD]: 'mineblock.trader.error.card',
   [TRADER_ERRORS.NO_PRICE]: 'mineblock.trader.error.price',
   [TRADER_ERRORS.NO_TRADE]: 'mineblock.trader.error.trade',
+  [TRADER_ERRORS.NO_SPARK_OFFER]: 'mineblock.trader.error.spark',
+  [TRADER_ERRORS.INSUFFICIENT_SPARKS]: 'mineblock.trader.error.sparks',
+  [TRADER_ERRORS.SPARK_OFFER_USED]: 'mineblock.trader.error.sparkUsed',
 });
 
 /**
@@ -388,6 +398,10 @@ export class TraderManager {
     this.tradesCache = null;
     /** @type {Promise<Array<object>>|null} In-flight trade draw. */
     this.tradesPromise = null;
+    /** @type {{day: string, offer: object}|null} Cached daily Sparks offer. */
+    this.sparkOfferCache = null;
+    /** @type {Promise<object>|null} In-flight daily Sparks offer. */
+    this.sparkOfferPromise = null;
   }
 
   /**
@@ -491,7 +505,8 @@ export class TraderManager {
    *
    * @param {unknown} raw - Value read from `user_state["trader"]`.
    * @returns {{week: string|null, purchases: Record<string, number>, tradeDay: string|null,
-   *   tradeUses: Record<string, number>}} The normalized state.
+   *   tradeUses: Record<string, number>, sparkDay: string|null, sparkBought: boolean}}
+   *   The normalized state.
    */
   normalizeState(raw) {
     const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
@@ -502,6 +517,10 @@ export class TraderManager {
       // UTC, while the shop rolls over on Monday (`tradeDay` is the day the counts belong to).
       tradeDay: /^\d{4}-\d{2}-\d{2}$/.test(source.tradeDay) ? source.tradeDay : null,
       tradeUses: TraderManager.normalizeCounters(source.tradeUses),
+      // The Sparks offer is one purchase per UTC day: the day is stored with the flag so a save
+      // opened the next morning starts with an untouched offer.
+      sparkDay: /^\d{4}-\d{2}-\d{2}$/.test(source.sparkDay) ? source.sparkDay : null,
+      sparkBought: source.sparkBought === true,
     };
   }
 
@@ -587,6 +606,73 @@ export class TraderManager {
       return await this.tradesPromise;
     } finally {
       this.tradesPromise = null;
+    }
+  }
+
+  /**
+   * Draws the daily offer that sells one resource for Sparks.
+   *
+   * The resource, the quantity and therefore the price are drawn from the UTC day alone: every
+   * player sees the same offer, a reload never changes it, and it rolls over at midnight UTC. The
+   * quantity is capped so `quantity * value` never exceeds `shop.dailySparkOffer.maxResourceValue`,
+   * and the price is that value multiplied by `shop.dailySparkOffer.priceMultiplier`.
+   *
+   * @param {object} [options] - Read options.
+   * @param {boolean} [options.force=false] - Redraw even when the day is cached.
+   * @returns {Promise<object|null>} The offer, or null when no day or no priced resource is known.
+   * @throws {Error} When the configuration cannot be read.
+   */
+  async getSparkOffer({ force = false } = {}) {
+    await this.init();
+    const day = await this.getTradeDay();
+    if (!day) return null;
+
+    if (force) {
+      this.sparkOfferCache = null;
+      this.sparkOfferPromise = null;
+    }
+    if (this.sparkOfferCache?.day === day) return this.sparkOfferCache.offer;
+    if (this.sparkOfferPromise) return this.sparkOfferPromise;
+
+    this.sparkOfferPromise = (async () => {
+      const budget = this.settings.dailySparkOffer.maxResourceValue;
+      const multiplier = this.settings.dailySparkOffer.priceMultiplier;
+      const eligible = this.items
+        .filter((item) => Number.isFinite(item.value) && item.value > 0 && item.value <= budget)
+        .sort((left, right) => left.slug.localeCompare(right.slug));
+      if (eligible.length === 0) {
+        console.warn('[TraderManager] No resource fits the daily Sparks budget.');
+        return null;
+      }
+
+      const random = createSeededRandom(hashSeed(`${this.settings.seedSalt}|spark|${day}`));
+      const item = eligible[Math.floor(random() * eligible.length)];
+      const maxQuantity = Math.max(1, Math.floor(budget / item.value));
+      const quantity = Math.min(maxQuantity, Math.floor(random() * maxQuantity) + 1);
+      const value = quantity * item.value;
+      const priceSparks = Math.max(1, Math.ceil(value * multiplier));
+      const offer = {
+        key: `${SPARK_OFFER_PREFIX}-${day}`,
+        source: 'spark',
+        day,
+        item,
+        quantity,
+        value,
+        priceSparks,
+      };
+      this.log(
+        `Sparks offer of ${day}: ${quantity} ${item.type} for ${priceSparks} Sparks ` +
+          `(value ${value}, budget ${budget}).`
+      );
+      return offer;
+    })();
+
+    try {
+      const offer = await this.sparkOfferPromise;
+      this.sparkOfferCache = { day, offer };
+      return offer;
+    } finally {
+      this.sparkOfferPromise = null;
     }
   }
 
@@ -1041,20 +1127,33 @@ export class TraderManager {
     await this.init();
     const week = await this.getWeekStart();
     const tradeDay = await this.getTradeDay();
-    const [offers, trades] = await Promise.all([
+    const [offers, trades, sparkOffer, sparks] = await Promise.all([
       this.getOffers({ force }),
       this.getTrades({ force }),
+      this.getSparkOffer({ force }),
+      sparksManager.getBalance(),
     ]);
     const stored = await miningManager.getState();
     const state = this.normalizeState(await storageRepository.getUserState(USER_STATE_KEYS.TRADER));
     // A stamp that is not the current day is a rollover: yesterday's trades are available again.
     const tradeUses = state.tradeDay === tradeDay ? state.tradeUses : {};
+    const sparkBought = state.sparkDay === tradeDay && state.sparkBought;
 
     return {
       week,
       tradeDay,
       allItemsUniques: this.settings.allItemsUniques,
       resources: stored.resources,
+      sparks,
+      sparkOffer: sparkOffer
+        ? {
+            ...sparkOffer,
+            bought: sparkBought,
+            remaining: sparkBought ? 0 : 1,
+            exhausted: sparkBought,
+            affordable: !sparkBought && sparks >= sparkOffer.priceSparks,
+          }
+        : null,
       trades: trades.map((trade) =>
         this.describeTrade(trade, stored.resources, tradeUses[trade.key] ?? 0, TRADE_MAX_USES)
       ),
@@ -1168,6 +1267,77 @@ export class TraderManager {
       resources: result.resources,
       offer: state.offers.find((candidate) => candidate.key === offer.key) ?? offer,
       week,
+    };
+  }
+
+  /**
+   * Buys the daily Sparks offer: the Sparks are charged and the resource lands in the inventory.
+   *
+   * The whole read-modify-write runs in ONE transaction: the currency, the mined resource and the
+   * daily flag are written together, so a failure never charges without delivering, and two rapid
+   * taps can never buy the same day twice.
+   *
+   * @returns {Promise<{offer: object, balance: number, resources: Record<string, number>,
+   *   day: string}>} The committed purchase.
+   * @throws {TraderError} With `NO_SPARK_OFFER`, `SPARK_OFFER_USED` or `INSUFFICIENT_SPARKS`.
+   * @throws {Error} When the transaction fails.
+   */
+  async buySparkOffer() {
+    const offer = await this.getSparkOffer();
+    const day = await this.getTradeDay();
+    if (!offer || !day || offer.day !== day) {
+      throw new TraderError(TRADER_ERRORS.NO_SPARK_OFFER, 'No Sparks offer for the current day.');
+    }
+
+    const result = await storageRepository.transaction(
+      [STORES.USER_STATE],
+      'readwrite',
+      async (context) => {
+        const state = this.normalizeState(
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.TRADER)
+        );
+        if (state.sparkDay === day && state.sparkBought) {
+          throw new TraderError(
+            TRADER_ERRORS.SPARK_OFFER_USED,
+            `The Sparks offer of ${day} was already bought.`
+          );
+        }
+        const balance = await sparksManager.applyDelta(context, -offer.priceSparks);
+        const resources = await miningManager.grantResources(
+          { [offer.item.slug]: offer.quantity },
+          context
+        );
+        await context.put(
+          STORES.USER_STATE,
+          { ...state, sparkDay: day, sparkBought: true },
+          USER_STATE_KEYS.TRADER
+        );
+        return { balance, resources };
+      }
+    );
+
+    this.log(
+      `Bought ${offer.quantity} ${offer.item.type} for ${offer.priceSparks} Sparks ` +
+        `(balance: ${result.balance}, day ${day}).`
+    );
+
+    const state = await this.getState({ force: true });
+    const mining = await miningManager.getState();
+    eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: result.balance });
+    eventBus.emit(EVENTS.TRADER_UPDATED, { week: state.week, offers: state.offers });
+    eventBus.emit(EVENTS.MINING_UPDATED, {
+      day: mining.day,
+      minedToday: mining.minedToday,
+      remaining: mining.remaining,
+      blocksPerDay: mining.blocksPerDay,
+      totalMined: mining.totalMined,
+    });
+
+    return {
+      offer: state.sparkOffer ?? offer,
+      balance: result.balance,
+      resources: result.resources,
+      day,
     };
   }
 
@@ -1301,6 +1471,8 @@ export class TraderManager {
     this.pinnedEntries = null;
     this.tradesCache = null;
     this.tradesPromise = null;
+    this.sparkOfferCache = null;
+    this.sparkOfferPromise = null;
   }
 }
 

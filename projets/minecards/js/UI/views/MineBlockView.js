@@ -41,6 +41,7 @@ import dateSyncManager from '../../business/DateSyncManager.js';
 import soundManager, { RARITY_SOUNDS } from '../../utils/SoundManager.js';
 import Toast from '../components/Toast.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import { attachCardTilt } from '../../utils/CardTilt.js';
 
 /** View name, matching `data-view="mineblock"` in `index.html`. */
 export const MINE_BLOCK_VIEW_NAME = 'mineblock';
@@ -130,6 +131,10 @@ export class MineBlockView {
     this.tradeEmpty = this.root.querySelector('[data-mineblock-trade-empty]');
     this.tradeRestockRow = this.root.querySelector('[data-mineblock-trade-restock-row]');
     this.tradeRestock = this.root.querySelector('[data-mineblock-trade-restock]');
+    this.sparkOfferElement = this.root.querySelector('[data-mineblock-spark-offer]');
+    this.sparkBody = this.root.querySelector('[data-mineblock-spark-body]');
+    this.sparkRestockRow = this.root.querySelector('[data-mineblock-spark-restock-row]');
+    this.sparkRestock = this.root.querySelector('[data-mineblock-spark-restock]');
     this.offerModal = this.root.querySelector('[data-mineblock-offer-modal]');
     this.offerTitle = this.root.querySelector('[data-mineblock-offer-title]');
     this.offerBody = this.root.querySelector('[data-mineblock-offer-body]');
@@ -169,6 +174,8 @@ export class MineBlockView {
     this.offerDetailKey = null;
     /** @type {boolean} True while a daily trade is being taken (one at a time). */
     this.isTrading = false;
+    /** @type {boolean} True while the daily Sparks offer is being bought. */
+    this.isBuyingSpark = false;
     /**
      * @type {Array<{element: HTMLElement, endMs: number}>} Every countdown of the shop, with the
      *   instant it runs to. Rebuilt on each render and ticked by `CLOCK_TICK`.
@@ -246,6 +253,9 @@ export class MineBlockView {
       ['[data-mineblock-trade-list]', this.tradeList],
       ['[data-mineblock-trade-empty]', this.tradeEmpty],
       ['[data-mineblock-trade-restock]', this.tradeRestock],
+      ['[data-mineblock-spark-offer]', this.sparkOfferElement],
+      ['[data-mineblock-spark-body]', this.sparkBody],
+      ['[data-mineblock-spark-restock]', this.sparkRestock],
       ['[data-mineblock-offer-modal]', this.offerModal],
       ['[data-mineblock-offer-title]', this.offerTitle],
       ['[data-mineblock-offer-body]', this.offerBody],
@@ -344,6 +354,11 @@ export class MineBlockView {
       if (action instanceof HTMLElement) {
         void this.swapTrade(action.dataset.tradeKey, action.dataset.tradeFrom);
       }
+    });
+    // The daily Sparks offer is rebuilt with every render: one delegated listener owns its button.
+    this.listen(this.sparkBody, 'click', (event) => {
+      const buy = event.target.closest('[data-spark-buy]');
+      if (buy instanceof HTMLElement) void this.buySparkOffer();
     });
     this.listen(this.traderClose, 'click', () => this.closeModal(this.traderModal));
     this.listen(this.traderDismiss, 'click', () => this.closeModal(this.traderModal));
@@ -1039,6 +1054,7 @@ export class MineBlockView {
     picture.alt = `${offer.card.getName(lang)}, ${rarityLabel}`;
     picture.decoding = 'async';
     picture.addEventListener('error', () => picture.classList.add('is-missing'));
+    attachCardTilt(picture);
     figure.appendChild(picture);
     fragment.appendChild(figure);
 
@@ -1148,11 +1164,113 @@ export class MineBlockView {
     }
     this.renderTrades();
     this.renderOffers();
+    this.renderSparkOffer();
     this.renderTraderClock();
     this.log(
       `Shop rendered: ${this.traderState.offers.length} offer(s), ` +
         `${this.traderState.trades.length} daily trade(s).`
     );
+  }
+
+  /**
+   * Draws the daily offer that sells one resource for Sparks.
+   *
+   * The section is hidden when the day is unknown or no priced resource fits the configured budget;
+   * otherwise it shows the resource, its quantity, the value of the draw and its price in Sparks.
+   *
+   * @returns {void}
+   */
+  renderSparkOffer() {
+    const offer = this.traderState?.sparkOffer ?? null;
+    this.sparkOfferElement.hidden = !offer;
+    this.sparkBody.textContent = '';
+    if (!offer) return;
+
+    const help = document.createElement('p');
+    help.className = 'mineblock__spark-help';
+    help.textContent = i18n.t('mineblock.trader.spark.help');
+
+    const card = document.createElement('div');
+    card.className = 'mineblock__spark-card';
+    card.dataset.state = offer.exhausted
+      ? 'used'
+      : offer.affordable
+        ? 'ready'
+        : 'expensive';
+
+    const icon = document.createElement('img');
+    icon.className = 'mineblock__spark-icon';
+    icon.src = offer.item.texture;
+    icon.alt = '';
+    icon.decoding = 'async';
+    icon.addEventListener('error', () => {
+      icon.hidden = true;
+    });
+
+    const details = document.createElement('div');
+    details.className = 'mineblock__spark-details';
+    const name = document.createElement('p');
+    name.className = 'mineblock__spark-name';
+    name.textContent = i18n.t('mineblock.trader.spark.quantity', {
+      count: offer.quantity,
+      resource: this.resolveResourceLabel(offer.item),
+    });
+    const value = document.createElement('p');
+    value.className = 'mineblock__spark-value';
+    value.textContent = i18n.t('mineblock.trader.spark.value', { value: offer.value });
+    const price = document.createElement('p');
+    price.className = 'mineblock__spark-price';
+    price.textContent = i18n.t('mineblock.trader.spark.price', { price: offer.priceSparks });
+    details.append(name, value, price);
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--primary btn--small mineblock__spark-buy';
+    button.dataset.sparkBuy = '';
+    button.disabled = offer.exhausted || !offer.affordable;
+    button.textContent = offer.exhausted
+      ? i18n.t('mineblock.trader.spark.bought')
+      : i18n.t('mineblock.trader.spark.buy', { price: offer.priceSparks });
+    button.title = offer.exhausted
+      ? i18n.t('mineblock.trader.spark.bought')
+      : offer.affordable
+        ? button.textContent
+        : i18n.t('mineblock.trader.spark.insufficient', {
+            balance: this.traderState.sparks ?? 0,
+            price: offer.priceSparks,
+          });
+
+    card.append(icon, details, button);
+    this.sparkBody.append(help, card);
+  }
+
+  /**
+   * Buys the daily Sparks offer and reports what landed in the inventory.
+   *
+   * @returns {Promise<void>} Resolves once the purchase was reported.
+   */
+  async buySparkOffer() {
+    if (this.isBuyingSpark) return;
+    this.isBuyingSpark = true;
+    this.setTraderFeedback(null);
+    this.sparkBody.classList.add('is-busy');
+
+    try {
+      const result = await traderManager.buySparkOffer();
+      Toast.success('mineblock.trader.spark.done', {
+        params: {
+          count: result.offer.quantity,
+          resource: this.resolveResourceLabel(result.offer.item),
+          price: result.offer.priceSparks,
+        },
+      });
+    } catch (error) {
+      console.error('[MineBlockView] The daily Sparks offer could not be bought.', error);
+      this.setTraderFeedback(getTraderErrorMessageKey(error?.code), 'error');
+    } finally {
+      this.isBuyingSpark = false;
+      this.sparkBody.classList.remove('is-busy');
+    }
   }
 
   /**
@@ -1475,6 +1593,17 @@ export class MineBlockView {
       this.tradeRestock.textContent = now > 0 ? this.formatRemaining(tradeEndMs - now) : '--:--:--';
       this.tradeRestock.setAttribute('datetime', new Date(tradeEndMs).toISOString());
       if (now > 0) this.traderCountdowns.push({ element: this.tradeRestock, endMs: tradeEndMs });
+    }
+
+    // The Sparks offer belongs to the UTC day it was drawn from: it ends when the next one begins.
+    const sparkEndMs = MineBlockView.endOfUtcDay(this.traderState?.sparkOffer?.day ?? null);
+    if (this.sparkRestockRow) this.sparkRestockRow.hidden = sparkEndMs === null;
+    if (sparkEndMs !== null && this.sparkRestock) {
+      this.sparkRestock.textContent = now > 0
+        ? this.formatRemaining(sparkEndMs - now)
+        : '--:--:--';
+      this.sparkRestock.setAttribute('datetime', new Date(sparkEndMs).toISOString());
+      if (now > 0) this.traderCountdowns.push({ element: this.sparkRestock, endMs: sparkEndMs });
     }
 
     // The weekly shop rerolls on the Monday that follows the one it was drawn from, at 00:00 UTC.

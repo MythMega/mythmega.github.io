@@ -1045,3 +1045,51 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
   50% { transform: translateY(-40px) scale(1.2); opacity: 1; }
   100% { transform: translateY(-70px) scale(0.6); opacity: 0; }
 }
+
+
+/* --- Thèmes de fond Halloween 2026 --- */
+
+.halloween2026pumpkin {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/event/halloween2026/halloween2026pumpkin.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #2b0c00; /* Couleur de secours aux tons thématiques */
+}
+
+.halloween2026ghost {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/event/halloween2026/halloween2026ghost.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #0a0f1d; /* Couleur de secours sombre */
+}
+
+/* --- Thème de bouton Halloween 2026 --- */
+
+.haloween2026 {
+  background: linear-gradient(135deg, #ff0000, #000000);
+  color: #ffffff;
+  padding: 14px 22px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s cubic-bezier(0, 0, 0.58, 1), box-shadow 0.2s cubic-bezier(0, 0, 0.58, 1);
+}
+
+.haloween2026:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+}
+
+.haloween2026:active {
+  transform: translateY(0);
+}

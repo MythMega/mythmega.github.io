@@ -592,5 +592,203 @@
             { "TypeReward": "Cosmetic", "Value": 113 }
         ],
         "Availabilities": null
-    }
+    },
+    {
+        "ID": 102,
+        "Difficulty": "Medium",
+        "Requirements": [
+            { "TypeRequirement": "level", "Value": 1 }
+        ],
+        "Tab": "Event",
+        "Name_En": "Halloween 2026",
+        "Name_Fr": "Halloween 2026",
+        "Desc_En": "Celebrate Halloween with this challenge !",
+        "Desc_Fr": "Célébrez Halloween avec ce challenge !",
+        "FeetList": [        "93",
+                            "302",
+                            "332",
+                            "337",
+                            "355",
+                            "353",
+                            "425",
+                            "429",
+                            "430",
+                            "477",
+                            "487",
+                            "491",
+                            "442",
+                            "563",
+                            "608",
+                            "623",
+                            "562-B",
+                            "571-B",
+                            "362",
+                            "157-B"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 250},
+            { "TypeReward": "Cosmetic", "Value": 30 },
+            { "TypeReward": "Cosmetic", "Value": 31 },
+            { "TypeReward": "Cosmetic", "Value": 32 }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": [
+            {
+                "Start": "2026-10-15",
+                "End": "2026-11-01"
+            },
+            {
+                "Start": "2027-10-15",
+                "End": "2027-11-01"
+            },
+            {
+                "Start": "2028-10-15",
+                "End": "2028-11-01"
+            },
+            {
+                "Start": "2029-10-15",
+                "End": "2029-11-01"
+            },
+            {
+                "Start": "2030-10-15",
+                "End": "2030-11-01"
+            }
+        ]
+    },
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "ID": 9001,
+        "Difficulty": "Medium",
+        "Requirements": [],
+        "Tab": "Community",
+        "Name_En": "Bird House",
+        "Name_Fr": "La volière",
+        "Desc_En": "Birds escaped ! get 'em all !",
+        "Desc_Fr": "Les oiseaux se sont échappé ! Rattrappez les !",
+        "Additional_Info_Fr": "Challenge custom proposé par Myth'",
+        "Additional_Info_En": "Custom Challenge by Myth'",
+        "FeetList": [
+            "198",
+            "279",
+            "85",
+            "17",
+            "144-B",
+            "277",
+            "630",
+            "142",
+            "520",
+            "519",
+            "398",
+            "83",
+            "187",
+            "146",
+            "628-B"
+        ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 150}
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+    "ID": 9002,
+    "Difficulty": "Easy",
+    "Requirements": [],
+    "Tab": "Community",
+    "Name_En": "\"intertet\" 's Favorites",
+    "Name_Fr": "Les favoris d'intertet",
+    "Desc_En": "a challenge... mmh yeah..",
+    "Desc_Fr": "un challenge... ouais..",
+    "Additional_Info_Fr": "Challenge custom proposé par Sawan",
+    "Additional_Info_En": "Custom Challenge by Sawan",
+    "FeetList": [
+        "428",
+        "134",
+        "282",
+        "549",
+        "303"
+    ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50}
+        ],
+    "MustHideIfUnavailable": true,
+    "Availabilities": []
+},{
+    "ID": 9003,
+    "Difficulty": "Easy",
+    "Requirements": [],
+    "Tab": "Community",
+    "Name_En": "Just cool pokémons ^^",
+    "Name_Fr": "Juste des pokémons cool ^^",
+    "Desc_En": "Custom Weird Challenge.",
+    "Desc_Fr": "Challenge Custom étrange..",
+    "Additional_Info_Fr": "Challenge custom proposé par lineaucent",
+    "Additional_Info_En": "Custom Challenge by lineaucent",
+    "FeetList": [
+        "134",
+        "428",
+        "282",
+        "70",
+        "91",
+        "108",
+        "124",
+        "281",
+        "303",
+        "308",
+        "471",
+        "478",
+        "547",
+        "549",
+        "542",
+        "549-B",
+        "648"
+    ],
+        "Rewards": [
+            { "TypeReward": "Experience", "Value": 50}
+        ],
+    "MustHideIfUnavailable": true,
+    "Availabilities": []
+},{
+    "ID": 9004,
+    "Difficulty": "Medium",
+    "Requirements": [],
+    "Tab": "Community",
+    "Name_En": "My own",
+    "Name_Fr": "Mes oignons (Je m'emmêle)",
+    "Desc_En": "Custom Challenge.",
+    "Desc_Fr": "Challenge Custom.",
+    "Additional_Info_Fr": "Challenge custom proposé par Ethanuaire",
+    "Additional_Info_En": "Custom Challenge by Ethanuaire",
+    "FeetList": [
+        "570-B",
+        "1",
+        "595",
+        "393",
+        "26",
+        "557",
+        "222",
+        "387",
+        "32",
+        "429",
+        "609",
+        "152",
+        "231",
+        "285",
+        "334"
+    ],
+    "Rewards": [
+            { "TypeReward": "Experience", "Value": 150}],
+    "MustHideIfUnavailable": true,
+    "Availabilities": []
+}
 ]

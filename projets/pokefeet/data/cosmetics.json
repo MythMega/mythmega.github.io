@@ -226,6 +226,33 @@
         "File": "black.png",
         "RequiresUnlock": true
     },
+    {
+        "ID": 30,
+        "Type": "Background",
+        "Name": "Halloween 2026 - Pumpkin",
+        "Cat": "Event",
+        "Value": "halloween2026pumpkin",
+        "File": "pumpkaboo_haloween2026.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 31,
+        "Type": "Background",
+        "Name": "Halloween 2026 - Ghost",
+        "Cat": "Event",
+        "Value": "halloween2026ghost",
+        "File": "mimikyu_haloween2026.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 32,
+        "Type": "Background-Buttons",
+        "Cat": "Event",
+        "Name": "Bloody Controls",
+        "Value": "haloween2026",
+        "File": "blood-buttons.png",
+        "RequiresUnlock": true
+    },
 
 
 

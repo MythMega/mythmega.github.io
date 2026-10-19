@@ -1,0 +1,12 @@
+# ============================================================================
+#  Configuration GitHub Pages de web.jmdev.fr (CNAME ci-dessus).
+#
+#  GitHub Pages construit ce dépôt avec Jekyll, qui ignore par défaut les
+#  fichiers et dossiers dont le nom commence par un point. Or Digital Asset
+#  Links impose son fichier à l'adresse /.well-known/assetlinks.json, à la
+#  racine du domaine : sans l'inclusion ci-dessous, le fichier est bien
+#  versionné mais répond 404 en ligne.
+# ============================================================================
+
+include:
+  - .well-known

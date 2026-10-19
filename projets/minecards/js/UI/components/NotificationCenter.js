@@ -35,6 +35,8 @@
  * Styling lives in `css/components/notifications.css`.
  */
 
+import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
+
 /** Notification kinds, exposed as `data-type` in the DOM. */
 export const NOTIFICATION_TYPES = Object.freeze({
   /** A collection trophy moved forward (or was completed) by the cards just discovered. */
@@ -333,6 +335,9 @@ export class NotificationCenter {
       if (!child.classList.contains(NOTIFICATION_LEAVING_CLASS)) child.remove();
     });
     container.appendChild(element);
+    // One ping per displayed notification, not per queued one: a burst of discoveries stays
+    // readable instead of turning into a machine gun.
+    soundManager.playUi(UI_SOUNDS.NOTIFICATION_SHOW);
 
     // The item is clickable and swiped: the listeners die with the element, so they are removed
     // from the binding list as soon as the notification leaves.

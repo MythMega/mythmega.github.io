@@ -29,6 +29,9 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ percent, previousPercent, intensity }`. Same as `FOIL_INTENSITY_CHANGED`, for the
    * OTHER foil slider: the "brillance", the bright line sweeping across a card. */
   GLARE_INTENSITY_CHANGED: 'GLARE_INTENSITY_CHANGED',
+  /** Payload: `{ mode, previousMode, settings }`. Emitted by BoosterRenderManager after a successful
+   * switch: the opening view applies the new lighting/material recipe to its live 3D scenes. */
+  BOOSTER_RENDER_CHANGED: 'BOOSTER_RENDER_CHANGED',
   /** Payload: `{ view, previousView }`. Emitted by the SPA router. */
   VIEW_CHANGED: 'VIEW_CHANGED',
   /** Payload: `{ daily, bonusBySet, bonusTotal, availableForSet }`. Emitted by DateSyncManager. */

@@ -341,6 +341,7 @@ export class ProfileCard {
     this.rarityElement.title = i18n.t(rarity.labelKey);
 
     this.renderTitleColor(model);
+    this.renderNameColor(model);
     this.renderLayers(model);
     this.renderText(model);
 
@@ -370,6 +371,25 @@ export class ProfileCard {
       return;
     }
     this.cardElement.style.setProperty('--card-title-color', value);
+  }
+
+  /**
+   * Paints the pseudo with the colour the account bought, if any.
+   *
+   * Like the series line, the property travels into the exported PNG: no page variable exists in
+   * the standalone document, so an inline value is what survives the serialization. Without a
+   * colour the stylesheet's rarity text colour shows through.
+   *
+   * @param {object} model - The card facts.
+   * @returns {void}
+   */
+  renderNameColor(model) {
+    const value = typeof model.nameColorValue === 'string' ? model.nameColorValue : '';
+    if (value === '') {
+      this.cardElement.style.removeProperty('--card-name-color');
+      return;
+    }
+    this.cardElement.style.setProperty('--card-name-color', value);
   }
 
   /**

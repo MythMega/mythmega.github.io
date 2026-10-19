@@ -40,10 +40,19 @@
   color: var(--color-text-muted);
 }
 
-/* The pickers reuse `.lang-switch`; they may wrap on a narrow screen. */
+/* The pickers reuse `.lang-switch`; they may wrap on a narrow screen. A pill radius is meant for
+   ONE line: as soon as the fifth theme drops to a second row, the huge arcs of the outer pill cut
+   inside the box while the buttons keep their full width, so the row ends look like they escape
+   the border. The container therefore takes a small, rectangular radius, and its options follow so
+   the active background never pokes out of the corner. */
 .settings__choices {
   flex-wrap: wrap;
   align-self: flex-start;
+  border-radius: var(--radius-md);
+}
+
+.settings__choices .lang-switch__option {
+  border-radius: var(--radius-sm);
 }
 
 .settings__actions {
@@ -298,6 +307,44 @@ body[data-connection="offline"] .settings__clock-value {
   font-size: var(--font-size-xs);
   overflow-wrap: anywhere;
   user-select: all;
+}
+
+/* --- Sound families ------------------------------------------------------- */
+
+/* One row per family: its switch on the right, its volume slider underneath. The global switch is
+   the gate: when it is off the whole block is hidden by `syncSoundCategories()`. */
+.settings__sound {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.settings__sound-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.settings__sound-row[data-enabled="false"] {
+  opacity: 0.65;
+}
+
+.settings__sound-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.settings__sound-slider[aria-disabled="true"],
+.settings__sound-row .foil-slider__input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 @media (min-width: 768px) {

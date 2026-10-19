@@ -38,6 +38,9 @@ export const PROFILE_ICON_SOURCES = Object.freeze({
   UNLOCKABLE: 'unlockable',
 });
 
+/** Prefix of the purchase id of one paid avatar (`profileIcon.<file>`). */
+export const PROFILE_ICON_FEATURE_PREFIX = 'profileIcon.';
+
 /**
  * Normalizes an asset path coming from an icon list (`./assets/img/...` -> `assets/img/...`).
  *
@@ -64,7 +67,13 @@ function readIconList(raw) {
     const file = normalizeIconPath(entry.file);
     if (name === '' || file === '' || seen.has(file)) return;
     seen.add(file);
-    icons.push({ name, file });
+    // `requiredLevel` and `price` are optional. A malformed value falls back to "no requirement"
+    // and "free", so a typo can never lock an icon behind an impossible level or charge for it.
+    const requiredLevel = Number.isInteger(entry.requiredLevel) && entry.requiredLevel > 0
+      ? entry.requiredLevel
+      : 0;
+    const price = Number.isInteger(entry.price) && entry.price > 0 ? entry.price : 0;
+    icons.push({ name, file, requiredLevel, price });
   });
   return icons;
 }
@@ -211,32 +220,55 @@ export class ProfileIconManager {
    * @param {object} [options] - List options.
    * @param {object|null} [options.trophyState] - State returned by `TrophyManager.evaluate()`; an
    *   unlockable icon is available only when the trophy granting it is unlocked.
+   * @param {number} [options.level=1] - Current player level (gates `requiredLevel`).
+   * @param {Record<string, {boughtAt: string}>} [options.purchases={}] - Purchases of the account
+   *   (`FeatureManager.getPurchases()`), used to tell a paid icon the player owns from one they
+   *   still have to buy.
    * @returns {Promise<{default: object[], unlockable: object[]}>} The two icon lists, each entry
-   *   `{ name, file, source, unlocked, grantingTrophy }` — `grantingTrophy` being
-   *   `{ setId, name }`, or null for an icon no trophy grants.
+   *   `{ name, file, price, requiredLevel, source, unlocked, purchasable, owned, lockedReason,
+   *   grantingTrophy }` — `grantingTrophy` being `{ setId, name }`, or null for an icon no trophy
+   *   grants.
    * @throws {Error} When the catalogue cannot be read.
    */
-  async listIcons({ trophyState = null } = {}) {
+  async listIcons({ trophyState = null, level = 1, purchases = {} } = {}) {
     const catalog = await this.loadCatalog();
     const unlocked = new Set(
       (trophyState?.unlocked ?? []).map((trophy) => ProfileIconManager.buildTrophyKey(trophy.setId, trophy.name))
     );
+    const currentLevel = Number.isInteger(level) && level > 0 ? level : 1;
+    const owned = purchases && typeof purchases === 'object' ? purchases : {};
 
     return {
-      default: catalog.default.map((icon) => ({
-        ...icon,
-        source: PROFILE_ICON_SOURCES.DEFAULT,
-        unlocked: true,
-        grantingTrophy: null,
-      })),
+      default: catalog.default.map((icon) => {
+        const levelMet = currentLevel >= icon.requiredLevel;
+        const bought = icon.price === 0
+          || Object.prototype.hasOwnProperty.call(
+            owned,
+            `${PROFILE_ICON_FEATURE_PREFIX}${icon.file}`
+          );
+        return {
+          ...icon,
+          source: PROFILE_ICON_SOURCES.DEFAULT,
+          owned: bought,
+          // An icon is selectable only when BOTH requirements are met; a paid one that the level
+          // still gates is not purchasable either (the price would be paid for nothing).
+          unlocked: levelMet && bought,
+          purchasable: levelMet && !bought && icon.price > 0,
+          lockedReason: levelMet ? (bought ? null : 'price') : 'level',
+          grantingTrophy: null,
+        };
+      }),
       unlockable: catalog.unlockable.map((icon) => {
         const grantingTrophy = ProfileIconManager.findGrantingTrophy(catalog, icon.name);
+        const trophyUnlocked = grantingTrophy !== null
+          && unlocked.has(ProfileIconManager.buildTrophyKey(grantingTrophy.setId, grantingTrophy.name));
         return {
           ...icon,
           source: PROFILE_ICON_SOURCES.UNLOCKABLE,
-          unlocked:
-            grantingTrophy !== null &&
-            unlocked.has(ProfileIconManager.buildTrophyKey(grantingTrophy.setId, grantingTrophy.name)),
+          unlocked: trophyUnlocked,
+          purchasable: false,
+          owned: trophyUnlocked,
+          lockedReason: trophyUnlocked ? null : 'trophy',
           grantingTrophy,
         };
       }),

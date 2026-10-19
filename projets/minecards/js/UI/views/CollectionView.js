@@ -43,7 +43,12 @@ import i18n from '../../utils/I18n.js';
 import collectionManager from '../../business/CollectionManager.js';
 import accountManager from '../../business/AccountManager.js';
 import sparksManager, { PROMO_PROTECTED } from '../../business/SparksManager.js';
-import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
+import profileManager, {
+  PROFILE_ERROR_CODES,
+  getProfileErrorMessageKey,
+} from '../../business/ProfileManager.js';
+import { PROFILE_SLOT_KINDS } from '../../business/FeatureManager.js';
+import slotPurchaseModal from '../components/SlotPurchaseModal.js';
 import binderManager, {
   BinderManager,
   BINDER_SLOT_COUNT,
@@ -53,6 +58,8 @@ import binderManager, {
 } from '../../business/BinderManager.js';
 import Toast from '../components/Toast.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
+import { attachCardTilt } from '../../utils/CardTilt.js';
+import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 import { getShineClasses, applyShine, applyCardGlow } from '../components/CardComponent.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
 
@@ -590,6 +597,7 @@ export class CollectionView {
     }
     this.syncFilterControls();
     this.renderGrid();
+    soundManager.playUi(UI_SOUNDS.FILTER_CHANGE);
     this.log(`Filter "${name}" set to "${value || 'all'}".`);
   }
 
@@ -672,6 +680,7 @@ export class CollectionView {
 
     this.syncFilterControls();
     this.renderGrid();
+    soundManager.playUi(UI_SOUNDS.FILTER_CHANGE);
     this.log('Filters reset.');
   }
 
@@ -1128,6 +1137,15 @@ export class CollectionView {
       this.log(`Favourite ${added ? 'added' : 'removed'}: "${key}" (${favorites.length} pinned).`);
     } catch (error) {
       console.error('[CollectionView] The favourite card could not be saved.', error);
+      // A full list that still has a slot for sale turns the refusal into the purchase offer, then
+      // retries the very heart the player touched once the slot is owned.
+      if (error?.code === PROFILE_ERROR_CODES.FAVORITES_FULL) {
+        const opened = await slotPurchaseModal.open({
+          kind: PROFILE_SLOT_KINDS.FAVORITES,
+          onPurchased: () => void this.toggleFavorite(key),
+        }).catch(() => false);
+        if (opened) return;
+      }
       Toast.error(getProfileErrorMessageKey(error));
     } finally {
       this.favoriteBusy = false;
@@ -1494,6 +1512,7 @@ export class CollectionView {
       image.hidden = true;
     });
     art.appendChild(image);
+    attachCardTilt(art);
 
     // `applyShine` adds the classes of the rarity AND the sweeping line (`card-shine__gleam`),
     // which is a layer of its own so the "Brillance" slider can scale it alone.

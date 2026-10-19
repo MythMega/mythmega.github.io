@@ -26,6 +26,7 @@
  */
 
 import i18n from '../../utils/I18n.js';
+import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 
 /** Views that carry the popup, in the order of the bottom bar. */
 export const VIEW_HELP_NAMES = Object.freeze([
@@ -210,6 +211,7 @@ export class ViewHelp {
     if (!panel) return false;
 
     panel.hidden = false;
+    soundManager.playUi(UI_SOUNDS.PANEL_OPEN);
     button?.setAttribute('aria-expanded', 'true');
     this.openWrapper = wrapper;
     // The keyboard path enters the popup on its only action, which is also what tells a screen
@@ -231,6 +233,7 @@ export class ViewHelp {
     if (!wrapper) return false;
 
     wrapper.querySelector('[data-view-help-panel]').hidden = true;
+    soundManager.playUi(UI_SOUNDS.PANEL_CLOSE);
     const button = wrapper.querySelector('[data-view-help-toggle]');
     button?.setAttribute('aria-expanded', 'false');
     this.openWrapper = null;

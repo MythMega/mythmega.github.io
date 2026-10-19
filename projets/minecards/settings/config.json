@@ -74,6 +74,85 @@
     "historySize": 10
   },
 
+  "boosterRender": {
+    "_comment": "Rendering of the 3D booster (js/UI/components/Booster3DRenderer.js). 'defaultMode' is the mode a new account starts at and the one used when the stored preference is unknown; 'modes' lists every selectable rendering, in the order the developer settings screen shows them. Each mode carries the full lighting/material recipe: 'exposure' (tone mapping), 'environmentIntensity' (strength of the studio reflections on the materials), the four/five light intensities ('ambient', 'key', 'rim', 'front', 'hemisphere'), the PBR values 'metalness' and 'roughness', the clearcoat layer of a blister plastic ('clearcoat' and 'clearcoatRoughness', 0 disables it), 'emissive' (self-lighting taken from the texture) and 'normalScale' (multiplier applied to the normal map baked in the .glb). A missing value falls back to the classic recipe and an out-of-range value is clamped, so a partial edit never breaks the scene. The render picker is only shown in the settings screen when the developer mode is enabled.",
+    "defaultMode": "blister",
+    "modes": [
+      {
+        "id": "blister",
+        "labelKey": "settings.render.blister",
+        "helpKey": "settings.render.blisterHelp",
+        "exposure": 1.02,
+        "environmentIntensity": 1.35,
+        "ambient": 0.9,
+        "key": 1.4,
+        "rim": 1.05,
+        "front": 0.32,
+        "hemisphere": 0.35,
+        "metalness": 0.06,
+        "roughness": 0.3,
+        "clearcoat": 1,
+        "clearcoatRoughness": 0.06,
+        "emissive": 0.03,
+        "normalScale": 1.2
+      },
+      {
+        "id": "classic",
+        "labelKey": "settings.render.classic",
+        "helpKey": "settings.render.classicHelp",
+        "exposure": 0.94,
+        "environmentIntensity": 0.9,
+        "ambient": 1.1,
+        "key": 1.5,
+        "rim": 0.9,
+        "front": 0.25,
+        "hemisphere": 0.4,
+        "metalness": 0.25,
+        "roughness": 0.55,
+        "clearcoat": 0,
+        "clearcoatRoughness": 0.4,
+        "emissive": 0.06,
+        "normalScale": 1
+      },
+      {
+        "id": "satin",
+        "labelKey": "settings.render.satin",
+        "helpKey": "settings.render.satinHelp",
+        "exposure": 1,
+        "environmentIntensity": 0.75,
+        "ambient": 1,
+        "key": 1.45,
+        "rim": 0.85,
+        "front": 0.25,
+        "hemisphere": 0.35,
+        "metalness": 0.1,
+        "roughness": 0.62,
+        "clearcoat": 0.4,
+        "clearcoatRoughness": 0.32,
+        "emissive": 0.04,
+        "normalScale": 0.9
+      },
+      {
+        "id": "metal",
+        "labelKey": "settings.render.metal",
+        "helpKey": "settings.render.metalHelp",
+        "exposure": 1,
+        "environmentIntensity": 1.6,
+        "ambient": 0.7,
+        "key": 1.35,
+        "rim": 1.15,
+        "front": 0.2,
+        "hemisphere": 0.25,
+        "metalness": 0.9,
+        "roughness": 0.16,
+        "clearcoat": 0.1,
+        "clearcoatRoughness": 0.1,
+        "emissive": 0,
+        "normalScale": 1
+      }
+    ]
+  },
+
   "minePick": {
     "_comment": "Mine Pick. The daily board holds 'boosterCount' SIMULATED openings, built from the real booster parameters: 'boosters.cardsPerBooster', the rarity table of each extension (which may override 'defaultRarity.json') and 'boosters.godpackChancePercent'. A simulated pack is therefore drawn exactly like an opened one. 'picksPerDay' free picks per UTC day (reset at midnight UTC, like the daily boosters), 'historySize' picks kept for the statistics. The board is deterministic: it is seeded with 'seedSalt' + the UTC day + the account UUID, so a reload shows the same board, it changes at the next UTC day, and two accounts never share one (changing 'seedSalt' rebuilds the board of the CURRENT day, and the boosters already picked become stale). The extension of each booster is drawn at random with a weight of (rank + 1) ** 'setWeightExponent': the extension whose id ranks highest is the most likely.",
     "boosterCount": 10,
@@ -156,9 +235,21 @@
   },
 
   "profile": {
-    "_comment": "Player profile. 'maxFavorites' is the number of cards pinnable in the collection, 'maxFeaturedTrophies' the number of unlocked trophies highlighted on the profile page, and 'defaultName' the name that does NOT grant the 'nameChanged' experience (empty = any typed name counts).",
+    "_comment": "Player profile. 'maxFavorites' and 'maxFeaturedTrophies' are the absolute number of slots of each pin list, 'defaultFavorites' and 'defaultFeaturedTrophies' the slots every new account starts with, and the two price maps the Sparks cost of each additional slot (keys are slot numbers). A slot can only be bought in order: the next one after the slots the account owns. 'defaultName' is the name that does NOT grant the 'nameChanged' experience (empty = any typed name counts).",
     "maxFavorites": 5,
-    "maxFeaturedTrophies": 3,
+    "maxFeaturedTrophies": 5,
+    "defaultFavorites": 3,
+    "defaultFeaturedTrophies": 1,
+    "favoriteSlotPrices": {
+      "4": 100,
+      "5": 250
+    },
+    "featuredSlotPrices": {
+      "2": 25,
+      "3": 100,
+      "4": 250,
+      "5": 500
+    },
     "defaultName": ""
   },
 
@@ -179,21 +270,14 @@
     "_comment": "Profile card (section 3.G octies): the trading card the profile page draws from the account with the card maker of 'external/cardmakerz/'. 'rarityThresholds' maps a card rarity (1 = Commune ... 5 = Mythique, the rarity scale of the card data) to the NUMBER OF UNLOCKED TROPHIES it takes to reach it; the card takes the highest rarity whose threshold the account reaches, so a brand new account is Commune. A threshold that is missing, malformed or LOWER than the previous one falls back to the shipped value (the sequence can never make a rarer card easier). 'defaultArtPath' is the illustration used as the card background when the player has no favourite card to borrow one from. 'seriesDigits' is how many last characters of the account UUID the series line prints after the player title.",
     "rarityThresholds": { "1": 0, "2": 5, "3": 15, "4": 30, "5": 50 },
     "defaultArtPath": "assets/img/card_back.png",
-    "seriesDigits": 4,
+    "seriesDigits": 4
+  },
 
-    "titleColors": {
-      "_comment": "Colours of the TITLE line of the profile card (the `<title> #<number>` series), bought with Sparks like the Full Art layout. 'defaultPriceSparks' is the price of every colour that does not declare its own, so changing the economy is one number; each entry of 'items' may override it with 'priceSparks'. An entry nobody knows (see `PROFILE_CARD_TITLE_COLORS` in js/business/ProfileCardManager.js) is ignored rather than sold blind, and a missing price falls back to 'defaultPriceSparks'. The 'auto' choice is free and never listed here: it is the rarity colour of the card, defined by the stylesheet. Buying a colour is final (no refund).",
-      "defaultPriceSparks": 125,
-      "items": {
-        "gold": { "priceSparks": 125 },
-        "silver": { "priceSparks": 125 },
-        "crimson": { "priceSparks": 125 },
-        "emerald": { "priceSparks": 125 },
-        "azure": { "priceSparks": 125 },
-        "violet": { "priceSparks": 125 },
-        "rose": { "priceSparks": 125 }
-      }
-    }
+  "cardDetail": {
+    "_comment": "Interactive card details. Every detail dialog of the game (collection, profile favourite, Wandering Trader offer, opening summary, statistics history, shared binder) lets the player grab the card and tilt it. 'maxRotationDeg' is the maximum angle in degrees on each axis (the drag is clamped to it, 45 at most); 'thicknessPx' is the visible thickness of the cardstock, drawn as a slight edge behind the card (24 px at most). 'enabled: false' turns the interaction off everywhere and leaves plain pictures. Both values are read once per page, so changing them needs no code change; a value outside its range is clamped, never rejected.",
+    "enabled": true,
+    "maxRotationDeg": 15,
+    "thicknessPx": 6
   },
 
   "features": {
@@ -204,7 +288,7 @@
   },
 
   "shop": {
-    "_comment": "Wandering Trader (the trading screen of the Mine, `js/business/TraderManager.js`). Three kinds of offers. THE WEEKLY SHOP is drawn from a seed built on the date of the MONDAY of the current week and nothing else - no account, no device: every player sees the same cards at the same price, and the shop rerolls by itself every Monday at 00:00 UTC ('seedSalt' changes the draw for everyone, and rebuilds the CURRENT week). 'offers' is its composition (rarity -> how many cards, pooled from every loaded extension, never twice the same card). A card is paid in exactly three kinds of mined resource, and 'rarityValues' (what a card of that rarity is worth) and 'itemsValues' (what one unit of a resource is worth) are read in the same unit, so the price of a card is always worth its rarity to the unit - a name in 'itemsValues' that matches no reward of 'settings/mining.json' can never be asked for. 'allItemsUniques' decides whether an offer can be bought again once it was bought: true, it is exhausted until the next reroll; false, the shop sells it as long as the player has the resources. THE PINNED OFFERS are hand-written in 'pinnedPath' (card, price, days it is sold in and stock, see the file itself): they are never random. THE DAILY TRADES are 'tradesPerDay' resource-for-resource swaps drawn from the UTC DAY alone (same trades for everyone, new ones at midnight UTC): the dearest side counts 1 unit and the cheapest one as many units as 'itemsValues' asks for (1 Ultima against 2 Void Dust), so a trade is always worth the same on both sides and can be taken in either direction, once per day. A pair whose values are not a multiple of one another (Glowstone Dust at 20 against Void Dust at 50) has no such exchange and is never drawn.",
+    "_comment": "Wandering Trader (the trading screen of the Mine, `js/business/TraderManager.js`). Four kinds of offers. THE WEEKLY SHOP is drawn from a seed built on the date of the MONDAY of the current week and nothing else - no account, no device: every player sees the same cards at the same price, and the shop rerolls by itself every Monday at 00:00 UTC ('seedSalt' changes the draw for everyone, and rebuilds the CURRENT week). 'offers' is its composition (rarity -> how many cards, pooled from every loaded extension, never twice the same card). A card is paid in exactly three kinds of mined resource, and 'rarityValues' (what a card of that rarity is worth) and 'itemsValues' (what one unit of a resource is worth) are read in the same unit, so the price of a card is always worth its rarity to the unit - a name in 'itemsValues' that matches no reward of 'settings/mining.json' can never be asked for. 'allItemsUniques' decides whether an offer can be bought again once it was bought: true, it is exhausted until the next reroll; false, the shop sells it as long as the player has the resources. THE PINNED OFFERS are hand-written in 'pinnedPath' (card, price, days it is sold in and stock, see the file itself): they are never random and always open the shop. THE DAILY TRADES are 'tradesPerDay' resource-for-resource swaps drawn from the UTC DAY alone (same trades for everyone, new ones at midnight UTC): the dearest side counts 1 unit and the cheapest one as many units as 'itemsValues' asks for (1 Ultima against 2 Void Dust), so a trade is always worth the same on both sides and can be taken in either direction, once per day. A pair whose values are not a multiple of one another (Glowstone Dust at 20 against Void Dust at 50) has no such exchange and is never drawn. THE DAILY SPARKS OFFER ('dailySparkOffer') draws one resource and a quantity whose total value never exceeds 'maxResourceValue'; it is sold once a day for 'priceMultiplier' times that value, in Sparks. Both numbers are read on every render, so the economy is tuned here.",
     "seedSalt": "minecards-trader-v1",
     "allItemsUniques": true,
     "tradesPerDay": 3,
@@ -227,6 +311,11 @@
       "Glowstone Dust": 20,
       "Void Dust": 50,
       "Ultima": 100
+    },
+    "dailySparkOffer": {
+      "_comment": "One resource sold for Sparks per UTC day, once. Its quantity is drawn so that quantity * its value in 'itemsValues' never exceeds 'maxResourceValue'; 'priceMultiplier' turns that value into the price in Sparks (2 = the player pays twice the value).",
+      "maxResourceValue": 100,
+      "priceMultiplier": 2
     }
   }
 }

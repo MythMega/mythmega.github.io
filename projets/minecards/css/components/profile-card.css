@@ -325,7 +325,8 @@
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--rarity-text-color);
+  /* The pseudo wears the colour bought for it; without one the rarity text colour shows through. */
+  color: var(--card-name-color, var(--rarity-text-color));
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   /* A long pseudo truncates rather than wrapping under the series line. */
   white-space: nowrap;

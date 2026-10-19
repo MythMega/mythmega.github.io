@@ -10,8 +10,8 @@
  *
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
- *   - `settings`  : { lang, theme, sound, animation, foilIntensity, glareIntensity,
- *                   glowTrophies, notificationDuration, notificationTypes }
+ *   - `settings`  : { lang, theme, sound, soundCategories, animation, foilIntensity, glareIntensity,
+ *                   glowTrophies, notificationDuration, notificationTypes, boosterRenderMode }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
@@ -33,6 +33,7 @@ import animationManager from '../utils/AnimationManager.js';
 import glowManager from '../utils/GlowManager.js';
 import foilManager from '../utils/FoilManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
+import { DEFAULT_SOUND_CATEGORIES, SoundManager } from '../utils/SoundManager.js';
 
 /** `user_state` keys, exactly as defined in `main.md` section 2. */
 export const USER_STATE_KEYS = Object.freeze({
@@ -245,14 +246,17 @@ export class AccountManager {
    * `config.json` default.
    *
    * @param {{lang?: string|null, theme?: string|null, sound?: boolean|null,
+   *   soundCategories?: Record<string, {enabled: boolean, volume: number}>|null,
    *   animation?: string|null, foilIntensity?: number|null, glareIntensity?: number|null,
    *   glowTrophies?: number|null, notificationDuration?: number|null,
-   *   notificationTypes?: Record<string, boolean>|null, devMode?: boolean|null}} [overrides] -
+   *   notificationTypes?: Record<string, boolean>|null, devMode?: boolean|null,
+   *   boosterRenderMode?: string|null}} [overrides] -
    *   Requested preferences.
-   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
+   * @returns {Promise<{lang: string, theme: string, sound: boolean,
+   *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean}>} Validated preferences.
+   *   devMode: boolean, boosterRenderMode: string}>} Validated preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -308,12 +312,26 @@ export class AccountManager {
       notificationSettings.types
     );
 
+    // The rendering of the 3D booster follows `boosterRender.defaultMode` of `config.json`
+    // ("blister" today): the default look of the pack is a design choice, not a leftover of the
+    // first implementation. A stored mode that disappeared from the configuration falls back to it.
+    const boosterRender = await configLoader.getBoosterRenderSettings();
+    const boosterRenderMode =
+      typeof overrides.boosterRenderMode === 'string' &&
+      boosterRender.modes.some((mode) => mode.id === overrides.boosterRenderMode)
+        ? overrides.boosterRenderMode
+        : boosterRender.defaultMode;
+
     // `devMode` is off unless it was explicitly asked for: it only adds a tool to the collection
-    // (the key of the open card and a copy button), never anything a player would want by default.
+    // (the key of the open card and a copy button) and the booster render picker, never anything a
+    // player would want by default.
     return {
       lang,
       theme,
       sound: overrides.sound !== false,
+      soundCategories: SoundManager.normalizeCategories(
+        overrides.soundCategories ?? DEFAULT_SOUND_CATEGORIES
+      ),
       animation,
       foilIntensity,
       glareIntensity,
@@ -321,6 +339,7 @@ export class AccountManager {
       notificationDuration,
       notificationTypes,
       devMode: overrides.devMode === true,
+      boosterRenderMode,
     };
   }
 
@@ -399,16 +418,18 @@ export class AccountManager {
   /**
    * Reads the account settings, completed with safe defaults.
    *
-   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
+   * @returns {Promise<{lang: string, theme: string, sound: boolean,
+   *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean}>} The stored preferences.
+   *   devMode: boolean, boosterRenderMode: string}>} The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
     const stored = await storageRepository.getUserState(USER_STATE_KEYS.SETTINGS);
     const defaults = await this.buildInitialSettings();
     const notificationSettings = await configLoader.getNotificationSettings();
+    const boosterRender = await configLoader.getBoosterRenderSettings();
     if (!stored || typeof stored !== 'object') return defaults;
 
     return {
@@ -417,6 +438,11 @@ export class AccountManager {
       // `false` is the only way to silence the app, so any other stored value (missing, legacy
       // save, garbage) falls back to the enabled default instead of muting by accident.
       sound: typeof stored.sound === 'boolean' ? stored.sound : defaults.sound,
+      // Every family keeps its switch and its volume, each independently clamped/normalized: a
+      // save written before the families existed simply starts from the shipped defaults.
+      soundCategories: SoundManager.normalizeCategories(
+        stored.soundCategories ?? defaults.soundCategories
+      ),
       // A mode that disappeared from `config.json` (or a save written by an older version) falls
       // back to the current one instead of leaving the opening without an animation.
       animation:
@@ -453,25 +479,35 @@ export class AccountManager {
       // Same rule as the sounds: only an explicit `true` turns it on, so a missing key, an old save
       // or a corrupted value reads as "off" instead of surprising the player with developer tools.
       devMode: typeof stored.devMode === 'boolean' ? stored.devMode : defaults.devMode,
+      // A mode removed from `config.json` (or a save written before the modes existed) falls back
+      // to the configured default: an unknown id would leave the opening without a usable recipe.
+      boosterRenderMode:
+        typeof stored.boosterRenderMode === 'string' &&
+        boosterRender.modes.some((mode) => mode.id === stored.boosterRenderMode)
+          ? stored.boosterRenderMode
+          : defaults.boosterRenderMode,
     };
   }
 
   /**
    * Merges and persists the account settings.
    *
-   * Only `lang`, `theme`, `sound`, `animation`, `foilIntensity`, `glareIntensity`, `glowTrophies`,
-   * `notificationDuration`, `notificationTypes` and `devMode` are accepted;
+   * Only `lang`, `theme`, `sound`, `soundCategories`, `animation`, `foilIntensity`,
+   * `glareIntensity`, `glowTrophies`, `notificationDuration`, `notificationTypes`, `devMode` and
+   * `boosterRenderMode` are accepted;
    * unknown keys are ignored. Values are validated against `config.json` as soon as the corresponding
    * lists are loaded, so a typo cannot silently break the next startup. Applying the new values
    * (calling `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
    * `AnimationManager.applyAnimation`, `FoilManager.applyIntensity` and
    * `FoilManager.applyGlareIntensity`) remains the caller's responsibility.
    *
-   * @param {{lang?: string, theme?: string, sound?: boolean, animation?: string,
+   * @param {{lang?: string, theme?: string, sound?: boolean,
+   *   soundCategories?: Record<string, {enabled: boolean, volume: number}>, animation?: string,
    *   foilIntensity?: number, glareIntensity?: number, glowTrophies?: number,
    *   notificationDuration?: number, notificationTypes?: Record<string, boolean>,
    *   devMode?: boolean}} partialSettings - Preferences to update.
-   * @returns {Promise<{lang: string, theme: string, sound: boolean, animation: string,
+   * @returns {Promise<{lang: string, theme: string, sound: boolean,
+   *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
    *   devMode: boolean}>} The merged settings.
@@ -532,6 +568,16 @@ export class AccountManager {
       merged.sound = sound;
     }
 
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'soundCategories')) {
+      const { soundCategories } = partialSettings;
+      if (!soundCategories || typeof soundCategories !== 'object' || Array.isArray(soundCategories)) {
+        throw new TypeError(
+          `settings.soundCategories must be a plain object (received: ${JSON.stringify(soundCategories)}).`
+        );
+      }
+      merged.soundCategories = SoundManager.normalizeCategories(soundCategories);
+    }
+
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'devMode')) {
       const { devMode } = partialSettings;
       if (typeof devMode !== 'boolean') {
@@ -586,6 +632,25 @@ export class AccountManager {
         notificationDuration,
         duration
       );
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'boosterRenderMode')) {
+      const { boosterRenderMode } = partialSettings;
+      if (typeof boosterRenderMode !== 'string' || boosterRenderMode.trim() === '') {
+        throw new TypeError(
+          `settings.boosterRenderMode must be a non-empty string (received: ${JSON.stringify(boosterRenderMode)}).`
+        );
+      }
+      const { modes } = await configLoader.getBoosterRenderSettings();
+      const normalized = boosterRenderMode.trim().toLowerCase();
+      if (!modes.some((mode) => mode.id === normalized)) {
+        throw new RangeError(
+          `Unknown booster render mode "${boosterRenderMode}". Available: [${modes
+            .map((mode) => mode.id)
+            .join(', ')}].`
+        );
+      }
+      merged.boosterRenderMode = normalized;
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'notificationTypes')) {

@@ -252,6 +252,20 @@ body {
   object-fit: contain;
 }
 
+/* One counter (the Mine Pick picks) draws its icon INLINE, with the very same sparkle as the
+   bottom bar: it then follows the text colour like `.app-nav__item svg`, instead of carrying the
+   baked colours of a PNG. */
+svg.app-header__stat-icon {
+  fill: none;
+  /* The other counters of the header are black PNG glyphs; the Mine Pick sparkle follows them, so
+     the row reads as one set of icons instead of mixing a black drawing with a tinted one. */
+  color: #000;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* A wide screen shows the NAME of each counter next to its icon: four icons and four numbers ask the
    player to memorise a legend, and there is room for a word once the header leaves the phone layout.
    Only a short label appears ("Quotidiens", "Pioches"): the whole label lives in the `.sr-only`
@@ -1042,6 +1056,36 @@ a,
     border-left: 1px solid var(--color-border);
     border-right: 1px solid var(--color-border);
   }
+}
+
+/* --- Card detail: drag-to-tilt ------------------------------------------ */
+
+/* A card shown in a detail surface (collection, profile favourites, trader offer, opening reveal)
+   can be dragged with the mouse or a finger. `CardTilt` caps the rotation at
+   `cardDetail.maxRotationDeg` and sets `--card-tilt-thickness` from the configuration; the
+   stacked shadows below turn that value into a slight visible edge, so the card reads as an
+   object instead of a flat picture. */
+.card-tilt {
+  --card-tilt-thickness: 6px;
+  border-radius: var(--radius-md);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 0.28s ease;
+  will-change: transform;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08),
+    0 2px 0 rgba(0, 0, 0, 0.28),
+    0 var(--card-tilt-thickness) 0 rgba(0, 0, 0, 0.32),
+    0 calc(var(--card-tilt-thickness) + 8px) 18px rgba(0, 0, 0, 0.4);
+}
+
+.card-tilt.is-dragging {
+  transition: none;
+  cursor: grabbing;
 }
 
 /* --- Accessibility: reduced motion -------------------------------------- */

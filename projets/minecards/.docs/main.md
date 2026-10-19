@@ -25,21 +25,21 @@ Base IndexedDB `CardBoosterDB` (version 1), 5 ObjectStores :
 
 Clés de `user_state` :
 - `"account"` : `{ uuid, createdAt }` — **son existence = "un compte existe"**.
-- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive", foilIntensity: number, glareIntensity: number, glowTrophies: number, notificationDuration: number, notificationTypes: { collection: boolean, experience: boolean, title: boolean }, devMode: boolean }`.
-  `glowTrophies` est le **niveau** d'illumination des trophées (0-5, 2 par défaut, voir 3.G nonies) ; `notificationDuration` est la durée d'une notification **en secondes** (1-8, 3 par défaut) et `notificationTypes` les trois interrupteurs de la page Paramètres (voir 3.G ter).
+- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive", foilIntensity: number, glareIntensity: number, glowTrophies: number, notificationDuration: number, notificationTypes: { collection: boolean, experience: boolean, title: boolean }, devMode: boolean, boosterRenderMode: string }`.
+  `glowTrophies` est le **niveau** d'illumination des trophées (0-5, 2 par défaut, voir 3.G nonies) ; `notificationDuration` est la durée d'une notification **en secondes** (1-8, 3 par défaut) et `notificationTypes` les trois interrupteurs de la page Paramètres (voir 3.G ter). `boosterRenderMode` choisit la recette de rendu 3D (`boosterRender.modes` de `settings/config.json`, `blister` par défaut) ; le sélecteur n'apparaît dans les Paramètres qu'avec `devMode`.
 - `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number }, purchasedBoosters }` (ex. `{ "set1": 2 }`). `purchasedBoosters` compte les boosters **achetés en Sparks** : globaux (comme les quotidiens), ils ne sont jamais effacés par le reset.
 - `"timeAnchor"` : `{ apiUtcMs, perfNow, lastKnownUtcMs }`.
 - `"stats"` : `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: {1..5}, drawsByCard: { [key]: count } }`.
 - `"giftSync"` : `{ lastCheckedLine, lastCheckAt }`.
 - `"sparks"` : `number` — solde de Sparks du joueur (`SparksManager`), la monnaie du jeu.
-- `"profileCard"` : `{ layout: "classic"|"fullart", rarity: 1..5|null }` — préférences d'affichage de la carte de profil (`ProfileCardManager`) : la disposition choisie et la rareté portée (`null` = la plus haute atteinte).
+- `"profileCard"` : `{ layout: "classic"|"fullart", rarity: 1..5|null, titleColor: string, background: string|null }` — préférences d'affichage de la carte de profil (`ProfileCardManager`) : la disposition choisie, la rareté portée (`null` = la plus haute atteinte), la couleur du titre et la **carte favorite** dont le `Background` sert d'illustration (`null` = la première favorite).
 - `"purchases"` : `{ [featureId]: { boughtAt } }` — les **fonctionnalités achetées en Sparks** (`FeatureManager`), indexées par identifiant. Seul ce qui a été payé est écrit : le prix reste dans `settings/config.json`, donc le changer ne recharge jamais un propriétaire.
-- `"profile"` : `{ name, icon, photo, title, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, icône du catalogue (`icon`), URL de la photo d'une sauvegarde ancienne (`photo`, lue et affichée, plus jamais écrite), **titre** affiché sous le pseudo (`title`, `""` = aucun — voir 3.I), jusqu'à 5 cartes favorites et 3 trophées mis en avant.
+- `"profile"` : `{ name, icon, photo, title, usernameColor, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, icône du catalogue (`icon`), URL de la photo d'une sauvegarde ancienne (`photo`, lue et affichée, plus jamais écrite), **titre** affiché sous le pseudo (`title`, `""` = aucun — voir 3.I), **couleur du pseudo** (`usernameColor`, `auto` ou un `id` de `settings/colors.json` acheté sous `usernameColor.<id>`), les cartes favorites et les trophées mis en avant. Chaque liste démarre avec `profile.defaultFavorites` (3) et `profile.defaultFeaturedTrophies` (1) emplacements ; les suivants s'achètent en Sparks jusqu'à `maxFavorites` / `maxFeaturedTrophies` (5), la possession étant lue dans `purchases` (`ProfileManager.getLimits()`).
 - `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
 - `"binders"` : `[{ id, name, cover, createdAt, slots: (string|null)[30] }]` — les **binders** du joueur (`BinderManager`), dans l'ordre de création. `cover` est la clé de collection de la carte représentative (le `Background` de cette carte devient le fond de la page), `slots` les 30 emplacements (clé de collection ou `null`). Rangé dans `user_state` — et non dans un store à part — pour qu'un `.save` l'emporte sans changer le format de sauvegarde.
 - `"minePick"` : `{ lastResetDay, remaining, bonusPicks, totalPicks, picksByBooster, picksByRarity, picksByCard, history }` — état de la Mine Pick (`MinePickManager`) : quota du jour (remis à `picksPerDay` à minuit UTC), `bonusPicks` pour les pioches **achetées en Sparks** (jamais effacées par le reset, dépensées seulement quand les gratuites sont épuisées), et les statistiques **propres** à la fonctionnalité (une pioche n'est pas un booster ouvert, elle ne touche donc jamais `stats`).
 - `"mining"` : `{ lastResetDay, minedToday, clicks, resources, blocksMined, totalMined, sparksFound }` — état de la **Mine** (`MiningManager`) : quota du jour (remis à `blocksPerDay` blocs à minuit UTC), `clicks` = les coups déjà portés au bloc du moment (le bloc lui-même n'est **jamais stocké** : il est dérivé de la graine du jour, voir 3.G sexies), `resources` = la quantité de chacune des ressources récoltées, `blocksMined` = un compteur **par type de bloc** (la statistique propre à la fonctionnalité) et les totaux (blocs cassés, Sparks trouvés).
-- `"trader"` : `{ week, purchases: { [offerKey]: number }, tradeDay, tradeUses: { [tradeKey]: number } }` — état du **Marchand itinérant** (`TraderManager`) : `week` est le **lundi** auquel appartiennent les achats enregistrés, `purchases` le nombre de fois que chaque offre de la boutique a été achetée cette semaine-là. Un état dont `week` n'est pas la semaine courante est lu comme vide : c'est le reroll de la boutique, qui n'écrit rien tant que rien n'est acheté. Les **échanges du jour** sont comptés à part, sous leur propre jour : `tradeDay` est le jour UTC auquel appartiennent les compteurs `tradeUses`, si bien qu'à minuit UTC les échanges redeviennent disponibles sans que la boutique de la semaine bouge.
+- `"trader"` : `{ week, purchases: { [offerKey]: number }, tradeDay, tradeUses: { [tradeKey]: number }, sparkDay, sparkBought }` — état du **Marchand itinérant** (`TraderManager`) : `week` est le **lundi** auquel appartiennent les achats enregistrés, `purchases` le nombre de fois que chaque offre de la boutique a été achetée cette semaine-là. Un état dont `week` n'est pas la semaine courante est lu comme vide : c'est le reroll de la boutique, qui n'écrit rien tant que rien n'est acheté. Les **échanges du jour** sont comptés à part, sous leur propre jour : `tradeDay` est le jour UTC auquel appartiennent les compteurs `tradeUses`, si bien qu'à minuit UTC les échanges redeviennent disponibles sans que la boutique de la semaine bouge. L'**achat du jour en Sparks** suit le même principe avec son propre couple `sparkDay` / `sparkBought` : un seul achat par jour UTC, remis à zéro à minuit.
 
 Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `lang` et `theme` est autorisé, pour appliquer le thème avant le premier rendu (évite le flash).
 
@@ -116,9 +116,9 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 2. **Collection** : grille, silhouettes grisées pour les manquantes, **bouton cœur** sur les cartes possédées (5 favoris maximum), **bouton « Filtres & tri »**. Dans la fiche d'une carte, le clavier refait les boutons : `S` / `V` vendent un exemplaire, `Maj+S` / `Maj+V` vendent **tous les doublons** (le dernier exemplaire reste protégé), `B` / `A` achètent un exemplaire et `P` / `F` mettent la carte en favori. Aucun raccourci ne tire pendant qu'une popup est empilée sur la fiche (filtres, binders, éditeur). Les filtres vivent dans une **popup** (`CollectionView`) : on y active/désactive chaque extension (plusieurs à la fois) et **chaque rareté (plusieurs à la fois, comme les extensions : `filters.rarities` est un `Set`)**, la famille **Promo** dans son ensemble, le statut (toutes / **possédées — l'état par défaut** / manquantes / **vendables**, c'est-à-dire 2 exemplaires ou plus), le style, et l'on y choisit le **tri** (**index du fichier, l'état par défaut**, numéro, rareté, style, quantité possédée, date d'obtention) et son sens. La grille ouvre donc sur **les cartes possédées** et non sur les 343 silhouettes du catalogue ; « Réinitialiser » y revient. La barre sous le titre ne garde que la recherche, le bouton qui ouvre la popup (avec un badge du nombre de filtres actifs) et le compte de cartes : **aucun filtre n'y est plus dupliqué**. Le **bouton « Binders »** siège **dans l'en-tête de la page, en haut à droite et hors du panneau de filtres** (`css/base.css` : `.view__header--split` met titre et action sur une ligne, `.view__heading` garde titre et sous-titre groupés), et l'en-tête de l'application porte en plus un **compteur Binders** (icône `assets/img/binders.png` + nombre de pages, voir 3.H bis). Le tri par numéro compare les `id` en `numeric: true`, pour que `W2` passe bien avant `W10`.
 
 **Deux axes de numérotation, et deux tris** : chaque entrée porte à la fois `cardId` (le champ `Index` de la carte, « SERIE-A1 / W001 ») et `index` (sa **position dans le tableau `Cards` de son fichier d'extension**), les deux étant calculés par `CollectionManager` à chaque lecture — rien n'est stocké, donc réordonner un fichier se voit tout de suite. Ils ne se confondent pas : un fichier **groupe ses cartes par thème**, son ordre n'est donc pas celui des `Index` (la A1 commence par `W001`, pas par `A001`). D'où les deux tris de la popup : **« Index »** (le défaut) suit `index`, c'est-à-dire le fichier tel qu'il a été écrit ; **« Numéro »** suit `cardId`, extension par extension (`CollectionView.applyFilters`, `COLLECTION_SORT`). Un troisième tri, **« Date d'obtention »**, suit `firstObtainedAt` (la première copie de chaque carte) du plus ancien au plus récent : les cartes non possédées, qui n'ont pas de date, restent toujours à la fin quelle que soit la direction.
-2 bis. **Profil** : l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. Trois **petits boutons** sous le sous-titre (`view__header-actions`) mènent aux trois pages que la barre du bas ne porte plus : **Statistiques**, **Trophées** (le catalogue, isolé derrière deux combos — famille, statut — pour ne jamais afficher les trente trophées d'un coup, et muni de son propre retour au profil) et **Titre** (la liste des titres de joueur, un par ligne, voir 3.I). Les compteurs propres à la Mine Pick, eux, sont dans le panneau « Mine Pick » de la page Statistiques, à côté du panneau « Mine ».
+2 bis. **Profil** : l'identité **en lecture seule** (un bouton crayon `assets/img/edit.png` révèle le formulaire nom/photo), le niveau et sa barre d'XP juste en dessous, les trophées mis en avant et les cartes favorites — chacun sur **une seule ligne** défilante, chaque vignette ouvrant une **modale de détail**. Trois **petits boutons** sous le sous-titre (`view__header-actions`) mènent aux trois pages que la barre du bas ne porte plus : **Statistiques**, **Trophées** (le catalogue, isolé derrière deux combos — famille, statut — pour ne jamais afficher les trente trophées d'un coup, et muni de son propre retour au profil) et **Titre** (la liste des titres de joueur, un par ligne, voir 3.I). Les compteurs propres à la Mine Pick, eux, sont dans le panneau « Mine Pick » de la page Statistiques, à côté du panneau « Mine ». Le sélecteur d'**icônes de profil** affiche tout le catalogue, chaque entrée pouvant porter un `requiredLevel` **et/ou** un `price` en Sparks (`settings/default_profile_icons.json`) : une icône payante montre son prix et un clic ouvre la même confirmation que les autres achats (`FeatureManager.purchaseProfileIcon`), une icône dont le niveau n'est pas atteint restant grisée ; l'achat débloque l'icône sans la sélectionner.
 3. **Pick** (Mine Pick) : les dix boosters simulés du jour, **listés un par ligne avec leur contenu face visible**, et les trois pioches gratuites. Un premier clic **sélectionne** la ligne (aperçu), le second l'ouvre — voir section 3.G quater. Son libellé de barre est **« Pick »** (la fonctionnalité garde son nom, « Mine Pick », dans son titre et sa page).
-3 bis. **Mine** (`data-view="mineblock"`) : les **dix blocs du jour**, minés **un par un**, avec les ressources récoltées — voir section 3.G sexies. Elle occupe l'emplacement que les **Trophées** tenaient dans la barre du bas : le catalogue des trophées s'ouvre désormais depuis le **Profil**, par un second bouton à côté de « Statistiques », et porte pour cela son propre **bouton retour** (comme la page Statistiques, elle aussi ouverte depuis le Profil). Quatre fonctions ont donc leur page **hors** de la barre — Statistiques, Trophées, Titres — ou **dedans** — la Mine — et les trois premières savent revenir au profil.
+3 bis. **Mine** (`data-view="mineblock"`) : le **quota de blocs du jour** (`mining.blocksPerDay`, 50), minés **un par un**, avec les ressources récoltées — voir section 3.G sexies. Elle occupe l'emplacement que les **Trophées** tenaient dans la barre du bas : le catalogue des trophées s'ouvre désormais depuis le **Profil**, par un second bouton à côté de « Statistiques », et porte pour cela son propre **bouton retour** (comme la page Statistiques, elle aussi ouverte depuis le Profil). Quatre fonctions ont donc leur page **hors** de la barre — Statistiques, Trophées, Titres — ou **dedans** — la Mine — et les trois premières savent revenir au profil.
 4. **Paramètres** : langue, thème, **animations** (sélecteur + aperçu animé joué à l'ouverture de la page, le mode explosif marqué de sa seule pastille « BLAGUE »), **foil** (deux curseurs : intensité des motifs, **brillance** de la ligne qui balaie la carte — l'aperçu du panneau est un mythique, donc l'effet suit le doigt), **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
 6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
@@ -331,7 +331,7 @@ elle, n'est jamais touchée.
 
 ### G sexies. Mine (MineBlock)
 
-Un onglet principal (`data-view="mineblock"`) : **dix blocs par jour**, minés **un par un**. Le bloc du
+Un onglet principal (`data-view="mineblock"`) : **`mining.blocksPerDay` blocs par jour** (50), minés **un par un**. Le bloc du
 moment est affiché **en grand au centre**, son nom au-dessus, le nombre de blocs restants du jour, et
 sous lui **chaque ressource** récoltée : **son icône et son nombre**, rien d'autre (le nom est dans
 l'**inventaire** et dans le texte accessible de la pastille). Le nombre de coups qu'il reste à porter
@@ -406,6 +406,16 @@ libellé — ouvre la **boutique de la semaine** : des cartes s'achètent avec l
 marchand, et l'inverse. **L'image d'une offre est un bouton** : elle ouvre le détail de la carte
 (illustration en grand, description, prix complet avec ce qui manque, stock) dans un second dialogue
 **empilé au-dessus** de la boutique, qui reste ouverte derrière (`Échap` ferme d'abord le détail).
+
+**Les offres épinglées ouvrent la boutique.** Elles sont construites en premier et passent avant les
+cinq cartes tirées de la semaine ; quand plusieurs sont en vente, elles gardent l'ordre du fichier.
+
+**L'achat du jour en Sparks.** Sous les cartes, une section vend **une seule fois par jour UTC** une
+ressource de la mine contre des Sparks. La ressource et sa quantité sont tirées de la seule date du
+jour (mêmes pour tout le monde) : la quantité est plafonnée pour que `quantité × itemsValues` ne
+dépasse pas `shop.dailySparkOffer.maxResourceValue` (100), et le prix vaut ce total multiplié par
+`priceMultiplier` (2). Le bouton affiche la valeur du tirage, le prix et le temps restant avant minuit ;
+une fois acheté, il reste désactivé jusqu'au lendemain.
 
 **Deux horloges.** La boutique affiche le **temps restant avant le reroll** (le lundi suivant à
 00:00 UTC, donc le lundi de la boutique plus sept jours) et chaque **offre épinglée** son propre
@@ -525,15 +535,22 @@ Rien n'est stocké : la carte est une **projection** du profil, recalculée à c
   favori, le dos de carte livré (`profileCard.defaultArtPath`). C'est le champ **`Background`** de la
   carte qui est lu, jamais son `Path` : `Path` est l'image de la carte **entière** (cadre, titre,
   description), qui dessinerait une carte dans la carte, tandis que `Background` est l'illustration
-  seule, la même que celle qu'un binder prend pour fond. Un favori dont la carte a quitté le
-  catalogue est sauté, jamais affiché vide.
+  seule, la même que celle qu'un binder prend pour fond. Le panneau « Fond de la carte » liste les
+  cartes favorites et permet d'en choisir une autre ; le choix est enregistré dans
+  `user_state["profileCard"].background` (une clé de collection, jamais un chemin), une carte retirée
+  des favoris retombe sur la première, et un favori dont la carte a quitté le catalogue est sauté,
+  jamais affiché vide. Une carte **sans `Background`** ne laisse pas la carte de profil vide : le
+  générateur retombe sur son **`Underlay`** (la texture derrière l'illustration) et, si celui-ci
+  manque aussi, sur son **`Path`** dans la langue courante — le placeholder `<lang>` est résolu comme
+  partout ailleurs (`i18n.resolveImagePath`).
 - **Underlay :** l'**icône de profil** choisie (ou la `photo` d'une sauvegarde plus ancienne). Le
   générateur y place un sprite plein cadre ; ici l'avatar est **ancré au milieu de l'illustration, à
   hauteur de personnage** en Full Art, sans quoi un avatar carré masquerait le fond qu'il doit
   surmonter (la disposition normale le confine déjà à la bande centrale). Il est dessiné **20 % plus
   petit** que le sprite plein cadre du générateur (`auto 80 %` dans la bande centrale, `auto 32 %` en
   Full Art), pour laisser respirer l'illustration qu'il recouvre.
-- **Description :** les trois trophées mis en avant, **en icônes, centrés et sur une seule ligne**
+- **Description :** les trophées mis en avant (`profile.defaultFeaturedTrophies` puis jusqu'à 5
+  emplacements achetés), **en icônes, centrés et sur une seule ligne**
   (les noms seraient trois lignes rognées sur 360 pixels ; ils restent en infobulle et dans le libellé
   accessible). Les médailles sont dessinées **deux fois plus grandes** que sur une tuile (48 px, 40 px
   en police pixel) et ne portent **aucun halo**, puis les compteurs : **boosters ouverts** (`user_state["stats"].boostersOpened`),
@@ -551,18 +568,34 @@ Rien n'est stocké : la carte est une **projection** du profil, recalculée à c
   changer de disposition, et un solde insuffisant affiche le refus et désactive « Acheter ». Après
   l'achat, la disposition **ne bouge pas** : c'est le clic suivant du joueur qui l'active. L'achat
   est définitif (pas de remboursement) et la fonctionnalité reste acquise dans la sauvegarde.
-- **Couleur du titre :** la ligne `<titre> #<numéro>` porte une couleur choisie par le joueur. « Auto »
-  (défaut, gratuit) prend la **couleur de la rareté de la carte** (`--rarity-title-color`, une valeur
-  par classe de rareté), donc elle suit le joueur quand il change de rareté. Les sept autres couleurs
-  (`gold`, `silver`, `crimson`, `emerald`, `azure`, `violet`, `rose`, palette
-  `PROFILE_CARD_TITLE_COLORS`) s'**achètent en Sparks** : `profileCard.titleColors.defaultPriceSparks`
-  (125 par défaut) s'applique à toute couleur sans prix propre, et chaque entrée de `items` peut le
-  surcharger. Tant qu'une couleur n'est pas achetée, sa pastille est en pointillés avec son prix et un
-  clic ouvre la **confirmation** (même modale que le Full Art, même transaction, même refus si le
-  solde ne couvre pas) ; elle ne se sélectionne qu'une fois possédée, et l'achat ne change PAS la
-  couleur portée. Le choix est enregistré dans `user_state["profileCard"].titleColor` ; une couleur
-  non possédée (sauvegarde retouchée) retombe sur « Auto ». La couleur est appliquée en style
-  **inline** sur la carte (`--card-title-color`), donc elle survit à l'export du PNG.
+- **Couleurs configurables :** la palette vient entièrement de `settings/colors.json` (`id`, `name`
+  `{ fr, en }`, `hex`, `titlePrice`, `usernamePrice`) et sert **deux usages achetés séparément** : la
+  ligne `<titre> #<numéro>` et le pseudo. « Auto » (défaut, gratuit) garde la couleur de la rareté
+  pour le titre et celle du thème pour le pseudo. Tant qu'une couleur n'est pas achetée pour
+  l'usage courant, sa pastille est en pointillés avec son prix et un clic ouvre la **confirmation**
+  (même modale que le Full Art, même transaction, même refus si le solde ne couvre pas) ; elle ne se
+  sélectionne qu'une fois possédée, et l'achat ne change PAS la couleur portée. Le titre est stocké
+  dans `user_state["profileCard"].titleColor`, le pseudo dans `user_state["profile"].usernameColor` ;
+  une couleur non possédée (sauvegarde retouchée) retombe sur « Auto ». Les deux couleurs sont
+  appliquées en style **inline** (`--card-title-color`, `--card-name-color`), donc elles survivent à
+  l'export du PNG.
+- **Cartes manipulables :** chaque détail de carte (collection, favoris, offre du marchand, résumé
+  d'ouverture, statistiques et carte de profil agrandie) peut être **incliné en le maintenant** à la
+  souris ou au doigt. `CardTilt` lit `cardDetail` dans `settings/config.json` :
+  `maxRotationDeg` (15 par défaut, plafonné à 45) borne la rotation sur chaque axe et `thicknessPx`
+  (6 par défaut, plafonné à 24) donne une légère épaisseur ; `enabled: false` désactive le tout. La
+  page d'un binder partagé est servie par le même module, sans compte ni base de données.
+- **Emplacements toujours visibles :** les deux listes du profil (cartes favorites, trophées mis en
+  avant) dessinent **un emplacement par slot**, vide compris (`profile.maxFavorites` /
+  `profile.maxFeaturedTrophies`, 5 par défaut), dans l'ordre du catalogue — rien ne disparaît quand
+  une liste est vide. Un slot **possédé et libre** est une tuile « + » : un clic ouvre le sélecteur
+  (trophées débloqués non épinglés pour les trophées, cartes possédées non favorites pour les
+  cartes) et remplit cet emplacement précis. Un slot **non possédé** affiche son cadenas et le prix
+  du palier (`profile.favoriteSlotPrices` / `profile.featuredSlotPrices`) ; seul le **prochain** est
+  cliquable et ouvre la confirmation d'achat des Sparks, les suivants restent dessinés, désactivés,
+  avec leur prix, pour montrer ce que la liste peut devenir. Une tentative d'épingler une carte ou un
+  trophée quand la liste est pleine propose d'acheter le slot suivant puis rejoue l'action : la
+  limite effective est lue dans `ProfileManager.getLimits()`, jamais dans la seule préférence.
 - **Voir et télécharger :** « Agrandir la carte » **déplace** la carte dans une modale (l'élément est
   déplacé, jamais reconstruit : disposition choisie et images déjà décodées suivent) et
   « Télécharger la carte » écrit un PNG de 720 × 1000, nommé d'après le numéro de série de la carte.
@@ -597,16 +630,35 @@ curseur règle donc la liste des trophées, les trophées épinglés du profil e
 la modale de détail. La préférence vit dans `user_state["settings"].glowTrophies` (`AccountManager`),
 appliquée au démarrage comme le foil. La carte de profil ne peint aucun halo sur ses trophées.
 
-### G decies. Sons d'interface (carte des sons)
+### G decies. Sons (carte des sons, familles et volumes)
 
-`settings/sounds.json` est un **audit**, pas encore une fonctionnalité : il liste les moments de
-**navigation** où un court son rendrait un clic plus agréable (changement d'onglet, retour, ouverture
-et fermeture de modale et de panneau, changement de filtre ou de section, ouverture du détail d'une
-carte, pas suivant/précédent de la révélation, apparition d'une notification). Chaque entrée porte
-`event` (identifiant stable), `file` (emplacement prévu sous `assets/sound/ui/`, les fichiers ne sont
-pas livrés), `_comment` (ce que le son accompagne, en anglais) et `enabled` (interrupteur pour
-l'activer une fois le fichier ajouté). Les cinq sons existants de l'ouverture restent dans
-`js/utils/SoundManager.js` ; les actions qui en ont déjà un ne figurent pas dans cette carte.
+`settings/sounds.json` est la **carte des sons d'interface** : chaque entrée porte `event`
+(l'identifiant stable appelé par le code), `file` (le fichier sous `assets/sound/ui/`, livré),
+`_comment` (ce que le son accompagne, en anglais) et `enabled` (interrupteur global de l'entrée).
+`js/utils/SoundManager.js` lit la carte au démarrage (`loadUiSoundMap`) et `playUi(event)` joue
+l'entrée ; les chemins livrés restent en repli dans `UI_SOUND_PATHS`, donc une navigation précoce
+n'est jamais silencieuse. `js/utils/UiSounds.js` déclenche les moments qui n'appartiennent à aucune
+vue — l'ouverture et la fermeture de **n'importe quel** `.modal` sont observées par un
+`MutationObserver` sur l'attribut `hidden`, et une modale dont le contenu est une carte joue
+`card.open` / `card.close` plutôt que `modal.open` / `modal.close`.
+
+Les sons sont rangés en **quatre familles**, y compris ceux qui ne viennent pas de la carte :
+`opening` (déchirure du booster, retournement et stings de rareté — `SOUNDS` / `RARITY_SOUNDS`),
+`ui` (la carte ci-dessus), `mining` (`assets/sound/blocks/`) et `notifications`
+(`notification_show` identifié par son nom de fichier, donc la carte peut le déplacer).
+`SoundManager.categoryOf(path)` range chaque chemin d'après son dossier ou son nom de fichier.
+
+Le panneau **Sons** des Paramètres garde l'interrupteur **global** (`user_state["settings"].sound`) :
+quand il est coupé, rien n'est préchargé, toute lecture est refusée, et **toutes** les familles sont
+masquées et désactivées, texte d'aide compris. Quand il est actif, chaque famille a son propre
+interrupteur et un **volume de 0 à 5** (`SOUND_VOLUME_LEVELS`), enregistré dans
+`user_state["settings"].soundCategories` sous `{ enabled, volume }` (les valeurs manquantes d'une
+ancienne sauvegarde retombent sur `DEFAULT_SOUND_CATEGORIES`). Le volume effectif d'une entrée vaut
+`master × (volume / 5)` ; une famille coupée (ou à 0) est silencieuse sans toucher aux autres, et son
+curseur reste désactivé tant qu'elle est coupée. Une modification du volume est appliquée en direct
+(`setCategoryVolume`) et écrite à la fin du glissement, pour ne pas remplir le journal de
+sauvegarde. Les cinq sons déjà utilisés par l'ouverture restent déclarés dans
+`js/utils/SoundManager.js` : la carte ne les duplique pas.
 
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.
@@ -642,6 +694,8 @@ l'activer une fois le fichier ajouté). Les cinq sons existants de l'ouverture r
 - **Jamais mis en cache :** les requêtes `no-store`/`reload`/`no-cache` (rafraîchissement des paramètres, des cadeaux et des codes), les requêtes `Range`, le cross-origin hors CDN (API de temps, Google Sheet), le worker lui-même et les fichiers privés (`admin/`, `useritem_codes.csv`, `.docs/`).
 - **Couverture :** tout le jeu démarre hors-ligne dès la première installation, sans rechargement intermédiaire (vérifié serveur coupé, cache d'exécution vide). En revanche les illustrations (`cards/`, 374 Mo) et les visuels de boosters ne sont mis en cache **qu'à l'usage** : une carte jamais affichée n'a pas d'image hors-ligne.
 - **Mise à jour :** incrémenter `VERSION` dans `sw.js` à chaque changement du shell ; seuls les caches préfixés `minecards-` sont purgés, ceux des autres projets de l'hôte sont laissés intacts.
+- **Orientation :** `manifest.json` déclare `"orientation": "portrait"` : l'app installée ne tourne pas en paysage (Chrome/Android l'applique). iOS ignore cette clé, d'où une mise en page qui doit rester utilisable à l'horizontale.
+- **Digital Asset Links :** la racine du domaine est la racine du dépôt (`mythmega.github.io` + `CNAME` = `web.jmdev.fr`), donc le fichier vit deux niveaux au-dessus du jeu, dans `../../.well-known/assetlinks.json`, et se lit à `https://web.jmdev.fr/.well-known/assetlinks.json` — jamais sous `/projets/minecards/`, un vérificateur ne lit pas d'autre adresse. `_config.yml` (racine du dépôt) contient `include: [.well-known]` car Jekyll, utilisé par GitHub Pages, ignore les dossiers commençant par un point : sans lui le fichier est commité mais répond 404. Le package (`fr.jmdev.minecards`) et l'empreinte SHA-256 sont déjà inscrits et correspondent au keystore `~/.android/minecards-release.keystore` ; la procédure Bubblewrap et le remplacement de l'empreinte sont décrits dans `docs/android/README.md`. Le worker ne met jamais ce chemin en cache.
 
 ### J. Qualité du code (linter)
 

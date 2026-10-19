@@ -33,7 +33,9 @@ import themeManager from './utils/ThemeManager.js';
 import animationManager from './utils/AnimationManager.js';
 import foilManager from './utils/FoilManager.js';
 import glowManager from './utils/GlowManager.js';
+import boosterRenderManager from './utils/BoosterRenderManager.js';
 import soundManager from './utils/SoundManager.js';
+import { startUiSounds } from './utils/UiSounds.js';
 import { configLoader } from './utils/ConfigLoader.js';
 import eventBus, { EVENTS } from './utils/EventBus.js';
 import { capturePendingRedeem, consumePendingRedeem } from './utils/DeepLink.js';
@@ -250,6 +252,10 @@ export class App {
     // Same for the trophy glow: `--trophy-glow-scale` must exist before the first trophy is drawn
     // (the profile names its pinned ones on its first paint).
     await glowManager.init();
+    // The booster render modes are loaded before the first 3D scene, so the very first preview
+    // already reflects with the configured recipe (blister by default). The stored mode replaces
+    // the default below, once the account settings are read.
+    await boosterRenderManager.init();
     await i18n.init();
   }
 
@@ -301,8 +307,14 @@ export class App {
     animationManager.applyAnimation(targetAnimation);
 
     // Sound preference: applied before the opening view is built, so its `preload()` never
-    // downloads the effects of a muted player. Missing/legacy values stay enabled.
+    // downloads the effects of a muted player. Missing/legacy values stay enabled. The families
+    // are restored first, so the preload uses their real volumes and switches.
     soundManager.setEnabled(settings.sound !== false);
+    soundManager.setCategorySettings(settings.soundCategories);
+    // The interface map is read before the first navigation: a missing file falls back to the
+    // shipped paths, so a tab switch is never silent.
+    await soundManager.loadUiSoundMap();
+    startUiSounds();
 
     // Foil intensity: a value stored before `config.json` narrowed the range is clamped by the
     // manager, so an obsolete preference can never hide the foil for good. The brillance (the
@@ -312,6 +324,13 @@ export class App {
     // Trophy glow: a level outside the declared range is clamped by the manager, so an obsolete
     // preference can never blow the halos up (or hide them for good).
     glowManager.applyLevel(settings.glowTrophies);
+    // Booster rendering: the stored mode is applied before the opening view builds its preview.
+    // A mode removed from `config.json` was already normalized by `AccountManager.getSettings()`.
+    try {
+      boosterRenderManager.applyMode(settings.boosterRenderMode);
+    } catch (error) {
+      console.warn('[App] The stored booster render mode is unavailable, keeping the default.', error);
+    }
     // Game notifications: the duration and the per-kind switches live in the same settings block,
     // and are applied here so the very first opening already obeys them.
     notificationCenter.setDurationSeconds(settings.notificationDuration);

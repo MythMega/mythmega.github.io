@@ -14,6 +14,7 @@
  */
 
 import eventBus, { EVENTS } from '../utils/EventBus.js';
+import soundManager, { UI_SOUNDS } from '../utils/SoundManager.js';
 
 /** Attribute identifying a view section. */
 export const VIEW_ATTRIBUTE = 'data-view';
@@ -132,10 +133,20 @@ export class SpaRouter {
     if (this.currentView === name) return this.currentView;
 
     const previousView = this.currentView;
-    if (previousView) {
-      const previousElement = this.views.get(previousView);
+    const previousElement = previousView ? this.views.get(previousView) : null;
+    if (previousElement) {
       previousElement.classList.remove(ACTIVE_VIEW_CLASS);
       previousElement.setAttribute('aria-hidden', 'true');
+    }
+
+    // A sub-page (trophies, titles, statistics) declares its own back button: going back to the
+    // profile from one of them is a retreat, not a tab switch. The router stays generic: it reads
+    // the markup instead of knowing the view names.
+    if (previousElement) {
+      const leavesSubPage = previousElement.querySelector('[data-trophies-back], [data-titles-back], [data-stats-back]') !== null;
+      soundManager.playUi(
+        leavesSubPage && name === 'profile' ? UI_SOUNDS.NAV_BACK : UI_SOUNDS.NAV_VIEW
+      );
     }
 
     target.classList.add(ACTIVE_VIEW_CLASS);

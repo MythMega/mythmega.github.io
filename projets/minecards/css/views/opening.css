@@ -256,8 +256,14 @@
 /* --- Card detail modal ------------------------------------------------------ */
 
 .card-modal__image {
-  width: 100%;
+  /* The image is the tilt surface: `width: 100%` would rotate the whole letterboxed box (and its
+     background) around the card, which reads as the surrounding panel moving. Letting the box hug
+     the artwork keeps the gesture on the card itself. */
+  display: block;
+  width: auto;
+  max-width: 100%;
   max-height: 46vh;
+  margin: 0 auto;
   object-fit: contain;
   border-radius: var(--radius-md);
   background-color: var(--color-surface-alt);

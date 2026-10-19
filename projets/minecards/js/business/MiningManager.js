@@ -822,6 +822,51 @@ export class MiningManager {
   }
 
   /**
+   * Adds harvested resources to the inventory, in ONE read-modify-write.
+   *
+   * Used by the daily Sparks offer of the Wandering Trader: the Sparks are charged in the same
+   * transaction, so a purchase can never take the currency without leaving the resource behind.
+   *
+   * @param {Record<string, number>} gains - Resources received, by slug.
+   * @param {object|null} [context=null] - Transaction context (`StorageRepository.transaction`).
+   * @returns {Promise<Record<string, number>>} The resources after the grant.
+   * @throws {TypeError} When no usable line is given.
+   * @throws {Error} When the write fails.
+   */
+  async grantResources(gains, context = null) {
+    const lines = normalizeResourceLines(gains);
+    if (lines.length === 0) {
+      throw new TypeError('MiningManager.grantResources expects at least one resource.');
+    }
+
+    /**
+     * Applies the grant inside an active transaction.
+     *
+     * @param {object} activeContext - Transaction context.
+     * @returns {Promise<Record<string, number>>} The resulting resources.
+     */
+    const apply = async (activeContext) => {
+      const stored = this.normalizeState(
+        await activeContext.get(STORES.USER_STATE, USER_STATE_KEYS.MINING)
+      );
+      const resources = { ...stored.resources };
+      lines.forEach(({ slug, quantity }) => {
+        resources[slug] = (resources[slug] ?? 0) + quantity;
+      });
+      await activeContext.put(
+        STORES.USER_STATE,
+        { ...stored, resources },
+        USER_STATE_KEYS.MINING
+      );
+      return resources;
+    };
+
+    return context
+      ? apply(context)
+      : storageRepository.transaction(STORES.USER_STATE, 'readwrite', apply);
+  }
+
+  /**
    * Exchanges one harvested resource for another, in ONE read-modify-write.
    *
    * This is what the daily trades of the Wandering Trader are made of (`TraderManager.trades`): the

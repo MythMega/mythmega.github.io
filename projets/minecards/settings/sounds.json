@@ -1,77 +1,77 @@
 {
-  "_comment": "Navigation sound map. Every entry names ONE moment of the interface where a short UI sound could be added. 'event' is the stable id the code would use, 'file' is where the sound should live (relative to the application root, the files are NOT shipped yet), '_comment' says in English what the sound accompanies and suggests a character, and 'enabled' lets a sound be switched on once its file exists. Only navigation is covered: opening a screen, going back, opening or closing a panel, moving through the reveal. Actions that already have a sound (tearing a booster, turning a card, revealing a rare card) are deliberately absent.",
+  "_comment": "Interface sound map, read by js/utils/SoundManager.js at boot. Every entry names ONE moment of the interface. 'event' is the stable id the code calls, 'file' is the shipped mp3 (relative to the application root, all files live under assets/sound/ui/), '_comment' says in English what the sound accompanies, and 'enabled' switches one entry off without deleting it. The whole map is the 'ui' family of the settings (its own switch and 0-5 volume); the opening, mining and notification sounds live outside this file and follow the same families. Actions that already have a sound (tearing a booster, turning a card, revealing a rare card) are deliberately absent.",
   "sounds": [
     {
       "event": "nav.view",
       "file": "assets/sound/ui/nav_view.mp3",
       "_comment": "Bottom navigation: switching from one main view to another. A soft paper tick, 60-90 ms, quiet; it plays on every tab, so it must never become annoying.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "nav.back",
       "file": "assets/sound/ui/nav_back.mp3",
       "_comment": "Back buttons that leave a sub-page (trophies, titles, statistics). A lower, slightly longer tick than nav.view, so going back sounds like retreating.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "modal.open",
       "file": "assets/sound/ui/modal_open.mp3",
       "_comment": "A dialog appears (trophy detail, card detail, binder editor, save confirmations). A short airy whoosh rising in pitch, under 150 ms.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "modal.close",
       "file": "assets/sound/ui/modal_close.mp3",
       "_comment": "A dialog is dismissed (Close, backdrop, Escape). The same whoosh falling, quieter and shorter: closing should feel lighter than opening.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "panel.open",
       "file": "assets/sound/ui/panel_open.mp3",
       "_comment": "An inline panel unfolds (collection filters, the help of a view, the binder editor page). A paper slide, like a page being turned.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "panel.close",
       "file": "assets/sound/ui/panel_close.mp3",
       "_comment": "The same inline panel folds back. A shorter, softer version of panel.open, with no tail.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "filter.change",
       "file": "assets/sound/ui/filter_change.mp3",
       "_comment": "A filter, sort or family selector changes (collection filters, trophy family/status). A single muted click, different enough from a button to feel like a choice.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "section.switch",
       "file": "assets/sound/ui/section_switch.mp3",
       "_comment": "A segmented choice changes (language, theme, animation mode). A light wooden clack, 50 ms: the visual pill already moves, the sound only confirms it.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "card.open",
       "file": "assets/sound/ui/card_open.mp3",
       "_comment": "A card thumbnail opens its large detail (collection, profile favourites, stats history). A soft card slide, 120 ms, dry: the card-turn sounds stay reserved for the reveal.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "card.close",
       "file": "assets/sound/ui/card_close.mp3",
       "_comment": "The large card detail closes. The card slide replayed backwards at lower volume.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "reveal.step",
       "file": "assets/sound/ui/reveal_step.mp3",
       "_comment": "Moving to the next or previous card in the opening summary and in the Mine Pick result. A very soft swipe, quieter than the flip itself so it never masks it.",
-      "enabled": false
+      "enabled": true
     },
     {
       "event": "notification.show",
       "file": "assets/sound/ui/notification_show.mp3",
       "_comment": "A game notification slides in at the top (collection progress, experience, title). A tiny glass ping, high and short, played at low volume so several queued messages do not stack into noise.",
-      "enabled": false
+      "enabled": true
     }
   ]
 }

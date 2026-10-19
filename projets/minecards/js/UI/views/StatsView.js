@@ -32,6 +32,7 @@ import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import Toast from '../components/Toast.js';
 import { applyCardGlow } from '../../utils/Shine.js';
+import { attachCardTilt } from '../../utils/CardTilt.js';
 
 /** View name, matching `data-view="stats"` in `index.html`. */
 export const STATS_VIEW_NAME = 'stats';
@@ -795,6 +796,7 @@ export class StatsView {
       image.hidden = true;
     });
     applyCardGlow(image, card);
+    attachCardTilt(image);
 
     const list = document.createElement('dl');
     list.className = 'card-modal__details';

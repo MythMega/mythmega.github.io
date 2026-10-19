@@ -1,0 +1,23 @@
+# Gradle / Android build output
+.gradle/
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Machine-specific SDK location (Android Studio creates it)
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# Build artifacts and signing material
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# Signed APK metadata
+*.idsig

@@ -1,0 +1,47 @@
+{
+  "packageId": "fr.jmdev.minecards",
+  "host": "web.jmdev.fr",
+  "name": "MineCards",
+  "launcherName": "MineCards",
+  "display": "standalone",
+  "displayOverride": [],
+  "themeColor": "#0b0e14",
+  "themeColorDark": "#0b0e14",
+  "navigationColor": "#0b0e14",
+  "navigationColorDark": "#0b0e14",
+  "navigationDividerColor": "#00000000",
+  "navigationDividerColorDark": "#0b0e14",
+  "backgroundColor": "#0b0e14",
+  "enableNotifications": true,
+  "startUrl": "/projets/minecards/",
+  "iconUrl": "https://web.jmdev.fr/projets/minecards/assets/icons/icon-512.png",
+  "appVersion": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "signingKey": {
+    "path": "C:/Users/mythm/.android/minecards-release.keystore",
+    "alias": "minecards"
+  },
+  "splashScreenFadeOutDuration": 300,
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://web.jmdev.fr/projets/minecards/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://web.jmdev.fr/projets/minecards/",
+  "minSdkVersion": 24,
+  "orientation": "portrait",
+  "fingerprints": [
+    {
+      "name": "MineCards release",
+      "value": "60:DF:DD:72:9F:E9:F6:42:11:D1:D1:3C:9E:7F:5E:0A:1A:20:B4:92:83:2F:9B:5E:FB:FD:E9:72:21:15:A3:76"
+    }
+  ],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}

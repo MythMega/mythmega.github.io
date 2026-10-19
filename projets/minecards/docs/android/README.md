@@ -4,6 +4,10 @@ MineCards est une PWA : Bubblewrap en fait un **Trusted Web Activity** (TWA), c'
 application Android qui ouvre le jeu en plein écran, sans barre d'URL, à condition que le domaine
 soit vérifié par Digital Asset Links.
 
+Le projet Android est déjà généré, construit et vérifié dans
+[`external/android`](../../external/android/) : voir son README pour les commandes de build, la clé
+de signature et le dépannage.
+
 ## État actuel
 
 | Élément | Valeur |
@@ -96,6 +100,33 @@ https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=http
 La réponse doit contenir le package et l'empreinte. Enfin, installe l'APK sur un téléphone :
 l'app doit s'ouvrir sans barre d'URL et rester en portrait. Si la barre reste visible, c'est
 l'empreinte (ou l'accès au fichier) qui est en cause, pas le manifeste.
+
+## Plusieurs projets sur le même domaine
+
+Le fichier est unique pour `web.jmdev.fr` : il ne réserve pas le domaine à MineCards et n'empêche
+pas de convertir un autre dossier de `projets/` en application Android. Chaque TWA ajoute sa propre
+entrée au tableau, avec son package et son empreinte :
+
+```json
+[
+  { "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": { "namespace": "android_app", "package_name": "fr.jmdev.minecards",
+                "sha256_cert_fingerprints": ["60:DF:…:A3:76"] } },
+  { "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": { "namespace": "android_app", "package_name": "fr.jmdev.autreprojet",
+                "sha256_cert_fingerprints": ["…"] } }
+]
+```
+
+- Une app **absente** du fichier n'est pas bloquée : elle s'installe et fonctionne, mais sans
+  vérification, donc avec la barre d'URL du navigateur.
+- Le scope des apps reste indépendant : chaque manifeste déclare son propre
+  `/projets/<projet>/`, et les liens de l'une ne concernent pas l'autre.
+- **Ne pas écraser le fichier** : `bubblewrap fingerprint generateAssetLinks` produit un tableau
+  avec la seule entrée du projet courant. Fusionne les entrées (ou régénère le fichier depuis une
+  source qui les contient toutes) au lieu de remplacer le fichier servi.
+- Un autre host (autre sous-domaine ou domaine) demande son propre `/.well-known/assetlinks.json`
+  à sa racine : les déclarations ne traversent pas les origines.
 
 ## Notes
 

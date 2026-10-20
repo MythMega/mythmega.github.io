@@ -13,7 +13,7 @@ Il n'y a **aucun schéma formel** (JSON Schema, TypeScript, validation runtime).
 
 ---
 
-## 2. `Pokemon` — `pokemon.js`
+## 2. `Pokemon` — `js/core/pokemon.js`
 
 ```js
 class Pokemon {
@@ -69,11 +69,11 @@ class Pokemon {
 
 ### `TypeIcons` — `bindings/type_icons.json`
 
-Dictionnaire `type -> URL d'icône`. Chargé par `TypeIcons.load()` (fetch). Utilisé uniquement par `game.js`, `daily.js` et `weekly.js`, et **jamais lu** (`TypeIcons.getUrl()` n'a aucun appel externe — voir doc 16).
+Dictionnaire `type -> URL d'icône`. Chargé par `TypeIcons.load()` (fetch). Utilisé uniquement par `js/features/marathon/game.js`, `js/features/daily/daily.js` et `js/features/weekly/weekly.js`, et **jamais lu** (`TypeIcons.getUrl()` n'a aucun appel externe — voir doc 16).
 
 ---
 
-## 3. `PokemonVersions` — `pokemon-versions.js`
+## 3. `PokemonVersions` — `js/core/pokemon-versions.js`
 
 Source : `data/version.json`.
 
@@ -93,7 +93,7 @@ Source : `data/version.json`.
 
 ---
 
-## 4. `Challenge` — `entity/challenge.js`
+## 4. `Challenge` — `js/core/challenge.js`
 
 ```js
 class Challenge {
@@ -288,7 +288,7 @@ Format du code : `1` + base64url(deflate-raw(JSON UTF-8)) ou `2` + base64url(JSO
 
 ## 7. Sauvegarde exportée
 
-Format texte `data.js` :
+Format texte `js/data/data-manager.js` :
 
 ```text
 POKEFEET_SAVE v2
@@ -335,7 +335,7 @@ Le hash est un **FNV-1a 32 bits** hexadécimal du JSON compact, pas une signatur
 - `File` est relative à `img/cosmetics/`.
 - 30 fonds, 9 boutons ; 37 cosmétiques verrouillés.
 - Catégories : `Games` 12, `Event` 11, `Collection` 5, `Strat` 5, `Regional` 4, `null` 2.
-- `MustHideIfUnobtained` est utilisé par l'UI inline de `data_management.html`, pas par `cosmetics.js`.
+- `MustHideIfUnobtained` est utilisé par l'UI inline de `data_management.html`, pas par `js/features/settings/cosmetics.js`.
 
 ### 8.2 Trophées (`data/trophies.json`)
 
@@ -379,7 +379,7 @@ Modes : `Type_Registered` 54, `Full_Generation_Register` 9, `Dex_Count` 4, `Dail
 
 ### 8.4 Traductions
 
-Arborescence imbriquée par namespace (`home`, `practice`, `daily`, `weekly`, `challenge`, `challenges`, `customCreate`, `customPlay`, `dex`, `stats`, `history`, `dataManagement`, `cosmetics`, `reward`, `types`…). 437 feuilles par langue. Voir doc 14.
+Arborescence imbriquée par namespace (`home`, `practice`, `daily`, `weekly`, `challenge`, `challenges`, `customCreate`, `customPlay`, `dex`, `stats`, `history`, `dataManagement`, `cosmetics`, `reward`, `types`…). 453 feuilles par langue. Voir doc 14.
 
 ---
 

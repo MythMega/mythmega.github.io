@@ -1,0 +1,18 @@
+/* --- Round gauge / dots --- */
+.score-display { font-weight:600; color:var(--muted); }
+.round-gauge { display:flex; align-items:center; gap:10px; }
+.round-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(255,255,255,0.12);
+  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+}
+.round-dot.active { border-color:rgba(34,197,94,0.6); box-shadow:0 0 8px rgba(34,197,94,0.4); animation:dot-pulse 1.4s ease-in-out infinite; }
+.round-dot.completed { background:var(--accent); border-color:#10b981; box-shadow:0 0 12px rgba(22,163,74,0.6); transform:scale(1.15); }
+.round-dot.imperfect { background:#b45309; border-color:#f59e0b; box-shadow:0 0 12px rgba(245,158,11,0.5); transform:scale(1.15); }
+.round-dot.failed { background:#7f1d1d; border-color:#b91c1c; box-shadow:0 0 8px rgba(185,28,28,0.4); }
+@keyframes dot-pulse {
+  0%,100% { transform:scale(1); box-shadow:0 0 6px rgba(34,197,94,0.35); }
+  50%      { transform:scale(1.3); box-shadow:0 0 16px rgba(34,197,94,0.65); }
+}
+

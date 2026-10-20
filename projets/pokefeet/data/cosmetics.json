@@ -253,18 +253,42 @@
         "File": "blood-buttons.png",
         "RequiresUnlock": true
     },
-
-
-
-
-
-
-
-
-
-
-
-
+    {
+        "ID": 33,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Spidey Web",
+        "Value": "spidey",
+        "File": "ariados.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 34,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Pokeball",
+        "Value": "giantpokeball",
+        "File": "pokeball.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 35,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Meowstastic",
+        "Value": "meowth",
+        "File": "meowth.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 36,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "God's Light",
+        "Value": "GodBidoof",
+        "File": "bidoof.png",
+        "RequiresUnlock": true
+    },
     {
         "ID": 50,
         "Type": "Background",

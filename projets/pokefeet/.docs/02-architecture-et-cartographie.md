@@ -1,229 +1,239 @@
 # 02 — Architecture et cartographie réelle
 
+> **État** : réorganisation physique effectuée. Les 21 pages HTML restent à la racine ; les 36 scripts sont regroupés dans `js/` et les 25 feuilles dans `styles/`. Les évolutions fonctionnelles récentes sont décrites dans les documents dédiés.
+
 ## 1. Type d'application
 
 Application **statique multipage** (MPA), sans build, sans framework, sans backend :
 
-- 21 fichiers HTML, chacun est une page autonome ;
-- 35 fichiers JavaScript chargés par balises `<script>` classiques (IIFE ou classes globales) ;
-- 5 feuilles CSS ;
+- 21 fichiers HTML à la racine, chacun est une page autonome ;
+- 36 fichiers JavaScript chargés par balises `<script>` classiques (IIFE ou classes globales) ;
+- 25 feuilles CSS, dont un point d'entrée `styles/main.css` ;
 - données statiques JSON + images ;
 - persistance navigateur uniquement.
 
-Il n'y a **ni `package.json`, ni bundler, ni modules ES**, ni transpilation. Les fichiers s'exposent via des variables globales (`const Game`, `class Pokemon`, `window.HistoryCurve`, etc.). L'ordre des balises `<script>` est donc une dépendance implicite.
+Il n'y a **ni `package.json`, ni bundler, ni modules ES**, ni transpilation. Les fichiers s'exposent via des variables globales (`const Game`, `class Pokemon`, `window.HistoryCurve`, etc.). L'ordre des balises `<script>` est donc une dépendance implicite et **doit être conservé**.
 
 ---
 
-## 2. Trois couches coexistent
+## 2. Arborescence
 
-### 2.1 Couche « réorganisée » (partielle)
+```text
+/
+├── *.html                          # 21 pages (URLs inchangées)
+├── js/
+│   ├── core/                       # entités et modèles partagés
+│   │   ├── pokemon.js
+│   │   ├── pokemon-versions.js
+│   │   ├── challenge.js
+│   │   ├── reward.js
+│   │   ├── reward-item.js
+│   │   └── reward-button.js
+│   ├── data/                       # persistance, migration, sauvegarde
+│   │   ├── migration.js
+│   │   ├── data-manager.js
+│   │   ├── dex.js
+│   │   ├── challenge-storage.js
+│   │   ├── daily-to-dex-import.js
+│   │   └── config.js
+│   ├── features/
+│   │   ├── daily/daily.js
+│   │   ├── weekly/weekly.js
+│   │   ├── marathon/{game,ui}.js
+│   │   ├── challenges/{challenge-manager,challenge-game-ui,challenge-list-ui}.js
+│   │   ├── custom-challenges/{codec,game,create-ui,play-ui}.js
+│   │   ├── dex/dex-ui.js
+│   │   ├── history/{history,history-curve,old-daily}.js
+│   │   ├── stats/stats.js
+│   │   ├── settings/{cosmetics,profile}.js
+│   │   └── credits/credits.js
+│   ├── i18n/
+│   │   ├── translate.js
+│   │   ├── setup.js
+│   │   └── language-switcher.js
+│   └── ui/
+│       ├── loader.js
+│       └── footer.js
+├── styles/
+│   ├── main.css                    # point d'entrée : imports ordonnés
+│   ├── base.css … toggle.css       # 19 feuilles issues de l'ancien style.css
+│   ├── cosmetics.css
+│   ├── challenges.css              # ex-challenge.css
+│   ├── custom-challenges.css
+│   ├── language-switcher.css
+│   └── text-shadow.css
+├── data/                           # JSON inchangés
+├── settings/config.json            # réglages applicatifs
+├── scripts/                        # lint et serveur local sans cache
+├── translations/                   # JSON inchangés
+├── img/                            # images inchangées
+└── .docs/                          # cette documentation
+```
 
-| Dossier | Rôle attendu | Contenu réel |
+### Rôle des groupes
+
+| Groupe | Rôle | Interdits |
 |---|---|---|
-| `entity/` | Modèles métier | `Challenge`, `Reward`, `RewardItem`, `RewardButton` |
-| `business/` | Règles et stockage | `challenge-manager.js`, `challenge-storage.js`, `custom_challenges/custom-challenge-game.js`, `custom-challenge-codec.js` |
-| `ui/` | Rendu et interactions | `challenge-game-ui.js`, `challenge-list-ui.js`, `custom_challenges/custom-create-ui.js`, `custom-play-ui.js` |
+| `js/core/` | Entités, valeur des objets métier | DOM, IndexedDB, `fetch` |
+| `js/data/` | IndexedDB, cookies, migration, import/export | DOM de présentation |
+| `js/features/<domaine>/` | Orchestration d'une fonctionnalité | Ouvrir une base avec un autre nom |
+| `js/i18n/` | Traduction et sélecteur de langue | Logique de jeu |
+| `js/ui/` | Composants transverses (loader, footer) | Logique métier |
 
-Cette couche ne couvre que les **challenges bonus**, les **challenges custom** et les **récompenses**.
-
-### 2.2 Couche « legacy » à la racine
-
-Tous les autres domaines restent monolithiques à la racine :
-
-| Fichier | Lignes | Domaine |
-|---|---:|---|
-| `daily.js` | 1174 | Métier + UI + IndexedDB du Daily |
-| `weekly.js` | 1033 | Métier + UI + IndexedDB du Weekly |
-| `data.js` | 934 | Export/import + IndexedDB + parsing de texte |
-| `stats.js` | 917 | XP + trophées + rendu + récompenses |
-| `history_curve.js` | 717 | Graphiques + statistiques |
-| `migration.js` | 660 | Migration des 3 bases + cookies |
-| `game.js` | 654 | Métier + UI du Marathon |
-| `history.js` | 343 | Listes d'historique |
-| `cosmetics.js` | 298 | Cosmétiques + accès `ChallengeStorage` |
-| `Dex-ui.js` | 286 | Grille et popup du Pokédex |
-| `DailyToDexImport.js` | 272 | Reconstruction des listes + import Dex |
-| `old_daily.js` | 223 | Calendrier des défis passés |
-| `ui.js` | 183 | Rendu du Marathon |
-| `Dex.js` | 167 | Accès `PokefeetDexDB` |
-| `pokemon.js` | 58 | Entité `Pokemon` + `TypeIcons` |
-| `pokemon-versions.js` | 61 | Filtrage par version |
-| `profile.js` | 58 | **mort** (voir doc 16) |
-| `translate.js` | 94 | i18n |
-| `i18n-setup.js` | 51 | Application des traductions |
-| `language-switcher.js` | 224 | Sélecteur de langue |
-| `loader.js` | 87 | Overlay + skeletons |
-| `footer.js` | 29 | Footer |
-| `credits.js` | 206 | Page crédits |
-| `pokemon.js`/`pokemon-versions.js` | — | Entités partagées |
-
-### 2.3 Pages et scripts inline
-
-Certaines fonctionnalités vivent **uniquement dans le HTML** :
-
-- `data.html` : visualiseur de données (≈ 250 lignes de JS inline) ;
-- `prediction.html` : page protégée de prédiction (≈ 350 lignes de JS inline) ;
-- `data_management.html` : gestion du pseudo, du mode rapide et rendu des cosmétiques (≈ 200 lignes inline) ;
-- `index.html` : bandeau d'actualités Google Sheets ;
-- `challenge.html` : orchestration de la page challenge ;
-- `pied-dex.html` : initialisation du Dex ;
-- `stats.html` : structure des onglets (logique dans `stats.js`).
+> Les dépendances restent globales : `features → data → core`. Aucun import explicite n'existe encore ; l'ordre des scripts est le graphe de dépendances.
 
 ---
 
-## 3. Matrice page → scripts
+## 3. Découpage CSS
 
-Les scripts sont listés dans l'ordre de chargement réel.
+`styles/main.css` ne contient que des `@import`, dans **l'ordre exact** de l'ancien `style.css`. La concaténation des 19 feuilles est byte-identique (hors fins de ligne) à l'ancien fichier.
+
+| Feuille | Contenu |
+|---|---|
+| `base.css` | variables, reset, layout, header, cartes, typographie |
+| `game-image.css` | image du pied, skeleton, zoom |
+| `forms.css` | champs, labels, focus |
+| `buttons.css` | boutons principaux/secondaires, petits boutons |
+| `hints.css` | indices, ticker, `daily-grid` |
+| `notifications.css` | toasts et messages |
+| `data-management.css` | onglets Paramètres |
+| `history.css` | onglets historique |
+| `game-controls.css` | autocomplétion, clavier mobile, jauge |
+| `history-details.css` | lignes d'historique, tooltips |
+| `round-gauge.css` | jauge de manche |
+| `daily.css` | boutons Daily, retour, état vide |
+| `dex.css` | grille et cartes du Pokédex |
+| `home.css` | accueil et cartes de mode |
+| `past-challenges.css` | défis passés, `.back-button` |
+| `loader.css` | overlay et spinner |
+| `responsive.css` | media queries historiques |
+| `type-badges.css` | badges de type |
+| `toggle.css` | interrupteur |
+
+Les feuilles de domaine restent séparées et sont chargées en plus de `main.css` par les pages concernées : `cosmetics.css` (toutes les pages), `challenges.css` (challenge/liste), `custom-challenges.css` (custom), `text-shadow.css` (toutes les pages).
+
+---
+
+## 4. Matrice page → scripts
+
+Les scripts sont listés dans l'ordre de chargement réel. Cet ordre est **identique à celui d'avant la réorganisation**.
 
 | Page | Scripts |
 |---|---|
-| `index.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `business/challenge-storage`, `cosmetics` + 2 inline |
-| `pokefeet.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `pokemon`, `pokemon-versions`, `business/challenge-storage`, `cosmetics`, `game`, `ui` |
-| `daily.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `pokemon`, `migration`, `Dex`, `pokemon-versions`, `business/challenge-storage`, `cosmetics`, `daily` |
-| `weekly.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `pokemon`, `migration`, `Dex`, `pokemon-versions`, `business/challenge-storage`, `cosmetics`, `weekly` |
-| `old_daily.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `pokemon`, `business/challenge-storage`, `cosmetics`, `old_daily` |
-| `history.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `business/challenge-storage`, `pokemon`, `pokemon-versions`, `cosmetics`, `history`, `history_curve` |
-| `stats.html` | `loader`, `entity/reward/rewardButton`, `entity/reward/rewardItem`, `entity/reward/reward`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `profile`, `pokemon-versions`, `business/challenge-storage`, `cosmetics`, `stats` |
-| `pied-dex.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `business/challenge-storage`, `pokemon`, `pokemon-versions`, `cosmetics`, `Dex`, `Dex-ui`, `DailyToDexImport` + inline init |
-| `list_challenges.html` | `pokemon`, `pokemon-versions`, `Dex`, `entity/challenge`, `business/challenge-storage`, `business/challenge-manager`, `ui/challenge-list-ui`, `loader`, `cosmetics`, `migration`, `i18n-setup`, `language-switcher`, `translate` |
-| `challenge.html` | `pokemon`, `pokemon-versions`, `Dex`, `entity/challenge`, `business/challenge-storage`, `business/challenge-manager`, `ui/challenge-game-ui`, `loader`, `cosmetics`, `migration`, `i18n-setup`, `language-switcher`, `translate` + inline |
-| `custom.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `business/challenge-storage`, `cosmetics` |
-| `custom_create.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `pokemon`, `migration`, `business/challenge-storage`, `cosmetics`, `business/custom_challenges/custom-challenge-codec`, `ui/custom_challenges/custom-create-ui` |
-| `custom_play.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `pokemon`, `migration`, `business/challenge-storage`, `cosmetics`, `business/custom_challenges/custom-challenge-codec`, `business/custom_challenges/custom-challenge-game`, `ui/custom_challenges/custom-play-ui` |
-| `data_management.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `business/challenge-storage`, `cosmetics`, `pokemon`, `pokemon-versions`, `Dex`, `DailyToDexImport`, `data` + 4 inline |
-| `data.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup` + 1 inline |
-| `changelog.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `pokemon`, `business/challenge-storage`, `cosmetics` |
-| `credits.html` | `loader`, `translate`, `language-switcher`, `footer`, `i18n-setup`, `migration`, `business/challenge-storage`, `cosmetics`, `credits` |
+| `index.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics` + inline |
+| `pokefeet.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/marathon/game`, `js/features/marathon/ui` |
+| `daily.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/dex`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/daily/daily` |
+| `weekly.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/dex`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/weekly/weekly` |
+| `old_daily.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/data/challenge-storage`, `js/data/config`, `js/features/settings/cosmetics`, `js/features/history/old-daily` |
+| `history.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/config`, `js/features/settings/cosmetics`, `js/features/history/history`, `js/features/history/history-curve` |
+| `stats.html` | `js/ui/loader`, `js/core/reward-button`, `js/core/reward-item`, `js/core/reward`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/features/settings/profile`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/stats/stats` |
+| `pied-dex.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/features/settings/cosmetics`, `js/data/dex`, `js/features/dex/dex-ui`, `js/data/daily-to-dex-import` + inline init |
+| `list_challenges.html` | `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/dex`, `js/core/challenge`, `js/data/challenge-storage`, `js/features/challenges/challenge-manager`, `js/features/challenges/challenge-list-ui`, `js/ui/loader`, `js/features/settings/cosmetics`, `js/data/migration`, `js/i18n/setup`, `js/i18n/language-switcher`, `js/i18n/translate` |
+| `challenge.html` | `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/dex`, `js/core/challenge`, `js/data/challenge-storage`, `js/features/challenges/challenge-manager`, `js/features/challenges/challenge-game-ui`, `js/ui/loader`, `js/features/settings/cosmetics`, `js/data/migration`, `js/i18n/setup`, `js/i18n/language-switcher`, `js/i18n/translate` + inline |
+| `custom.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics` |
+| `custom_create.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/custom-challenges/codec`, `js/features/custom-challenges/create-ui` |
+| `custom_play.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/custom-challenges/codec`, `js/features/custom-challenges/game`, `js/features/custom-challenges/play-ui` |
+| `data_management.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/dex`, `js/data/daily-to-dex-import`, `js/data/data-manager` + inline |
+| `data.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup` + inline |
+| `changelog.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/data/challenge-storage`, `js/features/settings/cosmetics` |
+| `credits.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/credits/credits` |
 | `profile.html` | aucun (redirection meta vers `data_management.html`) |
-| `prediction.html` | aucun script externe + 1 inline |
+| `prediction.html` | aucun script externe + inline |
 | `integration-pokefeet.html` | aucun |
-| `test-i18n.html` | `translate`, `language-switcher`, `i18n-setup` |
+| `test-i18n.html` | `js/i18n/translate`, `js/i18n/language-switcher`, `js/i18n/setup` |
 
-> Les pages `custom_create.html`/`custom_play.html` chargent `migration.js` et `challenge-storage.js` uniquement parce que `cosmetics.js` en dépend. Aucune donnée de challenge custom n'est persistée.
+> `custom_create.html` et `custom_play.html` chargent `migration` et `challenge-storage` uniquement parce que `cosmetics` en dépend. Aucune donnée de challenge custom n'est persistée.
 
 ---
 
-## 4. Graphe de dépendances réel
+## 5. Graphe de dépendances réel
 
 ```text
-pokemon.js (Pokemon, TypeIcons)
-└── pokemon-versions.js (PokemonVersions)
-    ├── game.js ───────────────► ui.js
-    ├── daily.js ──────────────► Dex.js, migration.js
-    ├── weekly.js ─────────────► Dex.js, migration.js
-    ├── DailyToDexImport.js ───► Dex.js, PokemonVersions
-    ├── Dex.js ────────────────► IndexedDB PokefeetDexDB
-    ├── Dex-ui.js ─────────────► Dex.js, DailyToDexImport
-    ├── old_daily.js ──────────► PokefeetDB
-    ├── history.js ────────────► PokefeetDB
-    ├── history_curve.js ──────► PokefeetDB
-    ├── stats.js ──────────────► PokefeetDB, PokefeetDexDB, Reward
-    ├── data.js ───────────────► PokefeetDB, Dex.js, DailyToDexImport, ChallengeStorage
-    └── migration.js ──────────► 3 bases + cookies
+js/core/pokemon.js (Pokemon, TypeIcons)
+└── js/core/pokemon-versions.js (PokemonVersions)
+    ├── js/features/marathon/game.js ──► js/features/marathon/ui.js
+    ├── js/features/daily/daily.js ────► js/data/dex.js, js/data/migration.js
+    ├── js/features/weekly/weekly.js ──► js/data/dex.js, js/data/migration.js
+    ├── js/data/daily-to-dex-import.js ► js/data/dex.js, PokemonVersions
+    ├── js/data/dex.js ────────────────► IndexedDB PokefeetDexDB
+    ├── js/features/dex/dex-ui.js ─────► js/data/dex.js, js/data/daily-to-dex-import.js
+    ├── js/features/history/old-daily.js ► PokefeetDB
+    ├── js/features/history/history.js ─► PokefeetDB
+    ├── js/features/history/history-curve.js ► PokefeetDB
+    ├── js/features/stats/stats.js ────► PokefeetDB, PokefeetDexDB, Reward
+    ├── js/data/data-manager.js ───────► PokefeetDB, Dex, DailyToDexImport, ChallengeStorage
+    └── js/data/migration.js ──────────► 3 bases + cookies
 
-entity/challenge.js
-└── business/challenge-manager.js ──► ChallengeStorage, Dex, PokefeetDB, JSON
-    ├── ui/challenge-list-ui.js
-    └── ui/challenge-game-ui.js
+js/core/challenge.js
+└── js/features/challenges/challenge-manager.js ──► ChallengeStorage, Dex, PokefeetDB, JSON
+    ├── js/features/challenges/challenge-list-ui.js
+    └── js/features/challenges/challenge-game-ui.js
 
-business/custom_challenges/custom-challenge-codec.js (aucune dépendance)
-business/custom_challenges/custom-challenge-game.js ──► Pokemon
-└── ui/custom_challenges/custom-play-ui.js
+js/features/custom-challenges/codec.js (aucune dépendance)
+js/features/custom-challenges/game.js ──► Pokemon
+└── js/features/custom-challenges/play-ui.js
 
-entity/reward/*.js ──► Translator (optionnel)
-└── stats.js
+js/core/reward*.js ──► Translator (optionnel)
+└── js/features/stats/stats.js
 
-cosmetics.js ──► ChallengeStorage, data/cosmetics.json
-translate.js
-└── i18n-setup.js ──► language-switcher.js
-loader.js ──► Cosmetics.load() (optionnel)
+js/features/settings/cosmetics.js ──► ChallengeStorage, data/cosmetics.json
+js/i18n/translate.js
+└── js/i18n/setup.js ──► js/i18n/language-switcher.js
+js/ui/loader.js ──► Cosmetics.load() (optionnel)
 ```
 
-### Dépendances inverses / violations
+### Dépendances inverses / violations restantes
 
-- `loader.js` dépend de `Cosmetics` alors que `Cosmetics` dépend de `ChallengeStorage`, qui dépend d'IndexedDB : le charger déclenche une ouverture de base sur **toutes** les pages.
-- `Challenge` (entité) appelle `ChallengeManager.getPlayerLevel()` et `Dex` directement : l'entité dépend de la couche métier.
-- `business/challenge-manager.js` contient une copie du calcul d'XP de `stats.js`.
-- `Dex-ui.js` appelle `DailyToDexImport.forceUpdate()` : l'UI déclenche un import de données.
-- `data_management.html` réimplémente en inline le profil (`profile.js`) et le rendu des cosmétiques (`Cosmetics.renderCosmeticsUI`).
-- `stats.html` charge `profile.js` mais n'appelle jamais `ProfileInit()` ; `profile.js` est donc inerte.
+- `js/ui/loader.js` dépend de `Cosmetics`, qui dépend de `ChallengeStorage`, qui ouvre IndexedDB : charger le loader déclenche une ouverture de base sur **toutes** les pages.
+- `js/core/challenge.js` appelle `ChallengeManager.getPlayerLevel()` et `Dex` : l'entité dépend de la couche métier.
+- `js/features/challenges/challenge-manager.js` contient une copie du calcul d'XP de `js/features/stats/stats.js`.
+- `js/features/dex/dex-ui.js` appelle `DailyToDexImport.forceUpdate()` : l'UI déclenche un import.
+- `data_management.html` réimplémente en inline le profil et le rendu des cosmétiques.
+- `js/features/settings/profile.js` reste chargé par `stats.html` mais n'est jamais initialisé.
 
 ---
 
-## 5. Cycle de vie d'une page
+## 6. Cycle de vie d'une page
 
-1. **Parsing HTML** : les scripts sont chargés dans l'ordre, sans `defer`/`module`. Les scripts en fin de `<body>` s'exécutent quand le DOM existant est déjà parsé (mais pas forcément `DOMContentLoaded`).
-2. **`loader.js`** injecte immédiatement `#page-loader`, puis masque l'overlay au `load` (ou après 2,5 s), en appelant `Cosmetics.load()` avant.
-3. **`migration.js`** expose `Migration.ready`, une promesse résolue après migration des 3 bases. Les modules qui ouvrent IndexedDB attendent `Migration.ready` : `daily.js`, `weekly.js`, `stats.js`, `old_daily.js`, `challenge.html`.
-4. **`i18n-setup.js`** attend `DOMContentLoaded`, charge FR/EN via `fetch`, applique `[data-i18n]` et `[data-i18n-attr]`, puis initialise le sélecteur.
-5. **Chaque module de page** s'auto-initialise sur `DOMContentLoaded` (`daily`, `weekly`, `old_daily`, `stats`, `history`, `credits`, `challenge-list`, `custom-*`) ou est appelé par un script inline (`Dex`, `DataManager`, `ChallengeGameUI`).
-6. **Ordre relatif** : `translate.js` peut être chargé après `i18n-setup.js` (c'est le cas sur `list_challenges.html`), mais le handler `DOMContentLoaded` s'exécute après tous les scripts, donc `Translator` existe. En revanche, les scripts inline qui utilisent `Translator` immédiatement (hors handler) échoueraient.
+1. **Parsing HTML** : scripts chargés dans l'ordre, sans `defer`/`module`.
+2. **`js/ui/loader.js`** injecte `#page-loader`, puis masque l'overlay au `load` (ou après 2,5 s), en appelant `Cosmetics.load()`.
+3. **`js/data/migration.js`** expose `Migration.ready`, résolue après migration des 3 bases. `daily`, `weekly`, `stats`, `old-daily` et `challenge.html` attendent cette promesse.
+4. **`js/i18n/setup.js`** attend `DOMContentLoaded`, charge FR/EN, applique `[data-i18n]`, puis initialise le sélecteur.
+5. **Chaque module de page** s'auto-initialise sur `DOMContentLoaded` ou est appelé par un script inline.
 
-### Risques de course
+### Risques de course (inchangés)
 
-- `Cosmetics.load()` peut ouvrir `PokefeetChallengeDB` avant la fin de `Migration.ready`.
-- `daily.js`/`weekly.js` attendent la migration, mais `loader.js` et `cosmetics.js` non.
-- `data_management.html` initialise `DataManager` sur `DOMContentLoaded` sans attendre `Migration.ready`.
-- Plusieurs onglets ouverts peuvent déclencher `onblocked` lors d'une mise à jour de version IndexedDB.
+- `Cosmetics.load()` peut ouvrir `PokefeetChallengeDB` avant `Migration.ready`.
+- `data_management.html` initialise `DataManager` sans attendre `Migration.ready`.
+- Plusieurs onglets peuvent provoquer `onblocked` lors d'une montée de version IndexedDB.
 
 ---
 
-## 6. Espace de noms global
+## 7. Compatibilité des données
 
-Les identifiants suivants sont globaux et partagés entre scripts :
+La réorganisation **ne change aucun identifiant de stockage** :
 
-`Pokemon`, `TypeIcons`, `PokemonVersions`, `Translator`, `LanguageSwitcher`, `Migration`, `Cosmetics`, `Dex`, `DexUI`, `DailyToDexImport`, `Daily`, `Weekly`, `Game`, `UI`, `OldDaily`, `History` (IIFE implicite), `HistoryCurve` (`window`), `DataManager`, `Challenge`, `ChallengeManager`, `ChallengeStorage`, `ChallengeListUI`, `ChallengeGameUI`, `CustomChallengeCodec`, `CustomChallengeGame`, `CustomCreateUI`, `CustomPlayUI`, `Reward`, `RewardItem`, `RewardButton`, `Credits`, `ProfileInit`, `COOKIE_NAME`, `setCookie`, `getCookie`, `eraseCookie`.
+| Élément | Valeur conservée |
+|---|---|
+| Base Daily/Weekly | `PokefeetDB` v4 — stores `daily_results`, `weekly_results` (clé `date`) |
+| Base Dex | `PokefeetDexDB` v4 — store `dex_entries` (clé `index`) |
+| Base Challenges | `PokefeetChallengeDB` v4 — store `challenge_completions` (clé `challengeId`) |
+| Cookies | `pk_daily_result_v2`, `pk_best`, `pk_best_streak`, `pk_cosmetic_bg`, `pk_cosmetic_btn`, `pk_pseudo`, `pokefeet_language` |
+| `localStorage` | `pk_practice_session` |
+| `sessionStorage` | `challenge_manager_state` |
+| Export | `POKEFEET_SAVE v2`, mêmes champs `daily`, `weekly`, `best`, `marathon`, `challenges` |
 
-### Collisions potentielles
-
-- `setCookie`/`getCookie`/`eraseCookie` sont définis **globalement** dans `profile.js` et dans des scripts inline (`data_management.html`).
-- `PASSWORD_HASH` est une constante globale dans `prediction.html` uniquement.
-- `History` n'est pas exposé : `history.js` est une IIFE anonyme qui s'auto-initialise.
-- `HistoryCurve` est le seul module explicitement attaché à `window` (en plus des classes).
-
----
-
-## 7. Cartographie des données statiques
-
-```
-data/
-├── pokemons.json            698 entrées — source de vérité des Pokémon
-├── version.json             4 vagues de disponibilité
-├── trophies.json            79 trophées
-├── reward.json              14 paliers de récompenses
-├── cosmetics.json           39 cosmétiques
-├── bonus_challenges.json    32 challenges bonus
-├── credits.json             crédits par type/ressource
-├── backup.json              sauvegarde historique (non lue au runtime)
-├── new_backup.json          sauvegarde historique (non lue au runtime)
-├── pokefeet_commits.csv     données de suivi (non lues au runtime)
-├── result_analyse_challenge.log
-├── analyse_challenges.py
-├── egggroup-category.py
-├── newpic.py
-└── setversion.py
-```
-
-```
-bindings/type_icons.json     URLs des icônes de type
-translations/fr.json         437 clés
-translations/en.json         437 clés
-img/1-151, 152-250, ...      sprites partiels
-img/fullsprite/              sprites complets
-img/trophy/                  trophées
-img/badges/                  badges de profil
-img/cosmetics/               fonds et boutons
-```
+Les 35 fichiers JS sont **identiques octet pour octet** (hors fins de ligne) à leurs versions d'avant déplacement. Les URLs HTML et les paramètres (`?date=`, `?week=`, `?challengeid=`, `?statut=`, `?code=`) sont inchangés.
 
 ---
 
-## 8. Ce que la restructuration devra corriger en priorité
+## 8. Dette restante
 
-1. **Une seule implémentation** par règle : seed/shuffle, normalisation, scoring, XP, partage, cookies, IndexedDB.
-2. **Séparer** métier / persistance / rendu, y compris pour les modes historiques.
-3. **Supprimer les dépendances implicites** à l'ordre des scripts et à `window`.
-4. **Rendre la migration et l'ouverture IndexedDB uniques** (un seul module de base, `Migration.ready` respecté partout).
-5. **Traiter le code mort avant le déplacement** : supprimer les pages orphelines et les exports inutilisés évite de les migrer.
-6. **Introduire des tests** sur les fonctions pures et les formats de sauvegarde avant tout déplacement massif.
+1. **Pas de modules ES** : l'ordre des `<script>` reste critique.
+2. **Persistance dupliquée** : `indexedDB.open` apparaît encore dans 13 fichiers, `getCookie` dans 13, `mulberry32` dans 6.
+3. **Règles dupliquées** : seed/shuffle, normalisation, scoring, XP, partage.
+4. **Fichiers monolithiques** : `daily.js` (1 174 lignes), `weekly.js` (1 033), `data-manager.js` (934), `stats.js` (917).
+5. **Code mort** : voir [16-code-mort-et-orphelins.md](./16-code-mort-et-orphelins.md).
+6. **Aucun test automatisé** : voir [19-plan-de-tests-et-non-regression.md](./19-plan-de-tests-et-non-regression.md).
 
-Voir [18-plan-de-restructuration.md](./18-plan-de-restructuration.md) pour la cible et les phases.
+Voir [18-plan-de-restructuration.md](./18-plan-de-restructuration.md) pour les phases suivantes (fondations partagées, modules ES, unification Daily/Weekly).

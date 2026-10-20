@@ -1,0 +1,10 @@
+{
+  "name": "pokefeet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pokefeet — application statique vanilla JS",
+  "scripts": {
+    "lint": "node scripts/lint.mjs",
+    "serve": "python scripts/serve.py 5981"
+  }
+}

@@ -5,9 +5,9 @@
 | Élément | Valeur |
 |---|---|
 | Pages | `custom.html` (hub), `custom_create.html`, `custom_play.html` |
-| Métier | `business/custom_challenges/custom-challenge-codec.js`, `custom-challenge-game.js` |
-| UI | `ui/custom_challenges/custom-create-ui.js`, `custom-play-ui.js` |
-| CSS | `styles/custom_challenges/custom-challenges.css` |
+| Métier | `js/features/custom-challenges/codec.js`, `custom-challenge-game.js` |
+| UI | `js/features/custom-challenges/create-ui.js`, `custom-play-ui.js` |
+| CSS | `styles/custom-challenges.css` |
 | Persistance | **aucune** (arcade) |
 | Partage | URL contenant un code compressé |
 
@@ -22,7 +22,7 @@ Page statique avec deux actions :
 - **Créer un challenge** → `custom_create.html`
 - **Jouer un challenge** → `custom_play.html`
 
-Le hub charge `migration.js`, `challenge-storage.js` et `cosmetics.js` uniquement pour appliquer les cosmétiques (eux-mêmes dépendants des complétions de challenges).
+Le hub charge `js/data/migration.js`, `challenge-storage.js` et `js/features/settings/cosmetics.js` uniquement pour appliquer les cosmétiques (eux-mêmes dépendants des complétions de challenges).
 
 ---
 

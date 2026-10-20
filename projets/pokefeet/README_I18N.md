@@ -32,9 +32,9 @@ Toutes les pages principales:
 - ✅ `old_daily.html` - Anciens défis
 
 #### 5. **Messages Dynamiques Traduits**
-- ✅ `game.js` - Messages de jeu (Practice mode)
-- ✅ `ui.js` - Notation dynamique, feedback utilisateur
-- ✅ `daily.js` - Messages Daily challenge
+- ✅ `js/features/marathon/game.js` - Messages de jeu (Practice mode)
+- ✅ `js/features/marathon/ui.js` - Notation dynamique, feedback utilisateur
+- ✅ `js/features/daily/daily.js` - Messages Daily challenge
 - ✅ Messages d'erreur et de validation
 - ✅ Textes générés selon résultats de jeu
 
@@ -71,10 +71,10 @@ Toutes les pages principales:
 - old_daily.html
 
 **Fichiers JavaScript modifiés** (4 fichiers):
-- game.js ✅ (Messages d'abandon, invalides, indices traduits)
-- ui.js ✅ (Texte Pokemon, Échecs traduits, aperçu points)
-- daily.js ✅ (Messages futurs, validations, indices)
-- (data.js, Dex-ui.js, history.js - à traduire ultérieurement)
+- js/features/marathon/game.js ✅ (Messages d'abandon, invalides, indices traduits)
+- js/features/marathon/ui.js ✅ (Texte Pokemon, Échecs traduits, aperçu points)
+- js/features/daily/daily.js ✅ (Messages futurs, validations, indices)
+- (js/data/data-manager.js, js/features/dex/dex-ui.js, js/features/history/history.js - à traduire ultérieurement)
 
 ### 🚀 Utilisation
 
@@ -158,7 +158,7 @@ Puis ajouter dans `fr.json` et `en.json`:
 
 ### 🎯 Prochaines Améliorations Possibles
 
-- [ ] Traduire fichiers JavaScript restants (data.js, Dex-ui.js, history.js)
+- [ ] Traduire fichiers JavaScript restants (js/data/data-manager.js, js/features/dex/dex-ui.js, js/features/history/history.js)
 - [ ] Ajouter traduction des titres <title> des pages
 - [ ] Support pour pluralisation intelligente
 - [ ] Support pour d'autres langues (ES, IT, DE, etc)

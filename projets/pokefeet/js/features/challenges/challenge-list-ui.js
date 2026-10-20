@@ -166,7 +166,7 @@ const ChallengeListUI = (function () {
                 </div>
                 ${requirementsHTML}
                 <div class="challenge-actions">
-                    <button class="btn-view" data-challenge-id="${challenge.ID}" ${(!canPlay || !isAvailable) ? 'disabled' : ''}>
+                    <button class="btn-view" data-tag="customizables-button" data-challenge-id="${challenge.ID}" ${(!canPlay || !isAvailable) ? 'disabled' : ''}>
                         ${isCompleted ? T('challenge.replay', 'Re-jouer') : T('challenge.play', 'Jouer')}
                     </button>
                 </div>

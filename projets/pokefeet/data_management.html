@@ -18,9 +18,9 @@
   <meta name="twitter:title" content="Pokefeet — Paramètres" />
   <meta name="twitter:description" content="Gérez votre profil et vos données." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="cosmetics.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
   <style>
     .dm-tabs { display:flex; gap:8px; justify-content:center; max-width:520px; margin:0 auto 1.5rem; flex-wrap:wrap; }
     .dm-tab-btn {
@@ -218,7 +218,7 @@
           <input id="pseudoInput" type="text" autocomplete="off" maxlength="30" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.04); color:var(--text); font-size:15px; font-family:inherit; outline:none; transition:border-color 200ms, box-shadow 200ms;" data-i18n-attr="placeholder:profile.placeholder" placeholder="Entrez votre pseudo..." />
         </div>
         <div style="display:flex; gap:8px; justify-content:center;">
-          <button id="savePseudoBtn" style="padding:9px 14px;" data-i18n="profile.save">Sauvegarder</button>
+          <button id="savePseudoBtn" style="padding:9px 14px;" data-tag="customizables-button" data-i18n="profile.save">Sauvegarder</button>
           <button id="clearPseudoBtn" class="danger" style="padding:9px 14px;" data-i18n="profile.clear">Effacer</button>
         </div>
         <div id="profileStatus" style="margin-top:10px; font-size:13px; color:var(--accent); min-height:1.3em;"></div>
@@ -232,7 +232,7 @@
         <p class="info-below" data-i18n="dataManagement.exportDesc">Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.</p>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button id="exportBtn" class="btn-export" data-i18n="dataManagement.exportBtn">Exporter les données</button>
+          <button id="exportBtn" class="btn-export" data-tag="customizables-button" data-i18n="dataManagement.exportBtn">Exporter les données</button>
           <label for="importFile" class="btn secondary" style="cursor:pointer;" data-i18n="dataManagement.importFile">Importer un fichier</label>
           <input id="importFile" type="file" accept=".txt" class="hidden file-input" />
           <button id="previewBtn" class="secondary" title="Voir le contenu du cookie actuel" data-i18n="dataManagement.preview">Aperçu cookie actuel</button>
@@ -247,7 +247,7 @@
           <p class="info-below" style="margin-bottom:8px;" data-i18n="dataManagement.importDailyDesc">Collez le bloc texte d'un Daily (format emoji ou :green_square:). Exemple: Pokefeet Daily — 2025-11-24 — score 38 suivi de 5 lignes d'emoji.</p>
           <textarea id="dailyImportArea" data-i18n-attr="placeholder:dataManagement.importDaily" placeholder="Collez ici le texte du Daily..." style="width:100%;min-height:140px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
           <div style="display:flex;gap:8px;margin-top:8px;">
-            <button id="importDailyBtn" class="btn-export" style="padding:10px 12px;" data-i18n="dataManagement.importDailyBtn">Importer un jour</button>
+            <button id="importDailyBtn" class="btn-export" style="padding:10px 12px;" data-tag="customizables-button" data-i18n="dataManagement.importDailyBtn">Importer un jour</button>
             <button id="clearDailyArea" class="secondary" style="padding:10px 12px;" data-i18n="dataManagement.clear">Effacer</button>
           </div>
           <div id="dailyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
@@ -260,7 +260,7 @@
           <p class="info-below" style="margin-bottom:8px;">Collez le bloc texte d'un Weekly (format emoji). Exemple: Pokefeet Weekly — 2025-11-24 — score 84 suivi de 10 lignes d'emoji.</p>
           <textarea id="weeklyImportArea" placeholder="Collez ici le texte du Weekly..." style="width:100%;min-height:170px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
           <div style="display:flex;gap:8px;margin-top:8px;">
-            <button id="importWeeklyBtn" class="btn-export" style="padding:10px 12px;">Importer une semaine</button>
+            <button id="importWeeklyBtn" class="btn-export" style="padding:10px 12px;" data-tag="customizables-button">Importer une semaine</button>
             <button id="clearWeeklyArea" class="secondary" style="padding:10px 12px;">Effacer</button>
           </div>
           <div id="weeklyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
@@ -383,19 +383,19 @@
     })();
 
   </script>
-  <script src="loader.js"></script>
-  <script src="translate.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="footer.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="migration.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="cosmetics.js"></script>
-  <script src="pokemon.js"></script>
-  <script src="pokemon-versions.js"></script>
-  <script src="Dex.js"></script>
-  <script src="DailyToDexImport.js"></script>
-  <script src="data.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/core/pokemon-versions.js"></script>
+  <script src="js/data/dex.js"></script>
+  <script src="js/data/daily-to-dex-import.js"></script>
+  <script src="js/data/data-manager.js"></script>
   <script>
     // Initialize data management bindings
     document.addEventListener('DOMContentLoaded', function() {

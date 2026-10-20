@@ -1,0 +1,22 @@
+/* Pokefeet — point d’entrée CSS global.
+   Les imports reprennent exactement l’ordre de l’ancien style.css. */
+@import url("./base.css");
+@import url("./game-image.css");
+@import url("./forms.css");
+@import url("./buttons.css");
+@import url("./hints.css");
+@import url("./notifications.css");
+@import url("./data-management.css");
+@import url("./history.css");
+@import url("./game-controls.css");
+@import url("./history-details.css");
+@import url("./round-gauge.css");
+@import url("./daily.css");
+@import url("./dex.css");
+@import url("./home.css");
+@import url("./past-challenges.css");
+@import url("./loader.css");
+@import url("./responsive.css");
+@import url("./type-badges.css");
+@import url("./toggle.css");
+@import url("./language-switcher.css");

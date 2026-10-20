@@ -5,7 +5,7 @@
 | Élément | Valeur |
 |---|---|
 | Page | `daily.html` |
-| Scripts | `pokemon.js`, `pokemon-versions.js`, `Dex.js`, `daily.js`, `migration.js`, i18n, cosmetics |
+| Scripts | `js/core/pokemon.js`, `js/core/pokemon-versions.js`, `js/data/dex.js`, `js/features/daily/daily.js`, `js/data/migration.js`, i18n, cosmetics |
 | Constante | `COUNT = 5` |
 | Score max | 50 |
 | Seed | date `YYYY-MM-DD` |

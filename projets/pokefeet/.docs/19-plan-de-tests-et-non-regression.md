@@ -12,7 +12,8 @@
 
 ### 1.1 Lancement
 
-- Serveur statique local (`start_server.cmd` ou `python -m http.server`).
+- Serveur statique local sans cache : `start_server.cmd` ou `python scripts/serve.py 5981`.
+- **Ne pas utiliser `python -m http.server` seul** : il n'envoie pas de `Cache-Control`, et le navigateur peut rejouer une ancienne page HTML après un déplacement de fichiers (scripts 404).
 - **Ne pas tester en `file://`** : `crypto.subtle`, `fetch` et IndexedDB peuvent échouer.
 - Navigateurs cibles : Chrome/Edge récent, Firefox récent, Safari récent, mobile (Chrome Android/Safari iOS).
 - Tester avec un profil neuf (`localStorage`/IndexedDB/cookies vides) **et** avec un profil existant.
@@ -371,3 +372,34 @@ Les cibles sont indicatives : l'important est de **mesurer une baseline** et de 
 - Les performances réelles sur un appareil bas de gamme.
 
 Ces points doivent être couverts par les tests manuels et, si possible, par Playwright avec des profils de navigateurs réels.
+
+---
+
+## 10. Lint statique et configuration
+
+Le lint ne dépend d'aucun paquet npm : il est exécuté par Node et vérifie l'ensemble du dépôt statique.
+
+```bash
+npm run lint
+```
+
+Il contrôle :
+
+- la syntaxe des scripts JS et l'absence de `debugger`, `eval()` et `document.write()` ;
+- les références locales des pages HTML et des feuilles CSS ;
+- les ids HTML dupliqués et les clés `data-i18n` utilisées ;
+- l'équilibre des blocs CSS ;
+- la validité de tous les JSON ;
+- la parité des clés FR/EN ;
+- le schéma de `settings/config.json`.
+
+### Configuration
+
+`settings/config.json` est chargé par `js/data/config.js` avec des valeurs de repli validées :
+
+| Propriété | Défaut | Effet |
+|---|---|---|
+| `historyChartDays` | `60` | Nombre de jours affichés dans le graphique Daily de `history.html` |
+| `oldDailyPageSize` | `30` | Nombre de dates par page dans `old_daily.html` (Daily et Weekly) |
+
+Toute valeur non entière, hors bornes ou toute clé inconnue fait échouer `npm run lint`.

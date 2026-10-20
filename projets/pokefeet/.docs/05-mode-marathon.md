@@ -5,7 +5,7 @@
 | Élément | Valeur |
 |---|---|
 | Page | `pokefeet.html` |
-| Scripts | `pokemon.js`, `pokemon-versions.js`, `game.js`, `ui.js`, `loader.js`, `cosmetics.js`, `migration.js`, i18n |
+| Scripts | `js/core/pokemon.js`, `js/core/pokemon-versions.js`, `js/features/marathon/game.js`, `js/features/marathon/ui.js`, `js/ui/loader.js`, `js/features/settings/cosmetics.js`, `js/data/migration.js`, i18n |
 | Nom UI | « Marathon » |
 | Nom code | `Game`, « practice », « Entraînement » |
 | Objectif | Deviner un maximum de Pokémon du pool disponible, sans limite de temps, avec reprise de session |
@@ -182,7 +182,7 @@ En cas d'échec, le comportement reste normal (indices, game over).
 const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
 ```
 
-Le hash SHA-256 est identique dans `game.js`, `daily.js`, `weekly.js` et `prediction.html`. Toute saisie dont le hash correspond valide le Pokémon courant. Ce n'est **pas** une sécurité : le hash est public et le bypass est côté client. À remplacer par un mode debug explicite ou supprimer.
+Le hash SHA-256 est identique dans `js/features/marathon/game.js`, `js/features/daily/daily.js`, `js/features/weekly/weekly.js` et `prediction.html`. Toute saisie dont le hash correspond valide le Pokémon courant. Ce n'est **pas** une sécurité : le hash est public et le bypass est côté client. À remplacer par un mode debug explicite ou supprimer.
 
 ---
 

@@ -1,10 +1,12 @@
-# Pokefeet — Documentation d'analyse (pré-restructuration)
+# Pokefeet — Documentation d'analyse et d'architecture
 
-> **Objet** : décrire l'application existante fonctionnalité par fonctionnalité, vérifier les dépendances réelles, identifier le code mort et fournir une base de décision pour une restructuration globale.
+> **Objet** : décrire l'application fonctionnalité par fonctionnalité, vérifier les dépendances réelles, identifier le code mort et suivre la restructuration en cours.
 >
 > **Branche analysée** : `pokefeet/5.1`  
 > **Date d'analyse** : 19/10/2026  
-> **Méthode** : lecture statique du dépôt, recherche d'usages (`grep`), inventaire des scripts chargés par page, vérification des clés IndexedDB/cookies, comptage des données JSON. Aucun runtime n'a été modifié.
+> **Méthode** : lecture statique du dépôt, recherche d'usages (`grep`), inventaire des scripts chargés par page, vérification des clés IndexedDB/cookies, comptage des données JSON, puis vérification navigateur des 21 pages.
+>
+> **Réorganisation effectuée** : les 36 scripts sont dans `js/` (`core`, `data`, `features`, `i18n`, `ui`) et les 25 feuilles dans `styles/` (dont `main.css`). Les 21 pages HTML restent à la racine. Aucun identifiant de stockage n'a changé.
 
 ---
 
@@ -31,6 +33,7 @@
 | Dette technique et risques | [17-dette-technique-et-risques.md](./17-dette-technique-et-risques.md) |
 | **Plan de restructuration proposé** | [18-plan-de-restructuration.md](./18-plan-de-restructuration.md) |
 | Plan de tests et de non-régression | [19-plan-de-tests-et-non-regression.md](./19-plan-de-tests-et-non-regression.md) |
+| **Contrat de compatibilité des données** | [20-compatibilite-donnees.md](./20-compatibilite-donnees.md) |
 
 ---
 
@@ -39,16 +42,17 @@
 | Élément | Valeur |
 |---|---|
 | Pages HTML | 21 |
-| Fichiers JavaScript métier/UI | 35 (hors pages HTML et scripts Python) |
+| Fichiers JavaScript métier/UI | 36, regroupés dans `js/` (11 628 lignes) |
+| Feuilles CSS | 25 dans `styles/` (3 025 lignes), dont `main.css` |
 | Lignes JS + HTML + CSS suivies | ~18 400 (hors `.docs/`) |
 | Pokémon dans `data/pokemons.json` | 698 |
 | Générations représentées | 1 à 5 principalement, 7 à 9 en faible volume |
 | Versions de données (`version.json`) | 4 (déploiements entre le 27/05/2026 et le 31/08/2026) |
 | Trophées (`trophies.json`) | 79 |
 | Challenges bonus (`bonus_challenges.json`) | 32 |
-| Cosmétiques (`cosmetics.json`) | 39 (30 fonds, 9 boutons) |
+| Cosmétiques (`js/features/settings/cosmetics.json`) | 39 (30 fonds, 9 boutons) |
 | Récompenses de niveau (`reward.json`) | 14 |
-| Clés de traduction | 437 en français, 437 en anglais |
+| Clés de traduction | 453 en français, 453 en anglais |
 | Bases IndexedDB | 3 : `PokefeetDB`, `PokefeetDexDB`, `PokefeetChallengeDB` |
 | Tests automatisés détectés | 0 |
 | `package.json` / build | absent — site statique vanilla JS |
@@ -57,10 +61,10 @@
 
 ## 3. Constats majeurs (à retenir avant de restructurer)
 
-1. **La réorganisation est déjà commencée mais incomplète.** `entity/`, `business/` et `ui/` ne couvrent que les challenges bonus, les challenges custom et les récompenses. Tous les modes historiques (`daily.js`, `weekly.js`, `game.js`, `stats.js`, `data.js`, `Dex.js`, etc.) restent à la racine et mélangent métier, UI et persistance.
+1. **La réorganisation physique est terminée.** Tous les scripts sont désormais rangés par domaine dans `js/core`, `js/data`, `js/features`, `js/i18n` et `js/ui` ; les styles sont éclatés dans `styles/`. En revanche, les gros modules (`daily`, `weekly`, `stats`, `data-manager`) mélangent encore métier, UI et persistance : le découpage interne reste à faire.
 2. **La persistance est dupliquée.** Le même code `indexedDB.open(...)` et les mêmes helpers cookies existent dans plus de dix fichiers, avec des variantes de gestion d'erreur.
-3. **Les règles métier sont dupliquées.** PRNG Mulberry32, shuffle seedé, normalisation des noms, barème de points, calcul d'XP et génération des textes de partage sont réimplémentés dans plusieurs modules. `ChallengeManager.computeTotalXP()` est explicitement commenté comme « IDENTIQUE à stats.js ».
-4. **Le code mort est concentré autour de la réorganisation et des pages annexes.** Voir le détail dans [16-code-mort-et-orphelins.md](./16-code-mort-et-orphelins.md) : `profile.js`, `Cosmetics.renderCosmeticsUI()`, plusieurs exports jamais appelés, 4 pages non liées, des sprites alternatifs et des scripts/outils non référencés.
+3. **Les règles métier sont dupliquées.** PRNG Mulberry32, shuffle seedé, normalisation des noms, barème de points, calcul d'XP et génération des textes de partage sont réimplémentés dans plusieurs modules. `ChallengeManager.computeTotalXP()` est explicitement commenté comme « IDENTIQUE à js/features/stats/stats.js ».
+4. **Le code mort est concentré autour de la réorganisation et des pages annexes.** Voir le détail dans [16-code-mort-et-orphelins.md](./16-code-mort-et-orphelins.md) : `js/features/settings/profile.js`, `Cosmetics.renderCosmeticsUI()`, plusieurs exports jamais appelés, 4 pages non liées, des sprites alternatifs et des scripts/outils non référencés.
 5. **Il n'existe aucun filet de sécurité automatisé.** Pas de tests, pas de build, pas de lint. Toute restructuration doit commencer par une baseline de tests manuels et des fixtures d'import/export.
 
 ---
@@ -72,7 +76,7 @@
 - **« Mort »** : aucun appel externe détecté (hors définition et export), ou page sans lien entrant.
 - **« À vérifier runtime »** : comportement dépendant du navigateur, du réseau ou d'un état IndexedDB non reproductible statiquement.
 - Les chemins sont relatifs à la racine du dépôt.
-- Les documents `docs/` existants (17 fichiers, ~2 200 lignes, datés de juillet à octobre) sont **conservés comme archive** mais ne doivent plus servir de référence : ils ne couvrent ni les challenges custom, ni `business/ui/entity`, ni l'état réel de la dette.
+- Les documents `docs/` existants (17 fichiers, ~2 200 lignes, datés de juillet à octobre) sont **conservés comme archive** mais ne doivent plus servir de référence : ils ne couvrent ni les challenges custom, ni l'arborescence `js/` actuelle, ni l'état réel de la dette.
 
 ---
 

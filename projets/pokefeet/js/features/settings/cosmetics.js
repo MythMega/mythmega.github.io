@@ -80,6 +80,63 @@ const Cosmetics = (function () {
         return val;
     }
 
+    // --- Apply the selected button theme to one element ---
+    function applyButtonTheme(button, btnVal) {
+        for (var l = 0; l < cosmeticsData.length; l++) {
+            var c = cosmeticsData[l];
+            if (c.Type === 'Background-Buttons') {
+                button.classList.remove(c.Value);
+            }
+        }
+        if (!btnVal) return;
+        for (var m = 0; m < cosmeticsData.length; m++) {
+            var selected = cosmeticsData[m];
+            if (selected.Type === 'Background-Buttons' && selected.Value === btnVal) {
+                button.classList.add(selected.Value);
+                break;
+            }
+        }
+    }
+
+    function applyButtonThemes() {
+        var buttons = document.querySelectorAll('[data-tag="customizables-button"]');
+        var btnVal = getSelectedBtn();
+        for (var i = 0; i < buttons.length; i++) {
+            applyButtonTheme(buttons[i], btnVal);
+        }
+    }
+
+    // Les listes de challenges sont rendues après le chargement des cosmétiques :
+    // on applique le thème aux boutons ajoutés dynamiquement.
+    var buttonObserver = null;
+    var observerScheduled = false;
+    function watchDynamicButtons() {
+        if (buttonObserver || typeof MutationObserver === 'undefined') return;
+        buttonObserver = new MutationObserver(function (mutations) {
+            if (!getSelectedBtn()) return;
+            var found = false;
+            for (var i = 0; i < mutations.length && !found; i++) {
+                var added = mutations[i].addedNodes;
+                for (var j = 0; j < added.length; j++) {
+                    var node = added[j];
+                    if (node.nodeType !== 1) continue;
+                    if ((node.matches && node.matches('[data-tag="customizables-button"]')) ||
+                        (node.querySelector && node.querySelector('[data-tag="customizables-button"]'))) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found || observerScheduled) return;
+            observerScheduled = true;
+            requestAnimationFrame(function () {
+                observerScheduled = false;
+                applyButtonThemes();
+            });
+        });
+        buttonObserver.observe(document.documentElement, { childList: true, subtree: true });
+    }
+
     // --- Apply cosmetics to the page ---
     function applyCosmetics() {
         var body = document.body;
@@ -104,30 +161,7 @@ const Cosmetics = (function () {
             }
         }
 
-        // Remove all button cosmetic classes from all buttons
-        var buttons = document.querySelectorAll('[data-tag="customizables-button"]');
-        for (var k = 0; k < buttons.length; k++) {
-            for (var l = 0; l < cosmeticsData.length; l++) {
-                var c3 = cosmeticsData[l];
-                if (c3.Type === 'Background-Buttons') {
-                    buttons[k].classList.remove(c3.Value);
-                }
-            }
-        }
-
-        // Apply selected button cosmetic
-        var btnVal = getSelectedBtn();
-        if (btnVal) {
-            for (var m = 0; m < cosmeticsData.length; m++) {
-                var c4 = cosmeticsData[m];
-                if (c4.Type === 'Background-Buttons' && c4.Value === btnVal) {
-                    for (var n = 0; n < buttons.length; n++) {
-                        buttons[n].classList.add(c4.Value);
-                    }
-                    break;
-                }
-            }
-        }
+        applyButtonThemes();
     }
 
   // --- Select a cosmetic (called from UI) ---
@@ -268,6 +302,7 @@ const Cosmetics = (function () {
         await loadCosmeticsData();
         await loadUnlockedCosmetics();
         applyCosmetics();
+        watchDynamicButtons();
     }
 
     // --- Get cosmetics by type ---

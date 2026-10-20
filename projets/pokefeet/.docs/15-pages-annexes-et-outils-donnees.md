@@ -34,7 +34,7 @@ Script inline :
 
 ### 1.3 Autres scripts
 
-`Cosmetics.load()` est appelé une seconde fois au `DOMContentLoaded` (en plus de `loader.js`).
+`Cosmetics.load()` est appelé une seconde fois au `DOMContentLoaded` (en plus de `js/ui/loader.js`).
 
 ---
 
@@ -64,7 +64,7 @@ Page statique, sans logique métier. Contient un `<h1>` et un lien retour. Les e
 
 ---
 
-## 4. Crédits (`credits.html` + `credits.js`)
+## 4. Crédits (`credits.html` + `js/features/credits/credits.js`)
 
 - Charge `data/credits.json`.
 - `TranslationsFR`/`TranslationsEN` fournissent les libellés de types.
@@ -112,7 +112,7 @@ Cette protection est **côté client** : le code et les données sont accessible
 
 - Onglets Daily / Weekly.
 - `DAYS_AHEAD = 3650`, `DAILY_COUNT = 5`, `WEEKLY_COUNT = 10`.
-- Recalcule les listes futures avec les mêmes algorithmes que `daily.js`/`weekly.js` (seed date / `'week' + lundi`).
+- Recalcule les listes futures avec les mêmes algorithmes que `js/features/daily/daily.js`/`js/features/weekly/weekly.js` (seed date / `'week' + lundi`).
 - Affiche les images partielles des Pokémon à venir.
 - Recherche multi-mots (ET), insensible aux accents, sur FR/EN.
 - Surligne les Pokémon correspondants.
@@ -142,7 +142,7 @@ Page statique, sans script, non liée. Elle décrit probablement une intention d
 
 Page de test manuel du système de traduction :
 
-- charge `translate.js`, `language-switcher.js`, `i18n-setup.js` ;
+- charge `js/i18n/translate.js`, `js/i18n/language-switcher.js`, `js/i18n/setup.js` ;
 - affiche des clés, des attributs traduits, des valeurs de fallback.
 
 Elle n'est pas liée et ne fait pas partie du produit. Utile comme référence de test, mais candidate à la suppression ou au déplacement dans un dossier de tests.

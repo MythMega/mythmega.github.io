@@ -7,6 +7,9 @@ const OldDaily = (function () {
   const noDailiesMsg    = document.getElementById('noDailies');
   const tabDailyBtn     = document.getElementById('tabDailyBtn');
   const tabWeeklyBtn    = document.getElementById('tabWeeklyBtn');
+  const dailyPagination  = document.getElementById('dailyPagination');
+  const weeklyPagination = document.getElementById('weeklyPagination');
+  let pageSize = 30;
 
   const DB_NAME    = 'PokefeetDB';
   const DB_VERSION = 4;
@@ -102,6 +105,46 @@ const OldDaily = (function () {
     return `Semaine du ${monday.toLocaleDateString(locale, opts)} au ${sunday.toLocaleDateString(locale, opts)} ${year}`;
   }
 
+  function T(key, fallback) {
+    return (typeof Translator !== 'undefined') ? Translator.get(key, fallback) : fallback;
+  }
+
+  function renderPagination(container, page, totalPages, onChange) {
+    if (!container) return;
+    container.innerHTML = '';
+    if (totalPages <= 1) {
+      container.classList.add('hidden');
+      return;
+    }
+    container.classList.remove('hidden');
+
+    const previous = document.createElement('button');
+    previous.type = 'button';
+    previous.className = 'secondary';
+    previous.textContent = '\u2039';
+    previous.setAttribute('aria-label', T('oldDaily.previousPage', 'Page précédente'));
+    previous.disabled = page <= 0;
+    previous.addEventListener('click', () => onChange(page - 1));
+
+    const status = document.createElement('span');
+    status.className = 'pagination-status';
+    status.textContent = T('oldDaily.pageLabel', 'Page {page} / {total}')
+      .replace('{page}', page + 1)
+      .replace('{total}', totalPages);
+
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'secondary';
+    next.textContent = '\u203a';
+    next.setAttribute('aria-label', T('oldDaily.nextPage', 'Page suivante'));
+    next.disabled = page >= totalPages - 1;
+    next.addEventListener('click', () => onChange(page + 1));
+
+    container.appendChild(previous);
+    container.appendChild(status);
+    container.appendChild(next);
+  }
+
   // ── DAILY tab ──────────────────────────────────────────────
   async function renderDailyTab() {
     const allDailies  = await getAllFromStore('daily_results');
@@ -113,10 +156,12 @@ const OldDaily = (function () {
     const allOldest   = [...dailyDates, ...weeklyDates].sort();
 
     dailyContainer.innerHTML = '';
+    if (dailyPagination) dailyPagination.innerHTML = '';
     noDailiesMsg.classList.add('hidden');
 
     if (allOldest.length === 0) {
       noDailiesMsg.classList.remove('hidden');
+      if (dailyPagination) dailyPagination.classList.add('hidden');
       return;
     }
 
@@ -128,21 +173,38 @@ const OldDaily = (function () {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const current = new Date(today);
+    const entries = [];
 
     while (current >= startDate) {
       const dateStr = dateToStr(current);
-      const played  = allDailies.hasOwnProperty(dateStr);
-      const btn     = document.createElement('a');
-      btn.href      = `daily.html?date=${dateStr}`;
-      btn.className = `daily-button ${played ? 'played' : 'available'}`;
-      btn.textContent = formatDate(dateStr);
-      btn.setAttribute('data-tag', 'customizables-button');
-      btn.title     = played
-        ? (typeof Translator !== 'undefined' ? Translator.get('oldDaily.playedTitle', 'Déjà joué') : 'Déjà joué')
-        : (typeof Translator !== 'undefined' ? Translator.get('oldDaily.availableTitle', 'Disponible') : 'Disponible');
-      dailyContainer.appendChild(btn);
+      entries.push({ dateStr, played: allDailies.hasOwnProperty(dateStr) });
       current.setDate(current.getDate() - 1);
     }
+
+    const size = Math.max(1, pageSize);
+    const totalPages = Math.max(1, Math.ceil(entries.length / size));
+    let page = 0;
+
+    function renderPage(nextPage) {
+      page = Math.min(Math.max(0, nextPage), totalPages - 1);
+      dailyContainer.innerHTML = '';
+
+      entries.slice(page * size, (page + 1) * size).forEach(function (entry) {
+        const btn = document.createElement('a');
+        btn.href = `daily.html?date=${entry.dateStr}`;
+        btn.className = `daily-button ${entry.played ? 'played' : 'available'}`;
+        btn.textContent = formatDate(entry.dateStr);
+        if (!entry.played) btn.setAttribute('data-tag', 'customizables-button');
+        btn.title = entry.played
+          ? T('oldDaily.playedTitle', 'Déjà joué')
+          : T('oldDaily.availableTitle', 'Disponible');
+        dailyContainer.appendChild(btn);
+      });
+
+      renderPagination(dailyPagination, page, totalPages, renderPage);
+    }
+
+    renderPage(0);
   }
 
   // ── WEEKLY tab ─────────────────────────────────────────────
@@ -155,10 +217,12 @@ const OldDaily = (function () {
     const allOldest   = [...dailyDates, ...weeklyDates].sort();
 
     weeklyContainer.innerHTML = '';
+    if (weeklyPagination) weeklyPagination.innerHTML = '';
     noDailiesMsg.classList.add('hidden');
 
     if (allOldest.length === 0) {
       noDailiesMsg.classList.remove('hidden');
+      if (weeklyPagination) weeklyPagination.classList.add('hidden');
       return;
     }
 
@@ -169,22 +233,39 @@ const OldDaily = (function () {
 
     const today = new Date();
     const currentMonday = getMondayOfWeek(today);
-
     const current = new Date(currentMonday);
+    const entries = [];
+
     while (current >= startMonday) {
       const mondayStr = dateToStr(current);
-      const played    = allWeeklies.hasOwnProperty(mondayStr);
-      const btn       = document.createElement('a');
-      btn.href        = `weekly.html?week=${mondayStr}`;
-      btn.className   = `daily-button ${played ? 'played' : 'available'}`;
-      btn.textContent = formatWeekLabel(mondayStr);
-      btn.setAttribute('data-tag', 'customizables-button');
-      btn.title       = played
-        ? (typeof Translator !== 'undefined' ? Translator.get('oldDaily.weeklyPlayedTitle', 'Déjà joué') : 'Déjà joué')
-        : (typeof Translator !== 'undefined' ? Translator.get('oldDaily.weeklyAvailableTitle', 'Disponible') : 'Disponible');
-      weeklyContainer.appendChild(btn);
+      entries.push({ mondayStr, played: allWeeklies.hasOwnProperty(mondayStr) });
       current.setDate(current.getDate() - 7);
     }
+
+    const size = Math.max(1, pageSize);
+    const totalPages = Math.max(1, Math.ceil(entries.length / size));
+    let page = 0;
+
+    function renderPage(nextPage) {
+      page = Math.min(Math.max(0, nextPage), totalPages - 1);
+      weeklyContainer.innerHTML = '';
+
+      entries.slice(page * size, (page + 1) * size).forEach(function (entry) {
+        const btn = document.createElement('a');
+        btn.href = `weekly.html?week=${entry.mondayStr}`;
+        btn.className = `daily-button ${entry.played ? 'played' : 'available'}`;
+        btn.textContent = formatWeekLabel(entry.mondayStr);
+        if (!entry.played) btn.setAttribute('data-tag', 'customizables-button');
+        btn.title = entry.played
+          ? T('oldDaily.weeklyPlayedTitle', 'Déjà joué')
+          : T('oldDaily.weeklyAvailableTitle', 'Disponible');
+        weeklyContainer.appendChild(btn);
+      });
+
+      renderPagination(weeklyPagination, page, totalPages, renderPage);
+    }
+
+    renderPage(0);
   }
 
   // ── Tab switching ──────────────────────────────────────────
@@ -194,11 +275,15 @@ const OldDaily = (function () {
       tabWeeklyBtn.classList.remove('active');
       dailyContainer.style.display  = '';
       weeklyContainer.style.display = 'none';
+      if (dailyPagination) dailyPagination.style.display = '';
+      if (weeklyPagination) weeklyPagination.style.display = 'none';
     } else {
       tabWeeklyBtn.classList.add('active');
       tabDailyBtn.classList.remove('active');
       weeklyContainer.style.display = '';
       dailyContainer.style.display  = 'none';
+      if (dailyPagination) dailyPagination.style.display = 'none';
+      if (weeklyPagination) weeklyPagination.style.display = '';
     }
   }
 
@@ -206,11 +291,18 @@ const OldDaily = (function () {
   async function init() {
     tabDailyBtn.addEventListener('click',  () => switchTab('daily'));
     tabWeeklyBtn.addEventListener('click', () => switchTab('weekly'));
+
+    if (typeof AppConfig !== 'undefined') {
+      const config = await AppConfig.load();
+      pageSize = config.oldDailyPageSize;
+    }
+
     // Wait for migration to finish before opening the DB (prevents concurrent IDB opens on Firefox)
     if (typeof Migration !== 'undefined') await Migration.ready;
 
     try {
       await Promise.all([renderDailyTab(), renderWeeklyTab()]);
+      switchTab('daily');
     } catch (e) {
       console.error('Error initializing past challenges page:', e);
       noDailiesMsg.classList.remove('hidden');

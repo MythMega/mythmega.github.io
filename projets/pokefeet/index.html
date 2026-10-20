@@ -18,9 +18,9 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Pokefeet — Devinez le Pokémon par son pied / ses pieds">
   <meta name="twitter:description" content="Jeu de devinettes Pokémon par MythMega. Devinez le Pokémon en ne voyant que son pied / ses pieds.">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="cosmetics.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
   <link rel="icon" type="image/x-icon" href="./icon.png">
 </head>
 <body>
@@ -71,14 +71,14 @@
 
   </main>
 
-  <script src="loader.js"></script>
-  <script src="translate.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="footer.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="migration.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="cosmetics.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       if (typeof Cosmetics !== 'undefined') Cosmetics.load();

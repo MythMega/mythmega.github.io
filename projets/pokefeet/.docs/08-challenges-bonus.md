@@ -5,10 +5,10 @@
 | Élément | Valeur |
 |---|---|
 | Pages | `list_challenges.html` (liste), `challenge.html` (jeu) |
-| Entité | `entity/challenge.js` |
-| Métier | `business/challenge-manager.js` |
-| Stockage | `business/challenge-storage.js` |
-| UI | `ui/challenge-list-ui.js`, `ui/challenge-game-ui.js` |
+| Entité | `js/core/challenge.js` |
+| Métier | `js/features/challenges/challenge-manager.js` |
+| Stockage | `js/data/challenge-storage.js` |
+| UI | `js/features/challenges/challenge-list-ui.js`, `js/features/challenges/challenge-game-ui.js` |
 | Données | `data/bonus_challenges.json` (32), `data/pokemons.json` |
 | Persistance | `PokefeetChallengeDB/challenge_completions`, Dex |
 
@@ -74,7 +74,7 @@ Les challenges bonus sont des séries thématiques (jeux principaux, stratégie,
 
 `ChallengeListUI.init()` :
 
-1. La page ne bloque pas sur `Migration.ready` : `migration.js` lance sa migration en parallèle et `ChallengeManager` ouvre `PokefeetChallengeDB` directement.
+1. La page ne bloque pas sur `Migration.ready` : `js/data/migration.js` lance sa migration en parallèle et `ChallengeManager` ouvre `PokefeetChallengeDB` directement.
 2. `ChallengeManager.loadChallenges()` : fetch `bonus_challenges.json`, instancie `Challenge`, restaure l'état `sessionStorage`.
 3. `ChallengeManager.loadPokemons()` : fetch `pokemons.json`, instancie `Pokemon`.
 4. Charge `ChallengeStorage.getAllCompletions()`.
@@ -209,7 +209,7 @@ Clé `sessionStorage` : `challenge_manager_state`.
 |---|---|---|
 | `trophy` partiel | `checkTrophyEarned` ne gère pas `Type_Registered` ni `Full_Generation_Register` | un prérequis trophy de ces types est toujours faux |
 | XP recalculé à chaque prérequis | `getPlayerLevel()` recharge toutes les bases et JSON à chaque appel | lent sur la liste (32 cartes × prérequis) |
-| Duplication XP | `computeTotalXP()` copie `stats.js` | divergence garantie à terme |
+| Duplication XP | `computeTotalXP()` copie `js/features/stats/stats.js` | divergence garantie à terme |
 | Prérequis non cachés | chaque `checkRequirement` refait des fetchs | N+1 requêtes |
 | `sessionStorage` non nettoyé | état périmé | reprise inattendue |
 | Re-complétion | `put` écrase `completedAt` et `fails` | perte de l'historique de performance |

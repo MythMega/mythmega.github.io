@@ -1,0 +1,13 @@
+/* --- Floating language switcher --- */
+.language-toggle-btn {
+  background: var(--accent, #22c55e);
+  color: #052018;
+  box-shadow: 0 4px 12px var(--accent-glow, rgba(34, 197, 94, 0.4));
+}
+.language-toggle-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px var(--accent-glow, rgba(34, 197, 94, 0.6));
+}
+.language-toggle-btn:active {
+  transform: scale(0.95);
+}

@@ -5,7 +5,7 @@
 | Élément | Valeur |
 |---|---|
 | Page | `pied-dex.html` |
-| Logique | `Dex.js` (base), `Dex-ui.js` (rendu), `DailyToDexImport.js` (reconstruction/import) |
+| Logique | `js/data/dex.js` (base), `js/features/dex/dex-ui.js` (rendu), `js/data/daily-to-dex-import.js` (reconstruction/import) |
 | Base | `PokefeetDexDB`, version 4, store `dex_entries` |
 | Total affiché | 698 Pokémon (toutes versions, pas de filtre par date) |
 
@@ -13,7 +13,7 @@ Le Pokédex est la collection locale : chaque Pokémon trouvé y est marqué, av
 
 ---
 
-## 2. `Dex.js`
+## 2. `js/data/dex.js`
 
 ### API
 
@@ -139,7 +139,7 @@ Dans Daily, `handleCorrect()` vérifie l'entrée Dex **avant** `markFound` et af
 
 | Problème | Détail | Impact |
 |---|---|---|
-| Import trop généreux | `data.js` marque toute la liste d'un daily importé | Dex gonflé par des échecs |
+| Import trop généreux | `js/data/data-manager.js` marque toute la liste d'un daily importé | Dex gonflé par des échecs |
 | `count` non fiable | incrémenté à chaque `markFound` | statistique « fois rencontré » approximative |
 | `importedInDex` inutilisé | écrit, rarement lu | imports rejoués |
 | Pas de version | Dex global, pas de filtre par version | 698 entrées dès le départ |

@@ -13,7 +13,7 @@ Le produit combine :
 - **une couche de progression** : Pokédex, XP, niveaux, trophées, badges, titres, cosmétiques ;
 - **des outils de continuité** : historique, graphiques, import/export de sauvegarde, migration de données.
 
-Le jeu est disponible en **français** et en **anglais** (437 clés par langue).
+Le jeu est disponible en **français** et en **anglais** (453 clés par langue).
 
 ---
 
@@ -43,34 +43,34 @@ Le footer commun ajoute `data.html` (visualiseur de données), `changelog.html` 
 
 | Fonctionnalité | Page | Logique | Stockage | Documentation |
 |---|---|---|---|---|
-| Marathon / Practice | `pokefeet.html` | `game.js` + `ui.js` | `localStorage` session, cookies best score/streak | [05](./05-mode-marathon.md) |
-| Daily | `daily.html` | `daily.js` | IndexedDB `daily_results`, cookies legacy, Dex | [06](./06-mode-daily.md) |
-| Weekly | `weekly.html` | `weekly.js` | IndexedDB `weekly_results`, Dex | [07](./07-mode-weekly.md) |
-| Défis passés | `old_daily.html` | `old_daily.js` | lecture IndexedDB | [12](./12-historique-et-statistiques.md) |
-| Challenges bonus | `list_challenges.html`, `challenge.html` | `entity/challenge.js`, `business/challenge-*`, `ui/challenge-*-ui.js` | `PokefeetChallengeDB`, Dex | [08](./08-challenges-bonus.md) |
+| Marathon / Practice | `pokefeet.html` | `js/features/marathon/game.js` + `js/features/marathon/ui.js` | `localStorage` session, cookies best score/streak | [05](./05-mode-marathon.md) |
+| Daily | `daily.html` | `js/features/daily/daily.js` | IndexedDB `daily_results`, cookies legacy, Dex | [06](./06-mode-daily.md) |
+| Weekly | `weekly.html` | `js/features/weekly/weekly.js` | IndexedDB `weekly_results`, Dex | [07](./07-mode-weekly.md) |
+| Défis passés | `old_daily.html` | `js/features/history/old-daily.js` | lecture IndexedDB | [12](./12-historique-et-statistiques.md) |
+| Challenges bonus | `list_challenges.html`, `challenge.html` | `js/core/challenge.js`, `business/challenge-*`, `ui/challenge-*-ui.js` | `PokefeetChallengeDB`, Dex | [08](./08-challenges-bonus.md) |
 | Challenges custom | `custom_create.html`, `custom_play.html` | `business/custom_challenges/*`, `ui/custom_challenges/*` | aucun (URL uniquement) | [09](./09-challenges-custom.md) |
 
 ### 3.2 Progression et collection
 
 | Fonctionnalité | Page | Logique | Stockage | Documentation |
 |---|---|---|---|---|
-| Pokédex | `pied-dex.html` | `Dex.js`, `Dex-ui.js`, `DailyToDexImport.js` | `PokefeetDexDB` | [10](./10-pokedex.md) |
-| XP / niveaux | `stats.html` | `stats.js`, `business/challenge-manager.js` | recalcul à la volée | [11](./11-progression-xp-trophees-recompenses.md) |
-| Trophées | `stats.html` | `stats.js`, `data/trophies.json` | recalcul à la volée | [11](./11-progression-xp-trophees-recompenses.md) |
+| Pokédex | `pied-dex.html` | `js/data/dex.js`, `js/features/dex/dex-ui.js`, `js/data/daily-to-dex-import.js` | `PokefeetDexDB` | [10](./10-pokedex.md) |
+| XP / niveaux | `stats.html` | `js/features/stats/stats.js`, `js/features/challenges/challenge-manager.js` | recalcul à la volée | [11](./11-progression-xp-trophees-recompenses.md) |
+| Trophées | `stats.html` | `js/features/stats/stats.js`, `data/trophies.json` | recalcul à la volée | [11](./11-progression-xp-trophees-recompenses.md) |
 | Récompenses (badges, titres) | `stats.html` | `entity/reward/*`, `data/reward.json` | cookie pseudo + niveau calculé | [11](./11-progression-xp-trophees-recompenses.md) |
-| Profil (pseudo, titre, badges) | `data_management.html`, `stats.html` | inline + `stats.js` | cookie `pk_pseudo` | [13](./13-profil-cosmetiques-sauvegarde.md) |
-| Cosmétiques | toutes les pages | `cosmetics.js`, `data/cosmetics.json` | cookies `pk_cosmetic_bg/btn` | [13](./13-profil-cosmetiques-sauvegarde.md) |
+| Profil (pseudo, titre, badges) | `data_management.html`, `stats.html` | inline + `js/features/stats/stats.js` | cookie `pk_pseudo` | [13](./13-profil-cosmetiques-sauvegarde.md) |
+| Cosmétiques | toutes les pages | `js/features/settings/cosmetics.js`, `data/cosmetics.json` | cookies `pk_cosmetic_bg/btn` | [13](./13-profil-cosmetiques-sauvegarde.md) |
 
 ### 3.3 Historique, données et continuité
 
 | Fonctionnalité | Page | Logique | Documentation |
 |---|---|---|---|
-| Historique Daily/Weekly | `history.html` | `history.js`, `history_curve.js` | [12](./12-historique-et-statistiques.md) |
-| Statistiques détaillées | `stats.html` | `stats.js` | [12](./12-historique-et-statistiques.md) |
-| Export de sauvegarde | `data_management.html` | `data.js` | [04](./04-persistance-et-migration.md) |
-| Import de sauvegarde | `data_management.html` | `data.js` | [04](./04-persistance-et-migration.md) |
-| Import manuel Daily/Weekly (emoji) | `data_management.html` | `data.js` | [04](./04-persistance-et-migration.md) |
-| Migration IndexedDB/cookies | toutes les pages | `migration.js` | [04](./04-persistance-et-migration.md) |
+| Historique Daily/Weekly | `history.html` | `js/features/history/history.js`, `js/features/history/history-curve.js` | [12](./12-historique-et-statistiques.md) |
+| Statistiques détaillées | `stats.html` | `js/features/stats/stats.js` | [12](./12-historique-et-statistiques.md) |
+| Export de sauvegarde | `data_management.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
+| Import de sauvegarde | `data_management.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
+| Import manuel Daily/Weekly (emoji) | `data_management.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
+| Migration IndexedDB/cookies | toutes les pages | `js/data/migration.js` | [04](./04-persistance-et-migration.md) |
 | Visualiseur de données | `data.html` | script inline | [15](./15-pages-annexes-et-outils-donnees.md) |
 | Prédictions protégées | `prediction.html` | script inline | [15](./15-pages-annexes-et-outils-donnees.md) |
 
@@ -78,12 +78,12 @@ Le footer commun ajoute `data.html` (visualiseur de données), `changelog.html` 
 
 | Fonctionnalité | Fichier(s) | Documentation |
 |---|---|---|
-| i18n FR/EN | `translate.js`, `i18n-setup.js`, `language-switcher.js`, `translations/*.json` | [14](./14-ui-transversale-et-i18n.md) |
-| Chargement / skeletons | `loader.js` | [14](./14-ui-transversale-et-i18n.md) |
-| Notifications, gauges, autocomplete | `ui.js`, scripts de mode | [14](./14-ui-transversale-et-i18n.md) |
-| Footer commun | `footer.js` | [14](./14-ui-transversale-et-i18n.md) |
+| i18n FR/EN | `js/i18n/translate.js`, `js/i18n/setup.js`, `js/i18n/language-switcher.js`, `translations/*.json` | [14](./14-ui-transversale-et-i18n.md) |
+| Chargement / skeletons | `js/ui/loader.js` | [14](./14-ui-transversale-et-i18n.md) |
+| Notifications, gauges, autocomplete | `js/features/marathon/ui.js`, scripts de mode | [14](./14-ui-transversale-et-i18n.md) |
+| Footer commun | `js/ui/footer.js` | [14](./14-ui-transversale-et-i18n.md) |
 | Bandeau d'actualités | inline `index.html` (Google Sheets) | [15](./15-pages-annexes-et-outils-donnees.md) |
-| Crédits | `credits.js`, `data/credits.json` | [15](./15-pages-annexes-et-outils-donnees.md) |
+| Crédits | `js/features/credits/credits.js`, `data/credits.json` | [15](./15-pages-annexes-et-outils-donnees.md) |
 
 ---
 
@@ -123,7 +123,7 @@ Les challenges custom utilisent le même principe mais **sans limite d'échecs**
 - Le nom est comparé à `NameFR` **et** `NameEN`, après normalisation : `NFD`, suppression des diacritiques, minuscules.
 - Un nom inconnu de la base est refusé (« Nom invalide ») et **ne consomme pas** de tentative.
 - Une réponse déjà proposée pour le Pokémon courant est refusée (« Déjà essayé ») et ne consomme pas de tentative.
-- Chaque mode possède un **mot de passe maître** (hash SHA-256 identique dans `game.js`, `daily.js`, `weekly.js`, `prediction.html`) qui valide n'importe quel Pokémon. C'est une fonction de secours/démonstration, pas une sécurité.
+- Chaque mode possède un **mot de passe maître** (hash SHA-256 identique dans `js/features/marathon/game.js`, `js/features/daily/daily.js`, `js/features/weekly/weekly.js`, `prediction.html`) qui valide n'importe quel Pokémon. C'est une fonction de secours/démonstration, pas une sécurité.
 
 ### 4.4 Déterminisme
 

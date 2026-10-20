@@ -18,9 +18,9 @@
   <meta name="twitter:title" content="Pokefeet — Changelog" />
   <meta name="twitter:description" content="Notes de mise à jour et évolution du jeu." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="cosmetics.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
   <style>
     .changelog-container {
       max-width: 760px;
@@ -111,15 +111,15 @@
     </section>
   </main>
 
-  <script src="loader.js"></script>
-  <script src="translate.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="footer.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="migration.js"></script>
-  <script src="pokemon.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="cosmetics.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
   <script>
     async function loadChangelog() {
       const loadingEl = document.getElementById('changelog-loading');

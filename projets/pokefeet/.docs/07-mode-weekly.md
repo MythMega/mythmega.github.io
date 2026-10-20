@@ -5,7 +5,7 @@
 | Élément | Valeur |
 |---|---|
 | Page | `weekly.html` |
-| Scripts | `pokemon.js`, `pokemon-versions.js`, `Dex.js`, `weekly.js`, `migration.js`, i18n, cosmetics |
+| Scripts | `js/core/pokemon.js`, `js/core/pokemon-versions.js`, `js/data/dex.js`, `js/features/weekly/weekly.js`, `js/data/migration.js`, i18n, cosmetics |
 | Constante | `COUNT = 10` |
 | Score max | 100 |
 | Seed | `"week" + lundi YYYY-MM-DD` |
@@ -120,7 +120,7 @@ await updateImportedInDex(dateKey, true);
 
 | Problème | Détail |
 |---|---|
-| Duplication massive | ≈ 80 % du code est copié de `daily.js` |
+| Duplication massive | ≈ 80 % du code est copié de `js/features/daily/daily.js` |
 | `cookieName` mort | constante jamais utilisée |
 | `showAttemptGauge` mort | définie, jamais appelée |
 | `populateNamesList` no-op | identique au Daily |

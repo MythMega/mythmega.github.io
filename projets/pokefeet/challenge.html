@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Challenge</title>
   <meta name="description" content="Pokefeet Challenge — Relevez des défis bonus et gagnez des récompenses exclusives." />
   <meta name="keywords" content="Pokefeet, challenge, défis bonus, récompenses" />
@@ -18,15 +27,16 @@
   <meta name="twitter:title" content="Pokefeet — Challenge" />
   <meta name="twitter:description" content="Défis bonus et récompenses exclusives Pokefeet." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="stylesheet" href="./cosmetics.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
-  <link rel="stylesheet" href="./challenge.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <script src="js/core/preferences.js"></script>
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
+  <link rel="stylesheet" href="styles/challenges.css" />
 </head>
 <body>
   <div class="container challenge-page">
     <header>
-      <a href="./list_challenges.html" class="btn-back" data-i18n="challenges.back">Retour</a>
+      <a href="./list_challenges.html" class="back-button" data-i18n="challenges.back">Retour</a>
       <h1 id="challengeTitle">Challenge</h1>
     </header>
 
@@ -43,7 +53,7 @@
           <span id="viewChallengeCount"></span>
         </div>
         <div id="viewChallengeStatus"></div>
-        <button id="playChallengeBtn" class="btn-primary" data-i18n="challenge.play">Jouer</button>
+        <button id="playChallengeBtn" class="btn-primary" data-tag="customizables-button" data-i18n="challenge.play">Jouer</button>
       </div>
     </div>
 
@@ -59,8 +69,8 @@
       </div>
 
       <div class="guess-area">
-        <input id="challengeInput" type="text" autocomplete="off" placeholder="Nom du Pokémon" />
-        <button id="challengeSubmit" class="btn-primary" data-i18n="challenge.submit">Valider</button>
+        <input id="challengeInput" type="text" autocomplete="off" data-i18n-attr="aria-label:customPlay.guessPlaceholder" placeholder="Nom du Pokémon" />
+        <button id="challengeSubmit" class="btn-primary" data-tag="customizables-button" data-i18n="challenge.submit">Valider</button>
       </div>
 
       <div id="challengeFailedAttempts" class="failed-attempts hidden"></div>
@@ -85,20 +95,24 @@
     </div>
   </div>
 
-  <script src="pokemon.js"></script>
-  <script src="pokemon-versions.js"></script>
-  <script src="Dex.js"></script>
-  <script src="entity/challenge.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="business/challenge-manager.js"></script>
-  <script src="ui/challenge-game-ui.js"></script>
-  <script src="loader.js"></script>
-  <script src="cosmetics.js"></script>
-  <script src="migration.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="translate.js"></script>
-  <script src="apply-translations.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/core/pokemon-versions.js"></script>
+  <script src="js/data/dex.js"></script>
+  <script src="js/core/challenge.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/features/challenges/challenge-manager.js"></script>
+  <script src="js/ui/fx.js"></script>
+  <script src="js/ui/transitions.js"></script>
+  <script src="js/ui/zoom.js"></script>
+  <script src="js/data/config.js"></script>
+  <script src="js/ui/rotate3d.js"></script>
+  <script src="js/features/challenges/challenge-game-ui.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/i18n/translate.js"></script>
   
   <script>
     // Page challenge - Gestion des modes view et playing
@@ -215,5 +229,6 @@
       }
     });
   </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

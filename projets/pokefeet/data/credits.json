@@ -35,6 +35,36 @@
         "FunctionEN": "Pokémon regions logos artist."
     },
     {
+        "Person": "Pixabay Community",
+        "Types": ["Artist"],
+        "Image": "https://cdn.pixabay.com/photo/2017/01/17/14/44/pixabay-1987090_960_720.png",
+        "Buttons" : [
+            {"Text": "Pixabay", "Url": "https://pixabay.com/fr/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=102844" }
+        ],
+        "FunctionFR": "Sound effect (notification positive).",
+        "FunctionEN": "Sound Effect (positive notification)."
+    },
+    {
+        "Person": "DRAGON-STUDIO",
+        "Types": ["Artist"],
+        "Image": "https://cdn.pixabay.com/audio/2025/07/18/18-09-35-746_200x200.png",
+        "Buttons" : [
+            {"Text": "Pixabay", "Url": "https://pixabay.com/users/dragon-studio-38165424/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=376877" }
+        ],
+        "FunctionFR": "Sound effect (Validation d'un clic).",
+        "FunctionEN": "Sound Effect (Click Validation)."
+    },
+    {
+        "Person": "SoundShelf Studio",
+        "Types": ["Artist"],
+        "Image": "https://cdn.pixabay.com/user/2026/05/21/18-11-24-42_250x250.jpg",
+        "Buttons" : [
+            {"Text": "Pixabay", "Url": "https://pixabay.com/fr/users/soundshelfstudio-46480698/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=515668" }
+        ],
+        "FunctionFR": "Sound effect (notification erreur).",
+        "FunctionEN": "Sound Effect (error notification)."
+    },
+    {
         "Person": "CrazyGmod21",
         "Types": ["Artist"],
         "Image": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",

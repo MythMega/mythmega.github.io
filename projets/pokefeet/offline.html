@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pokefeet — Hors ligne / Offline</title>
+  <meta name="theme-color" content="#060c18" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <meta name="description" content="Pokefeet est momentanément indisponible hors ligne." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #060c18;
+      --card: rgba(10, 17, 34, 0.88);
+      --accent: #22c55e;
+      --text: #e2eaf8;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(22, 163, 74, 0.16), transparent 45%),
+        radial-gradient(circle at 85% 90%, rgba(37, 99, 235, 0.12), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+    }
+    main {
+      width: min(440px, 100%);
+      padding: 32px 26px;
+      text-align: center;
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 20px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+    }
+    img { width: 84px; height: 84px; border-radius: 20px; }
+    h1 { margin: 18px 0 8px; font-size: 24px; }
+    p { margin: 0 0 10px; color: var(--muted); line-height: 1.55; }
+    .en { font-size: 14px; }
+    a {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #052018;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="icons/icon-192.png" width="84" height="84" alt="Pokefeet" />
+    <h1>Vous êtes hors ligne</h1>
+    <p>Pokefeet n’a pas pu charger cette page. Vérifiez votre connexion, puis réessayez.</p>
+    <p class="en">You are offline. Check your connection and try again.</p>
+    <a href="./">Réessayer / Retry</a>
+  </main>
+</body>
+</html>

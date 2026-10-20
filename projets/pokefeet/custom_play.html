@@ -3,15 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Jouer un challenge custom</title>
   <meta name="description" content="Jouez un challenge custom Pokefeet créé par la communauté : devinez chaque Pokémon grâce à ses pieds." />
   <meta name="keywords" content="Pokefeet, jouer challenge, challenge custom, Pokémon, pieds" />
   <meta name="author" content="MythMega" />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="cosmetics.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
-  <link rel="stylesheet" href="styles/custom_challenges/custom-challenges.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <script src="js/core/preferences.js"></script>
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
+  <link rel="stylesheet" href="styles/custom-challenges.css" />
 </head>
 <body>
   <main id="app" class="custom-page custom-play-page custom-play-wrap">
@@ -22,7 +32,7 @@
     <div class="deco-secondary n11"></div>
     <div class="deco-secondary n12"></div>
     <header>
-      <a href="custom.html" class="btn-back" data-i18n="customCreate.back">Retour</a>
+      <a href="custom.html" class="back-button" data-i18n="customCreate.back">Retour</a>
       <h1 data-i18n="customPlay.title">Jouer un challenge custom</h1>
     </header>
 
@@ -34,7 +44,7 @@
       <div class="center-card">
         <h2 class="home-title" data-i18n="customPlay.enterCode">Entrer un code de challenge</h2>
         <div class="custom-code-form">
-          <input type="text" id="codeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder" placeholder="custom_play.html?code=... ou code" />
+          <input type="text" id="codeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder|aria-label:customPlay.enterCode" placeholder="custom_play.html?code=... ou code" />
           <button id="loadCodeBtn" class="big-btn" data-tag="customizables-button" data-i18n="customPlay.load" style="margin:0;">Charger</button>
         </div>
         <p class="custom-code-hint" style="margin-top:10px;" data-i18n="customPlay.codeHint">Collez l'URL complète du challenge (custom_play.html?code=...) ou uniquement le code.</p>
@@ -47,7 +57,7 @@
         <h2 class="home-title" style="color:#f87171;" data-i18n="customPlay.invalidCodeTitle">Code invalide</h2>
         <p data-i18n="customPlay.invalidCode" class="custom-code-hint" style="margin-bottom:12px;">Impossible de décoder ce code. Vérifiez l'URL partagée et réessayez.</p>
         <div class="custom-code-form">
-          <input type="text" id="invalidCodeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder" placeholder="custom_play.html?code=... ou code" />
+          <input type="text" id="invalidCodeInput" data-i18n-attr="placeholder:customPlay.codePlaceholder|aria-label:customPlay.enterCode" placeholder="custom_play.html?code=... ou code" />
           <button id="invalidLoadBtn" class="big-btn" data-tag="customizables-button" data-i18n="customPlay.tryAgain" style="margin:0;">Réessayer</button>
         </div>
       </div>
@@ -79,7 +89,7 @@
         </div>
         <div class="guess-area">
           <div class="autocomplete-wrap" style="flex:1; position:relative;">
-            <input id="playInput" type="text" autocomplete="off" style="width:100%; min-width:0;" data-i18n-attr="placeholder:customPlay.guessPlaceholder" placeholder="Nom du Pokémon" />
+            <input id="playInput" type="text" autocomplete="off" style="width:100%; min-width:0;" data-i18n-attr="placeholder:customPlay.guessPlaceholder|aria-label:customPlay.guessPlaceholder" placeholder="Nom du Pokémon" />
           </div>
           <button id="playSubmit" data-tag="customizables-button" data-i18n="customPlay.submit">Valider</button>
         </div>
@@ -114,18 +124,23 @@
     <button id="retourBtn" class="secondary" style="padding:10px 12px;margin-top:20px;display:block;margin-left:auto;margin-right:auto;" data-i18n="common.backHome">Retour à l'accueil</button>
   </main>
 
-  <script src="loader.js"></script>
-  <script src="translate.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="footer.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="pokemon.js"></script>
-  <script src="migration.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="cosmetics.js"></script>
-  <script src="business/custom_challenges/custom-challenge-codec.js"></script>
-  <script src="business/custom_challenges/custom-challenge-game.js"></script>
-  <script src="ui/custom_challenges/custom-play-ui.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/features/custom-challenges/codec.js"></script>
+  <script src="js/features/custom-challenges/game.js"></script>
+  <script src="js/ui/fx.js"></script>
+  <script src="js/ui/transitions.js"></script>
+  <script src="js/ui/zoom.js"></script>
+  <script src="js/data/config.js"></script>
+  <script src="js/ui/rotate3d.js"></script>
+  <script src="js/features/custom-challenges/play-ui.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -135,5 +150,6 @@
       if (back) back.addEventListener('click', function (e) { e.preventDefault(); window.location.href = './custom.html'; });
     });
   </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

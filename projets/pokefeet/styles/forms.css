@@ -1,0 +1,69 @@
+/* --- Champs de formulaire --- */
+:where(input[type="text"], input[type="search"], input[type="password"], input[type="number"], input[type="email"], select, textarea) {
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: rgba(255,255,255,0.045);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+:where(input[type="text"], input[type="search"], input[type="password"], input[type="number"], input[type="email"], select, textarea):hover {
+  background: rgba(255,255,255,0.06);
+}
+
+:where(input[type="text"], input[type="search"], input[type="password"], input[type="number"], input[type="email"], select, textarea):focus {
+  border-color: rgba(34,197,94,0.55);
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.14);
+}
+
+:where(input, select, textarea)::placeholder { color: var(--muted); opacity: .8; }
+:where(input[type="checkbox"], input[type="radio"]) { accent-color: var(--accent-bright); }
+
+select {
+  cursor: pointer;
+  padding-right: 34px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+                    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 17px) 50%, calc(100% - 12px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  appearance: none;
+}
+
+select option { background: #111c2f; color: var(--text); }
+
+/* --- Guess area & inputs --- */
+.guess-area { display:flex; gap:8px; justify-content:center; align-items:center; margin-top:8px; }
+
+#guessInput,
+.guess-area input,
+.search-input,
+textarea {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.045);
+  color: var(--text);
+  min-width: 200px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 150ms, box-shadow 150ms;
+  outline: none;
+}
+
+#guessInput:focus,
+.guess-area input:focus,
+.search-input:focus,
+textarea:focus {
+  border-color: rgba(34,197,94,0.5);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.14);
+}
+
+.guess-area input::placeholder,
+.search-input::placeholder,
+textarea::placeholder { color: var(--muted); }

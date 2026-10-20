@@ -1,0 +1,83 @@
+/* --- Loupe : visionneuse plein écran (voir js/ui/zoom.js) --- */
+
+/* Bouton dans l'image */
+.zoom-btn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  min-height: 42px;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(6,12,24,0.72);
+  cursor: pointer;
+  transition: background-color 150ms, transform 100ms;
+}
+/* L'icône fournie est noire : on l'utilise comme masque pour la passer en blanc. */
+.zoom-btn::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  -webkit-mask-image: var(--zoom-icon);
+  mask-image: var(--zoom-icon);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.zoom-btn:hover { background-color: rgba(22,163,74,0.9); transform: translateY(-1px); }
+.zoom-btn:active { transform: none; }
+
+/* Popup plein écran, sans interpolation sur l'image */
+.zoom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 3vw, 32px);
+  background: rgba(3,7,14,0.92);
+  cursor: zoom-out;
+}
+.zoom-overlay[hidden] { display: none; }
+
+.zoom-image {
+  width: min(86vw, 78vh);
+  height: min(86vw, 78vh);
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+.zoom-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+.zoom-close:hover { background: rgba(255,255,255,0.18); }
+
+/* Verrou de défilement pendant l'affichage */
+html.zoom-open,
+html.zoom-open body { overflow: hidden; }

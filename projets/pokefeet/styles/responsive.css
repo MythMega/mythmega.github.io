@@ -1,0 +1,12 @@
+/* --- Responsive history: always column (chart above list) --- */
+#historyChartWrap,
+#weeklyChartWrap,
+#historyList,
+#weeklyHistoryList { width:100%; }
+
+@media (max-width:520px) {
+  .daily-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+  .daily-button { padding:14px 10px; font-size:13px; }
+  .challenge-meta { gap:10px; font-size:13px; }
+  .dex-grid { gap:8px; }
+}

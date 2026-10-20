@@ -1,0 +1,57 @@
+/* --- Autocomplete custom dropdown --- */
+.autocomplete-wrap { position: relative; }
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #0f1a2e;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.7);
+}
+.autocomplete-item {
+  padding: 8px 14px;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 15px;
+}
+.autocomplete-item:hover,
+.autocomplete-item.active {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Guess area mobile layout: buttons wrap below input */
+@media (max-width: 640px) {
+  .guess-area {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .guess-area input {
+    flex-basis: 100%;
+  }
+  .guess-area button {
+    flex: 1 1 calc(50% - 4px);
+  }
+}
+
+/* Return button styling */
+#retourBtn {
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Attempt gauge next to image */
+.image-gauge-row { display:flex; align-items:flex-start; gap:12px; justify-content:center; }
+.attempt-gauge { width:64px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.attempt-gauge .gauge { width:18px; height:160px; background: rgba(255,255,255,0.06); border-radius:10px; overflow:hidden; position:relative; }
+.attempt-gauge .gauge-fill { position:absolute; left:0; right:0; bottom:0; height:100%; background: linear-gradient(180deg,#16a34a,#10b981); transition: height 180ms ease; }
+.attempt-gauge .gauge-label { font-weight:800; color:#fff; background:transparent; }
+
+.daily-full-images img { max-height:64px; border-radius:6px; background: rgba(255,255,255,0.02); padding:4px; }
+

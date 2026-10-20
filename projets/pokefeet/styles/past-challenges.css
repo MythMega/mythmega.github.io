@@ -1,0 +1,47 @@
+/* --- News ticker / scrolling banner --- */
+.news-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 10px auto 0;
+  max-width: 420px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: var(--muted-light, #cbd5e1);
+}
+.news-ticker-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: tickerScroll 25s linear infinite;
+}
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+.daily-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:600px; margin:24px auto; }
+.daily-button {
+  padding:16px 12px; border-radius:10px; border:2px solid transparent;
+  cursor:pointer; font-weight:600; font-size:14px; font-family:inherit;
+  transition: all 200ms ease; text-align:center; text-decoration:none; display:block;
+}
+.daily-button:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.4); }
+.daily-button.played { background:rgba(148,163,184,0.12); color:var(--muted); border-color:rgba(148,163,184,0.25); filter:grayscale(1); }
+.daily-pagination { display:flex; align-items:center; justify-content:center; gap:12px; max-width:600px; margin:-8px auto 24px; }
+.daily-pagination button { min-width:38px; padding:8px 12px; }
+.daily-pagination .pagination-status { color:var(--muted); font-size:13px; font-weight:600; }
+.daily-button.played:hover { background:rgba(148,163,184,0.2); border-color:rgba(148,163,184,0.45); }
+.daily-button.available { background:linear-gradient(135deg,#16a34a,#10b981); color:#042014; border-color:transparent; box-shadow:0 4px 14px rgba(22,163,74,0.3); }
+.daily-button.available:hover { box-shadow:0 6px 22px rgba(22,163,74,0.5); }
+.back-button {
+  display:inline-block; margin-bottom:20px; padding:10px 16px;
+  background:rgba(255,255,255,0.04); border:1px solid var(--glass-border);
+  border-radius:9px; color:var(--muted); text-decoration:none;
+  cursor:pointer; font-weight:600; font-family:inherit;
+  transition: all 200ms ease;
+}
+.back-button:hover { border-color:var(--accent); color:var(--accent); }
+.no-dailies { text-align:center; color:var(--muted); padding:40px 20px; font-size:16px; }
+
+/* --- Loading overlay --- */

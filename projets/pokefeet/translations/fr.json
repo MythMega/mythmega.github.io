@@ -18,7 +18,8 @@
     "pokedex": "Pokédex",
     "modeDesc": "Daily : un défi par jour — Weekly : 10 Pokémon par semaine",
     "byLine": "/ Code par JMDEV",
-    "bonusChallenges": "Challenges Bonus"
+    "bonusChallenges": "Challenges Bonus",
+    "customChallenges": "Challenges Custom"
   },
   "daily": {
     "title": "Pokefeet Daily",
@@ -66,6 +67,8 @@
     "newlyDiscoveredMany": "🌟 Nouveaux Pokémon découverts : {names}!"
   },
   "weekly": {
+    "title": "Pokefeet Weekly",
+    "includes": "10 Pokémon — renouvellement chaque lundi",
     "invalidDateTitle": "Date invalide",
     "invalidDateMsg": "Ce weekly n'est pas valide : la date doit correspondre à un lundi. Vous allez être redirigé vers le lundi précédent.",
     "goToMonday": "Valider",
@@ -200,6 +203,14 @@
   },
   "dataManagement": {
     "title": "Gestion des données — Pokefeet",
+    "tabParams": "Paramètres",
+    "tabCustomize": "Personnalisations",
+    "tabProfile": "Profil",
+    "tabData": "Données",
+    "settings": "Paramètres",
+    "fastMode": "Mode rapide (Marathon)",
+    "fastModeDesc": "En mode Marathon, passer directement au Pokémon suivant sans écran de résultat intermédiaire.",
+    "customize": "Personnalisations",
     "exportImport": "Export / Import",
     "saveRestore": "Sauvegarder ou restaurer vos données",
     "exportDesc": "Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.",
@@ -311,6 +322,8 @@
     "daily": "Daily",
     "weekly": "Weekly",
     "marathon": "Marathon",
+    "challenges": "Challenges Bonus",
+    "challengesDesc": "Chaque challenge bonus complété rapporte l'XP indiquée dans sa récompense.",
     "achievements": "Succès",
     "dailyDesc": "XP gagnée chaque jour en fonction du nombre de parfaits (basé sur la formule '3 + (round-parfait), +2 si jour parfait') :",
     "weeklyDesc": "XP gagnée chaque semaine en fonction du nombre de parfaits (basé sur la formule '6 + (round-parfait x 2), +4 si jour parfait') :",
@@ -344,7 +357,10 @@
     "availableTitle": "Disponible",
     "weeklyPlayedTitle": "Déjà joué",
     "weeklyAvailableTitle": "Disponible",
-    "noChallenge": "Aucun défi trouvé pour le moment."
+    "noChallenge": "Aucun défi trouvé pour le moment.",
+    "previousPage": "Page précédente",
+    "nextPage": "Page suivante",
+    "pageLabel": "Page {page} / {total}"
   },
   "challenges": {
     "title": "Challenges",

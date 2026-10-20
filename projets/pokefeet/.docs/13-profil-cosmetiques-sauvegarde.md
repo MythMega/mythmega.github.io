@@ -23,7 +23,7 @@ Cookie `pk_pseudo`, 365 jours. Aucun compte, aucune synchronisation.
 
 ### 2.2 Saisie
 
-Dans `data_management.html`, un script inline (et non `profile.js`) gère :
+Dans `data_management.html`, un script inline (et non `js/features/settings/profile.js`) gère :
 
 - préremplissage depuis le cookie ;
 - validation : non vide, ≤ 30 caractères ;
@@ -33,7 +33,7 @@ Dans `data_management.html`, un script inline (et non `profile.js`) gère :
 
 ### 2.3 Affichage
 
-`stats.js` :
+`js/features/stats/stats.js` :
 
 - `#statsPseudo` = cookie ou `—` ;
 - `#statsPseudoLabel` = titre du plus haut palier de récompense débloqué ;
@@ -41,9 +41,9 @@ Dans `data_management.html`, un script inline (et non `profile.js`) gère :
 
 `custom-create-ui.js` préremplit le champ auteur avec le pseudo.
 
-### 2.4 `profile.js` est mort
+### 2.4 `js/features/settings/profile.js` est mort
 
-`stats.html` charge `profile.js`, mais :
+`stats.html` charge `js/features/settings/profile.js`, mais :
 
 - `ProfileInit()` n'est jamais appelé ;
 - aucun élément `#pseudoInput`, `#savePseudoBtn`, `#clearPseudoBtn`, `#profileStatus` n'existe sur `stats.html` ;
@@ -57,7 +57,7 @@ Dans `data_management.html`, un script inline (et non `profile.js`) gère :
 
 Cookie `pk_fast_mode` (`true`/`false`), réglé par `#fastModeToggle`.
 
-- `game.js` lit le cookie via `isFastMode()`.
+- `js/features/marathon/game.js` lit le cookie via `isFastMode()`.
 - En mode rapide, le Marathon enchaîne après 400 ms sans écran de révélation.
 - Aucun autre mode n'est concerné.
 - Le libellé du statut (`#fastModeStatus`) est codé en dur en français.
@@ -111,21 +111,21 @@ Cookies :
 3. Retire toutes les classes `Background-Buttons` des boutons `[data-tag="customizables-button"]`.
 4. Ajoute la classe du bouton sélectionné à tous ces boutons.
 
-`loader.js` appelle `Cosmetics.load()` avant de masquer l'overlay, ce qui applique les cosmétiques sur **toutes** les pages.
+`js/ui/loader.js` appelle `Cosmetics.load()` avant de masquer l'overlay, ce qui applique les cosmétiques sur **toutes** les pages.
 
 ### 4.5 UI
 
 Deux implémentations :
 
 - `data_management.html` (inline) : onglets de catégories, sous-onglets par `Cat`, option « Défaut », cadenas, `sessionStorage` pour la catégorie active ;
-- `cosmetics.js` : `renderCosmeticsUI()` — **jamais exposée ni appelée** (voir doc 16).
+- `js/features/settings/cosmetics.js` : `renderCosmeticsUI()` — **jamais exposée ni appelée** (voir doc 16).
 
 ### 4.6 Limites
 
 - Les cosmétiques ne sont pas exportés dans la sauvegarde.
 - Un cosmétique débloqué n'est pas daté.
 - `MustHideIfUnobtained` n'est respecté que par l'UI inline, pas par `Cosmetics.isUnlocked`.
-- Les classes CSS doivent exister dans `cosmetics.css` ; un `Value` inconnu n'a aucun effet visible.
+- Les classes CSS doivent exister dans `styles/cosmetics.css` ; un `Value` inconnu n'a aucun effet visible.
 
 ---
 
@@ -173,7 +173,7 @@ Aucun bouton pour :
 
 | Problème | Détail |
 |---|---|
-| Duplication profil | inline dans `data_management.html` + `profile.js` mort |
+| Duplication profil | inline dans `data_management.html` + `js/features/settings/profile.js` mort |
 | Duplication cosmétiques | inline dans `data_management.html` + `Cosmetics.renderCosmeticsUI()` mort |
 | Textes non traduits | mode rapide, profil inline, `Niveau` |
 | Export incomplet | pseudo, cosmétiques, langue, mode rapide, Dex |

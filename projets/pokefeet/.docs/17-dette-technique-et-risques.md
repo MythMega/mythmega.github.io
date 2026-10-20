@@ -15,7 +15,7 @@
 
 ### 2.1 Écriture `clear + putAll` sur les historiques
 
-**Fichiers** : `daily.js` (`saveDailyToDB`), `weekly.js` (`saveWeeklyToDB`), `data.js`.
+**Fichiers** : `js/features/daily/daily.js` (`saveDailyToDB`), `js/features/weekly/weekly.js` (`saveWeeklyToDB`), `js/data/data-manager.js`.
 
 ```js
 store.clear();
@@ -30,7 +30,7 @@ for (const date in history) store.put({ date, importedInDex: false, ...history[d
 
 ### 2.2 Import qui gonfle le Dex
 
-`data.js` `mergePayloadIntoCookies()` :
+`js/data/data-manager.js` `mergePayloadIntoCookies()` :
 
 ```js
 const pokemons = await DailyToDexImport.reconstructDailyList(date);
@@ -43,7 +43,7 @@ Toute la liste est marquée, y compris les Pokémon échoués. Idem pour l'impor
 
 ### 2.3 Migration incomplète des cookies
 
-`migration.js` sauvegarde `pk_daily_result_v2` mais ne le convertit pas en IndexedDB. Les anciennes sauvegardes cookie ne sont plus lues par le jeu. Le commentaire « Data is still safe in cookies » est trompeur.
+`js/data/migration.js` sauvegarde `pk_daily_result_v2` mais ne le convertit pas en IndexedDB. Les anciennes sauvegardes cookie ne sont plus lues par le jeu. Le commentaire « Data is still safe in cookies » est trompeur.
 
 **Recommandation** : migration one-shot cookie → store, avec flag `legacyMigrated`, ou suppression explicite documentée.
 
@@ -65,7 +65,7 @@ Un fichier d'import avec des champs manquants ou du mauvais type peut produire d
 
 ### 3.1 Double calcul d'XP
 
-`stats.js` et `ChallengeManager.computeTotalXP()` implémentent le même barème. Toute modification de l'un désynchronise les prérequis de challenges et le niveau affiché.
+`js/features/stats/stats.js` et `ChallengeManager.computeTotalXP()` implémentent le même barème. Toute modification de l'un désynchronise les prérequis de challenges et le niveau affiché.
 
 ### 3.2 Prérequis `trophy` partiel
 
@@ -77,7 +77,7 @@ Certaines entrées contiennent `2027-06-31` (date inexistante). La comparaison l
 
 ### 3.4 Mot de passe maître
 
-Hash SHA-256 identique dans `game.js`, `daily.js`, `weekly.js`, `prediction.html`. Permet de valider n'importe quel Pokémon. Côté client, donc contournable et visible. À remplacer par un mode debug explicite ou supprimer.
+Hash SHA-256 identique dans `js/features/marathon/game.js`, `js/features/daily/daily.js`, `js/features/weekly/weekly.js`, `prediction.html`. Permet de valider n'importe quel Pokémon. Côté client, donc contournable et visible. À remplacer par un mode debug explicite ou supprimer.
 
 ### 3.5 `prediction.html` non sécurisée
 
@@ -97,7 +97,7 @@ Les Index absents du JSON sont filtrés ; la session peut sauter des Pokémon sa
 
 ### 3.9 Perte d'état au changement de langue
 
-`language-switcher.js` fait `window.location.reload()` : un Daily/Weekly en cours est perdu (pas de sauvegarde partielle).
+`js/i18n/language-switcher.js` fait `window.location.reload()` : un Daily/Weekly en cours est perdu (pas de sauvegarde partielle).
 
 ### 3.10 Jauges et indices
 
@@ -129,7 +129,7 @@ Les Index absents du JSON sont filtrés ; la session peut sauter des Pokémon sa
 
 ### 4.3 Monolithes
 
-`daily.js` (1 174 lignes), `weekly.js` (1 033), `data.js` (934), `stats.js` (917) mélangent :
+`js/features/daily/daily.js` (1 174 lignes), `js/features/weekly/weekly.js` (1 033), `js/data/data-manager.js` (934), `js/features/stats/stats.js` (917) mélangent :
 
 - constantes métier ;
 - accès IndexedDB ;
@@ -140,11 +140,11 @@ Les Index absents du JSON sont filtrés ; la session peut sauter des Pokémon sa
 
 ### 4.4 Couplage entité → métier
 
-`entity/challenge.js` appelle `ChallengeManager.getPlayerLevel()` et `Dex.getProgress()`. Une entité ne devrait pas dépendre d'un service global.
+`js/core/challenge.js` appelle `ChallengeManager.getPlayerLevel()` et `Dex.getProgress()`. Une entité ne devrait pas dépendre d'un service global.
 
 ### 4.5 UI dans les entités
 
-`Reward.renderCard()` et `Reward.renderPopupContent()` construisent du DOM dans `entity/reward/reward.js`. Le modèle et la vue sont confondus.
+`Reward.renderCard()` et `Reward.renderPopupContent()` construisent du DOM dans `js/core/reward.js`. Le modèle et la vue sont confondus.
 
 ### 4.6 Pages HTML avec logique inline
 
@@ -220,7 +220,7 @@ Aucune mesure de performance n'a été faite : les coûts sont déduits de la le
 ## 9. Causes racines
 
 1. **Croissance par ajout** : chaque mode a été copié/collé avant d'être spécialisé.
-2. **Réorganisation partielle** : `entity/business/ui` introduits sans migrer l'existant.
+2. **Réorganisation physique sans découpage interne** : les fichiers sont rangés par domaine, mais les responsabilités métier/UI/persistance restent dans les mêmes modules.
 3. **Absence de contrat de stockage** : chaque module ouvre IndexedDB lui-même.
 4. **Absence de tests** : les duplications ne sont pas détectées.
 5. **Pas de build** : impossible d'utiliser des modules, un linter ou un typechecker.

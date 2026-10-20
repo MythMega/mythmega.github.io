@@ -58,7 +58,7 @@ Utilisez l'attribut `data-i18n` avec la clé de traduction:
 Utilisez `Translator.get()`:
 
 ```javascript
-// Dans game.js, ui.js, daily.js, etc.
+// Dans js/features/marathon/game.js, js/features/marathon/ui.js, js/features/daily/daily.js, etc.
 const message = Translator.get('daily.invalidName', 'Nom invalide');
 UI.showNotification(message, 'fail');
 
@@ -153,8 +153,8 @@ Le bouton flottant de changement de langue:
 
 ## Améliorations futures
 
-- [ ] Traduire les messages dans `data.js` (export/import)
-- [ ] Traduire les labels dynamiques dans `Dex-ui.js`
+- [ ] Traduire les messages dans `js/data/data-manager.js` (export/import)
+- [ ] Traduire les labels dynamiques dans `js/features/dex/dex-ui.js`
 - [ ] Ajouter support pour plus de langues (ES, IT, DE, etc)
 - [ ] Pluralisation intelligente pour les compteurs
 - [ ] Traduction des titres des pages <title>

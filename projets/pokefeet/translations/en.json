@@ -18,7 +18,8 @@
     "pokedex": "Pokédex",
     "modeDesc": "Daily: one challenge per day — Weekly: 10 Pokémon per week",
     "byLine": "/ Code by JMDEV",
-    "bonusChallenges": "Bonus Challenges"
+    "bonusChallenges": "Bonus Challenges",
+    "customChallenges": "Custom Challenges"
   },
   "daily": {
     "title": "PokéFeet Daily",
@@ -66,6 +67,8 @@
     "newlyDiscoveredMany": "🌟 New Pokémon discovered: {names}!"
   },
   "weekly": {
+    "title": "Pokefeet Weekly",
+    "includes": "10 Pokémon — renewed every Monday",
     "invalidDateTitle": "Invalid date",
     "invalidDateMsg": "This weekly is not valid: the date must be a Monday. You will be redirected to the previous Monday.",
     "goToMonday": "Go to Monday",
@@ -200,6 +203,14 @@
   },
   "dataManagement": {
     "title": "Data Management — PokéFeet",
+    "tabParams": "Settings",
+    "tabCustomize": "Customization",
+    "tabProfile": "Profile",
+    "tabData": "Data",
+    "settings": "Settings",
+    "fastMode": "Fast mode (Marathon)",
+    "fastModeDesc": "In Marathon mode, skip the intermediate result screen and go straight to the next Pokémon.",
+    "customize": "Customization",
     "exportImport": "Export / Import",
     "saveRestore": "Save or restore your data",
     "exportDesc": "Export your data (daily history + best score) to a text file. You can then reimport this file to another browser or after reinstalling.",
@@ -311,6 +322,8 @@
     "daily": "Daily",
     "weekly": "Weekly",
     "marathon": "Marathon",
+    "challenges": "Bonus Challenges",
+    "challengesDesc": "Each completed bonus challenge grants the XP shown in its reward.",
     "achievements": "Achievements",
     "dailyDesc": "XP earned each day based on the number of perfects (based on the formula '3 + (perfect-round), +2 if perfect day'):",
     "weeklyDesc": "XP earned each week based on the number of perfects (based on the formula '6 + (perfect-round x 2), +4 if perfect week'):",
@@ -344,7 +357,10 @@
     "availableTitle": "Available",
     "weeklyPlayedTitle": "Already played",
     "weeklyAvailableTitle": "Available",
-    "noChallenge": "No challenges found yet."
+    "noChallenge": "No challenges found yet.",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "pageLabel": "Page {page} / {total}"
   },
   "challenges": {
     "title": "Challenges",

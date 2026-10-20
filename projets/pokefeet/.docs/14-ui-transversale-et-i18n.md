@@ -4,17 +4,17 @@
 
 | Fichier | Rôle | Chargé par |
 |---|---|---|
-| `loader.js` | overlay de chargement, skeletons d'images, préchargement des cosmétiques | toutes les pages sauf `profile`, `prediction`, `integration` |
-| `footer.js` | footer commun | toutes les pages de jeu |
-| `translate.js` | moteur de traduction + cookie | toutes les pages traduites |
-| `i18n-setup.js` | application des `data-i18n` | idem |
-| `language-switcher.js` | bouton FR/EN flottant | idem |
-| `ui.js` | rendu du Marathon | `pokefeet.html` uniquement |
-| `cosmetics.js` | application des cosmétiques | toutes les pages de jeu |
+| `js/ui/loader.js` | overlay de chargement, skeletons d'images, préchargement des cosmétiques | toutes les pages sauf `profile`, `prediction`, `integration` |
+| `js/ui/footer.js` | footer commun | toutes les pages de jeu |
+| `js/i18n/translate.js` | moteur de traduction + cookie | toutes les pages traduites |
+| `js/i18n/setup.js` | application des `data-i18n` | idem |
+| `js/i18n/language-switcher.js` | bouton FR/EN flottant | idem |
+| `js/features/marathon/ui.js` | rendu du Marathon | `pokefeet.html` uniquement |
+| `js/features/settings/cosmetics.js` | application des cosmétiques | toutes les pages de jeu |
 
 ---
 
-## 2. Loader (`loader.js`)
+## 2. Loader (`js/ui/loader.js`)
 
 1. Injecte `#page-loader` dans `<html>` immédiatement :
    ```html
@@ -33,7 +33,7 @@
 
 ---
 
-## 3. Footer (`footer.js`)
+## 3. Footer (`js/ui/footer.js`)
 
 Injecte un `<footer>` en bas de `document.body` avec :
 
@@ -52,10 +52,10 @@ Chaque module possède sa propre fonction `showNotification`, avec des variantes
 
 | Contexte | Conteneur | Durée | Couleurs |
 |---|---|---|---|
-| `ui.js` (Marathon) | `#notifications` | 1,8 s | `fail` #491111, `hint` #334155 |
-| `daily.js` | `#notifications` | 1,6 s | idem |
-| `weekly.js` | `#notifications` | 1,6 s | idem |
-| `data.js` | `#notifications` | 2,2 s | idem |
+| `js/features/marathon/ui.js` (Marathon) | `#notifications` | 1,8 s | `fail` #491111, `hint` #334155 |
+| `js/features/daily/daily.js` | `#notifications` | 1,6 s | idem |
+| `js/features/weekly/weekly.js` | `#notifications` | 1,6 s | idem |
+| `js/data/data-manager.js` | `#notifications` | 2,2 s | idem |
 | `challenge-game-ui.js` | `#notifications` | variable | succès/échec |
 | `custom-*` | `#notifications` | 2 s | idem |
 
@@ -67,8 +67,8 @@ Il n'y a **aucun composant partagé** : chaque module recrée un `div.notificati
 
 Deux implémentations :
 
-- `game.js` : `#practiceNamesDropdown` + `datalist #namesList` (remplie par `UI.populateNamesList`) ;
-- `daily.js` / `weekly.js` : dropdown custom `#namesDropdown` / `#weeklyNamesDropdown`.
+- `js/features/marathon/game.js` : `#practiceNamesDropdown` + `datalist #namesList` (remplie par `UI.populateNamesList`) ;
+- `js/features/daily/daily.js` / `js/features/weekly/weekly.js` : dropdown custom `#namesDropdown` / `#weeklyNamesDropdown`.
 
 Comportement commun :
 
@@ -116,11 +116,11 @@ Marathon, Daily et Weekly affichent une jauge verticale :
 
 | Fichier | Lignes | Rôle |
 |---|---:|---|
-| `style.css` | 813 | design system global, layout, cartes, boutons, formulaires, responsive |
-| `cosmetics.css` | 1094 | classes de fonds/boutons, grille de cosmétiques, badges, récompenses |
-| `challenge.css` | 598 | pages challenges bonus |
-| `text-shadow.css` | 76 | ombres de texte |
-| `styles/custom_challenges/custom-challenges.css` | 423 | pages custom |
+| `styles/main.css` | 813 | design system global, layout, cartes, boutons, formulaires, responsive |
+| `styles/cosmetics.css` | 1094 | classes de fonds/boutons, grille de cosmétiques, badges, récompenses |
+| `styles/challenges.css` | 598 | pages challenges bonus |
+| `styles/text-shadow.css` | 76 | ombres de texte |
+| `styles/custom-challenges.css` | 423 | pages custom |
 
 ### 8.2 Variables principales
 
@@ -160,7 +160,7 @@ Marathon, Daily et Weekly affichent une jauge verticale :
 
 ### 8.4 Responsive
 
-- Media queries dans `style.css`, `challenge.css`, `custom-challenges.css`.
+- Media queries dans `styles/main.css`, `styles/challenges.css`, `custom-challenges.css`.
 - `body` padding 5 px, `main` max-width variable.
 - `stats.html` et `history.html` utilisent Bootstrap pour les grilles.
 
@@ -184,9 +184,9 @@ Marathon, Daily et Weekly affichent une jauge verticale :
 - `translations/fr.json`
 - `translations/en.json`
 
-437 feuilles par langue, 25 sections racines. Les deux fichiers ont la même structure.
+453 feuilles par langue, 25 sections racines. Les deux fichiers ont la même structure.
 
-### 9.2 `Translator` (`translate.js`)
+### 9.2 `Translator` (`js/i18n/translate.js`)
 
 | Fonction | Comportement |
 |---|---|
@@ -198,7 +198,7 @@ Marathon, Daily et Weekly affichent une jauge verticale :
 
 Fallback : si les fichiers ne chargent pas, `translations` reste vide et tous les `get` retournent le texte par défaut.
 
-### 9.3 Application (`i18n-setup.js`)
+### 9.3 Application (`js/i18n/setup.js`)
 
 Sur `DOMContentLoaded` :
 
@@ -209,9 +209,9 @@ Sur `DOMContentLoaded` :
    - `document.documentElement.lang = langue`.
 3. `LanguageSwitcher.init()`.
 
-**Limite** : les éléments ajoutés après ce passage ne sont pas traduits, sauf si le module appelle `applyTranslations()` à nouveau (fait par `stats.js` et `renderDetailedStats`).
+**Limite** : les éléments ajoutés après ce passage ne sont pas traduits, sauf si le module appelle `applyTranslations()` à nouveau (fait par `js/features/stats/stats.js` et `renderDetailedStats`).
 
-### 9.4 Sélecteur (`language-switcher.js`)
+### 9.4 Sélecteur (`js/i18n/language-switcher.js`)
 
 - Crée `#language-switcher-container`, bouton `#language-toggle-btn`, menu `#language-menu`.
 - Drapeaux 🇫🇷 / 🇬🇧.
@@ -235,7 +235,7 @@ Namespaces principaux : `common`, `home`, `practice`, `daily`, `weekly`, `challe
 
 Problèmes :
 
-- Textes français codés en dur dans `data_management.html`, `stats.js` (`Niveau`), `data.html`.
+- Textes français codés en dur dans `data_management.html`, `js/features/stats/stats.js` (`Niveau`), `data.html`.
 - Pas de pluralisation ni d'interpolation native : les modules font `.replace('{n}', ...)`.
 - Les clés manquantes retombent silencieusement sur le français.
 - `applyTranslations` écrase le `textContent` : impossible d'avoir du HTML enrichi dans un `data-i18n`.

@@ -18,9 +18,9 @@
   <meta name="twitter:title" content="Pokefeet — Défis Passés" />
   <meta name="twitter:description" content="Rejouez vos anciens défis Daily et Weekly Pokémon." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="cosmetics.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
   <style>
     .tabs { display:flex; gap:6px; margin-bottom:14px; }
     .tab-btn {
@@ -55,7 +55,9 @@
         </div>
 
         <div id="dailiesContainer" class="daily-grid"></div>
+        <nav id="dailyPagination" class="daily-pagination hidden" aria-label="Pagination des daily"></nav>
         <div id="weekliesContainer" class="daily-grid" style="display:none;"></div>
+        <nav id="weeklyPagination" class="daily-pagination hidden" aria-label="Pagination des weekly"></nav>
 
         <div id="noDailies" class="no-dailies hidden" data-i18n="oldDaily.noChallenge">
           Aucun défi trouvé pour le moment.
@@ -66,14 +68,15 @@
 
   <div id="notifications"></div>
 
-  <script src="loader.js"></script>
-  <script src="translate.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="footer.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="migration.js"></script>
-  <script src="pokemon.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="cosmetics.js"></script>
-  <script src="old_daily.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/data/config.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/features/history/old-daily.js"></script>
 </html>

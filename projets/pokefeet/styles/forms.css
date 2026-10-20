@@ -1,0 +1,29 @@
+/* --- Guess area & inputs --- */
+.guess-area { display:flex; gap:8px; justify-content:center; align-items:center; margin-top:8px; }
+
+#guessInput,
+.guess-area input,
+.search-input,
+textarea {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  min-width: 200px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 200ms, box-shadow 200ms;
+  outline: none;
+}
+#guessInput:focus,
+.guess-area input:focus,
+.search-input:focus,
+textarea:focus {
+  border-color: rgba(34,197,94,0.5);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+}
+.guess-area input::placeholder,
+.search-input::placeholder,
+textarea::placeholder { color: var(--muted); }
+

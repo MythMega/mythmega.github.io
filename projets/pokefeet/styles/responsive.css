@@ -1,0 +1,14 @@
+
+/* --- Responsive history: always column (chart above list) --- */
+#historyChartWrap { width:100%; }
+#historyList { width:100%; }
+#weeklyChartWrap { width:100%; }
+#weeklyHistoryList { width:100%; }
+@media (max-width:480px) {
+  .home-card { width:92%; padding:22px; }
+  .big-btn { padding:14px; font-size:15px; }
+  .row-buttons { flex-direction:column; gap:10px; }
+  .small-btn { flex:1 1 auto; width:100%; }
+  .daily-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+}
+

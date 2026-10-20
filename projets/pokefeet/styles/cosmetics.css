@@ -18,7 +18,7 @@
   );
   min-height: fit-content;
 }
-.cosmetics-pride-btn {
+[data-tag="customizables-button"].cosmetics-pride-btn {
   background: linear-gradient(
     0deg,
     #f28c8c, /* gentle red */
@@ -59,11 +59,11 @@
   }
 }
 
-.cosmetics-purple-btn {
+[data-tag="customizables-button"].cosmetics-purple-btn {
   background: violet;
 }
 
-.cosmetics-orange-btn {
+[data-tag="customizables-button"].cosmetics-orange-btn {
   background: orange;
 }
 
@@ -100,7 +100,7 @@
 }
 
 
-.cosmetics-venimous {
+[data-tag="customizables-button"].cosmetics-venimous {
     position: relative;
     border: none;
     background: #af0cf5;
@@ -340,7 +340,7 @@ background:
     background-blend-mode: screen, normal;
 }
 
-.ocean-depth-buttons {
+[data-tag="customizables-button"].ocean-depth-buttons {
     position: relative;
     border: none;
     background: #100cf5;
@@ -924,7 +924,7 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
 
 
 /* --- BOUTON ÉTOILES --- */
-.event-jmdev-stars-btn {
+[data-tag="customizables-button"].event-jmdev-stars-btn {
   position: relative;
   display: inline-block;
   padding: 14px 22px;
@@ -965,7 +965,7 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
 
 
 /* --- BOUTON NÉON --- */
-.event-jmdev-neon-btn {
+[data-tag="customizables-button"].event-jmdev-neon-btn {
   position: relative;
   display: inline-block;
   padding: 14px 22px;
@@ -1005,7 +1005,7 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
 
 
 /* --- BOUTON OCÉAN --- */
-.event-jmdev-ocean-btn {
+[data-tag="customizables-button"].event-jmdev-ocean-btn {
   position: relative;
   display: inline-block;
   padding: 14px 22px;
@@ -1047,6 +1047,54 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
 }
 
 
+/* --- Thèmes de fond Bidoof God --- */
+
+.GodBidoof {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/god.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #d2d1c8; /* Couleur de secours aux tons thématiques */
+}
+
+
+/* --- Thèmes de fond Spidey Web --- */
+
+.spidey {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/spidey.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #201c16; /* Couleur de secours aux tons thématiques */
+}
+
+
+/* --- Thèmes de fond Pokeball (starters) --- */
+
+.giantpokeball {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokeball.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #d2d1c8; /* Couleur de secours aux tons thématiques */
+}
+
+
+/* --- Thèmes de fond Meowthstastic --- */
+
+.meowth {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/cat.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #0b0b0b; /* Couleur de secours aux tons thématiques */
+}
+
+
 /* --- Thèmes de fond Halloween 2026 --- */
 
 .halloween2026pumpkin {
@@ -1069,7 +1117,7 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
 
 /* --- Thème de bouton Halloween 2026 --- */
 
-.haloween2026 {
+[data-tag="customizables-button"].haloween2026 {
   background: linear-gradient(135deg, #ff0000, #000000);
   color: #ffffff;
   padding: 14px 22px;

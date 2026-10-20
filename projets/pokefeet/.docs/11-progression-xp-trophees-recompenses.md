@@ -180,12 +180,12 @@ Le pseudo (`pk_pseudo`) est affiché dans `#statsPseudo`.
 
 | Problème | Détail | Impact |
 |---|---|---|
-| Double implémentation | `stats.js` et `ChallengeManager.computeTotalXP()` | deux totaux possibles |
+| Double implémentation | `js/features/stats/stats.js` et `ChallengeManager.computeTotalXP()` | deux totaux possibles |
 | Recalcul complet | chaque `getPlayerLevel()` recharge bases + JSON | lenteur sur la liste de challenges |
 | XP non persisté | tout est dérivé | modification rétroactive du niveau |
 | Trophées non datés | pas d'historique | impossible de distinguer ancien/nouveau |
 | `Type_Registered` coûteux | parcours de 698 Pokémon par trophée | 54 × 698 opérations |
-| `Niveau` codé en dur | `stats.js` écrit `'Niveau ' + level` | non traduit |
+| `Niveau` codé en dur | `js/features/stats/stats.js` écrit `'Niveau ' + level` | non traduit |
 | Badges dupliqués | un même badge peut apparaître plusieurs fois si plusieurs paliers le listent | doublons visuels |
 | Titre | dépend du dernier palier débloqué, pas d'un choix utilisateur | pas de personnalisation |
 | `StreamdexCMD` | copie dans le presse-papier | dépend de l'API clipboard |

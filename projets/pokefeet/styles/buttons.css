@@ -1,0 +1,37 @@
+/* --- Buttons --- */
+button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #052018;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 14px;
+  transition: filter 150ms ease, transform 100ms ease, box-shadow 200ms ease;
+}
+button:hover:not(:disabled) {
+  filter: brightness(1.12);
+  box-shadow: 0 0 20px var(--accent-glow);
+  transform: translateY(-1px);
+}
+button:active:not(:disabled) { transform:scale(0.97) translateY(0); box-shadow:none; }
+button:disabled { opacity:0.4; cursor:not-allowed; }
+
+button.secondary {
+  background: rgba(20, 20, 20, 0.4);
+  color: var(--muted-light);
+  border: 1px solid var(--glass-border);
+}
+button.secondary:hover:not(:disabled) {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  box-shadow: none;
+  filter: none;
+  transform: translateY(-1px);
+}
+
+.danger, button.danger { background:#b91c1c; color:#fff; }
+.danger:hover:not(:disabled), button.danger:hover:not(:disabled) { box-shadow:0 0 20px rgba(185,28,28,0.45); }
+

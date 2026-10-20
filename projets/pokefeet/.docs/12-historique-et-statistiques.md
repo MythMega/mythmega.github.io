@@ -4,10 +4,10 @@
 
 | Page | Rôle | Scripts |
 |---|---|---|
-| `history.html` | listes Daily/Weekly, courbes de score, cartes de statistiques | `history.js`, `history_curve.js` |
-| `stats.html` | profil, XP, niveaux, trophées, récompenses, stats détaillées | `stats.js`, `entity/reward/*` |
+| `history.html` | listes Daily/Weekly, courbes de score, cartes de statistiques | `js/features/history/history.js`, `js/features/history/history-curve.js` |
+| `stats.html` | profil, XP, niveaux, trophées, récompenses, stats détaillées | `js/features/stats/stats.js`, `entity/reward/*` |
 
-`stats.html` ne réutilise **pas** `history_curve.js` : `stats.js` réimplémente les mêmes métriques. `history.html` charge les deux modules, qui écrivent dans les mêmes conteneurs.
+`stats.html` ne réutilise **pas** `js/features/history/history-curve.js` : `js/features/stats/stats.js` réimplémente les mêmes métriques. `history.html` charge les deux modules, qui écrivent dans les mêmes conteneurs.
 
 ---
 
@@ -22,7 +22,7 @@
 
 Compteur `#totalDays`, libellé `#totalCountLabel`.
 
-### 2.2 `history.js`
+### 2.2 `js/features/history/history.js`
 
 - `loadHistory()` / `loadWeeklyHistory()` : lisent les stores et retournent une map date → `{score, results}`.
 - `formatDateLabel(iso)` : `fr-FR` ou `en-GB`.
@@ -36,18 +36,18 @@ Compteur `#totalDays`, libellé `#totalCountLabel`.
   - tooltips mobiles au clic.
 - `renderWeekly()` : même principe, score `/100`, clic → `weekly.html?week=...`.
 
-### 2.3 `history_curve.js`
+### 2.3 `js/features/history/history-curve.js`
 
 - `init()` immédiat : charge les versions, l'historique, construit `#historyList`, dessine `#historyChart` (60 derniers jours), calcule `#detailedStats`.
 - `window.HistoryCurve.renderWeekly()` : dessine `#weeklyChart` (60 dernières semaines) et `#weeklyDetailedStats`.
 - `drawChart(points)` : canvas 2D, grille 0–50, ligne + points, moyenne, meilleure série, labels de mise à jour.
 - `drawWeeklyChart(points)` : même chose sur 0–100.
 
-**Conflit réel** : `history_curve.js` et `history.js` écrivent tous les deux dans `#historyList`. Les deux rendus sont asynchrones (fetch + IndexedDB) : le dernier arrivé écrase l'autre, sans ordre garanti. En pratique, la liste paginée de `history.js` est souvent visible, mais ce n'est pas déterministe. Le graphique et les cartes de `history_curve` restent, eux, dans leurs conteneurs dédiés.
+**Conflit réel** : `js/features/history/history-curve.js` et `js/features/history/history.js` écrivent tous les deux dans `#historyList`. Les deux rendus sont asynchrones (fetch + IndexedDB) : le dernier arrivé écrase l'autre, sans ordre garanti. En pratique, la liste paginée de `js/features/history/history.js` est souvent visible, mais ce n'est pas déterministe. Le graphique et les cartes de `history_curve` restent, eux, dans leurs conteneurs dédiés.
 
 ### 2.4 Métriques des cartes
 
-`renderDetailedStats(historyObj, containerId, count, maxPts)` (stats.js) et `renderStats` / `renderWeeklyStats` (history_curve.js) calculent :
+`renderDetailedStats(historyObj, containerId, count, maxPts)` (js/features/stats/stats.js) et `renderStats` / `renderWeeklyStats` (js/features/history/history-curve.js) calculent :
 
 | Carte | Métriques |
 |---|---|
@@ -104,7 +104,7 @@ Voir doc 11. `#rewardsGrid`, popup `#rewardPopup`, `#rewardPopupDetails`.
 
 ## 4. Duplication et divergences
 
-| Élément | `history.js` + `history_curve.js` | `stats.js` |
+| Élément | `js/features/history/history.js` + `js/features/history/history-curve.js` | `js/features/stats/stats.js` |
 |---|---|---|
 | Lecture IndexedDB | 2 implémentations | 1 implémentation |
 | Cartes de stats | `renderStats` / `renderWeeklyStats` | `renderDetailedStats` |
@@ -129,7 +129,7 @@ Les définitions sont proches mais pas garanties identiques. Toute correction do
 | `history.totalDays` | compte les entrées, pas les jours réellement joués |
 | Tooltips | dépendent du clic, pas du survol |
 | `importedInDex` | affiché mais peut être faux (voir doc 04) |
-| Performance | `stats.js` parcourt 698 Pokémon pour chaque trophée de type |
+| Performance | `js/features/stats/stats.js` parcourt 698 Pokémon pour chaque trophée de type |
 
 ---
 

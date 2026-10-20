@@ -140,7 +140,7 @@ const ChallengeGameUI = (function () {
                     '<div style="color:#4ade80;font-weight:700;font-size:18px;">+' + xpGained + ' XP</div>' +
                 '</div>' +
                 '<div style="display:flex;gap:12px;margin-top:24px;">' +
-                    '<button id="copyChallengeResult" style="flex:1;padding:12px;background:#22c55e;color:#052018;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;">' + T('challenge.copyResult', 'Copier le résultat') + '</button>' +
+                    '<button id="copyChallengeResult" data-tag="customizables-button" style="flex:1;padding:12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;">' + T('challenge.copyResult', 'Copier le résultat') + '</button>' +
                     '<button id="backToChallengeList" style="flex:1;padding:12px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;">' + T('challenge.backToList', 'Retour à la liste') + '</button>' +
                 '</div>';
 

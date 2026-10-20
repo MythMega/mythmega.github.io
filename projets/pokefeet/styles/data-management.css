@@ -1,0 +1,25 @@
+/* --- Data management --- */
+.data-controls { width:100%; }
+.file-input { display:none; }
+.btn-export {
+  background: linear-gradient(90deg,#16a34a,#10b981);
+  color: #042014;
+  font-weight: 800;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: filter 150ms, box-shadow 200ms, transform 100ms;
+}
+.btn-export:hover { filter:brightness(1.1); box-shadow:0 0 22px rgba(16,185,129,0.42); transform:translateY(-1px); }
+.data-controls .secondary {
+  background: rgba(255,255,255,0.04);
+  color: var(--muted-light);
+  border: 1px solid var(--glass-border);
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+#dataPreview { white-space:pre-wrap; word-break:break-word; }
+

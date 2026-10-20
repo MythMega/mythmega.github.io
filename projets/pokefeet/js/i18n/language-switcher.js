@@ -19,21 +19,20 @@ const LanguageSwitcher = (function() {
     // Create the floating button
     const button = document.createElement('button');
     button.id = 'language-toggle-btn';
+    button.className = 'language-toggle-btn';
+    button.setAttribute('data-tag', 'customizables-button');
     button.setAttribute('aria-label', 'Changer la langue / Change language');
     button.style.cssText = `
       width: 56px;
       height: 56px;
       border-radius: 50%;
       border: none;
-      background: var(--accent, #22c55e);
-      color: #052018;
       font-weight: 700;
       font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
       transition: all 200ms ease;
       box-sizing: border-box;
       padding: 0;
@@ -42,16 +41,6 @@ const LanguageSwitcher = (function() {
     const currentLang = Translator.getLanguage();
     button.textContent = currentLang === 'fr' ? '🇫🇷' : '🇬🇧';
     button.dataset.lang = currentLang;
-
-    button.addEventListener('mouseover', () => {
-      button.style.transform = 'scale(1.1)';
-      button.style.boxShadow = '0 6px 16px rgba(34, 197, 94, 0.6)';
-    });
-
-    button.addEventListener('mouseout', () => {
-      button.style.transform = 'scale(1)';
-      button.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.4)';
-    });
 
     button.addEventListener('click', toggleMenu);
 

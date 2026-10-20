@@ -17,6 +17,7 @@
   let dbInstance = null;
   let idbTimedOut = false;
   let versionData = null; // chargé depuis data/version.json
+  let chartDays = 60;
 
   function getDB() {
     return new Promise((resolve, reject) => {
@@ -418,11 +419,15 @@
 
   // initial render (now async)
   async function init() {
+    if (typeof AppConfig !== 'undefined') {
+      const config = await AppConfig.load();
+      chartDays = config.historyChartDays;
+    }
     await PokemonVersions.load();
     versionData = PokemonVersions.getData();
     const history = await loadHistory();
     const allDates = buildHistoryList(history); // returns ascending dates
-    const last = getLastNScores(history, 60); // ascending
+    const last = getLastNScores(history, chartDays); // ascending
     drawChart(last);
     renderStats(history);
   }
@@ -685,7 +690,7 @@
     canvas.width  = Math.floor(canvas.clientWidth  * ratio);
     canvas.height = Math.floor(canvas.clientHeight * ratio);
     const history = await loadHistory();
-    drawChart(getLastNScores(history, 60));
+    drawChart(getLastNScores(history, chartDays));
     if (weeklyCanvas && weeklyCtx && weeklyCanvas.clientWidth > 0) {
       weeklyCanvas.width  = Math.floor(weeklyCanvas.clientWidth  * ratio);
       weeklyCanvas.height = Math.floor(weeklyCanvas.clientHeight * ratio);

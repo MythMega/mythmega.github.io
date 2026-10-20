@@ -4,6 +4,21 @@
 
 ---
 
+## 0. État au 19/10/2026
+
+La **phase de réorganisation physique** est faite :
+
+- 35 scripts déplacés dans `js/core`, `js/data`, `js/features`, `js/i18n`, `js/ui` ;
+- 24 feuilles CSS dans `styles/`, avec `styles/main.css` comme point d'entrée ;
+- 21 pages HTML inchangées à la racine ;
+- ordre des `<script>` et des CSS identique à l'ancien ;
+- contenu JS identique (hors fins de ligne), aucun nom de base/store/cookie modifié ;
+- 21 pages chargées et vérifiées dans un navigateur (aucune erreur de chargement d'asset).
+
+Le code n'est **pas encore** converti en modules ES ni découpé en state/controller/view. Les phases ci-dessous restent la cible ; la correspondance `src/` est indicative et peut être adaptée à l'arborescence `js/` déjà en place.
+
+---
+
 ## 1. Principes directeurs
 
 1. **Strangler pattern** : construire la nouvelle structure à côté de l'ancienne, migrer page par page, supprimer l'ancien seulement après parité vérifiée.
@@ -160,7 +175,10 @@ core → (rien)
 
 ## 5. Phases
 
-### Phase 0 — Baseline et filet de sécurité (1–2 j)
+### Phase 0 — Baseline et filet de sécurité (1–2 j) — **partiellement faite**
+
+La baseline navigateur existe (21 pages, données IndexedDB seedées puis relues). Les fixtures et tests unitaires restent à créer.
+
 
 - Créer `tests/fixtures/` : un fichier de sauvegarde v2, un code custom (`1...` et `2...`), un historique Daily/Weekly de test, un Dex de test.
 - Écrire les tests unitaires des fonctions pures **sans les modifier** :
@@ -174,7 +192,7 @@ core → (rien)
 
 **Critère de sortie** : baseline verte, fixtures commitées, parcours principaux validés.
 
-### Phase 1 — Nettoyage du code mort (1 j)
+### Phase 1 — Nettoyage du code mort (1 j) — **à faire**
 
 - Supprimer `profile.js` et sa balise.
 - Supprimer les exports/fonctions listés en doc 16 § 4.1.
@@ -184,7 +202,7 @@ core → (rien)
 
 **Critère de sortie** : aucune page ne référence un fichier supprimé ; tests manuels inchangés.
 
-### Phase 2 — Fondations partagées (3–4 j)
+### Phase 2 — Fondations partagées (3–4 j) — **à faire**
 
 Créer et adopter :
 

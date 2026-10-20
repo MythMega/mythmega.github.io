@@ -20,8 +20,8 @@ Aucune donnée n'est envoyée à un serveur. Le changement d'origine (domaine, p
 
 | Store | Clé | Valeur | Écrit par | Lu par |
 |---|---|---|---|---|
-| `daily_results` | `date` | `{date, score, results, wrongGuesses, importedInDex}` | `daily.js`, `data.js` | `daily.js`, `stats.js`, `history.js`, `history_curve.js`, `old_daily.js`, `data.js`, `daily-to-dex` |
-| `weekly_results` | `date` | idem | `weekly.js`, `data.js` | `weekly.js`, `stats.js`, `history.js`, `history_curve.js`, `old_daily.js`, `data.js` |
+| `daily_results` | `date` | `{date, score, results, wrongGuesses, importedInDex}` | `js/features/daily/daily.js`, `js/data/data-manager.js` | `js/features/daily/daily.js`, `js/features/stats/stats.js`, `js/features/history/history.js`, `js/features/history/history-curve.js`, `js/features/history/old-daily.js`, `js/data/data-manager.js`, `daily-to-dex` |
+| `weekly_results` | `date` | idem | `js/features/weekly/weekly.js`, `js/data/data-manager.js` | `js/features/weekly/weekly.js`, `js/features/stats/stats.js`, `js/features/history/history.js`, `js/features/history/history-curve.js`, `js/features/history/old-daily.js`, `js/data/data-manager.js` |
 
 Le store est créé par `onupgradeneeded` dans chaque module qui ouvre la base ; la version cible est toujours 4.
 
@@ -31,7 +31,7 @@ Le store est créé par `onupgradeneeded` dans chaque module qui ouvre la base ;
 |---|---|---|
 | `dex_entries` | `index` | `{index, found, firstFoundDate, count}` |
 
-Écrit par `Dex.markFound()`, `Dex.addNewDexEntry()`, donc indirectement par Daily, Weekly, challenges bonus et imports. Lu par `Dex.getProgress()`, `stats.js`, `challenge.js`, `challenge-manager.js`.
+Écrit par `Dex.markFound()`, `Dex.addNewDexEntry()`, donc indirectement par Daily, Weekly, challenges bonus et imports. Lu par `Dex.getProgress()`, `js/features/stats/stats.js`, `challenge.js`, `challenge-manager.js`.
 
 ### 2.3 `PokefeetChallengeDB` — version 4
 
@@ -60,7 +60,7 @@ Conséquences :
 
 ### 2.5 Ouverture et timeouts
 
-Plusieurs modules implémentent un timeout de 5 s (`idbTimedOut`) et un handler `onblocked` avec le message « close other tabs ». `migration.js` utilise 8 s. Aucun module ne partage son instance : chaque fichier ouvre sa propre connexion et la referme rarement (sauf `stats.js` pour le Dex).
+Plusieurs modules implémentent un timeout de 5 s (`idbTimedOut`) et un handler `onblocked` avec le message « close other tabs ». `js/data/migration.js` utilise 8 s. Aucun module ne partage son instance : chaque fichier ouvre sa propre connexion et la referme rarement (sauf `js/features/stats/stats.js` pour le Dex).
 
 ---
 
@@ -68,17 +68,17 @@ Plusieurs modules implémentent un timeout de 5 s (`idbTimedOut`) et un handler 
 
 | Cookie | Valeur | Écrit par | Lu par | Durée |
 |---|---|---|---|---|
-| `pokefeet_language` | `fr` / `en` | `translate.js` | `translate.js` | 365 j |
-| `pk_best` | entier | `game.js`, `data.js` | `game.js`, `stats.js`, `data.js`, `challenge-manager.js` | 365 j (3650 j à l'import) |
-| `pk_best_streak` | entier | `game.js`, `data.js` | `game.js`, `stats.js`, `data.js`, `challenge-manager.js` | 365 j |
-| `pk_fast_mode` | `true` / `false` | `game.js`, `data_management.html` | `game.js` | 365 j |
-| `pk_pseudo` | chaîne ≤ 30 | `data_management.html` (inline), `profile.js` (mort) | `stats.js`, `custom-create-ui.js`, page crédits | 365 j |
-| `pk_cosmetic_bg` | `Value` ou `null`/`default` | `cosmetics.js` | `cosmetics.js` | 365 j |
-| `pk_cosmetic_btn` | `Value` ou `null`/`default` | `cosmetics.js` | `cosmetics.js` | 365 j |
-| `pk_daily_result_v2` | JSON legacy | **plus personne** | `migration.js` (backup uniquement) | 3650 j |
+| `pokefeet_language` | `fr` / `en` | `js/i18n/translate.js` | `js/i18n/translate.js` | 365 j |
+| `pk_best` | entier | `js/features/marathon/game.js`, `js/data/data-manager.js` | `js/features/marathon/game.js`, `js/features/stats/stats.js`, `js/data/data-manager.js`, `challenge-manager.js` | 365 j (3650 j à l'import) |
+| `pk_best_streak` | entier | `js/features/marathon/game.js`, `js/data/data-manager.js` | `js/features/marathon/game.js`, `js/features/stats/stats.js`, `js/data/data-manager.js`, `challenge-manager.js` | 365 j |
+| `pk_fast_mode` | `true` / `false` | `js/features/marathon/game.js`, `data_management.html` | `js/features/marathon/game.js` | 365 j |
+| `pk_pseudo` | chaîne ≤ 30 | `data_management.html` (inline), `js/features/settings/profile.js` (mort) | `js/features/stats/stats.js`, `custom-create-ui.js`, page crédits | 365 j |
+| `pk_cosmetic_bg` | `Value` ou `null`/`default` | `js/features/settings/cosmetics.js` | `js/features/settings/cosmetics.js` | 365 j |
+| `pk_cosmetic_btn` | `Value` ou `null`/`default` | `js/features/settings/cosmetics.js` | `js/features/settings/cosmetics.js` | 365 j |
+| `pk_daily_result_v2` | JSON legacy | **plus personne** | `js/data/migration.js` (backup uniquement) | 3650 j |
 | `pk_weekly_result_v1` | JSON legacy | **plus personne** | personne | — |
 
-**Constat important** : `migration.js` sauvegarde `pk_daily_result_v2` dans `backupData` mais **ne le convertit pas** en IndexedDB. Les anciennes sauvegardes cookie ne sont donc plus lues par le jeu. Le commentaire « Data is still safe in cookies » est trompeur : les données restent dans le cookie, mais l'application ne les exploite plus.
+**Constat important** : `js/data/migration.js` sauvegarde `pk_daily_result_v2` dans `backupData` mais **ne le convertit pas** en IndexedDB. Les anciennes sauvegardes cookie ne sont donc plus lues par le jeu. Le commentaire « Data is still safe in cookies » est trompeur : les données restent dans le cookie, mais l'application ne les exploite plus.
 
 ---
 
@@ -86,7 +86,7 @@ Plusieurs modules implémentent un timeout de 5 s (`idbTimedOut`) et un handler 
 
 | Clé | Support | Contenu | Producteur |
 |---|---|---|---|
-| `pk_practice_session` | localStorage | session Marathon (voir doc 03) | `game.js` |
+| `pk_practice_session` | localStorage | session Marathon (voir doc 03) | `js/features/marathon/game.js` |
 | `challenge_manager_state` | sessionStorage | `{challengeId, currentIndex, currentFails, gameActive, seed}` | `ChallengeManager.startChallenge()` |
 | `cosmetic_Background_cat` | sessionStorage | catégorie active de cosmétiques | inline `data_management.html` |
 | `cosmetic_Background-Buttons_cat` | sessionStorage | idem | inline `data_management.html` |
@@ -95,11 +95,11 @@ Le `sessionStorage` des challenges n'est pas nettoyé à la fin : `completeChall
 
 ---
 
-## 5. Migration (`migration.js`)
+## 5. Migration (`js/data/migration.js`)
 
 ### 5.1 Déclenchement
 
-`Migration.run()` est appelé immédiatement à la fin du script, sur **toutes les pages** qui incluent `migration.js`. Il expose une promesse `Migration.ready`, attendue par `daily`, `weekly`, `stats`, `old_daily` et `challenge.html`.
+`Migration.run()` est appelé immédiatement à la fin du script, sur **toutes les pages** qui incluent `js/data/migration.js`. Il expose une promesse `Migration.ready`, attendue par `daily`, `weekly`, `stats`, `old_daily` et `challenge.html`.
 
 ### 5.2 Déroulement
 
@@ -124,7 +124,7 @@ Le `sessionStorage` des challenges n'est pas nettoyé à la fin : `completeChall
 
 ---
 
-## 6. Export de sauvegarde (`data.js`)
+## 6. Export de sauvegarde (`js/data/data-manager.js`)
 
 ### 6.1 Format
 
@@ -160,7 +160,7 @@ Puis `createExportText()` sérialise et calcule le hash. Le fichier est téléch
 
 ### 6.3 Import manuel Daily/Weekly
 
-`data.js` expose deux imports texte :
+`js/data/data-manager.js` expose deux imports texte :
 
 - **Daily** : en-tête `Pokefeet Daily — YYYY-MM-DD — score N` ou `Pokefeet Daily (mini) — ...`, suivi de 5 lignes de 5 carrés (`🟩🟧🟥`) ou d'une ligne de 5 emojis pour le mini.
 - **Weekly** : même principe avec 10 lignes / 10 emojis.
@@ -189,7 +189,7 @@ Commande spéciale : `!DEL:YYYY-MM-DD` dans la zone Daily supprime l'entrée cor
 | Fin de Daily | `daily_results` (clear + put de tout l'historique), Dex `markFound` pour les gagnants | historique complet, Dex |
 | Fin de Weekly | `weekly_results` (clear + put), Dex | historique complet, Dex |
 | Challenge réussi | `challenge_completions` put, Dex pour toute la `FeetList` | challenges JSON, Pokémons |
-| Choix cosmétique | cookie `pk_cosmetic_*` | `cosmetics.json`, complétions |
+| Choix cosmétique | cookie `pk_cosmetic_*` | `js/features/settings/cosmetics.json`, complétions |
 | Marathon correct | `localStorage` session, cookies best | session, cookies |
 | Import fichier | les 2 stores + challenges + cookies + Dex | fichier, bases |
 | Migration | upgrade des 3 bases | données existantes |

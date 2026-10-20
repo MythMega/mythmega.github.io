@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <base href="../" />
+  <title>Pokefeet — test sauvegarde / chargement</title>
+  <style>
+    body { background:#060c18; color:#e7eef9; font-family:system-ui, sans-serif; padding:20px; }
+    pre { background:#0b1424; border:1px solid #22314a; border-radius:10px; padding:14px; white-space:pre-wrap; }
+    .ok { color:#4ade80; } .ko { color:#f87171; }
+  </style>
+</head>
+<body>
+  <h1>Test sauvegarde / chargement</h1>
+  <p>Ce banc d'essai utilise les vrais boutons d'export et d'import de l'application.</p>
+
+  <div id="notifications" aria-live="polite"></div>
+
+  <!-- Mêmes ids que data_management.html pour brancher DataManager.init() -->
+  <div id="dataPanel" style="display:none">
+    <button id="exportBtn">Exporter les données</button>
+    <input id="importFile" type="file" accept=".txt" />
+    <button id="previewBtn">Aperçu</button>
+    <div id="dataPreview"></div>
+    <textarea id="dailyImportArea"></textarea>
+    <div id="dailyImportResult"></div>
+    <textarea id="weeklyImportArea"></textarea>
+    <div id="weeklyImportResult"></div>
+    <button id="deleteBestBtn">Delete best</button>
+    <button id="deleteDailyBtn">Delete daily</button>
+    <div id="deleteResult"></div>
+  </div>
+
+  <pre id="test-result">En cours…</pre>
+
+  <script>
+    // Doublures minimales des modules annexes : le test porte sur le stockage
+    // (IndexedDB + cookies), pas sur le Pokédex ni sur les cosmétiques.
+    window.Translator = {
+      get: function (_key, fallback) { return fallback === undefined ? _key : fallback; },
+      getLanguage: function () { return 'fr'; }
+    };
+    window.Dex = { markFound: async function () {} };
+    window.DailyToDexImport = {
+      reconstructDailyList: async function () { return []; },
+      reconstructWeeklyList: async function () { return []; }
+    };
+  </script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/data/data-manager.js"></script>
+  <script>
+  (async function () {
+    'use strict';
+
+    const DAILY_STORE = 'daily_results';
+    const WEEKLY_STORE = 'weekly_results';
+    const CHALLENGE_STORE = 'challenge_completions';
+    const SEED_DAILY = {
+      '2026-01-04': { score: 30, results: [{ outcome: 'win', attempts: 2 }] },
+      '2026-01-05': { score: 42, results: [{ outcome: 'win', attempts: 0 }, { outcome: 'fail', attempts: 5 }] }
+    };
+    const SEED_WEEKLY = {
+      '2025-12-29': { score: 84, results: [{ outcome: 'win', attempts: 1 }] }
+    };
+    const SEED_CHALLENGE = { challengeId: 'c1', completedAt: '2026-01-01T10:00:00.000Z', fails: 0 };
+    const checks = [];
+
+    function check(name, ok, detail) {
+      checks.push({ name: name, ok: !!ok, detail: detail || '' });
+      if (!ok) console.error('[TEST] échec — ' + name + (detail ? ' : ' + detail : ''));
+    }
+
+    function waitFor(fn, timeout) {
+      const limit = timeout || 10000;
+      const start = Date.now();
+      return new Promise(function (resolve, reject) {
+        (function poll() {
+          let value;
+          try { value = fn(); } catch (e) { value = null; }
+          if (value) { resolve(value); return; }
+          if (Date.now() - start > limit) { reject(new Error('timeout après ' + limit + ' ms')); return; }
+          setTimeout(poll, 50);
+        })();
+      });
+    }
+
+    function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+    function eraseCookie(name) {
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+    }
+
+    function openRaw(name, version, ensure) {
+      return new Promise(function (resolve, reject) {
+        const req = indexedDB.open(name, version);
+        req.onupgradeneeded = function () { ensure(req.result); };
+        req.onsuccess = function () {
+          if (ensure) ensure(req.result);
+          resolve(req.result);
+        };
+        req.onerror = function () { reject(req.error); };
+      });
+    }
+
+    function clearStores(db, stores) {
+      return new Promise(function (resolve, reject) {
+        const tx = db.transaction(stores, 'readwrite');
+        stores.forEach(function (name) { tx.objectStore(name).clear(); });
+        tx.oncomplete = function () { resolve(true); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+    }
+
+    async function pokefeetDB() {
+      return openRaw('PokefeetDB', 4, function (db) {
+        if (!db.objectStoreNames.contains(DAILY_STORE)) db.createObjectStore(DAILY_STORE, { keyPath: 'date' });
+        if (!db.objectStoreNames.contains(WEEKLY_STORE)) db.createObjectStore(WEEKLY_STORE, { keyPath: 'date' });
+      });
+    }
+
+    async function challengeDB() {
+      return openRaw('PokefeetChallengeDB', 4, function (db) {
+        if (!db.objectStoreNames.contains(CHALLENGE_STORE)) {
+          db.createObjectStore(CHALLENGE_STORE, { keyPath: 'challengeId' });
+        }
+      });
+    }
+
+    async function clearAllData() {
+      const db = await pokefeetDB();
+      await clearStores(db, [DAILY_STORE, WEEKLY_STORE]);
+      db.close();
+
+      const cdb = await challengeDB();
+      await clearStores(cdb, [CHALLENGE_STORE]);
+      cdb.close();
+
+      eraseCookie('pk_best');
+      eraseCookie('pk_best_streak');
+    }
+
+    async function seedData() {
+      await clearAllData();
+      const db = await pokefeetDB();
+      await new Promise(function (resolve, reject) {
+        const tx = db.transaction([DAILY_STORE, WEEKLY_STORE], 'readwrite');
+        Object.keys(SEED_DAILY).forEach(function (date) {
+          const entry = SEED_DAILY[date];
+          tx.objectStore(DAILY_STORE).put({ date: date, score: entry.score, results: entry.results });
+        });
+        Object.keys(SEED_WEEKLY).forEach(function (date) {
+          const entry = SEED_WEEKLY[date];
+          tx.objectStore(WEEKLY_STORE).put({ date: date, score: entry.score, results: entry.results });
+        });
+        tx.oncomplete = function () { resolve(true); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+      db.close();
+
+      const cdb = await challengeDB();
+      await new Promise(function (resolve, reject) {
+        const tx = cdb.transaction(CHALLENGE_STORE, 'readwrite');
+        tx.objectStore(CHALLENGE_STORE).put(SEED_CHALLENGE);
+        tx.oncomplete = function () { resolve(true); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+      cdb.close();
+
+      document.cookie = 'pk_best=150;path=/';
+      document.cookie = 'pk_best_streak=6;path=/';
+    }
+
+    async function readRaw() {
+      const out = { daily: {}, weekly: {}, challenges: {} };
+      const db = await pokefeetDB();
+      await new Promise(function (resolve, reject) {
+        const tx = db.transaction([DAILY_STORE, WEEKLY_STORE], 'readonly');
+        const dailyReq = tx.objectStore(DAILY_STORE).getAll();
+        const weeklyReq = tx.objectStore(WEEKLY_STORE).getAll();
+        tx.oncomplete = function () {
+          dailyReq.result.forEach(function (row) { out.daily[row.date] = row.score; });
+          weeklyReq.result.forEach(function (row) { out.weekly[row.date] = row.score; });
+          resolve(true);
+        };
+        tx.onerror = function () { reject(tx.error); };
+      });
+      db.close();
+
+      const cdb = await challengeDB();
+      await new Promise(function (resolve, reject) {
+        const tx = cdb.transaction(CHALLENGE_STORE, 'readonly');
+        const req = tx.objectStore(CHALLENGE_STORE).getAll();
+        tx.oncomplete = function () {
+          req.result.forEach(function (row) { out.challenges[row.challengeId] = row; });
+          resolve(true);
+        };
+        tx.onerror = function () { reject(tx.error); };
+      });
+      cdb.close();
+      return out;
+    }
+
+    async function exportViaUI() {
+      let text = null;
+      const original = URL.createObjectURL;
+      URL.createObjectURL = function (blob) {
+        blob.text().then(function (value) { text = value; });
+        return original.call(URL, blob);
+      };
+      try {
+        document.getElementById('exportBtn').click();
+        await waitFor(function () { return text; }, 10000);
+      } finally {
+        URL.createObjectURL = original;
+      }
+      return text;
+    }
+
+    async function importViaUI(text) {
+      const file = new File([text], 'pokefeet_save.txt', { type: 'text/plain' });
+      const transfer = new DataTransfer();
+      transfer.items.add(file);
+      const input = document.getElementById('importFile');
+      input.files = transfer.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    function previewJson() {
+      const raw = document.getElementById('dataPreview').textContent.trim();
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch (e) { return null; }
+    }
+
+    function getCookie(name) {
+      const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return match ? decodeURIComponent(match.pop()) : null;
+    }
+
+    async function run() {
+      DataManager.init();
+
+      // 1. Données de référence, puis export via le bouton de l'application.
+      await seedData();
+      const exported = await exportViaUI();
+      check('l’export produit un fichier POKEFEET_SAVE v2', /^POKEFEET_SAVE v2/.test(exported || ''), String(exported || '').slice(0, 40));
+      check('le fichier exporté contient un hash', (exported || '').indexOf('---HASH---') !== -1);
+      check('le fichier exporté contient les dailies', (exported || '').indexOf('2026-01-05') !== -1);
+      check('le cookie du meilleur score est exporté', (exported || '').indexOf('"bestScore":150') !== -1);
+
+      // 2. Effacement complet, puis import du fichier exporté.
+      await clearAllData();
+      const empty = await readRaw();
+      check('les données sont bien effacées avant import', Object.keys(empty.daily).length === 0, JSON.stringify(empty.daily));
+
+      await importViaUI(exported);
+      await waitFor(function () { return previewJson(); }, 15000);
+      const preview = previewJson();
+
+      check('les dailies sont restaurés', !!preview.daily['2026-01-05'] && preview.daily['2026-01-05'].score === 42, JSON.stringify(preview.daily));
+      check('le second daily est restauré', !!preview.daily['2026-01-04'] && preview.daily['2026-01-04'].score === 30);
+      check('le weekly est restauré', !!preview.weekly['2025-12-29'] && preview.weekly['2025-12-29'].score === 84, JSON.stringify(preview.weekly));
+      check('le meilleur score est restauré', preview.best === 150, String(preview.best));
+      check('la meilleure série est restaurée', preview.marathon && preview.marathon.bestStreak === 6, JSON.stringify(preview.marathon));
+      check('le challenge bonus est restauré', !!preview.challenges.c1, JSON.stringify(preview.challenges));
+
+      const persisted = await readRaw();
+      check('les dailies sont réellement écrits dans IndexedDB', persisted.daily['2026-01-05'] === 42, JSON.stringify(persisted.daily));
+      check('le weekly est réellement écrit dans IndexedDB', persisted.weekly['2025-12-29'] === 84, JSON.stringify(persisted.weekly));
+      check('le challenge est réellement écrit dans IndexedDB', !!persisted.challenges.c1);
+      check('le cookie pk_best est écrit', getCookie('pk_best') === '150', String(getCookie('pk_best')));
+
+      // 3. Un fichier modifié (hash invalide) doit être refusé sans rien écrire.
+      await clearAllData();
+      const tampered = (exported || '').replace('"score":42', '"score":99');
+      check('le fichier falsifié diffère du fichier exporté', tampered !== exported);
+      await importViaUI(tampered);
+      await sleep(2000);
+      const afterTamper = await readRaw();
+      check('un fichier falsifié n’écrit aucun daily', Object.keys(afterTamper.daily).length === 0, JSON.stringify(afterTamper.daily));
+      check('un fichier falsifié n’écrit aucun weekly', Object.keys(afterTamper.weekly).length === 0, JSON.stringify(afterTamper.weekly));
+      check('un fichier falsifié ne restaure pas le meilleur score', getCookie('pk_best') === null, String(getCookie('pk_best')));
+
+      // 4. Nettoyage final : ne pas laisser de données de test dans le profil.
+      await clearAllData();
+    }
+
+    function report(error) {
+      const failed = checks.filter(function (c) { return !c.ok; });
+      if (error) check('exécution du test', false, error && error.stack ? error.stack : String(error));
+      const passed = checks.filter(function (c) { return c.ok; }).length;
+      const lines = checks.map(function (c) {
+        return (c.ok ? '✔ ' : '✖ ') + c.name + (c.ok || !c.detail ? '' : ' — ' + c.detail);
+      });
+      const summary = (error ? 'ERREUR' : (failed.length === 0 ? 'PASS' : 'FAIL')) +
+        ' — ' + passed + '/' + checks.length + ' vérifications';
+      document.getElementById('test-result').textContent = lines.join('\n') + '\n\n' + summary;
+      document.title = 'TEST:' + (failed.length === 0 && !error ? 'PASS' : 'FAIL');
+      window.__TEST_RESULT__ = {
+        pass: failed.length === 0 && !error,
+        summary: summary,
+        checks: checks,
+        error: error ? String(error && error.stack ? error.stack : error) : null,
+        consoleErrors: []
+      };
+    }
+
+    const timeout = setTimeout(function () {
+      report(new Error('le test n’a pas terminé en 60 s'));
+    }, 60000);
+
+    try {
+      await run();
+      clearTimeout(timeout);
+      report(null);
+    } catch (error) {
+      clearTimeout(timeout);
+      report(error);
+    }
+  })();
+  </script>
+</body>
+</html>

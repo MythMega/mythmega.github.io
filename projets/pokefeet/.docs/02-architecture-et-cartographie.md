@@ -1,18 +1,19 @@
 # 02 — Architecture et cartographie réelle
 
-> **État** : réorganisation physique effectuée. Les 21 pages HTML restent à la racine ; les 36 scripts sont regroupés dans `js/` et les 25 feuilles dans `styles/`. Les évolutions fonctionnelles récentes sont décrites dans les documents dédiés.
+> **État** : réorganisation physique effectuée. Les 21 pages applicatives et `offline.html` restent à la racine ; les 37 scripts sont regroupés dans `js/`, `sw.js` reste à la racine et les 25 feuilles dans `styles/`. La PWA est décrite dans le document 21. Les évolutions fonctionnelles récentes sont décrites dans les documents dédiés.
 
 ## 1. Type d'application
 
 Application **statique multipage** (MPA), sans build, sans framework, sans backend :
 
-- 21 fichiers HTML à la racine, chacun est une page autonome ;
-- 36 fichiers JavaScript chargés par balises `<script>` classiques (IIFE ou classes globales) ;
+- 21 pages applicatives HTML + `offline.html`, chacune est une page autonome ;
+- 37 fichiers JavaScript chargés par balises `<script>` classiques (IIFE ou classes globales), plus `sw.js` ;
 - 25 feuilles CSS, dont un point d'entrée `styles/main.css` ;
+- un manifeste PWA, des icônes et un Service Worker ;
 - données statiques JSON + images ;
 - persistance navigateur uniquement.
 
-Il n'y a **ni `package.json`, ni bundler, ni modules ES**, ni transpilation. Les fichiers s'exposent via des variables globales (`const Game`, `class Pokemon`, `window.HistoryCurve`, etc.). L'ordre des balises `<script>` est donc une dépendance implicite et **doit être conservé**.
+Il n'y a **ni bundler, ni modules ES, ni transpilation**. Un `package.json` minimal fournit uniquement `npm run lint` et `npm run serve`. Les fichiers s'exposent via des variables globales (`const Game`, `class Pokemon`, `window.HistoryCurve`, etc.). L'ordre des balises `<script>` est donc une dépendance implicite et **doit être conservé**.
 
 ---
 
@@ -20,7 +21,11 @@ Il n'y a **ni `package.json`, ni bundler, ni modules ES**, ni transpilation. Les
 
 ```text
 /
-├── *.html                          # 21 pages (URLs inchangées)
+├── *.html                          # 21 pages applicatives + offline.html
+├── manifest.webmanifest            # identité et scope PWA
+├── sw.js                           # Service Worker (précache, offline)
+├── placeholder.txt                 # visuels/valeurs PWA à personnaliser
+├── icons/                          # icônes PWA, maskables, captures
 ├── js/
 │   ├── core/                       # entités et modèles partagés
 │   │   ├── pokemon.js
@@ -28,7 +33,8 @@ Il n'y a **ni `package.json`, ni bundler, ni modules ES**, ni transpilation. Les
 │   │   ├── challenge.js
 │   │   ├── reward.js
 │   │   ├── reward-item.js
-│   │   └── reward-button.js
+│   │   ├── reward-button.js
+│   │   └── preferences.js          # préférences cookies (animations, son, alertes, notifications)
 │   ├── data/                       # persistance, migration, sauvegarde
 │   │   ├── migration.js
 │   │   ├── data-manager.js
@@ -51,9 +57,14 @@ Il n'y a **ni `package.json`, ni bundler, ni modules ES**, ni transpilation. Les
 │   │   ├── translate.js
 │   │   ├── setup.js
 │   │   └── language-switcher.js
-│   └── ui/
-│       ├── loader.js
-│       └── footer.js
+│   ├── ui/
+│   │   ├── loader.js
+│   │   ├── fx.js                   # sons de feedback
+│   │   ├── transitions.js          # transitions d'image (swapImage)
+│   │   ├── zoom.js                 # visionneuse plein écran
+│   │   ├── rotate3d.js             # inclinaison 3D au glisser (max3DRotate)
+│   │   └── footer.js
+│   └── pwa.js                      # enregistrement du Service Worker
 ├── styles/
 │   ├── main.css                    # point d'entrée : imports ordonnés
 │   ├── base.css … toggle.css       # 19 feuilles issues de l'ancien style.css
@@ -63,6 +74,7 @@ Il n'y a **ni `package.json`, ni bundler, ni modules ES**, ni transpilation. Les
 │   ├── language-switcher.css
 │   └── text-shadow.css
 ├── data/                           # JSON inchangés
+├── sounds/                         # 3 MP3 à fournir (voir .docs/sound.txt)
 ├── settings/config.json            # réglages applicatifs
 ├── scripts/                        # lint et serveur local sans cache
 ├── translations/                   # JSON inchangés

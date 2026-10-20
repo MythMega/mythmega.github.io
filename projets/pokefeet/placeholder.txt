@@ -1,0 +1,229 @@
+POKEFEET — PLACEHOLDERS ET PERSONNALISATIONS PWA
+=================================================
+
+La PWA est fonctionnelle en l'état : aucune modification n'est obligatoire.
+Ce fichier liste uniquement les éléments générés avec des valeurs par défaut
+que tu peux remplacer par du contenu définitif (visuels officiels, captures de
+gameplay, textes de marque, etc.).
+
+Date de génération : 20/10/2026
+Déploiement cible : https://web.jmdev.fr/projets/pokefeet/
+
+
+1. ICÔNES DE L'APPLICATION
+--------------------------
+
+Fichiers :
+  - icons/icon-192.png
+  - icons/icon-512.png
+  - icons/icon-1024.png
+
+Emplacement :
+  - Ces fichiers sont référencés dans manifest.webmanifest, section "icons"
+    (lignes 16 à 47).
+  - icons/icon-192.png est aussi utilisé par les raccourcis (lignes 70 à 102).
+
+Valeur par défaut :
+  - Fond dégradé sombre (#0f172a → #060c18) avec le logo existant `icon.png`
+    redimensionné et centré sur 80 % de la largeur.
+  - Tailles réelles : 192x192, 512x512 et 1024x1024.
+
+À remplacer si besoin :
+  - Par les visuels officiels de Pokefeet, en conservant EXACTEMENT les mêmes
+    noms de fichiers et les mêmes dimensions.
+  - Si tu changes les dimensions, mets à jour les champs "sizes" correspondants
+    dans manifest.webmanifest, sinon `npm run lint` échouera.
+
+
+2. ICÔNES MASKABLES (Android / stores)
+--------------------------------------
+
+Fichiers :
+  - icons/icon-maskable-192.png
+  - icons/icon-maskable-512.png
+
+Emplacement :
+  - manifest.webmanifest, section "icons" (lignes 35 à 46), purpose "maskable".
+
+Valeur par défaut :
+  - Même fond sombre que les icônes classiques, mais le logo est réduit à 60 %
+    de la largeur pour rester dans la zone de sécurité du masque Android.
+
+À remplacer si besoin :
+  - Par de vraies icônes maskables plein cadre. Garde le sujet principal dans
+    les 80 % centraux (cercle de sécurité) et conserve les dimensions 192 et 512.
+
+
+3. ICÔNE APPLE / FAVICON
+------------------------
+
+Fichiers :
+  - icons/apple-touch-icon.png (180x180)
+  - icons/favicon-32.png (32x32)
+
+Emplacement :
+  - apple-touch-icon.png est référencé dans les 21 pages HTML, juste après le
+    lien manifest (ex. index.html ligne 14).
+  - favicon-32.png est utilisé par offline.html ligne 15.
+
+Valeur par défaut :
+  - Même composition que les icônes classiques.
+
+À remplacer si besoin :
+  - Par le visuel officiel, sans changer les dimensions ni les noms.
+
+
+4. CAPTURES D'ÉCRAN DU MANIFESTE
+--------------------------------
+
+Fichiers :
+  - icons/screenshot-wide.png   (1280x920, ordinateur)
+  - icons/screenshot-narrow.png (720x1280, mobile)
+
+Emplacement :
+  - manifest.webmanifest, section "screenshots" (lignes 48 à 63).
+
+Valeur par défaut :
+  - Captures réelles de la page d'accueil Pokefeet, générées depuis le serveur
+    local, avec la barre d'actualités visible.
+
+À remplacer si besoin :
+  - Par de vraies captures de gameplay (Daily, Weekly, Marathon, Pokédex...).
+  - Si tu changes les dimensions, mets à jour "sizes" dans manifest.webmanifest.
+  - Une capture "wide" doit être plus large que haute, une capture "narrow"
+    doit être plus haute que large (vérifié par le lint).
+
+
+5. NOM, DESCRIPTION ET COULEURS DE MARQUE
+-----------------------------------------
+
+Fichier :
+  - manifest.webmanifest
+
+Emplacement :
+  - Lignes 2 à 15 : id, name, short_name, description, lang, dir, start_url,
+    scope, display, display_override, orientation, background_color,
+    theme_color, categories.
+
+Valeur par défaut :
+  - id / start_url / scope : "./" (résolus vers /projets/pokefeet/)
+  - name : "Pokefeet"
+  - short_name : "Pokefeet"
+  - description : jeu de devinettes Pokémon (daily, weekly, marathon, custom)
+  - display : "standalone", orientation : "portrait"
+  - background_color et theme_color : "#060c18"
+  - categories : ["games", "entertainment", "education"]
+
+À remplacer si besoin :
+  - Par le nom et la description définitifs si le positionnement change.
+  - Si tu changes theme_color, mets aussi à jour les balises
+    <meta name="theme-color"> des 21 pages HTML (ex. index.html ligne 6) :
+    le lint vérifie que les deux valeurs sont identiques.
+  - Ne remplace pas les chemins relatifs "./" par des chemins absolus codés en
+    dur : ils sont volontairement relatifs pour rester valides dans
+    /projets/pokefeet/ et en local.
+
+
+6. RACCOURCIS (APP SHORTCUTS)
+-----------------------------
+
+Fichier :
+  - manifest.webmanifest, section "shortcuts" (lignes 64 à 104).
+
+Valeur par défaut :
+  - Daily Challenge -> ./daily.html
+  - Weekly Challenge -> ./weekly.html
+  - Marathon -> ./pokefeet.html
+  - Icône 192x192 pour chaque raccourci.
+
+À remplacer si besoin :
+  - Si une page change de nom ou si tu veux mettre un autre mode en avant.
+  - Les URLs doivent rester dans /projets/pokefeet/ ; leurs cibles sont
+    vérifiées par le lint.
+
+
+7. EN-TÊTES PWA DES PAGES HTML
+------------------------------
+
+Fichiers :
+  - Les 21 pages HTML à la racine (index.html, daily.html, ...).
+
+Emplacement :
+  - Bloc ajouté juste après la balise viewport (ex. index.html lignes 6 à 14) :
+    theme-color, color-scheme, application-name, mobile-web-app-capable,
+    apple-mobile-web-app-capable, apple-mobile-web-app-status-bar-style,
+    apple-mobile-web-app-title, manifest, apple-touch-icon.
+  - Script d'enregistrement avant </body> (ex. index.html ligne 135).
+
+Valeur par défaut :
+  - "#060c18", "Pokefeet", manifest.webmanifest, icons/apple-touch-icon.png,
+    js/pwa.js.
+
+À remplacer si besoin :
+  - Si la couleur de thème ou le nom de l'application change, applique la même
+    valeur partout. Le lint impose un lien manifest, un theme-color cohérent,
+    l'icône Apple et le script d'enregistrement sur chaque page.
+
+
+8. VERSION DU CACHE DU SERVICE WORKER
+-------------------------------------
+
+Fichier :
+  - sw.js, ligne 13.
+
+Valeur par défaut :
+  - const CACHE_VERSION = 'pokefeet-v1';
+
+À remplacer si besoin :
+  - Incrémente en 'pokefeet-v2', 'pokefeet-v3', etc. après une modification
+    importante des fichiers précachés (JS, CSS, HTML, données) pour forcer le
+    renouvellement du cache et supprimer l'ancien.
+  - Le Service Worker utilise ensuite automatiquement
+    `pokefeet-vN-shell` comme nom de cache.
+
+
+9. TEXTE DE LA PAGE HORS LIGNE
+------------------------------
+
+Fichier :
+  - offline.html, lignes 67 à 73.
+
+Valeur par défaut :
+  - « Vous êtes hors ligne », message d'aide en français, traduction anglaise,
+    bouton « Réessayer / Retry ».
+
+À remplacer si besoin :
+  - Par un texte plus court ou plus fun, en gardant le lien vers "./" pour
+    revenir à l'accueil.
+
+
+10. CHEMIN DE DÉPLOIEMENT DANS LE LINT
+--------------------------------------
+
+Fichier :
+  - scripts/lint.mjs, ligne 281.
+
+Valeur par défaut :
+  - const DEPLOY_URL = 'https://web.jmdev.fr/projets/pokefeet/';
+
+À remplacer si besoin :
+  - Uniquement si l'application est déplacée vers une autre URL. Le manifeste,
+    le Service Worker et les pages HTML utilisent des chemins relatifs et n'ont
+    pas besoin d'être modifiés.
+  - Cette constante sert au lint à vérifier que "scope" résout bien vers
+    /projets/pokefeet/ et que le précache reste dans le bon périmètre.
+
+
+RAPPEL DE VÉRIFICATION
+----------------------
+
+Après toute modification de ces éléments :
+
+  npm run lint
+
+Puis tester l'installation dans Chrome :
+  - ouvrir https://web.jmdev.fr/projets/pokefeet/ en HTTPS ;
+  - vérifier l'icône d'installation dans la barre d'adresse ;
+  - installer, fermer l'onglet, relancer depuis l'icône ;
+  - couper le réseau et vérifier que la page d'accueil et offline.html
+    s'affichent encore.

@@ -1,6 +1,7 @@
 # 19 — Plan de tests et de non-régression
 
-> L'application n'a **aucun test automatisé**. Ce document fournit :
+> Un test navigateur automatisé couvre le cycle **sauvegarde / chargement** (`npm test`).
+> Le reste du document fournit :
 > 1. une baseline manuelle à exécuter avant la restructuration ;
 > 2. les tests unitaires à écrire sur les fonctions pures ;
 > 3. les scénarios end-to-end à automatiser ;
@@ -36,7 +37,21 @@ Créer `tests/fixtures/` :
 | `dex-seed.json` | entrées Dex attendues après import |
 | `pokemons-subset.json` | pool réduit pour tester les listes déterministes |
 
-### 1.3 Remise à zéro
+### 1.3 Test automatisé sauvegarde / chargement
+
+`npm test` exécute `scripts/test-save-load.mjs`, qui :
+
+1. démarre un serveur statique local sans cache ;
+2. lance Chrome en headless (détecté automatiquement, ou via `CHROME_PATH`) ;
+3. ouvre `tests/save-load.html`, qui utilise les **vrais boutons** d'export et d'import
+   de `js/data/data-manager.js` avec IndexedDB et les cookies réels ;
+4. vérifie l'export v2, l'import complet, la persistance IndexedDB, les cookies
+   `pk_best` / `pk_best_streak`, et le rejet d'un fichier dont le hash a été modifié.
+
+Aucune dépendance npm : le pilotage passe par le protocole DevTools natif. Si Chrome
+n'est pas installé, le test est ignoré avec un avertissement (définir `CHROME_PATH`).
+
+### 1.4 Remise à zéro
 
 Avant chaque scénario :
 
@@ -401,5 +416,6 @@ Il contrôle :
 |---|---|---|
 | `historyChartDays` | `60` | Nombre de jours affichés dans le graphique Daily de `history.html` |
 | `oldDailyPageSize` | `30` | Nombre de dates par page dans `old_daily.html` (Daily et Weekly) |
+| `dexPageSize` | `100` | Nombre d'entrées par page dans `pied-dex.html` |
 
 Toute valeur non entière, hors bornes ou toute clé inconnue fait échouer `npm run lint`.

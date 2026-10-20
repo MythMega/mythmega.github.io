@@ -1,0 +1,29 @@
+SONS — Pokefeet
+===============
+
+3 fichiers MP3 à déposer dans /sounds/, nommés exactement :
+
+  sounds/new-pokemon.mp3   → "Nouveau Pokémon enregistré" (1re découverte au Dex)
+  sounds/positive.mp3      → toutes les autres notifications positives (succès daily/weekly,
+                             bonne réponse, challenge terminé, import réussi, activation du son…)
+  sounds/negative.mp3      → notifications négatives (mauvaise réponse, échec, import en erreur)
+
+Règles techniques (identiques pour les 3)
+- MP3, mono, 44,1 kHz, 96 kbps (CBR), normalisé à -3 dBFS environ
+- Durée : 250–500 ms. Zéro silence au début, fade-out très court (30–50 ms) pour éviter le "clac"
+- Volume perçu homogène entre les 3 fichiers (c'est le même gain côté jeu, pas de réglage par fichier)
+- < 30 Ko chacun (chargés en runtime, non précachés par le service worker)
+
+Identité sonore (très concis)
+- new-pokemon : carillon montant 2 notes + petit "sparkle" (le son le plus marquant des trois)
+- positive    : 1 note courte et claire, timbre doux (type "pop" ou "ding")
+- negative    : 1 note descendante mate, jamais agressive ni stridente
+
+Aucun autre fichier n'est nécessaire : si un MP3 est absent, le jeu continue
+silencieusement (erreur de lecture ignorée par js/ui/fx.js).
+
+Rappels d'intégration
+- Lecture : js/ui/fx.js (PokefeetFX.playSound / notificationSound)
+- Coupure globale : switch "Son" dans Données > Préférences (cookie pk_sound)
+- Le switch "Notifications" coupe les messages flottants ET leur son
+- Le switch "Alertes nouveau Pokémon" coupe les bannières de 1re découverte ET new-pokemon.mp3

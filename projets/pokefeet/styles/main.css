@@ -1,12 +1,16 @@
 /* Pokefeet — point d’entrée CSS global.
    Les imports reprennent exactement l’ordre de l’ancien style.css. */
 @import url("./base.css");
+@import url("./animations.css");
 @import url("./game-image.css");
+@import url("./zoom.css");
+@import url("./rotate3d.css");
 @import url("./forms.css");
 @import url("./buttons.css");
 @import url("./hints.css");
 @import url("./notifications.css");
 @import url("./data-management.css");
+@import url("./tabs.css");
 @import url("./history.css");
 @import url("./game-controls.css");
 @import url("./history-details.css");

@@ -274,3 +274,7 @@ Problèmes :
 11. Responsive mobile : carte, grille, boutons.
 12. Accessibilité clavier de base.
 13. `stats.html`/`history.html` : Bootstrap chargé, grilles correctes.
+14. Préférences (`js/core/preferences.js`) : les 5 switches Animations / Rotation 3D / Son / Alertes nouveau Pokémon / Notifications sont persistés en cookie (`pk_animations`, `pk_rotate3d`, `pk_sound`, `pk_new_pokemon_alerts`, `pk_notifications`) et s'appliquent immédiatement, y compris après rechargement.
+15. Animations d'image (`js/ui/transitions.js`) : fondu sortie → changement de sprite → fondu entrée sur Daily, Weekly, Marathon, Challenge et challenges custom ; plus aucune transition quand les animations sont coupées.
+15 bis. Rotation 3D (`js/ui/rotate3d.js`) : glisser sur l'image l'incline jusqu'à `max3DRotate` degrés (`settings/config.json`, 15 par défaut) ; au tactile, seul l'axe horizontal tourne pour laisser le défilement vertical à la page. Coupée par le switch Rotation 3D (`pk_rotate3d`).
+16. Sons : `sounds/new-pokemon.mp3`, `positive.mp3`, `negative.mp3` (voir `.docs/sound.txt`) ; un fichier absent ne doit produire aucune erreur bloquante.

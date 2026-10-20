@@ -53,6 +53,10 @@ const CustomPlayUI = (function () {
   function showNotification(message, type) {
     const notif = $('notifications');
     if (!notif) return;
+    if (typeof PokefeetFX !== 'undefined') {
+      if (!PokefeetFX.notificationsEnabled()) return;
+      PokefeetFX.notificationSound(type);
+    }
     const n = document.createElement('div');
     n.className = 'notification';
     n.textContent = message;
@@ -244,7 +248,14 @@ const CustomPlayUI = (function () {
       return;
     }
 
-    $('playImg').src = p.Image || '';
+    const playImg = $('playImg');
+    if (playImg) {
+      if (typeof PokefeetTransitions !== 'undefined') {
+        PokefeetTransitions.swapImage(playImg, function () { playImg.src = p.Image || ''; });
+      } else {
+        playImg.src = p.Image || '';
+      }
+    }
     const prog = CustomChallengeGame.getProgress();
     $('playProgress').textContent = (prog.current + 1) + ' / ' + prog.total;
     $('playFails').textContent = T('customPlay.fails', 'Erreurs') + ' : ' + CustomChallengeGame.getTotalFails();
@@ -334,6 +345,7 @@ const CustomPlayUI = (function () {
     const wrong = CustomChallengeGame.getCurrentWrong();
     if (wrong.includes(val)) {
       showNotification(T('daily.alreadyTried', 'Déjà essayé'), 'hint');
+      input.value = '';
       return;
     }
 

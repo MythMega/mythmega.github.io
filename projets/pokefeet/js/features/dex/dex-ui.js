@@ -5,6 +5,8 @@ const DexUI = (function () {
   let allDexData = {};
   let currentSort = 'index';
   let currentDirection = 'asc';
+  let currentPage = 1;
+  let currentFiltered = [];
 
   // Update progress bar
   function updateProgress(found, total) {
@@ -84,95 +86,156 @@ const DexUI = (function () {
     return sorted;
   }
 
-  // Re-render grid with current sort, then re-apply filters
-  function rebuildGrid() {
-    const grid = document.getElementById('dexGrid');
-    if (!grid) return;
-
-    grid.innerHTML = '';
-    const sorted = getSortedPokemons();
-
-    sorted.forEach(p => {
-      const entry = dexEntries[p.Index] || { found: false, count: 0, firstFoundDate: null };
-      const div = document.createElement('div');
-      div.className = 'dex-entry';
-      div.setAttribute('data-index', p.Index);
-      div.setAttribute('data-name-fr', (p.NameFR || '').toLowerCase());
-      div.setAttribute('data-name-en', (p.NameEN || '').toLowerCase());
-      div.setAttribute('data-found', entry.found ? 'true' : 'false');
-
-      const img = document.createElement('img');
-      img.src = p.Image || '';
-      img.alt = p.NameFR || p.NameEN || '';
-      img.className = entry.found ? '' : 'black-filter';
-
-      const nameDiv = document.createElement('div');
-      nameDiv.className = 'dex-name';
-      nameDiv.textContent = `${p.NameFR || p.NameEN} (${p.NameEN}) #${p.Index}`;
-
-      const infoBtn = document.createElement('button');
-      const T0 = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
-      infoBtn.textContent = T0('dex.moreInfo', "+ d'info");
-      infoBtn.disabled = !entry.found;
-      infoBtn.className = entry.found ? '' : 'disabled';
-      infoBtn.onclick = () => showPopup(p, entry);
-
-      div.appendChild(img);
-      div.appendChild(nameDiv);
-      div.appendChild(infoBtn);
-      grid.appendChild(div);
-    });
-
-    applyFilters();
+  function getPageSize() {
+    if (typeof AppConfig !== 'undefined') {
+      const cfg = AppConfig.get();
+      if (cfg && Number.isInteger(cfg.dexPageSize) && cfg.dexPageSize > 0) return cfg.dexPageSize;
+    }
+    return 100;
   }
 
-  // Filter and display based on search and checkboxes
-  function applyFilters() {
-    console.log('[DexUI] Applying filters');
+  function getFilterState() {
     const searchInput = document.getElementById('searchInput');
     const showFoundCheckbox = document.getElementById('showFoundCheckbox');
     const showNotFoundCheckbox = document.getElementById('showNotFoundCheckbox');
-    
-    if (!searchInput || !showFoundCheckbox || !showNotFoundCheckbox) return;
+    return {
+      needle: searchInput ? searchInput.value.toLowerCase().trim() : '',
+      showFound: !!(showFoundCheckbox && showFoundCheckbox.checked),
+      showNotFound: !!(showNotFoundCheckbox && showNotFoundCheckbox.checked)
+    };
+  }
 
-    const searchTerm = searchInput.value.toLowerCase().trim();
-    const showFound = showFoundCheckbox.checked;
-    const showNotFound = showNotFoundCheckbox.checked;
+  function matchesFilters(p, filters) {
+    const nameFr = (p.NameFR || '').toLowerCase();
+    const nameEn = (p.NameEN || '').toLowerCase();
+    const index = String(p.Index || '');
+    if (filters.needle &&
+        !nameFr.includes(filters.needle) &&
+        !nameEn.includes(filters.needle) &&
+        !index.includes(filters.needle)) {
+      return false;
+    }
+    const entry = dexEntries[p.Index] || { found: false };
+    if (filters.showFound && filters.showNotFound) return true;
+    if (filters.showFound) return !!entry.found;
+    if (filters.showNotFound) return !entry.found;
+    return true;
+  }
 
-    const entries = document.querySelectorAll('.dex-entry');
-    let visibleCount = 0;
+  function createEntryCard(p) {
+    const entry = dexEntries[p.Index] || { found: false, count: 0, firstFoundDate: null };
+    const div = document.createElement('div');
+    div.className = 'dex-entry';
+    div.setAttribute('data-index', p.Index);
+    div.setAttribute('data-name-fr', (p.NameFR || '').toLowerCase());
+    div.setAttribute('data-name-en', (p.NameEN || '').toLowerCase());
+    div.setAttribute('data-found', entry.found ? 'true' : 'false');
 
-    entries.forEach(entry => {
-      const index = entry.getAttribute('data-index');
-      const nameFr = entry.getAttribute('data-name-fr');
-      const nameEn = entry.getAttribute('data-name-en');
-      const found = entry.getAttribute('data-found') === 'true';
+    const img = document.createElement('img');
+    img.src = p.Image || '';
+    img.alt = p.NameFR || p.NameEN || '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.className = entry.found ? '' : 'black-filter';
 
-      // Check search filter
-      let matchesSearch = true;
-      if (searchTerm) {
-        matchesSearch = nameFr.includes(searchTerm) || 
-                       nameEn.includes(searchTerm) || 
-                       index.includes(searchTerm);
-      }
+    const nameDiv = document.createElement('div');
+    nameDiv.className = 'dex-name';
+    nameDiv.textContent = `${p.NameFR || p.NameEN} (${p.NameEN}) #${p.Index}`;
 
-      // Check status filter
-      let matchesStatus = true;
-      if (showFound && showNotFound) {
-        matchesStatus = true; // both checked - show all
-      } else if (showFound && !showNotFound) {
-        matchesStatus = found; // only show found
-      } else if (!showFound && showNotFound) {
-        matchesStatus = !found; // only show not found
-      }
-      // if neither checked, show all
+    const infoBtn = document.createElement('button');
+    const T0 = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
+    infoBtn.textContent = T0('dex.moreInfo', "+ d'info");
+    infoBtn.disabled = !entry.found;
+    infoBtn.className = entry.found ? '' : 'disabled';
+    infoBtn.onclick = () => showPopup(p, entry);
 
-      const shouldDisplay = matchesSearch && matchesStatus;
-      entry.style.display = shouldDisplay ? '' : 'none';
-      if (shouldDisplay) visibleCount++;
-    });
+    div.appendChild(img);
+    div.appendChild(nameDiv);
+    div.appendChild(infoBtn);
+    return div;
+  }
 
-    console.log('[DexUI] Visible Pokemon:', visibleCount);
+  function renderPagination(container, totalPages) {
+    if (!container) return;
+    container.innerHTML = '';
+    container.classList.toggle('hidden', totalPages <= 1);
+    if (totalPages <= 1) return;
+
+    const T = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
+
+    const prev = document.createElement('button');
+    prev.type = 'button';
+    prev.className = 'secondary dex-page-btn';
+    prev.textContent = T('dex.pagePrev', '‹ Précédent');
+    prev.disabled = currentPage <= 1;
+    prev.addEventListener('click', () => goToPage(currentPage - 1));
+
+    const status = document.createElement('span');
+    status.className = 'dex-page-status';
+    status.setAttribute('aria-live', 'polite');
+    status.textContent = T('dex.pageOf', 'Page {page} / {total}')
+      .replace('{page}', currentPage)
+      .replace('{total}', totalPages);
+
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'secondary dex-page-btn';
+    next.textContent = T('dex.pageNext', 'Suivant ›');
+    next.disabled = currentPage >= totalPages;
+    next.addEventListener('click', () => goToPage(currentPage + 1));
+
+    container.appendChild(prev);
+    container.appendChild(status);
+    container.appendChild(next);
+  }
+
+  function goToPage(page) {
+    currentPage = page;
+    rebuildGrid({ scroll: true });
+  }
+
+  // Re-render the current page with the current sort and filters
+  function rebuildGrid(options) {
+    const grid = document.getElementById('dexGrid');
+    if (!grid) return;
+
+    const filters = getFilterState();
+    const pageSize = getPageSize();
+    currentFiltered = getSortedPokemons().filter(p => matchesFilters(p, filters));
+    const totalPages = Math.max(1, Math.ceil(currentFiltered.length / pageSize));
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    grid.innerHTML = '';
+    if (currentFiltered.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'dex-empty';
+      empty.textContent = (typeof Translator !== 'undefined')
+        ? Translator.get('dex.noResults', 'Aucun Pokémon ne correspond à ces filtres.')
+        : 'Aucun Pokémon ne correspond à ces filtres.';
+      grid.appendChild(empty);
+    } else {
+      const start = (currentPage - 1) * pageSize;
+      currentFiltered.slice(start, start + pageSize).forEach(p => {
+        grid.appendChild(createEntryCard(p));
+      });
+    }
+
+    renderPagination(document.getElementById('dexPaginationTop'), totalPages);
+    renderPagination(document.getElementById('dexPaginationBottom'), totalPages);
+
+    if (options && options.scroll) {
+      const top = grid.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
+
+    console.log('[DexUI] Page', currentPage, '/', totalPages, '—', currentFiltered.length, 'Pokemon');
+  }
+
+  // Filter changes restart from the first page
+  function applyFilters() {
+    currentPage = 1;
+    rebuildGrid();
   }
 
   // Show popup with details
@@ -263,7 +326,7 @@ const DexUI = (function () {
     if (sortSelect) {
       sortSelect.addEventListener('change', () => {
         currentSort = sortSelect.value;
-        rebuildGrid();
+        applyFilters();
       });
     }
 
@@ -274,7 +337,7 @@ const DexUI = (function () {
         const _Tdir = (k, f) => (typeof Translator !== 'undefined' ? Translator.get(k, f) : f);
         sortDirectionBtn.textContent = currentDirection === 'asc' ? _Tdir('dex.sortAsc', '↑ Asc') : _Tdir('dex.sortDesc', '↓ Desc');
         sortDirectionBtn.setAttribute('data-direction', currentDirection);
-        rebuildGrid();
+        applyFilters();
       });
     }
   }

@@ -47,6 +47,10 @@ const ChallengeGameUI = (function () {
     function showNotification(message, type) {
         const notif = document.getElementById('notifications');
         if (!notif) return;
+        if (typeof PokefeetFX !== 'undefined') {
+            if (!PokefeetFX.notificationsEnabled()) return;
+            PokefeetFX.notificationSound(type);
+        }
         const n = document.createElement('div');
         n.className = 'notification';
         n.textContent = message;
@@ -79,7 +83,13 @@ const ChallengeGameUI = (function () {
         }
 
         const img = document.getElementById('challengeImg');
-        if (img) img.src = currentPokemon.Image || '';
+        if (img) {
+            if (typeof PokefeetTransitions !== 'undefined') {
+                PokefeetTransitions.swapImage(img, function () { img.src = currentPokemon.Image || ''; });
+            } else {
+                img.src = currentPokemon.Image || '';
+            }
+        }
 
         const progress = document.getElementById('challengeProgress');
         if (progress) {
@@ -329,6 +339,7 @@ const ChallengeGameUI = (function () {
 
         if (wrongGuesses.includes(val)) {
             showNotification(Translator.get('challenge.alreadyTried', 'Déjà essayé'), 'hint');
+            input.value = '';
             return;
         }
 

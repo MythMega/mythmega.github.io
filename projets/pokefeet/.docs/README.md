@@ -34,6 +34,8 @@
 | **Plan de restructuration proposé** | [18-plan-de-restructuration.md](./18-plan-de-restructuration.md) |
 | Plan de tests et de non-régression | [19-plan-de-tests-et-non-regression.md](./19-plan-de-tests-et-non-regression.md) |
 | **Contrat de compatibilité des données** | [20-compatibilite-donnees.md](./20-compatibilite-donnees.md) |
+| **PWA, Service Worker, offline et packaging stores** | [21-pwa-et-deploiement.md](./21-pwa-et-deploiement.md) |
+| **Sons à fournir (3 MP3)** | [sound.txt](./sound.txt) |
 
 ---
 
@@ -41,9 +43,10 @@
 
 | Élément | Valeur |
 |---|---|
-| Pages HTML | 21 |
-| Fichiers JavaScript métier/UI | 36, regroupés dans `js/` (11 628 lignes) |
+| Pages HTML | 21 pages applicatives + `offline.html` |
+| Fichiers JavaScript | 36 métier/UI + `js/pwa.js`, dans `js/` (11 628 lignes hors PWA) + `sw.js` à la racine |
 | Feuilles CSS | 25 dans `styles/` (3 025 lignes), dont `main.css` |
+| PWA | `manifest.webmanifest`, `sw.js`, `offline.html`, `js/pwa.js`, `icons/` |
 | Lignes JS + HTML + CSS suivies | ~18 400 (hors `.docs/`) |
 | Pokémon dans `data/pokemons.json` | 698 |
 | Générations représentées | 1 à 5 principalement, 7 à 9 en faible volume |
@@ -55,7 +58,7 @@
 | Clés de traduction | 453 en français, 453 en anglais |
 | Bases IndexedDB | 3 : `PokefeetDB`, `PokefeetDexDB`, `PokefeetChallengeDB` |
 | Tests automatisés détectés | 0 |
-| `package.json` / build | absent — site statique vanilla JS |
+| `package.json` / build | `package.json` minimal (`lint`, `serve`) — aucun build, site statique vanilla JS |
 
 ---
 

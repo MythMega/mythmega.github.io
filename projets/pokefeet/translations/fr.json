@@ -3,7 +3,9 @@
     "backHome": "Retour à l'accueil",
     "hints": "Indices",
     "score": "Score",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "close": "Fermer",
+    "zoom": "Agrandir l'image"
   },
   "home": {
     "title": "Pokefeet",
@@ -77,7 +79,7 @@
   },
   "practice": {
     "title": "Pokefeet",
-    "includes": "Inclut pokémon 1G, 2G, 3G, 4G et leurs formes régionales",
+    "includes": "Inclut pokémon 1G-5G et leurs formes régionales",
     "score": "Score",
     "streak": "Streak",
     "best": "Meilleur",
@@ -199,7 +201,11 @@
     "importError": "Erreur lors de l'import : {msg}",
     "importTitle": "{count} nouveau(x) Pokémon trouvé(s)",
     "noNewPokemon": "Aucun nouveau Pokémon à ajouter.",
-    "refreshPage": "Rafraîchir la page"
+    "refreshPage": "Rafraîchir la page",
+    "pagePrev": "‹ Précédent",
+    "pageNext": "Suivant ›",
+    "pageOf": "Page {page} / {total}",
+    "noResults": "Aucun Pokémon ne correspond à ces filtres."
   },
   "dataManagement": {
     "title": "Gestion des données — Pokefeet",
@@ -225,7 +231,20 @@
     "deleteZone": "Zone de suppression",
     "irreversible": "⚠️ Actions irréversibles",
     "deleteBest": "Delete Best Score",
-    "deleteDaily": "Delete All Daily Data"
+    "deleteDaily": "Delete All Daily Data",
+    "animations": "Animations",
+    "animationsDesc": "Transitions des Pokémon, bannières et effets visuels.",
+    "rotate3d": "Rotation 3D de l'image",
+    "rotate3dDesc": "Faire glisser l'image pour la faire pivoter légèrement en 3D.",
+    "sound": "Son",
+    "soundDesc": "Sons des notifications et des nouveaux Pokémon.",
+    "newPokemonAlerts": "Alertes nouveau Pokémon",
+    "newPokemonAlertsDesc": "Bannières et résumés des Pokémon découverts pour la première fois.",
+    "notifications": "Notifications",
+    "notificationsDesc": "Messages flottants de succès, d'erreur et d'indice.",
+    "volumeNewPokemon": "New Pokémon Alert",
+    "volumeNotification": "Notification (erreur / succès)",
+    "volumeUi": "UI"
   },
   "dataViewer": {
     "title": "Données Pokémon",

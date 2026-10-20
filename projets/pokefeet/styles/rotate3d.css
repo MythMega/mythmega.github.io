@@ -1,0 +1,28 @@
+/* --- Rotation 3D du sprite au glisser (voir js/ui/rotate3d.js) --- */
+
+/* Le geste horizontal nous appartient, le défilement vertical reste au navigateur. */
+html.rotate3d-on .pokemon-image,
+html.rotate3d-on .image-container {
+  touch-action: pan-y;
+  cursor: grab;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html.rotate3d-on .pokemon-image.is-rotating,
+html.rotate3d-on .image-container.is-rotating {
+  cursor: grabbing;
+}
+
+html.rotate3d-on .pokemon-image img,
+html.rotate3d-on .image-container img {
+  -webkit-user-drag: none;
+}
+
+/* Pendant le glisser : pas de transition, l'image suit le doigt / la souris. */
+.pokemon-image.is-rotating img,
+.image-container.is-rotating img {
+  transition: opacity 160ms ease;
+  will-change: transform;
+}

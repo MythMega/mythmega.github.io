@@ -174,6 +174,7 @@ const Migration = (function () {
   // ── Show notification ─────────────────────────────────────
   function showNotification(message, type) {
     type = type || 'success';
+    if (typeof PokefeetFX !== 'undefined' && !PokefeetFX.notificationsEnabled()) return;
     var container = document.getElementById('notifications');
     if (!container) {
       console.log('[Migration] ' + message);

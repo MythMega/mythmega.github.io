@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Défis Passés</title>
   <meta name="description" content="Pokefeet — Rejouez vos anciens défis Daily et Weekly. Retrouvez tous les Pokémon des jours et semaines précédents." />
   <meta name="keywords" content="Pokefeet, défis passés, anciens daily, historique Pokémon" />
@@ -21,16 +30,6 @@
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/cosmetics.css" />
   <link rel="stylesheet" href="styles/text-shadow.css" />
-  <style>
-    .tabs { display:flex; gap:6px; margin-bottom:14px; }
-    .tab-btn {
-      flex:1; padding:8px 0; border:1px solid rgba(255,255,255,0.1);
-      border-radius:8px; background:rgba(255,255,255,0.03);
-      color:var(--muted,#94a3b8); cursor:pointer; font-weight:600;
-      font-size:.9rem; transition:background .15s,color .15s;
-    }
-    .tab-btn.active { background:var(--accent,#34d399); color:#052018; border-color:transparent; }
-  </style>
 </head>
 
 <body>
@@ -46,21 +45,23 @@
     </header>
 
     <section class="game-area">
-      <div class="center-card" style="max-width: 700px;">
+      <div style="width:min(700px, 100%);">
         <a href="index.html" class="back-button" data-i18n="common.backHome">← Retour</a>
 
-        <div class="tabs" style="margin-top:14px;">
-          <button class="tab-btn active" id="tabDailyBtn" data-i18n="oldDaily.tabDaily">Daily</button>
-          <button class="tab-btn" id="tabWeeklyBtn" data-i18n="oldDaily.tabWeekly">Weekly</button>
-        </div>
+        <div class="center-card" style="max-width: 700px;">
+          <div class="hist-tabs" role="tablist" aria-label="Daily et Weekly">
+            <button class="hist-tab-btn active" id="tabDailyBtn" role="tab" data-i18n="oldDaily.tabDaily">Daily</button>
+            <button class="hist-tab-btn" id="tabWeeklyBtn" role="tab" data-i18n="oldDaily.tabWeekly">Weekly</button>
+          </div>
 
         <div id="dailiesContainer" class="daily-grid"></div>
         <nav id="dailyPagination" class="daily-pagination hidden" aria-label="Pagination des daily"></nav>
         <div id="weekliesContainer" class="daily-grid" style="display:none;"></div>
         <nav id="weeklyPagination" class="daily-pagination hidden" aria-label="Pagination des weekly"></nav>
 
-        <div id="noDailies" class="no-dailies hidden" data-i18n="oldDaily.noChallenge">
-          Aucun défi trouvé pour le moment.
+          <div id="noDailies" class="no-dailies hidden" data-i18n="oldDaily.noChallenge">
+            Aucun défi trouvé pour le moment.
+          </div>
         </div>
       </div>
     </section>
@@ -68,6 +69,7 @@
 
   <div id="notifications"></div>
 
+  <script src="js/core/preferences.js"></script>
   <script src="js/ui/loader.js"></script>
   <script src="js/i18n/translate.js"></script>
   <script src="js/i18n/language-switcher.js"></script>
@@ -78,5 +80,8 @@
   <script src="js/data/challenge-storage.js"></script>
   <script src="js/data/config.js"></script>
   <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/ui/fx.js"></script>
   <script src="js/features/history/old-daily.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
 </html>

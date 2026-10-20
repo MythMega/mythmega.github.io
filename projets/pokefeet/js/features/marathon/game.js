@@ -501,6 +501,7 @@ const Game = (function () {
     if (currentWrongGuesses.includes(input)) {
       const alreadyTriedMsg = Translator.get('daily.alreadyTried', 'Déjà essayé');
       UI.showNotification(alreadyTriedMsg, 'hint');
+      UI.clearInput();
       return; // ne compte pas comme tentative
     }
 
@@ -541,6 +542,8 @@ const Game = (function () {
       // record wrong guess for display
       const guessVal = document.getElementById('guessInput').value.trim();
       if (guessVal) currentWrongGuesses.push(guessVal);
+      // Guess refusé : on vide le champ pour le prochain essai.
+      UI.clearInput();
       UI.showFailedAttemptsPractice(currentWrongGuesses);
       attempts++;
       // update practice gauge

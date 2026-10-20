@@ -3,7 +3,9 @@
     "backHome": "Back Home",
     "hints": "Hints",
     "score": "Score",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "close": "Close",
+    "zoom": "Enlarge image"
   },
   "home": {
     "title": "PokéFeet",
@@ -77,7 +79,7 @@
   },
   "practice": {
     "title": "PokéFeet",
-    "includes": "Includes Pokémon Gen 1, Gen 2, Gen 3, Gen 4 and their regional forms",
+    "includes": "Includes Pokémon Gen 1-5 and their regional forms",
     "score": "Score",
     "streak": "Streak",
     "best": "Best",
@@ -199,7 +201,11 @@
     "importError": "Import error: {msg}",
     "importTitle": "{count} new Pokémon found",
     "noNewPokemon": "No new Pokémon to add.",
-    "refreshPage": "Refresh the page"
+    "refreshPage": "Refresh the page",
+    "pagePrev": "‹ Previous",
+    "pageNext": "Next ›",
+    "pageOf": "Page {page} / {total}",
+    "noResults": "No Pokémon matches these filters."
   },
   "dataManagement": {
     "title": "Data Management — PokéFeet",
@@ -225,7 +231,20 @@
     "deleteZone": "Delete zone",
     "irreversible": "⚠️ Irreversible actions",
     "deleteBest": "Delete Best Score",
-    "deleteDaily": "Delete All Daily Data"
+    "deleteDaily": "Delete All Daily Data",
+    "animations": "Animations",
+    "animationsDesc": "Pokémon transitions, banners and visual effects.",
+    "rotate3d": "3D image rotation",
+    "rotate3dDesc": "Drag the image to tilt it slightly in 3D.",
+    "sound": "Sound",
+    "soundDesc": "Notification and new Pokémon sounds.",
+    "newPokemonAlerts": "New Pokémon alerts",
+    "newPokemonAlertsDesc": "Banners and summaries for Pokémon discovered for the first time.",
+    "notifications": "Notifications",
+    "notificationsDesc": "Floating success, error and hint messages.",
+    "volumeNewPokemon": "New Pokémon Alert",
+    "volumeNotification": "Notification (error / success)",
+    "volumeUi": "UI"
   },
   "dataViewer": {
     "title": "Pokémon Data",

@@ -120,7 +120,7 @@ const OldDaily = (function () {
 
     const previous = document.createElement('button');
     previous.type = 'button';
-    previous.className = 'secondary';
+    previous.className = 'secondary page-nav-btn';
     previous.textContent = '\u2039';
     previous.setAttribute('aria-label', T('oldDaily.previousPage', 'Page précédente'));
     previous.disabled = page <= 0;
@@ -134,7 +134,7 @@ const OldDaily = (function () {
 
     const next = document.createElement('button');
     next.type = 'button';
-    next.className = 'secondary';
+    next.className = 'secondary page-nav-btn';
     next.textContent = '\u203a';
     next.setAttribute('aria-label', T('oldDaily.nextPage', 'Page suivante'));
     next.disabled = page >= totalPages - 1;

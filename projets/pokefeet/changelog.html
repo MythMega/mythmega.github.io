@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Changelog</title>
   <meta name="description" content="Pokefeet Changelog — Suivez l'évolution du jeu avec les notes de mise à jour, nouvelles fonctionnalités et correctifs." />
   <meta name="keywords" content="Pokefeet, changelog, mises à jour, patch notes, évolution" />
@@ -111,6 +120,7 @@
     </section>
   </main>
 
+  <script src="js/core/preferences.js"></script>
   <script src="js/ui/loader.js"></script>
   <script src="js/i18n/translate.js"></script>
   <script src="js/i18n/language-switcher.js"></script>
@@ -217,5 +227,6 @@
 
     loadChangelog();
   </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

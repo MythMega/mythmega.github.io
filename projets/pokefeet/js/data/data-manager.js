@@ -364,6 +364,10 @@ const DataManager = (function () {
   function notify(msg, type = 'info') {
     const container = document.getElementById('notifications');
     if (!container) return;
+    if (typeof PokefeetFX !== 'undefined') {
+      if (!PokefeetFX.notificationsEnabled()) return;
+      PokefeetFX.notificationSound(type);
+    }
     const n = document.createElement('div');
     n.className = 'notification';
     n.textContent = msg;

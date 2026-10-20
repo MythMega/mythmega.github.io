@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Paramètres</title>
   <meta name="description" content="Pokefeet Paramètres — Gérez votre profil, vos données et vos préférences." />
   <meta name="keywords" content="Pokefeet, paramètres, profil, données, préférences" />
@@ -21,49 +30,8 @@
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/cosmetics.css" />
   <link rel="stylesheet" href="styles/text-shadow.css" />
+  <script src="js/core/preferences.js"></script>
   <style>
-    .dm-tabs { display:flex; gap:8px; justify-content:center; max-width:520px; margin:0 auto 1.5rem; flex-wrap:wrap; }
-    .dm-tab-btn {
-      flex:1; padding:8px 0; border:1px solid rgba(255,255,255,0.4);
-      border-radius:8px; background:rgba(0, 0, 0, 0.3);
-      color:#fbfdff; cursor:pointer; font-weight:600;
-      font-size:.9rem; transition:background .15s,color .15s;
-      min-width:80px;
-    }
-    .dm-tab-btn.active { background:var(--accent,#34d399); color:#fbfdff; border-color:transparent; }
-    .dm-panel { display:none; }
-    .dm-panel.active { display:block; }
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 44px;
-      height: 24px;
-      flex-shrink: 0;
-    }
-    .toggle-switch input { opacity:0; width:0; height:0; }
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top:0; left:0; right:0; bottom:0;
-      background: rgba(255,255,255,0.15);
-      border-radius: 24px;
-      transition: 0.3s;
-    }
-    .toggle-slider::before {
-      content:"";
-      position: absolute;
-      height: 18px; width: 18px;
-      left: 3px; bottom: 3px;
-      background: #fff;
-      border-radius: 50%;
-      transition: 0.3s;
-    }
-    .toggle-switch input:checked + .toggle-slider {
-      background: var(--accent);
-    }
-    .toggle-switch input:checked + .toggle-slider::before {
-      transform: translateX(20px);
-    }
     /* Cosmetics grid */
     .cosmetics-section { margin-bottom: 24px; }
     .cosmetics-section-title {
@@ -140,9 +108,6 @@
     <div class="deco-secondary n12"></div>
     <header>
       <h1 data-i18n="home.saveLoad">Paramètres</h1>
-      <div class="scoreboard">
-        <div><span id="dmCountLabel">—</span></div>
-      </div>
     </header>
 
     <!-- Tabs -->
@@ -157,29 +122,125 @@
 
       <!-- Onglet 1 : Paramètres -->
       <div id="dmPanelParams" class="dm-panel center-card active" style="max-width:760px;">
-        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="dataManagement.settings">Paramètres</h3>
+        <h3 class="dm-panel-title" data-i18n="dataManagement.settings">Paramètres</h3>
 
         <!-- Fast Mode -->
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--glass-border);">
-          <div style="flex:1;">
-            <label for="fastModeToggle" style="font-size:14px; font-weight:600; color:var(--text); cursor:pointer;">
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="fastModeToggle">
               ⚡ <span data-i18n="dataManagement.fastMode">Mode rapide (Marathon)</span>
             </label>
-            <div style="font-size:12px; color:var(--muted); margin-top:4px;" data-i18n="dataManagement.fastModeDesc">
+            <div class="dm-help" data-i18n="dataManagement.fastModeDesc">
               En mode Marathon, passer directement au Pokémon suivant sans écran de résultat intermédiaire.
             </div>
+            <div id="fastModeStatus" class="dm-status"></div>
           </div>
           <label class="toggle-switch">
             <input id="fastModeToggle" type="checkbox" />
             <span class="toggle-slider"></span>
           </label>
         </div>
-        <div id="fastModeStatus" style="margin-top:-16px; margin-bottom:16px; font-size:13px; color:var(--accent); min-height:1.3em;"></div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="animationsToggle">
+              🎬 <span data-i18n="dataManagement.animations">Animations</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.animationsDesc">
+              Transitions des Pokémon, bannières et effets visuels.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="animationsToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="rotate3dToggle">
+              🧊 <span data-i18n="dataManagement.rotate3d">Rotation 3D</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.rotate3dDesc">
+              Faire glisser l'image pour la faire pivoter légèrement en 3D.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="rotate3dToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="soundToggle">
+              🔊 <span data-i18n="dataManagement.sound">Son</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.soundDesc">
+              Sons des notifications et des nouveaux Pokémon.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="soundToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Volumes par type de son (masqués quand le son est coupé) -->
+        <div id="soundVolumes" class="dm-volumes" aria-label="Volume des sons">
+          <div class="dm-volume-row">
+            <label class="dm-volume-label" for="volumeNewPokemon" data-i18n="dataManagement.volumeNewPokemon">New Pokémon Alert</label>
+            <input id="volumeNewPokemon" type="range" min="0" max="100" step="5" value="100" />
+            <output id="volumeNewPokemonValue" class="dm-volume-value" for="volumeNewPokemon">100%</output>
+          </div>
+          <div class="dm-volume-row">
+            <label class="dm-volume-label" for="volumeNotification" data-i18n="dataManagement.volumeNotification">Notification (erreur / succès)</label>
+            <input id="volumeNotification" type="range" min="0" max="100" step="5" value="100" />
+            <output id="volumeNotificationValue" class="dm-volume-value" for="volumeNotification">100%</output>
+          </div>
+          <div class="dm-volume-row">
+            <label class="dm-volume-label" for="volumeUi" data-i18n="dataManagement.volumeUi">UI</label>
+            <input id="volumeUi" type="range" min="0" max="100" step="5" value="80" />
+            <output id="volumeUiValue" class="dm-volume-value" for="volumeUi">80%</output>
+          </div>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="newPokemonAlertsToggle">
+              ✨ <span data-i18n="dataManagement.newPokemonAlerts">Alertes nouveau Pokémon</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.newPokemonAlertsDesc">
+              Bannières et résumés des Pokémon découverts pour la première fois.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="newPokemonAlertsToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="notificationsToggle">
+              🔔 <span data-i18n="dataManagement.notifications">Notifications</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.notificationsDesc">
+              Messages flottants de succès, d'erreur et d'indice.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="notificationsToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div id="preferencesStatus" class="dm-status" aria-live="polite"></div>
       </div>
 
       <!-- Onglet 2 : Personalisations -->
       <div id="dmPanelCustomize" class="dm-panel center-card" style="max-width:760px;">
-        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="dataManagement.customize">Personalisations</h3>
+        <h3 class="dm-panel-title" data-i18n="dataManagement.customize">Personalisations</h3>
 
         <!-- Type toggle: Background / Buttons -->
         <div class="cosmetic-type-toggle" id="cosmeticTypeToggle">
@@ -211,23 +272,23 @@
 
       <!-- Onglet 3 : Profil -->
       <div id="dmPanelProfile" class="dm-panel center-card" style="max-width:760px;">
-        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="profile.title">Profil</h3>
+        <h3 class="dm-panel-title" data-i18n="profile.title">Profil</h3>
 
         <div class="profile-field" style="margin-bottom:12px;">
-          <label for="pseudoInput" style="display:block; font-size:13px; font-weight:600; color:var(--muted-light); margin-bottom:6px; text-align:left;" data-i18n="profile.pseudo">Pseudo</label>
-          <input id="pseudoInput" type="text" autocomplete="off" maxlength="30" style="width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.04); color:var(--text); font-size:15px; font-family:inherit; outline:none; transition:border-color 200ms, box-shadow 200ms;" data-i18n-attr="placeholder:profile.placeholder" placeholder="Entrez votre pseudo..." />
+          <label for="pseudoInput" data-i18n="profile.pseudo">Pseudo</label>
+          <input id="pseudoInput" type="text" autocomplete="off" maxlength="30" data-i18n-attr="placeholder:profile.placeholder" placeholder="Entrez votre pseudo..." />
         </div>
-        <div style="display:flex; gap:8px; justify-content:center;">
-          <button id="savePseudoBtn" style="padding:9px 14px;" data-tag="customizables-button" data-i18n="profile.save">Sauvegarder</button>
-          <button id="clearPseudoBtn" class="danger" style="padding:9px 14px;" data-i18n="profile.clear">Effacer</button>
+        <div class="dm-actions" style="justify-content:center;">
+          <button id="savePseudoBtn" data-tag="customizables-button" data-i18n="profile.save">Sauvegarder</button>
+          <button id="clearPseudoBtn" class="danger" data-i18n="profile.clear">Effacer</button>
         </div>
-        <div id="profileStatus" style="margin-top:10px; font-size:13px; color:var(--accent); min-height:1.3em;"></div>
-        <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--glass-border); font-size:12px; color:var(--muted);" data-i18n="profile.info">Le pseudo est stocké dans un cookie et apparaîtra sur les partages.</div>
+        <div id="profileStatus" class="dm-result" style="color:var(--accent);min-height:1.3em;"></div>
+        <div class="dm-help" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line);" data-i18n="profile.info">Le pseudo est stocké dans un cookie et apparaîtra sur les partages.</div>
       </div>
 
       <!-- Onglet 3 : Données -->
       <div id="dmPanelData" class="dm-panel center-card" style="max-width:760px;">
-        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="dataManagement.saveRestore">Sauvegarder ou restaurer vos données</h3>
+        <h3 class="dm-panel-title" data-i18n="dataManagement.saveRestore">Sauvegarder ou restaurer vos données</h3>
 
         <p class="info-below" data-i18n="dataManagement.exportDesc">Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.</p>
 
@@ -238,48 +299,48 @@
           <button id="previewBtn" class="secondary" title="Voir le contenu du cookie actuel" data-i18n="dataManagement.preview">Aperçu cookie actuel</button>
         </div>
 
-        <div id="importSummary" style="margin-top:12px;color:var(--muted);font-size:13px;"></div>
+        <div id="importSummary" class="dm-result" style="margin-top:12px;"></div>
 
-        <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
+        <hr class="dm-divider" />
 
-        <div style="margin-bottom:10px;">
+        <div class="dm-section">
           <h4 style="margin:6px 0 8px 0;" data-i18n="dataManagement.importDaily">Importer un Daily</h4>
           <p class="info-below" style="margin-bottom:8px;" data-i18n="dataManagement.importDailyDesc">Collez le bloc texte d'un Daily (format emoji ou :green_square:). Exemple: Pokefeet Daily — 2025-11-24 — score 38 suivi de 5 lignes d'emoji.</p>
-          <textarea id="dailyImportArea" data-i18n-attr="placeholder:dataManagement.importDaily" placeholder="Collez ici le texte du Daily..." style="width:100%;min-height:140px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
-          <div style="display:flex;gap:8px;margin-top:8px;">
-            <button id="importDailyBtn" class="btn-export" style="padding:10px 12px;" data-tag="customizables-button" data-i18n="dataManagement.importDailyBtn">Importer un jour</button>
-            <button id="clearDailyArea" class="secondary" style="padding:10px 12px;" data-i18n="dataManagement.clear">Effacer</button>
+          <textarea id="dailyImportArea" class="dm-import-area" data-i18n-attr="placeholder:dataManagement.importDaily" placeholder="Collez ici le texte du Daily..."></textarea>
+          <div class="dm-actions" style="margin-top:8px;">
+            <button id="importDailyBtn" class="btn-export" data-tag="customizables-button" data-i18n="dataManagement.importDailyBtn">Importer un jour</button>
+            <button id="clearDailyArea" class="secondary" data-i18n="dataManagement.clear">Effacer</button>
           </div>
-          <div id="dailyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+          <div id="dailyImportResult" class="dm-result"></div>
         </div>
 
-        <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
+        <hr class="dm-divider" />
 
-        <div style="margin-bottom:10px;">
+        <div class="dm-section">
           <h4 style="margin:6px 0 8px 0;">Importer un Weekly</h4>
           <p class="info-below" style="margin-bottom:8px;">Collez le bloc texte d'un Weekly (format emoji). Exemple: Pokefeet Weekly — 2025-11-24 — score 84 suivi de 10 lignes d'emoji.</p>
-          <textarea id="weeklyImportArea" placeholder="Collez ici le texte du Weekly..." style="width:100%;min-height:170px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;font-family:monospace;"></textarea>
-          <div style="display:flex;gap:8px;margin-top:8px;">
-            <button id="importWeeklyBtn" class="btn-export" style="padding:10px 12px;" data-tag="customizables-button">Importer une semaine</button>
-            <button id="clearWeeklyArea" class="secondary" style="padding:10px 12px;">Effacer</button>
+          <textarea id="weeklyImportArea" class="dm-import-area" placeholder="Collez ici le texte du Weekly..."></textarea>
+          <div class="dm-actions" style="margin-top:8px;">
+            <button id="importWeeklyBtn" class="btn-export" data-tag="customizables-button">Importer une semaine</button>
+            <button id="clearWeeklyArea" class="secondary">Effacer</button>
           </div>
-          <div id="weeklyImportResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+          <div id="weeklyImportResult" class="dm-result"></div>
         </div>
 
-        <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
+        <hr class="dm-divider" />
 
-        <div id="dataPreview" style="max-height:260px;overflow:auto;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;font-family:monospace;font-size:13px;color:#dbeafe;display: none;"></div>
+        <div id="dataPreview"></div>
 
-        <hr style="margin:14px 0;border-color:rgba(255,255,255,0.03)" />
+        <hr class="dm-divider" />
 
-        <div style="margin-top:20px;">
-          <h4 style="margin:6px 0 8px 0;color:#ff6b6b;" data-i18n="dataManagement.deleteZone">Zone de suppression</h4>
-          <p class="info-below" style="margin-bottom:10px;color:#ff6b6b;" data-i18n="dataManagement.irreversible">⚠️ Actions irréversibles</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button id="deleteBestBtn" style="padding:10px 12px;background:#991111;color:#ffb3b3;border:none;border-radius:8px;cursor:pointer;font-weight:700;" data-i18n="dataManagement.deleteBest">Delete Best Score</button>
-            <button id="deleteDailyBtn" style="padding:10px 12px;background:#991111;color:#ffb3b3;border:none;border-radius:8px;cursor:pointer;font-weight:700;" data-i18n="dataManagement.deleteDaily">Delete All Daily Data</button>
+        <div class="dm-section dm-danger" style="margin-top:20px;">
+          <h4 data-i18n="dataManagement.deleteZone">Zone de suppression</h4>
+          <p class="dm-help" data-i18n="dataManagement.irreversible">⚠️ Actions irréversibles</p>
+          <div class="dm-actions">
+            <button id="deleteBestBtn" data-i18n="dataManagement.deleteBest">Delete Best Score</button>
+            <button id="deleteDailyBtn" data-i18n="dataManagement.deleteDaily">Delete All Daily Data</button>
           </div>
-          <div id="deleteResult" style="margin-top:10px;color:var(--muted);font-size:13px;"></div>
+          <div id="deleteResult" class="dm-result"></div>
         </div>
       </div>
     </section>
@@ -336,6 +397,65 @@
       }
     })();
 
+    // Preferences (animations, son, alertes nouveau Pokémon, notifications)
+    (function () {
+      if (typeof PokefeetPrefs === 'undefined') return;
+      var status = document.getElementById('preferencesStatus');
+      var statusTimer = null;
+      function announce(label, enabled) {
+        if (!status) return;
+        status.textContent = label + ' : ' + (enabled ? 'activé' : 'désactivé');
+        if (statusTimer) clearTimeout(statusTimer);
+        statusTimer = setTimeout(function () { status.textContent = ''; }, 2200);
+      }
+      var volumesBox = document.getElementById('soundVolumes');
+      function syncVolumesVisibility() {
+        if (volumesBox) volumesBox.hidden = !PokefeetPrefs.soundEnabled();
+      }
+
+      [
+        ['animationsToggle', 'animations', 'Animations'],
+        ['rotate3dToggle', 'rotate3d', 'Rotation 3D'],
+        ['soundToggle', 'sound', 'Son'],
+        ['newPokemonAlertsToggle', 'newPokemonAlerts', 'Alertes nouveau Pokémon'],
+        ['notificationsToggle', 'notifications', 'Notifications']
+      ].forEach(function (item) {
+        var el = document.getElementById(item[0]);
+        if (!el) return;
+        el.checked = PokefeetPrefs.get(item[1]);
+        el.addEventListener('change', function () {
+          PokefeetPrefs.set(item[1], el.checked);
+          announce(item[2], el.checked);
+          if (item[1] === 'sound') syncVolumesVisibility();
+          if (item[1] === 'sound' && el.checked && typeof PokefeetFX !== 'undefined') {
+            PokefeetFX.playSound('positive');
+          }
+        });
+      });
+
+      // Volumes par type de son
+      [
+        ['volumeNewPokemon', 'newPokemon'],
+        ['volumeNotification', 'notifications'],
+        ['volumeUi', 'ui']
+      ].forEach(function (item) {
+        var input = document.getElementById(item[0]);
+        var output = document.getElementById(item[0] + 'Value');
+        if (!input) return;
+        var value = PokefeetPrefs.getVolume(item[1]);
+        input.value = value;
+        if (output) output.textContent = value + '%';
+        input.addEventListener('input', function () {
+          if (output) output.textContent = input.value + '%';
+        });
+        input.addEventListener('change', function () {
+          PokefeetPrefs.setVolume(item[1], input.value);
+        });
+      });
+
+      syncVolumesVisibility();
+    })();
+
     // Pseudo management
     (function() {
       var input = document.getElementById('pseudoInput');
@@ -384,6 +504,7 @@
 
   </script>
   <script src="js/ui/loader.js"></script>
+  <script src="js/ui/fx.js"></script>
   <script src="js/i18n/translate.js"></script>
   <script src="js/i18n/language-switcher.js"></script>
   <script src="js/ui/footer.js"></script>
@@ -590,5 +711,6 @@
       initCosmeticsUI();
     }
   </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

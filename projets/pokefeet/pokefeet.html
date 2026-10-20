@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Marathon</title>
   <meta name="description" content="Pokefeet Marathon — Devinez un maximum de Pokémon à la suite en mode infini. Testez vos connaissances Pokémon sans limite." />
   <meta name="keywords" content="Pokefeet, marathon Pokémon, deviner Pokémon pieds, mode infini, practice Pokémon" />
@@ -19,6 +28,7 @@
   <meta name="twitter:description" content="Devinez un maximum de Pokémon à la suite en mode Marathon infini." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
   <link rel="stylesheet" href="styles/main.css" />
+  <script src="js/core/preferences.js"></script>
   <link rel="stylesheet" href="styles/cosmetics.css" />
   <link rel="stylesheet" href="styles/text-shadow.css" />
 </head>
@@ -116,6 +126,11 @@
   <script src="js/core/pokemon-versions.js"></script>
   <script src="js/data/challenge-storage.js"></script>
   <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/ui/fx.js"></script>
+  <script src="js/ui/transitions.js"></script>
+  <script src="js/ui/zoom.js"></script>
+  <script src="js/data/config.js"></script>
+  <script src="js/ui/rotate3d.js"></script>
   <script src="js/features/marathon/game.js"></script>
   <script src="js/features/marathon/ui.js"></script>
   <script>
@@ -124,5 +139,6 @@
       Game.init();
     });
   </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

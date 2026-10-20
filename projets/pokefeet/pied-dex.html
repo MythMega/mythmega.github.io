@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
     <title>Pokefeet — Dex</title>
     <meta name="description" content="Pokefeet Dex — Explorez le Pokédex interactif de Pokefeet avec tous les Pokémon et leurs pieds." />
     <meta name="keywords" content="Pokefeet, Dex, Pokédex, Pokémon, pieds" />
@@ -36,7 +45,7 @@
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <span data-i18n="dex.progress">Progression</span> : <span id="progressText">0 / 0</span>
+            <span class="progress-label"><span data-i18n="dex.progress">Progression</span> : <span id="progressText">0 / 0</span></span>
             <button id="forceUpdateBtn" data-tag="customizables-button" data-i18n="dex.forceUpdate">Force Update</button>
             <a href="index.html"><button class="secondary" style="padding:6px 12px;font-size:14px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
         </div>
@@ -74,9 +83,13 @@
             <button id="sortDirectionBtn" class="sort-direction-btn" data-direction="asc" data-i18n="dex.sortAsc">↑ Asc</button>
         </div>
         
+        <nav id="dexPaginationTop" class="dex-pagination hidden" aria-label="Pagination du Pokédex"></nav>
+
         <div id="dexGrid" class="dex-grid">
             <!-- Pokemon entries will be inserted here -->
         </div>
+
+        <nav id="dexPaginationBottom" class="dex-pagination hidden" aria-label="Pagination du Pokédex"></nav>
     </div>
 
     <!-- Popup for details -->
@@ -89,6 +102,7 @@
         </div>
     </div>
 
+  <script src="js/core/preferences.js"></script>
   <script src="js/ui/loader.js"></script>
   <script src="js/i18n/translate.js"></script>
   <script src="js/i18n/language-switcher.js"></script>
@@ -98,7 +112,9 @@
   <script src="js/data/challenge-storage.js"></script>
   <script src="js/core/pokemon.js"></script>
   <script src="js/core/pokemon-versions.js"></script>
+  <script src="js/data/config.js"></script>
   <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/ui/fx.js"></script>
   <script src="js/data/dex.js"></script>
   <script src="js/features/dex/dex-ui.js"></script>
   <script src="js/data/daily-to-dex-import.js"></script>
@@ -106,6 +122,7 @@
       // Init Dex
       document.addEventListener('DOMContentLoaded', async () => {
         console.log('[Init] Starting Dex init');
+        if (typeof AppConfig !== 'undefined') await AppConfig.load();
         await Dex.init();
         const dexData = await Dex.getAllDexEntries();
         const progress = await Dex.getProgress();
@@ -116,5 +133,6 @@
         window.scrollTo(0, 0);
       });
     </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

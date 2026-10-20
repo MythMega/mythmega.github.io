@@ -2,7 +2,9 @@
 const AppConfig = (function () {
   const DEFAULTS = Object.freeze({
     historyChartDays: 60,
-    oldDailyPageSize: 30
+    oldDailyPageSize: 30,
+    dexPageSize: 100,
+    max3DRotate: 15
   });
 
   let config = { ...DEFAULTS };
@@ -17,7 +19,9 @@ const AppConfig = (function () {
   function normalize(raw) {
     return {
       historyChartDays: positiveInteger(raw.historyChartDays, DEFAULTS.historyChartDays, 3650),
-      oldDailyPageSize: positiveInteger(raw.oldDailyPageSize, DEFAULTS.oldDailyPageSize, 500)
+      oldDailyPageSize: positiveInteger(raw.oldDailyPageSize, DEFAULTS.oldDailyPageSize, 500),
+      dexPageSize: positiveInteger(raw.dexPageSize, DEFAULTS.dexPageSize, 500),
+      max3DRotate: positiveInteger(raw.max3DRotate, DEFAULTS.max3DRotate, 90)
     };
   }
 

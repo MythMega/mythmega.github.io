@@ -299,6 +299,10 @@ const Weekly = (function () {
 
   // UI helpers
   function showNotification(message, type = 'info') {
+    if (typeof PokefeetFX !== 'undefined') {
+      if (!PokefeetFX.notificationsEnabled()) return;
+      PokefeetFX.notificationSound(type);
+    }
     const n = document.createElement('div');
     n.className = 'notification';
     n.textContent = message;
@@ -481,7 +485,12 @@ const Weekly = (function () {
     dIdx.textContent = p.Index;
     dT1.textContent = p.Type1;
     dT2.textContent = p.getDisplayType2();
-    loadImageWithRetry(img(), p.FullImage);
+    const el = img();
+    if (typeof PokefeetTransitions !== 'undefined') {
+      PokefeetTransitions.swapImage(el, () => loadImageWithRetry(el, p.FullImage));
+    } else {
+      loadImageWithRetry(el, p.FullImage);
+    }
   }
 
   function hideReveal() {
@@ -492,7 +501,15 @@ const Weekly = (function () {
     dT2.textContent = '';
   }
 
-  function showImage(src) { loadImageWithRetry(img(), src); }
+  function showImage(src) {
+    const el = img();
+    if (!el) return;
+    if (typeof PokefeetTransitions !== 'undefined') {
+      PokefeetTransitions.swapImage(el, () => loadImageWithRetry(el, src));
+    } else {
+      loadImageWithRetry(el, src);
+    }
+  }
 
   function updateWeeklyFailedDisplay() {
     if (!failedEl) return;
@@ -587,6 +604,10 @@ const Weekly = (function () {
   function displayNewPokemonsAlert(newPokemons) {
     const alertEl = document.getElementById('newPokemonsAlert');
     if (!alertEl) return;
+    if (typeof PokefeetFX !== 'undefined' && !PokefeetFX.newPokemonAlertsEnabled()) {
+      alertEl.classList.add('hidden');
+      return;
+    }
     if (newPokemons.length === 0) { alertEl.classList.add('hidden'); return; }
     const pokemonNames = newPokemons.map(p => p.NameFR || p.NameEN || '?').join(', ');
     const message = newPokemons.length === 1
@@ -673,6 +694,10 @@ const Weekly = (function () {
   }
 
   function showNewPokemonBanner(p) {
+    if (typeof PokefeetFX !== 'undefined') {
+      if (!PokefeetFX.newPokemonAlertsEnabled()) return;
+      PokefeetFX.playSound('newPokemon');
+    }
     const lang = typeof Translator !== 'undefined' ? Translator.getLanguage() : 'fr';
     const name = lang === 'fr' ? (p.NameFR || p.NameEN || '?') : (p.NameEN || p.NameFR || '?');
     const label = typeof Translator !== 'undefined' ? Translator.get('daily.newPokemon', 'Nouveau Pokémon !') : 'Nouveau Pokémon !';
@@ -765,12 +790,15 @@ const Weekly = (function () {
     const currentGuesses = wrongGuessesPerSlot[index] || [];
     if (currentGuesses.includes(val)) {
       showNotification(Translator.get('daily.alreadyTried', 'Déjà essayé'), 'hint');
+      input().value = '';
       return;
     }
     const current = weeklyList[index];
     if (current.matchesName(val)) {
       handleCorrect();
     } else {
+      // Guess refusé : on vide le champ pour le prochain essai.
+      input().value = '';
       if (!wrongGuessesPerSlot[index]) wrongGuessesPerSlot[index] = [];
       wrongGuessesPerSlot[index].push(val);
       updateWeeklyFailedDisplay();

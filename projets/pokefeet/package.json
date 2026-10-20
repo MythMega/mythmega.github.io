@@ -5,6 +5,7 @@
   "description": "Pokefeet — application statique vanilla JS",
   "scripts": {
     "lint": "node scripts/lint.mjs",
+    "test": "node scripts/test-save-load.mjs",
     "serve": "python scripts/serve.py 5981"
   }
 }

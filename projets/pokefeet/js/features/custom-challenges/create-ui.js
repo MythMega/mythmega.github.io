@@ -272,6 +272,10 @@ const CustomCreateUI = (function () {
   function showNotification(message, type) {
     const notif = $('notifications');
     if (!notif) return;
+    if (typeof PokefeetFX !== 'undefined') {
+      if (!PokefeetFX.notificationsEnabled()) return;
+      PokefeetFX.notificationSound(type);
+    }
     const n = document.createElement('div');
     n.className = 'notification';
     n.textContent = message;

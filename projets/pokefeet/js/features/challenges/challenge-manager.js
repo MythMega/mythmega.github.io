@@ -436,8 +436,18 @@ const ChallengeManager = (function () {
         const completion = await ChallengeStorage.markChallengeCompleted(currentChallenge.ID, currentFails);
         
         // Ajouter les Pokémon au Dex
+        let hasNewPokemon = false;
         for (const index of currentChallenge.FeetList) {
+            try {
+                const entry = await Dex.getDexEntry(index);
+                if (!entry || !entry.found) hasNewPokemon = true;
+            } catch (e) {
+                // Entrée illisible : on continue le marquage sans bloquer le challenge.
+            }
             await Dex.markFound(index);
+        }
+        if (hasNewPokemon && typeof PokefeetFX !== 'undefined') {
+            PokefeetFX.playSound('newPokemon');
         }
 
         // Donner les rewards XP

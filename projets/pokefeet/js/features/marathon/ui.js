@@ -43,11 +43,17 @@ const UI = (function () {
   }
 
   function showPokemonImage(src) {
-    imgEl.src = src || '';
-    const pokemon = Translator.get('practice.pokemon', 'Pokémon');
-    const none = Translator.get('practice.none', 'Aucun');
-    imgEl.alt = src ? pokemon : none;
-    // Réinitialiser image styles si nécessaire
+    const setImage = function () {
+      imgEl.src = src || '';
+      const pokemon = Translator.get('practice.pokemon', 'Pokémon');
+      const none = Translator.get('practice.none', 'Aucun');
+      imgEl.alt = src ? pokemon : none;
+    };
+    if (typeof PokefeetTransitions !== 'undefined') {
+      PokefeetTransitions.swapImage(imgEl, setImage);
+    } else {
+      setImage();
+    }
   }
 
   function setScore(s) {
@@ -121,6 +127,10 @@ const UI = (function () {
 
   // notification simple en haut à droite
   function showNotification(message, type = 'info') {
+    if (typeof PokefeetFX !== 'undefined') {
+      if (!PokefeetFX.notificationsEnabled()) return;
+      PokefeetFX.notificationSound(type);
+    }
     const n = document.createElement('div');
     n.className = 'notification';
     n.textContent = message;

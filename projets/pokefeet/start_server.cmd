@@ -9,8 +9,19 @@ IF %ERRORLEVEL% NEQ 0 (
     exit /b
 )
 
-REM Lance le serveur en arrière-plan
-start "" python -m http.server 5981
+REM Un ancien serveur sur le port 5981 garderait le cache navigateur :
+REM il faut le fermer avant de lancer le serveur sans cache.
+netstat -ano | findstr ":5981" | findstr "LISTENING" >nul
+IF %ERRORLEVEL% EQU 0 (
+    echo Un serveur ecoute deja sur le port 5981.
+    echo Fermez son ancienne fenetre ^(Ctrl+C^), puis relancez ce script.
+    pause
+    exit /b
+)
+
+REM Lance le serveur sans cache en arrière-plan
+REM (python -m http.server laisse le navigateur réutiliser les anciennes pages)
+start "" python "%~dp0scripts\serve.py" 5981
 
 REM Attend une seconde pour laisser le serveur démarrer
 timeout /t 1 >nul

@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Crédits</title>
   <meta name="description" content="Pokefeet Crédits — Découvrez les contributeurs, sources et remerciements du projet Pokefeet." />
   <meta name="keywords" content="Pokefeet, crédits, contributeurs, remerciements, sources" />
@@ -18,19 +27,22 @@
   <meta name="twitter:title" content="Pokefeet — Crédits" />
   <meta name="twitter:description" content="Contributeurs et sources du projet Pokefeet." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="cosmetics.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
   <style>
-    .credits-tabs { display:flex; gap:5px; justify-content:center; max-width:700px; margin:0 auto 1rem; flex-wrap:wrap; padding:0 8px; }
+    .credits-tabs { display:flex; gap:6px; justify-content:center; max-width:700px; margin:0 auto 1rem; flex-wrap:wrap; padding:0 8px; }
     .credits-tab-btn {
-      flex:0 0 auto; padding:6px 10px; border:1px solid rgba(255,255,255,0.1);
-      border-radius:6px; background:rgba(255,255,255,0.03);
+      flex:0 0 auto; min-height:36px; padding:7px 14px;
+      border:1px solid var(--line);
+      border-radius:999px; background:rgba(255,255,255,0.03);
       color:var(--muted,#94a3b8); cursor:pointer; font-weight:600;
-      font-size:.75rem; transition:background .15s,color .15s;
+      font-family:inherit; font-size:.8rem;
+      transition:background .15s,color .15s,border-color .15s;
       white-space:nowrap;
     }
-    .credits-tab-btn.active { background:var(--accent,#34d399); color:#052018; border-color:transparent; }
+    .credits-tab-btn:hover { color:#fff; background:rgba(255,255,255,0.06); }
+    .credits-tab-btn.active { background:var(--accent,#34d399); color:#042014; border-color:transparent; }
     .credits-panel { display:none; }
     .credits-panel.active { display:block; }
     .credits-grid {
@@ -132,14 +144,16 @@
     <div id="notifications" aria-live="polite"></div>
   </main>
 
-  <script src="loader.js"></script>
-  <script src="translate.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="footer.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="migration.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="cosmetics.js"></script>
-  <script src="credits.js"></script>
+  <script src="js/core/preferences.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/features/credits/credits.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Challenges</title>
   <meta name="description" content="Pokefeet Challenges — Découvrez et relevez des défis bonus pour gagner des récompenses exclusives." />
   <meta name="keywords" content="Pokefeet, challenges, défis bonus, récompenses exclusives" />
@@ -18,10 +27,10 @@
   <meta name="twitter:title" content="Pokefeet — Challenges" />
   <meta name="twitter:description" content="Défis bonus et récompenses exclusives Pokefeet." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="stylesheet" href="./cosmetics.css" />
-  <link rel="stylesheet" href="./challenge.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/challenges.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
 </head>
 <body>
     <div class="deco n1"></div>
@@ -43,19 +52,20 @@
     <a href="index.html"><button id="retourBtn" class="secondary" style="padding:10px 12px;margin-top:20px;display:block;margin-left:auto;margin-right:auto;" data-i18n="common.backHome">Retour à l'accueil</button></a>
   </div>
 
-  <script src="pokemon.js"></script>
-  <script src="pokemon-versions.js"></script>
-  <script src="Dex.js"></script>
-  <script src="entity/challenge.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="business/challenge-manager.js"></script>
-  <script src="ui/challenge-list-ui.js"></script>
-  <script src="loader.js"></script>
-  <script src="cosmetics.js"></script>
-  <script src="migration.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="translate.js"></script>
-  <script src="apply-translations.js"></script>
+  <script src="js/core/preferences.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/core/pokemon-versions.js"></script>
+  <script src="js/data/dex.js"></script>
+  <script src="js/core/challenge.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/features/challenges/challenge-manager.js"></script>
+  <script src="js/features/challenges/challenge-list-ui.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

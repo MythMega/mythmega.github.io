@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Données Pokémon — Pokefeet</title>
   <meta name="description" content="Pokefeet Données Pokémon — Explorez la base de données Pokémon du jeu." />
   <meta name="keywords" content="Pokefeet, données Pokémon, base de données, Pokédex" />
@@ -18,9 +27,9 @@
   <meta name="twitter:title" content="Données Pokémon — Pokefeet" />
   <meta name="twitter:description" content="Base de données Pokémon du jeu Pokefeet." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="cosmetics.css">
-  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/cosmetics.css">
+  <link rel="stylesheet" href="styles/text-shadow.css" />
   <style>
     /* ── Data viewer overrides ── */
     body {
@@ -200,7 +209,7 @@
     <div class="deco-secondary n12"></div>
     <header>
       <h1 data-i18n="dataViewer.title">Données Pokémon</h1>
-      <a href="index.html" class="back-link" data-i18n="common.backHome">Retour à l'accueil</a>
+      <a href="index.html" class="back-button" data-i18n="common.backHome">Retour à l'accueil</a>
     </header>
 
     <div class="dv-controls">
@@ -213,7 +222,7 @@
         id="dvFilterVal"
         class="search-input"
         style="min-width:200px"
-        data-i18n-attr="placeholder:dataViewer.filterPlaceholder"
+        data-i18n-attr="placeholder:dataViewer.filterPlaceholder|aria-label:dataViewer.filterPlaceholder"
         placeholder="Filtrer..."
       >
       <span id="dvCount" class="dv-count"></span>
@@ -231,11 +240,13 @@
     </div>
   </main>
 
-  <script src="loader.js"></script>
-  <script src="translate.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="footer.js"></script>
-  <script src="i18n-setup.js"></script>
+  <script src="js/core/preferences.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
   <script>
   (function () {
     /* ─── Column definitions ─────────────────────────────── */
@@ -482,5 +493,6 @@
     });
   })();
   </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

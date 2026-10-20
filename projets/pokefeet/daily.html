@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
   <title>Pokefeet — Daily Challenge</title>
   <meta name="description" content="Pokefeet Daily Challenge — Devinez 5 Pokémon chaque jour en ne voyant que leurs pieds. Un défi quotidien renouvelé chaque jour." />
   <meta name="keywords" content="Pokefeet, daily challenge Pokémon, deviner Pokémon pieds, défi quotidien Pokémon" />
@@ -18,9 +27,10 @@
   <meta name="twitter:title" content="Pokefeet — Daily Challenge" />
   <meta name="twitter:description" content="Devinez 5 Pokémon chaque jour en ne voyant que leurs pieds." />
   <link rel="icon" type="image/x-icon" href="./icon.png">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="cosmetics.css" />
-  <link rel="stylesheet" href="text-shadow.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <script src="js/core/preferences.js"></script>
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
 </head>
 <body>
   <main id="app">
@@ -70,10 +80,10 @@
 
         <div class="guess-area">
           <div class="autocomplete-wrap">
-            <input id="dailyInput" type="text" autocomplete="off" data-i18n-attr="placeholder:daily.placeholder" placeholder="Tapez le nom FR ou EN" />
+            <input id="dailyInput" type="text" autocomplete="off" data-i18n-attr="placeholder:daily.placeholder|aria-label:daily.placeholder" placeholder="Tapez le nom FR ou EN" />
             <div id="namesDropdown" class="autocomplete-dropdown hidden"></div>
           </div>
-          <button id="dailySubmit" data-i18n="daily.submit">Valider</button>
+          <button id="dailySubmit" data-tag="customizables-button" data-i18n="daily.submit">Valider</button>
           <button id="dailySkip" class="secondary" data-i18n="daily.skip">Passer</button>
         </div>
 
@@ -97,22 +107,51 @@
       <ul id="dailyHints"></ul>
     </aside>
 
+    <!-- Popup de révélation : Pokémon non trouvé (essais épuisés ou abandon) -->
+    <div id="dailyFailPopup" class="popup hidden" role="dialog" aria-modal="true" aria-labelledby="dailyFailTitle">
+      <div class="popup-content popup-scroll">
+        <p id="dailyFailTitle" class="popup-title" data-i18n="daily.answerWas">La réponse était</p>
+        <h2 id="dailyFailName" class="popup-name"></h2>
+        <div class="popup-images">
+          <div class="popup-image-item">
+            <img id="dailyFailFullImg" class="popup-full-img" src="" alt="" />
+            <span class="popup-image-label" data-i18n="daily.fullSprite">Sprite complet</span>
+          </div>
+          <div class="popup-image-item">
+            <img id="dailyFailFootImg" class="popup-foot-img" src="" alt="" />
+            <span class="popup-image-label" data-i18n="daily.footSprite">Pied</span>
+          </div>
+        </div>
+        <h3 class="popup-hints-title" data-i18n="common.hints">Indices</h3>
+        <ul id="dailyFailHints" class="popup-hints"></ul>
+        <div class="popup-footer">
+          <button id="dailyFailConfirm" data-i18n="daily.continue" data-tag="customizables-button">Continuer</button>
+        </div>
+      </div>
+    </div>
+
     <div id="notifications" aria-live="polite"></div>
     <button id="retourBtn" class="secondary" style="padding:10px 12px;" data-i18n="common.backHome">Retour à l'accueil</button>
   </main>
 
-  <script src="loader.js"></script>
-  <script src="translate.js"></script>
-  <script src="language-switcher.js"></script>
-  <script src="footer.js"></script>
-  <script src="i18n-setup.js"></script>
-  <script src="pokemon.js"></script>
-  <script src="migration.js"></script>
-  <script src="Dex.js"></script>
-  <script src="pokemon-versions.js"></script>
-  <script src="business/challenge-storage.js"></script>
-  <script src="cosmetics.js"></script>
-  <script src="daily.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/data/dex.js"></script>
+  <script src="js/core/pokemon-versions.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/ui/fx.js"></script>
+  <script src="js/ui/transitions.js"></script>
+  <script src="js/ui/zoom.js"></script>
+  <script src="js/data/config.js"></script>
+  <script src="js/ui/rotate3d.js"></script>
+  <script src="js/features/daily/daily.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>
 

@@ -1,0 +1,42 @@
+/* --- Hints --- */
+aside#hints { margin-top:14px; color:var(--muted); max-width:480px; margin-left:auto; margin-right:auto; }
+#hintsList, #dailyHints, #weeklyHints { list-style:none; padding:0; margin:8px 0 0 0; }
+#hintsList li, #dailyHints li, #weeklyHints li {
+  padding: 9px 13px;
+  background: rgba(22,163,74,0.06);
+  border: 1px solid rgba(22,163,74,0.12);
+  border-radius: 9px;
+  margin-bottom: 6px;
+  color: #cfe7d6;
+  font-size: 14px;
+  line-height: 1.45;
+  animation: hintReveal 300ms ease-out both;
+}
+#hintsList li:last-child, #dailyHints li:last-child, #weeklyHints li:last-child { margin-bottom: 0; }
+
+/* Ne pas afficher un bloc d'indices encore vide */
+h3:has(+ #dailyHints:empty),
+h3:has(+ #weeklyHints:empty),
+h3:has(+ #hintsList:empty) { display: none; }
+aside#hints:has(#hintsList:empty) { display: none; }
+#challengeHints:empty,
+#playHints:empty { display: none; }
+
+@keyframes hintReveal {
+  from { opacity:0; transform:translateX(-8px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+.type-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-left: 4px;
+  border-radius: 3px;
+}
+
+/* --- Utility --- */
+.hidden { display:none !important; }
+.info-below { color:var(--muted); font-size:14px; margin-bottom:8px; text-align:left; }
+.info-below div { margin:4px 0; }
+.failed-attempts { color:var(--muted); font-size:14px; margin-top:8px; text-align:left; }

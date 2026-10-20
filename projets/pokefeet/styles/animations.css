@@ -1,0 +1,37 @@
+/* --- Pokémon image transitions --- */
+.pokemon-image img,
+.image-container img {
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.fx-img-exit img {
+  opacity: 0;
+  transform: scale(0.96) translateY(4px);
+}
+
+.fx-img-enter img {
+  animation: pokemon-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pokemon-in {
+  from { opacity: 0; transform: scale(0.94) translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- Global animation kill switch --- */
+html.no-animations *,
+html.no-animations *::before,
+html.no-animations *::after {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+html.no-animations .new-pokemon-banner {
+  animation: none !important;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

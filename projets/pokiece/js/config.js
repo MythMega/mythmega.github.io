@@ -116,7 +116,8 @@ function addToggleButtons(containerId, updateFunctionName) {
     // Créer les trois boutons
     const selectAllBtn = document.createElement('button');
     selectAllBtn.type = 'button';
-    selectAllBtn.textContent = getTranslation('selectAll') || 'Select All';
+    selectAllBtn.setAttribute('data-i18n', 'selectAll');
+    selectAllBtn.textContent = getTranslation('selectAll');
     selectAllBtn.className = 'btn btn-toggle';
     selectAllBtn.addEventListener('click', () => {
         // Chercher toutes les checkboxes dans la div des checkboxes
@@ -131,7 +132,8 @@ function addToggleButtons(containerId, updateFunctionName) {
     
     const deselectAllBtn = document.createElement('button');
     deselectAllBtn.type = 'button';
-    deselectAllBtn.textContent = getTranslation('deselectAll') || 'Deselect All';
+    deselectAllBtn.setAttribute('data-i18n', 'deselectAll');
+    deselectAllBtn.textContent = getTranslation('deselectAll');
     deselectAllBtn.className = 'btn btn-toggle';
     deselectAllBtn.addEventListener('click', () => {
         const checkboxesDivId = containerId === 'seriesContainer' ? 'seriesCheckboxesDiv' : 'typesCheckboxesDiv';
@@ -145,7 +147,8 @@ function addToggleButtons(containerId, updateFunctionName) {
     
     const toggleBtn = document.createElement('button');
     toggleBtn.type = 'button';
-    toggleBtn.textContent = getTranslation('toggleAll') || 'Toggle All';
+    toggleBtn.setAttribute('data-i18n', 'toggleAll');
+    toggleBtn.textContent = getTranslation('toggleAll');
     toggleBtn.className = 'btn btn-toggle';
     toggleBtn.addEventListener('click', () => {
         const checkboxesDivId = containerId === 'seriesContainer' ? 'seriesCheckboxesDiv' : 'typesCheckboxesDiv';
@@ -282,7 +285,10 @@ function initTypeCheckboxes() {
         label.htmlFor = `type-${type}`;
         // Récupérer la traduction du nom du type avec la bonne casse (capitaliser la première lettre)
         const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
-        label.textContent = getTranslation(`typesNames.${capitalizedType}`) || capitalizedType;
+        const typeKey = `typesNames.${capitalizedType}`;
+        label.setAttribute('data-i18n', typeKey);
+        const translatedType = getTranslation(typeKey);
+        label.textContent = (translatedType && translatedType !== typeKey) ? translatedType : capitalizedType;
         label.style.margin = '0';
         
         pair.appendChild(checkbox);
@@ -745,11 +751,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log('✅ Tous les ressources pré-requises sont chargées');
             
-            // Initialiser le dark mode
-            initDarkMode();
-            
-            // Initialiser le bouton de langue
-            initLanguageButton();
+            // Dark mode et bouton de langue : deja initialises par global.js et translation.js
+            // (les rappeler ici ajoutait un 2e ecouteur de clic => double bascule = aucun effet)
             
             // Initialiser la configuration
             initConfig();

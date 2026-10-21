@@ -56,12 +56,35 @@ function getCurrentDarkMode() {
 }
 
 /**
+ * Indique si le dark mode est réellement appliqué à l'écran
+ * (source de vérité = le DOM, pas le cookie)
+ * @returns {boolean}
+ */
+function isDarkModeActive() {
+    return document.documentElement.classList.contains('dark-mode') ||
+           (document.body && document.body.classList.contains('dark-mode'));
+}
+
+/**
+ * Applique (ou retire) la classe 'dark-mode' sur <html> ET <body>.
+ * Le script inline des pages ajoute la classe sur <html> avant le rendu,
+ * alors que le CSS/JS peut cibler <body> : il faut garder les deux synchronisés,
+ * sinon une des deux classes reste "collée" et le thème ne change plus.
+ * @param {boolean} isDark
+ */
+function applyDarkModeClass(isDark) {
+    document.documentElement.classList.toggle('dark-mode', isDark);
+    if (document.body) {
+        document.body.classList.toggle('dark-mode', isDark);
+    }
+}
+
+/**
  * Active le dark mode
- * Ajoute la classe 'dark-mode' au body
  */
 function enableDarkMode() {
     console.log('🌙 Activation du dark mode');
-    document.body.classList.add('dark-mode');
+    applyDarkModeClass(true);
     setCookie('darkMode', 'dark', 365);
     updateDarkModeButton();
     console.log('✅ Dark mode activé');
@@ -69,11 +92,10 @@ function enableDarkMode() {
 
 /**
  * Désactive le dark mode
- * Retire la classe 'dark-mode' du body
  */
 function disableDarkMode() {
     console.log('☀️ Désactivation du dark mode');
-    document.body.classList.remove('dark-mode');
+    applyDarkModeClass(false);
     setCookie('darkMode', 'light', 365);
     updateDarkModeButton();
     console.log('✅ Dark mode désactivé');
@@ -81,15 +103,16 @@ function disableDarkMode() {
 
 /**
  * Bascule le dark mode ON/OFF
+ * Se base sur l'état réellement affiché (et non sur le cookie)
  */
 function toggleDarkMode() {
-    const currentMode = getCurrentDarkMode();
-    console.log(`🔄 Basculement du dark mode depuis: ${currentMode}`);
+    const darkNow = isDarkModeActive();
+    console.log(`🔄 Basculement du dark mode depuis: ${darkNow ? 'dark' : 'light'}`);
     
-    if (currentMode === 'light') {
-        enableDarkMode();
-    } else {
+    if (darkNow) {
         disableDarkMode();
+    } else {
+        enableDarkMode();
     }
 }
 
@@ -99,32 +122,29 @@ function toggleDarkMode() {
 function updateDarkModeButton() {
     const darkModeBtn = document.getElementById('darkModeBtn');
     if (darkModeBtn) {
-        const mode = getCurrentDarkMode();
-        darkModeBtn.textContent = mode === 'dark' ? '☀️' : '🌙';
+        darkModeBtn.textContent = isDarkModeActive() ? '☀️' : '🌙';
         console.log(`✅ Icône bouton dark mode mise à jour: ${darkModeBtn.textContent}`);
     }
 }
 
 /**
  * Initializer le dark mode au chargement de la page
+ * Peut être appelée plusieurs fois sans danger (un seul écouteur de clic).
  */
 function initDarkMode() {
     console.log('%c⚙️ Initialisation du dark mode', 'color: #00d4ff; font-weight: bold');
     const mode = getCurrentDarkMode();
     
-    if (mode === 'dark') {
-        console.log('🌙 Application du dark mode');
-        document.body.classList.add('dark-mode');
-    } else {
-        console.log('☀️ Mode clair appliqué');
-        document.body.classList.remove('dark-mode');
-    }
+    // Synchroniser <html> et <body> avec le cookie
+    applyDarkModeClass(mode === 'dark');
+    console.log(mode === 'dark' ? '🌙 Application du dark mode' : '☀️ Mode clair appliqué');
     
     updateDarkModeButton();
     
-    // Initialiser le bouton dark mode
+    // Initialiser le bouton dark mode (une seule fois)
     const darkModeBtn = document.getElementById('darkModeBtn');
-    if (darkModeBtn) {
+    if (darkModeBtn && !darkModeBtn.dataset.darkModeBound) {
+        darkModeBtn.dataset.darkModeBound = 'true';
         darkModeBtn.addEventListener('click', function() {
             console.log('🎯 Bouton dark mode cliqué');
             toggleDarkMode();

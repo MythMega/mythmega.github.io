@@ -1,0 +1,180 @@
+{
+  "bossName": "Coudlangue",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lickilicky_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Lickilicky_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 80000,
+  "date": "2026-10-21 22:19:06",
+  "durationSec": 6624,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 54954,
+      "countAtk": 3,
+      "baseDmg": 14954,
+      "level": 18,
+      "raidCount": 522,
+      "luck": 1.2249565
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 26609,
+      "countAtk": 3,
+      "baseDmg": 8828,
+      "level": 16,
+      "raidCount": 359,
+      "luck": 1.0047199
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "jmdevfr",
+      "damage": 301,
+      "countAtk": 1,
+      "baseDmg": 301,
+      "level": 5,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 81864
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-21 23:04:51",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 14954,
+      "pvAfter": 65046,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-10-21 23:12:07",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 45046,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-10-22 00:00:50",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 20000,
+      "pvAfter": 25046,
+      "heal": false,
+      "critical": true,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 00:09:28",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8828,
+      "pvAfter": 16218,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 00:09:29",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 301,
+      "pvAfter": 15917,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 00:09:29",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8835,
+      "pvAfter": 7082,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 00:09:30",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8946,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

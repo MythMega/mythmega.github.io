@@ -196,9 +196,9 @@ function applyTranslation() {
     
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
-        const text = window.TRANSLATIONS[lang][key];
+        const text = getTranslation(key);
         
-        if (text) {
+        if (text && text !== key) {
             element.textContent = text;
             translated++;
             console.log(`   ✅ [${key}] = "${text}"`);
@@ -210,9 +210,9 @@ function applyTranslation() {
     // Traiter les éléments avec data-i18n-placeholder pour le placeholder
     document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
         const key = element.getAttribute('data-i18n-placeholder');
-        const text = window.TRANSLATIONS[lang][key];
+        const text = getTranslation(key);
         
-        if (text) {
+        if (text && text !== key) {
             element.placeholder = text;
             translated++;
             console.log(`   ✅ [${key}] (placeholder) = "${text}"`);
@@ -231,7 +231,10 @@ function initLanguageButton() {
     console.log('⚙️ Initialisation du bouton de langue');
     const languageBtn = document.getElementById('languageBtn');
     
-    if (languageBtn) {
+    if (languageBtn && languageBtn.dataset.languageBound) {
+        console.log('ℹ️ Bouton de langue déjà initialisé');
+    } else if (languageBtn) {
+        languageBtn.dataset.languageBound = 'true';
         // Ajouter un écouteur d'événement
         languageBtn.addEventListener('click', function(e) {
             console.log('🎯 Bouton langue cliqué');

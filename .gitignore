@@ -1,2 +1,11 @@
 # Ignore tout le contenu du dossier grab de SCG
 /projets/StreamChartsGussr/data/main_users/grab/*
+
+# Dossier .freebuff
+.freebuff/
+
+# Dossiers de build, IDE et configurations
+.gradle/
+.vs/
+bin/
+obj/

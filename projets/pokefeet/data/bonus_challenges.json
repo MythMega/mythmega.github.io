@@ -705,7 +705,7 @@
     ],
     "Rewards": [
             { "TypeReward": "Experience", "Value": 100},
-            { "TypeReward": "Cosmetic", "Value": 34 }],
+            { "TypeReward": "Cosmetic", "Value": 35 }],
     "MustHideIfUnavailable": true,
     "Availabilities": []
 },
@@ -774,7 +774,7 @@
     ],
     "Rewards": [
             { "TypeReward": "Experience", "Value": 500},
-            { "TypeReward": "Cosmetic", "Value": 35 }],
+            { "TypeReward": "Cosmetic", "Value": 34 }],
     "MustHideIfUnavailable": true,
     "Availabilities": []
 },
@@ -789,8 +789,6 @@
     "Name_Fr": "Dieu",
     "Desc_En": "Pokemon's Gods.",
     "Desc_Fr": "Le dieu des pokémon.",
-    "Additional_Info_Fr": "Challenge custom proposé par Myth'",
-    "Additional_Info_En": "Custom Challenge by Myth'",
     "FeetList": [
         "399",
         "399",

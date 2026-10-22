@@ -1,0 +1,131 @@
+{
+  "bossName": "Barloche",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Barboach_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Barboach_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-10-22 21:55:13",
+  "durationSec": 1962,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 30000,
+      "countAtk": 2,
+      "baseDmg": 15024,
+      "level": 18,
+      "raidCount": 524,
+      "luck": 0.99840254
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 30000,
+      "countAtk": 2,
+      "baseDmg": 43412,
+      "level": 20,
+      "raidCount": 1145,
+      "luck": 0.34552658
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 60000
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-22 22:09:22",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 45000,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-10-22 22:10:30",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 30000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 22:10:36",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 30000,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "sansanhijab a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-10-22 22:22:29",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 15000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 22:27:55",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

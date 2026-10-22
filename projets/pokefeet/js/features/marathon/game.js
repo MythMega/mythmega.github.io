@@ -193,16 +193,14 @@ const Game = (function () {
 
   // démarrer une partie / charger les données
   async function init() {
-    // charge le JSON embarqué (on peut remplacer par fetch si placé en fichier séparé)
-    // Exemple minimal intégré ici : si vous avez un fichier data/pokemons.json, utilisez fetch.
+    // charge tous les fichiers Pokémon listés dans data/monsfiles.json
     try {
-      const [pokemonsRes] = await Promise.all([
-        fetch('data/pokemons.json'),
+      const [, , list] = await Promise.all([
         TypeIcons.load(),
-        PokemonVersions.load()
+        PokemonVersions.load(),
+        PokemonFiles.load()
       ]);
-      const arr = await pokemonsRes.json();
-      pokemons = arr.map(p => new Pokemon(p));
+      pokemons = list;
       // Pool de jeu limité aux Pokémon disponibles aujourd'hui
       const today = new Date();
       const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;

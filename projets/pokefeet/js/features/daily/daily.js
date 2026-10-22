@@ -275,12 +275,21 @@ const Daily = (function () {
   // Instant où la popup a été affichée : empêche qu'une touche Entrée déjà enfoncée
   // (celle qui vient de valider l'essai fatal) ne referme la popup instantanément.
   let failPopupShownAt = 0;
+  // true quand la popup est ouverte depuis une image du résumé (simple consultation) :
+  // on n'y annonce aucune défaite et le bouton se contente de fermer.
+  let failPopupInfoOnly = false;
 
   // Affiche quel Pokémon c'était (full sprite + image du pied).
-  function showFailPopup(p) {
+  // options.infoOnly : consultation depuis le résumé de fin (pas de « La réponse était »).
+  function showFailPopup(p, options) {
     if (!p) return;
     const popup = document.getElementById('dailyFailPopup');
     if (!popup) return;
+    const infoOnly = !!(options && options.infoOnly);
+    failPopupInfoOnly = infoOnly;
+    const titleEl = document.getElementById('dailyFailTitle');
+    if (titleEl) titleEl.classList.toggle('hidden', infoOnly);
+    popup.setAttribute('aria-labelledby', infoOnly ? 'dailyFailName' : 'dailyFailTitle');
     const name = getDisplayName(p);
     const nameEl = document.getElementById('dailyFailName');
     if (nameEl) nameEl.textContent = name;
@@ -296,6 +305,13 @@ const Daily = (function () {
     // Focus différé : focaliser immédiatement ferait activer le bouton par la touche
     // Entrée en cours de traitement, ce qui fermerait la popup sans que le joueur la lise.
     const btn = document.getElementById('dailyFailConfirm');
+    if (btn) {
+      // En consultation, le bouton ferme simplement la popup.
+      btn.setAttribute('data-i18n', infoOnly ? 'common.close' : 'daily.continue');
+      btn.textContent = infoOnly
+        ? Translator.get('common.close', 'Fermer')
+        : Translator.get('daily.continue', 'Continuer');
+    }
     if (btn) setTimeout(() => {
       if (!popup.classList.contains('hidden')) btn.focus();
     }, 80);
@@ -304,6 +320,7 @@ const Daily = (function () {
   function hideFailPopup() {
     const popup = document.getElementById('dailyFailPopup');
     if (popup) popup.classList.add('hidden');
+    failPopupInfoOnly = false;
   }
 
   function showReveal(p) {
@@ -640,10 +657,19 @@ const Daily = (function () {
     if (!container) return;
     container.innerHTML = '';
     list.forEach(p => {
+      // Chaque sprite du résumé est un bouton : il rouvre la popup d'infos du Pokémon.
+      const btnEl = document.createElement('button');
+      btnEl.type = 'button';
+      btnEl.className = 'daily-full-img-btn';
+      const name = p.NameFR || p.NameEN || '';
+      btnEl.setAttribute('aria-label',
+        Translator.get('daily.viewPokemonInfo', 'Voir les infos de {name}').replace('{name}', name));
       const imgEl = document.createElement('img');
       imgEl.src = p.FullImage || p.Image || '';
-      imgEl.alt = p.NameFR || p.NameEN || '';
-      container.appendChild(imgEl);
+      imgEl.alt = name;
+      btnEl.appendChild(imgEl);
+      btnEl.addEventListener('click', () => showFailPopup(p, { infoOnly: true }));
+      container.appendChild(btnEl);
     });
   }
 
@@ -772,6 +798,8 @@ const Daily = (function () {
 
   // Appelé quand le joueur confirme la popup de révélation.
   function confirmFailAndAdvance() {
+    // Popup ouverte depuis le résumé : simple fermeture, aucun round à faire avancer.
+    if (failPopupInfoOnly) { hideFailPopup(); return; }
     // Ignore une activation héritée de la touche Entrée qui vient d'être relâchée.
     if (Date.now() - failPopupShownAt < 250) return;
     hideFailPopup();
@@ -1000,15 +1028,14 @@ const Daily = (function () {
     // Get the date from URL parameter if provided
     overrideDate = getDateFromURL();
     
-    // load pokemons data (same logic as Game.init: try fetch data/pokemons.json)
+    // load pokemons data (tous les fichiers listés dans data/monsfiles.json)
     try {
-      const [pokemonsRes] = await Promise.all([
-        fetch('data/pokemons.json'),
+      const [, , list] = await Promise.all([
         TypeIcons.load(),
-        PokemonVersions.load()
+        PokemonVersions.load(),
+        PokemonFiles.load()
       ]);
-      const arr = await pokemonsRes.json();
-      pokemons = arr.map(p => new Pokemon(p));
+      pokemons = list;
     } catch (e) {
       // fallback sample (same as original)
       pokemons = [

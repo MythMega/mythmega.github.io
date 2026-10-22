@@ -1,0 +1,1197 @@
+[
+  {
+    "Index": "3-M",
+    "NameEN": "Mega-Venusaur",
+    "NameFR": "Méga-Florizarre",
+    "Generation": 6,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/mega/3.png",
+    "FullImage": "./img/fullsprite/3-mega.png",
+    "Category": "Pokémon Graine",
+    "EggGroups": [
+      "Monstrueux",
+      "Végétal"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "3"
+  },
+  {
+    "Index": "6-M-X",
+    "NameEN": "Mega-Charizard",
+    "NameFR": "Méga-Dracaufeu X",
+    "Generation": 6,
+    "Type1": "fire",
+    "Type2": "flying",
+    "Image": "./img/mega/6-x.png",
+    "FullImage": "./img/fullsprite/6-mega-x.png",
+    "Category": "Pokémon Flamme",
+    "EggGroups": [
+      "Draconique",
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "6"
+  },
+  {
+    "Index": "6-M-Y",
+    "NameEN": "Mega-Charizard",
+    "NameFR": "Méga-Dracaufeu Y",
+    "Generation": 6,
+    "Type1": "fire",
+    "Type2": "flying",
+    "Image": "./img/mega/6-y.png",
+    "FullImage": "./img/fullsprite/6-mega-y.png",
+    "Category": "Pokémon Flamme",
+    "EggGroups": [
+      "Draconique",
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "6"
+  },
+  {
+    "Index": "9-M",
+    "NameEN": "Mega-Blastoise",
+    "NameFR": "Méga-Tortank",
+    "Generation": 6,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/mega/9.png",
+    "FullImage": "./img/fullsprite/9-mega.png",
+    "Category": "Pokémon Carapace",
+    "EggGroups": [
+      "Aquatique 1",
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "9"
+  },
+  {
+    "Index": "15-M",
+    "NameEN": "Mega-Beedrill",
+    "NameFR": "Méga-Dardargnan",
+    "Generation": 6,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/mega/15.png",
+    "FullImage": "./img/fullsprite/15-mega.png",
+    "Category": "Pokémon Guêpoison",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "15"
+  },
+  {
+    "Index": "18-M",
+    "NameEN": "Mega-Pidgeot",
+    "NameFR": "Méga-Roucarnage",
+    "Generation": 6,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/mega/18.png",
+    "FullImage": "./img/fullsprite/18-mega.png",
+    "Category": "Pokémon Oiseau",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "18"
+  },
+  {
+    "Index": "26-M-X",
+    "NameEN": "Mega-Raichu",
+    "NameFR": "Méga-Raichu X",
+    "Generation": 9,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/mega/26-x.png",
+    "FullImage": "./img/fullsprite/26-mega-x.png",
+    "Category": "Pokémon Souris",
+    "EggGroups": [
+      "Terrestre",
+      "Féerique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "26"
+  },
+  {
+    "Index": "26-M-Y",
+    "NameEN": "Mega-Raichu",
+    "NameFR": "Méga-Raichu Y",
+    "Generation": 9,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/mega/26-y.png",
+    "FullImage": "./img/fullsprite/26-mega-y.png",
+    "Category": "Pokémon Souris",
+    "EggGroups": [
+      "Terrestre",
+      "Féerique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "26"
+  },
+  {
+    "Index": "36-M",
+    "NameEN": "Mega-Clefable",
+    "NameFR": "Méga-Mélodelfe",
+    "Generation": 9,
+    "Type1": "fairy",
+    "Type2": null,
+    "Image": "./img/mega/36.png",
+    "FullImage": "./img/fullsprite/36-mega.png",
+    "Category": "Pokémon Fée",
+    "EggGroups": [
+      "Féerique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "36"
+  },
+  {
+    "Index": "65-M",
+    "NameEN": "Mega-Alakazam",
+    "NameFR": "Méga-Alakazam",
+    "Generation": 6,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/mega/65.png",
+    "FullImage": "./img/fullsprite/65-mega.png",
+    "Category": "Pokémon Psy",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "65"
+  },
+  {
+    "Index": "71-M",
+    "NameEN": "Mega-Victreebel",
+    "NameFR": "Méga-Empiflor",
+    "Generation": 9,
+    "Type1": "grass",
+    "Type2": "poison",
+    "Image": "./img/mega/71.png",
+    "FullImage": "./img/fullsprite/71-mega.png",
+    "Category": "Pokémon Carnivore",
+    "EggGroups": [
+      "Végétal"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "71"
+  },
+  {
+    "Index": "80-M",
+    "NameEN": "Mega-Slowbro",
+    "NameFR": "Méga-Flagadoss",
+    "Generation": 6,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/mega/80.png",
+    "FullImage": "./img/fullsprite/80-mega.png",
+    "Category": "Pokémon Symbiose",
+    "EggGroups": [
+      "Monstrueux",
+      "Aquatique 1"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "80"
+  },
+  {
+    "Index": "94-M",
+    "NameEN": "Mega-Gengar",
+    "NameFR": "Méga-Ectoplasma",
+    "Generation": 6,
+    "Type1": "ghost",
+    "Type2": "poison",
+    "Image": "./img/mega/94.png",
+    "FullImage": "./img/fullsprite/94-mega.png",
+    "Category": "Pokémon Ombre",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "94"
+  },
+  {
+    "Index": "115-M",
+    "NameEN": "Mega-Kangaskhan",
+    "NameFR": "Méga-Kangourex",
+    "Generation": 6,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/mega/115.png",
+    "FullImage": "./img/fullsprite/115-mega.png",
+    "Category": "Pokémon Maternel",
+    "EggGroups": [
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "115"
+  },
+  {
+    "Index": "121-M",
+    "NameEN": "Mega-Starmie",
+    "NameFR": "Méga-Staross",
+    "Generation": 9,
+    "Type1": "water",
+    "Type2": "psychic",
+    "Image": "./img/mega/121.png",
+    "FullImage": "./img/fullsprite/121-mega.png",
+    "Category": "Pokémon Mystérieux",
+    "EggGroups": [
+      "Aquatique 3"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "121"
+  },
+  {
+    "Index": "127-M",
+    "NameEN": "Mega-Pinsir",
+    "NameFR": "Méga-Scarabrute",
+    "Generation": 6,
+    "Type1": "bug",
+    "Type2": null,
+    "Image": "./img/mega/127.png",
+    "FullImage": "./img/fullsprite/127-mega.png",
+    "Category": "Pokémon Scarabée",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "127"
+  },
+  {
+    "Index": "130-M",
+    "NameEN": "Mega-Gyarados",
+    "NameFR": "Méga-Léviator",
+    "Generation": 6,
+    "Type1": "water",
+    "Type2": "flying",
+    "Image": "./img/mega/130.png",
+    "FullImage": "./img/fullsprite/130-mega.png",
+    "Category": "Pokémon Terrifiant",
+    "EggGroups": [
+      "Aquatique 2",
+      "Draconique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "130"
+  },
+  {
+    "Index": "142-M",
+    "NameEN": "Mega-Aerodactyl",
+    "NameFR": "Méga-Ptéra",
+    "Generation": 6,
+    "Type1": "rock",
+    "Type2": "flying",
+    "Image": "./img/mega/142.png",
+    "FullImage": "./img/fullsprite/142-mega.png",
+    "Category": "Pokémon Fossile",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "142"
+  },
+  {
+    "Index": "149-M",
+    "NameEN": "Mega-Dragonite",
+    "NameFR": "Méga-Dracolosse",
+    "Generation": 9,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/mega/149.png",
+    "FullImage": "./img/fullsprite/149-mega.png",
+    "Category": "Pokémon Dragon",
+    "EggGroups": [
+      "Draconique",
+      "Aquatique 1"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "149"
+  },
+  {
+    "Index": "150-M-X",
+    "NameEN": "Mega-Mewtwo",
+    "NameFR": "Méga-Mewtwo X",
+    "Generation": 6,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/mega/150-x.png",
+    "FullImage": "./img/fullsprite/150-mega-x.png",
+    "Category": "Pokémon Génétique",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "150"
+  },
+  {
+    "Index": "150-M-Y",
+    "NameEN": "Mega-Mewtwo",
+    "NameFR": "Méga-Mewtwo Y",
+    "Generation": 6,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/mega/150-y.png",
+    "FullImage": "./img/fullsprite/150-mega-y.png",
+    "Category": "Pokémon Génétique",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "150"
+  },
+  {
+    "Index": "154-M",
+    "NameEN": "Mega-Meganium",
+    "NameFR": "Méga-Méganium",
+    "Generation": 9,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/mega/154.png",
+    "FullImage": "./img/fullsprite/154-mega.png",
+    "Category": "Pokémon Herbe",
+    "EggGroups": [
+      "Monstrueux",
+      "Végétal"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "154"
+  },
+  {
+    "Index": "160-M",
+    "NameEN": "Mega-Feraligatr",
+    "NameFR": "Méga-Aligatueur",
+    "Generation": 9,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/mega/160.png",
+    "FullImage": "./img/fullsprite/160-mega.png",
+    "Category": "Pokémon Mâchoire",
+    "EggGroups": [
+      "Aquatique 1",
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "160"
+  },
+  {
+    "Index": "181-M",
+    "NameEN": "Mega-Ampharos",
+    "NameFR": "Méga-Pharamp",
+    "Generation": 6,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/mega/181.png",
+    "FullImage": "./img/fullsprite/181-mega.png",
+    "Category": "Pokémon Lumière",
+    "EggGroups": [
+      "Monstrueux",
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "181"
+  },
+  {
+    "Index": "208-M",
+    "NameEN": "Mega-Steelix",
+    "NameFR": "Méga-Steelix",
+    "Generation": 6,
+    "Type1": "steel",
+    "Type2": "ground",
+    "Image": "./img/mega/208.png",
+    "FullImage": "./img/fullsprite/208-mega.png",
+    "Category": "Pokémon Serpenfer",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "208"
+  },
+  {
+    "Index": "212-M",
+    "NameEN": "Mega-Scizor",
+    "NameFR": "Méga-Cizayox",
+    "Generation": 6,
+    "Type1": "bug",
+    "Type2": "steel",
+    "Image": "./img/mega/212.png",
+    "FullImage": "./img/fullsprite/212-mega.png",
+    "Category": "Pokémon Pince",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "212"
+  },
+  {
+    "Index": "214-M",
+    "NameEN": "Mega-Heracross",
+    "NameFR": "Méga-Scarhino",
+    "Generation": 6,
+    "Type1": "bug",
+    "Type2": "fighting",
+    "Image": "./img/mega/214.png",
+    "FullImage": "./img/fullsprite/214-mega.png",
+    "Category": "Pokémon Unicorne",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "214"
+  },
+  {
+    "Index": "227-M",
+    "NameEN": "Mega-Skarmory",
+    "NameFR": "Méga-Airmure",
+    "Generation": 9,
+    "Type1": "steel",
+    "Type2": "flying",
+    "Image": "./img/mega/227.png",
+    "FullImage": "./img/fullsprite/227-mega.png",
+    "Category": "Pokémon Armoiseau",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "227"
+  },
+  {
+    "Index": "229-M",
+    "NameEN": "Mega-Houndoom",
+    "NameFR": "Méga-Démolosse",
+    "Generation": 6,
+    "Type1": "dark",
+    "Type2": "fire",
+    "Image": "./img/mega/229.png",
+    "FullImage": "./img/fullsprite/229-mega.png",
+    "Category": "Pokémon Sombre",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "229"
+  },
+  {
+    "Index": "248-M",
+    "NameEN": "Mega-Tyranitar",
+    "NameFR": "Méga-Tyranocif",
+    "Generation": 6,
+    "Type1": "rock",
+    "Type2": "dark",
+    "Image": "./img/mega/248.png",
+    "FullImage": "./img/fullsprite/248-mega.png",
+    "Category": "Pokémon Armure",
+    "EggGroups": [
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "248"
+  },
+  {
+    "Index": "254-M",
+    "NameEN": "Mega-Sceptile",
+    "NameFR": "Méga-Jungko",
+    "Generation": 6,
+    "Type1": "grass",
+    "Type2": null,
+    "Image": "./img/mega/254.png",
+    "FullImage": "./img/fullsprite/254-mega.png",
+    "Category": "Pokémon Forêt",
+    "EggGroups": [
+      "Monstrueux",
+      "Draconique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "254"
+  },
+  {
+    "Index": "257-M",
+    "NameEN": "Mega-Blaziken",
+    "NameFR": "Méga-Braségali",
+    "Generation": 6,
+    "Type1": "fire",
+    "Type2": "fighting",
+    "Image": "./img/mega/257.png",
+    "FullImage": "./img/fullsprite/257-mega.png",
+    "Category": "Pokémon Ardent",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "257"
+  },
+  {
+    "Index": "260-M",
+    "NameEN": "Mega-Swampert",
+    "NameFR": "Méga-Laggron",
+    "Generation": 6,
+    "Type1": "water",
+    "Type2": "ground",
+    "Image": "./img/mega/260.png",
+    "FullImage": "./img/fullsprite/260-mega.png",
+    "Category": "Pokémon Poissonboue",
+    "EggGroups": [
+      "Monstrueux",
+      "Aquatique 1"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "260"
+  },
+  {
+    "Index": "282-M",
+    "NameEN": "Mega-Gardevoir",
+    "NameFR": "Méga-Gardevoir",
+    "Generation": 6,
+    "Type1": "psychic",
+    "Type2": "fairy",
+    "Image": "./img/mega/282.png",
+    "FullImage": "./img/fullsprite/282-mega.png",
+    "Category": "Pokémon Étreinte",
+    "EggGroups": [
+      "Amorphe",
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "282"
+  },
+  {
+    "Index": "302-M",
+    "NameEN": "Mega-Sableye",
+    "NameFR": "Méga-Ténéfix",
+    "Generation": 6,
+    "Type1": "dark",
+    "Type2": "ghost",
+    "Image": "./img/mega/302.png",
+    "FullImage": "./img/fullsprite/302-mega.png",
+    "Category": "Pokémon Obscurité",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "302"
+  },
+  {
+    "Index": "303-M",
+    "NameEN": "Mega-Mawile",
+    "NameFR": "Méga-Mysdibule",
+    "Generation": 6,
+    "Type1": "steel",
+    "Type2": "fairy",
+    "Image": "./img/mega/303.png",
+    "FullImage": "./img/fullsprite/303-mega.png",
+    "Category": "Pokémon Trompeur",
+    "EggGroups": [
+      "Terrestre",
+      "Féerique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "303"
+  },
+  {
+    "Index": "306-M",
+    "NameEN": "Mega-Aggron",
+    "NameFR": "Méga-Galeking",
+    "Generation": 6,
+    "Type1": "steel",
+    "Type2": "rock",
+    "Image": "./img/mega/306.png",
+    "FullImage": "./img/fullsprite/306-mega.png",
+    "Category": "Pokémon Armurfer",
+    "EggGroups": [
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "306"
+  },
+  {
+    "Index": "308-M",
+    "NameEN": "Mega-Medicham",
+    "NameFR": "Méga-Charmina",
+    "Generation": 6,
+    "Type1": "fighting",
+    "Type2": "psychic",
+    "Image": "./img/mega/308.png",
+    "FullImage": "./img/fullsprite/308-mega.png",
+    "Category": "Pokémon Méditation",
+    "EggGroups": [
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "308"
+  },
+  {
+    "Index": "310-M",
+    "NameEN": "Mega-Manectric",
+    "NameFR": "Méga-Élecsprint",
+    "Generation": 6,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/mega/310.png",
+    "FullImage": "./img/fullsprite/310-mega.png",
+    "Category": "Pokémon Décharge",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "310"
+  },
+  {
+    "Index": "319-M",
+    "NameEN": "Mega-Sharpedo",
+    "NameFR": "Méga-Sharpedo",
+    "Generation": 6,
+    "Type1": "water",
+    "Type2": "dark",
+    "Image": "./img/mega/319.png",
+    "FullImage": "./img/fullsprite/319-mega.png",
+    "Category": "Pokémon Brutal",
+    "EggGroups": [
+      "Aquatique 2"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "319"
+  },
+  {
+    "Index": "323-M",
+    "NameEN": "Mega-Camerupt",
+    "NameFR": "Méga-Camérupt",
+    "Generation": 6,
+    "Type1": "fire",
+    "Type2": "ground",
+    "Image": "./img/mega/323.png",
+    "FullImage": "./img/fullsprite/323-mega.png",
+    "Category": "Pokémon Éruption",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "323"
+  },
+  {
+    "Index": "334-M",
+    "NameEN": "Mega-Altaria",
+    "NameFR": "Méga-Altaria",
+    "Generation": 6,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/mega/334.png",
+    "FullImage": "./img/fullsprite/334-mega.png",
+    "Category": "Pokémon Virevolteur",
+    "EggGroups": [
+      "Aérien",
+      "Draconique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "334"
+  },
+  {
+    "Index": "354-M",
+    "NameEN": "Mega-Banette",
+    "NameFR": "Méga-Branette",
+    "Generation": 6,
+    "Type1": "ghost",
+    "Type2": null,
+    "Image": "./img/mega/354.png",
+    "FullImage": "./img/fullsprite/354-mega.png",
+    "Category": "Pokémon Marionnette",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "354"
+  },
+  {
+    "Index": "358-M",
+    "NameEN": "Mega-Chimecho",
+    "NameFR": "Méga-Éoko",
+    "Generation": 9,
+    "Type1": "psychic",
+    "Type2": null,
+    "Image": "./img/mega/358.png",
+    "FullImage": "./img/fullsprite/358-mega.png",
+    "Category": "Pokémon Carillon",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "358"
+  },
+  {
+    "Index": "359-M",
+    "NameEN": "Mega-Absol",
+    "NameFR": "Méga-Absol",
+    "Generation": 6,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/mega/359.png",
+    "FullImage": "./img/fullsprite/359-mega.png",
+    "Category": "Pokémon Désastre",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "359"
+  },
+  {
+    "Index": "359-M-Z",
+    "NameEN": "Mega-Absol",
+    "NameFR": "Méga-Absol Z",
+    "Generation": 9,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/mega/359-z.png",
+    "FullImage": "./img/fullsprite/359-mega-z.png",
+    "Category": "Pokémon Désastre",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "359"
+  },
+  {
+    "Index": "362-M",
+    "NameEN": "Mega-Glalie",
+    "NameFR": "Méga-Oniglali",
+    "Generation": 6,
+    "Type1": "ice",
+    "Type2": null,
+    "Image": "./img/mega/362.png",
+    "FullImage": "./img/fullsprite/362-mega.png",
+    "Category": "Pokémon Face",
+    "EggGroups": [
+      "Féerique",
+      "Minéral"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "362"
+  },
+  {
+    "Index": "373-M",
+    "NameEN": "Mega-Salamence",
+    "NameFR": "Méga-Drattak",
+    "Generation": 6,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/mega/373.png",
+    "FullImage": "./img/fullsprite/373-mega.png",
+    "Category": "Pokémon Dragon",
+    "EggGroups": [
+      "Draconique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "373"
+  },
+  {
+    "Index": "376-M",
+    "NameEN": "Mega-Metagross",
+    "NameFR": "Méga-Métalosse",
+    "Generation": 6,
+    "Type1": "steel",
+    "Type2": "psychic",
+    "Image": "./img/mega/376.png",
+    "FullImage": "./img/fullsprite/376-mega.png",
+    "Category": "Pokémon Pattefer",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "376"
+  },
+  {
+    "Index": "380-M",
+    "NameEN": "Mega-Latias",
+    "NameFR": "Méga-Latias",
+    "Generation": 6,
+    "Type1": "dragon",
+    "Type2": "psychic",
+    "Image": "./img/mega/380.png",
+    "FullImage": "./img/fullsprite/380-mega.png",
+    "Category": "Pokémon Éon",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "380"
+  },
+  {
+    "Index": "381-M",
+    "NameEN": "Mega-Latios",
+    "NameFR": "Méga-Latios",
+    "Generation": 6,
+    "Type1": "dragon",
+    "Type2": "psychic",
+    "Image": "./img/mega/381.png",
+    "FullImage": "./img/fullsprite/381-mega.png",
+    "Category": "Pokémon Éon",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "381"
+  },
+  {
+    "Index": "382-P",
+    "NameEN": "Primo-Kyogre",
+    "NameFR": "Primo-Kyogre",
+    "Generation": 6,
+    "Type1": "water",
+    "Type2": null,
+    "Image": "./img/mega/382.png",
+    "FullImage": "./img/fullsprite/382-mega.png",
+    "Category": "Pokémon Bassinmarin",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "382"
+  },
+  {
+    "Index": "383-P",
+    "NameEN": "Primo-Groudon",
+    "NameFR": "Primo-Groudon",
+    "Generation": 6,
+    "Type1": "ground",
+    "Type2": "fire",
+    "Image": "./img/mega/383.png",
+    "FullImage": "./img/fullsprite/383-mega.png",
+    "Category": "Pokémon Continent",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "383"
+  },
+  {
+    "Index": "384-M",
+    "NameEN": "Mega-Rayquaza",
+    "NameFR": "Méga-Rayquaza",
+    "Generation": 6,
+    "Type1": "dragon",
+    "Type2": "flying",
+    "Image": "./img/mega/384.png",
+    "FullImage": "./img/fullsprite/384-mega.png",
+    "Category": "Pokémon Cieux",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "384"
+  },
+  {
+    "Index": "398-M",
+    "NameEN": "Mega-Staraptor",
+    "NameFR": "Méga-Étouraptor",
+    "Generation": 9,
+    "Type1": "normal",
+    "Type2": "flying",
+    "Image": "./img/mega/398.png",
+    "FullImage": "./img/fullsprite/398-mega.png",
+    "Category": "Pokémon Rapace",
+    "EggGroups": [
+      "Aérien"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "398"
+  },
+  {
+    "Index": "428-M",
+    "NameEN": "Mega-Lopunny",
+    "NameFR": "Méga-Lockpin",
+    "Generation": 6,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/mega/428.png",
+    "FullImage": "./img/fullsprite/428-mega.png",
+    "Category": "Pokémon Lapin",
+    "EggGroups": [
+      "Terrestre",
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "428"
+  },
+  {
+    "Index": "445-M",
+    "NameEN": "Mega-Garchomp",
+    "NameFR": "Méga-Carchacrok",
+    "Generation": 6,
+    "Type1": "dragon",
+    "Type2": "ground",
+    "Image": "./img/mega/445.png",
+    "FullImage": "./img/fullsprite/445-mega.png",
+    "Category": "Pokémon Supersonic",
+    "EggGroups": [
+      "Draconique",
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "445"
+  },
+  {
+    "Index": "445-M-Z",
+    "NameEN": "Mega-Garchomp",
+    "NameFR": "Méga-Carchacrok Z",
+    "Generation": 9,
+    "Type1": "dragon",
+    "Type2": "ground",
+    "Image": "./img/mega/445-z.png",
+    "FullImage": "./img/fullsprite/445-mega-z.png",
+    "Category": "Pokémon Supersonic",
+    "EggGroups": [
+      "Draconique",
+      "Monstrueux"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "445"
+  },
+  {
+    "Index": "448-M",
+    "NameEN": "Mega-Lucario",
+    "NameFR": "Méga-Lucario",
+    "Generation": 6,
+    "Type1": "fighting",
+    "Type2": "steel",
+    "Image": "./img/mega/448.png",
+    "FullImage": "./img/fullsprite/448-mega.png",
+    "Category": "Pokémon Aura",
+    "EggGroups": [
+      "Terrestre",
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "448"
+  },
+  {
+    "Index": "448-M-Z",
+    "NameEN": "Mega-Lucario",
+    "NameFR": "Méga-Lucario Z",
+    "Generation": 9,
+    "Type1": "fighting",
+    "Type2": "steel",
+    "Image": "./img/mega/448-z.png",
+    "FullImage": "./img/fullsprite/448-mega-z.png",
+    "Category": "Pokémon Aura",
+    "EggGroups": [
+      "Terrestre",
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "448"
+  },
+  {
+    "Index": "460-M",
+    "NameEN": "Mega-Abomasnow",
+    "NameFR": "Méga-Blizzaroi",
+    "Generation": 6,
+    "Type1": "grass",
+    "Type2": "ice",
+    "Image": "./img/mega/460.png",
+    "FullImage": "./img/fullsprite/460-mega.png",
+    "Category": "Pokémon Arbregelé",
+    "EggGroups": [
+      "Monstrueux",
+      "Végétal"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "460"
+  },
+  {
+    "Index": "475-M",
+    "NameEN": "Mega-Gallade",
+    "NameFR": "Méga-Gallame",
+    "Generation": 6,
+    "Type1": "psychic",
+    "Type2": "fighting",
+    "Image": "./img/mega/475.png",
+    "FullImage": "./img/fullsprite/475-mega.png",
+    "Category": "Pokémon Lame",
+    "EggGroups": [
+      "Amorphe",
+      "Humanoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "475"
+  },
+  {
+    "Index": "478-M",
+    "NameEN": "Mega-Froslass",
+    "NameFR": "Méga-Momartik",
+    "Generation": 9,
+    "Type1": "ice",
+    "Type2": "ghost",
+    "Image": "./img/mega/478.png",
+    "FullImage": "./img/fullsprite/478-mega.png",
+    "Category": "Pokémon Enneigement",
+    "EggGroups": [
+      "Féerique",
+      "Minéral"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "478"
+  },
+  {
+    "Index": "485-M",
+    "NameEN": "Mega-Heatran",
+    "NameFR": "Méga-Heatran",
+    "Generation": 9,
+    "Type1": "fire",
+    "Type2": "steel",
+    "Image": "./img/mega/485.png",
+    "FullImage": "./img/fullsprite/485-mega.png",
+    "Category": "Pokémon Caldeira",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "485"
+  },
+  {
+    "Index": "491-M",
+    "NameEN": "Mega-Darkrai",
+    "NameFR": "Méga-Darkrai",
+    "Generation": 9,
+    "Type1": "dark",
+    "Type2": null,
+    "Image": "./img/mega/491.png",
+    "FullImage": "./img/fullsprite/491-mega.png",
+    "Category": "Pokémon Noirtotal",
+    "EggGroups": [
+      "Inconnu"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "491"
+  },
+  {
+    "Index": "500-M",
+    "NameEN": "Mega-Emboar",
+    "NameFR": "Méga-Roitiflam",
+    "Generation": 9,
+    "Type1": "fire",
+    "Type2": "fighting",
+    "Image": "./img/mega/500.png",
+    "FullImage": "./img/fullsprite/500-mega.png",
+    "Category": "Pokémon Grochon Feu",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "500"
+  },
+  {
+    "Index": "530-M",
+    "NameEN": "Mega-Excadrill",
+    "NameFR": "Méga-Minotaupe",
+    "Generation": 9,
+    "Type1": "ground",
+    "Type2": "steel",
+    "Image": "./img/mega/530.png",
+    "FullImage": "./img/fullsprite/530-mega.png",
+    "Category": "Pokémon Souterrain",
+    "EggGroups": [
+      "Terrestre"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "530"
+  },
+  {
+    "Index": "531-M",
+    "NameEN": "Mega-Audino",
+    "NameFR": "Méga-Nanméouïe",
+    "Generation": 6,
+    "Type1": "normal",
+    "Type2": null,
+    "Image": "./img/mega/531.png",
+    "FullImage": "./img/fullsprite/531-mega.png",
+    "Category": "Pokémon Audition",
+    "EggGroups": [
+      "Féerique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "531"
+  },
+  {
+    "Index": "545-M",
+    "NameEN": "Mega-Scolipede",
+    "NameFR": "Méga-Brutapode",
+    "Generation": 9,
+    "Type1": "bug",
+    "Type2": "poison",
+    "Image": "./img/mega/545.png",
+    "FullImage": "./img/fullsprite/545-mega.png",
+    "Category": "Pokémon Mégaplopode",
+    "EggGroups": [
+      "Insectoïde"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "545"
+  },
+  {
+    "Index": "560-M",
+    "NameEN": "Mega-Scrafty",
+    "NameFR": "Méga-Baggaïd",
+    "Generation": 9,
+    "Type1": "dark",
+    "Type2": "fighting",
+    "Image": "./img/mega/560.png",
+    "FullImage": "./img/fullsprite/560-mega.png",
+    "Category": "Pokémon Gang",
+    "EggGroups": [
+      "Terrestre",
+      "Draconique"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "560"
+  },
+  {
+    "Index": "604-M",
+    "NameEN": "Mega-Eelektross",
+    "NameFR": "Méga-Ohmassacre",
+    "Generation": 9,
+    "Type1": "electric",
+    "Type2": null,
+    "Image": "./img/mega/604.png",
+    "FullImage": "./img/fullsprite/604-mega.png",
+    "Category": "Pokémon Électrophore",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "604"
+  },
+  {
+    "Index": "609-M",
+    "NameEN": "Mega-Chandelure",
+    "NameFR": "Méga-Lugulabre",
+    "Generation": 9,
+    "Type1": "ghost",
+    "Type2": "fire",
+    "Image": "./img/mega/609.png",
+    "FullImage": "./img/fullsprite/609-mega.png",
+    "Category": "Pokémon Invitation",
+    "EggGroups": [
+      "Amorphe"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "609"
+  },
+  {
+    "Index": "623-M",
+    "NameEN": "Mega-Golurk",
+    "NameFR": "Méga-Golemastoc",
+    "Generation": 9,
+    "Type1": "ground",
+    "Type2": "ghost",
+    "Image": "./img/mega/623.png",
+    "FullImage": "./img/fullsprite/623-mega.png",
+    "Category": "Pokémon Golem Ancien",
+    "EggGroups": [
+      "Minéral"
+    ],
+    "pokefeet_data_version": 5,
+    "evolve_from": "623"
+  }
+]

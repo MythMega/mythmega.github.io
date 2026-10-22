@@ -25,10 +25,7 @@ const CustomChallengeGame = (function () {
   async function loadPokemons() {
     if (allPokemons.length) return allPokemons;
     try {
-      const res = await fetch('data/pokemons.json');
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const arr = await res.json();
-      allPokemons = arr.map(function (p) { return new Pokemon(p); });
+      allPokemons = await PokemonFiles.load();
     } catch (e) {
       console.error('[CustomChallengeGame] Error loading pokemons:', e);
       allPokemons = [];

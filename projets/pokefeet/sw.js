@@ -10,7 +10,7 @@
  * Le cache est versionné : incrémenter CACHE_VERSION après une modification
  * importante des fichiers précachés pour forcer le renouvellement.
  */
-const CACHE_VERSION = 'pokefeet-v10';
+const CACHE_VERSION = 'pokefeet-v12';
 const CACHE_NAME = `${CACHE_VERSION}-shell`;
 const OFFLINE_URL = './offline.html';
 const BASE_URL = new URL('./', self.location.href);
@@ -92,6 +92,7 @@ const PRECACHE_URLS = [
   './js/data/data-manager.js',
   './js/data/dex.js',
   './js/data/migration.js',
+  './js/data/pokemon-files.js',
   './js/features/challenges/challenge-game-ui.js',
   './js/features/challenges/challenge-list-ui.js',
   './js/features/challenges/challenge-manager.js',
@@ -126,7 +127,9 @@ const PRECACHE_URLS = [
   './translations/fr.json',
   './translations/en.json',
   './settings/config.json',
-  './data/pokemons.json',
+  './data/monsfiles.json',
+  './data/mons/pokemons.json',
+  './data/mons/mega.json',
   './data/bonus_challenges.json',
   './data/cosmetics.json',
   './data/credits.json',

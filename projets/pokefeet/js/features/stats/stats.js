@@ -113,9 +113,8 @@
 
   async function loadPokemonList() {
     try {
-      const res = await fetch('data/pokemons.json');
-      return await res.json();
-    } catch (e) { console.error('Error loading pokemons.json:', e); return []; }
+      return await PokemonFiles.loadRaw();
+    } catch (e) { console.error('Error loading Pokemon data:', e); return []; }
   }
 
   // ── XP & Level calculation ───────────────────────────────

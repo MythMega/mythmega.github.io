@@ -522,7 +522,7 @@ async function init() {
 
   try {
     const [pokemonsRaw, versionRaw] = await Promise.all([
-      fetch('data/pokemons.json').then(r => r.json()),
+      PokemonFiles.loadRaw(),
       fetch('data/version.json').then(r => r.json()).catch(() => [
         { pokefeet_data_version: 1, deploy_date: null, Update_Name: 'Base' }
       ])
@@ -564,6 +564,7 @@ async function init() {
   }
 }
 </script>
+  <script src="js/data/pokemon-files.js"></script>
   <script src="js/pwa.js"></script>
 </body>
 </html>

@@ -20,6 +20,19 @@
   from { transform: translateX(0); }
   to   { transform: translateX(-100%); }
 }
+/* Animations coupées (html.no-animations) : le défilement s'arrête sur le
+   translateX(-100%) ou revient à padding-left:100%, ce qui poussait le texte
+   hors du bandeau. On affiche alors le message en entier, sur plusieurs lignes. */
+html.no-animations .news-ticker,
+html.no-animations .news-ticker-text {
+  white-space: normal;
+}
+html.no-animations .news-ticker-text {
+  display: block;
+  padding-left: 0;
+  text-align: center;
+  animation: none !important;
+}
 .daily-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:600px; margin:24px auto; }
 .daily-button {
   padding:16px 12px; border-radius:var(--radius-md); border:1px solid transparent;

@@ -320,10 +320,7 @@ const CustomCreateUI = (function () {
 
   async function loadPokemons() {
     try {
-      const res = await fetch('data/pokemons.json');
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const arr = await res.json();
-      pokemons = arr.map(function (p) { return new Pokemon(p); });
+      pokemons = await PokemonFiles.load();
     } catch (e) {
       console.error('[CustomCreateUI] Error loading pokemons:', e);
       pokemons = [];

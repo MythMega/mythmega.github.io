@@ -746,9 +746,8 @@ background:
 }
 
 /* Respect user motion preferences */
-@media (prefers-reduced-motion: reduce){
-  [class^="strat-"] .deco, [class^="strat-"] .deco::before, [class^="strat-"] .deco::after { animation: none !important; }
-}
+/* Les animations des thèmes suivent le switch Animations du jeu (html.no-animations)
+   et non le réglage système, qui les figeait pour tous les joueurs concernés. */
 
 
 
@@ -1046,6 +1045,21 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
   100% { transform: translateY(-70px) scale(0.6); opacity: 0; }
 }
 
+
+/* --- Lisibilité garantie des boutons thématiques --- */
+/* Quel que soit le thème choisi (et donc le fond), le libellé reste blanc avec
+   un contour noir marqué : lisible sur les dégradés clairs (Pride, Orange)
+   comme sur les fonds sombres (Neon, Bloody Controls). Le marqueur
+   .has-button-theme est posé par Cosmetics.applyButtonTheme(). */
+[data-tag="customizables-button"].has-button-theme {
+  color: #fff !important;
+  -webkit-text-stroke: 0.6px #000;
+  paint-order: stroke fill;
+  text-shadow:
+    1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000,
+    1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000,
+    0 0 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.65) !important;
+}
 
 /* --- Thèmes de fond Bidoof God --- */
 

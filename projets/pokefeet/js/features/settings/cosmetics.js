@@ -88,11 +88,15 @@ const Cosmetics = (function () {
                 button.classList.remove(c.Value);
             }
         }
+        // Marqueur de lisibilité : le CSS force alors un texte blanc avec un
+        // contour noir, quel que soit le thème et donc le fond du bouton.
+        button.classList.remove('has-button-theme');
         if (!btnVal) return;
         for (var m = 0; m < cosmeticsData.length; m++) {
             var selected = cosmeticsData[m];
             if (selected.Type === 'Background-Buttons' && selected.Value === btnVal) {
                 button.classList.add(selected.Value);
+                button.classList.add('has-button-theme');
                 break;
             }
         }

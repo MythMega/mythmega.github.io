@@ -30,7 +30,9 @@
   z-index: 1;
 }
 /* Skeleton shimmer on image while loading */
-.pokemon-image.img-loading {
+.pokemon-image.img-loading,
+.pokemon-image.is-loading-sprites,
+.image-container.is-loading-sprites {
   background: linear-gradient(90deg,
     rgba(255,255,255,0.03) 25%,
     rgba(255,255,255,0.08) 50%,
@@ -38,7 +40,24 @@
   background-size: 200% 100%;
   animation: shimmer 1.6s linear infinite;
 }
-.pokemon-image.img-loading::after { display:none; }
+.pokemon-image.img-loading::after,
+.pokemon-image.is-loading-sprites::after,
+.image-container.is-loading-sprites::after { display:none; }
+
+/* Préchargement des sprites avant le démarrage d'une partie (js/ui/preload.js) */
+.sprite-loading-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  pointer-events: none;
+  z-index: 3;
+}
 
 /* --- Generic skeleton shimmer --- */
 .skeleton {

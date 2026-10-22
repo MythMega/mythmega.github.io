@@ -10,7 +10,7 @@
  * Le cache est versionné : incrémenter CACHE_VERSION après une modification
  * importante des fichiers précachés pour forcer le renouvellement.
  */
-const CACHE_VERSION = 'pokefeet-v8';
+const CACHE_VERSION = 'pokefeet-v9';
 const CACHE_NAME = `${CACHE_VERSION}-shell`;
 const OFFLINE_URL = './offline.html';
 const BASE_URL = new URL('./', self.location.href);
@@ -118,6 +118,7 @@ const PRECACHE_URLS = [
   './js/ui/footer.js',
   './js/ui/fx.js',
   './js/ui/loader.js',
+  './js/ui/preload.js',
   './js/ui/rotate3d.js',
   './js/ui/transitions.js',
   './js/ui/zoom.js',

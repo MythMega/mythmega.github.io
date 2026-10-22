@@ -70,9 +70,7 @@ const ChallengeManager = (function () {
     // Charger les Pokémon
     async function loadPokemons() {
         try {
-            const res = await fetch('data/pokemons.json');
-            const arr = await res.json();
-            allPokemons = arr.map(p => new Pokemon(p));
+            allPokemons = await PokemonFiles.load();
             console.log('[ChallengeManager] Loaded', allPokemons.length, 'Pokemon');
         } catch (e) {
             console.error('[ChallengeManager] Error loading Pokemon:', e);
@@ -131,10 +129,9 @@ const ChallengeManager = (function () {
 
     async function loadPokemonList() {
         try {
-            const res = await fetch('data/pokemons.json');
-            return await res.json();
+            return await PokemonFiles.loadRaw();
         } catch (e) {
-            console.error('Error loading pokemons.json:', e);
+            console.error('Error loading Pokemon data:', e);
             return [];
         }
     }

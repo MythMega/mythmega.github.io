@@ -4,6 +4,7 @@
     "hints": "Indices",
     "score": "Score",
     "loading": "Chargement...",
+    "loadingSprites": "Chargement des sprites...",
     "close": "Fermer",
     "zoom": "Agrandir l'image"
   },
@@ -59,6 +60,7 @@
     "continue": "Continuer",
     "fullSprite": "Sprite complet",
     "footSprite": "Pied",
+    "viewPokemonInfo": "Voir les infos de {name}",
     "hintShown": "-2 points (indice affiché)",
     "failRevealed": "Échec — Pokémon révélé",
     "skipRevealed": "Passé — Pokémon révélé",

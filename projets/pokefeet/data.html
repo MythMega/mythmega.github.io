@@ -229,7 +229,7 @@
     </div>
 
     <div id="dvRealDataNotice" style="display:none;margin:6px 0 -4px;padding:5px 14px;background:#78350f;color:#fde68a;font-size:12px;font-weight:600;border-radius:6px;text-align:center;">
-      ⚠️ Affichage des données de production (pokemons.json) — pokemons_wip.json introuvable
+      ⚠️ Affichage des données de production (data/mons/*.json) — pokemons_wip.json introuvable
     </div>
 
     <div class="dv-table-wrap">
@@ -246,6 +246,7 @@
   <script src="js/i18n/language-switcher.js"></script>
   <script src="js/ui/footer.js"></script>
   <script src="js/i18n/setup.js"></script>
+  <script src="js/data/pokemon-files.js"></script>
   <script src="js/features/settings/cosmetics.js"></script>
   <script>
   (function () {
@@ -464,18 +465,16 @@
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         allData = await res.json();
       } catch (e) {
-        // Fallback to production data
-        console.warn('[DataViewer] pokemons_wip.json indisponible, fallback sur pokemons.json', e);
+        // Fallback sur les données de production (tous les fichiers mons)
+        console.warn('[DataViewer] pokemons_wip.json indisponible, fallback sur data/mons/*.json', e);
         try {
-          const res = await fetch('./data/pokemons.json');
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          allData = await res.json();
+          allData = await PokemonFiles.loadRaw();
           document.getElementById('dvRealDataNotice').style.display = 'block';
         } catch (e2) {
-          console.error('[DataViewer] Failed to load pokemons.json', e2);
+          console.error('[DataViewer] Failed to load Pokemon data', e2);
           document.getElementById('dvBody').innerHTML =
             `<tr><td colspan="${COLS.length}" class="dv-empty" style="color:#f87171">
-              ⚠ Impossible de charger les données (pokemons_wip.json et pokemons.json)
+              ⚠ Impossible de charger les données (pokemons_wip.json et data/mons/*.json)
             </td></tr>`;
           return;
         }

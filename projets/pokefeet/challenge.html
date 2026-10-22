@@ -96,6 +96,7 @@
   </div>
 
   <script src="js/core/pokemon.js"></script>
+  <script src="js/data/pokemon-files.js"></script>
   <script src="js/core/pokemon-versions.js"></script>
   <script src="js/data/dex.js"></script>
   <script src="js/core/challenge.js"></script>
@@ -103,6 +104,7 @@
   <script src="js/features/challenges/challenge-manager.js"></script>
   <script src="js/ui/fx.js"></script>
   <script src="js/ui/transitions.js"></script>
+  <script src="js/ui/preload.js"></script>
   <script src="js/ui/zoom.js"></script>
   <script src="js/data/config.js"></script>
   <script src="js/ui/rotate3d.js"></script>
@@ -221,7 +223,7 @@
 
         // Initialiser l'UI de jeu
         if (typeof ChallengeGameUI !== 'undefined') {
-          ChallengeGameUI.init();
+          await ChallengeGameUI.init();
         }
       } else if (statut === 'playing' && (!canPlay || !isAvailable)) {
         // Rediriger vers view si on ne peut pas jouer

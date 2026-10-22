@@ -136,9 +136,7 @@ const Dex = (function () {
   async function loadPokemons() {
     console.log('[Dex] Loading Pokemon data');
     try {
-      const res = await fetch('data/pokemons.json');
-      const arr = await res.json();
-      allPokemons = arr.map(p => new Pokemon(p));
+      allPokemons = await PokemonFiles.load();
       console.log('[Dex] Loaded', allPokemons.length, 'Pokemon');
     } catch (e) {
       console.error('[Dex] Error loading Pokemon data:', e);

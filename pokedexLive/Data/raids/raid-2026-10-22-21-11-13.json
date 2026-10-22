@@ -1,0 +1,162 @@
+{
+  "bossName": "Viskuse",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Frillish_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Frillish_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 55000,
+  "date": "2026-10-22 21:11:13",
+  "durationSec": 2438,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 41250,
+      "countAtk": 3,
+      "baseDmg": 43346,
+      "level": 20,
+      "raidCount": 1144,
+      "luck": 0.31721497
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 13750,
+      "countAtk": 1,
+      "baseDmg": 15227,
+      "level": 18,
+      "raidCount": 523,
+      "luck": 0.90300125
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 323,
+      "countAtk": 1,
+      "baseDmg": 323,
+      "level": 4,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 55000
+    },
+    {
+      "platform": "youtube",
+      "damage": 323
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-22 21:22:17",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 41250,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 21:23:45",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 323,
+      "pvAfter": 40927,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 21:37:49",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 27177,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-22 21:44:58",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 13427,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-10-22 21:51:51",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    }
+  ]
+}

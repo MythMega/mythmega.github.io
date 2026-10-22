@@ -542,7 +542,7 @@ if (swSource) {
         'settings/config.json',
         'translations/fr.json',
         'translations/en.json',
-        'data/pokemons.json'
+        'data/monsfiles.json'
       ]) {
         if (!relativeEntries.has(relative)) report(swPath, `fichier critique absent du précache : ${relative}`);
       }

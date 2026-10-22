@@ -12,6 +12,15 @@ const Game = (function () {
   const basePoints = 10;
   const hintPenalty = 2; // chaque indice retire 2 points
   const maxAttempts = 5;
+  // Fenêtre de préchargement adaptative : 4 manches au départ, puis +1 toutes
+  // les 3 s passées sur la manche en cours (12 maximum). Le buffer se remplit
+  // pendant que le joueur réfléchit, ce qui rend chaque transition instantanée
+  // même quand le réseau est lent.
+  const preloadAheadStart = 4;
+  const preloadAheadMax = 12;
+  const preloadGrowDelayMs = 3000;
+  let preloadAhead = preloadAheadStart;
+  let preloadGrowTimer = null;
   const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
   const sha256hex = async (str) => {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
@@ -117,6 +126,7 @@ const Game = (function () {
   // ── Victory screen (end of pool) ─────────────────────────
   function showVictoryScreen() {
     gameActive = false;
+    stopPreloadGrowth();
     markSessionFinished();
     const screen = document.getElementById('gameOverScreen');
     if (!screen) return;
@@ -183,16 +193,14 @@ const Game = (function () {
 
   // démarrer une partie / charger les données
   async function init() {
-    // charge le JSON embarqué (on peut remplacer par fetch si placé en fichier séparé)
-    // Exemple minimal intégré ici : si vous avez un fichier data/pokemons.json, utilisez fetch.
+    // charge tous les fichiers Pokémon listés dans data/monsfiles.json
     try {
-      const [pokemonsRes] = await Promise.all([
-        fetch('data/pokemons.json'),
+      const [, , list] = await Promise.all([
         TypeIcons.load(),
-        PokemonVersions.load()
+        PokemonVersions.load(),
+        PokemonFiles.load()
       ]);
-      const arr = await pokemonsRes.json();
-      pokemons = arr.map(p => new Pokemon(p));
+      pokemons = list;
       // Pool de jeu limité aux Pokémon disponibles aujourd'hui
       const today = new Date();
       const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -253,6 +261,12 @@ const Game = (function () {
       sessionStartedAt   = new Date().toISOString();
       foundCount = 0; score = 0; streak = 0; perfectCount = 0; totalFails = 0;
       saveSession();
+    }
+
+    // Sprites (pied + complet) des premières manches chargés avant l'affichage :
+    // les transitions ne se jouent plus sur une image encore vide.
+    if (typeof PokefeetPreload !== 'undefined') {
+      await PokefeetPreload.prepareGame(PossiblePokemons.slice(0, preloadAhead));
     }
 
     updateProgressBar();
@@ -420,6 +434,37 @@ const Game = (function () {
     UI.clearInput();
   }
 
+  // ── Buffer de sprites ─────────────────────────────────────
+  function bufferedPokemons() {
+    return [current].concat(PossiblePokemons.slice(0, preloadAhead));
+  }
+
+  function refreshSpriteBuffer() {
+    if (typeof PokefeetPreload === 'undefined') return;
+    PokefeetPreload.preloadPokemons(bufferedPokemons());
+  }
+
+  function stopPreloadGrowth() {
+    if (!preloadGrowTimer) return;
+    clearInterval(preloadGrowTimer);
+    preloadGrowTimer = null;
+  }
+
+  // Élargit la fenêtre tant que la manche est en cours, sans jamais dépasser
+  // le plafond (les URLs déjà chargées ne sont pas redemandées).
+  function startPreloadGrowth() {
+    stopPreloadGrowth();
+    if (typeof PokefeetPreload === 'undefined') return;
+    preloadGrowTimer = setInterval(function () {
+      if (preloadAhead >= preloadAheadMax) {
+        stopPreloadGrowth();
+        return;
+      }
+      preloadAhead += 1;
+      refreshSpriteBuffer();
+    }, preloadGrowDelayMs);
+  }
+
   function next() {
     if (PossiblePokemons.length === 0) {
       saveBestIfNeeded();
@@ -429,6 +474,10 @@ const Game = (function () {
     current = PossiblePokemons.shift();
     resetGameStateForNewPokemon();
     UI.showPokemonImage(current ? current.Image : '');
+    // Buffer : les manches suivantes (et le sprite complet du Pokémon courant,
+    // affiché à la révélation) se chargent pendant que le joueur cherche.
+    refreshSpriteBuffer();
+    startPreloadGrowth();
     UI.enableInput(true);
     UI.setSubmitEnabled(true);
     UI.enableSuivantBtn(false);
@@ -612,6 +661,7 @@ const Game = (function () {
 
   function showGameOverScreen(pokemon, wasAbandon) {
     gameActive = false;
+    stopPreloadGrowth();
     const screen = document.getElementById('gameOverScreen');
     if (!screen) return;
     const titleEl = document.getElementById('gameOverTitle');

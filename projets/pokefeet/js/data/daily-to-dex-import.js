@@ -11,12 +11,11 @@ const DailyToDexImport = (function () {
   async function loadPokemons() {
     console.log('[Import] Loading Pokemon data');
     try {
-      const [res] = await Promise.all([
-        fetch('data/pokemons.json'),
-        PokemonVersions.load()
+      const [, list] = await Promise.all([
+        PokemonVersions.load(),
+        PokemonFiles.load()
       ]);
-      const arr = await res.json();
-      allPokemons = arr.map(p => new Pokemon(p));
+      allPokemons = list;
       console.log('[Import] Loaded', allPokemons.length, 'Pokemon');
     } catch (e) {
       console.error('[Import] Error loading Pokemon data:', e);

@@ -7,7 +7,7 @@ const ChallengeGameUI = (function () {
     let wrongGuesses = [];
     let busy = false;
 
-    function init() {
+    async function init() {
         currentChallenge = ChallengeManager.getCurrentChallenge();
         if (!currentChallenge) {
             console.error('[ChallengeGameUI] No active challenge');
@@ -23,6 +23,17 @@ const ChallengeGameUI = (function () {
         attempts = 0;
         wrongGuesses = [];
         busy = false;
+
+        // Sprites (pied + complet) chargés avant la première manche : les
+        // transitions ne se jouent plus sur une image encore vide.
+        if (typeof PokefeetPreload !== 'undefined') {
+            const ids = currentChallenge.shuffledFeetList || currentChallenge.FeetList || [];
+            const list = ids.map(function (index) {
+                return ChallengeManager.allPokemons.find(function (p) { return p.Index == index; });
+            }).filter(Boolean);
+            await PokefeetPreload.prepareGame(list);
+        }
+
         renderGame();
         bindEvents();
     }

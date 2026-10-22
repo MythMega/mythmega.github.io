@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <base href="../" />
+  <title>Pokefeet — test lisibilité des boutons thématiques</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
+  <style>
+    body { background:#060c18; color:#e7eef9; font-family:system-ui, sans-serif; padding:20px; }
+    #themedBtn { color:#042014; background:#16a34a; }
+    #inlineBtn { color:#00ff00; }
+    pre { background:#0b1424; border:1px solid #22314a; border-radius:10px; padding:14px; white-space:pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Test lisibilité des boutons thématiques</h1>
+  <p>Chaque thème de bouton doit donner un texte blanc avec un contour noir, quel que soit le fond.</p>
+
+  <button id="themedBtn" data-tag="customizables-button">Valider</button>
+  <button id="plainBtn" data-tag="customizables-button">Sans thème</button>
+  <button id="inlineBtn" data-tag="customizables-button" style="color:#00ff00">Couleur imposée</button>
+
+  <pre id="test-result">En cours…</pre>
+
+  <script>
+    // Doublure minimale : le test porte sur le CSS des cosmétiques, pas sur i18n.
+    window.Translator = {
+      get: function (_key, fallback) { return fallback === undefined ? _key : fallback; },
+      getLanguage: function () { return 'fr'; }
+    };
+  </script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script>
+  (async function () {
+    'use strict';
+
+    const checks = [];
+    function check(name, ok, detail) {
+      checks.push({ name: name, ok: !!ok, detail: ok ? null : (detail || null) });
+    }
+    function style(el) { return getComputedStyle(el); }
+    function blackShadowLayers(cs) {
+      return (cs.textShadow.match(/rgb\(0,\s*0,\s*0\)/g) || []).length;
+    }
+    function strokeWidth(cs) {
+      return parseFloat(cs.getPropertyValue('-webkit-text-stroke-width')) || 0;
+    }
+    function nextFrame() {
+      return new Promise(function (resolve) { requestAnimationFrame(function () { resolve(); }); });
+    }
+
+    function report(error) {
+      const failed = checks.filter(function (c) { return !c.ok; });
+      if (error) check('exécution du test', false, error && error.stack ? error.stack : String(error));
+      const passed = checks.filter(function (c) { return c.ok; }).length;
+      const lines = checks.map(function (c) {
+        return (c.ok ? '✔ ' : '✖ ') + c.name + (c.ok || !c.detail ? '' : ' — ' + c.detail);
+      });
+      const summary = (error ? 'ERREUR' : (failed.length === 0 ? 'PASS' : 'FAIL')) +
+        ' — ' + passed + '/' + checks.length + ' vérifications';
+      document.getElementById('test-result').textContent = lines.join('\n') + '\n\n' + summary;
+      document.title = 'TEST:' + (failed.length === 0 && !error ? 'PASS' : 'FAIL');
+      window.__TEST_RESULT__ = {
+        pass: failed.length === 0 && !error,
+        summary: summary,
+        checks: checks,
+        error: error ? String(error && error.stack ? error.stack : error) : null,
+        consoleErrors: []
+      };
+    }
+
+    try {
+      await Cosmetics.load();
+
+      const themedBtn = document.getElementById('themedBtn');
+      const plainBtn = document.getElementById('plainBtn');
+      const inlineBtn = document.getElementById('inlineBtn');
+      const themes = Cosmetics.getByType('Background-Buttons');
+
+      check('au moins un thème de bouton est disponible', themes.length > 0, String(themes.length));
+      check('bouton sans thème : aucun marqueur au départ', !plainBtn.classList.contains('has-button-theme'));
+      check('bouton sans thème : couleur d’origine conservée', style(plainBtn).color !== 'rgb(255, 255, 255)', style(plainBtn).color);
+
+      for (const cosmetic of themes) {
+        Cosmetics.select('Background-Buttons', cosmetic.Value);
+        await nextFrame();
+        const cs = style(themedBtn);
+        check(`thème ${cosmetic.Value} : marqueur posé`, themedBtn.classList.contains('has-button-theme'));
+        check(`thème ${cosmetic.Value} : texte blanc`, cs.color === 'rgb(255, 255, 255)', cs.color);
+        check(`thème ${cosmetic.Value} : contour noir`, blackShadowLayers(cs) >= 8, cs.textShadow);
+        check(`thème ${cosmetic.Value} : trait de contour actif`, strokeWidth(cs) > 0, cs.getPropertyValue('-webkit-text-stroke'));
+        check(`thème ${cosmetic.Value} : couleur inline dominée`, style(inlineBtn).color === 'rgb(255, 255, 255)', style(inlineBtn).color);
+      }
+
+      Cosmetics.select('Background-Buttons', themes[0].Value);
+      await nextFrame();
+      const allTagged = Array.prototype.every.call(
+        document.querySelectorAll('[data-tag="customizables-button"]'),
+        function (button) { return button.classList.contains('has-button-theme'); }
+      );
+      check('tous les boutons data-tag reçoivent le marqueur', allTagged);
+
+      Cosmetics.select('Background-Buttons', 'default');
+      await nextFrame();
+      check('retour au défaut : marqueur retiré', !themedBtn.classList.contains('has-button-theme'));
+      check('retour au défaut : couleur d’origine restaurée', style(themedBtn).color === 'rgb(4, 32, 20)', style(themedBtn).color);
+      check('retour au défaut : aucun contour résiduel', style(themedBtn).textShadow === 'none', style(themedBtn).textShadow);
+      check('retour au défaut : aucune classe de thème', !themes.some(function (c) {
+        return themedBtn.classList.contains(c.Value);
+      }));
+    } catch (error) {
+      report(error);
+      return;
+    }
+
+    report(null);
+  })();
+  </script>
+</body>
+</html>

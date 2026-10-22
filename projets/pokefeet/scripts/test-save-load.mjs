@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 /**
- * Test navigateur de la sauvegarde / du chargement Pokefeet.
+ * Tests navigateur Pokefeet.
  *
- * Lance un serveur statique local, ouvre tests/save-load.html dans Chrome
- * (headless) via le protocole DevTools, attend le résultat des assertions
- * puis renvoie un code de sortie non nul en cas d'échec.
+ * Lance un serveur statique local puis ouvre chaque page de TEST_PAGES dans
+ * Chrome (headless) via le protocole DevTools :
+ *  - tests/save-load.html : sauvegarde / chargement des données ;
+ *  - tests/button-theme.html : lisibilité de chaque thème de bouton.
+ * Attend le résultat des assertions et renvoie un code de sortie non nul en
+ * cas d'échec.
  *
  * Aucune dépendance npm. CHROME_PATH permet de forcer le chemin du navigateur.
  *
@@ -19,7 +22,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const TEST_PAGE = '/tests/save-load.html';
+const TEST_PAGES = [
+  '/tests/save-load.html',
+  '/tests/button-theme.html'
+];
 const TIMEOUT_MS = 90000;
 
 const MIME = {
@@ -189,7 +195,7 @@ async function waitForTestResult(cdp) {
   throw new Error('le banc de test n’a pas publié de résultat');
 }
 
-async function main() {
+async function runPage(testPage) {
   const chrome = findChrome();
   if (!chrome) {
     console.warn('⚠ Chrome introuvable — test navigateur ignoré (définir CHROME_PATH pour l’activer).');
@@ -198,7 +204,7 @@ async function main() {
 
   const { server, port } = await startServer();
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'pokefeet-test-'));
-  const targetUrl = `http://127.0.0.1:${port}${TEST_PAGE}`;
+  const targetUrl = `http://127.0.0.1:${port}${testPage}`;
   let browser = null;
   let cdp = null;
   let exitCode = 1;
@@ -237,7 +243,7 @@ async function main() {
     while (!pageTarget && Date.now() < deadline) {
       const response = await fetch(`http://127.0.0.1:${devtoolsPort}/json/list`);
       const targets = await response.json();
-      pageTarget = targets.find((target) => target.type === 'page' && target.url.includes(TEST_PAGE))
+      pageTarget = targets.find((target) => target.type === 'page' && target.url.includes(testPage))
         || targets.find((target) => target.type === 'page');
       if (!pageTarget) await new Promise((resolve) => setTimeout(resolve, 150));
     }
@@ -264,7 +270,7 @@ async function main() {
     console.log(`\n${result.pass ? '✔' : '✖'} ${result.summary}`);
     exitCode = result.pass ? 0 : 1;
   } catch (error) {
-    console.error(`✖ Test sauvegarde/chargement : ${error.message}`);
+    console.error(`✖ Test navigateur ${testPage} : ${error.message}`);
     exitCode = 1;
   } finally {
     cdp?.close();
@@ -284,6 +290,15 @@ async function main() {
     fs.rmSync(profile, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
   }
 
+  return exitCode;
+}
+
+async function main() {
+  let exitCode = 0;
+  for (const page of TEST_PAGES) {
+    const code = await runPage(page);
+    if (code !== 0) exitCode = code;
+  }
   return exitCode;
 }
 

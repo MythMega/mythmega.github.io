@@ -55,3 +55,29 @@
 
 .daily-full-images img { max-height:64px; border-radius:6px; background: rgba(255,255,255,0.02); padding:4px; }
 
+/* Sprites cliquables du résumé : ils ouvrent la popup d'infos du Pokémon.
+   Bordure/glow au survol pour signaler l'interaction, sans couleur de bouton standard. */
+.daily-full-images .daily-full-img-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  line-height: 0;
+  transition: transform 150ms ease, background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+.daily-full-images .daily-full-img-btn:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(34,197,94,0.45);
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.15), 0 6px 16px rgba(0,0,0,0.35);
+  filter: none;
+  transform: translateY(-2px);
+}
+.daily-full-images .daily-full-img-btn:active { transform: scale(0.96); box-shadow: none; }
+.daily-full-images .daily-full-img-btn:focus-visible { outline: 2px solid var(--accent-bright, #4ade80); outline-offset: 2px; }
+.daily-full-images .daily-full-img-btn img { display: block; }
+

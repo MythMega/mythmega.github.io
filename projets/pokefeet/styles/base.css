@@ -216,12 +216,29 @@ p { line-height: 1.55; }
   .center-card, .center-card-history { border-radius:18px; }
 }
 
+/* --- Couches décoratives des thèmes --- */
+/* Les thèmes (bulles, étoiles, néons, nuages) dessinent leurs effets dans ces
+   éléments. Sans position, ils mesuraient 0 px et les bulles de JMDEV's Ocean
+   s'ancraient au bas du document : invisibles tant qu'on n'avait pas défilé
+   jusqu'en bas. Une couche fixe couvrant la fenêtre les ramène à l'écran. */
+.deco,
+.deco-secondary {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  /* z-index:0 : au-dessus du fond du body (un z-index négatif passait derrière
+     les dégradés de thème), mais sous les éléments positionnés (modales, etc.). */
+  z-index: 0;
+}
+
 /* --- Mouvement réduit --- */
+/* Le réglage système ne coupe que les transitions. Les animations de thème et
+   le bandeau d'actualités restent pilotés par le switch Animations du jeu
+   (html.no-animations) : sinon les thèmes choisis devenaient entièrement
+   statiques et le bandeau se retrouvait hors de sa zone visible. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
   *, *::before, *::after {
-    animation-duration:0.01ms !important;
-    animation-iteration-count:1 !important;
     transition-duration:0.01ms !important;
   }
 }

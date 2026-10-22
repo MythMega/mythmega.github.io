@@ -937,6 +937,11 @@ const Weekly = (function () {
     results = [];
     wrongGuessesPerSlot = Array.from({ length: COUNT }, () => []);
     populateNamesList();
+    // Sprites (pied + complet) chargés avant la première manche : les transitions
+    // ne se jouent plus sur une image encore vide.
+    if (typeof PokefeetPreload !== 'undefined') {
+      await PokefeetPreload.prepareGame(weeklyList);
+    }
     showCurrent();
     updateProgressUI();
     updateAttemptGauge();

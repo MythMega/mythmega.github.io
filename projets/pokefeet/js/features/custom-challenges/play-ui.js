@@ -10,6 +10,7 @@ const CustomPlayUI = (function () {
   let challengeInfo = null;
   let currentCode = null;
   let hintCount = 0;      // nombre d'indices déjà affichés sur le Pokémon courant
+  let starting = false;   // évite deux démarrages pendant le préchargement
 
   const $ = function (id) { return document.getElementById(id); };
 
@@ -146,15 +147,34 @@ const CustomPlayUI = (function () {
   }
 // ═══════════════ Jeu ═══════════════
 
-  function startGame() {
-    CustomChallengeGame.start({
-      author: challengeInfo.author,
-      name: challengeInfo.name,
-      random: challengeInfo.random,
-      pokemons: challengeInfo.pokemons
-    });
-    renderGame();
-    showView('gameView');
+  async function startGame() {
+    if (starting) return;
+    starting = true;
+    try {
+      CustomChallengeGame.start({
+        author: challengeInfo.author,
+        name: challengeInfo.name,
+        random: challengeInfo.random,
+        pokemons: challengeInfo.pokemons
+      });
+      showView('gameView');
+      // Rejouer : on efface tout de suite la manche précédente pour que le
+      // chargement ne l'affiche pas.
+      $('playInput').value = '';
+      $('playHints').innerHTML = '';
+      $('playFailedAttempts').classList.add('hidden');
+      $('playFailedAttempts').textContent = '';
+      const playImg = $('playImg');
+      if (playImg) playImg.removeAttribute('src');
+      // Sprites (pied + complet) chargés avant la première manche : les
+      // transitions ne se jouent plus sur une image encore vide.
+      if (typeof PokefeetPreload !== 'undefined') {
+        await PokefeetPreload.prepareGame(CustomChallengeGame.getOrder());
+      }
+      renderGame();
+    } finally {
+      starting = false;
+    }
   }
 
   function renderFailedDisplay() {

@@ -10,7 +10,7 @@
  * Le cache est versionné : incrémenter CACHE_VERSION après une modification
  * importante des fichiers précachés pour forcer le renouvellement.
  */
-const CACHE_VERSION = 'pokefeet-v9';
+const CACHE_VERSION = 'pokefeet-v10';
 const CACHE_NAME = `${CACHE_VERSION}-shell`;
 const OFFLINE_URL = './offline.html';
 const BASE_URL = new URL('./', self.location.href);

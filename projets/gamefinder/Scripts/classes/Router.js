@@ -59,21 +59,27 @@ class Router {
    * @returns {{type: string, params: Object}}
    */
   static parse(params) {
-    if (params.has('game'))        return { type: 'game',       params: { id: Number(params.get('game')) } };
-    if (params.has('developer'))   return { type: 'developer',  params: { id: Number(params.get('developer')) } };
-    if (params.has('franchise'))   return { type: 'franchise',  params: { id: Number(params.get('franchise')) } };
-    if (params.has('genre'))       return { type: 'genre',      params: { id: Number(params.get('genre')) } };
-    if (params.has('platform'))    return { type: 'platform',   params: { id: Number(params.get('platform')) } };
-    if (params.has('theme'))       return { type: 'theme',      params: { id: Number(params.get('theme')) } };
-    if (params.has('list'))        return { type: 'list',       params: { listType: params.get('list'), page: Number(params.get('page') || 1) } };
+    if (params.has('game'))        return { type: 'game',       params: { id: Router._id(params.get('game')) } };
+    if (params.has('developer'))   return { type: 'developer',  params: { id: Router._id(params.get('developer')) } };
+    if (params.has('franchise'))   return { type: 'franchise',  params: { id: Router._id(params.get('franchise')) } };
+    if (params.has('genre'))       return { type: 'genre',      params: { id: Router._id(params.get('genre')) } };
+    if (params.has('platform'))    return { type: 'platform',   params: { id: Router._id(params.get('platform')) } };
+    if (params.has('theme'))       return { type: 'theme',      params: { id: Router._id(params.get('theme')) } };
+    if (params.has('list'))        return {
+      type: 'list',
+      params: {
+        listType: params.get('list'),
+        page: Router._positiveInt(params.get('page'), 1),
+      },
+    };
     if (params.has('roulette'))    return {
       type: 'roulette',
       params: {
         settings: params.get('roulette'),
         ids: params.get('ids')
-          ? params.get('ids').split(',').map(Number).filter(n => !isNaN(n) && n > 0)
+          ? params.get('ids').split(',').map(Number).filter(n => Number.isInteger(n) && n > 0)
           : [],
-        idx: Math.max(0, Number(params.get('idx') || 0)),
+        idx: Math.max(0, Router._positiveInt(params.get('idx'), 0)),
       },
     };
     if (params.get('state') === 'filters') return {
@@ -83,6 +89,29 @@ class Router {
     if (params.get('state') === 'settings') return { type: 'settings', params: {} };
     if (params.get('state') === 'profile')  return { type: 'profile',  params: {} };
     return { type: 'home', params: {} };
+  }
+
+  /**
+   * Convertit un identifiant d'URL en entier fini (0 si invalide).
+   * @param {string|null} value
+   * @returns {number}
+   */
+  static _id(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? Math.trunc(n) : 0;
+  }
+
+  /**
+   * Convertit une valeur d'URL en entier positif borné.
+   * Évite NaN / offsets négatifs injectés via l'URL.
+   * @param {string|null} value
+   * @param {number} fallback
+   * @returns {number}
+   */
+  static _positiveInt(value, fallback) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return fallback;
+    return Math.max(0, Math.floor(n));
   }
 
   _handlePop() {

@@ -23,6 +23,7 @@ class DeveloperDetailUI {
     }
 
     const { dev, games } = result;
+    const totalGames = result.totalGames ?? games.length;
 
     const logoHTML = dev.logo_url
       ? `<div class="entity-logo-wrapper"><img class="entity-logo-img" src="${this._esc(dev.logo_url)}" alt="${this._esc(dev.name)}" /></div>`
@@ -50,7 +51,7 @@ class DeveloperDetailUI {
             </div>
             <div class="game-meta-row">
               <span class="game-meta-label">Jeux développés</span>
-              <span class="game-meta-value">${games.length}</span>
+              <span class="game-meta-value">${totalGames}</span>
             </div>
             ${dev.url ? `<div class="game-meta-row">
               <span class="game-meta-label">Lien IGDB</span>
@@ -60,7 +61,7 @@ class DeveloperDetailUI {
         </div>
         <hr class="neon-divider" />
         <div class="game-section reveal">
-          <div class="game-section-title">Jeux</div>
+          <div class="game-section-title">Jeux${totalGames > games.length ? ` — ${games.length} plus récents sur ${totalGames}` : ''}</div>
           <div class="list-grid">${gamesHTML}</div>
         </div>
       </div>

@@ -114,7 +114,7 @@ class RouletteUI {
     ).join('');
 
     const videosHTML = game.videos.slice(0, 3).map(v =>
-      `<iframe class="yt-embed" src="https://www.youtube.com/embed/${this._esc(v.youtube_id)}" title="YouTube video" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`
+      `<iframe class="yt-embed" loading="lazy" src="https://www.youtube.com/embed/${this._esc(v.youtube_id)}" title="YouTube video" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`
     ).join('');
 
     const summaryBlock   = this._truncated(game.summary,   100, 'block-summary');
@@ -131,13 +131,13 @@ class RouletteUI {
             ⇦ Filtres
           </button>
           ${prevUrl ? `<button class="btn-neon" id="btn-prev">← Précédent</button>` : ''}
-          ${game.url ? `<a id="btn-igdb" class="btn-neon purple" href="${this._esc(game.url)}" target="_blank" rel="noopener">IGDB ↗</a>` : ''}
+          ${game.url ? `<a id="btn-igdb" class="btn-neon jade" href="${this._esc(game.url)}" target="_blank" rel="noopener">IGDB ↗</a>` : ''}
           <button class="btn-neon green" id="btn-detail">Fiche détail ↗</button>
           <button class="btn-neon" id="btn-todo">⏳ À faire…</button>
-          <button class="btn-neon magenta" id="btn-hidden">⏳ Masquer…</button>
+          <button class="btn-neon silver" id="btn-hidden">⏳ Masquer…</button>
           ${nextUrl
-            ? `<button class="btn-neon magenta" id="btn-next">Suivant →</button>`
-            : `<button class="btn-neon magenta" id="btn-end-list">Fin de liste ⚑</button>`}
+            ? `<button class="btn-neon silver" id="btn-next">Suivant →</button>`
+            : `<button class="btn-neon silver" id="btn-end-list">Fin de liste ⚑</button>`}
         </div>
 
         <!-- Barre de progression -->
@@ -360,8 +360,8 @@ class RouletteUI {
         </p>
         <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
           <button class="btn-neon" id="btn-new-blank">Nouvelle recherche vierge</button>
-          <button class="btn-neon purple" id="btn-new-same">Mêmes critères</button>
-          <button class="btn-neon magenta" id="btn-home">Accueil</button>
+          <button class="btn-neon jade" id="btn-new-same">Mêmes critères</button>
+          <button class="btn-neon silver" id="btn-home">Accueil</button>
         </div>
       </div>`;
 
@@ -391,8 +391,8 @@ class RouletteUI {
         </div>
         <div class="popup-actions">
           <button class="btn-neon" id="pop-blank">Nouvelle recherche vierge</button>
-          <button class="btn-neon purple" id="pop-same">Mêmes critères</button>
-          <button class="btn-neon magenta" id="pop-home">Accueil</button>
+          <button class="btn-neon jade" id="pop-same">Mêmes critères</button>
+          <button class="btn-neon silver" id="pop-home">Accueil</button>
         </div>
       </div>
     `;

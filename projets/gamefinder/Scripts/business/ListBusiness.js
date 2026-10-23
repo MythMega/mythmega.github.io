@@ -63,6 +63,23 @@ class ListBusiness {
         return this._buildResult(rows, page, type);
       }
 
+      // Types sans page de détail : accessibles via la recherche et les listes.
+      case 'mode': {
+        const rows = this.db.query(
+          `SELECT id, name FROM game_modes ORDER BY name ASC LIMIT ? OFFSET ?`,
+          [limit + 1, offset]
+        );
+        return this._buildResult(rows, page, type);
+      }
+
+      case 'perspective': {
+        const rows = this.db.query(
+          `SELECT id, name FROM player_perspectives ORDER BY name ASC LIMIT ? OFFSET ?`,
+          [limit + 1, offset]
+        );
+        return this._buildResult(rows, page, type);
+      }
+
       default:
         console.warn('[ListBusiness] Type inconnu :', type);
         return { items: [], page, hasNext: false, type };
@@ -131,6 +148,18 @@ class ListBusiness {
       case 'theme':
         return this.db.query(
           `SELECT id, name FROM themes WHERE name LIKE ? ORDER BY name ASC`,
+          [like]
+        );
+
+      case 'mode':
+        return this.db.query(
+          `SELECT id, name FROM game_modes WHERE name LIKE ? ORDER BY name ASC`,
+          [like]
+        );
+
+      case 'perspective':
+        return this.db.query(
+          `SELECT id, name FROM player_perspectives WHERE name LIKE ? ORDER BY name ASC`,
           [like]
         );
 

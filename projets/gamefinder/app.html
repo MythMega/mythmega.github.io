@@ -10,6 +10,7 @@
   <meta name="keywords" content="jeux vidéo, roulette, sélection, recommandation, gamefinder" />
   <meta name="author" content="Gamefinder" />
   <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#040d0a" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Gamefinder 2.0" />
@@ -34,6 +35,12 @@
   <!-- Canonical -->
   <link rel="canonical" href="https://mythmega.github.io/app.html" />
 
+  <!-- ====== POLICES ====== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" />
+
   <!-- ====== STYLES ====== -->
   <link rel="stylesheet" href="styles/variables.css" />
   <link rel="stylesheet" href="styles/base.css" />
@@ -54,11 +61,10 @@
   <div id="loader-overlay">
     <div id="loader-title">GAMEFINDER 2.0</div>
     <div id="loader-status">Initialisation…</div>
-    <!-- Barre de progression secondaire dans l'overlay -->
-    <div style="width:320px;max-width:90vw">
-      <div style="height:2px;background:rgba(0,245,255,0.1);border-radius:1px;overflow:hidden;margin-top:8px">
+    <!-- Barre de progression secondaire dans l'overlay -->      <div style="width:320px;max-width:90vw">
+      <div style="height:2px;background:rgba(46,230,166,0.12);border-radius:1px;overflow:hidden;margin-top:8px">
         <div id="loader-bar-overlay"
-             style="height:100%;width:0%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));transition:width 0.4s ease;box-shadow:0 0 8px var(--neon-cyan)">
+             style="height:100%;width:0%;background:var(--grad-accent);transition:width 0.4s ease;box-shadow:0 0 8px var(--accent)">
         </div>
       </div>
     </div>
@@ -225,7 +231,7 @@
       const developerDetailUI = new DeveloperDetailUI(developerBusiness, router);
       const franchiseDetailUI = new FranchiseDetailUI(franchiseBusiness, router);
       const platformDetailUI  = new PlatformDetailUI(db, router);
-      const genericDetailUI   = new GenericDetailUI();
+      const genericDetailUI   = new GenericDetailUI(db, router);
       const listUI            = new ListUI(listBusiness, router);
       const filtersUI         = new FiltersUI(filtersBusiness, router, appSettings, userProfile);
       const rouletteUI        = new RouletteUI(gameBusiness, filtersBusiness, router, userProfile);
@@ -255,6 +261,7 @@
        */
       function renderRoute(route) {
         console.log('[App] renderRoute :', route);
+        headerUI.update(route);
         const main = document.getElementById('app-main');
         if (!main) return;
 

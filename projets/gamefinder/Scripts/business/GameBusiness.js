@@ -50,6 +50,26 @@ class GameBusiness {
   }
 
   /**
+   * Récupère plusieurs jeux en une seule requête (données minimales).
+   * Utilisé par le profil pour éviter une requête par jeu (N+1).
+   * @param {number[]} ids
+   * @returns {Game[]}
+   */
+  getSummaries(ids) {
+    const clean = [...new Set((ids || [])
+      .map(Number)
+      .filter(n => Number.isInteger(n) && n > 0))];
+    if (clean.length === 0) return [];
+
+    const placeholders = clean.map(() => '?').join(', ');
+    return this.db.query(
+      `SELECT id, name, cover_url, first_release_date, aggregated_rating, rating
+         FROM games WHERE id IN (${placeholders})`,
+      clean
+    ).map(r => Game.fromRow(r));
+  }
+
+  /**
    * Enrichit un objet Game avec toutes ses relations.
    * @param {Game} game
    */

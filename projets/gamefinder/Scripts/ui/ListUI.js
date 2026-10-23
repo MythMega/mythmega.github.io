@@ -17,13 +17,16 @@ class ListUI {
   render(container, type, page) {
     console.log(`[ListUI] Rendu liste type=${type} page=${page}`);
     const typeLabels = {
-      game:      { label: 'Jeux',         icon: '🎮' },
-      developer: { label: 'Développeurs', icon: '👨‍💻' },
-      franchise: { label: 'Franchises',   icon: '🏆' },
-      genre:     { label: 'Genres',       icon: '🎭' },
-      platform:  { label: 'Plateformes',  icon: '🖥️' },
-      theme:     { label: 'Thèmes',       icon: '🌐' },
+      game:        { label: 'Jeux',          icon: '🎮' },
+      developer:   { label: 'Développeurs',  icon: '👨‍💻' },
+      franchise:   { label: 'Franchises',    icon: '🏆' },
+      genre:       { label: 'Genres',        icon: '🎭' },
+      platform:    { label: 'Plateformes',   icon: '🖥️' },
+      theme:       { label: 'Thèmes',        icon: '🌐' },
+      mode:        { label: 'Modes de jeu',  icon: '🕹️' },
+      perspective: { label: 'Perspectives',  icon: '👁️' },
     };
+
 
     const meta   = typeLabels[type] || { label: type, icon: '📋' };
     const result = this.listBusiness.getList(type, page);
@@ -69,6 +72,7 @@ class ListUI {
   }
 
   _bindItemClicks(container, type) {
+    if (!['game', 'developer', 'franchise', 'genre', 'platform', 'theme'].includes(type)) return;
     container.querySelectorAll('.list-item-card[data-id]').forEach(card => {
       card.addEventListener('click', () => {
         const t   = card.dataset.type;

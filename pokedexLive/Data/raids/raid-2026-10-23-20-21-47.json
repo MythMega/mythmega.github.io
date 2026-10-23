@@ -1,0 +1,180 @@
+{
+  "bossName": "Ceriflor",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cherrim_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Cherrim_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 50000,
+  "date": "2026-10-23 20:21:47",
+  "durationSec": 1464,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 43772,
+      "countAtk": 5,
+      "baseDmg": 8714,
+      "level": 16,
+      "raidCount": 361,
+      "luck": 1.0046363
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 12500,
+      "countAtk": 1,
+      "baseDmg": 43323,
+      "level": 20,
+      "raidCount": 1146,
+      "luck": 0.28853035
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 1027,
+      "countAtk": 1,
+      "baseDmg": 1027,
+      "level": 10,
+      "raidCount": 61,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 57299
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-23 20:34:25",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1027,
+      "pvAfter": 48973,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-23 20:45:59",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8714,
+      "pvAfter": 40259,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-23 20:45:59",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8744,
+      "pvAfter": 31515,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-23 20:46:00",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8732,
+      "pvAfter": 22783,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-23 20:46:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8802,
+      "pvAfter": 13981,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-23 20:46:01",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8780,
+      "pvAfter": 5201,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-23 20:46:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 12500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

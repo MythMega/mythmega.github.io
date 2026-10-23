@@ -74,7 +74,7 @@ class ProfileUI {
               <button class="btn-neon green" id="btn-show-todo">
                 ✅ À faire <span class="profile-list-count">${todoList.length}</span>
               </button>
-              <button class="btn-neon magenta" id="btn-show-hidden">
+              <button class="btn-neon silver" id="btn-show-hidden">
                 🚫 Masqués <span class="profile-list-count">${hiddenList.length}</span>
               </button>
             </div>
@@ -114,11 +114,16 @@ class ProfileUI {
   _renderListSection(type, masterIds, pageContainer) {
     const listView = pageContainer.querySelector('#profile-list-view');
     if (!listView) return;
-    this._renderListPage(type, masterIds, masterIds.slice(), 1, '', listView, pageContainer);
+    // Une seule requête pour tous les jeux des listes (évite le N+1).
+    const gamesById = new Map(
+      this.gameBusiness.getSummaries(masterIds).map(g => [g.id, g])
+    );
+    this._renderListPage(type, masterIds, masterIds.slice(), 1, '', listView, pageContainer, gamesById);
     setTimeout(() => listView.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
   }
 
-  _renderListPage(type, masterIds, filtered, page, query, listView, pageContainer) {
+  _renderListPage(type, masterIds, filtered, page, query, listView, pageContainer, gamesById) {
+    const games = gamesById || new Map();
     const PAGE_SIZE  = 10;
     const title      = type === 'todo' ? '✅ Jeux à faire' : '🚫 Jeux masqués';
     const start      = (page - 1) * PAGE_SIZE;
@@ -127,7 +132,7 @@ class ProfileUI {
 
     const itemsHTML = pageIds.length
       ? pageIds.map(id => {
-          const game  = this.gameBusiness.getById(id);
+          const game  = games.get(id);
           const name  = game ? this._esc(game.name) : `Jeu #${id}`;
           const year  = game?.releaseYear ? ` (${game.releaseYear})` : '';
           const cover = game?.cover_url
@@ -142,7 +147,7 @@ class ProfileUI {
               <div class="profile-list-actions">
                 <button class="btn-neon" style="padding:6px 14px;font-size:0.73rem"
                         data-action="detail" data-id="${id}">Détail ↗</button>
-                <button class="btn-neon magenta" style="padding:6px 14px;font-size:0.73rem"
+                <button class="btn-neon silver" style="padding:6px 14px;font-size:0.73rem"
                         data-action="remove" data-id="${id}">✕ Retirer</button>
               </div>
             </div>`;
@@ -177,21 +182,21 @@ class ProfileUI {
       const q       = e.target.value;
       const lower   = q.toLowerCase();
       const newFilt = masterIds.filter(id => {
-        const game = this.gameBusiness.getById(id);
+        const game = games.get(id);
         return game
           ? game.name.toLowerCase().includes(lower)
           : `jeu #${id}`.includes(lower);
       });
-      this._renderListPage(type, masterIds, newFilt, 1, q, listView, pageContainer);
+      this._renderListPage(type, masterIds, newFilt, 1, q, listView, pageContainer, games);
     });
 
     // Pagination
     listView.querySelector('#btn-list-prev')?.addEventListener('click', () => {
-      this._renderListPage(type, masterIds, filtered, page - 1, query, listView, pageContainer);
+      this._renderListPage(type, masterIds, filtered, page - 1, query, listView, pageContainer, games);
       listView.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     listView.querySelector('#btn-list-next')?.addEventListener('click', () => {
-      this._renderListPage(type, masterIds, filtered, page + 1, query, listView, pageContainer);
+      this._renderListPage(type, masterIds, filtered, page + 1, query, listView, pageContainer, games);
       listView.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
@@ -225,7 +230,7 @@ class ProfileUI {
 
           const newFiltered = filtered.filter(fid => fid !== id);
           const newPage     = Math.min(page, Math.ceil(newFiltered.length / PAGE_SIZE) || 1);
-          this._renderListPage(type, masterIds, newFiltered, newPage, query, listView, pageContainer);
+          this._renderListPage(type, masterIds, newFiltered, newPage, query, listView, pageContainer, games);
 
           // Mettre à jour le compteur sur le bouton du profil
           const btnKey   = type === 'todo' ? '#btn-show-todo' : '#btn-show-hidden';

@@ -29,7 +29,7 @@ class SettingsUI {
            mis en cache le <strong>${cacheInfo.cachedAt.toLocaleDateString('fr-FR')}</strong>
            à <strong>${cacheInfo.cachedAt.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</strong>.
          </p>`
-      : `<p class="filter-note" style="margin-bottom:12px;color:var(--neon-yellow)">
+      : `<p class="filter-note" style="margin-bottom:12px;color:var(--pearl)">
            ⏳ Aucun cache local — la base sera téléchargée au prochain lancement.
          </p>`;
 
@@ -85,7 +85,7 @@ class SettingsUI {
             <div class="filter-box-title">🗄 Base de données</div>
             ${cacheHTML}
             <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn-neon magenta" id="btn-clear-cache" ${!cacheInfo ? 'disabled style="opacity:0.45"' : ''}>
+              <button class="btn-neon silver" id="btn-clear-cache" ${!cacheInfo ? 'disabled style="opacity:0.45"' : ''}>
                 🗑 Vider le cache
               </button>
               <button class="btn-neon" id="btn-reload-db">
@@ -163,7 +163,7 @@ class SettingsUI {
       const statusP = box?.querySelector('p.filter-note');
       if (statusP) {
         statusP.innerHTML = `⏳ Cache vidé — la base sera retéléchargée au prochain lancement.`;
-        statusP.style.color = 'var(--neon-yellow)';
+        statusP.style.color = 'var(--pearl)';
       }
       console.log('[SettingsUI] Cache vidé manuellement');
     });
@@ -192,7 +192,7 @@ class SettingsUI {
           </div>
           <div class="popup-actions">
             <button class="btn-neon" id="popup-cancel-adult">Annuler</button>
-            <button class="btn-neon magenta" id="popup-confirm-adult">Valider</button>
+            <button class="btn-neon silver" id="popup-confirm-adult">Valider</button>
           </div>
         </div>
       `;

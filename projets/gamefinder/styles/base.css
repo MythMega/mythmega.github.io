@@ -1,10 +1,11 @@
 /* =============================================
    BASE & RESET — Gamefinder 2.0
+   Direction artistique : vert émeraude & argent
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&family=Share+Tech+Mono&display=swap');
-
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -21,50 +22,64 @@ html, body {
   scroll-behavior: smooth;
 }
 
+/* Fond : halo émeraude + voile argenté */
+body {
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% -10%, rgba(46, 230, 166, 0.12), transparent 65%),
+    radial-gradient(ellipse 50% 40% at 90% 5%, rgba(200, 212, 208, 0.07), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 0% 100%, rgba(14, 143, 99, 0.08), transparent 65%);
+  background-attachment: fixed;
+}
+
 /* Scrollbar personnalisée */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--jade-dark), var(--accent));
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 /* Sélection */
 ::selection {
-  background: rgba(0, 245, 255, 0.25);
-  color: var(--neon-cyan);
+  background: rgba(46, 230, 166, 0.26);
+  color: var(--pearl);
 }
 
 /* Lien de base */
 a {
-  color: var(--neon-cyan);
+  color: var(--accent);
   text-decoration: none;
   transition: color var(--transition-fast), text-shadow var(--transition-fast);
 }
 a:hover {
-  color: #fff;
-  text-shadow: var(--glow-cyan);
+  color: var(--pearl);
+  text-shadow: var(--glow-accent);
 }
 
 /* Typographie titres */
 h1, h2, h3, h4 {
   font-family: var(--font-main);
   letter-spacing: 0.08em;
-  color: var(--neon-cyan);
+  color: var(--accent);
 }
 
-/* Fond animé — grille sci-fi */
+/* Fond animé — grille technique, filets verts & argentés */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(46, 230, 166, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 212, 208, 0.035) 1px, transparent 1px);
   background-size: 48px 48px;
   pointer-events: none;
   z-index: 0;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 85%);
 }
 
-/* Couche contenu principale au dessus du fond */
+/* Couche contenu principale au-dessus du fond */
 #app-root {
   position: relative;
   z-index: 1;

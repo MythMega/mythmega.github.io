@@ -338,10 +338,19 @@ class Database {
     const indexes = [
       // Filtres roulette (priorité maximale)
       ['idx_games_release_date',      `CREATE INDEX IF NOT EXISTS idx_games_release_date      ON games(first_release_date)`],
+      ['idx_games_rating',            `CREATE INDEX IF NOT EXISTS idx_games_rating            ON games(aggregated_rating)`],
       ['idx_game_platforms_platform', `CREATE INDEX IF NOT EXISTS idx_game_platforms_platform ON game_platforms(platform, game_id)`],
       ['idx_game_genres_genre',       `CREATE INDEX IF NOT EXISTS idx_game_genres_genre       ON game_genres(genre, game_id)`],
       ['idx_game_modes_mode',         `CREATE INDEX IF NOT EXISTS idx_game_modes_mode         ON game_modes_rel(mode, game_id)`],
       ['idx_game_themes_theme',       `CREATE INDEX IF NOT EXISTS idx_game_themes_theme       ON game_themes(theme, game_id)`],
+      ['idx_game_perspectives_persp', `CREATE INDEX IF NOT EXISTS idx_game_perspectives_persp ON game_perspectives(perspective, game_id)`],
+      // Filtres « mots-clés » (fangames/mods, Game Awards) — colonne déjà normalisée en minuscules
+      ['idx_game_keywords_keyword',   `CREATE INDEX IF NOT EXISTS idx_game_keywords_keyword   ON game_keywords(keyword, game_id)`],
+      // Tri par type de jeu (filtre « Types de jeux »)
+      ['idx_games_game_type',         `CREATE INDEX IF NOT EXISTS idx_games_game_type         ON games(game_type)`],
+      // Listes développeurs (GROUP BY company_id) et franchises
+      ['idx_game_developers_company', `CREATE INDEX IF NOT EXISTS idx_game_developers_company ON game_developers(company_id, game_id)`],
+      ['idx_game_franchises_franchise', `CREATE INDEX IF NOT EXISTS idx_game_franchises_franchise ON game_franchises(franchise, game_id)`],
       // Détail jeu (GameDetailUI)
       ['idx_game_developers_game',    `CREATE INDEX IF NOT EXISTS idx_game_developers_game    ON game_developers(game_id)`],
       ['idx_game_screenshots_game',   `CREATE INDEX IF NOT EXISTS idx_game_screenshots_game   ON game_screenshots(game_id)`],

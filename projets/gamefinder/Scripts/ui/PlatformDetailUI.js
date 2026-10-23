@@ -26,14 +26,20 @@ class PlatformDetailUI {
     }
 
     // Jeux associés via game_platforms (joint par nom de plateforme)
+    const countRow = this.db.queryOne(
+      `SELECT COUNT(*) AS cnt FROM game_platforms WHERE platform = ?`, [platform.name]
+    );
+    const totalGames = countRow ? (countRow.cnt || 0) : 0;
+
+    // Liste bornée : certaines plateformes comptent des dizaines de milliers de jeux.
     const gameRows = this.db.query(
       `SELECT g.id, g.name, g.cover_url
-         FROM games g
-         JOIN game_platforms gp ON gp.game_id = g.id
-         JOIN platforms p ON p.name = gp.platform
-        WHERE p.id = ?
-        ORDER BY g.name ASC`,
-      [id]
+         FROM game_platforms gp
+         JOIN games g ON g.id = gp.game_id
+        WHERE gp.platform = ?
+        ORDER BY g.first_release_date DESC
+        LIMIT 60`,
+      [platform.name]
     );
 
     const logoHTML = platform.logo_url
@@ -62,7 +68,7 @@ class PlatformDetailUI {
             </div>
             <div class="game-meta-row">
               <span class="game-meta-label">Jeux référencés</span>
-              <span class="game-meta-value">${gameRows.length}</span>
+              <span class="game-meta-value">${totalGames}</span>
             </div>
             ${platform.url ? `<div class="game-meta-row">
               <span class="game-meta-label">Lien IGDB</span>
@@ -72,7 +78,7 @@ class PlatformDetailUI {
         </div>
         <hr class="neon-divider" />
         <div class="game-section reveal">
-          <div class="game-section-title">Jeux sur cette plateforme</div>
+          <div class="game-section-title">Jeux sur cette plateforme${totalGames > gameRows.length ? ` — ${gameRows.length} plus récents sur ${totalGames}` : ''}</div>
           <div class="list-grid">${gamesHTML}</div>
         </div>
       </div>

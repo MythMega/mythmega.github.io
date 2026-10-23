@@ -11,8 +11,8 @@
   align-items: center;
   gap: 12px;
   padding: 12px 32px;
-  background: rgba(5, 5, 20, 0.85);
-  border-bottom: var(--border-neon);
+  background: rgba(5, 18, 14, 0.85);
+  border-bottom: var(--border-accent);
   backdrop-filter: blur(16px);
   box-shadow: 0 2px 24px rgba(0,0,0,0.5);
 }
@@ -22,20 +22,65 @@
   font-size: 0.9rem;
   font-weight: 900;
   letter-spacing: 0.2em;
-  color: var(--neon-cyan);
-  text-shadow: var(--glow-cyan);
+  background: var(--grad-metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 6px rgba(46, 230, 166, 0.45));
   margin-right: auto;
   cursor: pointer;
 }
 
+/* Boutons du header : icône seule, carrés */
 #app-header .btn-neon {
-  padding: 7px 18px;
-  font-size: 0.75rem;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  min-width: 0;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.header-btn-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+.header-icon-btn:hover .header-btn-icon { transform: translateY(-1px); }
+.header-icon-btn.active {
+  background: rgba(46, 230, 166, 0.12);
+  box-shadow: inset 0 0 12px rgba(46, 230, 166, 0.16);
+}
+.header-icon-btn.silver.active {
+  background: rgba(200, 212, 208, 0.1);
+  box-shadow: inset 0 0 12px rgba(200, 212, 208, 0.18);
+}
+.header-icon-btn.jade.active {
+  background: rgba(23, 181, 124, 0.14);
+  box-shadow: inset 0 0 12px rgba(23, 181, 124, 0.2);
 }
 
 /* Dropdown Données dans le header */
 .header-dropdown {
   position: relative;
+  flex-shrink: 0;
+}
+/* Pont invisible entre le bouton et le menu : évite que le survol du
+   « gap » ne referme le menu avant d'atteindre un élément. */
+.header-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;
 }
 .dropdown-menu {
   display: none;
@@ -43,8 +88,8 @@
   top: calc(100% + 8px);
   right: 0;
   min-width: 180px;
-  background: rgba(5, 5, 20, 0.97);
-  border: var(--border-neon);
+  background: rgba(5, 18, 14, 0.97);
+  border: var(--border-accent);
   border-radius: var(--radius-md);
   backdrop-filter: blur(16px);
   z-index: var(--z-dropdown);
@@ -56,18 +101,23 @@
   display: block;
 }
 .dropdown-item {
+  display: block;
+  width: 100%;
   padding: 10px 18px;
   font-family: var(--font-body);
   font-size: 0.85rem;
+  text-align: left;
   color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(46,230,166,0.06);
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast);
-  border-bottom: 1px solid rgba(0,245,255,0.06);
 }
 .dropdown-item:last-child { border-bottom: none; }
 .dropdown-item:hover {
-  background: rgba(0, 245, 255, 0.08);
-  color: var(--neon-cyan);
+  background: rgba(46, 230, 166, 0.08);
+  color: var(--accent);
 }
 
 /* ----------- MAIN CONTENT ----------- */
@@ -95,10 +145,13 @@
   font-family: var(--font-main);
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 900;
-  color: var(--neon-cyan);
-  text-shadow: var(--glow-cyan);
   letter-spacing: 0.2em;
   line-height: 1.15;
+  background: linear-gradient(100deg, var(--accent) 0%, var(--mint) 35%, var(--pearl) 60%, var(--silver) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(46, 230, 166, 0.35));
 }
 .hero-subtitle {
   font-size: 1rem;
@@ -124,8 +177,8 @@
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
-  border-top: var(--border-neon);
-  background: rgba(5, 5, 20, 0.7);
+  border-top: var(--border-accent);
+  background: rgba(5, 18, 14, 0.7);
   backdrop-filter: blur(12px);
 }
 #app-footer a {
@@ -136,8 +189,8 @@
   transition: color var(--transition-fast), text-shadow var(--transition-fast);
 }
 #app-footer a:hover {
-  color: var(--neon-cyan);
-  text-shadow: var(--glow-cyan);
+  color: var(--accent);
+  text-shadow: var(--glow-accent);
 }
 .footer-sep {
   color: var(--text-muted);
@@ -152,10 +205,13 @@
 .page-title {
   font-family: var(--font-main);
   font-size: 1.6rem;
-  color: var(--neon-cyan);
-  text-shadow: 0 0 12px rgba(0,245,255,0.4);
   letter-spacing: 0.12em;
   margin-bottom: 8px;
+  background: linear-gradient(95deg, var(--accent), var(--mint) 45%, var(--silver));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 10px rgba(46, 230, 166, 0.3));
 }
 .page-subtitle {
   color: var(--text-secondary);
@@ -183,7 +239,7 @@
 
 .list-item-card {
   background: var(--bg-card);
-  border: var(--border-neon);
+  border: var(--border-accent);
   border-radius: var(--radius-md);
   padding: 16px;
   cursor: pointer;
@@ -191,8 +247,8 @@
   backdrop-filter: blur(8px);
 }
 .list-item-card:hover {
-  box-shadow: 0 0 18px rgba(0,245,255,0.2);
-  border-color: var(--neon-cyan);
+  box-shadow: 0 0 18px rgba(46,230,166,0.2);
+  border-color: var(--accent);
   transform: translateY(-3px);
 }
 .list-item-id {
@@ -214,15 +270,15 @@
   border-radius: var(--radius-sm);
   margin-bottom: 10px;
   opacity: 0.85;
-  border: var(--border-neon);
+  border: var(--border-accent);
 }
 
 /* Logo carré pour plateformes et développeurs dans les listes */
 .list-item-logo-box {
   width: 100%;
   aspect-ratio: 1/1;
-  background: var(--bg-elevated, rgba(255,255,255,0.04));
-  border: var(--border-neon);
+  background: var(--bg-elevated, rgba(200,212,208,0.04));
+  border: var(--border-accent);
   border-radius: var(--radius-sm);
   margin-bottom: 10px;
   display: flex;
@@ -254,8 +310,8 @@
 .game-cover-img {
   width: 100%;
   border-radius: var(--radius-md);
-  border: var(--border-neon);
-  box-shadow: 0 0 24px rgba(0,245,255,0.15);
+  border: var(--border-accent);
+  box-shadow: 0 0 24px rgba(46,230,166,0.15);
 }
 
 /* Logo carré (détail développeur / plateforme) */
@@ -263,9 +319,9 @@
   width: 220px;
   aspect-ratio: 1/1;
   background: var(--bg-card);
-  border: var(--border-neon);
+  border: var(--border-accent);
   border-radius: var(--radius-md);
-  box-shadow: 0 0 24px rgba(0,245,255,0.15);
+  box-shadow: 0 0 24px rgba(46,230,166,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -297,9 +353,12 @@
   font-family: var(--font-main);
   font-size: 2rem;
   font-weight: 900;
-  color: var(--neon-cyan);
-  text-shadow: var(--glow-cyan);
   letter-spacing: 0.1em;
+  background: linear-gradient(95deg, var(--pearl), var(--accent) 55%, var(--silver));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 12px rgba(46, 230, 166, 0.3));
 }
 .game-meta-row {
   display: flex;
@@ -325,7 +384,7 @@
   font-size: 0.85rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--neon-magenta);
+  color: var(--silver);
   margin-bottom: 12px;
 }
 .game-tags-row {
@@ -342,7 +401,7 @@
 .screenshots-row img {
   height: 140px;
   border-radius: var(--radius-sm);
-  border: var(--border-neon);
+  border: var(--border-accent);
   opacity: 0.85;
   flex-shrink: 0;
   transition: opacity var(--transition-fast);
@@ -351,26 +410,16 @@
 .screenshots-row img:hover { opacity: 1; }
 
 /* ----------- HEADER MOBILE ----------- */
-.header-btn-icon {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  flex-shrink: 0;
-  filter: brightness(0) invert(1);
-  opacity: 0.9;
-}
-
-/* Sur desktop l'icône est masquée, seul le texte visible */
-@media (min-width: 481px) {
-  .header-btn-icon { display: none; }
-}
-
-/* Sur mobile : icône seule, texte masqué, padding compact */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   #app-header { padding: 10px 12px; gap: 8px; }
-  .header-btn-label { display: none; }
-  #app-header .btn-neon { padding: 8px 10px; min-width: unset; }
-  .header-btn-icon { display: block; }
+}
+
+/* Très petits écrans : garder les cinq icônes sur une ligne */
+@media (max-width: 480px) {
+  #app-header { padding: 8px 10px; gap: 6px; }
+  #app-header .btn-neon { width: 34px; height: 34px; }
+  .header-btn-icon { width: 18px; height: 18px; }
+  .header-logo { font-size: 0.8rem; letter-spacing: 0.12em; }
 }
 
 /* ----------- LIGHTBOX MOBILE ----------- */
@@ -407,4 +456,15 @@
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Respecte la préférence système « réduire les animations » */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
 }

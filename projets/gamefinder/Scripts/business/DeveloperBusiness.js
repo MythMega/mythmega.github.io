@@ -20,21 +20,29 @@ class DeveloperBusiness {
     );
     if (!row) { console.warn('[DeveloperBusiness] Développeur introuvable :', id); return null; }
 
-    const dev   = Developer.fromRow(row);
-    dev.gameIds = this.db.query(
-      `SELECT game_id FROM game_developers WHERE company_id = ?`, [id]
-    ).map(r => r.game_id);
+    const dev = Developer.fromRow(row);
 
-    // Récupérer les jeux associés (infos minimales)
-    const games = dev.gameIds.map(gid => {
-      const g = this.db.queryOne(
-        `SELECT id, name, cover_url, first_release_date FROM games WHERE id = ?`, [gid]
-      );
-      return g ? Game.fromRow(g) : null;
-    }).filter(Boolean);
+    const totalRow = this.db.queryOne(
+      `SELECT COUNT(DISTINCT game_id) AS cnt FROM game_developers WHERE company_id = ?`, [id]
+    );
+    const totalGames = totalRow ? (totalRow.cnt || 0) : 0;
 
-    console.log(`[DeveloperBusiness] Dev #${id} → ${games.length} jeux`);
-    return { dev, games };
+    // Une seule requête jointe plutôt qu'une requête par jeu (N+1),
+    // bornée pour ne jamais construire des milliers de cartes d'un coup.
+    const games = this.db.query(
+      `SELECT g.id, g.name, g.cover_url, g.first_release_date
+         FROM game_developers d
+         JOIN games g ON g.id = d.game_id
+        WHERE d.company_id = ?
+        GROUP BY g.id
+        ORDER BY g.first_release_date DESC
+        LIMIT 60`,
+      [id]
+    ).map(r => Game.fromRow(r));
+    dev.gameIds = games.map(g => g.id);
+
+    console.log(`[DeveloperBusiness] Dev #${id} → ${totalGames} jeux (${games.length} affichés)`);
+    return { dev, games, totalGames };
   }
 
   /**

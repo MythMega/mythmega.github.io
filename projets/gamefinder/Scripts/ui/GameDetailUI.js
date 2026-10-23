@@ -53,7 +53,7 @@ class GameDetailUI {
 
     const videosHTML = game.videos.length
       ? game.videos.map(v =>
-          `<iframe class="yt-embed" src="https://www.youtube.com/embed/${this._esc(v.youtube_id)}" title="YouTube video" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`
+          `<iframe class="yt-embed" loading="lazy" src="https://www.youtube.com/embed/${this._esc(v.youtube_id)}" title="YouTube video" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`
         ).join('')
       : '';
 
@@ -89,7 +89,7 @@ class GameDetailUI {
             <!-- Actions liste -->
             <div class="game-list-actions">
               <button class="btn-neon green" id="btn-todo">⏳ À faire…</button>
-              <button class="btn-neon magenta" id="btn-hidden">⏳ Masquer…</button>
+              <button class="btn-neon silver" id="btn-hidden">⏳ Masquer…</button>
             </div>
 
             <!-- Tags rapides -->

@@ -1,18 +1,19 @@
 /**
  * FiltersUI.js
- * Page Roulette : boxes de filtres + bouton de lancement.
+ * Page Roulette : boîtes de filtres tri-état + lancement.
  *
- * Boxes :
- *  1. Plateformes   — vedettes ON par défaut, autres OFF, bouton "voir tout" + All ON/OFF
- *  2. Date de sortie — double range slider (min/max année)
- *  3. Modes de jeu  — tous ON par défaut + All ON/OFF
- *  4. Genres        — tous ON par défaut + All ON/OFF
- *  5. Thèmes        — tous ON par défaut + All ON/OFF (Erotic bloqué si contenu adulte désactivé)
+ * Chaque critère possède trois états, cyclables au clic :
+ *   ✓ Inclure  → le jeu doit avoir ce critère (liste blanche)
+ *   ✗ Exclure  → le jeu ne doit pas avoir ce critère
+ *   N/A Ignorer → aucune contrainte (état neutre par défaut)
  *
- * Au lancement, encode les settings dans l'URL et navigue vers la vue Roulette.
+ * Au lancement, les réglages sont encodés dans l'URL et la vue Roulette s'ouvre.
  */
 
 class FiltersUI {
+  /** Ordre de cycle des états : N/A → Inclure → Exclure → N/A */
+  static CYCLE = [0, 1, -1];
+
   /**
    * @param {FiltersBusiness} filtersBusiness
    * @param {Router}          router
@@ -20,19 +21,22 @@ class FiltersUI {
    * @param {UserProfile}     [userProfile]
    */
   constructor(filtersBusiness, router, appSettings, userProfile) {
-    this.filtersBusiness  = filtersBusiness;
-    this.router           = router;
-    this.appSettings      = appSettings;
-    this.userProfile      = userProfile || null;
-    this.state            = null;
-    this.filterData       = null;
-    this._container       = null;
+    this.filtersBusiness   = filtersBusiness;
+    this.router            = router;
+    this.appSettings       = appSettings;
+    this.userProfile       = userProfile || null;
+    this.state             = null;
+    this.filterData        = null;
+    this._container        = null;
     this.allowAdultContent = false;
     this._eroticThemeId    = null;
   }
 
+  // ─────────────────────────────────────────────────────────────────
+  // RENDU
+  // ─────────────────────────────────────────────────────────────────
+
   /**
-   * Rend la page filtres dans le container donné.
    * @param {HTMLElement} container    - #app-main
    * @param {Object}      [params={}]  - { preSettings: string|null }
    */
@@ -41,34 +45,22 @@ class FiltersUI {
     this._container = container;
     this.filterData = this.filtersBusiness.getFilterData();
 
-    // Charge le setting contenu adulte
     this.allowAdultContent = await this.appSettings.get('allowAdultContent', false);
+    this._eroticThemeId    = this.filtersBusiness.getEroticThemeId();
 
-    // Détecte dynamiquement l'ID du thème Erotic dans la DB
-    const eroticEntry = this.filterData.themes.find(t => t.name.toLowerCase() === 'erotic');
-    this._eroticThemeId = eroticEntry ? eroticEntry.id : null;
-    console.log(`[FiltersUI] Thème Erotic : id=${this._eroticThemeId}, allowAdult=${this.allowAdultContent}`);
+    const decoded = params && params.preSettings
+      ? this.filtersBusiness.decodeSettings(params.preSettings)
+      : null;
+    this.state = decoded || this.filtersBusiness.getDefaultSettings();
 
-    // Initialise l'état — depuis l'URL si fourni, sinon par défaut
-    if (params && params.preSettings) {
-      const decoded = this.filtersBusiness.decodeSettings(params.preSettings);
-      this.state    = decoded || this.filtersBusiness.getDefaultSettings();
-      console.log('[FiltersUI] Settings restaurés depuis preSettings :', JSON.stringify(this.state));
-    } else {
-      this.state = this.filtersBusiness.getDefaultSettings();
-      console.log('[FiltersUI] Settings initialisés par défaut.');
-    }
-
-    // Force l'exclusion du thème Erotic de l'état si le contenu adulte est désactivé
-    if (!this.allowAdultContent && this._eroticThemeId !== null) {
-      this.state.t = this.state.t.filter(id => id !== this._eroticThemeId);
-    }
+    this._enforceAdultPolicy();
 
     container.innerHTML = this._buildHTML();
     this._bindEvents();
+    this._syncAllFacetHeaders();
+    this._syncSummary();
     this._activateReveal();
 
-    // Meta tags dynamiques
     if (window._metaManager) {
       window._metaManager.set({
         title: 'Gamefinder 2.0 — Roulette',
@@ -78,38 +70,42 @@ class FiltersUI {
     }
   }
 
+  /**
+   * Quand le contenu adulte est désactivé, le thème Erotic est verrouillé
+   * en exclusion (il ne peut être ni inclus, ni ignoré).
+   */
+  _enforceAdultPolicy() {
+    if (this.allowAdultContent || this._eroticThemeId === null) return;
+    const themeState = this.state.facets.theme;
+    themeState.inc = themeState.inc.filter(id => id !== this._eroticThemeId);
+    if (!themeState.exc.includes(this._eroticThemeId)) {
+      themeState.exc.push(this._eroticThemeId);
+    }
+  }
+
   // ─────────────────────────────────────────────────────────────────
   // BUILD HTML
   // ─────────────────────────────────────────────────────────────────
 
   _buildHTML() {
-    const fd  = this.filterData;
-    const s   = this.state;
-    const FID = new Set(this.filtersBusiness.pinnedPlatformIds);
+    const fd = this.filterData;
+    const s  = this.state;
+    const scoreMin     = s.scoreMin;
+    const scoreMax     = s.scoreMax;
+    const allowNoScore = s.allowNoScore;
+    const allowFangame = s.allowFangame;
+    const onlyGameAwards = s.onlyGameAwards;
 
-    const selP = new Set(s.p);
-    const selM = new Set(s.m);
-    const selG = new Set(s.g);
-    const selT = new Set(s.t);
-    const scoreMin      = s.scoreMin    !== undefined ? s.scoreMin    : 0;
-    const scoreMax      = s.scoreMax    !== undefined ? s.scoreMax    : 100;
-    const allowNoScore  = s.allowNoScore  ?? false;
-    const allowFangame  = s.allowFangame  ?? false;
-    const onlyGameAwards    = s.onlyGameAwards    ?? false;
-    const allowedGameTypes  = new Set(s.allowedGameTypes ?? []);
+    // Plateformes : épinglées en avant, les autres dépliables
+    const pinned = new Set(this.filtersBusiness.pinnedPlatformIds);
+    const featuredPlatforms = fd.platforms.filter(p => pinned.has(p.id));
+    const otherPlatforms    = fd.platforms.filter(p => !pinned.has(p.id));
+    const othersActive      = otherPlatforms.some(p => this._stateOf('platform', p.id) !== 0);
 
-    // ── Plateformes ──────────────────────────────────────────────
-    const featuredPlatforms = fd.platforms.filter(p => FID.has(p.id));
-    const otherPlatforms    = fd.platforms.filter(p => !FID.has(p.id));
+    const featuredHTML = featuredPlatforms.map(p => this._toggleBtn('platform', p)).join('');
+    const othersHTML   = otherPlatforms.map(p => this._toggleBtn('platform', p)).join('');
 
-    const featuredHTML = featuredPlatforms.map(p =>
-      this._toggleBtn(p.id, p.name, selP.has(p.id), 'platform')
-    ).join('');
-    const othersHTML = otherPlatforms.map(p =>
-      this._toggleBtn(p.id, p.name, selP.has(p.id), 'platform')
-    ).join('');
-
-    // ── Slider dates ──────────────────────────────────────────────
+    // Sliders années
     const minY     = fd.minYear;
     const maxY     = fd.maxYear;
     const yearMin  = s.y[0];
@@ -118,115 +114,85 @@ class FiltersUI {
     const leftPct  = ((yearMin - minY) / total * 100).toFixed(2);
     const rightPct = (100 - (yearMax - minY) / total * 100).toFixed(2);
 
-    // ── Modes / Genres / Thèmes ───────────────────────────────────
-    const modesHTML  = fd.gameModes.map(m => this._toggleBtn(m.id, m.name, selM.has(m.id), 'mode')).join('');
-    const genresHTML = fd.genres.map(g => this._toggleBtn(g.id, g.name, selG.has(g.id), 'genre')).join('');
-    const themesHTML = fd.themes.map(t => {
-      const isErotic   = t.id === this._eroticThemeId;
-      const isDisabled = isErotic && !this.allowAdultContent;
-      const isOn       = !isDisabled && selT.has(t.id);
-      return this._toggleBtn(t.id, t.name, isOn, 'theme', isDisabled);
-    }).join('');
-
-    const nonZeroGameTypes = (fd.gameTypes || []).filter(t => t.id !== 0);
-    const gameTypesHTML = nonZeroGameTypes.map(t =>
-      this._toggleBtn(t.id, t.type, allowedGameTypes.has(t.id), 'game-type')
-    ).join('');
+    const gameTypeNote = `<p class="filter-note">
+      « Jeu principal » regroupe les jeux sans DLC, extension, mod, remaster, etc.
+    </p>`;
 
     return `
       <div id="page-view" class="filters-page">
 
         <div class="page-title reveal">🎲 ROULETTE</div>
         <p class="page-subtitle">Affine tes critères — on trouve un jeu pour toi</p>
-        <div class="filters-load-area">
-          <button class="btn-neon btn-sm" id="btn-load-filter">📂 Charger un filtre</button>
+
+        <div class="filters-toolbar reveal">
+          <div class="tri-legend" aria-hidden="true">
+            <span class="legend-item legend-inc"><span class="legend-mark">✓</span> Inclure</span>
+            <span class="legend-item legend-exc"><span class="legend-mark">✗</span> Exclure</span>
+            <span class="legend-item legend-neutral"><span class="legend-mark">N/A</span> Ignorer</span>
+            <span class="legend-hint">Clic : N/A → ✓ voulu → ✗ banni · Ctrl/Shift + clic : ✓ · Ctrl/Shift + clic droit : ✗</span>
+          </div>
+          <div class="filters-toolbar-actions">
+            <button class="btn-neon btn-sm" id="btn-load-filter">📂 Charger un filtre</button>
+            <button class="btn-neon btn-sm silver" id="btn-reset-filters" title="Revenir aux critères par défaut">↺ Réinitialiser</button>
+          </div>
         </div>
+
         <hr class="neon-divider" />
 
         <div class="filter-boxes-grid">
 
-          <!-- Box 1 : Plateformes -->
-          <div class="filter-box reveal">
+          <!-- Plateformes -->
+          <div class="filter-box wide reveal" data-facet="platform">
             <div class="filter-box-header">
-              <div class="filter-box-title">🖥 Plateformes</div>
-              <div class="toggle-all-row">
-                <button class="btn-toggle-all" data-action="all-on" data-category="platform">All ON</button>
-                <button class="btn-toggle-all off" data-action="all-off" data-category="platform">All OFF</button>
+              <div class="filter-box-title">
+                🖥 Plateformes ${this._facetCountHTML('platform')}
               </div>
+              ${this._presetButtonsHTML('platform')}
             </div>
-            <div class="platforms-featured" id="platforms-featured">
-              ${featuredHTML}
-            </div>
-            <button class="btn-expand-platforms" id="btn-expand-platforms">
-              ▸ Voir toutes les plateformes (${otherPlatforms.length})
+            <div class="platforms-featured" id="platforms-featured">${featuredHTML}</div>
+            <button class="btn-expand-platforms" id="btn-expand-platforms" aria-expanded="${othersActive ? 'true' : 'false'}">
+              ${othersActive ? '▾ Masquer' : '▸ Voir'} les autres plateformes (${otherPlatforms.length})
             </button>
-            <div id="platforms-others-wrapper" class="hidden">
+            <div id="platforms-others-wrapper" class="${othersActive ? '' : 'hidden'}">
               <div class="platforms-search-box">
                 <input type="text" class="platforms-search-input" id="platforms-search-input"
                        placeholder="🔍 Rechercher une plateforme…" autocomplete="off" />
               </div>
-              <div class="platforms-others-scroll" id="platforms-others-scroll">
-                ${othersHTML}
-              </div>
+              <div class="platforms-others-scroll" id="platforms-others-scroll">${othersHTML}</div>
             </div>
           </div>
 
-          <!-- Box 2 : Date de sortie -->
-          <div class="filter-box reveal">
+          <!-- Date de sortie -->
+          <div class="filter-box reveal" data-facet="date">
             <div class="filter-box-title">📅 Date de sortie</div>
             <div class="range-slider-box">
               <div class="range-slider-container">
                 <div class="slider-track">
-                  <div class="slider-fill" id="slider-fill"
-                       style="left:${leftPct}%;right:${rightPct}%"></div>
+                  <div class="slider-fill" id="slider-fill" style="left:${leftPct}%;right:${rightPct}%"></div>
                 </div>
                 <input type="range" class="range-input" id="range-year-min"
-                       min="${minY}" max="${maxY}" value="${yearMin}" />
+                       min="${minY}" max="${maxY}" value="${yearMin}" aria-label="Année de sortie minimale" />
                 <input type="range" class="range-input" id="range-year-max"
-                       min="${minY}" max="${maxY}" value="${yearMax}" />
+                       min="${minY}" max="${maxY}" value="${yearMax}" aria-label="Année de sortie maximale" />
               </div>
               <div class="range-label" id="range-label">${yearMin} — ${yearMax}</div>
             </div>
           </div>
 
-          <!-- Box 3 : Modes de jeu -->
-          <div class="filter-box reveal">
-            <div class="filter-box-header">
-              <div class="filter-box-title">🕹 Modes de jeu</div>
-              <div class="toggle-all-row">
-                <button class="btn-toggle-all" data-action="all-on" data-category="mode">All ON</button>
-                <button class="btn-toggle-all off" data-action="all-off" data-category="mode">All OFF</button>
-              </div>
-            </div>
-            <div class="toggle-grid" id="modes-grid">${modesHTML}</div>
-          </div>
+          <!-- Modes de jeu -->
+          ${this._facetBoxHTML('mode', '🕹 Modes de jeu', 'toggle-grid')}
 
-          <!-- Box 4 : Genres -->
-          <div class="filter-box wide reveal">
-            <div class="filter-box-header">
-              <div class="filter-box-title">🎭 Genres</div>
-              <div class="toggle-all-row">
-                <button class="btn-toggle-all" data-action="all-on" data-category="genre">All ON</button>
-                <button class="btn-toggle-all off" data-action="all-off" data-category="genre">All OFF</button>
-              </div>
-            </div>
-            <div class="toggle-grid" id="genres-grid">${genresHTML}</div>
-          </div>
+          <!-- Genres -->
+          ${this._facetBoxHTML('genre', '🎭 Genres', 'toggle-grid wide')}
 
-          <!-- Box 5 : Thèmes -->
-          <div class="filter-box wide reveal">
-            <div class="filter-box-header">
-              <div class="filter-box-title">🌐 Thèmes</div>
-              <div class="toggle-all-row">
-                <button class="btn-toggle-all" data-action="all-on" data-category="theme">All ON</button>
-                <button class="btn-toggle-all off" data-action="all-off" data-category="theme">All OFF</button>
-              </div>
-            </div>
-            <div class="toggle-grid" id="themes-grid">${themesHTML}</div>
-          </div>
+          <!-- Thèmes -->
+          ${this._facetBoxHTML('theme', '🌐 Thèmes', 'toggle-grid wide')}
 
-          <!-- Box 6 : Score -->
-          <div class="filter-box reveal">
+          <!-- Perspectives -->
+          ${this._facetBoxHTML('perspective', '👁 Perspectives', 'toggle-grid')}
+
+          <!-- Score -->
+          <div class="filter-box reveal" data-facet="score">
             <div class="filter-box-title">⭐ Score</div>
             <div class="range-slider-box">
               <div class="range-slider-container">
@@ -235,9 +201,9 @@ class FiltersUI {
                        style="left:${scoreMin}%;right:${100 - scoreMax}%"></div>
                 </div>
                 <input type="range" class="range-input" id="range-score-min"
-                       min="0" max="100" step="5" value="${scoreMin}" />
+                       min="0" max="100" step="5" value="${scoreMin}" aria-label="Score minimal" />
                 <input type="range" class="range-input" id="range-score-max"
-                       min="0" max="100" step="5" value="${scoreMax}" />
+                       min="0" max="100" step="5" value="${scoreMax}" aria-label="Score maximal" />
               </div>
               <div class="range-label" id="score-range-label">${scoreMin} — ${scoreMax}</div>
             </div>
@@ -252,8 +218,8 @@ class FiltersUI {
             </div>
           </div>
 
-          <!-- Box 7 : Extra -->
-          <div class="filter-box reveal">
+          <!-- Extra -->
+          <div class="filter-box reveal" data-facet="extra">
             <div class="filter-box-title">⚙ Extra</div>
             <div class="filter-switch-row">
               <label class="switch-row-item">
@@ -273,24 +239,14 @@ class FiltersUI {
             </div>
           </div>
 
-          <!-- Box 8 : Types de jeux -->
-          ${nonZeroGameTypes.length ? `
-          <div class="filter-box reveal">
-            <div class="filter-box-header">
-              <div class="filter-box-title">🏷 Types de jeux</div>
-              <div class="toggle-all-row">
-                <button class="btn-toggle-all" data-action="all-on" data-category="game-type">All ON</button>
-                <button class="btn-toggle-all off" data-action="all-off" data-category="game-type">All OFF</button>
-              </div>
-            </div>
-            <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:10px">Le type «&nbsp;Jeu principal&nbsp;» (id&nbsp;0) est toujours autorisé.</p>
-            <div class="toggle-grid" id="game-types-grid">${gameTypesHTML}</div>
-          </div>` : ''}
+          <!-- Types de jeux -->
+          ${this._facetBoxHTML('gameType', '🏷 Types de jeux', 'toggle-grid', gameTypeNote)}
 
         </div>
 
         <div class="filters-launch-area">
-          <div class="filters-launch-status" id="filters-status"></div>
+          <div class="filters-summary" id="filters-summary"></div>
+          <div class="filters-launch-status" id="filters-status" role="status" aria-live="polite"></div>
           <button class="btn-neon btn-neon-cta" id="btn-launch-roulette">
             🎲 LANCER LA ROULETTE
           </button>
@@ -299,8 +255,8 @@ class FiltersUI {
             <input type="text" id="save-filter-name" class="save-filter-input"
                    placeholder="Nom du filtre…" maxlength="60" autocomplete="off" />
             <div class="save-filter-actions">
-              <button class="btn-neon btn-sm green" id="btn-save-filter-confirm">✓ Valider</button>
-              <button class="btn-neon btn-sm" id="btn-save-filter-cancel">✕ Annuler</button>
+              <button class="btn-neon btn-sm mint" id="btn-save-filter-confirm">✓ Valider</button>
+              <button class="btn-neon btn-sm silver" id="btn-save-filter-cancel">✕ Annuler</button>
             </div>
           </div>
         </div>
@@ -309,65 +265,245 @@ class FiltersUI {
     `;
   }
 
-  /** Génère le HTML d'un bouton toggle. */
-  _toggleBtn(id, name, isOn, category, disabled = false) {
-    if (disabled) {
-      return `<button class="toggle-btn off"
-                      data-id="${id}"
-                      data-category="${category}"
-                      disabled
-                      title="Activez le contenu adulte dans Paramètres pour accéder à ce thème">
-        <span class="toggle-dot"></span>${this._esc(name)}
+  /** Boîte de facette générique. */
+  _facetBoxHTML(facetKey, title, gridClass = 'toggle-grid', note = '') {
+    const facet  = FiltersBusiness.FACETS.find(f => f.key === facetKey);
+    const items  = this.filtersBusiness.getFacetItems(facetKey);
+    const toggle = items.map(item => this._toggleBtn(facetKey, item)).join('');
+    const wideCls = gridClass.includes('wide') ? ' wide' : '';
+
+    return `
+      <div class="filter-box${wideCls} reveal" data-facet="${facetKey}">
+        <div class="filter-box-header">
+          <div class="filter-box-title">
+            ${title} ${this._facetCountHTML(facetKey)}
+          </div>
+          ${this._presetButtonsHTML(facetKey)}
+        </div>
+        ${note}
+        <div class="${gridClass.replace(' wide', '')}" id="${facetKey}-grid">${toggle}</div>
+      </div>
+    `;
+  }
+
+  /** Compteur « 2 ✓ · 1 ✗ » dans l'en-tête d'une facette. */
+  _facetCountHTML(facetKey) {
+    const s = this.state.facets[facetKey];
+    const parts = [];
+    if (s.inc.length) parts.push(`<span class="facet-count-inc">${s.inc.length} ✓</span>`);
+    if (s.exc.length) parts.push(`<span class="facet-count-exc">${s.exc.length} ✗</span>`);
+    return `<span class="facet-count" data-count-for="${facetKey}">${parts.join('<span class="facet-count-sep">·</span>')}</span>`;
+  }
+
+  /** Presets « tout inclure / tout exclure / tout ignorer ». */
+  _presetButtonsHTML(facetKey) {
+    return `
+      <div class="toggle-all-row">
+        <button class="btn-tri-set" data-preset="1" data-category="${facetKey}"
+                title="Tout inclure dans cette catégorie" aria-label="Tout inclure">✓</button>
+        <button class="btn-tri-set" data-preset="-1" data-category="${facetKey}"
+                title="Tout exclure dans cette catégorie" aria-label="Tout exclure">✗</button>
+        <button class="btn-tri-set" data-preset="0" data-category="${facetKey}"
+                title="Tout ignorer dans cette catégorie (N/A)" aria-label="Tout ignorer">N/A</button>
+      </div>
+    `;
+  }
+
+  /** Génère le HTML d'un bouton tri-état. */
+  _toggleBtn(category, item) {
+    const state    = this._stateOf(category, item.id);
+    const locked   = category === 'theme'
+      && item.id === this._eroticThemeId
+      && !this.allowAdultContent;
+
+    const cls   = locked ? 'state-exc' : this._stateClass(state);
+    const label = state === 1 ? 'inclus' : state === -1 ? 'exclu' : 'ignoré';
+    const next  = state === 1 ? 'exclure' : state === -1 ? 'ignorer' : 'inclure';
+
+    if (locked) {
+      return `<button class="toggle-btn ${cls} locked" type="button"
+                      data-category="${category}" data-id="${item.id}" data-state="-1"
+                      data-locked="1" disabled
+                      title="Active le contenu adulte dans Paramètres pour modifier ce thème">
+        <span class="toggle-dot"></span>${this._esc(item.name)}
       </button>`;
     }
-    return `<button class="toggle-btn ${isOn ? 'on' : 'off'}"
-                    data-id="${id}"
-                    data-category="${category}">
-      <span class="toggle-dot"></span>${this._esc(name)}
+
+    return `<button class="toggle-btn ${cls}" type="button"
+                    data-category="${category}" data-id="${item.id}" data-state="${state}"
+                    aria-label="${this._esc(item.name)} : ${label}. Cliquer pour ${next}."
+                    title="État : ${label} — clic pour ${next}">
+      <span class="toggle-dot"></span>${this._esc(item.name)}
     </button>`;
   }
 
+  _stateClass(state) {
+    return state === 1 ? 'state-inc' : state === -1 ? 'state-exc' : 'state-neutral';
+  }
+
   // ─────────────────────────────────────────────────────────────────
-  // EVENTS
+  // ÉTAT
+  // ─────────────────────────────────────────────────────────────────
+
+  _stateOf(category, id) {
+    const facet = this.state.facets[category];
+    if (!facet) return 0;
+    const numericId = Number(id);
+    if (facet.inc.includes(numericId)) return 1;
+    if (facet.exc.includes(numericId)) return -1;
+    return 0;
+  }
+
+  /** Applique l'état d'une valeur dans le modèle. */
+  _setState(category, id, state) {
+    const facet = this.state.facets[category];
+    if (!facet) return;
+    const numericId = Number(id);
+    facet.inc = facet.inc.filter(v => v !== numericId);
+    facet.exc = facet.exc.filter(v => v !== numericId);
+    if (state === 1) facet.inc.push(numericId);
+    else if (state === -1) facet.exc.push(numericId);
+  }
+
+  /** Cycle l'état d'un bouton : N/A → Inclure (voulu) → Exclure (banni) → N/A. */
+  _cycle(btn) {
+    if (btn.disabled) return;
+    const current = Number(btn.dataset.state) || 0;
+    const idx     = FiltersUI.CYCLE.indexOf(current);
+    const next    = FiltersUI.CYCLE[(idx + 1) % FiltersUI.CYCLE.length];
+    this._applyState(btn, next);
+  }
+
+  /**
+   * Applique directement un état, quel que soit l'état d'origine.
+   * Utilisé par les raccourcis Ctrl/Shift (clic = voulu, clic droit = banni).
+   */
+  _applyState(btn, state) {
+    if (btn.disabled) return;
+    const category = btn.dataset.category;
+    const id       = Number(btn.dataset.id);
+
+    this._setState(category, id, state);
+    this._syncButton(btn, state);
+    this._syncFacetHeader(category);
+    this._syncSummary();
+  }
+
+  /** Met à jour un bouton (classe, dataset, libellés) sans re-render complet. */
+  _syncButton(btn, state) {
+    const name = btn.textContent.trim();
+    btn.classList.remove('state-inc', 'state-exc', 'state-neutral');
+    btn.classList.add(this._stateClass(state));
+    btn.dataset.state = String(state);
+
+    const label = state === 1 ? 'inclus' : state === -1 ? 'exclu' : 'ignoré';
+    const next  = state === 1 ? 'exclure' : state === -1 ? 'ignorer' : 'inclure';
+    btn.setAttribute('aria-label', `${name} : ${label}. Cliquer pour ${next}. Ctrl ou Maj + clic pour inclure, Ctrl ou Maj + clic droit pour exclure.`);
+    btn.title = `État : ${label} — clic pour ${next}\nCtrl/Shift + clic : inclure · Ctrl/Shift + clic droit : bannir`;
+  }
+
+  /**
+   * Applique un état à toute une facette.
+   * @param {string} category
+   * @param {1|-1|0} state
+   */
+  _setFacetState(category, state) {
+    const items = this.filtersBusiness.getFacetItems(category);
+    for (const item of items) {
+      this._setState(category, item.id, state);
+    }
+    // Le thème Erotic verrouillé reste exclu si le contenu adulte est désactivé
+    if (category === 'theme') this._enforceAdultPolicy();
+
+    document.querySelectorAll(`.toggle-btn[data-category="${category}"]`).forEach(btn => {
+      if (btn.disabled) return; // thème verrouillé (contenu adulte)
+      this._syncButton(btn, state);
+    });
+    this._syncFacetHeader(category);
+    this._syncSummary();
+    console.log(`[FiltersUI] Facette ${category} → ${state === 1 ? 'tout inclus' : state === -1 ? 'tout exclu' : 'tout ignoré'}`);
+  }
+
+  /** Rafraîchit tous les compteurs de facette (après un rendu complet). */
+  _syncAllFacetHeaders() {
+    for (const facet of FiltersBusiness.FACETS) {
+      this._syncFacetHeader(facet.key);
+    }
+  }
+
+  /** Rafraîchit le compteur d'une facette dans son en-tête. */
+  _syncFacetHeader(category) {
+    const el = document.querySelector(`[data-count-for="${category}"]`);
+    if (!el) return;
+    const s = this.state.facets[category];
+    const parts = [];
+    if (s.inc.length) parts.push(`<span class="facet-count-inc">${s.inc.length} ✓</span>`);
+    if (s.exc.length) parts.push(`<span class="facet-count-exc">${s.exc.length} ✗</span>`);
+    el.innerHTML = parts.join('<span class="facet-count-sep">·</span>');
+  }
+
+  /** Rafraîchit le résumé global sous la grille. */
+  _syncSummary() {
+    const el = document.getElementById('filters-summary');
+    if (!el) return;
+    const summary = this.filtersBusiness.summarize(this.state);
+    el.textContent = summary.txt;
+    el.classList.toggle('is-empty', summary.activeFacets === 0);
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // ÉVÉNEMENTS
   // ─────────────────────────────────────────────────────────────────
 
   _bindEvents() {
-    // ── Toggle buttons (plateformes / modes / genres / thèmes) ────
-    document.querySelectorAll('.toggle-btn').forEach(btn => {
-      btn.addEventListener('click', () => this._toggleItem(btn));
+    const container = this._container;
+
+    // Délégation : critères + presets
+    container.addEventListener('click', e => {
+      const toggle = e.target.closest('.toggle-btn');
+      if (toggle) {
+        // Ctrl/Shift + clic : forcer « voulu », quel que soit l'état courant
+        if (e.ctrlKey || e.shiftKey) this._applyState(toggle, 1);
+        else this._cycle(toggle);
+        return;
+      }
+
+      const preset = e.target.closest('.btn-tri-set');
+      if (preset) {
+        this._setFacetState(preset.dataset.category, Number(preset.dataset.preset));
+      }
     });
 
-    // ── Boutons All ON / All OFF ──────────────────────────────────
-    document.querySelectorAll('.btn-toggle-all').forEach(btn => {
-      btn.addEventListener('click', () => this._toggleAll(btn.dataset.action, btn.dataset.category));
+    // Ctrl/Shift + clic droit : forcer « banni » (on bloque le menu contextuel)
+    container.addEventListener('contextmenu', e => {
+      const toggle = e.target.closest('.toggle-btn');
+      if (!toggle || !(e.ctrlKey || e.shiftKey)) return;
+      e.preventDefault();
+      this._applyState(toggle, -1);
     });
 
-    // ── Expand / collapse "autres plateformes" ────────────────────
-    const btnExpand = document.getElementById('btn-expand-platforms');
+    // Expansion des plateformes secondaires
+    const btnExpand     = document.getElementById('btn-expand-platforms');
     const othersWrapper = document.getElementById('platforms-others-wrapper');
     if (btnExpand && othersWrapper) {
       btnExpand.addEventListener('click', () => {
         const opening = othersWrapper.classList.contains('hidden');
-        othersWrapper.classList.toggle('hidden');
+        othersWrapper.classList.toggle('hidden', !opening);
+        btnExpand.setAttribute('aria-expanded', String(opening));
+        const count = othersWrapper.querySelectorAll('.toggle-btn').length;
         btnExpand.textContent = opening
-          ? `▾ Masquer les autres plateformes`
-          : `▸ Voir toutes les plateformes (${othersWrapper.querySelectorAll('.toggle-btn').length})`;
-
-        // Focus la recherche quand on ouvre
+          ? '▾ Masquer les autres plateformes'
+          : `▸ Voir les autres plateformes (${count})`;
         if (opening) {
-          const searchInput = document.getElementById('platforms-search-input');
-          if (searchInput) setTimeout(() => searchInput.focus(), 100);
+          document.getElementById('platforms-search-input')?.focus();
         }
       });
     }
 
-    // ── Recherche dans les autres plateformes ─────────────────────
-    const searchInput = document.getElementById('platforms-search-input');
-    if (searchInput) {
-      searchInput.addEventListener('input', () => this._filterOtherPlatforms());
-    }
+    document.getElementById('platforms-search-input')
+      ?.addEventListener('input', () => this._filterOtherPlatforms());
 
-    // ── Double range slider ───────────────────────────────────────
+    // Sliders années
     const rangeMin = document.getElementById('range-year-min');
     const rangeMax = document.getElementById('range-year-max');
     const fill     = document.getElementById('slider-fill');
@@ -376,32 +512,28 @@ class FiltersUI {
     const maxY     = this.filterData.maxYear;
     const total    = maxY - minY || 1;
 
-    const updateSlider = () => {
-      let lo = parseInt(rangeMin.value);
-      let hi = parseInt(rangeMax.value);
+    const updateYearSlider = () => {
+      let lo = parseInt(rangeMin.value, 10);
+      let hi = parseInt(rangeMax.value, 10);
       if (lo > hi) { rangeMin.value = hi; lo = hi; }
       if (hi < lo) { rangeMax.value = lo; hi = lo; }
-      const lPct = ((lo - minY) / total * 100).toFixed(2);
-      const rPct = (100 - (hi - minY) / total * 100).toFixed(2);
-      fill.style.left  = lPct + '%';
-      fill.style.right = rPct + '%';
+      fill.style.left  = ((lo - minY) / total * 100).toFixed(2) + '%';
+      fill.style.right = (100 - (hi - minY) / total * 100).toFixed(2) + '%';
       label.textContent = `${lo} — ${hi}`;
       this.state.y = [lo, hi];
-      console.log(`[FiltersUI] Plage d'années : ${lo} – ${hi}`);
     };
+    rangeMin?.addEventListener('input', updateYearSlider);
+    rangeMax?.addEventListener('input', updateYearSlider);
 
-    rangeMin?.addEventListener('input', updateSlider);
-    rangeMax?.addEventListener('input', updateSlider);
-
-    // ── Score slider ──────────────────────────────────────────────
+    // Slider score
     const scoreRangeMin = document.getElementById('range-score-min');
     const scoreRangeMax = document.getElementById('range-score-max');
     const scoreFill     = document.getElementById('score-slider-fill');
     const scoreLabel    = document.getElementById('score-range-label');
 
     const updateScoreSlider = () => {
-      let lo = parseInt(scoreRangeMin.value);
-      let hi = parseInt(scoreRangeMax.value);
+      let lo = parseInt(scoreRangeMin.value, 10);
+      let hi = parseInt(scoreRangeMax.value, 10);
       if (lo > hi) { scoreRangeMin.value = hi; lo = hi; }
       if (hi < lo) { scoreRangeMax.value = lo; hi = lo; }
       scoreFill.style.left  = lo + '%';
@@ -409,149 +541,52 @@ class FiltersUI {
       scoreLabel.textContent = `${lo} — ${hi}`;
       this.state.scoreMin = lo;
       this.state.scoreMax = hi;
-      console.log(`[FiltersUI] Plage de score : ${lo} – ${hi}`);
     };
-
     scoreRangeMin?.addEventListener('input', updateScoreSlider);
     scoreRangeMax?.addEventListener('input', updateScoreSlider);
 
-    // ── Switch : jeux sans note ───────────────────────────────────
+    // Interrupteurs
     document.getElementById('cb-allow-no-score')?.addEventListener('change', e => {
       this.state.allowNoScore = e.target.checked;
-      console.log(`[FiltersUI] Autoriser sans note : ${e.target.checked}`);
     });
-
-    // ── Switch : fangame/mod ──────────────────────────────────────
     document.getElementById('cb-allow-fangame')?.addEventListener('change', e => {
       this.state.allowFangame = e.target.checked;
-      console.log(`[FiltersUI] Autoriser fangame/mod : ${e.target.checked}`);
     });
-
-    // ── Switch : uniquement Game Awards ─────────────────────────
     document.getElementById('cb-only-game-awards')?.addEventListener('change', e => {
       this.state.onlyGameAwards = e.target.checked;
-      console.log(`[FiltersUI] Uniquement Game Awards : ${e.target.checked}`);
     });
 
-    // ── Bouton Lancer la Roulette ─────────────────────────────────
-    document.getElementById('btn-launch-roulette')?.addEventListener('click', () => {
-      this._launchRoulette();
+    // Actions
+    document.getElementById('btn-launch-roulette')?.addEventListener('click', () => this._launchRoulette());
+    document.getElementById('btn-load-filter')?.addEventListener('click', () => this._showLoadFilterPopup());
+    document.getElementById('btn-reset-filters')?.addEventListener('click', () => {
+      this.state = this.filtersBusiness.getDefaultSettings();
+      this._enforceAdultPolicy();
+      this.render(this._container, {});
     });
 
-    // ── Bouton Charger un filtre ──────────────────────────────────
-    document.getElementById('btn-load-filter')?.addEventListener('click', () => {
-      this._showLoadFilterPopup();
-    });
-
-    // ── Bouton Sauvegarder les critères ───────────────────────────
-    document.getElementById('btn-save-filter')?.addEventListener('click', () => {
-      this._toggleSaveFilterForm(true);
-    });
-    document.getElementById('btn-save-filter-cancel')?.addEventListener('click', () => {
-      this._toggleSaveFilterForm(false);
-    });
-    document.getElementById('btn-save-filter-confirm')?.addEventListener('click', () => {
-      this._confirmSaveFilter();
-    });
+    document.getElementById('btn-save-filter')?.addEventListener('click', () => this._toggleSaveFilterForm(true));
+    document.getElementById('btn-save-filter-cancel')?.addEventListener('click', () => this._toggleSaveFilterForm(false));
+    document.getElementById('btn-save-filter-confirm')?.addEventListener('click', () => this._confirmSaveFilter());
     document.getElementById('save-filter-name')?.addEventListener('keydown', e => {
       if (e.key === 'Enter') this._confirmSaveFilter();
       if (e.key === 'Escape') this._toggleSaveFilterForm(false);
     });
   }
 
-  /**
-   * Bascule tous les items d'une catégorie ON ou OFF.
-   * @param {'all-on'|'all-off'} action
-   * @param {string}             category
-   */
-  _toggleAll(action, category) {
-    const isOn = action === 'all-on';
-    const btns = document.querySelectorAll(`.toggle-btn[data-category="${category}"]`);
-
-    btns.forEach(btn => {
-      if (btn.disabled) return; // Ne jamais toucher les boutons désactivés (ex: Erotic)
-      btn.classList.remove('on', 'off');
-      btn.classList.add(isOn ? 'on' : 'off');
-    });
-
-    switch (category) {
-      case 'platform':
-        this.state.p = isOn ? this.filterData.platforms.map(p => p.id) : [];
-        break;
-      case 'mode':
-        this.state.m = isOn ? this.filterData.gameModes.map(m => m.id) : [];
-        break;
-      case 'genre':
-        this.state.g = isOn ? this.filterData.genres.map(g => g.id) : [];
-        break;
-      case 'theme': {
-        // Ne jamais inclure le thème Erotic si le contenu adulte est désactivé
-        const allowed = this.filterData.themes.filter(
-          t => this.allowAdultContent || t.id !== this._eroticThemeId
-        );
-        this.state.t = isOn ? allowed.map(t => t.id) : [];
-        break;
-      }
-      case 'game-type': {
-        const nonZero = (this.filterData.gameTypes || []).filter(t => t.id !== 0);
-        this.state.allowedGameTypes = isOn ? nonZero.map(t => t.id) : [];
-        break;
-      }
-    }
-    console.log(`[FiltersUI] Toggle All ${action} pour ${category}`);
-  }
-
-  /** Bascule un item ON/OFF et met à jour l'état. */
-  _toggleItem(btn) {
-    const id  = Number(btn.dataset.id);
-    const cat = btn.dataset.category;
-
-    let arr;
-    switch (cat) {
-      case 'platform':  arr = this.state.p; break;
-      case 'mode':      arr = this.state.m; break;
-      case 'genre':     arr = this.state.g; break;
-      case 'theme':     arr = this.state.t; break;
-      case 'game-type': arr = this.state.allowedGameTypes; break;
-      default: return;
-    }
-
-    const set = new Set(arr);
-    if (set.has(id)) {
-      set.delete(id);
-      btn.classList.replace('on', 'off');
-    } else {
-      set.add(id);
-      btn.classList.replace('off', 'on');
-    }
-
-    const updated = [...set];
-    switch (cat) {
-      case 'platform':  this.state.p = updated; break;
-      case 'mode':      this.state.m = updated; break;
-      case 'genre':     this.state.g = updated; break;
-      case 'theme':     this.state.t = updated; break;
-      case 'game-type': this.state.allowedGameTypes = updated; break;
-    }
-    console.log(`[FiltersUI] Toggle ${cat} id=${id} → ${set.has(id) ? 'ON' : 'OFF'}`);
-  }
-
   // ─────────────────────────────────────────────────────────────────
-  // SAUVEGARDE / CHARGEMENT DE FILTRES
+  // SAUVEGARDE / CHARGEMENT
   // ─────────────────────────────────────────────────────────────────
 
   _toggleSaveFilterForm(show) {
     const form    = document.getElementById('save-filter-form');
     const btnSave = document.getElementById('btn-save-filter');
     if (!form) return;
+    form.classList.toggle('hidden', !show);
+    btnSave?.classList.toggle('hidden', show);
     if (show) {
-      form.classList.remove('hidden');
-      btnSave?.classList.add('hidden');
       const input = document.getElementById('save-filter-name');
       if (input) { input.value = ''; input.focus(); }
-    } else {
-      form.classList.add('hidden');
-      btnSave?.classList.remove('hidden');
     }
   }
 
@@ -561,14 +596,13 @@ class FiltersUI {
     const name  = input?.value?.trim();
     if (!name) { input?.focus(); return; }
     try {
-      const stateToSave = { ...this.state };
-      console.log(`[FiltersUI] 💾 Sauvegarde du filtre « ${name} » :`, JSON.stringify(stateToSave));
+      const stateToSave = this.filtersBusiness.normalizeSettings(this.state);
       await this.userProfile.saveFilter(name, stateToSave);
       this._toggleSaveFilterForm(false);
       this._showToast(`Filtre « ${name} » sauvegardé.`);
-      console.log(`[FiltersUI] ✅ Filtre « ${name} » sauvegardé avec succès.`);
     } catch (e) {
       console.error('[FiltersUI] Erreur sauvegarde filtre :', e);
+      this._showToast('⚠ Sauvegarde impossible.');
     }
   }
 
@@ -582,15 +616,20 @@ class FiltersUI {
     const renderList = () => {
       const listHTML = filters.length === 0
         ? `<p class="saved-filters-empty">Aucun filtre sauvegardé.</p>`
-        : filters.map((f, i) => `
-            <div class="saved-filter-row" data-index="${i}">
-              <span class="saved-filter-name">${this._esc(f.name)}</span>
-              <div class="saved-filter-actions">
-                <button class="btn-neon btn-sm green btn-load-saved" data-index="${i}">Charger</button>
-                <button class="btn-neon btn-sm magenta btn-delete-saved" data-index="${i}">Supprimer</button>
-              </div>
-            </div>`
-          ).join('');
+        : filters.map((f, i) => {
+            const summary = this.filtersBusiness.summarize(f.state);
+            return `
+              <div class="saved-filter-row" data-index="${i}">
+                <span class="saved-filter-info">
+                  <span class="saved-filter-name">${this._esc(f.name)}</span>
+                  <span class="saved-filter-meta">${summary.txt}</span>
+                </span>
+                <div class="saved-filter-actions">
+                  <button class="btn-neon btn-sm mint btn-load-saved" data-index="${i}">Charger</button>
+                  <button class="btn-neon btn-sm silver btn-delete-saved" data-index="${i}">Supprimer</button>
+                </div>
+              </div>`;
+          }).join('');
 
       return `
         <div class="popup-card popup-card-wide">
@@ -608,12 +647,9 @@ class FiltersUI {
     const rebindButtons = () => {
       popup.querySelectorAll('.btn-load-saved').forEach(btn => {
         btn.addEventListener('click', () => {
-          const idx   = Number(btn.dataset.index);
-          const saved = filters[idx];
+          const saved = filters[Number(btn.dataset.index)];
           if (!saved) return;
-          console.log(`[FiltersUI] 📂 Chargement du filtre « ${saved.name} » :`, JSON.stringify(saved.state));
           const encoded = this.filtersBusiness.encodeSettings(saved.state);
-          console.log(`[FiltersUI] 📂 Encodé en preSettings : ${encoded}`);
           popup.remove();
           this.render(this._container, { preSettings: encoded });
         });
@@ -647,7 +683,7 @@ class FiltersUI {
     setTimeout(() => {
       toast.classList.remove('filter-toast-visible');
       setTimeout(() => toast.remove(), 400);
-    }, 2500);
+    }, 2600);
   }
 
   // ─────────────────────────────────────────────────────────────────
@@ -660,21 +696,26 @@ class FiltersUI {
     if (statusEl) statusEl.textContent = '🔍 Recherche en cours…';
     if (btnEl) { btnEl.disabled = true; btnEl.style.opacity = '0.55'; }
 
-    // setTimeout pour laisser le DOM se mettre à jour avant la requête synchrone
+    // Laisse le DOM peindre l'état « recherche » avant la requête synchrone
     setTimeout(() => {
       try {
-        const ids = this.filtersBusiness.runQuery({ ...this.state, allowAdultContent: this.allowAdultContent });
+        const ids = this.filtersBusiness.runQuery(this.state, {
+          allowAdultContent: this.allowAdultContent,
+        });
 
         if (ids.length === 0) {
-          console.log('[FiltersUI] Aucun résultat');
           if (statusEl) statusEl.textContent = '';
           if (btnEl) { btnEl.disabled = false; btnEl.style.opacity = '1'; }
           this._showNoResultsPopup();
           return;
         }
 
+        if (statusEl) {
+          statusEl.textContent = `${this.filtersBusiness.lastResultCount} jeu${this.filtersBusiness.lastResultCount > 1 ? 'x' : ''} correspondent — préparation de la roulette…`;
+        }
+
         const encoded = this.filtersBusiness.encodeSettings(this.state);
-        console.log(`[FiltersUI] ${ids.length} jeux trouvés, navigation vers la roulette`);
+
         // +5 XP au lancement de la roulette
         if (this.userProfile) {
           this.userProfile.addXP(5).then(() => showXPNotif(5));
@@ -690,7 +731,7 @@ class FiltersUI {
   }
 
   // ─────────────────────────────────────────────────────────────────
-  // POPUP "AUCUN RÉSULTAT"
+  // POPUP AUCUN RÉSULTAT
   // ─────────────────────────────────────────────────────────────────
 
   _showNoResultsPopup() {
@@ -701,53 +742,41 @@ class FiltersUI {
         <div class="popup-title">Aucun résultat</div>
         <div class="popup-text">
           Aucun jeu ne correspond à ces critères.<br/>
-          Essaie d'élargir tes filtres ou réinitialise tout.
+          Une exclusion est peut-être trop large, ou une inclusion trop stricte.
         </div>
         <div class="popup-actions">
           <button class="btn-neon" id="popup-edit">Modifier manuellement</button>
-          <button class="btn-neon magenta" id="popup-reset">Réinitialiser</button>
+          <button class="btn-neon silver" id="popup-reset">Réinitialiser</button>
         </div>
       </div>
     `;
     document.body.appendChild(popup);
 
-    popup.querySelector('#popup-edit')?.addEventListener('click', () => {
-      popup.remove();
-    });
+    popup.querySelector('#popup-edit')?.addEventListener('click', () => popup.remove());
     popup.querySelector('#popup-reset')?.addEventListener('click', () => {
       popup.remove();
       this.state = this.filtersBusiness.getDefaultSettings();
+      this._enforceAdultPolicy();
       this.render(this._container, {});
     });
     popup.addEventListener('click', e => { if (e.target === popup) popup.remove(); });
   }
 
   // ─────────────────────────────────────────────────────────────────
-  // FILTRE RECHERCHE PLATEFORMES
+  // RECHERCHE PLATEFORMES
   // ─────────────────────────────────────────────────────────────────
 
   _filterOtherPlatforms() {
     const searchInput = document.getElementById('platforms-search-input');
-    const scrollContainer = document.getElementById('platforms-others-scroll');
-    if (!searchInput || !scrollContainer) return;
+    const scroll      = document.getElementById('platforms-others-scroll');
+    if (!searchInput || !scroll) return;
 
     const query = searchInput.value.toLowerCase().trim();
-    const toggleBtns = scrollContainer.querySelectorAll('.toggle-btn[data-category="platform"]');
-
-    toggleBtns.forEach(btn => {
-      const name = btn.textContent.toLowerCase().trim();
-      const isOn = btn.classList.contains('on');
-      // Les plateformes en ON restent toujours visibles
-      if (isOn) {
-        btn.style.display = '';
-        return;
-      }
-      // Les plateformes OFF sont filtrées selon la recherche
-      if (!query || name.includes(query)) {
-        btn.style.display = '';
-      } else {
-        btn.style.display = 'none';
-      }
+    scroll.querySelectorAll('.toggle-btn[data-category="platform"]').forEach(btn => {
+      const state = Number(btn.dataset.state) || 0;
+      const name  = btn.textContent.toLowerCase().trim();
+      // Les critères actifs (inclus/exclus) restent toujours visibles
+      btn.style.display = (state !== 0 || !query || name.includes(query)) ? '' : 'none';
     });
   }
 
@@ -756,12 +785,16 @@ class FiltersUI {
   // ─────────────────────────────────────────────────────────────────
 
   _activateReveal() {
+    if (typeof IntersectionObserver === 'undefined') {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+      return;
+    }
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
       });
     }, { threshold: 0.05 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
   }
 
   _esc(str) {

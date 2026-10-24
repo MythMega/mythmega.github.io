@@ -1,0 +1,271 @@
+{
+  "bossName": "Regirock Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/regirock_shiny.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/regirock_shiny.png",
+  "bossRarity": "LEGENDARY",
+  "shiny": true,
+  "pvMax": 150000,
+  "date": "2026-10-24 20:03:35",
+  "durationSec": 6091,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 150000,
+      "countAtk": 4,
+      "baseDmg": 43634,
+      "level": 20,
+      "raidCount": 1150,
+      "luck": 0.85942155
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 26593,
+      "countAtk": 2,
+      "baseDmg": 8845,
+      "level": 16,
+      "raidCount": 364,
+      "luck": 1.5032787
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 3973,
+      "countAtk": 2,
+      "baseDmg": 1850,
+      "level": 11,
+      "raidCount": 99,
+      "luck": 1.0737838
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 1843,
+      "countAtk": 1,
+      "baseDmg": 1843,
+      "level": 11,
+      "raidCount": 90,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 1018,
+      "countAtk": 1,
+      "baseDmg": 1018,
+      "level": 10,
+      "raidCount": 63,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 179454
+    },
+    {
+      "platform": "youtube",
+      "damage": 3973
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-24 20:08:21",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 8845,
+      "pvAfter": 141155,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 20:11:50",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1018,
+      "pvAfter": 140137,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 20:13:51",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1843,
+      "pvAfter": 138294,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 21:06:07",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 17748,
+      "pvAfter": 120546,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 21:07:37",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1850,
+      "pvAfter": 118696,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 21:10:02",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2123,
+      "pvAfter": 116573,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 21:19:05",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 79073,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 21:32:56",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 41573,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 21:37:50",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 4073,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-24 21:45:07",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 37500,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

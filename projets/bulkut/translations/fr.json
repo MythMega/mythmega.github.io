@@ -1,0 +1,151 @@
+{
+  "app": {
+    "title": "Bulkut — montage vidéo local",
+    "name": "Bulkut",
+    "tagline": "Montage vidéo local, aucun fichier envoyé",
+    "skip": "Aller au contenu",
+    "footer": "Tout se passe dans votre navigateur avec ffmpeg.wasm. Vos fichiers ne quittent jamais cet appareil.",
+    "versionLabel": "Version"
+  },
+  "lang": {
+    "label": "Langue"
+  },
+  "nav": {
+    "label": "Outils",
+    "autocut": "Autocut",
+    "fastcut": "Fastcut",
+    "reverse": "Reverser"
+  },
+  "engine": {
+    "idle": "Moteur inactif",
+    "loading": "Chargement du moteur…",
+    "ready": "Moteur prêt",
+    "error": "Erreur du moteur",
+    "hint": "Le moteur vidéo (ffmpeg.wasm) se charge au premier rendu."
+  },
+  "common": {
+    "suffix": {
+      "label": "Suffixe de sortie",
+      "hint": "Ajouté au nom du fichier avant le téléchargement.",
+      "placeholder": "-modifie"
+    },
+    "oneAtATime": "Une vidéo à la fois, dans l'ordre de lancement.",
+    "localOnly": "Tout reste sur cet appareil.",
+    "dropTitle": "Glissez-déposez vos vidéos ici",
+    "dropFileTitle": "Glissez-déposez une vidéo ici",
+    "browse": "Parcourir les fichiers",
+    "addFiles": "Ajouter des vidéos",
+    "remove": "Retirer",
+    "configure": "Réglages",
+    "excerpt": "Extrait",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "defaultBadge": "Défaut",
+    "customBadge": "Personnalisé",
+    "unknownDuration": "Durée inconnue",
+    "ready": "Prêt",
+    "queued": "En file d'attente",
+    "preparing": "Préparation",
+    "analyzing": "Analyse des silences",
+    "rendering": "Rendu en cours",
+    "done": "Terminé",
+    "error": "Erreur",
+    "outputDuration": "Durée de sortie",
+    "hours": "h",
+    "minutes": "m",
+    "seconds": "s"
+  },
+  "autocut": {
+    "settings": {
+      "title": "Réglages globaux",
+      "hint": "Ces valeurs s'appliquent à chaque vidéo qui suit les valeurs par défaut."
+    },
+    "fields": {
+      "threshold": "Seuil de silence",
+      "thresholdHint": "Le niveau en dessous duquel un son est considéré comme un silence.",
+      "precut": "Marge avant",
+      "precutHint": "Temps conservé juste avant le début de la parole.",
+      "postcut": "Marge après",
+      "postcutHint": "Temps de respiration conservé après la fin de la parole.",
+      "minClip": "Durée minimale des clips",
+      "minClipHint": "Les passages conservés plus courts que cette durée sont supprimés."
+    },
+    "list": {
+      "title": "Vidéos",
+      "hint": "Chaque vidéo peut remplacer les réglages globaux."
+    },
+    "empty": "Aucune vidéo pour l'instant. Déposez des clips pour en retirer les silences.",
+    "runAll": "Tout traiter ({count})",
+    "modal": {
+      "title": "Réglages de « {name} »",
+      "hint": "Les valeurs actuelles servent de point de départ ; elles ne s'appliquent qu'à cette vidéo.",
+      "apply": "Appliquer à cette vidéo",
+      "useDefaults": "Suivre les valeurs par défaut"
+    },
+    "excerpt": {
+      "title": "Générer un extrait d'une minute au milieu de la vidéo"
+    },
+    "resultDone": "{name} téléchargé.",
+    "stale": "Réglages modifiés — relancer le rendu",
+    "previewDone": "Extrait téléchargé : {name}",
+    "badge": {
+      "default": "Utilise les réglages globaux.",
+      "custom": "Utilise des réglages propres à cette vidéo."
+    },
+    "params": {
+      "title": "Seuil · marge avant · marge après · durée minimale des clips"
+    }
+  },
+  "fastcut": {
+    "settings": {
+      "title": "Réglages de coupe",
+      "hint": "Choisissez le début et la fin de l'extrait, puis exportez."
+    },
+    "run": "Exporter l'extrait",
+    "list": {
+      "title": "Extrait",
+      "hint": "Un fichier à la fois ; les curseurs définissent la plage conservée."
+    },
+    "start": "Début",
+    "end": "Fin",
+    "outputHint": "Plage sélectionnée",
+    "lengthSeconds": "{seconds} s",
+    "probing": "Lecture de la durée de la vidéo…",
+    "resultDone": "{name} téléchargé."
+  },
+  "reverse": {
+    "settings": {
+      "title": "Réglages d'inversion",
+      "hint": "Lit la vidéo et son audio à l'envers."
+    },
+    "run": "Inverser la vidéo",
+    "list": {
+      "title": "Vidéo",
+      "hint": "Un fichier à la fois."
+    },
+    "warning": "L'inversion charge tout le clip en mémoire : gardez-le court (quelques minutes).",
+    "longWarning": "Ce clip dure {duration} : l'inversion charge tout en mémoire et peut échouer.",
+    "resultDone": "{name} téléchargé."
+  },
+  "errors": {
+    "numberRange": "La valeur doit être comprise entre {min} et {max}.",
+    "notVideo": "{name} n'est pas un fichier vidéo pris en charge.",
+    "fileTooLarge": "{name} est trop volumineux ({size}). Limite : {limit}.",
+    "busy": "Une vidéo est déjà en cours de traitement.",
+    "startBeforeEnd": "Le début doit rester avant la fin (au moins 1 seconde).",
+    "endAfterStart": "La fin doit rester après le début (au moins 1 seconde).",
+    "timecode": "Saisissez un timecode valide entre 00:00:00 et 99:59:59.",
+    "duration": "Impossible de lire la durée de la vidéo.",
+    "noAudio": "Cette vidéo n'a pas de piste audio à analyser.",
+    "noSegments": "Aucune parole détectée avec ces réglages. Essayez un autre seuil.",
+    "tooManySegments": "Trop de segments à assembler ({max} maximum). Augmentez le seuil ou la durée minimale de silence.",
+    "noVideoStream": "Aucune piste vidéo trouvée dans ce fichier.",
+    "renderFailed": "FFmpeg n'a pas pu effectuer le rendu.",
+    "ffmpegLoad": "Impossible de charger ffmpeg.wasm.",
+    "ffmpegUnavailable": "Le moteur ffmpeg.wasm est absent. Vérifiez le dossier vendor/ffmpeg.",
+    "unknown": "Une erreur est survenue."
+  },
+  "toasts": {
+    "languageChanged": "Langue définie sur {language}."
+  }
+}

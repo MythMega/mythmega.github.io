@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Bulkut — cut silences, trim clips and reverse videos locally with ffmpeg.wasm. Your files never leave your device.">
+  <title data-i18n="app.title">Bulkut — local video editing</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230b1c46'/%3E%3Cpath d='M9 21.5 15.5 16 9 10.5' stroke='%237ba4ff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M17 22h6' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="grid-overlay"></span>
+  </div>
+
+  <a class="skip-link" href="#main" data-i18n="app.skip">Skip to content</a>
+
+  <header class="app-header glass">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="30" height="30" fill="none">
+          <path d="M7 22.5 15 16 7 9.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17 23h8" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M17 9h8" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity=".45"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <h1 data-i18n="app.name">Bulkut</h1>
+        <p data-i18n="app.tagline">Local video editing, nothing uploaded</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <span class="engine-chip" id="engine-chip" data-state="idle" title="">
+        <span class="engine-dot" aria-hidden="true"></span>
+        <span id="engine-label" data-i18n="engine.idle">Engine idle</span>
+      </span>
+      <div class="lang-switch" role="group" id="lang-switch" data-i18n-aria-label="lang.label">
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+        <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs glass" role="tablist" data-i18n-aria-label="nav.label" aria-label="Tools">
+    <button class="tab is-active" type="button" role="tab" id="tab-autocut" aria-controls="panel-autocut" aria-selected="true" tabindex="0" data-tab="autocut">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h4l2 3h4l2 3h4"/><path d="M4 18h4l2-3h4l2-3h4" opacity=".55"/>
+        </svg>
+      </span>
+      <span data-i18n="nav.autocut">Autocut</span>
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-fastcut" aria-controls="panel-fastcut" aria-selected="false" tabindex="-1" data-tab="fastcut">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><path d="M8 7.4 19 19M8 16.6 19 5"/>
+        </svg>
+      </span>
+      <span data-i18n="nav.fastcut">Fastcut</span>
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-reverse" aria-controls="panel-reverse" aria-selected="false" tabindex="-1" data-tab="reverse">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9a7 7 0 0 1 12-3.5"/><path d="M16 2.5V6h-3.5"/><path d="M20 15a7 7 0 0 1-12 3.5"/><path d="M8 21.5V18h3.5"/>
+        </svg>
+      </span>
+      <span data-i18n="nav.reverse">Reverse</span>
+    </button>
+  </nav>
+
+  <main id="main" class="app-main">
+    <!-- ============ AUTOCUT ============ -->
+    <section class="tab-panel is-active" id="panel-autocut" role="tabpanel" aria-labelledby="tab-autocut" data-panel="autocut">
+      <div class="panel-grid">
+        <aside class="card glass settings-card">
+          <div class="card-head">
+            <h2 data-i18n="autocut.settings.title">Global settings</h2>
+            <p data-i18n="autocut.settings.hint">Applied to every video that follows the defaults.</p>
+          </div>
+
+          <div class="field-stack" id="autocut-fields"></div>
+
+          <div class="field">
+            <label class="field-label" for="autocut-suffix" data-i18n="common.suffix.label">Output suffix</label>
+            <input class="text-input" id="autocut-suffix" type="text" autocomplete="off" spellcheck="false" maxlength="40" data-i18n-placeholder="common.suffix.placeholder" placeholder="-autocut">
+            <p class="field-hint" data-i18n="common.suffix.hint">Appended to the file name before download.</p>
+          </div>
+
+          <button class="btn btn-primary btn-block" id="autocut-run-all" type="button">
+            <span class="btn-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 4 14 8-14 8V4Z"/></svg>
+            </span>
+            <span data-role="label">Render all</span>
+          </button>
+          <p class="card-note" data-i18n="common.oneAtATime">One video at a time, in launch order.</p>
+        </aside>
+
+        <section class="card glass list-card">
+          <div class="card-head row">
+            <div>
+              <h2 data-i18n="autocut.list.title">Videos</h2>
+              <p data-i18n="autocut.list.hint">Each video can override the global settings.</p>
+            </div>
+            <div class="head-actions">
+              <span class="count-pill" id="autocut-count" aria-live="polite">0</span>
+              <button class="btn btn-secondary btn-compact" id="autocut-add" type="button">
+                <span class="btn-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                </span>
+                <span data-i18n="common.addFiles">Add videos</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="dropzone" id="autocut-dropzone" role="button" tabindex="0" aria-describedby="autocut-drop-note">
+            <input id="autocut-input" class="visually-hidden" type="file" accept="video/*,.mkv,.mov,.m4v,.webm,.avi,.mp4" multiple tabindex="-1" aria-hidden="true">
+            <span class="dropzone-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m10 9.5 5 2.5-5 2.5v-5Z"/>
+              </svg>
+            </span>
+            <p class="dropzone-title" data-i18n="common.dropTitle">Drag &amp; drop your videos here</p>
+            <p class="dropzone-sub"><span class="dropzone-link" data-i18n="common.browse">Browse files</span></p>
+            <p class="dropzone-note" id="autocut-drop-note" data-i18n="common.localOnly">Everything stays on this device.</p>
+          </div>
+
+          <ul class="video-list" id="autocut-list"></ul>
+          <p class="empty-state" id="autocut-empty" data-i18n="autocut.empty">No videos yet. Add a few clips to cut their silences.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ FASTCUT ============ -->
+    <section class="tab-panel" id="panel-fastcut" role="tabpanel" aria-labelledby="tab-fastcut" data-panel="fastcut" hidden>
+      <div class="panel-grid">
+        <aside class="card glass settings-card">
+          <div class="card-head">
+            <h2 data-i18n="fastcut.settings.title">Cut settings</h2>
+            <p data-i18n="fastcut.settings.hint">Pick the start and end of the clip, then export.</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="fastcut-suffix" data-i18n="common.suffix.label">Output suffix</label>
+            <input class="text-input" id="fastcut-suffix" type="text" autocomplete="off" spellcheck="false" maxlength="40" data-i18n-placeholder="common.suffix.placeholder" placeholder="-cut">
+            <p class="field-hint" data-i18n="common.suffix.hint">Appended to the file name before download.</p>
+          </div>
+
+          <button class="btn btn-primary btn-block" id="fastcut-run" type="button" disabled>
+            <span class="btn-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h6l2 8h6"/><path d="M5 20h6l2-8"/></svg>
+            </span>
+            <span data-role="label" data-i18n="fastcut.run">Export clip</span>
+          </button>
+          <p class="card-note" data-i18n="common.oneAtATime">One video at a time, in launch order.</p>
+        </aside>
+
+        <section class="card glass list-card">
+          <div class="card-head">
+            <h2 data-i18n="fastcut.list.title">Clip</h2>
+            <p data-i18n="fastcut.list.hint">One file at a time.</p>
+          </div>
+
+          <div class="dropzone" id="fastcut-dropzone" role="button" tabindex="0">
+            <input id="fastcut-input" class="visually-hidden" type="file" accept="video/*,.mkv,.mov,.m4v,.webm,.avi,.mp4" tabindex="-1" aria-hidden="true">
+            <span class="dropzone-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m10 9.5 5 2.5-5 2.5v-5Z"/>
+              </svg>
+            </span>
+            <p class="dropzone-title" data-i18n="common.dropFileTitle">Drag &amp; drop a video here</p>
+            <p class="dropzone-sub"><span class="dropzone-link" data-i18n="common.browse">Browse files</span></p>
+            <p class="dropzone-note" data-i18n="common.localOnly">Everything stays on this device.</p>
+          </div>
+
+          <div class="stage" id="fastcut-stage"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ REVERSE ============ -->
+    <section class="tab-panel" id="panel-reverse" role="tabpanel" aria-labelledby="tab-reverse" data-panel="reverse" hidden>
+      <div class="panel-grid">
+        <aside class="card glass settings-card">
+          <div class="card-head">
+            <h2 data-i18n="reverse.settings.title">Reverse settings</h2>
+            <p data-i18n="reverse.settings.hint">Plays the clip and its audio backwards.</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="reverse-suffix" data-i18n="common.suffix.label">Output suffix</label>
+            <input class="text-input" id="reverse-suffix" type="text" autocomplete="off" spellcheck="false" maxlength="40" data-i18n-placeholder="common.suffix.placeholder" placeholder="-reversed">
+            <p class="field-hint" data-i18n="common.suffix.hint">Appended to the file name before download.</p>
+          </div>
+
+          <button class="btn btn-primary btn-block" id="reverse-run" type="button" disabled>
+            <span class="btn-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a7 7 0 0 1 12-3.5"/><path d="M16 2.5V6h-3.5"/><path d="M20 15a7 7 0 0 1-12 3.5"/><path d="M8 21.5V18h3.5"/></svg>
+            </span>
+            <span data-role="label" data-i18n="reverse.run">Reverse video</span>
+          </button>
+          <p class="card-note warn-note" data-i18n="reverse.warning">Reversing buffers the whole clip: keep it short (a few minutes).</p>
+        </aside>
+
+        <section class="card glass list-card">
+          <div class="card-head">
+            <h2 data-i18n="reverse.list.title">Video</h2>
+            <p data-i18n="reverse.list.hint">One file at a time.</p>
+          </div>
+
+          <div class="dropzone" id="reverse-dropzone" role="button" tabindex="0">
+            <input id="reverse-input" class="visually-hidden" type="file" accept="video/*,.mkv,.mov,.m4v,.webm,.avi,.mp4" tabindex="-1" aria-hidden="true">
+            <span class="dropzone-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m10 9.5 5 2.5-5 2.5v-5Z"/>
+              </svg>
+            </span>
+            <p class="dropzone-title" data-i18n="common.dropFileTitle">Drag &amp; drop a video here</p>
+            <p class="dropzone-sub"><span class="dropzone-link" data-i18n="common.browse">Browse files</span></p>
+            <p class="dropzone-note" data-i18n="common.localOnly">Everything stays on this device.</p>
+          </div>
+
+          <div class="stage" id="reverse-stage"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p><span data-i18n="app.footer">Runs entirely in your browser with ffmpeg.wasm.</span> <span class="footer-sep" aria-hidden="true">·</span> <span data-i18n="app.versionLabel">Version</span> <span id="app-version">1.0.0</span></p>
+  </footer>
+
+  <dialog class="modal" id="autocut-dialog" aria-labelledby="autocut-dialog-title">
+    <form method="dialog" class="modal-inner glass">
+      <header class="modal-head">
+        <div>
+          <h2 id="autocut-dialog-title">Settings</h2>
+          <p id="autocut-dialog-hint" data-i18n="autocut.modal.hint">Start from the defaults, then adjust this video only.</p>
+        </div>
+        <button class="icon-btn" type="button" data-close-dialog aria-label="Close" data-i18n-aria-label="common.close">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </header>
+      <div class="field-stack" id="autocut-dialog-fields"></div>
+      <footer class="modal-actions">
+        <button class="btn btn-ghost" type="button" id="autocut-dialog-reset" data-i18n="autocut.modal.useDefaults">Follow defaults</button>
+        <span class="spacer"></span>
+        <button class="btn btn-ghost" type="button" data-close-dialog data-i18n="common.cancel">Cancel</button>
+        <button class="btn btn-primary" type="button" id="autocut-dialog-save" data-i18n="autocut.modal.apply">Apply</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <noscript>
+    <p class="noscript">Bulkut needs JavaScript to run ffmpeg.wasm in your browser.</p>
+  </noscript>
+
+  <script src="vendor/ffmpeg/ffmpeg.js"></script>
+  <script type="module" src="script/main.js"></script>
+</body>
+</html>

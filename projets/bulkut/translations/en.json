@@ -1,0 +1,151 @@
+{
+  "app": {
+    "title": "Bulkut — local video editing",
+    "name": "Bulkut",
+    "tagline": "Local video editing, nothing uploaded",
+    "skip": "Skip to content",
+    "footer": "Runs entirely in your browser with ffmpeg.wasm. Your files never leave this device.",
+    "versionLabel": "Version"
+  },
+  "lang": {
+    "label": "Language"
+  },
+  "nav": {
+    "label": "Tools",
+    "autocut": "Autocut",
+    "fastcut": "Fastcut",
+    "reverse": "Reverse"
+  },
+  "engine": {
+    "idle": "Engine idle",
+    "loading": "Loading engine…",
+    "ready": "Engine ready",
+    "error": "Engine error",
+    "hint": "The video engine (ffmpeg.wasm) loads on the first render."
+  },
+  "common": {
+    "suffix": {
+      "label": "Output suffix",
+      "hint": "Appended to the file name before download.",
+      "placeholder": "-edited"
+    },
+    "oneAtATime": "One video at a time, in launch order.",
+    "localOnly": "Everything stays on this device.",
+    "dropTitle": "Drag & drop your videos here",
+    "dropFileTitle": "Drag & drop a video here",
+    "browse": "Browse files",
+    "addFiles": "Add videos",
+    "remove": "Remove",
+    "configure": "Settings",
+    "excerpt": "Preview",
+    "cancel": "Cancel",
+    "close": "Close",
+    "defaultBadge": "Defaults",
+    "customBadge": "Custom",
+    "unknownDuration": "Duration unknown",
+    "ready": "Ready",
+    "queued": "Queued",
+    "preparing": "Preparing",
+    "analyzing": "Analysing silence",
+    "rendering": "Rendering",
+    "done": "Done",
+    "error": "Error",
+    "outputDuration": "Output duration",
+    "hours": "h",
+    "minutes": "m",
+    "seconds": "s"
+  },
+  "autocut": {
+    "settings": {
+      "title": "Global settings",
+      "hint": "These values apply to every video that follows the defaults."
+    },
+    "fields": {
+      "threshold": "Silence threshold",
+      "thresholdHint": "Loudness below this level is treated as silence.",
+      "precut": "Pre-cut margin",
+      "precutHint": "Extra time kept just before speech starts.",
+      "postcut": "Post-cut margin",
+      "postcutHint": "Breathing room kept just after speech ends.",
+      "minClip": "Minimum clip duration",
+      "minClipHint": "Kept clips shorter than this duration are dropped."
+    },
+    "list": {
+      "title": "Videos",
+      "hint": "Each video can override the global settings."
+    },
+    "empty": "No videos yet. Drop a few clips to remove their silences.",
+    "runAll": "Render all ({count})",
+    "modal": {
+      "title": "Settings for “{name}”",
+      "hint": "Starts from the current values; applies to this video only.",
+      "apply": "Apply to this video",
+      "useDefaults": "Follow defaults"
+    },
+    "excerpt": {
+      "title": "Render a 1-minute preview from the middle of the video"
+    },
+    "resultDone": "{name} downloaded.",
+    "stale": "Settings changed — render again",
+    "previewDone": "Preview downloaded: {name}",
+    "badge": {
+      "default": "Uses the global settings.",
+      "custom": "Uses settings specific to this video."
+    },
+    "params": {
+      "title": "Threshold · pre-cut · post-cut · minimum clip duration"
+    }
+  },
+  "fastcut": {
+    "settings": {
+      "title": "Cut settings",
+      "hint": "Pick the start and end of the clip, then export."
+    },
+    "run": "Export clip",
+    "list": {
+      "title": "Clip",
+      "hint": "One file at a time; the sliders set the kept range."
+    },
+    "start": "Start",
+    "end": "End",
+    "outputHint": "Selected range",
+    "lengthSeconds": "{seconds} s",
+    "probing": "Reading the video duration…",
+    "resultDone": "{name} downloaded."
+  },
+  "reverse": {
+    "settings": {
+      "title": "Reverse settings",
+      "hint": "Plays the clip and its audio backwards."
+    },
+    "run": "Reverse video",
+    "list": {
+      "title": "Video",
+      "hint": "One file at a time."
+    },
+    "warning": "Reversing buffers the whole clip in memory: keep it short (a few minutes).",
+    "longWarning": "This clip is {duration} long: reversing buffers all of it in memory and may fail.",
+    "resultDone": "{name} downloaded."
+  },
+  "errors": {
+    "numberRange": "The value must be between {min} and {max}.",
+    "notVideo": "{name} is not a supported video file.",
+    "fileTooLarge": "{name} is too large ({size}). Limit: {limit}.",
+    "busy": "A video is already being processed.",
+    "startBeforeEnd": "The start must stay before the end (at least 1 second).",
+    "endAfterStart": "The end must stay after the start (at least 1 second).",
+    "timecode": "Enter a valid timecode between 00:00:00 and 99:59:59.",
+    "duration": "Could not read the video duration.",
+    "noAudio": "This video has no audio track to analyse.",
+    "noSegments": "No speech found with these settings. Try another threshold.",
+    "tooManySegments": "Too many segments to render ({max} max). Raise the threshold or the minimum silence.",
+    "noVideoStream": "No video stream found in this file.",
+    "renderFailed": "FFmpeg could not render this video.",
+    "ffmpegLoad": "Could not load ffmpeg.wasm.",
+    "ffmpegUnavailable": "The ffmpeg.wasm runtime is missing. Check the vendor/ffmpeg folder.",
+    "unknown": "Something went wrong."
+  },
+  "toasts": {
+    "languageChanged": "Language set to {language}."
+  }
+}

@@ -1,0 +1,29 @@
+voici les 4 grandes étapes de la logique à implémenter en JavaScript/Wasm :
+
+Étape 1 : La détection brute des silences (avec le Seuil)
+Tu lances une première commande FFmpeg avec le filtre silencedetect en injectant ton paramètre de Seuil (ex: -30dB) pour trouver toutes les périodes de silence.
+ 
+FFmpeg génère des logs du type :
+silence_start: 12.5 (le silence commence à 12.5s)
+silence_end: 15.2 (le silence se termine à 15.2s)
+Ton code JS récupère ces intervalles pour lister les "moments de silence" et par déduction, les "moments où l'on parle".
+Étape 2 : L'ajustement des marges (Pre-cut et Post-cut)
+C'est l'étape où tu modifies mathématiquement les timestamps trouvés à l'étape 1 pour que les coupes ne soient pas trop brusques (ce qui couperait les mots ou laisserait des micro-blancs désagréables) :
+ 
+Le Pre-cut (marge de sécurité avant la parole) :
+ Quand une personne se remet à parler (fin d'un silence), tu veux garder un petit filet d'air juste avant. Tu déplaces donc le point de coupe un tout petit peu avant la fin du silence (ex: silence_end - 0.15s).
+Le Post-cut (marge de sécurité après la parole) :
+ Quand une personne arrête de parler (début d'un silence), tu ne veux pas couper cash sur la dernière syllabe. Tu laisses respirer la fin de phrase en décalant le point de coupe un tout petit peu après le début du silence (ex: silence_start + 0.20s).
+Étape 3 : Le calcul des segments à GARDER
+À partir de tes silences modifiés par le Pre-cut et le Post-cut, ton script JavaScript va inverser la logique pour lister uniquement les blocs de vidéo à conserver (les morceaux où l'on parle avec leurs marges).
+ 
+Exemple de liste de segments retenus :
+Garder de 00:00:00 à 00:00:12.35
+Garder de 00:00:15.00 à 00:00:45.20
+etc.
+Étape 4 : Le rendu final avec FFmpeg
+Une fois que tu as ta liste propre de segments, tu demandes à ffmpeg.wasm d'assembler tout ça.
+Techniquement, en FFmpeg, cela se fait soit :
+ 
+En créant un fichier texte temporaire de concaténation (concat demuxer) après avoir découpé chaque morceau individuellement.
+En générant une expression mathématique complexe pour le filtre select et aselect (ex: select='between(t,start1,end1)+between(t,start2,end2)...').

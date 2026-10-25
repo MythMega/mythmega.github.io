@@ -1,0 +1,16 @@
+{
+  "autocut": {
+    "thresholdDb": -30,
+    "preCut": 0.15,
+    "postCut": 0.2,
+    "minClipDuration": 0.25,
+    "minSilence": 0.5,
+    "suffix": "-autocut"
+  },
+  "fastcut": {
+    "suffix": "-cut"
+  },
+  "reverse": {
+    "suffix": "-reversed"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "bulkut",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Client-side video editing (autocut, fastcut, reverse) powered by ffmpeg.wasm.",
+  "scripts": {
+    "start": "python -m http.server 8424",
+    "test": "node --test \"tests/**/*.test.js\""
+  }
+}

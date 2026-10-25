@@ -1,0 +1,40 @@
+{
+  "$comment": "Configuration de l'application. Modifiable sans rebuild. Les valeurs de traitement par défaut se trouvent dans settings/default.json.",
+  "app": {
+    "name": "Bulkut",
+    "version": "1.0.0",
+    "storagePrefix": "bulkut",
+    "languages": ["en", "fr", "es"],
+    "defaultLanguage": "auto"
+  },
+  "assets": {
+    "translations": "translations",
+    "settingsDefaults": "settings/default.json",
+    "ffmpegBase": "vendor/ffmpeg",
+    "ffmpegCore": "ffmpeg-core.js",
+    "ffmpegWasm": "ffmpeg-core.wasm"
+  },
+  "processing": {
+    "maxFileSizeMb": 2048,
+    "previewDuration": 60,
+    "videoCodec": "libx264",
+    "preset": "veryfast",
+    "crf": 23,
+    "pixelFormat": "yuv420p",
+    "audioCodec": "aac",
+    "audioBitrate": "128k",
+    "maxSegments": 400,
+    "reverseWarningSeconds": 120
+  },
+  "autocut": {
+    "fields": {
+      "thresholdDb": { "min": -60, "max": -5, "step": 1 },
+      "preCut": { "min": 0, "max": 2, "step": 0.05 },
+      "postCut": { "min": 0, "max": 2, "step": 0.05 },
+      "minClipDuration": { "min": 0, "max": 10, "step": 0.05 }
+    }
+  },
+  "ui": {
+    "toastDuration": 4500
+  }
+}

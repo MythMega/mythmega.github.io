@@ -4,6 +4,7 @@
  * @module features/autocut/autocut-fields
  */
 
+import { normalizeOutputFormat } from '../../core/output-format.js';
 import { formatNumber } from '../../core/timecode.js';
 
 const LAYOUT = [
@@ -13,32 +14,58 @@ const LAYOUT = [
   { key: 'minClipDuration', label: 'minClip', unit: 's', decimals: 2, min: 0, max: 10, step: 0.05 },
 ];
 
-/** Parameters that actually affect the rendered output. */
-export const RENDER_PARAM_KEYS = ['thresholdDb', 'preCut', 'postCut', 'minClipDuration'];
+/** Parameters that change what Autocut produces. */
+export const RENDER_PARAM_KEYS = [
+  'thresholdDb',
+  'preCut',
+  'postCut',
+  'minClipDuration',
+  'fadeAudio',
+  'fadeVideo',
+  'fadeDuration',
+  'output',
+];
 
 /**
- * Normalise the render-affecting parameters so two snapshots can be compared.
+ * Pick one render-affecting value, wherever it lives in the parameters.
  * @param {Record<string, any>} params
- * @returns {Record<string, number>}
+ * @param {string} key
+ */
+function renderValue(params, key) {
+  if (key === 'fadeAudio') return params?.fade?.audio;
+  if (key === 'fadeVideo') return params?.fade?.video;
+  if (key === 'fadeDuration') return params?.fade?.duration;
+  if (key === 'output') return normalizeOutputFormat(params?.output);
+  return params?.[key];
+}
+
+/**
+ * Round numbers so tiny float differences do not mark a finished item as stale.
+ * @param {Record<string, any>} params
+ * @returns {Record<string, number|string>}
  */
 export function renderParamsOf(params) {
   const snapshot = {};
   for (const key of RENDER_PARAM_KEYS) {
-    const value = Number(params?.[key]);
+    const raw = renderValue(params, key);
+    if (typeof raw === 'string') {
+      snapshot[key] = raw;
+      continue;
+    }
+    const value = Number(raw);
     snapshot[key] = Number.isFinite(value) ? Math.round(value * 10000) / 10000 : 0;
   }
   return snapshot;
 }
 
 /**
- * @param {Record<string, number>|null|undefined} previous snapshot used by the last render
- * @param {Record<string, any>} current current effective parameters
+ * @param {Record<string, unknown>|null|undefined} previous snapshot of the last render
+ * @param {Record<string, any>} current effective parameters
  * @returns {boolean}
  */
 export function hasRenderParamsChanged(previous, current) {
   if (!previous) return true;
-  const next = renderParamsOf(current);
-  return RENDER_PARAM_KEYS.some((key) => Math.abs((previous[key] ?? 0) - next[key]) > 1e-9);
+  return JSON.stringify(renderParamsOf(current)) !== JSON.stringify(previous);
 }
 
 /**

@@ -16,7 +16,7 @@ Configuration de l'application, chargée au démarrage. Modifiable sans rebuild.
 | `assets.ffmpegBase` | `vendor/ffmpeg` | Dossier du runtime wasm. |
 | `assets.ffmpegCore` | `ffmpeg-core.js` | Nom du loader du core. |
 | `assets.ffmpegWasm` | `ffmpeg-core.wasm` | Nom du binaire wasm. |
-| `processing.maxFileSizeMb` | `2048` | Taille maximale d'un import. |
+| `processing.maxFileSizeMb` | `2048` | Taille maximale d'un import sur `index.html` (ignorée par `pro.html`, qui monte l'OPFS). |
 | `processing.previewDuration` | `60` | Durée de l'extrait Autocut (secondes). |
 | `processing.maxSegments` | `400` | Nombre maximal de segments assemblés. |
 | `processing.videoCodec` | `libx264` | Encodeur vidéo de sortie. |
@@ -26,7 +26,11 @@ Configuration de l'application, chargée au démarrage. Modifiable sans rebuild.
 | `processing.audioCodec` | `aac` | Encodeur audio. |
 | `processing.audioBitrate` | `128k` | Débit audio. |
 | `processing.reverseWarningSeconds` | `120` | Seuil d'avertissement pour Reverse. |
+| `processing.concatFps` | `30` | Fréquence d'image cible des rendus Collage et Intro/Outro. |
 | `autocut.fields.*` | voir ci-dessous | Bornes et pas des sliders Autocut. |
+| `fade.min` / `max` / `step` | `0.1` / `1` / `0.1` | Bornes du slider de durée des fondus. |
+| `fade.defaultDuration` | `1` | Durée de fondu utilisée quand aucune valeur n'existe. |
+| `splitter.maxSegments` | `50` | Nombre maximal de segments dans l'onglet Splitter. |
 | `ui.toastDuration` | `4500` | Durée des notifications (ms). |
 
 ### Bornes des sliders Autocut
@@ -58,10 +62,13 @@ l'interface et pour normaliser les valeurs sauvegardées.
     "postCut": 0.2,
     "minClipDuration": 0.25,
     "minSilence": 0.5,
-    "suffix": "-autocut"
+    "suffix": "-autocut",
+    "output": "video"
   },
   "fastcut": { "suffix": "-cut" },
-  "reverse": { "suffix": "-reversed" }
+  "reverse": { "suffix": "-reversed" },
+  "collage": { "suffix": "-collage" },
+  "introoutro": { "suffix": "-intro-outro" }
 }
 ```
 
@@ -71,15 +78,30 @@ d'un silence pour `silencedetect` : elle n'apparaît pas dans l'interface (les
 quatre paramètres éditables sont le seuil, les deux marges et la durée minimale
 des clips), mais peut être ajustée ici.
 
+`autocut.output` choisit la sortie par défaut : `video` (MP4), `premiere`
+(séquence FCP 7 `.xml`) ou `davinci` (timeline FCPXML `.fcpxml`). Le choix reste
+modifiable dans l'interface, globalement et pour chaque vidéo.
+
 ## Persistance
 
 - `localStorage["<storagePrefix>.params"]` : paramètres globaux modifiés dans
   l'interface (seuil, marges, durée minimale des clips, suffixes). Fusionnés
   par-dessus `default.json`.
 - `localStorage["<storagePrefix>.lang"]` : langue choisie.
+- `localStorage["<storagePrefix>.autoEstimate"]` : interrupteur de pré-calcul
+  automatique des durées (`true` / `false`, absent = `false`).
 
-Les overrides par vidéo, la liste des fichiers et les résultats ne sont pas
-persistés. Vider le stockage local restaure les valeurs de `default.json`.
+Les presets sont des cookies `<storagePrefix>.presets.<onglet>` :
+[presets.md](presets.md).
+
+Les overrides par vidéo, la liste des fichiers, les estimations et les
+résultats ne sont pas persistés. Vider le stockage local restaure les valeurs
+de `default.json`.
+
+En mode `pro.html`, les octets des vidéos sont écrits dans l'**OPFS** du
+navigateur (dossier `bulkut-pro-files`) et non dans `localStorage`. Ils sont
+supprimés quand la ligne est retirée ou quand les données du site sont
+effacées.
 
 ## Traductions
 
@@ -115,8 +137,10 @@ translations/es.json
 
 Les erreurs métier sont des `AppError(code)`. Le message affiché est
 `errors.<code>` : `duration`, `noAudio`, `noSegments`, `tooManySegments`,
-`noVideoStream`, `renderFailed`, `ffmpegLoad`, `ffmpegUnavailable`, `unknown`…
-Ajouter un code nécessite une entrée dans les trois fichiers de traduction.
+`noVideoStream`, `renderFailed`, `ffmpegLoad`, `ffmpegUnavailable`,
+`cancelled`, `noClips`, `opfsUnavailable`, `opfsImport`, `opfsMount`,
+`unknown`… Ajouter un code nécessite une entrée dans les trois fichiers de
+traduction.
 
 ## Suffixes
 

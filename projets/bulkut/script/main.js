@@ -4,13 +4,17 @@
  */
 
 import { $, $all, el } from './core/dom.js';
+import { createMemorySource, createOpfsSource, isOpfsSupported } from './core/file-source.js';
 import { FFmpegService } from './core/ffmpeg-service.js';
 import { I18n } from './core/i18n.js';
 import { loadSettings } from './core/settings.js';
 import { TaskQueue } from './core/task-queue.js';
 import { createAutocutFeature } from './features/autocut/autocut-feature.js';
+import { createCollageFeature } from './features/collage/collage-feature.js';
 import { createFastcutFeature } from './features/fastcut/fastcut-feature.js';
+import { createIntroOutroFeature } from './features/introoutro/introoutro-feature.js';
 import { createReverseFeature } from './features/reverse/reverse-feature.js';
+import { createSplitterFeature } from './features/splitter/splitter-feature.js';
 import { Toasts } from './ui/toasts.js';
 
 /**
@@ -20,13 +24,15 @@ import { Toasts } from './ui/toasts.js';
  * @property {FFmpegService} ffmpeg
  * @property {TaskQueue} queue
  * @property {Toasts} toasts
+ * @property {boolean} isPro
+ * @property {(file: File, options?: { onProgress?: (ratio: number) => void }) => Promise<import('./core/file-source.js').FileSource>} createSource
  */
 
 /**
  * Replace the app with a readable error card when the configuration is unusable.
  * @param {unknown} error
  */
-function renderFatal(error) {
+function renderFatal(error, message) {
   console.error('[Bulkut] Startup failed', error);
   const main = $('#main');
   if (!main) return;
@@ -37,9 +43,11 @@ function renderFatal(error) {
       { class: 'card glass fatal' },
       el('h2', { text: 'Bulkut could not start' }),
       el('p', {
-        text: 'The configuration could not be loaded. Check that settings/config.json and settings/default.json are reachable, then reload the page.',
+        text:
+          message ??
+          'The configuration could not be loaded. Check that settings/config.json and settings/default.json are reachable, then reload the page.',
       }),
-      el('pre', { text: String(error?.message ?? error) }),
+      error ? el('pre', { text: String(error?.message ?? error) }) : null,
     ),
   );
 }
@@ -64,17 +72,36 @@ async function boot() {
   await i18n.init();
   i18n.apply(document);
 
+  const storageMode = document.body.dataset.storage === 'opfs' ? 'opfs' : 'memory';
+  if (storageMode === 'opfs' && !isOpfsSupported()) {
+    renderFatal(null, i18n.t('errors.opfsUnavailable'));
+    return;
+  }
+
   const toasts = new Toasts($('#toasts'), { duration: config.ui?.toastDuration ?? 4500 });
   const ffmpeg = new FFmpegService(config);
   const queue = new TaskQueue({ concurrency: 1 });
+  const isPro = storageMode === 'opfs';
 
   /** @type {AppContext} */
-  const ctx = { settings, i18n, ffmpeg, queue, toasts };
+  const ctx = {
+    settings,
+    i18n,
+    ffmpeg,
+    queue,
+    toasts,
+    isPro,
+    createSource: (file, options) =>
+      isPro ? createOpfsSource(file, options) : Promise.resolve(createMemorySource(file)),
+  };
 
   const features = {
     autocut: createAutocutFeature(ctx, $('#panel-autocut')),
     fastcut: createFastcutFeature(ctx, $('#panel-fastcut')),
     reverse: createReverseFeature(ctx, $('#panel-reverse')),
+    collage: createCollageFeature(ctx, $('#panel-collage')),
+    introoutro: createIntroOutroFeature(ctx, $('#panel-introoutro')),
+    splitter: createSplitterFeature(ctx, $('#panel-splitter')),
   };
 
   // Dynamic labels built by the features (slider fields, etc.).
@@ -179,6 +206,7 @@ async function boot() {
   // Debug / automation hooks (no effect on the UI).
   window.Bulkut = {
     version,
+    storageMode,
     settings,
     i18n,
     ffmpeg,

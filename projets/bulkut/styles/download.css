@@ -1,0 +1,240 @@
+/* ============================================================
+   Download page — desktop builds
+   ============================================================ */
+
+.download-main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.download-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 32px 34px;
+  animation: panelIn 0.4s var(--ease-out) both;
+}
+
+.download-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -80px -120px auto;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(106, 141, 255, 0.28), transparent 68%);
+  pointer-events: none;
+}
+
+.download-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: var(--radius-pill);
+  background: rgba(36, 83, 212, 0.1);
+  color: var(--blue-600);
+  font-size: 10.5px;
+  font-weight: 760;
+  letter-spacing: 0.09em;
+}
+
+.download-hero h2 {
+  margin-top: 14px;
+  font-size: clamp(28px, 4vw, 38px);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.download-lead {
+  max-width: 62ch;
+  margin-top: 10px;
+  color: var(--muted-strong);
+  font-size: 15px;
+}
+
+.download-version {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.download-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  animation: panelIn 0.45s var(--ease-out) both;
+}
+
+.download-card:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.download-card:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.download-card:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+.download-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.download-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 14px;
+  color: var(--blue-600);
+  background: rgba(36, 83, 212, 0.08);
+  border: 1px solid rgba(36, 83, 212, 0.14);
+}
+
+.download-card-head h3 {
+  font-size: 17px;
+  letter-spacing: -0.015em;
+}
+
+.download-sub {
+  margin-top: 2px;
+  font-size: 12.4px;
+  color: var(--muted);
+}
+
+.download-recommended {
+  margin-left: auto;
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--success-bg);
+  color: var(--success);
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.download-card[data-recommended="true"] {
+  border-color: rgba(36, 83, 212, 0.38);
+  box-shadow: 0 22px 50px -34px rgba(36, 83, 212, 0.85);
+}
+
+.download-note {
+  color: var(--muted);
+  font-size: 12.8px;
+}
+
+.download-file {
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.download-split {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.download-split .btn {
+  width: 100%;
+}
+
+.download-arrow {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.download-card .btn[aria-disabled="true"],
+.download-card .btn.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.download-foot {
+  /* Extra breathing room between the platform cards and the recap panel. */
+  margin-top: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 22px 26px;
+}
+
+.download-foot h3 {
+  font-size: 15px;
+}
+
+.download-requirements {
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.download-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media (max-width: 1080px) {
+  .download-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .download-card[data-platform="macos"] {
+    grid-column: 1 / -1;
+  }
+
+  .download-split {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 720px) {
+  .download-hero {
+    padding: 24px 22px;
+  }
+
+  .download-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .download-card[data-platform="macos"] {
+    grid-column: auto;
+  }
+
+  .download-card[data-platform="android"] {
+    grid-column: auto;
+  }
+
+  .download-foot {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .download-actions {
+    justify-content: flex-start;
+  }
+
+  .download-split {
+    flex-direction: column;
+  }
+}

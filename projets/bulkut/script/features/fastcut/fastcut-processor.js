@@ -3,7 +3,8 @@
  * @module features/fastcut/fastcut-processor
  */
 
-import { extensionOf } from '../../core/media.js';
+import { buildFadeFilters } from '../../core/fade.js';
+import { probeMedia } from '../../core/media-probe.js';
 
 let counter = 0;
 
@@ -13,11 +14,14 @@ let counter = 0;
  * @param {string} options.output
  * @param {number} options.start seconds
  * @param {number} options.duration seconds
+ * @param {boolean} [options.hasAudio]
+ * @param {{ audio: string, video: string, duration: number } | null} [options.fade]
  * @param {Record<string, any>} options.processing
  * @returns {string[]}
  */
-export function buildFastcutArgs({ input, output, start, duration, processing }) {
-  return [
+export function buildFastcutArgs({ input, output, start, duration, hasAudio = true, fade = null, processing }) {
+  const filters = buildFadeFilters(fade, duration);
+  const args = [
     '-hide_banner',
     '-ss',
     Number(start).toFixed(3),
@@ -29,6 +33,12 @@ export function buildFastcutArgs({ input, output, start, duration, processing })
     '0:v:0',
     '-map',
     '0:a:0?',
+  ];
+
+  if (filters.video) args.push('-vf', filters.video);
+  if (hasAudio && filters.audio) args.push('-af', filters.audio);
+
+  args.push(
     '-c:v',
     processing.videoCodec,
     '-preset',
@@ -49,39 +59,55 @@ export function buildFastcutArgs({ input, output, start, duration, processing })
     '-1',
     '-y',
     output,
-  ];
+  );
+
+  return args;
 }
 
 /**
  * @param {object} options
  * @param {import('../../core/ffmpeg-service.js').FFmpegService} options.ffmpeg
- * @param {File} options.file
+ * @param {import('../../core/file-source.js').FileSource} options.source
  * @param {number} options.start
  * @param {number} options.end
  * @param {Record<string, any>} options.processing
+ * @param {{ audio: string, video: string, duration: number } | null} [options.fade]
  * @param {{ onPhase?: (phase: 'preparing'|'rendering', progress: number) => void }} [options.hooks]
  * @returns {Promise<{ blob: Blob, duration: number }>}
  */
-export async function processFastcut({ ffmpeg, file, start, end, processing, hooks = {} }) {
+export async function processFastcut({ ffmpeg, source, start, end, processing, fade = null, hooks = {}, token }) {
   hooks.onPhase?.('preparing', 0.01);
-  await ffmpeg.ensureLoaded();
+  await ffmpeg.ensureLoaded(token);
 
   counter += 1;
-  const input = `bulkut-in-${Date.now().toString(36)}-${counter}.${extensionOf(file.name)}`;
   const output = `bulkut-cut-${Date.now().toString(36)}-${counter}.mp4`;
   const duration = Math.max(0.1, Number(end) - Number(start));
 
+  const attached = await source.attach(ffmpeg, token);
   try {
-    hooks.onPhase?.('preparing', 0.02);
-    await ffmpeg.writeFile(input, new Uint8Array(await file.arrayBuffer()));
+    hooks.onPhase?.('preparing', 0.04);
+    const info = await probeMedia(ffmpeg, attached.path, token);
 
     hooks.onPhase?.('rendering', 0.06);
-    await ffmpeg.run(buildFastcutArgs({ input, output, start, duration, processing }), {
-      duration,
-      onProgress: (ratio) => hooks.onPhase?.('rendering', 0.06 + ratio * 0.92),
-    });
+    await ffmpeg.run(
+      buildFastcutArgs({
+        input: attached.path,
+        output,
+        start,
+        duration,
+        hasAudio: info.hasAudio,
+        fade,
+        processing,
+      }),
+      {
+        duration,
+        onProgress: (ratio, stats) => hooks.onPhase?.('rendering', 0.06 + ratio * 0.88, stats),
+        token,
+      },
+    );
 
-    const data = await ffmpeg.readFile(output);
+    hooks.onPhase?.('rendering', 0.94);
+    const data = await ffmpeg.readFile(output, token);
     const blob = new Blob([data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength)], {
       type: 'video/mp4',
     });
@@ -89,7 +115,7 @@ export async function processFastcut({ ffmpeg, file, start, end, processing, hoo
     hooks.onPhase?.('rendering', 1);
     return { blob, duration };
   } finally {
-    await ffmpeg.deleteFile(input);
     await ffmpeg.deleteFile(output);
+    await attached.cleanup();
   }
 }

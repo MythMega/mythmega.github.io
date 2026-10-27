@@ -5,12 +5,52 @@
     "postCut": 0.2,
     "minClipDuration": 0.25,
     "minSilence": 0.5,
-    "suffix": "-autocut"
+    "suffix": "-autocut",
+    "output": "video",
+    "fade": {
+      "audio": "none",
+      "video": "none",
+      "duration": 1
+    }
   },
   "fastcut": {
-    "suffix": "-cut"
+    "suffix": "-cut",
+    "fade": {
+      "audio": "none",
+      "video": "none",
+      "duration": 1
+    }
   },
   "reverse": {
-    "suffix": "-reversed"
+    "suffix": "-reversed",
+    "fade": {
+      "audio": "none",
+      "video": "none",
+      "duration": 1
+    }
+  },
+  "collage": {
+    "suffix": "-collage",
+    "fade": {
+      "audio": "none",
+      "video": "none",
+      "duration": 1
+    }
+  },
+  "introoutro": {
+    "suffix": "-intro-outro",
+    "fade": {
+      "audio": "none",
+      "video": "none",
+      "duration": 1
+    }
+  },
+  "splitter": {
+    "suffix": "-split",
+    "fade": {
+      "audio": "none",
+      "video": "none",
+      "duration": 1
+    }
   }
 }

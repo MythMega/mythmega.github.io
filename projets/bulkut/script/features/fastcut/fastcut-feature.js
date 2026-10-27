@@ -6,15 +6,18 @@
 
 import { describeError } from '../../core/app-error.js';
 import { $, clear, el } from '../../core/dom.js';
+import { fadeFromPreset, fadePresetValues, fadeSummary } from '../../core/fade.js';
 import { buildOutputName, downloadBlob, formatBytes, probeVideoDuration, sanitizeSuffix } from '../../core/media.js';
 import { saveParams } from '../../core/settings.js';
-import { clamp, formatTimecode, splitTimecode, timecodeToSeconds } from '../../core/timecode.js';
+import { clamp, formatEta, formatTimecode, splitTimecode, timecodeToSeconds } from '../../core/timecode.js';
 import { icon } from '../../ui/icons.js';
 import { setupDropzone } from '../../ui/dropzone.js';
+import { createFadeControl } from '../../ui/fade-control.js';
+import { createPresetManager } from '../../ui/preset-manager.js';
 import { probeDurationWithFFmpeg, validateVideoFile } from '../shared/video-file.js';
 import { processFastcut } from './fastcut-processor.js';
 
-const BUSY_STATUSES = new Set(['queued', 'preparing', 'rendering']);
+const BUSY_STATUSES = new Set(['queued', 'importing', 'preparing', 'rendering']);
 
 /**
  * @param {import('../../main.js').AppContext} ctx
@@ -31,11 +34,14 @@ export function createFastcutFeature(ctx, panel) {
     stage: $('#fastcut-stage', panel),
     run: $('#fastcut-run', panel),
     suffix: $('#fastcut-suffix', panel),
+    fade: $('#fastcut-fade', panel),
   };
 
   const state = {
-    /** @type {File|null} */
-    file: null,
+    /** @type {import('../../core/file-source.js').FileSource|null} */
+    source: null,
+    /** @type {symbol|null} */
+    token: null,
     name: '',
     size: 0,
     duration: 0,
@@ -43,6 +49,7 @@ export function createFastcutFeature(ctx, panel) {
     end: 0,
     status: 'empty',
     progress: 0,
+    etaSeconds: 0,
     errorText: '',
     /** @type {{ name: string, size: number }|null} */
     result: null,
@@ -63,6 +70,38 @@ export function createFastcutFeature(ctx, panel) {
   els.suffix.addEventListener('change', commitSuffix);
   els.suffix.addEventListener('blur', commitSuffix);
 
+  const fadeControl = createFadeControl({
+    i18n,
+    fade: params.fade,
+    id: 'fastcut-fade',
+    bounds: settings.config.fade,
+    onChange: () => saveParams(settings),
+    onInvalid: ({ min, max }) => toasts.error(i18n.t('errors.numberRange', { min, max })),
+  });
+  els.fade?.append(fadeControl.element);
+
+  const presetManager = createPresetManager({
+    i18n,
+    toasts,
+    scope: 'fastcut',
+    sectionKey: 'nav.fastcut',
+    storageKey: settings.storageKeys.presets,
+    container: $('#fastcut-presets', panel),
+    getValues: () => ({ suffix: params.suffix, ...fadePresetValues(params.fade) }),
+    applyValues: (values) => {
+      params.suffix = sanitizeSuffix(values?.suffix);
+      els.suffix.value = params.suffix;
+      const fade = fadeFromPreset(values, params.fade, settings.config.fade);
+      params.fade = fade;
+      fadeControl.setValue(fade);
+      saveParams(settings);
+    },
+    summarize: (values) => [
+      { label: i18n.t('common.suffix.label'), value: String(values?.suffix ?? '') || '—' },
+      ...fadeSummary(i18n.t.bind(i18n), fadeFromPreset(values, params.fade, settings.config.fade)),
+    ],
+  });
+
   // -------------------------------------------------------------- helpers
 
   function isBusy() {
@@ -75,7 +114,7 @@ export function createFastcutFeature(ctx, panel) {
 
   function refreshRun() {
     els.run.disabled =
-      !state.file || state.status === 'probing' || isBusy() || queue.busy || outputLength() < 1;
+      !state.source || state.status === 'probing' || isBusy() || queue.busy || outputLength() < 1;
   }
 
   /** @param {number} seconds @param {boolean} [feedback] */
@@ -248,8 +287,14 @@ export function createFastcutFeature(ctx, panel) {
     );
 
     const jobText = el('span');
+    const jobEta = el('span', { class: 'video-eta' });
     const jobPercent = el('span', { class: 'video-percent' });
-    const jobMeta = el('div', { class: 'job-progress-meta' }, jobText, jobPercent);
+    const jobMeta = el(
+      'div',
+      { class: 'job-progress-meta' },
+      jobText,
+      el('span', { class: 'video-status-right' }, jobEta, jobPercent),
+    );
     const jobBar = el('div', { class: 'progress-bar' });
     const jobBarWrap = el('div', { class: 'progress' }, jobBar);
     const job = el('div', { class: 'job-progress' }, jobMeta, jobBarWrap);
@@ -257,7 +302,7 @@ export function createFastcutFeature(ctx, panel) {
 
     els.stage.append(timeline, output, job);
 
-    ui = { start, end, outputValue, outputSub, job, jobText, jobPercent, jobBar, jobBarWrap };
+    ui = { start, end, outputValue, outputSub, job, jobText, jobEta, jobPercent, jobBar, jobBarWrap };
     syncStage();
   }
 
@@ -265,13 +310,18 @@ export function createFastcutFeature(ctx, panel) {
     clear(els.stage);
     ui = null;
 
-    if (!state.file) {
+    if (!state.name) {
       els.dropzone.hidden = false;
       return;
     }
 
     els.dropzone.hidden = true;
     els.stage.append(buildFileStrip());
+
+    if (state.status === 'importing') {
+      els.stage.append(el('p', { class: 'stage-note', text: i18n.t('common.importing') }));
+      return;
+    }
 
     if (state.status === 'probing') {
       els.stage.append(el('p', { class: 'stage-note', text: i18n.t('fastcut.probing') }));
@@ -333,6 +383,13 @@ export function createFastcutFeature(ctx, panel) {
     ui.jobBar.style.width = `${percent}%`;
     ui.jobPercent.textContent = isBusy() ? `${percent}%` : status === 'done' ? '100%' : '';
 
+    const eta =
+      isBusy() && state.etaSeconds > 0
+        ? i18n.t('common.eta', { time: formatEta(state.etaSeconds) })
+        : '';
+    ui.jobEta.textContent = eta;
+    ui.jobEta.hidden = !eta;
+
     if (status === 'error') {
       ui.job.classList.add('is-error');
       ui.jobText.textContent = state.errorText || i18n.t('common.error');
@@ -348,7 +405,7 @@ export function createFastcutFeature(ctx, panel) {
 
   // -------------------------------------------------------------- actions
 
-  function addFiles(files) {
+  async function addFiles(files) {
     const file = files[0];
     if (!file) return;
     if (isBusy()) {
@@ -356,49 +413,72 @@ export function createFastcutFeature(ctx, panel) {
       return;
     }
 
-    const error = validateVideoFile(file, { i18n, processing });
+    const error = validateVideoFile(file, { i18n, processing, skipSizeLimit: ctx.isPro });
     if (error) {
       toasts.error(error);
       return;
     }
 
-    state.file = file;
+    const token = Symbol('fastcut-import');
+    state.token = token;
+    state.source = null;
     state.name = file.name;
     state.size = file.size;
     state.duration = 0;
     state.start = 0;
     state.end = 0;
-    state.status = 'probing';
+    state.status = 'importing';
     state.progress = 0;
     state.errorText = '';
     state.result = null;
     renderStage();
     refreshRun();
 
-    probeVideoDuration(file).then(async (duration) => {
-      if (state.file !== file) return;
-      if (!duration) {
-        const info = await probeDurationWithFFmpeg(ffmpeg, file);
-        duration = info.duration;
-      }
-      if (state.file !== file) return;
-
-      if (!duration) {
-        state.status = 'error';
-        state.errorText = i18n.t('errors.duration');
-        toasts.error(state.errorText);
-        renderStage();
-        refreshRun();
-        return;
-      }
-
-      state.duration = duration;
-      state.start = 0;
-      state.end = Math.max(1, Math.floor(duration));
-      state.status = 'idle';
+    let source;
+    try {
+      source = await ctx.createSource(file);
+    } catch (importError) {
+      if (state.token !== token) return;
+      state.status = 'error';
+      state.errorText = describeError(importError, i18n);
+      toasts.error(state.errorText);
       renderStage();
       refreshRun();
-    });
+      return;
+    }
+    if (state.token !== token) {
+      await source.remove();
+      return;
+    }
+
+    state.source = source;
+    state.status = 'probing';
+    renderStage();
+    refreshRun();
+
+    let duration = await probeVideoDuration(await source.getFile());
+    if (state.token !== token) return;
+    if (!duration) {
+      const info = await probeDurationWithFFmpeg(ffmpeg, source);
+      duration = info.duration;
+    }
+    if (state.token !== token) return;
+
+    if (!duration) {
+      state.status = 'error';
+      state.errorText = i18n.t('errors.duration');
+      toasts.error(state.errorText);
+      renderStage();
+      refreshRun();
+      return;
+    }
+
+    state.duration = duration;
+    state.start = 0;
+    state.end = Math.max(1, Math.floor(duration));
+    state.status = 'idle';
+    renderStage();
+    refreshRun();
   }
 
   function removeFile() {
@@ -406,7 +486,10 @@ export function createFastcutFeature(ctx, panel) {
       toasts.error(i18n.t('errors.busy'));
       return;
     }
-    state.file = null;
+    const previous = state.source;
+    state.token = null;
+    state.source = null;
+    previous?.remove();
     state.name = '';
     state.size = 0;
     state.duration = 0;
@@ -421,18 +504,20 @@ export function createFastcutFeature(ctx, panel) {
   }
 
   function run() {
-    if (!state.file || isBusy() || state.status === 'probing') return;
+    if (!state.source || isBusy() || state.status === 'probing') return;
 
     const snapshot = {
-      file: state.file,
+      source: state.source,
       name: state.name,
       start: state.start,
       end: state.end,
       suffix: params.suffix,
+      fade: { ...params.fade },
     };
 
     state.status = 'queued';
     state.progress = 0;
+    state.etaSeconds = 0;
     state.errorText = '';
     state.result = null;
     syncStage();
@@ -447,14 +532,16 @@ export function createFastcutFeature(ctx, panel) {
           try {
             const result = await processFastcut({
               ffmpeg,
-              file: snapshot.file,
+              source: snapshot.source,
               start: snapshot.start,
               end: snapshot.end,
               processing,
+              fade: snapshot.fade,
               hooks: {
-                onPhase: (phase, progress) => {
+                onPhase: (phase, progress, stats) => {
                   state.status = phase;
                   state.progress = progress;
+                  state.etaSeconds = stats?.etaSeconds ?? 0;
                   syncJob();
                 },
               },
@@ -472,6 +559,7 @@ export function createFastcutFeature(ctx, panel) {
             state.errorText = describeError(error, i18n);
             toasts.error(state.errorText);
           } finally {
+            state.etaSeconds = 0;
             syncStage();
             syncJob();
             refreshRun();
@@ -490,6 +578,8 @@ export function createFastcutFeature(ctx, panel) {
   function refresh() {
     renderStage();
     refreshRun();
+    fadeControl.refresh();
+    presetManager.refresh();
   }
 
   refreshRun();

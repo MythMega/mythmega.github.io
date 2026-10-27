@@ -29,7 +29,11 @@ function walk(dir, files = []) {
 
 function collectUsedKeys() {
   const keys = new Set();
-  const sources = [path.join(ROOT, 'index.html'), ...walk(path.join(ROOT, 'script'))];
+  const sources = [
+    path.join(ROOT, 'index.html'),
+    path.join(ROOT, 'pro.html'),
+    ...walk(path.join(ROOT, 'script')),
+  ];
 
   for (const file of sources) {
     const source = fs.readFileSync(file, 'utf8');
@@ -71,9 +75,12 @@ test('every key used by the app exists in en.json', () => {
 test('dynamic key families are complete', () => {
   const dynamic = [
     ...['idle', 'loading', 'ready', 'error'].map((status) => `engine.${status}`),
-    ...['ready', 'queued', 'preparing', 'analyzing', 'rendering', 'done', 'error'].map((status) => `common.${status}`),
+    ...['ready', 'queued', 'importing', 'preparing', 'analyzing', 'rendering', 'done', 'error'].map(
+      (status) => `common.${status}`,
+    ),
     ...[
       'duration',
+      'noClips',
       'noAudio',
       'noSegments',
       'tooManySegments',
@@ -81,11 +88,20 @@ test('dynamic key families are complete', () => {
       'renderFailed',
       'ffmpegLoad',
       'ffmpegUnavailable',
+      'cancelled',
+      'opfsUnavailable',
+      'opfsImport',
+      'opfsMount',
+      'presetNameEmpty',
+      'presetNameTaken',
+      'presetStorage',
+      'presetTooLarge',
       'unknown',
     ].map((code) => `errors.${code}`),
     ...['threshold', 'thresholdHint', 'precut', 'precutHint', 'postcut', 'postcutHint', 'minClip', 'minClipHint'].map(
       (field) => `autocut.fields.${field}`,
     ),
+    ...['both', 'intro', 'outro'].map((mode) => `introoutro.mode.${mode}`),
   ];
   const known = new Set(baseKeys);
   assert.deepEqual(dynamic.filter((key) => !known.has(key)), []);

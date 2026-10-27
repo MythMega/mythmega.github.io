@@ -11,8 +11,9 @@ navigateur peut la lire), puis propose :
 - un bouton « Inverser la vidéo » ;
 - une barre de progression avec les phases Préparation / Rendu / Terminé.
 
-Le processeur écrit le fichier dans le MEMFS, lance un probe FFmpeg pour
-connaître la durée et la présence d'une piste audio, puis exécute :
+Le processeur attache la source (copie MEMFS sur `index.html`, montage OPFS
+sur `pro.html`), lance un probe FFmpeg pour connaître la durée et la présence
+d'une piste audio, puis exécute :
 
 ```
 ffmpeg -hide_banner -i input -vf reverse [-af areverse] \

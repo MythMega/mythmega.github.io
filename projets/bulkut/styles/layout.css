@@ -74,10 +74,51 @@
   flex: none;
 }
 
+.header-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  color: var(--navy-800);
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 12.4px;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out),
+    transform 0.2s var(--ease-out);
+}
+
+.header-download:hover {
+  background: #fff;
+  border-color: rgba(36, 83, 212, 0.32);
+  transform: translateY(-1px);
+}
+
+.header-download svg {
+  flex: none;
+  opacity: 0.8;
+}
+
+@media (max-width: 1120px) {
+  .header-download span {
+    display: none;
+  }
+
+  .header-download {
+    padding: 8px 9px;
+  }
+}
+
 /* ---------- Tabs ---------- */
 
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   margin-top: 14px;
   padding: 6px;
@@ -148,6 +189,34 @@
   animation: panelIn 0.34s var(--ease-out);
 }
 
+.panel-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+  padding: 13px 18px;
+  border-radius: var(--radius-lg);
+  animation: panelIn 0.4s var(--ease-out) both;
+}
+
+.toolbar-text {
+  min-width: 0;
+}
+
+.toolbar-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.toolbar-hint {
+  margin-top: 1px;
+  font-size: 12.4px;
+  color: var(--muted);
+  max-width: 72ch;
+}
+
 .panel-grid {
   display: grid;
   grid-template-columns: 356px minmax(0, 1fr);
@@ -181,6 +250,18 @@
   opacity: 0.55;
 }
 
+.footer-link {
+  color: var(--blue-600);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(36, 83, 212, 0.28);
+}
+
+.footer-link:hover {
+  color: var(--navy-800);
+  border-bottom-color: currentColor;
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1020px) {
@@ -194,6 +275,11 @@
 }
 
 @media (max-width: 720px) {
+  .panel-toolbar {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
   .app-header,
   .tabs,
   .app-main,
@@ -227,10 +313,21 @@
   }
 
   .tab {
-    flex: 1;
+    flex: 1 1 auto;
     justify-content: center;
-    padding: 10px 8px;
-    font-size: 13px;
+    padding: 10px 9px;
+    font-size: 12.8px;
+  }
+}
+
+@media (max-width: 620px) {
+  .tab-icon {
+    display: none;
+  }
+
+  .tab {
+    padding: 9px 8px;
+    font-size: 12px;
   }
 }
 
@@ -239,7 +336,7 @@
     gap: 6px;
   }
 
-  .tab-icon {
-    display: none;
+  .preset-actions {
+    flex-direction: column;
   }
 }

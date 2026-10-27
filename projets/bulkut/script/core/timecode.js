@@ -53,6 +53,15 @@ export function formatDuration(seconds) {
 }
 
 /**
+ * Short remaining-time label: `8 s`, `1:23`.
+ * @param {number} seconds
+ */
+export function formatEta(seconds) {
+  const total = Math.max(0, Math.round(Number(seconds) || 0));
+  return total < 60 ? `${total} s` : formatDuration(total);
+}
+
+/**
  * Parse `hh:mm:ss`, `mm:ss` or `ss`.
  * @param {string|number} value
  * @returns {number|null}

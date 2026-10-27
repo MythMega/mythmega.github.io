@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fcpxml version="1.10">
+	<resources>
+		<format id="r1" name="FFVideoFormatRateUndefined" frameDuration="100/5993s" width="1920" height="1080" colorSpace="1-1-1 (Rec. 709)" />
+		<asset id="r2" name="20260622_GorgeousCredulousEndiveCorgiDerp-X6voUv3hrOQgq5s4_source-preview-preview" start="0s" hasVideo="1" format="r1" hasAudio="1" audioSources="1" audioChannels="2" duration="89500/5993s">
+			<media-rep kind="original-media" src="file:///C:/Users/mythm/Downloads/20260622_GorgeousCredulousEndiveCorgiDerp-X6voUv3hrOQgq5s4_source-preview-preview.mp4" />
+		</asset>
+	</resources>
+	<library>
+		<event name="Auto-Editor Media Group">
+			<project name="20260622_GorgeousCredulousEndiveCorgiDerp-X6voUv3hrOQgq5s4_source-preview-preview">
+				<sequence format="r1" tcStart="0s" tcFormat="NDF" audioLayout="stereo" audioRate="48k">
+					<spine>
+						<asset-clip name="20260622_GorgeousCredulousEndiveCorgiDerp-X6voUv3hrOQgq5s4_source-preview-preview" ref="r2" offset="0s" duration="4100/5993s" start="0s" tcFormat="NDF" />
+						<asset-clip name="20260622_GorgeousCredulousEndiveCorgiDerp-X6voUv3hrOQgq5s4_source-preview-preview" ref="r2" offset="4100/5993s" duration="70100/5993s" start="6300/5993s" tcFormat="NDF" />
+						<asset-clip name="20260622_GorgeousCredulousEndiveCorgiDerp-X6voUv3hrOQgq5s4_source-preview-preview" ref="r2" offset="74200/5993s" duration="11600/5993s" start="78000/5993s" tcFormat="NDF" />
+					</spine>
+				</sequence>
+			</project>
+		</event>
+	</library>
+</fcpxml>

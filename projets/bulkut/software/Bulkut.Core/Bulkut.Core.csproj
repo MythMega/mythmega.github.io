@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Bulkut.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\config.json" LogicalName="Bulkut.Core.Assets.config.json" />
+    <EmbeddedResource Include="Assets\default.json" LogicalName="Bulkut.Core.Assets.default.json" />
+    <EmbeddedResource Include="Assets\desktop.json" LogicalName="Bulkut.Core.Assets.desktop.json" />
+    <EmbeddedResource Include="Assets\translations\*.json" LogicalName="Bulkut.Core.Assets.translations.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Resources\ffmpeg.bin"
+                      LogicalName="Bulkut.Core.Assets.ffmpeg.bin"
+                      Condition="Exists('Resources\ffmpeg.bin')" />
+  </ItemGroup>
+
+</Project>

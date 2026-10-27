@@ -8,6 +8,7 @@ import {
   computeKeepSegments,
   computePreviewWindow,
   parseSilenceLogs,
+  totalKeptDuration,
 } from '../script/features/autocut/silence.js';
 import { hasRenderParamsChanged, renderParamsOf } from '../script/features/autocut/autocut-fields.js';
 import { buildFastcutArgs } from '../script/features/fastcut/fastcut-processor.js';
@@ -231,6 +232,20 @@ test('reverse command reverses audio only when present', () => {
   assert.ok(withAudio.includes('areverse'));
   assert.ok(withAudio.includes('reverse'));
   assert.ok(!silent.includes('areverse'));
+});
+
+test('sums the kept segments into the estimated output duration', () => {
+  const segments = computeKeepSegments(
+    [
+      { start: 3, end: 5 },
+      { start: 8, end: 9.5 },
+    ],
+    12,
+    { preCut: 0.15, postCut: 0.2, minSegment: 0.25 },
+  );
+
+  assert.equal(totalKeptDuration(segments), 9.2);
+  assert.equal(totalKeptDuration([]), 0);
 });
 
 test('detects when the effective render parameters changed', () => {

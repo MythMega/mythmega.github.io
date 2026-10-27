@@ -6,6 +6,7 @@
  * @module features/autocut/silence
  */
 
+import { buildFadeFilters } from '../../core/fade.js';
 import { clamp, roundTo } from '../../core/timecode.js';
 
 const SILENCE_START = /silence_start:\s*(-?\d+(?:\.\d+)?)/;
@@ -116,12 +117,14 @@ export function totalKeptDuration(segments) {
 }
 
 /**
- * Build the FFmpeg filter graph that trims each segment and concatenates them.
+ * Build the FFmpeg filter graph that trims each segment, concatenates them and
+ * applies the final fades once (never per clip).
  * @param {Array<{ start: number, end: number }>} segments
  * @param {boolean} hasAudio
+ * @param {{ fade?: { audio: string, video: string, duration: number } | null, duration?: number }} [options]
  * @returns {string}
  */
-export function buildFilterGraph(segments, hasAudio) {
+export function buildFilterGraph(segments, hasAudio, { fade = null, duration = 0 } = {}) {
   const chains = [];
   let concatInputs = '';
 
@@ -137,9 +140,18 @@ export function buildFilterGraph(segments, hasAudio) {
     }
   });
 
+  const total = Number(duration) || totalKeptDuration(segments);
+  const filters = buildFadeFilters(fade, total);
+  const videoLabel = filters.video ? 'vcat' : 'vout';
+  const audioLabel = hasAudio ? (filters.audio ? 'acat' : 'aout') : '';
+
   chains.push(
-    `${concatInputs}concat=n=${segments.length}:v=1:a=${hasAudio ? 1 : 0}[vout]${hasAudio ? '[aout]' : ''}`,
+    `${concatInputs}concat=n=${segments.length}:v=1:a=${hasAudio ? 1 : 0}[${videoLabel}]${
+      hasAudio ? `[${audioLabel}]` : ''
+    }`,
   );
+  if (filters.video) chains.push(`[vcat]${filters.video}[vout]`);
+  if (hasAudio && filters.audio) chains.push(`[acat]${filters.audio}[aout]`);
 
   return chains.join(';');
 }
@@ -178,15 +190,21 @@ export function buildSilenceArgs({ input, thresholdDb, minSilence, seek = 0, len
  * @param {Record<string, any>} options.processing
  * @param {number} [options.seek]
  * @param {number} [options.length]
+ * @param {{ audio: string, video: string, duration: number } | null} [options.fade]
  * @returns {string[]}
  */
-export function buildAutocutArgs({ input, output, segments, hasAudio, processing, seek = 0, length = 0 }) {
+export function buildAutocutArgs({ input, output, segments, hasAudio, processing, seek = 0, length = 0, fade = null }) {
   const args = ['-hide_banner'];
   if (seek > 0) args.push('-ss', seek.toFixed(3));
   args.push('-i', input);
   if (length > 0) args.push('-t', length.toFixed(3));
 
-  args.push('-filter_complex', buildFilterGraph(segments, hasAudio), '-map', '[vout]');
+  args.push(
+    '-filter_complex',
+    buildFilterGraph(segments, hasAudio, { fade, duration: totalKeptDuration(segments) }),
+    '-map',
+    '[vout]',
+  );
   if (hasAudio) args.push('-map', '[aout]');
 
   args.push(

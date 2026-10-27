@@ -13,6 +13,13 @@ const PATHS = {
   alert: '<path d="M12 8.5v5"/><circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/>',
   download: '<path d="M12 4v11"/><path d="m7.5 11 4.5 4.5 4.5-4.5"/><path d="M4.5 19.5h15"/>',
   clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  save: '<path d="M5 3.5h9.6L20 8.9V20a.5.5 0 0 1-.5.5h-14A.5.5 0 0 1 5 20V3.5Z"/><path d="M8.5 3.5v5h6v-5"/><path d="M8.5 13.5h7v7h-7z"/>',
+  folder: '<path d="M3.5 7.5a2 2 0 0 1 2-2h3.2l2 2.4h7.8a2 2 0 0 1 2 2v8.6a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V7.5Z"/>',
+  grip: '<path d="M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01"/>',
+  up: '<path d="M12 19V5"/><path d="m6.5 10.5 5.5-5.5 5.5 5.5"/>',
+  in: '<path d="M3.5 12h12"/><path d="m10.5 7 5 5-5 5"/><path d="M20.5 5v14"/>',
+  out: '<path d="M20.5 12h-12"/><path d="m13.5 7-5 5 5 5"/><path d="M3.5 5v14"/>',
+  down: '<path d="M12 5v14"/><path d="m6.5 13.5 5.5 5.5 5.5-5.5"/>',
 };
 
 /**

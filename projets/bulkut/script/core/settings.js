@@ -7,12 +7,14 @@
  * @module core/settings
  */
 
+import { normalizeFade } from './fade.js';
 import { sanitizeSuffix } from './media.js';
+import { normalizeOutputFormat } from './output-format.js';
 
 const CONFIG_PATH = 'settings/config.json';
 
 const PROCESSING_FALLBACKS = {
-  maxFileSizeMb: 512,
+  maxFileSizeMb: 2048,
   previewDuration: 60,
   videoCodec: 'libx264',
   preset: 'veryfast',
@@ -22,6 +24,7 @@ const PROCESSING_FALLBACKS = {
   audioBitrate: '128k',
   maxSegments: 400,
   reverseWarningSeconds: 120,
+  concatFps: 30,
 };
 
 /** @param {string} path @returns {Promise<any>} */
@@ -90,20 +93,29 @@ function normalizeParams(params, config, defaults) {
   }
   autocut.minSilence = Math.max(0.1, numberOr(autocut.minSilence, numberOr(defaults.autocut?.minSilence, 0.5)));
   autocut.suffix = sanitizeSuffix(autocut.suffix ?? defaults.autocut?.suffix ?? '');
+  autocut.output = normalizeOutputFormat(autocut.output ?? defaults.autocut?.output);
 
-  const fastcut = {
-    ...defaults.fastcut,
-    ...(isPlainObject(params.fastcut) ? params.fastcut : {}),
+  const fadeBounds = config.fade ?? {};
+  autocut.fade = normalizeFade(autocut.fade, fadeBounds, defaults.autocut?.fade);
+
+  const simple = (key) => {
+    const value = {
+      ...defaults[key],
+      ...(isPlainObject(params[key]) ? params[key] : {}),
+    };
+    value.suffix = sanitizeSuffix(value.suffix ?? defaults[key]?.suffix ?? '');
+    value.fade = normalizeFade(value.fade, fadeBounds, defaults[key]?.fade);
+    return value;
   };
-  fastcut.suffix = sanitizeSuffix(fastcut.suffix ?? defaults.fastcut?.suffix ?? '');
 
-  const reverse = {
-    ...defaults.reverse,
-    ...(isPlainObject(params.reverse) ? params.reverse : {}),
+  return {
+    autocut,
+    fastcut: simple('fastcut'),
+    reverse: simple('reverse'),
+    collage: simple('collage'),
+    introoutro: simple('introoutro'),
+    splitter: simple('splitter'),
   };
-  reverse.suffix = sanitizeSuffix(reverse.suffix ?? defaults.reverse?.suffix ?? '');
-
-  return { autocut, fastcut, reverse };
 }
 
 /**
@@ -112,7 +124,7 @@ function normalizeParams(params, config, defaults) {
  * @property {Record<string, any>} defaults
  * @property {Record<string, any>} params live, mutable parameters
  * @property {Record<string, any>} processing normalized processing options
- * @property {{ params: string, lang: string }} storageKeys
+ * @property {{ params: string, lang: string, autoEstimate: string, presets: string }} storageKeys
  */
 
 /**
@@ -125,7 +137,12 @@ export async function loadSettings() {
   const defaults = await fetchJson(defaultsPath);
 
   const prefix = config.app?.storagePrefix || 'bulkut';
-  const storageKeys = { params: `${prefix}.params`, lang: `${prefix}.lang` };
+  const storageKeys = {
+    params: `${prefix}.params`,
+    lang: `${prefix}.lang`,
+    autoEstimate: `${prefix}.autoEstimate`,
+    presets: `${prefix}.presets`,
+  };
   const stored = readStoredJson(storageKeys.params);
   const params = normalizeParams(deepMerge(defaults, stored ?? {}), config, defaults);
 

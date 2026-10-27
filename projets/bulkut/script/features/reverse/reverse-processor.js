@@ -4,7 +4,7 @@
  */
 
 import { AppError } from '../../core/app-error.js';
-import { extensionOf } from '../../core/media.js';
+import { buildFadeFilters } from '../../core/fade.js';
 import { probeMedia } from '../../core/media-probe.js';
 
 let counter = 0;
@@ -14,12 +14,17 @@ let counter = 0;
  * @param {string} options.input
  * @param {string} options.output
  * @param {boolean} options.hasAudio
+ * @param {number} [options.duration]
+ * @param {{ audio: string, video: string, duration: number } | null} [options.fade]
  * @param {Record<string, any>} options.processing
  * @returns {string[]}
  */
-export function buildReverseArgs({ input, output, hasAudio, processing }) {
-  const args = ['-hide_banner', '-i', input, '-vf', 'reverse'];
-  if (hasAudio) args.push('-af', 'areverse');
+export function buildReverseArgs({ input, output, hasAudio, duration = 0, fade = null, processing }) {
+  const filters = buildFadeFilters(fade, duration);
+  const video = ['reverse', filters.video].filter(Boolean).join(',');
+  const audio = ['areverse', filters.audio].filter(Boolean).join(',');
+  const args = ['-hide_banner', '-i', input, '-vf', video];
+  if (hasAudio) args.push('-af', audio);
 
   args.push(
     '-map',
@@ -52,37 +57,46 @@ export function buildReverseArgs({ input, output, hasAudio, processing }) {
 /**
  * @param {object} options
  * @param {import('../../core/ffmpeg-service.js').FFmpegService} options.ffmpeg
- * @param {File} options.file
+ * @param {import('../../core/file-source.js').FileSource} options.source
  * @param {Record<string, any>} options.processing
+ * @param {{ audio: string, video: string, duration: number } | null} [options.fade]
  * @param {{ onPhase?: (phase: 'preparing'|'rendering', progress: number) => void }} [options.hooks]
  * @returns {Promise<{ blob: Blob, duration: number }>}
  */
-export async function processReverse({ ffmpeg, file, processing, hooks = {} }) {
+export async function processReverse({ ffmpeg, source, processing, fade = null, hooks = {}, token }) {
   hooks.onPhase?.('preparing', 0.01);
-  await ffmpeg.ensureLoaded();
+  await ffmpeg.ensureLoaded(token);
 
   counter += 1;
-  const input = `bulkut-in-${Date.now().toString(36)}-${counter}.${extensionOf(file.name)}`;
   const output = `bulkut-reversed-${Date.now().toString(36)}-${counter}.mp4`;
 
+  const attached = await source.attach(ffmpeg, token);
   try {
-    hooks.onPhase?.('preparing', 0.03);
-    await ffmpeg.writeFile(input, new Uint8Array(await file.arrayBuffer()));
+    hooks.onPhase?.('preparing', 0.04);
 
-    const info = await probeMedia(ffmpeg, input);
+    const info = await probeMedia(ffmpeg, attached.path, token);
     if (!info.hasVideo) throw new AppError('noVideoStream');
     if (!info.duration) throw new AppError('duration');
 
     hooks.onPhase?.('rendering', 0.08);
     await ffmpeg.run(
-      buildReverseArgs({ input, output, hasAudio: info.hasAudio, processing }),
+      buildReverseArgs({
+        input: attached.path,
+        output,
+        hasAudio: info.hasAudio,
+        duration: info.duration,
+        fade,
+        processing,
+      }),
       {
         duration: info.duration,
-        onProgress: (ratio) => hooks.onPhase?.('rendering', 0.08 + ratio * 0.9),
+        onProgress: (ratio, stats) => hooks.onPhase?.('rendering', 0.08 + ratio * 0.86, stats),
+        token,
       },
     );
 
-    const data = await ffmpeg.readFile(output);
+    hooks.onPhase?.('rendering', 0.94);
+    const data = await ffmpeg.readFile(output, token);
     const blob = new Blob([data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength)], {
       type: 'video/mp4',
     });
@@ -90,7 +104,7 @@ export async function processReverse({ ffmpeg, file, processing, hooks = {} }) {
     hooks.onPhase?.('rendering', 1);
     return { blob, duration: info.duration };
   } finally {
-    await ffmpeg.deleteFile(input);
     await ffmpeg.deleteFile(output);
+    await attached.cleanup();
   }
 }

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Download Bulkut for Windows, Linux, macOS or Android. Native FFmpeg included, no install and no upload.">
+  <title data-i18n="download.title">Bulkut for desktop</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230b1c46'/%3E%3Cpath d='M9 21.5 15.5 16 9 10.5' stroke='%237ba4ff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M17 22h6' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/download.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="grid-overlay"></span>
+  </div>
+
+  <a class="skip-link" href="#main" data-i18n="app.skip">Skip to content</a>
+
+  <header class="app-header glass">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="30" height="30" fill="none">
+          <path d="M7 22.5 15 16 7 9.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17 23h8" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M17 9h8" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity=".45"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <h1 data-i18n="app.name">Bulkut</h1>
+        <p data-i18n="download.lead">All Bulkut tools, natively.</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="lang-switch" role="group" id="lang-switch" data-i18n-aria-label="lang.label">
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+        <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main" id="main">
+    <section class="download-hero card glass">
+      <span class="download-badge" data-i18n="desktop.badge">DESKTOP · NATIVE FFMPEG</span>
+      <h2 data-i18n="download.title">Bulkut for desktop</h2>
+      <p class="download-lead" data-i18n="download.lead">All Bulkut tools, natively.</p>
+      <p class="download-version" id="download-version">Version 1.0.0</p>
+    </section>
+
+    <section class="download-grid" aria-label="Desktop downloads" style="margin-top: 24px;">
+      <article class="download-card card glass" data-platform="windows">
+        <header class="download-card-head">
+          <span class="download-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M3 5.5 10.5 4.4v7.1H3V5.5Zm8.6-1.2L21 3v8.5h-9.4V4.3ZM3 12.8h7.5v7.1L3 18.8v-6Zm8.6 0H21V21l-9.4-1.3v-6.9Z"/></svg>
+          </span>
+          <div>
+            <h3 data-i18n="download.windows">Windows</h3>
+            <p class="download-sub" data-i18n="download.portable">Single portable executable</p>
+          </div>
+          <span class="download-recommended" hidden data-i18n="download.recommended">Recommended for this device</span>
+        </header>
+        <a class="btn btn-primary btn-block" data-download="windows" href="#" download>
+          <span data-i18n="download.action">Download</span>
+          <span class="download-arrow" aria-hidden="true">↓</span>
+        </a>
+        <p class="download-file" data-download-file>Bulkut-win-x64.exe</p>
+      </article>
+
+      <article class="download-card card glass" data-platform="linux">
+        <header class="download-card-head">
+          <span class="download-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8c-2.2 0-3.6 1.7-3.6 4 0 1.7.5 2.7.1 4.2-.5 1.8-2.2 3.3-2.2 5.6 0 2.3 2.6 4.6 5.7 4.6s5.7-2.3 5.7-4.6c0-2.3-1.7-3.8-2.2-5.6-.4-1.5.1-2.5.1-4.2 0-2.3-1.4-4-3.6-4Z"/><path d="M10.2 13.6c.7.8.9 1.9 1.8 1.9s1.1-1.1 1.8-1.9"/></svg>
+          </span>
+          <div>
+            <h3 data-i18n="download.linux">Linux</h3>
+            <p class="download-sub" data-i18n="download.portable">Single portable executable</p>
+          </div>
+          <span class="download-recommended" hidden data-i18n="download.recommended">Recommended for this device</span>
+        </header>
+        <a class="btn btn-primary btn-block" data-download="linux" href="#" download>
+          <span data-i18n="download.action">Download</span>
+          <span class="download-arrow" aria-hidden="true">↓</span>
+        </a>
+        <p class="download-file" data-download-file>Bulkut-linux-x64</p>
+      </article>
+
+      <article class="download-card card glass" data-platform="macos">
+        <header class="download-card-head">
+          <span class="download-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16.4 12.7c0-2 1.6-3 1.7-3.1-.9-1.4-2.4-1.6-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.4 0-2.6.8-3.3 2-1.4 2.4-.4 6 1 8 .7 1 1.5 2 2.6 2 1 0 1.4-.6 2.6-.6 1.2 0 1.5.6 2.6.6 1.1 0 1.8-.9 2.5-1.9.8-1.1 1.1-2.2 1.1-2.3-.1 0-2.3-.9-2.3-3ZM14.4 6.6c.5-.7.9-1.6.8-2.6-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.1Z"/></svg>
+          </span>
+          <div>
+            <h3 data-i18n="download.macos">macOS</h3>
+            <p class="download-sub" data-i18n="download.portable">Single portable executable</p>
+          </div>
+          <span class="download-recommended" hidden data-i18n="download.recommended">Recommended for this device</span>
+        </header>
+        <div class="download-split">
+          <a class="btn btn-primary" data-download="macosAppleSilicon" href="#" download>
+            <span data-i18n="download.appleSilicon">Apple Silicon</span>
+            <span class="download-arrow" aria-hidden="true">↓</span>
+          </a>
+          <a class="btn btn-secondary" data-download="macosIntel" href="#" download>
+            <span data-i18n="download.intel">Intel</span>
+            <span class="download-arrow" aria-hidden="true">↓</span>
+          </a>
+        </div>
+        <p class="download-file" data-download-file>Bulkut-osx-arm64 · Bulkut-osx-x64</p>
+      </article>
+
+      <article class="download-card card glass" data-platform="android">
+        <header class="download-card-head">
+          <span class="download-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.6"/><path d="M10.5 6.2h3"/><path d="M12 10.5v6.2m0 0-2.4-2.4m2.4 2.4 2.4-2.4"/></svg>
+          </span>
+          <div>
+            <h3 data-i18n="download.android">Android</h3>
+            <p class="download-sub" data-i18n="download.apk">APK · Android 7 and newer</p>
+          </div>
+          <span class="download-recommended" hidden data-i18n="download.recommended">Recommended for this device</span>
+        </header>
+        <a class="btn btn-primary btn-block" data-download="android" href="#" download>
+          <span data-i18n="download.action">Download</span>
+          <span class="download-arrow" aria-hidden="true">↓</span>
+        </a>
+        <p class="download-file" data-download-file>Bulkut-android.apk</p>
+      </article>
+    </section>
+
+    <section class="download-foot card glass">
+      <div>
+        <h3 data-i18n="download.noteTitle">Everything is included</h3>
+        <p class="download-note" data-i18n="download.note">Each build embeds FFmpeg. The app extracts it next to the executable on first launch.</p>
+        <p class="download-requirements" data-i18n="download.requirements">Windows 10/11, a recent Linux distribution or macOS 12+.</p>
+      </div>
+      <div class="download-actions">
+        <a class="btn btn-secondary" href="index.html" data-i18n="download.openWeb">Open the web app</a>
+        <a class="btn btn-ghost" href="pro.html" data-i18n="download.openPro">Open the Pro page</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p><span data-i18n="app.name">Bulkut</span> <span class="footer-sep" aria-hidden="true">·</span> <span data-i18n="app.versionLabel">Version</span> <span id="app-version">1.0.0</span> <span class="footer-sep" aria-hidden="true">·</span> <a class="footer-link" href="index.html" data-i18n="download.openWeb">Open the web app</a></p>
+  </footer>
+
+  <script type="module" src="script/download.js"></script>
+</body>
+</html>

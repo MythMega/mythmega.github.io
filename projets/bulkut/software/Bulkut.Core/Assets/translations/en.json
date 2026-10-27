@@ -1,0 +1,363 @@
+{
+  "app": {
+    "title": "Bulkut — local video editing",
+    "name": "Bulkut",
+    "tagline": "Local video editing, nothing uploaded",
+    "skip": "Skip to content",
+    "footer": "Runs entirely in your browser with ffmpeg.wasm. Your files never leave this device.",
+    "versionLabel": "Version",
+    "download": "Desktop app"
+  },
+  "lang": {
+    "label": "Language"
+  },
+  "nav": {
+    "label": "Tools",
+    "autocut": "Autocut",
+    "fastcut": "Fastcut",
+    "reverse": "Reverse",
+    "collage": "Collage",
+    "introoutro": "Intro / Outro",
+    "splitter": "Splitter"
+  },
+  "engine": {
+    "idle": "Engine idle",
+    "loading": "Loading engine…",
+    "ready": "Engine ready",
+    "error": "Engine error",
+    "hint": "The video engine (ffmpeg.wasm) loads on the first render."
+  },
+  "common": {
+    "suffix": {
+      "label": "Output suffix",
+      "hint": "Appended to the file name before download.",
+      "placeholder": "-edited"
+    },
+    "oneAtATime": "One video at a time, in launch order.",
+    "localOnly": "Everything stays on this device.",
+    "dropTitle": "Drag & drop your videos here",
+    "dropFileTitle": "Drag & drop a video here",
+    "browse": "Browse files",
+    "addFiles": "Add videos",
+    "addFile": "Add a video",
+    "remove": "Remove",
+    "configure": "Settings",
+    "excerpt": "Preview",
+    "cancel": "Cancel",
+    "stop": "Stop",
+    "close": "Close",
+    "importing": "Importing…",
+    "defaultBadge": "Defaults",
+    "customBadge": "Custom",
+    "unknownDuration": "Duration unknown",
+    "ready": "Ready",
+    "queued": "Queued",
+    "preparing": "Preparing",
+    "analyzing": "Analysing silence",
+    "rendering": "Rendering",
+    "done": "Done",
+    "error": "Error",
+    "outputDuration": "Output duration",
+    "hours": "h",
+    "minutes": "m",
+    "seconds": "s",
+    "eta": "~{time} left",
+    "dragToReorder": "Drag to reorder",
+    "moveUp": "Move up",
+    "moveDown": "Move down"
+  },
+  "autocut": {
+    "settings": {
+      "title": "Global settings",
+      "hint": "These values apply to every video that follows the defaults."
+    },
+    "fields": {
+      "threshold": "Silence threshold",
+      "thresholdHint": "Loudness below this level is treated as silence.",
+      "precut": "Pre-cut margin",
+      "precutHint": "Extra time kept just before speech starts.",
+      "postcut": "Post-cut margin",
+      "postcutHint": "Breathing room kept just after speech ends.",
+      "minClip": "Minimum clip duration",
+      "minClipHint": "Kept clips shorter than this duration are dropped."
+    },
+    "list": {
+      "title": "Videos",
+      "hint": "Each video can override the global settings."
+    },
+    "empty": "No videos yet. Drop a few clips to remove their silences.",
+    "runAll": "Render all ({count})",
+    "autoEstimate": {
+      "title": "Auto-estimate durations",
+      "hint": "After a settings change, estimate each output duration without rendering. Values are computed 3 seconds after the last change.",
+      "toggle": "Estimate output durations automatically"
+    },
+    "estimate": {
+      "button": "Estimate the output duration",
+      "runningShort": "Estimating the duration…",
+      "label": "duration estimate",
+      "queued": "Duration estimate queued",
+      "running": "Estimating the duration… {percent}%",
+      "ready": "Output ≈ {duration} · {clips} clips",
+      "failed": "Could not estimate the duration",
+      "hint": "Estimated from the silence analysis, before any rendering."
+    },
+    "queue": {
+      "active": "Processing: {name}",
+      "waiting": "{count} waiting",
+      "skip": "Skip current",
+      "cancelNext": "Cancel following",
+      "stopAll": "Stop all",
+      "skipped": "{name} skipped.",
+      "cancelledNext": "{count} queued render(s) cancelled.",
+      "stoppedAll": "All autocut jobs stopped."
+    },
+    "modal": {
+      "title": "Settings for “{name}”",
+      "hint": "Starts from the current values; applies to this video only.",
+      "apply": "Apply to this video",
+      "useDefaults": "Follow defaults"
+    },
+    "excerpt": {
+      "title": "Render a 1-minute preview from the middle of the video"
+    },
+    "resultDone": "{name} downloaded.",
+    "stale": "Settings changed — render again",
+    "previewDone": "Preview downloaded: {name}",
+    "badge": {
+      "default": "Uses the global settings.",
+      "custom": "Uses settings specific to this video."
+    },
+    "output": {
+      "title": "Output format",
+      "hint": "Timelines reuse the source file and can be relinked in the editor.",
+      "video": "Video (MP4)",
+      "premiere": "Premiere Pro sequence (XML)",
+      "davinci": "DaVinci Resolve timeline (FCPXML)"
+    },
+    "params": {
+      "title": "Threshold · pre-cut · post-cut · minimum clip duration"
+    }
+  },
+  "fastcut": {
+    "settings": {
+      "title": "Cut settings",
+      "hint": "Pick the start and end of the clip, then export."
+    },
+    "run": "Export clip",
+    "list": {
+      "title": "Clip",
+      "hint": "One file at a time; the sliders set the kept range."
+    },
+    "start": "Start",
+    "end": "End",
+    "outputHint": "Selected range",
+    "lengthSeconds": "{seconds} s",
+    "probing": "Reading the video duration…",
+    "resultDone": "{name} downloaded."
+  },
+  "reverse": {
+    "settings": {
+      "title": "Reverse settings",
+      "hint": "Plays the clip and its audio backwards."
+    },
+    "run": "Reverse video",
+    "list": {
+      "title": "Video",
+      "hint": "One file at a time."
+    },
+    "warning": "Reversing buffers the whole clip in memory: keep it short (a few minutes).",
+    "longWarning": "This clip is {duration} long: reversing buffers all of it in memory and may fail.",
+    "resultDone": "{name} downloaded."
+  },
+  "collage": {
+    "settings": {
+      "title": "Collage settings",
+      "hint": "Clips are joined end to end, in the order below."
+    },
+    "list": {
+      "title": "Clips",
+      "hint": "Drag a row, or use the arrows, to change the order."
+    },
+    "empty": "No clips yet. Add videos to build a collage.",
+    "run": "Create collage",
+    "stop": "Stop the render",
+    "note": "The clips are re-encoded together: one video at a time, in list order.",
+    "total": "Total duration",
+    "label": "collage",
+    "resultDone": "{name} downloaded.",
+    "stopped": "Collage render stopped."
+  },
+  "introoutro": {
+    "settings": {
+      "title": "Intro / Outro settings",
+      "hint": "Every video is exported on its own, with the intro, the outro, or both."
+    },
+    "list": {
+      "title": "Videos",
+      "hint": "Each video is rendered separately."
+    },
+    "empty": "No videos yet. Add clips, then give them an intro and an outro.",
+    "addIntro": "Add an intro",
+    "addOutro": "Add an outro",
+    "introHint": "Optional · played before each video",
+    "outroHint": "Optional · played after each video",
+    "modeLabel": "What to include",
+    "mode": {
+      "both": "Intro + outro",
+      "intro": "Intro only",
+      "outro": "Outro only"
+    },
+    "expected": "Expected ≈ {duration}",
+    "run": "Render this video",
+    "runAll": "Render all ({count})",
+    "resultDone": "{name} downloaded.",
+    "needEdge": "Add an intro or an outro to enable rendering.",
+    "queue": {
+      "active": "Processing: {name}",
+      "waiting": "{count} waiting",
+      "stopAll": "Stop all",
+      "stoppedAll": "All intro/outro renders stopped."
+    }
+  },
+  "presets": {
+    "save": "Save preset",
+    "load": "Load preset",
+    "saveTitle": "{section} preset",
+    "saveHint": "Name this preset. It will only be available in this tab.",
+    "loadTitle": "{section} presets",
+    "loadHint": "Load a preset to replace the current settings, or delete the ones you no longer need.",
+    "nameLabel": "Preset name",
+    "namePlaceholder": "e.g. Podcast, Tight cuts…",
+    "recapTitle": "What this preset saves",
+    "saveAction": "Save preset",
+    "saved": "Preset “{name}” saved.",
+    "loaded": "Preset “{name}” loaded.",
+    "deleted": "Preset “{name}” deleted.",
+    "delete": "Delete",
+    "confirmDelete": "Confirm delete",
+    "empty": "No presets saved for this tab yet."
+  },
+  "errors": {
+    "numberRange": "The value must be between {min} and {max}.",
+    "notVideo": "{name} is not a supported video file.",
+    "fileTooLarge": "{name} is too large ({size}). Limit: {limit}.",
+    "busy": "A video is already being processed.",
+    "startBeforeEnd": "The start must stay before the end (at least 1 second).",
+    "endAfterStart": "The end must stay after the start (at least 1 second).",
+    "timecode": "Enter a valid timecode between 00:00:00 and 99:59:59.",
+    "duration": "Could not read the video duration.",
+    "noAudio": "This video has no audio track to analyse.",
+    "noSegments": "No speech found with these settings. Try another threshold.",
+    "tooManySegments": "Too many segments to render ({max} max). Raise the threshold or the minimum silence.",
+    "noVideoStream": "No video stream found in this file.",
+    "renderFailed": "FFmpeg could not render this video.",
+    "ffmpegLoad": "Could not load ffmpeg.wasm.",
+    "ffmpegUnavailable": "The ffmpeg.wasm runtime is missing. Check the vendor/ffmpeg folder.",
+    "cancelled": "The operation was cancelled.",
+    "opfsUnavailable": "This browser does not support OPFS storage. Use index.html instead.",
+    "opfsImport": "Could not store {name} in OPFS.",
+    "opfsMount": "Could not mount {name} in the video engine.",
+    "presetNameEmpty": "Give this preset a name.",
+    "presetNameTaken": "A preset named “{name}” already exists in this tab.",
+    "presetStorage": "Could not save the preset: cookies are unavailable or full.",
+    "presetTooLarge": "Too many presets saved: delete some to free up space.",
+    "noClips": "Add at least one video.",
+    "unknown": "Something went wrong."
+  },
+  "pro": {
+    "badge": "PRO · OPFS",
+    "badgeHint": "Pro page: files are stored in the browser with OPFS.",
+    "title": "Bulkut Pro — local video editing with OPFS",
+    "description": "Bulkut Pro — cut silences, trim clips and reverse videos locally with OPFS storage and ffmpeg.wasm.",
+    "note": "OPFS mode: videos are streamed from browser storage and mounted read-only in FFmpeg, so the import size limit does not apply. They stay on this device.",
+    "storageNote": "Stored locally in your browser with OPFS — no import size limit.",
+    "open": "Pro version (OPFS)",
+    "standard": "Standard version"
+  },
+  "toasts": {
+    "languageChanged": "Language set to {language}."
+  },
+  "desktop": {
+    "badge": "DESKTOP · NATIVE FFMPEG",
+    "engineChecking": "Checking FFmpeg…",
+    "engineDownloading": "Downloading FFmpeg… {percent}%",
+    "engineReady": "Native engine ready",
+    "engineFailed": "FFmpeg unavailable",
+    "engineRetry": "Retry",
+    "engineHint": "FFmpeg is looked up in the ffmpeg folder next to the application.",
+    "storageNote": "Files are read directly from disk — no import limit.",
+    "outputFolder": "Output folder",
+    "outputDefault": "Downloads folder",
+    "chooseFolder": "Choose folder",
+    "savedTo": "{name} saved to {folder}",
+    "reveal": "Show in folder",
+    "footer": "Native desktop edition. Everything runs locally with FFmpeg — no upload, no size limit.",
+    "web": "Web version",
+    "threads": "FFmpeg threads",
+    "serverBusy": "Another render is already running.",
+    "selectFolderTitle": "Choose the output folder"
+  },
+  "fade": {
+    "title": "Fades",
+    "hint": "Applied once to each finished file, never inside the clips.",
+    "audio": "Audio",
+    "video": "Video",
+    "duration": "Fade duration",
+    "durationHint": "0.1 to 1 second. One second by default.",
+    "modes": {
+      "none": "No fade",
+      "in": "Fade in",
+      "out": "Fade out",
+      "both": "Fade in and out"
+    }
+  },
+  "splitter": {
+    "settings": {
+      "title": "Split settings",
+      "hint": "Cut one video into as many ranges as you need."
+    },
+    "list": {
+      "title": "Segments",
+      "hint": "Set a start and an end for every segment."
+    },
+    "start": "Start",
+    "end": "End",
+    "run": "Export segments",
+    "stop": "Stop",
+    "note": "Each segment is rendered as its own file. Allow multiple downloads in your browser when asked.",
+    "addSegment": "Add segment",
+    "probing": "Reading the video…",
+    "resultDone": "{count} segments exported",
+    "tooManySegments": "Too many segments (max {max})."
+  },
+  "download": {
+    "title": "Bulkut for desktop",
+    "lead": "The full Bulkut toolset, natively. One file, no install, no browser and no import size limit.",
+    "action": "Download",
+    "windows": "Windows",
+    "linux": "Linux",
+    "macos": "macOS",
+    "android": "Android",
+    "apk": "APK · Android 7 and newer",
+    "appleSilicon": "Apple Silicon",
+    "intel": "Intel",
+    "portable": "Portable single executable",
+    "recommended": "Recommended for this device",
+    "version": "Version {version}",
+    "noteTitle": "Everything is included",
+    "note": "Each build bundles FFmpeg. The application extracts it next to the executable on first launch.",
+    "requirements": "Requires Windows 10/11, a recent Linux distribution, macOS 12+ or Android 7+.",
+    "back": "Back to the web app",
+    "unavailable": "Build not published yet",
+    "webTitle": "No install needed",
+    "webLead": "Run Bulkut right now in your browser, or use the Pro page for large files.",
+    "openWeb": "Open the web app",
+    "openPro": "Open the Pro page"
+  },
+  "mobile": {
+    "dropTitle": "Tap to choose your videos",
+    "dropFileTitle": "Tap to choose a video",
+    "storageNote": "Picked files are copied into the app's private storage."
+  }
+}

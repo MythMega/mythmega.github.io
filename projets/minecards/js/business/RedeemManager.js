@@ -30,7 +30,16 @@
  *                   15th" = valid through the 14th). The day comes from `DateSyncManager`, never
  *                   from `Date.now()`;
  *   - `Repeatable`: false = the code is recorded in `redeemed_codes` and refused once used;
- *                   true  = never recorded, claimable without limit.
+ *                   true  = never recorded, claimable without limit;
+ *
+ *   - `AutoClaim`: absent/null = nothing automatic, the code is only claimable by typing it. Else
+ *                   `{ Auto, RequiredLevel, RequiredOpenBoosterStats, CustomMessage }`: the rewards
+ *                   are granted automatically ONCE, when the app is opened inside the availability
+ *                   window AND the account reaches both requirements. `RequiredLevel` is the player
+ *                   level, `RequiredOpenBoosterStats` the number of boosters ever opened; both are
+ *                   nullable. `CustomMessage.FR`/`.EN` replaces the default popup sentence. An
+ *                   `AutoClaim` block on a `Repeatable` code is refused (logged, ignored): an
+ *                   automatic gift is granted exactly once.
  *
  * DESIGN
  *   - `inspect(rawCode)` performs NO write: it is what the view calls to build the confirmation
@@ -40,8 +49,9 @@
  *     concurrent claims cannot both succeed (anti double-click / anti race);
  *   - when any reward of a code is invalid (unknown extension/card, bad quantity, empty rewards),
  *     the WHOLE code is refused: nothing is written and a warning is logged WITHOUT the code;
- *   - `settings/codes.json` is loaded lazily on the first `inspect`, never at boot, and is never
- *     listed in the UI nor logged.
+ *   - `settings/codes.json` is loaded lazily on the first `inspect`; the automatic check of
+ *     `AutoClaimManager` also reads it at boot, which is the only reason it can be fetched before a
+ *     player types anything. It is never listed in the UI nor logged (no code, no reward).
  *
  * LIMITS (documented, accepted)
  *   `settings/codes.json` is served to the browser: anybody can read every code with the devtools.
@@ -363,12 +373,73 @@ export class RedeemManager {
           startDate: normalizeDay(availabilities?.StartDate ?? null),
           endDate: normalizeDay(availabilities?.EndDate ?? null),
           repeatable: entry.Repeatable === true,
+          autoClaim: this.normalizeAutoClaim(entry.AutoClaim, index, entry.Repeatable === true),
         })
       );
     });
 
     this.log(`Loaded ${codes.length} special code(s).`);
     return codes;
+  }
+
+  /**
+   * Normalizes the optional `AutoClaim` block of a code.
+   *
+   * A malformed block is IGNORED (the code stays manually claimable) rather than disabling the whole
+   * catalogue, exactly like a malformed reward only refuses its own code. The one combination that
+   * is never tolerated is an automatic code marked `Repeatable`: the block is dropped with an error,
+   * because an automatic gift must be granted exactly once.
+   *
+   * @param {unknown} value - Raw `AutoClaim` value.
+   * @param {number} index - Position of the entry (used in the log messages).
+   * @param {boolean} repeatable - Whether the code is declared repeatable.
+   * @returns {{requiredLevel: number|null, requiredOpenBoosterStats: number|null,
+   *   customMessage: {fr: string|null, en: string|null}|null}|null} The normalized block, or null
+   *   when auto-claiming is disabled for that code.
+   */
+  normalizeAutoClaim(value, index, repeatable) {
+    if (value === undefined || value === null) return null;
+    if (!isPlainObject(value) || value.Auto === false) {
+      console.warn(`[RedeemManager] Code #${index} of "${this.path}" has an unusable "AutoClaim": it is ignored.`);
+      return null;
+    }
+    if (repeatable) {
+      console.error(
+        `[RedeemManager] Code #${index} of "${this.path}" is both "Repeatable" and "AutoClaim": ` +
+          'auto-claim is ignored, an automatic gift is granted only once.'
+      );
+      return null;
+    }
+
+    const requiredLevel = value.RequiredLevel ?? null;
+    if (requiredLevel !== null && (!Number.isInteger(requiredLevel) || requiredLevel < 1)) {
+      console.warn(`[RedeemManager] Code #${index} of "${this.path}" has an invalid "RequiredLevel": auto-claim is ignored.`);
+      return null;
+    }
+
+    const requiredOpenBoosterStats = value.RequiredOpenBoosterStats ?? null;
+    if (
+      requiredOpenBoosterStats !== null &&
+      (!Number.isInteger(requiredOpenBoosterStats) || requiredOpenBoosterStats < 0)
+    ) {
+      console.warn(
+        `[RedeemManager] Code #${index} of "${this.path}" has an invalid "RequiredOpenBoosterStats": ` +
+          'auto-claim is ignored.'
+      );
+      return null;
+    }
+
+    // A custom message is decorative: a malformed one falls back to the default sentence instead of
+    // disabling the gift.
+    const rawMessage = isPlainObject(value.CustomMessage) ? value.CustomMessage : {};
+    const readMessage = (candidate) => (isNonEmptyString(candidate) ? candidate.trim() : null);
+    const customMessage = { fr: readMessage(rawMessage.FR), en: readMessage(rawMessage.EN) };
+
+    return Object.freeze({
+      requiredLevel,
+      requiredOpenBoosterStats,
+      customMessage: customMessage.fr || customMessage.en ? Object.freeze(customMessage) : null,
+    });
   }
 
   /**
@@ -761,6 +832,63 @@ export class RedeemManager {
   }
 
   /**
+   * Lists the codes that declare an `AutoClaim` block (an empty list when none does).
+   *
+   * The catalogue is loaded lazily here too: an account that never boots the automatic check never
+   * pays for the file. A broken catalogue is logged and reads as "no automatic code", so a typo in
+   * `settings/codes.json` can never break the application start.
+   *
+   * @returns {Promise<object[]>} The descriptors carrying a normalized `autoClaim`.
+   */
+  async listAutoClaims() {
+    let codes;
+    try {
+      codes = await this.loadCodes();
+    } catch (error) {
+      console.warn('[RedeemManager] The special code catalogue is unavailable for auto-claim.', error.message);
+      return [];
+    }
+    return codes.filter((descriptor) => descriptor.autoClaim);
+  }
+
+  /**
+   * Grants an `AutoClaim` descriptor without a typed code.
+   *
+   * The availability and the rewards are resolved exactly like `claim()`, and the consumption is
+   * re-checked inside the same write transaction: two concurrent checks (a boot and a booster
+   * opening) cannot both grant the same code, and a `CodeHash`-only entry works here too since the
+   * descriptor is already known.
+   *
+   * @param {object} descriptor - Catalogue descriptor carrying an `autoClaim` block.
+   * @returns {Promise<{kind: string, rewards: object[], redeemedAt: string, repeatable: boolean}>}
+   *   The claim result.
+   * @throws {RedeemError} When the code is unavailable, already used or its rewards are invalid.
+   * @throws {Error} When the storage transaction fails; nothing is written in that case.
+   */
+  async claimAuto(descriptor) {
+    if (!descriptor?.autoClaim) {
+      throw new RedeemError(REDEEM_ERROR_CODES.INVALID_CONFIG, 'No auto-claim descriptor was provided.');
+    }
+
+    const availability = this.checkAvailability(descriptor);
+    if (availability.status !== REDEEM_STATUSES.OK) {
+      throw this.buildStatusError(availability.status);
+    }
+
+    const rewards = await this.resolveRewards(descriptor);
+    if (!rewards) {
+      throw new RedeemError(REDEEM_ERROR_CODES.INVALID_CONFIG, 'The automatic code declares invalid rewards.');
+    }
+
+    return this.grantResolved({
+      kind: REDEEM_KINDS.SPECIAL,
+      rewards,
+      repeatable: false,
+      storeKey: descriptor.storeKey,
+    });
+  }
+
+  /**
    * Inspects a code WITHOUT writing anything (read-only).
    *
    * @param {string} rawCode - Raw code typed by the player.
@@ -840,6 +968,22 @@ export class RedeemManager {
       throw this.buildStatusError(resolved.status);
     }
 
+    return this.grantResolved(resolved);
+  }
+
+  /**
+   * Grants already-resolved rewards and records the consumption atomically.
+   *
+   * Shared by the typed code (`claim()`) and the automatic claim (`claimAuto()`): the resolution
+   * happens outside the transaction, the `redeemed_codes` state is re-checked inside it.
+   *
+   * @param {object} resolved - `{ kind, rewards, repeatable, storeKey }`.
+   * @returns {Promise<{kind: string, rewards: object[], redeemedAt: string, repeatable: boolean}>}
+   *   The claim result.
+   * @throws {RedeemError} When the code was already used.
+   * @throws {Error} When the storage transaction fails; nothing is written in that case.
+   */
+  async grantResolved(resolved) {
     const { rewards, repeatable, storeKey } = resolved;
     const hasBooster = rewards.some((reward) => reward.type === 'booster');
     if (hasBooster) {

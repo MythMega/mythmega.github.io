@@ -62,6 +62,7 @@ import giftManager, {
   getGiftIgnoreReasonKey,
   GIFT_TYPES,
 } from '../../business/GiftManager.js';
+import autoClaimManager, { AUTO_CLAIM_REASONS } from '../../business/AutoClaimManager.js';
 import Toast from '../components/Toast.js';
 import notificationCenter from '../components/NotificationCenter.js';
 import { applyShine } from '../components/CardComponent.js';
@@ -1742,6 +1743,11 @@ export class SettingsView {
    * when the sheet cannot be read at all. A failed check never moves the sync cursor, so the
    * gifts can be checked again later.
    *
+   * The same button also re-checks the automatic codes (`AutoClaim`): the distribution check is the
+   * manual "look again" of the player, so it must catch a gift whose requirements are met — even
+   * when the sheet itself cannot be read. The check is run AFTER the report, and the gift popup sits
+   * above it: the player closes the gift, then reads the report underneath.
+   *
    * @returns {Promise<void>} Resolves once the flow finished (success or failure).
    */
   async handleCheckGifts() {
@@ -1769,6 +1775,13 @@ export class SettingsView {
       Toast.error(messageKey);
     } finally {
       this.setBusy(false);
+    }
+
+    try {
+      await autoClaimManager.check({ reason: AUTO_CLAIM_REASONS.SETTINGS });
+    } catch (error) {
+      // `check()` never rejects; this is the last safety net for the button flow.
+      console.warn('[SettingsView] The automatic codes could not be checked.', error);
     }
   }
 

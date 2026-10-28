@@ -58,6 +58,10 @@ export const EVENTS = Object.freeze({
   GIFTS_UPDATED: 'GIFTS_UPDATED',
   /** Payload: `{ balance }`. Emitted by SparksManager whenever the currency balance changes
    * (booster reward, code, distribution, collection sale or purchase): the header listens to it. */
+  /** Payload: `{ claims, reason }` where `claims` is `[{ message, rewards, code }]`. Emitted by
+   * `AutoClaimManager` once at least one `AutoClaim` code was granted: the popup displays the gift
+   * wherever the player is. The rewards are already credited when it is emitted. */
+  AUTO_CLAIM_GRANTED: 'AUTO_CLAIM_GRANTED',
   SPARKS_UPDATED: 'SPARKS_UPDATED',
   /** Payload: `{ profile }`. Emitted by ProfileManager after the name, the photo or the pinned
    * trophies changed: the profile page and the identity displays re-render from it. */

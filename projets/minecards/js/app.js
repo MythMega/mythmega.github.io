@@ -58,6 +58,8 @@ import titleManager from './business/TitleManager.js';
 import minePickManager from './business/MinePickManager.js';
 import binderManager from './business/BinderManager.js';
 import gameNotifier from './UI/components/GameNotifier.js';
+import autoClaimPopup from './UI/components/AutoClaimPopup.js';
+import autoClaimManager from './business/AutoClaimManager.js';
 import ViewHelp from './UI/components/ViewHelp.js';
 
 /** Id of the boot overlay removed once the application is ready. */
@@ -189,6 +191,12 @@ export class App {
     this.headerBound = false;
     /** @type {boolean} True once the game notifications (experience, collections) are armed. */
     this.notificationsStarted = false;
+    /** @type {AutoClaimPopup|null} Global popup of the automatic codes (`AutoClaim`). */
+    this.autoClaimPopup = null;
+    /** @type {boolean} True once the automatic codes are watched. */
+    this.autoClaimsStarted = false;
+    /** @type {number|null} Level evaluated by the boot trophy pass, reused by the auto-claims. */
+    this.currentLevel = null;
     /** @type {boolean} True once the bonus inventory dialog is wired. */
     this.bonusInventoryBound = false;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */
@@ -390,6 +398,10 @@ export class App {
     // seeded BEFORE the notifications are armed, for the same reason.
     await this.startTitles();
     await this.startGameNotifications();
+    // Automatic codes (AutoClaim): armed after the silent trophy pass, so the level they compare
+    // against is already the account's. The first check is deferred to the next task by the
+    // manager, which keeps its popup above the boot overlay.
+    this.startAutoClaims();
     if (!this.utcTimeProvider) {
       // Fallback used only when the time synchronization is unusable: the clock then shows the
       // "unknown time" placeholder instead of an untrusted system time.
@@ -487,6 +499,7 @@ export class App {
     console.info('[App] Evaluating the trophies…');
     try {
       const state = await trophyManager.init({ notify: false });
+      this.currentLevel = Number.isInteger(state?.level?.level) ? state.level.level : null;
       console.info(
         `[App] Trophies ready: ${state.counters.unlocked}/${state.counters.total} unlocked (level ${state.level.level}).`
       );
@@ -667,6 +680,23 @@ export class App {
     if (!armed) {
       console.warn('[App] The game notifications are unavailable.');
     }
+  }
+
+  /**
+   * Arms the automatic codes (`AutoClaim`): the global popup and the re-check triggers.
+   *
+   * The popup is created here (it subscribes to `AUTO_CLAIM_GRANTED`) before the first check, so a
+   * gift earned at boot is never lost. A failure keeps the application usable: the codes simply
+   * stay unclaimed, and the settings button can check them again later.
+   *
+   * @returns {void}
+   */
+  startAutoClaims() {
+    if (this.autoClaimsStarted) return;
+    this.autoClaimsStarted = true;
+    this.autoClaimPopup = autoClaimPopup;
+    autoClaimManager.start({ level: this.currentLevel });
+    console.info('[App] Automatic codes armed.');
   }
 
   /**
@@ -1110,6 +1140,11 @@ export class App {
     titleManager.destroy();
     gameNotifier.stop();
     this.notificationsStarted = false;
+    autoClaimManager.stop();
+    this.autoClaimPopup?.clear();
+    this.autoClaimPopup = null;
+    this.autoClaimsStarted = false;
+    this.currentLevel = null;
     this.stopUtcClock();
     this.utcTimeProvider = null;
     this.lastTick = null;

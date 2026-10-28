@@ -158,6 +158,7 @@ fonction de désabonnement que chaque vue conserve pour son `destroy()`.
 | `ProfileCardManager` | Projection du compte en carte à collectionner | `profileCard` | — |
 | `PromoManager` / `PromoSet` | Chargement des cartes promo par série | — (lecture) | — |
 | `RedeemManager` | Codes de `codes.json` et codes personnels `useritem` | `redeemed_codes`, `collection`, `sparks`, `quota` | `CARDS_OBTAINED`, `SPARKS_UPDATED` |
+| `AutoClaimManager` | Cadeaux automatiques (`AutoClaim`) : seuils de niveau/boosters, re-vérification | `redeemed_codes` (via `RedeemManager`) | `AUTO_CLAIM_GRANTED` |
 | `GiftManager` | Distributions du Google Sheet | `gifts_received`, `giftSync`, `collection`, `quota`, `sparks` | `GIFTS_UPDATED`, `CARDS_OBTAINED` |
 | `BinderManager` | Binders (30 emplacements), limite de niveau, réconciliation | `binders` | `BINDERS_UPDATED` |
 | `FeatureManager` | Fonctionnalités payées (Full Art, couleurs de titre) | `purchases`, `sparks` | `FEATURE_UNLOCKED` |

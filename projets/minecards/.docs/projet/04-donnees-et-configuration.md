@@ -128,7 +128,7 @@ Points structurants :
 | `settings/default_profile_icons.json` | liste `{ file, name, defaultProfile?, requiredLevel?, price? }` des avatars de départ : `requiredLevel` et `price` (Sparks) sont optionnels et cumulables | `ProfileIconManager` |
 | `settings/default_titles.json` | liste `{ id, requiredLevel, text: { fr, en } }` | `TitleManager` |
 | `settings/defaultRarity.json` | par emplacement du pack (`"1"`…`"5"`) : liste `{ rarity, weight }` | `GachaEngine` |
-| `settings/codes.json` | liste de codes : `{ Code, Rewards, Availabilities, Repeatable }` (une récompense peut cibler une carte, un layout ou plusieurs) | `RedeemManager` |
+| `settings/codes.json` | liste de codes : `{ Code, Rewards, Availabilities, Repeatable, AutoClaim? }` (une récompense peut cibler une carte, un layout ou plusieurs ; `AutoClaim = { Auto, RequiredLevel, RequiredOpenBoosterStats, CustomMessage }`, interdit sur un code répétable) | `RedeemManager`, `AutoClaimManager` |
 | `settings/mining.json` | `{ Cracks: [ { Range: { Min, Max }, Texture } ], Blocks: [ { ID, Name_FR, Name_EN, Weight, Hardness, Rewards } ] }` | `MiningManager` |
 | `settings/overlay.json` | `timings` (durées de la timeline), `booster.spinStepPerFrame`, `easing`, `sound` | `js/overlay.js` |
 | `settings/sounds.json` | carte des sons d'interface : `event`, `file` (sous `assets/sound/ui/`), `_comment`, `enabled` | `SoundManager` (+ `UiSounds`) |

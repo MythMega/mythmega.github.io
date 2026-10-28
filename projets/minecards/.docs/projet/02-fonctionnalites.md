@@ -281,6 +281,13 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
 - **Codes de feuille** : identifiant, récompenses multiples, fenêtre de disponibilité, répétable ou
   non. Un code traité est enregistré dans `redeemed_codes` (clé = code), donc impossible à réutiliser
   s'il est à usage unique.
+- **Codes automatiques (`AutoClaim`)** : `{ Auto, RequiredLevel, RequiredOpenBoosterStats,
+  CustomMessage }` sur un code **non répétable** (un code répétable qui en porte un voit son
+  auto-claim ignoré au chargement, et le linter le signale). Les récompenses sont créditées une seule fois, dès que le jour UTC est
+  dans la fenêtre ET que le niveau et le nombre de boosters ouverts atteignent les seuils. La
+  vérification tourne au démarrage, après chaque ouverture de booster, à chaque niveau et depuis le
+  bouton « Vérifier les distributions » ; le cadeau s'affiche dans une popup globale
+  (`js/UI/components/AutoClaimPopup.js`), par-dessus l'écran courant.
 - **Codes personnels `useritem`** : générés hors ligne par le gamemaster, signés avec la clé de
   `useritemCode` ; `js/business/UserItemCode.js` les vérifie et les décode. Un code peut accorder
   des cartes (y compris promo), des Sparks, des boosters bonus, etc.

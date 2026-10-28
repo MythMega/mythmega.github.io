@@ -12,6 +12,9 @@ import { splitLines } from '../lib/text.mjs';
 /** Extensions holding JSON (the manifest is JSON too, whatever its extension says). */
 const JSON_EXTENSIONS = new Set(['.json', '.webmanifest']);
 
+/** Promo code catalogue, validating the `AutoClaim` blocks below. */
+const CODES_FILE = 'settings/codes.json';
+
 /**
  * Detects the line ending of a text from its first one.
  *
@@ -209,6 +212,83 @@ export default [
             message: `key "${duplicate.key}" is declared twice in the same object`
           });
         });
+      });
+    }
+  },
+  {
+    id: 'data/codes-autoclaim',
+    summary: 'An AutoClaim code is never Repeatable, and its requirements are valid integers.',
+    severity: 'error',
+    files: (relativePath) => relativePath === CODES_FILE,
+    /**
+     * @param {object} context - Rule context.
+     * @returns {void}
+     */
+    run(context) {
+      let entries;
+      try {
+        entries = context.readJsonValue(CODES_FILE);
+      } catch (error) {
+        // `data/json` reports the unreadable file; this rule has nothing to add.
+        return;
+      }
+      if (!Array.isArray(entries)) return;
+
+      const lines = splitLines(context.readText(CODES_FILE));
+      const lineOf = (code) => {
+        if (typeof code !== 'string' || code === '') return 1;
+        const index = lines.findIndex((line) => line.includes(`"Code": "${code}"`));
+        return index >= 0 ? index + 1 : 1;
+      };
+
+      entries.forEach((entry) => {
+        if (!entry || typeof entry !== 'object' || entry.AutoClaim === undefined || entry.AutoClaim === null) {
+          return;
+        }
+
+        const line = lineOf(entry.Code);
+        const autoClaim = entry.AutoClaim;
+        if (typeof autoClaim !== 'object' || Array.isArray(autoClaim)) {
+          context.report({ file: CODES_FILE, line, column: 1, message: 'AutoClaim must be an object or null' });
+          return;
+        }
+
+        if (entry.Repeatable === true) {
+          context.report({
+            file: CODES_FILE,
+            line,
+            column: 1,
+            message: 'an AutoClaim code cannot be Repeatable (the gift is granted exactly once)'
+          });
+        }
+
+        const requiredLevel = autoClaim.RequiredLevel;
+        if (
+          requiredLevel !== undefined &&
+          requiredLevel !== null &&
+          (!Number.isInteger(requiredLevel) || requiredLevel < 1)
+        ) {
+          context.report({
+            file: CODES_FILE,
+            line,
+            column: 1,
+            message: 'AutoClaim.RequiredLevel must be a positive integer or null'
+          });
+        }
+
+        const requiredBoosters = autoClaim.RequiredOpenBoosterStats;
+        if (
+          requiredBoosters !== undefined &&
+          requiredBoosters !== null &&
+          (!Number.isInteger(requiredBoosters) || requiredBoosters < 0)
+        ) {
+          context.report({
+            file: CODES_FILE,
+            line,
+            column: 1,
+            message: 'AutoClaim.RequiredOpenBoosterStats must be a non-negative integer or null'
+          });
+        }
       });
     }
   }

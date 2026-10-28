@@ -64,5 +64,34 @@
             }
         ],
         "Repeatable": false
+    },
+    {
+        "Code": "HALL0WEEN2K26",
+        "Rewards": [
+            {
+                "RewardType": "Card",
+                "Quantity": 1,
+                "ItemId": "PROMO-A1 / E01",
+                "PreferedLayout": null
+            },
+            {
+                "RewardType": "Sparks",
+                "Quantity": 5
+            }
+        ],
+        "Repeatable": false,
+        "AutoClaim": {
+            "Auto": true,
+            "RequiredLevel": 1,
+            "RequiredOpenBoosterStats" : 3,
+            "CustomMessage": {
+                "FR": null,
+                "EN": null
+            }
+        },
+        "Availabilities" : {
+            "StartDate": null,
+            "EndDate": "2026-11-02"
+        }
     }
 ]

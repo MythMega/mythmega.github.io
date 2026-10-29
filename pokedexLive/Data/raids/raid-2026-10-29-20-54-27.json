@@ -1,0 +1,298 @@
+{
+  "bossName": "Fragilady Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/lilligant_shiny.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/lilligant_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": true,
+  "pvMax": 100000,
+  "date": "2026-10-29 20:54:27",
+  "durationSec": 2480,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 55858,
+      "countAtk": 3,
+      "baseDmg": 15372,
+      "level": 18,
+      "raidCount": 529,
+      "luck": 1.21125
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 25000,
+      "countAtk": 1,
+      "baseDmg": 44197,
+      "level": 20,
+      "raidCount": 1153,
+      "luck": 0.5656493
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "pampagruel",
+      "damage": 18208,
+      "countAtk": 1,
+      "baseDmg": 18208,
+      "level": 18,
+      "raidCount": 572,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 5206,
+      "countAtk": 2,
+      "baseDmg": 1868,
+      "level": 13,
+      "raidCount": 102,
+      "luck": 1.393469
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 1926,
+      "countAtk": 1,
+      "baseDmg": 1926,
+      "level": 11,
+      "raidCount": 91,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "ChienMilou",
+      "damage": 266,
+      "countAtk": 1,
+      "baseDmg": 266,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 100992
+    },
+    {
+      "platform": "youtube",
+      "damage": 5472
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 1,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 2,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 1,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "ChienMilou",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-29 20:55:19",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1926,
+      "pvAfter": 98074,
+      "heal": false,
+      "critical": false,
+      "statut": "BURNT",
+      "statusEffect": "Tu as \u00E9t\u00E9 brul\u00E9. Tes attaques ne feront moiti\u00E9 moins de d\u00E9gat pendant 5 tours !"
+    },
+    {
+      "at": "2026-10-29 20:55:56",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1868,
+      "pvAfter": 96206,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-29 21:00:18",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15372,
+      "pvAfter": 80834,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-10-29 21:00:46",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 80834,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "SawanCyberpotes a soign\u00E9 tout le monde ! ( 2 personne(s) )"
+    },
+    {
+      "at": "2026-10-29 21:01:41",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 3338,
+      "pvAfter": 77496,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-29 21:04:38",
+      "pseudo": "pampagruel",
+      "platform": "twitch",
+      "damages": 18208,
+      "pvAfter": 59288,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-29 21:05:29",
+      "pseudo": "ChienMilou",
+      "platform": "youtube",
+      "damages": 266,
+      "pvAfter": 59022,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-29 21:14:52",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 34022,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-29 21:32:54",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 9022,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-29 21:35:47",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15486,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "BACKWIND",
+      "statusEffect": "Tu es sous vent arri\u00E8re. Tes prochaines attaques ne peuvent ni \u00EAtre charg\u00E9es ni critique !"
+    }
+  ]
+}

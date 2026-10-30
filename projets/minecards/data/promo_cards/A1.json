@@ -40,6 +40,19 @@
         "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/jack_fg.png",
         "Layout": "fullart",
         "Path": "./cards/A1-Promo/<lang>/PROMO-A1 _ E01_fullart.png"
+      },
+      {
+        "Index": "PROMO-A1 / D01",
+        "Name_FR": "Forêt Ambrée",
+        "Name_EN": "Dappled Forest",
+        "Desc_FR": "La forêt ambrée (nom en anglais : dappled forest) est un biome forestier froid composé de sapins et de peupliers aux feuilles rouges, orange et jaunes, sur un sol d'herbe orangée et de terre stérile recouvert de tas de feuilles, de buissons rouges et de champignons bruns. .",
+        "Desc_EN": "The dappled forest is a woodland biome consisting of poplar trees with red, orange, and yellow leaves, along with the occasional spruce tree. The ground is an orange-brown grass and coarse dirt soil covered by leaf litter, red shrubs, and brown mushrooms. ",
+        "Rarity": 5,
+        "Style": "Press Start 2P (Pixel)",
+        "Background": "https://minecraft.wiki/images/thumb/Dappled_Forest_Vibrant_Visuals.png/1920px-Dappled_Forest_Vibrant_Visuals.png?581a2",
+        "Underlay": "https://minecraft.wiki/images/thumb/Dappled_Forest_Vibrant_Visuals.png/1920px-Dappled_Forest_Vibrant_Visuals.png?581a2",
+        "Layout": "fullart",
+        "Path": "./cards/A1-Promo/<lang>/PROMO-A1 _ D01_fullart.png"
       }
   ]
 }

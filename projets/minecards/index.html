@@ -254,6 +254,7 @@
   <link rel="stylesheet" href="css/components/modal.css">
   <link rel="stylesheet" href="css/components/toast.css">
   <link rel="stylesheet" href="css/components/auto-claim.css">
+  <link rel="stylesheet" href="css/components/daily-reward.css">
   <link rel="stylesheet" href="css/components/notifications.css">
   <link rel="stylesheet" href="css/components/install-prompt.css">
   <link rel="stylesheet" href="css/components/info-hint.css">
@@ -401,14 +402,14 @@
            reader never reads a truncated word. Order: what the day grants (daily boosters, bonus
            boosters, the three Mine Pick picks) then the currency. -->
       <span class="app-header__stat" data-i18n-title="header.boosters.daily" title="Boosters du jour">
-        <img class="app-header__stat-icon" src="assets/img/daily_boosters.png" alt="" aria-hidden="true">
+        <img class="app-header__stat-icon" data-icon="daily_boosters" alt="" aria-hidden="true">
         <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.boosters.daily.short">Quotidiens</span>
         <span class="app-header__stat-value" id="header-daily-boosters">0</span>
         <span class="sr-only" data-i18n="header.boosters.daily">Boosters du jour</span>
       </span>
       <!-- Bonus boosters are clickable: the tooltip panel opens the per-extension inventory. -->
       <button type="button" class="app-header__stat app-header__stat--action" data-header-bonus aria-haspopup="dialog" data-i18n-aria-label="header.boosters.bonusTitle" data-i18n-title="header.boosters.bonusTitle" title="Boosters bonus par extension">
-        <img class="app-header__stat-icon" src="assets/img/bonus_booster.png" alt="" aria-hidden="true">
+        <img class="app-header__stat-icon" data-icon="bonus_booster" alt="" aria-hidden="true">
         <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.boosters.bonus.short">Bonus</span>
         <span class="app-header__stat-value" id="header-bonus-boosters">0</span>
         <span class="sr-only" data-i18n="header.boosters.bonus">Bonus</span>
@@ -426,7 +427,7 @@
            count, and a click that does something): the button shows how many binders exist and
            opens their list, which is where they are created, edited and shared. -->
       <button type="button" class="app-header__stat app-header__stat--action" data-header-binders aria-haspopup="dialog" data-i18n-title="header.binders.title" data-i18n-aria-label="header.binders.title" title="Binders">
-        <img class="app-header__stat-icon" src="assets/img/binders.png" alt="" aria-hidden="true">
+        <img class="app-header__stat-icon" data-icon="binders" alt="" aria-hidden="true">
         <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.binders.short">Binders</span>
         <span class="app-header__stat-value" id="header-binders">0</span>
         <span class="sr-only" data-i18n="header.binders.title">Binders</span>
@@ -437,6 +438,13 @@
         <span class="app-header__stat-value" id="header-sparks">0</span>
         <span class="sr-only" data-i18n="sparks.title">Sparks</span>
       </span>
+      <!-- Daily connection rewards: an ACTION, not a counter. The dot says there is something to
+           claim today; the dialog itself is built by `DailyRewardPopup`, appended to `<body>`. -->
+      <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-header-daily-rewards aria-haspopup="dialog" data-i18n-title="header.dailyRewards.title" data-i18n-aria-label="header.dailyRewards.title" title="Récompenses de connexion">
+        <svg class="app-header__stat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11h16v9H4z"/><path d="M3.5 8h17v3h-17z"/><path d="M12 8v12"/><path d="M12 8S10.5 4.2 8.5 4.2a2 2 0 0 0 0 3.8M12 8s1.5-3.8 3.5-3.8a2 2 0 0 1 0 3.8"/></svg>
+        <span class="sr-only" data-i18n="header.dailyRewards.title">Récompenses de connexion</span>
+        <span class="app-header__stat-dot" data-header-daily-rewards-dot hidden></span>
+      </button>
       <span class="app-header__clock">
         <span data-i18n="header.clock.utc">UTC</span>
         <time id="header-utc-clock">--:--:--</time>
@@ -611,7 +619,7 @@
              not one more filter of the grid. It opens the list of the player's binders, and the
              editor behind it. -->
         <button type="button" class="btn btn--ghost collection__binders-open" data-collection-binders-open aria-haspopup="dialog" aria-expanded="false">
-          <img class="collection__binders-icon" src="assets/img/binders.png" alt="" aria-hidden="true">
+          <img class="collection__binders-icon" data-icon="binders" alt="" aria-hidden="true">
           <span data-i18n="binders.title">Binders</span>
         </button>
       </div>
@@ -1410,6 +1418,24 @@
           <p class="settings__help" data-info-hint="settings-sound" data-i18n="settings.sound.help">Activez ou coupez tous les sons du jeu, puis réglez chaque famille séparément.</p>
           <div class="settings__sound" data-settings-sound-categories></div>
           <p class="settings__help" data-settings-sound-help data-info-hint="settings-sound" data-i18n="settings.sound.category.help">Chaque famille a son propre interrupteur et un volume de 0 à 5. À 0, elle est silencieuse.</p>
+        </section>
+
+        <!-- Display: the indicator the game paints over a scrolling panel can be swapped for the
+             bar of the system. The switch writes `settings.nativeScrollbars`, and
+             `ScrollHint.setNativeBars()` applies it live (it is also the one that re-reads the
+             preference at boot, before the first screen is painted). -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.display.title">Affichage</h3>
+          <div class="settings__toggles">
+            <div class="settings__toggle">
+              <span class="settings__toggle-label" data-i18n="settings.scrollbars.label">Barres de défilement du système</span>
+              <button type="button" class="switch" data-settings-native-scrollbars role="switch" aria-checked="false" data-i18n-aria-label="settings.scrollbars.label">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-native-scrollbars-state></span>
+              </button>
+            </div>
+          </div>
+          <p class="settings__help" data-i18n="settings.scrollbars.help">Le jeu dessine sa propre barre, fine et discrète, qui n'apparaît que pendant le défilement. Activez cette option pour retrouver la barre de votre système, toujours visible et déplaçable.</p>
         </section>
 
         <!-- Developer mode: one boolean preference. When it is on, the detail of a card in the

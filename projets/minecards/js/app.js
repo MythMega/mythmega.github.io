@@ -30,6 +30,7 @@ import profileManager from './business/ProfileManager.js';
 import trophyManager from './business/TrophyManager.js';
 import i18n from './utils/I18n.js';
 import themeManager from './utils/ThemeManager.js';
+import { applyThemeIcons } from './utils/ThemeIcons.js';
 import animationManager from './utils/AnimationManager.js';
 import foilManager from './utils/FoilManager.js';
 import glowManager from './utils/GlowManager.js';
@@ -60,8 +61,10 @@ import minePickManager from './business/MinePickManager.js';
 import binderManager from './business/BinderManager.js';
 import gameNotifier from './UI/components/GameNotifier.js';
 import autoClaimPopup from './UI/components/AutoClaimPopup.js';
+import dailyRewardPopup from './UI/components/DailyRewardPopup.js';
 import setAnnouncementPopup from './UI/components/SetAnnouncementPopup.js';
 import autoClaimManager from './business/AutoClaimManager.js';
+import dailyRewardManager from './business/DailyRewardManager.js';
 import ViewHelp from './UI/components/ViewHelp.js';
 import infoHint from './UI/components/InfoHint.js';
 import installPrompt from './UI/components/InstallPrompt.js';
@@ -90,6 +93,15 @@ export const HEADER_IDS = Object.freeze({
  * `bindBindersCounter` listens on this one.
  */
 export const BINDERS_COUNTER_SELECTOR = '[data-header-binders]';
+
+/** Selectors of the daily reward button of the header and of its "something to claim" dot. */
+export const DAILY_REWARDS_SELECTORS = Object.freeze({
+  BUTTON: '[data-header-daily-rewards]',
+  DOT: '[data-header-daily-rewards-dot]',
+});
+
+/** Wait between the end of a reveal and the daily reward offer, in milliseconds. */
+const DAILY_REWARD_OFFER_DELAY_MS = 900;
 
 /**
  * Largest value a header counter displays before it switches to the "9999+" form.
@@ -205,6 +217,12 @@ export class App {
     this.currentLevel = null;
     /** @type {boolean} True once the bonus inventory dialog is wired. */
     this.bonusInventoryBound = false;
+    /** @type {boolean} True once the daily reward button and its events are wired. */
+    this.dailyRewardsBound = false;
+    /** @type {number|null} Pending offer of the daily reward after a reveal. */
+    this.dailyRewardOfferTimer = null;
+    /** @type {string|null} UTC day the daily reward badge was last refreshed for. */
+    this.dailyRewardDay = null;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */
     this.unsubscribeViewChanged = null;
     /** @type {(() => (Date|string|number))|null} Trusted UTC provider injected by step 2. */
@@ -325,6 +343,10 @@ export class App {
     // are restored first, so the preload uses their real volumes and switches.
     soundManager.setEnabled(settings.sound !== false);
     soundManager.setCategorySettings(settings.soundCategories);
+    // Scrollbars: the stylesheet hides the native one and `ScrollHint` paints its own back. A player
+    // who asked for the bars of the system gets them back BEFORE the first screen is painted, so
+    // the header is not drawn with a 15px column that then disappears.
+    scrollHint.setNativeBars(settings.nativeScrollbars === true);
     // The interface map is read before the first navigation: a missing file falls back to the
     // shipped paths, so a tab switch is never silent.
     await soundManager.loadUiSoundMap();
@@ -374,6 +396,7 @@ export class App {
     this.bindHeader();
     this.bindBonusInventory();
     this.bindBindersCounter();
+    this.bindDailyRewards();
     this.bindViewLifecycle();
     this.startViewHelp();
     this.startInfoHints();
@@ -381,6 +404,7 @@ export class App {
     this.renderHeaderCounters(dateSyncManager.getQuotaSnapshot());
     await this.refreshHeaderSparks();
     await this.refreshHeaderBinders();
+    await this.refreshDailyRewardBadge();
     await this.startOpeningView();
     await this.startCollectionView();
     await this.startProfileView();
@@ -1050,6 +1074,11 @@ export class App {
   bindHeader() {
     if (this.headerBound) return;
     this.headerBound = true;
+    // The three PNG counters of the header ship in two inks: this paints the one the stored theme
+    // asks for, then follows every change of theme. `startMainApp()` applies the theme before this
+    // runs, so the first pass already has its answer - no black icon flashes on a dark header.
+    applyThemeIcons();
+    eventBus.on(EVENTS.THEME_CHANGED, () => applyThemeIcons());
     eventBus.on(EVENTS.QUOTA_UPDATED, (payload) => this.renderHeaderCounters(payload));
     eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.renderHeaderSparks(payload));
     eventBus.on(EVENTS.MINE_PICK_UPDATED, (payload) => this.renderHeaderMinePick(payload));
@@ -1077,6 +1106,7 @@ export class App {
     this.setText(HEADER_IDS.CLOCK, payload.formatted);
     this.stopUtcClock();
     this.refreshHeaderMinePickOnNewDay(payload);
+    this.refreshDailyRewardsOnNewDay(payload);
   }
 
   /**
@@ -1142,6 +1172,10 @@ export class App {
       this.unsubscribeViewChanged();
       this.unsubscribeViewChanged = null;
     }
+    // The daily board belongs to the account that is being released: its run must not survive into
+    // the next one, and a dialog left open would sit on top of the onboarding.
+    dailyRewardPopup.clear();
+    this.dailyRewardDay = null;
     if (this.openingView) {
       this.openingView.destroy();
       this.openingView = null;
@@ -1316,6 +1350,79 @@ export class App {
     } catch (error) {
       console.warn('[App] The binders could not be counted.', error);
     }
+  }
+
+  /**
+   * Wires the daily reward button of the header and the automatic offer.
+   *
+   * Two entry points, as the feature asks: the button (always available) and the end of a booster
+   * reveal, which offers the board once a day. The offer waits a moment after the reveal so it does
+   * not land on the very frame the summary appears.
+   *
+   * @returns {void}
+   */
+  bindDailyRewards() {
+    if (this.dailyRewardsBound) return;
+    const button = document.querySelector(DAILY_REWARDS_SELECTORS.BUTTON);
+    if (!button) {
+      console.warn('[App] The daily reward button is missing from index.html.');
+      return;
+    }
+    this.dailyRewardsBound = true;
+    button.addEventListener('click', () => void dailyRewardPopup.open());
+    eventBus.on(EVENTS.DAILY_REWARDS_UPDATED, () => void this.refreshDailyRewardBadge());
+    eventBus.on(EVENTS.REVEAL_FINISHED, () => this.scheduleDailyRewardOffer());
+    eventBus.on(EVENTS.ACCOUNT_REMOVED, () => void this.refreshDailyRewardBadge());
+    eventBus.on(EVENTS.SAVE_IMPORTED, () => void this.refreshDailyRewardBadge());
+  }
+
+  /**
+   * Offers the daily reward board once a day, after a booster opening.
+   *
+   * Only one offer is ever pending (three packs opened in a row schedule one), and it is dropped when
+   * the board is already open: the player is looking at it.
+   *
+   * @returns {void}
+   */
+  scheduleDailyRewardOffer() {
+    if (this.dailyRewardOfferTimer !== null) return;
+    this.dailyRewardOfferTimer = window.setTimeout(() => {
+      this.dailyRewardOfferTimer = null;
+      void dailyRewardPopup.openIfDue();
+    }, DAILY_REWARD_OFFER_DELAY_MS);
+  }
+
+  /**
+   * Lights the dot of the header button when today's reward can be claimed.
+   *
+   * @returns {Promise<void>} Resolves once the header is refreshed.
+   */
+  async refreshDailyRewardBadge() {
+    const dot = document.querySelector(DAILY_REWARDS_SELECTORS.DOT);
+    if (!dot) return;
+    try {
+      dot.hidden = !(await dailyRewardManager.hasClaimable());
+    } catch (error) {
+      console.warn('[App] The daily reward could not be checked.', error);
+      dot.hidden = true;
+    }
+  }
+
+  /**
+   * Offers the daily board when the UTC day changes while the page stays open.
+   *
+   * The chapter rolls over at midnight UTC: without this the dot of a page left open overnight
+   * would keep saying "claimed", and tomorrow's reward would never be offered.
+   *
+   * @param {{utc?: Date, formatted?: string}} payload - `CLOCK_TICK` payload.
+   * @returns {void}
+   */
+  refreshDailyRewardsOnNewDay(payload) {
+    if (!(payload.utc instanceof Date) || payload.formatted === '--:--:--') return;
+    const day = payload.utc.toISOString().slice(0, 10);
+    if (day === this.dailyRewardDay) return;
+    this.dailyRewardDay = day;
+    void this.refreshDailyRewardBadge();
   }
 
   /**

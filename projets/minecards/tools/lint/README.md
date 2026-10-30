@@ -58,6 +58,7 @@ that every file naming a card, a trophy, an icon or a resource names one that ex
 | `data/trophies` | a trophy without a name, a rarity of its own, requirements or an icon; an unknown requirement type (warning); an icon, a title or a collection trophy naming something that does not exist; a title declared twice or translated in one language only |
 | `data/economy` | a Sparks price map missing a rarity, a shop resource no block of the mine rewards, a pinned offer priced in an unknown resource or sold over an empty period, a mining block with a broken weight, hardness, reward chance or crack range |
 | `data/rarity-table` | a rarity table drawing a rarity outside 1-5, or weights that do not add up to 1 (warning) |
+| `data/daily-rewards` | a daily reward chapter without an id or a real window, a day declared twice, a missing default day, a reward type or quantity the game cannot hand out, a `CardID` no catalogue declares, a `UniqueID` reused, a `Unique` day without its replacement |
 
 ### JavaScript — `js/`, `sw.js`, `admin/`, `tools/`
 

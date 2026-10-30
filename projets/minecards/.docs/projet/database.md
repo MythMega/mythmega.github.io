@@ -93,7 +93,7 @@ Règles :
 
 ## 3. ObjectStore `user_state`
 
-Dix-sept clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager.js`).
+Dix-huit clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager.js`).
 
 | Clé | Type | Fiche |
 |---|---|---|
@@ -114,6 +114,7 @@ Dix-sept clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 | `purchases` | objet | fonctionnalités payées |
 | `profileCard` | objet | préférences de la carte de profil |
 | `setAnnouncements` | tableau | extensions à venir déjà annoncées |
+| `dailyRewards` | objet | série de récompenses de connexion en cours |
 
 ### 3.1 `account`
 
@@ -389,6 +390,27 @@ Dix-sept clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 - `background` : clé de collection d'une **carte favorite** dont le `Background` sert d'illustration
   (`null` ou absent = la première favorite). Une clé qui n'est plus favorite retombe sur la première.
 - Aucun rendu n'est stocké : la carte est une projection recalculée.
+
+### 3.17 `dailyRewards`
+
+```json
+{ "chapterId": "dailyconnectreward_1", "progress": 4, "lastClaimDay": "2026-11-02", "claimedUniques": ["CardRewardConnectionA1GenesisBlock"], "seenDay": "2026-11-02" }
+```
+
+- `chapterId` : chapitre auquel appartient la série en cours. Un autre chapitre **remet la série à
+  zéro** (`progress: 0`) : c'est la règle « quand une nouvelle série commence, on repart de 0 ».
+- `progress` : nombre de récompenses **déjà récupérées** dans ce chapitre. Il avance **uniquement
+  au claim**, jamais à la connexion : manquer un jour ne consomme pas la récompense, il la remplace
+  par la suivante. `progress` est aussi la position (0-based) de la récompense du jour.
+- `lastClaimDay` : jour UTC du dernier claim, comparé au jour fiable de `DateSyncManager`. Il est
+  la seule protection contre un double claim (deux onglets, un double clic, un rechargement).
+- `claimedUniques` : les `UniqueID` déjà distribués à ce compte, tous chapitres confondus. Un jour
+  `Unique` déjà consommé donne son `ReplacementRewardIfClaimed`.
+- `seenDay` : dernier jour où la popup a été affichée, pour que l'offre automatique n'ait lieu
+  qu'une fois par jour. Il ne conditionne jamais le claim.
+
+La récompense, le compteur et l'identifiant unique sont écrits dans **une seule transaction** avec
+la collection et le quota : un claim partiel est impossible.
 
 ---
 

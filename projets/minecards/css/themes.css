@@ -24,6 +24,15 @@ body[data-theme="dark"],
      follow the palette: inverted on the dark theme, left alone on the two light ones. */
   --icon-filter: invert(1);
 
+  /* The interface icons that ship in two inks (`daily_boosters`, `bonus_booster`, `binders`):
+     `dark` asks `js/utils/ThemeIcons.js` for the `_dark` file, `light` for the black one. The
+     value lives HERE, beside the background it has to be read on, so a dark palette added later is
+     one more block and no JavaScript. `--icon-ink` is the same decision for the glyphs that are
+     drawn inline (the sparkle of the Mine Pick, the gift of the daily rewards) and therefore
+     cannot be swapped for a file: they take this colour as their stroke. */
+  --icon-variant: dark;
+  --icon-ink: #ffffff;
+
   --color-bg: #0b0e14;
   --color-bg-elevated: #10141d;
   --color-surface: #151a24;
@@ -71,6 +80,9 @@ body[data-theme="light"],
 
   --icon-filter: none;
 
+  --icon-variant: light;
+  --icon-ink: #000000;
+
   --color-bg: #eef1f8;
   --color-bg-elevated: #ffffff;
   --color-surface: #ffffff;
@@ -111,6 +123,9 @@ body[data-theme="classic"],
   color-scheme: light;
 
   --icon-filter: none;
+
+  --icon-variant: light;
+  --icon-ink: #000000;
 
   --color-bg: #efe3c8;
   --color-bg-elevated: #fbf4e4;
@@ -153,6 +168,9 @@ body[data-theme="day"],
   color-scheme: light;
 
   --icon-filter: none;
+
+  --icon-variant: light;
+  --icon-ink: #000000;
 
   --color-bg: #7fc0ea;
   --color-bg-elevated: #f4fbff;
@@ -197,6 +215,9 @@ body[data-theme="night"],
   color-scheme: dark;
 
   --icon-filter: invert(1);
+
+  --icon-variant: dark;
+  --icon-ink: #ffffff;
 
   --color-bg: #050b1c;
   --color-bg-elevated: #0b1224;

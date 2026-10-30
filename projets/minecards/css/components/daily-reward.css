@@ -1,0 +1,445 @@
+/* =============================================================================
+   daily-reward.css - The board of the daily connection rewards.
+
+   Opened from the header button, or by itself once a day after a booster opening
+   (`js/UI/components/DailyRewardPopup.js`). The dialog reuses `.modal` and
+   `.modal__dialog` from `css/components/modal.css`; what this file adds is the
+   board of days, the auras, and the three claim animations.
+
+   Colours come exclusively from `css/themes.css`. The two auras are the only
+   exception: gold and pink ARE the meaning of the mark (a rare material, the top
+   reward), so they keep their tone in every palette like `--color-title` does.
+   ============================================================================= */
+
+.daily-reward__dialog {
+  gap: var(--space-2);
+}
+
+.daily-reward__badge {
+  align-self: flex-start;
+  padding: 0.15rem var(--space-2);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.daily-reward__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.daily-reward__progress {
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.daily-reward__progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  transition: width var(--duration-base) var(--easing-standard);
+}
+
+/* --- The board ------------------------------------------------------------ */
+
+/* Several rows of tiles, scrolled when the chapter is long. The whole board stays inside the
+   dialog: a 40-day chapter must not push the claim button off a phone screen. */
+.daily-reward__days {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(3.1rem, 1fr));
+  gap: var(--space-2);
+  max-height: 34vh;
+  margin: 0;
+  padding: var(--space-1);
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.daily-reward__day {
+  display: flex;
+}
+
+.daily-reward__day-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
+}
+
+.daily-reward__day-button:hover,
+.daily-reward__day-button:focus-visible {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.daily-reward__day-number {
+  position: absolute;
+  top: 0.1rem;
+  left: 0.25rem;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.daily-reward__day-icon {
+  width: 62%;
+  max-height: 2rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* A card reward is a PRINTING, not a pictogram: the illustration keeps the portrait of the card and
+   grows until the tile is full, so the day reads as "a card" before anything else. The hairline and
+   the shadow are what separate a light illustration from the surface of the tile. */
+.daily-reward__day-icon--card {
+  width: auto;
+  height: 2.3rem;
+  max-width: 88%;
+  max-height: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+/* The booster reward is the ARTWORK of a pack (`assets/img/booster.png`, 512 px, a tall pack on a
+   square canvas), not a single-ink glyph: it gets the height of the tile to be read at all, and a
+   smooth downscale - `pixelated` would keep one pixel out of eighteen and turn it into noise. */
+.daily-reward__day-icon--booster {
+  width: auto;
+  height: 2.3rem;
+  max-height: none;
+  image-rendering: auto;
+}
+
+/* The day of today: the only one that can be claimed, and it has to be unmistakable. */
+.daily-reward__day-button[data-state="current"] {
+  border-color: var(--color-accent);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--glow-accent);
+  animation: daily-reward-current 2.4s var(--easing-standard) infinite;
+}
+
+.daily-reward__day-button[data-state="claimed"] {
+  opacity: 0.5;
+}
+
+.daily-reward__day-button[data-selected="true"] {
+  transform: translateY(-2px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.daily-reward__day-check {
+  position: absolute;
+  right: 0.15rem;
+  bottom: 0.1rem;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+/* The auras: gold for a booster and the Void Dust, pink for the Ultima and a card. */
+.daily-reward__day-button[data-aura="gold"] {
+  border-color: rgba(255, 205, 80, 0.7);
+  box-shadow: 0 0 0 1px rgba(255, 205, 80, 0.25), 0 0 14px rgba(255, 205, 80, 0.35);
+}
+
+.daily-reward__day-button[data-aura="pink"] {
+  border-color: rgba(255, 111, 174, 0.7);
+  box-shadow: 0 0 0 1px rgba(255, 111, 174, 0.25), 0 0 14px rgba(255, 111, 174, 0.35);
+}
+
+.daily-reward__day-button[data-aura="gold"][data-state="claimed"],
+.daily-reward__day-button[data-aura="pink"][data-state="claimed"] {
+  box-shadow: none;
+}
+
+/* --- The preview under the board ------------------------------------------ */
+
+.daily-reward__detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-height: 3.5rem;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.daily-reward__detail-title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.daily-reward__detail-reward {
+  font-size: var(--font-size-sm);
+}
+
+.daily-reward__detail-state {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.daily-reward__detail-state[data-state="current"] {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.daily-reward__detail-state[data-state="claimed"] {
+  color: var(--color-success);
+}
+
+/* --- The extension picker of a booster reward ----------------------------- */
+
+.daily-reward__sets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.daily-reward__sets-hint {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.daily-reward__sets-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* --- The claim animation -------------------------------------------------- */
+
+/* A window over the dialog: the reward being granted is shown alone, on top of the board, for a
+   little under two seconds. `pointer-events: none` keeps the board scrollable underneath and only
+   the dialog itself blocks the page. */
+.daily-reward__gain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: inherit;
+  background-color: var(--color-surface);
+  pointer-events: none;
+}
+
+.daily-reward__dialog {
+  position: relative;
+}
+
+.daily-reward__gain[hidden] {
+  display: none;
+}
+
+.daily-reward__gain-image {
+  width: 5.5rem;
+  max-height: 5.5rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+  opacity: 0;
+}
+
+.daily-reward__gain-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: center;
+  opacity: 0;
+}
+
+.daily-reward__gain.is-active .daily-reward__gain-image,
+.daily-reward__gain.is-active .daily-reward__gain-label {
+  opacity: 1;
+}
+
+.daily-reward__gain.is-active .daily-reward__gain-label {
+  animation: daily-reward-label-in 300ms var(--easing-standard) 220ms backwards;
+}
+
+/* An ordinary item (Sparks, a dust): it pops in, with a burst behind it. */
+.daily-reward__gain--item.is-active .daily-reward__gain-image {
+  animation: daily-reward-item 900ms var(--easing-standard);
+}
+
+.daily-reward__gain--item::before {
+  content: '';
+  position: absolute;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-accent) 0, transparent 62%);
+  opacity: 0;
+}
+
+.daily-reward__gain--item.is-active::before {
+  animation: daily-reward-burst 900ms var(--easing-standard);
+}
+
+/* A booster: it shakes like a pack about to burst, on a gold halo. The pack is artwork, so it is
+   scaled smoothly here too (the tiles use `pixelated` for the pixel-art resources). */
+.daily-reward__gain--booster.is-active .daily-reward__gain-image {
+  animation: daily-reward-booster 900ms var(--easing-standard) 120ms both;
+}
+
+.daily-reward__gain--booster .daily-reward__gain-image {
+  image-rendering: auto;
+}
+
+.daily-reward__gain--booster::before {
+  content: '';
+  position: absolute;
+  width: 11rem;
+  height: 11rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 205, 80, 0.75) 0, transparent 60%);
+  opacity: 0;
+}
+
+.daily-reward__gain--booster.is-active::before {
+  animation: daily-reward-burst 1100ms var(--easing-standard);
+}
+
+/* A card: it turns face up, in the pink of its aura. */
+.daily-reward__gain--card.is-active .daily-reward__gain-image {
+  width: 8.5rem;
+  max-height: 12rem;
+  animation: daily-reward-card 1000ms var(--easing-standard) both;
+}
+
+.daily-reward__gain--card::before {
+  content: '';
+  position: absolute;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 111, 174, 0.7) 0, transparent 60%);
+  opacity: 0;
+}
+
+.daily-reward__gain--card.is-active::before {
+  animation: daily-reward-burst 1200ms var(--easing-standard);
+}
+
+/* --- Keyframes ------------------------------------------------------------ */
+
+@keyframes daily-reward-current {
+  0%,
+  100% {
+    box-shadow: var(--glow-accent);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(108, 140, 255, 0.18), var(--glow-accent);
+  }
+}
+
+@keyframes daily-reward-item {
+  0% {
+    transform: scale(0.4) rotate(-12deg);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(1.2) rotate(4deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes daily-reward-booster {
+  0% {
+    transform: translateY(-1.5rem) scale(0.7);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(0) scale(1.05);
+    opacity: 1;
+  }
+  45% {
+    transform: rotate(-6deg) scale(1.02);
+  }
+  60% {
+    transform: rotate(6deg) scale(1.02);
+  }
+  75% {
+    transform: rotate(-3deg) scale(1);
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes daily-reward-card {
+  0% {
+    transform: perspective(600px) rotateY(-90deg) scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: perspective(600px) rotateY(6deg) scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(600px) rotateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes daily-reward-burst {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes daily-reward-label-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daily-reward__day-button[data-state="current"] {
+    animation: none;
+  }
+}

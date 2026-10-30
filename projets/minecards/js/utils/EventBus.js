@@ -77,9 +77,10 @@ export const EVENTS = Object.freeze({
    * or the scene is left with Escape): the notifications prepared for cards that were never turned
    * face up are sent now instead of being lost. */
   REVEAL_FINISHED: 'REVEAL_FINISHED',
-  /** Payload: `{ cards, newKeys, source }` where `source` is `'purchase'`, `'redeem'` or `'gift'`.
-   * Emitted AFTER the commit by the three flows that credit cards outside an opening — SparksManager
-   * (purchase), RedeemManager (promo code) and GiftManager (distribution) — because they own the
+  /** Payload: `{ cards, newKeys, source }` where `source` is `'purchase'`, `'redeem'`, `'gift'`,
+   * `'minepick'`, `'trader'` or `'dailyreward'`. Emitted AFTER the commit by the flows that credit
+   * cards outside an opening — SparksManager (purchase), RedeemManager (promo code), GiftManager
+   * (distribution) and DailyRewardManager (daily connection reward) — because they own the
    * transactions they write in (see `SparksManager.addSparks`): the trophies are re-evaluated and
    * the experience/collection notifications are announced. */
   CARDS_OBTAINED: 'CARDS_OBTAINED',
@@ -111,6 +112,9 @@ export const EVENTS = Object.freeze({
    * after a card sold from the collection was taken out of the binders that showed it: the binder
    * list and the open binder repaint from it. */
   BINDERS_UPDATED: 'BINDERS_UPDATED',
+  /** Payload: `{ snapshot }`. Emitted by `DailyRewardManager` after a claim (the state is already
+   * persisted): the daily reward popup and the header badge repaint from it. */
+  DAILY_REWARDS_UPDATED: 'DAILY_REWARDS_UPDATED',
   /** Payload: `{ id, priceSparks, balance }`. Emitted by FeatureManager once a feature is bought
    * and persisted: the screens that lock something behind it unlock it (the profile card switch
    * stops showing a price). The Sparks themselves go through `SPARKS_UPDATED`, like every other

@@ -1,0 +1,309 @@
+{
+  "bossName": "Raichu Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/raichu_normal.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/raichu_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 120000,
+  "date": "2026-10-30 21:29:36",
+  "durationSec": 1389,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 60000,
+      "countAtk": 2,
+      "baseDmg": 44218,
+      "level": 20,
+      "raidCount": 1158,
+      "luck": 0.6784567
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 31816,
+      "countAtk": 2,
+      "baseDmg": 15541,
+      "level": 18,
+      "raidCount": 533,
+      "luck": 1.023615
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 27381,
+      "countAtk": 2,
+      "baseDmg": 9115,
+      "level": 16,
+      "raidCount": 368,
+      "luck": 1.5019748
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "alexciel",
+      "damage": 2158,
+      "countAtk": 2,
+      "baseDmg": 1028,
+      "level": 11,
+      "raidCount": 41,
+      "luck": 1.0496109
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "maxenceriot",
+      "damage": 1883,
+      "countAtk": 1,
+      "baseDmg": 1883,
+      "level": 11,
+      "raidCount": 92,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "MythMega VOD",
+      "damage": 1258,
+      "countAtk": 2,
+      "baseDmg": 591,
+      "level": 9,
+      "raidCount": 19,
+      "luck": 1.0642978
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 121080
+    },
+    {
+      "platform": "youtube",
+      "damage": 3416
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega VOD",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-30 21:35:10",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9115,
+      "pvAfter": 110885,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 21:39:01",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30000,
+      "pvAfter": 80885,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 21:41:09",
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "damages": 1028,
+      "pvAfter": 79857,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-10-30 21:42:22",
+      "pseudo": "maxenceriot",
+      "platform": "twitch",
+      "damages": 1883,
+      "pvAfter": 77974,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 21:43:05",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 30000,
+      "pvAfter": 47974,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 21:50:32",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15541,
+      "pvAfter": 32433,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 21:50:53",
+      "pseudo": "alexciel",
+      "platform": "youtube",
+      "damages": 1130,
+      "pvAfter": 31303,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 21:52:34",
+      "pseudo": "MythMega VOD",
+      "platform": "youtube",
+      "damages": 591,
+      "pvAfter": 30712,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 21:52:35",
+      "pseudo": "MythMega VOD",
+      "platform": "youtube",
+      "damages": 667,
+      "pvAfter": 30045,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-10-30 21:52:38",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 18266,
+      "pvAfter": 11779,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 21:52:45",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 16275,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

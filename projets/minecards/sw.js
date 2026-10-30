@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v52';
+const VERSION = 'v54';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -124,6 +124,7 @@ const PRECACHE_URLS = [
   './css/components/modal.css',
   './css/components/toast.css',
   './css/components/auto-claim.css',
+  './css/components/daily-reward.css',
   './css/components/notifications.css',
   './css/components/install-prompt.css',
   './css/components/info-hint.css',
@@ -142,6 +143,7 @@ const PRECACHE_URLS = [
   './js/UI/components/AutoClaimPopup.js',
   './js/UI/components/Booster3DRenderer.js',
   './js/UI/components/CardComponent.js',
+  './js/UI/components/DailyRewardPopup.js',
   './js/UI/components/GameNotifier.js',
   './js/UI/components/InfoHint.js',
   './js/UI/components/InstallPrompt.js',
@@ -171,6 +173,7 @@ const PRECACHE_URLS = [
   './js/business/BoosterManager.js',
   './js/business/CollectionManager.js',
   './js/business/ColorManager.js',
+  './js/business/DailyRewardManager.js',
   './js/business/DateSyncManager.js',
   './js/business/GachaEngine.js',
   './js/business/FeatureManager.js',
@@ -218,6 +221,7 @@ const PRECACHE_URLS = [
   './settings/i18n/fr.json',
   './settings/i18n/en.json',
   './settings/codes.json',
+  './settings/daily_connect_rewards.json',
   './settings/defaultRarity.json',
   './settings/mining.json',
   './settings/default_profile_icons.json',
@@ -244,6 +248,16 @@ const PRECACHE_URLS = [
      (drawn on every face-down card), the 3D booster model and the (small) opening and interface
      sounds. */
   './assets/img/card_back.png',
+  /* The counters of the header, in BOTH inks: they sit on screen from the first paint and the active
+     theme decides which half of each pair is drawn (`js/utils/ThemeIcons.js`). Precache only the
+     black file and a player on `dark` would open the app offline with four empty counters. */
+  './assets/img/daily_boosters.png',
+  './assets/img/daily_boosters_dark.png',
+  './assets/img/bonus_booster.png',
+  './assets/img/bonus_booster_dark.png',
+  './assets/img/binders.png',
+  './assets/img/binders_dark.png',
+  './assets/img/sparks.png',
   /* The 41 frames of the mine chest, packed into one 1050 × 900 sheet (7 columns): one request of
      65 KB instead of an animated webp whose frames the view could not address one by one. */
   './assets/img/chest-sprite.webp',

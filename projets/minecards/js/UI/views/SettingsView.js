@@ -20,6 +20,8 @@
  *                 live (the demo card of the animation panel is a mythic, so the effect is visible
  *                 under the finger) and only writes to the database on release;
  *   - sound     : one switch ("Sons") driving `SoundManager.setEnabled`, persisted in `settings`;
+ *   - display   : one switch handing the scrollbars back to the system ("Affichage"), persisted in
+ *                 `settings.nativeScrollbars` and applied by `ScrollHint.setNativeBars()`;
  *   - clock     : the trusted UTC time of the game (the header clock is hidden on a phone);
  *   - account   : the immutable UUID (read-only) with a copy button;
  *   - save      : export, import (with a confirmation modal, because the current data is
@@ -47,6 +49,7 @@ import glowManager from '../../utils/GlowManager.js';
 import foilManager from '../../utils/FoilManager.js';
 import boosterRenderManager from '../../utils/BoosterRenderManager.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
+import scrollHint from '../../utils/ScrollHint.js';
 import soundManager, {
   DEFAULT_SOUND_CATEGORIES,
   SOUND_CATEGORIES,
@@ -125,6 +128,8 @@ export class SettingsView {
     this.soundHelpElement = query('[data-settings-sound-help]');
     this.devToggle = query('[data-settings-dev]');
     this.devModeStateElement = query('[data-settings-dev-state]');
+    this.nativeScrollbarsToggle = query('[data-settings-native-scrollbars]');
+    this.nativeScrollbarsStateElement = query('[data-settings-native-scrollbars-state]');
     this.clockElement = query('[data-settings-utc]');
     this.clockDayElement = query('[data-settings-utc-day]');
     this.uuidElement = query('[data-settings-uuid]');
@@ -152,6 +157,8 @@ export class SettingsView {
     this.isBusy = false;
     /** @type {boolean} Last known developer mode (the store is the source of truth). */
     this.devMode = false;
+    /** @type {boolean} Last known scrollbar preference (the store is the source of truth). */
+    this.nativeScrollbars = false;
     /** @type {number} Duration of one notification, in seconds. */
     this.notificationDuration = 3;
     /** @type {Record<string, boolean>} Allowed notification kinds. */
@@ -228,6 +235,8 @@ export class SettingsView {
       ['[data-settings-sound-categories]', this.soundCategoriesElement],
       ['[data-settings-dev]', this.devToggle],
       ['[data-settings-dev-state]', this.devModeStateElement],
+      ['[data-settings-native-scrollbars]', this.nativeScrollbarsToggle],
+      ['[data-settings-native-scrollbars-state]', this.nativeScrollbarsStateElement],
       ['[data-settings-utc]', this.clockElement],
       ['[data-settings-uuid]', this.uuidElement],
       ['[data-settings-copy]', this.copyButton],
@@ -274,6 +283,7 @@ export class SettingsView {
     this.syncSoundToggle();
     this.renderSoundCategories();
     await this.syncDevToggle();
+    await this.syncNativeScrollbarsToggle();
     await this.renderAccount();
     this.renderClock();
     this.bindEvents();
@@ -912,6 +922,72 @@ export class SettingsView {
   }
 
   /**
+   * Reflects the stored scrollbar preference on its switch.
+   *
+   * The switch does not hold the value: `settings.nativeScrollbars` does, and the attribute on
+   * `<html>` is what the stylesheet reads. Re-reading the store keeps the panel honest after an
+   * imported save or a reset.
+   *
+   * @returns {Promise<void>} Resolves once the switch matches the stored preference.
+   */
+  async syncNativeScrollbarsToggle() {
+    if (!this.nativeScrollbarsToggle) return;
+    let enabled = false;
+    try {
+      const settings = await accountManager.getSettings();
+      enabled = settings.nativeScrollbars === true;
+    } catch (error) {
+      console.warn('[SettingsView] The scrollbar preference could not be read.', error);
+    }
+    this.applyNativeScrollbars(enabled);
+  }
+
+  /**
+   * Writes the scrollbar preference on the switch and on the document.
+   *
+   * @param {boolean} enabled - Whether the system bars are asked for.
+   * @returns {void}
+   */
+  applyNativeScrollbars(enabled) {
+    this.nativeScrollbars = enabled;
+    if (this.nativeScrollbarsToggle) {
+      this.nativeScrollbarsToggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+    }
+    if (this.nativeScrollbarsStateElement) {
+      this.nativeScrollbarsStateElement.textContent = i18n.t(
+        enabled ? 'settings.scrollbars.on' : 'settings.scrollbars.off'
+      );
+    }
+    scrollHint.setNativeBars(enabled);
+  }
+
+  /**
+   * Swaps the scrollbar indicator and persists the choice.
+   *
+   * The switch moves first, like the sound and the developer mode, and moves back with a message
+   * when the write fails: a switch left on that would come back off at the next startup would lie.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleNativeScrollbarsToggle() {
+    if (this.isBusy) return;
+
+    const previous = this.nativeScrollbars;
+    const next = !previous;
+    this.applyNativeScrollbars(next);
+    this.setFeedback(null);
+
+    try {
+      await accountManager.updateSettings({ nativeScrollbars: next });
+      this.log(`System scrollbars ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The scrollbar preference could not be saved.', error);
+      this.applyNativeScrollbars(previous);
+      this.setFeedback('settings.error.scrollbars', 'error');
+    }
+  }
+
+  /**
    * Fills the foil slider from the configuration and reflects the active intensity.
    *
    * The range lives in `settings/config.json` (`foil`), not in the markup: the slider is the only
@@ -1345,6 +1421,7 @@ export class SettingsView {
       if (slider) void this.handleSoundCategoryVolumeChange();
     });
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
+    this.listen(this.nativeScrollbarsToggle, 'click', () => void this.handleNativeScrollbarsToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
     this.listen(this.exportButton, 'click', () => this.handleExport());
     this.listen(this.importButton, 'click', () => this.handleImportClick());
@@ -2003,6 +2080,7 @@ export class SettingsView {
     [
       this.soundToggle,
       this.devToggle,
+      this.nativeScrollbarsToggle,
       this.copyButton,
       this.exportButton,
       this.importButton,

@@ -41,11 +41,11 @@ posant `data-theme` sur `<html>` **et** `<body>` (les deux sélecteurs doivent r
 
 | Thème | id | Ambiance | `--color-bg` | Particularités |
 |---|---|---|---|---|
-| Sombre | `dark` | défaut, sombre bleu nuit | `#0b0e14` | icônes inversées (`--icon-filter: invert(1)`) |
+| Sombre | `dark` | défaut, sombre bleu nuit | `#0b0e14` | icônes inversées (`--icon-filter: invert(1)`), icônes d'en-tête en blanc (`--icon-variant: dark`) |
 | Clair | `light` | lumineux neutre | `#eef1f8` | icônes telles quelles |
 | Classic | `classic` | parchemin / terre cuite | `#efe3c8` | palette chaude, accent brun |
 | Ciel | `day` | ciel Minecraft | `#7fc0ea` | dégradé de ciel + nuages |
-| Nuit | `night` | nuit étoilée | `#050b1c` | dégradé bleu foncé → noir + étoiles |
+| Nuit | `night` | nuit étoilée | `#050b1c` | dégradé bleu foncé → noir + étoiles, icônes d'en-tête en blanc |
 
 - **Miroir du thème** : `localStorage["mc_theme"]` est écrit à côté de la préférence
   autoritaire (`user_state["settings"].theme`), pour que le script inline de `<head>` peigne la
@@ -121,7 +121,15 @@ Trois modes, déclarés dans `animations.list` de `config.json` et portés par `
 - **Compteurs** : boosters quotidiens, boosters bonus (bouton → inventaire des bonus réparti par
   extension), pioches Mine Pick, binders (bouton → liste), Sparks.
 - **Barre de navigation du bas** (`nav.app-nav`) : Profil, Collection, Mine, Ouvrir (bouton
-  principal surélevé), Pick, Info, Réglages.
+  principal surélevé), Pick, Info, Réglages. Une colonne par destination, sur une seule ligne.
+  - **Largeur des colonnes** : égales au-dessus de 480 px (le rythme régulier de la barre) ; en
+    dessous, chaque colonne prend la largeur de **son libellé** (`grid-auto-columns: max-content`
+    + `justify-content: space-evenly`) — sept parts égales donnent 45 px par colonne à 360 px, soit
+    moins que les 50 px de « Collection », et un libellé plus large que sa colonne déborde sur le
+    voisin au lieu d'être coupé.
+  - **Sous 340 px** (téléphone 320 px, écran externe d'un pliable) les sept libellés ne tiennent
+    plus même au plus juste : ils sont masqués comme `.sr-only` (donc toujours prononcés par un
+    lecteur d'écran) et la barre repasse en colonnes égales, icônes seules.
 - **Vue** : titre, sous-titre, **pastille « Comment ça marche ? »** (`ViewHelp`) qui ouvre une
   mini-popup (titre, deux phrases, bouton « Plus d'infos »), puis le contenu.
 - **Barre du bas sur écran vertical** : cinq compteurs sur une ligne, icône et nombre réduits.
@@ -260,6 +268,23 @@ empilée, qu'un champ de saisie a le focus ou qu'une action est en cours.
   `chest-sprite.webp`, `wanderingtrader.png`, `pin.png`, `unpin.png`, `edit.png`, `sparks` et
   compteurs, etc.). Les glyphes noirs (`pin`,
   `unpin`, `edit`) suivent la palette via `--icon-filter` (inversés sur les thèmes sombres).
+- **Icônes à deux encres** : `daily_boosters`, `bonus_booster` et `binders` existent aussi en
+  `_dark.png` (**blanc**). Le choix se fait dans la palette, pas dans le JS :
+  `--icon-variant: dark|light` est déclaré dans `css/themes.css` à côté de `--icon-filter`, et
+  `js/utils/ThemeIcons.js` s'en sert (`usesDarkIcons()`, `themeIcon(path)`, `applyThemeIcons()`).
+  Une image concernée porte `data-icon="<nom>"` **sans `src`** (le fichier noir serait téléchargé
+  avant que le thème soit connu) ; `applyThemeIcons()` est appelé au démarrage puis sur chaque
+  `THEME_CHANGED`. Les deux variantes sont précachées (`sw.js`), sinon un démarrage hors ligne
+  afficherait des compteurs vides.
+  - Elles sont utilisées dans la **barre du haut** (compteurs quotidiens, bonus, binders) et sur le
+    bouton **Binders** de la collection. La carte `DARK_ICONS` de `ThemeIcons.js` est la liste de
+    référence. La **grille des récompenses de connexion** n'en fait pas partie : une case `Booster`
+    y montre l'illustration du pack (`assets/img/booster.png`), identique sur tous les thèmes.
+  - `--icon-ink` (`#000` sur les trois thèmes clairs, `#fff` sur `dark` et `night`) habille les
+    glyphes **inline** de l'en-tête (étoile de la Mine Pick, cadeau des récompenses de connexion),
+    qui n'ont pas de fichier à permuter.
+  - La variable se lit sur `<body>`, jamais sur `<html>` : `:root` porte la palette sombre par
+    défaut et resterait juste après un changement de thème.
 - Avatars de profil en **pixel art** (6×6, 8×8, 48×48, 192×192) rendus avec
   `image-rendering: pixelated` partout (profil, sélecteur, trophée, binder partagé).
 - Médailles de trophées : `assets/img/trophy/<setId>/<famille>/<rareté>.png`,

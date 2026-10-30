@@ -22,7 +22,10 @@
  *     dragged either: nothing is lost, and the wheel, the finger and the scroll snapping of the
  *     horizontal strips keep working untouched;
  *   - a box that scrolls both ways shows its vertical bar: a panel taller than its frame is read
- *     top to bottom, the sideways overflow of that same panel is the rare case.
+ *     top to bottom, the sideways overflow of that same panel is the rare case;
+ *   - the native bar can be asked for from the settings screen: `setNativeBars()` writes
+ *     `data-native-scrollbars` on `<html>`, which turns the hiding rules of the stylesheet off and
+ *     keeps this layer out of the way.
  *
  * LIMITS
  *   - the bar disappears with an idle timer, not with the end of the gesture: a dialog closed inside
@@ -90,6 +93,26 @@ export class ScrollHint {
     // wrong rather than late: it is cheaper to hide it than to recompute a track nobody looks at.
     window.addEventListener('resize', this.onResize, { passive: true });
     this.started = true;
+  }
+
+  /**
+   * Chooses between the thin bar of the game and the bar of the system.
+   *
+   * The stylesheet hides the native bar through `html:not([data-native-scrollbars="true"])`, so this
+   * attribute is the whole switch: the browser paints its own bar again, this layer stops following
+   * the scrolling (and is hidden by the same stylesheet, in case a frame was already drawn).
+   *
+   * @param {boolean} enabled - True to hand the indicator back to the system.
+   * @returns {void}
+   */
+  setNativeBars(enabled) {
+    const native = enabled === true;
+    document.documentElement.dataset.nativeScrollbars = native ? 'true' : 'false';
+    if (native) {
+      this.stop();
+    } else {
+      this.start();
+    }
   }
 
   /**

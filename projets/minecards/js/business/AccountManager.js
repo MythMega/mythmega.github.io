@@ -11,7 +11,8 @@
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
  *   - `settings`  : { lang, theme, sound, soundCategories, animation, foilIntensity, glareIntensity,
- *                   glowTrophies, notificationDuration, notificationTypes, boosterRenderMode }
+ *                   glowTrophies, notificationDuration, notificationTypes, boosterRenderMode,
+ *                   nativeScrollbars }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
@@ -67,6 +68,10 @@ export const USER_STATE_KEYS = Object.freeze({
   PROFILE_CARD: 'profileCard',
   // Upcoming extensions already announced to this account (see `SetAnnouncementManager`).
   SET_ANNOUNCEMENTS: 'setAnnouncements',
+  // Run of the daily connection rewards (see `DailyRewardManager`): the chapter it belongs to, the
+  // number of rewards already claimed in it, the day of the last claim and the `UniqueID`s already
+  // handed out.
+  DAILY_REWARDS: 'dailyRewards',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -327,6 +332,8 @@ export class AccountManager {
     // `devMode` is off unless it was explicitly asked for: it only adds a tool to the collection
     // (the key of the open card and a copy button) and the booster render picker, never anything a
     // player would want by default.
+    // `nativeScrollbars` is off as well: the game ships its own thin indicator, and a player who
+    // prefers the bar of the system asks for it from the settings screen.
     return {
       lang,
       theme,
@@ -342,6 +349,7 @@ export class AccountManager {
       notificationTypes,
       devMode: overrides.devMode === true,
       boosterRenderMode,
+      nativeScrollbars: overrides.nativeScrollbars === true,
     };
   }
 
@@ -424,7 +432,8 @@ export class AccountManager {
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean, boosterRenderMode: string}>} The stored preferences.
+   *   devMode: boolean, boosterRenderMode: string, nativeScrollbars: boolean}>} The stored
+   *   preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -488,6 +497,12 @@ export class AccountManager {
         boosterRender.modes.some((mode) => mode.id === stored.boosterRenderMode)
           ? stored.boosterRenderMode
           : defaults.boosterRenderMode,
+      // Same rule as `devMode`: only an explicit `true` hands the scrollbars back to the system, so
+      // a save written before the switch existed keeps the indicator of the game.
+      nativeScrollbars:
+        typeof stored.nativeScrollbars === 'boolean'
+          ? stored.nativeScrollbars
+          : defaults.nativeScrollbars,
     };
   }
 
@@ -495,8 +510,8 @@ export class AccountManager {
    * Merges and persists the account settings.
    *
    * Only `lang`, `theme`, `sound`, `soundCategories`, `animation`, `foilIntensity`,
-   * `glareIntensity`, `glowTrophies`, `notificationDuration`, `notificationTypes`, `devMode` and
-   * `boosterRenderMode` are accepted;
+   * `glareIntensity`, `glowTrophies`, `notificationDuration`, `notificationTypes`, `devMode`,
+   * `boosterRenderMode` and `nativeScrollbars` are accepted;
    * unknown keys are ignored. Values are validated against `config.json` as soon as the corresponding
    * lists are loaded, so a typo cannot silently break the next startup. Applying the new values
    * (calling `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
@@ -507,12 +522,12 @@ export class AccountManager {
    *   soundCategories?: Record<string, {enabled: boolean, volume: number}>, animation?: string,
    *   foilIntensity?: number, glareIntensity?: number, glowTrophies?: number,
    *   notificationDuration?: number, notificationTypes?: Record<string, boolean>,
-   *   devMode?: boolean}} partialSettings - Preferences to update.
+   *   devMode?: boolean, nativeScrollbars?: boolean}} partialSettings - Preferences to update.
    * @returns {Promise<{lang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean}>} The merged settings.
+   *   devMode: boolean, nativeScrollbars: boolean}>} The merged settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
    * @throws {Error} When the write fails.
@@ -586,6 +601,16 @@ export class AccountManager {
         throw new TypeError(`settings.devMode must be a boolean (received: ${JSON.stringify(devMode)}).`);
       }
       merged.devMode = devMode;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'nativeScrollbars')) {
+      const { nativeScrollbars } = partialSettings;
+      if (typeof nativeScrollbars !== 'boolean') {
+        throw new TypeError(
+          `settings.nativeScrollbars must be a boolean (received: ${JSON.stringify(nativeScrollbars)}).`
+        );
+      }
+      merged.nativeScrollbars = nativeScrollbars;
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'foilIntensity')) {

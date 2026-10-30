@@ -414,11 +414,19 @@
   background-color: var(--color-surface);
 }
 
+/* The name of a pinned trophy, clamped to THREE lines. A trophy name can be a sentence ("Le premier
+   booster d'une vie"), and letting one of them take five lines made its tile taller than the
+   others: the strip stretches every tile to the tallest of the row, so one long name pushed the
+   whole panel down and moved the "+ buy a slot" tile out of line. With the clamp AND the reserved
+   height below, every tile of the row is exactly the same box whatever its name. */
 .profile__tile-title {
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  /* Spelled out instead of inherited: the reserved height below is expressed in `em`, so the line
+     height has to be the one the clamp counts with. */
+  line-height: 1.3;
 }
 
 .profile__tile--trophy .trophy__icon {
@@ -455,8 +463,8 @@
 
 /* Every pinned-trophy box has the same size. The strip stretches its items on the cross axis, and
    the tile is a flex box so the button fills that stretched height; the medal and the rarity badge
-   are fixed, so only the name varies, and reserving two lines there makes a one-line and a
-   two-line title end on the same edge. */
+   are fixed, so only the name varies, and reserving THREE lines there makes a one-line and a
+   three-line title end on the same edge. */
 .profile__tile--trophy {
   display: flex;
 }
@@ -466,7 +474,19 @@
 }
 
 .profile__tile--trophy .profile__tile-title {
-  min-height: 2.6em;
+  /* Three lines of `line-height: 1.3` (the value is set on `.profile__tile-title`, in `em`). */
+  min-height: 3.9em;
+}
+
+/* The empty and the for-sale slots are the two other kinds of tile of that row. They must fill the
+   height the tallest trophy gives the strip, otherwise the row shows three boxes of three different
+   sizes - the very thing a fixed card size is supposed to avoid. */
+.profile__tile--slot {
+  display: flex;
+}
+
+.profile__tile--slot .profile__tile-open {
+  flex: 1 1 auto;
 }
 
 /* The unpin button of a pinned trophy: pinned to the TOP-RIGHT corner of the tile. */

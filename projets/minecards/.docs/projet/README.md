@@ -14,6 +14,7 @@ feuilles de style, les fichiers de données et `settings/config.json`.
 | [02-fonctionnalites.md](02-fonctionnalites.md) | Toutes les fonctionnalités, vue par vue et manager par manager, avec leurs règles, leurs cas limites et les données qu'elles touchent. |
 | [03-interface-visuelle.md](03-interface-visuelle.md) | Système visuel, thèmes, typographie, cartes, foil et halos, animations, responsive, accessibilité, raccourcis clavier, description écran par écran. |
 | [04-donnees-et-configuration.md](04-donnees-et-configuration.md) | Fichiers de configuration et de données, format des cartes, catalogues, i18n, service worker, export/import. |
+| [05-daily-rewards.md](05-daily-rewards.md) | Récompenses de connexion : schéma du fichier de chapitres, avancement de la série, popup, auras, claim et garde-fous. |
 | [database.md](database.md) | Schéma complet d'IndexedDB (`CardBoosterDB`), clés de `user_state`, format `.save`, miroir `localStorage`, transactions, migrations. |
 
 ## Fiche technique
@@ -33,7 +34,7 @@ feuilles de style, les fichiers de données et `settings/config.json`.
 - **Animations d'ouverture** : Normal, Épique (défaut livré par `animations.default`), Explosif (mode parodique).
 - **Build** : aucun. Pas de bundler, pas de transpileur, pas de `npm install`. Un serveur HTTP
   statique suffit (`start_server.cmd`, `start_server_public.cmd`).
-- **Qualité** : `node tools/lint.mjs` (23 règles, zéro dépendance), `lint.cmd` sous Windows.
+- **Qualité** : `node tools/lint.mjs` (33 règles, zéro dépendance), `lint.cmd` sous Windows.
 
 ## Carte du dépôt
 

@@ -169,6 +169,7 @@ ne peut fuiter dans une pioche, une boutique ou un code.
 | `settings/overlay.json` | `timings` (durées de la timeline), `booster.spinStepPerFrame`, `easing`, `sound` | `js/overlay.js` |
 | `settings/sounds.json` | carte des sons d'interface : `event`, `file` (sous `assets/sound/ui/`), `_comment`, `enabled` | `SoundManager` (+ `UiSounds`) |
 | `settings/cardsets.json` | `{ sets: [ { id, releaseDate, promo } ] }` : identifiants, date de sortie UTC et présence de promos | `ConfigLoader`, `BoosterManager` |
+| `settings/daily_connect_rewards.json` | liste de chapitres `{ ID, RewardListName, Dates: { Start, End }, Days: [ { Day, Reward, Unique?, UniqueID?, ReplacementRewardIfClaimed? } ] }` : les récompenses de connexion, un jour par entrée, `Day: null` pour l'entrée par défaut. Schéma complet et règles dans [05-daily-rewards.md](05-daily-rewards.md) | `DailyRewardManager` |
 | `settings/boosters_trophy.json` | paliers récurrents par extension (complétion, boosters ouverts) | `TrophyManager` |
 | `settings/global_trophy.json` | paliers globaux (cartes, boosters, cartes différentes, blocs minés, pioches) | `TrophyManager` |
 | `settings/ui` | pas de fichier : toute la copie passe par `settings/i18n/` | — |

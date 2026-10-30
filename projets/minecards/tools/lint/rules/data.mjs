@@ -18,6 +18,7 @@ const CONFIG_FILE = 'settings/config.json';
 const CARDSETS_FILE = 'settings/cardsets.json';
 const CODES_FILE = 'settings/codes.json';
 const MINING_FILE = 'settings/mining.json';
+const DAILY_REWARDS_FILE = 'settings/daily_connect_rewards.json';
 const RARITY_FILE = 'settings/defaultRarity.json';
 const PINNED_OFFERS_FILE = 'data/shop/pinned_offers.json';
 
@@ -170,6 +171,22 @@ function readLanguages(context) {
   const languages = isRecord(config) ? config.languages : null;
   if (!Array.isArray(languages)) return [];
   return languages.map((entry) => (isRecord(entry) ? entry.code : null)).filter(isFilled);
+}
+
+/**
+ * Reads a day of the daily reward chapters in either order.
+ *
+ * `settings/daily_connect_rewards.json` writes `DD-MM-YYYY` (the shape it was authored in) while
+ * every other setting writes `YYYY-MM-DD`; the game accepts both, so the linter must too.
+ *
+ * @param {unknown} value - Raw value.
+ * @returns {string|null} The day in `YYYY-MM-DD`, or null when it is not a real day.
+ */
+function parseDailyDay(value) {
+  if (!isFilled(value)) return null;
+  const french = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
+  const day = french ? `${french[3]}-${french[2]}-${french[1]}` : value.trim();
+  return isDay(day) ? day : null;
 }
 
 /** True for a day that exists, not just for one written `YYYY-MM-DD`. */
@@ -1254,6 +1271,221 @@ export default [
           fail(`"${key}" weights add up to ${Number(total.toFixed(6))}, expected 1`, 'warning');
         }
       });
+    },
+  },
+  {
+    id: 'data/daily-rewards',
+    summary: 'A daily connection chapter has a real window, and every day gives a reward the game can hand out.',
+    severity: 'error',
+    files: (relativePath) => relativePath === DAILY_REWARDS_FILE,
+    /**
+     * The file is read once: the rules of a `Day` only make sense against the whole chapter (two
+     * entries for the same day, two chapters wearing the same `UniqueID`), and the rewards are
+     * checked against what the rest of the game already declares (the resources of the mine and the
+     * cards of every catalogue).
+     */
+    run(context) {
+      const chapters = readOrNull(context, DAILY_REWARDS_FILE);
+      if (chapters === null) return;
+      const text = context.readText(DAILY_REWARDS_FILE);
+
+      if (!Array.isArray(chapters)) {
+        context.report({
+          file: DAILY_REWARDS_FILE,
+          line: 1,
+          column: 1,
+          message: 'the file must hold an array of chapters',
+        });
+        return;
+      }
+
+      const index = readCardIndex(context);
+      const resources = new Set();
+      const mining = readOrNull(context, MINING_FILE);
+      if (isRecord(mining) && Array.isArray(mining.Blocks)) {
+        mining.Blocks.forEach((block) => {
+          if (!isRecord(block) || !Array.isArray(block.Rewards)) return;
+          block.Rewards.forEach((reward) => {
+            if (isRecord(reward) && isFilled(reward.Type)) resources.add(reward.Type.trim().toLowerCase());
+          });
+        });
+      }
+
+      const chapterIds = new Map();
+      const uniqueIds = new Map();
+
+      chapters.forEach((chapter, position) => {
+        if (!isRecord(chapter)) {
+          context.report({
+            file: DAILY_REWARDS_FILE,
+            line: 1,
+            column: 1,
+            message: `chapter #${position + 1} is not an object`,
+          });
+          return;
+        }
+
+        const id = isFilled(chapter.ID) ? chapter.ID.trim() : '';
+        const chapterLine = isFilled(id)
+          ? lineAt(text, `"ID": ${JSON.stringify(chapter.ID)}`)
+          : 1;
+        const fail = (message, severity) =>
+          context.report({ file: DAILY_REWARDS_FILE, line: chapterLine, column: 1, message, severity });
+
+        if (id === '') {
+          fail(`chapter #${position + 1} has no ID`);
+        } else if (chapterIds.has(id)) {
+          fail(`chapter "${id}" is declared twice (same ID as the chapter on line ${chapterIds.get(id)})`);
+        } else {
+          chapterIds.set(id, chapterLine);
+        }
+        if (!isFilled(chapter.RewardListName)) {
+          fail(`chapter "${id}" has no RewardListName`);
+        }
+
+        // The window is inclusive on both ends, so a one-day chapter is legal (Start === End).
+        const start = chapter.Dates?.Start;
+        const end = chapter.Dates?.End;
+        const startDay = parseDailyDay(start);
+        const endDay = parseDailyDay(end);
+        if (!startDay) {
+          fail(`chapter "${id}" Dates.Start ${JSON.stringify(start)} is not a real day (DD-MM-YYYY or YYYY-MM-DD)`);
+        }
+        if (!endDay) {
+          fail(`chapter "${id}" Dates.End ${JSON.stringify(end)} is not a real day (DD-MM-YYYY or YYYY-MM-DD)`);
+        }
+        if (startDay && endDay && startDay > endDay) {
+          fail(`chapter "${id}" is open from ${startDay} to ${endDay}: the window is empty`);
+        }
+
+        const days = chapter.Days;
+        if (!Array.isArray(days) || days.length === 0) {
+          fail(`chapter "${id}" declares no Days`);
+          return;
+        }
+
+        const seenDays = new Set();
+        let fallbackCount = 0;
+        let highest = 0;
+
+        days.forEach((entry, dayPosition) => {
+          if (!isRecord(entry)) {
+            fail(`chapter "${id}": day entry #${dayPosition + 1} is not an object`);
+            return;
+          }
+
+          const day = entry.Day;
+          const dayLine = Number.isInteger(day)
+            ? lineAt(text, `"Day": ${day}`, text.indexOf(`"ID": ${JSON.stringify(chapter.ID)}`) + 1)
+            : chapterLine;
+          const failDay = (message, severity) =>
+            context.report({ file: DAILY_REWARDS_FILE, line: dayLine, column: 1, message, severity });
+
+          if (day === null || day === undefined) {
+            fallbackCount += 1;
+            if (fallbackCount > 1) {
+              failDay(`chapter "${id}" declares more than one fallback day ("Day": null), only the first is used`);
+            }
+          } else if (!Number.isInteger(day) || day <= 0) {
+            failDay(`chapter "${id}" has a Day of ${JSON.stringify(day)}, expected a positive integer or null`);
+          } else {
+            if (seenDays.has(day)) {
+              failDay(`chapter "${id}" declares day ${day} twice`);
+            }
+            seenDays.add(day);
+            highest = Math.max(highest, day);
+          }
+
+          checkReward(
+            entry.Reward,
+            `chapter "${id}" day ${day === null || day === undefined ? 'fallback' : day}`,
+            failDay
+          );
+
+          if (entry.ReplacementRewardIfClaimed !== undefined) {
+            checkReward(
+              entry.ReplacementRewardIfClaimed,
+              `the replacement of chapter "${id}" day ${day === null || day === undefined ? 'fallback' : day}`,
+              failDay
+            );
+          }
+
+          const unique = entry.Unique === true;
+          const uniqueId = isFilled(entry.UniqueID) ? entry.UniqueID.trim() : '';
+
+          if (entry.Unique !== undefined && typeof entry.Unique !== 'boolean') {
+            failDay(`chapter "${id}" day ${day}: Unique must be a boolean`);
+          }
+          if (unique) {
+            // A unique reward needs its identity (it is what the save remembers) AND a fallback for
+            // the next chapters: without one, the day would be unclaimable forever.
+            if (uniqueId === '') {
+              failDay(`chapter "${id}" day ${day}: a Unique reward needs a UniqueID`);
+            } else if (uniqueIds.has(uniqueId)) {
+              failDay(`UniqueID "${uniqueId}" is already used on line ${uniqueIds.get(uniqueId)}`);
+            } else {
+              uniqueIds.set(uniqueId, dayLine);
+            }
+            if (entry.ReplacementRewardIfClaimed === undefined) {
+              failDay(
+                `chapter "${id}" day ${day}: a Unique reward must declare ReplacementRewardIfClaimed, otherwise the day cannot be claimed a second time`
+              );
+            }
+          } else if (uniqueId !== '') {
+            failDay(`chapter "${id}" day ${day}: UniqueID is declared without Unique: true`);
+          }
+        });
+
+        // A hole in the numbering is not fatal (the fallback entry covers it) but it is almost
+        // always a typo: the day is skipped without anybody noticing.
+        for (let day = 1; day <= highest; day += 1) {
+          if (!seenDays.has(day)) {
+            fail(`chapter "${id}" has no day ${day}: the fallback reward would fill that gap`, 'warning');
+          }
+        }
+      });
+
+      /**
+       * Validates one reward object.
+       *
+       * @param {unknown} reward - `Reward` (or `ReplacementRewardIfClaimed`) of a day.
+       * @param {string} label - Where the reward lives, for the message.
+       * @param {(message: string, severity?: string) => void} fail - Reporter of the entry.
+       * @returns {void}
+       */
+      function checkReward(reward, label, fail) {
+        if (!isRecord(reward)) {
+          fail(`${label}: the reward is missing or is not an object`);
+          return;
+        }
+        if (!isFilled(reward.Type)) {
+          fail(`${label}: the reward has no Type`);
+          return;
+        }
+        if (!Number.isInteger(reward.Qte) || reward.Qte <= 0) {
+          fail(`${label}: the reward gives ${JSON.stringify(reward.Qte)}, expected a positive integer`);
+        }
+
+        const type = reward.Type.trim().toLowerCase();
+        if (type === 'sparks' || type === 'booster') return;
+        if (type === 'card') {
+          if (!isFilled(reward.CardID)) {
+            fail(`${label}: a Card reward needs a CardID (the Index of the card)`);
+            return;
+          }
+          if (!index.has(reward.CardID.trim())) {
+            fail(`${label}: CardID ${JSON.stringify(reward.CardID)} is not an Index any catalogue declares`);
+          }
+          return;
+        }
+        // Anything else is a resource of the mine: its name must be one a block actually rewards,
+        // otherwise the day would grant a quantity nobody can see in the inventory.
+        if (resources.size > 0 && !resources.has(type)) {
+          fail(
+            `${label}: Type ${JSON.stringify(reward.Type)} is neither Sparks, Booster, Card nor a resource of ${MINING_FILE}`
+          );
+        }
+      }
     },
   },
 ];

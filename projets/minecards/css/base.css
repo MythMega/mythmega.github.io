@@ -66,11 +66,16 @@ video {
    Only the indicator goes away. The wheel, the trackpad, the finger, the keyboard and `Home`/`End`
    keep scrolling exactly as before. `scrollbar-width` is the Firefox spelling, `::-webkit-scrollbar`
    the Chromium and Safari one; a browser knows one or the other, so both are needed. */
-* {
+html:not([data-native-scrollbars="true"]),
+html:not([data-native-scrollbars="true"]) * {
   scrollbar-width: none;
 }
 
-*::-webkit-scrollbar {
+/* The `html` case is spelled out on its own: the universal selector of a descendant combinator only
+   matches DESCENDANTS, so `html … *` would leave the page's own bar in place, which is exactly the
+   one that is on screen the most. */
+html:not([data-native-scrollbars="true"])::-webkit-scrollbar,
+html:not([data-native-scrollbars="true"]) *::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
@@ -261,6 +266,39 @@ body {
   color: var(--color-text);
 }
 
+/* The one counter of the header that carries no number (the daily rewards): it keeps the height and
+   the shape of the others but takes the width of its icon alone, so the five read numbers keep the
+   row to themselves. */
+.app-header__stat.app-header__stat--icon {
+  position: relative;
+  flex: 0 0 auto;
+  padding: var(--space-1) var(--space-2);
+}
+
+/* "Something is waiting for you today": a dot on the corner of the button, never a number (the
+   chapter has one reward a day, so a counter would always say "1"). */
+.app-header__stat-dot {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--color-warning);
+  box-shadow: 0 0 0 1px var(--color-surface), 0 0 8px var(--color-warning);
+  animation: header-dot-pulse 2s var(--easing-standard) infinite;
+}
+
+@keyframes header-dot-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+}
+
 /* The counters of the header are ICONS only (each label is `.sr-only`): the icon, then the value.
    The size is in `rem`, not in `em`: two of the five counters are `<button>`s, whose typography the
    browser does not inherit from the container the way a `<span>` does, so an `em` size would make
@@ -277,9 +315,11 @@ body {
    baked colours of a PNG. */
 svg.app-header__stat-icon {
   fill: none;
-  /* The other counters of the header are black PNG glyphs; the Mine Pick sparkle follows them, so
-     the row reads as one set of icons instead of mixing a black drawing with a tinted one. */
-  color: #000;
+  /* The other counters of the header are drawn glyphs; the Mine Pick sparkle and the gift follow
+     them, so the row reads as one set of icons instead of mixing a drawing with a tinted one.
+     `--icon-ink` is what the palette says that ink is: black on the three light themes, white on
+     the two dark ones, where a black stroke would simply disappear (`css/themes.css`). */
+  color: var(--icon-ink);
   stroke: currentColor;
   stroke-width: 1.8;
   stroke-linecap: round;
@@ -460,8 +500,10 @@ body[data-connection="offline"] .app-header__clock {
   right: 0;
   z-index: var(--z-nav);
   display: grid;
-  /* One equal column per button, whatever their number: the bottom bar must never wrap onto a
-     second row (the info page added a 7th destination). */
+  /* One column per button, whatever their number: the bottom bar must never wrap onto a second row
+     (the info page added a 7th destination). On a wide screen the columns share the row equally,
+     which is what gives the bar its regular rhythm; on a phone they are sized by their own label
+     instead, see the `480px` block below. */
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
   gap: var(--space-1);
@@ -570,19 +612,57 @@ body.is-focus {
   min-width: 0;
   max-width: 100%;
   text-align: center;
-  overflow-wrap: anywhere;
+  /* A label is one word of the bar, never two: it is allowed to be tight, not to be cut in the
+     middle. The bar is wide enough for the longest one (see below), and `nowrap` keeps a translation
+     that grew from breaking the row instead of slipping under its neighbour. */
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
-/* The bar holds SIX destinations since the profile page was added (`.app-nav` is a grid of equal
-   columns): on a 390 px phone each column is ~60 px wide, just under the width of "Collection" at
-   `--font-size-xs`. The labels are tightened there so the bar never splits a word in two words. */
+/* PHONE: seven destinations in ~360 px. The equal split of the wide screen gives each column 45 px,
+   which is less than the 50 px of "Collection" - and a label wider than its column is not clipped by
+   default, it simply overflows and lands on the label next to it. So on a phone the columns are sized
+   by their CONTENT and the leftover space is spread around them: "Collection" takes the 50 px it
+   needs, "Pick" the 20 px, and every label stays whole. The columns keep the thumb-sized height of
+   `.app-nav__item`, and the gaps between them are the usual 4 px plus the share of `space-evenly`.
+   The same rule names the breakpoint: the sum of the seven labels at `--font-size-xs` is ~220 px, so
+   from 480 px down there is no reason to squeeze them into equal columns. */
 @media (max-width: 480px) {
+  .app-nav {
+    grid-auto-columns: max-content;
+    justify-content: space-evenly;
+  }
+
   .app-nav__item {
     font-size: 0.6875rem;
   }
+}
+
+/* Very narrow (a 320 px phone, the outer screen of a foldable): the seven labels in a row need ~322
+   px, and there is no smaller type that stays readable - so the labels step aside and the icons keep
+   the bar. The text is not removed: it is clipped the way `.sr-only` does it, so a screen reader still
+   announces "Collection" and still hears it as the name of the button. Tap targets are back to an
+   equal share of the row. */
+@media (max-width: 339px) {
+  .app-nav {
+    grid-auto-columns: minmax(0, 1fr);
+    justify-content: normal;
+  }
+
+  .app-nav__item {
+    position: relative;
+  }
 
   .app-nav__item span {
-    overflow-wrap: normal;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 
@@ -1132,6 +1212,14 @@ a,
   border-radius: var(--radius-pill);
   background-color: var(--color-text-muted);
   opacity: 0.55;
+}
+
+/* The preference of the settings screen. `ScrollHint.setNativeBars()` writes the attribute on
+   `<html>`, which stops the two `scrollbar` rules at the top of this file from matching: the
+   browser paints its own bar again, and this layer steps aside instead of drawing a second one on
+   top of it. A player who never touches the switch keeps the thin, themed bar. */
+html[data-native-scrollbars="true"] .scroll-hint {
+  display: none;
 }
 
 /* --- Accessibility: reduced motion -------------------------------------- */

@@ -1,0 +1,250 @@
+{
+  "bossName": "Taupiqueur Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/diglett_normal.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/diglett_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 140000,
+  "date": "2026-10-30 21:56:06",
+  "durationSec": 1349,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 105000,
+      "countAtk": 3,
+      "baseDmg": 44054,
+      "level": 20,
+      "raidCount": 1159,
+      "luck": 0.7944795
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 47040,
+      "countAtk": 2,
+      "baseDmg": 15672,
+      "level": 18,
+      "raidCount": 534,
+      "luck": 1.5007657
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 9040,
+      "countAtk": 1,
+      "baseDmg": 9040,
+      "level": 16,
+      "raidCount": 369,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "ChienMilou",
+      "damage": 402,
+      "countAtk": 2,
+      "baseDmg": 191,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1.052356
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 161080
+    },
+    {
+      "platform": "youtube",
+      "damage": 402
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "ChienMilou",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 2,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-30 21:57:35",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 105000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 22:00:06",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15672,
+      "pvAfter": 89328,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 22:05:19",
+      "pseudo": "ChienMilou",
+      "platform": "youtube",
+      "damages": 191,
+      "pvAfter": 89137,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 22:05:53",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9040,
+      "pvAfter": 80097,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-10-30 22:06:41",
+      "pseudo": "ChienMilou",
+      "platform": "youtube",
+      "damages": 211,
+      "pvAfter": 79886,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 22:08:24",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 31368,
+      "pvAfter": 48518,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-30 22:12:14",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 13518,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-10-30 22:12:28",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 13518,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "jmdevfr a soign\u00E9 tout le monde ! ( 2 personne(s) )"
+    },
+    {
+      "at": "2026-10-30 22:18:35",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

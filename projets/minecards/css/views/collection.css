@@ -286,31 +286,6 @@
   flex: 0 0 auto;
 }
 
-/* --- Card effects switch (detail modal) ---------------------------------- */
-
-/* A label on the left, a real switch on the right (`css/base.css`, `.switch`). The whole ROW is the
-   control: the label pushes the switch to the right edge (`margin-right: auto`) so the track and its
-   caption stay glued together, and a click anywhere on the row toggles instead of a dead caption
-   sitting next to a small target. The track itself keeps its own size, whatever the row does. */
-.collection-shine {
-  width: 100%;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-1);
-  border-radius: var(--radius-md);
-  transition: background-color var(--duration-fast) var(--easing-standard);
-}
-
-.collection-shine:hover {
-  background-color: var(--color-surface-alt);
-}
-
-.collection-shine__label {
-  margin-right: auto;
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-}
-
 /* Promo card: the trade block is replaced by the reason there is none. Purple, the tone of every
    promo mark (`--color-promo`, same as the chip on the tile), so the two read as one thing. */
 .collection-trade__locked {

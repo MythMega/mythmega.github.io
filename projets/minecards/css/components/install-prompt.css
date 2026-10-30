@@ -1,0 +1,88 @@
+/* =============================================================================
+   install-prompt.css - "Add MineCards to your home screen" banner
+   (`js/UI/components/InstallPrompt.js`).
+
+   Reference: `manifest.json`. The banner is appended to <body> and sits just above the bottom
+   navigation, like the toasts, so it never covers a counter or the bar itself. It is a banner and
+   not a dialog on purpose: the offer is a side note, not a step of the game. Colors come
+   exclusively from `css/themes.css`.
+   ============================================================================= */
+
+.install-prompt {
+  position: fixed;
+  right: var(--space-3);
+  left: var(--space-3);
+  bottom: calc(var(--nav-height) + var(--space-3) + env(safe-area-inset-bottom, 0px));
+  z-index: calc(var(--z-nav) + 1);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  width: auto;
+  max-width: 26rem;
+  margin-inline: auto;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  animation: install-prompt-in var(--duration-base) var(--easing-standard);
+}
+
+.install-prompt[hidden] {
+  display: none;
+}
+
+.install-prompt__icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  background-color: var(--color-surface-alt);
+}
+
+.install-prompt__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.install-prompt__title {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.install-prompt__message {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* The two answers share the second row, the primary one last: it is the one a thumb reaches. */
+.install-prompt__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+@keyframes install-prompt-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .install-prompt {
+    animation: none;
+  }
+}

@@ -45,7 +45,10 @@
  *      altered (e.g. an imported older save): the line number is the anti-duplicate key;
  *   6. a matching line whose key is unknown or whose type/quantity is invalid is reported in
  *      `ignored` (with a reason) and skipped, but the cursor still moves past it so it is never
- *      retried.
+ *      retried. The catalog is built from the RELEASED extensions only (`listBoosterSets()` and
+ *      `listPromoSets()`, both released-only by default), so a key of an extension that is only
+ *      announced resolves to `unknownCard`/`unknownSet`: a distribution can never hand out the
+ *      content of a set the player is not allowed to own yet, and the run reports why.
  *
  * CORS
  *   Verified from the browser against a real public sheet: the `gviz` endpoint answers

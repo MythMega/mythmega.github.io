@@ -1,0 +1,15 @@
+{
+  "_comment": "Catalogue of the booster sets, read by `js/utils/ConfigLoader.js` (`getCardSets()`). ONE entry per set, in the order the booster picker displays them; the order of this file replaces the old `boosters.sets` array of `settings/config.json`, so adding a set means adding its line here. 'id' is the technical identifier and must match the file name in `boosters.directory` (`data/boosters/<id>.json`, which carries the display name, the texture and the cards). 'releaseDate' is the UTC day ('YYYY-MM-DD') the set becomes openable: before it, the set is invisible unless it falls inside the preview window of `boosters.upcomingPreviewDays` of `settings/config.json`, and even then it is only listed in the booster picker with its 3D model - it can never be opened, and its cards never appear in the collection. A missing or malformed 'releaseDate' means the set is available right away. 'promo' tells whether the set has promo cards (`promos.directory/<id>.json`): those cards only enter a collection through a code or a gift, so a set without a file is simply declared 'promo': false. Release dates are compared to the trusted UTC day of `DateSyncManager`, never to the device clock.",
+  "sets": [
+    {
+      "id": "A1",
+      "releaseDate": "2026-10-27",
+      "promo": true
+    },
+    {
+      "id": "A2",
+      "releaseDate": "2026-12-05",
+      "promo": true
+    }
+  ]
+}

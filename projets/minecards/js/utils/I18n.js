@@ -318,6 +318,25 @@ export class I18n {
   }
 
   /**
+   * Formats a UTC day (`YYYY-MM-DD`) for the active language.
+   *
+   * Release dates are UTC days, so they are always rendered in UTC: a player east of Greenwich must
+   * not read the day before the one the game compares against.
+   *
+   * @param {string|null} day - UTC day (`YYYY-MM-DD`).
+   * @param {'long'|'medium'|'short'} [dateStyle='long'] - `Intl.DateTimeFormat` date style.
+   * @returns {string} The readable day, or an empty string when it cannot be read.
+   */
+  formatUtcDay(day, dateStyle = 'long') {
+    if (typeof day !== 'string' || day === '') return '';
+    const time = Date.parse(`${day}T00:00:00.000Z`);
+    if (!Number.isFinite(time)) return '';
+    return new Intl.DateTimeFormat(this.lang, { dateStyle, timeZone: 'UTC' }).format(
+      new Date(time)
+    );
+  }
+
+  /**
    * Currently applied language code.
    *
    * @returns {string|null} The language code, or null before `init()`.

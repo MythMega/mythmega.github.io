@@ -41,6 +41,8 @@ import { getRarityLabel } from '../../classes/Card.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
 import Booster3DRenderer, { DEFAULT_MODEL_PATH } from '../components/Booster3DRenderer.js';
 import boosterRenderManager from '../../utils/BoosterRenderManager.js';
+import { getShineClasses, applyShine, applyCardGlow } from '../../utils/Shine.js';
+import { buildCardEffectsToggle, syncCardEffectsToggle } from '../components/CardEffectsToggle.js';
 
 /** View name, matching `data-view="opening"` in `index.html`. */
 export const OPENING_VIEW_NAME = 'opening';
@@ -87,6 +89,7 @@ export class OpeningView {
     this.quotaElement = this.root.querySelector('[data-opening-quota]');
     this.countdownElement = this.root.querySelector('[data-opening-countdown]');
     this.countdownValue = this.root.querySelector('[data-opening-countdown-value]');
+    this.releaseElement = this.root.querySelector('[data-opening-release]');
     this.openButton = this.root.querySelector('[data-opening-open]');
     this.buyButton = this.root.querySelector('[data-opening-buy]');
     this.feedbackElement = this.root.querySelector('[data-opening-feedback]');
@@ -152,6 +155,10 @@ export class OpeningView {
     this.spotlightIndex = 0;
     /** @type {'idle'|'spotlight'|'summary'} Current reveal sub-stage. */
     this.revealStage = 'idle';
+    /** @type {boolean} Effects (foil, brillance, halo) of the card detail; a reading comfort. */
+    this.shineEnabled = true;
+    /** @type {HTMLElement|null} Window the effects of the card detail are painted on. */
+    this.shineWindow = null;
     /** @type {{x: number, y: number}|null} Touch start point for swipe detection. */
     this.touchStart = null;
     /** @type {boolean} True when the click following a swipe must be ignored. */
@@ -294,7 +301,9 @@ export class OpeningView {
   async loadSets() {
     this.log('Loading booster extensions…');
     const loaded = await boosterManager.init();
-    const listed = await boosterManager.listBoosterSets();
+    // The picker is the ONE place an announced set is allowed to appear before its release: it can
+    // be looked at (3D model included) but never opened, see `refreshQuota()`.
+    const listed = await boosterManager.listBoosterSets({ includeUpcoming: true });
 
     this.sets.clear();
     listed.forEach((set) => this.sets.set(set.setId, set));
@@ -333,12 +342,20 @@ export class OpeningView {
       const owned = stats?.owned ?? 0;
       const option = document.createElement('option');
       option.value = setId;
-      option.textContent = i18n.t('opening.set.option', {
-        name: set.name,
-        owned,
-        total,
-        percent: total > 0 ? Math.round((owned / total) * 100) : 0,
-      });
+      // An announced set has no completion to show yet: its option carries its release date
+      // instead, which is the only information the player can act on.
+      option.textContent =
+        set.released === false
+          ? i18n.t('opening.set.optionUpcoming', {
+              name: set.name,
+              date: i18n.formatUtcDay(set.releaseDate),
+            })
+          : i18n.t('opening.set.option', {
+              name: set.name,
+              owned,
+              total,
+              percent: total > 0 ? Math.round((owned / total) * 100) : 0,
+            });
       this.setSelect.appendChild(option);
     });
 
@@ -383,6 +400,13 @@ export class OpeningView {
     }
     if (this.cardModalClose) {
       this.listen(this.cardModalClose, 'click', () => this.closeCardModal());
+    }
+    if (this.cardModalBody) {
+      // The body is rebuilt for every card, so its buttons are handled by delegation.
+      this.listen(this.cardModalBody, 'click', (event) => {
+        const target = event?.target instanceof Element ? event.target : null;
+        if (target?.closest('[data-card-effects]')) this.toggleCardEffects();
+      });
     }
     if (this.sourceModal) {
       this.listen(this.sourceModal, 'click', (event) => {
@@ -525,14 +549,49 @@ export class OpeningView {
   refreshQuota() {
     if (!this.selectedSetId) {
       this.openButton.disabled = true;
+      // No visible extension at all (every set is still hidden before its preview window): this is
+      // an announcement, not a failure, so the message is informational.
+      if (this.setOrder.length === 0) {
+        this.setFeedback('opening.error.noSet', 'info');
+        this.quotaElement.textContent = '';
+        this.setPreviewVisible(false);
+        if (this.countdownElement) this.countdownElement.hidden = true;
+        if (this.releaseElement) this.releaseElement.hidden = true;
+        if (this.buyButton) this.buyButton.hidden = true;
+        return;
+      }
+      this.setPreviewVisible(true);
       this.setFeedback('opening.error.load', 'error');
       return;
     }
+    this.setPreviewVisible(true);
 
     const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
     this.lastQuota = quota;
     const available = quota.availableForSet ?? 0;
     this.log(`Quota refreshed for "${this.selectedSetId}":`, quota);
+
+    // Announced but not released yet: the set is there to be looked at, not spent. The release date
+    // replaces the quota, the countdown and the extra-booster purchase, so no action the player can
+    // see would fail on a click (the manager refuses the opening a second time anyway).
+    if (!this.isSelectedSetReleased()) {
+      const set = this.sets.get(this.selectedSetId) ?? null;
+      const date = i18n.formatUtcDay(set?.releaseDate ?? null);
+      this.quotaElement.textContent = i18n.t('opening.upcoming.quota', {
+        set: this.resolveSetName(this.selectedSetId),
+        date,
+      });
+      if (this.countdownElement) this.countdownElement.hidden = true;
+      if (this.releaseElement) {
+        this.releaseElement.hidden = false;
+        this.releaseElement.textContent = i18n.t('opening.upcoming.detail', { date });
+      }
+      this.openButton.disabled = true;
+      this.openButton.textContent = i18n.t('opening.upcoming.open', { date });
+      this.renderBuyButton();
+      return;
+    }
+    if (this.releaseElement) this.releaseElement.hidden = true;
 
     this.quotaElement.textContent = i18n.t('opening.quota', {
       daily: quota.daily,
@@ -565,6 +624,11 @@ export class OpeningView {
    */
   renderBuyButton() {
     if (!this.buyButton) return;
+    // A set that is not released cannot be opened, so buying a booster for it would be a trap.
+    if (!this.isSelectedSetReleased()) {
+      this.buyButton.hidden = true;
+      return;
+    }
     const price = this.extraBoosterPrice;
     const daily = this.lastQuota?.daily ?? 0;
     const visible = price > 0 && daily <= 0;
@@ -627,7 +691,7 @@ export class OpeningView {
    */
   handleClockTick(payload) {
     if (!payload || typeof payload.timeUntilReset !== 'string') return;
-    if (this.openButton.disabled && this.selectedSetId) {
+    if (this.openButton.disabled && this.selectedSetId && this.isSelectedSetReleased()) {
       this.updateCountdown(payload.timeUntilReset);
     }
   }
@@ -642,6 +706,34 @@ export class OpeningView {
     if (!this.countdownElement || !this.countdownValue) return;
     this.countdownElement.hidden = false;
     this.countdownValue.textContent = value;
+  }
+
+  /**
+   * Shows or hides the 3D preview block of the picker (model and its two arrows).
+   *
+   * It is hidden when no extension is available at all: an empty viewport would otherwise sit there
+   * with its "loading" line forever, promising a model that cannot come.
+   *
+   * @param {boolean} visible - Whether the block belongs on screen.
+   * @returns {void}
+   */
+  setPreviewVisible(visible) {
+    const block = this.previewContainer?.closest('.opening__preview') ?? null;
+    if (block) block.hidden = !visible;
+    if (!visible && this.previewLoading) this.previewLoading.hidden = true;
+  }
+
+  /**
+   * Tells whether the selected extension is released, i.e. can be opened right now.
+   *
+   * The availability itself is computed by `BoosterManager` (trusted UTC day); this view only
+   * reads the `released` flag it publishes with every descriptor.
+   *
+   * @returns {boolean} True when the selected extension may be opened.
+   */
+  isSelectedSetReleased() {
+    const set = this.selectedSetId ? this.sets.get(this.selectedSetId) : null;
+    return set ? set.released !== false : false;
   }
 
   /**
@@ -765,6 +857,11 @@ export class OpeningView {
    */
   async handleOpenClick() {
     if (this.isBusy || !this.selectedSetId) return;
+    if (!this.isSelectedSetReleased()) {
+      this.log(`Opening refused: "${this.selectedSetId}" is not released yet.`);
+      this.refreshQuota();
+      return;
+    }
     const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
     const bonus = quota.bonusBySet[this.selectedSetId] ?? 0;
     // Both buckets can pay for this extension: the player chooses which one is spent.
@@ -860,6 +957,12 @@ export class OpeningView {
       if (error?.code === 'NO_BOOSTER_AVAILABLE') {
         console.warn(`[OpeningView] No booster left for "${this.selectedSetId}".`);
         this.setFeedback('opening.error.noBooster', 'error');
+      } else if (error?.code === 'SET_NOT_RELEASED') {
+        // Only reachable at a release boundary (the list was read before midnight): the screen is
+        // simply redrawn as an announcement instead of showing an opening error.
+        console.warn(`[OpeningView] "${this.selectedSetId}" is not released yet.`);
+        this.setFeedback('opening.error.notReleased', 'info');
+        await this.loadSets();
       } else {
         console.error('[OpeningView] The booster could not be opened.', error);
         this.setFeedback('opening.error.open', 'error');
@@ -959,7 +1062,10 @@ export class OpeningView {
   async initPreview() {
     if (this.previewRenderer) return;
     if (this.previewInitPromise) return this.previewInitPromise;
-    if (this.previewFailed || !this.selectedSetId || !this.previewViewport) return;
+    if (this.previewFailed || !this.selectedSetId || !this.previewViewport) {
+      if (!this.selectedSetId && this.previewLoading) this.previewLoading.hidden = true;
+      return;
+    }
 
     const setId = this.selectedSetId;
     const set = this.sets.get(setId) ?? null;
@@ -1619,7 +1725,11 @@ export class OpeningView {
   }
 
   /**
-   * Opens the card detail modal (image, name, rarity) from the summary grid.
+   * Opens the card detail modal (artwork, effects, name, index, rarity) from the summary grid.
+   *
+   * The artwork is wrapped in the same window the collection uses: it takes the exact shape of the
+   * illustration, which is what lets the foil line up with the art and stop there. The effects are
+   * switched exactly like in the collection, by the shared `CardEffectsToggle`.
    *
    * @param {number} index - Index of the card in the current pack.
    * @returns {void}
@@ -1633,15 +1743,36 @@ export class OpeningView {
     this.cardModalTitle.textContent = name;
     this.cardModalBody.textContent = '';
 
+    const art = document.createElement('div');
+    art.className = 'card-modal__art';
     const image = document.createElement('img');
     image.className = 'card-modal__image';
     image.src = i18n.resolveImagePath(card.illustration);
     image.alt = `${name} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
+    // The shine is laid over the artwork, so the window needs the real ratio of the illustration.
+    image.addEventListener('load', () => {
+      if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+        art.style.setProperty(
+          '--card-reveal-art-ratio',
+          String(image.naturalWidth / image.naturalHeight)
+        );
+      }
+    });
     image.addEventListener('error', () => {
       console.warn(`[OpeningView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
       image.hidden = true;
     });
-    attachCardTilt(image);
+    art.appendChild(image);
+    attachCardTilt(art);
+    applyShine(art, card);
+    applyCardGlow(art, card);
+    art.classList.toggle('is-off', !this.shineEnabled);
+    this.shineWindow = art;
+    this.cardModalBody.appendChild(art);
+
+    if (getShineClasses(card).length > 0) {
+      this.cardModalBody.appendChild(buildCardEffectsToggle(this.shineEnabled));
+    }
 
     const list = document.createElement('dl');
     list.className = 'card-modal__details';
@@ -1651,6 +1782,8 @@ export class OpeningView {
     const rows = [
       [i18n.t('opening.card.count', { current: index + 1, total: this.cardComponents.length }), statusLabel],
       [i18n.t('opening.card.name'), name],
+      // The index is the reference of the catalogue: what a player quotes about a card.
+      [i18n.t('opening.card.index'), card.index || card.id],
       [i18n.t('opening.card.rarity'), getRarityLabel(card.rarity, (key) => i18n.t(key))],
       [i18n.t('opening.card.set'), this.resolveSetName(card.set)],
     ];
@@ -1666,10 +1799,24 @@ export class OpeningView {
       list.appendChild(wrapper);
     });
 
-    this.cardModalBody.appendChild(image);
     this.cardModalBody.appendChild(list);
     this.cardModal.hidden = false;
     this.log(`Card detail opened for "${card.uniqueKey}".`);
+  }
+
+  /**
+   * Switches every effect of the open detail on or off.
+   *
+   * The choice is kept on the view, so opening another card of the same pack keeps it; it is a
+   * reading comfort, not a preference, so nothing is written to the account.
+   *
+   * @returns {void}
+   */
+  toggleCardEffects() {
+    this.shineEnabled = !this.shineEnabled;
+    this.shineWindow?.classList.toggle('is-off', !this.shineEnabled);
+    syncCardEffectsToggle(this.cardModalBody, this.shineEnabled);
+    this.log(`Card effects ${this.shineEnabled ? 'enabled' : 'disabled'}.`);
   }
 
   /**
@@ -1957,6 +2104,15 @@ export class OpeningView {
       window.clearTimeout(this.idleDisposeTimer);
       this.idleDisposeTimer = null;
     }
+  }
+
+  /**
+   * Tells whether the reveal scene owns the screen.
+   *
+   * @returns {boolean} True while the booster or its cards are displayed.
+   */
+  isSceneOpen() {
+    return Boolean(this.sceneStage && !this.sceneStage.hidden);
   }
 
   /**

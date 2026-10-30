@@ -27,6 +27,19 @@
         "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/villager_fg-cropped.png",
         "Layout": "fullart",
         "Path": "./cards/A1-Promo/<lang>/PROMO-A1 _ M01_fullart.png"
+      },
+      {
+        "Index": "PROMO-A1 / E01",
+        "Name_FR": "Jack o'Lantern",
+        "Name_EN": "Jack o'Lantern",
+        "Desc_FR": "Spooky Scary Halloween promo ! Event Halloween 2026 - Jack o'Lantern.",
+        "Desc_EN": "Spooky Scary Halloween promo ! Event Halloween 2026 - Jack o'Lantern.",
+        "Rarity": 5,
+        "Style": "Press Start 2P (Pixel)",
+        "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/jack_bg.png",
+        "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/jack_fg.png",
+        "Layout": "fullart",
+        "Path": "./cards/A1-Promo/<lang>/PROMO-A1 _ E01_fullart.png"
       }
   ]
 }

@@ -94,6 +94,9 @@ export function applyShine(box, card) {
   return box;
 }
 
+/** The classes `applyCardGlow()` writes, so they can be removed again in one place. */
+const GLOW_CLASSES = ['card-glow', ...Object.values(CARD_GLOW_MODIFIER_BY_RARITY)];
+
 /**
  * Adds the subtle halo of a high rarity to a card surface.
  *
@@ -102,7 +105,11 @@ export function applyShine(box, card) {
  * collection grid, the Mine Pick board, a binder slot, the statistics). The helper is idempotent and
  * does nothing for the rarities that carry no halo.
  *
- * @param {HTMLElement} element - Card surface (tile, thumbnail, artwork box).
+ * The class goes on the surface, but the halo itself is painted on the ILLUSTRATION (see
+ * `css/components/card-shine.css`): a tile that also holds a caption or a quantity badge is wider
+ * than the card, and a shadow around that box read as a second frame instead of around the card.
+ *
+ * @param {HTMLElement} element - Card surface (tile, thumbnail, artwork box, or the image itself).
  * @param {{rarity: number}|null|undefined} card - Card to describe.
  * @returns {HTMLElement} The same element, for chaining.
  */
@@ -113,4 +120,22 @@ export function applyCardGlow(element, card) {
   return element;
 }
 
-export default { getShineClasses, applyShine, applyCardGlow };
+/**
+ * Removes the halo of `applyCardGlow()`, wherever it was drawn.
+ *
+ * A surface that is reused for another card (the reward popup) has to lose the halo of the previous
+ * one: since the classes may sit on one of its images, removing them from the surface alone would
+ * leave a violet card glowing gold.
+ *
+ * @param {HTMLElement|null} element - Surface the halo was applied to.
+ * @returns {HTMLElement|null} The same element, for chaining.
+ */
+export function clearCardGlow(element) {
+  if (!element?.classList) return element;
+  [element, ...element.querySelectorAll('.card-glow')].forEach((node) =>
+    node.classList.remove(...GLOW_CLASSES)
+  );
+  return element;
+}
+
+export default { getShineClasses, applyShine, applyCardGlow, clearCardGlow };

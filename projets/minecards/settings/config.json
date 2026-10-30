@@ -61,8 +61,7 @@
   },
 
   "boosters": {
-    "_comment": "'extraBoosterPriceSparks' is the price of ONE extra daily booster, bought with Sparks once the free daily boosters ('dailyFreeBoosters') are all spent. A bought booster is kept in the quota under its own bucket, is spent AFTER the daily quota and the redeem/gift bonuses of an extension (so a free booster is never wasted by a purchase), and - unlike the daily allowance - is NOT cleared by the daily reset: it was paid for.",
-    "sets": ["A1", "A2"],
+    "_comment": "'extraBoosterPriceSparks' is the price of ONE extra daily booster, bought with Sparks once the free daily boosters ('dailyFreeBoosters') are all spent. A bought booster is kept in the quota under its own bucket, is spent AFTER the daily quota and the redeem/gift bonuses of an extension (so a free booster is never wasted by a purchase), and - unlike the daily allowance - is NOT cleared by the daily reset: it was paid for. The SETS themselves - their identifier, their release date and whether they have promo cards - are declared in 'settings/cardsets.json'. 'upcomingPreviewDays' is how many days before its release date a set becomes visible: it then appears in the booster picker (with its 3D model) but can never be opened and its cards never reach the collection; 0 hides an upcoming set completely until its release day. 'releaseAnnouncementDays' is how long after its release date a set is still announced to a player who has not loaded the game since: the popup is shown once per account, at the first load inside that window; 0 disables the announcement.",
     "directory": "data/boosters",
     "rarityConfigPath": "settings/defaultRarity.json",
     "model": "assets/boostermodel.glb",
@@ -71,7 +70,9 @@
     "extraBoosterPriceSparks": 1500,
 
     "godpackChancePercent": 0.5,
-    "historySize": 10
+    "historySize": 10,
+    "upcomingPreviewDays": 3,
+    "releaseAnnouncementDays": 7
   },
 
   "boosterRender": {
@@ -171,9 +172,13 @@
     "seedSalt": "minecards-mining-v1"
   },
   "promos": {
-    "_comment": "Promo cards. 'directory' holds one file per series ('A1.json' -> the 'A1-Promo' group), an entry being a card built exactly like a booster card ('Index', 'Name_XX', 'Desc_XX', 'Rarity', 'Style', 'Layout', 'Path'). Promo cards are NEVER drawn from a booster: they only enter the collection through a redeem code or a gift, only appear in the collection when they are owned, and never count in a completion ratio. 'sets' lists the files to load; leave it empty to load one file per booster extension of 'boosters.sets'. A series without a promo file simply has no promo.",
-    "directory": "data/promo_cards",
-    "sets": []
+    "_comment": "Promo cards. 'directory' holds one file per series ('A1.json' -> the 'A1-Promo' group), an entry being a card built exactly like a booster card ('Index', 'Name_XX', 'Desc_XX', 'Rarity', 'Style', 'Layout', 'Path'). Promo cards are NEVER drawn from a booster: they only enter the collection through a redeem code or a gift, only appear in the collection when they are owned, and never count in a completion ratio. Which series have promo cards is declared by the 'promo' flag of each set in 'settings/cardsets.json' (a file is only read when the game actually needs its cards). A series without a promo file simply has no promo.",
+    "directory": "data/promo_cards"
+  },
+
+  "binders": {
+    "_comment": "Personal binders (the 30-slot showcase pages of the collection, see js/business/BinderManager.js). The player owns ONE binder from level 1, then one more every 'unlockEveryLevels' levels: with the shipped 3, the second binder opens at level 3, the third at level 6, and so on. A value that is not a positive integer falls back to 3, and the level-1 binder is granted by the code, so a typo can only delay a binder, never remove one. The level that opens the next binder is what the binder list announces ('+1 binder au niveau X').",
+    "unlockEveryLevels": 3
   },
 
   "timeSync": {

@@ -23,6 +23,27 @@ export const BASE64_CHUNK_SIZE = 0x8000;
 export const SAVE_MIME_TYPE = 'application/octet-stream';
 
 /**
+ * Largest payload {@link inflate} accepts, in bytes (32 MiB).
+ *
+ * A save of a complete account (every card, every binder, the whole history) stays far below one
+ * megabyte, and a binder share code is a few kilobytes: the limit only exists to stop a deliberately
+ * crafted deflate stream (a "zip bomb" pasted as a binder code, or a hostile `.save`) from expanding
+ * until the tab runs out of memory. It is measured on the OUTPUT, which is the only length a
+ * compressed payload cannot lie about.
+ */
+export const MAX_INFLATED_BYTES = 32 * 1024 * 1024;
+
+/**
+ * Raised when a deflate stream inflates past {@link MAX_INFLATED_BYTES}.
+ *
+ * A class of its own because the two failures of an inflate are not the same thing at all: a damaged
+ * stream is a corrupted file, a stream that blows the limit is a payload the application refuses to
+ * load. `decompressJson` keeps the second one as it is instead of reporting it as a broken file.
+ */
+export class PayloadTooLargeError extends Error {}
+
+
+/**
  * Checks that the runtime exposes the Compression Streams API.
  *
  * Chrome 80+, Edge 80+, Safari 16.4+ and Firefox 113+ implement it. `CompressionStream` and
@@ -70,17 +91,52 @@ export async function deflate(value) {
 /**
  * Inflates a deflated binary payload with `DecompressionStream('deflate')`.
  *
+ * The output is read chunk by chunk rather than in one `arrayBuffer()` call, so the total length can
+ * be checked as it grows: a payload that inflates past {@link MAX_INFLATED_BYTES} is abandoned
+ * (and its stream cancelled) instead of being allowed to fill the memory of the tab.
+ *
  * @param {ArrayBuffer|ArrayBufferView|Uint8Array} value - Deflated bytes.
+ * @param {object} [options] - Inflate options.
+ * @param {number} [options.maxBytes=MAX_INFLATED_BYTES] - Largest accepted output (0 disables the limit).
  * @returns {Promise<Uint8Array>} The original bytes.
  * @throws {TypeError} When the value is not binary.
  * @throws {Error} When the Compression Streams API is unavailable, or when the payload is not a
- *   valid deflate stream (the stream errors and the promise rejects).
+ *   valid deflate stream.
+ * @throws {PayloadTooLargeError} When the payload inflates past `maxBytes`.
  */
-export async function inflate(value) {
+export async function inflate(value, { maxBytes = MAX_INFLATED_BYTES } = {}) {
   assertCompressionSupport();
   const bytes = toBytes(value);
   const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate'));
-  return new Uint8Array(await new Response(stream).arrayBuffer());
+  const reader = stream.getReader();
+
+  const chunks = [];
+  let total = 0;
+
+  try {
+    for (;;) {
+      const { done, value: chunk } = await reader.read();
+      if (done) break;
+      total += chunk.byteLength;
+      if (maxBytes > 0 && total > maxBytes) {
+        // Stopping the reader is what actually frees the decompressor: without it the stream would
+        // keep expanding in the background, which is exactly what the limit is there to prevent.
+        await reader.cancel();
+        throw new PayloadTooLargeError(`The payload inflates past the ${maxBytes} byte limit.`);
+      }
+      chunks.push(chunk);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  const output = new Uint8Array(total);
+  let offset = 0;
+  chunks.forEach((chunk) => {
+    output.set(chunk, offset);
+    offset += chunk.byteLength;
+  });
+  return output;
 }
 
 /**
@@ -172,6 +228,7 @@ export async function compressJson(value, { pretty = false } = {}) {
  * @returns {Promise<unknown>} The deserialized value (never validated here: see `SaveFile`).
  * @throws {TypeError} When the argument is not a string.
  * @throws {Error} When the Base64, the deflate stream or the JSON is invalid.
+ * @throws {PayloadTooLargeError} When the payload inflates past {@link MAX_INFLATED_BYTES}.
  */
 export async function decompressJson(base64) {
   const bytes = base64ToBytes(base64);
@@ -180,6 +237,9 @@ export async function decompressJson(base64) {
   try {
     inflated = await inflate(bytes);
   } catch (error) {
+    // Refusing a payload that is too large is not the same failure as a damaged one: the caller
+    // (the save import) is free to tell the player which of the two happened.
+    if (error instanceof PayloadTooLargeError) throw error;
     throw new Error('The payload is not a valid deflate stream.', { cause: error });
   }
 

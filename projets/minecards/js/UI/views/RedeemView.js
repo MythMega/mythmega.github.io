@@ -240,9 +240,7 @@ export class RedeemView {
     try {
       const inspection = await redeemManager.inspect(code);
       if (inspection.status !== REDEEM_STATUSES.OK) {
-        const key = getRedeemStatusKey(inspection.status);
-        this.setFeedback(key, 'error');
-        Toast.error(key);
+        this.reportStatus(inspection);
         return;
       }
 
@@ -449,6 +447,30 @@ export class RedeemView {
   }
 
   /**
+   * Reports a refused code, naming the extension when its content is not released yet.
+   *
+   * @param {{status: string, blocked?: {setName: string, releaseDate: string|null}|null}} inspection
+   *   Result of `RedeemManager.inspect()`.
+   * @returns {void}
+   */
+  reportStatus(inspection) {
+    if (inspection.status === REDEEM_STATUSES.CONTENT_NOT_RELEASED && inspection.blocked?.releaseDate) {
+      const key = 'redeem.error.content_not_released.detail';
+      const params = {
+        set: inspection.blocked.setName,
+        date: i18n.formatUtcDay(inspection.blocked.releaseDate),
+      };
+      this.setFeedback(key, 'error', params);
+      Toast.error(key, { params });
+      return;
+    }
+
+    const key = getRedeemStatusKey(inspection.status);
+    this.setFeedback(key, 'error');
+    Toast.error(key);
+  }
+
+  /**
    * Enables or disables the form (single source of truth for the busy state).
    *
    * @param {boolean} isBusy - Whether a code is being inspected or claimed.
@@ -467,10 +489,11 @@ export class RedeemView {
    *
    * @param {string|null} key - i18n key, or null to clear the message.
    * @param {'info'|'error'} [tone='info'] - Visual tone, exposed as `data-tone`.
+   * @param {object|null} [params=null] - Interpolation values of the message.
    * @returns {void}
    */
-  setFeedback(key, tone = 'info') {
-    this.feedback = key ? { key, tone } : null;
+  setFeedback(key, tone = 'info', params = null) {
+    this.feedback = key ? { key, tone, params } : null;
     this.renderFeedback();
   }
 
@@ -489,7 +512,7 @@ export class RedeemView {
     }
 
     this.feedbackElement.hidden = false;
-    this.feedbackElement.textContent = i18n.t(this.feedback.key);
+    this.feedbackElement.textContent = i18n.t(this.feedback.key, this.feedback.params ?? undefined);
     this.feedbackElement.dataset.tone = this.feedback.tone;
   }
 

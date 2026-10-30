@@ -16,6 +16,56 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  /* A section reached from the table of contents keeps its title clear of the sticky header. */
+  scroll-margin-top: var(--space-5);
+}
+
+/* --- Table of contents ----------------------------------------------------- */
+
+.info__toc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.info__toc-title {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.info__toc-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.info__toc-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  text-decoration: none;
+  transition:
+    border-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.info__toc-link:hover,
+.info__toc-link:focus-visible {
+  border-color: var(--color-accent);
+  background-color: var(--color-surface);
+  color: var(--color-accent);
 }
 
 .info__text {
@@ -83,6 +133,71 @@
   margin: 0;
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
+}
+
+/* --- Releases -------------------------------------------------------------- */
+
+.info__sets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.info__set {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.info__set:last-child {
+  border-bottom: 0;
+}
+
+.info__set-name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.info__set-date {
+  flex: 1 1 auto;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The countdown is the number the player is waiting for: same weight as the date, in the accent
+   colour, with tabular figures so it does not jitter once per second. */
+.info__set-countdown {
+  flex: 0 0 auto;
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+.info__set-badge {
+  flex: 0 0 auto;
+  padding: 0.16rem 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+/* The replay is a secondary action: it stays small next to the date it belongs to. */
+.info__set-action {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 0.32rem 0.7rem;
+  font-size: var(--font-size-xs);
 }
 
 /* --- Slot tables ----------------------------------------------------------- */
@@ -172,6 +287,42 @@
 
 .info__faq-title {
   margin-top: var(--space-3);
+  scroll-margin-top: var(--space-5);
+}
+
+/* --- Panel help ------------------------------------------------------------ */
+
+.info__details-title {
+  margin: var(--space-4) 0 var(--space-2) 0;
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.info__details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-3);
+}
+
+.info__details-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+.info__details-heading {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.info__details-item .info__text {
+  margin: 0;
 }
 
 .info__faq {

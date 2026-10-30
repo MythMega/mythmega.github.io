@@ -34,6 +34,7 @@ import animationManager from './utils/AnimationManager.js';
 import foilManager from './utils/FoilManager.js';
 import glowManager from './utils/GlowManager.js';
 import boosterRenderManager from './utils/BoosterRenderManager.js';
+import scrollHint from './utils/ScrollHint.js';
 import soundManager from './utils/SoundManager.js';
 import { startUiSounds } from './utils/UiSounds.js';
 import { configLoader } from './utils/ConfigLoader.js';
@@ -59,8 +60,11 @@ import minePickManager from './business/MinePickManager.js';
 import binderManager from './business/BinderManager.js';
 import gameNotifier from './UI/components/GameNotifier.js';
 import autoClaimPopup from './UI/components/AutoClaimPopup.js';
+import setAnnouncementPopup from './UI/components/SetAnnouncementPopup.js';
 import autoClaimManager from './business/AutoClaimManager.js';
 import ViewHelp from './UI/components/ViewHelp.js';
+import infoHint from './UI/components/InfoHint.js';
+import installPrompt from './UI/components/InstallPrompt.js';
 
 /** Id of the boot overlay removed once the application is ready. */
 export const BOOT_OVERLAY_ID = 'app-boot';
@@ -195,6 +199,8 @@ export class App {
     this.autoClaimPopup = null;
     /** @type {boolean} True once the automatic codes are watched. */
     this.autoClaimsStarted = false;
+    /** @type {boolean} True once the upcoming-set announcements were scheduled. */
+    this.setAnnouncementsStarted = false;
     /** @type {number|null} Level evaluated by the boot trophy pass, reused by the auto-claims. */
     this.currentLevel = null;
     /** @type {boolean} True once the bonus inventory dialog is wired. */
@@ -370,6 +376,7 @@ export class App {
     this.bindBindersCounter();
     this.bindViewLifecycle();
     this.startViewHelp();
+    this.startInfoHints();
     await this.startTimeSync();
     this.renderHeaderCounters(dateSyncManager.getQuotaSnapshot());
     await this.refreshHeaderSparks();
@@ -398,10 +405,13 @@ export class App {
     // seeded BEFORE the notifications are armed, for the same reason.
     await this.startTitles();
     await this.startGameNotifications();
-    // Automatic codes (AutoClaim): armed after the silent trophy pass, so the level they compare
-    // against is already the account's. The first check is deferred to the next task by the
-    // manager, which keeps its popup above the boot overlay.
-    this.startAutoClaims();
+    // The announcements come first, then the automatic codes (AutoClaim): both are deferred to
+    // the next task, after the boot overlay is gone, and a gift waits for the announcement.
+    this.startSetAnnouncements();
+    // "Add to home screen": the event was captured at boot, the banner is allowed from here on.
+    // It still waits for a quiet moment of its own (`InstallPrompt`), so a dialog of the boot is
+    // never covered by an offer to install a game the player is already playing.
+    installPrompt.arm();
     if (!this.utcTimeProvider) {
       // Fallback used only when the time synchronization is unusable: the clock then shows the
       // "unknown time" placeholder instead of an untrusted system time.
@@ -695,8 +705,37 @@ export class App {
     if (this.autoClaimsStarted) return;
     this.autoClaimsStarted = true;
     this.autoClaimPopup = autoClaimPopup;
-    autoClaimManager.start({ level: this.currentLevel });
+    // A gift earned by opening a pack waits for the reveal to close: the player must see the cards
+    // they just drew before anything else covers them.
+    autoClaimManager.start({
+      level: this.currentLevel,
+      deferWhile: () => Boolean(this.openingView?.isSceneOpen()),
+    });
     console.info('[App] Automatic codes armed.');
+  }
+
+  /**
+   * Announces the upcoming extensions once the page is on screen.
+   *
+   * The automatic codes wait for the announcement to be dismissed, so two popups never fight for
+   * the same tap. Scheduling the whole sequence on the next task keeps it above the boot overlay.
+   *
+   * @returns {void}
+   */
+  startSetAnnouncements() {
+    if (this.setAnnouncementsStarted) return;
+    this.setAnnouncementsStarted = true;
+    window.setTimeout(async () => {
+      autoClaimManager.hold('set-announcement');
+      try {
+        await setAnnouncementPopup.announcePending();
+      } catch (error) {
+        console.warn('[App] The extensions could not be announced.', error);
+      } finally {
+        autoClaimManager.release('set-announcement');
+      }
+      this.startAutoClaims();
+    }, 0);
   }
 
   /**
@@ -943,6 +982,22 @@ export class App {
   }
 
   /**
+   * Moves the explanation of every settings and profile panel behind its "i".
+   *
+   * The sentences are declared in `index.html` with `data-info-hint`; the component reads them once,
+   * right after the router is up. The Information page prints the same `data-i18n` keys, so the
+   * popover and the long-form help can never disagree. `mount()` is idempotent: a view that creates
+   * its own explanation later (`MineBlockView`, for the daily Sparks offer) calls `attach()` itself.
+   *
+   * @returns {number} The number of hints mounted.
+   */
+  startInfoHints() {
+    const mounted = infoHint.mount();
+    console.info(`[App] ${mounted} info hint(s) mounted.`);
+    return mounted;
+  }
+
+  /**
    * Forwards the router activations to the opening view so the WebGL loop never runs while
    * another view is displayed (step 4, point 1).
    *
@@ -1135,6 +1190,7 @@ export class App {
       this.infoView.destroy();
       this.infoView = null;
     }
+    infoHint.destroy();
     dateSyncManager.destroy();
     trophyManager.destroy();
     titleManager.destroy();
@@ -1144,6 +1200,11 @@ export class App {
     this.autoClaimPopup?.clear();
     this.autoClaimPopup = null;
     this.autoClaimsStarted = false;
+    setAnnouncementPopup.clear();
+    this.setAnnouncementsStarted = false;
+    // The install offer belongs to the device, not to the account: it is only taken off the
+    // screen, so it can come back once the new account reaches the main screen.
+    installPrompt.hide();
     this.currentLevel = null;
     this.stopUtcClock();
     this.utcTimeProvider = null;
@@ -1336,7 +1397,8 @@ export class App {
 
     let listed = [];
     try {
-      listed = await boosterManager.listBoosterSets();
+      // The set names of an upcoming bonus are needed here too, even if it cannot be opened yet.
+      listed = await boosterManager.listBoosterSets({ includeUpcoming: true });
     } catch (error) {
       console.warn('[App] The extensions could not be listed for the bonus inventory.', error);
     }
@@ -1572,6 +1634,30 @@ export class App {
 // Capture the `?Redeem=` deep link before anything else renders, so a first-visit player keeps
 // their pending code through the onboarding (step 10).
 capturePendingRedeem();
+
+// Same reasoning for the install event of the browser: it fires once, whenever Chrome decides the
+// game qualifies, and an event nobody kept is an event lost. The banner itself only appears once
+// the main screen is up (`installPrompt.arm()` at the end of `startMainApp`).
+installPrompt.start();
+
+// The service worker (PWA, offline shell) is registered from here and not from an inline script in
+// `index.html`: waiting for `load` keeps the first paint free, and the worker's own install step
+// precaches the whole shell, which would otherwise compete with the files the page is still loading.
+// The scope names the mounted path of the game (`manifest.json` declares the same one), so moving
+// the game stays one visible edit instead of a silent behaviour change.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('./sw.js', { scope: '/projets/minecards/' })
+      .then((registration) => console.info('[PWA] Service worker registered:', registration.scope))
+      .catch((error) => console.error('[PWA] Service worker registration failed:', error));
+  });
+}
+
+// The native scrollbars are hidden by `css/base.css`: this paints the thin bar back while a box
+// moves. Started with the install event, before the first screen exists, so the scroll of the boot
+// overlay is already followed.
+scrollHint.start();
 
 const app = new App();
 app.start();

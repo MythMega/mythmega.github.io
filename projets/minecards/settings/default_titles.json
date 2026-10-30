@@ -22,5 +22,181 @@
             "fr": "Cubiste",
             "en": "Cubist"
         }
+    },
+    {
+        "id": "level-4",
+        "requiredLevel": 4,
+        "text": {
+            "fr": "Pêcheur",
+            "en": "Fisherman"
+        }
+    },
+    {
+        "id": "level-5",
+        "requiredLevel": 5,
+        "text": {
+            "fr": "Forgeron",
+            "en": "Tollsmith"
+        }
+    },
+    {
+        "id": "level-6",
+        "requiredLevel": 6,
+        "text": {
+            "fr": "Whitelisté",
+            "en": "Whitelisted"
+        }
+    },{
+        "id": "level-7",
+        "requiredLevel": 7,
+        "text": {
+            "fr": "Hautes herbes",
+            "en": "Tall Grass"
+        }
+    },
+    {
+        "id": "level-8",
+        "requiredLevel": 8,
+        "text": {
+            "fr": "Illageois",
+            "en": "Illager"
+        }
+    },
+    {
+        "id": "level-9",
+        "requiredLevel": 9,
+        "text": {
+            "fr": "Artisan automatique",
+            "en": "Auto-crafter"
+        }
+    },
+    {
+        "id": "level-10",
+        "requiredLevel": 10,
+        "text": {
+            "fr": "Chaud comme un four",
+            "en": "Hot as furnace"
+        }
+    },
+    {
+        "id": "level-11",
+        "requiredLevel": 11,
+        "text": {
+            "fr": "Slime",
+            "en": "Slime"
+        }
+    },
+    {
+        "id": "level-12",
+        "requiredLevel": 12,
+        "text": {
+            "fr": "Sorcière",
+            "en": "Witch"
+        }
+    },
+    {
+        "id": "level-13",
+        "requiredLevel": 13,
+        "text": {
+            "fr": "Squelette",
+            "en": "Skeleton"
+        }
+    },
+    {
+        "id": "level-14",
+        "requiredLevel": 14,
+        "text": {
+            "fr": "Vache",
+            "en": "Cow"
+        }
+    },
+    {
+        "id": "level-15",
+        "requiredLevel": 15,
+        "text": {
+            "fr": "Rock and Cobblestone",
+            "en": "Rock and Cobblestone"
+        },
+        "_comment": "Reference to Deep Rock Galactic (Rock and Stone!)"
+    },
+    {
+        "id": "level-16",
+        "requiredLevel": 16,
+        "text": {
+            "fr": "Creeper",
+            "en": "Creeper"
+        }
+    },
+    {
+        "id": "level-17",
+        "requiredLevel": 17,
+        "text": {
+            "fr": "Coquelicot",
+            "en": "Poppy"
+        }
+    },
+    {
+        "id": "level-18",
+        "requiredLevel": 18,
+        "text": {
+            "fr": "Échelle d'interface 4",
+            "en": "GUI SCALE 4"
+        }
+    },
+    {
+        "id": "level-19",
+        "requiredLevel": 19,
+        "text": {
+            "fr": "Champ de vision Quake Pro",
+            "en": "Quake pro FOV"
+        }
+    },
+    {
+        "id": "level-20",
+        "requiredLevel": 20,
+        "text": {
+            "fr": "Paramètres super secrets",
+            "en": "Super Secret Settings"
+        }
+    },
+    {
+        "id": "level-21",
+        "requiredLevel": 21,
+        "text": {
+            "fr": "Tonneau vide",
+            "en": "Empty Barrel"
+        }
+    },
+    {
+        "id": "level-22",
+        "requiredLevel": 22,
+        "text": {
+            "fr": "Pot de fleurs",
+            "en": "Flower Pot"
+        }
+    },
+    {
+        "id": "level-23",
+        "requiredLevel": 23,
+        "text": {
+            "fr": "Calamar",
+            "en": "Squid"
+        }
+    },
+    {
+        "id": "level-24",
+        "requiredLevel": 24,
+        "text": {
+            "fr": "Ghast heureux",
+            "en": "Happy Ghast"
+        }
+    },
+    {
+        "id": "level-25",
+        "requiredLevel": 25,
+        "text": {
+            "fr": "Bâton de débogage",
+            "en": "Debug Stick"
+        }
     }
 ]

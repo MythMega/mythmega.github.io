@@ -93,7 +93,7 @@ Règles :
 
 ## 3. ObjectStore `user_state`
 
-Seize clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager.js`).
+Dix-sept clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager.js`).
 
 | Clé | Type | Fiche |
 |---|---|---|
@@ -113,6 +113,7 @@ Seize clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager
 | `binders` | tableau | binders du joueur |
 | `purchases` | objet | fonctionnalités payées |
 | `profileCard` | objet | préférences de la carte de profil |
+| `setAnnouncements` | tableau | extensions à venir déjà annoncées |
 
 ### 3.1 `account`
 
@@ -442,7 +443,7 @@ Seize clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager
                         "boosterHistory": [ … ], "sparks": 123, "profile": {…},
                         "trophies": {…}, "minePick": {…}, "mining": {…},
                         "trader": {…}, "binders": [ … ], "purchases": {…},
-                        "profileCard": {…} },
+                        "profileCard": {…}, "setAnnouncements": [ … ] },
     "redeemed_codes": [ { "code": "…", "redeemedAt": "…" } ],
     "gifts_received": [ { "line": 42, "category": "distribution", "uuid": "…", "type": "card",
                           "key": "…", "quantity": 1, "receivedAt": "…" } ]
@@ -452,7 +453,10 @@ Seize clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager
 
 - **Encodage** : JSON → `CompressionStream('deflate')` → Base64 (`js/utils/Compression.js`).
 - **Nom de fichier** : `backup_cards_YYYY-MM-DD.save`.
-- **Taille maximale à l'import** : 32 Mio (`MAX_SAVE_BYTES`) ; au-delà, refus avant lecture.
+- **Taille maximale à l'import** : 32 Mio (`MAX_SAVE_BYTES`) ; au-delà, refus avant lecture. La
+  taille est aussi bornée **après** décompression (`MAX_INFLATED_BYTES`, 32 Mio, lu au fil de l'eau
+  par `inflate()` puis `PayloadTooLargeError`) : un flux deflate trafiqué ne peut pas remplir la
+  mémoire de l'onglet. La même borne protège les codes de partage de binder.
 - `user_state` est exporté comme **objet** (clé → valeur) alors que le store utilise des clés
   hors-ligne : `getAllKeys()` est lu avec `getAll()` pour préserver chaque clé.
 

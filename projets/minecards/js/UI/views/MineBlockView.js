@@ -1,36 +1,14 @@
 /**
- * MineBlockView - the Mine screen: ten blocks a day, mined one by one.
+ * MineBlockView - the Mine screen: one block at a time, its loot, the inventory chest and the
+ * wandering trader.
  *
- * Reference: `js/business/MiningManager.js` (the rules, the allowance and the loot),
- * `settings/mining.json` (the five kinds of block: weight, hardness, loot) and
- * `css/views/mineblock.css` (the rock, the cracks and the flying rewards).
+ * The rules, the randomness and the daily allowance live in `MiningManager` (see
+ * `settings/mining.json`); this view renders the state it returns and plays the feedback. A tap is
+ * one `mine()` call, so a reload resumes the block with the same number of taps landed.
  *
- * WHAT THE PLAYER SEES
- *   The block of the moment, big, in the middle of the page: its name above it, the blocks left
- *   today under it, and the resources harvested so far below that (their PICTURE and their count:
- *   the name is only in the accessible text and in the inventory). Every tap cracks the block a
- *   little more (the crack texture of the manager's table is laid over the picture) and plays its
- *   `.mine` sound; the tap that breaks it plays the `.break` sound, spits the loot OUT of the
- *   rock - one flying element per unit obtained, each in its own direction - and announces every
- *   reward as a toast (`+1 Stone Dust`). The next block then lands in its place, with its own
- *   picture, its own name and its own hardness.
- *
- * WHAT THIS VIEW OWNS, AND WHAT IT DOES NOT
- *   The view owns the rendering and the feedback (sounds, bursts, toasts, the two dialogs). The
- *   rules, the randomness, the daily allowance and the persistence all live in `MiningManager`: a
- *   tap is one call to `mine()`, whose result carries everything the animation needs (the percent
- *   broken, the crack texture, the rewards with their texture and their number). Nothing is stored
- *   here, so a reload in the middle of a block resumes it with the same number of taps landed.
- *
- * TWO DIALOGS
- *   - the INVENTORY, opened by the chest under the resources: every resource with its picture, its
- *     name and its quantity. The chest is an ANIMATED webp, so a still frame of it is drawn once on
- *     a canvas and shown the rest of the time; clicking it swaps the animated file back in for the
- *     length of one play, so the chest only moves when it is opened.
- *   - the WANDERING TRADER, opened by its button in the header: the shop of the week, paid with the
- *     resources of the mine (`js/business/TraderManager.js` owns the offers, this view only draws
- *     them and hands the key of the bought one back). The cards of the week are drawn from a seed
- *     built on the Monday of the week, so the screen is the same for every player.
+ * The chest is drawn from a 7 x 6 sheet of its 41 source frames
+ * (`assets/img/chest-sprite.webp`): frame 1 at rest, 1-21 on opening, 22-41 on closing, then frame
+ * 1 again. The trader dialog is fed by `TraderManager`.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
@@ -40,6 +18,7 @@ import traderManager, { getTraderErrorMessageKey } from '../../business/TraderMa
 import dateSyncManager from '../../business/DateSyncManager.js';
 import soundManager, { RARITY_SOUNDS } from '../../utils/SoundManager.js';
 import Toast from '../components/Toast.js';
+import infoHint from '../components/InfoHint.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
 
@@ -61,11 +40,31 @@ export const DEFAULT_NEXT_BLOCK_DELAY_MS = 100;
  */
 export const DEFAULT_KEY_HOLD_INTERVAL_MS = 250;
 
-/** Texture of the chest that opens the inventory (an ANIMATED webp). */
+/** Animated webp of the chest, kept as the fallback when the sprite cannot be decoded. */
 export const CHEST_TEXTURE = 'assets/img/chest.webp';
 
-/** How long the chest plays its animation on a click, in milliseconds. */
-const CHEST_PLAY_MS = 1600;
+/** The 41 frames of the chest, packed into one sheet (7 columns of 150 px, 6 rows). */
+export const CHEST_SPRITE = 'assets/img/chest-sprite.webp';
+
+/** Size of one frame in the sprite, in pixels (the source webp is 150 × 150). */
+const CHEST_FRAME_SIZE = 150;
+
+/** Number of frames per row in the sprite. */
+const CHEST_SPRITE_COLUMNS = 7;
+
+/** Total number of frames in the sprite. */
+const CHEST_FRAME_COUNT = 41;
+
+/** Duration of one chest frame, in milliseconds (the source plays all 41 in 1600 ms). */
+const CHEST_FRAME_MS = 40;
+
+/** Frames of the opening segment (1 to 21 of the source animation, 0-based here). */
+const CHEST_OPEN_FIRST = 0;
+const CHEST_OPEN_LAST = 20;
+
+/** Frames of the closing segment (22 to 41 of the source animation, 0-based here). */
+const CHEST_CLOSE_FIRST = 35;
+const CHEST_CLOSE_LAST = 40;
 
 /** Lifetime of one flying reward, in milliseconds (must cover the stylesheet animation). */
 const BURST_LIFETIME_MS = 1100;
@@ -80,6 +79,9 @@ const ARRIVE_ANIMATION_MS = 160;
 
 /** Duration of the flinch under a tap that did not break the block (see `mineblock-hit`). */
 const HIT_ANIMATION_MS = 180;
+
+/** Duration of the chest shake that greets a broken block (see `mineblock-chest-shake`). */
+const CHEST_SHAKE_MS = 460;
 
 /** Highest number of flying elements for one reward (a safety net for an edited configuration). */
 const BURST_MAX_ITEMS = 24;
@@ -153,10 +155,12 @@ export class MineBlockView {
     this.keyHoldIntervalMs = DEFAULT_KEY_HOLD_INTERVAL_MS;
     /** @type {number|null} Interval applying a tap while Shift+Space is held. */
     this.mineHoldTimer = null;
-    /** @type {string|null} Still frame of the chest, drawn once (`null` until it is ready). */
-    this.chestStillFrame = null;
-    /** @type {number|null} Timer that puts the still frame back on the chest. */
-    this.chestTimer = null;
+    /** @type {HTMLImageElement|null} Decoded sprite of the chest (`null` until it is ready). */
+    this.chestSprite = null;
+    /** @type {number} Frame currently drawn on the chest canvas. */
+    this.chestFrame = 0;
+    /** @type {number|null} Pending animation frame of the chest. */
+    this.chestAnimation = null;
     /** @type {{modal: HTMLElement, trigger: HTMLElement}|null} Dialog currently open. */
     this.openDialog = null;
     /** @type {{week: string|null, allItemsUniques: boolean, offers: Array<object>,
@@ -297,7 +301,7 @@ export class MineBlockView {
       console.error('[MineBlockView] The resources of the mine could not be listed.', error);
       this.resources = [];
     }
-    void this.freezeChest();
+    void this.loadChest();
     await this.reload();
     this.log('Ready.');
   }
@@ -323,9 +327,9 @@ export class MineBlockView {
   bindEvents() {
     this.listen(this.rockElement, 'click', () => void this.handleMine());
 
-    // The chest plays its animation while its dialog opens: one click, one gesture.
+    // The chest plays its opening frames from `openModal`, where the dialog really is displayed:
+    // one click, one gesture, and the same path for a dialog opened by any other caller.
     this.listen(this.inventoryButton, 'click', () => {
-      this.playChest();
       this.openModal(this.inventoryModal, this.inventoryButton);
     });
     this.listen(this.inventoryClose, 'click', () => this.closeModal(this.inventoryModal));
@@ -799,6 +803,7 @@ export class MineBlockView {
     this.burstRewards(result.rewards);
     this.announceRewards(result.rewards);
     this.renderResources();
+    this.shakeChest();
 
     this.setViewTimeout(() => {
       this.rockElement?.classList.remove('is-broken');
@@ -812,6 +817,23 @@ export class MineBlockView {
         );
       }
     }, this.nextBlockDelayMs);
+  }
+
+  /**
+   * Makes the chest shake when a block breaks: the loot is on its way in.
+   *
+   * @returns {void}
+   */
+  shakeChest() {
+    if (!this.inventoryButton) return;
+    this.inventoryButton.classList.remove('is-shaking');
+    // Reading `offsetWidth` restarts the animation when two blocks break in a row.
+    void this.inventoryButton.offsetWidth;
+    this.inventoryButton.classList.add('is-shaking');
+    this.setViewTimeout(
+      () => this.inventoryButton?.classList.remove('is-shaking'),
+      CHEST_SHAKE_MS
+    );
   }
 
   /**
@@ -954,7 +976,10 @@ export class MineBlockView {
     if (this.openDialog && this.openDialog.modal !== modal) {
       this.closeModal();
     }
-    if (modal === this.inventoryModal) this.renderInventory();
+    if (modal === this.inventoryModal) {
+      this.renderInventory();
+      this.playChestOpening();
+    }
     if (modal === this.traderModal) {
       // The shop is read when it is opened, never at boot: a player who never trades with the
       // merchant never downloads his file, and one who does always sees the offers of the moment.
@@ -981,10 +1006,14 @@ export class MineBlockView {
     if (!this.openDialog) return;
     if (modal && this.openDialog.modal !== modal) return;
     const { modal: open, trigger } = this.openDialog;
+    const wasInventory = open === this.inventoryModal;
     open.hidden = true;
     trigger.setAttribute('aria-expanded', 'false');
     this.openDialog = null;
     trigger.focus();
+    // The chest closes AFTER the dialog disappears, so its last frame is never hidden behind the
+    // backdrop: the closing segment plays on the button the player is looking at.
+    if (wasInventory) this.playChestClosing();
   }
 
   /**
@@ -1188,6 +1217,7 @@ export class MineBlockView {
 
     const help = document.createElement('p');
     help.className = 'mineblock__spark-help';
+    help.dataset.infoHint = 'spark';
     help.textContent = i18n.t('mineblock.trader.spark.help');
 
     const card = document.createElement('div');
@@ -1242,6 +1272,12 @@ export class MineBlockView {
 
     card.append(icon, details, button);
     this.sparkBody.append(help, card);
+    // The sentence of the daily offer moves behind the "i" of its title, like every panel help:
+    // the section is redrawn on every shop refresh, so the previous popover content is replaced.
+    infoHint.attach(help, {
+      anchor: this.sparkOfferElement?.querySelector('.mineblock__trades-title') ?? null,
+      replace: true,
+    });
   }
 
   /**
@@ -1830,57 +1866,139 @@ export class MineBlockView {
   }
 
   /**
-   * Draws a still frame of the chest, so the animated file is NOT animating the rest of the time.
+   * Decodes the sprite of the chest and draws its resting frame.
    *
-   * The chest is an animated webp: the browser plays it as soon as it is displayed. The first frame
-   * is therefore decoded once, painted on a canvas and kept as a data URL, which becomes the
-   * picture of the button. `playChest()` then swaps the animated file back in for one play.
+   * The sheet is one request instead of forty-one, and drawing a frame is a single `drawImage`:
+   * the view owns the timing, so the opening and the closing segments are exact.
    *
-   * A failure leaves the button on the animated file: the chest then simply moves all the time,
-   * which is a cosmetic regression, never a broken control.
+   * A failure falls back to the animated webp (the chest then simply moves all the time), which is
+   * a cosmetic regression, never a broken control.
    *
-   * @returns {Promise<void>} Resolves once the still frame is on the button (or has failed).
+   * @returns {Promise<void>} Resolves once the first frame is on the canvas (or the fallback is in).
    */
-  async freezeChest() {
+  async loadChest() {
     if (typeof Image !== 'function') return;
+    const sprite = new Image();
+    sprite.src = CHEST_SPRITE;
     try {
-      const image = new Image();
-      image.src = CHEST_TEXTURE;
-      await (typeof image.decode === 'function'
-        ? image.decode()
+      await (typeof sprite.decode === 'function'
+        ? sprite.decode()
         : new Promise((resolve, reject) => {
-            image.addEventListener('load', () => resolve());
-            image.addEventListener('error', () => reject(new Error('The chest could not be loaded.')));
+            sprite.addEventListener('load', () => resolve());
+            sprite.addEventListener('error', () => reject(new Error('The chest sprite could not be loaded.')));
           }));
-
-      const canvas = document.createElement('canvas');
-      canvas.width = image.naturalWidth;
-      canvas.height = image.naturalHeight;
-      canvas.getContext('2d')?.drawImage(image, 0, 0);
-      this.chestStillFrame = canvas.toDataURL('image/png');
-      if (!this.chestTimer) this.inventoryIcon.src = this.chestStillFrame;
     } catch (error) {
-      console.warn('[MineBlockView] The chest could not be frozen on its first frame.', error);
+      console.warn('[MineBlockView] The chest sprite could not be loaded.', error);
+      this.useAnimatedChest();
+      return;
     }
+
+    this.chestSprite = sprite;
+    this.drawChestFrame(CHEST_OPEN_FIRST);
   }
 
   /**
-   * Plays the chest once: the animated file is displayed for `CHEST_PLAY_MS`, then the still frame
-   * replaces it. A second click restarts the animation instead of piling the timers up.
+   * Replaces the canvas by the animated webp when the sprite is unavailable.
    *
    * @returns {void}
    */
-  playChest() {
-    if (!this.chestStillFrame) return;
-    if (this.chestTimer) window.clearTimeout(this.chestTimer);
-    // No cache-busting query: the still frame is a data URL, so pointing the picture back at the
-    // file IS a change of source, which is all the browser needs to replay the animation from its
-    // first frame (and it keeps the service worker's cache on one single URL for the chest).
-    this.inventoryIcon.src = CHEST_TEXTURE;
-    this.chestTimer = window.setTimeout(() => {
-      this.chestTimer = null;
-      this.inventoryIcon.src = this.chestStillFrame;
-    }, CHEST_PLAY_MS);
+  useAnimatedChest() {
+    if (!this.inventoryIcon || !this.inventoryButton) return;
+    const image = document.createElement('img');
+    image.className = 'mineblock__inventory-icon';
+    image.dataset.mineblockInventoryIcon = '';
+    image.src = CHEST_TEXTURE;
+    image.alt = '';
+    image.decoding = 'async';
+    this.inventoryIcon.replaceWith(image);
+    this.inventoryIcon = image;
+  }
+
+  /**
+   * Draws one frame of the sprite on the chest canvas.
+   *
+   * @param {number} index - Frame index (0-based, clamped to the sheet).
+   * @returns {void}
+   */
+  drawChestFrame(index) {
+    if (!(this.inventoryIcon instanceof HTMLCanvasElement) || !this.chestSprite) return;
+    const context = this.inventoryIcon.getContext('2d');
+    if (!context) return;
+
+    const frame = Math.min(Math.max(index, 0), CHEST_FRAME_COUNT - 1);
+    const column = frame % CHEST_SPRITE_COLUMNS;
+    const row = Math.floor(frame / CHEST_SPRITE_COLUMNS);
+    context.clearRect(0, 0, CHEST_FRAME_SIZE, CHEST_FRAME_SIZE);
+    context.drawImage(
+      this.chestSprite,
+      column * CHEST_FRAME_SIZE,
+      row * CHEST_FRAME_SIZE,
+      CHEST_FRAME_SIZE,
+      CHEST_FRAME_SIZE,
+      0,
+      0,
+      CHEST_FRAME_SIZE,
+      CHEST_FRAME_SIZE
+    );
+    this.chestFrame = frame;
+  }
+
+  /**
+   * Plays a segment of the sheet, one frame every `CHEST_FRAME_MS`.
+   *
+   * A second animation cancels the first instead of stacking two loops on the same canvas.
+   *
+   * @param {number} from - First frame index.
+   * @param {number} to - Last frame index (the animation stops on it).
+   * @param {(() => void)|null} [onDone=null] - Called once the last frame is drawn.
+   * @returns {void}
+   */
+  animateChest(from, to, onDone = null) {
+    this.stopChestAnimation();
+    if (!this.chestSprite) return;
+
+    const startedAt = performance.now();
+    this.drawChestFrame(from);
+    const step = (now) => {
+      const index = Math.min(to, from + Math.floor((now - startedAt) / CHEST_FRAME_MS));
+      this.drawChestFrame(index);
+      if (index >= to) {
+        this.chestAnimation = null;
+        if (typeof onDone === 'function') onDone();
+        return;
+      }
+      this.chestAnimation = window.requestAnimationFrame(step);
+    };
+    this.chestAnimation = window.requestAnimationFrame(step);
+  }
+
+  /**
+   * Plays the opening frames of the chest and holds the open chest.
+   *
+   * @returns {void}
+   */
+  playChestOpening() {
+    this.animateChest(CHEST_OPEN_FIRST, CHEST_OPEN_LAST);
+  }
+
+  /**
+   * Plays the closing frames of the chest, then returns to its resting frame.
+   *
+   * @returns {void}
+   */
+  playChestClosing() {
+    this.animateChest(CHEST_CLOSE_FIRST, CHEST_CLOSE_LAST, () => this.drawChestFrame(CHEST_OPEN_FIRST));
+  }
+
+  /**
+   * Cancels the running chest animation, if any.
+   *
+   * @returns {void}
+   */
+  stopChestAnimation() {
+    if (this.chestAnimation === null) return;
+    window.cancelAnimationFrame(this.chestAnimation);
+    this.chestAnimation = null;
   }
 
   /**
@@ -1992,8 +2110,7 @@ export class MineBlockView {
     this.log('Destroying the view.');
     this.stopMineHold();
     this.clearTimers();
-    if (this.chestTimer) window.clearTimeout(this.chestTimer);
-    this.chestTimer = null;
+    this.stopChestAnimation();
     this.bindings.forEach(({ target, type, handler }) => target.removeEventListener(type, handler));
     this.bindings = [];
     this.unsubscribers.forEach((unsubscribe) => unsubscribe());

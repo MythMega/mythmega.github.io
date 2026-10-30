@@ -13,6 +13,26 @@
 /** Default configuration file path, relative to the application root. */
 export const CONFIG_PATH = 'settings/config.json';
 
+/**
+ * Catalogue of the booster sets, relative to the application root.
+ *
+ * It holds what the old `boosters.sets` array could not say: the release date of a set and whether
+ * it has promo cards. `ConfigLoader.getBoosterSettings().sets` is built from it, so every consumer
+ * (the quota, the draw pools, the catalogue) keeps reading one single source.
+ */
+export const CARDSETS_PATH = 'settings/cardsets.json';
+
+/**
+ * Default settings of the set catalogue.
+ *
+ * `previewDays` is how many days before its release a set may be shown (booster picker and 3D model
+ * only, never openable, never in the collection); 0 hides it completely until the release day.
+ */
+export const DEFAULT_CARDSET_SETTINGS = Object.freeze({
+  previewDays: 3,
+  announcementDays: 7,
+});
+
 /** Supported timestamp interpretation modes for the time synchronization providers. */
 export const TIME_UNITS = Object.freeze(['seconds', 'milliseconds', 'iso', 'http-date']);
 
@@ -62,6 +82,14 @@ export const DEFAULT_PROFILE_SETTINGS = Object.freeze({
   favoriteSlotPrices: Object.freeze({ 4: 100, 5: 250 }),
   featuredSlotPrices: Object.freeze({ 2: 25, 3: 100, 4: 250, 5: 500 }),
   defaultName: '',
+});
+
+/**
+ * Default binder allowance, for a `settings/config.json` that omits or breaks its `binders` section:
+ * one binder at level 1, then one more every `unlockEveryLevels` levels.
+ */
+export const DEFAULT_BINDER_SETTINGS = Object.freeze({
+  unlockEveryLevels: 3,
 });
 
 /**
@@ -147,8 +175,8 @@ export const DEFAULT_LEVELLING_SETTINGS = Object.freeze({
  *
  * Promo cards (`data/promo_cards/<serie>.json`) are only granted by a redeem code or a gift: they
  * are never drawn from a booster and never counted in a completion ratio. `sets` lists the files to
- * load, named after the series they decorate; when it is empty the booster extensions
- * (`boosters.sets`) are used, so a promo file always sits next to the extension it belongs to.
+ * load, named after the series they decorate; it is built from the `promo` flag of
+ * `settings/cardsets.json`, so a promo file always sits next to the extension it belongs to.
  */
 export const DEFAULT_PROMO_SETTINGS = Object.freeze({
   directory: 'data/promo_cards',
@@ -378,6 +406,10 @@ export class ConfigLoader {
     this.cachedConfig = null;
     /** @type {Promise<object>|null} In-flight request used to de-duplicate concurrent loads. */
     this.pendingLoad = null;
+    /** @type {Array<{id: string, releaseDate: string|null, promo: boolean}>|null} Set catalogue. */
+    this.cachedCardSets = null;
+    /** @type {Promise<Array<object>>|null} In-flight request of the set catalogue. */
+    this.pendingCardSets = null;
   }
 
   /**
@@ -742,27 +774,113 @@ export class ConfigLoader {
   }
 
   /**
+   * Catalogue of the booster sets (`settings/cardsets.json`).
+   *
+   * The file is fetched once and cached like the configuration: the sets ship with the application
+   * and never change while the page is open. Entries are validated here rather than at each use -
+   * an empty identifier is dropped, a duplicate is ignored, an unreadable release date becomes
+   * `null` (meaning "available right away") - so a partially edited catalogue can never make the
+   * game throw: it can only hide a set or make it available earlier than intended.
+   *
+   * @param {object} [options] - Load options.
+   * @param {boolean} [options.force=false] - Re-fetch the file even when a cached copy exists.
+   * @returns {Promise<Array<{id: string, releaseDate: string|null, promo: boolean}>>} The sets, in
+   *   the order of the file.
+   * @throws {Error} When the file cannot be fetched or is not valid JSON.
+   */
+  async getCardSets({ force = false } = {}) {
+    if (this.cachedCardSets && !force) return this.cachedCardSets;
+    if (this.pendingCardSets && !force) return this.pendingCardSets;
+
+    this.pendingCardSets = this.fetchCardSets();
+    try {
+      return await this.pendingCardSets;
+    } catch (error) {
+      this.pendingCardSets = null;
+      throw error;
+    }
+  }
+
+  /**
+   * Fetches, validates and caches `settings/cardsets.json`.
+   *
+   * @returns {Promise<Array<{id: string, releaseDate: string|null, promo: boolean}>>} The sets.
+   * @throws {Error} When the request fails, the status is not 2xx or the payload is not valid JSON.
+   */
+  async fetchCardSets() {
+    let response;
+    try {
+      response = await fetch(CARDSETS_PATH);
+    } catch (error) {
+      throw new Error(`Unable to fetch "${CARDSETS_PATH}".`, { cause: error });
+    }
+    if (!response.ok) {
+      throw new Error(`Unable to fetch "${CARDSETS_PATH}" (HTTP ${response.status}).`);
+    }
+
+    let payload;
+    try {
+      payload = await response.json();
+    } catch (error) {
+      throw new Error(`"${CARDSETS_PATH}" is not valid JSON.`, { cause: error });
+    }
+
+    const declared = Array.isArray(payload?.sets) ? payload.sets : [];
+    const seen = new Set();
+    const sets = [];
+    declared.forEach((entry) => {
+      const id = typeof entry?.id === 'string' ? entry.id.trim() : '';
+      if (id === '' || seen.has(id)) {
+        console.warn(`[ConfigLoader] Set catalogue: entry ignored (${JSON.stringify(entry)}).`);
+        return;
+      }
+      seen.add(id);
+      sets.push({
+        id,
+        releaseDate: ConfigLoader.normalizeReleaseDate(entry.releaseDate),
+        promo: entry.promo === true,
+      });
+    });
+
+    this.cachedCardSets = sets;
+    this.pendingCardSets = null;
+    return sets;
+  }
+
+  /**
+   * Normalizes a release date to the `YYYY-MM-DD` form the availability check compares.
+   *
+   * @param {unknown} value - Raw value read from the catalogue.
+   * @returns {string|null} The UTC day, or `null` when absent or unreadable ("available now").
+   */
+  static normalizeReleaseDate(value) {
+    if (typeof value !== 'string') return null;
+    const trimmed = value.trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return null;
+    // Rejects the impossible days a regex accepts (2026-02-31), which would silently shift the
+    // release by a day once turned into a timestamp.
+    const time = Date.parse(`${trimmed}T00:00:00.000Z`);
+    if (!Number.isFinite(time)) return null;
+    return new Date(time).toISOString().slice(0, 10) === trimmed ? trimmed : null;
+  }
+
+  /**
    * Promo card catalogue settings.
    *
    * @returns {Promise<{directory: string, sets: string[]}>} The directory holding the promo files
-   *   and the list of series to load (empty when the section is absent, which means "every
-   *   booster extension").
+   *   and the series that declare promo cards in `settings/cardsets.json`.
    * @throws {Error} See `load()`.
    */
   async getPromoSettings() {
-    const config = await this.getConfig();
+    const [config, cardSets] = await Promise.all([this.getConfig(), this.getCardSets()]);
     const promos = config.promos || {};
-    const boosterSets = Array.isArray(config.boosters?.sets) ? config.boosters.sets : [];
-    const declared = Array.isArray(promos.sets) && promos.sets.length > 0 ? promos.sets : boosterSets;
 
     return {
       directory:
         typeof promos.directory === 'string' && promos.directory.trim() !== ''
           ? promos.directory.trim()
           : DEFAULT_PROMO_SETTINGS.directory,
-      sets: declared
-        .filter((setId) => typeof setId === 'string' && setId.trim() !== '')
-        .map((setId) => setId.trim()),
+      sets: cardSets.filter((entry) => entry.promo).map((entry) => entry.id),
     };
   }
 
@@ -1048,19 +1166,23 @@ export class ConfigLoader {
   /**
    * Booster-related global settings.
    *
-   * @returns {Promise<{sets: string[], directory: string, rarityConfigPath: string, model: string, cardsPerBooster: number, dailyFreeBoosters: number, extraBoosterPriceSparks: number, godpackChancePercent: number, historySize: number}>}
-   *   Booster settings completed with safe defaults. `directory` locates the extension JSONs
-   *   (`data/boosters`), `rarityConfigPath` the default rarity table
+   * @returns {Promise<{sets: string[], directory: string, rarityConfigPath: string, model: string, cardsPerBooster: number, dailyFreeBoosters: number, extraBoosterPriceSparks: number, godpackChancePercent: number, historySize: number, upcomingPreviewDays: number, releaseAnnouncementDays: number}>}
+   *   Booster settings completed with safe defaults. `sets` are the ids of `settings/cardsets.json`
+   *   (in the order of the file, including the sets that are not released yet: the data layer loads
+   *   them all, the availability check is what hides or blocks them). `directory` locates the
+   *   extension JSONs (`data/boosters`), `rarityConfigPath` the default rarity table
    *   (`settings/defaultRarity.json`) and `model` the 3D booster model used in step 4.
    *   `godpackChancePercent` is the probability (0-100) of a "god pack": a booster made only of
-   *   full art printings. `historySize` is the number of past openings kept for the stats view.
+   *   full art printings. `historySize` is the number of past openings kept for the stats view, and
+   *   `upcomingPreviewDays` how many days before its release a set may be previewed, and
+   *   `releaseAnnouncementDays` how long after its release a set is still announced once.
    * @throws {Error} See `load()`.
    */
   async getBoosterSettings() {
-    const config = await this.getConfig();
+    const [config, cardSets] = await Promise.all([this.getConfig(), this.getCardSets()]);
     const boosters = config.boosters || {};
     return {
-      sets: Array.isArray(boosters.sets) ? boosters.sets.slice() : [],
+      sets: cardSets.map((entry) => entry.id),
       directory:
         typeof boosters.directory === 'string' && boosters.directory.trim() !== ''
           ? boosters.directory.trim()
@@ -1086,6 +1208,14 @@ export class ConfigLoader {
           : 0.5,
       historySize:
         Number.isInteger(boosters.historySize) && boosters.historySize > 0 ? boosters.historySize : 10,
+      upcomingPreviewDays:
+        Number.isInteger(boosters.upcomingPreviewDays) && boosters.upcomingPreviewDays >= 0
+          ? boosters.upcomingPreviewDays
+          : DEFAULT_CARDSET_SETTINGS.previewDays,
+      releaseAnnouncementDays:
+        Number.isInteger(boosters.releaseAnnouncementDays) && boosters.releaseAnnouncementDays >= 0
+          ? boosters.releaseAnnouncementDays
+          : DEFAULT_CARDSET_SETTINGS.announcementDays,
     };
   }
 
@@ -1247,6 +1377,24 @@ export class ConfigLoader {
       ),
       defaultName: typeof profile.defaultName === 'string' ? profile.defaultName.trim() : '',
     };
+  }
+
+  /**
+   * Binder allowance (`binders` section of `settings/config.json`).
+   *
+   * A missing, negative, null or non-integer interval falls back to its shipped default: the level-1
+   * binder is granted by the code itself, so a typo here can never leave an account without any
+   * binder.
+   *
+   * @returns {Promise<{unlockEveryLevels: number}>} The validated binder settings.
+   * @throws {Error} See `load()`.
+   */
+  async getBinderSettings() {
+    const config = await this.getConfig();
+    const step = (config.binders || {}).unlockEveryLevels;
+    const unlockEveryLevels =
+      Number.isInteger(step) && step >= 1 ? step : DEFAULT_BINDER_SETTINGS.unlockEveryLevels;
+    return { unlockEveryLevels };
   }
 
   /**
@@ -1553,6 +1701,8 @@ export class ConfigLoader {
   reset() {
     this.cachedConfig = null;
     this.pendingLoad = null;
+    this.cachedCardSets = null;
+    this.pendingCardSets = null;
   }
 }
 

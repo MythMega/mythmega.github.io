@@ -123,6 +123,14 @@ Vue : `js/UI/views/OpeningView.js`. C'est l'écran par défaut.
   le titre de la vue sont masqués (`body.is-focus`, `js/utils/FocusMode.js`).
 - **Cas limite** : sortir de la scène avec `Échap` déclenche `REVEAL_FINISHED` pour que les
   notifications des cartes non retournées ne soient pas perdues.
+- **Extension à venir** : elle apparaît dans le combo (et son aperçu 3D) dès qu'elle entre dans la
+  fenêtre `boosters.upcomingPreviewDays`, sans pouvoir être ouverte.
+- **Annonce de sortie** : au premier chargement qui suit la `releaseDate` (fenêtre
+  `boosters.releaseAnnouncementDays`, 7 jours par défaut), une popup annonce l'extension (nom,
+  texture, date de sortie), une seule fois par compte (`user_state["setAnnouncements"]`), avant
+  tout cadeau automatique.
+- **Cadeau automatique** : un `AutoClaim` qui devient éligible pendant l'ouverture n'est distribué
+  qu'après « Terminer », quand le sélecteur revient à l'écran.
 
 ## 5. Collection
 
@@ -191,8 +199,11 @@ Vue : `js/UI/views/MineBlockView.js`, état via `MiningManager`, règles dans `s
   Un rechargement reprend le bloc en cours avec ses coups déjà portés (`clicks` seul est stocké).
 - **Ressources** : chaque matière a un slug stable (`"Stone Dust"` → `stone_dust`), qui sert de clé
   de sauvegarde, de nom de texture et de clé i18n.
-- **Inventaire** : le coffre (`assets/img/chest.webp`, animé) ouvre la popup listant chaque
-  ressource avec son nom et sa quantité. Ouvrir l'inventaire ferme le marchand, et inversement.
+- **Inventaire** : le coffre (`assets/img/chest-sprite.webp`, la planche 7 × 6 des 41 images du webp
+  d'origine) ouvre la popup listant chaque ressource avec son nom et sa quantité. La popup qui
+  s'ouvre joue les images 1 → 21 (coffre ouvert tant qu'elle est affichée) et la fermeture joue les
+  images 22 → 41 avant de revenir au repos. Sons dédiés : `chest.open` et `chest.close`. Ouvrir
+  l'inventaire ferme le marchand, et inversement (`wandering.open` / `wandering.close`).
 - **Atelier du jour** (bouton « Marchand » en haut à droite) : voir §8.
 - **Statistiques dédiées** : `blocksMined` (par sorte), `resources`, `sparksFound`, `totalMined`.
 - Une casse s'écrit avec le solde de Sparks dans **une seule transaction**.
@@ -249,7 +260,8 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
 
 - Un binder est une page **nommée** de **30 emplacements** (3 cartes par ligne), rangée dans
   `user_state["binders"]`.
-- **Limite** : autant de binders que le niveau du joueur (`BinderManager.getLimit()`).
+- **Limite** : un binder au niveau 1, puis un de plus tous les `binders.unlockEveryLevels` niveaux
+  (`settings/config.json`, 3 par défaut) ; la liste annonce le palier suivant (`+1 binder au niveau X`).
 - Une page ne peut pas montrer une carte plus de fois que le joueur n'en possède de copies ; la
   carte représentative ne consomme **aucune** copie.
 - Édition en brouillon : rien n'est écrit avant « Enregistrer ».
@@ -286,8 +298,12 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
   auto-claim ignoré au chargement, et le linter le signale). Les récompenses sont créditées une seule fois, dès que le jour UTC est
   dans la fenêtre ET que le niveau et le nombre de boosters ouverts atteignent les seuils. La
   vérification tourne au démarrage, après chaque ouverture de booster, à chaque niveau et depuis le
-  bouton « Vérifier les distributions » ; le cadeau s'affiche dans une popup globale
-  (`js/UI/components/AutoClaimPopup.js`), par-dessus l'écran courant.
+  bouton « Vérifier les distributions ». Elle est reportée tant qu'une annonce d'extension est
+  ouverte ou que le rituel d'ouverture occupe l'écran ; le cadeau s'affiche ensuite dans une popup
+  globale (`js/UI/components/AutoClaimPopup.js`).
+- **Contenu non sorti** : un code qui donne une carte, une promo ou un booster d'une extension pas
+  encore sortie est refusé en bloc (`content_not_released`, Sparks compris). Rien n'est écrit dans
+  `redeemed_codes` : le code reste utilisable après la sortie.
 - **Codes personnels `useritem`** : générés hors ligne par le gamemaster, signés avec la clé de
   `useritemCode` ; `js/business/UserItemCode.js` les vérifie et les décode. Un code peut accorder
   des cartes (y compris promo), des Sparks, des boosters bonus, etc.
@@ -432,6 +448,18 @@ Vue : `js/UI/views/InfoView.js`.
 - Le panneau « Expérience et niveaux » lit directement `config.json`
   (`ConfigLoader.getLevellingSettings()` / `getExperiencePerTrophy()`) : la page ne peut pas
   dériver des règles réellement appliquées.
+- Un **sommaire cliquable** en tête de page mène à chaque section (`InfoView.handleTocClick`).
+- La section « Aide des panneaux » reprend les explications des réglages, du profil et de l'offre
+  quotidienne en Sparks : ce sont les **mêmes clés `data-i18n`** que les bulles de l'icône « i »
+  (`InfoHint`), donc les deux ne peuvent pas diverger.
+- La section « Extensions et sorties » liste la `releaseDate` de chaque extension (sorties les plus
+  récentes d'abord, puis les extensions annoncées) et rejoue la popup d'annonce via
+  `SetAnnouncementPopup.show()` : la lecture ne réécrit rien dans `user_state["setAnnouncements"]`,
+  l'annonce automatique gardant son état « déjà vue ». Une extension pas encore sortie porte la
+  pastille « À venir » à la place du bouton, avec un **compte à rebours** (`dans 1 j 17:44:28`)
+  remis à jour par `CLOCK_TICK` — la vue ne lance aucun `setInterval` — et calculé sur l'heure UTC
+  de confiance ; quand la sortie est atteinte, la liste est reconstruite et l'extension passe dans
+  le bloc des sorties avec son bouton. Une horloge jamais ancrée affiche `--:--:--`.
 
 ## 20. Paramètres
 
@@ -482,6 +510,11 @@ Vue : `js/UI/views/SettingsView.js`. Panneaux :
   `minecards-` sont purgés.
 - `manifest.json` force `orientation: portrait` : l'app installée reste verticale. iOS ignore la
   clé ; la mise en page doit donc rester utilisable en paysage.
+- **Invitation à installer** (`js/UI/components/InstallPrompt.js`) : la bannière n'apparaît que sur
+  l'événement `beforeinstallprompt` de Chrome Android, 6 s après l'écran principal, sur mobile
+  uniquement et jamais dans l'app déjà installée. Elle s'efface devant un dialogue, un rituel ou la
+  popup d'un code automatique, et « Plus tard » la cache 30 jours (`localStorage`). Son bouton
+  « Installer » ouvre la vraie boîte de dialogue du navigateur.
 - `.well-known/assetlinks.json` (Digital Asset Links) lie l'app Android à l'origine. Il est servi à
   la **racine du domaine** (`https://web.jmdev.fr/.well-known/assetlinks.json`), pas sous
   `/projets/minecards/`, et n'est jamais mis en cache par le worker. Le fichier est à la racine du

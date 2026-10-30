@@ -130,6 +130,14 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Announced extension: the release day, shown instead of the quota and the countdown. Accent
+   colour, because it is the answer to "why can I not open this booster?". */
+.opening__release {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
 /* --- Scene stage --------------------------------------------------------- */
 
 .opening__scene {
@@ -255,15 +263,23 @@
 
 /* --- Card detail modal ------------------------------------------------------ */
 
-.card-modal__image {
-  /* The image is the tilt surface: `width: 100%` would rotate the whole letterboxed box (and its
-     background) around the card, which reads as the surrounding panel moving. Letting the box hug
-     the artwork keeps the gesture on the card itself. */
-  display: block;
-  width: auto;
+/* The window of the effects: it takes the exact shape of the illustration, so the foil and the halo
+   of `css/components/card-shine.css` line up with the card and stop there (`--card-reveal-art-ratio`
+   is published by `OpeningView` once the image is loaded). It is also the tilt surface, which keeps
+   the gesture on the card itself instead of on a letterboxed box. */
+.card-modal__art {
+  position: relative;
+  height: min(46vh, 32rem);
   max-width: 100%;
-  max-height: 46vh;
-  margin: 0 auto;
+  aspect-ratio: var(--card-reveal-art-ratio, var(--card-ratio));
+  width: auto;
+  margin-inline: auto;
+}
+
+.card-modal__image {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   border-radius: var(--radius-md);
   background-color: var(--color-surface-alt);

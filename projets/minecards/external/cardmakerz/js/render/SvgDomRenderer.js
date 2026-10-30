@@ -55,27 +55,42 @@ class SvgDomRenderer {
   }
 
   async loadCss() {
-    try {
-      const res = await fetch(this.cssHref, { cache: 'no-store' });
-      if (res.ok) {
-        this.cssText = await res.text();
-      } else {
-        this.failures.push('css HTTP ' + res.status + ' : ' + this.cssHref);
-      }
-    } catch (err) {
-      this.failures.push('css inaccessible : ' + this.cssHref);
-    }
-
-    // Les polices doivent être incorporées : un SVG-image ne peut pas
-    // télécharger de ressource externe.
-    try {
-      await this.fonts.embed();
-    } catch (err) {
-      this.failures.push('polices non incorporées');
-    }
-
-    return this.cssText;
+  let css = '';
+  try {
+    const res = await fetch(this.cssHref, { cache: 'no-store' });
+    if (res.ok) css = await res.text();
+    else this.failures.push('css HTTP ' + res.status + ' : ' + this.cssHref);
+  } catch (err) {
+    this.failures.push('css inaccessible : ' + this.cssHref);
   }
+
+  // Repli : lire les règles déjà chargées par la page.
+  if (!css.trim()) css = this.readCssFromDocument();
+
+  this.cssText = css;
+  if (!css.trim()) this.failures.push('CSS de la carte introuvable');
+
+  try {
+    await this.fonts.embed();
+  } catch (err) {
+    this.failures.push('polices non incorporées');
+  }
+  return this.cssText;
+}
+
+readCssFromDocument() {
+  let out = '';
+  for (const sheet of Array.from(document.styleSheets)) {
+    const href = sheet.href || '';
+    if (href && href.indexOf('base.css') === -1) continue; // ignore bulk.css, Google Fonts
+    try {
+      for (const rule of Array.from(sheet.cssRules)) out += rule.cssText + '\n';
+    } catch (err) {
+      this.failures.push('feuille illisible : ' + (href || 'inline'));
+    }
+  }
+  return out;
+}
 
   /* CSS complet à injecter dans le SVG : base.css + @font-face incorporées. */
   buildStyleText() {
@@ -135,7 +150,9 @@ class SvgDomRenderer {
   /* Rasterise le noeud et renvoie un <img> déjà chargé. */
   async renderToImage(node, options = {}) {
     await this.ready();
-
+    if (!this.cssText.trim()) {
+      throw new Error('CSS introuvable pour le rendu SVG');
+    }
     const scale = options.scale || SvgDomRenderer.DEFAULT_SCALE;
     const rect = node.getBoundingClientRect();
     const width = Math.max(1, Math.round(rect.width));

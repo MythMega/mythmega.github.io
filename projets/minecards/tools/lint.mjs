@@ -36,12 +36,13 @@ import {
 } from './lint/lib/repo.mjs';
 import { splitLines } from './lint/lib/text.mjs';
 import hygieneRules from './lint/rules/hygiene.mjs';
+import dataRules from './lint/rules/data.mjs';
 import javascriptRules from './lint/rules/javascript.mjs';
 import i18nRules from './lint/rules/i18n.mjs';
 import markupRules from './lint/rules/markup.mjs';
 
 /** Every rule of the linter, in report order. */
-const RULES = [...hygieneRules, ...javascriptRules, ...i18nRules, ...markupRules];
+const RULES = [...hygieneRules, ...dataRules, ...javascriptRules, ...i18nRules, ...markupRules];
 
 /** Colour codes, dropped when the output is piped (or asked for through `NO_COLOR`). */
 const COLOR = process.stdout.isTTY && !process.env.NO_COLOR;

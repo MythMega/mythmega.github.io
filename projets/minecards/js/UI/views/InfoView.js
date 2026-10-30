@@ -11,10 +11,13 @@
  *        - one table per booster slot: the rarity probabilities of that slot (`rarityConfig`),
  *        - then, for every card, its chance to come out of one booster, computed from the same
  *          table: `sum over slots of P(slot -> rarity) / number of cards of that rarity`;
- *   3. the EXPERIENCE panel: every XP source and its exact value, read live from
+ *   3. the RELEASES list: the date of every extension, a countdown on the ones that are not out
+ *      yet, and a button that plays the announcement popup again (the automatic one only fires
+ *      once, at the first load after the release);
+ *   4. the EXPERIENCE panel: every XP source and its exact value, read live from
  *      `settings/config.json` (`levelling` and `ExperiencePerTrophy`) with the same loaders the
  *      level calculation uses, so the displayed numbers can never drift from the real rewards;
- *   4. the credits (illustrations, sounds, icons).
+ *   5. the credits (illustrations, sounds, icons).
  *
  * The view is read-only: it never writes anything and never consumes a booster.
  */
@@ -22,8 +25,10 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import boosterManager from '../../business/BoosterManager.js';
+import dateSyncManager from '../../business/DateSyncManager.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import setAnnouncementPopup from '../components/SetAnnouncementPopup.js';
 
 /** View name, matching `data-view="info"` in `index.html`. */
 export const INFO_VIEW_NAME = 'info';
@@ -39,10 +44,14 @@ export class InfoView {
 
     this.root = rootElement;
     this.feedbackElement = this.root.querySelector('[data-info-feedback]');
+    this.tocElement = this.root.querySelector('[data-info-toc]');
     this.setSelect = this.root.querySelector('[data-info-set]');
     this.slotsElement = this.root.querySelector('[data-info-slots]');
     this.raritySourceElement = this.root.querySelector('[data-info-rarity-source]');
     this.cardsElement = this.root.querySelector('[data-info-cards]');
+    this.setsPanel = this.root.querySelector('#info-sets');
+    this.setsElement = this.root.querySelector('[data-info-sets]');
+    this.setsTocLink = this.root.querySelector('[data-info-toc-link="info-sets"]');
     this.experienceElement = this.root.querySelector('[data-info-experience]');
     this.experienceTrophiesElement = this.root.querySelector('[data-info-experience-trophies]');
     this.experienceLevelElement = this.root.querySelector('[data-info-experience-level]');
@@ -53,6 +62,12 @@ export class InfoView {
     this.sets = new Map();
     /** @type {string|null} Currently displayed extension. */
     this.selectedSetId = null;
+    /** @type {Map<string, object>} Released extensions, the ones the announcement can be replayed for. */
+    this.announceable = new Map();
+    /** @type {Map<string, {element: HTMLElement, releaseAt: number}>} Countdowns of the upcoming ones. */
+    this.upcoming = new Map();
+    /** @type {boolean} True while the list is being rebuilt after a release day was reached. */
+    this.isRefreshingSets = false;
     /** @type {boolean} True once `init()` completed. */
     this.isInitialized = false;
     /** @type {boolean} True while the data is being loaded. */
@@ -81,10 +96,13 @@ export class InfoView {
    */
   assertMarkup() {
     const missing = [
+      ['[data-info-toc]', this.tocElement],
       ['[data-info-set]', this.setSelect],
       ['[data-info-slots]', this.slotsElement],
       ['[data-info-rarity-source]', this.raritySourceElement],
       ['[data-info-cards]', this.cardsElement],
+      ['#info-sets', this.setsPanel],
+      ['[data-info-sets]', this.setsElement],
       ['[data-info-experience]', this.experienceElement],
       ['[data-info-experience-trophies]', this.experienceTrophiesElement],
       ['[data-info-experience-level]', this.experienceLevelElement],
@@ -121,8 +139,11 @@ export class InfoView {
     if (this.isInitialized) return;
     this.log('Initializing…');
     this.listen(this.setSelect, 'change', () => this.handleSetChange());
+    this.listen(this.tocElement, 'click', (event) => this.handleTocClick(event));
+    this.listen(this.setsElement, 'click', (event) => this.handleSetsClick(event));
     this.subscribeToEvents();
     await this.loadSets();
+    await this.renderSetsPanel();
     await this.renderExperience();
     this.isInitialized = true;
     this.log('Ready.');
@@ -161,14 +182,194 @@ export class InfoView {
     this.unsubscribers.push(eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
       if (payload?.view === INFO_VIEW_NAME && this.isInitialized) {
         void this.renderSelected();
+        void this.renderSetsPanel();
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => {
       if (!this.isInitialized) return;
       void this.renderSelected();
+      void this.renderSetsPanel();
       void this.renderExperience();
     }));
+    this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
     this.log('Event subscriptions registered.');
+  }
+
+  /**
+   * Renders the release dates, newest first, with a replay button on the released ones.
+   *
+   * The section hides itself when no extension declares a release date: an empty list would only
+   * promise something the catalogue does not have.
+   *
+   * @returns {Promise<void>} Resolves once the list is drawn (an error leaves it empty).
+   */
+  async renderSetsPanel() {
+    let listed;
+    try {
+      listed = await boosterManager.listBoosterSets({ includeUpcoming: true });
+    } catch (error) {
+      console.warn('[InfoView] The release dates could not be read.', error);
+      listed = [];
+    }
+
+    const dated = listed.filter((set) => Boolean(set.releaseDate));
+    const released = dated
+      .filter((set) => set.released !== false)
+      .sort((left, right) => right.releaseDate.localeCompare(left.releaseDate));
+    const upcoming = dated
+      .filter((set) => set.released === false)
+      .sort((left, right) => left.releaseDate.localeCompare(right.releaseDate));
+
+    this.announceable = new Map(released.map((set) => [set.setId, set]));
+    this.upcoming = new Map();
+    this.setsElement.textContent = '';
+    [...released, ...upcoming].forEach((set) => this.setsElement.appendChild(this.buildSetRow(set)));
+
+    const isEmpty = dated.length === 0;
+    this.setsPanel.hidden = isEmpty;
+    if (this.setsTocLink) this.setsTocLink.hidden = isEmpty;
+    this.isRefreshingSets = false;
+  }
+
+  /**
+   * Builds one row of the releases list.
+   *
+   * @param {object} set - Extension descriptor from `listBoosterSets()`.
+   * @returns {HTMLLIElement} The row: name, release date, and either the replay button or a badge.
+   */
+  buildSetRow(set) {
+    const item = document.createElement('li');
+    item.className = 'info__set';
+
+    const name = document.createElement('span');
+    name.className = 'info__set-name';
+    name.textContent = set.name ?? set.setId;
+
+    const date = document.createElement('span');
+    date.className = 'info__set-date';
+    date.textContent = i18n.t(
+      set.released === false ? 'info.sets.releaseUpcoming' : 'info.sets.release',
+      { date: i18n.formatUtcDay(set.releaseDate) }
+    );
+
+    item.append(name, date);
+
+    if (set.released === false) {
+      const countdown = document.createElement('span');
+      countdown.className = 'info__set-countdown';
+      countdown.dataset.infoSetCountdown = set.setId;
+      this.writeCountdown(
+        countdown,
+        dateSyncManager.getEstimatedUtcMs(),
+        Date.parse(`${set.releaseDate}T00:00:00.000Z`)
+      );
+      this.upcoming.set(set.setId, {
+        element: countdown,
+        releaseAt: Date.parse(`${set.releaseDate}T00:00:00.000Z`),
+      });
+
+      const badge = document.createElement('span');
+      badge.className = 'info__set-badge';
+      badge.textContent = i18n.t('info.sets.upcoming');
+      item.append(countdown, badge);
+      return item;
+    }
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--ghost info__set-action';
+    button.dataset.infoSetReplay = set.setId;
+    button.textContent = i18n.t('info.sets.replay');
+    item.appendChild(button);
+    return item;
+  }
+
+  /**
+   * Writes the time left before a release day, `--:--:--` when the clock is not anchored yet.
+   *
+   * @param {HTMLElement} element - Target element.
+   * @param {number} now - Current trusted UTC time in milliseconds (0 when unknown).
+   * @param {number} releaseAt - Release instant in milliseconds.
+   * @returns {void}
+   */
+  writeCountdown(element, now, releaseAt) {
+    if (!(now > 0) || !Number.isFinite(releaseAt)) {
+      element.textContent = i18n.t('info.sets.countdown', { time: '--:--:--' });
+      return;
+    }
+
+    const { days, time } = InfoView.formatCountdown(releaseAt - now);
+    element.textContent =
+      days > 0
+        ? i18n.t('info.sets.countdownDays', { days, time })
+        : i18n.t('info.sets.countdown', { time });
+  }
+
+  /**
+   * Splits a remaining duration into whole days and a `HH:MM:SS` rest.
+   *
+   * @param {number} milliseconds - Remaining time (negative values read as zero).
+   * @returns {{days: number, time: string}} The days left and the clock of the last day.
+   */
+  static formatCountdown(milliseconds) {
+    const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return {
+      days,
+      time: [hours, minutes, seconds].map((part) => String(part).padStart(2, '0')).join(':'),
+    };
+  }
+
+  /**
+   * Keeps the countdowns of the upcoming extensions up to date.
+   *
+   * The application clock is the only timer (`CLOCK_TICK`): the view runs no interval of its own.
+   * When a release day is reached the list is rebuilt, so the extension moves to the released block
+   * with its replay button.
+   *
+   * @param {{utc?: Date}|null} payload - Clock tick payload.
+   * @returns {void}
+   */
+  handleClockTick(payload) {
+    if (this.upcoming.size === 0) return;
+    const now = payload?.utc instanceof Date ? payload.utc.getTime() : 0;
+    if (!(now > 0)) return;
+
+    let reachedRelease = false;
+    this.upcoming.forEach((entry) => {
+      this.writeCountdown(entry.element, now, entry.releaseAt);
+      if (now >= entry.releaseAt) reachedRelease = true;
+    });
+
+    if (reachedRelease && !this.isRefreshingSets) {
+      this.isRefreshingSets = true;
+      void this.renderSetsPanel();
+    }
+  }
+
+  /**
+   * Replays the announcement of the clicked extension.
+   *
+   * The popup only reads the descriptor: the announcement is not recorded again, so the automatic
+   * one keeps its "already seen" state.
+   *
+   * @param {MouseEvent} event - Click on the releases list.
+   * @returns {void}
+   */
+  handleSetsClick(event) {
+    const button = event.target instanceof Element
+      ? event.target.closest('[data-info-set-replay]')
+      : null;
+    if (!button) return;
+
+    const set = this.announceable.get(button.dataset.infoSetReplay);
+    if (!set) return;
+
+    void setAnnouncementPopup.show([set]);
+    this.log(`Announcement replayed for "${set.setId}".`);
   }
 
   /**
@@ -242,6 +443,34 @@ export class InfoView {
 
     item.append(name, amount);
     return item;
+  }
+
+  /**
+   * Scrolls to one section of the page from the table of contents.
+   *
+   * The section is focused after the scroll (`tabindex="-1"`) so a keyboard or screen-reader user
+   * lands inside the section instead of staying on the link: the arrow keys then read it. The scroll
+   * respects `prefers-reduced-motion`, like every animation of the project.
+   *
+   * @param {MouseEvent} event - Click on one entry of the table of contents.
+   * @returns {void}
+   */
+  handleTocClick(event) {
+    const link = event.target instanceof Element
+      ? event.target.closest('[data-info-toc-link]')
+      : null;
+    if (!link) return;
+
+    const id = link.dataset.infoTocLink;
+    const target = id ? this.root.querySelector(`#${CSS.escape(id)}`) : null;
+    if (!target) return;
+
+    event.preventDefault();
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+    target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+    this.log(`Scrolled to "${id}".`);
   }
 
   /**

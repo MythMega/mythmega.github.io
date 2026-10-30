@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v38';
+const VERSION = 'v52';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -125,6 +125,8 @@ const PRECACHE_URLS = [
   './css/components/toast.css',
   './css/components/auto-claim.css',
   './css/components/notifications.css',
+  './css/components/install-prompt.css',
+  './css/components/info-hint.css',
   './css/animations/defaults.css',
   './css/animations/opening.css',
   './css/animations/epic.css',
@@ -141,8 +143,11 @@ const PRECACHE_URLS = [
   './js/UI/components/Booster3DRenderer.js',
   './js/UI/components/CardComponent.js',
   './js/UI/components/GameNotifier.js',
+  './js/UI/components/InfoHint.js',
+  './js/UI/components/InstallPrompt.js',
   './js/UI/components/NotificationCenter.js',
   './js/UI/components/ProfileCard.js',
+  './js/UI/components/SetAnnouncementPopup.js',
   './js/UI/components/SlotPurchaseModal.js',
   './js/UI/components/Toast.js',
   './js/UI/components/TrophyDetail.js',
@@ -171,6 +176,7 @@ const PRECACHE_URLS = [
   './js/business/FeatureManager.js',
   './js/business/GiftManager.js',
   './js/business/MinePickManager.js',
+  './js/business/SetAnnouncementManager.js',
   './js/business/MiningManager.js',
   './js/business/TraderManager.js',
   './js/business/ProfileIconManager.js',
@@ -200,12 +206,14 @@ const PRECACHE_URLS = [
   './js/utils/FoilManager.js',
   './js/utils/GlowManager.js',
   './js/utils/I18n.js',
+  './js/utils/ScrollHint.js',
   './js/utils/Shine.js',
   './js/utils/SoundManager.js',
   './js/utils/ThemeManager.js',
   /* Configuration and data: the settings screen, the two languages and the card catalogues. Without
      them the game boots but has nothing to open. */
   './settings/config.json',
+  './settings/cardsets.json',
   './settings/colors.json',
   './settings/i18n/fr.json',
   './settings/i18n/en.json',
@@ -236,6 +244,9 @@ const PRECACHE_URLS = [
      (drawn on every face-down card), the 3D booster model and the (small) opening and interface
      sounds. */
   './assets/img/card_back.png',
+  /* The 41 frames of the mine chest, packed into one 1050 × 900 sheet (7 columns): one request of
+     65 KB instead of an animated webp whose frames the view could not address one by one. */
+  './assets/img/chest-sprite.webp',
   './assets/boostermodel.glb',
   './assets/sound/booster_opening.mp3',
   './assets/sound/card_return.mp3',
@@ -249,6 +260,10 @@ const PRECACHE_URLS = [
   './assets/sound/ui/nav_back.mp3',
   './assets/sound/ui/modal_open.mp3',
   './assets/sound/ui/modal_close.mp3',
+  './assets/sound/ui/wandering_open.mp3',
+  './assets/sound/ui/wandering_close.mp3',
+  './assets/sound/ui/chest_open.mp3',
+  './assets/sound/ui/chest_close.mp3',
   './assets/sound/ui/panel_open.mp3',
   './assets/sound/ui/panel_close.mp3',
   './assets/sound/ui/filter_change.mp3',

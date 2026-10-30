@@ -58,6 +58,23 @@ video {
   display: block;
 }
 
+/* --- Scrollbars ------------------------------------------------------------ */
+
+/* The native bar is hidden everywhere and painted back by `ScrollHint` (`js/utils/ScrollHint.js`)
+   while the content moves: the 15px grey column of Windows next to a themed panel reads as a browser
+   widget that escaped its window, and the floating pill of macOS covers the edge of the dialog.
+   Only the indicator goes away. The wheel, the trackpad, the finger, the keyboard and `Home`/`End`
+   keep scrolling exactly as before. `scrollbar-width` is the Firefox spelling, `::-webkit-scrollbar`
+   the Chromium and Safari one; a browser knows one or the other, so both are needed. */
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 h1,
 h2,
 h3,
@@ -141,6 +158,9 @@ button {
   --z-header: 20;
   --z-nav: 30;
   --z-overlay: 40;
+  /* Above every dialog: the indicator of `ScrollHint` follows the box that scrolls, and the
+     dialog's own body is one of them. */
+  --z-scroll-hint: 50;
 }
 
 /* --- App shell ------------------------------------------------------------ */
@@ -771,10 +791,10 @@ body.is-focus {
 /* A real switch (`role="switch"` on a `<button>`, `aria-checked` carrying the state): the
    track/thumb pair shows it, the adjacent text is written by the view so it always matches the
    active language. Used by the sound preference of the settings and by the "Effets" switch of the
-   card detail (`js/UI/views/CollectionView.js`, where the row itself carries `.switch`), which is
-   why it lives here and not in a view stylesheet: a control shared by two screens belongs to the
-   shared layer. The host is free to place and size it (`.settings__panel .switch`,
-   `.collection-shine`), never to redraw the track or the thumb. */
+   card details (`js/UI/components/CardEffectsToggle.js`, where the row itself carries `.switch`),
+   which is why it lives here and not in a view stylesheet: a control shared by several screens
+   belongs to the shared layer. The host is free to place and size it
+   (`.settings__panel .switch`, `.card-effects`), never to redraw the track or the thumb. */
 .switch {
   display: inline-flex;
   align-items: center;
@@ -1086,6 +1106,32 @@ a,
 .card-tilt.is-dragging {
   transition: none;
   cursor: grabbing;
+}
+
+/* --- Scroll indicator ----------------------------------------------------- */
+
+/* The layer `ScrollHint` moves. It spans the viewport so the bar can be placed anywhere, and it is
+   `pointer-events: none` because it is a hint and never a control: it must not swallow the click of
+   the panel it floats over. Only `opacity` is animated, which the compositor handles without
+   repainting the card list behind it. */
+.scroll-hint {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-scroll-hint);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--easing-standard);
+  pointer-events: none;
+}
+
+.scroll-hint.is-visible {
+  opacity: 1;
+}
+
+.scroll-hint__bar {
+  position: absolute;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-text-muted);
+  opacity: 0.55;
 }
 
 /* --- Accessibility: reduced motion -------------------------------------- */

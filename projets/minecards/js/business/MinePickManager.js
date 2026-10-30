@@ -168,7 +168,7 @@ export class MinePickManager {
     await configLoader.getMinePickSettings();
     await boosterManager.init();
     this.isInitialized = true;
-    this.log(`Ready (${boosterManager.getLoadedSetIds().length} extension(s) available).`);
+    this.log(`Ready (${boosterManager.getReleasedSetIds().length} extension(s) available).`);
   }
 
   /**
@@ -414,7 +414,8 @@ export class MinePickManager {
     const { boosterCount, seedSalt, setWeightExponent } = await configLoader.getMinePickSettings();
     const { cardsPerBooster, godpackChancePercent } = await configLoader.getBoosterSettings();
 
-    const setIds = boosterManager.getLoadedSetIds();
+    // Released sets only: the simulated board must never show a card of an announced set.
+    const setIds = boosterManager.getReleasedSetIds();
     if (setIds.length === 0) {
       throw new MinePickError(MINE_PICK_ERRORS.NO_BOARD, 'No extension is available for the board.');
     }

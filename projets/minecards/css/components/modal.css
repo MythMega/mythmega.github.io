@@ -90,6 +90,53 @@
   margin-top: var(--space-5);
 }
 
+/* --- Upcoming-extensions announcement (`SetAnnouncementPopup.js`) --------- */
+
+.set-announcement__dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.set-announcement__badge {
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.set-announcement__booster {
+  width: min(45%, 9rem);
+  height: auto;
+  margin-top: var(--space-2);
+}
+
+.set-announcement__booster[hidden] {
+  display: none;
+}
+
+.set-announcement__title {
+  margin: 0;
+}
+
+.set-announcement__date {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.set-announcement__message {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
 @keyframes modal-fade {
   from {
     opacity: 0;

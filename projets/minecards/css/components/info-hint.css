@@ -1,0 +1,112 @@
+/* =============================================================================
+   info-hint.css - The small "i" that reveals a panel's explanation.
+
+   The icon sits inside the title of a panel or the label of a slider, so it follows the text of the
+   control it explains. The explanation itself is moved into the popover by `InfoHint`; it keeps its
+   original `.settings__help` / `.profile__help` class, which is why the popover resets the margins
+   and the font size instead of relying on the host view's stylesheet.
+
+   The popover floats, so opening one never moves the panel: the controls stay where the player's
+   finger is. It is clamped to the viewport by `InfoHint.position()` and flips above the icon when
+   the bottom of the screen would cut it.
+   ============================================================================= */
+
+.info-hint {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  font-weight: 400;
+}
+
+.info-hint__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.info-hint__toggle:hover,
+.info-hint__toggle:focus-visible {
+  border-color: var(--color-accent);
+  background-color: var(--color-surface);
+  color: var(--color-accent);
+}
+
+.info-hint__toggle[aria-expanded="true"] {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.info-hint__icon {
+  width: 0.8rem;
+  height: 0.8rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* A block that floats: `width: max-content` keeps short sentences on one line, and the cap keeps a
+   long one readable without covering the whole panel. `position: fixed` lets it escape the scrolling
+   box of a dialog (the daily Sparks offer lives in the trader modal); `InfoHint.position()` sets
+   `left` and `top` from the icon's rectangle, above the icon when the screen bottom would cut it. */
+.info-hint__panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 42;
+  display: block;
+  width: max-content;
+  max-width: min(21rem, calc(100vw - 2.5rem));
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+}
+
+.info-hint__panel[hidden] {
+  display: none;
+}
+
+.info-hint__text {
+  margin: 0;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+/* The icon of a panel that is hidden (a developer tool, a closed dialog) must not appear alone. */
+[hidden] > .info-hint,
+[hidden] .info-hint {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info-hint__toggle {
+    transition: none;
+  }
+}

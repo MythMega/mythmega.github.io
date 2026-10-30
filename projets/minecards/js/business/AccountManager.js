@@ -65,6 +65,8 @@ export const USER_STATE_KEYS = Object.freeze({
   // and the rarity the card wears, both optional. Kept out of `profile` on purpose: the profile is
   // the identity other screens read, while these two only dress the card.
   PROFILE_CARD: 'profileCard',
+  // Upcoming extensions already announced to this account (see `SetAnnouncementManager`).
+  SET_ANNOUNCEMENTS: 'setAnnouncements',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */

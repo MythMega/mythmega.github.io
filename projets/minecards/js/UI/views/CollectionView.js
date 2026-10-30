@@ -40,6 +40,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import { DEFAULT_BINDER_SETTINGS } from '../../utils/ConfigLoader.js';
 import collectionManager from '../../business/CollectionManager.js';
 import accountManager from '../../business/AccountManager.js';
 import sparksManager, { PROMO_PROTECTED } from '../../business/SparksManager.js';
@@ -61,6 +62,7 @@ import { writeToClipboard } from '../../utils/Clipboard.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
 import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 import { getShineClasses, applyShine, applyCardGlow } from '../components/CardComponent.js';
+import { buildCardEffectsToggle, syncCardEffectsToggle } from '../components/CardEffectsToggle.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
 
 /** Icon of the Sparks currency, relative to the application root. */
@@ -869,7 +871,7 @@ export class CollectionView {
     this.listen(this.modalBody, 'click', (event) => {
       const closest = (selector) =>
         event?.target instanceof Element ? event.target.closest(selector) : null;
-      const toggle = closest('[data-collection-shine]');
+      const toggle = closest('[data-card-effects]');
       if (toggle && this.modalBody?.contains(toggle)) {
         this.toggleShine();
         return;
@@ -1434,6 +1436,9 @@ export class CollectionView {
     const rarityValue = entry.rarity ?? card?.rarity ?? null;
     const rows = [
       [i18n.t('opening.card.name'), name],
+      // The index is the reference printed in the JSON of the set: what a player quotes when they
+      // talk about a card, and what the `cards/` tree is named after.
+      [i18n.t('opening.card.index'), card?.index || entry.cardId || entry.key],
       [i18n.t('opening.card.rarity'),
         rarityValue === null
           ? i18n.t('common.unknown')
@@ -1526,64 +1531,25 @@ export class CollectionView {
   /**
    * Builds the switch turning every effect of the large card on and off.
    *
-   * It is a real switch, not a button whose text doubles as the state: "Effets" says what is
-   * switched, the track shows whether it is on, and the word next to it says so plainly - the very
-   * same control as the sound preference of the settings (`css/base.css`, `.switch`).
-   *
-   * The whole ROW is the control, so the label is not a dead caption someone would try to click;
-   * the accessible name still comes from `aria-label` (one switch, one name) while `aria-checked`
-   * carries the state, exactly like the sound switch of the settings.
-   *
    * @returns {HTMLElement} The row, label and switch together.
    */
   buildShineToggle() {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'switch collection-shine';
-    button.dataset.collectionShine = 'toggle';
-    button.setAttribute('role', 'switch');
-    button.setAttribute('aria-checked', String(this.shineEnabled));
-    button.setAttribute('aria-label', i18n.t('collection.shine.aria'));
-
-    const label = document.createElement('span');
-    label.className = 'collection-shine__label';
-    label.textContent = i18n.t('collection.shine.toggle');
-
-    const track = document.createElement('span');
-    track.className = 'switch__track';
-    track.setAttribute('aria-hidden', 'true');
-    const thumb = document.createElement('span');
-    thumb.className = 'switch__thumb';
-    track.appendChild(thumb);
-
-    const state = document.createElement('span');
-    state.className = 'switch__state';
-    state.dataset.collectionShineState = 'state';
-    state.textContent = i18n.t(this.shineEnabled ? 'collection.shine.on' : 'collection.shine.off');
-
-    button.append(label, track, state);
-    return button;
+    return buildCardEffectsToggle(this.shineEnabled);
   }
 
   /**
    * Switches every effect of the open detail on or off.
    *
    * The choice is kept on the view, so opening another card keeps it for the session; it is not a
-   * stored preference, since it is a reading comfort, not a game setting. The switch is the only
-   * thing that changes here - never the artwork - so the state is written where the switch reads it
-   * (`aria-checked`) and in its own caption, both from the same boolean.
+   * stored preference, since it is a reading comfort, not a game setting. Only the window is touched
+   * - never the artwork - and the switch is rewritten by the shared component.
    *
    * @returns {void}
    */
   toggleShine() {
     this.shineEnabled = !this.shineEnabled;
     this.shineWindow?.classList.toggle('is-off', !this.shineEnabled);
-    this.modalBody?.querySelectorAll('[data-collection-shine]').forEach((button) => {
-      button.setAttribute('aria-checked', String(this.shineEnabled));
-    });
-    this.modalBody?.querySelectorAll('[data-collection-shine-state]').forEach((state) => {
-      state.textContent = i18n.t(this.shineEnabled ? 'collection.shine.on' : 'collection.shine.off');
-    });
+    syncCardEffectsToggle(this.modalBody, this.shineEnabled);
     this.log(`Card effects ${this.shineEnabled ? 'enabled' : 'disabled'}.`);
   }
 
@@ -1975,17 +1941,22 @@ export class CollectionView {
   }
 
   /**
-   * Renders the list of binders and its counter (`n / level`).
+   * Renders the list of binders and its counter (`n / allowance, +1 at level X`).
    *
    * @returns {Promise<void>} Resolves once the list is painted.
    */
   async renderBindersList() {
     if (!this.bindersList) return;
     let limit = Math.max(1, this.binders.length);
+    // Before the configuration answers, the shipped interval keeps the announced level plausible.
+    // A level that cannot be read at all leaves the list usable rather than blank.
+    let nextLevel = limit * DEFAULT_BINDER_SETTINGS.unlockEveryLevels;
     try {
-      limit = await binderManager.getLimit();
+      const progress = await binderManager.getProgress();
+      limit = progress.limit;
+      nextLevel = progress.nextLevel;
     } catch (error) {
-      console.warn('[CollectionView] The binder limit could not be read.', error);
+      console.warn('[CollectionView] The binder allowance could not be read.', error);
     }
 
     const byKey = this.entriesByKey();
@@ -2002,6 +1973,7 @@ export class CollectionView {
       this.bindersSummary.textContent = i18n.t('binders.summary', {
         count: this.binders.length,
         max: limit,
+        level: nextLevel,
       });
     }
     if (this.bindersEmpty) this.bindersEmpty.hidden = this.binders.length > 0;

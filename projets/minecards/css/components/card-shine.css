@@ -436,6 +436,14 @@
 .card-glow {
   --card-glow-color: transparent;
   --card-glow-radius: 0px;
+}
+
+/* The halo belongs to the CARD, so it is drawn on its illustration, never on the surface holding it:
+   a collection tile also carries a caption and a quantity badge, and a shadow around that box read
+   as a second frame around the card. The two selectors cover the two shapes the game uses - a card
+   surface with an image inside, and an image dressed directly (`img.card-glow`). */
+.card-glow img,
+img.card-glow {
   filter: drop-shadow(
     0 0 var(--card-glow-radius) var(--card-glow-color)
   );
@@ -457,4 +465,39 @@
 .card-glow--mythic {
   --card-glow-color: rgba(255, 138, 61, 0.55);
   --card-glow-radius: 8px;
+}
+
+/* "Effets" switched off in a card detail: the halo is an effect like the others, so it goes with
+   them. The halo is painted on the illustration, which makes it a descendant of the window carrying
+   the state, hence the two pairs of selectors (the window itself, and the image inside it). */
+.card-shine.is-off .card-glow,
+.card-shine.is-off .card-glow img,
+.card-shine.is-off.card-glow,
+.card-shine.is-off.card-glow img {
+  filter: none;
+}
+
+/* --- The "Effets" switch -----------------------------------------------------
+   A label on the left, the shared switch on the right (`css/base.css`, `.switch`). The whole ROW is
+   the control: the label pushes the track to the right edge, so a click anywhere toggles instead of
+   a dead caption sitting next to a small target. Used by the collection and by the opening summary,
+   therefore built by `js/UI/components/CardEffectsToggle.js` and styled here, next to the effects
+   it silences. */
+.card-effects {
+  width: 100%;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-1);
+  border-radius: var(--radius-md);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.card-effects:hover {
+  background-color: var(--color-surface-alt);
+}
+
+.card-effects__label {
+  margin-right: auto;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
 }

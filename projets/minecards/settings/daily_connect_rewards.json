@@ -1,0 +1,238 @@
+[
+    {
+        "ID": "dailyconnectreward_1",
+        "RewardListName": "Genesis Departure",
+        "Dates": {
+            "Start": "30-10-2026",
+            "End": "05-12-2026"
+        },
+        "Days" : [
+            {
+                "Day": 1,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 3
+                }                
+            },
+            {
+                "Day": 2,
+                "Reward": {
+                    "Type": "Stone Dust",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 3,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 4,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 5,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 6,
+                "Reward": {
+                    "Type": "Stone Dust",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 7,
+                "Reward": {
+                    "Type": "Booster",
+                    "Qte": 1
+                }                
+            },
+            {
+                "Day": 8,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 9,
+                "Reward": {
+                    "Type": "Stone Dust",
+                    "Qte": 15
+                }                
+            },
+            {
+                "Day": 10,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 11,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 12,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 13,
+                "Reward": {
+                    "Type": "Sculk Dust",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 14,
+                "Reward": {
+                    "Type": "Booster",
+                    "Qte": 1
+                }                
+            },
+            {
+                "Day": 15,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 3
+                }                
+            },
+            {
+                "Day": 16,
+                "Reward": {
+                    "Type": "Sculk Dust",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 17,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 18,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 19,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 20,
+                "Reward": {
+                    "Type": "Glowstone Dust",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 21,
+                "Reward": {
+                    "Type": "Booster",
+                    "Qte": 1
+                }                
+            },
+            {
+                "Day": 22,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 3
+                }                
+            },
+            {
+                "Day": 23,
+                "Reward": {
+                    "Type": "Void Dust",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 24,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 25,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 5
+                }                
+            },
+            {
+                "Day": 26,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 27,
+                "Reward": {
+                    "Type": "Void Dust",
+                    "Qte": 10
+                }                
+            },
+            {
+                "Day": 28,
+                "Reward": {
+                    "Type": "Booster",
+                    "Qte": 1
+                }                
+            },
+            {
+                "Day": 29,
+                "Reward": {
+                    "Type": "Ultima",
+                    "Qte": 3
+                }                
+            },
+            {
+                "Day": 30,
+                "Reward": {
+                    "_comment": "Quand on a une récompense de type Card, on donne une carte, on spécifie son index. Par défaut, on trouve l'index, et si on trouve une normal + une fullart, on préfère la fullart",
+                    "Type": "Card",
+                    "Qte": 1,
+                    "CardID": "PROMO-A1 / E01"
+                },
+                "Unique": true,
+                "UniqueID": "CardRewardConnectionA1GenesisBlock",
+                "ReplacementRewardIfClaimed": {
+                    "Type": "Ultima",
+                    "Qte": 1
+                }
+            },
+            {
+                "_comment": "Day null, donc c'est l'element par défaut (utilisé pour les jours où l'on dépasse le max (31 & + dans ce cas)",
+                "Day": null,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 10
+                }
+            }
+        ]
+    }
+]

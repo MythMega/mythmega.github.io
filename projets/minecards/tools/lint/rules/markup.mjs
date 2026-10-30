@@ -134,8 +134,12 @@ function listExpectedMedals(context) {
   const boostersFile = 'settings/boosters_trophy.json';
   const boostersText = context.readText(boostersFile);
   const boosters = context.readJsonValue(boostersFile);
-  const config = context.readJsonValue('settings/config.json');
-  const setIds = Array.isArray(config?.boosters?.sets) ? config.boosters.sets : [];
+  // The declared sets moved to `settings/cardsets.json`: every one of them needs its trophy folder,
+  // announced or not.
+  const cardSets = context.readJsonValue('settings/cardsets.json');
+  const setIds = (Array.isArray(cardSets?.sets) ? cardSets.sets : [])
+    .map((entry) => (typeof entry?.id === 'string' ? entry.id.trim() : ''))
+    .filter((id) => id !== '');
   const families = [
     { enabled: boosters?.enableCompletionTrophy !== false, key: 'completionTrophy', folder: 'completion' },
     { enabled: boosters?.enableBoosterStatsTrophy !== false, key: 'boosterStats', folder: 'booster_opened' }

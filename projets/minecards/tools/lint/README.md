@@ -42,6 +42,23 @@ a line of code that must break a rule is a sign the rule is wrong.
 | `hygiene/indentation` | a tab used as indentation |
 | `data/json` | invalid JSON, or a key declared twice in the same object (the silent killer: `JSON.parse` keeps the last one) |
 
+### Game data — `data/`, `settings/`
+
+A card is one `Index` printed in one `Layout` (`classic` or `fullart`), and that pair is the
+identity of a printing: it is what the collection stores. The rules below treat it as one, and check
+that every file naming a card, a trophy, an icon or a resource names one that exists.
+
+| Rule | What it refuses |
+| --- | --- |
+| `data/card-catalogue` | a card without index, layout, rarity, style, names or descriptions; an index outside the prefix of its set (`SERIE-A1 / `, `PROMO-A1 / `); an image path that does not match its index and layout; a backdrop that is not an absolute URL (warning) |
+| `data/card-unique` | the same `Index` printed twice in the same `Layout`, in one catalogue or across two |
+| `data/card-references` | a code reward, a pinned offer or a trophy requirement naming a card no catalogue declares, or a printing that does not exist (warning for a code that only prefers it) |
+| `data/codes` | a code declared twice (compared case-insensitively, like the game reads it), an unknown reward type, a non-positive quantity, an availability window that is empty or not a real day |
+| `data/sets` | a set declared twice or without its catalogue, a release date that is not a real day, a promo catalogue the set does not declare (the game would never read it), a catalogue missing from `settings/cardsets.json`, a booster file whose `Serie` is not its own name |
+| `data/trophies` | a trophy without a name, a rarity of its own, requirements or an icon; an unknown requirement type (warning); an icon, a title or a collection trophy naming something that does not exist; a title declared twice or translated in one language only |
+| `data/economy` | a Sparks price map missing a rarity, a shop resource no block of the mine rewards, a pinned offer priced in an unknown resource or sold over an empty period, a mining block with a broken weight, hardness, reward chance or crack range |
+| `data/rarity-table` | a rarity table drawing a rarity outside 1-5, or weights that do not add up to 1 (warning) |
+
 ### JavaScript — `js/`, `sw.js`, `admin/`, `tools/`
 
 | Rule | What it refuses |

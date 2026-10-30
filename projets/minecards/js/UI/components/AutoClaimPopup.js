@@ -1,33 +1,14 @@
 /**
- * AutoClaimPopup - The gift popup of the automatic codes (`settings/codes.json`, `AutoClaim`).
+ * AutoClaimPopup - The gift dialog of the automatic codes.
  *
- * Reference: `js/business/AutoClaimManager.js` (who earns the gift and when) and
- * `css/components/auto-claim.css`.
- *
- * WHY IT LIVES OUTSIDE A VIEW
- *   The gift is earned by playing, not by opening a screen: the third booster may be opened from
- *   the opening view, a level may be reached from a purchase in the collection, and the check runs
- *   again from the settings screen. The popup is therefore appended to `<body>` and survives any
- *   navigation, like the toasts, but it BLOCKS the page until it is dismissed: the player must see
- *   the card they were given.
- *
- * CONTENT
- *   - a badge, a title and either the `CustomMessage` of the code (in the active language) or the
- *     default `autoclaim.message`;
- *   - the card itself when the code grants one (the illustration, dressed with the halo of its
- *     rarity), with its localized name;
- *   - a compact line per other reward (bonus boosters, Sparks), totalled per type;
- *   - one button that closes the popup. The rewards are ALREADY credited when it appears: there is
- *     nothing to accept.
- *
- * Several codes can become eligible at once (an imported save, a level that unlocks two gifts):
- * the claims are QUEUED and shown one after the other. A language change re-renders the open popup,
- * and `destroy()` is only used by a full teardown.
+ * The gift can be earned from any screen, so the dialog is appended to `<body>`; it blocks the page
+ * until dismissed because the player has to see what was credited. Several claims are queued and
+ * shown one at a time, and the rewards are already granted when the dialog opens.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
-import { applyCardGlow } from '../../utils/Shine.js';
+import { applyCardGlow, clearCardGlow } from '../../utils/Shine.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
 /** Class of the overlay. */
@@ -241,7 +222,7 @@ export class AutoClaimPopup {
     const name = this.root.querySelector('[data-auto-claim-name]');
     const firstCard = cardRewards[0]?.card ?? null;
 
-    card.classList.remove('card-glow', 'card-glow--super-rare', 'card-glow--legendary', 'card-glow--mythic');
+    clearCardGlow(card);
     if (firstCard) {
       card.hidden = false;
       applyCardGlow(card, firstCard);

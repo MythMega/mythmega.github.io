@@ -43,7 +43,8 @@ UI (vues, composants)  ──►  business (managers)  ──►  models/classes
   aide de page (`ViewHelp`), scène 3D (`Booster3DRenderer`), carte de profil (`ProfileCard`).
 - `js/utils/` contient des utilitaires sans dépendance métier : `EventBus`, `I18n`,
   `ConfigLoader`, `ThemeManager`, `FoilManager`, `GlowManager`, `AnimationManager`, `SoundManager`,
-  `Shine`, `Compression`, `Clipboard`, `DeepLink`, `FocusMode`, `BinderCode`, `BoosterCode`.
+  `Shine`, `ScrollHint`, `Compression`, `Clipboard`, `DeepLink`, `FocusMode`, `BinderCode`,
+  `BoosterCode`.
 
 Aucun module de `business/` n'importe une vue ; aucun module de `UI/` n'importe `StorageRepository`
 directement.

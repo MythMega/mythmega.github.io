@@ -203,8 +203,8 @@ body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-note
   }
 }
 
-/* Stickers: the onomatopoeias the word alone was missing. Position and tilt come from the
-   markup, the comic font and the pop from here. */
+/* Stickers: the onomatopoeias the word alone was missing. Each one sits in a corner of the burst
+   (`--top-left` and friends, tilt included), the comic font and the pop come from here. */
 .opening__burst-sticker {
   position: absolute;
   font-family: var(--anim-comic-font);
@@ -222,6 +222,30 @@ body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-note
   font-size: clamp(1.6rem, 8vw, 2.8rem);
   color: var(--color-accent);
   -webkit-text-stroke: 0;
+}
+
+.opening__burst-sticker--top-left {
+  top: 12%;
+  left: 10%;
+  --sticker-rot: -14deg;
+}
+
+.opening__burst-sticker--bottom-right {
+  bottom: 16%;
+  right: 8%;
+  --sticker-rot: 11deg;
+}
+
+.opening__burst-sticker--top-right {
+  top: 22%;
+  right: 14%;
+  --sticker-rot: 18deg;
+}
+
+.opening__burst-sticker--bottom-left {
+  bottom: 22%;
+  left: 16%;
+  --sticker-rot: -9deg;
 }
 
 body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-sticker {

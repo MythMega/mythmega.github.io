@@ -54,6 +54,7 @@ import trophyManager, {
   normalizeRarity,
 } from '../../business/TrophyManager.js';
 import profileManager from '../../business/ProfileManager.js';
+import { isPromoSetId } from '../../business/PromoSet.js';
 import { TitleManager } from '../../business/TitleManager.js';
 import TrophyDetail from './TrophyDetail.js';
 import notificationCenter, {
@@ -459,7 +460,9 @@ export class GameNotifier {
    * @returns {Promise<object|null>} The context, or null when there is nothing to announce.
    */
   async prepareCollections({ setId, cards = [], newKeys = [] }) {
-    if (!setId || cards.length === 0) return null;
+    // A promo group is not a booster extension and owns no collection trophy: there is nothing to
+    // prepare, and asking the booster catalogue for it would only log an error.
+    if (!setId || cards.length === 0 || isPromoSetId(setId)) return null;
 
     try {
       const [catalog, set, rows] = await Promise.all([

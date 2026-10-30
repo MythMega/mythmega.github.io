@@ -123,7 +123,9 @@ export class PromoManager {
     const parentNames = new Map();
     if (sets.length > 0) {
       await this.loader.init();
-      for (const descriptor of await this.loader.listBoosterSets()) {
+      // Upcoming sets are included: a promo group is labelled after its series, and that label is
+      // written before the release (the group is only listed for cards the player already owns).
+      for (const descriptor of await this.loader.listBoosterSets({ includeUpcoming: true })) {
         parentNames.set(descriptor.setId, descriptor.name ?? descriptor.setId);
       }
     }
@@ -250,15 +252,24 @@ export class PromoManager {
   /**
    * Lists the loaded promo groups, for the collection view.
    *
+   * A group follows the release of the set it decorates: its cards must not be obtainable before,
+   * so it is left out by default. `includeUpcoming` is only for the catalogue that has to tell an
+   * unknown card from a not-yet-released one.
+   *
+   * @param {object} [options] - Listing options.
+   * @param {boolean} [options.includeUpcoming=false] - Also list the groups of an upcoming set.
    * @returns {Promise<Array<{setId: string, parentSetId: string, label: string, name: string,
    *   cards: Array, raw: Array}>>}
    *   A lightweight description of every group, `raw` holding the generator entries (needed by the
    *   personal-code catalogue, which keys on `Index` + `Layout`).
    * @throws {Error} See `init()`.
    */
-  async listPromoSets() {
+  async listPromoSets({ includeUpcoming = false } = {}) {
     await this.init();
-    return Object.values(this.promoSets).map((group) => ({
+    const groups = Object.values(this.promoSets).filter((group) =>
+      includeUpcoming ? true : (this.loader.getSetAvailability?.(group.parentSetId)?.released ?? true)
+    );
+    return groups.map((group) => ({
       setId: group.setId,
       parentSetId: group.parentSetId,
       label: group.label,

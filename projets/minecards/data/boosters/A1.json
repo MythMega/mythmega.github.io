@@ -676,10 +676,10 @@
       "Desc_EN": "A clock is an item that shows the state of the daylight cycle in the Overworld. It spins randomly in other dimensions, as those do not have daylight cycles.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_clock.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/clock.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_clock.png",
-      "Layout": "fullart",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ V011_fullart.png"
+      "Layout": "classic",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ V011_classic.png"
     },
     {
       "Index": "SERIE-A1 / V011",
@@ -691,8 +691,8 @@
       "Style": "Press Start 2P (Pixel)",
       "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_clock.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_clock.png",
-      "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ V011_classic.png"
+      "Layout": "fullart",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ V011_fullart.png"
     },
     {
       "Index": "SERIE-A1 / V012",
@@ -767,10 +767,10 @@
       "Desc_EN": "A golden apple is a food item that bestows beneficial effects when consumed (Absorption and Regeneration) and is also used to cure a zombie villager under the Weakness effect into a normal villager. It is a variant of a normal apple.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_goldenapple.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/apple.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_goldenapples.png",
-      "Layout": "fullart",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ P004_fullart.png"
+      "Layout": "classic",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ P004_classic.png"
     },
     {
       "Index": "SERIE-A1 / P004",
@@ -782,8 +782,8 @@
       "Style": "Press Start 2P (Pixel)",
       "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_goldenapple.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_goldenapples.png",
-      "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ P004_classic.png"
+      "Layout": "fullart",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ P004_fullart.png"
     },
     {
       "Index": "SERIE-A1 / P005",
@@ -1547,10 +1547,10 @@
       "Desc_EN": "A diamond sword is a variant of sword that is crafted from diamonds. It is the second-highest tier of sword, dealing more damage than an iron sword and having higher durability.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_diamondsword.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/sword.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamondsword.png",
-      "Layout": "fullart",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ T021_fullart.png"
+      "Layout": "classic",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ T021_classic.png"
     },
     {
       "Index": "SERIE-A1 / T021",
@@ -1562,8 +1562,21 @@
       "Style": "Press Start 2P (Pixel)",
       "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_diamondsword.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamondsword.png",
+      "Layout": "fullart",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ T021_fullart.png"
+    },
+    {
+      "Index": "SERIE-A1 / T022",
+      "Name_FR": "Pioche en diamant",
+      "Name_EN": "Diamond Pickaxe",
+      "Desc_FR": "Une pioche en diamant (nom anglais : diamond pickaxe) est une variante de pioche fabriquée avec des diamants. Il s'agit du second tier de pioche le plus haut, avec une efficacité de minage, une durabilité et des dégâts supérieurs à ceux d'une pioche en fer.",
+      "Desc_EN": "A diamond pickaxe is a variant of pickaxe that is crafted from diamonds. It is the second-highest tier of pickaxe, having higher mining efficiency, durability, and attack damage than an iron pickaxe.",
+      "Rarity": 4,
+      "Style": "Press Start 2P (Pixel)",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/pickaxe.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_pickaxe.png",
       "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ T021_classic.png"
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ T022_classic.png"
     },
     {
       "Index": "SERIE-A1 / T022",
@@ -1579,17 +1592,17 @@
       "Path": "./cards/A1/<lang>/SERIE-A1 _ T022_fullart.png"
     },
     {
-      "Index": "SERIE-A1 / T022",
-      "Name_FR": "Pioche en diamant",
-      "Name_EN": "Diamond Pickaxe",
-      "Desc_FR": "Une pioche en diamant (nom anglais : diamond pickaxe) est une variante de pioche fabriquée avec des diamants. Il s'agit du second tier de pioche le plus haut, avec une efficacité de minage, une durabilité et des dégâts supérieurs à ceux d'une pioche en fer.",
-      "Desc_EN": "A diamond pickaxe is a variant of pickaxe that is crafted from diamonds. It is the second-highest tier of pickaxe, having higher mining efficiency, durability, and attack damage than an iron pickaxe.",
+      "Index": "SERIE-A1 / T023",
+      "Name_FR": "Pelle en diamant",
+      "Name_EN": "Diamond Shovel",
+      "Desc_FR": "Les pelles (nom anglais : shovels) sont des outils auxiliaires utilisés pour faciliter la collecte de terre, de sable, de gravier, d'argile et de neige.",
+      "Desc_EN": "A diamond shovel is a variant of shovel that is crafted from diamonds. It is used to break dirt, sand, gravel and other related blocks faster, to create dirt paths from dirt-related blocks, and to extinguish campfires.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_diamondpickaxe.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_pickaxe.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/shovel.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamonndshovel.png",
       "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ T022_classic.png"
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ T023_classic.png"
     },
     {
       "Index": "SERIE-A1 / T023",
@@ -1605,17 +1618,17 @@
       "Path": "./cards/A1/<lang>/SERIE-A1 _ T023_fullart.png"
     },
     {
-      "Index": "SERIE-A1 / T023",
-      "Name_FR": "Pelle en diamant",
-      "Name_EN": "Diamond Shovel",
-      "Desc_FR": "Les pelles (nom anglais : shovels) sont des outils auxiliaires utilisés pour faciliter la collecte de terre, de sable, de gravier, d'argile et de neige.",
-      "Desc_EN": "A diamond shovel is a variant of shovel that is crafted from diamonds. It is used to break dirt, sand, gravel and other related blocks faster, to create dirt paths from dirt-related blocks, and to extinguish campfires.",
+      "Index": "SERIE-A1 / T024",
+      "Name_FR": "Hache en diamant",
+      "Name_EN": "Diamond Axe",
+      "Desc_FR": "Les haches (nom anglais : axes) sont des outils auxiliaires utilisés pour faciliter la collecte du bois et autres objets en bois (planches, coffres, bibliothèques, etc..",
+      "Desc_EN": "A diamond axe is a variant of axe that is crafted from diamonds. It can be used to cut down trees faster, to strip logs and scrape copper-based blocks, and as a melee weapon that disables shields.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_diamondshovel.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamonndshovel.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/axe.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamondaxe.png",
       "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ T023_classic.png"
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ T024_classic.png"
     },
     {
       "Index": "SERIE-A1 / T024",
@@ -1631,17 +1644,17 @@
       "Path": "./cards/A1/<lang>/SERIE-A1 _ T024_fullart.png"
     },
     {
-      "Index": "SERIE-A1 / T024",
-      "Name_FR": "Hache en diamant",
-      "Name_EN": "Diamond Axe",
-      "Desc_FR": "Les haches (nom anglais : axes) sont des outils auxiliaires utilisés pour faciliter la collecte du bois et autres objets en bois (planches, coffres, bibliothèques, etc..",
-      "Desc_EN": "A diamond axe is a variant of axe that is crafted from diamonds. It can be used to cut down trees faster, to strip logs and scrape copper-based blocks, and as a melee weapon that disables shields.",
+      "Index": "SERIE-A1 / T025",
+      "Name_FR": "Houe en diamant",
+      "Name_EN": "Diamond Hoe",
+      "Desc_FR": "La houe (nom anglais : hoe) est un outil servant à labourer la terre et les blocs d'herbe pour les changer en terre labourée, ainsi qu'à récolter plus rapidement certains blocs.",
+      "Desc_EN": "A diamond hoe is a variant of hoe that is crafted from diamonds. It is used to till dirt-related blocks into farmland, and to break leaves, haybales, and sculk-related blocks faster.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_diamondaxe.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamondaxe.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/hoe.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamondhoe.png",
       "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ T024_classic.png"
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ T025_classic.png"
     },
     {
       "Index": "SERIE-A1 / T025",
@@ -1655,19 +1668,6 @@
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamondhoe.png",
       "Layout": "fullart",
       "Path": "./cards/A1/<lang>/SERIE-A1 _ T025_fullart.png"
-    },
-    {
-      "Index": "SERIE-A1 / T025",
-      "Name_FR": "Houe en diamant",
-      "Name_EN": "Diamond Hoe",
-      "Desc_FR": "La houe (nom anglais : hoe) est un outil servant à labourer la terre et les blocs d'herbe pour les changer en terre labourée, ainsi qu'à récolter plus rapidement certains blocs.",
-      "Desc_EN": "A diamond hoe is a variant of hoe that is crafted from diamonds. It is used to till dirt-related blocks into farmland, and to break leaves, haybales, and sculk-related blocks faster.",
-      "Rarity": 4,
-      "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_diamondhoe.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_diamondhoe.png",
-      "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ T025_classic.png"
     },
     {
       "Index": "SERIE-A1 / T026",
@@ -1976,10 +1976,10 @@
       "Desc_EN": "A diamond helmet is a variant of helmet that is crafted from diamonds. It is the second-highest tier of helmet, having higher armor points, armor toughness, durability, and enchantability than turtle shells.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_helmet.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/diamond_stuff.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_helmet.png",
-      "Layout": "fullart",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ D017_fullart.png"
+      "Layout": "classic",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ D017_classic.png"
     },
     {
       "Index": "SERIE-A1 / D017",
@@ -1991,8 +1991,21 @@
       "Style": "Press Start 2P (Pixel)",
       "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_helmet.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_helmet.png",
+      "Layout": "fullart",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ D017_fullart.png"
+    },
+    {
+      "Index": "SERIE-A1 / D018",
+      "Name_FR": "Plastron en diamant",
+      "Name_EN": "Diamond Chestplate",
+      "Desc_FR": "Un plastron (nom anglais : chestplate) (la version en cuir étant nommée tunique) est une pièce d'armure qui couvre le haut du corps du joueur. Il existe six types de plastrons : cuir, mailles, cuivre, fer, diamant, or et netherite.",
+      "Desc_EN": "A diamond chestplate is a variant of chestplate crafted from diamonds. It is the second-highest tier of chestplate, having higher armor points, armor toughness, durability, and enchantability than an iron chestplate.",
+      "Rarity": 4,
+      "Style": "Press Start 2P (Pixel)",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/diamond_stuff.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_chestplate.png",
       "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ D017_classic.png"
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ D018_classic.png"
     },
     {
       "Index": "SERIE-A1 / D018",
@@ -2008,17 +2021,17 @@
       "Path": "./cards/A1/<lang>/SERIE-A1 _ D018_fullart.png"
     },
     {
-      "Index": "SERIE-A1 / D018",
-      "Name_FR": "Plastron en diamant",
-      "Name_EN": "Diamond Chestplate",
-      "Desc_FR": "Un plastron (nom anglais : chestplate) (la version en cuir étant nommée tunique) est une pièce d'armure qui couvre le haut du corps du joueur. Il existe six types de plastrons : cuir, mailles, cuivre, fer, diamant, or et netherite.",
-      "Desc_EN": "A diamond chestplate is a variant of chestplate crafted from diamonds. It is the second-highest tier of chestplate, having higher armor points, armor toughness, durability, and enchantability than an iron chestplate.",
+      "Index": "SERIE-A1 / D019",
+      "Name_FR": "Jambières en diamant",
+      "Name_EN": "Diamond Leggings",
+      "Desc_FR": "Des jambières (nom anglais : leggings) (la version en cuir étant nommée pantalon) sont une pièce d'armure qui couvre le bas du corps du joueur. Il existe sept types de jambières : cuir, mailles, cuivre, fer, diamant, or et netherite.",
+      "Desc_EN": "Diamond leggings are a variant of leggings crafted from diamonds. They are the second-highest tier of leggings, having higher armor points, armor toughness, durability, and enchantability than iron leggings.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_chestplate.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_chestplate.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/diamond_stuff.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_legging.png",
       "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ D018_classic.png"
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ D019_classic.png"
     },
     {
       "Index": "SERIE-A1 / D019",
@@ -2034,17 +2047,17 @@
       "Path": "./cards/A1/<lang>/SERIE-A1 _ D019_fullart.png"
     },
     {
-      "Index": "SERIE-A1 / D019",
-      "Name_FR": "Jambières en diamant",
-      "Name_EN": "Diamond Leggings",
-      "Desc_FR": "Des jambières (nom anglais : leggings) (la version en cuir étant nommée pantalon) sont une pièce d'armure qui couvre le bas du corps du joueur. Il existe sept types de jambières : cuir, mailles, cuivre, fer, diamant, or et netherite.",
-      "Desc_EN": "Diamond leggings are a variant of leggings crafted from diamonds. They are the second-highest tier of leggings, having higher armor points, armor toughness, durability, and enchantability than iron leggings.",
+      "Index": "SERIE-A1 / D020",
+      "Name_FR": "Bottes en diamant",
+      "Name_EN": "Diamond Boots",
+      "Desc_FR": "Les bottes (nom anglais : boots) sont une pièce d'armure qui couvre les pieds du joueur. Il existe six types de bottes : cuir, mailles, cuivre, fer, diamant, or et netherite.",
+      "Desc_EN": "Diamond boots are a variant of boots crafted from diamonds. They are the second-highest tier of boots, having higher armor points, armor toughness, durability, and enchantability than iron boots.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_legging.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_legging.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/diamond_stuff.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_boot.png",
       "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ D019_classic.png"
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ D020_classic.png"
     },
     {
       "Index": "SERIE-A1 / D020",
@@ -2058,19 +2071,6 @@
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_boot.png",
       "Layout": "fullart",
       "Path": "./cards/A1/<lang>/SERIE-A1 _ D020_fullart.png"
-    },
-    {
-      "Index": "SERIE-A1 / D020",
-      "Name_FR": "Bottes en diamant",
-      "Name_EN": "Diamond Boots",
-      "Desc_FR": "Les bottes (nom anglais : boots) sont une pièce d'armure qui couvre les pieds du joueur. Il existe six types de bottes : cuir, mailles, cuivre, fer, diamant, or et netherite.",
-      "Desc_EN": "Diamond boots are a variant of boots crafted from diamonds. They are the second-highest tier of boots, having higher armor points, armor toughness, durability, and enchantability than iron boots.",
-      "Rarity": 4,
-      "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_boot.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_boot.png",
-      "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ D020_classic.png"
     },
     {
       "Index": "SERIE-A1 / R001",
@@ -2184,10 +2184,10 @@
       "Desc_EN": "A powered rail is a type of rail that either increases or halts the velocity of minecarts depending on its power state, and can be used to accelerate a minecart from a standstill when placed facing a conductive block.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_poweredrail.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/rail.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_poweredrail.png",
-      "Layout": "fullart",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ R009_fullart.png"
+      "Layout": "classic",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ R009_classic.png"
     },
     {
       "Index": "SERIE-A1 / R009",
@@ -2199,8 +2199,8 @@
       "Style": "Press Start 2P (Pixel)",
       "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/back_poweredrail.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/fore_poweredrail.png",
-      "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ R009_classic.png"
+      "Layout": "fullart",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ R009_fullart.png"
     },
     {
       "Index": "SERIE-A1 / R010",
@@ -2444,10 +2444,10 @@
       "Desc_EN": "A diamond is a mineral that can be obtained from diamond ore along with various loot chests, vaults, ominous vaults, and suspicious sand. It is required to craft diamond tools, armor, and enchanting tables, as well as duplicating smithing templates.",
       "Rarity": 4,
       "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/cave.png",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/diamond.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond.png",
-      "Layout": "fullart",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ M018_fullart.png"
+      "Layout": "classic",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ M018_classic.png"
     },
     {
       "Index": "SERIE-A1 / M018",
@@ -2459,8 +2459,21 @@
       "Style": "Press Start 2P (Pixel)",
       "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/cave.png",
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/items/Diamond.png",
+      "Layout": "fullart",
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ M018_fullart.png"
+    },
+    {
+      "Index": "SERIE-A1 / M019",
+      "Name_FR": "Minerai de diamant",
+      "Name_EN": "Diamond Ore",
+      "Desc_FR": "Le minerai de diamant (nom anglais : diamond ore) est un minerai rare à partir duquel on obtient le diamant.",
+      "Desc_EN": "Diamond ore is a rare ore that generates deep underground, and drops diamonds when mined.",
+      "Rarity": 4,
+      "Style": "Press Start 2P (Pixel)",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/diamond_ore.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Diamond_Ore.png",
       "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ M018_classic.png"
+      "Path": "./cards/A1/<lang>/SERIE-A1 _ M019_classic.png"
     },
     {
       "Index": "SERIE-A1 / M019",
@@ -2474,19 +2487,6 @@
       "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Diamond_Ore.png",
       "Layout": "fullart",
       "Path": "./cards/A1/<lang>/SERIE-A1 _ M019_fullart.png"
-    },
-    {
-      "Index": "SERIE-A1 / M019",
-      "Name_FR": "Minerai de diamant",
-      "Name_EN": "Diamond Ore",
-      "Desc_FR": "Le minerai de diamant (nom anglais : diamond ore) est un minerai rare à partir duquel on obtient le diamant.",
-      "Desc_EN": "Diamond ore is a rare ore that generates deep underground, and drops diamonds when mined.",
-      "Rarity": 4,
-      "Style": "Press Start 2P (Pixel)",
-      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/cave.png",
-      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/category/minecraft/blocks/Diamond_Ore.png",
-      "Layout": "classic",
-      "Path": "./cards/A1/<lang>/SERIE-A1 _ M019_classic.png"
     },
     {
       "Index": "SERIE-A1 / M020",

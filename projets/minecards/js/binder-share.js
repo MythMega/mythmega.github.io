@@ -19,6 +19,7 @@
 import { decodeBinderCode, readBinderCodeFromUrl } from './utils/BinderCode.js';
 import { applyShine, applyCardGlow } from './utils/Shine.js';
 import { attachCardTilt } from './utils/CardTilt.js';
+import scrollHint from './utils/ScrollHint.js';
 
 /** Language of the visitor, limited to the two the card data is written in. */
 const LANG = (() => {
@@ -402,5 +403,9 @@ async function main() {
     renderError(T.damaged);
   }
 }
+
+// `base.css` hides the native bars of every page it styles, this one included: the same thin
+// indicator as the game keeps a long binder readable on a phone.
+scrollHint.start();
 
 void main();

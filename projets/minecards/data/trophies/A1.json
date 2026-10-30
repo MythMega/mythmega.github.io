@@ -82,6 +82,24 @@
                 },
                 "Experience": null,
                 "Icon": "./assets/img/trophy/A1/custom/GenesisMobs.png"
+            },
+            {
+                "Name": "Diamond Stuff",
+                "Rarity": "emerald",
+                "MusthaveAllRequirementsCompleted": true,
+                "Requirements": {
+                    "RequirementType": "CardList",
+                    "Type": "any",
+                    "Items": [
+                        "SERIE-A1 / T021",
+                        "SERIE-A1 / T022",
+                        "SERIE-A1 / T023",
+                        "SERIE-A1 / T024",
+                        "SERIE-A1 / T025"
+                    ]
+                },
+                "Experience": null,
+                "Icon": "./assets/img/trophy/A1/custom/DiamondStuff.png"
             }
         ]
 

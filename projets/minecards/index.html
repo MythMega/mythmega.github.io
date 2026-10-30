@@ -255,6 +255,8 @@
   <link rel="stylesheet" href="css/components/toast.css">
   <link rel="stylesheet" href="css/components/auto-claim.css">
   <link rel="stylesheet" href="css/components/notifications.css">
+  <link rel="stylesheet" href="css/components/install-prompt.css">
+  <link rel="stylesheet" href="css/components/info-hint.css">
   <!-- Animation modes: loaded LAST on purpose, they only override the animation of an opening
        (tear, card flip, summary) according to `data-animation` on <html>/<body>. One file per
        concern, and `accessibility.css` closes the group so `prefers-reduced-motion` wins over
@@ -514,6 +516,11 @@
             <time class="opening__countdown-value" data-opening-countdown-value>--:--:--</time>
           </p>
 
+          <!-- Release announcement of an extension that is not out yet: it can be looked at (the
+               3D model above turns) but never opened, so this line is what the player gets
+               instead of the quota and the countdown (`OpeningView.refreshQuota`). -->
+          <p class="opening__release" data-opening-release hidden></p>
+
           <button type="button" class="btn btn--primary btn--block" data-opening-open data-i18n="opening.open">Ouvrir un booster</button>
 
           <!-- Buy an extra booster with Sparks. Only offered once the free daily boosters are all
@@ -540,10 +547,10 @@
              The stickers are decoration around the word; the confetti is injected by
              `OpeningView.spawnConfetti()` at the moment of the blast. -->
         <div class="opening__burst" data-opening-burst aria-hidden="true" hidden>
-          <span class="opening__burst-sticker" style="top: 12%; left: 10%; --sticker-rot: -14deg" data-i18n="opening.burst.stickerA">POW !</span>
-          <span class="opening__burst-sticker" style="bottom: 16%; right: 8%; --sticker-rot: 11deg" data-i18n="opening.burst.stickerB">BAM !</span>
-          <span class="opening__burst-sticker opening__burst-sticker--glyph" style="top: 22%; right: 14%; --sticker-rot: 18deg">✦</span>
-          <span class="opening__burst-sticker opening__burst-sticker--glyph" style="bottom: 22%; left: 16%; --sticker-rot: -9deg">✷</span>
+          <span class="opening__burst-sticker opening__burst-sticker--top-left" data-i18n="opening.burst.stickerA">POW !</span>
+          <span class="opening__burst-sticker opening__burst-sticker--bottom-right" data-i18n="opening.burst.stickerB">BAM !</span>
+          <span class="opening__burst-sticker opening__burst-sticker--top-right opening__burst-sticker--glyph">✦</span>
+          <span class="opening__burst-sticker opening__burst-sticker--bottom-left opening__burst-sticker--glyph">✷</span>
           <p class="opening__burst-word" data-i18n="opening.burst.word">BOUM !</p>
           <p class="opening__burst-note" data-i18n="opening.burst.note">Mode explosif - parodique assumé</p>
         </div>
@@ -774,7 +781,10 @@
                  available; the others are earned through a trophy (see the Trophies tab). -->
             <div class="profile__icons-field" role="radiogroup" data-i18n-aria-label="profile.icons.label" aria-label="Icône de profil">
               <span class="field__label" data-i18n="profile.icons.label">Icône de profil</span>
-              <p class="profile__help" data-i18n="profile.icons.help">Choisissez une icône débloquée pour votre profil.</p>
+              <!-- The sentence is the first of the panel explanations moved behind an "i" by
+                   `InfoHint` (and printed again on the Information page): it is useful once, and
+                   noise on every visit. Without JavaScript it simply stays visible. -->
+              <p class="profile__help" data-info-hint="profile-icons" data-i18n="profile.icons.help">Choisissez une icône débloquée pour votre profil.</p>
               <ul class="profile__icons" data-profile-icons></ul>
             </div>
 
@@ -788,7 +798,7 @@
         <!-- Highlighted trophies: up to `profile.maxFeaturedTrophies` unlocked ones, all on one row. -->
         <section class="panel profile__panel">
           <h3 class="stats__title" data-i18n="profile.featured.title">Trophées mis en avant</h3>
-          <p class="profile__help" data-profile-featured-help data-i18n="profile.featured.help">Épinglez jusqu'à 1 trophée débloqué pour l'afficher en haut de votre profil. Les emplacements suivants s'achètent avec des Sparks.</p>
+          <p class="profile__help" data-info-hint="profile-featured" data-profile-featured-help data-i18n="profile.featured.help">Épinglez jusqu'à 1 trophée débloqué pour l'afficher en haut de votre profil. Les emplacements suivants s'achètent avec des Sparks.</p>
           <ul class="profile__strip" data-profile-featured></ul>
           <p class="profile__empty" data-profile-featured-empty hidden data-i18n="profile.featured.empty">Aucun trophée mis en avant pour le moment. Épinglez-en un depuis l'onglet Trophées.</p>
         </section>
@@ -806,7 +816,7 @@
              the layout switch, the PNG export and the enlargement modal. -->
         <section class="panel profile__panel profile__panel--wide">
           <h3 class="stats__title" data-i18n="profile.card.title">Carte de profil</h3>
-          <p class="profile__help" data-i18n="profile.card.help">Votre pseudo, votre titre et vos trophées réunis sur une carte, générée depuis votre profil.</p>
+          <p class="profile__help" data-info-hint="profile-card" data-i18n="profile.card.help">Votre pseudo, votre titre et vos trophées réunis sur une carte, générée depuis votre profil.</p>
           <p class="profile-card-panel__rarity" data-profile-card-rarity></p>
           <div class="profile-card-panel">
             <!-- The stage keeps the card fitted to the panel. The inner host is the shadow host AND
@@ -820,7 +830,7 @@
             <div class="profile-card-panel__backgrounds-block">
               <p class="profile-card-panel__colors-title" data-i18n="profile.card.background.title">Fond de la carte</p>
               <div class="profile-card-panel__backgrounds" role="group" data-profile-card-backgrounds data-i18n-aria-label="profile.card.background.title" aria-label="Fond de la carte"></div>
-              <p class="profile-card-panel__colors-help" data-profile-card-backgrounds-help></p>
+              <p class="profile-card-panel__colors-help" data-info-hint="profile-background" data-profile-card-backgrounds-help></p>
             </div>
             <!-- Rarity of the card: one option per rarity, the unlocked ones only. `ProfileView`
                  builds the five buttons (symbol, name, and the medal + "N / X" for the locked ones). -->
@@ -831,7 +841,7 @@
             <div class="profile-card-panel__colors-block">
               <p class="profile-card-panel__colors-title" data-i18n="profile.card.titleColor.title">Couleur du titre</p>
               <div class="profile-card-panel__colors" role="group" data-profile-card-title-colors data-i18n-aria-label="profile.card.titleColor.title" aria-label="Couleur du titre"></div>
-              <p class="profile-card-panel__colors-help" data-profile-card-title-colors-price></p>
+              <p class="profile-card-panel__colors-help" data-info-hint="profile-title-color" data-profile-card-title-colors-price></p>
             </div>
             <!-- Pseudo colour: the palette of `settings/colors.json`, bought with Sparks separately
                  from the title colours above. It sits right under the title purchase so both are
@@ -839,7 +849,7 @@
             <div class="profile-card-panel__colors-block">
               <p class="profile-card-panel__colors-title" data-i18n="profile.usernameColor.title">Couleur du pseudo</p>
               <div class="profile-card-panel__colors" role="group" data-profile-username-colors data-i18n-aria-label="profile.usernameColor.title" aria-label="Couleur du pseudo"></div>
-              <p class="profile-card-panel__colors-help" data-profile-username-colors-help data-i18n="profile.usernameColor.help">« Auto » garde la couleur du thème. Les autres couleurs s'achètent séparément de celles du titre.</p>
+              <p class="profile-card-panel__colors-help" data-info-hint="profile-username-color" data-profile-username-colors-help data-i18n="profile.usernameColor.help">« Auto » garde la couleur du thème. Les autres couleurs s'achètent séparément de celles du titre.</p>
             </div>
             <div class="profile-card-panel__actions">
               <div class="profile-card-panel__layouts" role="group" data-profile-card-layouts data-i18n-aria-label="profile.card.layout" aria-label="Disposition de la carte">
@@ -1165,12 +1175,14 @@
           <h3 class="stats__title" data-i18n="mineblock.resources.title">Ressources</h3>
           <ul class="mineblock__resources" data-mineblock-resources></ul>
 
-          <!-- The inventory: a chest, and nothing else. The picture is an ANIMATED webp, so the view
-               shows a still frame of it (drawn once on a canvas) and swaps the animated file back in
-               for the length of one play when the chest is opened. The label below is the accessible
-               name of the button (`.sr-only`): the chest IS the button. -->
+          <!-- The inventory: a chest, and nothing else. The fourty-one frames of the animated webp
+               are packed into ONE sprite (`assets/img/chest-sprite.webp`) and drawn on this canvas,
+               so the view can play the opening frames (1-21) when the dialog opens, hold the open
+               chest while it is displayed, then play the closing frames (22-41) and settle back on
+               the first one. The label below is the accessible name (`.sr-only`): the chest IS the
+               button. Without JavaScript the canvas stays empty, so the button still has its name. -->
           <button type="button" class="mineblock__inventory" data-mineblock-inventory aria-haspopup="dialog" aria-expanded="false">
-            <img class="mineblock__inventory-icon" data-mineblock-inventory-icon src="assets/img/chest.webp" alt="" decoding="async">
+            <canvas class="mineblock__inventory-icon" data-mineblock-inventory-icon width="150" height="150" aria-hidden="true"></canvas>
             <span class="sr-only" data-i18n="mineblock.inventory">Inventaire</span>
           </button>
         </section>
@@ -1298,7 +1310,7 @@
             <div class="card-reveal card-reveal--summary anim-demo__tiles" data-animation-demo-tiles aria-hidden="true"></div>
             <button type="button" class="btn btn--ghost anim-demo__play" data-animation-demo-play data-i18n="settings.animation.demoPlay">Rejouer l'aperçu</button>
           </div>
-          <p class="settings__help" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
+          <p class="settings__help" data-info-hint="settings-animation" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
         </section>
 
         <!-- Foil: how strong the reflection of the super rare, legendary and mythic printings is, and
@@ -1324,8 +1336,8 @@
             </div>
             <input type="range" class="foil-slider__input" id="settings-glare" data-settings-glare min="0" max="100" step="5" value="100" aria-describedby="settings-glare-help">
           </div>
-          <p class="settings__help" id="settings-foil-help" data-i18n="settings.foil.help">Le foil dessine les motifs de la carte (grille, nid d'abeilles, trame) ; la brillance règle le trait de lumière qui la traverse. À 0 %, l'effet correspondant disparaît complètement.</p>
-          <p class="settings__help" id="settings-glare-help" data-i18n="settings.foil.glareHelp">La brillance ne touche que le reflet qui balaie la carte : les motifs du foil restent visibles même à 0 %.</p>
+          <p class="settings__help" id="settings-foil-help" data-info-hint="settings-foil" data-i18n="settings.foil.help">Le foil dessine les motifs de la carte (grille, nid d'abeilles, trame) ; la brillance règle le trait de lumière qui la traverse. À 0 %, l'effet correspondant disparaît complètement.</p>
+          <p class="settings__help" id="settings-glare-help" data-info-hint="settings-foil" data-i18n="settings.foil.glareHelp">La brillance ne touche que le reflet qui balaie la carte : les motifs du foil restent visibles même à 0 %.</p>
         </section>
 
         <!-- Illumination: the halo around the trophy medals, as a level from 0 (off) to 5. It has
@@ -1340,7 +1352,7 @@
             </div>
             <input type="range" class="foil-slider__input" id="settings-glow-trophies" data-settings-glow min="0" max="5" step="1" value="2" aria-describedby="settings-glow-help">
           </div>
-          <p class="settings__help" id="settings-glow-help" data-i18n="settings.glow.help">Règle le halo autour des médailles de trophées : discret sur l'argent et l'or, plus large sur le diamant et l'émeraude. À 0, plus aucun halo. Le bronze n'en a jamais.</p>
+          <p class="settings__help" id="settings-glow-help" data-info-hint="settings-glow" data-i18n="settings.glow.help">Règle le halo autour des médailles de trophées : discret sur l'argent et l'or, plus large sur le diamant et l'émeraude. À 0, plus aucun halo. Le bronze n'en a jamais.</p>
         </section>
 
         <!-- Notifications: how long one game notification stays on screen, and which kinds are
@@ -1357,7 +1369,6 @@
             </div>
             <input type="range" class="foil-slider__input" id="settings-notification-duration" data-settings-notification-duration min="1" max="8" step="1" value="3" aria-describedby="settings-notification-duration-help">
           </div>
-          <p class="settings__help" id="settings-notification-duration-help" data-i18n="settings.notifications.durationHelp">Temps pendant lequel une notification reste affichée avant de laisser la place à la suivante.</p>
           <div class="settings__toggles">
             <div class="settings__toggle">
               <span class="settings__toggle-label" data-i18n="settings.notifications.collection">Progression des collections</span>
@@ -1381,7 +1392,10 @@
               </button>
             </div>
           </div>
-          <p class="settings__help" data-i18n="settings.notifications.help">Choisissez ce que le jeu annonce en haut de l'écran. Les messages d'action (un achat, une sauvegarde) ne sont pas concernés.</p>
+          <p class="settings__help" data-info-hint="settings-notifications" data-i18n="settings.notifications.help">Choisissez ce que le jeu annonce en haut de l'écran. Les messages d'action (un achat, une sauvegarde) ne sont pas concernés.</p>
+          <!-- Moved after the panel help so both sentences read in order inside the "i" popover;
+               the slider still points at it through `aria-describedby`. -->
+          <p class="settings__help" id="settings-notification-duration-help" data-info-hint="settings-notifications" data-i18n="settings.notifications.durationHelp">Temps pendant lequel une notification reste affichée avant de laisser la place à la suivante.</p>
         </section>
 
         <!-- Sounds: the global switch (master gate) then one row per family. The rows are built by
@@ -1393,9 +1407,9 @@
             <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
             <span class="switch__state" data-settings-sound-state></span>
           </button>
-          <p class="settings__help" data-i18n="settings.sound.help">Activez ou coupez tous les sons du jeu, puis réglez chaque famille séparément.</p>
+          <p class="settings__help" data-info-hint="settings-sound" data-i18n="settings.sound.help">Activez ou coupez tous les sons du jeu, puis réglez chaque famille séparément.</p>
           <div class="settings__sound" data-settings-sound-categories></div>
-          <p class="settings__help" data-settings-sound-help data-i18n="settings.sound.category.help">Chaque famille a son propre interrupteur et un volume de 0 à 5. À 0, elle est silencieuse.</p>
+          <p class="settings__help" data-settings-sound-help data-info-hint="settings-sound" data-i18n="settings.sound.category.help">Chaque famille a son propre interrupteur et un volume de 0 à 5. À 0, elle est silencieuse.</p>
         </section>
 
         <!-- Developer mode: one boolean preference. When it is on, the detail of a card in the
@@ -1407,7 +1421,7 @@
             <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
             <span class="switch__state" data-settings-dev-state></span>
           </button>
-          <p class="settings__help" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier.</p>
+          <p class="settings__help" data-info-hint="settings-dev" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier.</p>
         </section>
 
         <!-- Booster rendering: a developer tool, hidden unless the switch above is on. The choices
@@ -1416,14 +1430,14 @@
         <section class="panel settings__panel" data-settings-render-panel hidden>
           <h3 class="settings__title" data-i18n="settings.render.title">Rendu du booster</h3>
           <div class="lang-switch settings__choices" data-settings-render role="group" data-i18n-aria-label="settings.render.title" aria-label="Rendu du booster"></div>
-          <p class="settings__help" data-i18n="settings.render.help">Réservé au mode développeur : choisissez la façon dont le booster 3D réfléchit la lumière. Le mode est enregistré et s'applique à l'aperçu comme à l'ouverture.</p>
+          <p class="settings__help" data-info-hint="settings-render" data-i18n="settings.render.help">Réservé au mode développeur : choisissez la façon dont le booster 3D réfléchit la lumière. Le mode est enregistré et s'applique à l'aperçu comme à l'ouverture.</p>
           <p class="settings__help" data-settings-render-detail></p>
         </section>
 
         <!-- Account: read-only UUID, copy button (SettingsView never writes it). -->
         <section class="panel settings__panel">
           <h3 class="settings__title" data-i18n="settings.account.title">Compte</h3>
-          <p class="settings__help" data-i18n="settings.account.help">Communiquez cet identifiant pour recevoir des cadeaux. Il ne change jamais.</p>
+          <p class="settings__help" data-info-hint="settings-account" data-i18n="settings.account.help">Communiquez cet identifiant pour recevoir des cadeaux. Il ne change jamais.</p>
           <p class="settings__uuid">
             <code class="settings__uuid-value" data-settings-uuid>…</code>
             <button type="button" class="btn btn--ghost" data-settings-copy data-i18n="settings.account.copy">Copier</button>
@@ -1439,7 +1453,7 @@
             <time class="settings__clock-value" data-settings-utc>--:--:--</time>
             <span class="settings__clock-day" data-settings-utc-day></span>
           </p>
-          <p class="settings__help" data-i18n="settings.clock.help">L'heure de référence du jeu : les boosters quotidiens se réinitialisent à minuit UTC.</p>
+          <p class="settings__help" data-info-hint="settings-clock" data-i18n="settings.clock.help">L'heure de référence du jeu : les boosters quotidiens se réinitialisent à minuit UTC.</p>
         </section>
 
         <!-- Save: export / import / full reset. The import and the reset ask for a confirmation. -->
@@ -1460,7 +1474,7 @@
             <button type="button" class="btn btn--ghost" data-settings-check-gifts data-i18n="settings.distributions.check">Vérifier les distributions</button>
             <button type="button" class="btn btn--ghost" data-settings-gift-history data-i18n="settings.distributions.history">Historique des cadeaux</button>
           </div>
-          <p class="settings__help" data-i18n="settings.distributions.help">Chaque distribution n'est créditée qu'une seule fois : les cadeaux déjà reçus sont ignorés.</p>
+          <p class="settings__help" data-info-hint="settings-distributions" data-i18n="settings.distributions.help">Chaque distribution n'est créditée qu'une seule fois : les cadeaux déjà reçus sont ignorés.</p>
         </section>
       </div>
 
@@ -1553,8 +1567,29 @@
       <p class="feedback" data-info-feedback role="status" hidden></p>
 
       <div class="info">
+        <!-- Clickable table of contents: the page is long (rules, panel help, rates), and a phone
+             reader must be able to reach one section without scrolling through the others. The
+             links are plain anchors, handled by `InfoView` so the scroll stays inside the view. -->
+        <nav class="panel info__toc" data-info-toc data-i18n-aria-label="info.toc.label" aria-label="Sommaire">
+          <h3 class="info__toc-title" data-i18n="info.toc.title">Sommaire</h3>
+          <ul class="info__toc-list">
+            <li><a class="info__toc-link" href="#info-how" data-info-toc-link="info-how" data-i18n="info.how.title">Comment ça marche ?</a></li>
+            <li><a class="info__toc-link" href="#info-sets" data-info-toc-link="info-sets" data-i18n="info.sets.title">Extensions et sorties</a></li>
+            <li><a class="info__toc-link" href="#info-details" data-info-toc-link="info-details" data-i18n="info.details.title">Aide des panneaux</a></li>
+            <li><a class="info__toc-link" href="#info-minepick" data-info-toc-link="info-minepick" data-i18n="info.minepick.title">Mine Pick</a></li>
+            <li><a class="info__toc-link" href="#info-keyboard" data-info-toc-link="info-keyboard" data-i18n="info.keyboard.title">Contrôles clavier</a></li>
+            <li><a class="info__toc-link" href="#info-mining" data-info-toc-link="info-mining" data-i18n="info.mining.title">Mine</a></li>
+            <li><a class="info__toc-link" href="#info-trader" data-info-toc-link="info-trader" data-i18n="info.trader.title">Marchand itinérant</a></li>
+            <li><a class="info__toc-link" href="#info-experience" data-info-toc-link="info-experience" data-i18n="info.experience.title">Expérience et niveaux</a></li>
+            <li><a class="info__toc-link" href="#info-about" data-info-toc-link="info-about" data-i18n="info.about.title">À propos de MineCards</a></li>
+            <li><a class="info__toc-link" href="#info-faq" data-info-toc-link="info-faq" data-i18n="info.faq.title">Questions fréquentes</a></li>
+            <li><a class="info__toc-link" href="#info-rates" data-info-toc-link="info-rates" data-i18n="info.rates.title">Taux de drop</a></li>
+            <li><a class="info__toc-link" href="#info-credits" data-info-toc-link="info-credits" data-i18n="info.credits.title">Crédits</a></li>
+          </ul>
+        </nav>
+
         <!-- How it works: plain translated paragraphs (no data to load). -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-how">
           <h3 class="stats__title" data-i18n="info.how.title">Comment ça marche ?</h3>
           <p class="info__text" data-i18n="info.how.intro">MineCards est un jeu de collection : votre compte, votre collection et vos statistiques sont stockés uniquement dans ce navigateur, rien n'est envoyé à un serveur.</p>
           <ol class="info__steps">
@@ -1566,12 +1601,116 @@
           <p class="info__text" data-i18n="info.how.godpack">Rarement, un booster peut être un « godpack » : ses 5 cartes sont alors toutes des impressions Full Art, quelle que soit leur rareté.</p>
         </section>
 
+        <!-- Releases: the date of every extension, and a replay of the announcement popup. The
+             automatic popup only fires once, at the first load after the release; a player who
+             dismissed it - or who arrived later - reads it again from here. -->
+        <section class="panel info__panel" id="info-sets">
+          <h3 class="stats__title" data-i18n="info.sets.title">Extensions et sorties</h3>
+          <p class="info__text" data-i18n="info.sets.intro">Chaque extension sort un jour précis. Une popup l'annonce une seule fois, au premier lancement qui suit sa sortie : vous pouvez relire cette annonce ici, à tout moment.</p>
+          <ul class="info__sets" data-info-sets></ul>
+          <p class="info__note" data-i18n="info.sets.help">Les dates sont celles du jeu, en jour UTC. Une extension pas encore sortie apparaît déjà dans le sélecteur de boosters avec son modèle 3D, mais elle ne peut pas être ouverte et ses cartes ne rejoignent pas la collection.</p>
+        </section>
+
+        <!-- Panel help: the sentences that used to sit under each control of the settings, the
+             profile and the daily Sparks offer. They are the SAME `data-i18n` keys as the "i" icons
+             mounted by `InfoHint`, so the two can never say different things. -->
+        <section class="panel info__panel" id="info-details">
+          <h3 class="stats__title" data-i18n="info.details.title">Aide des panneaux</h3>
+          <p class="info__text" data-i18n="info.details.intro">Les explications détaillées des réglages, du profil et du marchand. Chaque panneau les ouvre aussi depuis sa petite icône d'information, sans quitter l'écran.</p>
+
+          <h4 class="info__details-title" data-i18n="view.profile.title">Profil</h4>
+          <div class="info__details-grid">
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="profile.icons.label">Icône de profil</h5>
+              <p class="info__text" data-i18n="profile.icons.help">Choisissez une icône débloquée pour votre profil.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="profile.featured.title">Trophées mis en avant</h5>
+              <p class="info__text" data-i18n="profile.featured.help">Épinglez jusqu'à 1 trophée débloqué pour l'afficher en haut de votre profil. Les emplacements suivants s'achètent avec des Sparks.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="profile.card.title">Carte de profil</h5>
+              <p class="info__text" data-i18n="profile.card.help">Votre pseudo, votre titre et vos trophées réunis sur une carte, générée depuis votre profil.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="profile.card.background.title">Fond de la carte</h5>
+              <p class="info__text" data-i18n="profile.card.background.help">La première carte favorite sert de fond par défaut. Choisissez-en une autre pour changer l'illustration.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="profile.card.titleColor.title">Couleur du titre</h5>
+              <p class="info__text" data-i18n="profile.card.titleColor.help">« Auto » suit la rareté de la carte. Les autres couleurs s'achètent avec des Sparks, puis se choisissent quand vous voulez.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="profile.usernameColor.title">Couleur du pseudo</h5>
+              <p class="info__text" data-i18n="profile.usernameColor.help">« Auto » garde la couleur du thème. Les autres couleurs s'achètent séparément de celles du titre.</p>
+            </div>
+          </div>
+
+          <h4 class="info__details-title" data-i18n="view.settings.title">Paramètres</h4>
+          <div class="info__details-grid">
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.animation.title">Animations</h5>
+              <p class="info__text" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu ci-dessus et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.foil.title">Foil</h5>
+              <p class="info__text" data-i18n="settings.foil.help">Le foil dessine les motifs des cartes super rares, légendaires et mythiques. La brillance règle le trait de lumière qui les traverse. À 0 %, l'effet disparaît, aperçu compris. Le réglage est enregistré sur cet appareil.</p>
+              <h5 class="info__details-heading" data-i18n="settings.foil.glare">Brillance</h5>
+              <p class="info__text" data-i18n="settings.foil.glareHelp">La brillance ne touche que le reflet qui balaie la carte : les motifs du foil restent visibles même à 0 %.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.glow.title">Illumination</h5>
+              <p class="info__text" data-i18n="settings.glow.help">Règle le halo autour des médailles de trophées : aucun pour le bronze, léger sur l'argent et l'or, moyen sur le diamant et l'émeraude. À 0, plus aucun halo.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.notifications.title">Notifications</h5>
+              <p class="info__text" data-i18n="settings.notifications.help">Choisissez ce que le jeu annonce en haut de l'écran. Les messages d'action (un achat, une sauvegarde) ne sont pas concernés.</p>
+              <h5 class="info__details-heading" data-i18n="settings.notifications.duration">Durée des notifications</h5>
+              <p class="info__text" data-i18n="settings.notifications.durationHelp">Temps pendant lequel une notification reste affichée avant de laisser la place à la suivante.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.sound.title">Sons</h5>
+              <p class="info__text" data-i18n="settings.sound.help">Activez ou coupez tous les sons du jeu, puis réglez chaque famille séparément. La préférence est enregistrée sur cet appareil.</p>
+              <h5 class="info__details-heading" data-i18n="settings.sound.categories">Familles de sons</h5>
+              <p class="info__text" data-i18n="settings.sound.category.help">Chaque famille a son propre interrupteur et un volume de 0 à 5. À 0, elle est silencieuse.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.dev.title">Mode développeur</h5>
+              <p class="info__text" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier, ainsi que le choix du rendu du booster 3D.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.render.title">Rendu du booster</h5>
+              <p class="info__text" data-i18n="settings.render.help">Réservé au mode développeur : choisissez la façon dont le booster 3D réfléchit la lumière. Le mode est enregistré et s'applique à l'aperçu comme à l'ouverture.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.account.title">Compte</h5>
+              <p class="info__text" data-i18n="settings.account.help">Communiquez cet identifiant pour recevoir des cadeaux. Il ne change jamais.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.clock.title">Heure UTC</h5>
+              <p class="info__text" data-i18n="settings.clock.help">L'heure de référence du jeu : les boosters quotidiens se réinitialisent à minuit UTC.</p>
+            </div>
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="settings.distributions.title">Distributions</h5>
+              <p class="info__text" data-i18n="settings.distributions.help">Chaque distribution n'est créditée qu'une seule fois : les cadeaux déjà reçus sont ignorés.</p>
+            </div>
+          </div>
+
+          <h4 class="info__details-title" data-i18n="info.trader.title">Marchand itinérant</h4>
+          <div class="info__details-grid">
+            <div class="info__details-item">
+              <h5 class="info__details-heading" data-i18n="mineblock.trader.spark.title">Achat du jour en Sparks</h5>
+              <p class="info__text" data-i18n="mineblock.trader.spark.help">Une ressource tirée au sort chaque jour, une seule fois. Sa quantité reste dans la limite de valeur fixée par le jeu.</p>
+            </div>
+          </div>
+        </section>
+
         <!-- Mine Pick: the daily board of ten simulated boosters. Its explanations used to be printed
              on the screen itself, where they pushed the board down: they live here now. A simulated
              pack is drawn with the REAL booster parameters — same rarity table, same
              `boosters.cardsPerBooster` and the same `boosters.godpackChancePercent`, so a godpack is
              as rare on this board as in a real opening. -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-minepick">
           <h3 class="stats__title" data-i18n="info.minepick.title">Mine Pick</h3>
           <p class="info__text" data-i18n="info.minepick.intro">Le Mine Pick est un mini-jeu quotidien : dix boosters sont simulés chaque jour avec vos vrais paramètres de tirage, et leur contenu est visible avant de choisir. Ouvrez le pack que vous voulez, retournez ses cartes, puis gardez celle qui vous plaît.</p>
           <ol class="info__steps">
@@ -1585,7 +1724,7 @@
 
         <!-- Keyboard: every shortcut the game listens to. The Mine is the only screen with controls
              of its own; the dialogs of the whole application close with Escape. -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-keyboard">
           <h3 class="stats__title" data-i18n="info.keyboard.title">Contrôles clavier</h3>
           <p class="info__text" data-i18n="info.keyboard.intro">La souris et le tactile suffisent partout. Ces raccourcis accélèrent la Mine et la fermeture des fenêtres.</p>
           <ul class="info__shortcuts">
@@ -1598,7 +1737,7 @@
         </section>
 
         <!-- Mine: the ten blocks of the day and the resources they give. -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-mining">
           <h3 class="stats__title" data-i18n="info.mining.title">Mine</h3>
           <p class="info__text" data-i18n="info.mining.intro">La Mine donne un quota de blocs chaque jour, remis à zéro à minuit UTC. Chaque bloc demande plusieurs coups avant de se casser, puis laisse tomber ses ressources.</p>
           <ol class="info__steps">
@@ -1611,7 +1750,7 @@
         </section>
 
         <!-- Wandering Trader: three ways to spend what the mine harvests, and one to spend Sparks. -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-trader">
           <h3 class="stats__title" data-i18n="info.trader.title">Marchand itinérant</h3>
           <p class="info__text" data-i18n="info.trader.intro">Le Marchand itinérant s'ouvre depuis la Mine, avec le bouton du même nom ou la touche S. Il vend des cartes contre les ressources récoltées.</p>
           <ol class="info__steps">
@@ -1626,7 +1765,7 @@
         <!-- Experience: EVERY XP source and its exact value, read live from `settings/config.json`
              (`levelling` and `ExperiencePerTrophy`) so the page can never drift from the rules the
              code really applies. -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-experience">
           <h3 class="stats__title" data-i18n="info.experience.title">Expérience et niveaux</h3>
           <p class="info__text" data-i18n="info.experience.intro">Votre profil gagne de l'expérience à chaque étape du jeu : le total ne se dépense jamais, il ne fait que monter et faire progresser votre niveau.</p>
 
@@ -1647,13 +1786,13 @@
              boot by `settings/i18n/fr.json`, which carries the exact same strings (English lives in
              `settings/i18n/en.json`). A question therefore lives in three places: this markup, the
              two dictionaries and the JSON-LD graph. -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-about">
           <h3 class="stats__title" data-i18n="info.about.title">À propos de MineCards</h3>
           <p class="info__text" data-i18n="info.about.intro">MineCards est un jeu de cartes à collectionner (TCG) inspiré de l'univers Minecraft, jouable gratuitement dans le navigateur. Trois boosters gratuits sont offerts chaque jour et par extension : chacun contient 5 cartes, tirées selon des taux de drop publiés ci-dessous.</p>
           <p class="info__text" data-i18n="info.about.collection">L'extension Genèse (A1) réunit 222 cartes en cinq raretés : Commune, Rare, Super rare, Légendaire et Mythique, en impression classique ou Full Art. Chaque carte obtenue rejoint votre collection. Les doublons se revendent en Sparks, de quoi acheter directement une carte qui vous manque.</p>
           <p class="info__text" data-i18n="info.about.local">Aucune inscription n'est nécessaire et rien n'est envoyé à un serveur : la collection, les Sparks et les statistiques restent stockés dans le navigateur, et une sauvegarde peut être exportée puis réimportée.</p>
 
-          <h3 class="stats__title info__faq-title" data-i18n="info.faq.title">Questions fréquentes</h3>
+          <h3 class="stats__title info__faq-title" id="info-faq" data-i18n="info.faq.title">Questions fréquentes</h3>
           <dl class="info__faq">
             <dt data-i18n="info.faq.q1">MineCards est-il un jeu Minecraft officiel ?</dt>
             <dd data-i18n="info.faq.a1">Non. MineCards est un jeu de cartes à collectionner non officiel, réalisé par des passionnés : il n'est ni édité ni approuvé par Mojang ou Microsoft. Les illustrations de cartes proviennent de l'univers Minecraft et sont créditées dans cette page.</dd>
@@ -1671,7 +1810,7 @@
         </section>
 
         <!-- Drop rates: the combobox picks an extension, the tables are read from its JSON. -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-rates">
           <h3 class="stats__title" data-i18n="info.rates.title">Taux de drop</h3>
           <p class="info__text" data-i18n="info.rates.help">Les taux ci-dessous sont lus directement dans les fichiers de données du jeu : ils correspondent exactement au tirage réel.</p>
 
@@ -1690,7 +1829,7 @@
         </section>
 
         <!-- Credits -->
-        <section class="panel info__panel">
+        <section class="panel info__panel" id="info-credits">
           <h3 class="stats__title" data-i18n="info.credits.title">Crédits</h3>
           <ul class="info__credits">
             <li data-i18n="info.credits.images">Les images de cartes viennent de MythMega.</li>
@@ -1732,6 +1871,10 @@
               icon by <a target="_blank" href="https://icons8.com" rel="noopener noreferrer">Icons8</a>
             </li>
           </ul>
+          <!-- Legal line: scan tools look for a copyright, and the game borrows Minecraft textures
+               and sounds, so the disclaimer sits in the served HTML instead of in a view that
+               JavaScript builds. -->
+          <p class="info__note" data-i18n="info.credits.legal">© 2026 JMDEV. Ce site n'est pas affilié à Mojang, Minecraft ou Microsoft.</p>
         </section>
       </div>
     </section>
@@ -1788,28 +1931,5 @@
 
   <script type="module" src="js/app.js"></script>
 
-  <!-- Service worker registration (PWA). It is a classic script, not a module, and it is started
-       after the `load` event for two reasons: the first paint must not wait for a registration, and
-       the worker's own `install` step precaches the whole shell (`sw.js`), which would otherwise
-       compete with the files the page is already loading.
-
-       The scope is spelled out even though `sw.js` sits at the root of the app and the browser
-       would derive exactly this value from the script URL: it names the mounted path of the game
-       (`manifest.json` declares the same one), so moving the game is one visible edit instead of a
-       silent behavior change. Registering the same path twice is a no-op, and a failure here only
-       costs the offline mode - the game itself is unaffected. -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js', { scope: '/projets/minecards/' })
-          .then(function (registration) {
-            console.log('[PWA] Service worker registered:', registration.scope);
-          })
-          .catch(function (error) {
-            console.error('[PWA] Service worker registration failed:', error);
-          });
-      });
-    }
-  </script>
 </body>
 </html>

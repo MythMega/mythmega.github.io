@@ -26,6 +26,30 @@
       "enabled": true
     },
     {
+      "event": "trader.open",
+      "file": "assets/sound/ui/wandering_open.mp3",
+      "_comment": "The Wandering Trader dialog opens (the shop of the week). Replaces the generic modal.open for this ONE dialog: the merchant arrives with his own sound.",
+      "enabled": true
+    },
+    {
+      "event": "trader.close",
+      "file": "assets/sound/ui/wandering_close.mp3",
+      "_comment": "The Wandering Trader dialog closes. Replaces modal.close for this dialog.",
+      "enabled": true
+    },
+    {
+      "event": "chest.open",
+      "file": "assets/sound/ui/chest_open.mp3",
+      "_comment": "The chest that opens the mine inventory, in sync with the opening frames of its webp animation. Replaces modal.open for this dialog.",
+      "enabled": true
+    },
+    {
+      "event": "chest.close",
+      "file": "assets/sound/ui/chest_close.mp3",
+      "_comment": "The inventory dialog closes while the chest plays its closing frames. Replaces modal.close for this dialog.",
+      "enabled": true
+    },
+    {
       "event": "panel.open",
       "file": "assets/sound/ui/panel_open.mp3",
       "_comment": "An inline panel unfolds (collection filters, the help of a view, the binder editor page). A paper slide, like a page being turned.",

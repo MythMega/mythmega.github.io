@@ -21,10 +21,11 @@ jeu.
 | `notifications` | bornes de durée + familles interruptibles | durée 1–8 s, défaut 3 ; types `collection`, `experience`, `title` |
 | `glow` | bornes du halo des trophées | `trophies` 0–5, défaut 2 |
 | `boosterRender` | rendu 3D du booster : mode par défaut et recettes (exposition, réflexions, lumières, métal/rugosité, vernis, émission, échelle de la normal map) | `defaultMode: blister`, puis `blister`, `classic`, `satin`, `metal` (sélecteur réservé au mode développeur) |
-| `boosters` | extensions, dossier, table de rareté, modèle 3D, cartes par pack, quota, prix, godpack, historique | `sets: ["A1","A2"]`, `directory: data/boosters`, `rarityConfigPath: settings/defaultRarity.json`, `model: assets/boostermodel.glb`, `cardsPerBooster: 5`, `dailyFreeBoosters: 3`, `extraBoosterPriceSparks: 1500`, `godpackChancePercent: 0.5`, `historySize: 10` |
+| `boosters` | dossier, table de rareté, modèle 3D, cartes par pack, quota, prix, godpack, historique, fenêtre d'avant-première et d'annonce de sortie | `directory: data/boosters`, `rarityConfigPath: settings/defaultRarity.json`, `model: assets/boostermodel.glb`, `cardsPerBooster: 5`, `dailyFreeBoosters: 3`, `extraBoosterPriceSparks: 1500`, `godpackChancePercent: 0.5`, `historySize: 10`, `upcomingPreviewDays: 3`, `releaseAnnouncementDays: 7` |
 | `minePick` | plateau, pioches, prix, graine, poids des extensions | `boosterCount: 10`, `picksPerDay: 3`, `extraPickPriceSparks: 1000`, `historySize: 10`, `seedSalt: "minecards-mine-pick-v1"`, `setWeightExponent: 2` |
 | `mining` | règles de la mine, quota, cadence, graine | `configPath: settings/mining.json`, `blocksPerDay: 50`, `nextBlockDelayMs: 100`, `keyHoldIntervalMs: 250`, `seedSalt: "minecards-mining-v1"` |
 | `promos` | dossier et séries de cartes promo (vide = une par extension) | `directory: data/promo_cards`, `sets: []` |
+| `binders` | un binder au niveau 1, puis un de plus tous les `unlockEveryLevels` niveaux | `unlockEveryLevels: 3` |
 | `timeSync` | fournisseurs d'heure UTC, timeout, intervalle de resynchronisation | 4 fournisseurs en ordre, 4000 ms, 900000 ms |
 | `sparks` | valeurs de vente/achat par rareté, récompense par booster | vente 1/3/10/25/100, achat 10/25/100/500/2500, `boosterReward: 5` |
 | `giftSheet` | identifiant et `gid` du Google Sheet des distributions | id du sheet livré, `gid: 0` |
@@ -112,8 +113,43 @@ Points structurants :
   profil. Jamais localisée.
 - **Deux axes de classement** : `index` (position dans `Cards`, tri par défaut) et `cardId` (`Index`,
   tri « Numéro », comparaison numérique).
-- Ajouter une extension = un fichier ici + l'identifiant dans `boosters.sets` + les illustrations.
-  Aucun autre code à toucher.
+- Ajouter une extension = un fichier ici + une entrée dans `settings/cardsets.json` + les
+  illustrations. Aucun autre code à toucher.
+
+### 4.2 bis Catalogue des extensions (`settings/cardsets.json`)
+
+L'ancien tableau `boosters.sets` de `settings/config.json` vit ici, avec ce qu'il ne savait pas dire :
+
+```json
+{
+  "sets": [
+    { "id": "A1", "releaseDate": "2024-06-27", "promo": true }
+  ]
+}
+```
+
+- `id` : identifiant technique, égal au nom du fichier `data/boosters/<id>.json`.
+- `releaseDate` : jour UTC (`YYYY-MM-DD`) à partir duquel le set est **ouvrable**. Absent ou
+  illisible = disponible immédiatement. La comparaison utilise le jour UTC **de confiance**
+  (`DateSyncManager`), jamais l'horloge de l'appareil.
+- `promo` : le set possède des cartes promo (`data/promo_cards/<id>.json`). C'est la seule source des
+  groupes promo (`ConfigLoader.getPromoSettings()`).
+- **Ordre du fichier** = ordre du sélecteur de boosters.
+
+Trois états, calculés par `BoosterManager.getSetAvailability()` :
+
+| État | Visible dans le sélecteur | Modèle 3D | Ouvrable | Cartes en collection |
+|---|---|---|---|---|
+| `released` | oui | oui | oui | oui |
+| `preview` (dans les `upcomingPreviewDays` jours avant la sortie) | oui, avec la date de sortie | oui | **non** (bouton désactivé, `openBooster()` refuse) | **non** |
+| `hidden` (hors fenêtre) | non | non | non | non |
+
+`upcomingPreviewDays: 0` supprime complètement l'avant-première : un set reste invisible jusqu'au
+jour de sa sortie. `releaseAnnouncementDays` règle l'autre bout : pendant combien de jours après sa
+sortie un set est encore annoncé par `SetAnnouncementPopup` au premier chargement du compte
+(0 = jamais). Le catalogue charge **tous** les sets (y compris annoncés) ; ce sont les listes
+(`listBoosterSets()`, `getReleasedSetIds()`) qui filtrent, si bien qu'aucune carte d'un set non sorti
+ne peut fuiter dans une pioche, une boutique ou un code.
 
 ## 4.3 Autres fichiers de données
 
@@ -128,10 +164,11 @@ Points structurants :
 | `settings/default_profile_icons.json` | liste `{ file, name, defaultProfile?, requiredLevel?, price? }` des avatars de départ : `requiredLevel` et `price` (Sparks) sont optionnels et cumulables | `ProfileIconManager` |
 | `settings/default_titles.json` | liste `{ id, requiredLevel, text: { fr, en } }` | `TitleManager` |
 | `settings/defaultRarity.json` | par emplacement du pack (`"1"`…`"5"`) : liste `{ rarity, weight }` | `GachaEngine` |
-| `settings/codes.json` | liste de codes : `{ Code, Rewards, Availabilities, Repeatable, AutoClaim? }` (une récompense peut cibler une carte, un layout ou plusieurs ; `AutoClaim = { Auto, RequiredLevel, RequiredOpenBoosterStats, CustomMessage }`, interdit sur un code répétable) | `RedeemManager`, `AutoClaimManager` |
+| `settings/codes.json` | liste de codes : `{ Code, Rewards, Availabilities, Repeatable, AutoClaim? }` (une récompense peut cibler une carte, un layout ou plusieurs ; `AutoClaim = { Auto, RequiredLevel, RequiredOpenBoosterStats, CustomMessage }`, interdit sur un code répétable). Un code qui donne du contenu d'une extension pas encore sortie est refusé en bloc (`content_not_released`), sans aucune écriture : il reste utilisable après la sortie | `RedeemManager`, `AutoClaimManager` |
 | `settings/mining.json` | `{ Cracks: [ { Range: { Min, Max }, Texture } ], Blocks: [ { ID, Name_FR, Name_EN, Weight, Hardness, Rewards } ] }` | `MiningManager` |
 | `settings/overlay.json` | `timings` (durées de la timeline), `booster.spinStepPerFrame`, `easing`, `sound` | `js/overlay.js` |
 | `settings/sounds.json` | carte des sons d'interface : `event`, `file` (sous `assets/sound/ui/`), `_comment`, `enabled` | `SoundManager` (+ `UiSounds`) |
+| `settings/cardsets.json` | `{ sets: [ { id, releaseDate, promo } ] }` : identifiants, date de sortie UTC et présence de promos | `ConfigLoader`, `BoosterManager` |
 | `settings/boosters_trophy.json` | paliers récurrents par extension (complétion, boosters ouverts) | `TrophyManager` |
 | `settings/global_trophy.json` | paliers globaux (cartes, boosters, cartes différentes, blocs minés, pioches) | `TrophyManager` |
 | `settings/ui` | pas de fichier : toute la copie passe par `settings/i18n/` | — |
@@ -190,6 +227,20 @@ avertissement, une médaille retombe sur `default.png`, etc.).
 ## 4.7 Règles de qualité appliquées aux données
 
 - **JSON strict** : le linter refuse un JSON invalide ou une clé déclarée deux fois.
+- **Cartes** : un `Index` n'est imprimé qu'une fois par `Layout` (`classic` / `fullart`), dans un
+  catalogue comme entre catalogues : c'est la clé de collection, donc un doublon ferait disparaître
+  une impression sans qu'aucun écran ne le montre. Le linter vérifie aussi l'index, le layout, la
+  rareté, le style, les noms et descriptions par langue, et que le nom de l'image correspond à
+  l'index et au layout.
+- **Références** : tout fichier qui nomme une carte doit nommer une carte qui existe - reward de
+  code, offre épinglée du marchand, exigence de trophée (et l'impression demandée aussi) - et tout
+  fichier qui nomme un trophée, une icône ou un titre doit nommer quelque chose qui existe.
+- **Catalogues** : un set est déclaré une fois, possède son `data/boosters/<setId>.json`, sa date de
+  sortie est un jour réel, et son drapeau `promo` correspond à `data/promo_cards/`.
+- **Économie** : les prix en Sparks couvrent les cinq raretés, `shop.itemsValues` ne nomme que des
+  ressources réellement minées, une offre épinglée n'est payée qu'en ressources connues et sur une
+  fenêtre non vide, et les blocs de la mine ont un poids, une dureté et des récompenses valides ;
+  une table de rareté tire des raretés 1-5 et ses poids totalisent 1.
 - **Fichiers référencés** : le linter avertit quand une illustration, une médaille ou un son cité par
   un fichier de données est absent (le jeu a un repli, donc c'est un avertissement, pas une erreur).
 - **Chemins** : les chemins de données commencent par `./` ou `assets/` ; ils sont normalisés à la

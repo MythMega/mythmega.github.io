@@ -740,11 +740,12 @@ export class DateSyncManager {
   }
 
   /**
-   * Validates a booster set id against the extensions declared in `config.json`.
+   * Validates a booster set id against the sets declared in `settings/cardsets.json`.
    *
-   * `config.json` (`boosters.sets`) is the source of truth that `BoosterManager` (step 3) uses
-   * to load `settings/boosters/<setId>.json`: an unknown id can therefore never receive a
-   * bonus booster.
+   * The catalogue (`getBoosterSettings().sets`) is the source of truth that `BoosterManager`
+   * uses to load `data/boosters/<setId>.json`: an unknown id can therefore never receive a bonus
+   * booster. A set that is declared but not released yet is accepted here - its boosters are
+   * simply kept until the release, which is what a gift or a redeem code may be preparing.
    *
    * @param {unknown} setId - Candidate extension id.
    * @returns {string} The normalized extension id.

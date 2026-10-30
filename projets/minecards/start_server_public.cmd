@@ -10,8 +10,8 @@ REM  `external/`).
 REM ============================================================================
 
 setlocal
-set min=25565
-set max=25565
+set min=8211
+set max=8211
 
 REM Random port inside [min, max] to avoid clashing with an already running server.
 set /a port=%RANDOM% %% (max - min + 1) + min

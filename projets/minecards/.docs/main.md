@@ -90,7 +90,7 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
   trophée et n'a pas de réglage ; une carte manquante ne le reçoit pas (silhouette grise).
 
 ### D bis. Cartes promo (obtention par code ou événement)
-- **Déclaration :** un fichier par série dans `data/promo_cards/<serie>.json` (`promos.directory`, `promos.sets` — vide = un fichier par extension de `boosters.sets`). Le contenu est soit un tableau d'entrées de carte, soit `{ Serie, Name, Cards: [...] }` ; le groupe exposé s'appelle `<serie>-Promo` et porte le nom de la série (« Genesis Blocks · Promo »). Une série sans fichier n'a simplement pas de promo, et un fichier absent ou invalide est ignoré avec un avertissement (`PromoManager`).
+- **Déclaration :** un fichier par série dans `data/promo_cards/<serie>.json` (`promos.directory` ; le drapeau `promo` de `settings/cardsets.json` dit quelles séries en ont un). Le contenu est soit un tableau d'entrées de carte, soit `{ Serie, Name, Cards: [...] }` ; le groupe exposé s'appelle `<serie>-Promo` et porte le nom de la série (« Genesis Blocks · Promo »). Une série sans fichier n'a simplement pas de promo, et un fichier absent ou invalide est ignoré avec un avertissement (`PromoManager`).
 - **Jamais tirées :** `BoosterManager` ne lit pas ces fichiers et les cartes n'entrent dans **aucune** table de rareté. Elles ne peuvent donc sortir ni d'une ouverture ni d'une Mine Pick.
 - **Obtention :** uniquement par **code** (`RedeemManager` : codes de feuille et codes personnels `useritem`, catalogue étendu aux promos) ou par **cadeau** (`GiftManager`, pour les distributions d'événement).
 - **Collection :** une promo non possédée **n'apparaît pas** (pas de silhouette, pas de case vide) ; le groupe `-Promo` n'apparaît dans le filtre que dès qu'une carte du groupe est possédée. Les cartes possédées portent une pastille « Promo » et se comportent comme les autres (favoris, vente/achat, détail).
@@ -132,6 +132,8 @@ L'heure UTC affichée dans les Paramètres est celle de `DateSyncManager` (jamai
 **En-tête sur écran large** (≥ 1024 px) : les cinq compteurs (boosters quotidiens, boosters bonus, pioches Mine Pick, Binders, Sparks) affichent leur **nom court** à côté de leur icône (« Quotidiens », « Bonus », « Pioches », « Binders », « Sparks » / « Daily », « Bonus », « Picks », « Binders », « Sparks »), et le slogan — pure décoration, déjà absent sur un téléphone — laisse la place. Le libellé long de chaque compteur reste dans un `.sr-only`, qui est le nom accessible : le libellé visible est `aria-hidden`, donc un lecteur d'écran n'entend jamais une version tronquée.
 
 **Aide de page :** chaque vue (Ouverture, Collection, Profil, Statistiques, Trophées, Titre, Mine Pick, Mine, Paramètres, Informations) porte une pastille « Comment ça marche ? » sous son titre (`js/UI/components/ViewHelp.js`, styles dans `css/base.css`). Elle ouvre une **mini-popup** : le titre de la vue, **deux phrases** d'explication (`view.<vue>.help`) et un bouton « Plus d'infos » qui mène à la page Informations. Une seule popup ouverte à la fois ; `Échap`, un clic à l'extérieur ou un second clic sur la pastille la referment. Le texte passe par `data-i18n` : un changement de langue la retraduit sans la rouvrir.
+
+**Aide de panneau :** les phrases qui expliquent un réglage précis (foil, sons, couleur du pseudo, offre du jour en Sparks…) ne sont plus imprimées sous chaque contrôle : elles passent derrière une **petite icône « i »** (`js/UI/components/InfoHint.js`, `css/components/info-hint.css`, déclenchée par `data-info-hint="<groupe>"` dans `index.html`). L'icône se place dans le titre du panneau ou dans le libellé du curseur ; un clic (ou `Entrée`) ouvre la phrase dans une bulle flottante, `Échap` ou un clic à l'extérieur la referment, et une bulle ouverte dans une modale reste dans la boîte de la modale. Deux phrases du même panneau partagent une seule icône via le même nom de groupe. Le texte d'origine est **déplacé** dans la bulle, jamais copié, donc une vue qui le réécrit (`ProfileView` pour les couleurs, `MineBlockView` pour l'offre du jour) continue de mettre à jour le même élément ; il reste aussi visible sans JavaScript. Les mêmes clés `data-i18n` sont imprimées dans la section **« Aide des panneaux »** de la page Informations, qui ouvre par un **sommaire cliquable**.
 
 **Le rituel prend tout l'écran** (`js/utils/FocusMode.js`, `body.is-focus` dans `css/base.css`) : deux moments du jeu sont des **rituels** et non des pages — **l'ouverture d'un booster**, à partir du moment où le joueur en a choisi un (`OpeningView.performOpen` → `showStage('scene')`), et **la pioche du Mine Pick**, à partir du moment où le paquet est distribué (`MinePickView.showStage('pick')`). Pendant ceux-ci, la **marque, les compteurs, la barre de navigation du bas, la pastille « Comment ça marche ? » et le titre de la vue sont masqués** : rien ne doit disputer l'écran au booster ni aux cartes. L'état est **une seule classe sur `<body>`**, posée par `setFocusMode()` au moment exact du changement d'étape — `showStage` est cette frontière des deux côtés — et retirée au retour (`finish()`, « Retour aux boosters »), par `handleViewDeactivated()` (quitter la vue en pleine ouverture par un lien profond ou le bouton retour rend le chrome) et par `destroy()`. L'espace de `padding-bottom` réservé à la barre disparaît avec elle et `--nav-height` passe à `0`, pour que la pile de toasts suive au lieu de flotter au-dessus du vide ; la bannière de notification, elle, se place en mesurant le bas de l'en-tête, dont la hauteur vaut zéro une fois masqué.
 
@@ -386,13 +388,17 @@ ressource jamais récoltée s'affiche à `0` plutôt que de disparaître. Les **
 c'est la monnaie, elle a son compteur dans l'en-tête (et ses toasts à la casse) — la liste est celle des
 matières que l'inventaire sert à échanger.
 
-**Inventaire.** Sous les ressources, un **coffre** (`assets/img/chest.webp`, une image **animée**) est le
-seul bouton de cette zone : il ouvre une **popup** listant chaque ressource avec son icône, son **nom** et
-sa quantité — c'est là, et nulle part ailleurs, que les noms sont écrits. Le coffre ne bouge **pas** au
-repos : la vue dessine une fois sa première image sur un canvas et l'affiche à la place du fichier animé,
-puis remet le fichier animé le temps d'**une** lecture à chaque clic (un second clic relance l'animation
-au lieu d'empiler les minuteries). Si le gel échoue, le coffre s'anime simplement tout le temps : une
-régression cosmétique, jamais un contrôle cassé.
+**Inventaire.** Sous les ressources, un **coffre** est le seul bouton de cette zone : il ouvre une
+**popup** listant chaque ressource avec son icône, son **nom** et sa quantité — c'est là, et nulle part
+ailleurs, que les noms sont écrits. Le coffre source est un webp animé de 41 images ; elles sont
+emballées dans **une** planche (`assets/img/chest-sprite.webp`, 7 colonnes de 150 px) que la vue dessine
+sur un canvas, image par image : l'image 1 est le repos, l'ouverture joue les images 1 → 21 quand la
+popup s'ouvre, le coffre reste ouvert tant qu'elle est là, puis la fermeture joue les images 22 → 41 et
+revient à l'image 1. La vue possède donc la cadence (40 ms par image) au lieu de la subir, et un second
+clic ne peut pas empiler deux animations. Si la planche ne peut pas être décodée, le bouton retombe sur
+le webp animé : une régression cosmétique, jamais un contrôle cassé. Les deux sons d'ouverture et de
+fermeture de ce dialogue sont `chest.open` / `chest.close` (`settings/sounds.json`). Chaque bloc cassé
+secoue le coffre (`is-shaking`, 460 ms), comme si le butin venait d'y tomber.
 
 **Statistiques.** `blocksMined` compte les blocs cassés **par sorte**, `resources` la quantité récoltée et
 `sparksFound` les Sparks trouvés. Le panneau « Mine » de la page Statistiques affiche l'allowance du jour,
@@ -640,7 +646,11 @@ l'entrée ; les chemins livrés restent en repli dans `UI_SOUND_PATHS`, donc une
 n'est jamais silencieuse. `js/utils/UiSounds.js` déclenche les moments qui n'appartiennent à aucune
 vue — l'ouverture et la fermeture de **n'importe quel** `.modal` sont observées par un
 `MutationObserver` sur l'attribut `hidden`, et une modale dont le contenu est une carte joue
-`card.open` / `card.close` plutôt que `modal.open` / `modal.close`.
+`card.open` / `card.close` plutôt que `modal.open` / `modal.close`. Deux dialogues ont leur propre
+paire de sons, déclarée une fois dans `SPECIFIC_MODAL_SOUNDS` (`js/utils/UiSounds.js`) et prioritaire
+sur la détection générique : le **marchand itinérant** (`wandering.open` / `wandering.close`) et le
+**coffre de la mine** (`chest.open` / `chest.close`, synchronisés avec les images d'ouverture et de
+fermeture de son sprite).
 
 Les sons sont rangés en **quatre familles**, y compris ceux qui ne viennent pas de la carte :
 `opening` (déchirure du booster, retournement et stings de rareté — `SOUNDS` / `RARITY_SOUNDS`),
@@ -660,6 +670,26 @@ curseur reste désactivé tant qu'elle est coupée. Une modification du volume e
 sauvegarde. Les cinq sons déjà utilisés par l'ouverture restent déclarés dans
 `js/utils/SoundManager.js` : la carte ne les duplique pas.
 
+### G undecies. Annonce d'une extension sortie
+
+Une extension de `settings/cardsets.json` dont la `releaseDate` est future entre dans la fenêtre
+d'aperçu `boosters.upcomingPreviewDays` avant sa sortie : le sélecteur la montre (modèle 3D compris)
+mais `openBooster` la refuse, et ses cartes ne sortent d'aucun pool (Mine Pick, marchand, cadeaux,
+codes).
+
+Le jour de sa sortie - ou au premier chargement qui suit, tant qu'on reste dans
+`boosters.releaseAnnouncementDays` (7 par défaut, 0 désactive) - `js/UI/components/SetAnnouncementPopup.js`
+affiche une popup (badge, texture, nom, date de sortie). `SetAnnouncementManager` retient
+l'identifiant dans `user_state["setAnnouncements"]` avant même d'ouvrir la popup : elle ne
+réapparaît pas, même si la page est rechargée au milieu de la file. Un set sans date de sortie
+n'est jamais annoncé, et la file d'annonces passe avant les codes automatiques.
+
+La page **Informations** (§19 de `02-fonctionnalites.md`) redonne accès à ces dates : la section
+« Extensions et sorties » liste les extensions, la plus récente d'abord, avec un bouton qui rejoue
+la popup (`SetAnnouncementPopup.show()`). Rejouer ne réécrit pas `user_state["setAnnouncements"]`,
+donc l'annonce automatique reste marquée comme vue. Les extensions pas encore sorties y portent la
+pastille « À venir » et un compte à rebours suivi par `CLOCK_TICK`, sans minuteur propre à la vue.
+
 ### H. Distributions (cadeaux via Google Sheet)
 - Source : le CSV du Google Sheet, dont l'URL est configurée dans `settings/config.json`.
 - Une ligne = un cadeau : `uuid`, `type` (`booster`|`card`), `key`, `quantity`. La colonne `key` identifie le cadeau : l'identifiant du set pour un `booster` (ex. `set1`), la clé unique de la carte pour une `card` (ex. `042_fullart`). Voir Étape 8.
@@ -676,7 +706,7 @@ sauvegarde. Les cinq sons déjà utilisés par l'ouverture restent déclarés da
 - **Le sélecteur montre CINQ cartes par ligne** à partir de 768 px, trois sur un téléphone — la même grille que la collection. Le sélecteur était déclaré `display: grid` depuis le début sans jamais l'être : `.modal__body` (`css/components/modal.css`) est un conteneur flex en colonne, feuille chargée **après** `binders.css`, donc à spécificité égale son `display: flex` gagnait et les cartes s'empilaient une par ligne. Le sélecteur est désormais nommé `.modal__body.binder-picker` (deux classes), ce qui le place au-dessus quel que soit l'ordre des fichiers.
 - **La carte représentative ne consomme pas de copie :** elle n'occupe aucun emplacement, elle ne fait que prêter le `Background` de sa carte à la page (« c'est juste récupérer un fond », côté joueur). Le budget de copies d'un binder ne porte donc que sur les **cartes placées dans les emplacements** : `BinderManager.validateSlots()` ne lit que les `slots`, `reconcile()` ne rogne que les `slots`, et `renderBinderPicker()` ne retire plus les placements existants quand la cible est la **carte représentative**. Un joueur peut donc choisir comme représentante une carte déjà rangée dans un emplacement, même s'il n'en possède qu'une copie — ce que le sélecteur d'un **emplacement** continue de refuser (la règle par binder y reste entière).
 - **Carte représentative & décor :** le fond de la page est le **`Background`** de la carte représentative (voir 3.D). Il est publié en `--binder-backdrop` par la vue, jamais codé en dur dans la feuille : le CSS ne fait que le peindre quand la variable existe, et un binder sans représentant n'a simplement pas de décor.
-- **Limite :** le joueur a autant de binders que son **niveau** (`BinderManager.getLimit()` lit le niveau évalué par `TrophyManager`). Le bouton « Créer » est désactivé au plafond, et le gestionnaire refuse quand même la création (code `BINDER_LIMIT_REACHED`).
+- **Limite :** **un binder dès le niveau 1**, puis **un de plus tous les `binders.unlockEveryLevels` niveaux** (`settings/config.json`, 3 par défaut) : niveau 1 → 1 binder, niveau 3 → 2, niveau 6 → 3. `BinderManager.getProgress()` lit le niveau évalué par `TrophyManager` et l'intervalle de la configuration, et la liste annonce le **prochain palier** (`+1 binder au niveau X`) plutôt qu'un « un par niveau » qui ne décrirait plus la règle. Le bouton « Créer » est désactivé au plafond, et le gestionnaire refuse quand même la création (code `BINDER_LIMIT_REACHED`).
 - **Vente d'une carte :** seul évènement qui puisse invalider une page. `BinderManager.reconcile()` retire les placements excédentaires **par binder**, en commençant **par l'emplacement le plus lointain** (l'index le plus haut) : les premières lignes rangées survivent. Appelé après chaque vente depuis la collection, et à l'ouverture de la liste (auto-réparation après un import).
 - **Ouvrir :** le bouton **« Ouvrir »** de chaque ligne de la liste (`CollectionView.openBinderInNewTab()`, à côté du partage) ouvre la page en **lecture seule** du binder (`collection.html?code=…`) dans un **nouvel onglet**. L'onglet est réclamé **avant** tout `await` (`window.open('about:blank', '_blank')` puis affectation de `location.href`) : un navigateur refuse un `window.open()` déclenché après une attente, et lire un binder est asynchrone par nature. Rien n'est copié dans le presse-papier — ouvrir et partager sont deux intentions distinctes — et un onglet bloqué est signalé par un message.
 - **Partage :** le bouton **« Partager »** existe à deux endroits — dans l'éditeur (brouillon) et **sur chaque ligne de la liste** (icône dessinée en SVG, à côté de la suppression) : les deux passent par `CollectionView.shareBinder()`, qui génère un **code** auto-suffisant encodant l'identité de l'auteur (nom, icône), le nom du binder, sa carte représentative, la **liste des cartes** et les **données maîtresses** de chacune (`id`, style, rareté, extension, illustration, noms, `Background`), plus le **nom d'affichage des extensions** employées (`sets`, champ optionnel : un code plus ancien s'en passe et la page retombe sur l'identifiant brut). L'**URL complète** `collection.html?code=…` est ensuite copiée. L'identité encodée est celle du profil : le nom, l'icône choisie (chemin du catalogue) **et** la `photo` de secours d'une sauvegarde plus ancienne, pour qu'un auteur qui n'a jamais choisi d'icône montre quand même son image.
@@ -694,6 +724,7 @@ sauvegarde. Les cinq sons déjà utilisés par l'ouverture restent déclarés da
 - **Jamais mis en cache :** les requêtes `no-store`/`reload`/`no-cache` (rafraîchissement des paramètres, des cadeaux et des codes), les requêtes `Range`, le cross-origin hors CDN (API de temps, Google Sheet), le worker lui-même et les fichiers privés (`admin/`, `useritem_codes.csv`, `.docs/`).
 - **Couverture :** tout le jeu démarre hors-ligne dès la première installation, sans rechargement intermédiaire (vérifié serveur coupé, cache d'exécution vide). En revanche les illustrations (`cards/`, 374 Mo) et les visuels de boosters ne sont mis en cache **qu'à l'usage** : une carte jamais affichée n'a pas d'image hors-ligne.
 - **Mise à jour :** incrémenter `VERSION` dans `sw.js` à chaque changement du shell ; seuls les caches préfixés `minecards-` sont purgés, ceux des autres projets de l'hôte sont laissés intacts.
+- **Invitation à installer :** Chrome Android n'installe rien de lui-même : il émet `beforeinstallprompt` et laisse la page poser la question. `js/UI/components/InstallPrompt.js` l'intercepte (il est branché au chargement du module, l'événement ne se rejoue pas) et affiche sa propre bannière au-dessus de la barre du bas, 6 s après l'écran principal. Elle attend la fin d'un dialogue, d'un rituel (`is-focus`) ou de la popup d'un code automatique, ne s'affiche que sur mobile (jamais sur desktop, où Chrome a déjà son icône) et jamais dans l'app déjà installée (`display-mode`, `appinstalled`). « Plus tard » (ou `Échap`) l'écarte 30 jours, une installation l'écarte pour de bon, dans `localStorage["mc_install_prompt"]` : c'est un choix d'APPAREIL, pas de compte, donc vider la sauvegarde ne le réarme pas.
 - **Orientation :** `manifest.json` déclare `"orientation": "portrait"` : l'app installée ne tourne pas en paysage (Chrome/Android l'applique). iOS ignore cette clé, d'où une mise en page qui doit rester utilisable à l'horizontale.
 - **Digital Asset Links :** la racine du domaine est la racine du dépôt (`mythmega.github.io` + `CNAME` = `web.jmdev.fr`), donc le fichier vit deux niveaux au-dessus du jeu, dans `../../.well-known/assetlinks.json`, et se lit à `https://web.jmdev.fr/.well-known/assetlinks.json` — jamais sous `/projets/minecards/`, un vérificateur ne lit pas d'autre adresse. `_config.yml` (racine du dépôt) contient `include: [.well-known]` car Jekyll, utilisé par GitHub Pages, ignore les dossiers commençant par un point : sans lui le fichier est commité mais répond 404. Le package (`fr.jmdev.minecards`) et l'empreinte SHA-256 sont déjà inscrits et correspondent au keystore `~/.android/minecards-release.keystore` ; la procédure Bubblewrap et le remplacement de l'empreinte sont décrits dans `docs/android/README.md`. Le worker ne met jamais ce chemin en cache.
 

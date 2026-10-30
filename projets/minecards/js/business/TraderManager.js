@@ -922,16 +922,17 @@ export class TraderManager {
   /**
    * Groups every card of every loaded extension by rarity.
    *
-   * The whole catalogue is pooled in the order declared by `settings/config.json`, so two players
+   * The whole catalogue is pooled in the order declared by `settings/cardsets.json`, so two players
    * with the same files draw the same thing. The promo cards are left out: they are never drawn
-   * (`PromoManager`), and a pinned offer is the only way to sell one.
+   * (`PromoManager`), and a pinned offer is the only way to sell one. A set that is announced but
+   * not released yet is left out too: the shop of the week never sells a card nobody can own.
    *
    * @param {object} manager - A `BoosterManager` (the shared instance by default).
    * @returns {Map<number, Array<object>>} The cards, by rarity.
    */
   static poolCardsByRarity(manager) {
     const pools = new Map();
-    manager.getLoadedSetIds().forEach((setId) => {
+    manager.getReleasedSetIds().forEach((setId) => {
       const set = manager.getLoadedSet(setId);
       if (!set?.cardsByRarity) return;
       set.cardsByRarity.forEach((cards, rarity) => {
@@ -1014,7 +1015,7 @@ export class TraderManager {
     }
 
     await boosterManager.init();
-    for (const setId of boosterManager.getLoadedSetIds()) {
+    for (const setId of boosterManager.getReleasedSetIds()) {
       const set = boosterManager.getLoadedSet(setId);
       const rawCards = set?.raw?.Cards;
       if (!Array.isArray(rawCards)) continue;

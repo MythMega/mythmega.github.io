@@ -140,6 +140,13 @@ Trois modes, déclarés dans `animations.list` de `config.json` et portés par `
 - **Toasts** (`css/components/toast.css`) : empilés **en bas**, accusés de réception d'action.
 - **Notifications** (`css/components/notifications.css`) : **en haut à droite** (en haut au centre
   en orientation portrait), une seule à la fois, sous l'en-tête mesuré ; durée réglable 1–8 s.
+- **Bannière d'installation** (`css/components/install-prompt.css`) : encart posé **juste au-dessus
+  de la barre du bas** (même calage que les toasts), icône du jeu, deux lignes de texte et deux
+  boutons (« Plus tard » discret, « Installer » en primaire). Ce n'est pas une modale : elle ne
+  prend pas le focus et ne bloque rien.
+- **Icône d'aide** (`info-hint`, `js/UI/components/InfoHint.js`) : petite pastille « i » dans le
+  titre d'un panneau ou le libellé d'un curseur, qui ouvre la phrase d'explication dans une bulle
+  flottante (fermeture par `Échap` ou clic extérieur, recadrage dans la boîte qui la contient).
 - **Sliders** : `foil-slider` (label + `output` + `input[type=range]`), piste colorée par
   `accent-color`, valeur en `tabular-nums`.
 - **Switches** : `switch` partagé (piste + pouce), état « Activé »/« Désactivé ».
@@ -149,6 +156,12 @@ Trois modes, déclarés dans `animations.list` de `config.json` et portés par `
   à gauche / action à droite.
 - **Aide de page** : pastille unique ouverte à la fois, refermée par `Échap`, un clic extérieur ou
   un second clic ; retraduite à chaud.
+- **Barre de défilement** (`ScrollHint`, `js/utils/ScrollHint.js`) : les barres natives sont masquées
+  partout (`scrollbar-width: none` + `::-webkit-scrollbar`, `css/base.css`). Pendant qu'une boîte
+  défile (la page, comme le corps d'une modale), un indicateur de 4 px est peint à l'intérieur de
+  son bord droit (ou bas) puis s'efface après 700 ms d'immobilité. Couche `--z-scroll-hint`, donc
+  au-dessus des modales ; `pointer-events: none`, il ne capte rien et ne se saisit pas : molette,
+  doigt et `scroll-snap` des bandeaux restent inchangés.
 
 ## 3.7 Responsive
 
@@ -226,13 +239,16 @@ empilée, qu'un champ de saisie a le focus ou qu'une action est en cours.
   porté ; titres verrouillés grisés avec leur condition.
 - **Mine Pick** : liste des dix boosters (texture, nom, cinq cartes), ligne d'état, bouton d'achat si
   épuisé, scène de pioche plein écran.
-- **Mine** : bloc en grand, nom et blocs restants, pastilles de ressources, coffre, bouton marchand,
-  popup d'inventaire, popup boutique + détail d'offre.
+- **Mine** : bloc en grand, nom et blocs restants, pastilles de ressources, coffre (secoué à chaque
+  bloc cassé), bouton marchand, popup d'inventaire, popup boutique + détail d'offre.
+- **Annonce d'extension** : popup globale (au-dessus de toute vue) avec badge, texture du booster,
+  nom, date de sortie et bouton « Compris » ; une seule fois par extension et par compte.
 - **Paramètres** : une pile de panneaux (Langue, Thème, Animations + aperçu, Foil, Illumination,
   Notifications, Son, Mode développeur, Compte, Heure UTC, Sauvegarde, Distributions, Codes,
   Cadeaux).
-- **Informations** : texte explicatif, panneaux « Contrôles clavier », « Mine », « Marchand
-  itinérant » et « Expérience et niveaux ».
+- **Informations** : texte explicatif, sommaire cliquable, panneaux « Contrôles clavier », « Mine »,
+  « Marchand itinérant », « Extensions et sorties » (dates de sortie + relecture de l'annonce) et
+  « Expérience et niveaux ».
 - **Overlay** : page transparente, booster qui tourne, cartes qui se retournent, résumé, puis écran
   vide.
 - **Binder partagé** (`collection.html`) : panneau centré, pastille auteur, grille 3 colonnes,
@@ -240,8 +256,9 @@ empilée, qu'un champ de saisie a le focus ou qu'une action est en cours.
 
 ## 3.11 Icônes et images
 
-- Icônes d'interface dans `assets/img/` (`binders.png`, `chest.webp`, `wanderingtrader.png`,
-  `pin.png`, `unpin.png`, `edit.png`, `sparks` et compteurs, etc.). Les glyphes noirs (`pin`,
+- Icônes d'interface dans `assets/img/` (`binders.png`, `chest.webp` et sa planche de 41 images
+  `chest-sprite.webp`, `wanderingtrader.png`, `pin.png`, `unpin.png`, `edit.png`, `sparks` et
+  compteurs, etc.). Les glyphes noirs (`pin`,
   `unpin`, `edit`) suivent la palette via `--icon-filter` (inversés sur les thèmes sombres).
 - Avatars de profil en **pixel art** (6×6, 8×8, 48×48, 192×192) rendus avec
   `image-rendering: pixelated` partout (profil, sélecteur, trophée, binder partagé).

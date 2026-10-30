@@ -161,6 +161,23 @@ export class CollectionManager {
       }
     }
 
+    // Extensions declared but not released yet: they own no entry in the collection, and a copy
+    // granted before the release must not be reported as an orphan either. Their keys are simply
+    // registered as known, which is exactly what the orphan detection compares against.
+    const upcoming = (await this.loader.listBoosterSets({ includeUpcoming: true })).filter(
+      (set) => set.released === false
+    );
+    for (const descriptor of upcoming) {
+      const set = this.loader.getLoadedSet?.(descriptor.setId) ?? null;
+      (set?.cards ?? []).forEach((card) => seenKeys.add(card.uniqueKey));
+    }
+    // Same rule for the promo cards of an upcoming set: hidden, but known, so an owned copy is not
+    // reported as an orphan either.
+    for (const group of await this.loadPromoSets({ includeUpcoming: true })) {
+      if (this.loader.getSetAvailability?.(group.parentSetId)?.released !== false) continue;
+      (group.cards ?? []).forEach((card) => seenKeys.add(card.uniqueKey));
+    }
+
     // Promo catalogue: owned cards only, and never counted in a completion ratio.
     for (const group of await this.loadPromoSets()) {
       let ownedInGroup = 0;
@@ -228,11 +245,13 @@ export class CollectionManager {
    * A missing, unreadable or invalid promo file is a degraded bonus catalog, never a broken
    * collection: the grid keeps rendering with the drawable cards.
    *
+   * @param {object} [options] - Listing options.
+   * @param {boolean} [options.includeUpcoming=false] - Also load the groups of an upcoming set.
    * @returns {Promise<Array<object>>} The promo groups (empty when the catalogue is unusable).
    */
-  async loadPromoSets() {
+  async loadPromoSets({ includeUpcoming = false } = {}) {
     try {
-      return await promoManager.listPromoSets();
+      return await promoManager.listPromoSets({ includeUpcoming });
     } catch (error) {
       console.warn('[CollectionManager] The promo cards could not be loaded.', error);
       return [];

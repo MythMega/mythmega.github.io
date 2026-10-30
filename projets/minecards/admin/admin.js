@@ -194,6 +194,42 @@ async function fetchConfig() {
 }
 
 /**
+ * Fetches `settings/cardsets.json`: the declared sets, their release date and their promo flag.
+ *
+ * The catalogue is the single source of the set list (it replaced `boosters.sets` of the
+ * configuration): this page reads it so a set added to the game shows up here without a second
+ * declaration. The release date is not used - a personal code may grant a card of an announced set
+ * deliberately - only the order, the identifiers and the `promo` flag are.
+ *
+ * @returns {Promise<Array<{id: string, promo: boolean}>>} The declared sets, in file order.
+ * @throws {Error} When the request fails or the payload is not JSON.
+ */
+async function fetchCardSets() {
+  let response;
+  try {
+    response = await fetch('../settings/cardsets.json', { cache: 'no-store' });
+  } catch (error) {
+    throw new Error('Impossible de lire settings/cardsets.json (réseau).', { cause: error });
+  }
+  if (!response.ok) {
+    throw new Error(`Impossible de lire settings/cardsets.json (HTTP ${response.status}).`);
+  }
+  let payload;
+  try {
+    payload = await response.json();
+  } catch (error) {
+    throw new Error('settings/cardsets.json n’est pas un JSON valide.', { cause: error });
+  }
+
+  return (Array.isArray(payload?.sets) ? payload.sets : [])
+    .map((entry) => ({
+      id: typeof entry?.id === 'string' ? entry.id.trim() : '',
+      promo: entry?.promo === true,
+    }))
+    .filter((entry) => entry.id !== '');
+}
+
+/**
  * Reads the shared key from the configuration and validates it.
  *
  * @param {object} config - Parsed configuration.
@@ -288,17 +324,18 @@ function collectCardRows(raw) {
  *
  * The promo groups are part of the catalog on purpose: a personal code can grant a promo card
  * exactly like a drawn one (that is the only way such a card ever enters a collection), so the
- * operator must be able to pick one here. They are read from `promos` in `settings/config.json`,
- * fall back to one file per declared extension, and a series without a promo file is simply skipped:
- * a missing promo is the normal case, never an error.
+ * operator must be able to pick one here. The sets and their promo flag come from
+ * `settings/cardsets.json` (the declaration the game itself reads), and a series without a promo
+ * file is simply skipped: a missing promo is the normal case, never an error.
  *
- * @param {object} config - Parsed configuration.
+ * @param {object} config - Parsed configuration (directories only).
  * @returns {Promise<Array<{setId: string, name: string, promo: boolean, cards: Array<{index: string, layout: string, name: string|null}>}>>}
  *   The catalog.
- * @throws {Error} When a declared extension file cannot be read.
+ * @throws {Error} When the catalogue cannot be read or a declared extension file is missing.
  */
 async function loadCatalog(config) {
-  const sets = Array.isArray(config?.boosters?.sets) ? config.boosters.sets : [];
+  const cardSets = await fetchCardSets();
+  const sets = cardSets.map((entry) => entry.id);
   const directory =
     typeof config?.boosters?.directory === 'string' && config.boosters.directory.trim() !== ''
       ? config.boosters.directory.trim().replace(/^\.\//, '')
@@ -325,12 +362,9 @@ async function loadCatalog(config) {
     typeof config?.promos?.directory === 'string' && config.promos.directory.trim() !== ''
       ? config.promos.directory.trim().replace(/^\.\//, '')
       : DEFAULT_PROMO_DIRECTORY;
-  // An empty `promos.sets` means "one file per extension", exactly like in the game
+  // The `promo` flag of the catalogue is the only source, exactly like in the game
   // (`ConfigLoader.getPromoSettings()`).
-  const promoSets =
-    Array.isArray(config?.promos?.sets) && config.promos.sets.length > 0
-      ? config.promos.sets
-      : sets;
+  const promoSets = cardSets.filter((entry) => entry.promo).map((entry) => entry.id);
 
   for (const parentId of promoSets) {
     const setId = `${parentId}${PROMO_SET_SUFFIX}`;

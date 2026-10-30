@@ -1,36 +1,13 @@
 /**
- * AutoClaimManager - Automatic grants of the `AutoClaim` codes of `settings/codes.json`.
+ * AutoClaimManager - Grants the automatic codes of `settings/codes.json` (`AutoClaim`).
  *
- * Reference: `js/business/RedeemManager.js` (catalogue, availability, atomic grant) and
- * `settings/codes.json` (`AutoClaim` block).
+ * A code is granted without being typed once its availability window is open, the account has
+ * reached `RequiredLevel` and it has opened `RequiredOpenBoosterStats` boosters. The grant and the
+ * `redeemed_codes` record belong to `RedeemManager.claimAuto()`.
  *
- * WHAT AN AUTOMATIC CODE IS
- *   A code may carry an `AutoClaim` block:
- *     "AutoClaim": {
- *       "Auto": true,
- *       "RequiredLevel": 1,
- *       "RequiredOpenBoosterStats": 3,
- *       "CustomMessage": { "FR": "…", "EN": "…" }
- *     }
- *   The rewards are then granted without the player typing anything, once, when ALL of these hold:
- *     - the trusted UTC day is inside the `Availabilities` window (same rule as a typed code);
- *     - the account reached `RequiredLevel` (player level, derived from the trophies);
- *     - the account opened at least `RequiredOpenBoosterStats` boosters.
- *   A missing/null requirement is not a requirement. The consumption is the `redeemed_codes` record
- *   written by `RedeemManager`: once granted, the code never fires again, even across reloads.
- *
- * WHEN IT RUNS
- *   - at boot (after the silent trophy evaluation, so the level is already known);
- *   - after every booster opening (`BOOSTER_OPENED`): the counter it reads is written before the
- *     event, so a requirement of "open N packs" is met on the N-th opening;
- *   - on every level change (`EXPERIENCE_UPDATED`), which covers a level gained by a card purchase,
- *     a code or a distribution as well as by an opening.
- *
- * WHY A MANAGER OF ITS OWN
- *   `RedeemManager` owns the rule of a code (availability, rewards, consumption) but knows nothing
- *   about the player. This class adds the two ACCOUNT requirements and the re-check triggers, and
- *   publishes `AUTO_CLAIM_GRANTED` so the UI can present the gift wherever the player is. It never
- *   throws at the caller: a failure is logged and the next check tries again.
+ * Checks run at boot, after an opening and on a level change. They are held while a dialog owns
+ * the screen (`hold`, `deferWhile`), so a gift never covers a booster reveal or an announcement.
+ * `AUTO_CLAIM_GRANTED` is published once at least one code was granted.
  */
 
 import eventBus, { EVENTS } from '../utils/EventBus.js';
@@ -63,6 +40,10 @@ export class AutoClaimManager {
     this.isChecking = false;
     /** @type {boolean} True when an event arrived during a check: one more pass is needed. */
     this.isDirty = false;
+    /** @type {Set<string>} Reasons the presentation is currently held back. */
+    this.holds = new Set();
+    /** @type {(() => boolean)|null} Extra condition checked before presenting a gift. */
+    this.deferWhile = null;
     /** @type {ReturnType<typeof setTimeout>|null} Pending coalesced check. */
     this.scheduleTimer = null;
     /** @type {string|null} Reason attached to the pending check. */
@@ -92,10 +73,13 @@ export class AutoClaimManager {
    * @param {object} [options] - Start options.
    * @param {number|null} [options.level=null] - Level already evaluated at boot (`null` lets the
    *   manager ask the trophy manager on its first check).
+   * @param {(() => boolean)|null} [options.deferWhile=null] - Returns true while the current screen
+   *   must not be interrupted (the booster reveal, for instance).
    * @returns {boolean} True when the manager is armed.
    */
-  start({ level = null } = {}) {
+  start({ level = null, deferWhile = null } = {}) {
     if (Number.isInteger(level) && level > 0) this.level = level;
+    if (typeof deferWhile === 'function') this.deferWhile = deferWhile;
 
     if (!this.isBound) {
       this.isBound = true;
@@ -105,6 +89,9 @@ export class AutoClaimManager {
       this.unsubscribers.push(
         eventBus.on(EVENTS.EXPERIENCE_UPDATED, (payload) => this.handleExperienceUpdated(payload))
       );
+      // The opening view announces the end of its reveal: the check held back while the pack was
+      // being shown can run now, unless the summary is still on screen (`deferWhile`).
+      this.unsubscribers.push(eventBus.on(EVENTS.REVEAL_FINISHED, () => this.schedule()));
       this.log('Event subscriptions registered.');
     }
 
@@ -128,6 +115,8 @@ export class AutoClaimManager {
     this.isBound = false;
     this.isDirty = false;
     this.level = null;
+    this.holds.clear();
+    this.deferWhile = null;
     this.log('Released.');
   }
 
@@ -148,6 +137,30 @@ export class AutoClaimManager {
       this.pendingReason = null;
       void this.check({ reason });
     }, 0);
+  }
+
+  /**
+   * Prevents a gift from being presented until the matching `release()`.
+   *
+   * Used by the screens that own the attention of the player (an announcement popup, for example):
+   * a gift must never land on top of another dialog.
+   *
+   * @param {string} [reason='external'] - Who is holding the presentation back.
+   * @returns {void}
+   */
+  hold(reason = 'external') {
+    this.holds.add(reason);
+  }
+
+  /**
+   * Lifts a hold and runs the check it was blocking.
+   *
+   * @param {string} [reason='external'] - The reason given to `hold()`.
+   * @returns {void}
+   */
+  release(reason = 'external') {
+    if (!this.holds.delete(reason)) return;
+    if (this.holds.size === 0) this.schedule();
   }
 
   /**
@@ -249,6 +262,10 @@ export class AutoClaimManager {
       this.isDirty = true;
       return [];
     }
+    if (this.holds.size > 0 || this.deferWhile?.()) {
+      this.log(`Check deferred (${reason}): the player is busy elsewhere.`);
+      return [];
+    }
     this.isChecking = true;
 
     try {
@@ -279,6 +296,11 @@ export class AutoClaimManager {
           if (error instanceof RedeemError && error.code === REDEEM_ERROR_CODES.ALREADY_USED) {
             // Two checks raced: the other one wrote the record, nothing to report.
             this.log('Automatic code already granted by a concurrent check.');
+            continue;
+          }
+          if (error instanceof RedeemError && error.code === REDEEM_ERROR_CODES.CONTENT_NOT_RELEASED) {
+            // The code stays pending until the set it grants is released: nothing to report yet.
+            this.log('Automatic code waiting for its set to be released.');
             continue;
           }
           console.warn('[AutoClaimManager] An automatic code could not be granted.', error);

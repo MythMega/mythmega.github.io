@@ -75,16 +75,24 @@ Le fichier complet de l'extension A1 est disponible ici :
    Enregistrer le fichier dans `data/boosters/<SET_ID>.json`, où `<SET_ID>` est l'identifiant
    unique de l'extension (ex. `A1`, `B2`, etc.)
 
-2. **Déclarer l'extension dans `settings/config.json`**  
-   Ajouter l'identifiant du set dans le tableau `boosters.sets` :
+2. **Déclarer l'extension dans `settings/cardsets.json`**  
+   Ajouter une entrée dans la liste `sets` (l'ordre du fichier est celui du sélecteur de boosters) :
 
    ```json
    {
-     "boosters": {
-       "sets": ["A1", "NouveauBooster"]
-     }
+     "sets": [
+       { "id": "A1", "releaseDate": "2024-06-27", "promo": true },
+       { "id": "NouveauBooster", "releaseDate": "2026-12-01", "promo": false }
+     ]
    }
    ```
+
+   `releaseDate` est le jour UTC où le set devient ouvrable ; `promo` indique s'il a des cartes
+   promo. Jusqu'à `boosters.upcomingPreviewDays` jours avant la sortie (`settings/config.json`, 3
+   par défaut, 0 = aucune avant-première), le set apparaît seulement dans le sélecteur de boosters
+   avec son modèle 3D : il ne peut pas être ouvert et ses cartes n'apparaissent pas dans la
+   collection. À sa sortie, une popup l'annonce une fois par compte, au premier lancement dans les
+   `boosters.releaseAnnouncementDays` jours (7 par défaut, 0 = pas d'annonce).
 
 3. **Ajouter les assets associés**  
    - Texture du booster : `assets/boosters/<identifiant>.png`

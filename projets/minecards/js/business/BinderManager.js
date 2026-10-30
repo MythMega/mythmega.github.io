@@ -14,8 +14,10 @@
  * property is carried by `Card.background` (raw absolute URL, never localised).
  *
  * THE LIMIT
- * A player owns as many binders as their level: `getLimit()` reads the level the trophy manager
- * evaluates and refuses the `(level + 1)`-th creation.
+ * One binder at level 1, then one more every `binders.unlockEveryLevels` levels (`settings/config.json`,
+ * 3 by default): with that interval a level-3 account owns two binders, a level-6 account three.
+ * Creating the `(limit + 1)`-th one is refused, and the binder list announces the level that opens
+ * it next (`nextLevel`).
  *
  * SELLING
  * Selling a copy from the collection is the one event that can invalidate a binder: a page may end
@@ -32,6 +34,7 @@ import { storageRepository } from '../models/StorageRepository.js';
 import { USER_STATE_KEYS, generateUuid } from './AccountManager.js';
 import collectionManager from './CollectionManager.js';
 import trophyManager from './TrophyManager.js';
+import configLoader, { DEFAULT_BINDER_SETTINGS } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import {
   BINDER_CODE_VERSION,
@@ -147,15 +150,58 @@ export class BinderManager {
   }
 
   /**
-   * Resolves the maximum number of binders the player can own (their level).
+   * Reads the level the binder allowance is computed from.
+   *
+   * @returns {Promise<number>} The player's level (always at least 1).
+   * @throws {Error} When the level cannot be evaluated.
+   */
+  async getLevel() {
+    const state = await this.trophies.evaluate({ notify: false });
+    const level = Number.isFinite(state?.level?.level) ? state.level.level : 1;
+    return Math.max(1, Math.floor(level));
+  }
+
+  /**
+   * Binder allowance of one level: one at level 1, then one more every `unlockEveryLevels` levels.
+   * Static because it is pure arithmetic, and the list needs it without re-reading the level.
+   *
+   * @param {number} level - Level of the account.
+   * @param {number} unlockEveryLevels - Interval read from `settings/config.json`.
+   * @returns {number} The number of binders the player may own (always at least 1).
+   */
+  static limitForLevel(level, unlockEveryLevels) {
+    const owned = Number.isFinite(level) ? Math.max(1, Math.floor(level)) : 1;
+    const step =
+      Number.isInteger(unlockEveryLevels) && unlockEveryLevels >= 1
+        ? unlockEveryLevels
+        : DEFAULT_BINDER_SETTINGS.unlockEveryLevels;
+    return 1 + Math.floor(owned / step);
+  }
+
+  /**
+   * Reads the allowance, and the level at which it becomes `limit + 1` - what the binder list
+   * announces, so it always sits ahead of an account that owns everything it may.
+   *
+   * @returns {Promise<{level: number, limit: number, nextLevel: number}>} The allowance of the
+   *   account and its next unlock.
+   * @throws {Error} When the level cannot be evaluated.
+   */
+  async getProgress() {
+    const level = await this.getLevel();
+    const { unlockEveryLevels } = await configLoader.getBinderSettings();
+    const limit = BinderManager.limitForLevel(level, unlockEveryLevels);
+    return { level, limit, nextLevel: limit * unlockEveryLevels };
+  }
+
+  /**
+   * Resolves the maximum number of binders the player can own.
    *
    * @returns {Promise<number>} The allowed binder count (always at least 1).
    * @throws {Error} When the level cannot be evaluated.
    */
   async getLimit() {
-    const state = await this.trophies.evaluate({ notify: false });
-    const level = Number.isFinite(state?.level?.level) ? state.level.level : 1;
-    return Math.max(1, Math.floor(level));
+    const { limit } = await this.getProgress();
+    return limit;
   }
 
   /**

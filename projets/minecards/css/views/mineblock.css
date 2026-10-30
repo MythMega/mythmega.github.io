@@ -296,13 +296,14 @@
 .mineblock__inventory-icon {
   display: block;
   width: 3.5rem;
-  height: auto;
+  height: 3.5rem;
+  aspect-ratio: 1;
   image-rendering: pixelated;
   transition: transform var(--duration-fast) var(--easing-standard);
 }
 
-/* The chest leans forward under the finger and settles back: the animation of the webp is the
-   reward, this is only the acknowledgement of the tap. */
+/* The chest leans forward under the finger and settles back: the opening frames drawn on its
+   canvas are the reward, this is only the acknowledgement of the tap. */
 .mineblock__inventory:hover .mineblock__inventory-icon,
 .mineblock__inventory:focus-visible .mineblock__inventory-icon {
   transform: scale(1.06);
@@ -310,6 +311,31 @@
 
 .mineblock__inventory:active .mineblock__inventory-icon {
   transform: scale(0.95);
+}
+
+/* A broken block sends its loot to the chest: one short shake, then back to rest. The duration
+   must stay equal to `CHEST_SHAKE_MS` of `MineBlockView.js`. */
+.mineblock__inventory.is-shaking .mineblock__inventory-icon {
+  animation: mineblock-chest-shake 460ms var(--easing-standard);
+}
+
+@keyframes mineblock-chest-shake {
+  0%,
+  100% {
+    transform: none;
+  }
+  15% {
+    transform: translateY(-6px) rotate(-7deg);
+  }
+  35% {
+    transform: translateY(1px) rotate(6deg);
+  }
+  55% {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+  75% {
+    transform: translateY(1px) rotate(3deg);
+  }
 }
 
 .mineblock__inventory:focus-visible {
@@ -883,5 +909,9 @@
      not fly: leaving them on screen would pile them up in the middle of the block. */
   .mineblock__burst-item {
     display: none;
+  }
+
+  .mineblock__inventory.is-shaking .mineblock__inventory-icon {
+    animation: none;
   }
 }

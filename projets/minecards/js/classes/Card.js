@@ -113,6 +113,9 @@ export class Card {
    * @param {string} payload.style - "classic" or "fullart" ("normal" is normalized to classic).
    * @param {string} payload.illustration - Illustration path, `<lang>` placeholder or `/fr/`.
    * @param {string} payload.set - Owning extension id (e.g. "A1").
+   * @param {string} [payload.index=''] - Raw `Index` of the catalogue ("SERIE-A1 / W001"), the
+   *   reference printed in the popups of the game and in the JSON of the set. Optional: a card built
+   *   from a save or from a legacy descriptor may not carry one.
    * @param {string} [payload.background=''] - Raw `Background` image of the card data (the artwork
    *   behind the card). Optional: it is only used as the backdrop of a binder. Empty when absent.
    * @param {string} [payload.underlay=''] - Raw `Underlay` image of the card data (the texture
@@ -121,7 +124,8 @@ export class Card {
    * @throws {TypeError|RangeError} When a field is missing or has an invalid type/range.
    */
   constructor(payload = {}) {
-    const { id, names, descriptions, rarity, style, illustration, set, background, underlay } = payload;
+    const { id, names, descriptions, rarity, style, illustration, set, background, underlay, index } =
+      payload;
 
     this.id = assertNonEmptyString(id, 'id');
     this.names = Object.freeze(Card.normalizeLocalizedMap(names, 'names'));
@@ -130,6 +134,8 @@ export class Card {
     this.style = Card.assertStyle(style);
     this.illustration = assertNonEmptyString(illustration, 'illustration');
     this.set = assertNonEmptyString(set, 'set');
+    // Display only: `id` is what the collection stores, this is the reference a player can read.
+    this.index = typeof index === 'string' ? index.trim() : '';
     // Raw on purpose: `Background` is an absolute URL of the asset repository, never a local
     // `<lang>` path, so it is NOT run through `resolveImagePath`. An unusable value is dropped
     // rather than thrown: a card without a backdrop is still a perfectly valid card.
@@ -340,6 +346,7 @@ export class Card {
       style,
       illustration,
       set,
+      index: entry.Index,
       background: entry.Background,
       underlay: entry.Underlay,
     });
@@ -366,6 +373,7 @@ export class Card {
       style: raw.style,
       illustration: raw.illustration,
       set: raw.set,
+      index: raw.index,
       background: raw.background,
       underlay: raw.underlay,
     });

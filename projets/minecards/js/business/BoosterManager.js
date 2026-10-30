@@ -36,7 +36,7 @@ import { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager, { BOOSTER_SOURCES } from './DateSyncManager.js';
 import sparksManager from './SparksManager.js';
 import GachaEngine from './GachaEngine.js';
-import { configLoader } from '../utils/ConfigLoader.js';
+import { configLoader, DEFAULT_CARDSET_SETTINGS } from '../utils/ConfigLoader.js';
 import { buildBoosterCode } from '../utils/BoosterCode.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
@@ -48,6 +48,9 @@ export const RARITY_PATH = 'settings/defaultRarity.json';
 
 /** Default number of cards in a booster. */
 export const DEFAULT_CARDS_PER_BOOSTER = 5;
+
+/** Milliseconds in one day, used by the release-date comparison. */
+const MS_PER_DAY = 86_400_000;
 
 /** Default Sparks credited by one booster opening (`sparks.boosterReward` overrides it). */
 export const DEFAULT_BOOSTER_SPARKS_REWARD = 5;
@@ -103,6 +106,15 @@ export class BoosterManager {
     this.boosterSets = {};
     /** @type {Record<string, Array<{rarity: number, weight: number}>>|null} Cached rarity table. */
     this.rarityConfig = null;
+    /**
+     * @type {Map<string, {id: string, releaseDate: string|null, promo: boolean}>} Catalogue read
+     *   from `settings/cardsets.json` (release date and promo flag of every declared set).
+     */
+    this.setCatalogue = new Map();
+    /** @type {number} Days a set may be previewed before its release (0 hides it completely). */
+    this.upcomingPreviewDays = DEFAULT_CARDSET_SETTINGS.previewDays;
+    /** @type {number} Days after its release a set is still announced once (0 never). */
+    this.releaseAnnouncementDays = DEFAULT_CARDSET_SETTINGS.announcementDays;
     /** @type {Promise<object>|null} In-flight load used to de-duplicate concurrent calls. */
     this.loadPromise = null;
     /** @type {boolean} True once `init()` completed. */
@@ -143,10 +155,27 @@ export class BoosterManager {
    * @throws {Error} See `init()`.
    */
   async loadAll() {
-    const { sets, directory, rarityConfigPath, cardsPerBooster } = await configLoader.getBoosterSettings();
+    const {
+      sets,
+      directory,
+      rarityConfigPath,
+      cardsPerBooster,
+      upcomingPreviewDays,
+      releaseAnnouncementDays,
+    } = await configLoader.getBoosterSettings();
+
     if (sets.length === 0) {
-      throw new Error('settings/config.json declares no booster extension in "boosters.sets".');
+      throw new Error('settings/cardsets.json declares no booster set.');
     }
+
+    // Every declared set is loaded, including the ones that are not released yet: their cards are
+    // needed for the 3D preview of the picker, and the catalogue is what can tell a released set
+    // from an upcoming one. `getSetAvailability()` is the single gate every consumer goes through.
+    this.upcomingPreviewDays = upcomingPreviewDays;
+    this.releaseAnnouncementDays = releaseAnnouncementDays;
+    this.setCatalogue = new Map(
+      (await configLoader.getCardSets()).map((entry) => [entry.id, entry])
+    );
 
     this.boosterDirectory = directory || BOOSTER_DIRECTORY;
     this.rarityPath = rarityConfigPath || RARITY_PATH;
@@ -221,6 +250,94 @@ export class BoosterManager {
   }
 
   /**
+   * UTC day a release date is compared to.
+   *
+   * The trusted day of `DateSyncManager` is used whenever the game is anchored: a device clock set
+   * a month ahead must not unlock a set (the same rule the daily quota follows). Before the first
+   * anchor the local clock is the only available value, and it grants nothing by itself.
+   *
+   * @returns {string} An ISO day (`YYYY-MM-DD`).
+   */
+  static getTrustedUtcDay() {
+    const trusted = dateSyncManager.getCurrentUtcDay?.();
+    if (typeof trusted === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(trusted)) return trusted;
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  /**
+   * Tells when a set is released, and whether it may be displayed.
+   *
+   * Three states: RELEASED (openable, in the collection, everywhere), PREVIEW (inside the
+   * `upcomingPreviewDays` window: listed in the booster picker with its 3D model, never openable,
+   * its cards never in the collection) and HIDDEN (not visible at all: it does not exist for the
+   * player). A set without a release date is always released.
+   *
+   * @param {string} setId - Set id.
+   * @returns {{setId: string, releaseDate: string|null, released: boolean, visible: boolean,
+   *   daysUntilRelease: number, daysSinceRelease: number|null}} The availability of the set.
+   */
+  getSetAvailability(setId) {
+    const meta = this.setCatalogue.get(setId) ?? null;
+    const releaseDate = meta?.releaseDate ?? null;
+    if (!releaseDate) {
+      return {
+        setId,
+        releaseDate: null,
+        released: true,
+        visible: true,
+        daysUntilRelease: 0,
+        daysSinceRelease: null,
+      };
+    }
+
+    const today = Date.parse(`${BoosterManager.getTrustedUtcDay()}T00:00:00.000Z`);
+    const release = Date.parse(`${releaseDate}T00:00:00.000Z`);
+    // Both sides are midnight UTC, so the difference is a whole number of days: the rounding only
+    // absorbs a rounding error of the representation, and it never lets a release slip by a day.
+    const days = Math.round((release - today) / MS_PER_DAY);
+    const released = days <= 0;
+    return {
+      setId,
+      releaseDate,
+      released,
+      visible: released || (this.upcomingPreviewDays > 0 && days <= this.upcomingPreviewDays),
+      daysUntilRelease: Math.max(0, days),
+      daysSinceRelease: Math.max(0, -days),
+    };
+  }
+
+  /**
+   * Tells whether a set can be opened right now.
+   *
+   * @param {string} setId - Set id.
+   * @returns {boolean} False for a set announced but not released yet.
+   */
+  isSetReleased(setId) {
+    return this.getSetAvailability(setId).released;
+  }
+
+  /**
+   * Ids of the loaded sets the player may see (released, plus the ones inside the preview window).
+   *
+   * @returns {string[]} The visible set ids, in declaration order.
+   */
+  getVisibleSetIds() {
+    return this.getLoadedSetIds().filter((setId) => this.getSetAvailability(setId).visible);
+  }
+
+  /**
+   * Ids of the loaded sets that can be opened, drawn from and collected.
+   *
+   * This is what every card pool must use (Mine Pick, Wandering Trader, promo groups): a set
+   * announced for next week must never leak a card before its release.
+   *
+   * @returns {string[]} The released set ids, in declaration order.
+   */
+  getReleasedSetIds() {
+    return this.getLoadedSetIds().filter((setId) => this.getSetAvailability(setId).released);
+  }
+
+  /**
    * Normalizes an asset path coming from a booster JSON.
    *
    * The generated data prefixes its paths with `./` (`./assets/boosters/A1.png`), which must be
@@ -271,6 +388,12 @@ export class BoosterManager {
   async getBoosterSet(setId) {
     await this.init();
     const key = dateSyncManager.assertKnownSet(setId);
+    const availability = this.getSetAvailability(key);
+    if (!availability.released) {
+      throw new RangeError(
+        `Booster set "${key}" is not released yet${availability.releaseDate ? ` (released on ${availability.releaseDate})` : ''}.`
+      );
+    }
     return this.boosterSets[key];
   }
 
@@ -286,20 +409,38 @@ export class BoosterManager {
   }
 
   /**
-   * Lists the loaded extensions, for the opening view (step 4).
+   * Lists the extensions the player may see, for the opening view (step 4).
    *
-   * @returns {Promise<Array<{setId: string, name: string, texture: string|null, cardCount: number}>>}
-   *   A lightweight description of every declared extension.
+   * Released sets only by default: this is the listing every catalogue reads (collection, info
+   * page, redeem codes, gifts, trophies), so an unreleased set can never leak a card there. The
+   * booster picker passes `includeUpcoming` to also get the sets inside the preview window, and
+   * `released` tells it which ones it may actually start.
+   *
+   * @param {object} [options] - Listing options.
+   * @param {boolean} [options.includeUpcoming=false] - Also list the sets inside the preview window.
+   * @returns {Promise<Array<{setId: string, name: string, texture: string|null, cardCount: number,
+   *   releaseDate: string|null, released: boolean, daysUntilRelease: number}>>}
+   *   A lightweight description of every listed extension.
    * @throws {Error} When the extensions cannot be loaded.
    */
-  async listBoosterSets() {
+  async listBoosterSets({ includeUpcoming = false } = {}) {
     await this.init();
-    return Object.values(this.boosterSets).map((set) => ({
-      setId: set.setId,
-      name: set.name,
-      texture: set.texture,
-      cardCount: set.cards.length,
-    }));
+    const listed = [];
+    Object.values(this.boosterSets).forEach((set) => {
+      const availability = this.getSetAvailability(set.setId);
+      if (!availability.visible) return;
+      if (!availability.released && !includeUpcoming) return;
+      listed.push({
+        setId: set.setId,
+        name: set.name,
+        texture: set.texture,
+        cardCount: set.cards.length,
+        releaseDate: availability.releaseDate,
+        released: availability.released,
+        daysUntilRelease: availability.daysUntilRelease,
+      });
+    });
+    return listed;
   }
 
   /**
@@ -323,6 +464,13 @@ export class BoosterManager {
   async openBooster(setId, { source = BOOSTER_SOURCES.AUTO } = {}) {
     const key = dateSyncManager.assertKnownSet(setId);
     await this.init();
+
+    // A set that is only previewed cannot be opened, whatever the quota says: checked before the
+    // quota is even read, so a click can never consume a booster for an unreleased set.
+    const availability = this.getSetAvailability(key);
+    if (!availability.released) {
+      throw BoosterManager.buildNotReleasedError(key, availability.releaseDate);
+    }
 
     const loadedSet = this.boosterSets[key];
     const { cardsPerBooster, godpackChancePercent, historySize } =
@@ -570,6 +718,22 @@ export class BoosterManager {
       `No booster available for "${setId}": the daily quota is empty and no bonus booster is left for this extension.`
     );
     error.code = 'NO_BOOSTER_AVAILABLE';
+    return error;
+  }
+
+  /**
+   * Builds the error thrown when a set is announced but not released yet.
+   *
+   * @param {string} setId - Extension id.
+   * @param {string|null} releaseDate - Release day (`YYYY-MM-DD`), when known.
+   * @returns {Error} An error carrying the `SET_NOT_RELEASED` code and the release date.
+   */
+  static buildNotReleasedError(setId, releaseDate) {
+    const error = new Error(
+      `Booster set "${setId}" is not released yet${releaseDate ? ` (released on ${releaseDate})` : ''}.`
+    );
+    error.code = 'SET_NOT_RELEASED';
+    error.releaseDate = releaseDate ?? null;
     return error;
   }
 

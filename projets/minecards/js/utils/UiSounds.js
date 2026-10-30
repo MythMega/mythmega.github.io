@@ -10,6 +10,10 @@
  * `modal` class whose `hidden` attribute is toggled. Observing that one attribute covers every
  * dialog (including the ones added later) without touching each view, and it can tell a card detail
  * from a generic dialog by its content.
+ *
+ * Some dialogs have their OWN sound (the Wandering Trader, the chest of the mine): they are listed
+ * in `SPECIFIC_MODAL_SOUNDS` and take precedence over the generic/card detection, so replacing the
+ * sound of one dialog never requires touching the view that opens it.
  */
 
 import soundManager, { UI_SOUNDS } from './SoundManager.js';
@@ -20,6 +24,20 @@ const CARD_MODAL_SELECTORS = [
   '[data-collection-modal]',
   '[data-profile-card-modal]',
   '[data-stats-modal]',
+];
+
+/** Dialogs with a sound of their own, checked before the generic/card detection. */
+const SPECIFIC_MODAL_SOUNDS = [
+  {
+    selector: '[data-mineblock-inventory-modal]',
+    open: UI_SOUNDS.CHEST_OPEN,
+    close: UI_SOUNDS.CHEST_CLOSE,
+  },
+  {
+    selector: '[data-mineblock-trader-modal]',
+    open: UI_SOUNDS.TRADER_OPEN,
+    close: UI_SOUNDS.TRADER_CLOSE,
+  },
 ];
 
 /** Content clues for a card dialog that does not have a dedicated attribute. */
@@ -59,11 +77,16 @@ export function startUiSounds({ root = document } = {}) {
       const wasHidden = record.oldValue !== null;
       const isHidden = modal.hasAttribute('hidden');
       if (wasHidden === isHidden) return;
-      const card = isCardModal(modal);
+      const specific = SPECIFIC_MODAL_SOUNDS.find((entry) => modal.matches(entry.selector)) ?? null;
+      const card = !specific && isCardModal(modal);
       if (!wasHidden && isHidden) {
-        soundManager.playUi(card ? UI_SOUNDS.CARD_CLOSE : UI_SOUNDS.MODAL_CLOSE);
+        soundManager.playUi(
+          specific?.close ?? (card ? UI_SOUNDS.CARD_CLOSE : UI_SOUNDS.MODAL_CLOSE)
+        );
       } else if (wasHidden && !isHidden) {
-        soundManager.playUi(card ? UI_SOUNDS.CARD_OPEN : UI_SOUNDS.MODAL_OPEN);
+        soundManager.playUi(
+          specific?.open ?? (card ? UI_SOUNDS.CARD_OPEN : UI_SOUNDS.MODAL_OPEN)
+        );
       }
     });
   });

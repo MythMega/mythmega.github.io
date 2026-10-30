@@ -24,6 +24,30 @@
                     }
                 }
             ]
+        },
+        {
+            "CollectionTrophy": "Full Diam's",
+            "UnlockedTitle": [
+                {
+                    "id": "collection-A1-3",
+                    "text": {
+                        "fr": "Full Diam's.",
+                        "en": "Full Diam's."
+                    }
+                }
+            ]
+        },
+        {
+            "CollectionTrophy": "Diamond Stuff",
+            "UnlockedTitle": [
+                {
+                    "id": "collection-A1-4",
+                    "text": {
+                        "fr": "Bien équipé.",
+                        "en": "Well stuffed."
+                    }
+                }
+            ]
         }
     ]
 }

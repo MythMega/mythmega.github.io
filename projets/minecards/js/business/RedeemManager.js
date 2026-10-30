@@ -77,7 +77,7 @@ import { storageRepository, STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
-import promoManager from './PromoManager.js';
+import promoManager, { isPromoSetId, PROMO_SET_SUFFIX } from './PromoManager.js';
 import sparksManager from './SparksManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
@@ -110,6 +110,7 @@ export const REDEEM_STATUSES = Object.freeze({
   WRONG_USER: 'wrong_user',
   INVALID: 'invalid',
   UNKNOWN_ITEM: 'unknown_item',
+  CONTENT_NOT_RELEASED: 'content_not_released',
 });
 
 /**
@@ -128,6 +129,7 @@ export const REDEEM_ERROR_CODES = Object.freeze({
   WRONG_USER: 'wrong_user',
   INVALID: 'invalid',
   UNKNOWN_ITEM: 'unknown_item',
+  CONTENT_NOT_RELEASED: 'content_not_released',
   UNKNOWN_ERROR: 'unknown',
 });
 
@@ -238,10 +240,11 @@ export class RedeemManager {
     this.codes = null;
     /** @type {Promise<object[]>|null} In-flight load used to de-duplicate concurrent calls. */
     this.loadPromise = null;
-    /** @type {Card[]|null} Every card of every loaded extension, in declaration order. */
-    this.allCardsCache = null;
-    /** @type {Promise<Card[]>|null} In-flight card list build. */
-    this.allCardsPromise = null;
+    /** @type {Array<{card: Card, setId: string, parentSetId: string, availability: object}>|null}
+     *   Card rows of every loaded extension, upcoming sets included. */
+    this.cardCatalogCache = null;
+    /** @type {Promise<Array<object>>|null} In-flight card catalogue build. */
+    this.cardCatalogPromise = null;
     /** @type {Array<{canonical: string, target: object}>|null} Personal-code catalogue (step 10). */
     this.userItemCatalog = null;
     /** @type {Promise<Array<{canonical: string, target: object}>>|null} In-flight catalogue build. */
@@ -517,51 +520,57 @@ export class RedeemManager {
   }
 
   /**
-   * Returns every card of every declared extension, in declaration order.
+   * Cards of every declared extension, each with the extension it belongs to.
    *
-   * The promo cards (`data/promo_cards/*`) are appended: they are granted by a code exactly like a
-   * drawn card, and being absent from every rarity table is what keeps them out of the boosters.
+   * Upcoming sets are included on purpose: a code that names one of their cards must be refused as
+   * "not released yet", which is impossible when the card is simply absent from the catalogue.
    *
-   * @returns {Promise<Card[]>} The ordered card list.
-   * @throws {Error} When the extension JSONs cannot be loaded.
+   * @returns {Promise<Array<{card: Card, setId: string, parentSetId: string,
+   *   availability: object}>>} The catalogue (promo groups last).
+   * @throws {Error} When the extension files cannot be loaded.
    */
-  async allCards() {
-    if (this.allCardsCache) return this.allCardsCache;
-    if (this.allCardsPromise) return this.allCardsPromise;
+  async cardCatalog() {
+    if (this.cardCatalogCache) return this.cardCatalogCache;
+    if (this.cardCatalogPromise) return this.cardCatalogPromise;
 
-    this.allCardsPromise = (async () => {
-      const sets = await boosterManager.listBoosterSets();
-      const cards = [];
-      for (const descriptor of sets) {
-        const loadedSet = await boosterManager.getBoosterSet(descriptor.setId);
-        for (const card of loadedSet?.cards ?? []) cards.push(card);
+    this.cardCatalogPromise = (async () => {
+      await boosterManager.init();
+      const rows = [];
+      for (const setId of boosterManager.getLoadedSetIds()) {
+        const set = boosterManager.getLoadedSet(setId);
+        const availability = boosterManager.getSetAvailability(setId);
+        for (const card of set?.cards ?? []) {
+          rows.push({ card, setId, parentSetId: setId, availability });
+        }
       }
-      for (const group of await this.listPromoGroups()) {
-        for (const card of group.cards ?? []) cards.push(card);
+      for (const group of await this.listPromoGroups({ includeUpcoming: true })) {
+        const availability = boosterManager.getSetAvailability(group.parentSetId);
+        for (const card of group.cards ?? []) {
+          rows.push({ card, setId: group.setId, parentSetId: group.parentSetId, availability });
+        }
       }
-      this.allCardsCache = cards;
-      return cards;
+      this.cardCatalogCache = rows;
+      return rows;
     })().catch((error) => {
-      this.allCardsPromise = null;
+      this.cardCatalogPromise = null;
       throw error;
     });
 
-    const cards = await this.allCardsPromise;
-    this.allCardsPromise = null;
-    return cards;
+    const rows = await this.cardCatalogPromise;
+    this.cardCatalogPromise = null;
+    return rows;
   }
 
   /**
    * Loads the promo catalogue without ever failing the code resolution.
    *
-   * A missing or broken promo file only means "no promo card is grantable": the codes of the drawn
-   * catalogue must keep working.
-   *
+   * @param {object} [options] - Load options.
+   * @param {boolean} [options.includeUpcoming=false] - Also return the groups of an upcoming set.
    * @returns {Promise<Array<object>>} The promo groups (empty when the catalogue is unusable).
    */
-  async listPromoGroups() {
+  async listPromoGroups({ includeUpcoming = false } = {}) {
     try {
-      return await promoManager.listPromoSets();
+      return await promoManager.listPromoSets({ includeUpcoming });
     } catch (error) {
       console.warn('[RedeemManager] The promo cards could not be loaded.', error);
       return [];
@@ -571,12 +580,10 @@ export class RedeemManager {
   /**
    * Resolves one `Card` reward: an `Index` plus an optional preferred layout.
    *
-   * Resolution order (step 9 point 2): first the first card matching the `Index` AND the preferred
-   * layout; otherwise the first card matching the `Index` in JSON order; no match = invalid.
-   *
    * @param {string} index - `Index` value of a booster entry (e.g. `"SERIE-A1 / P004"`).
    * @param {unknown} preferedLayout - Optional `classic`/`fullart` (case-insensitive).
-   * @returns {Promise<Card|null>} The resolved card, or null when none matches.
+   * @returns {Promise<{card: Card, setId: string, parentSetId: string, availability: object}|null>}
+   *   The matching row, or null when no card carries that `Index`.
    */
   async resolveCard(index, preferedLayout) {
     let cardId;
@@ -587,25 +594,57 @@ export class RedeemManager {
       return null;
     }
 
-    const allWithId = (await this.allCards()).filter((card) => card.id === cardId);
-    if (allWithId.length === 0) return null;
+    const rows = (await this.cardCatalog()).filter((row) => row.card.id === cardId);
+    if (rows.length === 0) return null;
+    // A printing that is already released wins over an upcoming one sharing its `Index`.
+    const pool = rows.some((row) => row.availability.released)
+      ? rows.filter((row) => row.availability.released)
+      : rows;
 
     if (isNonEmptyString(preferedLayout)) {
       const wanted = String(preferedLayout).trim().toLowerCase() === 'normal'
         ? Card.STYLES.CLASSIC
         : String(preferedLayout).trim().toLowerCase();
-      const preferred = allWithId.find((card) => card.style === wanted);
+      const preferred = pool.find((row) => row.card.style === wanted);
       if (preferred) return preferred;
     }
-    return allWithId[0];
+    return pool[0];
+  }
+
+  /**
+   * Returns the extension of the first reward that is not released yet.
+   *
+   * @param {Array<{type: string, key: string, card: Card|null}>} rewards - Resolved rewards.
+   * @returns {{setId: string, setName: string, releaseDate: string|null}|null} The blocking
+   *   extension, or null when every reward can be granted today.
+   */
+  findUnreleasedReward(rewards) {
+    for (const reward of rewards) {
+      const setId = reward.type === 'booster' ? reward.key : reward.card?.set ?? null;
+      if (!setId) continue;
+      const parentSetId = isPromoSetId(setId)
+        ? setId.slice(0, -PROMO_SET_SUFFIX.length)
+        : setId;
+      const availability = boosterManager.getSetAvailability(parentSetId);
+      if (availability.released) continue;
+      return {
+        setId: parentSetId,
+        setName: boosterManager.getLoadedSet(parentSetId)?.name ?? parentSetId,
+        releaseDate: availability.releaseDate ?? null,
+      };
+    }
+    return null;
   }
 
   /**
    * Resolves every reward of a descriptor.
    *
+   * The whole code is refused when ONE reward is invalid or belongs to an extension that is not
+   * released yet; `blocked` names that extension so the caller can say why nothing was granted.
+   *
    * @param {object} descriptor - Catalogue descriptor.
-   * @returns {Promise<Array<{type: string, key: string, quantity: number, card: Card|null}>|null>}
-   *   The resolved rewards, or null when a reward is invalid (the whole code is then refused).
+   * @returns {Promise<{rewards: Array<{type: string, key: string, quantity: number, card: Card|null}>,
+   *   blocked: object|null}|null>} The resolution, or null when a reward is invalid.
    */
   async resolveRewards(descriptor) {
     if (!descriptor.rawRewards || descriptor.rawRewards.length === 0) {
@@ -639,12 +678,12 @@ export class RedeemManager {
       }
 
       if (raw.RewardType === REDEEM_REWARD_TYPES.CARD) {
-        const card = await this.resolveCard(raw.ItemId, raw.PreferedLayout);
-        if (!card) {
+        const row = await this.resolveCard(raw.ItemId, raw.PreferedLayout);
+        if (!row) {
           console.warn('[RedeemManager] A code references an unknown card; the code is refused.');
           return null;
         }
-        rewards.push({ type: 'card', key: card.uniqueKey, quantity, card });
+        rewards.push({ type: 'card', key: row.card.uniqueKey, quantity, card: row.card });
         continue;
       }
 
@@ -658,7 +697,7 @@ export class RedeemManager {
       return null;
     }
 
-    return rewards;
+    return { rewards, blocked: this.findUnreleasedReward(rewards) };
   }
 
   /**
@@ -667,9 +706,10 @@ export class RedeemManager {
    * The single extension point of the subsystem: step 10 will add the `useritem` kind here.
    *
    * @param {string} rawCode - Raw code typed by the player (normalized inside).
-   * @returns {Promise<{status: string, kind: string|null, rewards?: object[], repeatable?: boolean, storeKey?: string}>}
+   * @returns {Promise<{status: string, kind: string|null, rewards?: object[], blocked?: object|null,
+   *   repeatable?: boolean, storeKey?: string}>}
    *   On success `{ status: 'ok', kind, rewards, repeatable, storeKey }`; otherwise a status-only
-   *   result (`unknown`, `expired`, `not_yet_available`, `time_unavailable` or `invalid_config`).
+   *   result. `content_not_released` also carries the blocking `{ setId, setName, releaseDate }`.
    */
   async resolveCode(rawCode) {
     const normalized = this.normalizeCode(rawCode);
@@ -703,19 +743,26 @@ export class RedeemManager {
       return { status: availability.status, kind: REDEEM_KINDS.SPECIAL };
     }
 
-    let rewards;
+    let resolution;
     try {
-      rewards = await this.resolveRewards(descriptor);
+      resolution = await this.resolveRewards(descriptor);
     } catch (error) {
       console.warn('[RedeemManager] A code could not be resolved; it is refused.', error.message);
       return { status: REDEEM_STATUSES.INVALID_CONFIG, kind: REDEEM_KINDS.SPECIAL };
     }
-    if (!rewards) return { status: REDEEM_STATUSES.INVALID_CONFIG, kind: REDEEM_KINDS.SPECIAL };
+    if (!resolution) return { status: REDEEM_STATUSES.INVALID_CONFIG, kind: REDEEM_KINDS.SPECIAL };
+    if (resolution.blocked) {
+      return {
+        status: REDEEM_STATUSES.CONTENT_NOT_RELEASED,
+        kind: REDEEM_KINDS.SPECIAL,
+        blocked: resolution.blocked,
+      };
+    }
 
     return {
       status: REDEEM_STATUSES.OK,
       kind: REDEEM_KINDS.SPECIAL,
-      rewards,
+      rewards: resolution.rewards,
       repeatable: descriptor.repeatable,
       storeKey: descriptor.storeKey,
     };
@@ -754,11 +801,13 @@ export class RedeemManager {
         });
       };
 
-      for (const descriptor of sets) {
-        const loadedSet = await boosterManager.getBoosterSet(descriptor.setId);
+      // Upcoming sets are addressable too: a code naming one of their cards is then reported as
+      // "not released yet" instead of "unknown item".
+      for (const setId of boosterManager.getLoadedSetIds()) {
+        const loadedSet = boosterManager.getLoadedSet(setId);
         descriptors.push({
-          canonical: canonicalBooster(descriptor.setId),
-          target: { type: 'booster', setId: descriptor.setId },
+          canonical: canonicalBooster(setId),
+          target: { type: 'booster', setId },
         });
 
         registerCards(loadedSet?.raw?.Cards ?? loadedSet?.raw?.cards ?? [], loadedSet?.cards ?? []);
@@ -766,7 +815,7 @@ export class RedeemManager {
 
       // A promo card is granted by a code exactly like a drawn one, so it must be addressable here
       // too - without ever entering a booster pool.
-      for (const group of await this.listPromoGroups()) {
+      for (const group of await this.listPromoGroups({ includeUpcoming: true })) {
         registerCards(group.raw ?? [], group.cards ?? []);
       }
 
@@ -822,6 +871,11 @@ export class RedeemManager {
       return { status: result.status, kind: REDEEM_KINDS.USER_ITEM };
     }
 
+    const blocked = this.findUnreleasedReward(result.rewards);
+    if (blocked) {
+      return { status: REDEEM_STATUSES.CONTENT_NOT_RELEASED, kind: REDEEM_KINDS.USER_ITEM, blocked };
+    }
+
     return {
       status: REDEEM_STATUSES.OK,
       kind: REDEEM_KINDS.USER_ITEM,
@@ -862,7 +916,8 @@ export class RedeemManager {
    * @param {object} descriptor - Catalogue descriptor carrying an `autoClaim` block.
    * @returns {Promise<{kind: string, rewards: object[], redeemedAt: string, repeatable: boolean}>}
    *   The claim result.
-   * @throws {RedeemError} When the code is unavailable, already used or its rewards are invalid.
+   * @throws {RedeemError} When the code is unavailable, already used, its rewards are invalid or
+   *   they belong to an extension that is not released yet.
    * @throws {Error} When the storage transaction fails; nothing is written in that case.
    */
   async claimAuto(descriptor) {
@@ -875,14 +930,20 @@ export class RedeemManager {
       throw this.buildStatusError(availability.status);
     }
 
-    const rewards = await this.resolveRewards(descriptor);
-    if (!rewards) {
+    const resolution = await this.resolveRewards(descriptor);
+    if (!resolution) {
       throw new RedeemError(REDEEM_ERROR_CODES.INVALID_CONFIG, 'The automatic code declares invalid rewards.');
+    }
+    if (resolution.blocked) {
+      throw new RedeemError(
+        REDEEM_ERROR_CODES.CONTENT_NOT_RELEASED,
+        `The automatic code grants ${resolution.blocked.setId} content, which is not released yet.`
+      );
     }
 
     return this.grantResolved({
       kind: REDEEM_KINDS.SPECIAL,
-      rewards,
+      rewards: resolution.rewards,
       repeatable: false,
       storeKey: descriptor.storeKey,
     });
@@ -892,14 +953,15 @@ export class RedeemManager {
    * Inspects a code WITHOUT writing anything (read-only).
    *
    * @param {string} rawCode - Raw code typed by the player.
-   * @returns {Promise<{status: string, kind: string|null, rewards?: object[]}>} The inspection
-   *   result. `status` is one of `REDEEM_STATUSES`; `rewards` (present when `ok`) is the already
-   *   resolved list used to build the confirmation modal.
+   * @returns {Promise<{status: string, kind: string|null, rewards?: object[], blocked?: object|null}>}
+   *   The inspection result. `status` is one of `REDEEM_STATUSES`; `rewards` (present when `ok`) is
+   *   the already resolved list used to build the confirmation modal, and `blocked` names the
+   *   extension of a `content_not_released` refusal.
    */
   async inspect(rawCode) {
     const resolved = await this.resolveCode(rawCode);
     if (resolved.status !== REDEEM_STATUSES.OK) {
-      return { status: resolved.status, kind: resolved.kind };
+      return { status: resolved.status, kind: resolved.kind, blocked: resolved.blocked ?? null };
     }
 
     if (!resolved.repeatable && resolved.storeKey) {
@@ -928,6 +990,7 @@ export class RedeemManager {
       [REDEEM_STATUSES.WRONG_USER]: REDEEM_ERROR_CODES.WRONG_USER,
       [REDEEM_STATUSES.INVALID]: REDEEM_ERROR_CODES.INVALID,
       [REDEEM_STATUSES.UNKNOWN_ITEM]: REDEEM_ERROR_CODES.UNKNOWN_ITEM,
+      [REDEEM_STATUSES.CONTENT_NOT_RELEASED]: REDEEM_ERROR_CODES.CONTENT_NOT_RELEASED,
     };
     const code = mapping[status] ?? REDEEM_ERROR_CODES.UNKNOWN;
     return new RedeemError(code, `The code was refused (${status}).`);

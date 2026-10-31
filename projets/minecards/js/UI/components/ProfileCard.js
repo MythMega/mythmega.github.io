@@ -878,12 +878,15 @@ export class ProfileCard {
         image.remove();
         continue;
       }
-      // The clone is detached and has no layout: the size comes from the medal still on screen.
-      const medal = rendered[index];
+      // The clone is detached, and a medal the card just showed may not be decoded yet (its box is
+      // then zero wide): the width is derived from the illustration's own ratio, never measured.
+      const icon = await ProfileCard.loadImage(embedded);
+      const height = rendered[index]?.offsetHeight > 0 ? rendered[index].offsetHeight : 40;
+      const ratio = icon && icon.naturalHeight > 0 ? icon.naturalWidth / icon.naturalHeight : 1;
       const badge = document.createElement('span');
       badge.className = image.className;
-      badge.style.width = `${medal?.offsetWidth > 0 ? medal.offsetWidth : 40}px`;
-      badge.style.height = `${medal?.offsetHeight > 0 ? medal.offsetHeight : 40}px`;
+      badge.style.width = `${Math.round(height * ratio)}px`;
+      badge.style.height = `${height}px`;
       badge.style.backgroundImage = ProfileCard.cssUrl(embedded);
       image.replaceWith(badge);
     }

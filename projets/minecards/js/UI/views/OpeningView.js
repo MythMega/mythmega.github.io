@@ -1850,6 +1850,9 @@ export class OpeningView {
    */
   handleDocumentKeyDown(event) {
     if (!event || typeof event.key !== 'string') return;
+    // The listener sits on `document` for the whole session, so it must stand down with the view:
+    // without this guard, Space opened a pack from the collection or the settings page.
+    if (!this.isActive) return;
     const isSpace = event.key === ' ' || event.code === 'Space';
     const target = event.target;
     // Only a text field keeps its own keys: a button that still holds the focus ("Ouvrir" was just

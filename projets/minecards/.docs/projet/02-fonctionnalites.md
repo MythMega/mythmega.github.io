@@ -449,6 +449,11 @@ Vue : `js/UI/views/InfoView.js`.
   (`ConfigLoader.getLevellingSettings()` / `getExperiencePerTrophy()`) : la page ne peut pas
   dériver des règles réellement appliquées.
 - Un **sommaire cliquable** en tête de page mène à chaque section (`InfoView.handleTocClick`).
+- Le panneau « Taux de drop » affiche **au-dessus du sélecteur d'extension** le taux de godpack
+  (`boosters.godpackChancePercent`, arrondi sans zéros inutiles) : un godpack ignore les tables de
+  rareté imprimées en dessous, son taux ne peut donc pas s'y lire. Quand l'extension choisie ne
+  déclare pas `GachaEngine.MIN_GODPACK_FULL_ART` impressions Full Art distinctes, la ligne dit
+  qu'aucun godpack ne peut y apparaître plutôt que d'annoncer un taux inapplicable.
 - La section « Aide des panneaux » reprend les explications des réglages, du profil et de l'offre
   quotidienne en Sparks : ce sont les **mêmes clés `data-i18n`** que les bulles de l'icône « i »
   (`InfoHint`), donc les deux ne peuvent pas diverger.

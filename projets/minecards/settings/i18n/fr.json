@@ -459,6 +459,8 @@
 
   "info.rates.title": "Taux de drop",
   "info.rates.help": "Les taux ci-dessous sont lus directement dans les fichiers de données du jeu : ils correspondent exactement au tirage réel.",
+  "info.rates.godpack": "Godpack : {chance} % des boosters, avec toutes ses cartes en Full Art.",
+  "info.rates.godpackImpossible": "Cette extension ne déclare pas assez d'impressions Full Art : un godpack ne peut pas y apparaître.",
   "info.rates.set": "Extension",
   "info.rates.slots": "Chances par carte du booster",
   "info.rates.slot": "Carte {slot}",

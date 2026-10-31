@@ -459,6 +459,8 @@
 
   "info.rates.title": "Drop rates",
   "info.rates.help": "The rates below are read straight from the game data files : they match the actual draw exactly.",
+  "info.rates.godpack": "Godpack: {chance} % of boosters, with every card in full art.",
+  "info.rates.godpackImpossible": "This extension does not declare enough full art printings: a godpack can never appear in it.",
   "info.rates.set": "Extension",
   "info.rates.slots": "Odds per booster card",
   "info.rates.slot": "Card {slot}",

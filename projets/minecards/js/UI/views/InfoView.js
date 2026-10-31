@@ -25,6 +25,7 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import boosterManager from '../../business/BoosterManager.js';
+import { MIN_GODPACK_FULL_ART } from '../../business/GachaEngine.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import { getRarityLabel } from '../../classes/Card.js';
@@ -46,6 +47,7 @@ export class InfoView {
     this.feedbackElement = this.root.querySelector('[data-info-feedback]');
     this.tocElement = this.root.querySelector('[data-info-toc]');
     this.setSelect = this.root.querySelector('[data-info-set]');
+    this.godpackElement = this.root.querySelector('[data-info-godpack]');
     this.slotsElement = this.root.querySelector('[data-info-slots]');
     this.raritySourceElement = this.root.querySelector('[data-info-rarity-source]');
     this.cardsElement = this.root.querySelector('[data-info-cards]');
@@ -98,6 +100,7 @@ export class InfoView {
     const missing = [
       ['[data-info-toc]', this.tocElement],
       ['[data-info-set]', this.setSelect],
+      ['[data-info-godpack]', this.godpackElement],
       ['[data-info-slots]', this.slotsElement],
       ['[data-info-rarity-source]', this.raritySourceElement],
       ['[data-info-cards]', this.cardsElement],
@@ -495,7 +498,9 @@ export class InfoView {
     this.setFeedback(null);
     try {
       const set = await boosterManager.getBoosterSet(this.selectedSetId);
+      const boosterSettings = await configLoader.getBoosterSettings();
       const { slots, tables } = InfoView.buildSlotTables(set.rarityConfig);
+      this.renderGodpack(set, boosterSettings.godpackChancePercent);
       this.renderSlots(set, slots, tables);
       this.renderRaritySource(set);
       this.renderCardRates(set, tables);
@@ -623,6 +628,40 @@ export class InfoView {
       block.appendChild(bars);
       this.slotsElement.appendChild(block);
     });
+  }
+
+  /**
+   * Prints the godpack rate above the extension picker.
+   *
+   * A godpack bypasses the rarity tables printed underneath, so its odds cannot be read from them:
+   * they come from `boosters.godpackChancePercent`. The engine also refuses the bonus on an extension
+   * that does not declare enough distinct Full Art printings, whatever the configured chance, so the
+   * line says so instead of promising a pack that can never happen.
+   *
+   * @param {object} set - Loaded extension.
+   * @param {number} chancePercent - Configured probability in percent.
+   * @returns {void}
+   */
+  renderGodpack(set, chancePercent) {
+    const fullArtCount = (set.cards ?? []).filter((card) => card.isFullArt).length;
+    const possible =
+      Number.isFinite(chancePercent) && chancePercent > 0 && fullArtCount >= MIN_GODPACK_FULL_ART;
+
+    this.godpackElement.textContent = possible
+      ? i18n.t('info.rates.godpack', { chance: InfoView.formatChance(chancePercent) })
+      : i18n.t('info.rates.godpackImpossible');
+    this.log(`Godpack: ${possible ? `${chancePercent} %` : 'impossible'} (${fullArtCount} full art).`);
+  }
+
+  /**
+   * Formats a probability that is usually a fraction of a percent, without trailing zeros.
+   *
+   * @param {number} value - Probability in percent.
+   * @returns {string} `0.5` for `0.5`, `12` for `12` (never `0.500`).
+   */
+  static formatChance(value) {
+    const safe = Number.isFinite(value) ? value : 0;
+    return String(Number(safe.toFixed(3)));
   }
 
   /**

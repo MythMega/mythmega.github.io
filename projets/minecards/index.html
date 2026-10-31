@@ -1840,6 +1840,10 @@
           <h3 class="stats__title" data-i18n="info.rates.title">Taux de drop</h3>
           <p class="info__text" data-i18n="info.rates.help">Les taux ci-dessous sont lus directement dans les fichiers de données du jeu : ils correspondent exactement au tirage réel.</p>
 
+          <!-- Godpack rate: it is not part of the rarity tables below (a godpack bypasses them and
+               draws only Full Art printings), so it is printed once, above the extension picker. -->
+          <p class="info__note info__godpack" data-info-godpack>Godpack : 0.5 % des boosters, avec toutes ses cartes en Full Art.</p>
+
           <label class="field info__field" for="info-set">
             <span class="field__label" data-i18n="info.rates.set">Extension</span>
             <select class="field__select" id="info-set" data-info-set></select>

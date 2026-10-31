@@ -1,0 +1,16 @@
+# Build outputs
+Bulkut/bin/
+Bulkut/obj/
+Bulkut.Core/bin/
+Bulkut.Core/obj/
+Bulkut.Tests/bin/
+Bulkut.Tests/obj/
+ffmpeg-cache/
+
+# FFmpeg binaries are downloaded by build.ps1 and embedded at publish time
+Bulkut.Core/Resources/ffmpeg.bin
+Bulkut/Resources/ffmpeg.bin
+
+# IDE
+.vs/
+*.user

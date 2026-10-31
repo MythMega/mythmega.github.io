@@ -1,0 +1,442 @@
+{
+  "app": {
+    "title": "Bulkut — éditeur vidéo local gratuit, sans envoi ni publicité",
+    "name": "Bulkut",
+    "tagline": "Montage vidéo local, aucun fichier envoyé",
+    "skip": "Aller au contenu",
+    "footer": "Tout se passe dans votre navigateur avec ffmpeg.wasm. Vos fichiers ne quittent jamais cet appareil.",
+    "versionLabel": "Version",
+    "download": "Version desktop"
+  },
+  "lang": {
+    "label": "Langue"
+  },
+  "nav": {
+    "label": "Outils",
+    "autocut": "Autocut",
+    "fastcut": "Fastcut",
+    "reverse": "Reverser",
+    "collage": "Collage",
+    "introoutro": "Intro / Outro",
+    "splitter": "Découpe"
+  },
+  "engine": {
+    "idle": "Moteur inactif",
+    "loading": "Chargement du moteur…",
+    "ready": "Moteur prêt",
+    "error": "Erreur du moteur",
+    "hint": "Le moteur vidéo (ffmpeg.wasm) se charge au premier rendu."
+  },
+  "common": {
+    "suffix": {
+      "label": "Suffixe de sortie",
+      "hint": "Ajouté au nom du fichier avant le téléchargement.",
+      "placeholder": "-modifie"
+    },
+    "oneAtATime": "Une vidéo à la fois, dans l'ordre de lancement.",
+    "localOnly": "Tout reste sur cet appareil.",
+    "dropTitle": "Glissez-déposez vos vidéos ici",
+    "dropFileTitle": "Glissez-déposez une vidéo ici",
+    "browse": "Parcourir les fichiers",
+    "addFiles": "Ajouter des vidéos",
+    "addFile": "Ajouter une vidéo",
+    "remove": "Retirer",
+    "configure": "Réglages",
+    "excerpt": "Extrait",
+    "cancel": "Annuler",
+    "stop": "Arrêter",
+    "close": "Fermer",
+    "importing": "Importation…",
+    "defaultBadge": "Défaut",
+    "customBadge": "Personnalisé",
+    "unknownDuration": "Durée inconnue",
+    "ready": "Prêt",
+    "queued": "En file d'attente",
+    "preparing": "Préparation",
+    "analyzing": "Analyse des silences",
+    "rendering": "Rendu en cours",
+    "done": "Terminé",
+    "error": "Erreur",
+    "outputDuration": "Durée de sortie",
+    "hours": "h",
+    "minutes": "m",
+    "seconds": "s",
+    "eta": "~{time} restant",
+    "dragToReorder": "Glisser pour réordonner",
+    "moveUp": "Monter",
+    "moveDown": "Descendre"
+  },
+  "autocut": {
+    "settings": {
+      "title": "Réglages globaux",
+      "hint": "Ces valeurs s'appliquent à chaque vidéo qui suit les valeurs par défaut."
+    },
+    "fields": {
+      "threshold": "Seuil de silence",
+      "thresholdHint": "Le niveau en dessous duquel un son est considéré comme un silence.",
+      "precut": "Marge avant",
+      "precutHint": "Temps conservé juste avant le début de la parole.",
+      "postcut": "Marge après",
+      "postcutHint": "Temps de respiration conservé après la fin de la parole.",
+      "minClip": "Durée minimale des clips",
+      "minClipHint": "Les passages conservés plus courts que cette durée sont supprimés."
+    },
+    "list": {
+      "title": "Vidéos",
+      "hint": "Chaque vidéo peut remplacer les réglages globaux."
+    },
+    "empty": "Aucune vidéo pour l'instant. Déposez des clips pour en retirer les silences.",
+    "runAll": "Tout traiter ({count})",
+    "autoEstimate": {
+      "title": "Pré-calcul automatique des durées",
+      "hint": "Après un changement de réglages, estime la durée de sortie de chaque vidéo sans effectuer de rendu. Le calcul part 3 secondes après la dernière modification.",
+      "toggle": "Pré-calculer automatiquement les durées de sortie"
+    },
+    "estimate": {
+      "button": "Pré-calculer la durée de sortie",
+      "runningShort": "Calcul de la durée en cours…",
+      "label": "pré-calcul de la durée",
+      "queued": "Pré-calcul de la durée en attente",
+      "running": "Calcul de la durée… {percent} %",
+      "ready": "Sortie ≈ {duration} · {clips} clips",
+      "failed": "Impossible d'estimer la durée",
+      "hint": "Estimation issue de l'analyse des silences, avant tout rendu."
+    },
+    "queue": {
+      "active": "Traitement : {name}",
+      "waiting": "{count} en attente",
+      "skip": "Passer l'actuel",
+      "cancelNext": "Annuler les suivants",
+      "stopAll": "Tout arrêter",
+      "skipped": "{name} passé.",
+      "cancelledNext": "{count} rendu(s) en attente annulé(s).",
+      "stoppedAll": "Tous les traitements Autocut sont arrêtés."
+    },
+    "modal": {
+      "title": "Réglages de « {name} »",
+      "hint": "Les valeurs actuelles servent de point de départ ; elles ne s'appliquent qu'à cette vidéo.",
+      "apply": "Appliquer à cette vidéo",
+      "useDefaults": "Suivre les valeurs par défaut"
+    },
+    "excerpt": {
+      "title": "Générer un extrait d'une minute au milieu de la vidéo"
+    },
+    "resultDone": "{name} téléchargé.",
+    "stale": "Réglages modifiés — relancer le rendu",
+    "previewDone": "Extrait téléchargé : {name}",
+    "badge": {
+      "default": "Utilise les réglages globaux.",
+      "custom": "Utilise des réglages propres à cette vidéo."
+    },
+    "output": {
+      "title": "Format de sortie",
+      "hint": "Les timelines réutilisent le fichier source et peuvent être relinkées dans le logiciel de montage.",
+      "video": "Vidéo (MP4)",
+      "premiere": "Séquence Premiere Pro (XML)",
+      "davinci": "Timeline DaVinci Resolve (FCPXML)",
+      "shotcut": "Projet Shotcut (MLT)",
+      "finalcut": "Timeline Final Cut Pro (FCPXML)",
+      "vegas": "Séquence Vegas Pro (XML)"
+    },
+    "params": {
+      "title": "Seuil · marge avant · marge après · durée minimale des clips"
+    }
+  },
+  "fastcut": {
+    "settings": {
+      "title": "Réglages de coupe",
+      "hint": "Choisissez le début et la fin de l'extrait, puis exportez."
+    },
+    "run": "Exporter l'extrait",
+    "list": {
+      "title": "Extrait",
+      "hint": "Un fichier à la fois ; les curseurs définissent la plage conservée."
+    },
+    "start": "Début",
+    "end": "Fin",
+    "outputHint": "Plage sélectionnée",
+    "lengthSeconds": "{seconds} s",
+    "probing": "Lecture de la durée de la vidéo…",
+    "resultDone": "{name} téléchargé."
+  },
+  "reverse": {
+    "settings": {
+      "title": "Réglages d'inversion",
+      "hint": "Lit la vidéo et son audio à l'envers."
+    },
+    "run": "Inverser la vidéo",
+    "list": {
+      "title": "Vidéo",
+      "hint": "Un fichier à la fois."
+    },
+    "warning": "L'inversion charge tout le clip en mémoire : gardez-le court (quelques minutes).",
+    "longWarning": "Ce clip dure {duration} : l'inversion charge tout en mémoire et peut échouer.",
+    "resultDone": "{name} téléchargé."
+  },
+  "collage": {
+    "settings": {
+      "title": "Réglages du collage",
+      "hint": "Les clips sont mis bout à bout, dans l'ordre ci-dessous."
+    },
+    "list": {
+      "title": "Clips",
+      "hint": "Faites glisser une ligne, ou utilisez les flèches, pour changer l'ordre."
+    },
+    "empty": "Aucun clip pour l'instant. Ajoutez des vidéos pour créer un collage.",
+    "run": "Créer le collage",
+    "stop": "Arrêter le rendu",
+    "note": "Les clips sont réencodés ensemble : une vidéo à la fois, dans l'ordre de la liste.",
+    "total": "Durée totale",
+    "label": "collage",
+    "resultDone": "{name} téléchargé.",
+    "stopped": "Rendu du collage arrêté."
+  },
+  "introoutro": {
+    "settings": {
+      "title": "Réglages intro / outro",
+      "hint": "Chaque vidéo est exportée séparément, avec l'intro, l'outro, ou les deux."
+    },
+    "list": {
+      "title": "Vidéos",
+      "hint": "Chaque vidéo est rendue séparément."
+    },
+    "empty": "Aucune vidéo pour l'instant. Ajoutez des clips, puis donnez-leur une intro et un outro.",
+    "addIntro": "Ajouter une intro",
+    "addOutro": "Ajouter un outro",
+    "introHint": "Optionnel · lue avant chaque vidéo",
+    "outroHint": "Optionnel · lue après chaque vidéo",
+    "modeLabel": "Éléments à inclure",
+    "mode": {
+      "both": "Intro + outro",
+      "intro": "Intro seule",
+      "outro": "Outro seul"
+    },
+    "expected": "Durée prévue ≈ {duration}",
+    "run": "Rendre cette vidéo",
+    "runAll": "Tout rendre ({count})",
+    "resultDone": "{name} téléchargé.",
+    "needEdge": "Ajoutez une intro ou un outro pour activer le rendu.",
+    "queue": {
+      "active": "Traitement : {name}",
+      "waiting": "{count} en attente",
+      "stopAll": "Tout arrêter",
+      "stoppedAll": "Tous les rendus intro/outro sont arrêtés."
+    }
+  },
+  "presets": {
+    "save": "Sauvegarder un preset",
+    "load": "Charger un preset",
+    "saveTitle": "Preset {section}",
+    "saveHint": "Nommez ce preset : il ne sera disponible que dans cet onglet.",
+    "loadTitle": "Presets {section}",
+    "loadHint": "Chargez un preset pour remplacer les réglages actuels, ou supprimez ceux dont vous n'avez plus besoin.",
+    "nameLabel": "Nom du preset",
+    "namePlaceholder": "ex. Podcast, Coupes serrées…",
+    "recapTitle": "Contenu du preset",
+    "saveAction": "Sauvegarder",
+    "saved": "Preset « {name} » sauvegardé.",
+    "loaded": "Preset « {name} » chargé.",
+    "deleted": "Preset « {name} » supprimé.",
+    "delete": "Supprimer",
+    "confirmDelete": "Confirmer la suppression",
+    "empty": "Aucun preset sauvegardé pour cet onglet."
+  },
+  "errors": {
+    "numberRange": "La valeur doit être comprise entre {min} et {max}.",
+    "notVideo": "{name} n'est pas un fichier vidéo pris en charge.",
+    "importFailed": "Impossible de lire « {name} ». Copiez-le sur l’appareil puis réessayez.",
+    "fileTooLarge": "{name} est trop volumineux ({size}). Limite : {limit}.",
+    "busy": "Une vidéo est déjà en cours de traitement.",
+    "startBeforeEnd": "Le début doit rester avant la fin (au moins 1 seconde).",
+    "endAfterStart": "La fin doit rester après le début (au moins 1 seconde).",
+    "timecode": "Saisissez un timecode valide entre 00:00:00 et 99:59:59.",
+    "duration": "Impossible de lire la durée de la vidéo.",
+    "noAudio": "Cette vidéo n'a pas de piste audio à analyser.",
+    "noSegments": "Aucune parole détectée avec ces réglages. Essayez un autre seuil.",
+    "tooManySegments": "Trop de segments à assembler ({max} maximum). Augmentez le seuil ou la durée minimale de silence.",
+    "noVideoStream": "Aucune piste vidéo trouvée dans ce fichier.",
+    "renderFailed": "FFmpeg n'a pas pu effectuer le rendu.",
+    "ffmpegLoad": "Impossible de charger ffmpeg.wasm.",
+    "ffmpegUnavailable": "Le moteur ffmpeg.wasm est absent. Vérifiez le dossier vendor/ffmpeg.",
+    "cancelled": "L'opération a été annulée.",
+    "opfsUnavailable": "Ce navigateur ne prend pas en charge le stockage OPFS. Utilisez index.html à la place.",
+    "opfsImport": "Impossible d'enregistrer {name} dans OPFS.",
+    "opfsMount": "Impossible de monter {name} dans le moteur vidéo.",
+    "presetNameEmpty": "Donnez un nom à ce preset.",
+    "presetNameTaken": "Un preset nommé « {name} » existe déjà dans cet onglet.",
+    "presetStorage": "Impossible d'enregistrer le preset : les cookies sont indisponibles ou pleins.",
+    "presetTooLarge": "Trop de presets enregistrés : supprimez-en pour libérer de la place.",
+    "noClips": "Ajoutez au moins une vidéo.",
+    "unknown": "Une erreur est survenue."
+  },
+  "pro": {
+    "badge": "PRO · OPFS",
+    "badgeHint": "Page Pro : les fichiers sont stockés dans le navigateur avec OPFS.",
+    "title": "Bulkut Pro — édition vidéo locale avec OPFS, sans limite de taille",
+    "description": "Bulkut Pro — retirez les silences, découpez et inversez vos vidéos localement avec le stockage OPFS et ffmpeg.wasm.",
+    "note": "Mode OPFS : les vidéos sont lues depuis le stockage du navigateur et montées en lecture seule dans FFmpeg, la limite de taille à l'import ne s'applique donc pas. Elles ne quittent pas cet appareil.",
+    "storageNote": "Stocké localement dans votre navigateur avec OPFS — aucune limite de taille à l'import.",
+    "open": "Version Pro (OPFS)",
+    "standard": "Version standard"
+  },
+  "seo": {
+    "why": {
+      "title": "Un éditeur vidéo qui n'envoie jamais vos fichiers",
+      "body": "Bulkut est un éditeur vidéo gratuit qui tourne entièrement dans votre navigateur : FFmpeg est compilé en WebAssembly et s'exécute sur votre machine, vos rushes ne sont jamais envoyés à un serveur.",
+      "free": "100 % gratuit — sans publicité, sans compte, sans filigrane et sans limite d'export.",
+      "local": "Aucun envoi, aucun cloud, aucun pistage : vos vidéos restent sur votre appareil.",
+      "offline": "Fonctionne hors ligne une fois le moteur en cache, et en un seul exécutable portable sous Windows, Linux, macOS et Android."
+    },
+    "cards": {
+      "autocut": {
+        "title": "Autocut : suppression des silences",
+        "body": "FFmpeg détecte les silences et les retire en une seule passe, avec un seuil, des marges avant/après et une durée minimale de clip — globalement ou vidéo par vidéo."
+      },
+      "cut": {
+        "title": "Fastcut, reverse et splitter",
+        "body": "Extrayez un passage précis avec des timecodes, inversez un clip avec son audio, ou exportez plusieurs segments d'une même vidéo d'un coup."
+      },
+      "assemble": {
+        "title": "Collage et intro/outro",
+        "body": "Enchaînez les clips dans l'ordre voulu, ajoutez une intro et une outro communes, et suivez la durée finale qui se met à jour pendant l'édition."
+      },
+      "timeline": {
+        "title": "Timelines de montage",
+        "body": "Exportez le montage en projet Premiere Pro, Vegas Pro, DaVinci Resolve, Final Cut Pro ou Shotcut au lieu de réencoder une vidéo."
+      }
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "free": {
+        "q": "Bulkut est-il vraiment gratuit ?",
+        "a": "Oui. Tous les outils sont gratuits et illimités : sans publicité, sans abonnement, sans compte et sans filigrane. Aucun serveur à financer, donc rien à payer."
+      },
+      "upload": {
+        "q": "Mes vidéos sont-elles envoyées à un serveur ?",
+        "a": "Non. FFmpeg est compilé en WebAssembly et s'exécute dans votre navigateur : les fichiers sont lus et écrits localement. La version logicielle fait tourner FFmpeg nativement sur votre machine. Aucun envoi, aucun pistage."
+      },
+      "offline": {
+        "q": "Bulkut fonctionne-t-il hors ligne ?",
+        "a": "Oui. L'application web fonctionne hors ligne dès que le moteur est en cache, et les versions logicielles sont des exécutables uniques qui tournent toujours hors ligne."
+      },
+      "limit": {
+        "q": "Y a-t-il une limite de taille de fichier ?",
+        "a": "La page classique est limitée par la mémoire du navigateur. La page Pro stocke les fichiers avec OPFS pour lever la limite d'import, et la version logicielle lit les vidéos directement sur le disque, sans limite de taille."
+      },
+      "formats": {
+        "q": "Quels formats d'export sont pris en charge ?",
+        "a": "Rendu MP4, plus des timelines pour Premiere Pro et Vegas Pro (XML), DaVinci Resolve et Final Cut Pro (FCPXML), et Shotcut (MLT)."
+      }
+    },
+    "pro": {
+      "title": "Des vidéos longues, toujours 100 % locales",
+      "body": "Bulkut Pro conserve les imports dans l'OPFS, le stockage privé du navigateur, et les diffuse de là vers FFmpeg. La limite d'import d'une page classique ne s'applique plus, et rien n'est envoyé.",
+      "points": {
+        "free": "Gratuit, sans publicité, sans compte.",
+        "tools": "Les six mêmes outils que la page standard.",
+        "storage": "Stocké dans votre navigateur, supprimable à tout moment.",
+        "desktop": "Besoin de plus ? La version logicielle lit directement le disque, sans limite de taille."
+      }
+    },
+    "download": {
+      "title": "Le même éditeur, en natif",
+      "body": "Les versions desktop et Android embarquent FFmpeg : l'application l'extrait à côté de l'exécutable au premier lancement, puis fonctionne sans connexion. Les fichiers sont lus sur le disque et rendus sur votre machine — sans envoi, sans compte, sans publicité.",
+      "points": {
+        "threads": "FFmpeg natif multithread, pour des rendus plus rapides.",
+        "offline": "Un seul exécutable portable, sans installation, qui fonctionne hors ligne.",
+        "limit": "Aucune limite de taille à l'import : les vidéos sont lues directement sur le disque.",
+        "free": "100 % gratuit, sans publicité, sans compte et sans filigrane."
+      }
+    }
+  },
+  "toasts": {
+    "languageChanged": "Langue définie sur {language}."
+  },
+  "desktop": {
+    "badge": "DESKTOP · FFMPEG NATIF",
+    "engineChecking": "Vérification de FFmpeg…",
+    "engineDownloading": "Téléchargement de FFmpeg… {percent} %",
+    "engineReady": "Moteur natif prêt",
+    "engineFailed": "FFmpeg indisponible",
+    "engineRetry": "Réessayer",
+    "engineHint": "FFmpeg est recherché dans le dossier ffmpeg à côté de l’application.",
+    "storageNote": "Les fichiers sont lus directement sur le disque — aucune limite d’import.",
+    "outputFolder": "Dossier de sortie",
+    "outputDefault": "Dossier Téléchargements",
+    "chooseFolder": "Choisir le dossier",
+    "savedTo": "{name} enregistré dans {folder}",
+    "reveal": "Afficher dans le dossier",
+    "footer": "Édition desktop native. Tout tourne en local avec FFmpeg — aucun envoi, aucune limite de taille.",
+    "web": "Version web",
+    "threads": "Threads FFmpeg",
+    "serverBusy": "Un autre rendu est déjà en cours.",
+    "selectFolderTitle": "Choisir le dossier de sortie"
+  },
+  "fade": {
+    "title": "Fondu",
+    "hint": "Appliqué une seule fois sur chaque fichier final, jamais à l'intérieur des clips.",
+    "audio": "Audio",
+    "video": "Vidéo",
+    "duration": "Durée du fondu",
+    "durationHint": "De 0,1 à 1 seconde. 1 seconde par défaut.",
+    "modes": {
+      "none": "Aucun fondu",
+      "in": "Fondu d'entrée",
+      "out": "Fondu de sortie",
+      "both": "Fondu d'entrée et de sortie"
+    }
+  },
+  "splitter": {
+    "settings": {
+      "title": "Réglages de découpe",
+      "hint": "Découpez une vidéo en autant de segments que nécessaire."
+    },
+    "list": {
+      "title": "Segments",
+      "hint": "Définissez un début et une fin pour chaque segment."
+    },
+    "start": "Début",
+    "end": "Fin",
+    "run": "Exporter les segments",
+    "stop": "Arrêter",
+    "note": "Chaque segment est rendu dans son propre fichier. Autorisez les téléchargements multiples dans le navigateur.",
+    "addSegment": "Ajouter un segment",
+    "probing": "Lecture de la vidéo…",
+    "resultDone": "{count} segments exportés",
+    "tooManySegments": "Trop de segments (max {max})."
+  },
+  "download": {
+    "title": "Bulkut pour ordinateur et Android — éditeur vidéo gratuit hors ligne",
+    "lead": "Tous les outils Bulkut, en natif. Un seul fichier, aucune installation, pas de navigateur et aucune limite d’import.",
+    "action": "Télécharger",
+    "windows": "Windows",
+    "linux": "Linux",
+    "macos": "macOS",
+    "android": "Android",
+    "apk": "APK · Android 7 et plus récent",
+    "appleSilicon": "Apple Silicon",
+    "intel": "Intel",
+    "portable": "Exécutable unique portable",
+    "alpha": "Alpha",
+    "alphaHint": "Version alpha : non signée et encore mouvante.",
+    "beta": "Bêta",
+    "betaHint": "Version bêta : en test, quelques aspérités possibles.",
+    "macBundle": "Application (.zip) · Apple Silicon ou Intel",
+    "recommended": "Recommandé pour cet appareil",
+    "version": "Version {version}",
+    "noteTitle": "Tout est inclus",
+    "note": "Chaque build embarque FFmpeg. L’application l’extrait à côté de l’exécutable au premier lancement.",
+    "requirements": "Nécessite Windows 10/11, une distribution Linux récente, macOS 12+ ou Android 7+.",
+    "back": "Retour à l’application web",
+    "unavailable": "Build pas encore publié",
+    "webTitle": "Aucune installation",
+    "webLead": "Lancez Bulkut tout de suite dans le navigateur, ou utilisez la page Pro pour les gros fichiers.",
+    "openWeb": "Ouvrir l’application web",
+    "openPro": "Ouvrir la page Pro"
+  },
+  "mobile": {
+    "dropTitle": "Touchez pour choisir vos vidéos",
+    "dropFileTitle": "Touchez pour choisir une vidéo",
+    "storageNote": "Les fichiers choisis sont copiés dans le stockage privé de l'application."
+  }
+}

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Bulkut/Bulkut.csproj" />
+  <Project Path="Bulkut.Android/Bulkut.Android.csproj" />
+  <Project Path="Bulkut.Core/Bulkut.Core.csproj" />
+  <Project Path="Bulkut.Shared/Bulkut.Shared.csproj" />
+  <Project Path="Bulkut.Tests/Bulkut.Tests.csproj" />
+</Solution>

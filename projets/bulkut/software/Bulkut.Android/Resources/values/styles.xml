@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Avalonia draws everything itself; the activity only supplies the surface. -->
+  <style name="MyTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowBackground">#F8FBFF</item>
+  </style>
+</resources>

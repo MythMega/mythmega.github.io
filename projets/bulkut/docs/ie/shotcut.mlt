@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mlt LC_NUMERIC="C" version="7.9.0" title="Shotcut version 22.09.23" producer="main_bin">
+	<profile description="automatic" width="1920" height="1080" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="16" display_aspect_den="9" frame_rate_num="60" frame_rate_den="1" colorspace="709" />
+	<playlist id="main_bin">
+		<property name="xml_retain">1</property>
+	</playlist>
+	<producer id="bg">
+		<property name="length">00:00:36.183</property>
+		<property name="eof">pause</property>
+		<property name="resource">#000</property>
+		<property name="mlt_service">color</property>
+		<property name="mlt_image_format">rgba</property>
+		<property name="aspect_ratio">1</property>
+	</producer>
+	<playlist id="background">
+		<entry producer="bg" in="00:00:00.000" out="00:00:36.183">1</entry>
+	</playlist>
+	<chain id="chain0" out="00:00:03.200">
+		<property name="length">00:00:03.200</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain1" out="00:00:05.050">
+		<property name="length">00:00:05.050</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain2" out="00:00:12.383">
+		<property name="length">00:00:12.383</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain3" out="00:00:16.400">
+		<property name="length">00:00:16.400</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain4" out="00:00:17.467">
+		<property name="length">00:00:17.467</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain5" out="00:00:18.783">
+		<property name="length">00:00:18.783</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain6" out="00:00:20.417">
+		<property name="length">00:00:20.417</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain7" out="00:00:24.867">
+		<property name="length">00:00:24.867</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain8" out="00:00:26.417">
+		<property name="length">00:00:26.417</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain9" out="00:00:31.633">
+		<property name="length">00:00:31.633</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain10" out="00:00:34.000">
+		<property name="length">00:00:34.000</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain11" out="00:00:40.617">
+		<property name="length">00:00:40.617</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain12" out="00:00:44.950">
+		<property name="length">00:00:44.950</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain13" out="00:00:48.750">
+		<property name="length">00:00:48.750</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain14" out="00:00:52.033">
+		<property name="length">00:00:52.033</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain15" out="00:00:57.150">
+		<property name="length">00:00:57.150</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<chain id="chain16" out="00:00:59.950">
+		<property name="length">00:00:59.950</property>
+		<property name="resource">C:\Users\mythm\Downloads\clip.mp4</property>
+		<property name="caption">clip</property>
+	</chain>
+	<playlist id="playlist0">
+		<property name="shotcut:video">1</property>
+		<property name="shotcut:name">V1</property>
+		<entry producer="chain0" in="00:00:02.067" out="00:00:03.200" />
+		<entry producer="chain1" in="00:00:03.317" out="00:00:05.050" />
+		<entry producer="chain2" in="00:00:09.733" out="00:00:12.383" />
+		<entry producer="chain3" in="00:00:14.300" out="00:00:16.400" />
+		<entry producer="chain4" in="00:00:16.533" out="00:00:17.467" />
+		<entry producer="chain5" in="00:00:17.517" out="00:00:18.783" />
+		<entry producer="chain6" in="00:00:18.817" out="00:00:20.417" />
+		<entry producer="chain7" in="00:00:20.433" out="00:00:24.867" />
+		<entry producer="chain8" in="00:00:24.950" out="00:00:26.417" />
+		<entry producer="chain9" in="00:00:26.617" out="00:00:31.633" />
+		<entry producer="chain10" in="00:00:31.933" out="00:00:34.000" />
+		<entry producer="chain11" in="00:00:38.133" out="00:00:40.617" />
+		<entry producer="chain12" in="00:00:43.550" out="00:00:44.950" />
+		<entry producer="chain13" in="00:00:45.633" out="00:00:48.750" />
+		<entry producer="chain14" in="00:00:49.817" out="00:00:52.033" />
+		<entry producer="chain15" in="00:00:55.483" out="00:00:57.150" />
+		<entry producer="chain16" in="00:00:59.050" out="00:00:59.950" />
+	</playlist>
+	<tractor id="tractor0" in="00:00:00.000" out="00:00:36.183">
+		<property name="shotcut">1</property>
+		<property name="shotcut:projectAudioChannels">2</property>
+		<track producer="background" />
+		<track producer="playlist0" />
+	</tractor>
+</mlt>

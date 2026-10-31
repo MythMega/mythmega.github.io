@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fcpxml version="1.11">
+	<resources>
+		<format id="r1" name="FFVideoFormatRateUndefined" frameDuration="1/60s" width="1920" height="1080" colorSpace="1-1-1 (Rec. 709)" />
+		<asset id="r2" name="clip" start="0s" hasVideo="1" format="r1" hasAudio="1" audioSources="1" audioChannels="2" duration="2171/60s">
+			<media-rep kind="original-media" src="file:///C:/Users/mythm/Downloads/clip.mp4" />
+		</asset>
+	</resources>
+	<library>
+		<event name="Auto-Editor Media Group">
+			<project name="clip">
+				<sequence format="r1" tcStart="0s" tcFormat="NDF" audioLayout="stereo" audioRate="48k">
+					<spine>
+						<asset-clip name="clip" ref="r2" offset="0s" duration="68/60s" start="124/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="68/60s" duration="104/60s" start="199/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="172/60s" duration="159/60s" start="584/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="331/60s" duration="126/60s" start="858/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="457/60s" duration="56/60s" start="992/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="513/60s" duration="76/60s" start="1051/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="589/60s" duration="96/60s" start="1129/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="685/60s" duration="266/60s" start="1226/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="951/60s" duration="88/60s" start="1497/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="1039/60s" duration="301/60s" start="1597/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="1340/60s" duration="124/60s" start="1916/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="1464/60s" duration="149/60s" start="2288/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="1613/60s" duration="84/60s" start="2613/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="1697/60s" duration="187/60s" start="2738/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="1884/60s" duration="133/60s" start="2989/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="2017/60s" duration="100/60s" start="3329/60s" tcFormat="NDF" />
+						<asset-clip name="clip" ref="r2" offset="2117/60s" duration="54/60s" start="3543/60s" tcFormat="NDF" />
+					</spine>
+				</sequence>
+			</project>
+		</event>
+	</library>
+</fcpxml>

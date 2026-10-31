@@ -621,6 +621,26 @@ SVG chargé en image ne peut atteindre **aucune** ressource externe : la feuille
 et les fichiers de police sont donc **incorporés en data URLs** (`css/fonts.css` inclus, sans quoi
 « Press Start 2P » retomberait sur une police système et le PNG ne ressemblerait plus à l'aperçu).
 
+**Ce que le rasteriseur ne peut pas peindre, et ce que le PNG en fait :** un `foreignObject` chargé en
+image n'est pas la page ; trois écarts sont donc traités séparément.
+
+- **Le flou du panneau de description** n'est pas un `filter` CSS. Un flou de 28 px débordait du
+  panneau pour s'appliquer aussi à l'illustration sur certains moteurs mobiles : le composant
+  **cuit** le flou (`ProfileCard.blurWash()`, image de 72 px de large mise en cache par illustration)
+  et la feuille n'affiche plus qu'une image (`--card-background-blur-image`). Un `filter` ne tourne
+  jamais dans l'export (`EXPORT_RESET`), donc il ne peut plus déborder.
+- **Les médailles des trophées** deviennent des **images de fond** dans la copie exportée : WebKit ne
+  peint aucun `<img>` dans un `foreignObject`, et la carte téléchargée perdait ses trophées.
+- **Le foil (`mix-blend-mode`) et le verre dépoli (`backdrop-filter`)** ne sont pas peints par WebKit,
+  qui rendait des panneaux noirs. Une sonde de 8 × 8 px (`ProfileCard.paintsForeignBlend()` : jaune
+  fondu en cyan par `difference`) dit si le moteur sait les peindre ; sinon le PNG reçoit
+  `EXPORT_STATIC_FX`, la variante plate (foil en mélange normal, opacité réduite, panneaux opaques).
+  Chromium garde donc le rendu riche, WebKit obtient une carte lisible.
+- **La mise à l'échelle** passe par le `viewBox` du SVG, que WebKit ignore sur un `foreignObject` (la
+  carte revenait au quart de la taille, coin haut-gauche, avec un grand vide). Après la
+  rasterisation, `ProfileCard.isCornerEmpty()` lit le coin de la carte ; s'il est vide, l'image est
+  redessinée depuis le quart qui la contient.
+
 ### G nonies. Illumination (réglage « Illumination » / « Glow »)
 
 Le panneau **Illumination** des Paramètres règle la force du halo des **trophées**. Le bloc

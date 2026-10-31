@@ -82,6 +82,54 @@ const EMBEDDED_MIME_TYPES = Object.freeze({
 /** How long the export waits for an image before giving up on it. */
 const IMAGE_TIMEOUT = 20000;
 
+/** Width of the blurred wash baked for the description panel, in pixels. */
+const WASH_WIDTH = 72;
+
+/**
+ * Rules every exported copy needs.
+ *
+ * The fragment is not the page: no margin, no inherited theme, no animation. And no `filter` runs
+ * there — the blurred wash is baked into the image the component hands over (`blurWash()`), and a
+ * filter is exactly what escaped its panel on some mobile rasterizers, bleeding over the artwork.
+ */
+const EXPORT_RESET = [
+  '.xport-root{display:block;margin:0;padding:0;border:0;background:transparent;' +
+    'position:relative;color:#fff;font-family:monospace;}',
+  '.xport-root *{animation:none !important;transition:none !important;}',
+  '.xport-root .card-body::before{filter:none !important;transform:none !important;}',
+].join('\n');
+
+/**
+ * Rules the exported copy needs when the engine paints no blend mode inside a `foreignObject`.
+ *
+ * WebKit paints neither `mix-blend-mode` nor `backdrop-filter` there, and comes out with black
+ * panels where the page shows a foil over the illustration. The foil is then painted flat, at a
+ * reduced opacity so the artwork still reads through it.
+ */
+const EXPORT_STATIC_FX = [
+  '.xport-root .card-header,.xport-root .card-body{' +
+    'backdrop-filter:none !important;-webkit-backdrop-filter:none !important;}',
+  '.xport-root .card-foil-bg,.xport-root .card-foil-underlay,.xport-root .card-body::after{' +
+    'mix-blend-mode:normal !important;}',
+  '.xport-root .card-foil-bg{' +
+    'opacity:calc(var(--foil-opacity) * var(--foil-bg-strength) * 0.55) !important;}',
+  '.xport-root .card-foil-underlay{' +
+    'opacity:calc(var(--foil-opacity) * var(--foil-underlay-strength) * 0.55) !important;}',
+  '.xport-root .card-preview.card-layout-classic .card-body::after{' +
+    'opacity:calc(var(--foil-opacity) * var(--foil-classic-strength) * 0.55) !important;}',
+].join('\n');
+
+/**
+ * Blurred washes already built, by illustration path.
+ *
+ * The same illustration comes back on every render of the card (a preference change, a return to
+ * the profile page): baking it once is what keeps the panel cheap to rebuild.
+ */
+const WASH_CACHE = new Map();
+
+/** What `paintsForeignBlend()` found, or null while it has not run. */
+let foreignBlend = null;
+
 /**
  * Card rarities, mirroring `external/cardmakerz/js/bulk/RarityDef.js` (1 = Commune … 5 = Mythique).
  *
@@ -342,7 +390,7 @@ export class ProfileCard {
 
     this.renderTitleColor(model);
     this.renderNameColor(model);
-    this.renderLayers(model);
+    await this.renderLayers(model);
     this.renderText(model);
 
     this.host.setAttribute(
@@ -399,9 +447,9 @@ export class ProfileCard {
    * never blocks the render: a missing file simply leaves the layer empty.
    *
    * @param {object} model - The card facts.
-   * @returns {void}
+   * @returns {Promise<void>} Resolves once both layers are painted.
    */
-  renderLayers(model) {
+  async renderLayers(model) {
     const background = typeof model.background === 'string' && model.background !== ''
       ? i18n.resolveImagePath(model.background)
       : '';
@@ -417,11 +465,61 @@ export class ProfileCard {
       background ? ProfileCard.cssUrl(background) : 'none'
     );
 
+    // The description panel shows a blurred copy of the illustration. It is BAKED here rather than
+    // blurred by a CSS filter: a filter that big escaped the panel it was clipped to on mobile
+    // rasterizers, and the downloaded PNG came back with the wash smeared over the artwork.
+    const wash = background !== '' ? await ProfileCard.blurWash(background) : '';
+    if (wash !== '') {
+      this.cardElement.style.setProperty('--card-background-blur-image', ProfileCard.cssUrl(wash));
+    } else {
+      this.cardElement.style.removeProperty('--card-background-blur-image');
+    }
+    this.cardElement.classList.toggle('is-wash-ready', wash !== '');
+
     this.layerElements['card-underlay'].style.backgroundImage = underlay
       ? ProfileCard.cssUrl(underlay)
       : 'none';
     this.layerElements['card-underlay'].hidden = underlay === '';
     this.host.dataset.hasUnderlay = String(underlay !== '');
+  }
+
+  /**
+   * Bakes the wash drawn behind the description: the illustration, shrunk and blurred once.
+   *
+   * @param {string} path - Illustration path.
+   * @returns {Promise<string>} The wash as a PNG data URL (empty when it cannot be built).
+   */
+  static async blurWash(path) {
+    const cached = WASH_CACHE.get(path);
+    if (cached !== undefined) return cached;
+
+    const image = await ProfileCard.loadImage(path, { anonymous: true });
+    let wash = '';
+    const ratio = image && image.naturalWidth > 0 ? image.naturalHeight / image.naturalWidth : 0;
+    if (ratio > 0) {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = WASH_WIDTH;
+        canvas.height = Math.max(1, Math.round(WASH_WIDTH * ratio));
+        const context = canvas.getContext('2d');
+        if (context) {
+          // One pixel here covers five on screen: the interpolation already softens the image, and
+          // `filter` only rounds it off. An engine without it still gets a wash, a bit more banded.
+          if ('filter' in context) context.filter = 'blur(3px) saturate(1.15)';
+          context.drawImage(image, 0, 0, canvas.width, canvas.height);
+          wash = canvas.toDataURL('image/png');
+        }
+        canvas.width = 0;
+        canvas.height = 0;
+      } catch (error) {
+        // A tainted canvas (an illustration served without CORS) cannot be read back: the card
+        // then keeps the CSS fallback of the stylesheet.
+        console.warn('[ProfileCard] The blurred wash could not be built.', error);
+      }
+    }
+
+    WASH_CACHE.set(path, wash);
+    return wash;
   }
 
   /**
@@ -608,17 +706,60 @@ export class ProfileCard {
    *
    * @param {string} stylesheet - Card stylesheet text.
    * @param {string} fonts - `@font-face` rules.
+   * @param {object} [options] - Export options.
+   * @param {boolean} [options.staticFx=false] - Paint the foil without blend nor backdrop filter,
+   *   the engines that ignore them inside a `foreignObject` otherwise paint black panels.
    * @returns {string} The complete CSS of the isolated document.
    */
-  static buildExportStyle(stylesheet, fonts) {
-    return [
-      fonts,
-      stylesheet,
-      /* The fragment is not the page: no margin, no inherited theme, no animation. */
-      '.xport-root{display:block;margin:0;padding:0;border:0;background:transparent;' +
-        'position:relative;color:#fff;font-family:monospace;}',
-      '.xport-root *{animation:none !important;transition:none !important;}',
-    ].join('\n');
+  static buildExportStyle(stylesheet, fonts, { staticFx = false } = {}) {
+    return [fonts, stylesheet, EXPORT_RESET, staticFx ? EXPORT_STATIC_FX : ''].join('\n');
+  }
+
+  /**
+   * Whether the engine paints `mix-blend-mode` inside a `foreignObject`.
+   *
+   * WebKit paints neither blend modes nor backdrop filters there, and the exported card loses its
+   * foil on a black panel. One yellow pixel blended with cyan through `difference` tells the two
+   * engines apart; the answer is cached for the session.
+   *
+   * @returns {Promise<boolean>} True when the effect is actually painted.
+   */
+  static async paintsForeignBlend() {
+    if (foreignBlend !== null) return foreignBlend;
+
+    // Yellow blended with cyan through `difference` is magenta; cyan means the blend was ignored,
+    // and a transparent pixel means the `foreignObject` was not painted at all.
+    const markup =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">' +
+      '<foreignObject x="0" y="0" width="8" height="8">' +
+      '<div xmlns="http://www.w3.org/1999/xhtml" style="width:8px;height:8px;background:#ff0">' +
+      '<div style="width:8px;height:8px;background:#0ff;mix-blend-mode:difference"></div>' +
+      '</div></foreignObject></svg>';
+    const image = await ProfileCard.loadImage(
+      `data:image/svg+xml;charset=utf-8,${encodeURIComponent(markup)}`
+    );
+
+    let painted = false;
+    if (image) {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 8;
+        canvas.height = 8;
+        const context = canvas.getContext('2d');
+        if (context) {
+          context.drawImage(image, 0, 0, 8, 8);
+          const { data } = context.getImageData(4, 4, 1, 1);
+          painted = data[0] > 120 && data[2] > 120 && data[1] < 120;
+        }
+        canvas.width = 0;
+        canvas.height = 0;
+      } catch (error) {
+        console.warn('[ProfileCard] The blend mode probe failed.', error);
+      }
+    }
+
+    foreignBlend = painted;
+    return painted;
   }
 
   /**
@@ -652,6 +793,26 @@ export class ProfileCard {
     const context = canvas.getContext('2d');
     if (!context) throw new Error('The canvas is unavailable.');
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+    // Chromium scales the `foreignObject` through the `viewBox`; WebKit paints it at its own size in
+    // the top-left corner, and the PNG came back with a small card and a wide empty band. The
+    // bottom-right corner tells the two apart, and the first case is redrawn from the quarter that
+    // actually holds the card.
+    if (ProfileCard.isCornerEmpty(context, canvas.width, canvas.height)) {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(
+        image,
+        0,
+        0,
+        PROFILE_CARD_WIDTH,
+        PROFILE_CARD_HEIGHT,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+      this.log('The browser painted the card at its own size: redrawn scaled.');
+    }
 
     const blob = await new Promise((resolve) => {
       try {
@@ -704,19 +865,34 @@ export class ProfileCard {
       }
     }
 
-    // Every `<img>` of the card (the trophy medals of the featured line) has to be embedded too: an
-    // SVG loaded as an image reaches no external resource. One that cannot be read is dropped, so
-    // the PNG never shows a broken image icon.
-    for (const image of [...clone.querySelectorAll('img')]) {
+    // The medals of the featured line have to be embedded too: an SVG loaded as an image reaches no
+    // external resource. They are also turned into BACKGROUND images, which WebKit does paint — a
+    // `<img>` inside a `foreignObject` stays blank there, so the PNG lost its trophies. One that
+    // cannot be read is dropped, so the PNG never shows a broken image icon.
+    const rendered = [...this.root.querySelectorAll('.card-text__medal')];
+    const images = [...clone.querySelectorAll('img')];
+    for (const [index, image] of images.entries()) {
       const source = image.getAttribute('src') ?? '';
       const embedded = await ProfileCard.readDataUrl(source, 'index.html');
-      if (embedded !== '') image.setAttribute('src', embedded);
-      else image.remove();
+      if (embedded === '') {
+        image.remove();
+        continue;
+      }
+      // The clone is detached and has no layout: the size comes from the medal still on screen.
+      const medal = rendered[index];
+      const badge = document.createElement('span');
+      badge.className = image.className;
+      badge.style.width = `${medal?.offsetWidth > 0 ? medal.offsetWidth : 40}px`;
+      badge.style.height = `${medal?.offsetHeight > 0 ? medal.offsetHeight : 40}px`;
+      badge.style.backgroundImage = ProfileCard.cssUrl(embedded);
+      image.replaceWith(badge);
     }
 
     const style = document.createElement('style');
     style.setAttribute('type', 'text/css');
-    style.textContent = ProfileCard.buildExportStyle(stylesheet, fonts);
+    style.textContent = ProfileCard.buildExportStyle(stylesheet, fonts, {
+      staticFx: !(await ProfileCard.paintsForeignBlend()),
+    });
 
     const wrapper = document.createElement('div');
     wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
@@ -743,14 +919,38 @@ export class ProfileCard {
   }
 
   /**
+   * Tells whether the card reached the far corner of the rasterized image.
+   *
+   * @param {CanvasRenderingContext2D} context - Canvas holding the card.
+   * @param {number} width - Canvas width.
+   * @param {number} height - Canvas height.
+   * @returns {boolean} True when the corner of the card is empty.
+   */
+  static isCornerEmpty(context, width, height) {
+    try {
+      const x = Math.floor(width * 0.92);
+      const y = Math.floor(height * 0.92);
+      return context.getImageData(x, y, 1, 1).data[3] < 8;
+    } catch (error) {
+      // A canvas that cannot be read back is left exactly as it was drawn.
+      console.warn('[ProfileCard] The exported image could not be checked.', error);
+      return false;
+    }
+  }
+
+  /**
    * Loads an image, with a timeout: a resource that never answers must not freeze the export.
    *
    * @param {string} url - Image URL.
+   * @param {object} [options] - Load options.
+   * @param {boolean} [options.anonymous=false] - Read the pixels back (CORS mode): only the blurred
+   *   wash needs it.
    * @returns {Promise<HTMLImageElement|null>} The loaded image, or null.
    */
-  static loadImage(url) {
+  static loadImage(url, { anonymous = false } = {}) {
     return new Promise((resolve) => {
       const image = new Image();
+      if (anonymous) image.crossOrigin = 'anonymous';
       const timer = setTimeout(() => resolve(null), IMAGE_TIMEOUT);
       image.onload = () => {
         clearTimeout(timer);

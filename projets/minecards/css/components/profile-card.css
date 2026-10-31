@@ -421,6 +421,11 @@
 .profile-card-root .card-text__medal {
   flex: none;
   width: auto;
+  /* A medal is an `<img>` on screen and a background image in the exported copy
+     (`ProfileCard.buildImageUrl`), which Safari can paint inside a `foreignObject`. */
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   /* Twice the size the card maker draws a medal at (24px): on the profile card the three trophies
      are a headline, not a footnote, so they read without zooming. */
   height: 48px;
@@ -523,12 +528,22 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: var(--card-background-image, none);
+  /* `--card-background-blur-image` is a wash the component has ALREADY blurred (`blurWash()`),
+     `--card-background-image` the illustration itself. */
+  background-image: var(--card-background-blur-image, var(--card-background-image, none));
   background-size: cover;
   background-position: center;
   filter: blur(28px) saturate(1.15);
   transform: scale(1.2);
   opacity: 0.4;
+}
+
+/* When the wash handed to the card is already blurred, the filter has nothing left to do. Keeping
+   it would double the blur in the preview, and a filter that large is what escaped this panel on
+   mobile rasterizers: the artwork of the downloaded PNG came back covered in it. */
+.profile-card-root .card-preview.is-wash-ready .card-body::before {
+  filter: none;
+  transform: none;
 }
 
 .profile-card-root .card-preview.card-layout-classic .card-body::after {

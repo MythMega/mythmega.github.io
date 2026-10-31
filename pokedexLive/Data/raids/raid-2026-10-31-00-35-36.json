@@ -1,0 +1,195 @@
+{
+  "bossName": "Taupiqueur Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/diglett_shiny.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/diglett_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": true,
+  "pvMax": 140000,
+  "date": "2026-10-31 00:35:36",
+  "durationSec": 3873,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 137244,
+      "countAtk": 5,
+      "baseDmg": 15755,
+      "level": 18,
+      "raidCount": 537,
+      "luck": 1.7422279
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 3696,
+      "countAtk": 2,
+      "baseDmg": 1896,
+      "level": 13,
+      "raidCount": 103,
+      "luck": 0.9746835
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 1045,
+      "countAtk": 1,
+      "baseDmg": 1045,
+      "level": 10,
+      "raidCount": 67,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 138289
+    },
+    {
+      "platform": "youtube",
+      "damage": 3696
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 2
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 1,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-31 00:43:19",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15755,
+      "pvAfter": 124245,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 00:52:53",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1896,
+      "pvAfter": 122349,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": "Tu es endormis. Tes prochaines attaques seront faibles jusqu\u0027a revenir a la normale !"
+    },
+    {
+      "at": "2026-10-31 00:59:19",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1800,
+      "pvAfter": 120549,
+      "heal": false,
+      "critical": false,
+      "statut": "ASLEEP",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 01:04:13",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 31754,
+      "pvAfter": 88795,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-10-31 01:28:51",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 53795,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-10-31 01:34:45",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 28087,
+      "pvAfter": 25708,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus confus !"
+    },
+    {
+      "at": "2026-10-31 01:35:19",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1045,
+      "pvAfter": 24663,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 01:40:09",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 26648,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

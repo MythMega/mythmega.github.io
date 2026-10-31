@@ -622,24 +622,36 @@ et les fichiers de police sont donc **incorporés en data URLs** (`css/fonts.css
 « Press Start 2P » retomberait sur une police système et le PNG ne ressemblerait plus à l'aperçu).
 
 **Ce que le rasteriseur ne peut pas peindre, et ce que le PNG en fait :** un `foreignObject` chargé en
-image n'est pas la page ; trois écarts sont donc traités séparément.
+image n'est pas la page. Quatre écarts sont traités séparément — les trois premiers ont été mesurés
+dans WebKit et dans Chromium, en comparant le PNG à l'aperçu image par image.
 
 - **Le flou du panneau de description** n'est pas un `filter` CSS. Un flou de 28 px débordait du
   panneau pour s'appliquer aussi à l'illustration sur certains moteurs mobiles : le composant
   **cuit** le flou (`ProfileCard.blurWash()`, image de 72 px de large mise en cache par illustration)
   et la feuille n'affiche plus qu'une image (`--card-background-blur-image`). Un `filter` ne tourne
   jamais dans l'export (`EXPORT_RESET`), donc il ne peut plus déborder.
-- **Les médailles des trophées** deviennent des **images de fond** dans la copie exportée : WebKit ne
-  peint aucun `<img>` dans un `foreignObject`, et la carte téléchargée perdait ses trophées.
-- **Le foil (`mix-blend-mode`) et le verre dépoli (`backdrop-filter`)** ne sont pas peints par WebKit,
-  qui rendait des panneaux noirs. Une sonde de 8 × 8 px (`ProfileCard.paintsForeignBlend()` : jaune
-  fondu en cyan par `difference`) dit si le moteur sait les peindre ; sinon le PNG reçoit
-  `EXPORT_STATIC_FX`, la variante plate (foil en mélange normal, opacité réduite, panneaux opaques).
-  Chromium garde donc le rendu riche, WebKit obtient une carte lisible.
-- **La mise à l'échelle** passe par le `viewBox` du SVG, que WebKit ignore sur un `foreignObject` (la
-  carte revenait au quart de la taille, coin haut-gauche, avec un grand vide). Après la
-  rasterisation, `ProfileCard.isCornerEmpty()` lit le coin de la carte ; s'il est vide, l'image est
-  redessinée depuis le quart qui la contient.
+- **Le panneau de description ne porte plus d'`overflow: hidden`.** Il n'en avait besoin que pour
+  découper le lavis agrandi qu'il peignait lui-même ; depuis qu'il affiche une image qui le remplit
+  exactement, ce clip ne servait plus à rien — et un panneau clippé sortait **vide** de la
+  rasterisation WebKit (la bande noire sans compteurs des premiers PNG). Le bloc de texte se clip
+  lui-même.
+- **Les médailles des trophées** sont des **images de fond** dans la copie exportée plutôt que des
+  `<img>` : c'est la forme que les deux moteurs résolvent de façon fiable sur une carte rasterisée.
+  Leur taille vient du ratio de l'icône embarquée (`ProfileCard.buildImageUrl`), jamais de la mise en
+  page de la carte — un trophée pas encore décodé n'a pas de largeur.
+- **L'illustration peut arriver en retard.** WebKit rastérise l'image SVG avant d'avoir décodé les
+  illustrations qu'elle embarque : la grande illustration manquait au premier rendu (le petit avatar,
+  lui, était là). L'export vérifie la bande d'illustration (`ProfileCard.isArtworkBlank()`) et
+  recharge l'image jusqu'à ce qu'elle la porte, sans jamais dépasser `ARTWORK_ATTEMPTS` essais.
+- **La mise à l'échelle** ne passe pas par le `viewBox` : WebKit l'ignore sur un `foreignObject` et
+  peint la carte à sa taille, dans un coin (c'était le quart de carte entouré de vide). L'agrandissement
+  est donc un `transform: scale()` CSS sur la carte, et `ProfileCard.isCornerEmpty()` reste en filet
+  de sécurité pour un moteur qui ignorerait le transform.
+
+Reste hors du PNG, volontairement : l'ombre portée et le halo de rareté de `.card-preview`, peints
+*hors* des 360 × 500 de la carte (le canevas s'arrête au bord). Côté aperçu, le halo est déjà coupé
+par la scène (`overflow: hidden`). La seule différence qui subsiste entre l'aperçu et le PNG est
+l'antialiasing du texte et l'ombre sous l'image, que WebKit ne peint pas dans un `foreignObject`.
 
 ### G nonies. Illumination (réglage « Illumination » / « Glow »)
 

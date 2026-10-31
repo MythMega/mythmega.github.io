@@ -85,6 +85,12 @@ const IMAGE_TIMEOUT = 20000;
 /** Width of the blurred wash baked for the description panel, in pixels. */
 const WASH_WIDTH = 72;
 
+/** How many times the export redraws the card while the illustration decodes. */
+const ARTWORK_ATTEMPTS = 3;
+
+/** Pause between two draws that wait for the illustration, in milliseconds. */
+const ARTWORK_RETRY_DELAY = 150;
+
 /**
  * Rules every exported copy needs.
  *
@@ -100,35 +106,12 @@ const EXPORT_RESET = [
 ].join('\n');
 
 /**
- * Rules the exported copy needs when the engine paints no blend mode inside a `foreignObject`.
- *
- * WebKit paints neither `mix-blend-mode` nor `backdrop-filter` there, and comes out with black
- * panels where the page shows a foil over the illustration. The foil is then painted flat, at a
- * reduced opacity so the artwork still reads through it.
- */
-const EXPORT_STATIC_FX = [
-  '.xport-root .card-header,.xport-root .card-body{' +
-    'backdrop-filter:none !important;-webkit-backdrop-filter:none !important;}',
-  '.xport-root .card-foil-bg,.xport-root .card-foil-underlay,.xport-root .card-body::after{' +
-    'mix-blend-mode:normal !important;}',
-  '.xport-root .card-foil-bg{' +
-    'opacity:calc(var(--foil-opacity) * var(--foil-bg-strength) * 0.55) !important;}',
-  '.xport-root .card-foil-underlay{' +
-    'opacity:calc(var(--foil-opacity) * var(--foil-underlay-strength) * 0.55) !important;}',
-  '.xport-root .card-preview.card-layout-classic .card-body::after{' +
-    'opacity:calc(var(--foil-opacity) * var(--foil-classic-strength) * 0.55) !important;}',
-].join('\n');
-
-/**
  * Blurred washes already built, by illustration path.
  *
  * The same illustration comes back on every render of the card (a preference change, a return to
  * the profile page): baking it once is what keeps the panel cheap to rebuild.
  */
 const WASH_CACHE = new Map();
-
-/** What `paintsForeignBlend()` found, or null while it has not run. */
-let foreignBlend = null;
 
 /**
  * Card rarities, mirroring `external/cardmakerz/js/bulk/RarityDef.js` (1 = Commune … 5 = Mythique).
@@ -706,60 +689,10 @@ export class ProfileCard {
    *
    * @param {string} stylesheet - Card stylesheet text.
    * @param {string} fonts - `@font-face` rules.
-   * @param {object} [options] - Export options.
-   * @param {boolean} [options.staticFx=false] - Paint the foil without blend nor backdrop filter,
-   *   the engines that ignore them inside a `foreignObject` otherwise paint black panels.
    * @returns {string} The complete CSS of the isolated document.
    */
-  static buildExportStyle(stylesheet, fonts, { staticFx = false } = {}) {
-    return [fonts, stylesheet, EXPORT_RESET, staticFx ? EXPORT_STATIC_FX : ''].join('\n');
-  }
-
-  /**
-   * Whether the engine paints `mix-blend-mode` inside a `foreignObject`.
-   *
-   * WebKit paints neither blend modes nor backdrop filters there, and the exported card loses its
-   * foil on a black panel. One yellow pixel blended with cyan through `difference` tells the two
-   * engines apart; the answer is cached for the session.
-   *
-   * @returns {Promise<boolean>} True when the effect is actually painted.
-   */
-  static async paintsForeignBlend() {
-    if (foreignBlend !== null) return foreignBlend;
-
-    // Yellow blended with cyan through `difference` is magenta; cyan means the blend was ignored,
-    // and a transparent pixel means the `foreignObject` was not painted at all.
-    const markup =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">' +
-      '<foreignObject x="0" y="0" width="8" height="8">' +
-      '<div xmlns="http://www.w3.org/1999/xhtml" style="width:8px;height:8px;background:#ff0">' +
-      '<div style="width:8px;height:8px;background:#0ff;mix-blend-mode:difference"></div>' +
-      '</div></foreignObject></svg>';
-    const image = await ProfileCard.loadImage(
-      `data:image/svg+xml;charset=utf-8,${encodeURIComponent(markup)}`
-    );
-
-    let painted = false;
-    if (image) {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = 8;
-        canvas.height = 8;
-        const context = canvas.getContext('2d');
-        if (context) {
-          context.drawImage(image, 0, 0, 8, 8);
-          const { data } = context.getImageData(4, 4, 1, 1);
-          painted = data[0] > 120 && data[2] > 120 && data[1] < 120;
-        }
-        canvas.width = 0;
-        canvas.height = 0;
-      } catch (error) {
-        console.warn('[ProfileCard] The blend mode probe failed.', error);
-      }
-    }
-
-    foreignBlend = painted;
-    return painted;
+  static buildExportStyle(stylesheet, fonts) {
+    return [fonts, stylesheet, EXPORT_RESET].join('\n');
   }
 
   /**
@@ -792,16 +725,22 @@ export class ProfileCard {
     canvas.height = PROFILE_CARD_HEIGHT * PROFILE_CARD_EXPORT_SCALE;
     const context = canvas.getContext('2d');
     if (!context) throw new Error('The canvas is unavailable.');
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-    // Chromium scales the `foreignObject` through the `viewBox`; WebKit paints it at its own size in
-    // the top-left corner, and the PNG came back with a small card and a wide empty band. The
-    // bottom-right corner tells the two apart, and the first case is redrawn from the quarter that
-    // actually holds the card.
-    if (ProfileCard.isCornerEmpty(context, canvas.width, canvas.height)) {
+    /**
+     * Draws the card on the canvas.
+     *
+     * @param {HTMLImageElement} source - The rasterized card.
+     * @param {boolean} scaled - True when the engine painted the card at its own size.
+     * @returns {void}
+     */
+    const paint = (source, scaled) => {
       context.clearRect(0, 0, canvas.width, canvas.height);
+      if (!scaled) {
+        context.drawImage(source, 0, 0, canvas.width, canvas.height);
+        return;
+      }
       context.drawImage(
-        image,
+        source,
         0,
         0,
         PROFILE_CARD_WIDTH,
@@ -811,7 +750,28 @@ export class ProfileCard {
         canvas.width,
         canvas.height
       );
-      this.log('The browser painted the card at its own size: redrawn scaled.');
+    };
+
+    // Chromium scales the `foreignObject` through the `viewBox`; WebKit paints it at its own size in
+    // the top-left corner, and the PNG came back with a small card and a wide empty band. The
+    // bottom-right corner tells the two apart.
+    paint(image, false);
+    const scaled = ProfileCard.isCornerEmpty(context, canvas.width, canvas.height);
+    if (scaled) this.log('The browser painted the card at its own size: redrawn scaled.');
+    paint(image, scaled);
+
+    // WebKit also rasterises the SVG image before the illustrations it embeds are decoded: the
+    // artwork is missing from the first draw (the small avatar makes it, the big illustration does
+    // not). The same URL loaded again a moment later paints them, so the card is rasterized again
+    // until its band carries something — and never more than `ARTWORK_ATTEMPTS` times.
+    const expectsArtwork = typeof this.model?.background === 'string' && this.model.background !== '';
+    for (let attempt = 1; expectsArtwork && attempt < ARTWORK_ATTEMPTS; attempt += 1) {
+      if (!ProfileCard.isArtworkBlank(context, canvas.width)) break;
+      this.log(`The artwork missed draw ${attempt}: loading the card again.`);
+      await new Promise((resolve) => setTimeout(resolve, ARTWORK_RETRY_DELAY));
+      const reloaded = await ProfileCard.loadImage(url);
+      if (!reloaded) break;
+      paint(reloaded, scaled);
     }
 
     const blob = await new Promise((resolve) => {
@@ -893,27 +853,33 @@ export class ProfileCard {
 
     const style = document.createElement('style');
     style.setAttribute('type', 'text/css');
-    style.textContent = ProfileCard.buildExportStyle(stylesheet, fonts, {
-      staticFx: !(await ProfileCard.paintsForeignBlend()),
-    });
+    style.textContent = ProfileCard.buildExportStyle(stylesheet, fonts);
+
+    const width = PROFILE_CARD_WIDTH * PROFILE_CARD_EXPORT_SCALE;
+    const height = PROFILE_CARD_HEIGHT * PROFILE_CARD_EXPORT_SCALE;
+
+    // The card is enlarged by a CSS transform and NOT by the `viewBox`: WebKit ignores the viewBox
+    // of the `foreignObject` and paints the card at its own size in the corner of the image, which
+    // is also what made the first PNGs come out soft (they were a 360 px render scaled up).
+    clone.style.transform = `scale(${PROFILE_CARD_EXPORT_SCALE})`;
+    clone.style.transformOrigin = '0 0';
 
     const wrapper = document.createElement('div');
     wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
     wrapper.className = 'xport-root';
-    wrapper.setAttribute('style', `width:${PROFILE_CARD_WIDTH}px;height:${PROFILE_CARD_HEIGHT}px;`);
+    wrapper.setAttribute('style', `width:${width}px;height:${height}px;`);
     wrapper.append(style, clone);
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    svg.setAttribute('width', String(PROFILE_CARD_WIDTH * PROFILE_CARD_EXPORT_SCALE));
-    svg.setAttribute('height', String(PROFILE_CARD_HEIGHT * PROFILE_CARD_EXPORT_SCALE));
-    svg.setAttribute('viewBox', `0 0 ${PROFILE_CARD_WIDTH} ${PROFILE_CARD_HEIGHT}`);
+    svg.setAttribute('width', String(width));
+    svg.setAttribute('height', String(height));
 
     const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     foreignObject.setAttribute('x', '0');
     foreignObject.setAttribute('y', '0');
-    foreignObject.setAttribute('width', String(PROFILE_CARD_WIDTH));
-    foreignObject.setAttribute('height', String(PROFILE_CARD_HEIGHT));
+    foreignObject.setAttribute('width', String(width));
+    foreignObject.setAttribute('height', String(height));
     foreignObject.appendChild(wrapper);
     svg.appendChild(foreignObject);
 
@@ -937,6 +903,44 @@ export class ProfileCard {
     } catch (error) {
       // A canvas that cannot be read back is left exactly as it was drawn.
       console.warn('[ProfileCard] The exported image could not be checked.', error);
+      return false;
+    }
+  }
+
+  /**
+   * Tells whether the band that carries the illustration came out empty.
+   *
+   * The card paints its inner background in pure black, which an illustration drawn over it never
+   * fills: a band of exact black pixels means the image was not decoded when the card was drawn.
+   *
+   * @param {CanvasRenderingContext2D} context - Canvas holding the card.
+   * @param {number} width - Canvas width.
+   * @returns {boolean} True when the band is empty.
+   */
+  static isArtworkBlank(context, width) {
+    try {
+      const scale = width / PROFILE_CARD_WIDTH;
+      // The illustration band of the normal layout, which the Full Art layout covers as well: it
+      // runs between the name band and the description panel.
+      const top = 54;
+      const bottom = 246;
+      // The avatar sits in the middle of the band: only its margins say whether the illustration
+      // behind it was decoded.
+      const columns = [1, 2, 7, 8];
+      let black = 0;
+      let total = 0;
+      for (const column of columns) {
+        for (let row = 1; row <= 5; row += 1) {
+          const x = Math.round((4 + (352 * column) / 9) * scale);
+          const y = Math.round((top + ((bottom - top) * row) / 6) * scale);
+          const { data } = context.getImageData(x, y, 1, 1);
+          total += 1;
+          if (data[0] === 0 && data[1] === 0 && data[2] === 0 && data[3] > 200) black += 1;
+        }
+      }
+      return total > 0 && black / total > 0.75;
+    } catch (error) {
+      console.warn('[ProfileCard] The exported image could not be inspected.', error);
       return false;
     }
   }

@@ -511,8 +511,11 @@
   border: none;
   border-top: 2px solid var(--rarity-border);
   box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.55);
-  overflow: hidden;
   background-color: rgba(9, 9, 13, 0.93);
+  /* No `overflow: hidden` here. It used to clip the oversized wash this panel painted itself;
+     the wash is now an image that fills it exactly, and a clipped panel comes out EMPTY of its
+     counters when the card is rasterised by WebKit (the exported PNG had a black band where the
+     description should be). The text block clips itself, so nothing needs this anymore. */
 }
 
 /* The avatar covers 80 % of the height of the band it is confined to: it sits ON the artwork

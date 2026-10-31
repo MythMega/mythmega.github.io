@@ -32,6 +32,7 @@ import dateSyncManager, { BOOSTER_SOURCES } from '../../business/DateSyncManager
 import sparksManager, { INSUFFICIENT_SPARKS } from '../../business/SparksManager.js';
 import CardComponent from '../components/CardComponent.js';
 import Toast from '../components/Toast.js';
+import dailyRewardPopup from '../components/DailyRewardPopup.js';
 import { buildBoosterCode } from '../../utils/BoosterCode.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import soundManager, { SOUNDS, UI_SOUNDS } from '../../utils/SoundManager.js';
@@ -131,6 +132,13 @@ export class OpeningView {
     this.sourceClose = this.root.querySelector('[data-opening-source-close]');
     this.sourceButtons = Array.from(this.root.querySelectorAll('[data-opening-source-choice]'));
 
+    this.storeButton = this.root.querySelector('[data-opening-store]');
+    this.storeModal = this.root.querySelector('[data-opening-store-modal]');
+    this.storeTitle = this.root.querySelector('[data-opening-store-title]');
+    this.storeBody = this.root.querySelector('[data-opening-store-body]');
+    this.storeSets = this.root.querySelector('[data-opening-store-sets]');
+    this.storeClose = this.root.querySelector('[data-opening-store-close]');
+
     this.assertMarkup();
 
     /** @type {Map<string, object>} Extension descriptions, keyed by id. */
@@ -191,6 +199,11 @@ export class OpeningView {
     this.sparksBalance = 0;
     /** @type {boolean} True while the extra-booster purchase is in flight. */
     this.isBuying = false;
+    /** @type {boolean} True while a daily booster is being parked in a bonus bucket. */
+    this.isStoring = false;
+    /** @type {Array<{setId: string, name: string, bonus: number}>|null} Sets offered by the store
+     *  dialog while it is open. */
+    this.storeChoices = null;
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
@@ -237,6 +250,11 @@ export class OpeningView {
       ['[data-opening-source-modal]', this.sourceModal],
       ['[data-opening-source-title]', this.sourceTitle],
       ['[data-opening-source-body]', this.sourceBody],
+      ['[data-opening-store]', this.storeButton],
+      ['[data-opening-store-modal]', this.storeModal],
+      ['[data-opening-store-title]', this.storeTitle],
+      ['[data-opening-store-body]', this.storeBody],
+      ['[data-opening-store-sets]', this.storeSets],
       ['[data-opening-copy-code]', this.copyCodeButton],
       ['[data-opening-finish]', this.finishButton],
       ['[data-booster-3d]', this.boosterContainer],
@@ -419,6 +437,22 @@ export class OpeningView {
     this.sourceButtons.forEach((button) => {
       this.listen(button, 'click', () => this.handleSourceChoice(button.dataset.openingSourceChoice));
     });
+    if (this.storeButton) {
+      this.listen(this.storeButton, 'click', () => this.handleStoreClick());
+    }
+    if (this.storeModal) {
+      this.listen(this.storeModal, 'click', (event) => {
+        if (event?.target === this.storeModal) this.closeStoreModal();
+      });
+    }
+    if (this.storeClose) {
+      this.listen(this.storeClose, 'click', () => this.closeStoreModal());
+    }
+    if (this.storeSets) {
+      // One button per extension, rebuilt on every opening of the dialog: delegation keeps the
+      // listener stable however many extensions the catalogue declares.
+      this.listen(this.storeSets, 'click', (event) => this.handleStoreChoice(event));
+    }
     this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
     this.listen(document, 'keyup', (event) => this.handleDocumentKeyUp(event));
     // A window that loses the focus never sends the keyup: the automatic reveal must stop anyway.
@@ -549,6 +583,8 @@ export class OpeningView {
   refreshQuota() {
     if (!this.selectedSetId) {
       this.openButton.disabled = true;
+      // Nothing can be looked at, so nothing can be chosen either: the store button has no target.
+      this.renderStoreButton(0);
       // No visible extension at all (every set is still hidden before its preview window): this is
       // an announcement, not a failure, so the message is informational.
       if (this.setOrder.length === 0) {
@@ -568,6 +604,7 @@ export class OpeningView {
 
     const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
     this.lastQuota = quota;
+    this.renderStoreButton(quota.daily);
     const available = quota.availableForSet ?? 0;
     this.log(`Quota refreshed for "${this.selectedSetId}":`, quota);
 
@@ -760,6 +797,7 @@ export class OpeningView {
     // The price of the extra booster is part of its label, so the button is re-rendered whatever
     // sub-stage is on screen.
     this.renderBuyButton();
+    this.renderStoreButton(this.lastQuota?.daily ?? 0);
     if (this.feedbackKey) {
       this.setFeedback(this.feedbackKey, this.feedbackTone);
     }
@@ -914,6 +952,163 @@ export class OpeningView {
   closeSourceModal() {
     if (this.sourceModal && !this.sourceModal.hidden) {
       this.sourceModal.hidden = true;
+    }
+  }
+
+  // __OPENING_STORE__
+
+  /**
+   * Renders the "store as bonus" button and hides it when there is nothing to store.
+   *
+   * The button shares its slot with the extra-booster purchase: they answer opposite situations
+   * (a leftover allowance to keep, an empty one to buy back), so they never appear together.
+   *
+   * @param {number} daily - Remaining daily boosters.
+   * @returns {void}
+   */
+  renderStoreButton(daily = 0) {
+    if (!this.storeButton) return;
+    const visible = daily > 0;
+    this.storeButton.hidden = !visible;
+    if (!visible) {
+      this.closeStoreModal();
+      return;
+    }
+    this.storeButton.textContent = i18n.t('opening.store', { count: daily });
+    this.storeButton.setAttribute('aria-label', i18n.t('opening.store.aria', { count: daily }));
+    this.storeButton.disabled = this.isStoring;
+  }
+
+  /**
+   * Requests the storing of one daily booster in the bonus bucket of an extension.
+   *
+   * The extensions offered are the RELEASED ones, the same list the daily reward uses for a booster
+   * (`DailyRewardManager.getBoosterChoices`): a pack parked on a set that cannot be opened yet would
+   * be invisible, so the two screens must agree on where a booster may land.
+   *
+   * @returns {Promise<void>} Resolves once the booster is stored, or once the dialog is displayed.
+   */
+  async handleStoreClick() {
+    if (this.isStoring || this.isBusy) return;
+    const daily = this.lastQuota?.daily ?? 0;
+    if (daily <= 0) {
+      this.setFeedback('opening.store.empty', 'error');
+      return;
+    }
+
+    let choices = [];
+    try {
+      choices = (await boosterManager.listBoosterSets()).map((set) => ({
+        setId: set.setId,
+        name: set.name,
+        bonus: this.lastQuota?.bonusBySet?.[set.setId] ?? 0,
+      }));
+    } catch (error) {
+      console.error('[OpeningView] The extensions could not be read for the store dialog.', error);
+      this.setFeedback('opening.store.error', 'error');
+      return;
+    }
+
+    if (choices.length === 0) {
+      this.setFeedback('opening.store.noSet', 'error');
+      return;
+    }
+    // A single extension is not a choice: the booster goes there without a question.
+    if (choices.length === 1) {
+      await this.storeDailyBooster(choices[0]);
+      return;
+    }
+
+    this.storeChoices = choices;
+    this.renderStoreModal(daily);
+  }
+
+  /**
+   * Displays the extension picker of the store dialog.
+   *
+   * @param {number} daily - Remaining daily boosters, written in the introduction.
+   * @returns {void}
+   */
+  renderStoreModal(daily) {
+    if (!this.storeModal || !this.storeTitle || !this.storeBody || !this.storeSets) return;
+    this.storeTitle.textContent = i18n.t('opening.store.title');
+    this.storeBody.textContent = i18n.t('opening.store.body', { count: daily });
+    this.storeSets.replaceChildren();
+    (this.storeChoices ?? []).forEach((choice) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn btn--ghost';
+      button.dataset.openingStoreSet = choice.setId;
+      button.textContent = i18n.t('opening.store.set', { set: choice.name, count: choice.bonus });
+      this.storeSets.append(button);
+    });
+    this.storeModal.hidden = false;
+    this.log(`Store dialog displayed (${daily} daily booster(s), ${this.storeChoices?.length ?? 0} extension(s)).`);
+  }
+
+  /**
+   * Handles a choice of the store dialog.
+   *
+   * @param {MouseEvent} event - Click event of the dialog buttons.
+   * @returns {void}
+   */
+  handleStoreChoice(event) {
+    const button = event.target instanceof Element
+      ? event.target.closest('[data-opening-store-set]')
+      : null;
+    if (!button || this.isStoring) return;
+    const choice = this.storeChoices?.find((entry) => entry.setId === button.dataset.openingStoreSet);
+    if (!choice) return;
+    soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
+    void this.storeDailyBooster(choice);
+  }
+
+  /**
+   * Moves one daily booster into the bonus bucket of an extension.
+   *
+   * One booster per gesture: the player keeps the choice of where the next one goes, and a single
+   * tap can never empty the allowance into the wrong extension.
+   *
+   * @param {{setId: string, name: string}} choice - Extension that receives the booster.
+   * @returns {Promise<void>} Resolves once the write finished (success or failure).
+   */
+  async storeDailyBooster({ setId, name }) {
+    if (this.isStoring) return;
+    this.isStoring = true;
+    this.setFeedback(null);
+    this.log(`Storing a daily booster as a bonus for "${setId}"…`);
+
+    try {
+      const { stored, quota } = await dateSyncManager.storeDailyBooster(setId);
+      if (!stored) {
+        // Two tabs, or a reset that happened between the click and the write: the allowance is
+        // already gone, and the button follows the quota on its way out.
+        this.setFeedback('opening.store.empty', 'error');
+        return;
+      }
+      const total = quota.bonusBySet[setId] ?? 0;
+      Toast.success('opening.store.done', { params: { set: name, total } });
+      this.closeStoreModal();
+      // The board is offered only after a booster was opened, so a player who stores their
+      // allowance instead would never see it. Taking care of the day's boosters is the moment.
+      void dailyRewardPopup.openIfDue();
+    } catch (error) {
+      console.error('[OpeningView] The daily booster could not be stored.', error);
+      this.setFeedback('opening.store.error', 'error');
+    } finally {
+      this.isStoring = false;
+      this.refreshQuota();
+    }
+  }
+
+  /**
+   * Closes the store dialog.
+   *
+   * @returns {void}
+   */
+  closeStoreModal() {
+    if (this.storeModal && !this.storeModal.hidden) {
+      this.storeModal.hidden = true;
     }
   }
 

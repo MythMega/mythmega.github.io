@@ -36,7 +36,9 @@
  * Bonus boosters are granted per extension and are NEVER overwritten by the daily reset;
  * boosters bought with Sparks (`purchasedBoosters`) are global and survive the reset too - they
  * were paid for. `consumeBooster()` spends `dailyRemaining` first, then `bonusBoosters[setId]`,
- * then `purchasedBoosters`, so a free booster is never wasted on a purchase.
+ * then `purchasedBoosters`, so a free booster is never wasted on a purchase. `storeDailyBooster()`
+ * goes the other way: it parks an expiring daily booster into the bonus bucket of one extension,
+ * which is the only way to keep a pack the player cannot open before the next reset.
  */
 
 import { storageRepository, STORES } from '../models/StorageRepository.js';
@@ -863,6 +865,49 @@ export class DateSyncManager {
       this.emitQuotaUpdated(key);
     }
     return result.consumed;
+  }
+
+  /**
+   * Moves one booster of the daily allowance into the bonus bucket of an extension.
+   *
+   * The daily allowance is the only bucket that expires: the reset replaces it at midnight UTC
+   * whether it was spent or not. A player who cannot open a pack today keeps it by attaching it to
+   * an extension, which is precisely what a bonus booster is. The move is a single read-modify-write
+   * so a double tap can neither store the same booster twice nor store two for one tap.
+   *
+   * No trusted clock is required: the allowance is only ever granted by a trusted reset, so moving
+   * a part of it while the time is frozen cannot create a booster out of nothing.
+   *
+   * @param {string} setId - Extension that receives the booster.
+   * @returns {Promise<{stored: boolean, quota: object}>} Whether a booster was moved, and the quota
+   *   afterwards (`stored: false` when the allowance is already spent).
+   * @throws {TypeError|RangeError} When `setId` is not a declared extension.
+   * @throws {Error} When the transaction fails.
+   */
+  async storeDailyBooster(setId) {
+    const key = this.assertKnownSet(setId);
+    await this.ensureDailyReset();
+
+    const result = await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
+      const quota = this.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
+      if (quota.dailyRemaining <= 0) {
+        return { stored: false, quota };
+      }
+
+      const next = {
+        ...quota,
+        dailyRemaining: quota.dailyRemaining - 1,
+        bonusBoosters: { ...quota.bonusBoosters, [key]: (quota.bonusBoosters[key] ?? 0) + 1 },
+      };
+      await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
+      return { stored: true, quota: next };
+    });
+
+    this.quota = result.quota;
+    if (result.stored) {
+      this.emitQuotaUpdated(key);
+    }
+    return { stored: result.stored, quota: this.getQuotaSnapshot(key) };
   }
 
   /**

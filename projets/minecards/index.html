@@ -536,6 +536,11 @@
                written by the view (`renderBuyButton`). -->
           <button type="button" class="btn btn--ghost btn--block" data-opening-buy hidden></button>
 
+          <!-- Park a leftover daily booster into the bonus bucket of an extension: the daily
+               allowance expires at the next UTC day, a bonus booster does not. Shown while the
+               allowance is not empty, i.e. exactly when the buy button above is not. -->
+          <button type="button" class="btn btn--ghost btn--block" data-opening-store hidden></button>
+
           <p class="feedback" data-opening-feedback role="status" hidden></p>
         </div>
       </div>
@@ -603,6 +608,18 @@
             <button type="button" class="btn btn--ghost" data-opening-source-choice="daily"></button>
             <button type="button" class="btn btn--primary" data-opening-source-choice="bonus"></button>
           </div>
+        </div>
+      </div>
+
+      <!-- Extension picker of the store action: one button per released extension, written by
+           `OpeningView.renderStoreModal()`. Only shown when several extensions could receive the
+           booster; a single one is picked silently. -->
+      <div class="modal" data-opening-store-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="opening-store-title">
+          <button type="button" class="modal__close" data-opening-store-close aria-label="×">×</button>
+          <h2 class="modal__title" id="opening-store-title" data-opening-store-title></h2>
+          <div class="modal__body" data-opening-store-body></div>
+          <div class="modal__actions" data-opening-store-sets></div>
         </div>
       </div>
     </section>

@@ -69,6 +69,10 @@ UUID.
   n'importe quelle extension. S'ajoutent `bonusBoosters` (par extension, cadeaux/codes) et
   `purchasedBoosters` (achetés en Sparks, globaux, jamais remis à zéro). Ordre de dépense :
   quotidien → bonus de l'extension → achetés.
+- Le quota **quotidien** est le seul qui expire : `DateSyncManager.storeDailyBooster()` déplace un
+  booster du jour dans le bonus d'une extension, dans une seule transaction. Aucune heure fiable
+  n'est exigée : le transfert ne fait que déplacer un quota qu'un reset fiable a déjà accordé, il
+  n'en crée jamais.
 - Les compteurs sont exposés à l'en-tête par `QUOTA_UPDATED`, et l'heure par `CLOCK_TICK`.
 - Sans heure fiable, les vues affichent un placeholder (`--:--:--`) et désactivent ce qui dépend
   d'un reset.
@@ -123,6 +127,14 @@ Vue : `js/UI/views/OpeningView.js`. C'est l'écran par défaut.
   le titre de la vue sont masqués (`body.is-focus`, `js/utils/FocusMode.js`).
 - **Cas limite** : sortir de la scène avec `Échap` déclenche `REVEAL_FINISHED` pour que les
   notifications des cartes non retournées ne soient pas perdues.
+- **Stocker un booster quotidien** : tant qu'il en reste, « Stocker en bonus » parque le booster
+  du jour dans le bonus d'une extension, qui ne subit pas le reset (sinon le reliquat est perdu à
+  minuit UTC). Un booster par geste, donc le joueur choisit l'extension à chaque fois
+  (`OpeningView.handleStoreClick`) ; quand une seule extension est sortie, elle est choisie sans
+  dialogue. La liste des extensions est celle des sorties, la même que celle du bonus des
+  récompenses de connexion. Après le stockage, la board des récompenses de connexion est
+  ré-offerte (`dailyRewardPopup.openIfDue()`) : elle ne se déclenche sinon qu'après l'ouverture
+  d'un booster, donc jamais pour un joueur qui ne fait que garer ses boosters.
 - **Extension à venir** : elle apparaît dans le combo (et son aperçu 3D) dès qu'elle entre dans la
   fenêtre `boosters.upcomingPreviewDays`, sans pouvoir être ouverte.
 - **Annonce de sortie** : au premier chargement qui suit la `releaseDate` (fenêtre

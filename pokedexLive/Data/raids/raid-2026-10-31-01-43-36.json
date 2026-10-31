@@ -1,0 +1,173 @@
+{
+  "bossName": "Taupiqueur Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/diglett_normal.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/diglett_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 140000,
+  "date": "2026-10-31 01:43:36",
+  "durationSec": 662,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 105000,
+      "countAtk": 3,
+      "baseDmg": 9182,
+      "level": 16,
+      "raidCount": 372,
+      "luck": 3.8118057
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 50887,
+      "countAtk": 2,
+      "baseDmg": 15887,
+      "level": 18,
+      "raidCount": 538,
+      "luck": 1.6015296
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 1903,
+      "countAtk": 1,
+      "baseDmg": 1903,
+      "level": 13,
+      "raidCount": 104,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "youtube",
+      "damage": 1903
+    },
+    {
+      "platform": "twitch",
+      "damage": 155887
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 1,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 2
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-31 01:44:09",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1903,
+      "pvAfter": 138097,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 01:45:51",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15887,
+      "pvAfter": 122210,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 01:54:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 87210,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    },
+    {
+      "at": "2026-10-31 01:54:19",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 52210,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 01:54:30",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 17210,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu n\u0027as empoisonn\u00E9 personne. Il te reste 2 tours de poison."
+    },
+    {
+      "at": "2026-10-31 01:54:39",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "SawanCyberpotes a \u00E9t\u00E9 empoisonn\u00E9(e) par MythMega. Il te reste 1 tours de poison."
+    }
+  ]
+}
